@@ -1,0 +1,102 @@
+<div class="candidate-add-in-vacancy">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title"> {{'adding_candidate_to_vacancy'|translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <div class="item">
+            <input ng-change="errorMessageForAddCandidateInVacancy.show = false" ng-model="test" vacancy-autocompleter id="candidateAddToVacancy">
+        </div>
+        <div class="item" ng-show="$root.addCandidateInVacancy.showSelect">
+            <label ng-show="$root.VacancyStatusFiltered && (status.value != 'approved' && status.value != 'notafit')">{{'interview_status'|translate}}</label>
+            <div ng-show="$root.hover && $root.status2 === false" style="position: absolute">{{"Add a stage"|translate}}</div>
+            <select  ng-model="$root.status2"
+                     ng-change="$root.changeTemplateInAddCandidate($root.status2)"
+                     ng-show="$root.VacancyStatusFiltered && (status.value != 'approved' && status.value != 'notafit')"
+                     ng-mouseover="$root.Hover()"
+                     ng-mouseleave="$root.HoverLeave()">
+
+                <!--<option value="" ng-selected="$root.status2 == false">{{"Add a stage"|translate}}</option>-->
+                <option ng-repeat="status in $root.VacancyStatusFiltered"
+                        value="{{status}}">
+                    {{status.value|translate}}
+                </option>
+            </select>
+        </div>
+        <div class="item" ng-show="$root.addCandidateInVacancy.status.withDate || $root.addCandidateInVacancy.status.type == 'interview'">
+            <label>{{'date_of_interview_2'|translate}} </label>
+            <div class="input-group inputInterview">
+                <input class="addCandidateInvacancyPicker" type="text" placeholder="{{'Select'|translate}}">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <textarea class="form-control" ng-model="$root.addCandidateInVacancy.comment"></textarea>
+        </div>
+        <div class="item link-input"  ng-show="$root.addCandidateInVacancy.status.withDate ||
+            $root.addCandidateInVacancy.status.value == 'interview' ||
+            $root.addCandidateInVacancy.status.value == 'notafit' ||
+            $root.addCandidateInVacancy.status.value == 'declinedoffer' ||
+            $root.addCandidateInVacancy.status.value == 'no_response' ||
+            $root.addCandidateInVacancy.status.value == 'no_contacts' ||
+            $root.addCandidateInVacancy.status.type == 'interview' ||
+            $root.addCandidateInVacancy.status.type == 'refuse'">
+            <label ng-click="$root.candnotify.show = !$root.candnotify.show">{{'Notify the candidate'|translate}}</label>
+            <i class="fa fa-chevron-down" ng-click="$root.candnotify.show = !$root.candnotify.show"></i>
+        </div>
+        <div ng-show="$root.candnotify.show">
+            <div class="item">
+                <span class="title">{{"Candidate's email"|translate}}</span>
+                <input class="form-control" ng-model="$root.candnotify.sendMail" type="text">
+            </div>
+            <div class="alert alert-danger" ng-show="$root.me.emails.length == 0">
+                {{"To send a letter from your mailbox, you need to"|translate}}
+                <a href="#/email-integration" target='_blank'>{{"add integration with email"|translate}}</a>
+            </div>
+            <div class="item mail-checkbox" ng-show="$root.me.emails.length > 1">
+                <label>{{"Select email"|translate}}</label>
+                <div ng-click="$root.addEmailFromWhatSend(email)"
+                     ng-repeat="email in $root.me.emails">
+                    <label>
+                        <input ng-checked="email.email == $root.emailTemplateInModal.email" type="checkbox">{{email.email}}
+                    </label>
+                </div>
+            </div>
+            <div ng-show="$root.me.emails.length == 1" class="item mail-checkbox">
+                <label>{{"Send from"|translate}} {{$root.me.emails[0].email}}</label>
+            </div>
+            <div class="item">
+                <span class="title">{{'Letter subject' | translate}}</span>
+                <input ng-model="$root.emailTemplateInModal.title" class="form-control" type="text">
+            </div>
+            <div class="item">
+                <textarea id="addCandidateInVacancyMCE" name="ModalMce"></textarea>
+                <input type="file" oi-file="$root.optionsTemplate" id="fileTemplateInCandidate" class="hidden"/>
+                <label ng-show="$root.fileForSave.length == 0" for="fileTemplateInCandidate">
+                    <span>{{'Attach file'|translate}}</span>
+                </label>
+                <span class="item" ng-repeat="file in $root.fileForSave">
+                    <a ng-href="{{serverAddress}}/getapp/{{ file.fileId}}/{{ file.fileName}}" style="color:#000000;"
+                       title="{{ file.fileName}}">
+                        {{file.fileName| fileNameCut:0:30}}
+                    </a>
+                    <i class="fa fa-times" ng-click="removeFile(file.attId);$event.stopPropagation();"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal()">{{'cancel'|translate}}</a>
+            <a type="button" ng-show="$root.VacancyStatusFiltered" class="btn btn-primary accept"  ng-click="$root.addVacancyInCandidate();$event.stopPropagation();">{{'add'|translate}}</a>
+            <a ng-click=" $root.me.emails.length > 0 && $root.candnotify.show ? $root.addVacancyInCandidate(true): false"
+               ng-show="$root.candnotify.show"
+               ng-class="$root.me.emails.length > 0 && $root.candnotify.show ? 'accept' : 'cancel'"
+               type="button" class="btn btn-primary cancel">
+                {{'Add and notify'|translate}}
+            </a>
+        </div>
+    </div>
+</div>

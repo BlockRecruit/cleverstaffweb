@@ -1,0 +1,55 @@
+.block-contacts {
+	.col-lg-12 {
+		& > .contactContacts {
+			@include border-radius();
+
+			padding: 15px;
+
+			background-color: $theme-white;
+			& > .contactHeader {
+				padding-bottom: 10px;
+
+				border-bottom: 1px solid $theme-light-grey-hover;
+				& > span {
+					@include bold();
+
+					font-size: 18px;
+				}
+				:first-child {
+					font-size: 14px;
+
+					color: $theme-light-grey;
+				}
+				& > .contactSex {
+					vertical-align: text-bottom;
+				}
+				& > .contactName {
+					vertical-align: text-bottom;
+					a {
+						@include link-styling();
+					}
+				}
+				& > .linkStyle {
+					margin-top: 6px;
+					& > i {
+						color: $theme-link-color;
+						& > span {
+							font-family: "Open Sans", Arial, Verdana, sans-serif;
+							font-size: 14px;
+
+							color: $theme-link-color;
+						}
+					}
+				}
+			}
+			& > .contactBody {
+				& > .table {
+					margin: 0;
+					i {
+						color: $theme-dark-green;
+					}
+				}
+			}
+		}
+	}
+}

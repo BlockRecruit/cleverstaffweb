@@ -1,0 +1,20 @@
+<div class="delete-comment-candidate">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">
+            {{'Delete comment'|translate}} {{commentRemove.person.fullName}} {{commentRemove.dm | dateFormat2:true}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="item taskText">
+            <span class="shortRemoveComment">{{commentRemove.descr}}</span>
+            <span class="shortRemoveComment" ng-if="!commentRemove.descr">{{commentRemove.comment}}</span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept"  ng-click="$root.deleteComment()">{{'yes'|translate}}, {{'delete'|translate}}</a>
+        </div>
+    </div>
+</div>

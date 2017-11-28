@@ -1,0 +1,119 @@
+<div class="controller-view">
+    <div class="block-vacancy-reports">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="#/vacancies">{{'all_vacancies'|translate}}</a></li>
+                <li class="active">
+                    <a href="#/vacancies/{{vacancy.localId}}">{{vacancy.position}}</a>
+                </li>
+                <li>{{"Vacancy report" | translate}}</li>
+            </ol>
+        </div>
+        <h3 class="main-title">
+            {{'Vacancy report' | translate}} <a href="#/vacancies/{{vacancy.localId}}">{{vacancy.position}}</a><span ng-show="vacancy.clientId.name">, {{vacancy.clientId.name}}</span>
+        </h3>
+        <div class="row">
+            <div class="col-lg-12 report-info">
+                <h4>{{'Responsible' | translate}}:</h4>
+                <div ng-repeat="respPerson in vacancy.responsiblesPerson" class="resp-preson">
+                    <!--<img src="../images/sprite/test-client.png" alt="">-->
+                    <a href="#/users/{{respPerson.responsible.userId}}">{{respPerson.responsible.cutFullName}}</a>
+                    <span ng-hide="$last">,</span>
+                </div>
+                <div class="clearfix"></div>
+                <div class="pull-left dateFrom">
+                    <div class="field pull-left">
+                        <label class="pull-left">{{'Date from' | translate}}</label>
+                        <input id="dateFrom" class="datePicker pull-left" readonly placeholder="{{'day/month/year'|translate}}" type="text">
+                    </div>
+                    <div class="field pull-left">
+                        <label class="pull-left">{{'date to' | translate}}</label>
+                        <input id="dateTo" class="datePicker pull-left" readonly placeholder="{{'day/month/year'|translate}}" type="text">
+                    </div>
+                    <div class="field pull-left">
+                        <label class="btn btn-primary search pull-right ng-binding" ng-click="updateData()">{{'Update data' | translate}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 funnelPanel">
+                <div id="funnel">
+                    <div style="min-height:150px">
+                        <div class="ui vertically divided grid ">
+                            <div class="sixteen wide column funnel-header">
+                                <span class="text-center">{{'Recruiting funnel'|translate}}</span>
+                            </div>
+                        </div>
+                        <div ng-show="hasFunnelChart" class="myChartFunnel">
+                            <div id="myChartDiv" class="text-center"></div>
+                        </div>
+                        <div class="ui vertically divided grid ">
+                            <div class="sixteen wide column" style="padding-left:0px;padding-right:0px">
+                                <div style="padding:6px;text-align: center;" ng-show="!hasFunnelChart">
+                                    ({{'No data for display'|translate}})
+                                </div>
+                                <p>{{'The recruiting funnel is based on the number of candidates on vacancy and on transitions between statuses'|translate}}</p>
+                                <p>{{'The recruiting is funnel calculated considering the fact that all vacancy stages are consistent'|translate}}</p>
+                                <p>{{'You can add/remove, swap, and customize all your vacancy stages, except Long list and Hired, in the Stages block on a vacancy page'|translate}}</p>
+                                <p>{{'Recruiting funnel shows the conversion between the stages. Vacancy stages with the lowest conversion are the zone of growth. Thus recruiting funnel helps to identify bottlenecks and to focus on them'|translate}}</p>
+                                <p>{{'It is useful to compare the recruiting funnel different recruiters to funnel recruiting of the company'|translate}}</p>
+                            </div>
+                        </div>
+                        <!--<div class="ui vertically divided grid ">-->
+                        <!--<div class="sixteen wide column" style="padding-left:0px;padding-right:0px">-->
+                        <!--<div style="padding:6px;text-align: justify;">-->
+                        <!--{{'Recruiting funnel shows the conversion between the stages. Stages with the lowest conversion'|translate}}-->
+                        <!--<br>-->
+                        <!--<br>-->
+                        <!--{{'It is useful to compare the recruiting funnel different recruiters to funnel recruiting of the company.'|translate}}-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+                <div>
+                    <a style="display: none;" id="downloadPDF"></a>
+                    <div class="text-center">
+                        <a type="button" ng-click="dawnloadPDF()" class="btn btn-primary accept">
+                            <span ng-show="!downloadPDFisPressed">{{'Download PDF' | translate}}</span>
+                            <i ng-show="downloadPDFisPressed" class="fa fa-spinner" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 tableUpdate" ng-repeat="item in detailInterviewInfo">
+                <table class="table">
+                    <thead>
+                    <tr ng-class="{'hidden': $index != 0}">
+                        <th>{{'Candidate'|translate}}</th>
+                        <th>{{'salary'|translate}}</th>
+                        <th>{{'Current company'|translate}}</th>
+                        <th>{{'added_by_male'|translate}}</th>
+                    </tr>
+                    <tr>
+                        <th class="no-background">
+                            {{'Were on the stage' | translate}} {{item.key | translate}} - {{item.value.length}}
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="candidate in item.value">
+                    <tr ng-show="!candidate.descr">
+                        <td><span style="display: inline-flex"><a href="#/candidates/{{candidate.localId}}">{{candidate.fullName}}<span ng-show="candidate.db">, {{candidate.db | ageOfDate}}</span><span ng-show="candidate.position">, {{candidate.position}}</span></a></span></td>
+                        <td><span ng-show="candidate.salary > 0">{{candidate.salary}} {{candidate.currency}}</span></td>
+                        <td>{{candidate.currentWorkPlace}}</td>
+                        <td>{{candidate.dm | dateFormat2:true}}</td>
+                    </tr>
+                    <tr ng-show="candidate.descr" style="border-bottom: none">
+                        <td><span><a href="#/candidates/{{candidate.localId}}">{{candidate.fullName}}<span ng-show="candidate.db">, {{candidate.db | ageOfDate}}</span><span ng-show="candidate.position">, {{candidate.position}}</span></a></span></td>
+                        <td><span ng-show="candidate.salary > 0">{{candidate.salary}} {{candidate.currency}}</span></td>
+                        <td>{{candidate.currentWorkPlace}}</td>
+                        <td>{{candidate.dm | dateFormat2:true}}</td>
+                    </tr>
+                    <tr ng-show="candidate.descr">
+                        <td colspan="4" class="description-row"><span>↵</span>{{candidate.descr}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

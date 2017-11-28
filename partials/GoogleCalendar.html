@@ -1,0 +1,119 @@
+<div class="controller-view">
+    <div class="container-fluid block-calendar">
+        <div class="row" >
+            <div class="col-lg-6 col-lg-offset-3" ng-show="!calendarShow && !$root.me.outlookCalendar" >
+                <!--ng-show="!calendarShow"-->
+                <!--<p>-->
+                    <!--{{'If you want see all events in your Google Calendar as in a picture below, you must' | translate}}-->
+                <!--</p>-->
+                <!--<div >-->
+                    <!--<button class="btn btn-primary accept" ng-click="login()">-->
+                        <!--connect to Google Calendar-->
+                    <!--</button>-->
+                <!--</div>-->
+                <h4 class="text-center">{{'Integration_with_Google_Calendar'|translate}}</h4>
+                    <span>{{'There_are'|translate}}:
+                        <br/>
+                        <br/>
+                        <ul>
+                            <li>{{'interviews_of_your_vacancies'|translate}}</li>
+                            <li>{{'your_tasks'|translate}}</li>
+                            <li>{{'target_dates_deadlines_of_your_vacancies'|translate}}</li>
+                        </ul>
+                    </span>
+                    <span>
+                        {{'You_will_be_notified_about'|translate}}
+                    </span>
+                </br>
+                    <span>
+                        {{'You_will_be_able_to_turn'|translate}}
+                    </span>
+                <div class="text-center" ng-show = "showConnectButtom">
+                    <button  class="btn btn-primary pull-left accept" ng-click="addGoogleCalendarForCs()">
+                        {{'Turn_on_the_integration'|translate}} {{'with'|translate}} Google Calendar
+                    </button>
+                    <button  class="btn btn-primary pull-right accept" ng-click="addOutlookcalendar()">
+                        {{'Turn_on_the_integration'|translate}} {{'with'|translate}} Outlook Calendar
+                        <span class="new-label">New</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-6 col-lg-offset-3 popUp" ng-show="!calendarShow && !$root.me.outlookCalendar">
+                <p><b>{{'Please note!'|translate}}</b>&nbsp;{{'activate pop-up windows'| translate}}</p>
+                <img src="..\images\sprite\allow-popUps.png">
+            </div>
+            <div class="col-lg-6 col-lg-offset-3" ng-show="$root.me.outlookCalendar">
+                <h4 class="text-center">{{'You successfully integrated your Outlook Calendar with your CleverStaff account'|translate}}</h4>
+                    <span>{{'Now in your Outlook Calendar will be displayed the following events'|translate}}:
+                        <br/>
+                        <br/>
+                        <ul>
+                            <li>{{'interviews_of_your_vacancies'|translate}}</li>
+                            <li>{{'your_tasks'|translate}}</li>
+                            <li>{{'target_dates_deadlines_of_your_vacancies'|translate}}</li>
+                        </ul>
+                    </span>
+                <strong>{{'All these events will be displayed only for vacancies you are responsible for' | translate}}.</strong>
+                <br/>
+                    <span>
+                        {{'You_will_be_notified_about_outlook'|translate}}.
+                    </span>
+                </br>
+                    <span>
+                        {{'You_will_be_able_to_turn'|translate}}.
+                    </span>
+                <div class="text-center" ng-show = "$root.me.outlookCalendar">
+                    <button  class="btn btn-primary disconnect no-margin" ng-click="addGoogleCalendarForCs()">
+                        {{'Turn_on_the_integration'|translate}} {{'with'|translate}} Google Calendar
+                    </button>
+                    <button  class="btn btn-primary accept" ng-click="deleteOutLookCalendar()">
+                        {{'disconnect_to'|translate}} Outlook Calendar
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-9" ng-show="calendarShow && !$root.me.outlookCalendar">
+
+                    <iframe id="calendar_iframe" ng-src="{{getCalendarFrame(selectedCalendar,calendarsForGet)}}" style="border: 0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+            </div>
+            <div class="col-lg-3" ng-show="calendarShow && !$root.me.outlookCalendar">
+                <div  ng-repeat="calendar in calendarsForCheck track by $index">
+                    <label  for="{{calendar.id}}" ><input ng-model="calendar.checked" ng-click="updateCalendar(calendar);" type="checkbox" id="{{calendar.id}}"> {{calendar.name}} </label>
+                    <!--<input id="checkSlave" type="checkbox" ng-checked="master" aria-label="Slave input">-->
+                </div>
+                <!--<div ng-repeat="calendar in calendarsForCheck track by $index">-->
+                    <!--<button ng-click="updateCalendar(calendar)" ng-class="{'blue': calendar.checked&& !calendar.isCleverStaffEvent,  'green':  calendar.checked && calendar.isCleverStaffEvent }" class="btn-primary" >-->
+                        <!--<i class="icon" ng-class="{'checkmark':  calendar.checked}"></i>-->
+                    <!--</button>-->
+                    <!--{{calendar.name}}-->
+                <!--</div>-->
+                <button class="btn btn-primary disconnect" ng-click="addOutlookcalendar()">
+                    {{'Turn_on_the_integration'|translate}} {{'with'|translate}} Outlook Calendar
+                </button>
+                <button id="accept1"  class="btn btn-primary disconnect" ng-click="deleteGoogleCalendarForCs()">
+                    {{'disconnect_to'|translate}} Google Calendar
+                </button>
+            </div>
+            <!--<div class="col-lg-9" ng-show="!calendarShow && $root.me.outlookCalendar">-->
+
+                <!--&lt;!&ndash;<iframe src="https://outlook.live.com/owa//calendar/00000000-0000-0000-0000-000000000000/6f98af3a-ba81-44d5-b52a-c69fd98f6f91/cid-D7B0451B597B99A5/index.html" style="border: 0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>&ndash;&gt;-->
+            <!--</div>-->
+            <!--<div class="col-lg-3" ng-show="!calendarShow && $root.me.outlookCalendar">-->
+                <!--<button class="btn btn-primary disconnect" ng-click="addGoogleCalendarForCs()">-->
+                    <!--{{'Turn_on_the_integration'|translate}} {{'with'|translate}} Google Calendar-->
+                <!--</button>-->
+                <!--<button  class="btn btn-primary disconnect" ng-click="deleteOutLookCalendar()">-->
+                    <!--{{'disconnect_to'|translate}} Outlook Calendar-->
+                <!--</button>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+<script>
+    function HandlePopupResult(code) {
+        console.log("result of popup is: " + code);
+        var $element = $('#accept1');
+        var scope = angular.element($element).scope();
+        scope.outLookWatch = code;
+        scope.$apply();
+    }
+</script>

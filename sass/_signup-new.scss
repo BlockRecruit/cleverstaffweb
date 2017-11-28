@@ -1,0 +1,231 @@
+.navbar {
+	.navbar-header-public-vacancy {
+		position: absolute;
+		right: 0;
+		left: 0;
+
+		width: 10%;
+		margin: 0 auto;
+		.navbar-brand {
+			font-family: Roboto, sans-serif;
+			font-size: 48px;
+			font-weight: 600;
+
+			display: block;
+
+			color: $theme-white;;
+			span {
+				&:last-child {
+					margin-left: -22px;
+				}
+			}
+		}
+		.brand-text {
+			font-size: 16px;
+			font-weight: 600;
+
+			display: block;
+			margin-top: 6px;
+
+			color: $theme-white;
+			span {
+				&:last-child {
+					display: block;
+					margin-top: -5px;
+				}
+			}
+		}
+	}
+}
+.block-signup-new {
+	padding: 0 15px;
+	& > .row {
+		@include bt-margins-from-side();
+
+		margin-top: 30px;
+		& > .col-lg-2 {
+			& > div {
+				width: 80%;
+				& > img {
+					//width: 80%;
+					//height: 124px;
+					margin-left: -20px;
+
+					border-radius: 50%;
+				}
+			}
+		}
+		.col-lg-5 {
+			padding: 0;
+			& > h3 {
+				@include bold();
+			}
+			& > p {
+				color: $theme-grey;
+			}
+			& > div {
+				& > .btn {
+					margin-top: 5px;
+
+					color: $theme-white;
+					border-radius: 50%;
+					background-color: #007bb6;
+				}
+				& > .btn-linkedin {
+					padding: 6px 10px;
+				}
+				& > .btn ~ .btn {
+					margin: 5px 10px 0 5px;
+
+					background-color: #3b5998;
+				}
+				& > p {
+					color: $theme-grey;
+					& > span {
+						@include bold();
+
+						color: $theme-dark;
+					}
+				}
+				& > .col-lg-8 {
+					@include border-radius();
+
+					margin-top: 50px;
+					padding: 0;
+
+					background-color: $theme-white;
+					& > div {
+						padding: 15px;
+
+						border-bottom: 1px solid $theme-light-grey;
+						& > h4 {
+							@include bold();
+						}
+						& > .btn {
+							color: $theme-white;
+							background-color: #dd4b39;
+						}
+						& > .btn ~ .btn {
+							background-color: #3b5998;
+						}
+					}
+					& > div ~ div {
+						border-bottom: none;
+						& > form {
+							& > .field {
+								& > label {
+								}
+								input {
+									@include input-styling();
+
+									width: 100%;
+									padding-left: 10px;
+									&:focus {
+										outline: none;
+									}
+								}
+								& > span {
+									@include bold();
+								}
+								& > select {
+									@include select-styling();
+
+									font-size: 14px;
+
+									height: 27px;
+									padding: 0;
+									padding-left: 10px;
+								}
+							}
+							& > .text-center {
+								.btn {
+									@include button-styling();
+								}
+								.accept {
+									color: $theme-white;
+									background-color: $theme-dark-green;
+									&:hover {
+										background-color: $theme-light-green-hover;
+									}
+								}
+							}
+							& > span {
+								display: block;
+								margin-top: 10px;
+
+								color: $theme-light-grey;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+.facebook-modal,
+.google-modal,
+.facebook-modal-en,
+.google-modal-en {
+	.modal-dialog {
+		background-color: $theme-white;
+		.modal-header {
+			& > h4 {
+				@include bold();
+			}
+		}
+		.modal-body {
+			label {
+				margin-top: 5px;
+			}
+			input {
+				@include input-styling();
+				@include border-radius();
+
+				width: 100%;
+				padding-left: 10px;
+				&:focus {
+					outline: none;
+				}
+			}
+			select {
+				@include select-styling();
+
+				font-size: 14px;
+
+				height: 25px;
+				padding: 0 0 0 10px;
+			}
+		}
+		.modal-footer {
+			.btn {
+				@include button-styling();
+			}
+			.accept {
+				color: $theme-white;
+				background-color: $theme-dark-green;
+				&:hover {
+					background-color: $theme-light-green-hover;
+				}
+			}
+			.cancel {
+				color: #585859;
+				background-color: #e3e3e3;
+				&:hover {
+					background-color: $theme-light-grey-hover;
+				}
+			}
+			.close {
+				font-size: inherit;
+				line-height: inherit;
+
+				float: none;
+
+				opacity: 1;
+				text-shadow: none;
+			}
+		}
+	}
+}
+.hidden-not-important {
+	display: none;
+}

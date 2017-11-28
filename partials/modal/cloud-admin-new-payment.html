@@ -1,0 +1,46 @@
+<div class="adding-responsible">
+  <div class="modal-header">
+    <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+    <h4 class="modal-title">
+      {{'New Payment for'| translate}}&nbsp;{{selectedAccount.account}}
+      <br/>
+    </h4>
+  </div>
+  <div class="modal-body">
+      <form name="newPaymentForm" class="newPaymentForm" novalidate>
+        <!--<div class="date">-->
+          <!--<input class="setPaymentDate" type="text" readonly="" placeholder="{{'payment_date' | translate }}">-->
+          <!--<i class="fa fa-calendar" aria-hidden="true"></i>-->
+        <!--</div>-->
+        <!--<div ng-show="dateError" class="form-error">-->
+          <!--<span>{{'This field is obligatory.' | translate }}</span>-->
+        <!--</div>-->
+        <input type="number"
+               class="form-control"
+               name="amount"
+               required
+               placeholder="{{'Amount' | translate}}"
+               ng-change="limitFloats()"
+               ng-model="newPayment.amount">
+        <div ng-show="amountError" class="form-error">
+          <span>{{'This field is obligatory.' | translate }}</span>
+        </div>
+        <textarea type="text"
+               class="form-control"
+               name="comment"
+               placeholder="{{'comment' | translate}}"
+               ng-model="newPayment.comment">
+        </textarea>
+        <div ng-show="commentError" class="form-error">
+          <span>{{'The payment value is negative , you have to add a comment' | translate}}</span>
+        </div>
+        <input type="submit" ng-click="addNewPayment()" class="btn accept" value="{{'Add Payment' | translate}}">
+      </form>
+  </div>
+  <div class="modal-footer">
+    <div class="text-center button">
+      <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal()"> {{'cancel'|translate}}</a>
+      <!--<a type="button"  ng-click="$root.saveResponsibleUserInVacancy()" class="btn btn-primary accept">{{'save'|translate}}</a>-->
+    </div>
+  </div>
+</div>

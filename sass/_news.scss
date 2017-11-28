@@ -1,0 +1,85 @@
+.block-news {
+	.fbGroupPage {
+		line-height: 40px;
+
+		margin-top: 10px;
+		margin-left: 0;
+		.info {
+			margin-left: 15px;
+		}
+		i {
+			@include link-color();
+
+			cursor: pointer;
+		}
+		a {
+			@include link-color();
+			&:hover {
+				text-decoration: underline;
+
+				background-color: inherit;
+			}
+		}
+		.sharesPostsFromCS {
+			@include border-radius();
+
+			line-height: initial;
+
+			position: absolute;
+			z-index: 9;
+			right: 0;
+
+			display: none;
+			width: 500px;
+			padding: 10px;
+
+			color: $theme-dark;
+			border: 1px solid $theme-light-grey-hover;
+			background-color: $theme-white;
+			ul {
+				@include bold();
+
+				list-style-type: decimal;
+				span {
+					font-weight: 500;
+				}
+			}
+		}
+		.someRulesFbPosts {
+			@include border-radius();
+
+			line-height: initial;
+
+			position: absolute;
+			z-index: 9;
+			top: 95px;
+			right: 0;
+
+			display: none;
+			width: 500px;
+			padding: 10px;
+
+			color: $theme-dark;
+			border: 1px solid $theme-light-grey-hover;
+			background-color: $theme-white;
+			a {
+				@include link-styling();
+
+				padding: 0;
+			}
+			ul {
+				@include bold();
+
+				list-style-type: decimal;
+				span {
+					font-weight: 500;
+				}
+			}
+			p {
+				&:first-child {
+					@include bold();
+				}
+			}
+		}
+	}
+}

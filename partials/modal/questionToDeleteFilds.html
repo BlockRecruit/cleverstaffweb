@@ -1,0 +1,23 @@
+<div class="delete-responsible">
+
+    <div class="modal-body">
+        <h4 class="text-center" style="font-weight: bold;">
+
+            <span>{{"All data stored in this field will be hidden  on the"|translate}}</span>
+
+            <span>
+                {{$root.tabsForFields == 'Vacancies'? 'on': $root.tabsForFields == 'Candidates' || $root.tabsForFields == 'Clients'? 'to': 'to'|translate}}
+            </span>
+            <span>
+                 {{$root.tabsForFields == 'Vacancies'? 'vacnaciesToCastomFild': $root.tabsForFields == 'Candidates'? 'candidatesToCastomFild': $root.tabsForFields == 'Clients'?'clientsToCastomFild': 'clientsToCastomFild' |translate}}.
+            </span>
+            <span>{{"Are you sure you want to delete this field?"|translate}}</span>
+        </h4>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.setAccess(false)">{{'cancel_2'|translate}}</a>
+            <a type="button" class="btn btn-primary del" ng-click="$root.setAccess(true)">{{'Yes, delete'|translate}}</a>
+        </div>
+    </div>
+</div>

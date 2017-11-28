@@ -1,0 +1,251 @@
+.block-invitereg {
+	.loader-outer {
+		position: fixed;
+		z-index: 1060;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+
+		display: flex;
+
+		justify-content: center;
+		align-items: center;
+		.loader {
+			width: 120px;
+			height: 120px;
+			margin-top: -120px;
+
+			animation: spin 2s linear infinite;
+
+			border: 16px solid #f3f3f3;
+			border-top: 16px solid $theme-dark-green;
+			border-radius: 50%;
+		}
+
+		@keyframes spin {
+			0% {
+				transform: rotate(0deg);
+			}
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+	}
+	.row {
+		@include bt-margins-from-side();
+		.invitesYou {
+			@include border-radius();
+
+			max-width: 600px;
+			margin: auto;
+			margin-top: 10px;
+			margin-bottom: 25px;
+			padding: 15px;
+
+			background-color: $theme-white;
+			h4 {
+				@include bold();
+			}
+		}
+		.wrapper {
+			padding: 0;
+			@media (min-width: $screen-lg) {
+				margin-left: 30%;
+			}
+			input::-webkit-outer-spin-button,
+			input::-webkit-inner-spin-button {
+				-webkit-appearance: none;
+			}
+		}
+		.registerForm {
+			max-width: 600px;
+			margin: auto;
+			padding: 30px 15px 15px 15px;
+
+			border-radius: 8px;
+			background-color: $theme-white;
+			box-shadow: 0 1px 35px 1px #d6ead1;
+			.question-form {
+				.form-gr {
+					margin: 0 auto 10px auto;
+					label {
+						margin: 5px 0 0 5px;
+					}
+					input {
+						position: relative;
+						z-index: 15;
+
+						width: 100%;
+						padding: 5px 15px 5px 20px;
+
+						border: 1px solid #e5e5e6;
+						border-radius: 30px;
+						background-color: #fcfcfc;
+						&:focus {
+							outline: none;
+						}
+						&.error {
+							@include error-input-styling();
+						}
+					}
+					.select2-container {
+						width: 30%;
+					}
+					.phoneNumber {
+						width: 68%;
+
+						-moz-appearance: textfield;
+					}
+					.select2-container .select2-choice {
+						height: 32px!important;
+						padding: 2px 15px 5px 20px;
+
+						border: 1px solid #e5e5e6!important;
+						border-radius: 30px!important;
+						background-color: #fcfcfc!important;
+						background-image: none;
+						.select2-arrow {
+							border-left: none;
+							b {
+								background-color: initial;
+							}
+						}
+						&:focus {
+							outline: none;
+						}
+					}
+					.errorMes {
+						margin-top: 15px;
+
+						color: $theme-red;
+					}
+					.goodSuccess {
+						margin-top: 10px;
+					}
+					.float-left {
+						display: block;
+						width: 70%;
+						margin: 0 auto;
+					}
+					.mailSpan {
+						position: relative;
+						top: -2px;
+						left: 5px;
+					}
+				}
+				.goodSuccess {
+					margin-top: 10px;
+				}
+				.error-password {
+					margin-top: 10px;
+					margin-bottom: 10px;
+				}
+				.alert {
+					margin-top: 8px;
+				}
+				.minusMarginTop {
+					color: $theme-red;
+				}
+				.red {
+					position: inherit!important;
+
+					background-color: $theme-red;
+				}
+				.green {
+					position: inherit!important;
+
+					background-color: $theme-green;
+				}
+				.miniWidth {
+					width: 50%!important;
+				}
+				.orangeBtn {
+					display: block;
+					margin-top: 8px;
+					padding: 10px 20px;
+
+					-webkit-transition: all 1.7s;
+					-moz-transition: all 1.7s;
+					-o-transition: all 1.7s;
+					transition: all 1.7s;
+					text-decoration: none;
+
+					color: white;
+					border: 1px solid #ed7d3b;
+					border-radius: 35px;
+					background-color: #ed7d3b;
+					&:hover {
+						cursor: pointer;
+						-webkit-transition: all 0.3s;
+						-o-transition: all 0.3s;
+						transition: all 0.3s;
+						text-decoration: none;
+
+						color: #ed7d3b;
+						background-color: white;
+					}
+				}
+				.create-account {
+					width: 52%;
+					margin: 10px auto 0 auto;
+
+					cursor: pointer;
+					text-align: center;
+					text-transform: uppercase;
+
+					background-color: #f49618;
+					&:hover {
+						color: #f49618;
+						border: 1px solid #f49618;
+						background-color: #fcfcfc;
+					}
+				}
+				@media (max-width: $screen-xs) {
+					.create-account {
+						width: 100%;
+					}
+				}
+			}
+		}
+		.inviteConfirmed {
+			margin-top: 40px;
+
+			color: #3c763d;
+			border: 1px solid transparent;
+			border-color: #d6e9c6;
+			border-radius: 4px;
+			background-color: #dff0d8;
+			a {
+				font-weight: 600;
+
+				display: inline-block;
+				padding: 3px 12px;
+
+				cursor: pointer;
+				text-decoration: none;
+
+				color: #202021;
+				border: none;
+				border-radius: 5px;
+				background-color: #ffc100;
+				&:hover {
+					color: #202021;
+					background-color: #fdd14a;
+				}
+			}
+			p {
+				margin: 15px 0;
+			}
+			div {
+				padding: 15px;
+			}
+		}
+		.role {
+			margin-top: 10px;
+			span {
+				font-weight: bold;
+			}
+		}
+	}
+}

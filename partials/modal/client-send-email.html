@@ -1,0 +1,63 @@
+<div class="send-email">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">{{'Send email' | translate}} {{$root.client.name}}</h4>
+    </div>
+    <div class="modal-body">
+       <div>
+           <div class="alert alert-danger" ng-show="$root.me.emails.length == 0">
+               <a href="#/email-integration" target='_blank'>{{"add integration with email"|translate}}</a>
+               {{"To send a letter from your mailbox, you need to"|translate}}
+           </div>
+           <div class="item">
+               <span class="title">{{"Email"|translate}}</span>
+               <input ng-model="$root.emailToSend" class="form-control" type="email" list="emails">
+               <datalist id="emails">
+                   <option ng-repeat="email in $root.contactEmails" value="{{email.id}}"></option>
+               </datalist>
+               <!--<input class="form-control" ng-model="$root.emailToSend" type="text">-->
+               <div class="alert alert-danger" ng-show="!$root.emailToSend">
+                   {{'Please add clients’ email first' | translate}}
+               </div>
+           </div>
+           <div class="item mail-checkbox">
+               <div ng-show="$root.me.emails.length == 1" class="field">
+                   <label>{{"Send from"|translate}} {{$root.me.emails[0].email}}</label>
+               </div>
+               <div ng-show="$root.me.emails.length > 1" class="field">
+                   <label>{{"Select email"|translate}}</label>
+                   <div ng-click="$root.addEmailFromWhatSend(email)"
+                        ng-repeat="email in $root.me.emails">
+                       <input ng-checked="email.email == $root.emailTemplateInModal.email" type="checkbox">
+                       <label>{{email.email}}</label>
+                   </div>
+               </div>
+           </div>
+           <div class="item">
+               <span class="title">{{'Letter subject' | translate}}</span>
+               <input class="form-control" ng-model="$root.emailTemplateInModal.title" type="text">
+           </div>
+           <div class="item">
+               <textarea id="modalMCE" name="ModalMce"></textarea>
+               <label ng-show="$root.fileForSave.length == 0" for="fileTemplate">
+                   <span>{{'Attach file'|translate}}</span>
+               </label>
+            <span class="item" ng-repeat="file in $root.fileForSave">
+                <a ng-href="{{serverAddress}}/getapp/{{ file.fileId}}/{{ file.fileName}}" style="color:#000000;"
+                   title="{{ file.fileName}}">
+                    {{file.fileName| fileNameCut:0:30}}
+                </a>
+                <i class="fa fa-times" ng-click="removeFile(file.attId);$event.stopPropagation();"></i>
+            </span>
+           </div>
+       </div>
+    </div>
+    <div class="modal-footer">
+        <!--<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>-->
+        <!--<button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>-->
+        <div class="text-center button">
+            <a type="button" ng-click="$root.closeModal()" class="btn btn-primary cancel">{{'cancel'|translate}}</a>
+            <a ng-click="$root.sentEmail()" type="button" class="btn btn-primary accept">{{'Send'|translate}}</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,377 @@
+<div class="controller-view">
+    <div class="block-employee-add">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="#/company/users">{{"company"|translate}}</a></li>
+                <li><i class="fa fa-chevron-right" aria-hidden="true"></i></li>
+                <li><a href="#/company/employees">{{"employees"|translate}}</a></li>
+                <li><i class="fa fa-chevron-right" aria-hidden="true"></i></li>
+                <li class="active">{{"New employee"|translate}}</li>
+            </ol>
+        </div>
+        <div class="row employee-add-information">
+            <div class="col-lg-12 fullName-position">
+                <span>{{'New employee'|translate}}</span>
+            </div>
+            <div class="row employee-add-profile-rezume no-padding-sm">
+                <div class="col-lg-3 leftBar hidden-xs hidden-sm hidden-md">
+                    <div class="col-lg-12 employee-add-foto">
+                        <div ng-show="photoLink">
+                            <img ng-src="{{photoLink}}" alt=""/>
+                            <div id="photo-edit" class="text-center">
+                                <div class="photo-hover" ng-click="showModalAddPhoto('Change photos')">
+                                    <span>{{'change_photo'|translate}}</span>
+                                </div>
+                                <div class="photo-hover" ng-click="removePhoto()">
+                                    <span>{{'delete_photo'|translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-show="photoLink == undefined" class="text-center">
+                            <div ng-hide="photoLink == undefined"></div>
+                            <input name="photo" ng-model="pageObject.employee.candidateId.photo" type="file" oi-file="optionsForPhoto" id="photoFile" class="hidden">
+                            <a for="logo" ng-click="showModalAddPhoto()" type="button" class="btn btn-primary add-image text-center">{{'upload_photo'|translate}}</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 employee-add-control">
+                        <input type="file" oi-file="options" id="file" style="display:none"/>
+                        <input type="file" oi-file="optionsForEditFromResume" multiple="multiple" id="fileForEditFromResume" style="display:none"/>
+                        <div class="col-lg-12 attachments" uib-dropdown is-open="status.isopen">
+                            <h5>{{'Attachments'|translate}}</h5>
+                            <div class="addedFileCandidate" ng-show="pageObject.employee.candidateId.files || pageObject.variables.fileForSave.length > 0">
+                                <div class="menu">
+                                    <span class="item" ng-repeat="file in pageObject.variables.fileForSave | orderBy:'-url'">
+                                        <i ng-show="file.url" class="fa fa-file-o"></i>
+                                        <i ng-show="!file.url" class="fa fa-file-text-o"></i>
+                                        <a ng-href="{{serverAddress}}/getapp/{{file.fileId}}/{{file.fileName}}" title="{{file.fileName}}">{{file.fileName| fileNameCut:0:15}}</a>
+                                       <i ng-click="removeFile(file.attId)" class="fa fa-times pull-right" aria-hidden="true"></i>
+                                    </span>
+                                    <span class="item pull-left" ng-repeat="file in fileForSave">
+                                        <i class="attachment left disk icon" ng-class="{'loading': fastCandAttachProcess && fastCandAttachProcessId == file.attId}"></i>
+                                        <a ng-href="{{serverAddress}}/getapp/{{file.fileId}}/{{ file.fileName}}" title="{{ file.fileName}}">
+                                            {{file.fileName| fileNameCut:0:15}}
+                                        </a>
+                                        <i ng-click="removeFile(file.attId)" class="fa fa-times pull-right" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="item" ng-show="linksForSave.length != undefined && linksForSave.length != 0">
+                                <div class="menu">
+                                    <span ng-show="file.url" class="item" ng-repeat="file in linksForSave">
+                                        <span>
+                                            <i ng-show="file.url" class="attachment left linkify icon"></i>
+                                            <a target="_blank" href="{{file.url}}" class="linkAddFile" title="{{file.fileName}}">
+                                                {{file.fileName}}
+                                            </a>
+                                        </span>
+                                        <i ng-click="removeLink(file.fileName)" class="fa fa-times pull-right" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <a href="" uib-dropdown-toggle><i class="fa fa-paperclip" aria-hidden="true"></i>{{'Attach file'|translate}}</a>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                <label role="menuitem" for="file">
+                                    <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                    {{'Attach file'|translate}}
+                                </label>
+                                <li class="divider"></li>
+                                <label role="menuitem" ng-click="showAddLinkFunc()">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                    {{'Attach link'|translate}}
+                                </label>
+                            </ul>
+                            <div class="col-lg-12 addLinkFormForLink" ng-show="showAddLink">
+                                <div>
+                                    <form name="addLinkForm">
+                                        <label for="nameLink">{{'Title'|translate}}</label>
+                                        <br/>
+                                        <input style="width: 95%;" ng-model="addLinkToCandidate.name" ng-class="{'errorInput' : addLinkErrorShow && addLinkToCandidate.name.length == 0}" id="nameLink" name="name" type="text"/>
+                                        <br/>
+                                        <label for="urlLink">URL</label>
+                                        <br/>
+                                        <input style="width: 95%;" ng-model="addLinkToCandidate.url" ng-class="{'errorInput' : addLinkErrorShow && addLinkToCandidate.url.length == 0 || addLinkForm.url.$error.url}" id="urlLink" name="url" type="url"/>
+                                    </form>
+                                </div>
+                                <div>
+                                    <div class="text-center pull-right">
+                                        <a type="button" ng-click="addLinkInCandidateStart()" class="btn btn-primary accept">
+                                            {{'add'|translate}}
+                                        </a>
+                                    </div>
+                                    <div class="text-center pull-left">
+                                        <a type="button" ng-click="closeAddLinkFunc()" class="btn btn-primary cancel">
+                                            {{'cancel'|translate}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 centerBar">
+                   <div class="">
+                       <form name="candidateForm" ng-submit="submitForm()" novalidate>
+                           <div class="main-info col-lg-12">
+                               <div class="col-lg-4">
+                                   <div class="item" ng-class="{'error': candidateForm.name.$invalid && !candidateForm.name.$pristine}">
+                                       <label class="pull-left">{{'full_name'|translate}}</label><label class="pull-left red">*</label>
+                                       <input ng-maxlength="50" placeholder="" name="name" ng-model="pageObject.employee.candidateId.fullName" type="text" required >
+                                       <div ng-show="candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.required == true"
+                                            class="ui red pointing above ui label"> {{'enter_first_name'|translate}}
+                                       </div>
+                                       <div class="ui red pointing above ui label" ng-show="candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.maxlength == true" translate="text_should_be_no_longer_than_50_characters"></div>
+                                   </div>
+                                   <div class="item">
+                                       <label>{{'date_of_birth'|translate}}</label>
+                                       <input placeholder="" class="datepickerOfBirth" type="text" style="background-image: url('images/sprite/calendar.png');background-position: right center;background-repeat: no-repeat;">
+                                   </div>
+                                   <div class="btn-group text-center" role="group" aria-label="Basic example" ng-init="candidate.sex = true">
+                                       <button type="button" class="btn btn-secondary" ng-class="{'active': candidate.sex == true}"
+                                               ng-click="candidate.sex = true">{{'male'|translate}}</button>
+                                       <button type="button" class="btn btn-secondary" ng-class="{'active': candidate.sex == false}"
+                                               ng-click="candidate.sex = false">{{'female'|translate}}</button>
+                                   </div>
+                                   <div class="item">
+                                       <label>{{'desired_salary'|translate}}</label>
+                                       <input placeholder="" class="pull-left" style="width: 74%;" name="salary" ng-model="pageObject.employee.salary" type="number">
+                                       <select class="select2-container form-control input-lg select2  select14 widthSelectInput pull-right"
+                                               ng-model="pageObject.employee.currency"
+                                               ng-options="currency.value as currency.value for currency in pageObject.variables.currency"
+                                               ng-init="pageObject.employee.currency = 'USD'">
+                                           <option value="" ng-if="false"></option>
+                                       </select>
+                                   </div>
+                                   <div class="item" ng-class="{'error': candidateForm.education.$invalid && !candidateForm.education.$pristine}">
+                                       <label>{{'education'|translate}}</label>
+                                       <input name="education" ng-maxlength="50" placeholder="" ng-model="pageObject.employee.candidateId.education" type="text">
+                                   </div>
+                                   <div class="item">
+                                       <label>{{'languages'|translate}}</label>
+                                       <input placeholder="" class="select2-lang-employee" name="languages" ng-model="pageObject.employee.candidateId.languages" type="text">
+                                   </div>
+                                   <div class="item">
+                                       <label>
+                                           {{'lives_in'|translate}}
+                                           <span ng-show="region2">-</span>
+                                           <a href ng-click="showRegion2Map = !showRegion2Map" ng-show="region2">
+                                               <i class="icon marker" style="margin-right: -10px;"></i>
+                                               &nbsp;
+                                               <span translate="showMap"></span>
+                                           </a>
+                                       </label>
+
+                                       <div ng-init="candidate.region">
+                                           <input id="pac-input" ng-model="regionInput" placeholder="{{'Enter address'|translate}}" googleplace/>
+                                       </div>
+                                       <div ng-if="showRegion2Map" class="clever-window" style="width: 471px;left: 29px;">
+                                           <ui-gmap-google-map center="map.center" draggable='true' zoom="map.zoom" options="map.options">
+                                               <ui-gmap-marker coords="marker.coords" idkey="marker.id">
+                                               </ui-gmap-marker>
+                                           </ui-gmap-google-map>
+                                       </div>
+                                   </div>
+                                   <div class="item" ng-class="{'error': errorId}">
+                                       <label>{{'Employee id'|translate}}</label>
+                                       <input placeholder="" name="localId" ng-model="pageObject.employee.localId" type="text" >
+                                   </div>
+                               </div>
+                               <div class="col-lg-4">
+                                   <div class="item">
+                                       <div class="field position"
+                                            ng-class="{'error': candidateForm.position.$invalid && !candidateForm.position.$pristine}">
+                                           <label> <span translate="position"> </span> <label class="red">*</label>
+                                           </label>
+                                           <input ng-change="updateErrorForPosition()" type="text" ng-model="pageObject.employee.position" name="position" list="_countries" required>
+                                           <datalist id="_countries" ng-model='pageObject.employee.position'>
+                                               <!--<select style="display: none;" id="_select_position" name="_select_position" ng-model='pageObject.employee.position'>-->
+                                               <option value=""></option>
+                                               <option ng-if="v" value="{{v}}" style="font-weight: bold" ng-repeat="v in pageObject.positionListAfterSearch">
+                                                   {{v}}
+                                               </option>
+                                               <!--</select>-->
+                                           </datalist>
+                                           <div ng-show="candidateForm.position.$invalid && !candidateForm.position.$pristine"
+                                                class="ui red pointing above ui label">{{'enter_position'|translate}}
+                                           </div>
+                                           <div class="ui red pointing above ui label"
+                                                ng-show="candidateForm.position.$invalid
+                                     && !candidateForm.position.$pristine
+                                      && candidateForm.position.$error.maxlength==true"
+                                                translate="text_should_be_no_longer_than_50_characters">
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="item">
+                                       <div class="field"
+                                            ng-class="{'error': candidateForm.department.$invalid && !candidateForm.department.$pristine}">
+                                           <label> <span translate="department"> </span></label>
+                                           <select ng-select-color class="select2-container form-control" ng-model="pageObject.employee.employeeDepartment" ng-options="department.name for department in departmentsList track by department.employeeDepartmentId">
+                                               <option value="" style="color:#999">{{'department' | translate}}</option>
+                                           </select>
+                                           <div ng-show="candidateForm.department.$invalid && !candidateForm.department.$pristine && candidateForm.department.$error.required==true"
+                                                class="ui red pointing above ui label">{{'enter_department'|translate}}
+                                           </div>
+                                           <div class="ui red pointing above ui label"
+                                                ng-show="candidateForm.department.$invalid
+                                     && !candidateForm.department.$pristine
+                                      && candidateForm.department.$error.maxlength==true"
+                                                translate="text_should_be_no_longer_than_50_characters">
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="item" ng-class="{'error': errorDateStartWorking}">
+                                       <label class="pull-left">{{'Date of employment'|translate}}</label><label class="pull-left red">*</label>
+                                       <div class="field">
+                                           <input name="workingDate" ng-change="" ng-model="startWorkingDate" class="datepickerOfStartWorking" type="text" style="background-image: url('images/sprite/calendar.png');background-position: right center;background-repeat: no-repeat;">
+                                           <div class="ui red pointing above ui label"
+                                                ng-show="errorDateStartWorking" translate="Enter the correct date">
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="item" ng-class="{'error': errorDateStartWorking}">
+                                       <label class="pull-left">{{'Date of the work in the department'|translate}}</label><label class="pull-left red">*</label>
+                                       <div class="field">
+                                           <input name="workingDate" ng-change="" ng-model="startDepartmentDate" class="datepickerOfStartDepartment" type="text" style="background-image: url('images/sprite/calendar.png');background-position: right center;background-repeat: no-repeat;">
+                                           <div class="ui red pointing above ui label"
+                                                ng-show="errorDateStartWorking" translate="Enter the correct date">
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="item" ng-class="{'error': errorDateStartWorking}">
+                                       <label class="pull-left">{{'Date of admission to the post'|translate}}</label><label class="pull-left red">*</label>
+                                       <div class="field">
+                                           <input name="workingDate" ng-change="" ng-model="startPositionDate" class="datepickerOfStartPosition" type="text" style="background-image: url('images/sprite/calendar.png');background-position: right center;background-repeat: no-repeat;">
+                                           <div class="ui red pointing above ui label"
+                                                ng-show="errorDateStartWorking" translate="Enter the correct date">
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="item" ng-class="{'error': errorDateStartWorking}">
+                                       <label class="pull-left">{{'Salary date'|translate}}</label><label class="pull-left red">*</label>
+                                       <div class="field">
+                                           <input name="workingDate" ng-change="" ng-model="startSalaryDate" class="datepickerOfStartSalary salary-date" type="text" style="background-image: url('images/sprite/calendar.png');background-position: right center;background-repeat: no-repeat;">
+                                           <div class="ui red pointing above ui label"
+                                                ng-show="errorDateStartWorking" translate="Enter the correct date">
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="item" ng-show="pageObject.employee.dateDismiss != undefined" ng-class="{'error': errorDateStartWorking}">
+                                       <label class="pull-left">{{'Dismiss of'|translate}}</label>
+                                       <div class="field">
+                                           <input name="dateDismiss" ng-change="" ng-model="finishDateDismiss" class="datepickerOfFinishDate salary-date" type="text" style="background-image: url('images/sprite/calendar.png');background-position: right center;background-repeat: no-repeat;">
+                                           <div class="ui red pointing above ui label"
+                                                ng-show="errorDateStartWorking" translate="Enter the correct date">
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="item" ng-show="type == 'add'" ng-class="{'error': candidateForm.status.$invalid && !candidateForm.status.$pristine}">
+                                       <label style="margin-bottom: 2px;">{{'status'|translate}}</label>
+                                       <select ng-model="candidate.status"
+                                               class="select-top select2-container form-control input-lg select2  select14 widthSelectInput1"
+                                               ng-selected="status.value == candidate.status" ng-change="progressUpdate()">
+                                           <option value="{{status.value}}" ng-repeat="status in status">{{'candidate_status_assoc.' + [status.value]|translate}}</option>
+                                       </select>
+
+                                       <div ng-show="candidateForm.status.$invalid && !candidateForm.status.$pristine"
+                                            class="ui red pointing above ui label">
+                                           {{'choose_status'|translate}}
+                                       </div>
+                                   </div>
+                                   <div class="item">
+                                       <label>{{'industry'|translate}}</label>
+                                       <select ng-model="pageObject.employee.candidateId.industry"
+                                               class="select-top select2-container form-control input-lg select2 select14" style="width: 100%;" >
+                                           <option ng-repeat="industry in pageObject.variables.industries" value="{{industry.value}}">
+                                               {{'industries_assoc.' + [industry.value]|translate}}
+                                           </option>
+                                       </select>
+                                   </div>
+                                   <div class="item" ng-class="{'error': candidateForm.experience.$invalid && !candidateForm.experience.$pristine}">
+                                       <label>{{'experience'|translate}}</label>
+                                       <select ng-model="pageObject.employee.candidateId.expirence"
+                                               class="select-top select2-container form-control input-lg select2  select14"
+                                               ng-selected="ex.value == pageObject.employee.candidateId.expirence" >
+                                           <option value="{{ex.value}}" ng-repeat="ex in pageObject.variables.experience">{{'experience_assoc.' + ex.value|translate}}</option>
+                                       </select>
+                                   </div>
+                                   <div class="item">
+                                       <label>{{'employment_type'|translate}}</label>
+                                       <input placeholder="" class="select2-employmentType" type="text">
+                                   </div>
+                               </div>
+                               <div class="col-lg-4 contactEmployee">
+                                   <div class="item">
+                                       <label>{{'phone'|translate}}</label>
+                                       <input placeholder="" ng-model="pageObject.contacts.mphone" type="text"  ng-blur="checkDuplicatesByPhone()">
+                                       <i class="phone icon"></i>
+                                       <div class="ui red pointing above ui label"  ng-show="duplicatesByPhone.length > 0" style="width: 100%">
+                                           <label class="ui icon" style="float: right;cursor: pointer" ng-click="duplicatesByPhone = []"><i class="icon close"></i></label>
+                                           <label>{{'Already have a candidate with such phone'|translate}}:</label>
+                                           <br/>
+                                           <label ng-repeat="duplicate in duplicatesByPhone">
+                                               <a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>
+                                           </label>
+                                       </div>
+                                   </div>
+                                   <div class="item">
+                                       <label>Email</label>
+                                       <input placeholder="" ng-model="pageObject.contacts.email" type="text"  ng-blur="checkDuplicatesByEmail()">
+                                       <i class="mail icon"></i>
+                                       <div class="ui red pointing above ui label"  ng-show="duplicatesByEmail.length > 0" style="width: 100%">
+                                           <label class="ui icon" style="float: right;cursor: pointer" ng-click="duplicatesByEmail = []"><i class="icon close"></i></label>
+                                           <label>{{'Already have a candidate with such email'|translate}}:</label><br/>
+                                           <label ng-repeat="duplicate in duplicatesByEmail">
+                                               <a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>
+                                           </label>
+                                       </div>
+                                   </div>
+                                   <div class="item">
+                                       <label>Skype</label>
+                                       <input placeholder="" ng-model="pageObject.contacts.skype" type="text" >
+                                       <i class="skype icon"></i>
+                                   </div>
+                                   <div class="item">
+                                       <label>Linkedin</label>
+                                       <input placeholder="" ng-model="pageObject.contacts.linkedin" type="text" >
+                                       <i class="linkedin icon"></i>
+                                   </div>
+                                   <div class="item">
+                                       <label>Facebook</label>
+                                       <input placeholder="" ng-model="pageObject.contacts.facebook" type="text" >
+                                       <i class="facebook icon"></i>
+                                   </div>
+                                   <div class="item">
+                                       <label>Google+</label>
+                                       <input placeholder="" ng-model="pageObject.contacts.googleplus" type="text" >
+                                       <i class="google plus icon"></i>
+                                   </div>
+                                   <div class="item">
+                                       <label>{{'home_page'|translate}}</label>
+                                       <input placeholder="" ng-model="pageObject.contacts.homepage" type="text" >
+                                       <i class="home icon"></i>
+                                   </div>
+                               </div>
+
+                               <div class="col-lg-12 SkillsWithRating">
+                                   <label style="margin:0.3em 0em 0.3em" class="form-description">{{'core_skills'|translate}}</label>
+                                   <textarea id="tinymceTwo" ui-tinymce ng-model="pageObject.employee.candidateId.coreSkills" ></textarea>
+                               </div>
+                               <div class="col-lg-12">
+                                   <div class="field big_tinymce">
+                                       <label class="form-description">{{'description'|translate}}</label>
+                                       <textarea id="tinymce" ui-tinymce ng-model="pageObject.employee.candidateId.descr" ></textarea>
+                                   </div>
+                                   <div class="text-center">
+                                       <a type="button" ng-click="saveCandidate()" class="btn btn-primary">
+                                           {{'save'|translate}}
+                                       </a>
+                                   </div>
+                               </div>
+                           </div>
+                       </form>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

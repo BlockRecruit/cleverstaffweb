@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="UTF-8">
+    <title>Sign Up| CleverStaff | All-in-One ATS & Recruiting Software</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="CleverStaff Recruitment Software and Applicant Tracking System">
+    <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
+    <link rel="stylesheet" href="external/css/bootstrap.min.css">
+    <link rel="stylesheet" href="external/css/main.min.css?b2">
+    <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="../../js/ApiKey.js?b4"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Sign Up| CleverStaff | All-in-One ATS & Recruiting Software"/>
+    <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
+    <meta property="og:image" content="https://dev.cleverstaff.net/images/sprite/for_preview_1080-1080.jpg"/>
+    <meta property="og:image:width" content="1080" />
+    <meta property="og:image:height" content="1080" />
+    <meta property="og:site_name" content="CleverStaff"/>
+    <script>
+        localStorage.setItem("NG_TRANSLATE_LANG_KEY", "en");
+        var messages = {
+            redirect: "Redirecting...",
+            signup_success: "Your company ${orgName} has been created. Please check your email ${login} to activate your account",
+            enter_email: "Please enter your email",
+            wrong_email: "Please enter valid email",
+            Please_use_your_work_or_personal_email: "Please use your work or personal email",
+            Someone_already_has_that_email_try_another_one: "This email already registered in the system. You could request the password reset or choose another email.",
+            enter_name: "Please enter your name",
+            enter_correct_name: "Name contains invalid characters",
+            wrong_name: "Please enter valid name",
+            enter_phone: "Please enter your phone number",
+            enter_full_phone: "Your phone number should be 7-15 digits long",
+            enter_phone_length: "Your phone number should be up to 15 digits",
+            enter_company: "Please enter your company name",
+            enter_password: "Please enter your password",
+            wrong1_password: "Password should contain only numbers and latin letters, allowed characters: !,.?%$#@*_-+=\\|/[]{}()",
+            wrong2_password: "Password should contain at least one latin letter",
+            wrong3_password: "Password should contain at least one number",
+            wrong4_password: "Password must be 8-30 characters long",
+            wrong_password2: "The password doesn't match to previous",
+            wrong_users_counter: "Please enter number of recruiters of your company",
+            terms_accept: "You should accept the Terms of Service agreement to sign up."
+        };
+        if (document.domain === 'cleverstaff.net') {
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                            (i[r].q = i[r].q || []).push(arguments)
+                        }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-52127049-4', {
+                'cookieDomain': document.domain,
+            });
+            ga('send', 'pageview');
+            <!-- Yandex.Metrika counter -->
+            var yaParams = {/*Тут параметри візиту*/};
+            (function (d, w, c) {
+                (w[c] = w[c] || []).push(function () {
+                    try {
+                        w.yaCounter27135023 = new Ya.Metrika({
+                            id: 27135023,
+                            webvisor: false,
+                            clickmap: true,
+                            trackLinks: true,
+                            accurateTrackBounce: true,
+                            trackHash: true, params: window.yaParams || {}
+                        });
+                    } catch (e) {
+                    }
+                });
+                var n = d.getElementsByTagName("script")[0],
+                        s = d.createElement("script"),
+                        f = function () {
+                            n.parentNode.insertBefore(s, n);
+                        };
+                s.type = "text/javascript";
+                s.async = true;
+                s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+                if (w.opera == "[object Opera]") {
+                    d.addEventListener("DOMContentLoaded", f, false);
+                } else {
+                    f();
+                }
+            })(document, window, "yandex_metrika_callbacks");
+        }
+        function hasUrlParameterWithoutQ() {
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] !== "q") {
+                    return true;
+                }
+            }
+            return false;
+        }
+        if (hasUrlParameterWithoutQ()) {
+            var sPageURL = window.location.search.substring(1);
+            if (sPageURL && sPageURL !== '') {
+                localStorage.setItem("UTMS", sPageURL);
+            }
+        }
+    </script>
+    <noscript>
+        <div><img src="//mc.yandex.ru/watch/27135023" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <div class="container">
+            <a href="/" class="logo pull-left"></a>
+            <a href="/" class="logo2 pull-left"></a>
+            <nav class="navbar pull-right">
+                <div class="container-fluid">
+                    <a href="index.html" class="btn btn-default navbar-btn loginBtn">Back to the site <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="block" id="home">
+        <div class="row">
+            <div class="col-md-2 col-sm-1">
+                <span class="cloud"></span>
+                <span class="manGo"></span>
+                <span class="chat"></span>
+                <span class="tasks"></span>
+            </div>
+            <div class="col-md-7 col-sm-9 col-xs-12 col-sm-offset-1 col-md-offset-1 text-center big-tittle">
+                <h1>Create Your CleverStaff Account</h1>
+                <h4><span class="disp-block">Sign up via</span> <span class="google-icon" onclick="signupGoogle()" data-toggle="modal"></span><span class="fb-icon" onclick="signupFacebook()" data-toggle="modal"></span></h4>
+                <h3 class="or">OR</h3>
+                <div class="col-md-10 col-md-offset-1 contactUs signup-contact">
+                    <form id="signup" class="question-form">
+                        <div class="form-gr">
+                            <label for="ex1_firstName" class="nameForm pull-left">Name</label>
+                            <div class="clearfix"></div>
+                            <input id="ex1_firstName" class="float-left" type="text" name="firstName" placeholder="Name *">
+                            <div class="error-firstName hidden"></div>
+                        </div>
+                        <div class="form-gr displayTable">
+                            <label for="ex1_number" class="phoneForm pull-left">Phone number</label>
+                            <div class="clearfix"></div>
+                            <div class="countries pull-left">
+                                <select class="countryCustom" name="countryCustom"></select>
+                            </div>
+                            <div class="phone pull-right">
+                                <input id="ex1_number" class="float-left phoneNumber pull-right"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" maxlength="15" type="number" name="phone" placeholder="Phone (to schedule a demo) *">
+                            </div>
+                            <div class="error-phone hidden"></div>
+                        </div>
+                        <div class="form-gr">
+                            <label for="ex1_mail" class="emailForm pull-left">Email</label>
+                            <div class="clearfix"></div>
+                            <input id="ex1_mail" class="float-left" type="email" name="login" placeholder="Email *">
+                            <div class="error-email hidden"></div>
+                        </div>
+                        <div class="form-gr">
+                            <label for="ex1_orgName" class="companyForm pull-left">Company name</label>
+                            <div class="clearfix"></div>
+                            <input id="ex1_orgName" class="float-left" type="text" name="orgName" placeholder="Company name *">
+                            <div class="error-orgName hidden"></div>
+                        </div>
+                        <div class="form-gr">
+                            <label for="usersCount" class="usersCountForm pull-left">How many recruiters in your company?</label>
+                            <select name="usersCount" id="usersCount" class="float-left">
+                                <option value>How many recruiters in your company? *</option>
+                                <option value="1">Just me</option>
+                                <option value="1+">Just me for now. Other might join later</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value=">10">10 and more</option>
+                            </select>
+                            <div class="error-usersCount hidden"></div>
+                        </div>
+                        <div class="form-gr">
+                            <label for="ex1_soft" class="softForm pull-left">Which recruitment software you currently use?</label>
+                            <input type="text" id="ex1_soft" class="float-left"  name="currentSolution" placeholder="Which recruitment software you currently use? *">
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="form-gr">
+                            <label for="ex1_password" class="passwordForm pull-left">Password</label>
+                            <div class="clearfix"></div>
+                            <input id="ex1_password" class="float-left" type="password" name="password" placeholder="Password *">
+                        </div>
+                        <div class="form-gr">
+                            <label for="ex1_password2" class="password2Form pull-left">Confirm password</label>
+                            <div class="clearfix"></div>
+                           <input id="ex1_password2" class="float-left" type="password" name="password2" placeholder="Confirm password *">
+                        </div>
+                        <div class="form-gr">
+                            <input id="terms" class="float-left terms" type="checkbox" name="terms">
+                            <label for="terms" class="terms">I accept the <a href="terms.html" target="_blank">Terms of Service</a> agreement.</label>
+                            <div class="error-terms hidden"></div>
+                        </div>
+                        <div class="error-password"></div>
+                        <div class="error-password-1 hidden">
+                            Passwords strength: <span class="red">Abc</span> <span class="red">123</span> <span class="red">8-30 characters</span>
+                        </div>
+                        <div class="error-password-2 hidden">
+                            Passwords strength: <span class="red">Abc</span> <span class="green">123</span> <span class="green">8-30 characters</span>
+                        </div>
+                        <div class="error-password-3 hidden">
+                            Passwords strength: <span class="green">Abc</span> <span class="red">123</span> <span class="green">8-30 characters</span>
+                        </div>
+                        <div class="error-password-4 hidden">
+                            Passwords strength: <span class="green">Abc</span> <span class="green">123</span> <span class="green">8-30 characters</span>
+                        </div>
+                        <div class="error-password-5 hidden">
+                            Passwords strength: <span class="green">Abc</span> <span class="red">123</span> <span class="red">8-30 characters</span>
+                        </div>
+                        <div class="error-password-6 hidden">
+                            Passwords strength: <span class="red">Abc</span> <span class="green">123</span> <span class="red">8-30 characters</span>
+                        </div>
+                        <input type="hidden" class="" name="country" value="null">
+                        <input type="hidden" name="lang" value="en">
+                        <a class="orangeBtn create-account" id="signup-button">Create Account</a>
+                        <div class="administrator-account">You will be the Administrator of your company account</div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-1">
+                <span class="cloud-sec"></span>
+                <span class="tasks-second"></span>
+                <span class="flower-signup"></span>
+                <span class="puzzle-signup"></span>
+            </div>
+        </div>
+    </div>
+    <div class="block" id="block_10">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <h4>Quicklinks</h4>
+                    <ul>
+                        <li><a href="why.html">Why?</a></li>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="price.html">Pricing</a></li>
+                        <li><a href="https://cleverstaff.net/news/" target="_blank">Blog</a></li>
+                        <li><a href="api.html" target="_blank" target="_blank">API</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-8 col-sm-4 col-md-4">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:contact@cleverstaff.net" target="_blank"><span class="email pull-left"></span>contact@cleverstaff.net</a></li>
+                        <li><a href="skype:cleverstaff?chat"><span class="skype pull-left"></span>cleverstaff</a></li>
+                        <li><span class="tel pull-left"></span>+38 (044) 22 11 063</li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4">
+                    <h4>Join</h4>
+                    <a href="https://www.facebook.com/cleverstaff.net" target="_blank" class="pull-left"><span class="fb"></span></a>
+                    <a href="https://www.linkedin.com/company/cleverstaff" target="_blank" class="pull-left"><span class="linkdIn"></span></a>
+                    <a href="https://www.youtube.com/user/cleverstaff" target="_blank" class="pull-left"><span class="youTube"></span></a>
+                    <a href="https://twitter.com/cleverstaff" target="_blank" class="pull-left"><span class="twit"></span></a>
+                    <a href="https://plus.google.com/u/1/b/103298552184404196991/103298552184404196991" target="_blank" class="pull-left"><span class="gplus"></span></a>
+                </div>
+                <div class="clearfix"></div>
+                <footer>
+                    &copy; CleverStaff 2014-2017
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal window facebook-en-->
+<div id="signupFacebook" class="facebook-modal-en facebook modal fade text-center" role="dialog">
+    <div class="modal-dialog modal-md contactUs google-form">
+        <div class="modal-header">
+            <h4 class="modal-title text-center">
+                Sign Up via Facebook
+            </h4>
+        </div>
+        <div class="modal-body">
+            <form action="/hr/person/registration/facebook" method="post" id="signupFacebookForm" class="question-form">
+                <div class="form-gr">
+                    <input type="email" class="float-left google-form-width" id="facebook_mail" name="login" readonly placeholder="Enter your email *">
+                </div>
+                <div class="form-gr">
+                    <input type="text" class="float-left google-form-wiаdth" id="facebook_name" name="firstName" placeholder="Enter your name *">
+                </div>
+                <div class="form-gr">
+                    <div class="ui labeled icon input">
+                        <input type="text" class="float-left google-form-width" name="orgName" placeholder="Enter your company name *">
+                    </div>
+                    <div class="error-orgName hidden"></div>
+                    <input type="hidden" name="country" value="null">
+                    <input type="hidden" name="lang" value="en">
+                    <input type="hidden" id="facebook_code" name="systemLink" value="">
+                    <input type="hidden" name="social" value="facebook">
+                </div>
+                <div class="form-gr displayTable">
+                    <div>
+                        <div class="countries pull-left">
+                            <select class="countryCustom" name="countryCustom"></select>
+                        </div>
+                        <div class="phone pull-right">
+                            <input type="text" class="float-left google-form-width phoneNumber pull-right" name="phone" placeholder="Phone number *">
+                        </div>
+                    </div>
+                    <div class="error-phone hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <select name="usersCount" class="float-left google-form-width">
+                        <option value>Select the number of recruiters *</option>
+                        <option value="1">only me</option>
+                        <option value="1+">just only me, but will be more</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value=">10">More than 10</option>
+                    </select>
+                    <div class="error-usersCount hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <div class="ui labeled icon input">
+                        <input type="text" id="currentSolutionFb" class="float-left google-form-width" name="currentSolution" placeholder="Which recruitment software you currently use? *">
+                    </div>
+                </div>
+                <div class="form-gr">
+                    <div class="ui labeled icon input">
+                        <input type="password" id="facebookPass" class="float-left google-form-width" name="password" placeholder="Enter your password *">
+                    </div>
+                </div>
+                <div class="form-gr">
+                    <div class="ui labeled icon input">
+                        <input type="password" id="facebookPass2" class="float-left google-form-width" name="password2" placeholder="Enter your password again *">
+                        <div class="error-password"></div>
+                        <div class="error-password-1 hidden">
+                            Passwords strength: <span class="red">Abc</span> <span class="red">123</span> <span class="red">8-30 characters</span>
+                        </div>
+                        <div class="error-password-2 hidden">
+                            Passwords strength: <span class="red">Abc</span> <span class="green">123</span> <span class="green">8-30 characters</span>
+                        </div>
+                        <div class="error-password-3 hidden">
+                            Passwords strength: <span class="green">Abc</span> <span class="red">123</span> <span class="green">8-30 characters</span>
+                        </div>
+                        <div class="error-password-4 hidden">
+                            Passwords strength: <span class="green">Abc</span> <span class="green">123</span> <span class="green">8-30 characters</span>
+                        </div>
+                        <div class="error-password-5 hidden">
+                            Passwords strength: <span class="green">Abc</span> <span class="red">123</span> <span class="red">8-30 characters</span>
+                        </div>
+                        <div class="error-password-6 hidden">
+                            Passwords strength: <span class="red">Abc</span> <span class="green">123</span> <span class="red">8-30 characters</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-gr">
+                    <input id="terms-fb" class="float-left terms" type="checkbox" name="terms">
+                    <label for="terms-fb" class="terms">I accept the <a href="terms.html" target="_blank">Terms of Service</a> agreement.</label>
+                    <div class="error-terms hidden"></div>
+                </div>
+                <div class="hidden-not-important" id="facebook_server_message"></div>
+                <div class="ui error signupF message" style="display: none"></div>
+                <div class="ui success signupF message" style="display: none"></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <div class="text-center button">
+                <a id="signupFacebookBtn" class="orangeBtn create-account">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</div>
+    <!--Modal window facebook-en-->
+<!--Modal window google-en-->
+<div id="signupGoogle" class="google-modal-en google modal fade text-center" role="dialog">
+    <div class="modal-dialog modal-md contactUs google-form">
+        <div class="modal-header">
+            <h4 class="modal-title text-center">
+                Sign Up via Google
+            </h4>
+        </div>
+        <div class="modal-body">
+            <form action="/hr/person/registration/google" method="post" id="signupGoogleForm" class="question-form">
+                <div class="item">
+                    <div class="form-gr">
+                        <input type="email" class="float-left google-form-width" id="google_mail" name="login" value="" readonly disabled="">
+                    </div>
+                    <div class="form-gr">
+                        <input type="text" class="float-left google-form-width" id="google_name" name="firstName" placeholder="Enter your name *">
+                    </div>
+                    <div class="form-gr">
+                        <div class="ui labeled icon input">
+                            <input type="text" class="float-left google-form-width" name="orgName" placeholder="Enter your company name *">
+                        </div>
+                        <div class="error-orgName hidden"></div>
+                        <input type="hidden" name="country" value="null">
+                        <input type="hidden" name="lang" value="en">
+                        <input type="hidden" id="google_code" name="systemLink" value="">
+                        <input type="hidden" name="social" value="google">
+                    </div>
+                </div>
+                <div class="form-gr displayTable">
+                    <div>
+                        <div class="countries pull-left">
+                            <select class="countryCustom" name="countryCustom"></select>
+                        </div>
+                        <div class="phone pull-right">
+                            <input type="text" class="float-left google-form-width phoneNumber pull-right" name="phone" placeholder="Phone number *">
+                        </div>
+                    </div>
+                    <div class="error-phone hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <select name="usersCount" class="float-left google-form-width">
+                        <option value>Select the number of recruiters *</option>
+                        <option value="1">only me</option>
+                        <option value="1+">just only me, but will be more</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value=">10">More than 10</option>
+                    </select>
+                    <div class="error-usersCount hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <div class="ui labeled icon input">
+                        <input type="text" id="currentSolutionGoogle" class="float-left google-form-width" name="currentSolution" placeholder="Which recruitment software you currently use? *">
+                    </div>
+                </div>
+                <div class="form-gr">
+                    <div class="ui labeled icon input">
+                        <input type="password" id="googlePass" class="float-left google-form-width" name="password" placeholder="Enter your password *">
+                    </div>
+                </div>
+                <div class="form-gr">
+                    <div class="ui labeled icon input">
+                        <input type="password" id="googlePass2" class="float-left google-form-width" name="password2" placeholder="Enter your password again *">
+                        <div class="error-password"></div>
+                        <div class="error-password-1 hidden">
+                            Passwords strength: <span class="red">Abc</span> <span class="red">123</span> <span class="red">8-30 characters</span>
+                        </div>
+                        <div class="error-password-2 hidden">
+                            Passwords strength: <span class="red">Abc</span> <span class="green">123</span> <span class="green">8-30 characters</span>
+                        </div>
+                        <div class="error-password-3 hidden">
+                            Passwords strength: <span class="green">Abc</span> <span class="red">123</span> <span class="green">8-30 characters</span>
+                        </div>
+                        <div class="error-password-4 hidden">
+                            Passwords strength: <span class="green">Abc</span> <span class="green">123</span> <span class="green">8-30 characters</span>
+                        </div>
+                        <div class="error-password-5 hidden">
+                            Passwords strength: <span class="green">Abc</span> <span class="red">123</span> <span class="red">8-30 characters</span>
+                        </div>
+                        <div class="error-password-6 hidden">
+                            Passwords strength: <span class="red">Abc</span> <span class="green">123</span> <span class="red">8-30 characters</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-gr">
+                    <input id="terms-g" class="float-left terms" type="checkbox" name="terms">
+                    <label for="terms-g" class="terms">I accept the <a href="terms.html" target="_blank">Terms of Service</a> agreement.</label>
+                    <div class="error-terms hidden"></div>
+                </div>
+                <div class="hidden-not-important" id="google_server_message"></div>
+                <div class="ui error signupG message" style="display: none"></div>
+                <div class="ui success signupG message" style="display: none"></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <div class="text-center button">
+                <a id="signupGoogleBtn" class="orangeBtn create-account">Sign Up</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal window google-en-->
+
+<link rel="stylesheet" href="external/css/font-awesome.min.css">
+<link rel="stylesheet" href="external/css/normalize.css">
+<link rel="stylesheet" href="external/css/animate.min.css">
+<link rel="stylesheet" href="external/css/signup.css?b8">
+<link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" />
+<link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" />
+<script src="external/js/script.min.js?b3"></script>
+<script src="external/js/wow.min.js"></script>
+<script src="//apis.google.com/js/client.js"></script>
+<!-- build:js(.) scripts/plugins.js -->
+<script src="external/js/bootstrap.js"></script>
+<!-- endbuild -->
+<script src="//platform.linkedin.com/in.js?async=true"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+</body>
+</html>

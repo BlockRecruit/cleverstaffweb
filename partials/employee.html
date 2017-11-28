@@ -1,0 +1,331 @@
+<div class="block-employee">
+    <div class="breadcrumbs hidden-xs hidden-sm">
+        <ol class="breadcrumb">
+            <li><a href="#/company/employees">{{'employees' | translate}}</a></li>
+            <li><i class="fa fa-chevron-right" aria-hidden="true"></i></li>
+            <li class="active">{{pageObject.employee.candidateId.fullName}}</li>
+        </ol>
+    </div>
+    <div class="row employee-information">
+        <div class="col-lg-12 fullName-position">
+            <span>{{pageObject.employee.candidateId.fullName}}, <span>{{pageObject.employee.position}}</span></span>
+        </div>
+        <div class="col-lg-11 profile-menu">
+            <ul>
+                <li><a href="" ng-click="toEdit()"><i class="fa fa-pencil" aria-hidden="true"></i>{{'edit_profile'|translate}}</a></li>
+            </ul>
+        </div>
+        <div class="row employee-profile-rezume">
+            <div class="col-lg-3 leftBar">
+                <div class="col-lg-12 employee-foto">
+                    <div>
+                        <img ng-src="{{serverAddress}}/getapp?id={{pageObject.employee.candidateId.photo}}&d={{$root.me.personId}}" ng-show="pageObject.employee.candidateId.photo" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-12 employee-control">
+                    <h5>{{'Control'|translate}}</h5>
+                    <span>{{'Status'|translate}}</span>
+                    <form class="form-inline-position">
+                        <div class="select">
+                            <select class="form-control" ng-model="$root.changeStatusOfEmployeeObject.newStatus" ng-change="showModalChangeEmployeeStatus($root.changeStatusOfEmployeeObject.newStatus)">
+                                <option ng-repeat="state in pageObject.employeeStatus" value="{{state.value}}" >
+                                    {{'employee_status_assoc.' + state.value|translate}}
+                                </option>
+                            </select>
+                        </div>
+                    </form>
+                    <span class="hr-interview">{{'employee_status_assoc.'+pageObject.employee.state|translate}}</span>
+                </div>
+                <!--attachments-old-->
+                <!--<div class="col-lg-12 attachments">-->
+                    <!--<h5>{{'Attachments'|translate}}</h5>-->
+                    <!--<div class="addedFileCandidate" ng-repeat="file in pageObject.employee.candidateId.files | orderBy:'-url'" ng-show="pageObject.employee.candidateId.files">-->
+                            <!--<span class="item">-->
+                                <!--<div class="editFileName">-->
+                                    <!--<i ng-show="file.url" class="fa fa-file-o"></i>-->
+                                    <!--<i ng-show="!file.url" class="fa fa-file-text-o"></i>-->
+                                    <!--<a ng-href="{{serverAddress}}/getapp/{{file.fileId}}/{{file.fileName}}" title="{{file.fileName}}">{{file.fileName| fileNameCut:0:15}}</a>-->
+                                    <!--<i ng-click="removeFile(file.fileId,$index)" class="fa fa-times pull-right" aria-hidden="true"></i>-->
+                                <!--</div>-->
+                                <!--<div ng-show="file.attId" class="pull-left">-->
+                                    <!--<a ng-show="!file.url" ng-click="showModalResume(file)" title="{{file.fileName}}">-->
+                                        <!--{{file.fileName| fileNameCut:0:25}}-->
+                                    <!--</a>-->
+                                    <!--<a ng-show="file.url" href="{{file.url}}" target="_blank" title="{{file.fileName}}">-->
+                                        <!--{{file.fileName| limitTo:20}}-->
+                                        <!--<span ng-show="file.fileName.length > 20">...</span>-->
+                                    <!--</a>-->
+                                <!--</div>-->
+                                <!--</i>-->
+                            <!--</span>-->
+                    <!--</div>-->
+                    <!--<input type="file" class="hidden" oi-file="options" id="file"/>-->
+                    <!--<label for="file" class="hidden-xs hidden-sm" href=""><i class="fa fa-files-o" aria-hidden="true"></i>{{'Attach file'|translate}}</label>-->
+                <!--</div>-->
+                <!--<div class="col-lg-12 attachments">-->
+                    <!--<a ng-click="showAddLinkFunc()" href=""><i class="fa fa-paperclip" aria-hidden="true"></i>{{'Attach link'|translate}}</a>-->
+                <!--</div>-->
+                <!--<div class="col-lg-12 addLinkFormForLink" ng-show="showAddLink">-->
+                    <!--<div>-->
+                        <!--<form name="addLinkForm">-->
+                            <!--<label for="nameLink">{{'Title'|translate}}</label>-->
+                            <!--<br/>-->
+                            <!--<input ng-model="addLinkToCandidate.name" ng-class="{'errorInput' : addLinkErrorShow && addLinkToCandidate.name.length == 0}" id="nameLink" name="name" type="text"/>-->
+                            <!--<br/>-->
+                            <!--<label for="urlLink">URL</label>-->
+                            <!--<br/>-->
+                            <!--<input ng-model="addLinkToCandidate.url" ng-class="{'errorInput' : addLinkErrorShow && addLinkToCandidate.url.length == 0 || addLinkForm.url.$error.url}" id="urlLink" name="url" type="url"/>-->
+                        <!--</form>-->
+                    <!--</div>-->
+                    <!--<div>-->
+                        <!--<div class="text-center pull-right">-->
+                            <!--<a type="button" ng-click="addLinkInCandidate()" class="btn btn-primary accept">-->
+                                <!--{{'add'|translate}}-->
+                            <!--</a>-->
+                        <!--</div>-->
+                        <!--<div class="text-center pull-left">-->
+                            <!--<a type="button" ng-click="closeAddLinkFunc()" class="btn btn-primary cancel">-->
+                                <!--{{'cancel'|translate}}-->
+                            <!--</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--old-attachment-->
+                <div class="col-lg-12 attachments not-for-print" uib-dropdown is-open="status.isopen">
+                    <h5>{{'Attachments'|translate}}</h5>
+                    <div class="addedFileCandidate" ng-repeat="file in pageObject.employee.candidateId.files | orderBy:'-url'" ng-show="pageObject.employee.candidateId.files">
+                            <span class="item">
+                                <div class="editFileName" ng-show="file.showEditFileName">
+                                    <h5 ng-show="file.showEditFileName" class="text-center">{{'Change file name'|translate}}</h5>
+                                    <!--<i ng-show="!file.url && !file.showImg" class="fa fa-file-text-o" aria-hidden="true"></i>-->
+                                    <i ng-show="!file.url " class="fa fa-paperclip pull-left" aria-hidden="true"></i>
+                                    <input class="pull-left" ng-model="file.fileName" ng-show="file.showEditFileName" type='text' name='name' value='{{file.fileName| limitTo:15}}' id="showEditFile">
+                                    <a href="" class="pull-left" ng-show="file.showEditFileName" ng-click="editFileName(file)">OK</a>
+                                </div>
+                                <div ng-show="file.fileId" class="fileName">
+                                    <a ng-show="!file.url && !file.showEditFileName" ng-click="showModalResume(file)" title="{{file.fileName}}">
+                                        <i class="fa fa-paperclip pull-left" aria-hidden="true"></i>
+                                        {{file.fileName| fileNameCut:0:25}}
+                                    </a>
+                                    <a ng-show="file.url && !file.showEditFileName" href="{{file.url}}" target="_blank" title="{{file.fileName}}">
+                                        <i class="fa fa-paperclip pull-left" aria-hidden="true"></i>
+                                        {{file.fileName| limitTo:20}}
+                                        <span ng-show="file.fileName.length > 20">...</span>
+                                    </a>
+                                </div>
+                                <i ng-click="MenuEdDelFile(file)" ng-show="!file.showEditFileName" class="fa fa-chevron-down pull-right" aria-hidden="true">
+                                    <div class="small vertical menu editFileMenu" ng-show="file.showMenuEdDelFile">
+                                        <div class="ui middle aligned selection list">
+                                            <a ng-href="{{serverAddress}}/getapp/{{ file.fileId}}/{{ file.fileName}}" ng-show="!file.url" class="item">
+                                                <div class="content">
+                                                    <div class="header"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;{{'Download file'|translate}}</div>
+                                                </div>
+                                            </a>
+                                            <div ng-click="showEditFileNameFunc(file)" class="item" style="border-radius: 5px;padding: 1px 0px;">
+                                                <div class="content">
+                                                    <div ng-show="!file.url" class="header"><i ng-click="editFile(file.fileId)" class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;{{'Change file name'|translate}}</div>
+                                                    <div ng-show="file.url" class="header"><i ng-click="editFile(file.fileId)" class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;{{'Change link name'|translate}}</div>
+                                                </div>
+                                            </div>
+                                            <div ng-show="!file.url && !file.showImg && file.showGDocs" ng-click="showModalConfirmationResumeEdit(file)" class="item" style="border-radius: 5px;padding: 1px 0px;position: relative;">
+                                                <div class="content">
+                                                    <div class="header"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;{{'Update candidate by this resume'|translate}}</div>
+                                                </div>
+                                            </div>
+                                            <div ng-click="removeFile(file.fileId)" class="item" style="border-radius: 5px;padding: 1px 0px;">
+                                                <div class="content">
+                                                    <div ng-show="!file.url" class="header"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;{{'Delete file'|translate}}</div>
+                                                    <div ng-show="file.url" class="header"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;{{'Delete link'|translate}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </i>
+                            </span>
+                    </div>
+                    <div class="text-center hidden-sm hidden-xs">
+                        <a href="" uib-dropdown-toggle class="text-center">
+                            {{'Attach file'|translate}}
+                        </a>
+                    </div>
+                    <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                        <input type="file" class="hidden" oi-file="options" id="file"/>
+                        <label for="file" class="hidden-xs hidden-sm" href=""><i class="fa fa-paperclip" aria-hidden="true"></i>{{'Attach file'|translate}}</label>
+                        <!--<label role="menuitem" for="file">-->
+                            <!--<i class="fa fa-paperclip" aria-hidden="true"></i>-->
+                            <!--{{'Attach file'|translate}}-->
+                        <!--</label>-->
+                        <li class="divider"></li>
+                        <label role="menuitem" ng-click="showAddLinkFunc()">
+                            <i class="fa fa-link" aria-hidden="true"></i>
+                            {{'Attach link'|translate}}
+                        </label>
+                    </ul>
+                    <div class="col-lg-12 addLinkFormForLink" ng-show="showAddLink">
+                        <div>
+                            <form name="addLinkForm">
+                                <label for="nameLink">{{'Title'|translate}}</label>
+                                <br/>
+                                <input ng-model="addLinkToCandidate.name" ng-class="{'errorInput' : addLinkErrorShow && addLinkToCandidate.name.length == 0}" id="nameLink" name="name" type="text"/>
+                                <br/>
+                                <label for="urlLink">URL</label>
+                                <br/>
+                                <input ng-model="addLinkToCandidate.url" ng-class="{'errorInput' : addLinkErrorShow && addLinkToCandidate.url.length == 0 || addLinkForm.url.$error.url}" id="urlLink" name="url" type="url"/>
+                            </form>
+                        </div>
+                        <div>
+                            <div class="text-center pull-right">
+                                <a type="button" ng-click="addLinkInCandidate()" class="btn btn-primary accept">
+                                    {{'add'|translate}}
+                                </a>
+                            </div>
+                            <div class="text-center pull-left">
+                                <a type="button" ng-click="closeAddLinkFunc()" class="btn btn-primary cancel">
+                                    {{'cancel'|translate}}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="col-lg-9 centerBar">
+                <div class="main-info col-lg-12">
+                    <div class="col-lg-4">
+                        <div class="dateOfWork" ng-show="pageObject.employee.localId">
+                            {{'Employee id'|translate}}: <span class="dateOfWorkBold">{{pageObject.employee.localId}}</span>
+                        </div>
+                        <a class="dateOfWork phone" href="" ng-show="pageObject.employee.position">
+                            <i class="fa fa-pie-chart" aria-hidden="true"></i>
+                            {{pageObject.employee.position}}
+                        </a>
+                        <a class="dateOfWork" href="" ng-show="pageObject.employee.candidateId.region">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            {{pageObject.employee.candidateId.region.displayFullName}}
+                        </a>
+                        <a class="dateOfWork phone" href="" class="phone" ng-show="pageObject.employee.candidateId != undefined && pageObject.employee.candidateId.db" title="{{'date_of_birth'|translate}}">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                            {{pageObject.employee.candidateId.db|dateFormat}}({{pageObject.employee.candidateId.db|ageOfDate}})
+                        </a>
+                        <a class="dateOfWork phone" href="" class="phone" ng-show="pageObject.employee.salary">
+                            <i class="fa fa-usd" aria-hidden="true"></i>
+                            {{pageObject.employee.salary}} {{pageObject.employee.currency}}
+                        </a>
+                    </div>
+                    <div class="col-lg-4">
+                        <a class="phone dateOfWork" ng-show="(pageObject.employee.candidateId.contacts|filter:type = 'mphone').length > 0"
+                           ng-repeat="contact in pageObject.employee.candidateId.contacts|filter:type = 'mphone'" title="{{contact.value}}">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            {{contact.value}}
+                        </a>
+                        <a class="phone dateOfWork" ng-show="(pageObject.employee.candidateId.contacts|filter:type = 'skype').length > 0"
+                           ng-repeat="contact in pageObject.employee.candidateId.contacts|filter:type = 'Skype'" title="{{contact.value}}">
+                            <i class="fa fa-skype" aria-hidden="true"></i>
+                            {{contact.value}}
+                        </a>
+                        <a class="dateOfWork" href="mailto:{{contact.value}}" ng-show="(pageObject.employee.candidateId.contacts|filter:type = 'email').length > 0"
+                           ng-repeat="contact in pageObject.employee.candidateId.contacts|filter:type = 'email'" title="{{contact.value}}">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            {{contact.value}}
+                        </a>
+                        <a class="dateOfWork" target="_blank" href="{{contact.value}}" ng-show="(pageObject.employee.candidateId.contacts|filter:type = 'linkedin').length > 0"
+                           ng-repeat="contact in pageObject.employee.candidateId.contacts|filter:type = 'linkedin'" title="{{contact.value}}">
+                            <i class="fa fa-linkedin" aria-hidden="true"></i>
+                            {{contact.value|cutName:true:30}}
+                        </a>
+                        <a class="dateOfWork" target="_blank" href="{{contact.value}}" ng-show="(pageObject.employee.candidateId.contacts|filter:type = 'facebook').length > 0"
+                           ng-repeat="contact in pageObject.employee.candidateId.contacts|filter:type = 'facebook'" title="{{contact.value}}">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                            {{contact.value|cutName:true:30}}
+                        </a>
+                        <a class="dateOfWork" target="_blank" href="{{contact.value}}" ng-show="(pageObject.employee.candidateId.contacts|filter:type = 'googleplus').length > 0"
+                           ng-repeat="contact in pageObject.employee.candidateId.contacts|filter:type = 'googleplus'" title="{{contact.value}}">
+                            <i class="fa fa-google-plus" aria-hidden="true"></i>
+                            {{contact.value|cutName:true:30}}
+                        </a>
+                        <a class="dateOfWork" target="_blank" href="{{contact.value}}" ng-show="(pageObject.employee.candidateId.contacts|filter:type = 'homepage').length > 0"
+                           ng-repeat="contact in pageObject.employee.candidateId.contacts|filter:type = 'homepage'" title="{{contact.value}}">
+                            <i class="fa fa-home" aria-hidden="true"></i>
+                            {{contact.value|cutName:true:30}}
+                        </a>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="dateOfWork" ng-show="pageObject.employee">
+                            <span class="dateOfWorkBold">{{pageObject.employee.dateDepartment|dateFormat}}</span><br>
+                            <span>{{'Date of the work in the department' | translate}}</span>
+                        </div>
+                        <div class="dateOfWork" ng-show="pageObject.employee">
+                            <span class="dateOfWorkBold">{{pageObject.employee.dateEmployee|dateFormat}}</span><br>
+                            <span>{{'Date of employment' | translate}}</span>
+                        </div>
+                        <div class="dateOfWork" ng-show="pageObject.employee">
+                            <!--с -->
+                            <span class="dateOfWorkBold">{{pageObject.employee.datePosition|dateFormat}}</span><br>
+                            <span>{{'Date of admission to the post' | translate}}</span>
+                        </div>
+                        <div class="dateOfWork" ng-show="pageObject.employee && pageObject.employee.state != 'dismiss'">
+                            <span class="dateOfWorkBold">{{pageObject.employee.dateSalary|dateFormat}}</span><br>
+                            <span>{{'Salary date' | translate}}</span>
+                        </div>
+                        <div class="dateOfWork" ng-show="pageObject.employee && pageObject.employee.state == 'dismiss'">
+                            <span class="dateOfWorkBold">{{pageObject.employee.dateDismiss|dateFormat}}</span><br>
+                            <span>{{'dismiss' | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="activity">
+                        <h4>{{'core_skills'|translate}}</h4>
+                        <p ng-bind-html="pageObject.employee.candidateId.coreSkills"></p>
+                    </div>
+                    <div class="description">
+                        <h4>{{'description'|translate}}</h4>
+                        <p ng-bind-html="pageObject.employee.candidateId.descr">
+
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-12 history-outer">
+                    <div class="row last-actions-header">
+                        <div class="col-lg-12">
+                            <span class="title-header pull-left">
+                                {{'Activity_Log'|translate}}
+                            </span>
+                            <div class="switch pull-left">
+                                <label ng-click="showComments()" ng-class="{grey: !onlyComments}" class="floatLeft not-for-print">{{'Show comments only'|translate}}</label>
+                                <input id="cmn-toggle-9" ng-class="{checked: !onlyComments}" class="cmn-toggle cmn-toggle-round showCommentSwitcher" type="checkbox">
+                                <label class="" ng-click="showCommentsSwitch()" for="cmn-toggle-9"></label>
+                                <label ng-click="showDetails()" ng-class="{grey: onlyComments}" class="floatLeft not-for-print">{{'Show details'|translate}}</label>
+                            </div>
+                            <a href="" ng-click="showModalAddCommentToEmployee()" class=""><i class="fa fa-pencil" aria-hidden="true"></i>{{'add_comment'|translate}}</a>
+                        </div>
+                    </div>
+                    <!---------------------------------------------- to repeat-->
+                    <div class="row event last-action"
+                         ng-repeat="history in pageObject.history"
+                         ng-switch="history.type">
+                        <div class="col-lg-12 padding-left" ng-switch-when="setSalary">
+                            <ng-include src="'partials/history/employee/setSalary.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12 padding-left" ng-switch-when="setPosition">
+                            <ng-include src="'partials/history/employee/setPosition.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12 padding-left" ng-switch-when="setDepartment">
+                            <ng-include src="'partials/history/employee/setDepartment.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12 padding-left" ng-switch-when="setState">
+                            <ng-include src="'partials/history/employee/setState.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12 padding-left" ng-switch-when="comment">
+                            <ng-include src="'partials/history/employee/comment.html'"></ng-include>
+                        </div>
+                    </div>
+                    <!-------------------------------------------------------end-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

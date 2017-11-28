@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="UTF-8">
+    <title>Entrar | CleverStaff | All-in-One ATS & Recruiting Software</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="CleverStaff - Software de Recrutamento e ATS">
+    <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../external/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../external/css/main.min.css?b2">
+    <script src="../external/js/wow.min.js"></script>
+    <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="../../js/ApiKey.js?b4"></script>
+    <script src="//apis.google.com/js/client.js"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Entrar | CleverStaff | All-in-One ATS & Recruiting Software"/>
+    <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
+    <meta property="og:image" content="https://dev.cleverstaff.net/images/sprite/for_preview_1080-1080.jpg"/>
+    <meta property="og:image:width" content="1080" />
+    <meta property="og:image:height" content="1080" />
+    <meta property="og:site_name" content="CleverStaff"/>
+    <script>
+        localStorage.setItem("NG_TRANSLATE_LANG_KEY", "PT");
+        var messages = {
+            redirect: "Redirecionando...",
+            signup_success: "A sua empresa $ {orgName} foi criada. Verifique o email $ {login} para ativar sua conta",
+            enter_email: "Por favor introduza o seu e-mail",
+            wrong_email: "Por favor introduza um email válido",
+            Someone_already_has_that_email_try_another_one: "Este e-mail já foi registado no sistema. Pode solicitar a reinicialização da senha ou escolher outro e-mail.",
+            enter_name: "Por favor, insira seu nome",
+            enter_phone: "Por favor, digite seu número de telefone",
+            enter_correct_name: "O nome contém caracteres inválidos",
+            wrong_name: "Digite um nome válido",
+            enter_company: "Por favor digite o nome da empresa",
+            enter_password: "Por favor, insira a senha",
+            wrong1_password: "A senha deve conter apenas números e letras latinas, caracteres permitidos:!,.?% $ # @ * _- + = \\\\ | / [] {} ()",
+            wrong2_password: "A senha deve conter pelo menos uma letra",
+            wrong3_password: "A senha deve conter pelo menos um número",
+            wrong4_password: "A senha deve ter entre 8 a 30 caracteres",
+            wrong_password2: "A senha não corresponde à anteriormente introduzida",
+            wrong_users_counter: "Insira o número de recrutadores da sua empresa",
+            terms_accept: "Deve aceitar primeiro o Contrato de Termos de Serviço para se inscrever"
+        };
+        if (document.domain === 'cleverstaff.net') {
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                            (i[r].q = i[r].q || []).push(arguments)
+                        }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                        m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-52127049-4', {
+                'cookieDomain': document.domain
+            });
+            ga('send', 'pageview');
+            <!-- Yandex.Metrika counter -->
+            var yaParams = {/*Тут параметри візиту*/};
+            (function (d, w, c) {
+                (w[c] = w[c] || []).push(function () {
+                    try {
+                        w.yaCounter27135023 = new Ya.Metrika({
+                            id: 27135023,
+                            webvisor: false,
+                            clickmap: true,
+                            trackLinks: true,
+                            accurateTrackBounce: true,
+                            trackHash: true, params: window.yaParams || {}
+                        });
+                    } catch (e) {
+                    }
+                });
+                var n = d.getElementsByTagName("script")[0],
+                        s = d.createElement("script"),
+                        f = function () {
+                            n.parentNode.insertBefore(s, n);
+                        };
+                s.type = "text/javascript";
+                s.async = true;
+                s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+                if (w.opera == "[object Opera]") {
+                    d.addEventListener("DOMContentLoaded", f, false);
+                } else {
+                    f();
+                }
+            })(document, window, "yandex_metrika_callbacks");
+        }
+        function hasUrlParameterWithoutQ() {
+            var sPageURL = window.location.search.substring(1);
+            var sURLVariables = sPageURL.split('&');
+            for (var i = 0; i < sURLVariables.length; i++) {
+                var sParameterName = sURLVariables[i].split('=');
+                if (sParameterName[0] !== "q") {
+                    return true;
+                }
+            }
+            return false;
+        }
+        if (hasUrlParameterWithoutQ()) {
+            var sPageURL = window.location.search.substring(1);
+            if (sPageURL && sPageURL !== '') {
+                localStorage.setItem("UTMS", sPageURL);
+            }
+        }
+    </script>
+    <noscript>
+        <div><img src="//mc.yandex.ru/watch/27135023" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <div class="container">
+            <a href="/pt/index.html" class="logo pull-left"></a>
+            <a href="/pt/index.html" class="logo2 pull-left"></a>
+            <nav class="navbar pull-right">
+                <div class="container-fluid">
+                    <a href="index.html" class="btn btn-default navbar-btn loginBtn">De volta ào site &nbsp<i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="block" id="home">
+        <div class="row">
+            <div class="col-md-2 col-sm-1">
+                <span class="cloud"></span>
+                <span class="manGo"></span>
+                <span class="chat"></span>
+                <span class="tasks"></span>
+            </div>
+            <div class="col-md-7 col-sm-9 col-xs-12 col-sm-offset-1 col-md-offset-1 text-center big-tittle">
+                <h1>Crie a sua conta CleverStaff</h1>
+                <h4><span class="disp-block">Inscreva-se via</span> <span class="google-icon" onclick="signupGoogle()" data-toggle="modal"></span><span class="fb-icon" onclick="signupFacebook()" data-toggle="modal"></span></h4>
+                <h3 class="or">OR</h3>
+                <div class="col-md-10 col-md-offset-1 contactUs signup-contact">
+                    <form id="signup" class="question-form">
+                        <div class="form-gr">
+                            <label for="ex1_firstName" class="nameForm pull-left">Nome</label>
+                            <div class="clearfix"></div>
+                            <input id="ex1_firstName" class="float-left" type="text" name="firstName" placeholder="Nome">
+                            <div class="error-firstName hidden"></div>
+                        </div>
+                        <div class="form-gr displayTable">
+                            <label for="ex1_number" class="phoneForm pull-left">Número de telefone</label>
+                            <div class="clearfix"></div>
+                            <div class="countries pull-left">
+                                <select class="countryCustom" name="countryCustom"></select>
+                            </div>
+                            <div class="phone pull-right">
+                                <input id="ex1_number" class="float-left phoneNumber pull-right" oninput="this.value = this.value.replace(/[^0-9]/g, ''); " type="number" name="phone" placeholder="Número de telefone">
+                            </div>
+                            <div class="error-phone hidden"></div>
+                        </div>
+                        <!--<div class="form-gr">-->
+                            <!--<label for="ex1_number" class="phoneForm pull-left">Número de telefone</label>-->
+                            <!--<div class="clearfix"></div>-->
+                            <!--<input id="ex1_number" class="float-left" type="number" name="phone" placeholder="Número de telefone">-->
+                            <!--<div class="error-phone hidden"></div>-->
+                        <!--</div>-->
+                        <div class="form-gr">
+                            <label for="ex1_mail" class="emailForm pull-left">Email</label>
+                            <div class="clearfix"></div>
+                            <input id="ex1_mail" class="float-left" type="email" name="login" placeholder="Email">
+                            <div class="error-email hidden"></div>
+                        </div>
+                        <div class="form-gr">
+                            <label for="ex1_orgName" class="companyForm pull-left">Nome da empresa</label>
+                            <div class="clearfix"></div>
+                            <input id="ex1_orgName" class="float-left" type="text" name="orgName" placeholder="Nome da empresa">
+                            <div class="error-orgName hidden"></div>
+                        </div>
+                        <div class="form-gr">
+                            <select name="usersCount" class="float-left">
+                                <option value>Quantos recrutadores tem na empresa?</option>
+                                <option value="1">Apenas eu</option>
+                                <option value="1+">Apenas eu por agora.  Podem juntar-se novos Recrutadores  mais tarde</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value=">10">10  ou mais</option>
+                            </select>
+                            <div class="error-usersCount hidden"></div>
+                        </div>
+                        <div class="form-gr">
+                            <label for="ex1_soft" class="softForm pull-left">Sistema de seleção de pessoal</label>
+                            <input type="text" id="ex1_soft" class="float-left"  name="currentSolution" placeholder="Que software de recrutamento usa atualmente?">
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="form-gr">
+                            <label for="ex1_password" class="passwordForm pull-left">Senha</label>
+                            <div class="clearfix"></div>
+                            <input id="ex1_password" class="float-left" type="password" name="password" placeholder="Senha">
+                        </div>
+                        <div class="form-gr">
+                            <label for="ex1_password2" class="password2Form pull-left">Confirmar a Senha</label>
+                            <div class="clearfix"></div>
+                            <input id="ex1_password2" class="float-left" type="password" name="password2" placeholder="Confirmar a Senha">
+                        </div>
+                        <div class="form-gr">
+                            <input id="terms" class="float-left terms" type="checkbox" name="terms">
+                            <label for="terms" class="terms">Eu aceito o &nbsp<a href="terms.html" target="_blank">Contrato de Termos de Serviço</a>.</label>
+                            <div class="error-terms hidden"></div>
+                        </div>
+                        <div class="error-password"></div>
+                        <div class="error-password-1 hidden">
+                            Força (segurança) das senhas:: <span class="red">Abc</span> <span class="red">123</span> <span class="red">8-30 caractereseres</span>
+                        </div>
+                        <div class="error-password-2 hidden">
+                            Força (segurança) das senhas:: <span class="red">Abc</span> <span class="green">123</span> <span class="green">8-30 caractereseres</span>
+                        </div>
+                        <div class="error-password-3 hidden">
+                            Força (segurança) das senhas:: <span class="green">Abc</span> <span class="red">123</span> <span class="green">8-30 caractereseres</span>
+                        </div>
+                        <div class="error-password-4 hidden">
+                            Força (segurança) das senhas:: <span class="green">Abc</span> <span class="green">123</span> <span class="green">8-30 caractereseres</span>
+                        </div>
+                        <div class="error-password-5 hidden">
+                            Força (segurança) das senhas:: <span class="green">Abc</span> <span class="red">123</span> <span class="red">8-30 caractereseres</span>
+                        </div>
+                        <div class="error-password-6 hidden">
+                            Força (segurança) das senhas:: <span class="red">Abc</span> <span class="green">123</span> <span class="red">8-30 caractereseres</span>
+                        </div>
+                        <input type="hidden" class="" name="country" value="null">
+                        <input type="hidden" name="lang" value="pt">
+                        <a class="orangeBtn create-account" id="signup-button">Criar Conta</a>
+                        <div class="administrator-account">Irá ser o Administrador da conta de empresa</div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-1">
+                <span class="cloud-sec"></span>
+                <span class="tasks-second"></span>
+                <span class="flower-signup"></span>
+                <span class="puzzle-signup"></span>
+            </div>
+        </div>
+    </div>
+    <div class="block" id="block_10">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="why.html">Por quê</a></li>
+                        <li><a href="features.html">Características</a></li>
+                        <li><a href="price.html">Preçário</a></li>
+                        <li><a href="https://cleverstaff.net/news/" target="_blank">Blog</a></li>
+                        <li><a href="../api.html" target="_blank">API</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-8 col-sm-4 col-md-4">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:paulo.rodrigues@pt.cleverstaff.net" target="_blank"><span class="email pull-left"></span>paulo.rodrigues@pt.cleverstaff.net</a></li>
+                        <li><a href="skype:paulojorgerod?chat"><span class="skype pull-left"></span>paulojorgerod</a></li>
+                        <li><span class="tel pull-left"></span>+351 91 923 62 33</li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4">
+                    <h4>Junte-se</h4>
+                    <a href="https://www.facebook.com/cleverstaff.net" target="_blank" class="pull-left"><span class="fb"></span></a>
+                    <a href="https://www.linkedin.com/company/cleverstaff" target="_blank" class="pull-left"><span class="linkdIn"></span></a>
+                    <a href="https://www.youtube.com/user/cleverstaff" target="_blank" class="pull-left"><span class="youTube"></span></a>
+                    <a href="https://twitter.com/cleverstaff" target="_blank" class="pull-left"><span class="twit"></span></a>
+                    <a href="https://plus.google.com/u/1/b/103298552184404196991/103298552184404196991" target="_blank" class="pull-left"><span class="gplus"></span></a>
+                    <div class="clearfix"></div>
+                    <br/>
+                    <a href='http://www.capterra.com/applicant-tracking-software/reviews/137247/CleverStaff/CleverStaff?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge' target="_blank"> <img border='0' src='https://assets.capterra.com/badge/62e9b8dfc9d563272407e48ee5216da2.png?v=2096814&p=137247' /></a>
+                </div>
+                <div class="clearfix"></div>
+                <footer>
+                    &copy; CleverStaff 2014-2017
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal window facebook-ru-->
+<div id="signupFacebook" class="facebook-modal facebook modal fade text-center" role="dialog">
+    <div class="modal-dialog modal-md contactUs google-form">
+        <div class="modal-header">
+            <h4 class="modal-title text-center">
+                Registe-se via Facebook
+            </h4>
+        </div>
+        <div class="modal-body">
+            <form action="/hr/person/registration/facebook" method="post" id="signupFacebookForm" class="question-form">
+                <div class="form-gr">
+                    <input type="email" class="float-left google-form-width" id="facebook_mail" name="login" placeholder="Insira o seu email">
+                </div>
+                <div class="form-gr">
+                    <input type="text" class="float-left google-form-width" id="facebook_name" name="firstName" placeholder="Insira o Nome">
+                </div>
+                <div class="form-gr">
+                    <div class="ui labeled icon input">
+                        <input type="text" class="float-left google-form-width" name="orgName" placeholder="Insira o nome da sua empresa">
+                    </div>
+                    <div class="error-orgName hidden"></div>
+                    <input type="hidden" name="country" value="null">
+                    <input type="hidden" name="lang" value="PT">
+                    <input type="hidden" id="facebook_code" name="systemLink" value="">
+                    <input type="hidden" name="social" value="facebook">
+                </div>
+                <div class="form-gr displayTable">
+                    <div>
+                        <div class="countries pull-left">
+                            <select class="countryCustom" name="countryCustom"></select>
+                        </div>
+                        <div class="phone pull-right">
+                            <input type="text" class="float-left google-form-width phoneNumber pull-right" name="phone" placeholder="Insira o número de telefone *">
+                        </div>
+                    </div>
+                    <div class="error-phone hidden"></div>
+                </div>
+                <!--<div class="form-gr">-->
+                    <!--<div>-->
+                        <!--<input type="text" class="float-left google-form-width" name="phone" placeholder="Insira o número de telefone">-->
+                    <!--</div>-->
+                    <!--<div class="error-phone hidden"></div>-->
+                <!--</div>-->
+                <div class="form-gr">
+                    <select name="usersCount" class="float-left google-form-width">
+                        <option value>Selecione o número de recrutadores</option>
+                        <option value="1">só eu</option>
+                        <option value="1+">Apenas eu por agora.  Podem juntar-se novos Recrutadores  mais tarde</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value=">10">Mais do que 10</option>
+                    </select>
+                    <div class="error-usersCount hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <div class="ui labeled icon input">
+                        <input type="text" id="currentSolution" class="float-left google-form-width" name="currentSolution" placeholder="Sistema de seleção de pessoal">
+                    </div>
+                </div>
+                <div class="form-gr">
+                    <div class="ui labeled icon input">
+                        <input type="password" id="facebookPass" class="float-left google-form-width" name="password" placeholder="Digite a sua senha">
+                    </div>
+                </div>
+                <div class="form-gr">
+                    <div class="ui labeled icon input">
+                        <input type="password" id="facebookPass2" class="float-left google-form-width" name="password2" placeholder="Digite a sua senha novamente">
+                    </div>
+                </div>
+                <div class="error-password"></div>
+                <div class="error-password-1 hidden">
+                    Força (segurança) das senhas: <span class="red">Abc</span> <span class="red">123</span> <span class="red">8-30 caracteres</span>
+                </div>
+                <div class="error-password-2 hidden">
+                    Força (segurança) das senhas: <span class="red">Abc</span> <span class="green">123</span> <span class="green">8-30 caracteres</span>
+                </div>
+                <div class="error-password-3 hidden">
+                    Força (segurança) das senhas: <span class="green">Abc</span> <span class="red">123</span> <span class="green">8-30 caracteres</span>
+                </div>
+                <div class="error-password-4 hidden">
+                    Força (segurança) das senhas: <span class="green">Abc</span> <span class="green">123</span> <span class="green">8-30 caracteres</span>
+                </div>
+                <div class="error-password-5 hidden">
+                    Força (segurança) das senhas: <span class="green">Abc</span> <span class="red">123</span> <span class="red">8-30 caracteres</span>
+                </div>
+                <div class="error-password-6 hidden">
+                    Força (segurança) das senhas: <span class="red">Abc</span> <span class="green">123</span> <span class="red">8-30 caracteres</span>
+                </div>
+                <div class="hidden-not-important" id="facebook_server_message"></div>
+                <div class="ui error signupF message" style="display: none"></div>
+                <div class="ui success signupF message" style="display: none"></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <div class="text-center button">
+                <a id="signupFacebookBtn" class="orangeBtn create-account">Inscreva-se</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal window facebokk-ru-->
+<!--Modal window google-ru-->
+<div id="signupGoogle" class="google-modal google modal fade text-center" role="dialog">
+    <div class="modal-dialog modal-md contactUs google-form">
+        <div class="modal-header">
+            <h4 class="modal-title text-center">
+                Inscreva-se via Google
+            </h4>
+        </div>
+        <div class="modal-body">
+            <form action="/hr/person/registration/google" method="post" id="signupGoogleForm" class="question-form">
+                <div class="form-gr">
+                    <input type="email" class="float-left google-form-width" id="google_mail" name="login" value="" disabled="">
+                </div>
+                <div class="form-gr">
+                    <input type="email" class="float-left google-form-width" id="google_name" name="firstName" value="" placeholder="Insira o Nome">
+                </div>
+                <div class="form-gr">
+                    <div class="ui labeled icon input">
+                        <input type="text" class="float-left google-form-width" name="orgName" placeholder="Insira o nome da sua empresa">
+                    </div>
+                    <div class="error-orgName hidden"></div>
+                    <input type="hidden" name="country" value="null">
+                    <input type="hidden" name="lang" value="RUS">
+                    <input type="hidden" id="google_code" name="systemLink" value="">
+                    <input type="hidden" name="social" value="google">
+                </div>
+                <div class="form-gr displayTable">
+                    <div>
+                        <div class="countries pull-left">
+                            <select class="countryCustom" name="countryCustom"></select>
+                        </div>
+                        <div class="phone pull-right">
+                            <input type="text" class="float-left google-form-width phoneNumber pull-right" name="phone" placeholder="Insira o número de telefone *">
+                        </div>
+                    </div>
+                    <div class="error-phone hidden"></div>
+                </div>
+                <!--<div class="form-gr">-->
+                    <!--<div>-->
+                        <!--<input type="text" class="float-left google-form-width" name="phone" placeholder="Insira o número de telefone">-->
+                    <!--</div>-->
+                    <!--<div class="error-phone hidden"></div>-->
+                <!--</div>-->
+                <div class="form-gr">
+                    <select name="usersCount" class="float-left google-form-width" required>
+                        <option value>Selecione o número de recrutadores</option>
+                        <option value="1">só eu</option>
+                        <option value="1+">Apenas eu por agora.  Podem juntar-se novos Recrutadores  mais tarde</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value=">10">Mais do que 10</option>
+                    </select>
+                    <div class="error-usersCount hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <div class="ui labeled icon input">
+                        <input type="text" id="currentSolutionGoogle" class="float-left google-form-width" name="currentSolution" placeholder="Sistema de seleção de pessoal">
+                    </div>
+                </div>
+                <div class="form-gr">
+                    <div class="ui labeled icon input">
+                        <input type="password" id="googlePass" class="float-left google-form-width" name="password" placeholder="Digite a sua senha" required>
+                    </div>
+                </div>
+                <div class="form-gr">
+                    <div class="ui labeled icon input">
+                        <input type="password" id="googlePass2" class="float-left google-form-width" name="password2" placeholder="Digite a sua senha novamente" required>
+                    </div>
+                </div>
+                <div class="error-password"></div>
+                <div class="error-password-1 hidden">
+                    Força (segurança) das senhas: <span class="red">Abc</span> <span class="red">123</span> <span class="red">8-30 caracteres</span>
+                </div>
+                <div class="error-password-2 hidden">
+                    Força (segurança) das senhas: <span class="red">Abc</span> <span class="green">123</span> <span class="green">8-30 caracteres</span>
+                </div>
+                <div class="error-password-3 hidden">
+                    Força (segurança) das senhas: <span class="green">Abc</span> <span class="red">123</span> <span class="green">8-30 caracteres</span>
+                </div>
+                <div class="error-password-4 hidden">
+                    Força (segurança) das senhas: <span class="green">Abc</span> <span class="green">123</span> <span class="green">8-30 caracteres</span>
+                </div>
+                <div class="error-password-5 hidden">
+                    Força (segurança) das senhas: <span class="green">Abc</span> <span class="red">123</span> <span class="red">8-30 caracteres</span>
+                </div>
+                <div class="error-password-6 hidden">
+                    Força (segurança) das senhas: <span class="red">Abc</span> <span class="green">123</span> <span class="red">8-30 caracteres</span>
+                </div>
+                <div class="hidden-not-important" id="google_server_message"></div>
+                <div class="ui error signupG message" style="display: none"></div>
+                <div class="ui success signupG message" style="display: none"></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <div class="text-center button">
+                <a id="signupGoogleBtn" class="orangeBtn create-account">Inscreva-se</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal window google-ru-->
+
+<link rel="stylesheet" href="../external/css/font-awesome.min.css">
+<link rel="stylesheet" href="../external/css/normalize.css">
+<link rel="stylesheet" href="../external/css/animate.min.css">
+<link rel="stylesheet" href="../external/css/signup.css?b8">
+<link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" />
+<link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" />
+<script src="../external/js/bootstrap.js"></script>
+<!-- endbuild -->
+<script src="../external/js/script.min.js?b3"></script>
+<script src="../external/js/wow.min.js"></script>
+<script src="//platform.linkedin.com/in.js?async=true"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<div class="block-tests container-fluid">
+    <div class="details">
+        <div class="col-lg-12 title">
+            <div class="col-lg-8">
+                <h3>
+                    {{'Detailed test results'| translate}} "<a href="#/candidate/test/{{detailedInfo.test.id}}">{{detailedInfo.test.testName}}</a>"
+                    {{'candidate_4'|translate}} <a href="#/candidates/{{detailedInfo.candidateLocalId}}">{{detailedInfo.candidateName}}</a>
+                </h3>
+            </div>
+            <div class="col-lg-2 timeLimit" ng-show="detailedInfo.testTimeDuration > 0 && detailedInfo.test.timeLimit > 0">
+                <i class="fa fa-clock-o"></i><b>{{detailedInfo.testTimeDuration|secondsToHhMm}}</b><span ng-if="detailedInfo.status != 'done'">,</span>
+                <span ng-if="detailedInfo.status == 'done'">
+                    {{'from_3'|translate}}
+                    <b>{{detailedInfo.test.timeLimit|secondsToHhMm}}</b>
+                </span>
+                <span ng-if="detailedInfo.status != 'done'">
+                    {{'Time is over'|translate}}
+                </span>
+            </div>
+            <div class= "col-lg-2 points pull-right">
+                                <span class="pull-right">
+                                    <b ng-if="detailedInfo.points">{{detailedInfo.points}}</b>
+                                    <b ng-if="!detailedInfo.points">0</b>
+                                    {{'from_3'|translate}}
+                                    {{detailedInfo.maxPoints}}
+                                    {{'Points'|translate}}
+                                </span>
+                            </div>
+        </div>
+        <div class="col-lg-12 detail-answers">
+            <p>
+                {{detailedInfo.test.description}}
+            </p>
+            <div class="col-lg-12 question-block" ng-repeat="question in detailedInfo.test.questions| orderBy:'num'">
+                <div class="col-lg-3 question">
+                    {{question.num}}. {{question.text}}
+                </div>
+                <div class="col-lg-9 points" ng-if="question.answerType != 'questionnaire' && question.answerType != 'task_question'">
+                    <span>{{question.points}}</span> {{'Points'|translate}}
+                </div>
+                <!--<div class="col-lg-9 points" ng-if="question.answerType == 'questionnaire' || question.answerType == 'task_question'">-->
+                    <!--<input type="number" min="0" max="1000" id="val" ng-init="inited = true" ng-model="question.points" ng-change="changePoints(question.answerId, question.points, inited)">-->
+                    <!--{{'Points'|translate}}-->
+                    <!--<i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.changePoints" aria-hidden="true"></i>-->
+                <!--</div>-->
+                <div class="col-lg-12 variants">
+                    <ul ng-repeat="variant in question.variantsArray">
+                        <li>
+                            <i class="fa fa-check-square-o" ng-show="question.answerType == 'few_answers' && variant.chosen && variant.isCorrect"></i>
+                            <i class="fa fa-square-o" ng-show="question.answerType == 'few_answers' && !variant.chosen"></i>
+                            <i class="fa fa-check-circle-o" ng-show="question.answerType == 'one_answer' && variant.chosen && variant.isCorrect"></i>
+                            <i class="fa fa-circle-o" ng-show="question.answerType == 'one_answer' && !variant.chosen"></i>
+                            <i class="fa fa-times" ng-show="!variant.isCorrect && variant.chosen"></i>
+                            {{variant.value}}
+                        </li>
+                    </ul>
+                    <div class="col-lg-9 text-question" ng-show="question.answerType == 'questionnaire' || question.answerType == 'task_question'">
+                        <p>{{question.textAnswer}}</p>
+                    </div>
+                </div>
+                <div class="col-lg-12 right-answers" ng-show="(question.answerType == 'few_answers' || question.answerType == 'one_answer') && question.rightAnswersArray.length > 0">
+                    {{'Right answers'|translate}}:
+                    <span ng-repeat="rightAnswers in question.rightAnswersArray">
+                        "{{rightAnswers}}"<span ng-if="!$last">,</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

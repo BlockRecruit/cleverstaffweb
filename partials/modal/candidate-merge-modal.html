@@ -1,0 +1,21 @@
+<div class="candidate-add-in-vacancy">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title"> {{'Merge this profile with another candidate'|translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <div class="item">
+            <input ng-model="test" merge-autocompleter id="candidateAddToVacancy">
+        </div>
+        <div class="item" ng-show="$root.candidateForMerge">
+            <a href="#/candidates/{{$root.candidateForMerge.localId}}">{{$root.candidateForMerge.fullName}}</a>,
+            <span>{{$root.candidateForMerge.position}}</span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal()">{{'cancel'|translate}}</a>
+            <a type="button" ng-show="$root.candidateForMerge" class="btn btn-primary accept"  ng-click="$root.toMerge($root.mergedCandidate)">{{'Merge'|translate}}</a>
+        </div>
+    </div>
+</div>

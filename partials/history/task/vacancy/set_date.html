@@ -1,0 +1,6 @@
+<div class="col-lg-12">
+    <span class="nameUser" ng-click="$root.closeTaskModal();"><a href="#/users/{{taskDetails.creator.userId}}" class="link-style">{{taskDetails.creator.fullName}}</a></span>
+    <span class="statusChange">{{'The task due date edited'|translate}}</span>
+    <span>{{taskDetails.targetDate| dateFormat2:true}}</span>
+    <span class="addTimeTask">{{taskDetails.dc| dateFormat5:true}}</span>
+</div>

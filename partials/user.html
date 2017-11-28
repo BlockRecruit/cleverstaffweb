@@ -1,0 +1,521 @@
+<div class="controller-view">
+    <div class="block-user">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <!--<li><a href="#">{{'company'|translate}}</a></li>-->
+                <!--<li><i class="fa fa-chevron-right" aria-hidden="true"></i></li>-->
+                <li><a href="#/company/users">{{'users'|translate}}</a></li>
+                <li><i class="fa fa-chevron-right" aria-hidden="true"></i></li>
+                <li class="active">{{user.firstName}} {{user.lastName}}</li>
+            </ol>
+        </div>
+        <div class="row user-information">
+            <div class="col-lg-12 fullName-position">
+                <span class="pull-left" ng-show="userId != user.userId">{{user.firstName}} {{user.lastName}}</span>
+                <span class="pull-left" ng-click="focusChangeNameFunc();" ng-show="showForm && user.userId == userId">{{user.firstName}} {{user.lastName}}</span>
+                <textarea ng-model="changedName" ng-keypress="checkKeyFunc($event);" id="changeNameInput" ng-blur="changeUserFirstName();" ng-show="!showForm" class="pull-left focusTextArea"></textarea>
+                <a href="" class="pull-left showNameUser" ng-click="focusChangeNameFunc();" ng-show="(userId == user.userId) && showForm" style="font-size: 14px;padding-left: 3px;bottom: 0px;position: relative;">
+                    <i class="fa fa-pencil" title="{{'Change Name'|translate}}"></i>
+                </a>
+                <!--<a type="button" ng-blur="changeUserFirstName()" ng-show="!showForm" class="btn btn-primary save-button pull-left">-->
+                    <!--{{'save'|translate}}-->
+                <!--</a>-->
+                <span class="banFa pull-left" ng-show="user.status == 'N'">
+                    <i class="fa fa-ban" aria-hidden="true"></i> {{'Disabled'|translate}}
+                </span>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row user-profile-rezume">
+                <div class="col-lg-3 leftBar" ng-show="$root.me.recrutRole != 'salesmanager'">
+                    <h4 ng-show="user.login != $root.me.login && $root.me.recrutRole === 'admin'">{{'scope'|translate}}</h4>
+                    <div class="col-lg-12" ng-show=" $root.me.recrutRole === 'admin' && user.login != $root.me.login">
+                        <div class="switch">
+                            <label for="cmn-toggle-5" class="floatLeft">{{'disable_account'|translate}}</label>
+                            <input id="cmn-toggle-5" ng-checked="user.status === 'N'" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                            <label class="floatLeft" ng-click="disableUser(user)"></label>
+                            {{"User won't be able to sign in and do anything in this account" | translate}}
+                        </div>
+                    </div>
+                    <div class="col-lg-12 borderNone" ng-show="$root.me.recrutRole === 'admin' && user.login != $root.me.login && user.status  != 'N'">
+                        <div class="switch">
+                            <label for="cmn-toggle-9" class="floatLeft">{{'Hide clients'|translate}}</label>
+                            <input id="cmn-toggle-9" ng-click="enableViewClients(user)" ng-checked="user.personParams.clientAccessLevel == 'hide'" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                            <label class="floatLeft" for="cmn-toggle-9"></label>
+                            <p style="margin-top: 5px;">{{'The user will not be able to see your customers,  create or edit vacancy'|translate}}</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-12" ng-show="$root.me.recrutRole === 'admin' && user.login != $root.me.login && user.status  != 'N' && $root.me.orgParams.enableEmployee == 'Y'">
+                        <div class="switch">
+                            <label for="cmn-toggle-7" class="floatLeft">{{'Show employees'|translate}}</label>
+                            <input id="cmn-toggle-7" ng-click="enableViewEmploye(user)" ng-checked="user.personParams.enableEmployee == 'Y'" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                            <label class="floatLeft" for="cmn-toggle-7"></label>
+                            {{'User can see your employees'|translate}}
+                        </div>
+                    </div>
+                    <div class="col-lg-12" ng-show="$root.me.recrutRole === 'admin' && user.login != $root.me.login && user.status  != 'N' && (user.recrutRole  == 'recruter' || user.recrutRole  == 'admin')">
+                        <div class="switch">
+                            <label for="cmn-toggle-8" class="floatLeft">{{'Allow exporting candidates to Excel'|translate}}</label>
+                            <input id="cmn-toggle-8" ng-click="enableExcelRecruiter(user)" ng-checked="user.personParams.enableDownloadToExcel" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                            <label class="floatLeft" for="cmn-toggle-8"></label>
+                            <span ng-show="user.personParams.enableDownloadToExcel">{{'yes'|translate}}</span>
+                            <span ng-show="!user.personParams.enableDownloadToExcel">{{'no'|translate}}</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 borderNone" ng-show="allVacancyInUser.length > 0">
+                        <h4>{{'vacancies_users'|translate}}</h4>
+                        <div ng-repeat="vac in allVacancyInUser">
+                            <a href="#/vacancies/{{vac.localId}}">{{vac.position}}</a>,
+                            <span>{{vac.clientId.name}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 centerBar no-padding-sm">
+                    <div class="main-info col-lg-12">
+                        <div class="col-lg-7">
+                            <div class="userLogin"><span>{{'login'|translate}}:</span> <span>{{user.login}}</span></div>
+                            <div class="showChangePass" ng-show="showChangePassword == false && user.login === $root.me.login || showChangePassword">
+                                <div ng-show="showChangePassword == false && user.login === $root.me.login && $root.frontMode === 'war'">
+                                    <span class="userLogin"><span>{{'password'|translate}}:</span></span>
+                                    <span>
+                                        ********
+                                        <a href="" ng-click="showChangePassword = true">
+                                            <i class="fa fa-pencil" title="{{'Change Password'|translate}}" aria-hidden="true"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                                <div class="blockChangePass pull-left" ng-show="showChangePassword">
+                                    <div class="pull-left" ng-show="showChangePassword">
+                                        <span class="userLogin"><span>{{'old_password'|translate}}</span></span>
+                                        <div class="ui form">
+                                            <input type="password" name="oldPass" ng-model="changePass.oldPass"/>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="pull-left" ng-show="showChangePassword">
+                                        <span class="userLogin"><span>{{'new_password'|translate}}</span></span>
+                                        <div class="ui form ">
+                                            <input type="password" name="newPass" ng-model="changePass.newPass"/>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="pull-left" ng-show="showChangePassword">
+                                       <span class="userLogin"><span>{{'confirm_new_password'|translate}}</span></span>
+                                       <div class="item-in-table">
+                                           <div class="ui form ">
+                                               <input type="password" name="newPass2" ng-model="changePass.newPass2"/>
+                                           </div>
+                                           <div class="error-password text-center"></div>
+                                           <div class="error-password-1 text-center hidden">
+                                               {{'Passwords strength'|translate}}: <span class="red">Abc</span> <span class="red">123</span> <span class="red">8-30 {{'characters'|translate}}</span>
+                                           </div>
+                                           <div class="error-password-2 text-center hidden">
+                                               {{'Passwords strength'|translate}}: <span class="red">Abc</span> <span class="green">123</span> <span class="green">8-30 {{'characters'|translate}}</span>
+                                           </div>
+                                           <div class="error-password-3 text-center hidden">
+                                               {{'Passwords strength'|translate}}: <span class="green">Abc</span> <span class="red">123</span> <span class="green">8-30 {{'characters'|translate}}</span>
+                                           </div>
+                                           <div class="error-password-4 text-center hidden">
+                                               {{'Passwords strength'|translate}}: <span class="green">Abc</span> <span class="green">123</span> <span class="green">8-30 {{'characters'|translate}}</span>
+                                           </div>
+                                           <div class="error-password-5 text-center hidden">
+                                               {{'Passwords strength'|translate}}: <span class="green">Abc</span> <span class="red">123</span> <span class="red">8-30 {{'characters'|translate}}</span>
+                                           </div>
+                                           <div class="error-password-6 text-center hidden">
+                                               {{'Passwords strength'|translate}}: <span class="red">Abc</span> <span class="green">123</span> <span class="red">8-30 {{'characters'|translate}}</span>
+                                           </div>
+                                           <div class="error-password-7 text-center hidden">
+                                               {{'Passwords strength'|translate}}: <span class="green">Abc</span> <span class="green">123</span> <span class="red">8-30 {{'characters'|translate}}</span>
+                                           </div>
+                                           <div class="text-center pull-left">
+                                               <a type="button" ng-click="showChangePassword = false" class="btn btn-primary cancel">
+                                                   {{'cancel'|translate}}
+                                               </a>
+                                               <a type="button" ng-click="changePassword()" class="btn btn-primary accept">
+                                                   {{'save'|translate}}
+                                               </a>
+                                           </div>
+                                       </div>
+                                   </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <span class="recrutRoleForUser" ng-show="showChangeRole == false && showChangeCompanyOfInvitedClient==false">
+                                <div class="btn-group" uib-dropdown is-open="status.isopen">
+                                    <span class="userLogin">
+                                        <span>{{'role'|translate}}:</span>
+                                    </span>
+                                    <span ng-if="$root.me.recrutRole != 'admin' || $root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'client' || $root.me.recrutRole == 'salesmanager' || $root.me.recrutRole == 'freelancer' || $root.me.recrutRole == 'researcher'">
+                                        {{user.recrutRole| spellcheck}}
+                                    </span>
+                                    <span id="single-button" ng-if="$root.me.recrutRole == 'admin' && $root.me.recrutRole != 'recruter' && $root.me.recrutRole != 'client' && $root.me.recrutRole != 'salesmanager' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'researcher'" role="button" uib-dropdown-toggle>
+                                        {{user.recrutRole| spellcheck}} <span class="caret"></span>
+                                    </span>
+                                         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                             <li role="menuitem" ng-click="saveNewRole('salesmanager')" ng-show="newRole != 'salesmanager'">Sales Manager</li>
+                                             <li role="menuitem" ng-click="saveNewRole('client')" ng-show="newRole != 'client'">Hiring Manager
+                                                 <!--<span class="caret twoDropDownMenu" ng-show="newRole != 'client'" style="transform: rotate(-85deg);"></span>-->
+                                                 <!--<ul>-->
+                                                     <!--<li role="menuitem" ng-repeat="client in clients" ng-click="saveNewRole('client', client);$event.stopPropagation();">{{client.name}}</li>-->
+                                                 <!--</ul>-->
+                                             </li>
+                                             <li role="menuitem" ng-click="saveNewRole('recruter')"  ng-show="newRole != 'recruter'">Recruiter</li>
+                                             <li role="menuitem" ng-click="saveNewRole('admin')"  ng-show="newRole != 'admin'">Admin</li>
+                                             <li role="menuitem" ng-click="saveNewRole('researcher')"  ng-show="newRole != 'researcher'">Researcher</li>
+                                             <li role="menuitem" ng-click="saveNewRole('freelancer')" ng-show="newRole != 'freelancer'">Freelancer</li>
+                                         </ul>
+                                </div>
+                                <i class="fa fa-info-circle tooltip-icon" ng-show="newRole == 'admin'" title="" tooltip-placement="top-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.describeAdmin" aria-hidden="true"></i>
+                                <i class="fa fa-info-circle tooltip-icon" ng-show="newRole == 'recruter'" title="" tooltip-placement="top-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.describeRecruiter" aria-hidden="true"></i>
+                                <i class="fa fa-info-circle tooltip-icon" ng-show="newRole == 'client'" title="" tooltip-placement="top-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.describeClient" aria-hidden="true"></i>
+                                <i class="fa fa-info-circle tooltip-icon" ng-show="newRole == 'salesmanager'" title="" tooltip-placement="top-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.describeSalesmanager" aria-hidden="true"></i>
+                                <i class="fa fa-info-circle tooltip-icon" ng-show="newRole == 'freelancer'" title="" tooltip-placement="top-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.describeFreelancer" aria-hidden="true"></i>
+                                <i class="fa fa-info-circle tooltip-icon" ng-show="newRole == 'researcher'" title="" tooltip-placement="top-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.describeResearcher" aria-hidden="true"></i>
+                            </span>
+                            <div class="clearfix"></div>
+                            <div class="myRegion">
+                                    <span class="userLogin pull-left">
+                                        <span>{{'region'|translate}}:</span>
+                                    </span>
+                                    <i class="fa fa-map-marker pull-left" aria-hidden="true"></i>
+                                    <span ng-show="showChangeRegion == false">{{user.region.displayFullName}}
+                                        <span ng-click="showChangeRegion = true" style="padding-left: 3px;" ng-show="($root.me.recrutRole === 'admin' || user.login === $root.me.login) && $root.frontMode === 'war'">
+                                            <span ng-show="!user.region.displayFullName">{{'Specify'|translate}}</span>
+                                            <i class="fa fa-pencil" title="{{'Change Region'|translate}}" aria-hidden="true"></i>
+                                        </span>
+                                    </span>
+
+                                    <span class="editRegion pull-left" ng-show="showChangeRegion">
+                                        <input id="pac-input" ng-model="regionInput" ng-change="inputValue = value" googleplace/>
+                                        <div class="clearfix"></div>
+                                        <div class="text-center pull-left">
+                                            <a type="button" ng-click="showChangeRegion = false" class="btn btn-primary cancel">
+                                                {{'cancel'|translate}}
+                                            </a>
+                                        </div>
+                                        <div class="text-center pull-left">
+                                            <a type="button" ng-click="saveNewRegion()" class="btn btn-primary accept">
+                                                {{'add'|translate}}
+                                            </a>
+                                        </div>
+                                    </span>
+                                </div>
+                            <div class="clearfix"></div>
+                            <!--<div class="clearfix"></div>-->
+                            <!--<div class="changeLanguage pull-left" ng-show="user.login === $root.me.login">-->
+                                <!--<span class="pull-left userLogin"><span>{{'interface_language'|translate}}:</span></span>-->
+                                <!--<div class="pull-left">-->
+                                    <!--<select style="min-width: 16%; width: auto;" ng-model="$root.currentLang" ng-change="changeLanguage($root.currentLang)" class="select2-container form-control input-lg select2 select14">-->
+                                        <!--<option value="en">ENG</option>-->
+                                        <!--<option value="ru">RUS</option>-->
+                                        <!--<option value="ua">UKR</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                    </div>
+                        <div class="col-lg-5 hideChangeContacts" ng-show="showChangeContacts">
+                            <div>{{'contacts'|translate}}</div>
+                            <div class="item">
+                                <input maxlength="15" pattern="^[0-9\+\s]*$" id="phoneNumber" placeholder="{{'phone'|translate}}" ng-model="contacts.phoneMob" type="tel" required/>
+                                <i class="phone icon"></i>
+                            </div>
+                            <div class="item">
+                                <input maxlength="15" pattern="^[0-9\+\s]*$" id="workNumber" placeholder="{{'phone'|translate}}" ng-model="contacts.phoneWork" type="tel" required/>
+                                <i class="phone icon"></i>
+                            </div>
+                            <div class="item">
+                                <input placeholder="Skype" ng-model="contacts.skype" type="text">
+                                <i class="skype icon"></i>
+                            </div>
+                            <div class="item">
+                                <input placeholder="Linkedin" ng-model="contacts.linkedin" type="text">
+                                <i class="linkedin icon"></i>
+                            </div>
+                            <div class="item">
+                                <input placeholder="Facebook" ng-model="contacts.facebook" type="text">
+                                <i class="facebook icon"></i>
+                            </div>
+                            <div class="item">
+                                <input placeholder="Google+" ng-model="contacts.googleplus" type="text">
+                                <i class="google plus icon"></i>
+                            </div>
+                            <div class="item">
+                                <input placeholder="Home page" ng-model="contacts.homepage" type="text">
+                                <i class="home icon"></i>
+                            </div>
+                            <div class="text-center pull-left">
+                                <a type="button" ng-click="cancelUpdateContacts()" class="btn btn-primary cancel">
+                                    {{'cancel'|translate}}
+                                </a>
+                            </div>
+                            <div class="text-center pull-left">
+                                <a type="button" ng-click="updateContacts()" class="btn btn-primary accept">
+                                    {{'add'|translate}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 showChangeContacts" ng-show="!showChangeContacts">
+                            <div ng-show="user.login === $root.me.login && $root.frontMode === 'war'">
+                                {{'contacts'|translate}}
+                                <span ng-click="showChangeContacts = true" style="padding-left: 3px;" ng-show="user.login === $root.me.login">
+                                    <i class="fa fa-pencil" title="{{'Change Contacts'|translate}}" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <div ng-show="contacts.phoneMob.length > 0">
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                <span>{{contacts.phoneMob}}</span>
+                            </div>
+                            <div ng-show="contacts.phoneWork.length > 0">
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                <span>{{contacts.phoneWork}}</span>
+                            </div>
+                            <div ng-show="contacts.skype.length > 0">
+                                <i class="fa fa-skype" aria-hidden="true"></i>
+                                <span>{{contacts.skype}}</span>
+                            </div>
+                            <div ng-show="contacts.linkedin.length > 0">
+                                <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                <a target="_blank" href="{{contacts.linkedin | makeLink}}">
+                                    {{contacts.linkedin|cut:true:30}}
+                                </a>
+                            </div>
+                            <div ng-show="contacts.facebook.length > 0">
+                                <i class="fa fa-facebook" aria-hidden="true"></i>
+                                <a target="_blank" href="{{contacts.facebook | makeLink}}">
+                                    {{contacts.facebook|cut:true:30}}
+                                </a>
+                            </div>
+                            <div ng-show="contacts.googleplus.length > 0">
+                                <i class="fa fa-google-plus" aria-hidden="true"></i>
+                                <a target="_blank" href="{{contacts.googleplus | makeLink}}">
+                                    {{contacts.googleplus|cut:true:30}}
+                                </a>
+                            </div>
+                            <div ng-show="contacts.homepage.length > 0">
+                                <i class="fa fa-home" aria-hidden="true"></i>
+                                <a target="_blank" href="{{contacts.homepage | makeLink}}">
+                                    {{contacts.homepage|cutName:true:30}}
+                                </a>
+                            </div>
+                        </div>
+                </div>
+                    <div class="col-lg-12 history-outer">
+                        <div class="row last-actions-header">
+                            <div class="col-lg-12">
+                                    <span class="title-header">
+                                       {{'Activity_Log'|translate}}
+                                    </span>
+                            </div>
+                        </div>
+                        <div class="row event last-action"
+                             ng-repeat="history in history"
+                             ng-switch="history.type">
+                            <div class="col-lg-12 hidden" ng-switch-default></div>
+                            <div class="col-lg-12" ng-switch-when="candidate_add">
+                                <ng-include src="'partials/history/user/candidate_add.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_edit">
+                                <ng-include src="'partials/history/user/candidate_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_add_file">
+                                <ng-include src="'partials/history/user/candidate_add_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_add_from_advice">
+                                <ng-include src="'partials/history/user/candidate_add_from_advice.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_add_from_cvlv">
+                                <ng-include src="'partials/history/user/candidate_add_from_cvlv.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_add_from_jobkg">
+                                <ng-include src="'partials/history/user/candidate_add_from_jobkg.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_add_from_email">
+                                <ng-include src="'partials/history/user/candidate_add_from_email.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_edit_from_email">
+                                <ng-include src="'partials/history/user/candidate_edit_from_email.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_add_from_hh">
+                                <ng-include src="'partials/history/user/candidate_add_from_hh.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_add_from_linkedin">
+                                <ng-include src="'partials/history/user/candidate_add_from_linkedin.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_add_from_rabotaua">
+                                <ng-include src="'partials/history/user/candidate_add_from_rabotaua.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_add_from_superjob">
+                                <ng-include src="'partials/history/user/candidate_add_from_superjob.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_add_from_workua">
+                                <ng-include src="'partials/history/user/candidate_add_from_workua.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_add_link">
+                                <ng-include src="'partials/history/user/candidate_add_link.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_add_to_group">
+                                <ng-include src="'partials/history/user/candidate_add_to_group.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_change_state">
+                                <ng-include src="'partials/history/user/candidate_change_state.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_message">
+                                <ng-include src="'partials/history/user/candidate_message.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="task_create">
+                                <ng-include src="'partials/history/user/task_create.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="task_change">
+                                <ng-include src="'partials/history/full-history/task_change.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="interview_add_show_in_candidate">
+                                <ng-include src="'partials/history/user/interview_add_show_in_candidate.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_interview_remove">
+                                <ng-include src="'partials/history/user/candidate_interview_remove.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_remove_file">
+                                <ng-include src="'partials/history/user/candidate_remove_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_remove_from_group">
+                                <ng-include src="'partials/history/user/candidate_remove_from_group.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_remove_link">
+                                <ng-include src="'partials/history/user/candidate_remove_link.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_set_responsible">
+                                <ng-include src="'partials/history/user/candidate_set_responsible.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_update_from_cvlv">
+                                <ng-include src="'partials/history/user/candidate_update_from_cvlv.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_update_from_jobkg">
+                                <ng-include src="'partials/history/user/candidate_update_from_jobkg.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_update_from_email">
+                                <ng-include src="'partials/history/user/candidate_update_from_email.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_update_from_hh">
+                                <ng-include src="'partials/history/user/candidate_update_from_hh.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_update_from_linkedin">
+                                <ng-include src="'partials/history/user/candidate_update_from_linkedin.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_update_from_rabotaua">
+                                <ng-include src="'partials/history/user/candidate_update_from_rabotaua.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_update_from_superjob">
+                                <ng-include src="'partials/history/user/candidate_update_from_superjob.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_was_sent_to_client">
+                                <ng-include src="'partials/history/user/candidate_was_sent_to_client.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidates_was_sent_to_client">
+                                <ng-include src="'partials/history/user/candidates_was_sent_to_client.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="client_add">
+                                <ng-include src="'partials/history/user/client_add.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="client_edit">
+                                <ng-include src="'partials/history/user/client_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="client_add_file">
+                                <ng-include src="'partials/history/user/client_add_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="client_add_link">
+                                <ng-include src="'partials/history/user/client_add_link.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="client_remove_file">
+                                <ng-include src="'partials/history/user/client_remove_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="client_remove_link">
+                                <ng-include src="'partials/history/user/client_remove_link.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="client_change_state">
+                                <ng-include src="'partials/history/user/client_change_state.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="client_message">
+                                <ng-include src="'partials/history/user/client_message.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="contact_client_add">
+                                <ng-include src="'partials/history/user/contact_client_add.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="contact_client_edit">
+                                <ng-include src="'partials/history/user/contact_client_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="interview_add">
+                                <ng-include src="'partials/history/user/interview_add.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="interview_add_from_advice">
+                                <ng-include src="'partials/history/user/interview_add_from_advice.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="interview_add_show_in_candidate">
+                                <ng-include src="'partials/history/user/interview_add_show_in_candidate.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="interview_edit">
+                                <ng-include src="'partials/history/user/interview_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="interview_edit_date">
+                                <ng-include src="'partials/history/user/interview_edit_date.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="interview_message">
+                                <ng-include src="'partials/history/user/interview_message.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="interview_remove">
+                                <ng-include src="'partials/history/user/interview_remove.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="sent_candidate_to_client">
+                                <ng-include src="'partials/history/user/sent_candidate_to_client.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="set_interview_status">
+                                <ng-include src="'partials/history/user/set_interview_status.html?b2'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="task_change_status">
+                                <ng-include src="'partials/history/user/task_change_status.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="vacancy_add">
+                                <ng-include src="'partials/history/user/vacancy_add.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="vacancy_add_file">
+                                <ng-include src="'partials/history/user/vacancy_add_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="vacancy_change_state">
+                                <ng-include src="'partials/history/user/vacancy_change_state.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="vacancy_edit">
+                                <ng-include src="'partials/history/user/vacancy_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="vacancy_message">
+                                <ng-include src="'partials/history/user/vacancy_message.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="vacancy_remove_file">
+                                <ng-include src="'partials/history/user/vacancy_remove_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="vacancy_remove_responsible">
+                                <ng-include src="'partials/history/user/vacancy_remove_responsible.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="vacancy_set_responsible">
+                                <ng-include src="'partials/history/user/vacancy_set_responsible.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="person_change_role">
+                                <ng-include src="'partials/history/user/person_change_role.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="change_org_name">
+                                <ng-include src="'partials/history/user/user_change_org_name.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="user_is_block">
+                                <ng-include src="'partials/history/user/user_is_block.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="client_set_responsible">
+                                <ng-include src="'partials/history/user/client_set_responsible.html'"></ng-include>
+                            </div>
+                        </div>
+                        <!-------------------------------------------------------end-->
+                        <button class="btn more-history" ng-click="getMoreHistory()" ng-show="historyTotal > historyLimit">
+                            {{'previous_history'|translate}} <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        </button>
+                    </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

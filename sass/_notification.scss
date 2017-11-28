@@ -1,0 +1,67 @@
+.block-notifications {
+	.notifications {
+		@include bt-margins-from-side();
+		.fullName-position {
+			@include border-radius();
+
+			padding: 15px;
+
+			background-color: $theme-white;
+			.messageCheckMark {
+				font-size: 12px;
+
+				position: relative;
+				top: 20px;
+
+				display: block;
+
+				color: $theme-grey;
+			}
+			.table {
+				width: 510px;
+				margin: 0 auto;
+				margin-top: 15px;
+				tr {
+					td {
+						width: 410px;
+						padding-bottom: 0;
+
+						border: 0;
+						.requestReport {
+							margin-left: 10px;
+							a {
+								cursor: pointer;
+								&:hover {
+									text-decoration: none;
+
+									color: $theme-link-hover-color;
+								}
+							}
+						}
+					}
+					td ~ td {
+						width: 35px;
+
+						border: 0;
+					}
+				}
+			}
+			.receiveAllMessages {
+				font-size: 12px;
+
+				display: block;
+
+				color: $theme-grey;
+				a {
+					@include link-styling();
+				}
+			}
+			#ShowSaveSettings {
+				display: none;
+				margin-top: 10px;
+
+				color: $theme-link-color;
+			}
+		}
+	}
+}

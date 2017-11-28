@@ -1,0 +1,19 @@
+<ng-include src="'partials/activity/preview_candidate/header.html'"></ng-include>
+<div class="summary">
+   <span> {{'history_info.ADDed_in'|translate}}</span>
+   <span ng-show="!history.stateNewName" class="status {{history.stateNew}}">
+       {{history.stateNew | translate}}
+   </span>
+    <span ng-show="history.stateNewName" class="status {{history.stateNewName}}">
+        {{history.stateNewName | translate}}
+    </span>
+    {{'history_info.in__vacancy'|translate}}
+    <a href="#/vacancies/{{history.vacancy.localId}}" once-text="history.vacancy.position"></a>
+    <br>
+    <span bo-show="history.targetDate">
+        <span bo-text="'interview_times'|translate">:</span>
+        <span bo-text="history.targetDate|dateFormat:true">
+        </span>
+    </span>
+    <div>{{history.descr|textForNotice:false}}</div>
+</div>

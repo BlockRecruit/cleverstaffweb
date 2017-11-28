@@ -1,0 +1,20 @@
+<div class="col-lg-2" title="{{history.dm|dateFormat:true}}">
+    <div class="time-comment">
+        {{history.dm|dateFormat:false}}
+    </div>
+    <a href="#/users/{{history.person.userId}}" class="text-left user">
+        <span once-text="history.person.firstName"></span>
+        <span once-text="history.person.lastName"></span>
+    </a>
+</div>
+<div class="col-lg-10">
+    <span style="color: #999;float: left;margin-right: 5px;">{{'candidate'|translate}}</span>
+    <span style="color: #999;float: left;">{{'was sent to the Client'|translate}}</span>
+                                    <span ng-switch="$root.me.personParams.clientAccessLevel">
+                                        <span ng-switch-when="hide">{{history.client.name}}</span>
+                                        <span ng-switch-default>
+                                            <a href="#/clients/{{history.client.localId}}">{{history.client.name}}</a>
+                                        </span>
+                                    </span>
+    (<span class="comma" style="color: #999;"><span ng-repeat="mail in (user.lastAction.descr|stringToJson)">{{mail}}</span></span>).&nbsp;<span class="date" style="font-size: 10px;">{{user.lastAction.dm|dateFormat:false}}</span>
+</div>

@@ -1,0 +1,31 @@
+<div class="quest-modal quest-modal-hide-candidates">
+    <!--<div class="modal-header">-->
+        <!--<h4 class="modal-title">-->
+            <!--{{'add_vacancy_comment_header'|translate}}-->
+        <!--</h4>-->
+    <!--</div>-->
+    <div class="modal-body text-center">
+        <img class="hello-img" src="../../images/sprite/celebrate.jpg" alt=""/>
+        <h2>{{"Let's celebrate" | translate}}!</h2>
+       <p style="font-size: 18px !important;">
+           {{"Today is your official" | translate}}
+       </p>
+        <h3>
+            "{{"The Last Day of Boring Recruitment" | translate}}".
+        </h3>
+        <p style="font-size: 18px !important;">
+            {{"CleverStaff keeps all your recruiting stuff in one place, helps you track candidates and automates routine" | translate}}.
+        </p>
+        <h4 ng-show="$root.questStatus.daysLeft > 0">
+            {{"Also, your" | translate}} <span>{{$root.questStatus.daysLeft}}</span>{{"-day trial starts today" | translate}}.
+        </h4>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <!--<a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'cancel'|translate}}</a>-->
+            <a type="button" class="btn btn-primary accept" href="" ng-click="$root.continueQuest('growYourDatabasePopup');">
+                {{"Let’s have fun" | translate}}!
+            </a>
+        </div>
+    </div>
+</div>

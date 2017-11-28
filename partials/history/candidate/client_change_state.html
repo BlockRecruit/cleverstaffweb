@@ -1,0 +1,38 @@
+<div class="col-lg-2" title="{{history.dm|dateFormat:true}}">
+    <div class="time-comment">
+        {{history.dm|dateFormat:false}}
+    </div>
+    <a href="#/users/{{history.person.userId}}" class="text-left user">
+        <span once-text="history.person.firstName"></span>
+        <span once-text="history.person.lastName"></span>
+    </a>
+</div>
+<div class="col-lg-10">
+    <a class="editMessage pull-right" title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href=""
+       ng-click="history.editCommentFlag = !history.editCommentFlag">
+        <i class="fa fa-pencil" aria-hidden="true"></i>
+    </a>
+    <span class="pull-left">{{'history_info.Changed the status of the client'|translate}}</span>
+    <br/>
+    <span ng-switch="$root.me.personParams.clientAccessLevel">
+                <span ng-switch-when="hide">{{history.client.name}}</span>
+                <span ng-switch-default>
+                    <a href="#/clients/{{history.client.localId}}">{{history.client.name}}</a>
+                </span>
+            </span>
+
+    <span statusarr="client_status_assoc" status-color-new old="history.stateOld" new="history.stateNew" style="color: #ff00ff"></span>
+    <br/>
+    <span ng-show="!history.editCommentFlag" ng-bind-html="history.descr|textForNotice:false"></span>
+    <div class="textField" ng-show="history.editCommentFlag">
+        <div class="field">
+            <textarea class="editCommentArea" ng-model="history.descr"></textarea>
+        </div>
+        <div class="btn cancel" ng-click="history.editCommentFlag = false">
+            {{'cancel'|translate}}
+        </div>
+        <div class="btn accept" ng-click="changeComment(history)">
+            {{'save'|translate}}
+        </div>
+    </div>
+</div>

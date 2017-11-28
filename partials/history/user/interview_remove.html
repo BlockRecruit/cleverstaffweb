@@ -1,0 +1,44 @@
+<div class="col-lg-2" title="{{history.dm|dateFormat:true}}">
+    <div class="time-comment">
+        {{history.dm|dateFormat:false}}
+    </div>
+    <a href="#/users/{{history.person.userId}}" class="text-left user">
+        <span once-text="history.person.firstName"></span>
+        <span once-text="history.person.lastName"></span>
+    </a>
+</div>
+<div class="col-lg-10">
+    <a class="pull-right editMessage" title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href="" ng-click="history.editCommentFlag = !history.editCommentFlag">
+        <i class="fa fa-pencil" aria-hidden="true"></i>
+    </a>
+    <span class="pull-left">{{'history_info.candidate'|translate}}</span>
+    <br>
+    <a href="#/candidates/{{history.candidate.localId}}">
+        <span once-text="history.candidate.fullName"></span>
+    </a>
+
+    <span style="color: #ff00ff">
+        <span style="border-radius: 5px;padding-left: 4px;padding-right: 4px;color:white;background-color:#cccccc">{{'history_info.removed'|translate}}</span>
+    </span>
+    <span>{{'history_info.from vacancy'|translate}}</span>
+    <br>
+    <span class="ui tiny header"> </span>
+    <span bo-show="history.targetDate">
+        <span>
+            {{'interview_times'|translate}}:</span>
+        <span bo-text="history.targetDate|dateFormat:true">
+        </span>
+    </span>
+    <span ng-show="!history.editCommentFlag" ng-bind-html="history.descr|textForNotice:false"></span>
+    <div id="commentAdd" class="textField" ng-show="history.editCommentFlag">
+        <div class="field">
+            <textarea class="editCommentArea" ng-model="history.descr"></textarea>
+        </div>
+        <div ng-click="history.editCommentFlag = false" class="btn btn-primary cancel">
+            {{'cancel'|translate}}
+        </div>
+        <div ng-click="changeComment(history)" class="btn btn-primary accept">
+            {{'save'|translate}}
+        </div>
+    </div>
+</div>

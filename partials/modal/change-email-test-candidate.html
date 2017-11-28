@@ -1,0 +1,19 @@
+<div class="change-email-test-candidate">
+    <div class="modal-header">
+        <h4>
+            {{'Change email'|translate}} {{$root.groupNameList.fullName}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <input class="form-control" ng-if="$root.activePage == 'Send test candidate to email'" id="changeEmailCandidate" ng-change="$root.changesEmail($root.emailCandidate, $root.groupNameList.id)" ng-model="$root.emailCandidate" type="text">
+        <input class="form-control" ng-if="$root.activePage == 'Send test candidate to email from candidate'" id="changeEmailCandidate" ng-change="$root.changesEmail($root.emailCandidate, $root.groupNameList.candidateId)" ng-model="$root.emailCandidate" type="text">
+        <div class="error-password hidden"></div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" href="" ng-click="$root.closeModal()">{{'cancel_2' | translate}}</a>
+            <a type="button" class="btn btn-primary accept" href="" ng-if="$root.activePage == 'Send test candidate to email'" ng-click="$root.saveChangeEmailTestCandidate()">{{'save' | translate}}</a>
+            <a type="button" class="btn btn-primary accept" href="" ng-if="$root.activePage == 'Send test candidate to email from candidate'" ng-click="$root.saveChangeEmailTestCandidate('candidate')">{{'save' | translate}}</a>
+        </div>
+    </div>
+</div>

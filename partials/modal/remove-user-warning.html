@@ -1,0 +1,16 @@
+<div class="delete-responsible">
+    <div class="modal-body">
+        <div class="item taskText" ng-if="user.status == 'A'">
+            {{"After disable user you won't be able to enable user within 7 days" | translate}}.
+        </div>
+        <div class="item taskText" ng-if="user.status == 'N'">
+            {{"After enable user you won't be able to disable user within 7 days" | translate}}.
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept" ng-click="$root.disableUser($root.userForDisable,true);$root.closeModal();">{{'OK' | translate}}</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="send-vacancy-by-email">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title"  ng-show="$root.activePage != 'Recalls Info'">
+            {{ 'Send by email' | translate}}
+        </h4>
+        <h4 class="modal-title"  ng-show="$root.activePage == 'Recalls Info'">
+            {{ 'send_failure' | translate}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <p ng-show="$root.me.emails.length == 0">
+            <a href="#/email-integration" target='_blank'>{{"add integration with email"|translate}}</a>
+            {{"To send a letter from your mailbox, you need to"|translate}}.
+        </p>
+        <div class="item mail-checkbox">
+            <div class="checkbox" ng-show="$root.me.emails.length > 1" ng-click="$root.addEmailFromWhatSendInDescription(email)" ng-repeat="email in $root.me.emails">
+                <label>
+                    <input type="checkbox" ng-checked="email.email == $root.emailTemplateInModal.email">
+                    {{email.email}}
+                </label>
+            </div>
+            <div ng-show="$root.me.emails.length == 1" class="field">
+                <label>{{"Send from"|translate}} {{$root.me.emails[0].email}}</label>
+            </div>
+        </div>
+        <span>{{"Candidate's email"|translate}}</span>
+        <input type="text" ng-model="$root.sendEmailTemplate.toEmails" class="form-control">
+        <span>{{'Letter subject' | translate}}</span>
+        <input type="text" ng-model="$root.sendEmailTemplate.template.title" class="form-control">
+        <div class="tinyMCE-block">
+            <textarea id="sendVacancyModalMCE" name="sendVacancyModalMCE"></textarea>
+            <!--<label ng-show="$root.fileForSave.length == 0" for="file">-->
+                <!--<span>{{'Attach file'|translate}}</span>-->
+            <!--</label>-->
+            <span class="item" ng-repeat="file in $root.fileForSave">
+                <a ng-href="{{serverAddress}}/getapp/{{ file.fileId}}/{{ file.fileName}}" style="color:#000000;"
+                   title="{{ file.fileName}}">
+                    {{file.fileName| fileNameCut:0:30}}
+                </a>
+                <i class="fa fa-times" ng-click="removeFile(file.attId);$event.stopPropagation();"></i>
+            </span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal()">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept" ng-show="$root.me.emails.length > 0" ng-click="$root.sendEmailTemplateFunc()">{{'Send'|translate}}</a>
+            <a type="button" class="btn btn-primary accept" disabled ng-show="$root.me.emails.length == 0">{{'Send'|translate}}</a>
+        </div>
+    </div>
+</div>

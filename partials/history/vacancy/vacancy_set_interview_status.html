@@ -1,0 +1,19 @@
+<div class="col-lg-2" title="{{history.dm|dateFormat:true}}">
+    <div class="time-comment">
+        {{history.dm|dateFormat:false}}
+    </div>
+    <a href="#/users/{{history.person.userId}}" class="text-left user">
+        <span once-text="history.person.firstName"></span>
+        <span once-text="history.person.lastName"></span>
+    </a>
+</div>
+<div class="col-lg-10">
+    <span ng-show="history.dateEdit" class="date pull-left">({{'edited'|translate}} {{history.dateEdit|dateFormat4:true}})</span>
+    <div class="clearfix"></div>
+    <span class="pull-left">{{'Vacancy stages have been changed'|translate}}</span>
+    <br>
+    <span ng-repeat="status in history.stateNew.split(',')">
+       {{status|translate}}<span ng-if="!$last">,</span>
+    </span>
+    <span ng-bind-html="history.descr|textForNotice:false"></span>
+</div>

@@ -1,0 +1,13 @@
+<div class="delete-vacancy">
+    <div class="modal-header">
+        <h4 class="center"><span>{{"Are you sure to delete the report?"|translate}}</span></h4>
+    </div>
+    <div class="modal-body" ng-bind="'This report will be removed from your company account.'|translate">
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal()">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept"  ng-click="myReportsCtrl.removeReport(this) || ctrlReport.removeReport(this) || editReport.removeReport(this)">{{"Yes, delete"|translate}}</a>
+        </div>
+    </div>
+</div>

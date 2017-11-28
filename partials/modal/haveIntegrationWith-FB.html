@@ -1,0 +1,31 @@
+<div class="notHaveIntegrationWith-FB">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title"> {{'Add_to_Facebook_pages_Jobs'|translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <p>{{'You_add_this_vacancy_to_the_jobs_list'|translate}}</p>
+        <p>{{'Choose_company_page'|translate}}</p>
+        <div ng-show="tab.status != 'D' && tab.status == 'A'" ng-repeat="tab in $root.fbPages">
+            <div class="pull-left">
+                <label>
+                    <input ng-checked="tab.vacancyAdded" type="checkbox" value="">
+                    <span>{{tab.name}}</span>
+                </label>
+            </div>
+            <div class="publish-vacancy-to-FB pull-right">
+                <a type="button" class="btn btn-default btn-sm" ng-show="tab.vacancyAdded">
+                    {{'Already_published'|translate}}
+                </a>
+                <a type="button" class="btn btn-primary btn-sm" ng-show="!tab.vacancyAdded" ng-click="$root.addVacancyToFacebook(tab);">
+                    {{'Share_on_the_company_page_in_Facebook'|translate}}
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal()">{{'cancel'|translate}}</a>
+        </div>
+    </div>
+</div>

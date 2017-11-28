@@ -1,0 +1,39 @@
+.adding-responsible {
+	.modal-header {
+		& > h4 {
+			@include bold();
+		}
+		i {
+			@include close-item();
+		}
+	}
+	.modal-body {
+		& > .taskText {
+			& > .form-control {
+				height: 200px;
+				max-height: 380px;
+
+				resize: vertical;
+			}
+		}
+	}
+	.modal-footer {
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			color: $theme-white;
+			background-color: $theme-dark-green;
+			&:hover {
+				background-color: $theme-light-green-hover;
+			}
+		}
+		.cancel {
+			color: #585859;
+			background-color: #e3e3e3;
+			&:hover {
+				background-color: $theme-light-grey-hover;
+			}
+		}
+	}
+}

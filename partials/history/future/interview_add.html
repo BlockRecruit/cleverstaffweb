@@ -1,0 +1,41 @@
+<div class="col-lg-3">
+    <span class="time" bo-html="vacancy.actions.objects[0].dm |dateFormat6:true"></span>
+</div>
+<div class="col-lg-9">
+    <a href="#/vacancies/{{vacancy.localId}}"  class="user">
+        <span once-text="vacancy.position"></span>
+    </a>
+    <span class="coma">, {{vacancy.clientId.name}},</span>
+    <a href="#/users/{{vacancy.creator.userId}}" >&nbsp;&nbsp;
+        <i class="fa fa-user" aria-hidden="true"></i>
+        {{vacancy.actions.objects[0].person.fullName}}
+    </a>
+    <br/>
+    <span>
+        <a href="#/candidates/{{vacancy.actions.objects[0].candidate.localId}}">
+            {{vacancy.actions.objects[0].candidate.fullName}}
+        </a>
+        {{'history_info.added_in'|translate}}
+        <span ng-show="!vacancy.actions.objects[0].stateNewName" class="status {{vacancy.actions.objects[0].stateNew}}">
+            {{vacancy.actions.objects[0].stateNew | translate}}
+        </span>
+        <span ng-show="vacancy.actions.objects[0].stateNewName" class="status {{vacancy.actions.objects[0].stateNewName}}">
+            {{vacancy.actions.objects[0].stateNewName | translate}}
+        </span>
+        {{'history_info.on_vacancy'|translate}}
+        <a href="#/vacancies/{{ vacancy.actions.objects[0].vacancy.localId}}">
+            {{vacancy.actions.objects[0].vacancy.position}}
+        </a>
+    </span>
+    <br/>
+    <span ng-show="vacancy.actions.objects[0].targetDate">
+        {{'interview_times'|translate}}:
+        {{vacancy.actions.objects[0].targetDate|dateFormat:true}}
+    </span>
+     <span ng-show="history.descr">
+         <br>
+    {{'history_info.message'|translate}}:
+    <br/>
+    <span ng-bind-html="history.descr|textForNotice:false"></span>
+    </span>
+</div>

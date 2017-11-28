@@ -1,0 +1,27 @@
+<div class="delete-vacancy">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">
+            <span ng-switch="$root.changeStateInCandidate.status">
+            <span ng-switch-when="archived">{{'Are you sure want delete candidate'|translate}} {{$root.changeStateInCandidate.fullName}}?</span>
+            <span ng-switch-default><span>{{'change_candidate_status'|translate}}</span>
+                <br/>
+                <span> {{'candidate_status_assoc.' +$root.changeStateInCandidate.status_old|translate}} </span>
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                <span>{{'candidate_status_assoc.' +$root.changeStateInCandidate.status|translate}}</span>
+            </span>
+        </span>
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="item taskText">
+            <textarea placeholder="{{$root.changeStateObject.placeholder}}" ng-model="$root.changeStateInCandidate.comment" class="form-control"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal()">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept"  ng-click="$root.saveStatusOfCandidate()">{{'yes, remove'|translate}}</a>
+        </div>
+    </div>
+</div>

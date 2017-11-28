@@ -1,0 +1,1 @@
+angular.module('constant', []).constant('serverAddress', '/hrdemo').constant('frontMode', 'demo');

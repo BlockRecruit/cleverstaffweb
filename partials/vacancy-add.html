@@ -1,0 +1,247 @@
+<div class="block-vacancy-add">
+    <!--<div class="breadcrumbs">-->
+        <!--<ol class="breadcrumb">-->
+            <!--<li><a href="#/vacancies">{{'vacancies'|translate}}</a></li>-->
+            <!--<li class="active">{{'New vacancy' | translate}}</li>-->
+        <!--</ol>-->
+    <!--</div>-->
+    <h3 ng-show="$root.activePage != 'Vacancy edit'">{{'New vacancy' | translate}}</h3>
+    <h3 ng-show="$root.activePage == 'Vacancy edit'">{{vacancy.position}}</h3>
+    <div class="row main-info">
+        <form name="vacancyForm" ng-submit="submitForm()" novalidate>
+            <div class="col-lg-6">
+                <div class="col-lg-7 input-outer">
+                    <span class="title">{{'vacancy_name'|translate}}*</span>
+                    <input class="form-control"
+                           type="text"
+                           name="position"
+                           ng-model="vacancy.position"
+                           ng-class="{'error': vacancyForm.position.$invalid && !vacancyForm.position.$pristine}"
+                           ng-maxlength="50" required/>
+                    <div class="alert alert-danger" ng-show="vacancyForm.position.$invalid && !vacancyForm.position.$pristine && vacancyForm.position.$error.required == true">
+                        {{'enter_vacancy_name'|translate}}.
+                    </div>
+                    <div class="alert alert-danger"
+                         ng-show="vacancyForm.position.$invalid && !vacancyForm.position.$pristine && vacancyForm.position.$error.maxlength == true">
+                        {{'text_should_be_no_longer_than_50_characters'|translate}}
+                    </div>
+                </div>
+                <div class="col-lg-5 input-outer">
+                    <span class="title">{{'required_experience'|translate}}</span>
+                    <input class="form-control" name="experience" ng-maxlength="50" placeholder="" ng-model="vacancy.experience" type="text"
+                           ng-class="{'error': vacancyForm.experience.$invalid && !vacancyForm.client.$pristine}"/>
+                    <div class="alert alert-danger" ng-show="vacancyForm.experience.$invalid && !vacancyForm.experience.$pristine && vacancyForm.experience.$error.maxlength == true"
+                         translate="text_should_be_no_longer_than_50_characters"></div>
+                </div>
+                <div class="col-lg-7 input-outer">
+                    <span class="title"> {{'client'|translate}}*</span>
+                    <div class="select">
+                        <input type="hidden" client-autocompleter id="clientAutocompleater">
+                        <!--<select class="form-control select-with-size"-->
+                                <!--ng-model="vacancy.clientId.clientId"-->
+                                <!--required-->
+                                <!--id="client-select"-->
+                                <!--name="client" onfocus='this.size=15;' onchange='this.size=1; this.blur();' onblur='this.size=1;'>-->
+                        <!--</select>-->
+                    </div>
+                    <div class="alert alert-danger" ng-show="clientError">
+                        {{'choose_client'|translate}}.
+                    </div>
+                </div>
+                <div class="col-lg-5 input-outer">
+                    <span class="title">{{'employment_type'|translate}}</span>
+                    <div class="select">
+                        <select class="form-control" ng-model="vacancy.employmentType">
+                            <option ng-selected="et.value == vacancy.employmentType" value="{{et.value}}" ng-repeat="et in employmentType">{{'employment_type_assoc.' + et.value|translate}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-7 input-outer salary" ng-if="$root.me.recrutRole !== 'client'">
+                    <div class="col-lg-4">
+                        <span class="title">{{'salary'|translate}} {{'From_min'|translate}}</span>
+                        <input class="form-control"
+                               name="salaryFrom"
+                               type="number"
+                               min="0"
+                               max="99999999"
+                               ng-class="{'error': vacancyForm.salaryFrom.$invalid && !vacancyForm.salaryFrom.$pristine}"
+                               ng-model="vacancy.salaryFrom"
+                               ng-keypress="validSalary($event)"/>
+                    </div>
+                    <div class="col-lg-4">
+                        <span class="title">{{'salary'|translate}} {{'To_max'|translate}}</span>
+                        <input class="form-control"
+                               name="salaryTo"
+                               ng-model="vacancy.salaryTo"
+                               ng-keypress="validSalary($event)"
+                               ng-class="{'error': vacancyForm.salaryTo.$invalid && !vacancyForm.salaryTo.$pristine}"
+                               type="number" min="0" max="99999999"/>
+                    </div>
+                    <div class="col-lg-4">
+                        <span class="title invisible">Валюта</span>
+                        <div class="select">
+                            <select class="form-control" ng-model="vacancy.currency">
+                                <option value="{{currency.value}}" ng-repeat="currency in currency">{{currency.value}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="alert alert-danger"  ng-show="vacancyForm.salaryFrom.$error.number
+                    && !vacancyForm.salaryFrom.$pristine
+                    || vacancyForm.salaryTo.$error.number && !vacancyForm.salaryTo.$pristine" translate="information_should_be_given_numbers">
+                    </div>
+                    <div class="alert alert-danger"  ng-show="vacancyForm.salaryFrom.$error.max
+                    && !vacancyForm.salaryFrom.$pristine
+                    || vacancyForm.salaryTo.$error.max && !vacancyForm.salaryTo.$pristine" translate="Unacceptably large number">
+                    </div>
+                    <div class="alert alert-danger"
+                         ng-if="(vacancyForm.salaryFrom.$invalid && !vacancyForm.salaryFrom.$pristine && !vacancyForm.salaryFrom.$error.max) || (vacancyForm.salaryTo.$invalid && !vacancyForm.salaryTo.$pristine && !vacancyForm.salaryFrom.$error.max)"
+                         ng-bind="'enter valid data greater than zero'|translate">
+                    </div>
+                    {{vacancyForm.salaryFrom.$error.max}}
+                </div>
+                <div class="col-lg-5 input-outer">
+                    <span class="title">{{'budget'|translate}}</span>
+                    <input class="form-control" placeholder="" ng-maxlength="50" name="budget" ng-model="vacancy.budget" type="text"
+                           ng-class="{'error': vacancyForm.budget.$invalid && !vacancyForm.budget.$pristine && vacancyForm.budget.$error.maxlength == true}"/>
+                    <div class="alert alert-danger" ng-show="vacancyForm.budget.$invalid && !vacancyForm.budget.$pristine && vacancyForm.budget.$error.maxlength == true"
+                         translate="text_should_be_no_longer_than_50_characters"></div>
+                </div>
+                <div class="col-lg-7 input-outer">
+                    <span class="title">{{'region'|translate}}*</span>
+                    <input class="form-control" id="pac-input" placeholder="{{'Enter the address'|translate}}" ng-model="regionInput" googleplace ng-required="vacancy.employmentType != 'telework'" name="regionInput"/>
+                    <div class="clearfix"></div>
+                    <div class="alert alert-danger" ng-show="vacancyForm.regionInput.$invalid && !vacancyForm.regionInput.$pristine && vacancy.employmentType != 'telework'"
+                         translate="Choose the city or employment type Remote"></div>
+                </div>
+                <div class="col-lg-5 input-outer">
+                    <span class="title">{{'deadline'|translate}}</span>
+                    <input class="form-control deadLinePicker" type="text" placeholder="{{'day/month/year'|translate}}" readonly />
+                </div>
+                <div class="col-lg-7 input-outer padding-right">
+                    <div class="col-lg-6 input-outer padding-right" style="padding-left: 9px;">
+                        <span class="title margin-left-zero" ng-show="$root.activePage == 'Vacancy add'">{{'languages'|translate}}</span>
+                        <span class="title margin-left-zero" ng-show="$root.activePage == 'Vacancy edit'">{{'Languages (choose/add)'|translate}}</span>
+                        <input placeholder="{{'Choose/add'|translate}}" class="select-lang-container" select2-lang name="languages" type="text"/>
+                    </div>
+                    <div class="col-lg-6 input-outer level">
+                        <div class="pull-right levelDiv">
+                            <select class="addingLangs pull-right" ng-repeat="langId in addedLang track by $index" id="{{langId.id}}"
+                                    ng-change="changeLevel(vacancy.level[$index], langId.id);" ng-model="vacancy.level[$index]"
+                                    name="level" title="{{'Proficiency level'|translate}}">
+                                <option value="" ng-if="$root.activePage == 'Vacancy add'" ng-selected="langId.level == ''">{{'undefined'|translate}}</option>
+                                <option value="undefined" ng-if="$root.activePage == 'Vacancy edit'" ng-selected="langId.level == 'undefined' || langId.level == null">{{'undefined'|translate}}</option>
+                                <option value="Basic" ng-selected="langId.level == 'Basic'">{{'Basic'|translate}}</option>
+                                <option value="Pre_Intermediate" ng-selected="langId.level == 'Pre_Intermediate'">{{'Pre_Intermediate'|translate}}</option>
+                                <option value="Intermediate" ng-selected="langId.level == 'Intermediate'">{{'Intermediate'|translate}}</option>
+                                <option value="Upper_Intermediate" ng-selected="langId.level == 'Upper_Intermediate'">{{'Upper_Intermediate'|translate}}</option>
+                                <option value="Advanced" ng-selected="langId.level == 'Advanced'">{{'Advanced'|translate}}</option>
+                                <option value="Native" ng-selected="langId.level == 'Native'">{{'Native'|translate}}</option>
+                            </select>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-lg-5 input-outer">
+                    <span class="title">{{'payment_date'|translate}}</span>
+                    <input class="form-control paymentPicker" placeholder="{{'day/month/year'|translate}}"  readonly type="text"/>
+                </div>
+                <div class="col-lg-5 input-outer">
+                    <span class="title">{{'Number of positions'|translate}}</span>
+                    <div class="select">
+                        <select class="form-control" ng-model="vacancy.numberOfPositions">
+                            <option ng-selected="et.value == vacancy.numberOfPositions"
+                                    ng-init="vacancy.numberOfPositions = '1'" value="{{et.value}}"
+                                    ng-repeat="et in numberPosition">
+                                {{et.value}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-7 input-outer"  ng-if="customField.state == 'A' && $root.activePage == 'Vacancy add'" ng-repeat="customField in allObjCustomField track by customField.fieldId">
+                    <div ng-show="customField.type == 'string'">
+                        <span class="title">{{customField.title}}</span>
+                        <textarea placeholder="" class="form-control" maxlength="250" ng-model-options="{updateOn: 'blur'}" ng-change="editCustomField(fieldValues.value[$index], customField.fieldId)" ng-model="fieldValues.value[$index]" name="{{customField.fieldValue.dateTimeValue}}"> </textarea>
+                    </div>
+                    <div ng-show="customField.type == 'select'">
+                        <span class="title">{{customField.title}}</span>
+                        <div class="select">
+                            <select class="form-control"
+                                    ng-model="fieldValues.value[$index]"
+                                    ng-change="addCustomFieldParams(fieldValues.value[$index], customField.fieldId)">
+                                <option value="null"></option>
+                                <option value="{{params.value}}" ng-repeat="params in customField.params">{{params.value}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="hoverIcon" ng-show="customField.type == 'date'">
+                        <span class="title">{{customField.title}}</span>
+                        <div class="clearfix"></div>
+                        <input placeholder="" datepicker-of-custom-edit class="datepickerOfCustom form-control editDate" name="{{customField.fieldId}}"  ng-click="sendCustomFieldId(customField.fieldId)" type="text">
+                        <i class="fa fa-times showIcon pull-right" ng-click="deleteDate(customField.fieldId)" aria-hidden="true"></i>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="hoverIcon" ng-show="customField.type == 'datetime'">
+                        <span class="title">{{customField.title}}</span>
+                        <input placeholder="" name="{{customField.fieldId}}" datepicker-of-custom-edit-time class="datepickerOfCustomTime form-control editDate" ng-click="sendCustomFieldId(customField.fieldId)" type="text">
+                        <i class="fa fa-times showIcon pull-right" ng-click="deleteDate(customField.fieldId)" aria-hidden="true"></i>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-lg-7 input-outer"
+                     ng-if="customField.state == 'A' && $root.activePage == 'Vacancy edit'"
+                     ng-repeat="customField in vacancy.customFields track by customField.fieldId">
+                    <div ng-show="customField.type == 'string'">
+                        <span class="title">{{customField.title}}</span>
+                        <textarea placeholder="" class="form-control" maxlength="250" ng-model-options="{updateOn: 'blur'}"
+                               ng-change="editCustomField(customField.fieldValue.value, customField.fieldId, customField.fieldValue.fieldValueId)"
+                                  data-ng-model="customField.fieldValue.value" name="{{customField.fieldValue.value}}" ></textarea>
+                    </div>
+                    <div ng-show="customField.type == 'select'">
+                        <span class="title">{{customField.title}}</span>
+                        <div class="select">
+                            <select class="form-control"
+                                    ng-model="customField.fieldValue.value"
+                                    ng-change="addCustomFieldParams(customField.fieldValue.value, customField.fieldId, customField.fieldValue.fieldValueId)">
+                                <option value=""></option>
+                                <option value="{{params.value}}" ng-repeat="params in customField.params">{{params.value}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="hoverIcon" ng-show="customField.type == 'date'">
+                        <span class="title">{{customField.title}}</span>
+                        <div class="clearfix"></div>
+                        <input placeholder="{{customField.fieldValue.dateTimeValue|dateFormat}}" name="{{customField.fieldId}}" datepicker-of-custom-edit  ng-click="sendCustomFieldId(customField.fieldId, customField.fieldValue.fieldValueId)" class="datepickerOfCustomEdit form-control editDate" type="text"/>
+                        <i class="fa fa-times showIcon pull-right" ng-click="deleteDate(customField.fieldId, customField.fieldValue.fieldValueId, customField.fieldValue)" aria-hidden="true"></i>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="hoverIcon" ng-show="customField.type == 'datetime'">
+                        <span class="title">{{customField.title}}</span>
+                        <input placeholder="{{customField.fieldValue.dateTimeValue|dateFormat2:true}}" name="{{customField.fieldId}}" datepicker-of-custom-edit-time ng-click="sendCustomFieldId(customField.fieldId, customField.fieldValue.fieldValueId)" class="datepickerOfCustomEditTime form-control editDate" type="text"/>
+                        <i class="fa fa-times showIcon pull-right" ng-click="deleteDate(customField.fieldId, customField.fieldValue.fieldValueId, customField.fieldValue)" aria-hidden="true"></i>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="item col-lg-7 edit celendar" ng-show="$root.me.recrutRole == 'admin'">
+                    <a ng-show="allObjCustomField.length > 0 || vacancy.customFields.length > 0"
+                       href="#/company/custom-fields" class="find-button">
+                        {{'Add/Edit custom field'|translate}}
+                    </a>
+                    <a ng-show="allObjCustomField.length == 0 || vacancy.customFields.length == 0"
+                       href="#/company/custom-fields" class="find-button">
+                        {{"Add custom fields"|translate}}
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 input-outer vacancy-details">
+                <span class="title">{{'description'|translate}}</span>
+                <textarea id="tinymce" ui-tinymce ng-model="vacancy.descr"></textarea>
+            </div>
+            <div class="clearfix"></div>
+            <div class="text-center button">
+                <a ng-show="type == 'Vacancy edit' && vacancy != undefined && vacancy.status != 'deleted'" type="button" class="btn delete-button" ng-click="deleteVacancy()">{{'Remove the vacancy'|translate}}</a>
+                <a type="button" class="btn btn-primary" ng-click="save()">{{'save'|translate}}</a>
+            </div>
+        </form>
+    </div>
+</div>

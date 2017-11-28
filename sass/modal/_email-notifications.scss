@@ -1,0 +1,28 @@
+.modal-dialog {
+	.email-notifications {
+		& > .modal-header {
+			& > h4 {
+				@include bold();
+			}
+			i {
+				@include close-item();
+			}
+		}
+		& > .modal-body {
+			& > .item {
+				margin-bottom: 20px;
+				&:last-child {
+					margin-bottom: 10px;
+				}
+			}
+		}
+		& > .modal-footer {
+			text-align: left;
+			& > p {
+				& > a {
+					@include link-styling();
+				}
+			}
+		}
+	}
+}

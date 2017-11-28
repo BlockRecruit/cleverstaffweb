@@ -1,0 +1,36 @@
+<div class="quest-modal">
+    <div class="modal-body text-center">
+        <h2>{{"Onboarding Quest" | translate}}!</h2>
+        <p>
+            <strong ng-show="$root.questStatus.addFirstCandidatePopup == 'Y'">{{"You’ve passed 25% of an Onboarding Quest" | translate}}</strong>
+            <strong ng-show="$root.questStatus.addFirstCandidatePopup == 'N'">{{"You’ve passed 38% of an Onboarding Quest" | translate}}</strong>
+        </p>
+        <p>
+            {{"First off, we encourage you to try CleverStaff out with our" | translate}}.
+        </p>
+        <p>
+            {{"It will help you familiarize yourself with the app" | translate}}.
+        </p>
+    </div>
+    <div class="modal-body text-center on-board-text">
+        <p>
+            {{"Also, we are always here to help you" | translate}}
+        </p>
+        <p>
+            {{"Contact us via Support chat" | translate}}
+        </p>
+        <p>
+            {{"Skype" | translate}}: cleverstaff
+        </p>
+        <p>
+            Email: <a href="mailto:contact@cleverstaff.net">contact@cleverstaff.net</a>
+        </p>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary accept" ng-click="$root.finishQuest();">
+                {{"Got it! Let’s have fun" | translate}}!
+            </a>
+        </div>
+    </div>
+</div>

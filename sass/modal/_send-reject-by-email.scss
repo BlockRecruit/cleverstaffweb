@@ -1,0 +1,54 @@
+.send-reject-by-email {
+	.modal-header {
+		& > h4 {
+			@include bold();
+		}
+		i {
+			@include close-item();
+		}
+	}
+	.modal-body {
+		& > p {
+			color: $theme-red;
+			& > a {
+				@include link-styling();
+			}
+		}
+		& > input {
+			@include input-styling();
+		}
+		.tinyMCE-block {
+			margin-top: 15px;
+			& > h3 {
+				color: white;
+			}
+		}
+	}
+	.modal-footer {
+		clear: both;
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			color: $theme-white;
+			background-color: $theme-dark-green;
+		}
+		.cancel {
+			color: #585859;
+			background-color: #e3e3e3;
+		}
+	}
+	& .error {
+		margin-bottom: 5px;
+		padding: 3px 10px;
+
+		text-align: left;
+
+		color: #a94442;
+		border-color: #ebccd1;
+		background-color: #f2dede;
+		span {
+			font-size: 12px;
+		}
+	}
+}

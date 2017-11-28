@@ -1,0 +1,146 @@
+<div class="controller-view">
+    <div class="block-contact-add">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumbs">
+                        <ol class="breadcrumb">
+                            <li><a href="#/clients">{{'Clients'| translate}}</a></li>
+                            <li class="active"><a href="#/clients/{{client.localId}}" once-text="client.name"></a></li>
+                        </ol>
+                    </div>
+                    <span ng-switch="pageType">
+                        <h3 ng-switch-when="add" translate="Adding a contact person"></h3>
+                        <h3 ng-switch-when="edit" translate="Editing a contact person"></h3>
+                    </span>
+                    <form name="contactForm" class="contactForm" ng-submit="submitForm()" novalidate>
+                        <div class="col-lg-3 AddingContact">
+                            <div class="field">
+                                <label class="pull-left">
+                                    {{'client'|translate}}
+                                </label>
+                                <input class="pull-left" name="cname" type="text" disabled value="{{client.name}}" required>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="field" ng-class="{'error': contactForm.name.$invalid && !contactForm.name.$pristine}">
+                                <label class="pull-left" translate="first_name"></label> <span class="redStar">*</span>
+                                <input ng-class="{'errorInput': contactForm.name.$invalid && !contactForm.name.$pristine}" class="pull-left" ng-maxlength="50"  name="name" ng-model="contact.firstName" type="text" required>
+                                <div ng-show="contactForm.name.$invalid && !contactForm.name.$pristine"
+                                     ng-class="{'errorTxt': contactForm.name.$invalid && !contactForm.name.$pristine}">
+                                    {{'enter_first_name'|translate}}
+                                </div>
+                                <div ng-class="{'errorTxt': contactForm.lastName.$invalid && !contactForm.lastName.$pristine}"
+                                     ng-show="contactForm.name.$invalid
+                                     && !contactForm.name.$pristine
+                                      && contactForm.name.$error.maxlength==true"
+                                     translate="text_should_be_no_longer_than_50_characters">
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="field" ng-class="{'error': contactForm.lastName.$invalid && !contactForm.lastName.$pristine}">
+                                <label class="pull-left" translate="last_name"></label> <span class="redStar">*</span>
+                                <input ng-class="{'errorInput': contactForm.lastName.$invalid && !contactForm.lastName.$pristine}" class="pull-left" ng-maxlength="50" ng-model="contact.lastName" name="lastName" type="text" required>
+                            </div>
+                            <span ng-class="{'errorTxt': contactForm.lastName.$invalid && !contactForm.lastName.$pristine}" ng-show="contactForm.lastName.$invalid && !contactForm.lastName.$pristine && contactForm.lastName.$error.maxlength==true">
+                                {{'text_should_be_no_longer_than_50_characters'|translate}}
+                            </span>
+                        </div>
+                        <div class="col-lg-3 AddingContact">
+                            <div class="field" ng-class="{'error': contactForm.position.$invalid && !contactForm.position.$pristine}">
+                                <label class="pull-left">{{'position'|translate}}</label>
+                                <input class="pull-left" ng-maxlength="50" name="position" ng-model="contact.position" type="text">
+                                <div class="ui red pointing above ui label"
+                                     ng-show="contactForm.position.$invalid
+                                     && !contactForm.position.$pristine
+                                      && contactForm.position.$error.maxlength==true"
+                                     translate="text_should_be_no_longer_than_50_characters">
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="field">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-secondary" ng-class="{'active': contact.sex == true}" ng-click="contact.sex = true">{{'male'|translate}}</button>
+                                    <button type="button" class="btn btn-secondary" ng-class="{'active': contact.sex == false}" ng-click="contact.sex = false">{{'female'|translate}}</button>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>{{'phone'|translate}}</label>
+                                <div class="ui icon input">
+                                    <input placeholder="" ng-model="contacts.mphone" type="text">
+                                    <i class="phone icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 AddingContact">
+                            <div class="field">
+                                <label>Email</label>
+                                <div class="ui icon input">
+                                    <input placeholder="" ng-model="contacts.email" type="text">
+                                    <i class="mail icon"></i>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Skype</label>
+                                <div class="ui icon input">
+                                    <input placeholder="" ng-model="contacts.skype" type="text">
+                                    <i class="skype icon"></i>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Linkedin</label>
+                                <div class="ui icon input">
+                                    <input placeholder="" ng-model="contacts.linkedin" type="text">
+                                    <i class="linkedin icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 AddingContact">
+                            <div class="field">
+                                <label>Facebook</label>
+                                <div class="ui icon input">
+                                    <input placeholder="" ng-model="contacts.facebook" type="text">
+                                    <i class="facebook icon"></i>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>Google+</label>
+                                <div class="ui icon input">
+                                    <input placeholder="" ng-model="contacts.googleplus" type="text">
+                                    <i class="google plus icon"></i>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label>{{'home_page'|translate}}</label>
+                                <div class="ui icon input">
+                                    <input placeholder="" ng-model="contacts.homepage" type="text">
+                                    <i class="home icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="text-center AddingContact">
+                            <div class="switch" ng-show="contacts.email && $root.activePage != 'Contact Edit' && $root.hideTariff">
+                                <label ng-click="saveType = 'noRegister'" ng-class="{grey: saveType}" class="floatLeft ng-binding">{{'Save only' | translate}}</label>
+                                <input id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round upcomingScopeSwticher" type="checkbox">
+                                <label class="" ng-click="saveType = !saveType" for="cmn-toggle-9"></label>
+                                <label class="floatLeft ng-binding" ng-class="{grey: !saveType}">{{'Save and invite to my account as a Hiring Manager' | translate}}</label>
+                                <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.addContactInvite" aria-hidden="true"></i>
+                            </div>
+                            <p ng-show="buttonClicked" class="text-center please-fill">
+                                {{'Please fill at least one of the contacts fields'|translate}}
+                            </p>
+                            <div class="text-center">
+                                <a type="button" ng-click="delete()" ng-show="pageType == 'edit'" class="btn btn-danger">
+                                    {{'Delete'|translate}}
+                                </a>
+                                <a type="button" ng-click="save()" class="btn btn-primary accept">
+                                    {{'save'|translate}}
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

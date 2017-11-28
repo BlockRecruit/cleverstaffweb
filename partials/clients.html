@@ -1,0 +1,175 @@
+<div class="block-clients">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 add-client hidden-xs hidden-sm hidden-md" ng-show="$root.hideTariff && ($root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'client')">
+                <h4>
+                    {{'New client' | translate}}
+                    <i class="fa fa-info-circle tooltip-icon" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.toolTipForNewClient" aria-hidden="true"></i>
+                </h4>
+                <form name="shortAddClient">
+                    <input type="text" class="form-control" name="name" ng-model="client.name" ng-maxlength="50" required placeholder="{{'Name of department company project'|translate}}">
+                    <a type="button" ng-click="addShortClient()" class="btn btn-primary">{{'Add client' | translate}}</a>
+                    <div ng-show="shortAddClient.name.$invalid && !shortAddClient.name.$pristine && shortAddClient.name.$error.required==true" class="alert alert-danger">
+                        {{'enter_company_name'|translate}}
+                    </div>
+                    <div  ng-show="shortAddClient.name.$invalid && !shortAddClient.name.$pristine && shortAddClient.name.$error.maxlength==true" class="alert alert-danger">
+                        {{'text_should_be_no_longer_than_50_characters'|translate}}
+                    </div>
+                </form>
+            </div>
+            <div class="no-padding-sm"
+                 ng-class="{'col-lg-12' : $root.me.recrutRole === 'freelancer',
+                            'col-lg-12' : $root.me.recrutRole === 'client',
+                            'col-lg-9'  : $root.me.recrutRole !== 'freelancer'}">
+                <!--<div class="breadcrumbs">-->
+                    <!--<ol class="breadcrumb">-->
+                        <!--<li><a href="#/organizer">{{'activity'| translate}}</a></li>-->
+                        <!--<li class="active">{{'Clients' | translate}}</li>-->
+                    <!--</ol>-->
+                <!--</div>-->
+                <div class="search" ng-click="$event.stopPropagation()">
+                    <div class="row">
+                        <div class="input-group">
+                            <div class="input-group-addon">
+                                <i class="fa fa-search"></i>
+                            </div>
+                            <input type="text" class="form-control"
+                                   ng-enter-search
+                                   ng-model="searchParam.words"
+                                   placeholder="{{'search'|translate}}">
+                            <div class="input-group-addon" ng-click="showAdvancedSearchFunc();$event.stopPropagation();">
+                                <span ng-show="!showAdvancedSearch"><span class="grey">|</span> {{'More_criteria'|translate}} <i class="fa fa-chevron-down" aria-hidden="true"></i></span>
+                                <span ng-show="showAdvancedSearch"><span class="grey">|</span> {{'Less_criteria'|translate}} <i class="fa fa-chevron-up" aria-hidden="true"></i></span>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="advancedSearch" ng-show="showAdvancedSearch">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                <div class="select">
+                                    <select ng-model="searchParam.state" ng-selected="st.value == searchParam.state" class="form-control">
+                                        <option value="" ng-selected="true" translate="status"></option>
+                                        <option value="{{st.value}}" ng-repeat="st in status">
+                                            {{'client_status_assoc.' + [st.value]|translate}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <!--<input type="text" class="form-control" placeholder="Заказчик">-->
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                <div class="select">
+                                    <select ng-class="{'greyColor': searchParam.responsible == 'null'}"
+                                            ng-model="searchParam.responsible" class="form-control"
+                                            ng-init="searchParam.responsible = 'null'">
+                                        <option class="greyColor" value="null">{{'responsible'|translate}}</option>
+                                        <option class="othersColor" ng-class="{disable: (responsible.status != 'A')}" ng-selected="responsible == searchParam.responsible"
+                                                ng-repeat="responsible in persons| orderBy:['status','cutFullName']"
+                                                ng-if="responsible.cutFullName.length > 0 && responsible.cutFullName == $root.me.cutFullName"
+                                                value="{{responsible.userId}}">
+                                            ({{'Me' | translate}}) {{responsible.cutFullName}}
+                                        </option>
+                                        <option class="othersColor" ng-class="{disable: (responsible.status != 'A')}" ng-selected="responsible == searchParam.responsible"
+                                                ng-repeat="responsible in persons| orderBy:['status','cutFullName']"
+                                                ng-if="responsible.cutFullName.length > 0 && responsible.cutFullName != $root.me.cutFullName"
+                                                value="{{responsible.userId}}">
+                                            {{responsible.cutFullName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 item industry pull-left">
+                                <span ng-class="{'greyColor': searchParam.industry == 'null'}" class="form-control"
+                                        ng-model="searchParam.industry"
+                                        industry-autocomplete-search
+                                        ng-init="searchParam.industry = 'null'">
+                                </span>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 item pull-left">
+                                <div ng-show="showRegionSearchInfoPop" ng-click="outHover()"
+                                     class="select">
+                                    {{'Regions only where you have vacancies, candidates or users added to your database.'|translate}}
+                                </div>
+                                <select id="cs-region-filter-select" ng-model="searchParam.regionId"
+                                        class="select2-container form-control select2 select14_2 search-select2"
+                                        ng-change="setSearchedRegion()"
+                                        ng-selected="searchParam.regionId == 'null'">
+                                </select>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 item pull-left" ng-show="searchParam.regionId && searchParam.regionId != 'null'">
+                                <select id="cs-region-filter-select-cities" ng-model="searchParam.regionIdCity"
+                                        class="select2-container form-control select2 select14_2 search-select2"
+                                        ng-selected="searchParam.regionIdCity == 'null'"
+                                        ng-init="searchParam.regionIdCity = 'null'">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <a class="btn btn-primary search" ng-click="clickSearch()">{{'Search clients' | translate}}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="client-table">
+                    <div class="row">
+                        <div class="col-lg-12 outer-block" ng-class="{'text-center' : !$root.objectSize && searchParam.word === '' && $root.me.recrutRole === 'client'}">
+                            <span ng-show="!$root.objectSize && !searchParam.word && $root.me.recrutRole === 'client'">{{'You will see clients when recruiters share vacancies to you.'|translate}}</span>
+                            <span ng-hide="$root.me.recrutRole === 'client' && !objectSize" class="count">{{'found'|translate}}: <span>{{objectSize}}</span></span>
+                            <table class="table" ng-show="$root.objectSize" id="mainTable" ng-table="tableParams" template-pagination="custom/pager">
+                                <thead>
+                                <tr>
+                                    <th ng-click="sortTable('name')">
+                                        {{'Client' | translate}}
+                                        <i class="fa fa-sort" aria-hidden="true"></i>
+                                    </th>
+                                    <th ng-click="sortTable('state')">
+                                        {{'status' | translate}}
+                                        <i class="fa fa-sort" aria-hidden="true"></i>
+                                    </th>
+                                    <th class="hidden-xs">
+                                        {{'open_vacancies' | translate}}
+                                    </th>
+                                    <th class="hidden-xs">
+                                        {{'Contacts' | translate}}
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="client in clients" tofullinformation="clients/{{client.localId}}" hglocation-of-one-object="'/clients/'">
+                                    <td class="client-name clickable">
+                                        <a href="#/clients/{{client.localId}}">
+                                            <img ng-show="client.logoId" ng-src="{{serverAddress}}/getapp?id={{client.logoId}}&d={{$root.me.personId}}" alt=""/>
+                                            <span>{{client.name|limitTo:25}}{{client.name.length > 25 ? '...' : ''}}</span>
+                                        </a>
+                                    </td>
+                                    <td class="status clickable">
+                                            <span ng-class="{'in-work': client.state == 'in_work', 'future': client.state != 'in_work'}">
+                                               {{'client_status_assoc.'+client.state|translate}}
+                                            </span>
+                                    </td>
+                                    <td class="vacancies hidden-xs">
+                                        <div ng-repeat="vacancy in client.vacancies.objects| limitTo: 3">
+                                            <a href="#/vacancies/{{vacancy.localId}}">{{vacancy.position}}</a>
+                                            <!--<span>, QA test lab</span>-->
+                                        </div>
+                                        <!--<span class="counter">еще 15 вакансий</span>-->
+                                    </td>
+                                    <td class="responsible hidden-xs">
+                                        <span ng-repeat="contact in client.contactClientList| limitTo: 3">
+                                            <a href="#/contacts/{{contact.localId}}" >
+                                                <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
+                                                <!--<div class="responsible-initials" title="{{contact.firstName+' '+contact.lastName}}">-->
+                                                <!--<span>{{getFirstLetters(contact.firstName+' '+contact.lastName)}}</span>-->
+                                                <!--</div>-->
+                                                {{contact.firstName+' '+contact.lastName}}</a>{{$last ? '' : ', '}}
+                                        </span>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="scrollup"><img alt="Прокрутить вверх" src="/images/sprite/up_racket.png"></div>
+</div>

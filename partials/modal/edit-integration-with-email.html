@@ -1,0 +1,57 @@
+<div class="add-coment">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">
+            {{ 'Configure integration with email' | translate}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="item taskText">
+            <form class="form-signin">
+                <input class="form-control" type="text" name="email" ng-model="$root.editedEmail.email" placeholder="E-mail address" ng-readonly="true">
+                <input class="form-control" ng-show="$root.showPassInModal" autocomplete="off" type="password" ng-model="$root.editedEmail.password" name="password" placeholder="Password">
+                <h5 ng-show="$root.showAdvancedFields">{{'Enter email server settings' | translate}}</h5>
+                <input class="form-control" ng-show="$root.showAdvancedFields" type="text" ng-model="$root.editedEmail.smtp.host" name="smtpHost" placeholder="smtp Host">
+                <input class="form-control" ng-show="$root.showAdvancedFields" type="number" ng-model="$root.editedEmail.smtp.port" name="smtpPort" placeholder="smtp Port">
+                <select class="form-control" ng-model="$root.editedEmail.smtp.secure" ng-show="$root.showAdvancedFields">
+                    <option value="" disabled selected hidden>smtp Secure</option>
+                    <option value=""></option>
+                    <option value="SSL">SSL</option>
+                    <option value="TLS">TLS</option>
+                </select>
+                <!--<div class="buttons text-center">-->
+                    <!--<button class="btn btn-lg btn-default" ng-click="showAddEmail = false;">{{'Back' | translate}}</button>-->
+                    <!--<button class="btn btn-lg btn-primary" ng-click="addEmail()">-->
+                        <!--<span ng-show="!showPassword && !$root.showAdvancedFields">{{'Next' | translate}}</span>-->
+                        <!--<span ng-show="showPassword">{{'Add Email' | translate}}</span>-->
+                    <!--</button>-->
+                <!--</div>-->
+                <div>
+                    <div class="switch">
+                        <label for="cmn-toggle-1" class="floatLeft">{{'Email Access1'|translate}}</label>
+                        <input id="cmn-toggle-1" ng-click="$root.editedEmail.permitParsing = !$root.editedEmail.permitParsing" ng-checked="$root.editedEmail.permitParsing" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                        <label class="floatLeft" for="cmn-toggle-1"></label>
+                    </div>
+                    <!--<div class="clear"></div>-->
+                    <!--<div class="switch">-->
+                    <!--<label for="cmn-toggle-2" class="floatLeft" style="margin-top: 3px;margin-right: 10px;">{{'Email Access2'|translate}}</label>-->
+                    <!--<input id="cmn-toggle-2" ng-click="$root.editedEmail.permitConversation = !$root.editedEmail.permitConversation" ng-checked="$root.editedEmail.permitConversation" class="cmn-toggle cmn-toggle-round" type="checkbox">-->
+                    <!--<label class="floatLeft" for="cmn-toggle-2"></label>-->
+                    <!--</div>-->
+                    <div class="clearfix"></div>
+                    <div class="switch">
+                        <label for="cmn-toggle-3" class="floatLeft">{{'Email Access3'|translate}}</label>
+                        <input id="cmn-toggle-3" ng-click="$root.editedEmail.permitSend = !$root.editedEmail.permitSend" ng-checked="$root.editedEmail.permitSend" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                        <label class="floatLeft" for="cmn-toggle-3"></label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept"  ng-click="$root.editEmailFuc();">{{'save'|translate}}</a>
+        </div>
+    </div>
+</div>

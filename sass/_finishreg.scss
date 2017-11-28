@@ -1,0 +1,13 @@
+.block-finishreg {
+	display: flex;
+	margin-top: 15px;
+	.row {
+		@include disabled-margins-for-row();
+		.finishregYou {
+			margin-top: 40px;
+			a {
+				@include link-styling();
+			}
+		}
+	}
+}

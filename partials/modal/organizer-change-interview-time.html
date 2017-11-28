@@ -1,0 +1,25 @@
+<div class="candidate-add-in-vacancy">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">{{'Changing the date of interview' | translate}} {{$root.vacancyChangeInterviewDate.interviewObject.candidate.fullName}}</h4>
+    </div>
+    <div class="modal-body">
+        <div class="item" >
+            <form class="form-inline">
+                <div class="input-group">
+                    <label translate="date_of_interview"></label>
+                    <input type="text" placeholder="{{'Select'|translate}}" class="form-control changeVacancyInterviewDatePicker">
+                </div>
+            </form>
+        </div>
+        <div class="item taskText">
+            <textarea ng-model="$root.vacancyChangeInterviewDate.comment" placeholder="{{'Write your comment (optional)'|translate}}" class="form-control"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" ng-click="$root.closeModal()" class="btn btn-primary cancel">{{'cancel'|translate}}</a>
+            <a ng-click="$root.saveChangedVacancyInterview()" type="button" class="btn btn-primary accept">{{'save'|translate}}</a>
+        </div>
+    </div>
+</div>

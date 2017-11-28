@@ -1,0 +1,12 @@
+<ng-include src="'partials/activity/preview_candidate/header.html'"></ng-include>
+<div class="summary">
+    {{'Postponement of the date of interview'|translate}}
+    {{'history_info.in__vacancy'|translate}}
+    <a href="#/vacancies/{{history.vacancy.localId}}" once-text="history.vacancy.position"></a>
+    <br>
+    <span>{{history.oldTargetDate|dateFormat:true}}</span>
+    <i class="fa fa-angle-right" aria-hidden="true"></i>
+    <span> {{history.targetDate|dateFormat:true}}</span>
+    <br>
+    <div>{{history.descr|textForNotice:false}}</div>
+</div>

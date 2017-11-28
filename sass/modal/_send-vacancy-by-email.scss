@@ -1,0 +1,39 @@
+.send-vacancy-by-email {
+	.modal-header {
+		& > h4 {
+			@include bold();
+		}
+		i {
+			@include close-item();
+		}
+	}
+	.modal-body {
+		& > p {
+			color: $theme-red;
+			& > a {
+				@include link-styling();
+			}
+		}
+		& > input {
+			@include input-styling();
+		}
+		.tinyMCE-block {
+			margin-top: 15px;
+			& > h3 {
+				color: white;
+			}
+		}
+	}
+	.modal-footer {
+		clear: both;
+		.btn {
+			@include button-green-styling();
+		}
+		.accept {
+			@include button-green-styling();
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+	}
+}

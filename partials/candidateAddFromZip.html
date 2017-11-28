@@ -1,0 +1,175 @@
+<div class="block-zip-archive">
+    <div class="breadcrumbs">
+        <ol class="breadcrumb">
+            <li><a href="#/candidates">{{'Candidates'|translate}}</a></li>
+            <li><i class="fa fa-chevron-right" aria-hidden="true"></i></li>
+            <li class="active">{{'Get candidates from zip' | translate}}</li>
+        </ol>
+    </div>
+    <div class="row candidate-zip-archive">
+        <div class="col-lg-12 fullName-position">
+            <h3>{{"Bulk resume upload in ZIP-archive"|translate}}</h3>
+        </div>
+        <div class="col-lg-12 addZipArchive">
+            <div class="col-lg-12 txtAddResume">
+                <span>{{"All resumes will be upload to this account on your behalf"|translate}}</span>
+            </div>
+            <form class="col-lg-4 howAddZipResume mainFormZip ">
+                <h5>1. {{'Select the format in the archive:'|translate}}</h5>
+                <div class="pull-left">
+                    <input class="pull-left" ng-model="radioType"
+                           type="radio"
+                           id="zipButton1" name="zipRadio"
+                           value="zipMono"/>
+                    <label  for="zipButton1" class="pull-left">
+                        {{'ZIP-archive resume files in doc, docx, pdf, odt. All resumes in one folder'|translate}}
+                        <i class="fa fa-question-circle-o" ng-click="openHelpZip1($event);$event.stopPropagation();" aria-hidden="true">
+                            <help-zip1></help-zip1>
+                        </i>
+                    </label>
+                </div>
+                <div class="pull-left">
+                    <input class="pull-left" ng-model="radioType"
+                           type="radio"
+                           id="zipButton2" name="zipRadio"
+                           value="zipFolders"/>
+                    <label  for="zipButton2" class="pull-left">
+                        {{'ZIP-archive resume files in doc, docx, pdf, odt. Resumes grouped into folders by job title or technology'|translate}}
+                        <i class="fa fa-question-circle-o" ng-click="openHelpZip2($event);$event.stopPropagation();" aria-hidden="true">
+                            <help-zip2></help-zip2>
+                        </i>
+                    </label>
+                </div>
+                <div class="pull-left" ng-show="$root.currentLang =='ru' || $root.currentLang =='ua'">
+                    <input class="pull-left" ng-model="radioType"
+                           type="radio"
+                           id="zipButton3" name="zipRadio"
+                           value="zipEstaff"/>
+                    <label  for="zipButton3" class="pull-left">
+                        {{'ZIP-archive candidates from E-Staff. This is XML files with names like candidate-0x0A1234E567C890A0.xml'|translate}}
+                        <i class="fa fa-question-circle-o" ng-click="openHelpZip3($event);$event.stopPropagation();" aria-hidden="true">
+                            <help-zip3></help-zip3>
+                        </i>
+                    </label>
+                </div>
+            </form>
+            <div class="col-lg-4 howAddZipResume pull-left">
+                <h5>2. {{"Select the candidate country in the archive. If they are not from the same country, you can choose 2 or 3 countries"|translate}}</h5>
+                <div>
+                    <input id="pac-input3" placeholder="{{'Enter a location'|translate}}" class="form-control" ng-model="regionInputZip" googleplacezip=""/>
+                    <ul ng-model="list" class="select2-choices">
+                        <li style="border-radius: 0px;margin:3px 0 3px 2px;" class="select2-search-choice"
+                            ng-repeat="regionz in regionzip| limitTo:3">
+                            <a class="select2-search-choice-close" ng-click="deleteRegionzip($index)"></a>
+                            <div><span class="regionzipNames">{{regionz.fullName}}</span></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <form class="col-lg-4 howAddZipResume pull-left minorFormZip ">
+                <h5>3. {{'The archive has only resumes?'|translate}}</h5>
+                <div class="pull-left">
+                    <input class="pull-left" ng-model="radioInclude"
+                           type="radio"
+                           id="noFiles" name="zipRadio"
+                           value="true"/>
+                    <label for="noFiles" class="pull-left">
+                        {{'Only resumes files in the archive, no extra files'|translate}}
+                    </label>
+                </div>
+                <div class="pull-left">
+                    <input class="pull-left" ng-model="radioInclude"
+                           type="radio"
+                           id="hasFiles" name="zipRadio"
+                           value="false"/>
+                    <label for="hasFiles" class="pull-left">
+                        {{'The archive has not only a resumes, need to ignore the extra'|translate}}
+                    </label>
+                </div>
+            </form>
+            <div class="clearfix"></div>
+            <div class="col-lg-12 downloadZipArchive" ng-show="$root.me.recrutRole === 'admin' ||  $root.me.recrutRole === 'recruter'">
+                <input class="hidden"
+                       ng-disabled="(!radioType || !radioInclude) || regionzip.length == 0"
+                       accept=".zip" type="file"
+                       oi-file="optionsForZIP" id="zip"/>
+                <div class="text-center">
+                    <label ng-click="checkValidZip()" for="zip" type="button" class="btn btn-primary">{{'Choose and download the ZIP-archive'|translate}}</label>
+                    <span ng-if="$root.hideTariff">{{'no more than 200 MB' | translate}}</span>
+                    <span ng-if="!$root.hideTariff">{{'Up to 200 MB per 1 download | Up to 800 MB overall' | translate}}</span>
+                </div>
+                <div ng-show="uploading.length">
+                    <div class="titleForProgress">
+                        <span>
+                            {{'File is loading. Please stay on this page, so as not to interrupt the upload' | translate}}
+                        </span>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{uploading[0].item.progress}}"
+                             aria-valuemin="0" aria-valuemax="100" ng-style="{'width':uploading[0].item.progress+'%'}">
+                            <span class="sr-only"></span>
+                        </div>
+                    </div>
+                    {{uploading[0].item.loaded}} bytes {{'from_2'|translate}} {{uploading[0].item.size}} bytes
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 status-info" ng-show="zipUploads.length > 0">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>
+                        <span>{{'File name'|translate}}</span>
+                    </th>
+                    <th>
+                        <span>{{'Loaded'|translate}}</span>
+                    </th>
+                    <th>
+                        <span>{{'name'|translate}}</span>
+                    </th>
+                    <th>
+                        <span>{{'Size'|translate}}</span>
+                    </th>
+                    <th>
+                        <span>{{'Status'|translate}}</span>
+                    </th>
+                    <th>
+                        <span>{{'files2'|translate}}</span>
+                    </th>
+                    <th>
+                        <span>{{'Unique CV'|translate}}</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="zipUpload in zipUploads| orderBy:'-dc'">
+                    <td>
+                        <span>{{zipUpload.fileName}}</span>
+                    </td>
+                    <td class="">
+                        <span>{{zipUpload.dc| dateFormat2:true}}</span>
+                    </td>
+                    <td class="responsible">
+                        <a href="#/users/{{zipUpload.userId}}">
+                            <!--<img src="images/sprite/testprofile.png" class="img-circle pull-left" width="30" height="30">-->
+                            <span>{{zipUpload.user.fullName}}</span>
+                        </a>
+                    </td>
+                    <td class="">
+                        <span>{{zipUpload.sizeMb}} Mb</span>
+                    </td>
+                    <td class="">
+                        <span>{{zipUpload.status}}</span>
+                    </td>
+                    <td class="">
+                        <span ng-class="{notFinished: (zipUpload.status != 'finished')}"> {{zipUpload.files}}</span>
+                    </td>
+                    <td class="">
+                        <span ng-class="{notFinished: (zipUpload.status != 'finished')}">{{zipUpload.newResume}}</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,245 @@
+.sendTestCandidateToEmail {
+	.blockTestCandidate {
+		margin: 0;
+		h3 {
+			font-size: 24px;
+
+			margin: 10px 0;
+			padding-left: 0;
+		}
+		p {
+			font-size: 19px;
+
+			clear: both;
+			a {
+				@include link-styling();
+			}
+			span {
+				text-transform: lowercase;
+			}
+		}
+		.padding-right {
+			padding-right: 0;
+			.text-right {
+				margin: 20px 0;
+				.btn {
+					@include button-styling();
+				}
+				.accept {
+					@include button-styling();
+				}
+				.cancel {
+					color: #585859;
+					background-color: #e3e3e3;
+					&:hover {
+						background-color: $theme-light-grey-hover;
+					}
+				}
+			}
+		}
+		.addChancelBtn {
+			.text-right {
+				margin: 0;
+				.btn {
+					@include button-styling();
+				}
+				.accept {
+					@include button-styling();
+
+					margin-left: 5px;
+				}
+				.cancel {
+					@include button-styling-cancel();
+				}
+			}
+		}
+		.btnForCandidate {
+			margin: 20px 0;
+		}
+	}
+	.addCandidate {
+		.mrgTop {
+			.autoSelect {
+				margin-bottom: 20px;
+				.select2-search-choice {
+					padding: 3px 5px;
+
+					background-color: inherit;
+					.select2-search-choice-close {
+						display: none;
+					}
+				}
+			}
+			.email {
+				margin-bottom: 20px;
+				padding: 0;
+				.item {
+					a {
+						@include link-styling();
+					}
+					&.link-input {
+						label {
+							@include link-styling();
+						}
+					}
+					&.mail-checkbox {
+						.checkbox {
+							display: inline;
+							margin-right: 15px;
+						}
+					}
+					input {
+						margin-right: 5px;
+					}
+				}
+				.alert-danger {
+					margin-bottom: 0;
+					a {
+						@include link-styling();
+					}
+				}
+			}
+			.padding {
+				padding: 0;
+			}
+			.testCandidateBlock {
+				.candidateString {
+					.padding {
+						padding: 0;
+						.bold {
+							@include link-styling();
+							@include bold();
+						}
+					}
+					.padding-right {
+						padding-right: 0;
+						a {
+							@include link-styling();
+						}
+					}
+					.grey {
+						word-break: break-word;
+					}
+					.iconsStyle {
+						.text_change {
+							cursor: pointer;
+
+							color: $theme-green;
+						}
+						.edit {
+							display: none;
+							margin-left: -14px;
+
+							cursor: pointer;
+
+							color: $theme-green;
+						}
+						.delete {
+							display: none;
+
+							cursor: pointer;
+
+							color: $theme-green;
+						}
+						.showEmails {
+							position: relative;
+							right: 202px;
+
+							padding: 2px 7px;
+							span {
+								width: 100%;
+								padding: 2px 7px;
+
+								background-color: beige;
+							}
+						}
+					}
+					&:hover {
+						.iconsStyle > .edit,
+						.delete {
+							display: inline-block;
+							margin-right: 2px;
+						}
+					}
+				}
+			}
+			.testCandidateBlock2 {
+				max-height: 170px;
+				padding: 0;
+			}
+			.testCandidateFromVacancy {
+				.checkboxes {
+					padding-left: 25px;
+					h4 {
+						@include bold;
+					}
+					.checkbox {
+						label {
+							display: block;
+							margin: 5px 0;
+							i {
+								margin-right: 3px;
+								margin-left: -20px;
+
+								color: #f09c99;
+							}
+							a {
+								@include link-styling();
+							}
+						}
+					}
+				}
+			}
+			.testCandidateFromVacancy2 {
+				display: none;
+				max-height: 240px;
+				padding: 0;
+			}
+			.testCandidateFromCandidate {
+				padding: 15px 0;
+
+				background-color: $theme-white;
+			}
+		}
+		.mrgTop2 {
+			padding-left: 0;
+			.background {
+				padding: 15px;
+
+				background-color: $theme-white;
+				input {
+					@include input-styling();
+				}
+				select {
+					@include select-styling();
+				}
+				.item:not(:first-child) {
+					margin-top: 15px;
+				}
+				.item {
+					input {
+						margin-right: 5px;
+					}
+					.title {
+						color: $theme-light-grey;
+					}
+					textarea {
+						width: 100%;
+					}
+					#testCandidateMCE_ifr {
+						height: 335px!important;
+					}
+					#testCandidateMCE2_ifr {
+						height: 200px!important;
+					}
+				}
+			}
+		}
+		.showLetter {
+			display: none;
+		}
+	}
+}
+#candidate_preview {
+	z-index: 1001;
+}

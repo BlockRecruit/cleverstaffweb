@@ -1,0 +1,26 @@
+<div class="col-lg-2" title="{{history.dm|dateFormat:true}}">
+    <div class="time-comment">
+        {{history.dm|dateFormat:false}}
+    </div>
+    <a href="#/users/{{history.person.userId}}" class="text-left user">
+        <span once-text="history.person.firstName"></span>
+        <span once-text="history.person.lastName"></span>
+    </a>
+</div>
+<div class="col-lg-10">
+    {{'Task status edited'|translate}}
+    "{{history.task.title}}"
+    <span ng-show="history.vacancy">
+        {{'history_info.in_vacancy'|translate}}
+        <a href="#/vacancies/{{history.vacancy.localId}}"
+           once-text="history.vacancy.position">
+        </a>
+    </span>
+    <span class="status  passed {{history.stateOld}}">
+        {{history.stateOld | translate}}
+    </span>
+    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+    <span class="status {{history.stateNew}}">
+        {{history.stateNew | translate}}
+    </span>
+</div>

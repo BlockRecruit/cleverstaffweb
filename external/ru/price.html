@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="UTF-8">
+    <title>Цены | CleverStaff | Единая система для рекрутинга</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Неограниченная база вакансий и кандидатов | интеграция с LinkedIn и почтой | Настраиваемые этапы рекрутинга и другие инструменты в тарифном плане для Вашего бизнеса.">
+    <meta name="keywords" content="управление базой данных, автоматизация рекрутнга, программа для рекрутинга, HR-модуль, контроль базы данных, технология парсинга резюме, настраиваемая воронка рекрутинга">
+    <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../external/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../external/css/normalize.css">
+    <link rel="stylesheet" href="../external/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../external/css/animate.min.css">
+    <link rel="stylesheet" href="../external/css/main.min.css?b2">
+    <script src="../external/js/wow.min.js"></script>
+    <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="../../js/ApiKey.js?b1"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Цены и Тарифы | CleverStaff | Единая система для профессионального подбора персонала"/>
+    <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
+    <meta property="og:image" content="https://dev.cleverstaff.net/images/sprite/for_preview_1080-1080.jpg"/>
+    <meta property="og:image:width" content="1080" />
+    <meta property="og:image:height" content="1080" />
+    <meta property="og:site_name" content="CleverStaff"/>
+    <script>
+        localStorage.setItem("NG_TRANSLATE_LANG_KEY", "ru");
+    </script>
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <div class="corner-ribbon corner-ribbon-ru">
+            <div class="corner-ribbon-wrapper-ru">
+                Адаптивный интерфейс
+            </div>
+        </div>
+        <div class="corner-ribbon-info">
+            <img src="../external/img/responsive-design.png">
+            <p><strong>Адаптивный интерфейс</strong></p>
+            <p>Внутренние страницы системы с ключевыми функциями адаптируются под  мобильные устройства: телефоны, планшеты, экраны всех размеров.</p>
+            <p>Это значит, что вы сможете работать в системе с любого удобного вам устройства ;)</p>
+        </div>
+        <div class="container">
+            <a href="/ru/index.html" class="logo pull-left"></a>
+            <a href="/ru/index.html" class="logo2 pull-left"></a>
+            <a class="signinButton btn btn-default navbar-btn loginBtn  adaptiveMenuShow btn-menu">Начать</a>
+            <nav class="navbar pull-right">
+                <div class="container-fluid">
+                    <ul class="nav navbar-nav adaptiveMenu">
+                        <li><a href="why.html">Почему</a></li>
+                        <li><a href="features.html">Возможности</a></li>
+                        <li class="active menu"><a href="#home">Цены</a></li>
+                        <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                    </ul>
+                    <a class="signinButton btn btn-default navbar-btn loginBtn adaptiveMenu pull-left">Начать</a>
+                    <div class="dropdown pull-right adaptiveMenu">
+                        <button class="btn btn-primary dropdown-toggle"
+                                type="button"
+                                data-toggle="dropdown">RUS <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="../price.html">ENG</a></li>
+                        </ul>
+                    </div>
+                    <span class="iconMenu">
+                        <a id="menuFunc"><i class="fa fa-bars" aria-hidden="true"></i></a>
+                    </span>
+                </div>
+            </nav>
+            <div class="menuLanding">
+                <nav class="navbar pull-right">
+                    <div class="container-fluid">
+                        <ul class="nav navbar-nav adaptiveMenuShow mrg-5px-top pull-left">
+                            <li><a href="why.html">Почему</a></li>
+                            <li><a href="features.html">Возможности</a></li>
+                            <li class="active menu"><a href="#home">Цены</a></li>
+                            <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                        </ul>
+                        <div class="dropdown pull-right adaptiveMenuShow float-none-mob">
+                            <button class="btn btn-primary dropdown-toggle"
+                                    type="button"
+                                    data-toggle="dropdown">RUS <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="../price.html">ENG</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="block priceBackground" id="home">
+        <div class="priceMan"></div>
+        <div class="priceFlower"></div>
+        <div class="row">
+            <div class="col-md-12 text-center priceHeader big-tittle">
+                <h1 class="no-margin-ru">Тарифы, которые подходят вашему бизнесу</h1>
+                <a href="#need-demo-modal" data-toggle="modal" onclick="tariffFunc('demo');"  data-params="demo" class="orangeBtnBorder no-margin-padding-ru demoParams">Проведите Мне Презентацию</a>
+            </div>
+        </div>
+        <div class="priceCheer"></div>
+        <div class="priceGraf"></div>
+    </div>
+    <div class="block" id="block_2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 padding-block-ru wow fadeInUp" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60">
+                    <div class="tarif tarif-ru">
+                        <h4 class="text-center">1 Рекрутер</h4>
+                        <div class="howMuchMoney">
+                            <h5 class="text-center">$0/мес</h5>
+                            <span class="text-center span-size">1 пользователь</span>
+                        </div>
+                        <p class="text-center mrgTop"  style="margin-top: 21px">Бесплатное решение для 1 рекрутера. <br>Ограниченные функции*.</p>
+                        <a class="orangeBtn priceOrangeBtn price-btn-small startNowOnerecrut" data-params="freeOrStart">Начать бесплатно</a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mrgForMob padding-block-ru wow fadeInUp" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60">
+                    <div class="tarif tarif-ru teamWork">
+                        <div class="mostPopular"></div>
+                        <h4 class="text-center">Команда</h4>
+                        <!--<div class="howMuchMoney">-->
+                            <!--<h5 class="text-center">$25/мес</h5>-->
+                            <!--<span class="text-center span-size price-btn-small">за каждого  пользователя</span>-->
+                        <!--</div>-->
+                        <!--<div class="text-center discount discount-ru">-->
+                            <!--<span>10% скидка при предоплате за 4 месяца</span>-->
+                            <!--<span>20% скидка при предоплате за 12 месяцев</span>-->
+                        <!--</div>-->
+                        <a href="#need-demo-modal" data-toggle="modal" onclick="tariffFunc('team_work');"
+                           class="btn btn-default navbar-btn loginBtn" style="margin-top: 24px">
+                            Запросить цену
+                        </a>
+                        <div class="text-center discount discount-ru">
+                            <span>и мы быстро вышлем вам <br/>индивидуальное предложение</span>
+                        </div>
+                        <p class="text-center mrgTop padding-bottom-ru">Управление рекрутингом на всех этапах и автоматизация работы.</p>
+                        <a class="orangeBtn priceOrangeBtn price-btn-small teamWorkStartTrial" data-params="teamwork">Начать Бесплатно (14 дней)</a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mrgForTab padding-block-ru wow fadeInUp " data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60">
+                    <div class="tarif tarif-ru corporate">
+                        <h4 class="text-center">Корпоративный</h4>
+                        <!--<div class="howMuchMoney">-->
+                            <!--<h5 class="text-center">$450/мес</h5>-->
+                            <!--<span class="text-center span-size">до 25 пользователей</span>-->
+                        <!--</div>-->
+                        <!--<div class="text-center discount discount-ru">-->
+                            <!--<span>10% скидка при предоплате за 4 месяца</span>-->
+                            <!--<span>20% скидка при предоплате за 12 месяцев</span>-->
+                        <!--</div>-->
+                        <a href="#need-demo-modal" data-toggle="modal" onclick="tariffFunc('corporate');"
+                           class="btn btn-default navbar-btn loginBtn"  style="margin-top: 25px">
+                            Запросить цену
+                        </a>
+                        <div class="text-center discount discount-ru">
+                            <span>и мы быстро вышлем вам <br/>индивидуальное предложение</span>
+                        </div>
+                        <p class="text-center mrgTop">Оплата за год, Фиксированная цена, API, Ваше доменое имя и Доработки по запросу.</p>
+                        <a class="orangeBtn priceOrangeBtn price-btn-small corporateEnStart" data-params="corporate">Начать Бесплатно (14 дней)</a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mrgForTab padding-block-ru wow fadeInUp" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60">
+                    <div class="tarif tarif-ru enterPrize">
+                        <h4 class="text-center">Премиум</h4>
+                        <div class="howMuchMoney">
+                            <h5 class="text-center size-ru">Получить <br>предложение</h5>
+                        </div>
+                        <p class="text-center lstChild lstChildRu">Автономная версия на вашем сервере. Неограниченные возможности.</p>
+                        <a href="#need-demo-modal"
+                           onclick="tariffFunc('enterprise');"
+                           class="orangeBtn priceOrangeBtn enterprizeGetOfferOne"
+                           data-toggle="modal"
+                           data-params="enterprise">Получить предложение</a>
+                    </div>
+                </div>
+                <div class="col-md-12 menu wow fadeInUp" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60">
+                    <a href="#block_4" class="text-center comparePlans">Сравнить тарифы<br> <span class="arrow-down"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block csPlan" id="block_3">
+        <div class="container">
+            <div class="row">
+                <h2 class="text-center wow fadeInUp">Каждый Тариф CleverStaff Включает:</h2>
+                <div class="col-md-4 col-sm-6 wow fadeInUp">
+                    <p><span class="plan-1"></span> Неограниченная база вакансий</p>
+                    <p><span class="plan-2"></span> Неограниченная база кандидатов</p>
+                    <p><span class="plan-3"></span> Массовый импорт и экспорт резюме *</p>
+                </div>
+                <div class="col-md-4 col-sm-6 wow fadeInUp">
+                    <p><span class="plan-4"></span> Интеграция с LinkedIn и почтой</p>
+                    <p><span class="plan-5"></span> Предложения кандидатов и рейтинги *</p>
+                    <p><span class="plan-6"></span> Умный поиск на LinkedIn</p>
+                </div>
+                <div class="col-md-4 col-sm-6 wow fadeInUp">
+                    <p><span class="plan-7"></span> Настраиваемые этапы рекрутинга</p>
+                    <p><span class="plan-8"></span> Доступ клиентов и отчеты *</p>
+                    <p><span class="plan-9"></span> Шаблоны писем *</p>
+                </div>
+                <div class="clearfix"></div>
+                <p class="limited wow fadeInUp">* ограничено для тарифа "1 Рекрутер"</p>
+            </div>
+        </div>
+    </div>
+    <div class="block tablePrise" id="block_4">
+        <div class="container">
+            <div class="row">
+                <h2 class="text-center wow fadeInUp">Сравнение Тарифов</h2>
+                <div class="prices-block pull-right">
+                    <div class="col-md-1 text-center pull-right plans plans-for-ru enterPrizeTable wow fadeInUp">Премиум</div>
+                    <div class="col-md-1 text-center pull-right plans plans-for-ru corporateTable wow fadeInUp">Корпоративный</div>
+                    <div class="col-md-1 text-center pull-right plans plans-for-ru teamWorkTable wow fadeInUp">Команда</div>
+                    <div class="col-md-1 text-center pull-right plans plans-for-ru oneRecrTable wow fadeInUp">1 Рекрутер</div>
+                </div>
+                <div class="hide-block pull-right"></div>
+                <div class="clearfix"></div>
+                <table class="table styleHeaderTable wow fadeInUp">
+                    <tbody>
+                    <tr>
+                        <td class="firstStyleHeaderTable">Управление базой данных</td>
+                        <td class="secondStyleHeaderTable">Моментально находите и добавляйте кандидатов. Все данные у вас под рукой.</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered wow fadeInUp">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td class="title">Импорт базы</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Экспорт базы</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Интеграция с LinkedIn</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Поиск на LinkedIn и сайтах поиска работы</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Мощный поиск по базе</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Теги и навыки для кандидатов</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">История изменений: вакансии, кандидаты, пользователи.</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Технология парсинга резюме</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table styleHeaderTable no-border-top wow fadeInUp">
+                    <tbody>
+                    <tr>
+                        <td class="firstStyleHeaderTable">Управление соискателями и подбором</td>
+                        <td class="secondStyleHeaderTable">Единое место для оценки, учета и обсуждения кандидатов.</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered wow fadeInUp">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td class="title">Настраиваемые этапы подбора</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Гибкие настройки для базы данных</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Доступ для Hiring manage'ов</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Задачи и комментарии по вакансиям и кандидатам</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Теги и навыки для кандидатов</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Интеграция с сайтами поиска работы</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Интеграция с почтой и загрузка резюме из неё</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Управление ролями и доступами</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Настраиваемые шаблоны писем</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Автоматическая отправка писем</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">22 критерия поиска по базе</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table styleHeaderTable no-border-top wow fadeInUp">
+                    <tbody>
+                    <tr>
+                        <td class="firstStyleHeaderTable">Автоматизация рекрутинга</td>
+                        <td class="secondStyleHeaderTable">Автоматизируйте процесс подбора персонала для роста эффективности.</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered wow fadeInUp">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td class="title">Интеграция с Google и Outlook Calendar</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Отправка кандидатов по почте</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Отчеты по вакансиям</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Воронка рекрутинга</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Отправка shortlist'а кандидатов по почте</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Публикация вакансий в социальных сетях и по ссылке</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Расширение для браузера: интеграция в 1 клик</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Предпросмотр приложенных файлов</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">5 видов отчётов по вакансиями и продуктивности рекрутинга</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Настраиваемые поля для кандидатов, вакансий и заказчиков</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Модуль тестов для создания и отправки тестов кандидатам</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Отправка писем кандидатам и клиентам из интерфейса</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table styleHeaderTable no-border-top wow fadeInUp">
+                    <tbody>
+                    <tr>
+                        <td class="firstStyleHeaderTable">Продвинутые функции</td>
+                        <td class="secondStyleHeaderTable">Подбор персонала без ограничений.</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered no-padding-mob wow fadeInUp">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td class="title">Полный контроль базы данных</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Доменное имя вашей компании (ваш_домен.com)</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">CleverStaff API для интеграции</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Автономная версия CleverStaff на вашем сервере</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">HR-модуль</td>
+                        <td class="active text-center twoHundred"></td>
+                        <td class="active text-center twoHundred"><span class="center-prize">+ $300 / год</span></td>
+                        <td class="active text-center twoHundred"></td>
+                        <td class="active text-center"></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Сохранение резервных копий базы</td>
+                        <td class="active text-center twoHundred"></td>
+                        <td class="active text-center twoHundred"><span class="center-prize">+ $500 / год</span></td>
+                        <td class="active text-center twoHundred"></td>
+                        <td class="active text-center"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table styleHeaderTable no-border-top wow fadeInUp">
+                    <tbody>
+                    <tr>
+                        <td class="firstStyleHeaderTable">Поддержка</td>
+                        <td class="secondStyleHeaderTable">Мы всегда рядом, чтобы помочь вам в любом вопросе.</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered wow fadeInUp">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td class="title">Помощь и поддержка при адаптации</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Техническая поддержка и обновление версий</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center">$2000 / год</td>
+                    </tr>
+                    <tr>
+                        <td class="title">Импорт базы данных за 3 дня</td>
+                        <td class="twoHundred active text-center"></td>
+                        <td class="twoHundred active text-center"><span class="center-prize">до $300</span></td>
+                        <td class="twoHundred active text-center"></td>
+                        <td class="twoHundred active text-center"></td>
+                    </tr>
+                    <tr class="display-none">
+                        <td class="title no-border no-padding"></td>
+                        <td class="text-center no-border no-padding"><a class="orangeBtn paddingBtn price-btn-small startNowOneRecrutTwo" data-params="freeOrStart">Начать сейчас</a></td>
+                        <td class="text-center no-border no-padding"><a class="orangeBtn paddingBtn price-btn-small teamWorkStartTrialTwo" data-params="teamwork">Начать Бесплатно<br>(14 дней)</a></td>
+                        <td class="text-center no-border no-padding"><a class="orangeBtn paddingBtn price-btn-small corporateEnStartTwo" data-params="corporate">Начать Бесплатно<br>(14 дней)</a></td>
+                        <td class="text-center no-border no-padding"><a href="#need-demo-modal"
+                                                                        onclick="tariffFunc('enterprise');"
+                                                                        data-toggle="modal"
+                                                                        class="orangeBtn paddingBtn enterprizeGetOfferTwo" data-params="enterprise">Получить предложение</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="text-center no-border mobBtn">
+                    <a class="orangeBtn price-btn-small pull-left">Начать сейчас</a>
+                    <a class="orangeBtn price-btn-small">Начать Бесплатно<br>(14 дней)</a>
+                    <a href="mailto:roman@cleverstaff.net?subject=Запрос коммерческого предложения по премиум тарифу&body=(Здесь, напишите, пожалуйста о Вашей компании и контакты)" class="orangeBtn pull-right">Получить предложение</a>
+                </div>
+                <div class="clearfix"></div>
+                <span class="greyLine"></span>
+            </div>
+        </div>
+    </div>
+    <div class="block" id="block_10">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <h4>Быстрые ссылки</h4>
+                    <ul>
+                        <li><a href="why.html">Почему?</a></li>
+                        <li><a href="features.html">Возможности</a></li>
+                        <li class="active-link menu"><a href="#home">Цены</a></li>
+                        <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                        <li><a href="../api.html" target="_blank" target="_blank">API</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-8 col-sm-4 col-md-4">
+                    <h4>Контакты</h4>
+                    <ul>
+                        <li><a href="mailto:contact@cleverstaff.net" target="_blank"><span class="email pull-left"></span>contact@cleverstaff.net</a></li>
+                        <li><a href="skype:cleverstaff?chat"><span class="skype pull-left"></span>cleverstaff</a></li>
+                        <li><span class="tel pull-left"></span>+38 (044) 22 11 063</li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4">
+                    <h4>Присоединяйтесь</h4>
+                    <a href="https://www.facebook.com/cleverstaff" target="_blank" class="pull-left"><span class="fb"></span></a>
+                    <a href="https://www.linkedin.com/company/cleverstaff" target="_blank" class="pull-left"><span class="linkdIn"></span></a>
+                    <a href="https://www.youtube.com/user/cleverstaff" target="_blank" class="pull-left"><span class="youTube"></span></a>
+                    <a href="https://twitter.com/cleverstaff" target="_blank" class="pull-left"><span class="twit"></span></a>
+                    <a href="https://plus.google.com/u/1/b/103298552184404196991/103298552184404196991" target="_blank" class="pull-left"><span class="gplus"></span></a>
+                </div>
+                <div class="clearfix"></div>
+                <footer>
+                    &copy; CleverStaff 2014-2017
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="need-demo-modal" class="demo modal fade" role="dialog">
+    <div class="modal-dialog modal-md demo-modal text-center">
+        <div class="modal-body">
+            <h2 class="modal-title text-center showDemo">
+                Проведите мне Презентацию
+            </h2>
+            <h2 class="modal-title text-center showTariffPrice showTariffPriceRu" style="display: none">
+                Запросить цену
+            </h2>
+            <form class="question-form" action="" method="" name="" id="questionForm-index">
+                <div class="form-gr">
+                    <div class="firstName">
+                        <label for="ex1_firstName" class="nameForm pull-left">Имя *</label>
+                        <div class="clearfix"></div>
+                        <input id="ex1_firstName" class="float-left " type="text" name="firstName" placeholder="Имя *">
+                        <div class="error-firstName hidden"></div>
+                    </div>
+                    <div class="lastName">
+                        <label for="ex1_lastName" class="nameForm pull-left">Фамилия *</label>
+                        <div class="clearfix"></div>
+                        <input id="ex1_lastName" class="float-left" type="text" name="lastName" placeholder="Фамилия *">
+                        <div class="error-lastName hidden"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-gr displayTable">
+                    <label for="ex1_number" class="phoneForm pull-left">Номер телефона *</label>
+                    <div class="clearfix"></div>
+                    <div class="countries pull-left">
+                        <select class="countryCustom" name="countryCustom"></select>
+                    </div>
+                    <div class="phone pull-right">
+                        <input id="ex1_number" class="float-left phoneNumber pull-right" oninput="this.value = this.value.replace(/[^0-9]/g, ''); " type="number" name="phone" placeholder="Телефон (назначить демо) *">
+                    </div>
+                    <div class="error-phone hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_mail" class="emailForm pull-left">Email *</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_mail" class="float-left" type="email" name="email" placeholder="Email *">
+                    <div class="error-email hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_skype" class="skypeForm pull-left">Skype</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_skype" class="float-left" type="text" name="skype" placeholder="Skype (для проведения демо)">
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_orgName" class="companyForm pull-left">Название компании *</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_orgName" class="float-left" type="text" name="companyName" placeholder="Название компании *">
+                    <div class="error-orgName hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_usersCount" class="usersCountForm pull-left">Количество рекрутеров в вашей компании? *</label>
+                    <div class="clearfix"></div>
+                    <select name="numberOfRecruiters" id="ex1_usersCount" class="float-left">
+                        <option value>Количество рекрутеров в вашей компании? *</option>
+                        <option value="1">только я</option>
+                        <option value="1+">пока только я, но будут ещё</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value=">10">Больше 10</option>
+                    </select>
+                    <div class="error-usersCount hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_averageNum" class="numberVacancyForm pull-left">Среднее количество открытых вакансий в месяц *</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_averageNum" class="float-left" oninput="this.value = this.value.replace(/[^0-9]/g, ''); " name="numberOfVacancies" placeholder="Среднее количество открытых вакансий в месяц *">
+                    <div class="error-averageNum hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_soft" class="softForm pull-left">Какую систему для подбора персонала вы используете?</label>
+                    <input type="text" id="ex1_soft" class="float-left"  name="currentRecruitmentSoftware" placeholder="Какую систему для подбора персонала вы используете?">
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_keyRequirements" class="keyRequirementsForm pull-left">Опишите ваши ключевые требования</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_keyRequirements" class="float-left" type="text" name="keyRequirements" placeholder="Опишите ваши ключевые требования">
+                    <div class="error-tellUs hidden"></div>
+                </div>
+                <div class="form-gr hidden">
+                    <input class="float-left" id="valueTariff" type="text" value="" name="intention" placeholder="">
+                </div>
+                <input type="hidden" class="" name="country" value="null">
+                <div class="clearfix"></div>
+                <div class="form-last text-center">
+                    <input id="askQuestionSubmit2" data-toggle="modal" class="feedback orangeBtn border-width" name="send" type="button" value="Отправить">
+                </div>
+            </form>
+            <span class="close" data-dismiss="modal"></span>
+        </div>
+    </div>
+</div>
+<div id="thanks-modal" class="thanks modal fade" role="dialog">
+    <div class="modal-dialog modal-md thanks-modal thanks-modal-ru text-center">
+        <div class="modal-body padding-modal">
+            <h4 class="modal-title">
+                Спасибо!<br>
+                Мы скоро вам ответим :)
+            </h4>
+            <span class="close" data-dismiss="modal"></span>
+            <span class="arrow-modal"></span>
+            <span class="plan-modal"></span>
+        </div>
+    </div>
+</div>
+<div id="isIe" class="ie modal fade" role="dialog">
+    <div class="modal-dialog modal-md ie-modal text-center">
+        <div class="modal-body">
+            <h4 class="modal-title">
+                Internet Explorer не подходит для работы в CleverStaff, перейдите в Chrome или Firefox
+            </h4>
+            <img src="../external/img/chrome.png" width="50" height="50" class="imgBrower" alt=""/>
+            <img src="../external/img/firefox.png" width="50" height="50" class="imgBrower" alt=""/>
+            <span class="close" data-dismiss="modal"></span>
+        </div>
+    </div>
+</div>
+<link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" />
+<link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" />
+<script src="../external/js/script.min.js?b3"></script>
+<script src="../external/js/bootstrap.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+<script type="text/javascript">
+    if (document.domain === 'cleverstaff.net') {
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            mrentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-52127049-4', {
+            'cookieDomain': document.domain
+        });
+        ga('send', 'pageview');
+    }
+</script>
+</body>
+</html>

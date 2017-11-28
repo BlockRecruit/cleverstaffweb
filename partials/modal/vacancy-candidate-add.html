@@ -1,0 +1,114 @@
+<div class="candidate-add-in-vacancy">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title"> {{'adding_candidate'|translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <div class="item">
+            <input type="hidden" candidate-autocompleter ng-change="errorMessageForAddCandidate.show = false" ng-model="candidateToAddInInterview" id="candidateToAddInInterview">
+        </div>
+        <div class="alert alert-danger" ng-show="$root.addCandidateInInterview.addedInVacancy">
+            {{'candidate'|translate}}
+            <b>{{$root.addCandidateInInterview.select2Obj.name}}</b>
+            {{'has already been added to this vacancy and he have status'|translate}}
+            <b>{{$root.addCandidateInInterview.select2Obj.status|translate}}</b>
+            <br/>
+            {{'You can transfer him to'|translate}}:
+        </div>
+        <div class="item" ng-show="$root.addCandidateInInterview.showSelect == true">
+            <label ng-show="!$root.addCandidateInInterview.addedInVacancy">{{'interview_status'|translate}}</label>
+
+            <select  ng-model="$root.status2"
+                     ng-change="$root.changeTemplateInAddCandidate($root.status2)">
+
+                <option value="{{$root.addCandidateInInterview.statusObject[0]}}" ng-selected="$root.status2 == false" disabled>{{"Add a stage"|translate}}</option>
+
+                <option ng-repeat="status in $root.addCandidateInInterview.statusObject"
+                        value="{{status}}"
+                        ng-selected="$root.addCandidateInVacancy.status === status">
+                    {{status.value|translate}}
+                </option>
+            </select>
+        </div>
+        <div class="item"  ng-show="$root.addCandidateInInterview.status.withDate || $root.addCandidateInInterview.status.type == 'interview'">
+            <form class="form-inline">
+                <div class="input-group">
+                    <input type="text" placeholder="{{'Select'|translate}}" class="form-control addCandidateInInterviewPicker">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="item" ng-show="$root.addCandidateInInterview.showSelect == true">
+            <textarea class="form-control" ng-model="$root.addCandidateInInterview.comment" placeholder="{{'write_a_comment_why_do_you_add_candidate'|translate}}"></textarea>
+        </div>
+        <div class="item link-input"  ng-show="$root.addCandidateInInterview.status.withDate ||
+            $root.addCandidateInInterview.status.value == 'interview' ||
+            $root.addCandidateInInterview.status.value == 'notafit' ||
+            $root.addCandidateInInterview.status.value == 'declinedoffer' ||
+            $root.addCandidateInInterview.status.value == 'no_response' ||
+            $root.addCandidateInInterview.status.value == 'no_contacts' ||
+            $root.addCandidateInInterview.status.type == 'interview' ||
+            $root.addCandidateInInterview.status.type == 'refuse'">
+            <label ng-click="$root.candnotify.show = !$root.candnotify.show;$root.candnotifyClick()">
+                {{'Notify the candidate'|translate}}
+            </label>
+            <i class="fa fa-chevron-down" ng-click="$root.candnotify.show = !$root.candnotify.show;$root.candnotifyClick()"></i>
+        </div>
+        <div ng-show="$root.candnotify.show">
+            <div class="alert alert-danger" ng-show="$root.me.emails.length == 0">
+                <a href="#/email-integration" target='_blank'>{{"add integration with email"|translate}}</a>
+                {{"To send a letter from your mailbox, you need to"|translate}}
+            </div>
+            <div class="item">
+                <span class="title">{{"Candidate's email"|translate}}</span>
+                <input class="form-control candEmail" ng-model="$root.candnotify.sendMail" type="text">
+            </div>
+            <div class="item mail-checkbox" ng-show="$root.me.emails.length > 1">
+                <label>{{"Select email"|translate}}</label>
+                <div ng-click="$root.addEmailFromWhatSend(email)"
+                     ng-repeat="email in $root.me.emails">
+                    <label>
+                        <input ng-checked="email.email == $root.emailTemplateInModal.email" type="checkbox">{{email.email}}
+                    </label>
+                </div>
+            </div>
+            <div ng-show="$root.me.emails.length == 1" class="item mail-checkbox">
+                <label>{{"Send from"|translate}} {{$root.me.emails[0].email}}</label>
+            </div>
+            <div class="item">
+                <span class="title">{{'Letter subject' | translate}}</span>
+                <input ng-model="$root.emailTemplateInModal.title" class="form-control" type="text">
+            </div>
+            <div class="item">
+                <textarea id="modalMCECandidate" name="ModalMce"></textarea>
+                <input type="file" oi-file="$root.optionsTemplate" id="fileTemplateInCandidate" class="hidden"/>
+                <label ng-show="$root.fileForSave.length == 0" for="file">
+                    <span>{{'Attach file'|translate}}</span>
+                </label>
+                <span class="item" ng-repeat="file in $root.fileForSave">
+                    <a ng-href="{{serverAddress}}/getapp/{{ file.fileId}}/{{ file.fileName}}" style="color:#000000;"
+                       title="{{ file.fileName}}">
+                        {{file.fileName| fileNameCut:0:30}}
+                    </a>
+                    <i class="fa fa-times" ng-click="removeFile(file.attId);$event.stopPropagation();"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!--<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>-->
+        <!--<button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>-->
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal()">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept"  ng-click="$root.saveCandidateInVacancy()">{{'add'|translate}}</a>
+            <a ng-click=" $root.me.emails.length > 0 && $root.candnotify.send && interviewDate ? $root.saveCandidateInVacancy(true): validateNotifyModal()"
+               ng-show="$root.candnotify.show"
+               ng-class="$root.me.emails.length > 0 && $root.candnotify.send && interviewDate ? 'accept' : 'cancel'"
+               type="button" class="btn btn-primary cancel">
+                {{'Add and notify'|translate}}
+            </a>
+        </div>
+    </div>
+</div>

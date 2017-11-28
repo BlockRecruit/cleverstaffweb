@@ -1,0 +1,43 @@
+<div class="container-fluid">
+    <div class="block-my-reports">
+        <h4 ng-bind="'My Reports'|translate"></h4>
+        </span>
+        <p>
+            <span class="slogan" ng-bind='"Cannot find the appropriate report? Build it yourself at "|translate'></span>
+            <a href="#/constructor-reports" style="position: relative;">{{"Custom report designer"|translate}}.
+                <span class="new-label" style="right: -18px; top: 0px; font-weight: 600;">beta</span>
+            </a>
+        </p>
+        <table class="col-md-12 table" style="margin-top: 12px; table-layout: fixed; width: 100%;">
+            <thead>
+            <tr>
+                <th ng-bind="'My Reports'|translate"></th>
+                <th ng-bind="'Short description'|translate"></th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr class="hover" ng-mouseover="showFirst = true" ng-mouseleave="showFirst = false">
+                <td><a href="#/reports/reportall" ng-bind="'Report on vacancies'|translate"></a></td>
+                <td ng-bind="'description'|translate"></td>
+                <td class="text-right">
+                </td>
+            </tr>
+            <tr class="hover" ng-repeat="report in myReportsCtrl.customReports track by $index" ng-mouseover="show = true" ng-mouseleave="show = false">
+                <td><a href="#/reports/custom-reports" ng-bind="::report.name" ng-click="myReportsCtrl.getReport(report)"></a></td>
+                <td ng-bind="report.descr || 'description'|translate"></td>
+                <td class="text-right">
+                    <div ng-show="show && $root.me.recrutRole === 'admin'">
+                        <a href="#/reports/edit-reports" ng-click="myReportsCtrl.getReport(report)">
+                            <i class="fa fa-pencil" title="{{'Edit report parameters'|translate}}"></i>
+                        </a>
+                        <i class="fa fa-times" ng-click="myReportsCtrl.remove(report.customVacancyReportId, this)" title="{{'Delete report'|translate}}"></i>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

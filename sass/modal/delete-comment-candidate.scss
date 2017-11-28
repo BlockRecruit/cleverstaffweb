@@ -1,0 +1,21 @@
+.delete-comment-candidate {
+	.modal-header {
+		h4 {
+			@include bold();
+		}
+		i {
+			@include close-item();
+		}
+	}
+	.modal-footer {
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			@include button-styling();
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+	}
+}

@@ -1,0 +1,35 @@
+<div class="candidate-change-status vacancy">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="closeModal()"></i>
+        <h4 class="modal-title">
+            <span translate="change_candidate_status" ></span>
+            <span ng-bind="::restoreParams.fullName"></span>
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="select">
+            <select class="form-control" ng-model="restoreParams.candidateState" >
+                <option translate="candidate_status_assoc.archived" value="archived" ></option>
+                <option translate="candidate_status_assoc.active_search" value="active_search" ></option>
+                <option translate="candidate_status_assoc.passive_search" value="passive_search" ></option>
+                <option translate="candidate_status_assoc.work" value="work" ></option>
+                <option translate="candidate_status_assoc.freelancer" value="freelancer" ></option>
+                <option translate="candidate_status_assoc.employed" value="employed" ></option>
+                <option translate="candidate_status_assoc.not_searching" value="not_searching" ></option>
+                <option translate="candidate_status_assoc.only_remote" value="only_remote" ></option>
+                <option translate="candidate_status_assoc.only_relocation_abroad" value="only_relocation_abroad" ></option>
+            </select>
+        </div>
+        <div class="item">
+            <textarea placeholder="{{'comment'|translate}}"
+                      ng-model="restoreParams.comment">
+            </textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="closeModal()">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept" ng-show="restoreParams.candidateState != 'archived'"  ng-click="confirmRestoring()">{{'Move'|translate}}</a>
+        </div>
+    </div>
+</div>

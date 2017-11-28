@@ -1,0 +1,166 @@
+.navbar {
+	.navbar-header-public-vacancy {
+		position: absolute;
+		right: 0;
+		left: 0;
+
+		width: 195px!important;
+		margin: 0 auto;
+
+		text-align: center;
+		.navbar-brand {
+			font-family: Roboto, sans-serif;
+			font-size: 48px;
+			font-weight: 600;
+
+			display: flex;
+			margin-top: 0!important;
+			padding: 5px 15px;
+
+			color: $theme-white;
+			span {
+				&:last-child {
+					margin: 0;
+				}
+			}
+			.logo {
+				display: inline-block;
+				width: 40px;
+				height: 40px;
+
+				background: url(/images/sprite/CS_logo_white_transparent.png) no-repeat;
+				background-size: cover;
+			}
+		}
+		.brand-text {
+			font-size: 22px;
+			font-weight: 600;
+
+			display: inline-block;
+			margin-top: 13px;
+
+			color: $theme-white;
+			span {
+				&:last-child {
+					display: block;
+					margin-top: -5px;
+				}
+			}
+		}
+	}
+}
+@media only screen and (max-device-width: 480px) {
+	.navbar-header-public-vacancy {
+		width: 16%!important;
+	}
+}
+@media screen and (min-device-width: 481px) and (max-device-width: 768px) {
+	.navbar-header-public-vacancy {
+		width: 10%!important;
+	}
+}
+@media screen and (min-device-width: 769px) and (max-device-width: 1160px) {
+	.navbar-header-public-vacancy {
+		width: 5%!important;
+	}
+}
+.block-vacancy-recall {
+	& > .row {
+		@include bt-margins-from-side();
+
+		padding: 15px;
+		& > .leftBar {
+			@include border-radius();
+
+			margin-top: 15px;
+			padding: 0;
+
+			background-color: $theme-white;
+			& > span {
+				position: absolute;
+				bottom: 64px;
+				left: 45%;
+
+				width: 40px;
+
+				text-align: center;
+
+				background-color: $theme-white;
+			}
+			& > h4 {
+				@include bold();
+
+				padding: 10px 15px;
+			}
+			& > .checkboxes {
+				padding: 0 15px 15px 15px;
+
+				border-bottom: 1px solid $theme-light-grey-hover;
+				& > div {
+					& > label {
+						& > button {
+							width: 23px;
+							height: 23px;
+							padding: 0;
+
+							vertical-align: middle;
+
+							border: none;
+							outline: none;
+							& > i {
+								font-size: 27px;
+
+								display: none;
+								margin: 0;
+
+								color: green;
+								background-color: white;
+							}
+							& > .checkmark {
+								display: block;
+							}
+						}
+					}
+				}
+			}
+			& > .text-center {
+				padding: 20px 0;
+				.btn {
+					@include button-styling();
+
+					color: $theme-dark;
+				}
+				.btn-primary {
+					background-color: $theme-red;
+					&:hover {
+						color: $theme-white;
+						background-color: $theme-red;
+					}
+				}
+			}
+		}
+		& > .publicInformation {
+			//			margin-left: 25px;
+			padding-bottom: 20px;
+
+			border-radius: 5px;
+			background-color: $theme-white;
+			& > h2 {
+				@include bold();
+				& > span {
+					color: $theme-link-color;
+				}
+			}
+			& > .publicInformationBlock1 {
+				padding: 0;
+				span {
+					color: $theme-light-grey;
+				}
+			}
+		}
+		& > .publicInformation2 {
+			margin-top: 15px;
+			margin-left: 25px;
+		}
+	}
+}

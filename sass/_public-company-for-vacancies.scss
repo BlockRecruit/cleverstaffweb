@@ -1,0 +1,529 @@
+body {
+	padding-bottom: 0;
+}
+
+.block-company-public-vacancies {
+	position: relative;
+
+	overflow-x: hidden;
+	min-height: 100vh;
+	padding-top: 50px;
+
+	background-color: #e3f2dd;
+	& .cs-logo {
+		position: relative;
+		& .social-icons {
+			position: fixed;
+			z-index: 999;
+			bottom: 20%;
+			left: 0;
+			& a {
+				display: block;
+				width: 33px;
+				height: 33px;
+				padding-top: 8px;
+
+				transition: all 0.3s;
+				& i {
+					font-size: 19px;
+
+					display: block;
+
+					color: #fff;
+				}
+				&:hover {
+					width: 42px;
+
+					text-decoration: none;
+
+					color: #fff;
+				}
+				&.gmail {
+					background-color: #db4538;
+				}
+				&.linked {
+					background-color: #0178b5;
+				}
+				&.twitter {
+					background-color: #139df1;
+				}
+				&.fb {
+					background-color: #3c5a98;
+				}
+			}
+		}
+	}
+	& .company-info {
+		display: inline-block;
+		min-width: 450px;
+		max-width: 600px;
+		margin: 0 auto;
+		padding: 20px 40px;
+
+		border-radius: 20px;
+		background-color: #f1f9ee;
+		& .logo {
+			display: inline-block;
+			max-width: 45%;
+			height: 100%;
+			margin-right: 4%;
+			& img {
+				width: 100%;
+				height: auto;
+			}
+		}
+		& .info {
+			display: inline-block;
+			max-width: 50%;
+
+			vertical-align: top;
+			&.full-width {
+				width: 100%;
+				max-width: 100%;
+				& h2 {
+					margin: 0;
+
+					word-break: break-word;
+				}
+			}
+			& h2 {
+				font-family: "Helvetica-Bold";
+				font-size: 38px;
+
+				margin: 0 0 17px 0;
+				&.margin-bot {
+					margin-bottom: 14px;
+				}
+			}
+			& .info--site {
+				display: block;
+				margin-bottom: 8px;
+
+				text-align: center;
+				& img {
+					display: inline-block;
+					margin-right: 10px;
+				}
+				& a {
+					font-family: "Helvetica-Medium";
+
+					display: inline-block;
+					&.site {
+						min-width: 154px;
+
+						text-align: left;
+					}
+				}
+				&.text-center {
+					text-align: center;
+				}
+			}
+		}
+	}
+	& .vacancies-intro {
+		display: block;
+		margin: 70px auto 25px;
+
+		text-align: center;
+		& h2 {
+			font-family: "Helvetica-Bold";
+			font-weight: 600;
+
+			display: inline-block;
+			margin: 0;
+			padding: 13px 20px;
+
+			text-align: center;
+
+			border-radius: 15px;
+			background-color: #f1f9ee;
+		}
+	}
+	& .vacancies {
+		position: relative;
+		z-index: 999;
+
+		max-width: 62%;
+		margin: 0 auto 80px;
+		padding: 30px 16px;
+
+		border-radius: 25px;
+		background-color: #f1f9ee;
+		& .vacancy {
+			display: block;
+			margin: 0 auto 12px;
+			padding: 4px 14px 4px 9px;
+
+			transition-timing-function: ease-out;
+			transition-duration: 250ms;
+
+			border: 2px solid #000;
+			border-radius: 12px;
+			background-color: #fff;
+			&:hover {
+				transition-timing-function: ease-out;
+				transition-duration: 250ms;
+				transform: scale(1.05, 1.05);
+			}
+			& a {
+				color: #000;
+				&:hover {
+					color: #000;
+				}
+				& span {
+					font-family: "Helvetica-Regular";
+					font-size: 18px;
+
+					display: block;
+
+					text-transform: uppercase;
+					&.vacancy__location {
+						text-align: center;
+					}
+					&.vacancy__salary {
+						display: inline-block;
+						& span {
+							display: inline-block;
+						}
+					}
+					&.vacancy__employment {
+						display: inline-block;
+					}
+				}
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+	& .cleverstaff {
+		margin-bottom: 20px;
+
+		text-align: center;
+		span {
+			font-family: "Helvetica-Medium";
+			font-size: 15px;
+			line-height: 20px;
+
+			display: inline-block;
+			margin: 0;
+			padding: 0;
+		}
+		img {
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+		}
+	}
+	.background-animations {
+		& img.position {
+			position: fixed;
+
+			opacity: 0.45;
+			&.cloud-1 {
+				top: 10%;
+				left: 11%;
+			}
+			&.cloud-2 {
+				position: absolute;
+				top: 110px;
+				left: 22%;
+			}
+			&.cloud-3 {
+				top: 9%;
+				right: 15%;
+			}
+			&.cloud-4 {
+				position: absolute;
+				top: 100px;
+				right: 23%;
+			}
+			&.ball {
+				top: 40%;
+				left: 12%;
+			}
+			&.calendar {
+				top: 34%;
+				right: 7%;
+			}
+			&.calendar-2 {
+				top: 52%;
+				left: 5%;
+			}
+			&.spiral-line {
+				top: 44%;
+				right: 12%;
+			}
+			&.person-3 {
+				top: 54.5%;
+				right: 0;
+			}
+			&.plane {
+				top: 60.5%;
+				left: 3%;
+			}
+			&.person-1 {
+				position: absolute;
+				bottom: 0.8%;
+				left: 10%;
+			}
+			&.person-2 {
+				position: absolute;
+				right: 9%;
+				bottom: 1%;
+			}
+		}
+		.cloud-1.ng-enter,
+		.cloud-2.ng-enter,
+		.calendar-2.ng-enter,
+		.plane.ng-enter,
+		.person-1.ng-enter,
+		.ball.ng-enter {
+			transition: 0.65s linear all;
+			transform: translateX(-300%);
+
+			opacity: 0;
+		}
+		.cloud-4.ng-enter,
+		.cloud-3.ng-enter,
+		.calendar.ng-enter,
+		.spiral-line.ng-enter,
+		.person-3.ng-enter,
+		.person-2.ng-enter {
+			transition: 0.65s linear all;
+			transform: translateX(300%);
+
+			opacity: 0;
+		}
+		.cloud-1.ng-enter.ng-enter-active,
+		.ball.ng-enter.ng-enter-active,
+		.calendar-2.ng-enter.ng-enter-active,
+		.plane.ng-enter.ng-enter-active,
+		.person-1.ng-enter.ng-enter-active,
+		.cloud-2.ng-enter.ng-enter-active,
+		.cloud-4.ng-enter.ng-enter-active,
+		.cloud-3.ng-enter.ng-enter-active,
+		.calendar.ng-enter.ng-enter-active,
+		.spiral-line.ng-enter.ng-enter-active,
+		.person-3.ng-enter.ng-enter-active,
+		.person-2.ng-enter.ng-enter-active {
+			transform: translateY(0);
+
+			opacity: 1;
+		}
+	}
+	#scrollup {
+		position: absolute;
+		z-index: 999;
+	}
+}
+
+//.cloud-1.ng-enter,
+//.cloud-2.ng-enter,
+//.calendar-2.ng-enter,
+//.plane.ng-enter,
+//.person-1.ng-enter,
+//.ball.ng-enter {
+//	transition: 0.5s linear all;
+//	transform: translateX(-300%);
+//
+//	opacity: 0;
+//}
+//.cloud-1.ng-enter.ng-enter-active,
+//.ball.ng-enter.ng-enter-active,
+//.calendar-2.ng-enter.ng-enter-active,
+//.plane.ng-enter.ng-enter-active,
+//.person-1.ng-enter.ng-enter-active,
+//.cloud-2.ng-enter.ng-enter-active {
+//	transform: translateY(0);
+//
+//	opacity: 1;
+//}
+
+@media (max-width: 987px) {
+	.block-company-public-vacancies {
+		.vacancies {
+			max-width: 80%;
+		}
+	}
+}
+
+@media (max-width: 767px) {
+	.block-company-public-vacancies {
+		.vacancies {
+			max-width: 70%;
+			.vacancy {
+				a {
+					span {
+						margin-bottom: 0;
+						padding-bottom: 0;
+						&.vacancy__name {
+							font-weight: 600;
+
+							display: inline-block;
+							width: 65%;
+							padding: 8px 0;
+
+							border-bottom: 1px solid lightgray;
+						}
+						&.vacancy__location {
+							display: inline-block;
+							width: 65%;
+							padding: 6px;
+
+							text-align: center;
+
+							border-bottom: 1px solid lightgray;
+						}
+					}
+					.emp-salary {
+						display: inline-block;
+						width: 100%;
+						padding: 6px 0 0 0;
+
+						text-align: center;
+						.vacancy__salary,
+						.vacancy__employment {
+							margin-bottom: 0;
+							padding-bottom: 0;
+
+							border-bottom: 0;
+							& span {
+								margin-bottom: 0;
+								padding-bottom: 0;
+
+								border-bottom: 0;
+							}
+						}
+					}
+				}
+				.vacancy__name--wrap,
+				.vacancy__salary--wrap,
+				.vacancy__location--wrap {
+					text-align: center;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: 600px) {
+	.block-company-public-vacancies .vacancies .vacancy a span.vacancy__name,
+	.block-company-public-vacancies .vacancies .vacancy a span.vacancy__location {
+		width: 80%;
+	}
+}
+
+@media (max-width: 565px) {
+	.block-company-public-vacancies {
+		.vacancies {
+			max-width: 85%;
+			.vacancy {
+				padding: 12px 0;
+			}
+		}
+		.cs-logo {
+			.social-icons {
+				display: none;
+			}
+		}
+	}
+	.block-company-public-vacancies .background-animations img.position {
+		position: absolute;
+	}
+}
+
+
+@media (max-width: 490px) {
+	.block-company-public-vacancies .company-info .logo {
+		max-width: 60%;
+
+		text-align: center;
+	}
+	.block-company-public-vacancies .company-info .info {
+		max-width: 100%;
+		margin-top: 10px;
+	}
+	.block-company-public-vacancies .company-info {
+		min-width: 0;
+	}
+	.block-company-public-vacancies .vacancies .vacancy a span.vacancy__name,
+	.block-company-public-vacancies .vacancies .vacancy a span.vacancy__location {
+		width: 100%;
+	}
+}
+
+
+
+
+
+
+
+//background-animation
+@media (max-width: 1080px) {
+	.block-company-public-vacancies .background-animations img.position.cloud-4,
+	.block-company-public-vacancies .background-animations img.position.cloud-2 {
+		display: none;
+	}
+	.block-company-public-vacancies .background-animations img.position.cloud-1 {
+		left: 5%;
+	}
+	.block-company-public-vacancies .background-animations img.position.cloud-3 {
+		top: 80px;
+		right: 5%;
+	}
+}
+@media (max-width: 987px) {
+	.block-company-public-vacancies .background-animations img.position.plane {
+		display: none;
+	}
+}
+
+@media (max-width: 767px) {
+	.block-company-public-vacancies .background-animations img.position.person-1 {
+		left: 5%;
+	}
+}
+
+@media (max-width: 660px) {
+	.block-company-public-vacancies .background-animations img.position.person-1 {
+		display: none;
+	}
+	.block-company-public-vacancies .background-animations img.position.cloud-1,
+	.block-company-public-vacancies .background-animations img.position.cloud-3 {
+		display: none;
+	}
+	.block-company-public-vacancies .background-animations img.position.spiral-line {
+		display: none;
+	}
+	.block-company-public-vacancies .background-animations img.position.calendar {
+		top: 260px;
+	}
+	.block-company-public-vacancies .background-animations img.position.person-2 {
+		right: 1%;
+	}
+}
+@media (max-width:490px) {
+	.block-company-public-vacancies .background-animations img.position.calendar {
+		display: none;
+	}
+	.block-company-public-vacancies .background-animations img.position.ball {
+		display: none;
+	}
+	.block-company-public-vacancies .background-animations img.position.person-3 {
+		top: 475px;
+	}
+	.block-company-public-vacancies .background-animations img.position.calendar-2 {
+		top: 450px;
+	}
+}
+
+@media (min-width:362px) and (max-width:400px) {
+	.block-company-public-vacancies .background-animations img.position.person-3 {
+		top: 517px;
+	}
+	.block-company-public-vacancies .background-animations img.position.calendar-2 {
+		top: 410px;
+	}
+}
+// end of BI;

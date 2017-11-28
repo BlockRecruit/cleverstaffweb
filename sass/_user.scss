@@ -1,0 +1,572 @@
+.block-user {
+	.breadcrumbs {
+		margin-top: 20px;
+		& > .breadcrumb {
+			& > li {
+				& > i {
+					font-size: 9px;
+
+					padding: 0 5px;
+				}
+			}
+			& > li:before {
+				padding: 0;
+
+				content: "";
+			}
+		}
+	}
+	.user-information {
+		@include bt-margins-from-side();
+
+		padding-top: 0;
+		& > .fullName-position {
+			float: none;
+			margin-bottom: 15px;
+			& > .showNameUser {
+				margin-top: -15px;
+				padding-top: 6px;
+			}
+			& > span {
+				@include bold();
+
+				font-size: 20px;
+
+				margin-top: -15px;
+				margin-bottom: 5px;
+				& > span {
+					font-size: 14px;
+					font-weight: 500;
+
+					color: #777;
+				}
+			}
+			.focusTextArea {
+				@include bold();
+
+				font-size: 20px;
+
+				overflow-y: hidden;
+				width: 20%;
+				height: 27px;
+				margin: 0;
+				padding: 0;
+
+				resize: none;
+
+				border: 0;
+				border-radius: 0;
+				background: 0 0;
+				box-shadow: none;
+				&:focus {
+					outline: none;
+				}
+			}
+			.banFa {
+				i {
+					color: $theme-red;
+				}
+			}
+		}
+	}
+	.user-profile-rezume {
+		@include bt-margins-from-side();
+
+		padding: 0;
+		a {
+			@include link-styling();
+
+			outline: none;
+		}
+		.leftBar {
+			padding: 0;
+
+			border-radius: 5px;
+			background-color: $theme-white;
+			& > h4 {
+				@include bold();
+
+				margin: 0;
+				padding: 15px;
+			}
+			& > .borderNone {
+				border-top: none!important;
+				border-bottom: none!important;
+			}
+			.checkboxes {
+				padding: 15px;
+
+				border-bottom: 1px solid $theme-light-grey-hover;
+				.checkbox {
+					span {
+						display: inline-block;
+						margin-left: 15px;
+					}
+				}
+			}
+			& > .col-lg-12 {
+				padding: 15px;
+				padding-top: 5px;
+
+				border-top: 1px solid $theme-light-grey-hover;
+				border-bottom: 1px solid $theme-light-grey-hover;
+				.switch {
+					.floatLeft {
+						height: 22px;
+
+						color: $theme-dark;
+					}
+				}
+				& > i {
+					font-size: 25px;
+				}
+				& > h4 {
+					@include bold();
+				}
+				& > h5 {
+					@include bold();
+
+					position: relative;
+					top: 4px;
+					left: 5px;
+
+					margin: 0;
+				}
+				& > div {
+					color: $theme-grey;
+				}
+				&:last-child {
+					border-bottom: none;
+				}
+			}
+		}
+		.centerBar {
+			padding-right: 0;
+
+			border-radius: 5px;
+			.main-info {
+				@include border-radius();
+
+				padding: 15px 0;
+				& > div {
+					.userLogin {
+						height: 35px;
+						& > span {
+							color: $theme-grey;
+						}
+						& > span ~ span {
+							@include bold();
+
+							color: $theme-dark;
+						}
+					}
+					.error-password {
+						color: $theme-red;
+					}
+					.red {
+						background-color: #ff8b8b;
+					}
+					.green {
+						background-color: $theme-green;
+					}
+					.showChangePass {
+						height: 35px;
+						i {
+							color: $theme-link-color;
+						}
+						.blockChangePass {
+							display: inline-block;
+							margin-bottom: 10px;
+							padding: 10px;
+
+							border: 1px solid $theme-light-grey-hover;
+							box-shadow: 0 0 6px 1px $theme-light-grey-hover;
+							.pull-left {
+								width: 100%;
+								input {
+									@include input-styling();
+									@include border-radius();
+
+									width: 100%;
+									&:focus {
+										outline: none;
+									}
+								}
+								.text-center {
+									.btn {
+										@include button-styling();
+									}
+									.accept {
+										@include button-styling();
+
+										margin-left: 5px;
+									}
+									.cancel {
+										@include button-styling-cancel();
+									}
+								}
+								&:last-child {
+									margin: 15px 0;
+								}
+							}
+						}
+					}
+					.recrutRoleForUser {
+						& > .btn-group {
+							& > #single-button {
+								cursor: pointer;
+
+								color: $theme-dark;
+								box-shadow: none;
+							}
+							& > .dropdown-menu {
+								li {
+									padding: 5px 0 2px 15px;
+
+									cursor: pointer;
+
+									& > .twoDropDownMenu {
+									}
+									& > ul {
+										display: none;
+									}
+									&:hover ul {
+										position: absolute;
+										top: 0;
+										left: 160px;
+
+										display: block;
+										width: 150px;
+										padding: 0;
+
+										list-style: none;
+
+										border: 1px solid rgba(0, 0, 0, 0.15);
+										border-radius: 4px;
+										box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+										& > li {
+											padding: 5px 0 2px 15px;
+
+											background-color: $theme-white;
+										}
+									}
+								}
+							}
+						}
+						& > .select12 {
+							position: relative;
+							top: 2px;
+							left: 3px;
+
+							cursor: pointer;
+
+							color: $theme-link-color;
+						}
+						.popupOuter {
+							div {
+								margin-top: 10px;
+							}
+						}
+					}
+					.myRegion {
+						height: 35px;
+						margin-top: 20px;
+						& > i {
+							margin: 4px 5px 0 2px;
+
+							color: $theme-green;
+						}
+						& > span {
+							@include link-styling();
+							&:hover i {
+								cursor: pointer;
+
+								color: $theme-link-color;
+							}
+						}
+						& > .editRegion {
+							margin-bottom: 20px;
+							& > input {
+								@include input-styling();
+								@include border-radius();
+
+								width: 190px;
+								padding-left: 10px;
+								&:focus {
+									outline: none;
+								}
+							}
+							& > .text-center {
+								margin-top: 10px;
+								.btn {
+									@include button-styling();
+								}
+								.accept {
+									@include button-styling();
+								}
+								.cancel {
+									@include button-styling-cancel();
+
+									margin-left: 30px;
+								}
+							}
+						}
+					}
+					.changeLanguage {
+						span {
+							margin-top: 5px;
+							margin-right: 5px;
+						}
+						div {
+							select {
+								@include select-styling();
+
+								font-size: 14px;
+
+								height: 25px;
+								padding: 0 0 0 5px;
+							}
+						}
+					}
+					a {
+						@include link-styling();
+						@include text-ellipsis();
+
+						position: relative;
+						top: 1px;
+
+						display: inline;
+						&:not(:first-child) {
+							margin-top: 15px;
+						}
+						i {
+							margin-right: 10px;
+
+							color: $theme-dark-green;
+						}
+						i ~ span {
+							font-weight: 500;
+						}
+						&.phone {
+							color: $theme-dark;
+						}
+						span {
+							@include bold();
+						}
+						span ~ span {
+							font-weight: 500;
+						}
+					}
+					.source-for-contact {
+						color: $theme-dark;
+						& > span {
+							color: $theme-grey;
+						}
+						&:hover {
+							color: $theme-dark;
+						}
+					}
+				}
+				.showChangeContacts {
+					line-height: 30px;
+					& > div {
+						color: $gray-light;
+						&:first-child {
+							color: $theme-dark;
+						}
+						& > i {
+							margin-right: 10px;
+
+							color: $theme-light-green-hover;
+						}
+						& > span {
+							& > i {
+								@include link-styling();
+							}
+							&:hover i {
+								cursor: pointer;
+
+								color: $theme-link-color;
+							}
+						}
+					}
+				}
+				.hideChangeContacts {
+					& > .item {
+						height: 40px;
+						input[type="number"]::-webkit-outer-spin-button,
+						input[type="number"]::-webkit-inner-spin-button {
+							margin: 0;
+
+							-webkit-appearance: none;
+						}
+						& > input {
+							@include input-styling();
+							@include border-radius();
+
+							width: 190px;
+							margin-top: 7px;
+							padding-left: 10px;
+							&:focus {
+								outline: none;
+							}
+						}
+					}
+					& > .text-center {
+						.btn {
+							@include button-styling();
+						}
+						.accept {
+							@include button-styling();
+						}
+						.cancel {
+							@include button-styling-cancel();
+						}
+					}
+				}
+			}
+			.history-outer {
+				margin-top: 30px;
+				padding: 0;
+				.event {
+					@include flex-centered-verticaly();
+
+					width: 100%;
+					margin-left: 0;
+					padding: 0;
+
+					border-bottom: 1px solid $theme-border-color-base;
+					background-color: $theme-white;
+					& > div {
+						padding: 8px 15px;
+						&:hover {
+							cursor: pointer;
+
+							background-color: $theme-subtitle-background;
+						}
+						@media (max-width: $screen-sm) {
+							.col-lg-2 {
+								padding-left: 0;
+							}
+						}
+						.col-lg-10 {
+							padding-left: 0;
+						}
+					}
+					#commentAdd {
+						& > .field {
+							area {
+								width: 405px;
+								height: 155px;
+								margin-top: 10px;
+
+								resize: none;
+							}
+						}
+						& > .text-center {
+							margin-top: 10px;
+							&:last-child {
+								margin-left: 10px;
+							}
+							.btn {
+								@include button-styling();
+							}
+							.accept {
+								color: $theme-white;
+								background-color: $theme-dark-green;
+								&:hover {
+									background-color: $theme-light-green-hover;
+								}
+							}
+							.cancel {
+								color: #585859;
+								background-color: #e3e3e3;
+								&:hover {
+									background-color: $theme-light-grey-hover;
+								}
+							}
+						}
+					}
+					a {
+						//display: block;
+						&:not(.btn) {
+							@include link-styling();
+						}
+						&.accept-button {
+							@include button-styling();
+						}
+						&.cancel {
+							@include button-styling-cancel();
+						}
+					}
+					.editMessage {
+						margin-right: 5px;
+					}
+					.textField {
+						& > .field {
+							margin-top: 10px;
+							& > textarea {
+								width: 405px;
+								height: 155px;
+
+								resize: none;
+							}
+							@media (max-width: $screen-sm) {
+								textarea {
+									width: 100%!important;
+								}
+							}
+						}
+						.btn {
+							@include button-styling();
+						}
+						.accept {
+							@include button-styling();
+						}
+						.cancel {
+							@include button-styling-cancel();
+						}
+						&:last-child {
+							margin-left: 10px;
+						}
+					}
+					.margin-top-1 {
+						margin-top: -17px;
+					}
+				}
+				& > div:last-child {
+					background-color: $theme-subtitle-background;
+				}
+				.more-history {
+					@include button-styling();
+
+					display: block;
+					width: 100%;
+				}
+				.last-actions-header {
+					width: 100%;
+					margin-left: 0;
+					padding: 8px;
+
+					background-color: $theme-light-green;
+					.title-header {
+						font-size: 18px;
+						font-weight: 600;
+					}
+					a:not(.show-comments) {
+						@include button-styling();
+
+						margin-left: 15px;
+						padding: 3px 12px;
+
+						border: none;
+						background-color: #b4eba4;
+					}
+					.show-comments {
+						color: #202021;
+					}
+				}
+			}
+		}
+	}
+}

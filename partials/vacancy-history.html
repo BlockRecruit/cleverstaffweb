@@ -1,0 +1,159 @@
+<div class="col-lg-12 history-outer">
+    <div class="row last-actions-header">
+        <!--<div class="col-lg-12">-->
+            <!--<span class="title-header pull-left">-->
+                <!--{{'history'|translate}}-->
+            <!--</span>-->
+            <!--<br/>-->
+            <!--<a type="button" class="btn btn-primary pull-right" ng-click="showModalAddCommentToVacancy()">-->
+                <!--{{'add_comment'|translate}}-->
+                <!--<i class="fa fa-pencil"></i>-->
+            <!--</a>-->
+            <!--<br/>-->
+            <!--<a class="show-comments pull-left" href="" ng-click="showComments(true)" ng-show="!onlyComments">-->
+                <!--{{'Show comments only'|translate}}-->
+            <!--</a>-->
+            <!--<a class="show-comments pull-left" href="" ng-show="onlyComments" ng-click="showDetails(false)">-->
+                <!--{{'Show details'|translate}}-->
+            <!--</a>-->
+        <!--</div>-->
+        <div class="col-lg-12">
+            <span class="title-header pull-left">
+                {{'Activity_Log'|translate}}
+            </span>
+            <a href="" ng-click="showModalAddCommentToVacancy('md');" class="add_comment pull-right">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+                {{'add_comment'|translate}}
+            </a>
+            <!--<div class="switch">-->
+                <!--<label ng-click="showComments()" ng-class="{grey: !onlyComments}" class="floatLeft">{{'Show comments only'|translate}}</label>-->
+                <!--<input id="cmn-toggle-9" ng-class="{checked: !onlyComments}" class="cmn-toggle cmn-toggle-round showCommentSwitcher" type="checkbox">-->
+                <!--<label class="" ng-click="showCommentsSwitch()" for="cmn-toggle-9"></label>-->
+                <!--<label ng-click="showDetails()" ng-class="{grey: onlyComments}" class="floatLeft">{{'Show details'|translate}}</label>-->
+            <!--</div>-->
+            <div class="col-lg-2 col-md-2 hidden-xs hidden-sm">
+                <select class="switch-history-type" ng-model="::historyType.value" ng-change="changeHistoryType()">
+                    <option value="all_actions">{{'all_actions'|translate}}</option>
+                    <option value="vacancy_changes">{{'vacancy_changes'|translate}}</option>
+                    <option value="vacancy_comments">{{'vacancy_comments'|translate}}</option>
+                    <option value="candidate_comments">{{'candidate_comments'|translate}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <!---------------------------------------------- to repeat-->
+    <div class="row event last-action"
+         ng-repeat="history in history"
+         ng-switch="history.type">
+        <div class="col-lg-12 hidden" ng-switch-default></div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="interview_edit">
+            <ng-include src="'partials/history/vacancy/interview_edit.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="vacancy_edit">
+            <ng-include src="'partials/history/vacancy/vacancy_edit.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="vacancy_add">
+            <ng-include src="'partials/history/vacancy/vacancy_add.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="vacancy_change_state">
+            <ng-include src="'partials/history/vacancy/vacancy_change_state.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="interview_add">
+            <ng-include src="'partials/history/vacancy/interview_add.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="interview_edit_date">
+            <ng-include src="'partials/history/vacancy/interview_edit_date.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="client_change_state">
+            <ng-include src="'partials/history/vacancy/client_change_state.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="contact_client_add">
+            <ng-include src="'partials/history/vacancy/contact_client_add.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="contact_client_edit">
+            <ng-include src="'partials/history/vacancy/contact_client_edit.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="client_add">
+            <ng-include src="'partials/history/vacancy/client_add.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="client_edit">
+            <ng-include src="'partials/history/vacancy/client_edit.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="vacancy_set_responsible">
+            <ng-include src="'partials/history/vacancy/vacancy_set_responsible.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="candidate_add">
+            <ng-include src="'partials/history/vacancy/candidate_add.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="candidate_add_file">
+            <ng-include src="'partials/history/vacancy/candidate_add_file.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="candidate_change_state">
+            <ng-include src="'partials/history/vacancy/candidate_change_state.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="candidate_edit">
+            <ng-include src="'partials/history/vacancy/candidate_edit.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="candidate_message">
+            <ng-include src="'partials/history/vacancy/candidate_message.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="candidate_remove_file">
+            <ng-include src="'partials/history/vacancy/candidate_remove_file.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="candidate_set_responsible">
+            <ng-include src="'partials/history/vacancy/candidate_set_responsible.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="client_message">
+            <ng-include src="'partials/history/vacancy/client_message.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="interview_message">
+            <ng-include src="'partials/history/vacancy/interview_message.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="interview_remove">
+            <ng-include src="'partials/history/vacancy/interview_remove.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="sent_candidate_to_client">
+            <ng-include src="'partials/history/vacancy/sent_candidate_to_client.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="sent_candidates_to_client">
+            <ng-include src="'partials/history/vacancy/sent_candidates_to_client.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="change_org_name">
+            <ng-include src="'partials/history/vacancy/user_change_org_name.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="user_is_block">
+            <ng-include src="'partials/history/vacancy/user_is_block.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="vacancy_add_file">
+            <ng-include src="'partials/history/vacancy/vacancy_add_file.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="vacancy_message">
+            <ng-include src="'partials/history/vacancy/vacancy_message.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="vacancy_remove_file">
+            <ng-include src="'partials/history/vacancy/vacancy_remove_file.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="vacancy_remove_responsible">
+            <ng-include src="'partials/history/vacancy/vacancy_remove_responsible.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="task_create">
+            <ng-include src="'partials/history/vacancy/task_create.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="set_interview_status">
+            <ng-include src="'partials/history/vacancy/vacancy_set_interview_status.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="task_change_status">
+            <ng-include src="'partials/history/vacancy/vacancy_task_change_status.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="task_change">
+            <ng-include src="'partials/history/vacancy/vacancy_task_change.html'"></ng-include>
+        </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="task_change_type">
+            <ng-include src="'partials/history/vacancy/vacancy_task_change.html'"></ng-include>
+        </div>
+    </div>
+    <!-------------------------------------------------------end-->
+    <button class="btn more-history" ng-click="getMoreHistory()" ng-show="historyTotal > historyLimit">
+        {{'previous_history'|translate}} <i class="fa fa-caret-down" aria-hidden="true"></i>
+    </button>
+</div>

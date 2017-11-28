@@ -1,0 +1,19 @@
+<div class="add-coment">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">
+            {{'Insert link at site with CV and click the Treat button'|translate}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="item">
+            <input type="url" class="form-control" placeholder="{{'Insert a link to resume online'|translate}}" ng-model="$root.fastCandResumeLinkSite" id="fastCandResumeLinkSite"/>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept"  ng-click="$root.checkTextForLink();">{{'Process'|translate}}</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+.disabled-btn-for-test-account {
+	border: 1px solid $theme-red;
+	background-color: #fff2cc;
+	h4 {
+		@include bold();
+
+		margin: 20px 0;
+	}
+	p {
+		margin: 25px 0;
+		padding: 0 45px;
+	}
+	.btn {
+		@include button-styling();
+	}
+	.accept {
+		color: $theme-white;
+		background-color: $theme-dark-green;
+		&:hover {
+			background-color: $theme-light-green-hover;
+		}
+	}
+	i {
+		cursor: pointer;
+
+		color: $theme-red;
+	}
+}

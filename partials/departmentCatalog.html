@@ -1,0 +1,70 @@
+<div class="controller-view">
+    <div class="block-departmentCatalog">
+        <div class="row">
+            <div class="col-lg-7">
+                <h3>{{'Administration of units'|translate}}</h3>
+                <div class="col-lg-12">
+                    <div class="row last-actions-header">
+                        <div class="col-lg-12">
+                            <span class="title-header">
+                                {{'Directory of units'|translate}}
+                            </span>
+                            <a type="button" class="btn btn-primary pull-right" ng-click="showCreateDepartment = true">{{'Add unit' | translate}}</a>
+                        </div>
+                    </div>
+                    <div class="row event last-action" ng-repeat="department in departmentsList">
+                        <div class="col-lg-10 department-name">
+                            <span ng-if="department.deep ==1">&nbsp;&nbsp;</span>
+                            <span ng-if="department.deep ==2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <span ng-if="department.deep ==3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <span ng-if="department.deep ==4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <span ng-if="department.deep ==5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <span ng-if="department.deep ==6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <span ng-if="department.deep ==7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <span ng-if="department.deep ==8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            {{department.name}}
+                        </div>
+                        <div class="col-lg-2 department-icons">
+                            <i ng-click="pasteEditDepartment(department)" title="{{'Editing of unit' | translate}}" class="fa fa-pencil" aria-hidden="true"></i>
+                            <i ng-click="deleteDepartment(department)" title="{{'Deleting of unit' | translate}}" class="fa fa-times" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5" ng-show="showCreateDepartment && !showEditDepartment">
+                <form class="form-signin">
+                    <h2 class="form-signin-heading">{{'Creating of unit' | translate}}</h2>
+                    <label for="inputUnit">{{'Unit name' | translate}}</label>
+                    <input type="text" id="inputUnit" ng-model="newName" class="form-control">
+                    <div class="form-group">
+                        <label for="deep">{{'Parent unit' | translate}}</label>
+                        <select class="form-control" id="deep" ng-model="departmentOnEdit" ng-options="departmentOnEdit.name for departmentOnEdit in departmentsList">
+                            <option value="">{{"no" | translate}}</option>
+                        </select>
+                    </div>
+                   <div class="text-center">
+                       <button class="btn btn-lg btn-default" ng-click="showCreateDepartment = false" type="submit">{{'cancel' | translate}}</button>
+                       <button class="btn btn-lg btn-primary" ng-click="saveDepartment()" type="submit">{{'add' | translate}}</button>
+                   </div>
+                </form>
+            </div>
+            <div class="col-lg-5" ng-show="!showCreateDepartment && showEditDepartment">
+                <form class="form-signin">
+                    <h2 class="form-signin-heading">{{'Editing of unit' | translate}}</h2>
+                    <label for="inputUnit2">{{'Unit name' | translate}}</label>
+                    <input type="text" id="inputUnit2" ng-model="newName" class="form-control">
+                    <div class="form-group">
+                        <label for="deep2">{{'Parent unit' | translate}}</label>
+                        <select class="form-control" id="deep2" ng-model="departmentOnEdit" ng-options="departmentOnEdit.name for departmentOnEdit in departmentsList">
+                            <option value="">{{"no" | translate}}</option>
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-lg btn-default" ng-click="showEditDepartment = false" type="submit">{{'cancel' | translate}}</button>
+                        <button class="btn btn-lg btn-primary" ng-click="editDepartment()" type="submit">{{'edit' | translate}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="col-lg-2" title="{{history.dm|dateFormat:true}}">
+    <div class="time-comment">
+        {{history.dm|dateFormat:false}}
+    </div>
+    <a href="#/users/{{history.person.userId}}" class="text-left user">
+        <span once-text="history.person.firstName"></span>
+        <span once-text="history.person.lastName"></span>
+    </a>
+</div>
+<div class="col-lg-10">
+    <span style="color: #999999;">{{'history_info.candidate'|translate}} {{'history_info.added_in'|translate}}</span>
+    <span ng-show="!user.lastAction.stateNewName" statusarr="interview_status_assoc_full" status-color-new   old="user.lastAction.stateNew" style="color: #ff00ff"></span>
+    <span ng-show="user.lastAction.stateNewName" status-color-new statusarr="" old="user.lastAction.stateNewName" style="color: #ff00ff"></span>
+    <span style="color: #999999;">{{'history_info.in__vacancy'|translate}}</span>
+    <a href="#/vacancies/{{user.lastAction.vacancy.localId}}" once-text="user.lastAction.vacancy.position"></a>
+    <span style="color: #999999;">{{'history_info.by recommendation of CleverStaff'|translate}}.</span>
+        <span>
+            <span style="color: #000;">{{user.lastAction.descr}}</span>
+        </span>
+    <span class="date" style="font-size: 10px;">{{user.lastAction.dm|dateFormat2:false}}</span>
+</div>

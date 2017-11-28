@@ -1,0 +1,141 @@
+<div class="block-custom-fields">
+    <div class="container-fluid">
+        <h3>{{'Custom fields for'|translate}}</h3>
+        <div class="row">
+            <div class="container-fluid second-navbar">
+                <div class="second-navbar">
+                    <ul class="nav navbar-nav col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                        <li class="pull-left">
+                            <a href ng-click="tabsForCustomFields('Vacancies')" ng-class="{'selected' : tabsForFields == 'Vacancies'}" class="no-margin">{{'Vacancies_1'|translate}}</a>
+                        </li>
+                        <li class="pull-left">
+                            <a href ng-click="tabsForCustomFields('Candidates')" ng-class="{'selected' : tabsForFields == 'Candidates'}">{{'candidates__'|translate}}</a>
+                        </li>
+                        <li class="pull-left">
+                            <a href ng-click="tabsForCustomFields('Clients')" ng-class="{'selected' : tabsForFields == 'Clients'}">{{'Clients_1'|translate}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-6 col-sm-8 col-xs-12 col-lg-offset-1 col-md-offset-0 col-sm-offset-2 bothBlocks">
+                <h4>{{'Add new field'|translate}}</h4>
+                <p>
+                    {{'Add custom fields to your candidate pages'|translate}}
+                    <span ng-show="tabsForFields == 'Vacancies'" class="transform">{{'Vacancies_1'|translate}}.</span>
+                    <span ng-show="tabsForFields == 'Candidates'" class="transform">{{'candidates__'|translate}}.</span>
+                    <span ng-show="tabsForFields == 'Clients'" class="transform">{{'Clients_1'|translate}}.</span>
+                </p>
+                <div class="col-lg-12 col-md-12 customBlock marginTop">
+                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-12 padding">
+                        <input type="text" ng-model="fieldTitle" class="fieldTitle" maxlength="25" placeholder="{{'Enter the field title (up to 25 symbols)'|translate}}">
+                    </div>
+                    <div class="clearfix"></div>
+                    <ul>
+                        <p class="typeField" ng-show="!showCancelBtn">
+                            {{'Choose the field type'|translate}}:
+                        </p>
+                        <p class="typeField" ng-show="showCancelBtn">
+                            {{'field type'|translate}}
+                        </p>
+                        <li>
+                            <input type="radio" id="textField" ng-click="typeField('string')" ng-show="inputRadioShow" ng-checked="typeCustomField == 'string'">
+                            <label for="textField">
+                                <span ng-show="showText"><span>{{'full_text'|translate}}</span> - {{'enter text values'|translate}}</span>
+                            </label>
+                        </li>
+                        <li>
+                            <p ng-show="showDropdown" style="margin: 0px;">
+                                <input type="radio" id="dropdownList" ng-click="typeField('select')" ng-show="inputRadioSelectShow" ng-checked="typeCustomField == 'select'">
+                                <label for="dropdownList">
+                                    <span>{{'Drop-down list'|translate}}</span> - {{'select one value from multiple'|translate}}</p>
+                                </label>
+                            <input type="text" ng-show="showDropDownSelect" id="customFullField" select2-custom-field class="drop-down">
+                        </li>
+                        <li>
+                            <input type="radio" id="dateField" ng-click="typeField('date')" ng-show="inputRadioShow" ng-checked="typeCustomField == 'date'">
+                            <label for="dateField">
+                                <span ng-show="showDate"><span>{{'date'|translate}}</span> - {{'select the year, month and day'|translate}}</span>
+                            </label>
+                        </li>
+                        <li>
+                            <input type="radio" id="dateTimeField" ng-click="typeField('datetime')" ng-show="inputRadioShow" ng-checked="typeCustomField == 'datetime'">
+                            <label for="dateTimeField">
+                                <span ng-show="showDateTime"><span>{{'Date and time'|translate}}</span> - {{'select the year, month, day, hours, and minutes'|translate}}</span>
+                            </label>
+                        </li>
+                    </ul>
+                    <div class="text-center button">
+                        <a type="button" ng-show="showCancelBtn" ng-click="cancelEditCustomField()" class="btn btn-primary cancel">{{'cancel'|translate}}</a>
+                        <a type="button" ng-show="showCancelBtn" class="btn btn-primary accept"  ng-click="saveEditCustomField()">{{'save'|translate}}</a>
+                        <a type="button" ng-show="!showCancelBtn && !showDropDownSelect" class="btn btn-primary accept"  ng-click="addCustomField()">{{'Create field'|translate}}</a>
+                        <a type="button" ng-show="!showCancelBtn && showDropDownSelect" class="btn btn-primary accept" id="addFieldParam">{{'Create field'|translate}}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-8 col-xs-12 col-lg-offset-0 col-md-offset-0 col-sm-offset-2 bothBlocks">
+                <h4>{{'Added custom fields'|translate}}</h4>
+                <p>
+                    {{'Those fields will be available for every'|translate}}
+                    <span ng-show="tabsForFields == 'Vacancies'" class="transform">{{'Vacancies_1'|translate}}</span>
+                    <span ng-show="tabsForFields == 'Candidates'" class="transform">{{'candidates__'|translate}}</span>
+                    <span ng-show="tabsForFields == 'Clients'" class="transform">{{'Clients_1'|translate}}</span>
+                    {{'description in your database'|translate}}
+                    </br>
+                    {{'You will be able to edit and delete them anytime'|translate}}.
+                </p>
+                <div class="col-lg-10 col-md-11 customBlock2" custom-scrollbar>
+                    <div class="col-lg-12 col-md-12 customBlock3 padding-fifth" ng-show="customField.state == 'A'" ng-repeat="customField in allObjCustomField" ng-switch="customField.type">
+                        <div class="col-lg-12 col-md-12 col-xs-12 hoverIcons" ng-switch-when="string">
+                            <div class="col-lg-6 col-md-5 col-sm-5 col-xs-5 padding">
+                                {{customField.title}}
+                            </div>
+                            <div class="col-lg-4 col-md-5 col-sm-5 col-xs-4 padding-right grey">
+                                {{'full_text'|translate}}
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 padding-right iconsStyle">
+                                <i class="fa fa-times pull-right" aria-hidden="true" ng-click="removeCustomField(customField.fieldId)" title="{{'Delete_1'|translate}}"></i>
+                                <i class="fa fa-pencil pull-right" aria-hidden="true" ng-click="editCustomField(customField.fieldId, customField.type)" title="{{'Edited_1'|translate}}"></i>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-xs-12 hoverIcons" ng-switch-when="select">
+                            <div class="col-lg-6 col-md-5 col-sm-5 col-xs-5 padding">
+                                {{customField.title}}
+                            </div>
+                            <div class="col-lg-4 col-md-5 col-sm-5 col-xs-4 padding-right grey">
+                                {{'Drop-down list'|translate}}
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 padding-right iconsStyle">
+                                <i class="fa fa-times pull-right" aria-hidden="true" ng-click="removeCustomField(customField.fieldId)" title="{{'Delete_1'|translate}}"></i>
+                                <i class="fa fa-pencil pull-right" aria-hidden="true" ng-click="editCustomField(customField.fieldId, customField.type)" title="{{'Edited_1'|translate}}"></i>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-xs-12 hoverIcons" ng-switch-when="date">
+                            <div class="col-lg-6 col-md-5 col-sm-5 col-xs-5 padding">
+                                {{customField.title}}
+                            </div>
+                            <div class="col-lg-4 col-md-5 col-sm-5 col-xs-4 padding-right grey">
+                                {{'date'|translate}}
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 padding-right iconsStyle">
+                                <i class="fa fa-times pull-right" aria-hidden="true" ng-click="removeCustomField(customField.fieldId)" title="{{'Delete_1'|translate}}"></i>
+                                <i class="fa fa-pencil pull-right" aria-hidden="true" ng-click="editCustomField(customField.fieldId, customField.type)" title="{{'Edited_1'|translate}}"></i>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-xs-12 hoverIcons" ng-switch-when="datetime">
+                            <div class="col-lg-6 col-md-5 col-sm-5 col-xs-5 padding">
+                                {{customField.title}}
+                            </div>
+                            <div class="col-lg-4 col-md-5 col-sm-5 col-xs-4 padding-right grey">
+                                {{'Date and time'|translate}}
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3 padding-right iconsStyle">
+                                <i class="fa fa-times pull-right" aria-hidden="true" ng-click="removeCustomField(customField.fieldId)" title="{{'Delete_1'|translate}}"></i>
+                                <i class="fa fa-pencil pull-right" aria-hidden="true" ng-click="editCustomField(customField.fieldId, customField.type)" title="{{'Edited_1'|translate}}"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

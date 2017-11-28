@@ -1,0 +1,87 @@
+<div class="controller-view">
+    <div class="block-employee-add-from-candidate">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3 AddingContact">
+                    <h3>
+                        {{'candidate'|translate}}
+                        <a href="#/candidates/{{pageObject.candidate.localId}}">
+                            {{pageObject.candidate.fullName}}
+                        </a></h3>
+
+                    <form name="employeeForm" ng-submit="submitForm()" novalidate>
+                        <div class="field"
+                             ng-class="{'error': employeeForm.position.$invalid && !employeeForm.position.$pristine && employeeForm.position.$error.required==true}">
+                            <label class="pull-left">
+                                {{'position'|translate}} <span class="red">*</span>
+                            </label>
+                            <input type="text" ng-model="pageObject.employee.position" required keyboard-poster
+                                   post-function="searchPosition" name="position" list="_countries">
+                            <datalist id="_countries" ng-model='pageObject.employee.position'>
+                                <option value=""></option>
+                                <option ng-if="v" value="{{v}}" style="font-weight: bold"
+                                        ng-repeat="v in pageObject.positionListAfterSearch">
+                                    {{v}}
+                                </option>
+                            </datalist>
+                            <div ng-show="employeeForm.position.$invalid && !employeeForm.position.$pristine && employeeForm.position.$error.required==true">
+                                {{'enter_position'|translate}}
+                            </div>
+                            <div ng-show="employeeForm.position.$invalid
+                                     && !employeeForm.position.$pristine
+                                      && employeeForm.position.$error.maxlength==true"
+                                 translate="text_should_be_no_longer_than_50_characters">
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="field"
+                             ng-class="{'error': employeeForm.department.$invalid && !employeeForm.department.$pristine}">
+                            <label class="pull-left" translate="department"> </label>
+                            <select name="department" class="form-control"
+                                    ng-model="pageObject.employee.employeeDepartment"
+                                    ng-options="department.name for department in departmentsList track by department.employeeDepartmentId">
+                            </select>
+
+                            <div ng-show="employeeForm.department.$invalid && !employeeForm.department.$pristine && employeeForm.department.$error.required==true">
+                                {{'enter_department'|translate}}
+                            </div>
+                            <div ng-show="employeeForm.department.$invalid && !employeeForm.department.$pristine && employeeForm.department.$error.maxlength==true"
+                                 translate="text_should_be_no_longer_than_50_characters">
+
+                            </div>
+                        </div>
+                        <div class="field"
+                             ng-class="{'error': employeeForm.salary.$invalid && !employeeForm.salary.$pristine}">
+                            <div class="col-lg-8 no-padding">
+                                <label class="pull-left" translate="salary"></label>
+                                <input class="pull-left" ng-model="pageObject.employee.salary" ng-maxlength="50"
+                                       name="salary" type="number">
+
+                                <div class="ui red pointing above ui label"
+                                     ng-show="employeeForm.salary.$invalid && !employeeForm.salary.$pristine"
+                                     translate="information_should_be_given_numbers"></div>
+                            </div>
+                            <div class="col-lg-4 no-padding">
+                                <label class="not-visible"></label>
+                                <select class="form-control"
+                                        ng-model="pageObject.employee.currency"
+                                        ng-options="currency.value as currency.value for currency in pageObject.variables.currency"
+                                        ng-init="pageObject.employee.currency = 'USD'">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="text-center">
+                            <a type="button" ng-click="cancel()" class="btn btn-danger">
+                                {{'cancel'|translate}}
+                            </a>
+                            <a type="button" ng-click="saveEmployee()" class="btn btn-primary accept">
+                                {{'save'|translate}}
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="col-lg-2" title="{{history.dm|dateFormat:true}}">
+    <div class="time-comment">
+        {{history.dm|dateFormat:false}}
+    </div>
+</div>
+<div class="col-lg-10">
+    <span ng-switch="history.stateNew">
+        <span ng-switch-when="R">{{'history_info.deleted_contact'|translate}}</span>
+        <span ng-switch-default>{{'history_info.edited_contact'|translate}}</span>
+    </span>
+    <a href="#/contacts/{{history.contactClient.localId}}"><span once-text="history.contactClient.firstName"></span><span once-text="history.contactClient.lastName"></span></a>
+    {{'history_info.in_client_v2'|translate}}
+    <span ng-switch="$root.me.personParams.clientAccessLevel">
+        <span ng-switch-when="hide">{{history.client.name}}</span>
+        <span ng-switch-default>
+            <a href="#/clients/{{history.client.localId}}">{{history.client.name}}</a>
+        </span>
+</span>
+</div>

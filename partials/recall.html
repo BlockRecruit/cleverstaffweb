@@ -1,0 +1,47 @@
+<div class="controller-view">
+    <div class="block-vacancy-recall">
+        <div class="row">
+            <div class="col-lg-12 publicInformation">
+                <h3>{{'Applicant to this vacancy' | translate}} <a href="#/vacancies/{{vacancy.localId}}">{{vacancy.position}}</a></h3>
+                <h2 ng-show="!pageObject.showButtonCandidate">
+                    {{recall.name}} {{recall.lastName}} {{'already in the candidate database' | translate}} {{$root.me.orgName}}
+                </h2>
+                <h3 ng-show="pageObject.showButtonCandidate">{{recall.name}} {{recall.lastName}}</h3>
+                <h3 ng-show="!pageObject.showButtonCandidate"><a href="#/candidates/{{candidate.localId}}">{{recall.name}} {{recall.lastName}}</a></h3>
+                <div class="col-lg-3 publicInformationBlock1">
+                    <span>{{'phone'|translate}}:</span><br>
+                    <span>{{'Email'|translate}}:</span><br>
+                    <span>{{'message'|translate}}:</span><br>
+                    <span>{{'files'|translate}}:</span>
+                </div>
+                <div class="col-lg-9 publicInformationBlock2">
+                    <span>{{recall.phone}}</span><br>
+                    <span>{{recall.email}}</span><br>
+                    <span id="recall_description"></span><br/>
+                    <a ng-href="{{serverAddress}}/getapp?id={{fileId.attId}}&d=true" target="_blank"
+                       ng-repeat="fileId in recall.fileId">{{fileId.name}}</a>
+                </div>
+            </div>
+            <div class="col-lg-3 leftBar">
+                <span class="or {{'css_lang'| translate}}"></span>
+                <h4 ng-show="pageObject.showButtonVacancy==true">{{'transfer in' | translate}}</h4>
+                <div class="checkboxes" ng-show="pageObject.showButtonVacancy==true">
+                    <div ng-repeat="status in VacancyStatusFiltered | limitTo: '3'" ng-click="openModalAddRecallToInterview(status, md)">
+                        <label>
+                            <button class="ui icon button"
+                                    type="checkbox" ng-checked="$root.addToInterviewForm.status.value == status.value">
+                                <i class="fa fa-check-square" ng-class="{'checkmark': $root.addToInterviewForm.status.value == status.value}"
+                                   ng-checked="true" aria-hidden="true"></i>
+                            </button>
+                        </label>
+                        <span>{{status.value|translate}}</span>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <a type="button" class="btn btn-primary" ng-click="showSendEmailTemplateModal()">{{'send reject' | translate}} {{'by post' | translate}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="file" oi-file="optionsTemplate" id="file" class="hidden"/>
+</div>

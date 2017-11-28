@@ -1,0 +1,170 @@
+<div class="controller-view">
+    <div class="block-employees">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-2 img-section hidden-xs" id="owner_photo_wrap">
+                    <input id="the-file-input" accept="image/*" type="file" style="display:none">
+                    <img ng-if="$root.companyLogo!=undefined" ng-src="{{$root.serverAddress}}/getapp?id={{$root.companyLogo}}&d=" alt=""/>
+                    <div ng-show="$root.me.recrutRole == 'admin' && $root.companyLogo!=undefined" id="owner_photo_bubble_wrap">
+                        <div id="owner_photo_bubble" class="text-center">
+                            <div class="owner_photo_bubble_action owner_photo_bubble_action_update" add-logo>
+                                <span class="owner_photo_bubble_action_in">{{'change_logo'|translate}}</span>
+                            </div>
+                            <div class="owner_photo_bubble_action owner_photo_bubble_action_crop" ng-click="$root.removeLogo()">
+                                <span class="owner_photo_bubble_action_in">{{'remove_logo'|translate}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center" id="logo-button">
+                        <a ng-show="$root.companyLogo==undefined" type="button" add-logo class="btn btn-primary add-image">
+                            {{'Upload logo' | translate}}
+                            <br>
+                            <span class="size">
+                                {{'size_290x290'|translate}}
+                            </span>
+                        </a>
+                    </div>
+                    <label class="company-label" for="company-name">{{'company_name'|translate}}</label>
+                    <input class="form-control company-name" id="company-name" value="{{$root.me.orgName}}" disabled type="text"/>
+                    <div class="text-center">
+                        <a type="button" class="btn btn-primary add-employee-button"
+                           ng-click="toAddEmployee()">{{'New employee'|translate}}</a>
+                    </div>
+                    <div class="text-center">
+                        <a type="button" href="#/company/departmentCatalog" class="btn btn-primary department-button">{{'Department catalog'|translate}}</a>
+                    </div>
+                </div>
+                <div class="col-lg-10 no-padding-sm">
+                    <!--<div class="breadcrumbs">-->
+                        <!--<ol class="breadcrumb">-->
+                            <!--<li><a href="#/organizer">{{'Activity' | translate}}</a></li>-->
+                            <!--<li><a href="#/company/users">Компании</a></li>-->
+                            <!--<li class="active">Сотрудники</li>-->
+                        <!--</ol>-->
+                    <!--</div>-->
+                    <div class="search" ng-click="$event.stopPropagation()">
+                        <div class="row">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                                <input type="text" class="form-control"
+                                       ng-enter-search
+                                       ng-model="searchParam.name"
+                                       placeholder="{{'full_text_2'|translate}}">
+                                <div class="input-group-addon" ng-click="showAdvancedSearchFunc();">
+                                    <span ng-show="!showAdvancedSearch"><span class="grey">|</span> {{'More_criteria'|translate}} <i class="fa fa-chevron-down" aria-hidden="true"></i></span>
+                                    <span ng-show="showAdvancedSearch"><span class="grey">|</span> {{'Less_criteria'|translate}} <i class="fa fa-chevron-up" aria-hidden="true"></i></span>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="advancedSearch" ng-show="showAdvancedSearch">
+                                <div class="col-lg-3">
+                                    <div class="select">
+                                        <select  ng-init="searchParam.state = 'null'"
+                                                 ng-model="searchParam.state" class="form-control">
+                                            <option value="null" ng-selected="true" translate="Status"></option>
+                                            <option  value="{{type.value}}" ng-repeat="type in searchStatus">{{type.name|translate}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="select">
+                                        <select ng-model="searchParam.position"
+                                                ng-init="searchParam.position = 'null'" class="form-control">
+                                            <option value="null" ng-selected="true" translate="position"></option>
+                                            <option  value="{{position}}" ng-repeat="position in positionList">{{position}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="select">
+                                        <select ng-model="searchParam.departmentId"
+                                                ng-init="searchParam.departmentId = 'null'" class="form-control">
+                                            <option value="null" ng-selected="true" translate="department"></option>
+                                            <option class="deepOne" value="{{department.employeeDepartmentId}}" ng-repeat="department in departmentsList">
+                                                {{department.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <input class="form-control" ng-enter-search placeholder="{{'Employee id'|translate}}" ng-model="searchParam.localId" type="text">
+                                </div>
+                            </div>
+                            <div>
+                                <a class="btn btn-primary search pull-right disactive" ng-click="clickSearch()" ng-class="{active: employeesFound}">{{'Find' | translate}}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="!employeesFound" class="extra-text text-center">{{"There are no employees in you account. Start from Departents catalogue" | translate}}</div>
+                    <div class="employees-outer">
+                        <table class="table employees" ng-table="tableParams" template-pagination="custom/pager" ng-show="employeesFound">
+                            <thead>
+                            <tr>
+                                <th>
+                                    №
+                                    <i class="fa fa-sort" aria-hidden="true"></i>
+                                </th>
+                                <th ng-click="tableParams.sorting({'candidateId.fullName': tableParams.isSortBy('candidateId.fullName', 'asc') ? 'desc' : 'asc'})">
+                                    {{'name' | translate}}
+                                    <i class="fa fa-sort" aria-hidden="true"></i>
+                                </th>
+                                <th class="hidden-xs" ng-click="tableParams.sorting({'department': tableParams.isSortBy('department', 'asc') ? 'desc' : 'asc'})">
+                                    {{'department' | translate}}
+                                    <i class="fa fa-sort" aria-hidden="true"></i>
+                                </th>
+                                <th ng-click="tableParams.sorting({'position': tableParams.isSortBy('position', 'asc') ? 'desc' : 'asc'})">
+                                    {{'position' | translate}}
+                                    <i class="fa fa-sort" aria-hidden="true"></i>
+                                </th>
+                                <th class="hidden-xs" ng-click="tableParams.sorting({'salary': tableParams.isSortBy('salary', 'asc') ? 'desc' : 'asc'})">
+                                    {{'salary' | translate}}
+                                    <i class="fa fa-sort" aria-hidden="true"></i>
+                                </th>
+                                <th class="hidden-xs" ng-click="tableParams.sorting({'state': tableParams.isSortBy('state', 'asc') ? 'desc' : 'asc'})">
+                                    {{'status' | translate}}
+                                    <i class="fa fa-sort" aria-hidden="true"></i>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="employee in $data"
+                                 tofullinformation="company/employees/{{employee.employeeId}}">
+                                <td class="clickable">{{(tableParams.page() - 1) * tableParams.count() + $index + 1}}</td>
+                                <td class="clickable">
+                                    <a href="#/company/employees/{{employee.employeeId}}">
+                                        <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
+                                        <div class="responsible-initials hidden-xs">
+                                            <span>{{getFirstLetters(employee.candidateId.fullName)}}</span>
+                                        </div>
+                                        {{employee.candidateId.fullName}}
+                                    </a>
+                                </td>
+                                <td class="clickable hidden-xs">
+                                    <span>{{employee.employeeDepartment.name}}</span>
+                                </td>
+                                <td class="clickable">
+                                    <span>
+                                        {{employee.position}}
+                                    </span>
+                                </td>
+                                <td class="clickable hidden-xs">
+                                   <span>
+                                       {{employee.salary}} <span ng-show="employee.salary">{{employee.currency}}
+                                   </span>
+                                </td>
+                                <td class="status clickable hidden-xs">
+                                    <span class="future">
+                                        {{'employee_status_assoc.'+ employee.state|translate}}
+                                    </span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

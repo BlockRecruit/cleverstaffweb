@@ -1,0 +1,82 @@
+.admin-panel {
+	overflow-x: hidden;
+	max-width: 96%;
+	margin: 0 auto;
+	&-table {
+		margin: 0;
+		thead {
+			display: block;
+			width: 100%;
+			min-width: 4000px;
+			max-width: 4000px;
+			tr {
+				display: table;
+				width: 100%;
+
+				table-layout: fixed;
+
+				background-color: #e3f2dd;
+				th {
+					position: relative;
+
+					text-align: center;
+					vertical-align: middle;
+
+					border: none;
+
+					&:hover {
+						cursor: pointer;
+					}
+				}
+			}
+		}
+		tbody {
+			display: block;
+			width: 100%;
+			min-width: 4000px;
+			max-width: 4000px;
+			max-height: 500px;
+
+			background: #fff;
+			tr {
+				display: table;
+				width: 100%;
+
+				table-layout: fixed;
+
+				background-color: #fff;
+				td {
+					text-align: center;
+
+					color: #000;
+				}
+				&:hover {
+					cursor: pointer;
+				}
+			}
+		}
+	}
+}
+
+.block-cloud-admin {
+	position: relative;
+
+	.btn-left {
+		position: fixed;
+		top: 150px;
+		right: -1px;
+	}
+
+	.btn-right {
+		position: fixed;
+		top: 183px;
+		right: -1px;
+	}
+}
+
+.go {
+	background-color: rgba(0, 128, 0, 0.43);
+}
+.stop {
+	background-color: rgba(255, 0, 0, 0.49);
+}

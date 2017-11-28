@@ -1,0 +1,11 @@
+<ng-include src="'partials/activity/preview_candidate/header.html'"></ng-include>
+<div class="summary">
+    <a href="#/users/{{history.targetPerson.userId}}"><span
+            once-text="history.targetPerson.cutFullName"></span></a>
+    {{'history_info.assigned'|translate}}
+
+    {{'history_info.as_responsible'|translate}} <a href="#/vacancies/{{history.vacancy.localId}}"><span
+            once-text="history.vacancy.position"></span></a>
+    <br>
+    <span ng-bind-html="history.descr|textForNotice:false"></span>
+</div>

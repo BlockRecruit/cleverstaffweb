@@ -1,0 +1,18 @@
+<div class="col-lg-2" title="{{history.dm|dateFormat:true}}">
+    <div class="time-comment">
+        {{history.dm|dateFormat:false}}
+    </div>
+    <a href="#/users/{{history.person.userId}}" class="text-left user">
+        <span once-text="history.person.firstName"></span>
+        <span once-text="history.person.lastName"></span>
+    </a>
+</div>
+<div class="col-lg-10">
+    <span style="color: #999;">{{'Vacancy stages have been changed'|translate}}</span>
+    <a href="#/vacancies/{{history.vacancy.localId}}"
+       once-text="history.vacancy.position"></a>
+    <br>
+        <span ng-repeat="status in history.stateNew.split(',') track by $index">
+             {{status|translate}}<span ng-if="!$last">,</span>&nbsp;
+        </span><span ng-bind-html="user.lastAction.descr|cutName:true:70|textForNotice:false" style="color: #000;"></span>
+</div>

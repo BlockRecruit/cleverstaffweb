@@ -1,0 +1,35 @@
+<div class="users-invite">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">
+            {{'Invited user' | translate}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="item">
+           <span class="item-title">Email:</span>
+            <span class="item-text">{{$root.showUserMail.email | translate}}</span>
+        </div>
+        <div class="item">
+            <span class="item-title">{{'role'|translate}}:</span>
+            <span class="item-text">{{$root.showUserMail.role | spellcheck}}</span>
+              <span ng-show="$root.showUserMail.client">
+                        {{'in'|translate}}
+                        <a href="#/clients/{{$root.showUserMail.client.localId}}">{{$root.showUserMail.client.name}}</a>
+              </span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">
+                <span>{{'cancel'|translate}}</span>
+            </a>
+            <a type="button" class="btn btn-primary delete"  ng-click="$root.deleteUserMail()">
+                <span>{{'Delete'|translate}}</span>
+            </a>
+            <a type="button" class="btn btn-primary accept"  ng-click="$root.sendUserMail()">
+                <span>{{'Send an invitation again'|translate}}</span>
+            </a>
+        </div>
+    </div>
+</div>

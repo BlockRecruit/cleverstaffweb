@@ -1,0 +1,39 @@
+<div class="col-lg-2" title="{{history.dm|dateFormat:true}}">
+    <div class="time-comment">
+        {{history.dm|dateFormat:false}}
+    </div>
+    <a href="#/users/{{history.person.userId}}" class="text-left user">
+        <span once-text="history.person.firstName"></span>
+        <span once-text="history.person.lastName"></span>
+    </a>
+</div>
+<div class="col-lg-10">
+    <a title="{{'Delete comment' | translate}}" ng-show="($root.me.fullName == history.person.fullName || $root.me.recrutRole === 'admin') && history.descr" href=""
+       ng-click="showDeleteComment(history)" class="removeMessage pull-right">
+        <i class="ui remove icon"></i>
+    </a>
+    <a class="editMessage pull-right" title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href=""
+       ng-click="history.editCommentFlag = !history.editCommentFlag">
+        <i class="ui pencil icon"></i>
+    </a>
+    <span class="pull-left">{{'history_info.candidate'|translate}} {{'history_info.added_in'|translate}}</span>
+    <br>
+    <span ng-show="!history.stateNewName" statusarr="interview_status_assoc_full" status-color-new   old="history.stateNew" style="color: #ff00ff"></span>
+    <span ng-show="history.stateNewName" status-color-new statusarr="" old="history.stateNewName" style="color: #ff00ff"></span>
+    {{'history_info.in__vacancy'|translate}}
+    <a href="#/vacancies/{{history.vacancy.localId}}" once-text="history.vacancy.position"></a>
+    {{'history_info.by recommendation of CleverStaff'|translate}}
+    <br/>
+    <span ng-show="!history.editCommentFlag" ng-bind-html="history.descr|textForNotice:false"></span>
+    <div class="textField" ng-show="history.editCommentFlag">
+        <div class="field">
+            <textarea class="editCommentArea" ng-model="history.descr"></textarea>
+        </div>
+        <div class="btn cancel" ng-click="history.editCommentFlag = false">
+            {{'cancel'|translate}}
+        </div>
+        <div class="btn accept" ng-click="changeComment(history)">
+            {{'save'|translate}}
+        </div>
+    </div>
+</div>

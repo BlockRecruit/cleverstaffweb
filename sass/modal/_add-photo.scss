@@ -1,0 +1,42 @@
+.add-photo {
+	.modal-header {
+		& > h4 {
+			@include bold();
+		}
+		i {
+			@include close-item();
+		}
+	}
+	.modal-body {
+		.item {
+			& > h5 {
+				@include bold();
+			}
+			& > input {
+				@include input-styling();
+				@include border-radius();
+
+				width: 345px;
+				padding-left: 10px;
+				&:focus {
+					outline: none;
+				}
+			}
+			.btn {
+				@include button-styling();
+			}
+			.accept {
+				color: $theme-white;
+				background-color: $theme-dark-green;
+				&:hover {
+					background-color: $theme-light-green-hover;
+				}
+			}
+			.formats {
+				color: $theme-light-grey;
+			}
+		}
+	}
+	.modal-footer {
+	}
+}

@@ -1,0 +1,16 @@
+<div class="col-lg-2" title="{{history.dc|dateFormat:true}}">
+    <span class="time">
+        {{history.dc|dateFormat:false}}
+    </span>
+    <a href="#/users/{{history.person.empId}}" class="user">
+        <span>{{history.person.firstName}}</span>
+        <span>{{history.person.lastName}}</span>
+    </a>
+</div>
+<div class="col-lg-10">
+    {{'Department has been changed' | translate}}
+    <i ng-show="history.newValue" class="fa fa-arrow-right" aria-hidden="true"></i>
+    <span class="status" ng-show="history.newValue">
+        {{history.newValue}}
+    </span>
+</div>

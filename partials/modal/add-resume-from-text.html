@@ -1,0 +1,19 @@
+<div class="add-coment">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">
+            {{"Insert resume text into the textarea below and click the Process button"|translate}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="item taskText">
+            <textarea id="tinymceFastCand" ui-tinymce ng-model="$root.fastCandResumeText"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept"  ng-click="$root.checkTextForResume();">{{'Process'|translate}}</a>
+        </div>
+    </div>
+</div>

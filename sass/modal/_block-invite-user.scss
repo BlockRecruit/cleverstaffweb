@@ -1,0 +1,29 @@
+.block-invite-user {
+	.modal-header {
+		& > h4 {
+			@include bold();
+		}
+		i {
+			@include close-item();
+		}
+	}
+	.modal-body {
+	}
+	.modal-footer {
+		.btn {
+			@include button-green-styling();
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+	}
+}
+.btn-accent {
+	font-weight: 600;
+
+	color: black !important;
+	background-color: $btn-accent !important;
+	&:hover {
+		background-color: lighten($btn-accent, 12%) !important;
+	}
+}

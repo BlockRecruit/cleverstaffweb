@@ -1,0 +1,18 @@
+<div class="col-lg-2" title="{{history.dm|dateFormat:true}}">
+    <div class="time-comment">
+        {{history.dm|dateFormat:false}}
+    </div>
+    <a href="#/users/{{history.person.userId}}" class="text-left user">
+        <span once-text="history.person.firstName"></span>
+        <span once-text="history.person.lastName"></span>
+    </a>
+</div>
+<div class="col-lg-10">
+    {{'history_info.edited_information'|translate}}
+    <span ng-show="history.candidate">
+        {{'by candidate'|translate}}
+        <a href="#/candidates/{{history.candidate.localId}}"
+           once-text="history.candidate.fullName">
+        </a>
+    </span>
+</div>

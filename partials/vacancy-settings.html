@@ -1,0 +1,58 @@
+    <div class="row vacancy-task-page block-vacancy-settings">
+        <div class="row info">
+            <div class="col-lg-6">
+                <div class="radio" ng-repeat="template in emailTemplates">
+                    <label><input type="radio" value="" ng-click="showEditEmailTemplate(template)">{{template.name}}</label>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="col-lg-6">
+                    <p ng-show="activeTemplate == 'candidateCreateInterviewNotification'">
+                        {{"Interview_template" | translate}}.
+                    </p>
+                    <p ng-show="activeTemplate == 'refuseCandidateInVacancy'">
+                        {{"Refuse_template" | translate}}.
+                    </p>
+                    <p ng-show="activeTemplate == 'seeVacancy'">
+                        {{"See_template" | translate}}.
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <img src="images/sprite/Create_interview.jpg">
+                </div>
+            </div>
+        </div>
+        <div class="row template-edit-outer">
+            <div class="col-lg-6">
+                <div class="row header">
+                    <div class="col-lg-12">
+                            <span class="title-header">
+                                Последние действия по моим вакансиям
+                            </span>
+                    </div>
+                </div>
+                <span class="title">Тема письма</span>
+                <input ng-model="emailTemplate.title" class="form-control" type="text">
+                <div>
+                     <textarea ui-tinymce-for-render ng-model="emailTemplate.text" cols="30" rows="10">
+                 </textarea>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <span>
+                    {{emailTemplate}}
+                </span>
+                <div class="row header">
+                    <div class="col-lg-12">
+                            <span class="title-header">
+                                Последние действия по моим вакансиям
+                            </span>
+                    </div>
+                </div>
+                <input class="form-control" type="text">
+                <textarea ui-tinymce-for-render disabled-mce="true"
+                          ng-model="emailTemplateForRender.text" cols="30" rows="10">
+                </textarea>
+            </div>
+        </div>
+    </div>

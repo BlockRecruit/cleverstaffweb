@@ -1,0 +1,40 @@
+var module = angular.module('services.tooltip', []);
+module.factory('TooltipService', function($sce, $rootScope, $translate, $filter) {
+    return{
+        createTooltips: function(){
+            var options;
+            $rootScope.$on('$translateChangeSuccess', function () {
+                options = {
+                    "toolTipForNewClient":  $sce.trustAsHtml($filter('translate')('Client is an organization, department or project with a list of vacancies to be filled') + '</br></br>'
+                        + $filter('translate')('To add a vacancy, you need to create a Client first')+ '</br></br>'
+                        + $filter('translate')("Fill Clients; profiles and you will be able to see their active/inactive vacancies' list, description, contacts, status, attachments, and responsible users")+ '</br></br>'
+                        + $filter('translate')('Also, you can add tasks and comments for Clients')),
+                    "scopeTooltip":  $sce.trustAsHtml($filter('translate')('Set the scope of visible data (vacancies, candidates, clients and users) in your interface: region, responsibility and company (if you have more than one CleverStaff account)')),
+                    "addTabFacebook":  $sce.trustAsHtml($filter('translate')('Create a ‘Jobs’ tab on your company Facebook page and publish active vacancies from your CleverStaff account') + '</br></br>'
+                        + $filter('translate')('NOTE: As a Facebook API has one-end integration, you should re-publish your vacancies if you want to change them') + '</br></br>'
+                        + '<img src="images/sprite/download_27.6.2016_in_12_19_54.png" alt=""/>'),
+                    "describeAdmin": $sce.trustAsHtml($filter('translate')("Full control on a company account. Able to manage users, clients, vacancies, and candidates. Paid user")+'<br/></br>' + $filter('translate')("Your role at your company account could be changed only by Administrator")),
+                    "describeRecruiter": $sce.trustAsHtml($filter('translate')("Able to manage clients, vacancies and candidates. Paid user")+'<br/></br>' + $filter('translate')("Your role at your company account could be changed only by Administrator")),
+                    "describeClient": $sce.trustAsHtml($filter('translate')("Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number")+'<br/></br>' + $filter('translate')("Your role at your company account could be changed only by Administrator")),
+                    "describeSalesmanager": $sce.trustAsHtml($filter('translate')("Able to manage clients and vacancies he/she is responsible for. Paid user")+'<br/></br>' + $filter('translate')("Your role at your company account could be changed only by Administrator")),
+                    "describeFreelancer": $sce.trustAsHtml($filter('translate')("Cannot see the full database. Able to manage only clients, vacancies, and candidates he/she is responsible for. Paid user")+'<br/></br>' + $filter('translate')("Your role at your company account could be changed only by Administrator")),
+                    "describeResearcher": $sce.trustAsHtml($filter('translate')("Cannot see the full database and other users. Able to see only vacancies he/she responsible for and candidates he/she added. Paid user")+'<br/></br>' + $filter('translate')("Your role at your company account could be changed only by Administrator")),
+                    "addContactInvite": $sce.trustAsHtml($filter('translate')("Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number")),
+                    "unlinkProfile": $sce.trustAsHtml($filter('translate')("When you add a candidate from LinkedIn / job boards, you merge data from these sources to a candidate profile at CleverStaff.") + '<br/></br>' + $filter('translate')("To unlinck the candidate from his/her CleverStaff profile click on the appropriate icon when pointing on the 'Linked profiles'.")),
+                    "fbNewsModal": $sce.trustAsHtml($filter('translate')("This is a notification for important news you should know as our user") + '<br/></br>' + $filter('translate')("To close the notification please click the button below")),
+                    "candidateMerge":  $sce.trustAsHtml($filter('translate')("Use this feature to merge two candidate profiles.") + '</br>' + $filter('translate')("Choose files and correct data from both profiles in 1 click or enter new data yourself.")),
+                    "timeLimit": $sce.trustAsHtml($filter('translate')("You can limit the time for passing the test.") + '</br>' + $filter('translate')("The timer will start since a candidate clicks on the 'Start test' button.") + '</br>' + $filter('translate')("If the time flies before candidates finishes the test, all filled fields will be saved.")),
+                    "changePoints": $sce.trustAsHtml($filter('translate')("Enter a numeric value from 0 to 1000.") + '</br>' + $filter('translate')("This field is not obligatory.")),
+                    "statCandidateAdded": $sce.trustAsHtml($filter('translate')("The left number shows candidates added by each user and the % of all added candidates in this account.") + '</br>' + $filter('translate')("The right number shows candidates without name/contacts and the % of all candidates added by this user.")),
+                    "showTooltipTrial" : $sce.trustAsHtml($filter('translate')("Days left until your trial expires") + '</br>' + $filter('translate')("All features are unlimited within your trial. You could invite unlimited number of users to test the system.") + '</br>' +  $filter('translate')('If your account will not be paid until trial end date:') + '</br>'
+                        + '<ul>' + '<li>' + $filter('translate')("it will be automatically changed to ‘1 RECRUITER’ plan with limited features;") + '</li>' + '<li>' + $filter('translate')("all invited users will be blocked until account is paid.") +'</li>'+'</ul>'),
+                    "statisticTooltip": $sce.trustAsHtml($filter('translate')('\'Statistics\' report shows the results of every account user: the quantity and the percentage of added candidates, vacancies, interviews, an average time to fill a vacancy for a specific time period.')),
+                    "mailingTopic": $sce.trustAsHtml('Your letter topic, receiver will read in his Inbox'),
+                    "toolTipForTestResults": $sce.trustAsHtml($filter('translate')('Percentile shows the percent of candidates, who received fewer points for passing the test, than a specific candidate with the percentile value')),
+                    "mailingInternal": $sce.trustAsHtml('Mailing name for your internal usage. Visible only for you.')
+                };
+                $rootScope.tooltips = options;
+            });
+        }
+    }
+});

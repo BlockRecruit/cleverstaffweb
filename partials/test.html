@@ -1,0 +1,43 @@
+<div class="block-tests container-fluid">
+    <div id="testPreview" class="row test-preview">
+        <div class="col-lg-12">
+            <div class="col-lg-12">
+                <div class="col-lg-9">
+                    <h4>
+                        {{testPreview.testName}}
+                    </h4>
+                </div>
+                <div class="col-lg-3 timeLimit" ng-show="testPreview.timeLimit > 0 && testPreview.timeLimit > 0">
+                    {{'Time limit'|translate}}: <i class="fa fa-clock-o"></i>{{testPreview.timeLimit|secondsToHhMm}}
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <p>
+                    {{testPreview.description}}
+                </p>
+            </div>
+            <div class="row col-lg-12 questions">
+                <div class="col-lg-12 item" ng-repeat="question in testPreview.questions| orderBy:'num'">
+                    <img ng-show="question.imageId != undefined" class="imgForTest" ng-src="{{serverAddress}}/getapp?id={{question.imageId}}&d=" alt=""/>
+                    <div class="col-lg-12 question">
+                        {{question.num}}. {{question.text}}
+                    </div>
+                    <div class="col-lg-12">
+                        <ul ng-repeat="variant in question.variantsArray">
+                            <li>
+                                <i class="fa fa-check-square-o" ng-show="question.answerType == 'few_answers' && variant.isCorrect"></i>
+                                <i class="fa fa-square-o" ng-show="question.answerType == 'few_answers' && !variant.isCorrect"></i>
+                                <i class="fa fa-check-circle-o" ng-show="question.answerType == 'one_answer' && variant.isCorrect"></i>
+                                <i class="fa fa-circle-o" ng-show="question.answerType == 'one_answer' && !variant.isCorrect"></i>
+                                {{variant.value}}
+                            </li>
+                        </ul>
+                        <div class="col-lg-6 text-question" ng-show="question.answerType == 'questionnaire' || question.answerType == 'task_question'">
+                            {{'Text question'| translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

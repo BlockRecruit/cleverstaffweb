@@ -1,0 +1,26 @@
+<ng-include src="'partials/activity/preview_candidate/header.html'"></ng-include>
+<div class="summary">
+    <span class="status  passed {{history.stateOldName}}" ng-if="history.stateOldName">
+        {{history.stateOldName | translate}}
+    </span>
+     <span class="status  passed {{history.stateOld}}" ng-if="!history.stateOldName">
+        {{history.stateOld | translate}}
+    </span>
+    <i class="fa fa-angle-right" aria-hidden="true"></i>
+    <span class="status {{history.stateNewName}}" ng-if="history.stateNewName">
+        {{history.stateNewName | translate}}
+    </span>
+     <span class="status {{history.stateNew}}" ng-if="!history.stateNewName">
+        {{history.stateNew | translate}}
+    </span>
+    {{'history_info.on_vacancy'|translate}}
+    <a href="#/vacancies/{{ history.vacancy.localId}}" once-text="history.vacancy.position"></a>
+    <br>
+    <span class="ui tiny header"> </span>
+    <span bo-show="history.targetDate">
+        <span  bo-text="'interview_times'|translate">:</span>
+        <span bo-text="history.targetDate|dateFormat:true">
+        </span>
+    </span>
+    <span ng-bind-html="history.descr|textForNotice:false"></span>
+</div>

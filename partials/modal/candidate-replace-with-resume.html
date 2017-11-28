@@ -1,0 +1,17 @@
+<div class="delete-vacancy">
+    <!--<div class="modal-header">-->
+        <!--<h4 class="modal-title">{{'Delete'|translate}} {{$root.client.candidateId.fullName}} {{'from vacancy'|translate}}?-->
+        <!--</h4>-->
+    <!--</div>-->
+    <div class="modal-body">
+        <p>
+            {{"Data for the candidate will be permanently overwritten, except for comments. Are you sure you want to refresh the data on this candidate from this file?" | translate}}
+        </p>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept"  ng-click="$root.changeCandidateFromExistingResume()">{{'Update'|translate}}</a>
+        </div>
+    </div>
+</div>

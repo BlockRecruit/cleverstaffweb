@@ -1,0 +1,98 @@
+.block-feedback-page {
+	.row {
+		@include bt-margins-from-side();
+		.feedbackForm {
+			position: relative;
+			top: 50px;
+
+			width: 40%;
+			min-height: 330px;
+			margin: 0 auto;
+			padding: 1.5rem;
+
+			border: solid $theme-light-grey-hover;
+			border-width: 0.2rem;
+			box-shadow: 0 0 15px 5px $theme-light-grey;
+			@media (max-width: $screen-sm) {
+				width: 100%;
+			}
+			@media (max-width: $screen-md) {
+				width: 100%;
+			}
+			.form-group {
+				margin-bottom: 0;
+				& > h2 {
+					@include bold();
+
+					font-size: 20px;
+
+					margin: 0 0 15px 0;
+				}
+				textarea {
+					@include border-radius();
+
+					width: 100%;
+					height: 70px;
+					margin: 20px 0;
+
+					resize: none;
+				}
+				.notWriteError {
+					border: 2px solid $theme-red;
+				}
+				input {
+					&:focus {
+						outline: none;
+					}
+				}
+				#opt-1513498 {
+					position: relative;
+					top: 2px;
+					left: 5px;
+
+					margin-top: 0;
+				}
+				#opt-1513499 {
+					position: relative;
+					top: 2px;
+					right: 5px;
+
+					margin-top: 0;
+				}
+				.notBold {
+					font-weight: 500;
+				}
+				.addScreenshotOptionally {
+					#quest606911,
+					#quest606910 {
+						width: 100%;
+						margin-top: 5px;
+						padding: 0 10px;
+
+						border-bottom: none;
+						background-color: inherit;
+					}
+					.no-padding {
+						padding: 0;
+						span {
+							vertical-align: sub;
+						}
+					}
+					label {
+						@include button-green-styling();
+					}
+				}
+				.survey_submit {
+					margin-top: 25px;
+					padding-top: 30px;
+					.btn {
+						@include button-styling();
+					}
+					.accept {
+						@include button-styling();
+					}
+				}
+			}
+		}
+	}
+}

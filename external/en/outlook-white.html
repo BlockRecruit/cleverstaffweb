@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<a href="" style="display: none" id="closeButton" onclick="return CloseMySelf(this);">Allow</a>
+</body>
+<script>
+    function getParameterByName(name, url) {
+        if (!url) {
+            url = window.location.href;
+        }
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+    function CloseMySelf() {
+        try {
+            window.opener.HandlePopupResult(getParameterByName('code'));
+        }
+        catch (err) {}
+        window.close();
+        return false;
+    }
+//    console.log(window.location)
+    document.getElementById("closeButton").click();
+</script>
+</html>

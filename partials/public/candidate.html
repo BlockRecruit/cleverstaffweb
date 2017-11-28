@@ -1,0 +1,72 @@
+<div class="block-candidate-public no-padding-sm">
+   <div class="container-fluid">
+       <div class="row">
+           <div class="col-lg-12 fullName-position">
+               <span>{{candidate.fullName}}, <span>{{candidate.position}}</span></span>
+           </div>
+           <div class="col-lg-12 candidate-public-background">
+               <div class="col-lg-9 candidate-public-miniBlock">
+                   <div class="col-lg-2">
+                       <img ng-src="{{serverAddress}}/public/photo/?id={{candidate.publicId}}" width="100" alt="" ng-show="candidate.photo"/>
+                   </div>
+                   <div class="col-lg-9 candidate-public-information">
+                       <a ng-show="candidate.region" href="#">
+                           <i class="fa fa-map-marker" aria-hidden="true"></i>
+                           {{candidate.region.displayFullName}}
+                           <div ng-if="showRegion2Map" class="clever-window" style="width: 471px;left:inherit">
+                               <ui-gmap-google-map center="map.center" draggable='true' zoom="map.zoom" options="map.options">
+                                   <ui-gmap-marker coords="marker.coords" idkey="marker.id">
+                                   </ui-gmap-marker>
+                               </ui-gmap-google-map>
+                           </div>
+                       </a>
+                       <div class="languages" ng-if="candidate.languages.length">
+                           <span class="pull-left">{{'languages'|translate}}:</span>
+                           <div class="langs-item pull-left">
+                               <span class="lang" ng-repeat="lang in candidate.languages">{{lang.name}}&nbsp; <span class="lang-level" translate="{{lang.level}}"></span></span>
+                           </div>
+                       </div>
+                       <div class="clearfix"></div>
+                       <a href="#" class="phone" ng-show="candidate != undefined && candidate.db">
+                           <i class="fa fa-calendar" aria-hidden="true"></i>
+                           {{(candidate.db|dateFormat).trim()}} ({{candidate.db|ageOfDate}})
+                       </a>
+                       <a href="#" class="phone" ng-show="candidate != undefined && candidate.salary && $root['me']['recrutRole'] !== 'client'">
+                           <i class="fa fa-usd" aria-hidden="true"></i>
+                           {{candidate.salary}} {{candidate.currency}}
+                       </a>
+                   </div>
+                   <div class="clearfix"></div>
+                 <div class="row">
+                     <div class="col-lg-9 activity-description">
+                         <div class="activity"
+                              ng-show="(candidate.expirence || candidate.region || candidate.languages || candidate.industry || candidate.employmentType || candidate.relatedRegions || candidate.education) && candidate.coreSkills">
+                             <h4>{{'core_skills'|translate}}</h4>
+                             <span description-treatment description="candidate.coreSkills"></span>
+                         </div>
+                         <div class="description">
+                             <h4>{{'description'|translate}}</h4>
+                             <p description-treatment description="candidate.descr">
+                             </p>
+                         </div>
+                     </div>
+                 </div>
+               </div>
+               <div class="col-lg-3 companyLogo hidden-xs hidden-sm" ng-show="companyLogo != undefined">
+                   <div class="pull-right">
+                       <img ng-src="{{logoLink}}" width="250" alt="" ng-show="candidate.photo"/>
+                   </div>
+                   <div class="clearfix"></div>
+                   <div class="pull-right attachmentsFiles" ng-show="candidate.files">
+                       <h5 class="text-center">{{'Attachments'|translate}}</h5>
+                       <a ng-repeat="file in candidate.files" title="{{file.fileName}}" href="{{serverAddress}}/getapp/{{file.fileId}}/{{file.fileName}}" download>
+                           <i class="fa fa-paperclip pull-left" aria-hidden="true"></i>
+                           {{file.fileName}}
+                           <div class="clearfix"></div>
+                       </a>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>

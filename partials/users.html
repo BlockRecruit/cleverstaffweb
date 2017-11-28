@@ -1,0 +1,246 @@
+<div class="block-company">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2 img-section text-center" id="owner_photo_wrap">
+                <!--<div id="cropper-wrap">-->
+                    <!--<div id="img-wrapper">-->
+                    <!--</div>-->
+                    <!--<button id="cropp">Cropp</button>-->
+                    <!--<button id="download">Download</button>-->
+                    <!--<button id="close">Close</button>-->
+                    <!--<div id="wrapper"></div>-->
+                    <!--<div id="wrapperForPng"></div>-->
+                <!--</div>-->
+                <input id="the-file-input" accept="image/*" type="file" style="display:none">
+
+                <img id="company-logo" ng-if="$root.companyLogo!=undefined" ng-src="{{$root.serverAddress}}/getapp?id={{$root.companyLogo}}&d=" alt=""/>
+                <div ng-show="$root.me.recrutRole == 'admin' && $root.companyLogo!=undefined" id="owner_photo_bubble_wrap">
+                    <div id="owner_photo_bubble">
+                        <div class="owner_photo_bubble_action owner_photo_bubble_action_update" add-logo>
+                            <span class="owner_photo_bubble_action_in">{{'change_logo'|translate}}</span>
+                        </div>
+                        <div class="owner_photo_bubble_action owner_photo_bubble_action_crop" ng-click="$root.removeLogo()">
+                            <span class="owner_photo_bubble_action_in">{{'remove_logo'|translate}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center" id="logo-button">
+                    <a ng-show="$root.companyLogo == undefined && $root.me.recrutRole === 'admin'" add-logo type="button" class="btn btn-primary add-image">
+                        {{'Upload logo' | translate}}
+                        <br>
+                            <span class="size">
+                                {{'size_290x290'|translate}}
+                            </span>
+                    </a>
+                </div>
+                <label class="company-label pull-left" for="company-name">{{'Account name' | translate}}</label>
+                <input class="form-control company-name" id="company-name" value="{{::$root.me.orgName}}" disabled type="text"/>
+                <div class="text-center" ng-if="$root.me.recrutRole == 'admin'">
+                    <a type="button" class="invite-button btn btn-primary" ng-click="openInviteUser()">
+                        {{'invite_users'|translate}}
+                    </a>
+                    <span class="clarification" ng-show="$root.me.recrutRole == 'admin'">
+                        {{'For account Admins only'|translate}}
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-10 no-padding-sm">
+                <!--<div class="breadcrumbs">-->
+                    <!--<ol class="breadcrumb">-->
+                        <!--<li><a href="#/organizer">{{'Activity' | translate}}</a></li>-->
+                        <!--<li class="active">{{'company' | translate}}</li>-->
+                    <!--</ol>-->
+                <!--</div>-->
+                <h4 ng-show="usersFound">
+                    <span ng-show="$root.currentLang == 'en'">{{::$root.me.orgName}}</span> {{'account users' | translate}} <span ng-show="$root.currentLang == 'ru'">{{$root.me.orgName}}</span>
+                </h4>
+                <div class="company-users" ng-show="usersFound">
+                    <table class="table" ng-table="tableParams" template-pagination="custom/pager">
+                        <thead>
+                        <tr>
+                            <th>
+                                №
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th ng-click="tableParams.sorting({'fullName' : tableParams.isSortBy('fullName', 'asc') ? 'desc' : 'asc'})">
+                                {{'name'|translate}}
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th ng-click="tableParams.sorting({'recrutRole' : tableParams.isSortBy('recrutRole', 'asc') ? 'desc' : 'asc'})">
+                                {{'role'|translate}}
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th class="hidden-xs" ng-click="tableParams.sorting({'achieves.group_wave.countHas' : tableParams.isSortBy('achieves.group_wave.countHas', 'asc') ? 'desc' : 'asc'})">
+                                {{'Remark'|translate}}
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th class="hidden-xs" ng-click="tableParams.sorting({'region.displayFullName' : tableParams.isSortBy('region.displayFullName', 'asc') ? 'desc' : 'asc'})">
+                                {{'region'|translate}}
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th class="hidden-xs" ng-click="tableParams.sorting({'hireDate' : tableParams.isSortBy('hireDate', 'asc') ? 'desc' : 'asc'})">
+                                {{'Date of registration'|translate}}
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="user in $data" ng-click="tofullinformation(user);$event.stopPropagation()">
+                            <td class="clickable">{{(tableParams.page() - 1) * tableParams.count() + $index + 1}}</td>
+                            <td class="user-name clickable">
+                                <a href="#/users/{{user.userId}}">
+                                    <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
+                                    <div class="responsible-initials hidden-xs">
+                                        <span>{{getFirstLetters(user.fullName)}}</span>
+                                    </div>
+                                   {{::user.fullName}}
+                                </a>
+                            </td>
+                            <td class="vacancy-name clickable">
+                                {{::user.recrutRole | spellcheck}}
+                                 <!--<span ng-show="user.client && user.recrutRole == 'client'">-->
+                                    <!--{{'in'|translate}}-->
+                                    <!--<a href="#/clients/{{user.client.localId}}">{{user.client.name}}</a>-->
+                                 <!--</span>-->
+                            </td>
+                            <td class="rank hidden-xs clickable" ng-show="user.recrutRole != 'client' && user.recrutRole != 'freelancer' && user.recrutRole != 'researcher'">
+                                <span ng-show="user.achieves.group_wave.countHas == 0">
+                                    <span>CleverStaff Master</span> <strong>{{::user.achieves.first_wave.countHas}}</strong>/{{::user.achieves.first_wave.countAll}}
+                                </span>
+                                <span ng-show="user.achieves.group_wave.countHas == 1">
+                                    <span>CleverStaff Guru</span> <strong>{{::user.achieves.second_wave.countHas}}</strong>/{{::user.achieves.second_wave.countAll}}
+                                </span>
+                                <span ng-show="user.achieves.group_wave.countHas == 2">
+                                     <span>CleverStaff Guru</span> <strong>{{::user.achieves.second_wave.countHas}}</strong>/{{::user.achieves.second_wave.countAll}}
+                                </span>
+                            </td>
+                            <td class="clickable hidden-xs" ng-show="user.recrutRole == 'client' || user.recrutRole == 'freelancer' || user.recrutRole == 'researcher'">
+                                {{'Limited Access'|translate}}</br>
+                                <span ng-show="user.vacancyCount != undefined">{{::user.vacancyCount}} {{'vacancies'|translate}},</span>
+                                <span ng-show="user.vacancyCount == undefined">0 {{'vacancies'|translate}},</span>
+                                <span ng-show="user.candidateCount == undefined">0 {{'candidates__'|translate}}</span>
+                                <span ng-show="user.candidateCount != undefined">{{::user.candidateCount}} {{'candidates__'|translate}}</span>
+                            </td>
+                            <td class="clickable hidden-xs">
+                               {{::user.region.displayFullName}}
+                            </td>
+                            <td class="clickable hidden-xs">
+                                {{::user.hireDate | dateFormat}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h4 class="pointer" ng-click="toggleDisabledUsersFunc()" ng-show="usersFoundDisable">
+                    {{'Blocked'|translate}}
+                    <i class="fa fa-sort-desc" aria-hidden="true" ng-show="toggleDisabledUsers"></i>
+                    <i class="fa fa-sort-asc" aria-hidden="true" ng-show="!toggleDisabledUsers"></i>
+                </h4>
+                <div class="company-users disabledUsers content-disabled-users" ng-show="usersFoundDisable">
+                    <table class="table" ng-table="tableParamsDisable"
+                           template-pagination="custom/pager">
+                        <thead>
+                        <tr>
+                            <th>
+                                №
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th ng-click="sortReverseDisabled = !sortReverseDisabled; sortTypeDisabled = 'fullName'">
+                                {{'name'|translate}}
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th class="" ng-click="sortReverseDisabled = !sortReverseDisabled; sortTypeDisabled = 'recrutRole'">
+                                {{'role'|translate}}
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th class="hidden-xs" ng-click="sortReverseDisabled = !sortReverseDisabled; sortTypeDisabled = 'region2.displayFullName'">
+                                {{'region'|translate}}
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th class="hidden-xs" ng-click="sortReverseDisabled = !sortReverseDisabled; sortTypeDisabled = 'dc'">
+                                {{'Date of registration'|translate}}
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody class="showAfter">
+                        <tr  ng-repeat="user in $data | orderBy : ['!!'+sortTypeDisabled, sortTypeDisabled] : !sortReverseDisabled" tofullinformation="users/{{user.userId}}">
+                            <td class="clickable">{{(tableParams.page() - 1) * tableParams.count() + $index + 1}}</td>
+                            <td class="user-name clickable">
+                                <a href="#/users/{{user.userId}}">
+                                    <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
+                                    <div class="responsible-initials">
+                                        <span>{{getFirstLetters(user.fullName)}}</span>
+                                    </div>
+                                    {{user.firstName+' '+user.lastName}}
+                                </a>
+                            </td>
+                            <td class="vacancy-name clickable">
+                                {{user.recrutRole | spellcheck}}
+                                 <!--<span ng-show="user.client && user.recrutRole == 'client'">-->
+                                    <!--{{'in'|translate}}-->
+                                    <!--<a href="#/clients/{{user.client.localId}}">{{user.client.name}}</a>-->
+                                 <!--</span>-->
+                            </span>
+                            </td>
+                            <td class="clickable hidden-xs">
+                                {{::user.region.displayFullName}}
+                            </td>
+                            <td class="clickable hidden-xs">
+                                {{::user.hireDate | dateFormat}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h4 class="pointer" ng-click="toggleInvitedUsersFunc()" ng-show="usersFoundInv">
+                    {{'invites'|translate}}
+                    <i class="fa fa-sort-desc" aria-hidden="true" ng-show="toggleInvitedUsers"></i>
+                    <i class="fa fa-sort-asc" aria-hidden="true" ng-show="!toggleInvitedUsers"></i>
+                </h4>
+                <div class="company-users invitedUsers content-invited-users" ng-show="usersFoundInv">
+                    <table class="table" ng-table="tableParamsInv" template-pagination="custom/pager">
+                        <thead>
+                        <tr>
+                            <th>
+                                №
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th ng-click="sortReverseInvited = !sortReverseInvited; sortTypeInvited = 'email'">
+                               Email
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th class="hidden-xs" ng-click="sortReverseInvited = !sortReverseInvited; sortTypeInvited = 'role'">
+                                {{'role'|translate}}
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th class="hidden-xs" ng-click="sortReverseInvited = !sortReverseInvited; sortTypeInvited = 'dc'">
+                                {{'Date invitations'|translate}}
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody class="showAfter">
+                        <tr ng-repeat="invite in invAll | orderBy : ['!!'+sortTypeInvited, sortTypeInvited] : !sortReverseInvited" ng-click="openInviteUserModal(invite)">
+                            <td class="clickable">{{(tableParamsInv.page() - 1) * tableParamsInv.count() + $index + 1}}</td>
+                            <td class="responsible clickable">
+                                {{::invite.email}}
+                            </td>
+                            <td class="vacancy-name clickable hidden-xs">
+                                {{::invite.role | spellcheck}}
+                                <span ng-show="invite.client">
+                                    {{'in'|translate}}
+                                    <a href="#/clients/{{::invite.client.localId}}">{{::invite.client.name}}</a>
+                                </span>
+                            </td>
+                            <td class="clickable hidden-xs">
+                                {{::invite.dc | dateFormat}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

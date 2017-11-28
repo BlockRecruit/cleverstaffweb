@@ -1,0 +1,10 @@
+<div class="col-lg-12">
+    <span class="nameUser" ng-click="$root.closeTaskModal();"><a href="#/users/{{taskDetails.creator.userId}}" class="link-style">{{taskDetails.creator.fullName}}</a></span>
+    <div class="textOfComment" ng-show="taskDetails.comment && !changeComment.showTxtArea">
+        <div ng-bind-html="taskDetails.comment|textForNotice:false"></div>
+    </div>
+    <textarea id="addComment2" ng-model="taskDetails.comment" ng-show="changeComment.showTxtArea" class="form-control"></textarea>
+    <div class="clearfix"></div>
+    <a href class="pull-left saveComment" ng-show="changeComment.showTxtArea" ng-click="$root.updateCommentForTask(taskDetails.comment, taskDetails.taskId, taskDetails.taskActionId);">{{'save'|translate}}</a>
+    <span class="addTimeTask" ng-show="!changeComment.showTxtArea">{{taskDetails.dc| dateFormat5:true}} <span ng-show="$root.me.userId == taskDetails.creatorId">-</span> <a href ng-click="changeComment.showTxtArea = !changeComment.showTxtArea" ng-show="$root.me.userId == taskDetails.creatorId" class="link-style">{{'Edit'|translate}}</a> <span ng-show="$root.me.userId == taskDetails.creatorId">|</span> <a href ng-click="$root.deleteCommentForTask(taskDetails.taskId, taskDetails.taskActionId);" ng-show="$root.me.userId == taskDetails.creatorId" class="link-style">{{'Delete'|translate}}</a></span>
+</div>

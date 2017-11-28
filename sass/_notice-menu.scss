@@ -1,0 +1,167 @@
+.navbar {
+	.nav {
+		&.information {
+			.label {
+				position: absolute;
+				top: 5px;
+				right: 0;
+			}
+			.notices {
+				font-size: 14px;
+				font-weight: 600;
+
+				position: absolute;
+				z-index: 100000;
+				top: 40px;
+				left: -458px;
+
+				display: none;
+				width: 500px;
+
+				cursor: default;
+
+				color: $theme-dark;
+				border-radius: 10px;
+				background-color: white;
+				box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.4);
+				.notices-wrap {
+					display: inline-block;
+					.notice {
+						font-size: 14px;
+
+						min-width: 305px;
+
+						text-align: left;
+					}
+				}
+				a {
+					@include link-styling();
+
+					display: block;
+					padding-top: 0;
+					padding-bottom: 0;
+				}
+
+				.fa-check-circle-o {
+					font-size: 18px;
+
+					position: absolute;
+					top: calc(50% - 8px);
+					right: 0;
+					&.green {
+						color: $theme-dark-green;
+					}
+				}
+
+				.header-block {
+					padding: 10px 15px 10px 15px;
+
+					border-bottom: 1px solid rgb(211, 207, 207);
+					border-radius: 10px 10px 0 0;
+					background-color: $theme-subtitle-background;
+				}
+
+				.mark-all-as-read,
+				.view-whole-list {
+					display: inline-block;
+					width: auto;
+					margin: 5px 0;
+					padding: 5px 0;
+					& a {
+						display: inline-block;
+					}
+				}
+				.mark-all-as-read {
+					margin-left: 10px;
+					& a {
+						font-size: 13px;
+						font-weight: normal;
+					}
+				}
+				.view-whole-list {
+					margin-right: 10px;
+				}
+
+				.header {
+					font-weight: normal;
+					a {
+						font-weight: normal;
+					}
+					> span {
+						display: inline-block;
+						margin-top: 15px;
+					}
+				}
+
+				.notice_object {
+					font-weight: normal;
+					.item-notice {
+						display: flex;
+						margin-top: 8px;
+						padding: 5px 15px;
+
+						text-align: left;
+						&.read {
+							background-color: #e0e0e0;
+						}
+						.notice-info {
+							.date {
+								font-size: 13px;
+
+								display: inline-block;
+								float: none;
+								min-width: 90px;
+								height: 100%;
+
+								text-align: center;
+								vertical-align: middle;
+
+								color: rgba(0, 0, 0, 0.4);
+							}
+						}
+						.check-icon {
+							font-size: 16px;
+
+							align-self: center;
+							i {
+								cursor: pointer;
+								&.green {
+									color: $theme-dark-green;
+								}
+							}
+						}
+					}
+
+					a {
+						font-weight: normal;
+					}
+
+					.candidate a {
+						display: inline;
+					}
+					a.candidate {
+						display: inline-block;
+					}
+					#mCSB_1_container {
+						padding: 5px 0;
+					}
+				}
+			}
+		}
+		.pull-left {
+			display: block;
+			width: 100%;
+			margin-top: 5px;
+			padding-bottom: 5px;
+			a {
+				display: block;
+			}
+		}
+	}
+}
+
+@media (max-width: 1199px) {
+	.navbar .nav.information .notices .notice_object .item-notice {
+		padding: 5px 0;
+	}
+}

@@ -1,0 +1,88 @@
+<div class="block-invitereg">
+    <div ng-show="$root.loading" class="loader-container">
+        <!--<div class="modal-backdrop in loading-screen"></div>-->
+        <div class="loader-outer">
+            <div class="loader"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5 col-md-6 col-sm-7 col-md-offset-3 col-sm-offset-3 wrapper">
+            <div class="invitesYou"  ng-show="$root.inviteState == 'activeInvite'">
+                <h4>{{'Welcome to CleverStaff!'|translate}}</h4>
+                <div class="inviteregYouAccount">
+                    <div><b>{{registration.inviter}}</b> {{'invites you at the account of the company'|translate}} <b>{{registration.orgName}}</b> {{"in"|translate}} CleverStaff — {{'ATS & Recruitment Software' | translate}}.</div>
+                    <div style="padding-top: 3px;">{{'To complete the registration please fill in the form below.'|translate}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 col-md-6 col-sm-7 col-md-offset-3 col-sm-offset-3 wrapper">
+            <div class="registerForm"  ng-show="$root.inviteState == 'activeInvite'">
+                <form name="registrationForm" ng-submit="submitForm()" class="question-form" novalidate autocomplete="off" id="signup">
+                    <div class="form-gr"
+                         ng-class="{'error': registrationForm.firstName.$invalid && !registrationForm.firstName.$pristine}">
+                        <input placeholder="{{'Enter your name' |translate}}" ng-model="registration.firstName"
+                               name="firstName" id="firstName" type="text" required>
+                        <p class="text-center errorMes" ng-show="showErrorName">{{errorMessage | translate}}</p>
+                    </div>
+                    <div class="form-gr">
+                        <input placeholder="{{'Enter your email'|translate}}" ng-model="registration.login" class="miniWidth"
+                               type="email" name="login" required disabled>
+                        <span class="mailSpan">- {{"it will be your login in CleverStaff" | translate}}</span>
+                    </div>
+                    <div class="form-gr displayTable">
+                        <input id="countryCustom" select2-phone-code name="countryCustom" type="hidden">
+                        <input placeholder="{{'Enter your phone number'|translate}}" id="phone" class="phoneNumber pull-right"
+                               ng-model="registration.phone" maxlength="15" name="phone" type="number" required>
+                        <p class="text-center errorMes" ng-show="showErrorPhone">{{errorMessage | translate}}</p>
+                    </div>
+                    <div class="form-gr">
+                        <input placeholder="{{'Enter your password'|translate}}" type="password"
+                               ng-model="password" password="password" mainform="registrationForm" id="password" name="password" required>
+                    </div>
+                    <div class="form-gr">
+                        <input placeholder="{{'Enter your password again'|translate}}" type="password"
+                               name="password2" id="password2" ng-model="password2" required>
+                        <p class="text-center errorMes" ng-show="showError">{{errorMessage | translate}}</p>
+                        <div class="error-password text-center" ng-show="showErrorEnterPassword">
+                            {{'Passwords strength'|translate}}: <span class="red">Abc</span> <span class="red">123</span> <span class="red">8-30 {{'characters'|translate}}</span>
+                        </div>
+                        <div class="error-password text-center" ng-show="showErrorEnterLatin">
+                            {{'Passwords strength'|translate}}: <span class="red">Abc</span> <span class="green">123</span> <span class="green">8-30 {{'characters'|translate}}</span>
+                        </div>
+                        <div class="error-password text-center" ng-show="showErrorEnterNumber">
+                            {{'Passwords strength'|translate}}: <span class="green">Abc</span> <span class="red">123</span> <span class="green">8-30 {{'characters'|translate}}</span>
+                        </div>
+                        <div class="error-password text-center goodSuccess" ng-show="showErrorGoodSuccess">
+                            {{'Passwords strength'|translate}}: <span class="green">Abc</span> <span class="green">123</span> <span class="green">8-30 {{'characters'|translate}}</span>
+                        </div>
+                        <div class="error-password text-center" ng-show="showErrorEnterNumberCharacters">
+                            {{'Passwords strength'|translate}}: <span class="green">Abc</span> <span class="red">123</span> <span class="red">8-30 {{'characters'|translate}}</span>
+                        </div>
+                        <div class="error-password text-center" ng-show="showErrorEnterLatinCharacters">
+                            {{'Passwords strength'|translate}}: <span class="red">Abc</span> <span class="green">123</span> <span class="red">8-30 {{'characters'|translate}}</span>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <input ng-model="registration.orgName" type="hidden" name="orgName" required disabled>
+                    <a class="orangeBtn create-account" ng-click="ngClickRegistration()">{{'Sign Up and Sign In'|translate}}</a>
+                </form>
+                <div class="role text-center">{{'Your role in this account will be' | translate}} <span>{{registration.role| registrationRole}}</span></div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-lg-offset-3 text-center inviteConfirmed" ng-show="$root.inviteState == 'allreadyInAccount'">
+            <div>
+                <strong>{{'You have already confirmed your registration at CleverStaff.' | translate}}</strong>
+                <p>{{'If you want to log in, click the button  below:'|translate}}</p>
+                <a ng-click="redirectToSigning()" class="text-center" >{{'Login to Your Account'| translate}}</a>
+            </div>
+        </div>
+        <div class="col-lg-6 col-lg-offset-3 text-center inviteConfirmed" ng-show="$root.inviteState == 'unknown'">
+            <div>
+                <strong>{{'This invitation link is incorrect or was sent by mistake.' | translate}}</strong>
+                <p>{{'Please ask your account Admin to send a new one.' | translate}}</p>
+            </div>
+        </div>
+    </div>
+</div>

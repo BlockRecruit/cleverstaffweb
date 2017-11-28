@@ -1,0 +1,57 @@
+<div class="vacancy-candidate-change-status">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">Изменить этап отбора</h4>
+    </div>
+    <div class="modal-body">
+        <div class="item">
+            <input class="form-control" placeholder="Должность" type="text">
+        </div>
+        <div class="item">
+            <form class="form-inline">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Дата">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="item">
+            <select class="form-control">
+                <option>Подразделение</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+            </select>
+        </div>
+        <div class="item checkbox link-input">
+            <label><input type="checkbox">Уведомить кандидата</label>
+            <i class="fa fa-pencil"></i>
+        </div>
+        <div class="item">
+            <span class="title">E-mail кандидата</span>
+            <input class="form-control" type="text">
+        </div>
+        <div class="item mail-checkbox">
+            <div class="checkbox">
+                <label><input type="checkbox">moyemail1@gmail.com</label>
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox">moyemail1@gmail.com</label>
+            </div>
+        </div>
+        <div class="item">
+            <span class="title">Тема письма</span>
+            <input class="form-control" type="text">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!--<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>-->
+        <!--<button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>-->
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel">Отменить</a>
+            <a type="button" class="btn btn-primary accept">Сохранить</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+.users-invite {
+	.modal-body {
+		.item-title {
+			color: $theme-light-grey;
+		}
+		.item-text {
+			margin-left: 15px;
+			a {
+				@include link-styling();
+			}
+		}
+	}
+	.modal-footer {
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			@include button-styling();
+		}
+		.delete {
+			background-color: $theme-red;
+		}
+		.cancel {
+			color: #585859;
+			background-color: #e3e3e3;
+			&:hover {
+				background-color: $theme-light-grey-hover;
+			}
+		}
+	}
+}

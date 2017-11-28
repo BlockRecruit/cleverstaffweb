@@ -1,0 +1,639 @@
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+    <url>
+        <loc>https://cleverstaff.net/</loc>
+        <lastmod>2017-05-15T09:47:56+00:00</lastmod>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/ru/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/why.html</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/ru/why.html"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/features.html</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/ru/features.html"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/price.html</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/ru/price.html"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/ru/</loc>
+        <lastmod>2017-05-15T09:49:12+00:00</lastmod>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/ru/why.html</loc>
+        <lastmod>2017-05-15T09:49:12+00:00</lastmod>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/why.html"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/ru/features.html</loc>
+        <lastmod>2017-05-15T09:49:12+00:00</lastmod>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/features.html"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/signup.html</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/ru/singup.html"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/ru/price.html</loc>
+        <lastmod>2017-05-15T09:49:12+00:00</lastmod>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/price.html"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/signin.html</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/ru/singin.html"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/mass-tags-and-adaptive-blog/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/progress-cleverstaff/mass-tags-and-adaptive-blog/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/pipeline-report-and-emails-from-the-interface/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/pipeline-report-and-emails-sending/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/new-version-boosted-speed/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/new-version-boosted-speed/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/new-version-improved-linkedin-integration-and-emails/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/new-version-improved-linkedin-integration-and-emails/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/cv-parsing-actions-log-comments/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/resume-parcing-actions-comments/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2017/improved-linkedin-integration-updated-profile/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2017/improved-linkedin-integration-updated-profile/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/personal-events-and-clients-search/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/personal-events-and-clients-search/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/new-version-researcher/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/new-version-researcher/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2017/we-boosted-the-cleverstaff-processing-speed/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/cleverstaff-works-much-faster/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/upd-new-integration-with-linkedin-job-boards/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/upd-new-integration-with-linkedin-job-boards/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/page/2/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/page/2/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/category/important/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/category/important/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/category/2017/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/category/2017/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/category/2016/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/category/2016/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/category/2013/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/category/2013/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/category/2014/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/category/2014/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/category/2015/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/category/2015/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/category/prices/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/category/prices/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/category/progress-cleverstaff/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/category/cleverstaff_new_features/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/ru/signup.html</loc>
+        <lastmod>2017-05-15T09:49:12+00:00</lastmod>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/signup.html"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/instant-database-import-and-migration-to-cleverstaff/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/instant-database-import-and-migration-to-cleverstaff/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/cleverstaff-and-linkedin-integration/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/cleverstaff-and-linkedin-integration/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/new-cleverstaff-version-second-part-of-improvements/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/new-version-new-improvements/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/new-year-2017-version/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/new-year-2017-version/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/outlook-and-hiring-manager/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/progress-cleverstaff/outlook-and-hiring-manager/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2016/new-year-old-prices/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2016/new-year-old-prices/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2016/how-to-convince-you-management-buy-a-recruiting-software/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2016/how-to-convince-management-by-recruitment-software/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2016/personal-plan-limitation/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2016/free-account-limitation/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2016/jira-for-recruiting-worse-than-orgasm-imitation/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2016/jira-for-recruiting-worse-than-orgasm-imitation/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2013/new-design-and-features/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/new-version-and-design/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/page/3/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/page/3/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/category/2017/page/2/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/category/2017/page/2/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/improved-search-relevancy/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/improved-search-relevancy/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/integration-with-cv-online/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/cv-online-and-usability/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/emailing-with-templates/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/email-templates-and-superjob-integration/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/may-updates-part-2/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/may_updates_2/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/search-improvements/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/may-search-improvements/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/category/2016/page/2/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/category/2016/page/2/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2014/recruiting-funnel/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2014/recruiting-funnel/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2014/why-we-created-cleverstaff-ceo-vladimir-kurilo/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2014/cleverstaff-mission/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/advanced-integration-and-new-site/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2015/new-site/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/improvement-of-the-search-and-updates-on-export-in-excel/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2015/improvements-of-search-and-export-to-excel/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/new-functions-and-improvements-of-cleverstaff-in-november/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2015/november-updates/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/flexible-tuning-of-stages-of-the-vacancy/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2015/flexible-vacancy-stages/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/september-update/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2015/september-improvements/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/update-cleverstaff-in-early-august/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2015/early-august-update/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/bulk-upload-resume-cleverstaff/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2015/mass-cv-upload/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/freelancers-access-to-your-account-cleverstaff/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2015/freelancers-in-your-account/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/we-present-you-the-june-betterment-cleverstaff/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2015/improvements/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/%d0%bd%d0%be%d0%b2%d0%be%d1%81%d1%82%d0%b8-%d0%bc%d0%b0%d1%8f/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2015/%d0%bd%d0%be%d0%b2%d0%be%d1%81%d1%82%d0%b8-%d0%bc%d0%b0%d1%8f/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/category/2015/page/2/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/category/2015/page/2/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/category/progress-cleverstaff/page/2/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/category/cleverstaff_new_features/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/signup</loc>
+        <lastmod>2017-05-15T09:47:46+00:00</lastmod>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/ru/signin.html</loc>
+        <lastmod>2017-05-15T09:49:12+00:00</lastmod>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/signin.html"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/mass-tags-adaptive-blog/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/mass-tags-and-adaptive-blog/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/pipeline-report-and-emails-sending/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/pipeline-report-and-emails-from-the-interface/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/new-version-boosted-speed/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/new-version-boosted-speed/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/new-version-improved-linkedin-integration-and-emails/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/new-version-improved-linkedin-integration-and-emails/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/resume-parcing-actions-comments/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/cv-parsing-actions-log-comments/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2017/improved-linkedin-integration-updated-profile/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2017/improved-linkedin-integration-updated-profile/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/personal-events-and-clients-search/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/personal-events-and-clients-search/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/new-version-researcher/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/new-version-researcher/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/cleverstaff-works-much-faster/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2017/we-boosted-the-cleverstaff-processing-speed/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/upd-new-integration-with-linkedin-job-boards/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/upd-new-integration-with-linkedin-job-boards/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/page/2/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/page/2/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/category/2014/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/category/2014/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/category/2015/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/category/2015/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/category/cleverstaff_new_features/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/category/progress-cleverstaff/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/category/2016/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/category/2016/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/category/2017/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/category/2017/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/category/important/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/category/important/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/category/prices/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/category/prices/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/candidates-improvements/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/impoved-candidates-on-vacanies/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/adjustment-of-refusal-reasons/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/file-preview-and-custom-refusal-resons/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/api-table-reports-exporting/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/march2016_api/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/vacancy-page-candidates/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/vacancy-tabs/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/speeding-of-cleverstaff/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/rabota-ua-and-speed-up-cleverstaff/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/tasks-in-cleverstaff/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/tasks-in-cleverstaff/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/page/4/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/page/4/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/progress-cleverstaff/new-years-updates-of-cleverstaff-software/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/cleverstaff_new_features/jan-2016-improvements/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/sending-resumes-of-candidates-by-email/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2015/send-candidates-by-email/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/news-april/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2015/april_news/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/features-in-april/</loc>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/new-features-in-march/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2015/march-improvements/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/clients-access-to-cleverstaff/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2015/clients-access/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/integration-with-linkedin/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/2015/linkedin-integration/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/2015/colourful-stickers/</loc>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/category/progress-cleverstaff/page/3/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/category/cleverstaff_new_features/page/3/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/instant-database-import-and-migration-to-cleverstaff/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/instant-database-import-and-migration-to-cleverstaff/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/cleverstaff-and-linkedin-integration/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/cleverstaff-and-linkedin-integration/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/new-version-new-improvements/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/new-cleverstaff-version-second-part-of-improvements/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/new-year-2017-version/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/new-year-2017-version/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/outlook-and-hiring-manager/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/outlook-and-hiring-manager/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2016/new-year-old-prices/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2016/new-year-old-prices/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2016/free-account-limitation/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2016/personal-plan-limitation/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2016/how-to-convince-management-by-recruitment-software/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2016/how-to-convince-you-management-buy-a-recruiting-software/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2016/jira-for-recruiting-worse-than-orgasm-imitation/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2016/jira-for-recruiting-worse-than-orgasm-imitation/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/new-version-and-design/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2013/new-design-and-features/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/page/3/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/page/3/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2014/recuiting-funnel/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2014/recruiting-funnel/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2014/cleverstaff-mission/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2014/why-we-created-cleverstaff-ceo-vladimir-kurilo/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/new-site/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2015/advanced-integration-and-new-site/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/improvements-of-search-and-export-to-excel/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2015/improvement-of-the-search-and-updates-on-export-in-excel/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/november-updates/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2015/new-functions-and-improvements-of-cleverstaff-in-november/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/flexible-vacancy-stages/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2015/flexible-tuning-of-stages-of-the-vacancy/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/september-improvements/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2015/september-update/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/early-august-update/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2015/update-cleverstaff-in-early-august/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/mass-cv-upload/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2015/bulk-upload-resume-cleverstaff/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/freelancers-in-your-account/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2015/freelancers-access-to-your-account-cleverstaff/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/improvements/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2015/we-present-you-the-june-betterment-cleverstaff/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/%d0%bd%d0%be%d0%b2%d0%be%d1%81%d1%82%d0%b8-%d0%bc%d0%b0%d1%8f/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2015/%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D0%B8-%D0%BC%D0%B0%D1%8F/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/category/2015/page/2/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/category/2015/page/2/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/category/cleverstaff_new_features/page/2/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/category/progress-cleverstaff/page/2/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2016/how-to-develop-the-recruiting-soft/</loc>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/improved-search-relevancy/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/improved-search-relevancy/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/cv-online-and-usability/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/integration-with-cv-online/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/email-templates-and-superjob-integration/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/emailing-with-templates/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/category/2016/page/2/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/category/2016/page/2/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/category/2017/page/2/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/category/2017/page/2/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/page/5/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/page/5/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/category/progress-cleverstaff/page/4/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/category/cleverstaff_new_features/page/4/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2016/new-version-of-extension/</loc>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/may_updates_2/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/may-updates-part-2/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/may-search-improvements/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/search-improvements/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/impoved-candidates-on-vacanies/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/candidates-improvements/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/file-preview-and-custom-refusal-resons/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/adjustment-of-refusal-reasons/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/march2016_api/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/api-table-reports-exporting/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/page/4/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/page/4/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/linkedin-integration/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2015/integration-with-linkedin/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/jan-2016-improvements/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/new-years-updates-of-cleverstaff-software/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/%d0%ba%d0%be%d0%bd%d1%84%d0%b5%d1%80%d0%b5%d0%bd%d1%86%d0%b8%d1%8f-hr-it-%d0%b2-%d0%ba%d0%b8%d0%b5%d0%b2%d0%b5-21-%d0%bc%d0%b0%d1%8f/</loc>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/april_news/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2015/news-april/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/hh-cleverstaff-integration/</loc>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/%d0%b0%d0%ba%d1%86%d0%b8%d1%8f-%d0%b4%d0%bb%d1%8f-%d0%bd%d0%b5%d0%ba%d0%be%d0%bc%d0%bc%d0%b5%d1%80%d1%87%d0%b5%d1%81%d0%ba%d0%b8%d1%85-%d0%be%d1%80%d0%b3%d0%b0%d0%bd%d0%b8%d0%b7%d0%b0%d1%86%d0%b8/</loc>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/march-improvements/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2015/new-features-in-march/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/clients-access/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2015/clients-access-to-cleverstaff/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/2015/send-candidates-by-email/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/2015/sending-resumes-of-candidates-by-email/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/category/cleverstaff_new_features/page/3/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/category/progress-cleverstaff/page/3/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/vacancy-tabs/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/vacancy-page-candidates/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/rabota-ua-and-speed-up-cleverstaff/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/speeding-of-cleverstaff/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/cleverstaff_new_features/tasks-in-cleverstaff/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/progress-cleverstaff/tasks-in-cleverstaff/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/page/6/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/page/6/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/news/category/progress-cleverstaff/page/5/</loc>
+        link rel="alternate" hreflang="ru" href="https://cleverstaff.net/blog/category/cleverstaff_new_features/page/5/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/page/5/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/page/5/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/category/cleverstaff_new_features/page/4/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/category/progress-cleverstaff/page/4/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/page/6/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/page/6/"/>
+    </url>
+    <url>
+        <loc>https://cleverstaff.net/blog/category/cleverstaff_new_features/page/5/</loc>
+        link rel="alternate" hreflang="en" href="https://cleverstaff.net/news/category/progress-cleverstaff/page/5/"/>
+    </url>
+</urlset>

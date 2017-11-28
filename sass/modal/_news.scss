@@ -1,0 +1,96 @@
+.block-news {
+	.CS-News-Column,
+	.andRu {
+		line-height: 40px;
+
+		width: 65px;
+		margin-top: 10px;
+		margin-left: 0;
+		i {
+			@include link-color();
+
+			cursor: pointer;
+		}
+		a {
+			@include link-color();
+			&:hover {
+				text-decoration: underline;
+
+				background-color: inherit;
+			}
+		}
+		.sharesPostsFromCS {
+			@include border-radius();
+
+			line-height: initial;
+
+			position: absolute;
+			z-index: 9;
+			left: -400px;
+
+			display: none;
+			width: 500px;
+			padding: 10px;
+
+			color: $theme-dark;
+			border: 1px solid $theme-light-grey-hover;
+			background-color: $theme-white;
+			ul {
+				@include bold();
+
+				list-style-type: decimal;
+				span {
+					font-weight: 500;
+				}
+			}
+		}
+		.someRulesFbPosts {
+			@include border-radius();
+
+			line-height: initial;
+
+			position: absolute;
+			z-index: 9;
+			top: 95px;
+			left: -400px;
+
+			display: none;
+			width: 500px;
+			padding: 10px;
+
+			color: $theme-dark;
+			border: 1px solid $theme-light-grey-hover;
+			background-color: $theme-white;
+			a {
+				@include link-styling();
+
+				padding: 0;
+			}
+			ul {
+				@include bold();
+
+				list-style-type: decimal;
+				span {
+					font-weight: 500;
+				}
+			}
+			p {
+				&:first-child {
+					@include bold();
+				}
+			}
+		}
+	}
+	.andRu {
+		line-height: 40px;
+
+		width: 95px;
+		margin-top: -5px;
+		padding: 17px;
+	}
+	.fbGroupPage {
+		display: flex;
+
+		justify-content: center;
+	}
+}

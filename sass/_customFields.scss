@@ -1,0 +1,164 @@
+.block-custom-fields {
+	h3 {
+		font-weight: 500;
+
+		margin-left: 5px;
+	}
+	.second-navbar {
+		background-color: $theme-white;
+		.nav {
+			float: left;
+			margin: 10px 0;
+		}
+		a {
+			@include bold();
+
+			margin-left: 30px;
+			padding: 5px;
+
+			color: #202021;
+			border: 2px solid $theme-white;
+			border-radius: 5px;
+			&.no-margin {
+				margin-left: 0;
+			}
+			&:hover {
+				border: 2px solid #ffe9a6;
+				background-color: #fff;
+			}
+			&.selected {
+				background-color: #ffe9a6 ;
+			}
+			&.disabled {
+				@include disabled-button();
+
+				margin-top: -2px;
+			}
+		}
+	}
+	.bothBlocks {
+		margin-top: 30px;
+		p {
+			margin: 20px 0 10px 0;
+			.transform {
+				text-transform: lowercase;
+			}
+		}
+		.customBlock {
+			width: 75% !important;
+			padding: 15px 0;
+
+			background-color: $theme-white;
+			.padding {
+				padding: 0;
+			}
+		}
+		.customBlock2 {
+			max-height: 230px;
+			padding: 0;
+			.mCSB_container {
+				padding: 0;
+			}
+			.customBlock3 {
+				padding: 15px 0;
+
+				background-color: $theme-white;
+				.padding-right {
+					//display: inline-flex;
+					padding-right: 0;
+					i {
+						display: none;
+					}
+					.fa-pencil {
+						margin-right: 5px;
+					}
+				}
+				.grey {
+					color: $theme-light-grey;
+				}
+				.iconsStyle {
+					margin-top: 5px;
+				}
+				.hoverIcons:hover i {
+					display: inline-block;
+
+					cursor: pointer;
+
+					color: $link-color;
+				}
+				.hoverIcons {
+					line-height: 25px;
+
+					padding: 0 10px;
+					&:hover {
+						background-color: $theme-light-grey-hover;
+					}
+				}
+				.padding {
+					padding: 0;
+				}
+			}
+			.padding-fifth {
+				padding: 3px 0;
+			}
+		}
+		.marginTop {
+			margin-top: 20px;
+			padding: 15px 10px;
+			.fieldTitle {
+				@include input-styling();
+				@include border-radius();
+
+				width: 100%;
+				padding-left: 5px;
+				&:focus {
+					outline: none;
+				}
+			}
+			ul {
+				padding: 0;
+
+				list-style-type: none;
+				.typeField {
+					margin: 15px 0 10px 0;
+				}
+				.drop-down {
+					@include input-styling();
+					@include border-radius();
+
+					width: 100%;
+					margin: 5px 0 10px;
+					//padding-left: 17px;
+					&:focus {
+						outline: none;
+					}
+				}
+			}
+			.button {
+				margin-top: 20px;
+				.btn {
+					@include button-styling();
+				}
+				.accept {
+					@include button-styling();
+				}
+				.cancel {
+					@include button-styling-cancel();
+				}
+			}
+			label {
+				font-weight: normal;
+
+				display: inline;
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+
+#s2id_customFullField {
+	width: 100% !important;
+	.select2-search-field input {
+		width: 180% !important;
+	}
+}

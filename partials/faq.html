@@ -1,0 +1,238 @@
+<div class="block-faq">
+    <div class="row faq">
+        <div class="col-lg-12">
+            <h2 class="text-center">{{'Frequently Asked Questions'|translate}}</h2>
+            <div class="input-group text-center no-padding-xs">
+                <div class="input-group-addon">
+                    <i class="fa fa-search"></i>
+                </div>
+                <div class="inputSearch">
+                    <input type="text" class="form-control" ng-focus="true" ng-model="searchFaq"
+                           placeholder="{{'Enter your question or a keyword'|translate}}">
+                </div>
+            </div>
+            <div class="or text-center">{{'or'|translate}}</div>
+            <p class="findYourQuestions text-center">{{'Find your Questions & Answers below'|translate}}</p>
+            <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 guideAndWork">
+                <h4 class="mrg-bottom">{{'Guide and work in system'|translate}}</h4>
+                <ul>
+                    <uib-accordion close-others="oneAtATime">
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$first">
+                            <uib-accordion-heading>
+                                <span>1. {{'How to add / remove new users'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down' : !$first, 'fa-angle-up' : $first}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'To add a new user go to Company tab → Users → Invite new user. Enter the email and the role for a user in the pop-up and click on Invite'|translate}}.</p>
+                            <p>{{'Once this is done, the new user receives an email with the invitation link to join your company account at CleverStaff'|translate}}.</p>
+                            <br>
+                            <img src="/images/sprite/faq/1.png" width="100%" alt="">
+                        </li>
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$second">
+                            <uib-accordion-heading>
+                                <span>2. {{'How to set email notifications'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down' : !$second, 'fa-angle-up' : $second}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'To set email notifications open your profile menu and choose the Email notifications'|translate}}.</p>
+                            <br>
+                            <img src="/images/sprite/faq/2.png" width="100%" alt="">
+                        </li>
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$third">
+                            <uib-accordion-heading>
+                                <span>3. {{'How can I publish vacancies in social networks'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down': !$third, 'fa-angle-up': $third}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'Choose a vacancy and go to Vacancy details. Find the Social networks block and choose a network to share the vacancy in a timeline:  Facebook, LinkedIn, Twitter, Vkontakte'|translate}}.</p>
+                            <br>
+                            <img src="/images/sprite/faq/3.png" width="100%" alt="">
+                            <br>
+                            <br>
+                            <p>{{'Also, you could share your vacancies at your company Facebook page at Comapany → Company settings → Create a Jobs Tab'|translate}}.</p>
+                        </li>
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$fourth">
+                            <uib-accordion-heading>
+                                <span>4. {{'How to show/restore deleted/cancelled vacancies'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down': !$fourth, 'fa-angle-up': $fourth}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'If you want to show/restore deleted/cancelled vacancies go to Vacancies and choose the Deleted/Cancelled'|translate}}.</p>
+                            <br>
+                            <img src="/images/sprite/faq/4.png" width="100%" alt="">
+                        </li>
+                    </uib-accordion>
+                </ul>
+                <h4 class="mrg-bottom">{{'Payment, plans, and agreements'|translate}}</h4>
+                <ul>
+                    <uib-accordion close-others="oneAtATime">
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$fifth">
+                            <uib-accordion-heading>
+                                <span>1. {{'What are the payment options for using the system'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down' : !$fifth, 'fa-angle-up' : $fifth}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'There are two ones: via a bank card and via invoice. You can pay via bank card at'|translate}} "<a href="https://cleverstaff.net/!#/pay" target="_blank">{{'payment_vacancy'|translate}}</a>".</p>
+                            <br>
+                            <p>{{'To receive an invoice please email us at'|translate}} <a href="mailto:finance@cleverstaff.net">finance@cleverstaff.net</a></p>
+                        </li>
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$sixth">
+                            <uib-accordion-heading>
+                                <span>2. {{'Is it possible to sign an agreement? What do we need to make it possible'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down' : !$sixth, 'fa-angle-up' : $sixth}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'Sure! We could send you our standard agreement. Please send us the following details at'|translate}}
+                                <a href="mailto:finance@cleverstaff.net">finance@cleverstaff.net</a>:
+                            </p>
+                            <ul class="standardAgreement">
+                                <li>{{'Company name'|translate}}</li>
+                                <li>{{'Bank details'|translate}}</li>
+                                <li>{{'CEO name'|translate}}</li>
+                                <li>{{'Estimated agreement term'|translate}}</li>
+                                <li>{{'The number of users'|translate}}</li>
+                            </ul>
+                        </li>
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$seventh">
+                            <uib-accordion-heading>
+                                <span>3. {{'How to change a plan from free (Freelancer) to a paid one (For Companies)'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down': !$seventh, 'fa-angle-up': $seventh}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'The plan will be changed automatically when your account gets more than 1 user'|translate}}.</p>
+                            <br>
+                            <p>{{'Some features are limited for a free plan (Freelancer). To open all features and upgrade your plan to a paid one you should pay for a 1+ month ($25) at'|translate}} <a href="https://cleverstaff.net/!#/pay" target="_blank">{{'Pay_1'|translate}}</a> {{'tab'|translate}}.</p>
+                        </li>
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$eighth">
+                            <uib-accordion-heading>
+                                <span>4. {{'Which currency should we use to pay'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down': !$eighth, 'fa-angle-up': $eighth}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'CleverStaff prices are in USD but you could pay in any currency according to the USD rate of the National bank of your country'|translate}}.</p>
+                        </li>
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$ninth">
+                            <uib-accordion-heading>
+                                <span>5. {{'Is it possible to pay via invoice'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down': !$ninth, 'fa-angle-up': $ninth}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'Sure! To request an invoice please email us at'|translate}}
+                                <a href="mailto:finance@cleverstaff.net ">finance@cleverstaff.net </a>
+                                {{'and we will send it to you with all details'|translate}}.
+                            </p>
+                        </li>
+                    </uib-accordion>
+                </ul>
+                <h4 class="mrg-bottom">{{'Data security and users access levels'|translate}}</h4>
+                <ul>
+                    <uib-accordion close-others="oneAtATime">
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$tenth">
+                            <uib-accordion-heading>
+                                <span>1. {{'Are there any warranties that our database won’t be used by the third parties'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down' : !$tenth, 'fa-angle-up' : $tenth}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'We use the SaaS model (Software as a service): this means we provide software only. Our users use their own database. If the user agreement is canceled, we will provide the 100% database export'|translate}}</p>
+                            <br>
+                            <p>{{'We build our business on our users trust. We NEVER share user databases with the third parties. In a case, if we could share databases, everyone would know about it: in our business the loss of reputation means the loss of customers'|translate}}</p>
+                        </li>
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$eleventh">
+                            <uib-accordion-heading>
+                                <span>2. {{'Are there any user roles and access limitation for then'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down' : !$eleventh, 'fa-angle-up' : $eleventh}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'There are 6 user roles at CleverStaff'|translate}}</p>
+                            <ul class="listType">
+                                <li><span class="bold">Admin</span> - {{'Full control on a company account. Able to manage users, clients, vacancies, and candidates. Paid user'|translate}}</li>
+                                <li><span class="bold">Recruiter</span> - {{'Able to manage clients, vacancies and candidates. Paid user'|translate}}</li>
+                                <li><span class="bold">Sales Manager</span> - {{'Able to manage clients and vacancies he/she is responsible for. Paid user'|translate}}</li>
+                                <li><span class="bold">Hiring manager</span> - {{'Has an access only to vacancies and candidates he/she is responsible for. Free user. You can add as many Hiring Managers as you want'|translate}}</li>
+                                <li><span class="bold">Freelancer</span> - {{'Cannot see the full database. Able to manage only clients, vacancies, and candidates he/she is responsible for. Paid user'|translate}}</li>
+                                <li><span class="bold">Researcher</span> - {{'Has an access only to vacancies he/she is responsible for and only to candidates added by this specific user. Cannot see other users. Paid user'|translate}}</li>
+                            </ul>
+                        </li>
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$twelfth">
+                            <uib-accordion-heading>
+                                <span>3. {{'How to custom the scope of visible data if I work in multiple CleverStaff accounts'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down': !$twelfth, 'fa-angle-up': $twelfth}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'If you have multiple CleverStaff accounts you could switch them being logged in. Click on the Scope button in the upper left corner of the interface and choose the account you need. Once this is done, you will see all candidates, vacancies and other data for this account'|translate}}.</p>
+                            <br>
+                            <img src="/images/sprite/faq/111.png" width="100%" alt="">
+                        </li>
+                    </uib-accordion>
+                </ul>
+                <h4 class="mrg-bottom">{{'Database export / import and data migration'|translate}}</h4>
+                <ul>
+                    <uib-accordion close-others="oneAtATime">
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$thirteenth">
+                            <uib-accordion-heading>
+                                <span>1. {{'Is it possible to manage our employees database? Any HR module available'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down' : !$thirteenth, 'fa-angle-up' : $thirteenth}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'You can add an additional HR module for CleverStaff. This module helps you track & manage your company employees. Contact our support to add this module'|translate}}:</p>
+                            <ul class="listType">
+                                <li>{{'via Support form in the header'|translate}};</li>
+                                <li>{{'email us at'|translate}} <a href="mailto:contact@cleverstaff.net">contact@cleverstaff.net</a>;</li>
+                                <li>{{'call us at'|translate}} +380 44 22 11 063.</li>
+                            </ul>
+                            <br>
+                            <p>{{'The module will be activated in 1-3 hours. Once it’s active, your will notice Employees button (visible for Admin role only) at your Company settings tab'|translate}}.</p>
+                        </li>
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$fourteenth">
+                            <uib-accordion-heading>
+                                <span>2. {{'How to migrate the candidates database to CleverStaff'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down' : !$fourteenth, 'fa-angle-up' : $fourteenth}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'You can import the candidates database yourself at Candidates tab → Our database → Bulk import → click on'|translate}}</p>
+                            <ul class="listType">
+                                <li>{{'Upload resume archive to import the upload the archive with your candidates resumes in ZIP / RAR. You can add resumes in .doc, .docx, PDF and .odt formats'|translate}};</li>
+                                <li>{{'Import from Excel to upload an Excel file with your candidates data'|translate}};</li>
+                                <li>{{'Upload CVs one-by-one via Upload resume button'|translate}}.</li>
+                            </ul>
+                            <br>
+                            <p>{{'If you need to migrate your database from any other ATS / recruiting software (Zoho, Podio, Bullhorn, etc.), we will do it for you with all interconnections, comments and tasks for free'|translate}}</p>
+                            <p>{{'If your base is'|translate}}</p>
+                            <img src="/images/sprite/faq/faq.gif" width="100%" alt="">
+                        </li>
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$fifteenth">
+                            <uib-accordion-heading>
+                                <span>3. {{'Can I upload CVs from email? How to set the integration'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down': !$fifteenth, 'fa-angle-up': $fifteenth}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'To integrate with email go to Candidates tab → Import from e-mail and enter the data for successful integration'|translate}}.</p>
+                            <p>{{'If you have a corporate email, probably you should input the smtp host, port, secure data which you could receive from your system administrator.'|translate}}</p>
+                            <br>
+                            <img src="/images/sprite/faq/5.png" width="100%" alt="">
+                        </li>
+                    </uib-accordion>
+                </ul>
+                <h4 class="mrg-bottom">{{'Other questions'|translate}}</h4>
+                <ul>
+                    <uib-accordion close-others="oneAtATime">
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$sixteenth">
+                            <uib-accordion-heading>
+                                <span>1. {{'We want to customize the CleverStaff for our company'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down' : !$sixteenth, 'fa-angle-up' : $sixteenth}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'Our team constantly improves the system. All improvements are discussed with the'|translate}}.</p>
+                            <p>{{'There are two CleverStaff versions: the Cloud and the Enterprise ones'|translate}}.</p>
+                            <p>{{'We are always waiting for your ideas & suggestions: email us at'|translate}} <a href="mailto:contact@cleverstaff.net">contact@cleverstaff.net</a> {{'or skype us'|translate}}:
+                                <a href="skype:cleverstaff?chat">cleverstaff</a>.
+                            </p>
+                        </li>
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$seventeenth">
+                            <uib-accordion-heading>
+                                <span>2. {{'What are the price and terms of CleverStaff customizations'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down' : !$seventeenth, 'fa-angle-up' : $seventeenth}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'The price and the terms of customizations depend on the plan you choose, on the number and the complexity of customizations'|translate}}</p>
+                            <p>{{'To answer those questions we need more details -- please email us at'|translate}} <a href="mailto:contact@cleverstaff.net">contact@cleverstaff.net</a> {{'or skype us'|translate}}:
+                                <a href="skype:cleverstaff?chat">cleverstaff</a>.
+                            </p>
+                        </li>
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$eighteenth">
+                            <uib-accordion-heading>
+                                <span>3. {{'What is the cost of an Enterprise (server) CleverStaff version? Is it possible to customize it if we buy it? What are the rates for the system support after we buy the system?'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down': !$eighteenth, 'fa-angle-up': $eighteenth}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'The cost of cost of an Enterprise (server) version we discuss individually: email us at'|translate}}
+                                <a href="mailto:contact@cleverstaff.net">contact@cleverstaff.net</a> {{'and we instantly contact you'|translate}}.
+                            </p>
+                            <p>{{'After you buy an Enterprise version it belongs to you on 100% and you can customize it in any way. Or, we can do it for you -- it will be an additional option'|translate}}.</p>
+                            <p>{{'As we constantly release new CleverStaff versions (1 time per 1-4 weeks), we can install updates on our clients’ Enterprise version. This is a paid option. If you want to get regular versions’ updates, please email us.'|translate}}</p>
+                        </li>
+                        <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$nineteenth">
+                            <uib-accordion-heading>
+                                <span>4. {{'What is the system performance and the fault tolerance'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down': !$nineteenth, 'fa-angle-up': $nineteenth}" aria-hidden="true"></i>
+                            </uib-accordion-heading>
+                            <p>{{'CleverStaff works reliably. The cloud version has a load balancing between different servers. The algorithms are well-optimized for huge volumes of data and concurrent users'|translate}}.</p>
+                            <p>{{'We regularly run the load testing and check if the system works quickly, reliably and smoothly in the environment of constant load growth'|translate}}</p>
+                        </li>
+                    </uib-accordion>
+                </ul>
+            </div>
+            <div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 text-center footerFaq">
+                <h4>{{'Didnt find the answer?'|translate}}</h4>
+                <p>
+                    {{'Write your question in a'|translate}} <a href="https://cleverstaff.net/!#/ask_question ">{{'special form'|translate}}</a>,<br>
+                    {{'email us on'|translate}} <a href="mailto:contact@cleverstaff.net">contact@cleverstaff.net</a> {{'or skype us'|translate}}: <a href="skype:cleverstaff?chat">cleverstaff</a>
+                </p>
+                <p class="bold">{{'Your friends at CleverStaff'|translate}}</p>
+            </div>
+        </div>
+    </div>
+</div>

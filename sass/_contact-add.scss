@@ -1,0 +1,123 @@
+.block-contact-add {
+	.col-lg-12 {
+		& > span {
+			& > h3 {
+				@include bold();
+
+				padding-left: 15px;
+			}
+		}
+		.contactForm {
+			background-color: $theme-white;
+			.AddingContact {
+				@include border-radius();
+
+				margin-top: 20px;
+				padding: 15px;
+				&:last-child {
+					margin-top: 0;
+				}
+
+				.error {
+					label {
+						color: $theme-red!important;
+						border-color: $theme-red;
+					}
+				}
+				.field {
+					margin-top: 10px;
+					.redStar {
+						color: $theme-red;
+					}
+					.errorInput {
+						border: 1px solid $theme-red;
+					}
+					.errorTxt {
+						color: $theme-red;
+					}
+					label {
+						font-weight: 400;
+
+						margin: 0;
+
+						color: $theme-light-grey;
+					}
+					input {
+						@include input-styling();
+						@include border-radius();
+
+						clear: both;
+						width: 100%;
+						padding-left: 10px;
+						&:focus {
+							outline: none;
+						}
+					}
+					.btn-group {
+						margin: 15px 0 1px 20px;
+						.btn {
+							@include button-switch-styling();
+							&:first-child {
+								margin-right: 55px;
+							}
+							&.active {
+								background-color: $theme-light-green-hover;
+							}
+						}
+					}
+				}
+				.errorTxt {
+					color: $theme-red!important;
+				}
+				p {
+					margin-bottom: 10px;
+				}
+				& > .text-center {
+					margin-top: 5px;
+					.btn-danger {
+						padding: 3px 12px;
+
+						border: none;
+					}
+					.btn:not(.btn-danger) {
+						@include button-styling();
+						&.accept {
+							color: $theme-white;
+							background-color: $theme-dark-green;
+							&:hover {
+								background-color: $theme-light-green-hover;
+							}
+						}
+					}
+				}
+				.switch {
+					margin-bottom: 15px;
+					padding-top: 4px;
+					.grey {
+						color: #999;
+					}
+					label {
+						font-weight: 500;
+
+						margin-bottom: 0;
+					}
+				}
+				input.cmn-toggle-round + label:before {
+					background-color: #8ce196;
+				}
+				.cmn-toggle + label {
+					display: inline-block;
+					margin-bottom: -6px;
+				}
+				.title-header {
+					@include bold();
+
+					font-size: 18px;
+				}
+				.please-fill {
+					color: $theme-light-grey;
+				}
+			}
+		}
+	}
+}

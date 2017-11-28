@@ -1,0 +1,19 @@
+<div class="delete-responsible">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">{{$root.changeStatusInClient.header}}</h4>
+    </div>
+    <div class="modal-body">
+        <!--<label>Вы хотите убрать ответственного Vik BG  из вакансии kmlklk?</label>-->
+        <div class="item taskText">
+             <textarea class="form-control" placeholder="{{$root.changeStatusInClient.placeholder}}"
+                       ng-model="$root.changeStatusInClient.comment"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'no'|translate}}</a>
+            <a type="button" class="btn btn-primary accept" ng-click="$root.saveClientStatus()">{{'Delete'|translate}}</a>
+        </div>
+    </div>
+</div>

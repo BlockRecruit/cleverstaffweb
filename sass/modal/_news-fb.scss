@@ -1,0 +1,46 @@
+.news-fb-modal {
+	.modal-header {
+		& > h4 {
+			@include bold();
+		}
+		i {
+			@include close-item();
+		}
+		.tooltip-outer {
+			width: 260px;
+		}
+	}
+	.modal-body {
+		& > .taskText {
+			& > .form-control {
+				height: 200px;
+				max-height: 380px;
+
+				resize: vertical;
+			}
+		}
+		&.news-modal {
+			overflow-x: hidden;
+		}
+	}
+	.modal-footer {
+		.btn {
+			@include button-green-styling();
+		}
+		.del {
+			@include button-styling();
+		}
+		.accept {
+			@include button-green-styling();
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+	}
+}
+
+@media (max-width: 550px) {
+	.news-fb-modal {
+		display: none;
+	}
+}

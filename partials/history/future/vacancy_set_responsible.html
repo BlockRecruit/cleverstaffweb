@@ -1,0 +1,20 @@
+<div class="col-lg-3">
+    <span class="time" bo-html="vacancy.actions.objects[0].dm |dateFormat6:true"></span>
+</div>
+<div class="col-lg-9">
+    <a href="#/vacancies/{{vacancy.localId}}"  class="user">
+        <span once-text="vacancy.position"></span>
+    </a>
+    <span class="coma">, {{vacancy.clientId.name}},</span>
+    <a href="#/users/{{vacancy.creator.userId}}" >&nbsp;&nbsp;
+        <i class="fa fa-user" aria-hidden="true"></i>
+        {{vacancy.actions.objects[0].person.fullName}}
+    </a>
+    <br/>
+
+    <a href="#/users/{{vacancy.responsiblesPerson[vacancy.responsiblesPerson.length -1].responsible}}" >
+        {{vacancy.responsiblesPerson[vacancy.responsiblesPerson.length -1].responsible.cutFullName}}
+    </a>
+    {{'history_info.assigned'|translate}}
+    {{'history_info.as_responsible_in_vacancy'|translate}}
+</div>

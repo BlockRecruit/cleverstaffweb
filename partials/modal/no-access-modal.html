@@ -1,0 +1,12 @@
+<div class="no-access">
+    <div class="loginmodal-container">
+        <h1 class="text-center" translate="Log in or refresh the page if you are logged in on a different tab"></h1><br>
+        <form>
+            <input class="form-control" type="text" name="user" ng-model="$root.loginForm.login" placeholder="Email">
+            <input class="form-control" type="password" name="pass" ng-model="$root.loginForm.password" placeholder="{{'password' | translate}}">
+            <p class="mistake text-center" ng-if="$root.errorSignin">{{::$root.errorSignin}}</p>
+            <input type="submit" name="login" class="login loginmodal-submit" ng-click="$root.login()" value="{{'login' | translate}}">
+            <p class="socials">{{'Sign in via' | translate}} <span class="google-icon" ng-click="$root.loginSocial('google')"></span><span class="fb-icon" ng-click="$root.loginSocial('fb')"></span></p>
+        </form>
+    </div>
+</div>

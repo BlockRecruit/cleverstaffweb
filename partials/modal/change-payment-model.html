@@ -1,0 +1,27 @@
+<div>
+    <div class="modal-header">
+        <h4 class="text-left">{{"New payment model for user account"|translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <p>{{"We change our payment model for user account to ‘billing’ and apply it for your account as well."|translate}}</p>
+        <p>{{"Why? This will show the full payment history and will dynamically display the prepaid period if the number of account users is changed."|translate}}</p>
+        <p>{{"What was changed? This will be the same prepayment subscription model with the only difference: payments are automatically charged on a daily basis depending on the number of users in the account."|translate}}</p>
+        <p>
+            {{"Read more details about the payment model and how a balance is re-counted"|translate}}
+            <a href="{{'blog'|translate}}" target="_blank">{{"at our blog."|translate}}</a>
+        </p>
+
+    </div>
+    <div class="modal-footer">
+        <div class="text-left">
+            <p>{{"The balance of your company account is"|translate}} <span style="font-weight: bold;">{{balance.amount}} USD</span></p>
+            <p>{{"It will appear on the"|translate}} <a href="#/pay">{{"‘Payment’ page"|translate}}</a></p>
+            <p>{{"By clicking ‘Accept changes’ you accept the terms of"|translate}}
+                <a href="{{'publicOffer'|translate}}" target="_blank">{{"public offer of service agreement."|translate}}</a>
+            </p>
+        </div>
+        <div class="text-center button">
+            <a type="button" class="btn btn-accent" ng-click="acceptChangesBiling()"> {{'Accept changes'|translate}}</a>
+        </div>
+    </div>
+</div>

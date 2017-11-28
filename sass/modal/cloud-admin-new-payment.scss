@@ -1,0 +1,76 @@
+.newPaymentForm {
+	text-align: center;
+	.date {
+		width: 100%;
+
+		text-align: left;
+
+		border-bottom: 1px solid #e3e3e3;
+		& input.setPaymentDate {
+			display: inline-block;
+			width: 25%;
+
+			border-bottom: none;
+			&:hover {
+				cursor: pointer;
+			}
+		}
+		i.fa-calendar {
+			color: #00b549;
+		}
+	}
+	input {
+		margin-top: 10px;
+		padding: 6px 12px;
+
+		border: none;
+		border-bottom: 1px solid #e3e3e3;
+		background-color: #fff;
+		box-shadow: none;
+		& .setPaymentDate {
+		}
+		&:focus {
+			outline: none;
+		}
+	}
+	input[type="submit"].accept {
+		font-weight: 600;
+
+		margin-top: 15px;
+		padding: 3px 12px;
+
+		cursor: pointer;
+
+		color: #202021;
+		border: none;
+		border-radius: 5px;
+		background-color: #ffc100;
+
+		-webkit-appearance: button;
+	}
+	input[type="number"]::-webkit-outer-spin-button,
+	input[type="number"]::-webkit-inner-spin-button {
+		margin: 0;
+
+		-webkit-appearance: none;
+	}
+	& .form-error {
+		margin: 5px 0;
+		padding: 5px 10px;
+
+		text-align: left;
+
+		color: #a94442;
+		background-color: #f2dede;
+		& span {
+			font-size: 12px;
+			font-weight: normal;
+		}
+	}
+	& textarea {
+		min-height: 71px;
+		margin-top: 10px;
+
+		resize: none;
+	}
+}

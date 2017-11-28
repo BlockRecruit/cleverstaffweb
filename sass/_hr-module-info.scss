@@ -1,0 +1,25 @@
+.block-hr-module-info {
+	.container-fluid {
+		background-color: $theme-white;
+		h4 {
+			margin: 20px 0;
+		}
+		.main-info {
+			margin: 65px 0;
+			.item {
+				h4 {
+					font-weight: 600;
+
+					margin: 10px 0;
+				}
+			}
+		}
+		a.btn {
+			@include button-styling();
+			@include center-block();
+
+			display: table;
+			margin-bottom: 15px;
+		}
+	}
+}

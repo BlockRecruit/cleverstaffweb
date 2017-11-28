@@ -1,0 +1,926 @@
+<div class="container-fluid block-feature">
+    <div class="row">
+        <div class="col-lg-6 upcomingEvents">
+            <div class="row events-header">
+                <div class="col-lg-12">
+                            <span class="title-header">
+                                {{'Interviews and tasks' | translate}}
+                            </span>
+                    <div class="switch pull-right ">
+                        <label ng-show="activeScopeParam.name != 'onlyMy'" ng-click="upcomingEventsUpdate('allUsers')" ng-class="{grey: $root.upcomingEventsScope}" class="floatLeft">{{'Of all users'|translate}}</label>
+                        <input ng-show="activeScopeParam.name != 'onlyMy'" id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round upcomingScopeSwticher" type="checkbox">
+                        <label ng-show="activeScopeParam.name != 'onlyMy'" class="" ng-click="upcomingEventsUpdate('switch')" for="cmn-toggle-9"></label>
+                        <label ng-click="upcomingEventsUpdate('onlyMy')" ng-class="{grey: !$root.upcomingEventsScope && activeScopeParam.name != 'onlyMy'}" class="floatLeft">{{'only_me1'|translate}}</label>
+                    </div>
+                </div>
+
+                <!--<div class="col-lg-6 col-lg-offset-2 future-header-buttons">-->
+                    <!--<div class="col-lg-4">-->
+                        <!--<a href="#">Все</a>-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-4">-->
+                        <!--<a href="#">Просроченные</a>-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-4">-->
+                        <!--<a href="#">Горящие</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
+            <!---------------------------------------------- to repeat-->
+            <div class="scroll-bar" custom-scrollbar>
+                <div ng-show="events.length < 1" class="text-center extra-text">{{"Here will be the information about your interviews and tasks" | translate}}</div>
+                <div class="row event"
+                     ng-repeat="event in events"
+                     ng-switch="event.type"
+                     ng-class="{'passed':event.task.targetDate < todayDate || event.type == 'finish_vacancy' && event.date <= todayDate}"
+                     ng-click="event.type != 'task'|| showModalEditTask(event);(event.type != 'interview' && event.type != 'hr_interview' && event.type != 'tech_interview' && event.type != 'interview_with_the_client' && event.type != 'interview_with_the_boss')|| showChangeInterviewTime(event)">
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4 padding-time">
+                        <span>
+                            <span class="time" bo-html="event.date|dateFormat6:true"></span>
+                        </span>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 eventResponsible" ng-show="event.task">
+                    <span ng-repeat="responsible in event.task.responsiblesPerson" class="name">
+                        <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
+                         <a class="responsible-initials" title="{{::responsible.responsible.fullName}}" ng-click="$event.stopPropagation();" href="#/users/{{event.task.creator.userId}}">
+                             <span>{{getFirstLetters(responsible.responsible.fullName)}}</span>
+                         </a>
+                         <!--<span ng-show="!$last">, </span>-->
+                    </span>
+                    </div>
+                    <div class="col-lg-3 col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-switch-default>
+                        <!--<a class="responsible-initials" ng-if="event.candidate" title="{{event.candidate.fullName}}" ng-click="$event.stopPropagation();" href="#/candidates/{{event.candidate.localId}}">-->
+                            <!--<span>{{getFirstLetters(event.candidate.fullName)}}</span>-->
+                        <!--</a>-->
+                        <span class="name" ng-click="$event.stopPropagation();">
+                            <a href="#/candidates/{{::event.candidate.localId}}">
+                                {{::event.candidate.fullName}}
+                            </a>
+                        </span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7" ng-switch-when="task">
+                        <span class="task" ng-show="event.task.type == 'Task'">{{'Task' | translate}}</span>
+                        <span class="task" ng-show="event.task.type == 'Call'">{{'Call' | translate}}</span>
+                        <span class="task" ng-show="event.task.type == 'Meeting'">{{'Meeting' | translate}}</span>
+                        <span>
+                            "{{::event.task.title | limitTo : 40}}"
+                        </span>
+                        <br/>
+                        <span ng-show="event.vacancy">{{'by_vacancy' | translate}}
+                            <a ng-click="$event.stopPropagation();" href="#/vacancies/{{::event.vacancy.localId}}">
+                                {{::event.vacancy.position}}
+                            </a>
+                        </span>
+                        <span ng-show="event.candidate">{{'by candidate' | translate}}
+                            <a ng-click="$event.stopPropagation();" href="#/candidates/{{::event.candidate.localId}}">
+                                {{::event.candidate.fullName}}
+                            </a>
+                        </span>
+                        <span ng-show="event.client">{{'by client' | translate}}
+                            <a ng-click="$event.stopPropagation();" href="#/clients/{{::event.client.localId}}">
+                                {{::event.client.name}}
+                            </a>
+                        </span>
+                        <br/>
+                        <span class="comment" title="{{::event.task.text}}">
+                            {{::event.task.text | limitTo : 20}}
+                            <span ng-show="event.task.text.length > 20">...</span>
+                        </span>
+                    </div>
+                    <div class="col-lg-7 col-lg-7 col-md-7 col-sm-7 col-xs-5" ng-switch-default>
+                        <span class="interview">{{::event.type | translate}}</span>
+                        <br/>
+                        <p class="text-ellipsis">
+                            <span translate="for_the_vacancy"></span>
+                            <a ng-click="$event.stopPropagation();" href="#/vacancies/{{event.vacancy.localId}}">
+                                {{::event.vacancy.position}}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-------------------------------------------------------------------------end-->
+            <div class="container-fluid achievement-block questBlock hidden-xs" ng-show="$root.me.recrutRole != 'client' && $root.me.recrutRole != 'salesmanager'">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row achievement-header">
+                            <div class="col-lg-11">
+                            <span class="title-header">
+                                {{'Interactive quest for CleverStaff' | translate}}
+                            </span>
+                            </div>
+                        </div>
+                        <div class="row achievement-info">
+                            <div class="col-lg-10 interactivQuest">
+                                <div ng-show="achievePercent2 < 100 || achievePercent < 100" class="achieveText">
+                                    <p>
+                            <span>
+                                {{'We all like to play. Working and training in the form of a game goes with a fun, with a good mood, and the efficiency is increased by several times.'|translate}}
+                                <br/>
+                                <br/>
+                            </span>
+                                        {{'We suggest you do this interactive quest, which includes key CleverStaff features. The Quest is based on 2 levels system.'|translate}}
+                                        <br/>
+                                        <br/>
+                                        <span translate="After passing the first level, you will know all the basic CleverStaff features, get the CleverStaff Master title and gain the access to the second level of the Quest."></span>
+                                        <br/>
+                                        <br/>
+                                        <span translate="After passing the second level, you will significantly improve your account, became CleverStaff Guru and get useful bonus. What a bonus - only CleverStaff Guru knows it"></span>
+                                        <br/>
+                                        <br/>
+                                    </p>
+                                    <div ng-show="achievePercent < 100">
+                                        <div ng-show="$root.currentLang != 'en'" class="floatLeft">
+                                            <span>{{'Left'|translate}} {{achieveDone}} {{'achievements'|translate}} ({{achievePercentNotDone}}%)</span>
+                                        </div>
+                                        <div ng-show="$root.currentLang == 'en'" class="floatLeft">
+                                            <span>{{achieveDone}} tasks {{'left'|translate}} ({{achievePercentNotDone}}%)</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar"
+                                                 aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" ng-style="progressAchieve">
+                                                {{achievePercent}}%
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-show="achievePercent >= 100 && achievePercent2 < 100">
+                                        <div ng-show="$root.currentLang != 'en'" class="floatLeft">
+                                            <span>{{'Left'|translate}} {{achieveDone2}} {{'achievements'|translate}} ({{achievePercentNotDone2}}%)</span>
+                                        </div>
+                                        <div ng-show="$root.currentLang == 'en'" class="floatLeft">
+                                            <span>{{achieveDone2}} tasks {{'left'|translate}} ({{achievePercentNotDone2}}%)</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar"
+                                                 aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" ng-style="progressAchieve2">
+                                                {{achievePercent2}}%
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-show="achievePercent2 >= 100 && achievePercent >= 100" class="achieveText">
+                                    <p>
+                                        {{'Congratulations'|translate}}, {{$root.me.cutFullName}}!
+                                        <br/>
+                                        <span translate="You have completed serious quest in CleverStaff software and got the title CleverStaff Guru"></span>
+                                        <br/>
+                                        {{'It will always be seen on'|translate}}
+                                        <a href="#/personInfo/{{$root.me.userId}}">{{'your profile'|translate}}</a> {{'page1'|translate}}
+                                        <a href="#/company/users">{{'company users'|translate}}</a>{{'page2'|translate}}.
+                            <span ng-show="$root.me.personId == $root.me.org.creatorId">
+                                <br/>
+                                {{'And also from the system CleverStaff you get a reward - free use of this account one month for two people. This is the equivalent of 40 USD. In the'|translate}}
+                                <a href="#/pay">{{'payments table'|translate}}</a> {{'you have payed this amount'|translate}}.
+                            </span>
+                                        <br/>
+                                        {{'Share your achievements with friends in social networks'|translate}}!
+                                    </p>
+                                    <div style="margin-top:10px; text-align:center;">
+                                        <a class="share_linkedin" style="cursor: pointer;text-decoration: blink;color: #414141;" id="shareButton1" ng-click="share('linkedin')"><i class="linkedin big sign icon"></i></a>
+                                        <a class="share_facebook" style="cursor: pointer;text-decoration: blink;color: #414141;" id="shareButton2" ng-click="share('facebook')"><i class="facebook big sign icon"></i></a>
+                                        <a class="share_twitter" target="_blank" style="cursor: pointer;text-decoration: blink;color: #414141;"
+                                           ng-href="http://twitter.com/intent/tweet?url=https://cleverstaff.net;text={{'Congratulations'|translate}}, {{$root.me.cutFullName}}! {{'Text for social achieves' | translate}};hashtags=CleverStaff&amp">
+                                            <i class="twitter big icon"></i></a>
+                                        <a class="share_vk" style="cursor: pointer;text-decoration: blink; color: #414141;" target="_blank"
+                                           ng-click="addPublish('vk')"
+                                           ng-href="http://vk.com/share.php?url={{publicLink| escape}}&image=http://dev.cleverstaff.net/img/congratAchieves.jpg&title={{'Congratulations'|translate}}, CleverStaff Guru {{$root.me.cutFullName}}!&noparse=false&description={{'Text for social achieves' | translate}}">
+                                            <i class="vk big icon"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 cleverStaffGuru" ng-show="achievePercent2 >= 100 && achievePercent >= 100">
+                                <img class="pull-right" src="images/sprite/congratAchieves.jpg" alt=""/>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div id="accordion" class="col-lg-12 achievement-list" ng-show="achieves && activeScopeParam.name=='company'">
+                                <div class="row achievement-level" ng-show="achievePercent >= 100" ng-click="toggleAchieve1($event)">
+                                    <div class="col-lg-8">
+                                        <div class="pull-left">
+                                            <span class="level-done">{{'Level 1 finished' |translate}}</span>
+                                        </div>
+                                        <div>
+                                            <i class="fa fa-check" aria-hidden="true"></i>
+                                            <span class="pull-right" ng-show="achievePercent >= 100 && achievePercent2 < 100">{{'You are CleverStaff Master' |translate}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 show-more-achievements first-level">
+                                        <i class="indicator fa fa-plus pull-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="row achievement-level achieveLevelHeader1" ng-show="achievePercent < 100" ng-click="toggleAchieve1($event)">
+                                    <div class="col-xs-6">
+                                        <div class="pull-left">
+                                            <span class="level-done">{{'Quest Level 1' |translate}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 show-more-achievements">
+                                        <i class="indicator fa fa-minus pull-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="events_c achievesOuter" popover-close exclude-class="exclude" id="achieve1" ng-class="{'achievesOuter3':achievePercent >= 100}">
+                                    <!--1-->
+
+                                    <div class="achieveContainer" ng-show="achieves.createOrg.value == 'true'"
+                                         ng-click="closeImgForAchieves()" ng-class="{'selected':source == 'createAcc'}">
+                                        <div class="content" style="display: inherit;">
+                                            <span class="doneAchieve">{{'Create an account' |translate}}</span>
+                                            <i class="achieveIconDone pull-right checkmark icon"></i>
+                                            <span class="date pull-right">
+                                                {{achieves.createOrg.achieveDate |dateFormat2}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-show="achieves.createOrg.value == 'false'"
+                                         ng-click="closeImgForAchieves()" ng-class="{'selected':source == 'createAcc'}">
+                                        <div class="content" style="display: inherit;">
+                                            <span class="notDonechieve">{{'Create an account' |translate}}</span>
+                                            <i data-content="Hello, I am a pop-up." class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i title="{{'Not done' |translate}}" class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--2-->
+
+                                    <div class="achieveContainer" ng-if="achieves.addEmailForParsing.value == 'true'"
+                                         ng-class="{'selected':source == 'linkMail'}">
+                                        <div class="content"'" uib-popover-html="htmlPopover"  ng-mouseover="popoverPosition($event, 379)">
+                                            <span class="doneAchieve">{{'Connect Mail to add candidates' |translate}}</span>
+                                            <i popover-placement="top"   popover-trigger="'mouseenter'" uib-popover-html="htmlPopover" id="htmlPopover" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right" aria-hidden="true"></i>
+                                            <span class="date pull-right">
+                                                {{achieves.addEmailForParsing.achieveDate |dateFormat2}}
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.addEmailForParsing.value == 'false'"
+                                         ng-class="{'selected':source == 'linkMail'}">
+                                        <div class="contentr'" uib-popover-html="htmlPopover" ng-mouseover="popoverPosition($event, 379)">
+                                            {{'Connect Mail to add candidates' |translate}}
+                                            [<a href="#/email-integration" target="_blank">{{'link'|translate}}</a>]
+                                            <i popover-placement="top"   popover-trigger="'mouseenter'" uib-popover-html="htmlPopover" id="htmlPopover" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i title="{{'Not done' |translate}}" class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--3-->
+
+                                    <div class="achieveContainer" ng-if="achieves.addUsers.value == 'true'"
+                                         ng-class="{'selected':source == 'addUsers'}">
+                                        <div class="content"  uib-popover-html="htmlPopover2"  ng-mouseover="popoverPosition($event, 418)">
+                                            <span class="doneAchieve">{{'Add other users' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover2" id="htmlPopover2" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right" aria-hidden="true"></i>
+                                             <span class="date pull-right">
+                                                {{achieves.addUsers.achieveDate |dateFormat2}}
+                                             </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.addUsers.value == 'false'"
+                                         ng-class="{'selected':source == 'addUsers'}">
+                                        <div class="content"  uib-popover-html="htmlPopover2"  ng-mouseover="popoverPosition($event, 418)">
+                                            <span class="notDoneAchieve">{{'Add other users' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover2" id="htmlPopover2" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i title="{{'Not done' |translate}}" class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--4-->
+
+                                    <div class="achieveContainer" ng-if="achieves.browser.value == 'true'"
+                                         ng-class="{'selected':source == 'browser'}">
+                                        <div class="content"  uib-popover-html="htmlPopover3"  ng-mouseover="popoverPosition($event, 206)">
+                                            <span class="doneAchieve">{{'Switch to another browser' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover3" id="htmlPopover3" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                             <span class="date pull-right">
+                                                {{achieves.browser.achieveDate |dateFormat2}}
+                                             </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.browser.value == 'false'"
+                                         ng-class="{'selected':source == 'browser'}">
+                                        <div class="content"  uib-popover-html="htmlPopover3"  ng-mouseover="popoverPosition($event, 206)">
+                                            <span class="notDoneAchieve">{{'Switch to another browser' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover3" id="htmlPopover3" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--5-->
+
+                                    <div class="achieveContainer" ng-if="achieves.plugin.value == 'true'"
+                                         ng-class="{'selected':source == 'plugin'}">
+                                        <div class="content"  uib-popover-html="htmlPopover4"  ng-mouseover="popoverPosition($event, 282)">
+                                            <span class="doneAchieve">{{'Install the extension for' |translate}}
+                                                <span ng-if="publicBrowser == 'chrome'">Chrome</span>
+                                                <span ng-if="publicBrowser == 'firefox'">Firefox</span>
+                                                <span ng-if="publicBrowser != 'firefox' && publicBrowser != 'chrome'">Firefox или Chrome</span>
+                                            </span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover4" id="htmlPopover4" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                             <span class="date pull-right">
+                                                {{achieves.plugin.achieveDate |dateFormat2}}
+                                             </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.plugin.value == 'false'"
+                                         ng-class="{'selected':source == 'plugin'}">
+                                        <div class="content"  uib-popover-html="htmlPopover4"  ng-mouseover="popoverPosition($event, 282)">
+                                            <span class="notDoneAchieve">
+                                                {{'Install the extension for' |translate}}
+                                                <span ng-if="publicBrowser == 'chrome'">Chrome</span>
+                                                <span ng-if="publicBrowser == 'firefox'">Firefox</span>
+                                                <span ng-if="publicBrowser != 'firefox' && publicBrowser != 'chrome'">Firefox или Chrome</span>
+                                            </span>
+                                            [<a href="" ng-click="getPlugin()">{{'link'|translate}}</a>]
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover4" id="htmlPopover4" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--6-->
+
+                                    <div class="achieveContainer" ng-if="achieves.addCandidateFromLink.value == 'true'"
+                                         ng-class="{'selected':source == 'addCandidateFromLink'}">
+                                        <div class="content"  uib-popover-html="htmlPopover5"  ng-mouseover="popoverPosition($event, 262)">
+                                            <span class="doneAchieve">{{'Save 2 candidates from LinkedIn' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover5" id="htmlPopover5" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                             <span class="date pull-right">
+                                                {{achieves.addCandidateFromLink.achieveDate |dateFormat2}}
+                                             </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.addCandidateFromLink.value == 'false'"
+                                         ng-class="{'selected':source == 'addCandidateFromLink'}">
+                                        <div class="content"  uib-popover-html="htmlPopover5"  ng-mouseover="popoverPosition($event, 262)">
+                                            <span class="notDoneAchieve">{{'Save 2 candidates from LinkedIn' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover5" id="htmlPopover5" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--7-->
+
+                                    <div class="achieveContainer" ng-if="achieves.addCandidateFromCV.value == 'true'"
+                                         ng-class="{'selected':source == 'addCandidateFromCV'}">
+                                        <div class="content"  uib-popover-html="htmlPopover6"  ng-mouseover="popoverPosition($event, 363)">
+                                            <span class="doneAchieve">{{'Add 3 candidates from CV files' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover6" id="htmlPopover6" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                             <span class="date pull-right">
+                                                {{achieves.addCandidateFromCV.achieveDate |dateFormat2}}
+                                             </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.addCandidateFromCV.value == 'false'"
+                                         ng-class="{'selected':source == 'addCandidateFromCV'}">
+                                        <div class="content"  uib-popover-html="htmlPopover6"  ng-mouseover="popoverPosition($event, 363)">
+                                            <span class="notDoneAchieve">{{'Add 3 candidates from CV files' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover6" id="htmlPopover6" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--8-->
+
+                                    <div class="achieveContainer" ng-if="achieves.addClient.value == 'true'"
+                                         ng-class="{'selected':source == 'addClient'}">
+                                        <div class="content"  uib-popover-html="htmlPopover7"  ng-mouseover="popoverPosition($event, 222)">
+                                            <span class="doneAchieve">{{'Add 2 clients' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover7" id="htmlPopover7" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                             <span class="date pull-right">
+                                                {{achieves.addClient.achieveDate |dateFormat2}}
+                                             </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.addClient.value == 'false'"
+                                         ng-class="{'selected':source == 'addClient'}">
+                                        <div class="content"  uib-popover-html="htmlPopover7"  ng-mouseover="popoverPosition($event, 222)">
+                                            {{'Add 2 clients' |translate}}
+                                            [<a href="#/client/add" target='_blank'>{{'link'|translate}}</a>]
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover7" id="htmlPopover7" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--9-->
+
+                                    <div class="achieveContainer" ng-if="achieves.addContactClient.value == 'true'"
+                                         ng-class="{'selected':source == 'addContactClient'}">
+                                        <div class="content"  uib-popover-html="htmlPopover8"  ng-mouseover="popoverPosition($event, 424)">
+                                            <span class="doneAchieve">{{'Add a contact person for the client' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover8" id="htmlPopover8" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                            <span class="date pull-right">
+                                                {{achieves.addContactClient.achieveDate |dateFormat2}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.addContactClient.value == 'false'"
+                                         ng-class="{'selected':source == 'addContactClient'}">
+                                        <div class="content"  uib-popover-html="htmlPopover8"  ng-mouseover="popoverPosition($event, 424)">
+                                            <span class="notDoneAchieve">{{'Add a contact person for the client' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover8" id="htmlPopover8" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--10-->
+
+                                    <div class="achieveContainer" ng-if="achieves.addVacancy.value == 'true'"
+                                         ng-class="{'selected':source == 'addVacancy'}">
+                                        <div class="content"  uib-popover-html="htmlPopover9"  ng-mouseover="popoverPosition($event, 386)">
+                                            <span class="doneAchieve">{{'Add vacancy' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover9" id="htmlPopover9" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                            <span class="date pull-right">
+                                                {{achieves.addVacancy.achieveDate |dateFormat2}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.addVacancy.value == 'false'"
+                                         ng-class="{'selected':source == 'addVacancy'}">
+                                        <div class="content"  uib-popover-html="htmlPopover9"  ng-mouseover="popoverPosition($event, 386)">
+                                            {{'Add vacancy' |translate}}
+                                            [<a href="#/vacancy/add" target="_blank">{{'link'|translate}}</a>]
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover9" id="htmlPopover9" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--11-->
+
+                                    <div class="achieveContainer" ng-if="achieves.uploadArchive.value == 'true'"
+                                         ng-class="{'selected':source == 'uploadArchive'}">
+                                        <div class="content"   uib-popover-html="htmlPopover10"  ng-mouseover="popoverPosition($event, 391)">
+                                            <span class="doneAchieve">{{'Add archive' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover10" id="htmlPopover10" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                            <span class="date pull-right">
+                                                {{achieves.uploadArchive.achieveDate |dateFormat2}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.uploadArchive.value == 'false'"
+                                         ng-class="{'selected':source == 'uploadArchive'}">
+                                        <div class="content"   uib-popover-html="htmlPopover10"  ng-mouseover="popoverPosition($event, 391)">
+                                            {{'Add archive' |translate}}
+                                            [<a href="#/candidate/add/zip" target="_blank">{{'link'|translate}}</a>]
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover10" id="htmlPopover10" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--12-->
+
+                                    <div class="achieveContainer" ng-if="achieves.changeInterviewState.value == 'true'"
+                                         ng-class="{'selected':source == 'changeInterviewState'}">
+                                        <div class="content"   uib-popover-html="htmlPopover11"  ng-mouseover="popoverPosition($event, 658)">
+                                            <span class="doneAchieve">{{'Change candidates stages for vacancy' |translate}}</span>
+                                            <i  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover11" id="htmlPopover11" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i popover-placement="top" class="fa fa-check achieveIconDone pull-right"></i>
+                                            <span class="date pull-right">
+                                                {{achieves.changeInterviewState.achieveDate |dateFormat2}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.changeInterviewState.value == 'false'"
+                                         ng-class="{'selected':source == 'changeInterviewState'}">
+                                        <div class="content"   uib-popover-html="htmlPopover11"  ng-mouseover="popoverPosition($event, 658)">
+                                            <span class="notDoneAchieve">{{'Change candidates stages for vacancy' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover11" id="htmlPopover11" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--13-->
+
+                                    <div class="achieveContainer" ng-if="achieves.orgLogo.value == 'true'"
+                                         ng-class="{'selected':source == 'orgLogo'}">
+                                        <div class="content"   uib-popover-html="htmlPopover12"  ng-mouseover="popoverPosition($event, 165)">
+                                            <span class="doneAchieve">{{'Set logo' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover12" id="htmlPopover12" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                             <span class="date pull-right">
+                                                {{achieves.orgLogo.achieveDate |dateFormat2}}
+                                             </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.orgLogo.value == 'false'"
+                                         ng-class="{'selected':source == 'orgLogo'}">
+                                        <div class="content"   uib-popover-html="htmlPopover12"  ng-mouseover="popoverPosition($event, 165)">
+                                            {{'Set logo' |translate}}
+                                            [<a href="#/company/settings" target="_blank">{{'link'|translate}}</a>]
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover12" id="htmlPopover12" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--14-->
+
+                                    <div class="achieveContainer" ng-if="achieves.publishVacancy.value == 'true'"
+                                         ng-class="{'selected':source == 'publishVacancy'}">
+                                        <div class="content"   uib-popover-html="htmlPopover13"  ng-mouseover="popoverPosition($event, 282)">
+                                            <span class="doneAchieve">{{'Publish vacancy in social networks' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover13" id="htmlPopover13" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                             <span class="date pull-right">
+                                                {{achieves.publishVacancy.achieveDate |dateFormat2}}
+                                             </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.publishVacancy.value == 'false'"
+                                         ng-class="{'selected':source == 'publishVacancy'}">
+                                        <div class="content"   uib-popover-html="htmlPopover13"  ng-mouseover="popoverPosition($event, 282)">
+                                            <span class="notDoneAchieve">{{'Publish vacancy in social networks' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover13" id="htmlPopover13" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--15-->
+
+                                    <div class="achieveContainer" ng-if="achieves.candidateToVacancy.value == 'true'"
+                                         ng-class="{'selected':source == 'candidateToVacancy'}">
+                                        <div class="content"   uib-popover-html="htmlPopover14"  ng-mouseover="popoverPosition($event, 205)">
+                                            <span class="doneAchieve">{{'Find 2 candidates for the vacancy' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover14" id="htmlPopover14" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                            <span class="date pull-right">
+                                                {{achieves.candidateToVacancy.achieveDate |dateFormat2}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.candidateToVacancy.value == 'false'"
+                                         ng-class="{'selected':source == 'candidateToVacancy'}">
+                                        <div class="content"   uib-popover-html="htmlPopover14"  ng-mouseover="popoverPosition($event, 205)">
+                                            <span class="notDoneAchieve">{{'Find 2 candidates for the vacancy' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover14" id="htmlPopover14" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--16-->
+
+                                    <div class="achieveContainer" ng-if="achieves.sendCandidatesToClient.value == 'true'"
+                                         ng-class="{'selected':source == 'sendCandidatesToClient'}">
+                                        <div class="content"   uib-popover-html="htmlPopover15"  ng-mouseover="popoverPosition($event, 242)">
+                                            <span class="doneAchieve">{{'Send candidates to the client by e-mail' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover15" id="htmlPopover15" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                           <span class="date pull-right">
+                                                {{achieves.sendCandidatesToClient.achieveDate |dateFormat2}}
+                                           </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.sendCandidatesToClient.value == 'false'"
+                                         ng-class="{'selected':source == 'sendCandidatesToClient'}">
+                                        <div class="content"   uib-popover-html="htmlPopover15"  ng-mouseover="popoverPosition($event, 242)">
+                                            <span class="notDoneAchieve">{{'Send candidates to the client by e-mail' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover15" id="htmlPopover15" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+
+                                    <!--17-->
+
+                                    <div class="achieveContainer" ng-if="achieves.addInterview.value == 'true'"
+                                         ng-class="{'selected':source == 'addInterview'}">
+                                        <div class="content"   uib-popover-html="htmlPopover16"  ng-mouseover="popoverPosition($event, 189)">
+                                            <span class="doneAchieve">{{'Assign interview' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover16" id="htmlPopover16" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                            <span class="date pull-right">
+                                                {{achieves.addInterview.achieveDate |dateFormat2}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.addInterview.value == 'false'"
+                                         ng-class="{'selected':source == 'addInterview'}">
+                                        <div class="content"   uib-popover-html="htmlPopover16"  ng-mouseover="popoverPosition($event, 189)">
+                                            <span class="notDoneAchieve">{{'Assign interview' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover16" id="htmlPopover16" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--18-->
+
+                                    <div class="achieveContainer" ng-if="achieves.closeVacancy.value == 'true'"
+                                         ng-class="{'selected':source == 'closeVacancy'}">
+                                        <div class="content"   uib-popover-html="htmlPopover17"  ng-mouseover="popoverPosition($event, 330)">
+                                            <span class="doneAchieve">{{'Close vacancy' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover17" id="htmlPopover17" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                            <span class="date pull-right">
+                                                {{achieves.closeVacancy.achieveDate |dateFormat2}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-if="achieves.closeVacancy.value == 'false'"
+                                         ng-class="{'selected':source == 'closeVacancy'}">
+                                        <div class="content"   uib-popover-html="htmlPopover17"  ng-mouseover="popoverPosition($event, 330)">
+                                            <span class="notDoneAchieve">{{'Close vacancy' |translate}}</span>
+                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover17" id="htmlPopover17" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row achievement-level achieveLevelHeader2" ng-click="toggleAchieve2($event)">
+                                    <div class="col-xs-6">
+                                        <div class="pull-left">
+                                            <span class="level-done" ng-show="achievePercent < 100">{{'Quest Level 2(opens after passing the first level)' |translate}}</span>
+                                            <span class="level-done" ng-show="achievePercent >= 100 && achievePercent2 < 100">{{'Quest Level 2' |translate}}</span>
+                                            <span class="level-done" ng-show="achievePercent2 >= 100">{{'Level 2 finished' |translate}}<i class="fa fa-check achieveIconDoneHeader" aria-hidden="true"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 show-more-achievements" ng-show="achievePercent < 100">
+                                        <!--<i class="fa fa-minus pull-right" aria-hidden="true"></i>-->
+                                        <i class="indicator fa fa-lock pull-right" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="col-xs-6 show-more-achievements" ng-show="achievePercent >= 100">
+                                        <!--<i class="fa fa-minus pull-right" aria-hidden="true"></i>-->
+                                        <i class="indicator fa fa-minus pull-right" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                                <div class="events_c" id="achieve2" ng-class="{'achievesOuter2':achievePercent < 100}">
+
+                                    <!--1-->
+
+                                    <div class="achieveContainer" ng-show="achieves2.addCandidateFromLink400.value == 'true'"
+                                         ng-click="achieveClicked('addCandidateFromLink400')" ng-class="{'selected':source == 'addCandidateFromLink400'}">
+                                        <div class="content" style="display: inherit;">
+                                            <span class="doneAchieve">{{'Add 400 candidates from LinkedIn' |translate}}</span>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                            <span class="date pull-right">
+                                                {{achieves2.addCandidateFromLink400.achieveDate |dateFormat2}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-show="achieves2.addCandidateFromLink400.value == 'false'"
+                                         ng-click="achieveClicked('addCandidateFromLink400')" ng-class="{'selected':source == 'addCandidateFromLink400'}">
+                                        <div class="content" style="display: inherit;">
+                                            <span>{{'Add 400 candidates from LinkedIn' |translate}}</span>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--2-->
+
+                                    <div class="achieveContainer" ng-show="achieves2.closeVacancyUser3OrOrg6.value == 'true'"
+                                         ng-click="achieveClicked('closeVacancyUser3OrOrg6')" ng-class="{'selected':source == 'closeVacancyUser3OrOrg6'}">
+                                        <div class="content" style="display: inherit;">
+                                            <span class="doneAchieve">{{'Close 3 vacancys personally or 6 vacancys by all users' |translate}}</span>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                            <span class="date pull-right">
+                                                {{achieves2.closeVacancyUser3OrOrg6.achieveDate |dateFormat2}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-show="achieves2.closeVacancyUser3OrOrg6.value == 'false'"
+                                         ng-click="achieveClicked('closeVacancyUser3OrOrg6')" ng-class="{'selected':source == 'closeVacancyUser3OrOrg6'}">
+                                        <div class="content" style="display: inherit;">
+                                            <span>{{'Close 3 vacancys personally or 6 vacancys by all users' |translate}}</span>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--3-->
+
+                                    <div class="achieveContainer" ng-show="achieves2.upload300resumeFromArchiveOrEmail.value == 'true'"
+                                         ng-click="achieveClicked('upload300resumeFromArchiveOrEmail')" ng-class="{'selected':source == 'upload300resumeFromArchiveOrEmail'}">
+                                        <div class="content" style="display: inherit;">
+                                            <span class="doneAchieve">{{'Download 300 resumes from email or from the archive' |translate}}</span>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                            <span class="date pull-right">
+                                                {{achieves2.upload300resumeFromArchiveOrEmail.achieveDate |dateFormat2}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-show="achieves2.upload300resumeFromArchiveOrEmail.value == 'false'"
+                                         ng-click="achieveClicked('upload300resumeFromArchiveOrEmail')" ng-class="{'selected':source == 'upload300resumeFromArchiveOrEmail'}">
+                                        <div class="content" style="display: inherit;">
+                                            <span>{{'Download 300 resumes from email or from the archive' |translate}}</span>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+
+                                    <!--4-->
+
+                                    <div class="achieveContainer" ng-show="achieves2.makePay.value == 'true'"
+                                         ng-click="achieveClicked('makePay')" ng-class="{'selected':source == 'makePay'}">
+                                        <div class="content" style="display: inherit;">
+                                            <span class="doneAchieve">{{'Make a payment for any amount' |translate}}</span>
+                                            <i data-html="<div class='popupOuter'><a href='#/pay' target='_blank'><img src='/images/sprite/achievesImg/payImage.png' alt='' width='100%' class='achieveImg'/><i class='forward mail icon'></i></a></div>" class="helpIcon help icon"></i>
+                                            <i class="fa fa-check achieveIconDone pull-right"></i>
+                                            <span class="date pull-right">
+                                                {{achieves2.makePay.achieveDate |dateFormat2}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="achieveContainer" ng-show="achieves2.makePay.value == 'false'"
+                                         ng-click="achieveClicked('makePay')" ng-class="{'selected':source == 'makePay'}">
+                                        <div class="content" style="display: inherit;">
+                                            <span>{{'Make a payment for any amount' |translate}}</span>
+                                            <i data-html="<div class='popupOuter'><a href='#/pay' target='_blank'><img src='/images/sprite/achievesImg/payImage.png' alt='' class='achieveImg'/><i class='forward mail icon'></i></a></div>" class="helpIcon help icon"></i>
+                                            <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 history-outer hidden-md hidden-xs hidden-sm">
+            <div ng-show="activeVacancy.length > 0">
+                <div class="row events-header last-actions-header">
+                    <div class="col-lg-12">
+                            <span class="title-header">
+                               {{'Last actions on my vacancies' | translate}}
+                            </span>
+                    </div>
+                </div>
+                <div ng-show="activeVacancy.length < 1" class="text-center extra-text">{{"No actions on your vacancies yet" | translate}}</div>
+                <!---------------------------------------------- to repeat-->
+                <div class="scroll-bar-last-action" custom-scrollbar>
+                    <div class="row event last-action"
+                         ng-repeat=" vacancy in activeVacancy| orderBy:'-actions.objects[0].dm'"
+                         ng-switch="vacancy.actions.objects[0].type">
+                        <div class="col-lg-12 hidden" ng-switch-default></div>
+                        <div class="col-lg-12" ng-switch-when="interview_edit">
+                            <ng-include src="'partials/history/future/interview_edit.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="vacancy_edit">
+                            <ng-include src="'partials/history/future/vacancy_edit.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="vacancy_add">
+                            <ng-include src="'partials/history/future/vacancy_add.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="vacancy_change_state">
+                            <ng-include src="'partials/history/future/vacancy_change_state.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="interview_add">
+                            <ng-include src="'partials/history/future/interview_add.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="interview_edit_date">
+                            <ng-include src="'partials/history/future/interview_edit_date.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="set_interview_status">
+                            <ng-include src="'partials/history/future/set_interview_status.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="client_change_state">
+                            <ng-include src="'partials/history/future/client_change_state.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="contact_client_add">
+                            <ng-include src="'partials/history/future/contact_client_add.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="contact_client_edit">
+                            <ng-include src="'partials/history/future/contact_client_edit.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="client_add">
+                            <ng-include src="'partials/history/future/client_add.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="client_edit">
+                            <ng-include src="'partials/history/future/client_edit.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="vacancy_set_responsible">
+                            <ng-include src="'partials/history/future/vacancy_set_responsible.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="candidate_add">
+                            <ng-include src="'partials/history/future/candidate_add.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="candidate_add_file">
+                            <ng-include src="'partials/history/future/candidate_add_file.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="candidate_change_state">
+                            <ng-include src="'partials/history/future/candidate_change_state.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="candidate_edit">
+                            <ng-include src="'partials/history/future/candidate_edit.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="candidate_message">
+                            <ng-include src="'partials/history/future/candidate_message.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="candidate_remove_file">
+                            <ng-include src="'partials/history/future/candidate_remove_file.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="candidate_set_responsible">
+                            <ng-include src="'partials/history/future/candidate_set_responsible.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="client_message">
+                            <ng-include src="'partials/history/future/client_message.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="interview_message">
+                            <ng-include src="'partials/history/future/interview_message.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="interview_remove">
+                            <ng-include src="'partials/history/future/interview_remove.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="sent_candidate_to_client">
+                            <ng-include src="'partials/history/future/sent_candidate_to_client.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="sent_candidates_to_client">
+                            <ng-include src="'partials/history/future/sent_candidates_to_client.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="change_org_name">
+                            <ng-include src="'partials/history/future/user_change_org_name.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="user_is_block">
+                            <ng-include src="'partials/history/future/user_is_block.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="vacancy_add_file">
+                            <ng-include src="'partials/history/future/vacancy_add_file.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="vacancy_message">
+                            <ng-include src="'partials/history/future/vacancy_message.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="vacancy_remove_file">
+                            <ng-include src="'partials/history/future/vacancy_remove_file.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="vacancy_remove_responsible">
+                            <ng-include src="'partials/history/future/vacancy_remove_responsible.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="task_create">
+                            <ng-include src="'partials/history/future/task_create.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="task_change">
+                            <ng-include src="'partials/history/future/task_change.html'"></ng-include>
+                        </div>
+                        <div class="col-lg-12" ng-switch-when="task_change_status">
+                            <ng-include src="'partials/history/future/task_change_status.html'"></ng-include>
+                        </div>
+                    </div>
+                </div>
+
+                <!-------------------------------------------------------end-->
+            </div>
+            <!--<div class="col-lg-12">-->
+                <!--<div class="col-lg-11 CS-News-Feed pull-left" ng-show="$root.currentLang == 'en'">-->
+                    <!--&lt;!&ndash;<div class="row events-header">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="col-lg-12">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span class="title-header">&ndash;&gt;-->
+                    <!--&lt;!&ndash;{{'CleverStaff News Feed' | translate}}&ndash;&gt;-->
+                    <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--<div class="col-lg-12 fbGroupPage">-->
+                        <!--<div class="fb-page" data-href="https://www.facebook.com/cleverstaff.users/" data-tabs="timeline" data-width="500" data-height="1160" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true">-->
+                            <!--<blockquote cite="https://www.facebook.com/cleverstaff.users/" class="fb-xfbml-parse-ignore">-->
+                                <!--<a href="https://www.facebook.com/cleverstaff.users/">CleverStaff Users</a>-->
+                            <!--</blockquote>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-lg-1 CS-News-Column pull-left" ng-show="$root.currentLang == 'en'">-->
+                    <!--<a ng-click="CSNewsFeed('sharesPostsFromCS');">{{'Info'|translate}}</a>-->
+                    <!--&lt;!&ndash;<i class="fa fa-info-circle" ng-click="CSNewsFeed('sharesPostsFromCS');" aria-hidden="true"></i>&ndash;&gt;-->
+                    <!--<a class="pull-right" ng-click="CSNewsFeed('someRulesFbPosts')">-->
+                        <!--{{'Rules'|translate}}-->
+                    <!--</a>-->
+                    <!--<div class="sharesPostsFromCS">-->
+                        <!--<p>{{'CleverStaff News Feed shares posts from the CleverStaff Users facebook page. We created the news feed to'|translate}}:</p>-->
+                        <!--<ul>-->
+                            <!--<li>&nbsp;<span>{{'Share important news, updates and improvements which happen at CleverStaff'|translate}}.</span></li>-->
+                            <!--<li>&nbsp;<span>{{'Share questionnaires and understand which features to add first and which ones you like'|translate}}.</span></li>-->
+                            <!--<li>&nbsp;<span>{{'Build the CleverStaff community where our users can meet, friend and cooperate'|translate}}.</span></li>-->
+                        <!--</ul>-->
+                        <!--<p>{{'You can freely interact with the news feed and post content, which will be published after a review to guarantee its quality'|translate}}</p>-->
+                    <!--</div>-->
+                    <!--<div class="someRulesFbPosts">-->
+                        <!--<p>{{'Here are some rules which make the news feed content useful and interesting'|translate}}:</p>-->
+                        <!--<ul>-->
+                            <!--<li>&nbsp;<span>{{'If you have any tech. or support requests, please contact our support at'|translate}} <a href="mailto:contact@cleverstaff.net">contact@cleverstaff.net</a> {{'or'|translate}} Skype: <a href="skype:cleverstaff?chat">cleverstaff</a></span>.</li>-->
+                            <!--<li>&nbsp;<span>{{'If you want to share feedback, report a problem, or suggest improvements please fill the'|translate}} <a href="#/feedback">{{'feedback form'|translate}}</a></span>.</li>-->
+                            <!--<li>&nbsp;<span>{{'No panic if your post did not publish instantly: we moderate all content. Thats why you can not find any intrusive, annoying and unpleasant content'|translate}}.</span></li>-->
+                            <!--<li>&nbsp;<span>{{'Please use English in group posts and conversations so that everyone could understand you'|translate}}.</span></li>-->
+                        <!--</ul>-->
+                        <!--<p>{{'Thank you for your understanding. We appreciate it'|translate}}</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+<div class="container-fluid achievement-block client-role" ng-show="$root.me.recrutRole == 'client'">
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+            <h4 class="text-center">{{"Your current role is a 'Hiring Manager'."|translate}}</h4>
+            <div>{{"As a 'Hiring Manager' you can:"|translate}}</div>
+            <ul>
+                <li>{{'See only vacancies you are responsible for.'|translate}}</li>
+                <li>{{'See only candidates added to your vacancies.'|translate}}</li>
+                <li>{{'Write comments for vacancies and candidates. Recruiters will see your notes.'|translate}}</li>
+                <li>{{"Сhange candidates' stages for vacancies. E.G., from 'Long List' to 'Short List' or to 'Not a fit'."|translate}}</li>
+                <li>{{"Add tasks for vacancies and candidates"|translate}}</li>
+            </ul>
+        </div>
+    </div>
+</div>

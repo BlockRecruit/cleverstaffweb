@@ -1,0 +1,79 @@
+.block-pipeline {
+	h3 {
+		font-size: 20px;
+		font-weight: 600;
+
+		position: relative;
+
+		margin: 15px 0 15px 15px;
+		.new-label {
+			font-size: 9px;
+
+			position: absolute;
+			top: 0;
+			right: -21px;
+
+			color: red;
+		}
+	}
+	a {
+		@include link-styling();
+		&.description-link {
+			display: block;
+			margin-bottom: 15px;
+		}
+	}
+	.table {
+		@include table-styling();
+
+		table-layout: fixed;
+		.main-header {
+			background-color: $theme-light-green;
+			&:not(.second_header) {
+				font-weight: bold;
+			}
+			.grey {
+				background-color: rgb(248,248,248);
+			}
+		}
+		.grey {
+			background-color: rgb(248,248,248);
+		}
+		tr {
+			&:hover {
+				td {
+					&.grey {
+						background-color: $theme-light-green;
+					}
+				}
+			}
+			.strongWarning {
+				background-color: rgba(255, 99, 109, 0.4)!important;
+			}
+			.Warning {
+				background-color: rgba(255, 233, 166, 0.6)!important;
+			}
+			.green {
+				background-color: $theme-light-green!important;
+			}
+			td {
+				padding: 8px 5px;
+				.grey {
+					color: $theme-light-grey;
+					background-color: initial;
+				}
+			}
+			:first-child {
+				word-break: break-word;
+			}
+		}
+	}
+	#header-fixed {
+		position: fixed;
+		top: 0;
+
+		display: none;
+
+		background-color: white;
+	}
+}

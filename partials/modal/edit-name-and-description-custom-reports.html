@@ -1,0 +1,24 @@
+<div class="modal-custom-constructor-save delete-responsible">
+    <div class="modal-header" style="font-weight: bold;">
+        <h4>{{"Enter the title of the new report"|translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <form name="formSaveCustomReport" ng-submit="editReport.editNameOrDescr(editReport.reportsSave, formSaveCustomReport)">
+            <p class="nameCustomReports">
+                <input class="form-control" type="text" name="nameReports" ng-model="editReport.data.name" required placeholder="{{'Title of the new report *'|translate}}">
+            </p>
+            <p class="descriptionCustomReports">
+                <textarea name="description" ng-model="editReport.data.descr" placeholder="{{'Short description (up to 80 characters)'|translate}}" cols="15" rows="5"></textarea>
+            </p>
+            <div class="modal-footer" style="border: none">
+                <div class="text-center button">
+                    <a type="button" class="btn btn-primary cancel" ng-click="editReport.closeModal()">{{'cancel'|translate}}</a>
+                    <button type="submit"
+                            ng-show="formSaveCustomReport.nameReports.$valid && (editReport.data.name !== editReport.copyData.name || editReport.data.descr !== editReport.copyData.descr)"
+                            ng-click="editReport.saveNameOrDescr()"
+                            class="btn btn-primary accept">{{'Add title and save'|translate}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="disabled-btn-for-test-account">
+    <div class="modal-body">
+        <i ng-click="$root.closeNavModal();" class="fa fa-times pull-right" aria-hidden="true"></i>
+        <h4 class="text-center">{{'Upgrade your plan to use this feature'|translate}}</h4>
+        <p class="text-center">
+            {{'Dear friends, we added some limitations for Personal plan users'|translate}}
+        </p>
+        <p class="text-center">
+            {{'Please find more details and reasons'|translate}}
+            <a ng-show="currentLang == 'ru'" href="https://cleverstaff.net/blog/2016/free-account-limitation/" target="_blank">{{'at our blog'|translate}}</a>
+            <a ng-show="currentLang == 'en'" href="https://cleverstaff.net/news/2016/personal-plan-limitation/" target="_blank">{{'at our blog'|translate}}</a>
+        </p>
+        <p class="text-center">{{'Thank you in advance for your consideration into this matter'|translate}}</p>
+        <p class="text-center">
+            <a type="button" class="btn btn-primary accept" ng-click="$root.closeModalForTestAccount();">
+                {{'What will I get with account upgrade'|translate}}?
+            </a>
+        </p>
+    </div>
+</div>

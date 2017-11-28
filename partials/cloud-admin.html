@@ -1,0 +1,53 @@
+<div class="block-cloud-admin container-fluid">
+    <header><h2 class="text-center" ng-bind="title"></h2></header>
+    <button class="btn btn-left" ng-click="leftScroll()" ng-class="{'go': scroll >= 0 || scroll < 0 , 'stop': scroll >= max}"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+    <button class="btn btn-right" ng-click="rightScroll()" ng-class="{'go': scroll > 0, 'stop': scroll <= 0}"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+    <main>
+        <div class="admin-panel">
+            <section>
+                <table border="1" cellpadding="2" class="table admin-panel-table" style="border: none">
+                <thead>
+                    <tr>
+                        <th ng-repeat="head in tableHeads" ng-click="sortBy(head)">
+                            {{head | parseCamelCase}}
+                            <i ng-if="head === sortCriteria" ng-class="{'fa-caret-up': reverseSort, 'fa-caret-down': !reverseSort}" class="fa" aria-hidden="true"></i>
+                        </th>
+                    </tr>
+                </thead>
+                </table>
+            </section>
+        </div>
+        <div class="admin-panel">
+            <section><table border="1" cellpadding="2" class="table admin-panel-table" style="border: none">
+                <tbody>
+                    <tr ng-repeat="item in data | orderBy: sortCriteria: reverseSort" ng-click="openNewPayment(item)" title="{{'Add new payment'|translate}}">
+                        <td>{{item.points}}</td>
+                        <td>{{item.score}}</td>
+                        <td>{{item.account}}</td>
+                        <td>{{item.country}}</td>
+                        <td>{{item.created| date:'dd.MM.yyyy'}}</td>
+                        <td>{{item.regUsers}}</td>
+                        <td>{{item.tarif}}</td>
+                        <td>{{item.paidTill| date:'dd.MM.yyyy'}}</td>
+                        <td>{{item.trialEnd| date:'dd.MM.yyyy'}}</td>
+                        <td>{{item.block}}</td>
+                        <td>{{item.integratedEmails}}</td>
+                        <td>{{item.invites}}</td>
+                        <td>{{item.hrModule}}</td>
+                        <td>{{item.balance}}</td>
+                        <td>{{item.payUsers}}</td>
+                        <td>{{item.latestPaymentByCard| date:'dd.MM.yyyy'}}</td>
+                        <td>{{item.amount}}</td>
+                        <td ng-bind-html=" item.purpose | filter_parseObject "></td>
+                        <td>{{item.activeUsers}}</td>
+                        <td>{{item.vacancies}}</td>
+                        <td>{{item.candidates}}</td>
+                        <td>{{item.lastAtion| date:'dd.MM.yyyy'}}</td>
+                        <td>{{item.server|filter_refToDomain}}</td>
+                    </tr>
+                </tbody>
+            </table></section>
+        </div>
+    </main>
+    <footer></footer>
+</div>

@@ -1,0 +1,48 @@
+.block-my-reports {
+	.fa {
+		&-pencil:hover {
+			transform: scale(1.5);
+		}
+		&-times:hover {
+			transform: scale(1.5);
+		}
+	}
+	.slogan {
+		margin: 14px 0;
+	}
+	h4 {
+		font-weight: bold;
+	}
+	table {
+		tr {
+			display: table;
+			width: 100%;
+
+			table-layout: fixed;
+		}
+		thead {
+			width: 100%;
+
+			background-color: #e3f2dd;
+			th {
+				padding: 8px;
+			}
+		}
+		tbody {
+			display: block;
+			overflow: auto;
+			max-height: 500px;
+			tr {
+				background-color: #fff;
+			}
+		}
+	}
+
+	.hover {
+		&:hover {
+			cursor: pointer;
+
+			background-color: #e3f2dd;
+		}
+	}
+}

@@ -1,0 +1,137 @@
+.block-user {
+	h3 {
+		font-weight: 600;
+
+		margin-left: 15px;
+	}
+	.row {
+		@include disabled-margins-for-row();
+
+		padding: 15px;
+	}
+	.vacancy-candidates-info {
+		background-color: $theme-white;
+		h4 {
+			font-weight: 600;
+		}
+		.vacancies {
+			margin-top: 15px;
+			padding-bottom: 15px ;
+
+			border-top: 1px solid $theme-light-grey;
+			.vacancy {
+				margin-top: 5px;
+				a {
+					@include link-styling();
+
+					font-weight: 600;
+				}
+			}
+		}
+		.candidates {
+			padding-bottom: 15px;
+
+			border-top: 1px solid $theme-light-grey;
+			.candidate {
+				margin-top: 5px;
+				.row {
+					padding: 0;
+				}
+				i.ffa-eye {
+					color: $theme-dark-green;
+				}
+			}
+		}
+	}
+	.main-info {
+		padding: 15px;
+
+		background-color: $theme-white;
+		h4 {
+			font-weight: 600;
+		}
+		a {
+			@include link-styling();
+			@include text-ellipsis();
+
+			display: block;
+			&:not(:first-child) {
+				margin-top: 15px;
+			}
+			i {
+				margin-right: 10px;
+
+				color: $theme-dark-green;
+			}
+			&.phone {
+				color: $theme-dark;
+			}
+		}
+		.grey {
+			color: $theme-light-grey;
+		}
+		select {
+			@include select-styling();
+
+			width: inherit;
+		}
+		.info {
+			margin-top: 15px;
+			.label-for-select {
+				margin-top: 10px;
+				margin-right: 10px;
+			}
+			a {
+				font-weight: 600;
+
+				display: inline;
+			}
+		}
+	}
+	.history-outer {
+		margin-top: 30px;
+		padding: 0;
+		.event {
+			@include flex-centered-verticaly();
+
+			margin-left: 0;
+			padding: 20px 25px;
+
+			border-bottom: 1px solid $theme-border-color-base;
+			background-color: #fff;
+			.time {
+				@include bold();
+			}
+			.task {
+				@include bold();
+
+				color: #ffc100;
+			}
+			.interview {
+				@include bold();
+
+				color: #5937dd;
+			}
+			.status {
+				@include history-label-styling();
+			}
+			&:hover {
+				cursor: pointer;
+
+				background-color: $theme-light-green;
+			}
+			&:not(.last-action) {
+				border: 0;
+			}
+		}
+		.last-actions-header {
+			padding: 15px;
+
+			background-color: $theme-light-green;
+			.title-header {
+				font-size: 18px;
+				font-weight: 600;
+			}
+		}
+	}
+}

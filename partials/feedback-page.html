@@ -1,0 +1,112 @@
+<div class="controller-view">
+    <div class="block-feedback-page">
+        <div class="row">
+            <div class="feedbackForm">
+                <div class="form-group">
+                    <h2 class="text-center" ng-show="$root.activePage == 'Ask question'">{{'Enter your question'|translate}}</h2>
+                    <h2 class="text-center" ng-show="$root.activePage == 'Report problem on this page'">{{'Describe your issue'|translate}}</h2>
+                    <h2 class="text-center" ng-show="$root.activePage == 'Suggest improvement or request feature'">{{'What could we do improve'|translate}}</h2>
+                    <div class="survey_view">
+                        <form id="survey_form" action="http://simpoll.ru/run/post" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="survey_key" value="d390b264" class="input" id="survey_key"/>
+                            <input type="hidden" name="page" value="1" class="input" id="page"/>
+                            <div class="survey_questions">
+                                <div class="question q_view qt_string hidden" id="q606878">
+                                    <h3>
+                                        Информация о пользователе
+                                    </h3>
+                                    <div class="body">
+                                        <div class="answer">
+                                            <input type="text" name="quest[606926]" value="{{$root.me.fullName}} ({{$root.me.login}}, {{$root.me.userId}}), {{$root.me.orgName}} ({{$root.me.orgId}}), {{pageUserWhriteFeedback}}, {{previousPage}}" class="input" id="quest606926" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="question q_view qt_string" id="q606926">
+                                    <input type="hidden" class="type_alias" value="string"/>
+                                    <div class="wrapper">
+                                        <div class="body hidden">
+                                            <div class="variants">
+                                                <div class="variant pull-left">
+                                                    <label>
+                                                        {{'Suggest improvements'|translate}}
+                                                        <input type="checkbox" name="quest[618581][]" value="1513498" class="input_checkbox" id="opt-1513498"  onclick="" tabindex="-1" />
+                                                    </label>
+                                                </div>
+                                                <div class="variant pull-right">
+                                                    <label>
+                                                        <input type="checkbox" name="quest[618581][]" value="1513499" class="input_checkbox" id="opt-1513499"  onclick="" tabindex="-1" />
+                                                        {{'Report a problem'|translate}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="body">
+                                            <div class="answer">
+                                                <textarea ng-show="$root.activePage == 'Ask question'" data-ng-model="regex" placeholder="{{'E.G.: I dont know how to'|translate}}"
+                                                          type="text" value="" id="quest[674954]" name="quest[674954]" class="textarea enterYourRequest" rows="5">
+                                                </textarea>
+                                                <textarea ng-show="$root.activePage == 'Report problem on this page'" data-ng-model="regex" placeholder="{{'E.G.: I dont know how to'|translate}}"
+                                                          type="text" value="" id="quest[674954]" name="quest[674954]" class="textarea describeIssue" rows="5">
+                                                </textarea>
+                                                <textarea ng-show="$root.activePage == 'Suggest improvement or request feature'" data-ng-model="regex" placeholder="{{'E.G.: Add *** to a Candidates tab'|translate}}"
+                                                          type="text" value="" id="quest[674954]" name="quest[674954]" class="textarea enterYourProposal" rows="5">
+                                                </textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="question q_view qt_file" id="q606911">
+                                    <input type="hidden" class="type_alias" value="file"/>
+                                    <div class="wrapper">
+                                        <label class="notBold">
+                                            {{'Add a screenshot (optionally):'|translate}}
+                                        </label>
+                                        <div class="body">
+                                            <div class="answer">
+                                                <div class="addScreenshotOptionally">
+                                                    <div class="col-lg-5 no-padding">
+                                                        <input type="file" name="quest606911" class="file-input hidden" accept="image/*" id="quest606911" fileread="fileName"/>
+                                                        <label class="notBold" for="quest606911">{{'Upload_image'|translate}}</label>
+                                                    </div>
+                                                    <div class="col-lg-7 no-padding">
+                                                        <span ng-show="!fileName">{{'file not selected'|translate}}</span>
+                                                        <span ng-show="fileName">{{fileName}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="question q_view qt_file" id="q606910">
+                                    <input type="hidden" class="type_alias" value="file"/>
+                                    <div class="wrapper">
+                                        <div class="body">
+                                            <div class="answer">
+                                                <div class="addScreenshotOptionally">
+                                                    <div class="col-lg-5 no-padding">
+                                                        <input type="file" name="quest606910" class="file-input hidden" accept="image/*" id="quest606910" fileread="fileName2"/>
+                                                        <label class="notBold" for="quest606910">{{'Upload_another_one'|translate}}</label>
+                                                    </div>
+                                                    <div class="col-lg-7 no-padding">
+                                                        <span ng-show="!fileName2">{{'file not selected'|translate}}</span>
+                                                        <span ng-show="fileName2">{{fileName2}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="survey_submit text-center">
+                                <p id="txtArea"></p>
+                                <span ng-click="goFeedbackThanks();" ng-show="regex.length == 0" class="submit btn btn-primary accept acceptError">{{'Submit'|translate}}</span>
+                                <input ng-click="goFeedbackThanks();" ng-show="regex.length > 0" type="submit" class="submit btn btn-primary accept" value="{{'Submit'|translate}}"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,142 @@
+<div class="block-tests container-fluid">
+    <div class="results" ng-if="typeOfResults == 'test'">
+        <div class="col-lg-12 title">
+            <h3>
+                {{'Results of the candidates'| translate}} <a ng-href="#/candidate/test/{{test.id}}">"{{test.testName}}"</a>
+            </h3>
+        </div>
+        <div class="col-lg-12 no-results" ng-show="objectSize === 0">
+            <p>{{'No results'| translate}}</p>
+        </div>
+        <div class="col-lg-12">
+            <table class="table" ng-table="tableParams" template-pagination="custom/pager">
+                <thead>
+                <tr>
+                    <th>№</th>
+                    <th>{{'history_info.candidate'|translate}}</th>
+                    <th>{{'Date of passing'|translate}}</th>
+                    <th>{{'Result'|translate}}</th>
+                    <th class="text-center">
+                        {{'Percentile'|translate}}
+                        <i class="fa fa-info-circle tooltip-icon" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.toolTipForTestResults" aria-hidden="true"></i>
+                    </th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="test in $data">
+                    <td class="clickable">{{(tableParams.page() - 1) * tableParams.count() + $index + 1}}.</td>
+                    <td class="clickable hidden-xs">
+                        <a href="#/candidates/{{test.candidateLocalId}}">
+                            {{test.candidateName}}
+                        </a>
+                        <span class="attempt" ng-show="test.attemptNumber">
+                           |{{'Attempt'|translate}}#{{test.attemptNumber}}
+                        </span>
+                    </td>
+                    <td class="clickable">
+                        <span>{{test.dateEnd|dateFormat:true}}</span>
+                    </td>
+                    <td class="clickable">
+                        <div ng-show="test.status == 'done' || test.status == 'partly_done'">
+                            <span class="points">
+                                <b ng-if="test.points">{{test.points}}</b>
+                                <b ng-if="!test.points">0</b>
+                                {{'from_3'|translate}}
+                                {{test.maxPoints}}
+                                <span ng-show="test.testQuestionsPoints">
+                                    |{{'text'|translate}}:<b>{{test.testQuestionsPoints}}</b>
+                                </span>
+                            </span>
+                        </div>
+                    </td>
+                    <td class="clickable text-center">
+                        <b ng-if="test.percentile != undefined && objectSize > 1 && count != 1">{{test.percentile}}%</b>
+                        <b ng-if="test.percentile != undefined && objectSize > 1 && count == 1">-</b>
+                        <b ng-if="objectSize == 1 && count == 1">-</b>
+                    </td>
+                    <td class="clickable hidden-xs details text-right">
+                        <a ng-show="test.status == 'done' || test.status == 'partly_done'" href="#/candidate/test/details/{{test.appointmentId}}">
+                            {{'Show details'| translate}}
+                        </a>
+                        <span ng-show="test.status != 'done' && test.status != 'partly_done'">
+                            {{'Candidate did not pass this test'|translate}}
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="results" ng-if="typeOfResults == 'candidate'">
+        <div class="col-lg-12 title">
+            <h3>
+                {{'Tests results'| translate}} <a href="#/candidates/{{candidateLocalId}}">{{candidateName}}</a>
+            </h3>
+        </div>
+        <div class="col-lg-12">
+            <table class="table" ng-table="tableParams" template-pagination="custom/pager">
+                <thead>
+                <tr>
+                    <th>№</th>
+                    <th>{{'Date of passing'|translate}}</th>
+                    <th>{{'Test title'|translate}}</th>
+                    <th>{{'Result'|translate}}</th>
+                    <th>
+                        {{'Percentile'|translate}}
+                        <i class="fa fa-info-circle tooltip-icon" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.toolTipForTestResults" aria-hidden="true"></i></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="test in $data">
+                    <td class="clickable">{{(tableParams.page() - 1) * tableParams.count() + $index + 1}}.</td>
+                    <td class="clickable">
+                        <span>{{test.dateEnd|dateFormat:true}}</span>
+                    </td>
+                    <td class="clickable hidden-xs">
+                        <a ng-href="#/candidate/test/{{test.testId}}" ng-show="test.isTestActive == 'A'">
+                            {{test.testName}}
+                        </a>
+                        <a href="" title="{{'Test deleted'|translate}}" class="deleted" ng-show="test.isTestActive == 'D'">
+                            {{test.testName}}
+                        </a>
+                        <span class="attempt" ng-show="test.attemptNumber">
+                            |{{'Attempt'|translate}}#{{test.attemptNumber}}
+                        </span>
+                    </td>
+                    <td class="clickable">
+                        <div ng-show="test.status == 'done'|| test.status == 'partly_done'">
+                            <span class="points">
+                                <b ng-if="test.points">{{test.points}}</b>
+                                <b ng-if="!test.points">0</b>
+                                {{'from_3'|translate}}
+                                {{test.maxPoints}}
+                                <span ng-show="test.testQuestionsPoints">
+                                    |{{'text'|translate}}:<b>{{test.testQuestionsPoints}}</b>
+                                </span>
+                            </span>
+                        </div>
+                    </td>
+                    <td class="clickable">
+                        <b ng-if="test.percentile != undefined && objectSize > 1 && count != 1">{{test.percentile}}%</b>
+                        <b ng-if="test.percentile != undefined && objectSize > 1 && count == 1">-</b>
+                        <b ng-if="objectSize == 1 && count == 1">-</b>
+                    </td>
+                    <td class="clickable hidden-xs details text-right">
+                        <a ng-show="test.status == 'done' || test.status == 'partly_done'" href="#/candidate/test/details/{{test.appointmentId}}">
+                            {{'Show details'|translate}}
+                        </a>
+                        <span ng-show="test.status != 'done' && test.status != 'partly_done'">
+                            {{'Candidate did not pass this test'|translate}}
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,107 @@
+<div class="block-send-candidate-email">
+    <div ng-show="pageObject.error.message.length>0 || pageObject.error.type!=0" class="ErrorMessage">
+        <ul class="list">
+            <i class="fa fa-exclamation" aria-hidden="true"></i>
+            <span ng-switch="pageObject.error.type">
+                <span ng-switch-when="1">
+                    {{'Enter your Email'|translate}}
+                </span>
+                <span ng-switch-when="2">
+                    {{'Enter Email of recipient'|translate}}
+                </span>
+                <span ng-switch-when="3">
+                    {{'Wrong Email of recipient'|translate}} {{pageObject.error.message}}
+                </span>
+                <span ng-switch-when="4">
+                    {{pageObject.error.message}}
+                </span>
+                <span ng-switch-when="5">
+                    {{'Error connecting integrate with email. Connect it again'|translate}}.
+                </span>
+            </span>
+        </ul>
+    </div>
+    <div class="row title-candidate-email">
+        <h3 class="text-left" style="box-sizing: border-box; padding-left: 13px; margin-left: 15px;">{{'Sending email to the customer_1' | translate}}</h3>
+        <div class="text-left" style="box-sizing: border-box; padding-left: 13px; margin-left: 15px;">
+            <p>
+                {{'Sending email to the customer_3' | translate}}
+                <a href="#/vacancies/{{pageObject.vacancy.localId}}" style="font-weight: normal">
+                    {{pageObject.vacancy.position}}
+                </a>
+                    {{'Sending email to the customer_2' | translate}}
+                <a href="#/clients/{{ pageObject.vacancy.clientId.localId}}" style="font-weight: normal">
+                    {{pageObject.vacancy.clientId.name}}
+                </a>
+            </p>
+        </div>
+    </div>
+    <div class="row statuses-candidate-email">
+        <div class="col-lg-4 statuses">
+            <div class="checkboxes" style="margin-bottom: 5%;">
+                <h4 style="font-weight:bold;">{{"Choose candidates on stage"|translate}}{{status|translate}}</h4>
+                <div class="checkbox" style="height: 200px; overflow-y: auto;">
+                    <label ng-repeat="candidate in pageObject.candidateForShow| orderBy:'fullName'">
+                        <input type="checkbox" ng-click="addCandidateLinkToText(candidate)" ng-model="candidate.checked" ng-checked="candidate.checked == true" value="">
+                        <a href="#/candidates/{{candidate.localId}}" ng-click="$event.stopPropagation();" target="_blank">
+                            {{candidate.fullName}}
+                        </a>
+                    </label>
+                </div>
+            </div>
+            <div>
+                <h4 style="font-weight:bold;">{{"Stages"|translate}}</h4>
+                <div class="status"
+                     ng-repeat="object in  pageObject.vacancyStatus"
+                     ng-click="chooseShowEmail(object.value)">
+                    <a href="">{{object.value|translate}}</a>
+                       <span class="counter">
+                          {{object.candidates.length}}
+                       </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 block-letter-candidate">
+            <div class="send-letter-candidate">
+                <!--<div class="from-who" ng-show="$root.me.emails.length > 0">{{'From' | translate}}</div>-->
+                <!--<div class="sender" ng-show="$root.me.emails.length == 1">{{'Send from'|translate}} <a href="mailto:{{$root.me.emails[0].email}}">{{$root.me.emails[0].email}}</a></div>-->
+                <div class="item mail-checkbox" ng-show="pageObject.emails.length > 1">
+                    <label>{{'Select email'|translate}}</label>
+                    <div ng-click="addToEmails(email)"
+                         ng-repeat="email in pageObject.emails" class="designEmail">
+                        <input class="emailsMove" ng-checked="email.email == pageObject.mail.fromEmail" type="checkbox">
+                        <label>{{email.email}}</label>
+                    </div>
+                </div>
+                <div class="alert alert-danger" ng-show="pageObject.emails.length == 0">
+                    {{'To send a letter from your mailbox, you need to'|translate}}
+                    <a href="#/email-integration" target='_blank'>{{'add integration with email'|translate}}</a>
+                </div>
+                <div style="display: flex; justify-content:space-between;white-space: nowrap; align-items: center; margin-bottom: 10px;">
+                    <lable for="Subject" style="font-weight: bold">{{'Subject line'|translate}}</lable>
+                    <input id="Subject"
+                           style="margin: 0px; width: 89%!important;"
+                           class="form-control"
+                           ng-model="pageObject.mail.subject"
+                           placeholder="{{'Enter the subject line'|translate}}">
+                </div>
+                <input type="text"  id="toEmails"  placeholder="{{'Enter the contact person email address'|translate}}" ng-model="pageObject.toEmails"
+                        style="width: 100%;	margin-bottom: 15px; border: 1px solid #ccc;">
+                <p>
+                    {{'template_info_in_send_email_one'|translate}}
+                    <a href="/!#/clients/{{pageObject.client.localId}}" style="font-weight: normal;">{{pageObject.client.name}}.</a>
+                </p>
+                <p>
+                    <a href="/!#/contact/add/{{pageObject.client.localId}}">{{'template_info_in_send_email_five'|translate}}</a> {{'template_info_in_send_email_four'|translate}}
+                </p>
+                <div class="tinyMCE-block">
+                    <textarea ui-tinymce id="candidateText" ng-model="pageObject.text" type="text" style="border: 1px solid #eee;"></textarea>
+                </div>
+                <div class="pull-left btn-candidate-send-cancel">
+                    <button type="button" class="btn btn-default" ng-click="cancel()" style="color: white;">{{'cancel' | translate}}</button>
+                    <button type="button" class="btn btn-primary" style="background-color:#ffc100; border: none; color: black; font-weight: bold;" ng-click="send()">{{'Send' | translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

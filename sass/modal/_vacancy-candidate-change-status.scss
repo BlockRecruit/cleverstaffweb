@@ -1,0 +1,123 @@
+.candidate-add-in-vacancy {
+	& > div {
+		border: none;
+	}
+	.modal-header {
+		h4 {
+			@include bold();
+
+			display: inline-block;
+		}
+		i {
+			@include close-item();
+		}
+		span {
+			@include bold();
+
+			font-size: 18px;
+
+			text-transform: lowercase;
+		}
+	}
+	.modal-body {
+		padding-top: 0;
+		input {
+			@include input-styling();
+			&.empty {
+				border: 2px solid rgb(198, 40, 40);
+				background-color: rgb(255, 246, 247);
+			}
+		}
+		select {
+			@include select-styling();
+		}
+		.item:not(:first-child) {
+			margin-top: 15px;
+		}
+		.item {
+			&.link-input {
+				label {
+					@include link-styling();
+				}
+			}
+			&.mail-checkbox {
+				.checkbox {
+					display: inline;
+					margin-right: 15px;
+				}
+			}
+			input {
+				margin-right: 5px;
+			}
+			.inputInterview {
+				input {
+					width: 100%;
+					margin-right: 0;
+					padding-left: 10px;
+
+					border-bottom-left-radius: 5px;
+					&:focus {
+						outline: none;
+					}
+				}
+			}
+			.input-group {
+				width: 100%;
+				.input-group-addon {
+					padding: 0 10px 0 0;
+
+					text-align: right;
+
+					color: $theme-dark-green;
+					border: none;
+					border-bottom: 1px solid #e3e3e3;
+					background-color: $theme-white;
+					box-shadow: none;
+				}
+			}
+			.title {
+				color: $theme-light-grey;
+			}
+			textarea {
+				width: 100%;
+
+				resize: vertical;
+			}
+			&:last-child {
+				label {
+					margin-top: 10px;
+					& > span {
+						font-weight: normal;
+
+						cursor: pointer;
+
+						color: #0096f5;
+						&:hover {
+							color: #fdd14a;
+						}
+					}
+				}
+			}
+		}
+		.mrgBottom {
+			margin-bottom: 10px;
+		}
+		.addedToLongList {
+			color: $theme-light-grey;
+		}
+	}
+	.modal-footer {
+		.btn {
+			@include button-green-styling();
+		}
+		.accept {
+			@include button-styling();
+		}
+		.changeState {
+			@include button-green-styling();
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+	}
+}

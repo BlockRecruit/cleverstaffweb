@@ -1,0 +1,52 @@
+.facebook-modal {
+	.modal-header {
+		& > h4 {
+			@include bold();
+		}
+		i {
+			@include close-item();
+		}
+	}
+	.modal-body {
+		label {
+			margin-top: 5px;
+		}
+		input {
+			@include input-styling();
+			@include border-radius();
+
+			width: 100%;
+			padding-left: 10px;
+			&:focus {
+				outline: none;
+			}
+		}
+		select {
+			@include select-styling();
+
+			font-size: 14px;
+
+			height: 25px;
+			padding: 0 0 0 10px;
+		}
+	}
+	.modal-footer {
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			color: $theme-white;
+			background-color: $theme-dark-green;
+			&:hover {
+				background-color: $theme-light-green-hover;
+			}
+		}
+		.cancel {
+			color: #585859;
+			background-color: #e3e3e3;
+			&:hover {
+				background-color: $theme-light-grey-hover;
+			}
+		}
+	}
+}

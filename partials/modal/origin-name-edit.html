@@ -1,0 +1,19 @@
+<div class="add-coment">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">
+            {{'Edit source for all candidates'|translate}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="item taskText">
+            <textarea placeholder="{{'write_a_origin_name'|translate}}" ng-model="$root.originName" class="form-control edit-teg-form-control"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept"  ng-click="$root.saveOriginName();">{{'save'|translate}}</a>
+        </div>
+    </div>
+</div>

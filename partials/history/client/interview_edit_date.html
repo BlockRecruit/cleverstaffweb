@@ -1,0 +1,27 @@
+<div class="col-lg-2" title="{{history.dm|dateFormat:true}}">
+    <div class="time-comment">
+        {{history.dm|dateFormat:false}}
+    </div>
+    <a href="#/users/{{history.person.userId}}" class="text-left user">
+        <span once-text="history.person.firstName"></span>
+        <span once-text="history.person.lastName"></span>
+    </a>
+</div>
+<div class="col-lg-10">
+    <span>
+        <span ng-if="history.oldTargetDate != undefined">{{'Postponement of the date of interview'|translate}}</span>
+        <span ng-if="history.oldTargetDate === undefined">{{'Appointed the date of interview'|translate}}</span>
+
+         <a href="#/candidates/{{history.candidate.localId}}">
+             <span once-text="history.candidate.fullName"></span>
+         </a>
+        {{'history_info.in__vacancy'|translate}}
+        <a href="#/vacancies/{{history.vacancy.localId}}" once-text="history.vacancy.position"></a>
+    </span>
+    <br/>
+    <span ng-show="history.targetDate">
+         {{history.oldTargetDate|dateFormat:true}}
+        <i class="fa fa-arrow-right" aria-hidden="true" ng-if="history.oldTargetDate != undefined"></i>
+        {{history.targetDate|dateFormat:true}}
+    </span>
+</div>

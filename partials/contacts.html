@@ -1,0 +1,90 @@
+<div class="controller-view">
+    <div class="block-contacts">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumbs">
+                        <ol class="breadcrumb">
+                            <li><a href="#/clients">{{'Clients'| translate}}</a></li>
+                            <li class="active"><a href="#/clients/{{contact.clientId.localId}}" once-text="contact.clientId.name"></a></li>
+                        </ol>
+                    </div>
+                    <div class="col-lg-6 col-lg-offset-3 contactContacts">
+                        <div class="contactHeader">
+                            <span translate="Contact person"></span>
+                            <span once-text="contact.firstName"></span>
+                            <span once-text="contact.lastName"></span>
+                            <span class="contactSex" ng-switch="contact.sex">
+                                <span ng-switch-when="true"><i title="{{'male'|translate}}" class="fa fa-male" aria-hidden="true"></i></span>
+                                <span ng-switch-when="false"><i title="{{'female'|translate}}" class="fa fa-female" aria-hidden="true"></i></span>
+                            </span>
+                            <span class="contactName" ng-switch="$root.me.personParams.clientAccessLevel">
+                                <span ng-switch-when="hide">{{contact.clientId.name}}}</span>
+                                <span ng-switch-default>
+                                      <a href="#/clients/{{contact.clientId.localId}}" target="_blank" once-text="contact.clientId.name"></a>
+                                </span>
+                            </span>
+                            <a class="linkStyle pull-right" href="#/contact/edit/{{contact.localId}}">
+                                <i class="fa fa-pencil" aria-hidden="true">
+                                    &nbsp;<span class="clever-font">{{'edit'|translate}}</span>
+                                </i>
+                            </a>
+                        </div>
+                        <div class="contactBody">
+                            <table class="ui basic table">
+                                <tbody class="candidate-info">
+                                <tr ng-show="contact.position">
+                                    <td class="content-header">{{'position'|translate}}</td>
+                                    <td class="item-in-table" style=" padding: 0.5em 0.3em" once-text="contact.position"></td>
+                                </tr>
+                                <tr ng-show="contacts.mphone">
+                                    <td class="content-header"><i class="fa fa-phone" aria-hidden="true"></i></td>
+                                    <td class="item-in-table" style=" padding: 0.5em 0.3em" once-text="contacts.mphone">
+                                    </td>
+                                </tr>
+                                <tr ng-show="contacts.email">
+                                    <td class="content-header"><i class="fa fa-envelope" aria-hidden="true"></i></td>
+                                    <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                        <a href="mailto:{{contacts.email}}" once-text="contacts.email">
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr ng-show="contacts.skype">
+                                    <td class="content-header"><i class="fa fa-skype" aria-hidden="true"></i></td>
+                                    <td class="item-in-table" style=" padding: 0.5em 0.3em" once-text="contacts.skype">
+                                    </td>
+                                </tr>
+                                <tr ng-show="contacts.linkedin">
+                                    <td class="content-header"><i class="fa fa-linkedin" aria-hidden="true"></i></td>
+                                    <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                        <a href="{{contacts.linkedin}}" target="_blank"> {{contacts.linkedin|cut:true:30}}</a>
+
+                                    </td>
+                                </tr>
+                                <tr ng-show="contacts.facebook">
+                                    <td class="content-header"><i class="fa fa-facebook" aria-hidden="true"></i></td>
+                                    <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                        <a href="{{contacts.facebook}}" target="_blank"> {{contacts.facebook|cut:true:30}}</a>
+                                    </td>
+                                </tr>
+                                <tr ng-show="contacts.googleplus">
+                                    <td class="content-header"><i class="fa fa-google-plus" aria-hidden="true"></i></td>
+                                    <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                        <a href="{{contacts.googleplus}} " target="_blank">{{contacts.googleplus|cut:true:30}}</a>
+                                    </td>
+                                </tr>
+                                <tr ng-show="contacts.homepage">
+                                    <td class="content-header"><i class="fa fa-home" aria-hidden="true"></i></td>
+                                    <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                        <a href="{{contacts.homepage}} " target="_blank">   {{contacts.homepage|cut:true:30}}</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

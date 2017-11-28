@@ -1,0 +1,16 @@
+<div class="col-lg-2">
+    <div class="time-comment">
+        {{history.dm|dateFormat:true}}
+    </div>
+    <a href="#/users/{{history.person.userId}}" class="text-left user">
+        <span once-text="history.person.firstName"></span>
+        <span once-text="history.person.lastName"></span>
+    </a>
+</div>
+<div class="col-lg-10">
+    {{'history_info.added_link'|translate}} <a href="{{history.descr}}" target="_blank" style="color:#DAA10F">{{history.descr| fileNameCut:0:15}}</a>
+    {{'history_info.in_client'|translate}}
+    <a href="#/clients/{{history.client.localId}}">
+        <span once-text="history.client.name"></span>
+    </a>
+</div>

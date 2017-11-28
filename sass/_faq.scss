@@ -1,0 +1,115 @@
+.block-faq {
+	.faq {
+		@include bt-margins-from-side;
+		h2 {
+			margin-top: 40px;
+			margin-bottom: 50px;
+		}
+		.input-group {
+			width: 44%;
+			margin: 0 auto;
+
+			background-color: #fff;
+			.input-group-addon {
+				display: inline-block;
+				margin: 5px;
+
+				vertical-align: middle;
+
+				border: none;
+				background-color: $theme-white;
+				box-shadow: none;
+			}
+			.inputSearch {
+				display: inline-block;
+
+				vertical-align: middle;
+			}
+			.form-control {
+				width: 300px;
+				padding-left: 0;
+
+				border: none;
+				background-color: $theme-white;
+				box-shadow: none;
+			}
+		}
+		@media (max-width: $screen-md) {
+			.input-group-addon {
+				display: initial!important;
+			}
+		}
+		@media (max-width: $screen-xs) {
+			.no-padding-xs {
+				padding: 0;
+			}
+			.form-control {
+				width: 255px!important;
+			}
+		}
+		.or {
+			margin: 20px 0;
+		}
+		.findYourQuestions {
+			@include bold();
+
+			font-size: 18px;
+
+			margin-bottom: 30px;
+		}
+		.guideAndWork {
+			.mrg-bottom {
+				margin: 20px 0;
+			}
+			ul {
+				padding: 0;
+
+				list-style: none;
+				.panel {
+					margin-bottom: 10px;
+					padding: 0;
+				}
+				.panel-default {
+					.panel-heading {
+						padding: 0;
+
+						background-color: $theme-white;
+						a {
+							display: block;
+							padding: 15px 20px;
+
+							text-decoration: none;
+							&:hover {
+								text-decoration: underline;
+							}
+						}
+					}
+				}
+			}
+			.standardAgreement {
+				padding-left: 40px;
+
+				list-style-type: decimal;
+			}
+			.listType {
+				padding-left: 25px;
+
+				list-style-type: disc;
+				.bold {
+					@include bold();
+				}
+			}
+		}
+		.footerFaq {
+			margin-top: 20px;
+			h4 {
+				margin-bottom: 20px;
+			}
+			.bold {
+				@include bold();
+
+				margin-top: 20px;
+			}
+		}
+	}
+}

@@ -1,0 +1,20 @@
+<div class="request-report-modal">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="closeModal()"></i>
+        <h4 class="modal-title">
+            <span translate="Request daily report from"></span>:
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="flex-container">
+            <input type="text" readonly datepicker-for-report-on-request class="form-control" placeholder="{{'Select date'|translate}}">
+            <div class="info-text" translate="The report will be sent to the email your account is registered to"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary accept"  ng-click="requestReport()" translate="Get the report"></a>
+            <a class="cancel-text" ng-click="closeModal()" translate="cancel"></a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,150 @@
+<div class="controller-view">
+    <div class="block-feedback-page-new-design">
+        <div class="row">
+            <div class="feedbackForm">
+                <div class="form-group">
+                    <h2 class="text-center">{{'New Design Feedback'|translate}}</h2>
+                    <div class="survey_view">
+                        <form id="survey_form" action="http://simpoll.ru/run/post" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="survey_key" value="53ce8f2e" class="input" id="survey_key"/>
+                            <input type="hidden" name="page" value="1" class="input" id="page"/>
+                            <div class="survey_questions">
+                                <div class="question q_view qt_string hidden" id="q606878">
+                                    <input type="hidden" class="type_alias" value="string"/>
+                                    <div class="number hidden">1</div>
+                                    <div class="wrapper">
+                                        <label>
+                                            Информация о пользователе
+                                        </label>
+                                        <div class="body">
+                                            <div class="answer">
+                                                <input type="text" name="quest[606878]"
+                                                       value=" {{$root.me.fullName}} ({{$root.me.login}}, {{$root.me.userId}}), {{$root.me.orgName}} ({{$root.me.orgId}})" class="input" id="quest606878"/></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="question q_view qt_string" id="q606389">
+                                    <input type="hidden" class="type_alias" value="string"/>
+                                    <div class="number hidden">2</div>
+                                    <div class="wrapper">
+                                        <label>
+                                            {{'What do you LIKE about CleverStaff new design?'|translate}}
+                                        </label>
+                                        <div class="body">
+                                            <div class="answer">
+                                                <textarea id="quest606389" name="quest[606389]" class="textarea" rows="1"></textarea>
+                                                <!--<input type="text" name="quest[606389]" value="" class="input" id="quest606389"/></div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="question q_view qt_string" id="q606390">
+                                    <input type="hidden" class="type_alias" value="string"/>
+                                    <div class="number hidden">3</div>
+                                    <div class="wrapper">
+                                        <label>
+                                            {{'What do you DISLIKE about CleverStaff new design?'|translate}}
+                                        </label>
+                                        <div class="body">
+                                            <div class="answer">
+                                                <textarea id="quest606390" name="quest[606390]" class="textarea" rows="1"></textarea>
+                                                <!--<input type="text" name="quest[606390]" value="" class="input" id="quest606390"/></div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="question q_view qt_text pull-left" id="q606395">
+                                    <input type="hidden" class="type_alias" value="text"/>
+                                    <div class="number hidden">4</div>
+                                    <div class="wrapper">
+                                        <label class="notBold">
+                                            {{'Add a screenshot (optionally):'|translate}}
+                                        </label>
+                                        <div class="body">
+                                            <div class="answer">
+                                                <input type="text" name="quest[606395]" value="" class="input" id="quest[606395]"/></div>
+                                                <!--<textarea id="quest[606395]" name="quest[606395]" class="textarea" rows="1"></textarea>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="or pull-left">{{'or'|translate}}</span>
+                                <div class="question q_view qt_file pull-left" id="q606396">
+                                    <input type="hidden" class="type_alias" value="file"/>
+                                    <div class="number hidden">5</div>
+                                    <div class="wrapper">
+                                        <label class="notBold">
+                                            {{'Upload from your computer'|translate}}
+                                        </label>
+                                        <div class="body">
+                                            <div class="answer">
+                                                <div class="addScreenshotOptionally">
+                                                    <input type="file" name="quest606396" class="file-input hidden" accept="image/*" id="quest606396" fileread="fileNameNewDesign"/>
+                                                    <label class="notBold" for="quest606396">{{'select file'|translate}}</label>
+                                                    <br/>
+                                                    <span ng-show="!fileNameNewDesign">{{'file not selected'|translate}}</span>
+                                                    <span ng-show="fileNameNewDesign">{{fileNameNewDesign}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="question q_view qt_string" id="q606391">
+                                    <input type="hidden" class="type_alias" value="string"/>
+                                    <div class="number hidden">6</div>
+                                    <div class="wrapper">
+                                        <label>
+                                            {{'What would you CHANGE about CleverStaff new design?'|translate}}
+                                        </label>
+                                        <div class="body">
+                                            <div class="answer">
+                                                <textarea id="quest606391" name="quest[606391]" class="textarea" rows="1"></textarea>
+                                                <!--<input type="text" name="quest[606391]" value="" class="input" id="quest606391"/></div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="question q_view qt_text pull-left" id="q606397">
+                                    <input type="hidden" class="type_alias" value="text"/>
+                                    <div class="number hidden">7</div>
+                                    <div class="wrapper">
+                                        <label class="notBold">
+                                            {{'Add a screenshot (optionally):'|translate}}
+                                        </label>
+                                        <div class="body">
+                                            <div class="answer">
+                                                <input type="text" name="quest[606397]" value="" class="input" id="quest[606397]"/></div>
+                                                <!--<textarea id="quest[606397]" name="quest[606397]" class="textarea" rows="1"></textarea>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="or pull-left">{{'or'|translate}}</span>
+                                <div class="question q_view qt_file pull-left" id="q606398">
+                                    <input type="hidden" class="type_alias" value="file"/>
+                                    <div class="number hidden">8</div>
+                                    <div class="wrapper">
+                                        <label class="notBold">
+                                            {{'Upload from your computer'|translate}}
+                                        </label>
+                                        <div class="body">
+                                            <div class="answer">
+                                                <div class="addScreenshotOptionally">
+                                                    <input type="file" name="quest606398" class="file-input hidden" accept="image/*" id="quest606398" fileread="fileNameNewDesign2"/>
+                                                    <label class="notBold" for="quest606398">{{'select file'|translate}}</label>
+                                                    <br/>
+                                                    <span ng-show="!fileNameNewDesign2">{{'file not selected'|translate}}</span>
+                                                    <span ng-show="fileNameNewDesign2">{{fileNameNewDesign2}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="survey_submit text-center">
+                                <input type="submit" class="submit btn btn-primary accept" value="{{'Submit'|translate}}" ng-click="hideFeedbackButton();"/>
+                            </div>
+                        </form>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>

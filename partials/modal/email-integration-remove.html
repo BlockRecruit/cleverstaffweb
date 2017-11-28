@@ -1,0 +1,14 @@
+<div class="add-coment">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">
+            {{'Are you sure want to remove synchronization with'|translate}} {{$root.emailForDelete.email}}
+        </h4>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept"  ng-click="$root.removePersonEmail()">{{'yes, remove'|translate}}</a>
+        </div>
+    </div>
+</div>

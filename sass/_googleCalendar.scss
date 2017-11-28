@@ -1,0 +1,59 @@
+.block-calendar {
+	.row {
+		padding: 15px;
+		.col-lg-6 {
+			@include border-radius();
+
+			padding: 15px;
+
+			background-color: $theme-white;
+			& > h4 {
+				@include bold();
+
+				margin-bottom: 25px;
+			}
+			ul {
+				margin-bottom: 20px;
+			}
+			.text-center {
+				margin-top: 25px;
+			}
+		}
+		.popUp {
+			@include border-radius();
+
+			margin-top: 15px;
+			padding: 15px;
+
+			background-color: #fff;
+			img {
+				width: 630px;
+			}
+			& > h4 {
+				@include bold();
+
+				margin-bottom: 20px;
+			}
+		}
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			color: $theme-white;
+			background-color: $theme-green;
+			&:hover {
+				background-color: $theme-light-green-hover;
+			}
+		}
+		.disconnect {
+			color: $theme-white;
+			background-color: $theme-light-grey;
+			&:not(.no-margin) {
+				margin: 15px 0 0 0;
+			}
+			&:hover {
+				background-color: $theme-light-grey-hover;
+			}
+		}
+	}
+}

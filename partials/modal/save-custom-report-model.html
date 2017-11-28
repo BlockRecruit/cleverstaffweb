@@ -1,0 +1,29 @@
+<div class="modal-custom-constructor-save delete-responsible">
+    <div class="modal-header" style="font-weight: bold;">
+        <h4>{{"Enter the title of the new report"|translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <form name="formSaveCustomReport" ng-submit="saveCustomReport(reportsSave, formSaveCustomReport)">
+            <p class="nameCustomReports">
+                <input class="form-control" type="text" name="nameReports" ng-model="reportsSave.name" required placeholder="{{'Title of the new report *'|translate}}">
+            </p>
+            <p class="descriptionCustomReports">
+                <textarea class="form-control" name="description" ng-model="reportsSave.description" placeholder="{{'Short description (up to 80 characters)'|translate}}" cols="15" rows="5"></textarea>
+            </p>
+            <p>
+                {{'This report will appear at ‘Reports’ / ‘My reports’ tab and will be available for account users with the appropriate data access.'|translate}}
+            </p>
+            <p>
+               {{'Report parameters could be edited and deleted only by user with the Admin role.'|translate}}
+            </p>
+            <div class="modal-footer" style="border: none">
+                <div class="text-center button">
+                    <a type="button" class="btn btn-primary cancel" ng-click="canselCustomReport()">{{'cancel'|translate}}</a>
+                    <button type="submit"
+                            ng-show="formSaveCustomReport.nameReports.$valid"
+                            class="btn btn-primary accept">{{'Add title and save'|translate}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

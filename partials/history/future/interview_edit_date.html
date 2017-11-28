@@ -1,0 +1,29 @@
+<div class="col-lg-3">
+    <span class="time" bo-html="vacancy.actions.objects[0].dm |dateFormat6:true"></span>
+</div>
+<div class="col-lg-9">
+    <a href="#/vacancies/{{vacancy.localId}}"  class="user">
+        <span once-text="vacancy.position"></span>
+    </a>
+    <span class="coma">, {{vacancy.clientId.name}},</span>
+    <a href="#/users/{{vacancy.creator.userId}}" >&nbsp;&nbsp;
+        <i class="fa fa-user" aria-hidden="true"></i>
+        {{vacancy.actions.objects[0].person.fullName}}
+    </a>
+    <br/>
+    <span>
+        <span style="text-transform:lowercase" ng-if="vacancy.actions.objects[0].oldTargetDate != undefined">{{'Postponement of the date of interview'|translate}}</span>
+        <span style="text-transform:lowercase" ng-if="vacancy.actions.objects[0].oldTargetDate === undefined">{{'Appointed the date of interview'|translate}}</span>
+         <a href="#/candidates/{{vacancy.actions.objects[0].candidate.localId}}">
+             <span once-text="vacancy.actions.objects[0].candidate.fullName"></span>
+         </a>
+        {{'history_info.in__vacancy'|translate}}
+        <a href="#/vacancies/{{vacancy.actions.objects[0].vacancy.localId}}" once-text="vacancy.actions.objects[0].vacancy.position"></a>
+    </span>
+    <br/>
+    <span ng-show="vacancy.actions.objects[0].targetDate">
+         {{vacancy.actions.objects[0].oldTargetDate|dateFormat:true}}
+        <i class="fa fa-arrow-right" aria-hidden="true" ng-if="vacancy.actions.objects[0].oldTargetDate != undefined"></i>
+        {{vacancy.actions.objects[0].targetDate|dateFormat:true}}
+    </span>
+</div>

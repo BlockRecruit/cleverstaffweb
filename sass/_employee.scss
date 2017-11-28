@@ -1,0 +1,549 @@
+.block-employee {
+	.breadcrumbs {
+		margin-top: 20px;
+		& > .breadcrumb {
+			& > li {
+				& > i {
+					font-size: 9px;
+
+					padding: 0 5px;
+				}
+			}
+			& > li:before {
+				padding: 0;
+
+				content: "";
+			}
+		}
+	}
+	.employee-information {
+		@include bt-margins-from-side();
+		& > .fullName-position {
+			float: none;
+			& > span {
+				@include bold();
+
+				font-size: 20px;
+				& > span {
+					font-size: 14px;
+					font-weight: 500;
+
+					color: #777;
+				}
+			}
+		}
+	}
+	.profile-menu {
+		float: none;
+		width: 98%;
+		margin: 0 auto;
+		margin-top: 10px;
+		margin-bottom: 10px;
+
+		border-radius: 5px;
+		background-color: $theme-white;
+		& > ul {
+			line-height: 50px;
+
+			display: inline-flex;
+			margin-bottom: 0;
+			padding: 0;
+
+			list-style-type: none;
+			& > li {
+				padding-right: 50px;
+				& > a {
+					text-decoration: none;
+
+					color: $theme-dark;
+					&:hover {
+						color: #fdd14a;
+					}
+					& > i {
+						margin-right: 10px;
+
+						color: $theme-button-color;
+					}
+				}
+			}
+		}
+	}
+	.employee-profile-rezume {
+		@include bt-margins-from-side();
+
+		padding: 0 15px;
+		.leftBar {
+			padding: 0;
+
+			border-radius: 5px;
+			background-color: #fff;
+			& > .employee-foto {
+				display: flex;
+				padding: 0 25px;
+
+				justify-content: center;
+				& > div {
+					padding: 15px 0;
+					& > img {
+						max-width: 100%;
+						height: auto;
+					}
+				}
+			}
+			& > .employee-control {
+				padding: 0 25px;
+				& > span {
+					font-size: 12px;
+
+					margin-left: 10px;
+
+					color: #ccc;
+				}
+				.hr-interview {
+					font-size: 14px;
+
+					position: relative;
+					bottom: 25px;
+					left: 0;
+
+					margin-left: 15px;
+					padding: 0 19px;
+
+					color: $theme-purple;
+					border-radius: 5px;
+					background-color: $theme-light-purple;
+				}
+				& > h5 {
+					font-weight: 600;
+				}
+				& > .form-inline-position {
+					font-weight: 600;
+					& > .select {
+						& > select {
+							display: block;
+							width: 100%;
+
+							color: #202021;
+							border: none;
+							border-bottom: 1px solid #e3e3e3;
+							background-color: #fff;
+							box-shadow: none;
+						}
+					}
+				}
+			}
+			& > .attachments {
+				padding: 5px 15px;
+
+				border-top: 1px solid $theme-light-grey-hover;
+				border-bottom: 1px solid $theme-light-grey-hover;
+				.employee {
+					margin-top: 10px;
+				}
+				.find-button {
+					@include button-styling-cancel();
+				}
+				& > h5 {
+					font-weight: 600;
+				}
+				& > a {
+					color: $theme-link-color;
+					& > i {
+						padding-right: 15px;
+
+						color: $theme-dark-green;
+					}
+				}
+				& > .dropdown-menu {
+					& > label {
+						@include link-styling();
+
+						margin-bottom: 0;
+						margin-left: 15px;
+						padding-right: 15px;
+
+						cursor: pointer;
+						& > i {
+							padding-right: 5px;
+
+							color: $theme-dark-green;
+						}
+					}
+				}
+				& > .addedFileCandidate {
+					clear: none;
+					& > .item {
+						& > .fileName {
+							width: 90%;
+							margin-bottom: 5px;
+							padding-left: 5px;
+							.fa-paperclip {
+								margin-top: 2px;
+								margin-right: 3px;
+							}
+							& > a {
+								cursor: pointer;
+							}
+						}
+						& > .editFileName {
+							clear: both;
+							height: 68px;
+							margin-bottom: 10px;
+							padding: 1px 5px;
+
+							border: 1px solid rgba(227, 227, 227, 0.5);
+							.fa-paperclip {
+								margin-top: 6px;
+							}
+							& > h5 {
+								@include bold();
+							}
+							& > input {
+								@include border-radius();
+								@include input-styling();
+
+								width: 75%;
+								margin-top: 2px;
+								padding: 0 5px;
+							}
+							& > a {
+								@include link-styling();
+
+								margin: 0 0 0 3px;
+							}
+						}
+						& > .fa-chevron-down {
+							margin-top: -20px;
+
+							cursor: pointer;
+							& > .editFileMenu {
+								@include border-radius();
+
+								font-family: "Open Sans", Arial, Verdana, sans-serif;
+								line-height: 25px;
+
+								position: absolute;
+								z-index: 1;
+
+								width: 330px;
+								margin-top: 5px;
+								padding: 5px 0;
+
+								background-color: $theme-white;
+								box-shadow: 0 1px 10px -1px $theme-grey;
+								& > .selection {
+									& > .item {
+										@include link-styling();
+										@include bold();
+
+										font-size: 14px;
+
+										cursor: pointer;
+										& > i {
+										}
+										& > .content {
+											float: left;
+											width: 100%;
+											padding: 0 10px;
+											&:hover {
+												background-color: $theme-light-orange;
+											}
+											& > .header {
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				& .dropdown-toggle {
+					@include button-styling-cancel();
+
+					display: inline-block;
+					margin: 10px 0;
+				}
+				& > .addLinkFormForLink {
+					padding: 0;
+					& > div {
+						padding: 5px;
+						& > form {
+							label {
+								margin-left: 10px;
+							}
+							input {
+								@include input-styling();
+								@include border-radius();
+
+								width: 95%;
+								padding-left: 10px;
+								&:focus {
+									outline: none;
+								}
+							}
+						}
+					}
+					& > div ~ div {
+						& > .text-center {
+							.btn {
+								@include button-styling();
+							}
+							.accept {
+								color: $theme-white;
+								background-color: $theme-dark-green;
+								&:hover {
+									background-color: $theme-light-green-hover;
+								}
+							}
+							.cancel {
+								color: #585859;
+								background-color: #e3e3e3;
+								&:hover {
+									background-color: $theme-light-grey-hover;
+								}
+							}
+						}
+					}
+				}
+				.grey {
+					color: $theme-light-grey;
+				}
+				.fa-info-circle {
+					color: $theme-blue;
+				}
+			}
+		}
+		@media (max-width: $screen-sm) {
+			.centerBar {
+				padding-left: 0;
+			}
+		}
+		.centerBar {
+			padding-right: 0;
+
+			border-radius: 5px;
+			.main-info {
+				padding: 15px;
+
+				border-bottom: 1px solid $theme-light-grey;
+				border-top-left-radius: 5px;
+				border-top-right-radius: 5px;
+				background-color: $theme-white;
+				.dateOfWork {
+					height: 50px;
+					& > .dateOfWorkBold {
+						@include bold;
+					}
+				}
+				a {
+					@include link-styling();
+					@include text-ellipsis();
+
+					display: block;
+					i {
+						margin-right: 10px;
+
+						color: $theme-dark-green;
+					}
+					&.phone {
+						color: $theme-dark;
+					}
+				}
+			}
+			.activity {
+				margin: 0 -15px;
+				padding: 1px 30px;
+
+				background-color: $theme-white;
+				h4 {
+					font-weight: 600;
+
+					color: $theme-dark-green;
+				}
+			}
+			.description {
+				margin: 0 -15px;
+				padding: 15px 30px;
+
+				border-bottom-right-radius: 5px;
+				border-bottom-left-radius: 5px;
+				background-color: $theme-white;
+				h4 {
+					font-weight: 600;
+
+					margin-bottom: 20px;
+				}
+			}
+			.history-outer {
+				margin-top: 30px;
+				padding: 0;
+				.event {
+					@include flex-centered-verticaly();
+
+					margin-right: 0;
+					margin-left: 0;
+					padding: 8px 5px;
+
+					border-bottom: 1px solid $theme-border-color-base;
+					background-color: $theme-white;
+					.padding-left {
+						padding-right: 0;
+						padding-left: 10px;
+					}
+					a {
+						@include link-styling();
+
+						margin-right: 10px;
+						&.user {
+						}
+					}
+					.time {
+						display: block;
+					}
+					.task {
+						@include bold();
+
+						color: #ffc100;
+					}
+					.interview {
+						@include bold();
+
+						color: #5937dd;
+					}
+					.status {
+						@include history-label-styling();
+					}
+					&:hover {
+						cursor: pointer;
+
+						background-color: #fff0f0;
+					}
+					&:not(.last-action) {
+						border: 0;
+					}
+					.textField {
+						& > .field {
+							margin-top: 10px;
+							& > textarea {
+								width: 405px;
+								height: 155px;
+
+								resize: none;
+							}
+						}
+						.btn {
+							@include button-styling();
+						}
+						.accept {
+							color: $theme-white;
+							background-color: $theme-dark-green;
+							&:hover {
+								background-color: $theme-light-green-hover;
+							}
+							&:focus {
+								outline: none;
+							}
+						}
+						.cancel {
+							color: #585859;
+							background-color: #e3e3e3;
+							&:hover {
+								background-color: $theme-light-grey-hover;
+							}
+							&:focus {
+								outline: none;
+							}
+						}
+						&:last-child {
+							margin-left: 10px;
+						}
+					}
+				}
+				.last-actions-header {
+					margin-right: 0;
+					margin-left: 0;
+					padding: 8px;
+
+					background-color: $theme-light-green;
+					.title-header {
+						font-size: 18px;
+						font-weight: 600;
+					}
+					a:not(.show-comments) {
+						@include button-green-styling();
+
+						float: right;
+						margin-left: 15px;
+					}
+					.show-comments {
+						margin-left: 15px;
+						padding-top: 4px;
+
+						color: #202021;
+					}
+					.switch {
+						margin-left: 20px;
+						padding-top: 4px;
+
+						cursor: pointer;
+						.grey {
+							color: #999;
+						}
+						label {
+							font-weight: 500;
+
+							float: left;
+							margin-bottom: 0;
+
+							cursor: pointer;
+							&:first-child {
+								margin-right: 5px;
+							}
+							&:last-child {
+								margin-left: 5px;
+							}
+						}
+					}
+					@media (max-width: $screen-sm) {
+						.show-comments {
+							float: left!important;
+							margin-left: 0;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+@media (max-width: 1199px) {
+	.block-employee .employee-profile-rezume .leftBar {
+		margin-left: 15px;
+	}
+	.block-employee .employee-profile-rezume .leftBar > .attachments > .addedFileCandidate > .item > .fa-chevron-down > .editFileMenu {
+		right: 0;
+
+		width: 285px;
+	}
+}
+
+@media (max-width: $screen-sm) {
+	.block-employee .employee-profile-rezume .centerBar .history-outer .last-actions-header a:not(.show-comments) {
+		float: left !important;
+		margin-left: 0;
+	}
+	.block-employee .employee-profile-rezume .centerBar .history-outer .last-actions-header .show-comments {
+		margin-right: 0;
+	}
+	.block-employee .employee-profile-rezume .leftBar {
+		margin-left: 0;
+	}
+	.block-employee .employee-profile-rezume .centerBar .history-outer .last-actions-header a:not(.show-comments) {
+		float: left;
+		margin-left: 0;
+	}
+}
+@media (max-width: 692px) {
+	.block-employee .employee-profile-rezume .centerBar .history-outer .last-actions-header .show-comments {
+		margin-bottom: 8px;
+	}
+}

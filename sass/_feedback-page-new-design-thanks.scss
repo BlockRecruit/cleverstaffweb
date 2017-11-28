@@ -1,0 +1,81 @@
+.block-feedback-page-new-design-thanks {
+	padding-bottom: 60px;
+	.row {
+		@include bt-margins-from-side();
+		.feedbackForm {
+			position: relative;
+			top: 50px;
+			right: 0;
+			left: 0;
+
+			width: 40%;
+			min-height: 350px;
+			margin: 0 auto;
+			padding: 1.5rem;
+
+			border: solid $theme-light-grey-hover;
+			border-width: 0.2rem;
+			box-shadow: 0 0 15px 5px $theme-light-grey;
+			@media (max-width: $screen-sm) {
+				width: 100%;
+			}
+			@media (max-width: $screen-md) {
+				width: 100%;
+			}
+			.form-group {
+				h2 {
+					@include bold();
+
+					margin: 0 0 30px 0;
+					padding: 0 20px;
+				}
+				.imgForFeedbackEn {
+					width: 100%;
+					height: 90px;
+					margin-top: 30px;
+
+					background: url(/images/sprite/Screen11.png) 50% 0 no-repeat;
+				}
+				.imgForFeedbackRu {
+					width: 100%;
+					height: 90px;
+					margin-top: 30px;
+
+					background: url(/images/sprite/Screen11.png) 50% 0 no-repeat;
+				}
+				.imgForFeedbackUa {
+					width: 100%;
+					height: 90px;
+					margin-top: 30px;
+
+					background: url(/images/sprite/Screen11.png) 50% 0 no-repeat;
+				}
+				.haveIdea {
+					@include bold();
+
+					margin-top: 30px;
+				}
+				.btn-primary {
+					@include bold();
+
+					display: block;
+					width: 340px;
+					margin: 0 auto;
+
+					color: #202021;
+					border: none;
+					background-color: $theme-button-color;
+					&:hover {
+						background-color: $theme-link-hover-color;
+					}
+				}
+				.homePage {
+					@include link-styling();
+
+					display: block;
+					margin-top: 20px;
+				}
+			}
+		}
+	}
+}

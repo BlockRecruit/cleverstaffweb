@@ -1,0 +1,45 @@
+.quest-modal {
+	.modal-header {
+		& > h4 {
+			@include bold();
+		}
+		i {
+			@include close-item();
+		}
+	}
+	.modal-body {
+		& > .taskText {
+			& > .form-control {
+				height: 200px;
+				max-height: 380px;
+
+				resize: vertical;
+			}
+		}
+		.hello-img {
+			width: 350px;
+		}
+		h2,
+		h3,
+		h4,
+		p {
+			margin-bottom: 30px;
+		}
+		&.on-board-text {
+			p {
+				margin-bottom: 5px;
+			}
+		}
+	}
+	.modal-footer {
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			@include button-styling();
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+	}
+}

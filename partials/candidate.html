@@ -1,0 +1,1139 @@
+<div class="controller-view">
+    <div class="block-candidate">
+        <div ng-show="$root.stageUrl" class="breadcrumbs">
+            <ol  class="breadcrumb hidden-xs hidden-sm">
+                <li><a href="#/vacancies">{{'vacancies'|translate}}</a></li>
+                <li><a href="#{{$root.stageUrl.url}}" ng-bind="$root.stageUrl.name"></a></li>
+                <li>
+                    <a href="#{{$root.stageUrl.url}}" ng-bind="$root.stageUrl.stage|translate"></a>
+                </li>
+            </ol>
+        </div>
+        <div class="container-fluid nav-candidate hidden-lg hidden-md" ng-show="currentTab == 'profile' || currentTab == 'task' || currentTab == 'history'">
+            <div class="second-navbar">
+                <ul class="nav navbar-nav col-sm-10 col-xs-12">
+                    <li class="hidden-lg hidden-md col-sm-3 col-sm-offset-3 col-xs-3">
+                        <a href="" ng-click="changeTab('profile')" ng-class="{'selected' : currentTab == 'profile'}">{{'Profile'|translate}}</a>
+                    </li>
+                    <li class="hidden-lg hidden-md col-sm-3 col-xs-4">
+                        <a href="" ng-click="changeTab('task')" ng-class="{'selected' : currentTab == 'task'}">{{'Tasks'|translate}}</a>
+                    </li>
+                    <li class="hidden-lg hidden-md col-sm-3 col-xs-5">
+                        <a href="" ng-click="changeTab('history')" ng-class="{'selected' : currentTab == 'history'}">{{'history'|translate}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div ng-show="currentTab == 'profile'" class="row candidate-information">
+            <div class="col-lg-12 fullName-position" ng-style="$root.stageUrl && {margin:'0px'}">
+                <div class="col-lg-7">
+                    <span>{{candidate.fullName}}, <span>{{candidate.position}}</span></span>
+                </div>
+                <div class="col-lg-6 hidden-xs hidden-sm last-comment-item" ng-show="lastMessage">
+                    <div class="col-lg-6 text-right">
+                        <span class="title">{{'Last comment'| translate}}</span>
+                        <a href="#/users/{{lastMessage.personId}}">{{lastMessage.person.fullName}}</a>
+                        <div>
+                            <a ng-show="lastMessage.vacancy" href="#/vacancies/{{lastMessage.vacancy.localId}}">{{lastMessage.vacancy.position}}</a> <span class="divider" ng-show="lastMessage.vacancy">|</span> {{lastMessage.dm | dateFormat:true}}
+                        </div>
+                    </div>
+                    <div class="col-lg-6 comment">
+                        <a ng-click="gotoBottom()">{{lastMessage.descr}}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row candidate-profile-rezume">
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 clearfix" style="padding-right: 16px;padding-left: 0px; box-sizing: border-box">
+                    <div class="leftBar clearfix">
+                        <input type="file" oi-file="options" id="file" style="display:none"/>
+                        <input type="file" oi-file="optionsForEditFromResume" multiple="multiple" id="fileForEditFromResume" style="display:none"/>
+                        <div class="col-lg-12 candidate-foto" ng-show="candidate.photo">
+                            <div>
+                                <img class="photoWidth small-image-for-print" ng-src="{{serverAddress}}/getapp?id={{candidate.photo}}&d={{$root.me.personId}}" alt="" ng-if="candidate.photo"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-xs-6 candidate-control not-for-print" ng-class="{'groups': candidate.groups.length > 0}">
+                            <h5>{{'Control'|translate}}</h5>
+                            <span class="title">{{'status'|translate}}</span>
+                            <form class="form-inline-position">
+                                <div class="select">
+                                    <select class="form-control" ng-model="changeStatus" ng-change="showChangeStatusOfCandidate(changeStatus)">
+                                        <!--<option>-->
+                                        <!--{{'candidate_status_assoc.' + candidate.status|translate}}-->
+                                        <!--</option>-->
+                                        <option ng-selected="state.value == candidate.state"
+                                                ng-show="state.value != candidate.status && state.value != 'archived'"
+                                                ng-repeat="state in status" value="{{state.value}}">
+                                            {{'candidate_status_assoc.' + state.value|translate}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </form>
+                            <!--<span class="hr-interview pull-left">HR собеседование</span>-->
+                            <div class="clearfix"></div>
+                            <span class="title" ng-show="$root.me.recrutRole != 'client' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'researcher'">{{'responsible'|translate}}</span>
+                            <form class="form-inline-position" ng-show="$root.me.recrutRole != 'client' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'researcher'">
+                                <div class="select">
+                                    <select class="form-control" ng-model="candidate.responsible.userId" ng-change="showAddResponsibleUser(candidate.responsible.userId)">
+                                        <option ng-repeat="person in persons| orderBy:['status','cutFullName']" value="{{person.userId}}" ng-if="person.cutFullName.length > 0 && person.cutFullName == $root.me.cutFullName">
+                                            ({{'Me' | translate}}){{person.cutFullName}}
+                                        </option>
+                                        <option ng-class="{disable: (person.status != 'A')}" ng-hide="person.recrutRole == 'client'" ng-repeat="person in persons| orderBy:['status','cutFullName']" value="{{person.userId}}" ng-if="person.cutFullName.length > 0 && person.cutFullName != $root.me.cutFullName">
+                                            {{person.cutFullName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </form>
+                            <input ng-show="$root.me.recrutRole != 'client'" type="text" class="addTagsCandidate pull-left" ng-class="{addTagsCandidateForAdmin: $root.me.recrutRole == 'admin'}" id="candGroups" select2-groups groups="{{candidate.groups}}" placeholder="{{'add tags'| translate}}">
+                        </div>
+                        <div class="col-xs-6 wrap-add-vacancy not-for-print">
+                            <img class="add-vacancy-icon"
+                                 src="../images/sprite/addVacancy.png" title="{{'Add to vacancy'|translate}}"
+                                 alt="{{'Add to vacancy'|translate}}"
+                                 ng-click="toAddVacancyForm(null, true, false);">
+                            <a type="button" for="vacancy" ng-click="toAddVacancyForm(null, true, false);"
+                               class="btn btn-primary find-button">
+                                {{'Add to vacancy'|translate}}
+                            </a>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-lg-12 participate-in-job not-for-print">
+                            <h5>{{'vacancies_applied_for'|translate}}</h5>
+                            <div class="item" ng-repeat="interview in candidate.interviews track by interview.interviewId"
+                                 ng-show="interview.vacancyId.status != 'deleted' && interview.vacancyId.status != 'completed' && interview.vacancyId.status != 'canceled'">
+                            <span status-color-new old="interview.state" icon="true" style="cursor: pointer;float:right;font-size: 13px;"
+                                  ng-click="showChangeStatus(interview.vacancyId.vacancyId)"
+                                  click-anywhere-but-here="showChangeStatus(null)">
+                            </span>
+                                <div id="changeStatePop{{interview.vacancyId.vacancyId}}"
+                                     class="clever-window status-vacancy"
+                                     ng-show="showChangeStatusValue == interview.vacancyId.vacancyId"
+                                     ng-mouseleave="hideRefusal(interview.vacancyId.vacancyId)">
+                                    <div class="clever-window-element small"
+                                         ng-repeat="istatus in interview.vacancyId.interviewStatus.split(',')"
+                                         ng-show="interview.state != istatus"
+                                         status-color-div old="istatus"
+                                         id="{{istatus}}"
+                                         ng-click="toChangeStatusInterview(istatus, interview.vacancyId.vacancyId, interview.vacancyId.interviewStatusNotTouchable, interview.vacancyId.position, interview.vacancyId)">
+                                    </div>
+                                    <div class="failure" style="border-radius: 5px;padding-left: 4px;padding-right: 4px;color:white;background-color:#407682" class="grey-hover all-refuses" ng-mouseover="showRefusal(interview.vacancyId.vacancyId)" ng-click="showRefusal(interview.vacancyId.vacancyId); $event.stopPropagation();">{{'Refusal reasons'|translate}}</div>
+                                </div>
+                                <a style="color: #009FDA;line-height: 1.3;" href="#/vacancies/{{interview.vacancyId.localId}}" once-text="interview.vacancyId.position"> </a>
+                                <br>
+                                <span ng-switch="$root.me.personParams.clientAccessLevel">
+                                <span ng-switch-when="hide">{{interview.vacancyId.clientId.name}}</span>
+                                <span ng-switch-default>
+                                    <a style="color: #009FDA;line-height: 1.3;"  href="#/clients/{{interview.vacancyId.clientId.localId}}" once-text="interview.vacancyId.clientId.name"></a>
+                                </span>
+                            </span>
+                                <br>
+                                <span>{{interview.vacancyId.region.city}}</span>
+                            </div>
+                            <a type="button" for="vacancy" ng-click="toAddVacancyForm(null, true, false);"
+                               class="btn btn-primary find-button">
+                                {{'Add to vacancy'|translate}}
+                            </a>
+                        </div>
+                        <div class="col-lg-12  close-job hidden-sm hidden-xs" ng-hide="!$root.inactiveVacancies">
+                            <h5>{{'Inactive vacancies'|translate}}</h5>
+                            <div class="item" ng-repeat="interview in candidate.interviews track by interview.interviewId"
+                                 ng-show="interview.vacancyId.status == 'deleted' || interview.vacancyId.status == 'completed'  || interview.vacancyId.status == 'canceled'">
+                            <span status-color-new old="interview.state" icon="true" style="cursor: pointer;float:right;font-size: 13px;"
+                                  ng-click="showChangeStatus(interview.vacancyId.vacancyId)"
+                                  click-anywhere-but-here="showChangeStatus(null)">
+                            </span>
+                                <div id="changeStatePop{{interview.vacancyId.vacancyId}}" class="clever-window status-vacancy"  ng-show="showChangeStatusValue == interview.vacancyId.vacancyId">
+                                    <div class="clever-window-element small"
+                                         ng-repeat="istatus in interview.vacancyId.interviewStatus.split(',')"
+                                         ng-show="interview.state != istatus"
+                                         status-color-div old="istatus"
+                                         ng-click="toChangeStatusInterview(istatus, interview.vacancyId.vacancyId, interview.vacancyId.interviewStatusNotTouchable, interview.vacancyId.position, interview.vacancyId)">
+                                    </div>
+                                </div>
+                                <span class="vacancyColor">
+                                <a href="#/vacancies/{{interview.vacancyId.localId}}" once-text="interview.vacancyId.position"> </a>
+                            </span>
+                                <br>
+                                <span class="clientColor" ng-switch="$root.me.personParams.clientAccessLevel">
+                                <span ng-switch-when="hide">{{interview.vacancyId.clientId.name}}</span>
+                                <span ng-switch-default>
+                                    <a href="#/clients/{{interview.vacancyId.clientId.localId}}" once-text="interview.vacancyId.clientId.name"></a>
+                                </span>
+                            </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 attachments not-for-print" uib-dropdown is-open="status.isopen">
+                            <div class="text-center employee" ng-show="candidate.employeeId">
+                                <a href="#/company/employees/{{candidate.employeeId}}">
+                                    {{'candidate_status_assoc.' + 'work'|translate}}
+                                </a>
+                            </div>
+                            <div class="text-center employee" ng-show="!candidate.employeeId">
+                                <a ng-show="$root.me.personParams.enableEmployee == 'Y' && $root.me.orgParams.enableEmployee == 'Y'" type="button" href="#/company/employee/add/{{candidate.localId}}"
+                                   class="btn btn-primary find-button hidden-sm hidden-xs">
+                                    {{'This is our employee'|translate}}!
+                                </a>
+                                <a ng-show="$root.me.orgParams.enableEmployee != 'Y'" type="button" href="#/hr-module-info"
+                                   class="btn btn-primary find-button hidden-sm hidden-xs">
+                                    {{'This is our employee'|translate}}!
+                                </a>
+                            </div>
+                            <h5 style="margin-top: 30px;" ng-hide="$root.me.recrutRole == 'client'">{{'Attachments'|translate}}</h5>
+                            <div class="addedFileCandidate" ng-repeat="file in candidate.files| orderBy:'-url'" ng-show="candidate.files">
+                            <span class="item">
+                                <div class="editFileName" ng-show="file.showEditFileName">
+                                    <h5 ng-show="file.showEditFileName" class="text-center">{{'Change file name'|translate}}</h5>
+                                    <!--<i ng-show="!file.url && !file.showImg" class="fa fa-file-text-o" aria-hidden="true"></i>-->
+                                    <i ng-show="!file.url " class="fa fa-paperclip pull-left" aria-hidden="true"></i>
+                                    <input class="pull-left" ng-model="file.fileName" ng-show="file.showEditFileName" type='text' name='name' value='{{file.fileName| limitTo:15}}' id="showEditFile">
+                                    <a href="" class="pull-left" ng-show="file.showEditFileName" ng-click="editFileName(file)">OK</a>
+                                </div>
+                                <div ng-show="file.fileId" class="fileName">
+                                    <a ng-show="!file.url && !file.showEditFileName" ng-click="showModalResume(file)" title="{{file.fileName}}">
+                                        <i class="fa fa-paperclip pull-left" aria-hidden="true"></i>
+                                        {{file.fileName| fileNameCut:0:25}}
+                                    </a>
+                                    <a ng-show="file.url && !file.showEditFileName" href="{{file.url}}" target="_blank" title="{{file.fileName}}">
+                                        <i class="fa fa-paperclip pull-left" aria-hidden="true"></i>
+                                        {{file.fileName| limitTo:20}}
+                                        <span ng-show="file.fileName.length > 20">...</span>
+                                    </a>
+                                </div>
+                                <i ng-click="MenuEdDelFile(file)" ng-show="!file.showEditFileName" class="fa fa-chevron-down pull-right" aria-hidden="true">
+                                    <div class="small vertical menu editFileMenu" ng-show="file.showMenuEdDelFile">
+                                        <div class="ui middle aligned selection list">
+                                            <a ng-href="{{serverAddress}}/getapp/{{ file.fileId}}/{{ file.fileName}}" ng-show="!file.url" class="item">
+                                                <div class="content">
+                                                    <div class="header"><i class="fa fa-download" aria-hidden="true"></i>&nbsp;{{'Download file'|translate}}</div>
+                                                </div>
+                                            </a>
+                                            <div ng-click="showEditFileNameFunc(file)" class="item" style="border-radius: 5px;padding: 1px 0px;">
+                                                <div class="content">
+                                                    <div ng-show="!file.url" class="header"><i ng-click="editFile(file.fileId)" class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;{{'Change file name'|translate}}</div>
+                                                    <div ng-show="file.url" class="header"><i ng-click="editFile(file.fileId)" class="fa fa-pencil-square-o" aria-hidden="true"></i>&nbsp;{{'Change link name'|translate}}</div>
+                                                </div>
+                                            </div>
+                                            <div ng-show="!file.url && !file.showImg && file.showGDocs" ng-click="showModalConfirmationResumeEdit(file)" class="item" style="border-radius: 5px;padding: 1px 0px;position: relative;">
+                                                <div class="content">
+                                                    <div class="header"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;{{'Update candidate by this resume'|translate}}</div>
+                                                </div>
+                                            </div>
+                                            <div ng-click="removeFile(file.fileId)" class="item" style="border-radius: 5px;padding: 1px 0px;">
+                                                <div class="content">
+                                                    <div ng-show="!file.url" class="header"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;{{'Delete file'|translate}}</div>
+                                                    <div ng-show="file.url" class="header"><i class="fa fa-times" aria-hidden="true"></i>&nbsp;{{'Delete link'|translate}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </i>
+                            </span>
+                            </div>
+                            <div class="text-center hidden-sm hidden-xs" ng-hide="$root.me.recrutRole == 'client'">
+                                <a href="" uib-dropdown-toggle class="text-center">
+                                    {{'Attach file'|translate}}
+                                </a>
+                            </div>
+                            <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                                <label role="menuitem" for="file">
+                                    <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                    {{'Attach file'|translate}}
+                                </label>
+                                <li class="divider"></li>
+                                <label role="menuitem" for="fileForEditFromResume">
+                                    <i class="fa fa-refresh" aria-hidden="true"></i>
+                                    {{'Add a resume and update the description of the candidate'|translate}}
+                                </label>
+                                <li class="divider"></li>
+                                <label role="menuitem" ng-click="showAddLinkFunc()">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                    {{'Attach link'|translate}}
+                                </label>
+                            </ul>
+                            <div class="col-lg-12 addLinkFormForLink" ng-show="showAddLink">
+                                <div>
+                                    <form name="addLinkForm">
+                                        <label for="nameLink">{{'Title'|translate}}</label>
+                                        <br/>
+                                        <input ng-model="addLinkToCandidate.name" ng-class="{'errorInput' : addLinkErrorShow && addLinkToCandidate.name.length == 0}" id="nameLink" name="name" type="text"/>
+                                        <br/>
+                                        <label for="urlLink">URL</label>
+                                        <br/>
+                                        <input ng-model="addLinkToCandidate.url" ng-class="{'errorInput' : addLinkErrorShow && addLinkToCandidate.url.length == 0 || addLinkForm.url.$error.url}" id="urlLink" name="url" type="url"/>
+                                    </form>
+                                </div>
+                                <div>
+                                    <div class="text-center pull-right">
+                                        <a type="button" ng-click="addLinkInCandidate()" class="btn btn-primary accept">
+                                            {{'add'|translate}}
+                                        </a>
+                                    </div>
+                                    <div class="text-center pull-left">
+                                        <a type="button" ng-click="closeAddLinkFunc()" class="btn btn-primary cancel">
+                                            {{'cancel'|translate}}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="col-lg-12 attachments not-for-print">-->
+                        <!--<h5>-->
+                        <!--{{'Email correspondence history'|translate}}-->
+                        <!--<i class="fa fa-info-circle" tooltip-placement="top" tooltip-class="customClass" uib-tooltip-html="variableForTooltip" aria-hidden="true"></i>-->
+                        <!--</h5>-->
+                        <!--<div class="grey">-->
+                        <!--<strong>Last sync:</strong> {{emailData[0].dc | dateFormat:true}}-->
+                        <!--<br/>-->
+                        <!--27 emails imported-->
+                        <!--</div>-->
+                        <!--<div class="text-center employee">-->
+                        <!--<a type="button" href="" ng-click="openChat()" class="btn btn-primary find-button">-->
+                        <!--{{'Show correspondence history' | translate}}-->
+                        <!--</a>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <div class="col-lg-12 profile-percent not-for-print hidden-sm hidden-xs">
+                            <div class="addVacancy">
+
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40"
+                                     aria-valuemin="0" aria-valuemax="100" style="min-width:17%" ng-style="progress">
+                                <span ng-show="progressPct >= 0">
+                                    {{progressPct}}% Complete
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 test-results not-for-print hidden-sm hidden-xs" ng-show="tests.length > 0 && $root.me.recrutRole != 'client' && $root.me.recrutRole != 'salesmanager' && $root.me.recrutRole != 'researcher'" >
+                            <div class="results">
+                                <h5 >
+                                    {{'Tests results'| translate}}
+                                    <span class="pull-right tests-count" ng-if="tests.length > 0" >({{tests.length}} {{'from_3'|translate}} {{totalTestsCount}}|<a href="#/candidate/tests/results/{{candidate.candidateId}}">{{'Show all'|translate}}</a>)</span>
+
+                                </h5>
+                                <div class="test-result" ng-repeat="test in tests track by $index">
+                                    <a ng-href="#/candidate/test/{{test.testId}}" title="{{test.testName}}" ng-show="test.isTestActive == 'A' && (test.status != 'done' && test.status != 'partly_done')">
+                                        {{test.testName | limitTo: 11}}{{test.testName.length > 11 ? '...' : ''}}
+                                    </a>
+                                    <a ng-href="#/candidate/test/details/{{test.appointmentId}}" title="{{test.testName}}" ng-show="test.isTestActive == 'A' && (test.status == 'done' || test.status == 'partly_done')">
+                                        {{test.testName | limitTo: 11}}{{test.testName.length > 11 ? '...' : ''}}
+                                    </a>
+                                    <a href="" title="{{'Test deleted'|translate}}" title="{{test.testName}}" class="deleted" ng-show="test.isTestActive == 'D'">
+                                        {{test.testName | limitTo: 11}}{{test.testName.length > 11 ? '...' : ''}}
+                                    </a>
+                                    <!--<div class="switch pull-right" ng-click="changeTestStatus(test.appointmentId, !test.passed);test.passed = !test.passed" ng-show="test.status == 'done' || test.status == 'partly_done'">-->
+                                    <!--<label  class="floatLeft" ng-class="{grey: test.passed}">{{'Test failed'|translate}}</label>-->
+                                    <!--<input id="cmn-toggle-9-{{$index}}" ng-class="{checked: test.passed}"  class="cmn-toggle cmn-toggle-round" type="checkbox" value="!test.passed" ng-model="test.passed">-->
+                                    <!--<label class="" ng-click="$event.preventDefault()"  for="cmn-toggle-9-{{$index}}"></label>-->
+                                    <!--<label  ng-class="{grey: !test.passed}" class="floatLeft">{{'Test passed'|translate}}</label>-->
+                                    <!--</div>-->
+                                    <span ng-show="test.status != 'done' && test.status != 'partly_done'" class="pull-right not-passed">
+                                    {{'Candidate did not pass this test'|translate}}
+                                </span>
+                                    <span ng-show="test.status == 'done' || test.status == 'partly_done'" class="pull-right passed">
+                                    <b ng-show="test.percentile">{{test.percentile}}% |</b>
+                                    <b ng-if="test.points">{{test.points}}</b>
+                                    <b ng-if="!test.points">0</b>
+                                    /
+                                    {{test.maxPoints}}
+                                    {{'Points'|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 results text-center">
+                        <a class="send-test" ng-show="candidate.testIds.length > 0" ng-click="$root.sendCandidateToTest($root.candidate, countEmail)" href="">{{'Send test to the candidate'| translate}}</a>
+                        <a class="send-test" ng-show="candidate.testIds.length == 0" href="#/candidate/tests">{{'Create new test'| translate}}</a>
+                    </div>
+                </div>
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12 centerBar">
+                    <div class="col-lg-12 profile-menu not-for-print">
+                        <ul class="hidden-sm hidden-xs">
+                            <li>
+                                <a href="" title="{{'Add to vacancy'|translate}}"
+                                           ng-click="toAddVacancyForm(null, true, false);"
+                                           class="addVacancy">
+                                    <img src="../images/sprite/addVacancy.png" alt="{{'Add to vacancy'|translate}}">
+                                </a>
+                            </li>
+                            <li>
+                                <a href="" ng-click="toEdit(candidate.localId)">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    {{'Edited_1'|translate}}
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-click="toggleDescriptionFunc('expand')" href="javaScript:window.print(); ">
+                                    <i class="fa fa-print" aria-hidden="true"></i>
+                                    {{'print'|translate}}
+                                </a>
+                            </li>
+                            <li ng-show="$root.hideTariff">
+                                <a ng-click="downloadDoc()">
+                                    <i class="fa fa-file-word-o" aria-hidden="true"></i>
+                                    {{'download_docx'|translate}}
+                                </a>
+                            </li>
+                            <li ng-show="$root.me.recrutRole != 'client'">
+                                <a ng-click="showCandidateSentEmail()">
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    {{'Send email'|translate}}
+                                </a>
+                            </li>
+                            <input type="file" oi-file="optionsForTemplate" id="fileTemplate" class="hidden"/>
+                            <a style="display: none;" id="downloadDoc"></a>
+                            <li>
+                                <button id="disabledBtn" ng-click="$root.disabledBtnFunc();" ng-show="!$root.hideTariff"
+                                        type="button" class="btn btn-default disabled">
+                                    {{'download_docx'|translate}}
+                                </button>
+                            </li>
+                        </ul>
+                        <img ng-click="toAddVacancyForm(null, true, false);"
+                             src="../images/sprite/addVacancy.png" alt="{{'Add to vacancy'|translate}}"
+                             class="addVacancy-icon-tablet">
+                        <a href="" ng-click="showModalAddCommentToCandidate('md');" class="pull-right move-bot"><i class="fa fa-pencil" aria-hidden="true"></i>{{'add_comment'|translate}}</a>
+                    </div>
+                    <div class="main-info col-lg-12">
+                        <div class="col-lg-6">
+                            <a ng-click="showRegion2Map = !showRegion2Map" ng-show="candidate.region.displayFullName">
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                {{candidate.region.displayFullName}}
+                            </a>
+                            <div ng-if="showRegion2Map" class="clever-window" style="width: 471px;left:inherit">
+                                <ui-gmap-google-map center="map.center" draggable='true' zoom="map.zoom" options="map.options">
+                                    <ui-gmap-marker coords="marker.coords" idkey="marker.id">
+                                    </ui-gmap-marker>
+                                </ui-gmap-google-map>
+                            </div>
+                            <a ng-show="candidate != undefined && candidate.db" title="{{'date_of_birth'|translate}}" class="phone">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                {{candidate.db|ageOfDate}} ({{(candidate.db|dateFormat).trim()}})
+                            </a>
+                            <a ng-show="candidate != undefined && candidate.salary" title="{{'desired_salary'|translate}}" class="phone">
+                                <i class="fa fa-usd" aria-hidden="true"></i>
+                                {{candidate.salary| numberSpacing}} {{candidate.currency}}
+                            </a>
+                            <a ng-show="candidate.expirence" class="phone">
+                                <span>{{'experience'|translate}}:</span>
+                                <span ng-show="candidate.expirence">{{'experience_assoc.' + candidate.expirence|translate}}</span>
+                            </a>
+                            <a ng-show="candidate.readyRelocate && candidate.relatedRegions" class="phone">
+                                <span>{{'ready_to_relocate'|translate}}:</span>
+                                <div class="clearfix" ng-if="candidate.relatedRegions.length > 1"></div>
+                                <span ng-repeat="region in candidate.relatedRegions"><i class="fa fa-map-marker" aria-hidden="true"></i>{{region.displayFullName}}&nbsp;<br/></span>
+                            </a>
+                            <a ng-show="candidate.languages.length > 0" class="phone noneNowrap">
+                                <span class="pull-left">{{'languages'|translate}}:</span>
+                                <div class="pull-left newLang">
+                                    <span class="inlineLang" ng-repeat="lang in candidate.languages">{{lang.name}} <span translate="{{lang.level}}"></span></span>
+                                </div>
+                            </a>
+                            <a ng-show="candidate.industry" class="phone">
+                                <span>{{'industry'|translate}}:</span>
+                                <span>{{'industries_assoc.' + candidate.industry|translate}}</span>
+                            </a>
+                            <a ng-show="candidate.employmentType" class="phone">
+                                <span>{{'employment_type'|translate}}:</span>
+                                <span ng-repeat="emplType in candidate.employmentType.split(',') track by $index">
+                                    {{emplType.trim() | translate}}
+                                </span>
+                            </a>
+                            <a ng-show="candidate.education" class="phone">
+                                <span>{{'education'|translate}}:</span>
+                                <span id="candidateEducation"></span>
+                            </a>
+                            <a ng-show="candidate.currentWorkPlace" class="phone">
+                                <span>{{'Current company'|translate}}:</span>
+                                <span>{{candidate.currentWorkPlace}}</span>
+                            </a>
+                            <a ng-show="candidate.currentPosition" class="phone">
+                                <span>{{'Current position'|translate}}:</span>
+                                <span>{{candidate.currentPosition}}</span>
+                            </a>
+                            <a ng-show="fieldValue.fieldValue != undefined" ng-repeat="fieldValue in candidate.customFields" class="phone custom-field">
+                                <span ng-show="fieldValue.state == 'A'">{{fieldValue.title}}:</span>
+                                <span ng-show="(fieldValue.type == 'string' || fieldValue.type == 'select') && fieldValue.state == 'A'">{{fieldValue.fieldValue.value}}</span>
+                                <span ng-show="fieldValue.type == 'date' && fieldValue.state == 'A'">{{fieldValue.fieldValue.dateTimeValue|dateFormat}}</span>
+                                <span ng-show="fieldValue.type == 'datetime' && fieldValue.state == 'A'">{{fieldValue.fieldValue.dateTimeValue|dateFormat2:true}}</span>
+                            </a>
+                            <!--<a href="#/company/custom-fields" class="find-button"  ng-show="$root.me.recrutRole == 'admin'">-->
+                                <!--{{'Add/Edit custom field'|translate}}-->
+                            <!--</a>-->
+                        </div>
+                        <div class="col-lg-6 right-column">
+                            <a class="phone"ng-show="(candidate.contacts|filter:type = 'mphone').length > 0">
+                                <div ng-repeat=" contact in candidate.contacts|filter:type = 'mphone'" title="{{contact.value}}">
+                                    <i class="fa fa-phone" aria-hidden="true"></i> {{contact.value}}
+                                </div>
+                            </a>
+                            <div class="email" ng-show="(candidate.contacts|filter:type = 'email').length > 0">
+                                <span ng-repeat="contact in emails track by $index" title="{{contact}}">
+                                    <a href="mailto:{{contact}}">
+                                        <i class="fa fa-envelope" aria-hidden="true"></i> {{contact}}
+                                    </a>
+                                </span>
+                            </div>
+                            <a class="skype" ng-show="(candidate.contacts|filter:type = 'skype').length > 0">
+                                <div ng-repeat=" contact in candidate.contacts|filter:type = 'Skype'" title="{{contact.value}}">
+                                    <i class="fa fa-skype" aria-hidden="true"></i> <span>{{contact.value}}</span>
+                                </div>
+                            </a>
+                            <div ng-show="(candidate.contacts|filter:type = 'linkedin').length > 0">
+                                <span ng-repeat="contact in candidate.contacts|filter:type = 'linkedin'" title="{{contact.value}}">
+                                    <a ng-if="contact.type == 'linkedin'" target="_blank" class="not-for-print" href="{{contact.value| makeLink}}">
+                                        <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                        {{::contact.value | limitTo: 30}}<span ng-show="contact.value.length > 30">...</span>
+                                    </a>
+                                     <a ng-if="contact.type == 'linkedin'" class="hidden show-for-print" target="_blank" href="{{contact.value| makeLink}}">
+                                         <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                         {{::contact.value}}
+                                     </a>
+                                </span>
+                            </div>
+                            <div>
+                                <span ng-repeat="contact in candidate.contacts"  ng-if="contact.type == 'facebook'" title="{{contact.value}}">
+                                    <a  ng-if="contact.type == 'facebook'" target="_blank" class="not-for-print" href="{{contact.value| makeLink}}">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        <span>
+                                            {{::contact.value|cutName:true:30}}
+                                        </span>
+                                    </a>
+                                     <a ng-if="contact.type == 'facebook'" target="_blank" class="hidden show-for-print" href="{{contact.value| makeLink}}">
+                                         <i class="fa fa-facebook" aria-hidden="true"></i>
+                                            {{::contact.value}}
+                                     </a>
+                                </span>
+                            </div>
+                            <div ng-show="(candidate.contacts|filter:type = 'googleplus').length > 0">
+                                <span ng-repeat="contact in candidate.contacts|filter:type = 'googleplus'" title="{{contact.value}}">
+                                    <a class="not-for-print" target="_blank" href="{{contact.value| makeLink}}">
+                                        <i class="fa fa-google-plus" aria-hidden="true"></i>
+                                       <span>
+                                           {{::contact.value|cutName:true:30}}
+                                       </span>
+                                    </a>
+                                     <a target="_blank" class="hidden show-for-print" href="{{contact.value| makeLink}}">
+                                         <i class="fa fa-google-plus" aria-hidden="true"></i>
+                                         {{::contact.value}}
+                                     </a>
+                                </span>
+                            </div>
+                            <div ng-show="(candidate.contacts|filter:type = 'github').length > 0">
+                                <span ng-repeat="contact in candidate.contacts|filter:type = 'github'" title="{{contact.value}}">
+                                    <a class="not-for-print" target="_blank" href="{{contact.value| makeLink}}">
+                                        <i class="fa fa-github" aria-hidden="true"></i>
+                                       <span>
+                                           {{::contact.value|cutName:true:30}}
+                                       </span>
+                                    </a>
+                                     <a class="hidden show-for-print" target="_blank" href="{{contact.value| makeLink}}">
+                                         <i class="fa fa-github" aria-hidden="true"></i>
+                                         {{::contact.value|cutName:true:30}}
+                                     </a>
+                                </span>
+                            </div>
+                            <div >
+                                <span ng-repeat="contact in homepages track by $index"  title="{{contact}}">
+                                    <a  class="not-for-print" target="_blank" href="{{contact}}">
+                                        <i class="fa fa-home" aria-hidden="true"></i>
+                                       <span>
+                                           {{contact}}
+                                       </span>
+                                    </a>
+                                     <a  class="hidden show-for-print" target="_blank" href="{{contact}}">
+                                         <i class="fa fa-home" aria-hidden="true"></i>
+                                         {{contact}}
+                                     </a>
+                                </span>
+                            </div>
+                            <a class="source-for-contact" ng-show="candidate.origin">
+                                <span>{{'source'|translate}}:</span>
+                                {{candidate.origin}}
+                            </a>
+                            <div class="linkedProfiles" ng-show="linkedCandidate.length > 0">
+                                <i class="fa fa-link" aria-hidden="true"></i>
+                                {{'Linked profiles'|translate}}
+                                <div ng-repeat="linkedOneCandidate in linkedCandidate">
+                                    <a ng-href="{{linkedOneCandidate.url}}" title="{{'Show profile'|translate}}">
+                                        {{linkedOneCandidate.resourseType}}
+                                    </a><i class="fa fa-times unbind" ng-click="removeLinkedinConnect(linkedOneCandidate.resourseType)" title="{{'Unlink profile'|translate}}"></i><span>{{$last ? '' : ', '}}</span>
+                                </div>
+                                <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.unlinkProfile" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class=" col-lg-12 coreSkills" ng-show="candidate.skills.length > 0">
+                            <div class="item-in-table">
+                                <div class="content-header-description">{{'Skills with rating'|translate}}</div>
+                                <br/>
+                                <div ng-repeat="skill in candidate.skills" class="skillsName pull-left">
+                                    <div class="stars pull-left">
+                                        <input ng-class="{'active' : skill.level == '5'}"
+                                               class="star star-5" id="{{skill.name}}-5" type="radio" name="star"/>
+                                        <label ng-class="{'active' : skill.level == '5'}"
+                                               class="star star-5 editable" for="{{skill.name}}-5">
+                                        </label>
+                                        <input ng-class="{'active' : skill.level == '4'}"
+                                               class="star star-4" id="{{skill.name}}-4" type="radio" name="star"/>
+                                        <label ng-class="{'active' : skill.level == '4'}"
+                                               class="star star-4 editable" for="{{skill.name}}-4">
+                                        </label>
+                                        <input ng-class="{'active' : skill.level == '3'}"
+                                               class="star star-3" id="{{skill.name}}-3" type="radio" name="star"/>
+                                        <label ng-class="{'active' : skill.level == '3'}"
+                                               class="star star-3 editable" for="{{skill.name}}-3">
+                                        </label>
+                                        <input ng-class="{'active' : skill.level == '2'}"
+                                               class="star star-2" id="{{skill.name}}-2" type="radio" name="star"/>
+                                        <label ng-class="{'active' : skill.level == '2'}"
+                                               class="star star-2 editable" for="{{skill.name}}-2">
+                                        </label>
+                                        <input ng-class="{'active' : skill.level == '1'}"
+                                               class="star star-1" id="{{skill.name}}-1" type="radio" name="star"/>
+                                        <label ng-class="{'active' : skill.level == '1'}"
+                                               class="star star-1 editable" for="{{skill.name}}-1">
+                                        </label>
+                                    </div>
+                                    <span title="{{skill.name}}" class="pull-left">{{ skill.name | limitTo: 55 }}{{skill.name.length > 55 ? '...' : ''}}</span>
+                                </div>
+                            </div>
+                            <div ng-show="(candidate.expirence || candidate.region || candidate.languages || candidate.industry || candidate.employmentType || candidate.relatedRegions || candidate.education) && candidate.coreSkills">
+                                <div class="content-header-description" style="border: 0px;padding:12px 0px 3px 0px!important;">{{'Skills with text'|translate}}</div>
+                                <span class="content-description candidateCoreSkills"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 ">
+                        <div class="activity" ng-show="candidate.coreSkills">
+                            <h4>{{'core_skills'|translate}}</h4>
+                            <span class="candidateCoreSkills"></span>
+                        </div>
+                        <div class="description" ng-show="candidate.descr">
+                            <h4 ng-click="toggleDescriptionFunc()" title="{{'Show full description' | translate}}">{{'description'|translate}}<i class="fa fa-chevron-down" ng-class="toggleDescription ? 'fa-chevron-down' : 'fa-chevron-up'"></i> </h4>
+                            <div description-treatment description="candidate.descr" class="content-description showAfter"></div>
+                            <a ng-show="toggleDescription" ng-click="toggleDescriptionFunc()" class="">{{'Show full description' | translate}}</a>
+                            <a ng-show="!toggleDescription" ng-click="toggleDescriptionFunc()" class="not-for-print hide-description">{{'Hide full description' | translate}}</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 taskForCandidate not-for-print hidden-sm hidden-xs">
+                        <div class="row last-actions-header">
+                            <div class="col-lg-12">
+                                <span class="title-header">
+                                   {{'Tasks'|translate}}
+                                </span>
+                                <a type="button" class="btn btn-primary pull-right" ng-click="showModalAddTaskToCandidate('md');">{{'Add task'|translate}}</a>
+                            </div>
+                        </div>
+                        <div class="row event last-action">
+                            <div ng-show="candidateTasks.length > 0"
+                                  ng-repeat="task in candidateTasks" ng-click="showModalEditTaskToCandidate(task)"
+                                 title="{{'View more'| translate}}" id="{{task.taskId}}"
+                                 ng-class="{'finishedTask':task.targetDate < todayDate && task.status != 'completed'}"
+                                 class="col-lg-12 col-md-12 pull-left">
+                                <div class="dateTasks padding-zero pull-left col-lg-2 col-md-2" bo-html="task.targetDate| dateFormat6:true"></div>
+                                <div class="fullNameResponsibleOfTasks pull-left col-lg-3 col-md-2">
+                                    <span></span>
+                                    <a href="#/users/{{responsible.responsible.userId}}" ng-click="$event.stopPropagation()" ng-repeat="responsible in task.responsiblesPerson">
+                                        <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
+
+                                        <span>{{getFirstLetters(responsible.responsible.fullName)}}</span>
+                                    </a>
+
+                                </div>
+                                <div class="titleOfTasks pull-left col-lg-5 col-md-5">
+                                    <span class="pull-left task" ng-show="task.type == 'Meeting'">{{'Meeting'|translate}}</span>
+                                    <span class="pull-left call" ng-show="task.type == 'Call'">{{'Call'|translate}}</span>
+                                    <span class="pull-left meeting" ng-show="task.type == 'Task'">{{'Task'|translate}}</span>
+                                    <span class="pull-left">"{{task.title}}"</span>
+                                    <div class="clearfix"></div>
+                                    <span class="taskText">{{task.text | limitTo: 150}}{{task.text.length > 150 ? '...' : ''}}</span>
+                                </div>
+                                <div class="col-lg-2 col-md-2 statuses">
+                                    <span>
+                                        <label for="taskStatus"></label>
+                                        <select class="form-control not-finished" id="taskStatus"
+                                                ng-model="task.status"
+                                                ng-change="$root.changeTaskState(task)" ng-click="$event.stopPropagation()"
+                                                ng-class="{'finished': task.status == 'completed'}">
+                                            <option value="open">{{'notCompleted'|translate}}</option>
+                                            <option value="completed">{{'completed'|translate}}</option>
+                                            <option value="Cancelled">{{'Cancelled'|translate}}</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 history-outer show-for-print hidden-sm hidden-xs" id="history">
+                        <div class="row last-actions-header not-for-print">
+                            <div class="col-lg-12 not-for-print">
+                                <span class="title-header pull-left not-for-print">
+                                   {{'Activity_Log'|translate}}
+                                </span>
+                                <div class="switch pull-left">
+                                    <label ng-click="showComments()" ng-class="{grey: !onlyComments}" class="floatLeft not-for-print">{{'Show comments only'|translate}}</label>
+                                    <input id="cmn-toggle-9" ng-class="{checked: !onlyComments}" class="cmn-toggle cmn-toggle-round showCommentSwitcher" type="checkbox">
+                                    <label class="" ng-click="showCommentsSwitch()" for="cmn-toggle-9"></label>
+                                    <label ng-click="showDetails()" ng-class="{grey: onlyComments}" class="floatLeft not-for-print">{{'Show details'|translate}}</label>
+                                </div>
+                                <a href="" ng-click="showModalAddCommentToCandidate('md');" class="add_comment pull-right not-for-print">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    {{'add_comment'|translate}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row event last-action"
+                             ng-repeat="history in history"
+                             ng-switch="history.type"
+                             ng-class="{'not-for-print': history.type != 'candidate_message'}">
+                            <div class="col-lg-12 hidden " ng-switch-default></div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_test_passed">
+                                <ng-include src="'partials/history/candidate/candidate_test_passed.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_add">
+                                <ng-include src="'partials/history/candidate/candidate_add.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_edit">
+                                <ng-include src="'partials/history/candidate/candidate_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_add_file">
+                                <ng-include src="'partials/history/client/candidate_add_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_add_from_advice">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_advice.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_add_from_cvlv">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_cvlv.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_add_from_jobkg">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_jobkg.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_add_from_email">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_email.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_edit_from_email">
+                                <ng-include src="'partials/history/candidate/candidate_edit_from_email.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_add_from_hh">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_hh.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_add_from_linkedin">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_linkedin.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_add_from_rabotaua">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_rabotaua.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_add_from_superjob">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_superjob.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_add_from_workua">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_workua.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_add_link">
+                                <ng-include src="'partials/history/candidate/candidate_add_link.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_add_to_group">
+                                <ng-include src="'partials/history/candidate/candidate_add_to_group.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_change_state">
+                                <ng-include src="'partials/history/candidate/candidate_change_state.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="candidate_message">
+                                <ng-include src="'partials/history/candidate/candidate_message.html?1'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="task_create">
+                                <ng-include src="'partials/history/client/task_create.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="task_change">
+                                <ng-include src="'partials/history/full-history/task_change.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="interview_add_show_in_candidate">
+                                <ng-include src="'partials/history/candidate/interview_add_show_in_candidate.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_interview_remove">
+                                <ng-include src="'partials/history/candidate/candidate_interview_remove.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_remove_file">
+                                <ng-include src="'partials/history/candidate/candidate_remove_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_remove_from_group">
+                                <ng-include src="'partials/history/candidate/candidate_remove_from_group.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_remove_link">
+                                <ng-include src="'partials/history/candidate/candidate_remove_link.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_set_responsible">
+                                <ng-include src="'partials/history/candidate/candidate_set_responsible.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_update_from_workua">
+                                <ng-include src="'partials/history/candidate/candidate_update_from_workua.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_update_from_cvlv">
+                                <ng-include src="'partials/history/candidate/candidate_update_from_cvlv.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_update_from_jobkg">
+                                <ng-include src="'partials/history/candidate/candidate_update_from_jobkg.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_update_from_hh">
+                                <ng-include src="'partials/history/candidate/candidate_update_from_hh.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_update_from_linkedin">
+                                <ng-include src="'partials/history/candidate/candidate_update_from_linkedin.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_update_from_rabotaua">
+                                <ng-include src="'partials/history/candidate/candidate_update_from_rabotaua.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_update_from_superjob">
+                                <ng-include src="'partials/history/candidate/candidate_update_from_superjob.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_update_from_file">
+                                <ng-include src="'partials/history/candidate/candidate_update_from_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_was_sent_to_client">
+                                <ng-include src="'partials/history/candidate/candidate_was_sent_to_client.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidates_was_sent_to_client">
+                                <ng-include src="'partials/history/candidate/candidates_was_sent_to_client.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="client_add">
+                                <ng-include src="'partials/history/candidate/client_add.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="client_edit">
+                                <ng-include src="'partials/history/candidate/client_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="client_change_state">
+                                <ng-include src="'partials/history/candidate/client_change_state.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="client_message">
+                                <ng-include src="'partials/history/candidate/client_message.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="contact_client_add">
+                                <ng-include src="'partials/history/candidate/contact_client_add.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="contact_client_edit">
+                                <ng-include src="'partials/history/candidate/contact_client_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="interview_add">
+                                <ng-include src="'partials/history/candidate/interview_add.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="interview_add_from_advice">
+                                <ng-include src="'partials/history/candidate/interview_add_from_advice.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="interview_add_show_in_candidate">
+                                <ng-include src="'partials/history/candidate/interview_add_show_in_candidate.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="interview_edit">
+                                <ng-include src="'partials/history/candidate/interview_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 " ng-switch-when="interview_edit_date">
+                                <ng-include src="'partials/history/candidate/interview_edit_date.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="interview_message">
+                                <ng-include src="'partials/history/candidate/interview_message.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="interview_remove">
+                                <ng-include src="'partials/history/candidate/interview_remove.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="sent_candidate_to_client">
+                                <ng-include src="'partials/history/candidate/sent_candidate_to_client.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="set_interview_status">
+                                <ng-include src="'partials/history/candidate/set_interview_status.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="task_change_status">
+                                <ng-include src="'partials/history/candidate/task_change_status.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="vacancy_add">
+                                <ng-include src="'partials/history/candidate/vacancy_add.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="vacancy_add_file">
+                                <ng-include src="'partials/history/candidate/vacancy_add_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="vacancy_change_state">
+                                <ng-include src="'partials/history/candidate/vacancy_change_state.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="vacancy_edit">
+                                <ng-include src="'partials/history/candidate/vacancy_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="vacancy_message">
+                                <ng-include src="'partials/history/candidate/vacancy_message.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print " ng-switch-when="vacancy_remove_file">
+                                <ng-include src="'partials/history/candidate/vacancy_remove_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="vacancy_remove_responsible">
+                                <ng-include src="'partials/history/candidate/vacancy_remove_responsible.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="vacancy_set_responsible">
+                                <ng-include src="'partials/history/candidate/vacancy_set_responsible.html'"></ng-include>
+                            </div>
+                        </div>
+                        <!-------------------------------------------------------end-->
+                        <button class="btn more-history not-for-print" ng-click="getMoreHistory()" ng-show="historyTotal > historyLimit">
+                            {{'previous_history'|translate}} <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="currentTab == 'task'" class="row candidate-information hidden-lg hidden-md">
+            <div class="row candidate-profile-rezume">
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 centerBar">
+                    <div class="col-lg-12 taskForCandidate show-for-print">
+                        <div class="row last-actions-header">
+                            <div class="col-lg-12">
+                                <span class="title-header">
+                                   {{'Tasks'|translate}}
+                                </span>
+                                <a type="button" class="btn btn-primary" ng-click="showModalAddTaskToCandidate('md');">{{'Add task'|translate}}</a>
+                            </div>
+                        </div>
+                        <div class="row event last-action">
+                            <div ng-show="candidateTasks.length > 0"
+                                 ng-repeat="task in candidateTasks" ng-click="showModalEditTaskToCandidate(task)"
+                                 title="{{'View more'| translate}}" id="{{task.taskId}}"
+                                 ng-class="{'finishedTask':task.targetDate < todayDate && task.status != 'completed'}"
+                                 class="col-sm-12 col-xs-12 pull-left">
+                                <div class="dateTasks padding-zero pull-left col-sm-2 col-xs-2" bo-html="task.targetDate| dateFormat6:true"></div>
+                                <div class="fullNameResponsibleOfTasks pull-left col-sm-2 hidden-xs">
+                                    <span></span>
+                                    <a href="#/users/{{responsible.responsible.userId}}" ng-click="$event.stopPropagation()" ng-repeat="responsible in task.responsiblesPerson">
+                                        <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
+
+                                        <span>{{getFirstLetters(responsible.responsible.fullName)}}</span>
+                                    </a>
+
+                                </div>
+                                <div class="titleOfTasks pull-left col-sm-5 col-xs-5">
+                                    <span class="pull-left task" ng-show="task.type == 'Meeting'">{{'Meeting'|translate}}</span>
+                                    <span class="pull-left task" ng-show="task.type == 'Call'">{{'Call'|translate}}</span>
+                                    <span class="pull-left task" ng-show="task.type == 'Task'">{{'Task'|translate}}</span>
+                                    <span class="pull-left">"{{task.title}}"</span>
+                                    <div class="clearfix"></div>
+                                    <span class="taskText">{{task.text | limitTo: 150}}{{task.text.length > 150 ? '...' :''}}</span>
+                                </div>
+                                <div class="col-sm-2 col-xs-4 statuses">
+                                    <span>
+                                        <label for="taskStatus"></label>
+                                        <select class="form-control not-finished" id="taskStatus"
+                                                ng-model="task.status"
+                                                ng-change="$root.changeTaskState(task)" ng-click="$event.stopPropagation()"
+                                                ng-class="{'finished': task.status == 'completed'}">
+                                            <option value="open">{{'notCompleted'|translate}}</option>
+                                            <option value="completed">{{'completed'|translate}}</option>
+                                            <option value="Cancelled">{{'Cancelled'|translate}}</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="currentTab == 'history'" class="row candidate-information hidden-lg hidden-md">
+            <div class="row candidate-profile-rezume">
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 centerBar">
+                    <div class="col-lg-12 history-outer show-for-print">
+                        <div class="row last-actions-header">
+                            <div class="col-lg-12">
+                                <span class="title-header pull-left">
+                                   {{'Activity_Log'|translate}}
+                                </span>
+                                <a class="show-comments pull-lefts" href="" ng-show="!onlyComments" ng-click="showComments(true)">
+                                    {{'Show comments only'|translate}}
+                                </a>
+                                <a class="show-comments pull-left" href="" ng-show="onlyComments" ng-click="showDetails(false)">
+                                    {{'Show details'|translate}}
+                                </a>
+                                <a href="" ng-click="showModalAddCommentToCandidate('md');" class="add_comment pull-right">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    {{'add_comment'|translate}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row event last-action"
+                             ng-repeat="history in history"
+                             ng-switch="history.type">
+                            <div class="col-lg-12 hidden" ng-switch-default></div>
+                            <div class="col-lg-12" ng-switch-when="candidate_add">
+                                <ng-include src="'partials/history/candidate/candidate_add.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_edit">
+                                <ng-include src="'partials/history/candidate/candidate_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_add_file">
+                                <ng-include src="'partials/history/client/candidate_add_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_add_from_advice">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_advice.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_add_from_cvlv">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_cvlv.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_add_from_email">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_email.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_edit_from_email">
+                                <ng-include src="'partials/history/candidate/candidate_edit_from_email.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_add_from_hh">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_hh.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_add_from_linkedin">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_linkedin.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_add_from_rabotaua">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_rabotaua.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_add_from_superjob">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_superjob.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_add_from_workua">
+                                <ng-include src="'partials/history/candidate/candidate_add_from_workua.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_add_link">
+                                <ng-include src="'partials/history/candidate/candidate_add_link.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_add_to_group">
+                                <ng-include src="'partials/history/candidate/candidate_add_to_group.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_change_state">
+                                <ng-include src="'partials/history/candidate/candidate_change_state.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_message">
+                                <ng-include src="'partials/history/candidate/candidate_message.html?1'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="task_create">
+                                <ng-include src="'partials/history/client/task_create.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="interview_add_show_in_candidate">
+                                <ng-include src="'partials/history/candidate/interview_add_show_in_candidate.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_interview_remove">
+                                <ng-include src="'partials/history/candidate/candidate_interview_remove.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_remove_file">
+                                <ng-include src="'partials/history/candidate/candidate_remove_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_remove_from_group">
+                                <ng-include src="'partials/history/candidate/candidate_remove_from_group.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_remove_link">
+                                <ng-include src="'partials/history/candidate/candidate_remove_link.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_set_responsible">
+                                <ng-include src="'partials/history/candidate/candidate_set_responsible.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_update_from_workua">
+                                <ng-include src="'partials/history/candidate/candidate_update_from_workua.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_update_from_cvlv">
+                                <ng-include src="'partials/history/candidate/candidate_update_from_cvlv.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_update_from_hh">
+                                <ng-include src="'partials/history/candidate/candidate_update_from_hh.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_update_from_linkedin">
+                                <ng-include src="'partials/history/candidate/candidate_update_from_linkedin.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_update_from_rabotaua">
+                                <ng-include src="'partials/history/candidate/candidate_update_from_rabotaua.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_update_from_superjob">
+                                <ng-include src="'partials/history/candidate/candidate_update_from_superjob.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_update_from_file">
+                                <ng-include src="'partials/history/candidate/candidate_update_from_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_was_sent_to_client">
+                                <ng-include src="'partials/history/candidate/candidate_was_sent_to_client.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidates_was_sent_to_client">
+                                <ng-include src="'partials/history/candidate/candidates_was_sent_to_client.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="client_add">
+                                <ng-include src="'partials/history/candidate/client_add.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="client_edit">
+                                <ng-include src="'partials/history/candidate/client_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="client_change_state">
+                                <ng-include src="'partials/history/candidate/client_change_state.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="client_message">
+                                <ng-include src="'partials/history/candidate/client_message.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="contact_client_add">
+                                <ng-include src="'partials/history/candidate/contact_client_add.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="contact_client_edit">
+                                <ng-include src="'partials/history/candidate/contact_client_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="interview_add">
+                                <ng-include src="'partials/history/candidate/interview_add.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="interview_add_from_advice">
+                                <ng-include src="'partials/history/candidate/interview_add_from_advice.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="interview_add_show_in_candidate">
+                                <ng-include src="'partials/history/candidate/interview_add_show_in_candidate.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="interview_edit">
+                                <ng-include src="'partials/history/candidate/interview_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="interview_edit_date">
+                                <ng-include src="'partials/history/candidate/interview_edit_date.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="interview_message">
+                                <ng-include src="'partials/history/candidate/interview_message.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="interview_remove">
+                                <ng-include src="'partials/history/candidate/interview_remove.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="sent_candidate_to_client">
+                                <ng-include src="'partials/history/candidate/sent_candidate_to_client.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="set_interview_status">
+                                <ng-include src="'partials/history/candidate/set_interview_status.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="task_change_status">
+                                <ng-include src="'partials/history/candidate/task_change_status.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="vacancy_add">
+                                <ng-include src="'partials/history/candidate/vacancy_add.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="vacancy_add_file">
+                                <ng-include src="'partials/history/candidate/vacancy_add_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="vacancy_change_state">
+                                <ng-include src="'partials/history/candidate/vacancy_change_state.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="vacancy_edit">
+                                <ng-include src="'partials/history/candidate/vacancy_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="vacancy_message">
+                                <ng-include src="'partials/history/candidate/vacancy_message.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="vacancy_remove_file">
+                                <ng-include src="'partials/history/candidate/vacancy_remove_file.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="vacancy_remove_responsible">
+                                <ng-include src="'partials/history/candidate/vacancy_remove_responsible.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="vacancy_set_responsible">
+                                <ng-include src="'partials/history/candidate/vacancy_set_responsible.html'"></ng-include>
+                            </div>
+                        </div>
+                        <!-------------------------------------------------------end-->
+                        <button class="btn more-history" ng-click="getMoreHistory()" ng-show="historyTotal > historyLimit">
+                            {{'previous_history'|translate}} <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="adding-responsible">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">
+            {{'add_new_responsible'|translate}}
+            <br/>
+            {{$root.changeResponsibleInClient.name}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="item taskText">
+            <textarea placeholder="{{'write_a_comment_why_do_you_add_responsible_user'|translate}}" ng-model="$root.changeResponsibleInClient.comment" class="form-control"></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal()"> {{'cancel'|translate}}</a>
+            <a type="button"  ng-click="$root.saveResponsibleUserInVacancy()" class="btn btn-primary accept">{{'save'|translate}}</a>
+        </div>
+    </div>
+</div>

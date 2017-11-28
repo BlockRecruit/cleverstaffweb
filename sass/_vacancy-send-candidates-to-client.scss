@@ -1,0 +1,199 @@
+.block-send-candidate-email {
+	.ErrorMessage {
+		@include bold();
+
+		margin-bottom: 8px;
+		padding: 2px 1px 2px 13px;
+
+		color: $theme-dark;
+		border: 1px solid $theme-light-grey-hover;
+		border-radius: 0;
+		background-color: rgb(255, 223, 227);
+		.list {
+			margin-top: 10px;
+			span {
+				margin-left: 5px;
+			}
+			i {
+				font-size: 18px;
+
+				color: $theme-red;
+			}
+		}
+	}
+	& > .title-candidate-email {
+		@include disabled-margins-for-row();
+
+		margin-top: 25px;
+		& > h3 {
+			@include bold();
+		}
+		& > div {
+			font-size: 19px;
+			& > p {
+				& > a {
+					@include link-styling();
+					@include bold();
+				}
+			}
+		}
+	}
+	& > .statuses-candidate-email {
+		@include disabled-margins-for-row();
+
+		margin-top: 20px;
+		padding: 0 15px;
+
+		& > .statuses {
+			margin-right: 2%;
+			padding: 0;
+			& > div {
+				padding: 15px;
+
+				border-bottom: 1px solid $theme-border-color-base;
+				border-top-left-radius: 5px;
+				background-color: $theme-white;
+			}
+			& > div:last-child {
+				border: none;
+				background-color: $theme-white;
+			}
+			.status {
+				display: table;
+				padding: 5px 10px;
+				a {
+					color: $theme-link-color;
+				}
+				&:hover {
+					@include border-radius();
+
+					cursor: pointer;
+
+					background-color: $theme-light-green;
+					a {
+						text-decoration: none;
+
+						color: $theme-dark;
+					}
+				}
+				& > .counter {
+					font-size: 10px;
+
+					color: #666;
+				}
+			}
+			& > .checkboxes {
+				padding: 15px 15px 15px 25px;
+
+				border-bottom-left-radius: 5px;
+				& > .checkbox {
+					margin-top: 0;
+					margin-bottom: 0;
+					label {
+						width: 100%;
+						padding: 5px 20px;
+						a {
+							@include link-styling();
+						}
+					}
+				}
+			}
+		}
+		& > .block-letter-candidate {
+			width: 64%;
+			padding: 30px;
+
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+			background-color: $theme-white;
+			& > .send-letter-candidate {
+				& > .from-who {
+					@include bold();
+
+					margin-bottom: 5px;
+				}
+				& > .sender {
+					margin-bottom: 10px;
+					& > a {
+						@include link-styling();
+					}
+				}
+				.mail-checkbox {
+					.designEmail {
+						label {
+							font-weight: 500;
+							.emailsMove {
+								margin-right: 10px;
+
+								vertical-align: top;
+							}
+						}
+					}
+				}
+				& > input {
+					@include input-styling();
+
+					width: 350px;
+					margin-bottom: 10px;
+				}
+				& > input ~ input {
+					margin-bottom: 20px;
+				}
+				& > p {
+					& > a {
+						@include link-styling();
+						@include bold();
+					}
+				}
+				& > .tinyMCE-block {
+					margin: 40px 0;
+				}
+				& > .btn-candidate-send-cancel {
+					& > .btn-default {
+						@include bold();
+
+						background-color: $theme-light-grey;
+					}
+					& > .btn-success {
+						@include bold();
+
+						background-color: $theme-dark-green;
+					}
+				}
+				.select2-container {
+					width: 84%;
+					padding: 0;
+				}
+			}
+		}
+	}
+}
+.send-letter-candidate {
+	.form-control {
+		font-weight: normal;
+
+		display: inline-block !important;
+		width: 80% !important;
+		margin-bottom: 15px;
+
+		border: none !important;
+		border-bottom: 1px solid #ccc !important;
+		border-radius: 0;
+	}
+	.select2-choices {
+		border-bottom: none !important;
+	}
+	.mce-panel {
+		border: 1px solid #eee;
+	}
+}
+@media (max-width: $screen-lg) {
+	.block-letter-candidate {
+		width: 100% !important;
+	}
+
+	.statuses {
+		margin-right: 0 !important;
+		margin-bottom: 5% !important;
+	}
+}

@@ -1,0 +1,71 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en" bindonce ng-app="RecruitingAppStart"><!--<![endif]-->
+<head>
+    <title ng-bind="title">CleverStaff</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="dist/css/styles.css?b9">
+    <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" />
+    <LINK REL="SHORTCUT ICON" HREF="images/sprite/favicon.png?b3">
+    <script type="text/javascript" src="dist/js/startLib.js?b98"></script>
+    <meta property="og:title" content="New vacancies opened!"/>
+    <meta property="og:description" content="Check job descriptions here and apply now!"/>
+    <meta property="og:image" content="https://dev.cleverstaff.net/images/sprite/vacancy-new.jpg"/>
+    <meta property="og:image:width" content="600" />
+    <meta property="og:image:height" content="333" />
+    <meta property="og:site_name" content="CleverStaff"/>
+
+</head>
+<body ng-controller="mainController">
+<!--[if lt IE 10]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+<!-- builddist:section githubRibbon -->
+<!-- /builddist -->
+
+<!-- Fixed navbar -->
+<div class="navbar navbar-static-top" ng-cloak ng-show="$root.activeController != 'PublicCompanyController' && $root.activeController != 'PublicVacancyController' && $root.activeController != 'PublicTestController' && $root.activeController != undefined">
+    <div class="container-fluid">
+        <div class="navbar-header-public-vacancy">
+            <!--<a href="../" class="navbar-brand">-->
+                <!--<span>C</span>-->
+                <!--<span>S</span>-->
+            <!--</a>-->
+            <!--<a class="brand-text" href="../">-->
+                <!--<span>Clever</span>-->
+                <!--<span>Staff</span>-->
+            <!--</a>-->
+            <a href="../">
+                <img src="images/sprite/CS_logo_white_transparent.png" width="50px" alt="CS-logo">
+            </a>
+        </div>
+    </div>
+</div>
+<div class="controller-view">
+    <div ng-view></div>
+</div>
+
+
+<!-- build:js(.) scripts/vendor.js -->
+<!-- bower:js -->
+<!-- endbower -->
+<!-- endbuild -->
+
+<!-- build:js(.) scripts/plugins.js -->
+<script type="text/javascript" src="js/ApiKey.js?b5"></script>
+<script type="text/javascript" src="dist/js/startApp.js?b23"></script>
+<script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b15"></script>
+<!-- endbuild -->
+
+</body>
+</html>

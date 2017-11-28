@@ -1,0 +1,31 @@
+<div class="add-coment">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title" ng-show="!$root.addingRefuseStage">
+            {{'Add custom stage' | translate}}
+        </h4>
+        <h4 class="modal-title" ng-show="$root.addingRefuseStage">
+            {{'Addind a new cause for refusal' | translate}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div ng-show="!$root.addingRefuseStage" class="item">
+            <div class="radio">
+                <label><input type="radio" value="common" ng-model="$root.addedStage.type">{{'common stage'|translate}}</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" value="interview" ng-model="$root.addedStage.type">{{'interview stage'|translate}}</label>
+            </div>
+        </div>
+        <div class="form-group item">
+            <input ng-show="!$root.addingRefuseStage" ng-model="$root.addedStage.name" placeholder="{{'Stage name' | translate}}" type="text" class="form-control">
+            <input ng-show="$root.addingRefuseStage" ng-model="$root.addedStage.name" placeholder="{{'Reason for refusal' | translate}}" type="text" class="form-control">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept"  ng-click="$root.addStatus();">{{'add'|translate}}</a>
+        </div>
+    </div>
+</div>

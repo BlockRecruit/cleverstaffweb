@@ -1,0 +1,19 @@
+<div class="calendar-access">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">
+            {{'calendar_error'|translate}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <p>{{'Please delete CleverStaff from the list of apps connected to your Google account'|translate}}:</p>
+        <p><a href="https://myaccount.google.com/permissions?pli=1" target="_blank">https://myaccount.google.com/permissions?pli=1</a></p>
+        <p>{{'You should delete an app from the account you are going to integrate with a calendar'|translate}}</p>
+        <p>{{'After that, try to integrate the calendar again'|translate}}</p>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button" ng-click="$root.closeModal()">
+            <a type="button" class="btn btn-primary accept">{{'Got it'|translate}}</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,255 @@
+.block-integration-with-email {
+	& > .integration-with-email {
+		@include bt-margins-from-side();
+
+		margin-top: 15px;
+		padding: 0 15px;
+		& > .fullName-position {
+			float: none;
+			margin-bottom: 15px;
+			margin-left: 15px;
+			padding: 0;
+			& > span {
+				@include bold();
+
+				font-size: 20px;
+
+				& > span {
+					font-size: 14px;
+					font-weight: 500;
+
+					color: #777;
+				}
+			}
+			& > p {
+				margin: 10px 0;
+
+				color: $theme-light-grey;
+				& > span {
+					color: initial;
+				}
+			}
+			& > .button {
+				position: relative;
+
+				display: inline-block;
+				margin-left: 25px;
+				& > .btn {
+					@include button-styling();
+
+					position: absolute;
+					top: -19px;
+				}
+			}
+		}
+		& > .firstTable {
+			padding: 0;
+			.header {
+				@include disabled-margins-for-row;
+
+				padding: 10px;
+
+				background-color: $theme-light-green;
+				h4 {
+					font-weight: 600;
+
+					float: left;
+				}
+				.button {
+					display: inline-block;
+					margin: 4px 0 0 30px;
+					& > a {
+						@include button-styling();
+					}
+				}
+			}
+			.bodies {
+				padding: 0 15px;
+				.error {
+					width: 100%;
+					padding: 16px 0;
+
+					cursor: pointer;
+					text-align: center;
+
+					color: $theme-red;
+				}
+				& > .table {
+					background-color: $theme-white;
+					& > tbody {
+						border: 1px solid #e8e8e8;
+						& > tr {
+							position: relative;
+							& > .mailAndData {
+								& > a {
+									@include link-styling();
+									@include bold();
+									&:focus {
+										outline: none;
+									}
+								}
+								& > span {
+									color: $theme-light-grey;
+								}
+							}
+							& > .settingsForUsers {
+								& > div {
+									& > span > span {
+										&:last-child {
+											@include bold();
+
+											color: $theme-red;
+										}
+									}
+									.no {
+										@include bold();
+
+										color: $theme-red;
+									}
+									.yes {
+										@include bold();
+
+										color: $theme-green;
+									}
+								}
+								& > div ~ div {
+									& > span > span {
+										&:last-child {
+											@include bold();
+										}
+									}
+								}
+							}
+							& > .howMuchResumes {
+								& > span {
+									.grey {
+										color: $theme-light-grey;
+									}
+								}
+							}
+							& > .editIntegrationAddress {
+								cursor: pointer;
+								text-align: right;
+								& > div {
+									@include border-radius();
+
+									width: 150px;
+									padding: 5px 10px;
+
+									cursor: pointer;
+
+									background-color: rgba(184,184,184,0.1);
+								}
+							}
+							& > td {
+								padding-left: 15px;
+
+								vertical-align: middle;
+							}
+							&:first-child {
+								& > td {
+									border-top: none;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		& > .secondTable {
+			padding: 0;
+			.header {
+				@include disabled-margins-for-row;
+
+				padding: 10px;
+
+				background-color: $theme-light-green;
+				h4 {
+					font-weight: 600;
+
+					float: left;
+				}
+			}
+			.bodies {
+				padding: 0 15px;
+				& > .table {
+					margin: 0;
+
+					background-color: $theme-white;
+					& > tbody {
+						& > tr {
+							& > .mailAndData {
+								width: 300px;
+								& > span {
+									color: inherit;;
+								}
+								& > span ~ span {
+									color: $theme-light-grey;
+								}
+							}
+							& > .UsersFromMail {
+								padding: 8px 30px;
+								& > a {
+									@include bold();
+									@include link-styling();
+								}
+							}
+						}
+					}
+				}
+			}
+			.showMoreEarly {
+				height: 50px;
+
+				border-top: 1px solid #e5e4e4;
+				background-color: $theme-white;;
+				& > .button {
+					& > a {
+						margin-top: 10px;
+
+						color: $theme-white;
+						border: none;
+						background-color: $theme-dark-green;
+					}
+				}
+			}
+		}
+		.add-email {
+			max-width: 600px;
+			input,
+			select {
+				margin-top: 20px;
+			}
+			.wrong-email {
+				border-color: red;
+				background-color: rgb(255, 246, 247);
+			}
+			.wrong-email-notification {
+				margin-top: 5px;
+				margin-bottom: -10px;
+
+				color: red;
+			}
+			.btn {
+				@include button-styling-cancel();
+			}
+			.btn.active {
+				color: #fff;
+				background-color: $theme-green;
+			}
+			.buttons {
+				margin-top: 15px;
+				.btn-primary {
+					@include button-styling();
+
+					font-size: 14px;
+				}
+				.btn-default {
+					@include button-styling-cancel();
+
+					font-size: 14px;
+				}
+			}
+		}
+	}
+}

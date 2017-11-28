@@ -1,0 +1,170 @@
+<div class="controller-view">
+    <div class="block-client-add">
+        <div class="breadcrumbs hidden-sm hidden-xs" ng-if="$root.activePage == 'Client add'">
+            <ol class="breadcrumb">
+                <li><a href="#/clients">{{'Clients'|translate}}</a></li>
+                <li><i class="fa fa-chevron-right" aria-hidden="true"></i></li>
+                <li><a href="">{{'New client'|translate}}</a></li>
+                <!--<li><i class="fa fa-chevron-right" aria-hidden="true"></i></li>-->
+                <!--<li class="active">{{candidate.fullName}}</li>-->
+            </ol>
+        </div>
+        <div class="breadcrumbs hidden-sm hidden-xs" ng-if="$root.activePage == 'Client edit'">
+            <ol class="breadcrumb">
+                <li><a href="#/clients">{{'Clients'|translate}}</a></li>
+                <li><i class="fa fa-chevron-right" aria-hidden="true"></i></li>
+                <li><a href="">{{'Edit client'|translate}}</a></li>
+                <!--<li><i class="fa fa-chevron-right" aria-hidden="true"></i></li>-->
+                <!--<li class="active">{{candidate.fullName}}</li>-->
+            </ol>
+        </div>
+        <form name="clientForm" ng-submit="submitForm()" novalidate>
+            <div class="row client-add-information">
+                <div class="col-lg-12 fullName-position margin-top" ng-show="event=='Add'">
+                    <span>{{'Adding_new_customer_on_the_job'|translate}}</span>
+                </div>
+                <div class="row client-add-profile-rezume no-padding-sm">
+                    <div class="col-lg-3 leftBar hidden-xs hidden-sm">
+                        <div class="col-lg-12 client-add-foto" id="owner_photo_wrap">
+                            <div id="page_avatar" ng-if="client.logoId" ng-show="client.logoId">
+                                <img src="{{serverAddress}}/getapp?id={{client.logoId}}&d={{$root.me.personId}}" alt=""/>
+                                <div ng-show="$root.me.recrutRole == 'admin' && $root.companyLogo!=undefined" id="owner_photo_bubble_wrap_for_one_option">
+                                    <div id="owner_photo_bubble">
+                                        <div class="owner_photo_bubble_action owner_photo_bubble_action_crop" ng-click="removePhoto()">
+                                            <span class="owner_photo_bubble_action_in">{{'remove_logo'|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center" ng-show="client.logoId == undefined">
+                                <div ng-show="client.logoId"></div>
+                                <!--<a for="logo" ng-click="addPhoto()" id="photoFile" type="button" class="btn btn-primary add-image text-center">{{'upload_photo'|translate}}</a>-->
+                                <label ng-click="addPhoto()" class="btn btn-primary add-image text-center">{{'upload_logo'|translate}}</label>
+                                <input name="photo" ng-model="candidate.photo" type="file" oi-file="options" id="photoFile" style="display:none">
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="eventDeleted text-center" ng-show="event=='edit'&& client!=undefined && client.state!='deleted'">
+                            <label class="btn btn-primary add-image text-center" ng-click="deleteClient()">
+                                {{'Remove the client'|translate}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-9 centerBar">
+                        <div class="main-info col-lg-12">
+                            <div class="col-lg-4">
+                                <div class="item" ng-class="{'error' : clientForm.name.$invalid && !clientForm.name.$pristine && clientForm.name.$error.required==true}">
+                                    <label>{{'Name of department company project'|translate}} *</label>
+                                    <input ng-maxlength="50" name="name" ng-model="client.name" type="text" required>
+                                    <div class="alert alert-danger" ng-show="clientForm.name.$invalid && !clientForm.name.$pristine && clientForm.name.$error.required==true">
+                                        {{'enter_company_name'|translate}}.
+                                    </div>
+                                    <div class="alert alert-danger"
+                                         ng-show="clientForm.name.$invalid
+                                     && !clientForm.name.$pristine
+                                      && clientForm.name.$error.maxlength==true">
+                                        {{'text_should_be_no_longer_than_50_characters'|translate}}
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <label>{{'region'|translate}}</label>
+                                    <div ng-init="candidate.region"><input id="pac-input" placeholder="{{'Enter the address'|translate}}" ng-model="regionInput" googleplace/></div>
+                                </div>
+                                <div class="item industry">
+                                    <label>{{'industry'|translate}}</label>
+                                    <span class="select2-container form-control input-lg select2 select14 industry"
+                                            ng-model="client.industry" ng-selected="industry.value==client.industry" industry-autocomplete>
+                                    </span>
+                                </div>
+                                <div class="item">
+                                    <label>{{'site_address'|translate}}</label>
+                                    <input name="site"  ng-model="client.site"  type="text">
+                                </div>
+
+                                <div class="item" ng-if="customField.state == 'A' && $root.activePage == 'Client add'" ng-repeat="customField in allObjCustomField track by customField.fieldId">
+                                    <div ng-show="customField.type == 'string'">
+                                        <label>{{customField.title}}</label>
+                                        <textarea placeholder="" ng-model-options="{updateOn: 'blur'}" maxlength="250" ng-change="editCustomField(fieldValues.value[$index], customField.fieldId)" ng-model="fieldValues.value[$index]" name="{{customField.fieldValue.dateTimeValue}}" ></textarea>
+                                    </div>
+                                    <div ng-show="customField.type == 'select'">
+                                        <label>{{customField.title}}</label>
+                                        <select class="form-control"
+                                                ng-model="fieldValues.value[$index]"
+                                                ng-change="addCustomFieldParams(fieldValues.value[$index], customField.fieldId)">
+                                            <option value="{{params.value}}" ng-repeat="params in customField.params">{{params.value}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="hoverIcon" ng-show="customField.type == 'date'">
+                                        <label class="pull-left">{{customField.title}}</label>
+                                        <div class="clearfix"></div>
+                                        <input placeholder="" name="{{customField.fieldId}}" ng-click="sendCustomFieldId(customField.fieldId)" datepicker-of-custom-edit  class="datepickerOfCustom pull-left editDate" type="text"/>
+                                        <i class="fa fa-times showIcon pull-right" ng-click="deleteDate(customField.fieldId)" aria-hidden="true"></i>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="hoverIcon" ng-show="customField.type == 'datetime'">
+                                        <label>{{customField.title}}</label>
+                                        <input placeholder="" name="{{customField.fieldId}}"  datepicker-of-custom-edit-time class="datepickerOfCustomTime editDate" ng-click="sendCustomFieldId(customField.fieldId)" type="text">
+                                        <i class="fa fa-times showIcon pull-right" ng-click="deleteDate(customField.fieldId)" aria-hidden="true"></i>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div class="item" ng-if="customField.state == 'A' && $root.activePage == 'Client edit'" ng-repeat="customField in client.customFields track by customField.fieldId">
+                                    <div ng-show="customField.type == 'string'">
+                                        <label>{{customField.title}}</label>
+                                        <textarea placeholder="" ng-model-options="{updateOn: 'blur'}" maxlength="250" ng-change="editCustomField(customField.fieldValue.value, customField.fieldId, customField.fieldValue.fieldValueId)" data-ng-model="customField.fieldValue.value" name="{{customField.fieldValue.value}}"></textarea>
+                                    </div>
+                                    <div ng-show="customField.type == 'select'">
+                                        <label>{{customField.title}}</label>
+                                        <select class="form-control"
+                                                ng-model="customField.fieldValue.value"
+                                                ng-change="addCustomFieldParams(customField.fieldValue.value, customField.fieldId, customField.fieldValue.fieldValueId)">
+                                            <option value=""></option>
+                                            <option value="{{params.value}}" ng-repeat="params in customField.params">{{params.value}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="hoverIcon" ng-show="customField.type == 'date'" ng-click="sendCustomFieldId(customField.fieldId, customField.fieldValue.fieldValueId)">
+                                        <label class="pull-left">{{customField.title}}</label>
+                                        <div class="clearfix"></div>
+                                        <input placeholder="{{customField.fieldValue.dateTimeValue|dateFormat}}" name="{{customField.fieldId}}"  datepicker-of-custom-edit class="datepickerOfCustomEdit pull-left editDate" type="text"/>
+                                        <i class="fa fa-times showIcon pull-right" ng-click="deleteDate(customField.fieldId, customField.fieldValue.fieldValueId)" aria-hidden="true"></i>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="hoverIcon" ng-show="customField.type == 'datetime'" ng-click="sendCustomFieldId(customField.fieldId, customField.fieldValue.fieldValueId)">
+                                        <label>{{customField.title}}</label>
+                                        <input placeholder="{{customField.fieldValue.dateTimeValue|dateFormat2:true}}" name="{{customField.fieldId}}"   datepicker-of-custom-edit-time class="datepickerOfCustomEditTime pull-left editDate" type="text"/>
+                                        <i class="fa fa-times showIcon pull-right" ng-click="deleteDate(customField.fieldId, customField.fieldValue.fieldValueId)" aria-hidden="true"></i>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div class="item celendar" ng-show="$root.me.recrutRole == 'admin'">
+                                    <a ng-show="allObjCustomField.length > 0 || client.customFields.length > 0"
+                                       href="#/company/custom-fields" class="find-button">
+                                        {{'Add/Edit custom field'|translate}}
+                                    </a>
+
+                                    <a ng-show="allObjCustomField.length == 0 && client.customFields.length == 0"
+                                       href="#/company/custom-fields" class="find-button">
+                                        {{"Add custom fields"|translate}}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="field big_tinymce">
+                                    <label class="form-description">{{'description'|translate}}</label>
+                                    <textarea id="tinymce" ui-tinymce ng-model="client.descr"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="text-center">
+                                    <a type="button" ng-click="save()" class="btn btn-primary">
+                                        {{'save'|translate}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

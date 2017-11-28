@@ -1,0 +1,99 @@
+.vacancy-add-candidate {
+	& > div {
+		border: none;
+	}
+	.modal-header {
+		h4 {
+			display: inline;
+		}
+		i {
+			@include close-item();
+		}
+		a {
+			@include link-styling();
+
+			font-size: 18px;
+			font-weight: 600;
+		}
+	}
+	.modal-body {
+		padding-top: 0;
+		& > .item {
+			& > label {
+				margin: 0;
+				padding-left: 10px;
+				& > label {
+					color: $theme-red;
+				}
+			}
+			& > select {
+				height: 30px;
+			}
+			& > input {
+				@include border-radius();
+
+				width: 100%;
+				padding: 0 10px;
+				&:focus {
+					outline: none;
+				}
+			}
+			& > .row {
+				& > label {
+					width: 100%;
+					padding-left: 25px;
+				}
+				& > .col-lg-10 {
+					& > input {
+						@include border-radius();
+
+						width: 100%;
+						margin-top: 5px;
+						padding: 0 10px;
+						&:focus {
+							outline: none;
+						}
+					}
+				}
+				& > .col-lg-2 {
+					& > select {
+						width: 60px;
+						height: 25px;
+						padding: 0;
+					}
+				}
+			}
+		}
+		input {
+			@include input-styling();
+		}
+		select {
+			@include select-styling();
+		}
+		.item:not(:first-child) {
+			margin-top: 15px;
+		}
+		.currency {
+			padding-left: 0;
+		}
+	}
+	.modal-footer {
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			color: $theme-white;
+			background-color: $theme-dark-green;
+			&:hover {
+				background-color: $theme-light-green-hover;
+			}
+		}
+		.cancel {
+			color: #585859;
+			background-color: #e3e3e3;
+			&:hover {
+				background-color: $theme-light-grey-hover;
+			}
+		}
+	}
+}

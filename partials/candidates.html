@@ -1,0 +1,1840 @@
+<div class="block-candidates">
+    <div class="row candidates-statuses container-fluid">
+        <div class="container-fluid">
+            <div class="col-lg-3 statuses hidden-xs hidden-sm" ng-show="$root.me.recrutRole != 'client' && !$root.searchParam.searchIn && !$root.searchParam.searchExternal && !$root.searchParam.searchSocial"
+                 ng-class="{'overModal': $root.questStatus.growYourDatabasePopup == 'Y'}">
+                <div class="text-left">
+                    <h4>
+                        <i class="fa fa-user-plus" aria-hidden="true"></i><span>{{'new'|translate}} {{'candidate'|translate}}</span>
+                    </h4>
+                    <div class="operation">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                        <a href="#/candidate/add">{{'Complete manual' | translate}}</a>
+                    </div>
+                    <div class="bgrForAddCandidate">
+                        <h5>
+                            <i class="fa fa-bolt" aria-hidden="true"></i><span>{{'Quickly_add_candidate'|translate}}</span>
+                        </h5>
+                        <div class="text-left">
+                            <input type="file" oi-file="optionsForResumeFile" id="resume" class="hidden">
+                            <label for="resume" type="button" ng-click="fastCandResumeClick()" class="btn btn-primary upload-cv-button">{{'Upload CV'|translate}}</label>
+                        </div>
+                        <ul>
+                            <li class="operation"><i class="fa fa-file-text-o" aria-hidden="true"></i><a ng-click="showAddResumeFromText()">{{'Insert Text'|translate}}</a></li>
+                            <li class="operation"><i class="fa fa-paperclip" aria-hidden="true"></i><a ng-click="showAddResumeFromLink()">{{'Insert Link'|translate}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-left mass-operations">
+                    <h4><i class="fa fa-users" aria-hidden="true"></i>{{'Mass operations'|translate}}</h4>
+                    <div class="operation">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <a href="#/email-integration">{{'Import from Mail' | translate}}</a>
+                    </div>
+                    <div class="operation">
+                        <i class="fa fa-file-archive-o" aria-hidden="true"></i>
+                        <a href="" ng-click="toZip()">{{'Upload resume archive' | translate}}</a>
+                    </div>
+                    <div class="operation">
+                        <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        <input type="file" oi-file="options" id="file" class="hidden" accept="text/xlsx"/>
+                        <label for="file">{{'Upload Excel' | translate}} <span class="new-label">New</span></label>
+                        <a ng-href="{{$location.$$protocol}}/bulk_import_excel_example.xlsx" download="" class="no-margin-left-example">{{'example'|translate}}</a>
+                    </div>
+                    <div class="operation" ng-show="($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y'">
+                        <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        <a href="" ng-click="exportToExcel()" ng-show="$root.hideTariff">{{'Export to Excel'|translate}}</a>
+                        <button id="disabledBtn" ng-click="$root.disabledBtnFunc();" ng-show="!$root.hideTariff"
+                                type="button" class="btn btn-default disabled">
+                            {{'Export to Excel'|translate}}
+                        </button>
+                        &nbsp;
+
+                        <a href="#/excelHistory" ng-click="toExcelHistory()" class="no-margin-left">{{'history_1'|translate}}</a>
+                        <span class="clarification" ng-show="$root.me.recrutRole == 'admin'">
+                            {{'Up to | 10 000 CVs For account Admins only'|translate}}
+                        </span>
+                    </div>
+                </div>
+                <p class="margin-top" ng-show="me.orgParams.tarif === 'free'">
+                    <span>{{'Need help with the database migration from other ATS/recruitment software?'|translate}}</span>
+                    <a href="mailto:contact@cleverstaff.net?subject={{'Help with data migration'|translate}}">{{'Let us help!'|translate}}</a>
+                </p>
+            </div>
+            <div class="col-sm-12 col-xs-12 candidates-search-table"
+                 ng-class="{'col-lg-12' : $root.me.recrutRole === 'client' || searchParam.searchIn || searchParam.searchExternal || searchParam.searchSocial,
+                        'col-lg-9': $root.me.recrutRole !== 'client'}">
+                <div class="breadcrumbs" ng-show="searchParam.searchCs">
+                    <ol class="breadcrumb">
+                        <a id="export_in_excel" style="color: #000000" href=""></a>
+                    </ol>
+                </div>
+                <form ng-show="searchParam.searchCs" class="form-inline-search-candidates">
+                    <div class="input-group">
+                        <div class="col-lg-12">
+                            <div class="input-group-addon pull-left hidden-xs">
+                                <i class="fa fa-search"></i>
+                            </div>
+                            <input type="text" class="form-control fixed-text-width pull-left" ng-enter-search ng-focus="true"
+                                   ng-model="searchParam.words" placeholder="{{'Search by text and contacts'|translate}}">
+                            <div class="setCriteriaWord pull-left input-group-addon" ng-show="searchParam.searchCs">
+                                <div class="notice_info_search_can hidden-xs"
+                                     ng-click="changeTextSearchType('AllWords')"
+                                     ng-class="{'notice_info_search_can_click': searchParam.searchFullTextType == 'and',  'no-sides-padding':$root.currentLang === 'pt'}">
+                            <span class="dot"
+                                  ng-class="{'black-dot': searchParam.searchFullTextType == 'and'}">
+                                {{'All words'|translate}}
+                            </span>
+                                </div>
+                                <div class="notice_info_search_can hidden-xs" ng-click="changeTextSearchType('any')"
+                                     ng-class="{'notice_info_search_can_click': searchParam.searchFullTextType == 'or', 'no-sides-padding':$root.currentLang === 'pt'}">
+                            <span class="dot"
+                                  ng-class="{'black-dot': searchParam.searchFullTextType == 'or'}">
+                                {{'Any of the words'|translate}}
+                            </span>
+                                </div>
+                                <div class="notice_info_search_can hidden-xs"
+                                     ng-class="{'notice_info_search_can_click': searchParam.searchFullTextType == 'full_match', 'no-sides-padding':$root.currentLang === 'pt'}"
+                                     ng-click="changeTextSearchType('whole')">
+                            <span class="dot">
+                               <span value="{{type.value.whole}}" type="text"
+                                     ng-class="{'black-dot': searchParam.searchFullTextType == 'full_match'}">
+                                   {{'exact match'|translate}}
+                               </span>
+                            </span>
+                                </div>
+
+                                <div class="notice_info_search_can hidden-lg hidden-md hidden-sm"
+                                     ng-click="changeTextSearchType('AllWords')"
+                                     ng-class="{'notice_info_search_can_click': !searchParam.searchFullTextType}" title="{{'All words'|translate}}">
+                            <span class="dot"
+                                  ng-class="{'black-dot': !searchParam.searchFullTextType}">
+                                {{'All'|translate}}
+                            </span>
+                                </div>
+                                <div class="notice_info_search_can hidden-lg hidden-md hidden-sm" ng-click="changeTextSearchType('any')"
+                                     ng-class="{'notice_info_search_can_click': searchParam.searchFullTextType == 'or'}" title="{{'Any of the words'|translate}}">
+                            <span class="dot"
+                                  ng-class="{'black-dot': searchParam.searchFullTextType == 'or'}">
+                                {{'Any'|translate}}
+                            </span>
+                                </div>
+                                <div class="notice_info_search_can hidden-lg hidden-md hidden-sm"
+                                     ng-class="{'notice_info_search_can_click': searchParam.searchFullTextType == 'full_match'}"
+                                     ng-click="changeTextSearchType('whole')" title="{{'exact match'|translate}}">
+                            <span class="dot">
+                               <span value="{{type.value.whole}}" type="text"
+                                     ng-class="{'black-dot': searchParam.searchFullTextType == 'full_match'}">
+                                   {{'exact'|translate}}
+                               </span>
+                            </span>
+                                </div>
+                            </div>
+                            <div class="input-group-addon pull-left forMobile" ng-show="!showAdvancedSearchCandidate"
+                                 ng-click="showAdvancedSearchCandidateFunc();$event.stopPropagation();">
+                                <span class="hidden-xs">| {{'More_criteria'|translate}}</span>
+                                <span class="hidden-lg hidden-md hidden-sm">| {{'More_1'|translate}}</span>
+                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                            </div>
+                            <div class="input-group-addon pull-left forMobile" ng-show="showAdvancedSearchCandidate">
+                                <span class="hidden-xs">| {{'Less_criteria'|translate}}</span>
+                                <span class="hidden-lg hidden-md hidden-sm">| {{'Less'|translate}}</span>
+                                <i class="fa fa-chevron-up" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="miniMenuCandidate pull-left" ng-show="searchParam.searchCs">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 item pull-left position-autocompleter">
+                        <!--<input placeholder="{{'by position'|translate}}" ng-model="searchParam.position" ng-enter-search type="text">-->
+                        <input position-autocompleter class="positionAutocompleterOuterSelect" id="position-autocompleter" ng-maxlength="200" name="position" ng-model="searchParam.position"type="text">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 item pull-left">
+                        <input placeholder="{{'by name'|translate}}" ng-model="searchParam.name" ng-enter-search
+                               ng-focus="true" type="text">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 item pull-left"
+                         ng-show="searchParam.searchCs && ($root.scopeActiveObject.name == 'company' || $root.scopeActiveObject.name == 'onlyMy') && $root.scopeActiveObject.name != 'region'">
+                        <div ng-show="showRegionSearchInfoPop" ng-click="outHover()"
+                             class="clever-window">
+                            {{'Regions only where you have vacancies, candidates or users added to your database.'|translate}}
+                        </div>
+                        <select id="cs-region-filter-select" ng-model="searchParam.regionId"
+                                class="select2-container form-control input-lg select2 select14_2 search-select2"
+                                ng-change="setSearchedRegion()"
+                                ng-selected="searchParam.regionId == 'null'"
+                                ng-init="searchParam.regionId = 'null'">
+                        </select>
+                        <i class="fa fa-info-circle extension" ng-click="$event.stopPropagation()" ng-mouseover="inHover()" ng-mouseleave="outHover()"></i>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 item pull-left" ng-show="searchParam.regionId && searchParam.regionId != 'null'">
+                        <select id="cs-region-filter-select-cities" ng-model="searchParam.regionIdCity"
+                                class="select2-container form-control input-lg select2 select14_2 search-select2"
+                                ng-selected="searchParam.regionIdCity == 'null'"
+                                ng-init="searchParam.regionIdCity = 'null'">
+                        </select>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div ng-show="!showAdvancedSearchCandidate" class="item">
+                        <a type="button" ng-click="clickSearch();" class="btn btn-primary find-button">
+                            {{'Find Candidates'|translate}}
+                        </a>
+                    </div>
+                </div>
+                <div class="AdvancedSearchCandidate col-lg-12 col-xs-12" ng-show="showAdvancedSearchCandidate">
+                    <div class="boxThreeColumn col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" ng-show="$root.me.recrutRole != 'client'">
+                            <input type="text" class="addTagsCandidate pull-left" id="candGroups" select2-groups-search
+                                   placeholder="{{'Search by tag'| translate}}" ng-readonly="$root.me.recrutRole == 'client'">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            <form class="form-inline-position pull-left industry-select">
+                                <div class="select">
+                                <span ng-class="{'greyColor': searchParam.industry == 'null'}" class="form-control"
+                                      ng-model="searchParam.industry"
+                                      industry-autocomplete-search
+                                      ng-init="searchParam.industry = 'null'">
+                                </span>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            <form class="form-inline-position pull-left">
+                                <div class="select">
+                                    <select ng-class="{'greyColor': currentLang == 'null'}" class="form-control"
+                                            ng-model="currentLang"
+                                            ng-init="currentLang = 'null'"
+                                            ng-change="addSearchLang(currentLang)">
+                                        <option class="greyColor" value="null">{{'languages_1'|translate}}</option>
+                                        <option class="othersColor" ng-selected="(lang.name == chosenLangs[0] || lang.name == chosenLangs[1] || lang.name == chosenLangs[2]) && lang.name != 'null'"
+                                                ng-repeat="lang in langsReceived | unique:'name'" ng-show="lang.name.length > 0" value="{{lang.name}}">
+                                            {{lang.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            <form class="form-inline-position pull-left">
+                                <div class="select">
+                                    <select ng-class="{'greyColor': searchParam.experience == 'null'}" class="form-control"
+                                            ng-model="searchParam.experience"
+                                            ng-init="searchParam.experience = 'null'">
+                                        <option class="greyColor" value="null">{{'experience'|translate}}</option>
+                                        <option class="othersColor" ng-selected="ex.value == searchParam.experience"
+                                                ng-repeat="ex in experience" value="{{ex.value}}">
+                                            {{'experience_assoc.' + ex.value|translate}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="hidden-sm hidden-md hidden-lg col-xs-6" ng-show="chosenLangs[0] != 'null' || chosenLangs[1] != 'null' || chosenLangs[2] != 'null'">
+                            <div class="boxThreeColumn col-lg-11 col-xs-12 pull-left chosenLang" ng-click="deleteSearchLang(0)" ng-show="chosenLangs[0] != 'null'">
+                                {{chosenLangs[0]}}
+                                <i class="fa fa-times"></i>
+                            </div>
+                            <div class="boxThreeColumn col-lg-11 col-xs-12 pull-left chosenLang" ng-click="deleteSearchLang(1)" ng-show="chosenLangs[1] != 'null'">
+                                {{chosenLangs[1]}}
+                                <i class="fa fa-times"></i>
+                            </div>
+                            <div class="boxThreeColumn col-lg-11 col-xs-12 pull-left chosenLang" ng-click="deleteSearchLang(2)" ng-show="chosenLangs[2] != 'null'">
+                                {{chosenLangs[2]}}
+                                <i class="fa fa-times"></i>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            <form class="form-inline-position pull-left">
+                                <div class="select" ng-show="lang.use() == 'en'">
+                                    <select ng-class="{'greyColor': searchParam.sex == 'null'}" class="form-control"
+                                            ng-model="searchParam.sex"
+                                            ng-init="searchParam.sex = 'null'">
+                                        <option class="greyColor" value="null">Gender</option>
+                                        <option class="othersColor" ng-selected="sex.value == searchParam.sex"
+                                                value="{{sex.value}}"
+                                                ng-repeat="sex in sexObject">{{sex.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="select" ng-show="lang.use() == 'ru'">
+                                    <select ng-class="{'greyColor': searchParam.sex == 'null'}" class="form-control"
+                                            ng-model="searchParam.sex"
+                                            ng-init="searchParam.sex = 'null'">
+                                        <option class="greyColor" value="null">Пол</option>
+                                        <option class="othersColor" ng-selected="sex.value == searchParam.sex"
+                                                value="{{sex.value}}" ng-repeat="sex in sexObjectRU">
+                                            {{sex.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="select" ng-show="lang.use() == 'ua'">
+                                    <select ng-class="{'greyColor': searchParam.sex == 'null'}" class="form-control"
+                                            ng-model="searchParam.sex"
+                                            ng-init="searchParam.sex = 'null'">
+                                        <option class="greyColor" value="null">Стать</option>
+                                        <option class="othersColor" ng-selected="sex.value == searchParam.sex"
+                                                style="color:black"
+                                                value="{{sex.value}}" ng-repeat="sex in sexObjectUA">
+                                            {{sex.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs" ng-show="chosenLangs[0] != 'null' || chosenLangs[1] != 'null' || chosenLangs[2] != 'null'">
+                            <div class="boxThreeColumn col-lg-11 col-xs-12 pull-left chosenLang" ng-click="deleteSearchLang(0)" ng-show="chosenLangs[0] != 'null'">
+                                {{chosenLangs[0]}}
+                                <i class="fa fa-times"></i>
+                            </div>
+                            <div class="boxThreeColumn col-lg-11 col-xs-12 pull-left chosenLang" ng-click="deleteSearchLang(1)" ng-show="chosenLangs[1] != 'null'">
+                                {{chosenLangs[1]}}
+                                <i class="fa fa-times"></i>
+                            </div>
+                            <div class="boxThreeColumn col-lg-11 col-xs-12 pull-left chosenLang" ng-click="deleteSearchLang(2)" ng-show="chosenLangs[2] != 'null'">
+                                {{chosenLangs[2]}}
+                                <i class="fa fa-times"></i>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            <form class="form-inline-position pull-left">
+                                <div class="select">
+                                    <select ng-class="{'greyColor': searchParam.status == 'null'}" class="form-control"
+                                            ng-model="searchParam.status"
+                                            ng-init="searchParam.status = 'null'">
+                                        <option class="greyColor" value="null">{{'status'|translate}}</option>
+                                        <option class="othersColor" ng-selected="stat.value == searchParam.status"
+                                                ng-selected="stat.value == searchParam.status"
+                                                value="{{stat.value}}" ng-repeat=" stat in status">{{'candidate_status_assoc.'
+                                            +stat.value|translate}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            <input type="number" class="form-control salary pull-left" ng-enter-search ng-model="searchParam.salary"
+                                   placeholder="{{'salary_before'|translate}}">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            <form class="form-inline-position ageFrom pull-left">
+                                <div class="select">
+                                    <span>{{'Age (years)'|translate}}:</span><span>{{'from'|translate}}</span>
+                                    <select ng-class="{'greyColor': searchParam.ageFrom == null}" class="form-control"
+                                            ng-model="searchParam.ageFrom"
+                                            ng-init="searchParam.ageFrom = null"
+                                            ng-change="ageEmptyFieldAdd('ageFrom')">
+                                        <option class="othersColor" ng-selected="age==searchParam.ageFrom" value="{{age}}"
+                                                ng-repeat=" age in ageSearchFrom track by $index">{{age}}
+                                        </option>
+                                    </select>
+                                    <span class="age-to">{{'age to'|translate}}</span>
+                                    <select ng-class="{'greyColor': searchParam.ageTo == null}" class="response ageTo form-control pull-right"
+                                            ng-model="searchParam.ageTo"
+                                            ng-init="searchParam.ageTo = null"
+                                            ng-change="ageEmptyFieldAdd()">
+                                        <option class="othersColor" ng-selected="age==searchParam.ageTo" value="{{age}}"
+                                                ng-repeat=" age in ageSearchTo track by $index">{{age}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" ng-show="$root.me.recrutRole != 'client'">
+                            <form class="form-inline-position pull-left">
+                                <div class="select">
+                                    <select ng-class="{'greyColor': searchParam.responsibleId == 'null'}"
+                                            ng-model="searchParam.responsibleId" class="form-control"
+                                            ng-init="searchParam.responsibleId = 'null'">
+                                        <option class="greyColor" value="null">{{'responsible'|translate}}</option>
+                                        <option class="othersColor" ng-selected="responsible == searchParam.responsibleId"
+                                                ng-repeat="responsible in persons| orderBy:['status','cutFullName']"
+                                                ng-if="responsible.cutFullName.length > 0 && responsible.cutFullName == $root.me.cutFullName"
+                                                ng-class="{disable: (responsible.status != 'A')}"
+                                                value="{{responsible.userId}}">
+                                            ({{'Me' | translate}}) {{responsible.cutFullName}}
+                                        </option>
+                                        <option class="othersColor" ng-selected="responsible == searchParam.responsibleId"
+                                                ng-repeat="responsible in persons| orderBy:['status','cutFullName']"
+                                                ng-if="responsible.cutFullName.length > 0 && responsible.cutFullName != $root.me.cutFullName"
+                                                ng-class="{disable: (responsible.status != 'A')}"
+                                                value="{{responsible.userId}}">
+                                            {{responsible.cutFullName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            <form class="form-inline-position pull-left">
+                                <div class="select">
+                                    <select ng-class="{'greyColor': searchParam.employmentType == 'null'}" class="form-control"
+                                            ng-model="searchParam.employmentType"
+                                            ng-init="searchParam.employmentType = 'null'">
+                                        <option class="greyColor" value="null">{{'employment_type'|translate}}</option>
+                                        <option class="othersColor" ng-selected="et.value == searchParam.employmentType"
+                                                value="{{et.value}}" ng-repeat="et in employmentType">
+                                            {{'employment_type_assoc.' + et.value|translate}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                            <form class="form-inline-position pull-left origin" ng-class="{editOrigin: searchParam.origin && $root.me.recrutRole === 'admin'}">
+                                <input origin-autocompleter ng-model="searchParam.origin">
+                            </form>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right">
+                            <form class="form-inline-position pull-left move-left skills">
+                                <input skills-autocompleter-for-search name="skills" ng-maxlength="50" placeholder=""
+                                       ng-model="searchParam.skills.name" type="text">
+                            </form>
+                            <form class="form-inline-position pull-left" ng-show="searchParam.skills.name">
+                                <div class="select">
+                                    <select ng-class="{'greyColor': searchParam.skills.type == '_all'}" class="form-control"
+                                            ng-init="searchParam.skills.type = '_all'"
+                                            ng-model="searchParam.skills.type">
+                                        <option class="greyColor" value="_all">{{'Skill level'|translate}}</option>
+                                        <option class="othersColor" value="_1">1</option>
+                                        <option class="othersColor" value="_2">2</option>
+                                        <option class="othersColor" value="_3">3</option>
+                                        <option class="othersColor" value="_4">4</option>
+                                        <option class="othersColor" value="_5">5</option>
+                                        <option class="othersColor" value="_0_1_2">2-</option>
+                                        <option class="othersColor" value="_0_1_2_3">3-</option>
+                                        <option class="othersColor" value="_3_4_5">3+</option>
+                                        <option class="othersColor" value="_4_5">4+</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 with-contacts pull-right" ng-show="$root.me.recrutRole != 'client'">
+                            <form class="form-inline-position pull-left">
+                                <div class="select">
+                                    <select ng-class="{'greyColor': searchParam.withPersonalContacts == 'null'}" class="form-control"
+                                            ng-model="searchParam.withPersonalContacts">
+                                        <option value="null">{{'Personal contacts'|translate}}</option>
+                                        <option value="true">
+                                            {{'Available Email and/or Skype'|translate}}
+                                        </option>
+                                        <option value="false">{{'Unavailable Email and/or Skype'|translate}}</option>
+                                    </select>
+                                    <span class="new-label">New</span>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="text-center">
+                        <a type="button" ng-click="clickSearch();showAdvancedSearchCandidateFuncHide();"
+                           class="btn btn-primary">
+                            {{'Find Candidates'|translate}}
+                        </a>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-lg-12 criterionSearchCandidate" ng-show="searchParam.searchCs">
+                    <div ng-show="staticSearchParam[0].words || (staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
+                            (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType != null) ||
+                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
+                            (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts != 'null'">
+                        <span class="count">{{'found'|translate}} <span>{{objectSize}}</span></span>
+                        {{'criteria'|translate}}:
+                    </div>
+                    <ul class="pivots" ng-show="searchParam.searchCs">
+                        <!--start main criterials-->
+                        <li class="firstPivot" ng-show="!(staticSearchParam[0].words || (staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
+                            (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null') ||
+                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
+                            (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts != 'null')">
+                            <span ng-show="!objectSize">{{'There are no candidates in your vacancies yet.'|translate}}</span> <span ng-show="objectSize"><span class="count">{{'total'|translate}} <span ng-bind="objectSize"></span></span>{{'criteria are not selected'|translate}}</span>
+                        </li>
+                        <li ng-show="staticSearchParam[0].words" class="pivot">{{'full_text_1'|translate}}:
+                            {{staticSearchParam[0].words}}
+                            <span ng-show="searchParam.searchFullTextType == 'or'">({{'Any of the words'|translate}})</span>
+                            <span ng-show="searchParam.searchFullTextType == 'full_match'">({{'exact match'|translate}})</span>
+                            <i ng-click="closeSearchTags('words');clickSearch();" class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].name" class="pivot">{{'by name'|translate}}:
+                            {{staticSearchParam[0].name}}
+                            <i ng-click="closeSearchTags('name');clickSearch();" class="fa fa-times" aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].position" class="pivot">{{'by position'|translate}}:
+                            {{staticSearchParam[0].position}}
+                            <i ng-click="closeSearchTags('position');clickSearch();" class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0"
+                            class="pivot">
+                            <span ng-show="searchedRegion.showName && !parJson(searchParam.regionIdCity).name">{{'country'|translate}}: {{searchedRegion.showName}}</span>
+                            <span ng-show="parJson(searchParam.regionIdCity).name && $root.currentLang == 'ru'">{{'region'|translate}}: {{parJson(searchParam.regionIdCity).name}}, {{parJson(searchParam.regionIdCity).countryRu}}</span>
+                            <span ng-show="parJson(searchParam.regionIdCity).name && $root.currentLang == 'en'">{{'region'|translate}}: {{parJson(searchParam.regionIdCity).nameEn}}, {{parJson(searchParam.regionIdCity).country}}</span>
+                            <i ng-click="closeSearchTags('regionId');clickSearch();" class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </li>
+                        <!--end main criterials-->
+                        <!--start additional criterials-->
+                        <li ng-show="staticSearchParam[0].candidateGroupIds.length > 0" class="pivot outerBlock">
+                            {{'candidate tags'|translate}}:
+                            <span ng-repeat="groupId in groupIdsForSearch" class="innerBlock">
+                                <span ng-repeat="group in candidateGroups" ng-if="groupId == group.candidateGroupId">
+                                    {{group.name}}</span>{{$last ? '' : ', '}}
+                            </span>
+                            <i ng-click="closeSearchTags('candidateGroupIds');clearTags();clickSearch();"
+                               class="fa fa-times" aria-hidden="true"></i>
+                            <!--{{searchParam.candidateGroupIds}}-->
+                        </li>
+                        <li ng-show="staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null"
+                            class="pivot">{{'by experience'|translate}}: {{'experience_assoc.' +
+                            staticSearchParam[0].experience|translate}}
+                            <i ng-click="closeSearchTags('experience');clickSearch();" class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].salary" class="pivot">{{'salary_before'|translate}}:
+                            {{staticSearchParam[0].salary}}
+                            <i ng-click="closeSearchTags('salary');clickSearch();" class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType"
+                            class="pivot">{{'employment_type'|translate}}: {{'employment_type_assoc.' +
+                            staticSearchParam[0].employmentType|translate}}
+                            <i ng-click="closeSearchTags('employmentType');clickSearch();" class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].industry != 'null'" class="pivot">{{'industry'|translate}}:
+                            {{'industries_assoc.' + staticSearchParam[0].industry|translate}}
+                            <i ng-click="closeSearchTags('industry');clickSearch();" class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].sex != 'null'" class="pivot">{{'sex'|translate}}:
+                            <span ng-show="staticSearchParam[0].sex == 'true'">{{'male'|translate}}</span>
+                            <span ng-show="staticSearchParam[0].sex == 'false'">{{'female'|translate}}</span>
+                            <i ng-click="closeSearchTags('sex');clickSearch();" class="fa fa-times" aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].status != 'null'" class="pivot">{{'Status'|translate}}:
+                            {{'candidate_status_assoc.' + staticSearchParam[0].status|translate}}
+                            <i ng-click="closeSearchTags('status');clickSearch();" class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].ageFrom != null && staticSearchParam[0].ageFrom != ''" class="pivot">{{'From(Age)'|translate}}:
+                            {{staticSearchParam[0].ageFrom}}
+                            <i ng-click="closeSearchTags('ageFrom');clickSearch();" class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].ageTo != null && staticSearchParam[0].ageTo != ''" class="pivot">{{'To(Age)'|translate}}:
+                            {{staticSearchParam[0].ageTo}}
+                            <i ng-click="closeSearchTags('ageTo');clickSearch();" class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].lang != 'null'" class="pivot">{{'languages_1'|translate}}:
+                            {{staticSearchParam[0].lang}}
+                            <i ng-click="closeSearchTags('lang');clickSearch();" class="fa fa-times" aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].responsibleId != 'null' && (searchParam.responsibleId == responsible.userId)"
+                            class="pivot" ng-repeat="responsible in persons| orderBy:'cutFullName'">
+                            {{'responsible'|translate}}: {{responsible.cutFullName}}
+                            <i ng-click="closeSearchTags('responsibleId');clickSearch();" class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].origin != null" class="pivot">{{'source'|translate}}:
+                            {{staticSearchParam[0].origin}}
+                            <i ng-click="closeSearchTags('origin');clickSearch();" class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].skills.name != null" class="pivot">{{'Skill'|translate}}:
+                            {{staticSearchParam[0].skills.name}}
+                            <i ng-click="closeSearchTags('skillsName');clickSearch();" class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].withPersonalContacts != 'null'" class="pivot">{{'Personal contacts'|translate}}:
+                            <span ng-show="staticSearchParam[0].withPersonalContacts == 'true'">{{'Available'|translate}}</span>
+                            <span ng-show="staticSearchParam[0].withPersonalContacts == 'false'">{{'Unavailable'|translate}}</span>
+                            <i ng-click="closeSearchTags('withPersonalContacts');clickSearch();" class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </li>
+                        <li ng-show="staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0 || !staticSearchParam[0].skills.type == '_all' || staticSearchParam[0].skills.type == '_1' || staticSearchParam[0].skills.type == '_2' || staticSearchParam[0].skills.type == '_3' || staticSearchParam[0].skills.type == '_4' || staticSearchParam[0].skills.type == '_5'
+                        || staticSearchParam[0].skills.type == '_0_1_2' || staticSearchParam[0].skills.type == '_0_1_2_3' || staticSearchParam[0].skills.type == '_3_4_5' || staticSearchParam[0].skills.type == '_4_5'"
+                            class="pivot">{{'Skill level'|translate}}:
+                            <span ng-show="staticSearchParam[0].skills.type == '_all'">{{'all'|translate}}</span>
+                            <span ng-show="staticSearchParam[0].skills.type == '_1'">1</span>
+                            <span ng-show="staticSearchParam[0].skills.type == '_2'">2</span>
+                            <span ng-show="staticSearchParam[0].skills.type == '_3'">3</span>
+                            <span ng-show="staticSearchParam[0].skills.type == '_4'">4</span>
+                            <span ng-show="staticSearchParam[0].skills.type == '_5'">5</span>
+                            <span ng-show="staticSearchParam[0].skills.type == '_0_1_2'">2-</span>
+                            <span ng-show="staticSearchParam[0].skills.type == '_0_1_2_3'">3-</span>
+                            <span ng-show="staticSearchParam[0].skills.type == '_3_4_5'">3+</span>
+                            <span ng-show="staticSearchParam[0].skills.type == '_4_5'">4+</span>
+                            <i ng-click="closeSearchTags('skills.type');clickSearch();" class="fa fa-times"
+                               aria-hidden="true"></i>
+                        </li>
+                        <!--end additional criterials-->
+                        <li ng-show="$root.scopeActiveObject.name == 'onlyMy'" class="pivot"
+                            style="background-color: #0AA5DF;color: #fff;">{{'scope'|translate}}: {{'only_me1'|translate}}
+                            <!--<i class="close icon" style="cursor: pointer;font-size: 11px;margin-right: 0;color: #889;"></i>-->
+                        </li>
+                        <li ng-show="$root.scopeActiveObject.name == 'region'" class="pivot"
+                            style="background-color: #0AA5DF;color: #fff;">{{'scope'|translate}}: {{'only'|translate}}
+                            <span>{{activeScopeParam.value.name}}</span></li>
+                        <li ng-show="staticSearchParam[0].words || (staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
+                            (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType) ||
+                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
+                            (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts != 'null'|| staticSearchParam[0].origin != null">
+                            <span id="btnCl12" class="button_add ui item icon teal button" ng-click="cleanTags();">
+                            <i class="fa fa-trash" aria-hidden="true"></i></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 addCandidatesInVacancy" ng-show="searchParam.searchCs && objectSize">
+                    <div class="col-lg-4 col-md-3 col-sm-3 col-xs-12 padding-left">
+                    <span class="pull-left sortBy col-lg-12 col-md-12 col-sm-12 no-padding">
+                        <span class="col-lg-5 col-md-5 col-sm-6 no-padding pull-left">
+                             <label>
+                                 {{'Sort by'|translate}}:
+                             </label>
+                        </span>
+                        <span class="col-lg-7 col-md-7 col-sm-6 no-padding pull-left">
+                            <select  ng-class="{'full-width': !candidatesAddToVacancyIds.length}" ng-model="filterForChange" ng-options="item.values as item.name for item in filterSort" ng-selected="filterForChange == searchParam.sort" ng-class="{'greyColor': filterForChange == 'relevance'}"></select>
+                        </span>
+                    </span>
+                    </div>
+                    <div class="col-lg-8 col-md-9 col-sm-9 hidden-xs add-in-vacancy move-right" ng-show="searchParam.searchCs">
+                        <button class="btn pull-right" ng-show="candidatesAddToVacancyIds.length > 0"
+                                ng-click="showAddCandidatesInVacancy()">
+                            {{'add_to_vacancy' | translate}} {{candidatesAddToVacancyIds.length}} <span ng-show="candidatesAddToVacancyIds.length == 1">{{'candidate_2'|translate}}</span>
+                            <span ng-show="candidatesAddToVacancyIds.length > 1">{{'candidates__'|translate}}</span>
+                        </button>
+                        <button class="btn pull-right addTags" ng-show="candidatesAddToVacancyIds.length > 0 && !showTagsForMass"
+                                ng-click="showTagsForMassModal()">
+                            {{'add tags' | translate}} {{candidatesAddToVacancyIds.length}} {{'candidate_3' | translate}}
+                            <!--<span ng-show="candidatesAddToVacancyIds.length > 1">{{'candidates__'|translate}}</span>-->
+                        </button>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-lg-12 status-info" ng-show="searchParam.searchCs">
+                    <table class="table" ng-table="tableParams"
+                           template-pagination="custom/pager"
+                           ng-show="candidateFound" id="mainTable">
+                        <thead>
+                        <tr>
+                            <th class="text-center hidden-xs"><input ng-show="$root.me.recrutRole != 'client'" ng-checked="checkAllCandidates == true" ng-click="pushAllCandidatesToVacancy()" type="checkbox"/></th>
+                            <th class="width-for-table-eye"></th>
+                            <th class="width-for-table-candidate">
+                                <span class="pull-left">{{'Candidate'|translate}}
+                                    <!--<i class="fa fa-sort pull-rigth" aria-hidden="true"></i>-->
+                                </span>
+                            </th>
+                            <th class="width-for-table-added"
+                                ng-class="{'sort-asc': tableParams.isSortBy('responsible.lastName', 'asc'), 'sort-desc': tableParams.isSortBy('responsible.lastName', 'desc')}">
+                                <span class="pull-left">{{'added_by_male'|translate}}
+                                    <!--<i class="fa fa-sort pull-rigth" aria-hidden="true"></i>-->
+                                </span>
+                            </th>
+                            <th class="width-for-table-added"></th>
+                            <th class="width-for-table-comment hidden-xs"
+                                ng-class="{'sort-asc': tableParams.isSortBy('status', 'asc'), 'sort-desc': tableParams.isSortBy('status', 'desc')}">
+                                <span class="pull-left">{{'The last important action'|translate}}</span>
+                                <!--<i class="fa fa-sort pull-rigth" aria-hidden="true"></i></span>-->
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="user in candidates"  highlights
+                            hgobject="user"
+                            hgtablecollspan="10" hglocation-of-one-object="'/candidates/'">
+                            <td class="text-center hidden-xs">
+                                <input ng-show="$root.me.recrutRole != 'client'" ng-click="pushCandidateToVacancy(user)" type="checkbox" ng-model="user.added"/>
+                            </td>
+                            <td class="text-center width-for-table-eye" ng-context-menu="menuOptions" ng-class="{'text-right':!user.countActiveVacancy}">
+                                <span class="count-active-vacancy pull-left" ng-show="user.countActiveVacancy"
+                                      title="{{'This candidate added to'|translate}}{{::user.countActiveVacancy}}{{'active vacancies'|translate}}" ng-bind="::user.countActiveVacancy">
+                                </span>
+                                <span data-title="'PREVIEW'" priview pageid="candidate_pages" candidate="user"
+                                      class="preview-candidate pull-right hidden-xs">
+                                    <i show-preview-candidate candidate="user" title="{{'Profile preview'|translate}}" class="fa fa-address-card-o text_change"
+                                       aria-hidden="true"></i>
+                                </span>
+                            </td>
+                            <td class="name" data-title="'Name'" ng-context-menu="menuOptions" sortable="fullName">
+                                <a ng-if="user.fullName" ng-click="tofullinformation($event,user)"
+                                   ng-bind="::user.fullName"></a>
+                                <span ng-repeat="file in user.files| orderBy:'-url'" class="hidden-xs">
+                                    <a ng-href="{{::serverAddress}}/getapp/{{::file.fileId}}/{{::file.fileName}}"
+                                       ng-show="file.fileId"
+                                       ng-show="user.files"
+                                       title="{{'Download file'|translate}}{{file.fileName| fileNameCut:0:25}}">
+                                        <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                    </a>
+                                    <span data-title="'PREVIEW'" ng-show="file.showGDocs" priview
+                                          pageid="candidate_pages" candidate="user" class="preview-docs">
+                                        <i show-preview-candidate candidate="user" class="fa fa-eye text_change"
+                                           aria-hidden="true"></i>
+                                    </span>
+                                </span>
+                                <!--ng-click="showCandidateFiles(user.candidateId);"-->
+                                <!--<div class="saveCandidateFile" ng-show="candidateIdFiles == user.candidateId">-->
+                                <!--<div ng-repeat="file in user.files| orderBy:'-url'" class="pull-left">-->
+                                <!--<div ng-show="file.fileId" class="pull-left">-->
+                                <!--<a ng-show="!file.url && !file.showEditFileName" ng-href="{{serverAddress}}/getapp/{{ file.fileId}}/{{ file.fileName}}" ng-click="showModalResume(file)" title="{{file.fileName}}">-->
+                                <!--{{file.fileName| fileNameCut:0:25}}-->
+                                <!--</a>-->
+                                <!--<a ng-show="file.url && !file.showEditFileName" href="{{file.url}}" target="_blank" title="{{file.fileName}}">-->
+                                <!--{{file.fileName| limitTo:20}}-->
+                                <!--<span ng-show="file.fileName.length > 20">...</span>-->
+                                <!--</a>-->
+                                <!--</div>-->
+                                <!--<a ng-href="{{serverAddress}}/getapp/{{ file.fileId}}/{{ file.fileName}}">-->
+                                <!--<i class="fa fa-download pull-right" aria-hidden="true"></i>-->
+                                <!--</a>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <br>
+                                <span data-title="'Position'" sortable="position" ng-bind="::user.position"></span>
+                            </td>
+                            <td class="responsible" data-title="'Responsible'" ng-context-menu="menuOptions" sortable="responsible.lastName">
+                                <a ng-href="#/candidates/{{::user.localId}}" title="{{::user.responsible.cutFullName}}">
+                                    <div class="responsible-initials">
+                                        <span ng-bind="getFirstLetters(user.responsible.fullName)"></span>
+                                    </div>
+                                    <!--<img src="images/sprite/testprofile.png" class="img-circle pull-left" width="30" height="30">-->
+                                    <div data-title="'data'"><span ng-bind="user.dc|dateFormat"></span></div>
+                                    <span ng-if="!user.fullName && user.source == 'add_from_hh'" translate="Hidden by hh"></span>
+                                    <span ng-if="!user.fullName && user.source != 'add_from_hh'" translate="Hidden"></span>
+                                    <span ng-switch="user.source" style="color: #666;">
+                                        <span ng-switch-when="add_from_email">
+                                            {{'from_2'|translate}}
+                                             <img class="workuaSmallLogo"
+                                                  src="../images/sprite/Mail.png"
+                                                  style="line-height: 2.0;width: 16px;height: 16px;"
+                                                  title="{{'This candidate was added from resume from email'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="update_from_email">
+                                            {{'from_2'|translate}}
+                                            <img class="workuaSmallLogo"
+                                                 src="../images/sprite/Mail.png"
+                                                 style="color: #808080;line-height: 2.0;width: 16px;height: 16px;opacity: 0.5;"
+                                                 title="{{'This candidate was updated from resume from email'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="add_from_linkedin">
+                                            {{'from_2'|translate}}
+                                            <img class="workuaSmallLogo"
+                                                 src="../images/sprite/linkedinLogo.ico"
+                                                 style="line-height: 2.0;"
+                                                 title="{{'This candidate was added from resume from linkedin'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="add_from_linkedinNew">
+                                            {{'from_2'|translate}}
+                                            <img class="workuaSmallLogo"
+                                                 src="../images/sprite/linkedinLogo.ico"
+                                                 style="line-height: 2.0;"
+                                                 title="{{'This candidate was added from resume from linkedin'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="update_from_linkedin">
+                                            {{'from_2'|translate}}
+                                            <img class="workuaSmallLogo"
+                                                 src="../images/sprite/linkedinLogo.ico"
+                                                 style="color: #808080;line-height: 2.0;opacity: 0.5;"
+                                                 title="{{'This candidate was updated from resume from linkedin'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="update_from_linkedinNew">
+                                            {{'from_2'|translate}}
+                                            <img class="workuaSmallLogo"
+                                                 src="../images/sprite/linkedinLogo.ico"
+                                                 style="color: #808080;line-height: 2.0;opacity: 0.5;"
+                                                 title="{{'This candidate was updated from resume from linkedin'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="add_from_hh">
+                                            {{'from_2'|translate}}
+                                            <img class="workuaSmallLogo"
+                                                 src="../images/sprite/hhLogo.ico"
+                                                 title="{{'This candidate was added from resume from headhunter'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="update_from_hh">
+                                            {{'from_2'|translate}}
+                                             <img class="workuaSmallLogo"
+                                                  style="line-height: 2.0;opacity: 0.5;"
+                                                  src="../images/sprite/hhLogo.ico"
+                                                  title="{{'This candidate was updated from resume from headhunter'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="add_from_workua">
+                                            {{'from_2'|translate}}
+                                             <img class="workuaSmallLogo"
+                                                  src="../images/sprite/workuaLogo.ico"
+                                                  title="{{'This candidate was added from resume from work.ua'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="update_from_workua">
+                                            {{'from_2'|translate}}
+                                             <img class="workuaSmallLogo"
+                                                  style="line-height: 2.0;opacity: 0.5;"
+                                                  src="../images/sprite/workuaLogo.ico"
+                                                  title="{{'This candidate was updated from resume from work.ua'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="add_from_rabotaua">
+                                            {{'from_2'|translate}}
+                                             <img class="workuaSmallLogo"
+                                                  style="line-height: 2.0;"
+                                                  src="../images/sprite/rabotauaLogo.ico"
+                                                  title="{{'This candidate was added from resume from rabota.ua'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="update_from_rabotaua">
+                                            {{'from_2'|translate}}
+                                             <img class="workuaSmallLogo"
+                                                  style="line-height: 2.0;opacity: 0.5;"
+                                                  src="../images/sprite/rabotauaLogo.ico"
+                                                  title="{{'This candidate was updated from resume from rabota.ua'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="add_from_superjob">
+                                            {{'from_2'|translate}}
+                                             <img class="workuaSmallLogo"
+                                                  src="../images/sprite/superJob.png"
+                                                  style="line-height: 2.0;width: 16px;height: 16px;"
+                                                  title="{{'This candidate was added from resume from super job'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="update_from_superjob">
+                                            {{'from_2'|translate}}
+                                            <img class="workuaSmallLogo"
+                                                 src="../images/sprite/superJob.png"
+                                                 style="color: #808080;line-height: 2.0;width: 16px;height: 16px;opacity: 0.5;"
+                                                 title="{{'This candidate was updated from resume from super job'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="add_from_cvlv">
+                                            {{'from_2'|translate}}
+                                             <img class="workuaSmallLogo"
+                                                  src="../images/sprite/favicon_cvlv.ico"
+                                                  style="line-height: 2.0;width: 16px;height: 16px;"
+                                                  title="{{'This candidate was added from resume from cvlv'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="update_from_cvlv">
+                                            {{'from_2'|translate}}
+                                            <img class="workuaSmallLogo"
+                                                 src="../images/sprite/favicon_cvlv.ico"
+                                                 style="color: #808080;line-height: 2.0;width: 16px;height: 16px;opacity: 0.5;"
+                                                 title="{{'This candidate was updated from resume from cvlv'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="add_from_jobkg">
+                                            {{'from_2'|translate}}
+                                             <img class="workuaSmallLogo"
+                                                  src="../images/sites_work/jobkg.png"
+                                                  style="line-height: 2.0;width: 20px;height: 20px;"
+                                                  title="{{'This candidate was added from resume from jobkg'|translate}}"/>
+                                        </span>
+                                        <span ng-switch-when="update_from_jobkg">
+                                            {{'from_2'|translate}}
+                                            <img class="workuaSmallLogo"
+                                                 src="../images/sites_work/jobkg.png"
+                                                 style="color: #808080;line-height: 2.0;width: 20px;height: 20px;opacity: 0.5;"
+                                                 title="{{'This candidate was updated from resume from jobkg'|translate}}"/>
+                                        </span>
+                                    </span>
+                                </a>
+                            </td>
+                            <td class="icons">
+                                <a title="{{'Delete'|translate}}"
+                                   href=""
+                                   ng-click="deleteCandidate(user);$event.stopPropagation();"
+                                   ng-if="user.status != 'archived'" class="pull-right">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
+                                <!--<a title="{{'Edit post' | translate}}"-->
+                                <!--ng-href="#/candidates/{{user.localId}}" class="first pull-right">-->
+                                <!--<i class="fa fa-pencil" aria-hidden="true"></i>-->
+                                <!--</a>-->
+                            </td>
+                            <td class="last-action hidden-xs" ng-switch="user.lastAction.type">
+                                <!--<span>Информация о кандидате из обновленного файла</span>-->
+                                <!--<div>-->
+                                <!--<span class="hr-interview">HR собеседование</span>-->
+                                <!--<i class="fa fa-chevron-right" aria-hidden="true"></i>-->
+                                <!--<span class="security-check">Проверка безопасности</span>-->
+                                <!--</div>-->
+                                <div class="content action" ng-switch-when="candidate_add_from_superjob">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.added_candidate_from_superJob'|translate}}&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_update_from_superjob">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.updated_candidate_from_superJob'|translate}}&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_update_from_cvlv">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.updated_candidate_from_cvlv'|translate}}.&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_add_from_cvlv">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.added_candidate_from_cvlv'|translate}}.&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+
+                                <div class="content action" ng-switch-when="candidate_update_from_jobkg">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.updated_candidate_from_jobkg'|translate}}.&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_add_from_jobkg">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.added_candidate_from_jobkg'|translate}}.&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+
+                                <div class="content action" ng-switch-when="candidate_update_from_linkedin">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.updated_candidate_from_linkedin'|translate}}&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_edit_from_email">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.updated_candidate_from_email'|translate}}&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_add_from_email">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.added_candidate_from_email'|translate}}.&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_update_from_hh">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.updated_candidate_from_hh'|translate}}&nbsp;</span><span
+                                            ng-if="user.lastAction.stateOld != user.lastAction.stateNew">
+                                    <span class="greyColor">{{'history_info.changed_the_status_of_candidate'|translate}}</span>
+                                        <span status-color-new old="user.lastAction.stateOld"
+                                              new="user.lastAction.stateNew"
+                                              statusarr="candidate_status_assoc"
+                                              style="color: #ff00ff"></span>
+                                    </span>
+                                        <span class="date"
+                                              style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                        <!--<a href="#/candidates/{{user.lastAction.candidate.localId}}">-->
+                                        <!--<span once-text="user.lastAction.candidate.fullName"></span>-->
+                                        <!--</a>-->
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_add_from_hh">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.added_candidate_from_hh'|translate}}.&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                        <a href="#/candidates/{{::user.lastAction.candidate.localId}}">
+                                            <span once-text="user.lastAction.candidate.fullName"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_update_from_workua">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.updated_candidate_from_workua'|translate}}&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                        <!--<a href="#/candidates/{{user.lastAction.candidate.localId}}">-->
+                                        <!--<span once-text="user.lastAction.candidate.fullName"></span>-->
+                                        <!--</a>-->
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_add_from_workua">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor pull-left">{{'history_info.added_candidate_from_workua'|translate}}.&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                        <a href="#/candidates/{{::history.candidate.localId}}">
+                                            <span once-text="user.lastAction.candidate.fullName"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_update_from_rabotaua">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.updated_candidate_from_rabotaua'|translate}}&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                        <!--<a href="#/candidates/{{history.candidate.localId}}">-->
+                                        <!--<span once-text="history.candidate.fullName"></span>-->
+                                        <!--</a>-->
+                                        <!--<br>-->
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_add_from_rabotaua">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.added_candidate_from_rabotaua'|translate}}.&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                        <!--<a  href="#/candidates/{{history.candidate.localId}}">-->
+                                        <!--<span once-text="history.candidate.fullName"></span>-->
+                                        <!--</a>-->
+                                        <!--<br>-->
+                                    </div>
+                                </div>
+
+                                <div class="content" ng-switch-when="sent_candidate_to_client">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <i class="mail outline icon" style="float: left;"></i>
+                                        <!--<a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+                                        <!--<br>-->
+                                        <span class="greyColor pull-left" style="margin-right: 5px;">{{'candidate'|translate}}</span>
+                                        <span class="greyColor pull-left">{{'was sent to the Client'|translate}}</span>
+                                        <span ng-switch="$root.me.personParams.clientAccessLevel">
+                                        <span ng-switch-when="hide">{{::history.client.name}}</span>
+                                        <span ng-switch-default>
+                                            <a href="#/clients/{{::history.client.localId}}">{{history.client.name}}</a>
+                                        </span>
+                                    </span>
+                                        (<span class="comma greyColor"><span
+                                            ng-repeat="mail in (user.lastAction.descr|stringToJson)">{{::mail}}</span></span>).&nbsp;<span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content" ng-switch-when="interview_remove">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+                                        <!--<br>-->
+                                        <!--{{'history_info.candidate'|translate}}-->
+                                        <!--<a href="#/candidates/{{history.candidate.localId}}">-->
+                                        <!--<span once-text="history.candidate.fullName"></span>-->
+                                        <!--</a>-->
+
+                                        <span style="color: #ff00ff">
+                                        <span style="border-radius: 5px;padding-left: 4px;padding-right: 4px;color:white;background-color:#cccccc">{{'history_info.removed'|translate}}</span>
+                                    </span>
+                                        <span class="greyColor"> {{'history_info.from vacancy'|translate}}</span>
+                                        <a href="#/vacancies/{{::user.lastAction.vacancy.localId}}"
+                                           once-text="user.lastAction.vacancy.position"></a>.&nbsp;<span class="date"
+                                                                                                         style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+
+                                        <div style="color: #000;"><span
+                                                ng-bind-html="user.lastAction.descr|cutName:true:70|textForNotice:false"
+                                                style="color: #000;"></span></div>
+                                    </div>
+                                </div>
+
+
+                                <div class="content action" ng-switch-when="candidate_remove_from_group">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+                                        <!--<br>-->
+                                        <span class="greyColor">{{'history_info.candidate_remove_from_group'|translate}}</span>
+                                        <span style="border-radius: 5px;padding-left: 4px;padding-right: 4px;color:white;background-color:#6ECFF5">{{::user.lastAction.descr}}&nbsp;</span>
+                                        <a
+                                                href="#/candidates/{{::user.lastAction.candidate.localId}}">
+                                            <span once-text="user.lastAction.candidate.fullName"></span>
+                                        </a>
+                                        <span class="date"
+                                              style="font-size: 10px;">{{::user.lastAction.dm|dateFormat:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_add_to_group">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+
+                                        <!--<br>-->
+                                        <span class="greyColor">{{'history_info.candidate_add_to_group'|translate}}</span>
+                                        <span style="border-radius: 5px;padding-left: 4px;padding-right: 4px;color:white;background-color:#6ECFF5">{{::user.lastAction.descr}}&nbsp;</span>
+                                        <span class="date"
+                                              style="font-size: 10px;">{{::user.lastAction.dm|dateFormat:false}}</span>
+                                        <!--<a-->
+                                        <!--href="#/candidates/{{history.candidate.localId}}">-->
+                                        <!--<span once-text="history.candidate.fullName"></span>-->
+                                        <!--</a>-->
+                                        <!--<br>-->
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_add_from_linkedin">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+                                        <!--<br>-->
+                                        <span class="greyColor pull-left">{{'history_info.added_candidate_from_linkedin'|translate}}.&nbsp;</span>
+                                        <a
+                                                href="#/candidates/{{::user.lastAction.candidate.localId}}">
+                                            <span once-text="user.lastAction.candidate.fullName"></span>
+                                        </a>
+                                        <span class="date" style=";font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_add">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+                                        <!--<br>-->
+                                        <span class="greyColor">{{'history_info.added_candidate'|translate}}.&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_edit">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<a href="#/users/{{history.person.personId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+
+                                        <!--<br>-->
+                                        <span class="greyColor">{{'history_info.edited_information'|translate}}.&nbsp;</span><span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_change_state">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+                                        <!--<a title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href="" ng-click="history.editCommentFlag = !history.editCommentFlag"><i class="ui pencil icon"></i></a>-->
+                                        <!--<a title="{{'Delete comment' | translate}}" ng-show="$root.me.fullName == history.person.fullName || $root.me.recrutRole === 'admin'" href=""-->
+                                        <!--ng-click="showDeleteComment(history)" class="removeMessage">-->
+                                        <!--<i class="ui remove icon"></i>-->
+                                        <!--</a>-->
+                                        <!--<br>-->
+                                        <span class="greyColor">{{'history_info.changed_the_status'|translate}}</span>
+                                        <a href="#/candidates/{{::user.lastAction.localId}}">
+                                            <span once-text="user.lastAction.fullName"></span>
+                                        </a>
+                                        <br/>
+                                        <span class="status  passed {{::user.lastAction.stateOld}}">
+                                            {{::user.lastAction.stateOld | translate}}
+                                        </span>
+                                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        <span class="status {{::user.lastAction.stateNew}}">
+                                            {{::user.lastAction.stateNew | translate}}
+                                        </span>
+                                        <!--<div>-->
+                                        <span ng-show="!history.editCommentFlag"
+                                              ng-bind-html="user.lastAction.descr|cutName:true:70|textForNotice:false"
+                                              style="color: #000;"></span>.&nbsp;<span class="date"
+                                                                                       style="font-size: 10px;">{{::user.lastAction.dm|dateFormat:false}}</span>
+                                        <!--<div ng-show="history.editCommentFlag">-->
+                                        <!--<div class="field">-->
+                                        <!--<textarea class="editCommentArea" ng-model="history.descr"></textarea>-->
+                                        <!--</div>-->
+                                        <!--<div class="ui tiny  button" ng-click="history.editCommentFlag = false" style="padding:5px 5px;">-->
+                                        <!--{{'cancel'|translate}}-->
+                                        <!--</div>-->
+                                        <!--<div class="ui tiny teal button" style="padding:5px 5px" ng-click="changeComment(history)">-->
+                                        <!--{{'save'|translate}}-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_set_responsible">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+
+                                        <!--</a>-->
+                                        <!--<a title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href="" ng-click="history.editCommentFlag = !history.editCommentFlag"><i class="ui pencil icon"></i></a>-->
+                                        <!--<a title="{{'Delete comment' | translate}}" ng-show="$root.me.fullName == history.person.fullName || $root.me.recrutRole === 'admin'" href=""-->
+                                        <!--ng-click="showDeleteComment(history)" class="removeMessage">-->
+                                        <!--<i class="ui remove icon"></i>-->
+                                        <!--</a>-->
+                                        <!--<br>-->
+                                        <a href="#/users/{{::user.lastAction.targetPerson.userId}}"><span
+                                                once-text="user.lastAction.targetPerson.cutFullName"></span></a>
+                                        <span class="greyColor">{{'history_info.assigned'|translate}}</span>
+                                        <span class="greyColor">{{'history_info.as_responsible'|translate}}</span>.
+                                        <!--<a href="#/vacancies/{{history.vacancy.localId}}">-->
+                                        <!--<span once-text="history.vacancy.position"></span></a>-->
+                                        <!--<br>-->
+                                        <!--<div>-->
+                                        <span ng-show="!history.editCommentFlag"
+                                              ng-bind-html="user.lastAction.descr|cutName:true:70|textForNotice:false"
+                                              style="color: #000;"></span>&nbsp;<span class="date" style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                        <!--<div ng-show="history.editCommentFlag">-->
+                                        <!--<div class="field">-->
+                                        <!--<textarea class="editCommentArea" ng-model="history.descr"></textarea>-->
+                                        <!--</div>-->
+                                        <!--<div class="ui tiny  button" ng-click="history.editCommentFlag = false" style="padding:5px 5px;">-->
+                                        <!--{{'cancel'|translate}}-->
+                                        <!--</div>-->
+                                        <!--<div class="ui tiny teal button" style="padding:5px 5px" ng-click="changeComment(history)">-->
+                                        <!--{{'save'|translate}}-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_add_file">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+                                        <!--<br>-->
+                                        <span class="greyColor">{{'history_info.added_file'|translate}}</span> <span
+                                            style="color:#DAA10F">{{::user.lastAction.descr| fileNameCut:0:50}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_remove_file">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+
+                                        <!--<br>-->
+                                        {{'history_info.removed_file'|translate}} <span style="color:#DAA10F">{{::user.lastAction.descr| fileNameCut:0:50}}</span>&nbsp;<span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_add_link">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+                                        <!--<br>-->
+                                        <span class="greyColor">{{'history_info.added_link'|translate}}</span>
+                                        <a href="{{::user.lastAction.descr}}" target="_blank" style="color:#DAA10F">{{::user.lastAction.descr|
+                                            fileNameCut:0:15}}</a>
+                                        <span class="greyColor">{{'history_info.in_candidate'|translate}}</span>
+                                        <!--<a href="#/candidates/{{history.candidate.localId}}">-->
+                                        <!--<span once-text="history.candidate.fullName"></span>-->
+                                        <!--</a>-->
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_remove_link">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+
+                                        <!--<br>-->
+                                        <span class="greyColor">{{'history_info.removed_link'|translate}}</span>
+                                        <a href="{{::user.lastAction.descr}}" target="_blank" style="color:#DAA10F">{{::user.lastAction.descr|
+                                            fileNameCut:0:15}}</a>
+                                        <span class="greyColor">{{'history_info.in_candidate'|translate}}</span>&nbsp;<span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat:false}}</span>
+                                        <!--<a href="#/candidates/{{history.candidate.localId}}">-->
+                                        <!--<span once-text="history.candidate.fullName"></span>-->
+                                        <!--</a>-->
+                                    </div>
+                                </div>
+                                <div class="content message" ng-switch-when="candidate_message">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+                                        <!--<span ng-show="history.dateEdit" class="date" style="float:none">({{'edited'|translate}} {{history.dateEdit|dateFormat4:true}})</span>-->
+                                        <!--<a title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href="" ng-click="history.editCommentFlag = !history.editCommentFlag" class=""><i class="ui pencil icon"></i></a>-->
+
+                                        <!--<br>-->
+                                        <!--{{'history_info.message'|translate}}-->
+                                        <!--<br/>-->
+                                        <span ng-show="!history.editCommentFlag"
+                                              ng-bind-html="user.lastAction.descr|cutName:true:70|textForNotice:false"
+                                              style="color: #000;"></span>.&nbsp;<span class="date"
+                                                                                       style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                        <!--<div ng-show="history.editCommentFlag">-->
+                                        <!--<div class="field">-->
+                                        <!--<textarea class="editCommentArea" ng-model="history.descr"></textarea>-->
+                                        <!--</div>-->
+                                        <!--<div class="ui tiny  button" ng-click="history.editCommentFlag = false" style="padding:5px 5px;">-->
+                                        <!--{{'cancel'|translate}}-->
+                                        <!--</div>-->
+                                        <!--<div class="ui tiny teal button" style="padding:5px 5px" ng-click="changeComment(history)">-->
+                                        <!--{{'save'|translate}}-->
+                                        <!--</div>-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="task_change_status">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                    <span class="greyColor pull-left">{{'Task status edited'|translate}}&nbsp;
+                                        <!--"{{history.task.title}}"-->
+                                    </span>
+                                        <span class="status  passed {{::user.lastAction.stateOld}}">
+                                            {{::user.lastAction.stateOld | translate}}
+                                        </span>
+                                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        <span class="status {{::user.lastAction.stateNew}}">
+                                            {{::user.lastAction.stateNew | translate}}</span>.&nbsp;<span class="date"
+                                                                                                          style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="task_change">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        {{'Task'|translate}}
+                                        {{'Edited'|translate}}
+                                        &nbsp;<span class="date" style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="task_create">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor pull-left">{{'Task created'|translate}}.</span>&nbsp;<span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                        <!--"{{history.task.title}}"-->
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="candidate_update_from_file">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+                                        <!--<br>-->
+                                        <span class="greyColor">{{'Information about the candidate of the updated file'|translate}}</span>
+                                        <span style="color:#DAA10F">{{::user.lastAction.descr| fileNameCut:0:50}}.</span>
+                                        <span class="date"
+                                              style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="contact_client_add">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<span class="ui tiny header"> </span><a-->
+                                        <!--href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+
+                                        <!--<br>-->
+                                        <span class="greyColor">{{'history_info.added_contact'|translate}}</span>&nbsp;<span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat:false}}</span>
+                                        <!--<a href="#/contacts/{{history.contactClient.localId}}">-->
+                                        <!--<span once-text="history.contactClient.firstName"></span>-->
+                                        <!--<span once-text="history.contactClient.lastName"></span>-->
+                                        <!--</a>-->
+                                        <span class="greyColor">{{'history_info.in_client'|translate}}</span>
+                                        <span ng-switch="$root.me.personParams.clientAccessLevel">
+                                            <span ng-switch-when="hide">{{::history.client.name}}</span>
+                                            <span ng-switch-default>
+                                                <a href="#/clients/{{::user.lastAction.client.localId}}">{{::user.lastAction.client.name}}</a>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="contact_client_edit">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<span class="ui tiny header"> </span><a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+                                        <!--<br>-->
+                                        <span ng-switch="user.lastAction.stateNew">
+                                        <span ng-switch-when="R">{{'history_info.deleted_contact'|translate}}</span>
+                                        <span ng-switch-default>{{'history_info.edited_contact'|translate}}</span>
+                                    </span>
+                                        <a href="#/contacts/{{::user.lastAction.contactClient.localId}}"><span
+                                                once-text="user.lastAction.contactClient.firstName"></span><span
+                                                once-text="history.contactClient.lastName"></span></a>
+                                        {{'history_info.in_client_v2'|translate}}
+                                        <span ng-switch="$root.me.personParams.clientAccessLevel">
+                                        <span ng-switch-when="hide">{{::user.lastAction.client.name}}</span>
+                                        <span ng-switch-default>
+                                            <a href="#/clients/{{::user.lastAction.client.localId}}">{{::user.lastAction.client.name}}</a>
+                                        </span>
+                                    </span>
+                                        <span class="date"
+                                              style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="client_add">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<span class="ui tiny header"> </span><a-->
+                                        <!--href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+
+                                        <!--<br>-->
+                                        <span class="greyColor">{{'history_info.added_contact'|translate}}</span>&nbsp;<span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                        <!--<a href="#/contacts/{{history.contactClient.localId}}">-->
+                                        <!--<span once-text="history.contactClient.firstName"></span>-->
+                                        <!--<span once-text="history.contactClient.lastName"></span>-->
+                                        <!--</a>-->
+                                        <span class="greyColor">{{'history_info.in_client'|translate}}</span>
+                                        <span ng-switch="$root.me.personParams.clientAccessLevel">
+                                        <span ng-switch-when="hide">{{::user.lastAction.client.name}}</span>
+                                        <span ng-switch-default>
+                                            <a href="#/clients/{{::user.lastAction.client.localId}}">{{::user.lastAction.client.name}}</a>
+                                        </span>
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="client_edit">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<span class="ui tiny header"> </span><a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+
+                                        <!--<br>-->
+                                        <span class="greyColor">{{'history_info.edited_information_in_client'|translate}}&nbsp;</span>
+                                        <span class="date"
+                                              style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                        <span ng-switch="$root.me.personParams.clientAccessLevel">
+                                        <span ng-switch-when="hide">{{::user.lastAction.client.name}}</span>
+                                        <span ng-switch-default>
+                                            <a href="#/clients/{{::user.lastAction.client.localId}}">{{::user.lastAction.client.name}}</a>
+                                        </span>
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="client_change_state">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <!--<span class="ui tiny header"> </span><a href="#/users/{{history.person.userId}}">-->
+                                        <!--<span once-text="history.person.firstName"></span>-->
+                                        <!--<span once-text="history.person.lastName"></span>-->
+                                        <!--</a>-->
+                                        <!--<br/>-->
+                                        <span class="greyColor">{{'history_info.Changed the status of the client'|translate}}</span>
+                                        <span class="date"
+                                              style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                        <span ng-switch="$root.me.personParams.clientAccessLevel">
+                                                <span ng-switch-when="hide">{{::user.lastAction.client.name}}</span>
+                                                <span ng-switch-default>
+                                                    <a href="#/clients/{{::user.lastAction.client.localId}}">{{::user.lastAction.client.name}}</a>
+                                                </span>
+                                    </span>
+
+                                        <span statusarr="client_status_assoc" status-color-new
+                                              old="user.lastAction.stateOld" new="user.lastAction.stateNew"
+                                              style="color: #ff00ff"></span>
+                                        <span ng-bind-html="user.lastAction.descr|cutName:true:70|textForNotice:false"
+                                              style="color: #000;"></span>
+                                    </div>
+                                </div>
+                                <div class="content" ng-switch-when="interview_add">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.ADDed_in'|translate}}</span>
+                                        <span ng-show="!user.lastAction.stateNewName"
+                                              statusarr="interview_status_assoc_full" status-color-new
+                                              old="user.lastAction.stateNew" style="color: #ff00ff"></span>
+                                        <span ng-show="user.lastAction.stateNewName" statusarr="" status-color-new
+                                              old="user.lastAction.stateNewName" style="color: #ff00ff"></span>
+                                        <span class="greyColor">{{'history_info.in__vacancy'|translate}}</span>
+                                        <a href="#/vacancies/{{::user.lastAction.vacancy.localId}}"
+                                           once-text="user.lastAction.vacancy.position"></a><span
+                                            ng-show="user.lastAction.descr" style="color: #000;">&nbsp;{{::user.lastAction.descr|cutName:true:70|textForNotice:false}}</span>.&nbsp;<span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="interview_edit">
+                                    <div class="summary" style="margin: 0px 6px;">
+                                    <span class="status  passed {{::user.lastAction.stateOld}}"
+                                          ng-show="user.lastAction.stateOld && !user.lastAction.stateOldName"
+                                          ng-if="user.lastAction.stateOld">
+                                        {{::user.lastAction.stateOld | translate}}
+                                    </span>
+                                        <span class="status  passed {{::user.lastAction.stateOldName}}"
+                                              ng-show="user.lastAction.stateOldName && user.lastAction.stateOldName">
+                                        {{::user.lastAction.stateOldName | translate}}
+                                    </span>
+                                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        <span class="status {{::user.lastAction.stateNewName}}"
+                                              ng-show="user.lastAction.stateNewName">
+                                        {{::user.lastAction.stateNewName | translate}}
+                                    </span>
+                                        <span class="status {{::user.lastAction.stateNew}}"
+                                              ng-show="user.lastAction.stateNew" ng-if="!user.lastAction.stateNewName">
+                                        {{::user.lastAction.stateNew | translate}}
+                                    </span>
+                                        <span class="greyColor">{{'history_info.on_vacancy'|translate}}</span>
+                                        <a href="#/vacancies/{{:: user.lastAction.vacancy.localId}}"
+                                           once-text="user.lastAction.vacancy.position"></a><span
+                                            ng-show="user.lastAction.descr"
+                                            translate="{{::user.lastAction.descr|cutName:true:70|textForNotice:false}}"
+                                            style="color: #000;margin-left: 5px;">&nbsp;</span>.&nbsp;<span class="date" style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content" ng-switch-when="vacancy_add">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                    <span class="date"
+                                          style="font-size: 10px;">{{::user.lastAction.dm|dateFormat:false}}</span>
+                                        <span class="greyColor">{{'history_info.added_vacancy'|translate}}</span>
+                                        <a href="#/vacancies/{{::user.lastAction.vacancy.localId}}"
+                                           once-text="user.lastAction.vacancy.position"></a>&nbsp;
+                                    </div>
+                                </div>
+                                <div class="content" ng-switch-when="vacancy_edit">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                    <span class="date"
+                                          style="font-size: 10px;">{{::user.lastAction.dm|dateFormat:false}}</span>
+                                        <span class="greyColor">{{'history_info.edited_vacancy'|translate}}</span>
+                                        <a href="#/vacancies/{{::user.lastAction.vacancy.localId}}"
+                                           once-text="user.lastAction.vacancy.position"></a>&nbsp;
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="vacancy_change_state">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                    <span class="date"
+                                          style="font-size: 10px;">{{::user.lastAction.dm|dateFormat:false}}</span>
+                                        <span class="greyColor">{{'history_info.changed_vacancy'|translate}}</span>
+                                        <a href="#/vacancies/{{history.vacancy.localId}}"
+                                           once-text="user.lastAction.vacancy.position"></a>
+                                        <span class="greyColor">{{'history_info.state'|translate}}</span>
+                                        <span statusarr="vacancy_status_assoc" status-color-new
+                                              old="user.lastAction.stateOld" new="user.lastAction.stateNew"
+                                              style="color: #ff00ff"></span>
+                                        <span ng-bind-html="user.lastAction.descr|cutName:true:70|textForNotice:false"
+                                              style="color: #000;"></span>&nbsp;
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="vacancy_add_file">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                    <span class="date"
+                                          style="font-size: 10px;">{{::user.lastAction.dm|dateFormat:false}}</span>
+                                        <span class="greyColor">{{'history_info.added_file'|translate}}</span> <span
+                                            style="color:#DAA10F">{{::user.lastAction.descr| fileNameCut:0:15}}</span>
+                                        <span class="greyColor">{{'history_info.In__vacancy'|translate}}</span>
+                                        <a href="#/vacancies/{{::user.lastAction.vacancy.localId}}"
+                                           once-text="user.lastAction.vacancy.position"></a>&nbsp;
+                                    </div>
+                                </div>
+                                <div class="content action" ng-switch-when="vacancy_remove_file">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                    <span class="date"
+                                          style="font-size: 10px;">{{::user.lastAction.dm|dateFormat:false}}</span>
+                                        <span class="greyColor">{{'history_info.removed_file'|translate}}</span>
+                                        <span style="color:#DAA10F">{{::user.lastAction.descr| fileNameCut:0:15}}</span>
+                                        <span class="greyColor">{{'history_info.in_vacancy'|translate}}</span>&nbsp;<a
+                                            href="#/vacancies/{{::user.lastAction.vacancy.localId}}"
+                                            once-text="user.lastAction.vacancy.position"></a>
+                                    </div>
+                                </div>
+                                <div class="content" ng-switch-when="vacancy_set_responsible">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                    <span class="date"
+                                          style="font-size: 10px;">{{::user.lastAction.dm|dateFormat:false}}</span>
+                                        <a href="#/users/{{::history.targetPerson.userId}}"
+                                           once-text="user.lastAction.targetPerson.cutFullName"></a>
+                                        <span class="greyColor">{{'history_info.assigned'|translate}}</span>
+                                        <span class="greyColor">{{'history_info.as_responsible_in_vacancy'|translate}}</span>&nbsp;<a
+                                            href="#/vacancies/{{::user.lastAction.vacancy.localId}}"
+                                            once-text="user.lastAction.vacancy.position"></a><span
+                                            ng-bind-html="user.lastAction.descr|cutName:true:70|textForNotice:false"
+                                            style="color: #000;"></span>
+                                    </div>
+                                </div>
+                                <div class="content" ng-switch-when="vacancy_remove_responsible">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                    <span class="date"
+                                          style="font-size: 10px;">{{::user.lastAction.dm|dateFormat:false}}</span>
+                                        <span class="greyColor">{{'history_info.remove2'|translate}}</span>
+                                        <a href="#/users/{{::history.targetPerson.userId}}"
+                                           once-text="user.lastAction.targetPerson.cutFullName"></a>
+                                        <span class="greyColor">{{'history_info.from_responsible_in_vacancy'|translate}}</span>&nbsp;<a
+                                            href="#/vacancies/{{::history.vacancy.localId}}"
+                                            once-text="user.lastAction.vacancy.position"></a>
+                                        <span ng-bind-html="user.lastAction.descr|cutName:true:70|textForNotice:false"
+                                              style="color: #000;"></span>
+                                    </div>
+                                </div>
+                                <div class="content" ng-switch-when="vacancy_message">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                    <span class="date"
+                                          style="font-size: 10px;">{{::user.lastAction.dm|dateFormat:false}}</span>
+                                        <span class="greyColor">{{'history_info.message_to_vacancy'|translate}}</span>&nbsp;<a
+                                            href="#/vacancies/{{::user.lastAction.vacancy.localId}}"
+                                            once-text="user.lastAction.vacancy.position"></a>:
+                                        <span ng-show="!history.editCommentFlag"
+                                              ng-bind-html="user.lastAction.descr|cutName:true:70|textForNotice:false"
+                                              style="color: #000;"></span>
+                                    </div>
+                                </div>
+                                <div class="content message" ng-switch-when="interview_message">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.message_to_candidate'|translate}}</span>
+                                        <a href="#/candidates/{{::user.lastAction.candidate.localId}}">
+                                            <span once-text="user.lastAction.candidate.fullName"></span>
+                                        </a>
+                                        <span class="greyColor">{{'history_info.in_vacancy'|translate}}</span>&nbsp;<a
+                                            href="#/vacancies/{{ ::user.lastAction.vacancy.localId}}"
+                                            once-text="user.lastAction.vacancy.position"></a>:
+                                        <span class="ui tiny header"></span> <span
+                                            ng-bind-html="user.lastAction.descr|cutName:true:70|textForNotice:false"
+                                            style="color: #000;"></span>.
+                                        <span class="date"
+                                              style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content message" ng-switch-when="client_message">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <span class="greyColor">{{'history_info.message_client'|translate}}</span>&nbsp;<span
+                                            class="date"
+                                            style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                        <span ng-bind-html="user.lastAction.descr|cutName:true:70|textForNotice:false"
+                                              style="color: #000;"></span>
+                                    </div>
+                                </div>
+                                <div class="content" ng-switch-when="interview_edit_date">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                        <a href="#/candidates/{{::user.lastAction.candidate.localId}}">
+                                            <span once-text="user.lastAction.candidate.fullName"></span>
+                                        </a>
+                                        <span class="greyColor">{{'Postponement of the date of interview'|translate}}</span>
+                                        <span class="greyColor">{{'history_info.in__vacancy'|translate}}</span>
+                                        <a href="#/vacancies/{{::user.lastAction.vacancy.localId}}"
+                                           once-text="user.lastAction.vacancy.position"></a>.&nbsp;<span
+                                            ng-bind-html="user.lastAction.descr|cutName:true:70|textForNotice:false"
+                                            style="color: #000;"></span><span class="date" style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                                <div class="content" ng-switch-when="set_interview_status">
+                                    <div class="summary" style="margin: 0px 5px;">
+                                    <span class="date"
+                                          style="font-size: 10px;">{{::user.lastAction.dm|dateFormat:false}}</span>
+                                        <span class="greyColor">{{'history_info.Vacancy statuses has been changed'|translate}}</span>
+                                        <a href="#/vacancies/{{::user.lastAction.vacancy.localId}}"
+                                           once-text="user.lastAction.vacancy.position"></a>
+                                        <span class="greyColor">{{'history_info.Vacancy statuses has been changed2'|translate}}</span>
+                                        <br>
+                                        <span ng-repeat="status in history.stateNew.split(',')">
+                                       {{::status|translate}}<span
+                                                ng-if="user.lastAction.stateNew.split(',').length!=$index+1">,</span>&nbsp;
+                                    </span><span
+                                            ng-bind-html="user.lastAction.descr|cutName:true:70|textForNotice:false"
+                                            style="color: #000;"></span>
+                                    </div>
+                                </div>
+                                <div class="content" ng-switch-when="interview_add_from_advice">
+                                    <div class="summary" style="margin: 0px 8px;">
+                                        <span class="greyColor">{{'history_info.candidate'|translate}} {{'history_info.added_in'|translate}}</span>
+                                        <span ng-show="!user.lastAction.stateNewName"
+                                              statusarr="interview_status_assoc_full" status-color-new
+                                              old="user.lastAction.stateNew" style="color: #ff00ff"></span>
+                                        <span ng-show="user.lastAction.stateNewName" status-color-new statusarr=""
+                                              old="user.lastAction.stateNewName" style="color: #ff00ff"></span>
+                                        <span class="greyColor">{{'history_info.in__vacancy'|translate}}</span>
+                                        <a href="#/vacancies/{{user.lastAction.vacancy.localId}}"
+                                           once-text="user.lastAction.vacancy.position"></a>
+                                        <span class="greyColor">{{'history_info.by recommendation of CleverStaff'|translate}}.</span>
+                                        <span>
+                                            <span style="color: #000;">{{::user.lastAction.descr}}</span>
+                                         </span>
+                                        <span class="date"
+                                              style="font-size: 10px;">{{::user.lastAction.dm|dateFormat2:false}}</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="scrollup"><img alt="Прокрутить вверх" src="/images/sprite/up_racket.png"></div>
+</div>
+<div id="candidate_preview">
+    <div class="arrow_preview" id="arrow_preview"></div>
+    <div class="ui bottom attached segment red"
+         style="padding: 6px 6px 3px 6px;border-top: 0.2em solid #FFFFFF !important;"
+         ng-show="!candidatePreview.showDocument">
+        <!--<div class="ui inverted dimmer"  style="background-color:rgba(255, 255, 255, 0)!important;"-->
+        <!--ng-class="{'active':loadingPriview}">-->
+        <!--<div class="ui large text loader">{{'Loading'|translate}}...</div>-->
+        <!--</div>-->
+        <div ng-show="!loadingPriview" class="ui vertically divided grid">
+            <div class="ui vertically-divided grid">
+                <div class="sixteen wide column"
+                     style="padding-left:0px;border-bottom: 1px solid rgba(0, 0, 0, 0.1);padding-left: 6px;">
+                    <span class="ui small header" style="margin: 0px;">
+                        <div>
+                            <a style="margin-right: -4px;" href="#/candidates/{{candidatePreview.localId}}">
+                                {{candidatePreview.fullName}}</a>
+                            <span ng-show="candidatePreview.db">, {{candidatePreview.db|ageOfDate}}</span>
+                        </div>
+                        <div>
+                            {{candidatePreview.position}}
+                            <span ng-show="candidatePreview != undefined && candidatePreview.salary">,
+                                <span ng-show="candidatePreview.salary != 0">{{candidatePreview.salary}} {{candidatePreview.currency}}</span>
+                            </span>
+
+                            <span ng-switch="candidatePreview.sex">
+                                <span ng-switch-when="true"><i title="{{'male'|translate}}" class="male large icon"
+                                                               style="color: #808080;margin-bottom: 7px;"></i></span>
+                                <span ng-switch-when="false"><i title="{{'female'|translate}}" class="female large icon"
+                                                                style="color: #808080;margin-bottom: 7px;"></i></span>
+                            </span>
+                        </div>
+                    </span>
+                </div>
+            </div>
+            <div class="ui vertically divided-grid">
+                <img ng-if="candidatePreview.photo!=undefined"
+                     ng-src="{{$root.serverAddress}}/getapp?id={{candidatePreview.photo}}&d={{$root.me.personId}}"
+                     alt="" class="pull-left"/>
+                <!--<img ng-if="candidatePreview.photo==undefined" border="5" src="img/missing-image-640x360.png" alt=""-->
+                <!--style="margin:10px 10px 10px 3px;width: 172px;height: 115px; border-radius: 15%;border: 7.2em solid #E78409 !important;"/>-->
+
+                <div class="twelve-wide column pull-right">
+
+                    <table class="ui basic without_tr_border table">
+                        <tbody class="candidatePreview-info">
+                        <tr ng-show="candidatePreview != undefined && candidatePreview.region.city">
+                            <td class="content-header">{{'lives_in'|translate}}</td>
+                            <td class="item-in-table" style="padding: 0.5em 0.3em">
+                                {{candidatePreview.region.displayCity}}
+                            </td>
+                        </tr>
+
+                        <tr ng-show="candidatePreview != undefined && candidatePreview.expirence">
+                            <td class="content-header">{{'experience'|translate}}</td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                {{'experience_assoc.'+candidatePreview.expirence|translate}}
+                            </td>
+                        </tr>
+
+                        <tr ng-show="candidatePreview != undefined && candidatePreview.languages.length > 0">
+                            <td class="content-header">{{'languages'|translate}}</td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <span class="inlineLang" ng-repeat="lang in candidatePreview.languages">{{lang.name}}: <span translate="{{lang.level}}"></span><br/></span>
+                            </td>
+                        </tr>
+                        <tr ng-show="candidatePreview != undefined && candidatePreview.employmentType">
+                            <td class="content-header">{{'employment_type'|translate}}</td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em;word-break: break-all;"
+                                ng-show="candidatePreview.employmentType">
+                                    <span ng-repeat="emplType in candidatePreview.employmentType.split(',')">
+                                        {{emplType|translate}}
+                                        <!--{{$index}}{{emplType}}-->
+                                    </span>
+                            </td>
+                        </tr>
+                        <tr ng-show="candidatePreview != undefined && candidatePreview.readyRelocate && candidatePreview.relatedRegions!=undefined">
+                            <td class="content-header" translate="ready_to_relocate"></td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <span ng-repeat="region in candidatePreview.relatedRegions">{{region.fullName}}&nbsp;</span>
+                            </td>
+                        </tr>
+
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'mphone').length > 0">
+                            <td class="content-header"><i class="fa fa-phone" aria-hidden="true"></i></td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <div ng-repeat=" contact in candidatePreview.contacts|filter:type = 'mphone'">
+                                    {{contact.value}}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'email').length > 0">
+                            <td class="content-header"><i class="fa fa-envelope" aria-hidden="true"></i></td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'email'">
+                                    <a href="mailto:{{contact.value}}">
+                                        {{contact.value}}
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'skype').length > 0">
+                            <td class="content-header"><i class="fa fa-skype" aria-hidden="true"></i> </td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <div ng-repeat=" contact in candidatePreview.contacts|filter:type = 'Skype'">
+                                    {{contact.value}}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'linkedin').length > 0">
+                            <td class="content-header"><i class="fa fa-linkedin" aria-hidden="true"></i></td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'linkedin'">
+                                    <a target="_blank" href="{{contact.value}}">{{contact.value|cut:true:30}}</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'facebook').length > 0">
+                            <td class="content-header"><i class="fa fa-facebook" aria-hidden="true"></i></td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'facebook'">
+                                    <a target="_blank" href="{{contact.value}}">{{contact.value|cut:true:30}}</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'googleplus').length > 0">
+                            <td class="content-header"><i class="fa fa-google-plus" aria-hidden="true"></i></td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'googleplus'">
+                                    <a target="_blank" href="{{contact.value}}">{{contact.value|cut:true:30}}</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'homepage').length > 0">
+                            <td class="content-header"><i class="fa fa-home" aria-hidden="true"></i></td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em;word-break: break-word;">
+                                <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'homepage'">
+                                    <a target="_blank" href="{{contact.value}}">{{contact.value|cut:true:30}}</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="margin-left: 27%;margin-top: 14%;" ng-show="$root.previewInfoIsMissing">Информация
+                        отсутствует
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="ui vertically-divided-grid ">
+                <div class="sixteen wide column">
+                    <div class="ui feed ">
+                        <ng-include src="'partials/activity/preview_candidate.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="ui bottom attached segment red"
+         style="padding: 6px 6px 3px 6px;border-top: 0.2em solid #FFFFFF !important;"
+         ng-show="candidatePreview.showDocument">
+        <div ng-show="$index == currentDocPreviewPage" ng-repeat="file in candidatePreview.files" style="position: relative;">
+            <i ng-show="currentDocPreviewPage > 0" class="fa fa-angle-left prevDoc" aria-hidden="true" ng-click="prevDoc()"></i>
+            <i ng-show="!$last" class="fa fa-angle-right nextDoc" aria-hidden="true" ng-click="nextDoc()"></i>
+            <iframe ng-src="{{file.linkFileForShow}}" frameborder="0" style="width: 100%; height: 400px;"></iframe>
+        </div>
+    </div>
+</div>

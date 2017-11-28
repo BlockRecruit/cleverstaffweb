@@ -1,0 +1,88 @@
+<div id="notices" class="notices">
+
+    <div class="notice_">
+        <div class="header-block">
+            <div>
+                <div class="clearfix">
+                    <div class="text-center">{{'Notifications'|translate}} ({{noticeObj.notices.length}})</div>
+                    <!--<span class="ui header">-->
+                        <!--<span ng-show="noticeObj.notices != undefined">-->
+                            <!--<span ng-show="$root.newNoticeCount > 0">{{'total'|translate}} {{noticeObj.notices.length}}, {{'unread'|translate}} {{$root.newNoticeCount}}</span>-->
+                            <!--<span ng-hide="$root.newNoticeCount > 0">{{'total'|translate}} - {{noticeObj.notices.length}}</span>-->
+                        <!--</span>-->
+                    <!--</span>-->
+                    <!--<div class="pull-right header">-->
+                        <!--<a href="" class="main-link" ng-show="$root.newNoticeCount > 0" ng-click="checkEverythingRead()">-->
+                            <!--{{'Mark all as read'|translate}}-->
+                        <!--</a>-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+        <div class="ui feed notice_object" style="height: 190px;" custom-scrollbar>
+            <div class="event item-notice small" ng-class="{'read':notice.read==false}"
+                 ng-repeat="notice in noticeObj.notices" ng-switch="notice.type"
+                 ng-click="readNotice(notice)"  >
+                <div class="notice-info col-lg-12 col-md-11 col-sm-11" ng-init="limit=7">
+
+                    <div class="notices-wrap" ng-click="toPage(notice)">
+                        <div class="notice" ng-switch-when="parserEmailIncorrectPassword">
+                            <i class="warning square red icon" style="box-shadow: 0em 0em 0em 0.1em rgba(0, 0, 0, 0.0) inset;"></i>
+                            {{'You entered an incorrect password'|translate}} {{notice.value}}
+                        </div>
+                        <div class="notice" ng-switch-when="parserEditCandidate">
+                            {{'New resumes has been received from email'|translate}} {{notice.value}}. {{'Updated candidates'|translate}}:
+                                     <span ng-repeat="candidate in notice.candidates|limitTo:limit track by $index">
+                                        <a class="candidate" href="#/candidates/{{candidate.localId}}" once-text="candidate.fullName" ng-click="toCandidate(candidate.localId)"></a><span ng-show="limit!= $index + 1 && $index + 1!=notice.candidates.length">,</span><span ng-show="limit== $index + 1 && notice.candidates.length>7">...</span>
+                                    </span>
+                        </div>
+                        <div class="notice" ng-switch-when="testPassed">
+                                <span ng-repeat="candidate in notice.candidates track by $index">
+                                    <a href="#/candidates/{{candidate.localId}}" once-text="candidate.fullName"></a><span ng-show="notice.candidates.length != $index + 1">,</span>
+                                </span>{{'history_info.Candidate test passed'|translate}} "{{notice.value}}"
+                        </div>
+                        <div class="notice" ng-switch-when="parserAddCandidate">
+                            {{'New resumes has been received from email'|translate}} {{notice.value}} {{'the candidates were added'|translate}}:
+                                 <span ng-repeat="candidate in notice.candidates|limitTo:limit track by $index">
+                                    <a class="candidate" href="#/candidates/{{candidate.localId}}" once-text="candidate.fullName" ng-click="toCandidate(candidate.localId)"></a><span ng-show="limit!= $index + 1 && $index + 1!=notice.candidates.length">,</span><span ng-show="limit== $index + 1 && notice.candidates.length>7">...</span>
+                                </span>
+                        </div>
+                        <div class="notice" ng-switch-when="parserValidEmail">
+                            {{'parserValidEmail_1'|translate}} {{notice.value}} {{'parserValidEmail_2'}}
+                        </div>
+                        <div class="notice" ng-switch-when="candidateDB">
+                             <span ng-repeat="candidate in notice.candidates" class="candidate">
+
+                                    <a href="#/candidates/{{candidate.localId}}" once-text="candidate.fullName"  ng-click="toCandidate(candidate.localId)"></a>
+
+                                 <span ng-show="limit!= $index + 1 && $index + 1!=notice.candidates.length">,</span>
+                                 <span ng-show="limit== $index + 1 && notice.candidates.length>7">...</span>
+                                </span>
+                            {{notice.date |datefunction}}
+                        </div>
+                        <div class="notice" ng-switch-when="addRecall">
+                            {{"New applicant to the vacancy"|translate}} <a ng-click="toVacancy(notice.vacancy.localId)">{{notice.vacancy.position + " (" + notice.vacancy.clientId.name + ")"}}</a>
+                        </div>
+                        <div class="notice" ng-switch-when="addResponsible">
+                            {{"You are assigned as responsible to vacancy"|translate}}: <a ng-click="toVacancy(notice.vacancy.localId)">{{notice.vacancy.position + " (" + notice.vacancy.clientId.name + ")"}}</a>
+                        </div>
+                    </div>
+                    <span class="date">{{notice.dc|dateFormat:true}}</span>
+                    <i class="fa fa-check-circle-o"  ng-attr-title="{{(notice.read!=false) && ('Viewed'|translate) || ('Not viewed'|translate)}}" ng-class="{'green':notice.read!=false}" aria-hidden="true"></i>
+                </div>
+            </div>
+
+            <div ng-if="noticeObj.notices==undefined" style="text-align: center;padding-top: 75px;">{{'You have not got notifications'|translate}}</div>
+        </div>
+        <div class="pull-left mark-all-as-read">
+            <a href="" class="main-link" ng-show="$root.newNoticeCount > 0" ng-click="checkEverythingRead()">
+                {{'Mark all as read'|translate}}
+            </a>
+        </div>
+        <div class="pull-right text-center view-whole-list">
+            <a href="" class="main-link" ng-click="toListNotices()">
+                {{'View the whole list'|translate}}
+            </a>
+        </div>
+    </div>
+</div>

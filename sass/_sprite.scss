@@ -1,0 +1,54 @@
+$sprite-margin: (144px - 128px) / 2;
+
+
+[class*="sprite"],
+[class*=" sprite"] {
+	display: inline-block;
+
+	vertical-align: middle;
+
+	background-image: url("../../images/sprite.png");
+}
+
+.sprite-linked {
+	width: 128px;
+	height: 128px;
+
+	background-position: (-0 - $sprite-margin) (-0 - $sprite-margin);
+}
+.sprite-pinterest {
+	width: 128px;
+	height: 128px;
+
+	background-position: (-144px - $sprite-margin) (-0 - $sprite-margin);
+}
+.sprite-skype {
+	width: 128px;
+	height: 128px;
+
+	background-position: (-0 - $sprite-margin) (-144px - $sprite-margin);
+}
+.sprite-social-instagram-new-square2 {
+	width: 128px;
+	height: 128px;
+
+	background-position: (-144px - $sprite-margin) (-144px - $sprite-margin);
+}
+.sprite-social-youtube-circle {
+	width: 128px;
+	height: 128px;
+
+	background-position: (-288px - $sprite-margin) (-0 - $sprite-margin);
+}
+.sprite-square-facebook {
+	width: 128px;
+	height: 128px;
+
+	background-position: (-288px - $sprite-margin) (-144px - $sprite-margin);
+}
+.sprite-twitter {
+	width: 128px;
+	height: 128px;
+
+	background-position: (-0 - $sprite-margin) (-288px - $sprite-margin);
+}

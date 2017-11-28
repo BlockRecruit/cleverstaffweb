@@ -1,0 +1,81 @@
+.block-candidates-excel-history {
+	.candidates-statuses {
+		@include bt-margins-from-side;
+		.statuses {
+			padding: 0 15px;
+		}
+		.candidates-search-table {
+			.breadcrumbs {
+				margin-top: 20px;
+				& > .breadcrumb {
+					& > li {
+						& > i {
+							font-size: 9px;
+
+							padding: 0 5px;
+						}
+					}
+					& > li:before {
+						padding: 0;
+
+						content: "";
+					}
+					& > .breadcrumb {
+						width: 250px;
+						margin: 0;
+						padding: 0;
+						& > li {
+							margin-left: 10px;
+
+							cursor: pointer;
+							& > i {
+								margin-left: 10px;
+
+								color: $theme-dark-green;
+							}
+							& > a {
+								font-weight: 600;
+
+								color: $theme-link-color;
+							}
+						}
+						& > li:before {
+							padding: 0;
+
+							content: "";
+						}
+					}
+				}
+			}
+			h3 {
+				@include bold();
+			}
+			.blockCheckoutTable {
+				@include border-radius();
+
+				margin-top: 15px;
+				padding: 15px;
+
+				background-color: $theme-white;
+				& > .checkoutTable {
+					&:not(:first-child) {
+						margin-top: 15px;
+					}
+					& > div {
+						.criterionOuter {
+							.criterionValue {
+								display: block;
+							}
+						}
+						& > i {
+							color: $theme-link-color;
+						}
+						& > a {
+							@include link-styling();
+						}
+					}
+				}
+			}
+		}
+	}
+}

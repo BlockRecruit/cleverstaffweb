@@ -1,0 +1,36 @@
+<div class="col-lg-2 show-for-print" title="{{history.dm|dateFormat:true}}">
+    <div class="time-comment not-for-print">
+        {{history.dm|dateFormat:false}}
+    </div>
+    <a href="#/users/{{history.person.userId}}" class="text-left user">
+        <span once-text="history.person.firstName"></span>
+        <span once-text="history.person.lastName"></span>
+    </a>
+</div>
+<div class="col-lg-10 show-for-print">
+    <a title="{{'Delete comment' | translate}}" ng-show="($root.me.fullName == history.person.fullName || $root.me.recrutRole === 'admin') && history.descr!==undefined" href=""
+       ng-click="showDeleteComment(history)" class="removeMessage pull-right">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </a>
+    <a title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href=""
+       ng-click="changeCommentFlag(history)" class="editMessage pull-right">
+        <i class="fa fa-pencil" aria-hidden="true"></i>
+    </a>
+    <span class="comment">{{'history_info.message_to_candidate'|translate}}</span>
+    <a href="#/candidates/{{history.candidate.localId}}">
+        <span class="show-for-print" once-text="history.candidate.fullName"></span>
+    </a>
+    <br/>
+    <span class="text-in-block" ng-bind-html="history.descr|textForNotice:false"></span>
+    <div class="textField" ng-show="history.editCommentFlag">
+        <div class="field">
+            <textarea class="editCommentArea" ng-model="editComment"></textarea>
+        </div>
+        <div class="btn cancel" ng-click="history.editCommentFlag = false">
+            {{'cancel'|translate}}
+        </div>
+        <div class="btn accept" ng-click="changeComment(history, editComment)">
+            {{'save'|translate}}
+        </div>
+    </div>
+</div>

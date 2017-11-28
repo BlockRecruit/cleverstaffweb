@@ -1,0 +1,20 @@
+<div class="candidate-add-in-vacancy">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title"> {{'add_to_vacancy'|translate}}</h4> <span>{{candidatesAddToVacancyIds.length}}</span> <span ng-show="candidatesAddToVacancyIds.length == 1">{{'candidate_2'|translate}}</span><span ng-show="candidatesAddToVacancyIds.length > 1">{{'candidates__'|translate}}</span>
+    </div>
+    <div class="modal-body">
+        <div class="item mrgBottom">
+            <input ng-change="errorMessageForAddCandidateInVacancy.show = false" ng-model="test" vacancy-autocompleter id="candidatesAddToVacancy">
+        </div>
+        <span class="text-center addedToLongList">{{'They will be added to the Long List stage, except of candidates previously added for this vacancy'|translate}}</span>
+    </div>
+    <div class="modal-footer">
+        <!--<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>-->
+        <!--<button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>-->
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal()">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept"  ng-click="addCandidatesToVacancy()">{{'add'|translate}}</a>
+        </div>
+    </div>
+</div>

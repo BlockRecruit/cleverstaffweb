@@ -1,0 +1,364 @@
+<div class="sendTestCandidateToEmail container-fluid">
+    <div class="row blockTestCandidate">
+        <h3 class="col-lg-9 pull-left" ng-if="$root.activePage == 'Send test candidate to email'">{{'Choose candidates and send a link on the test via email'|translate}}</h3>
+        <h3 class="col-lg-9 pull-left" ng-if="$root.activePage == 'Send test candidate to email from vacancy'">{{'Choose a test to send it via email'|translate}}</h3>
+        <h3 class="col-lg-9 pull-left" ng-if="$root.activePage == 'Send test candidate to email from candidate'">{{'Choose a test to send it via email to a candidate'|translate}} {{$root.fromCandidate[0].fullName}}</h3>
+        <p class="pull-left" ng-if="$root.activePage == 'Send test candidate to email from vacancy'">
+            {{'vacancy'|translate}}
+            <a ng-href="#/vacancies/{{$root.candidatesInStages[0].vacancyId.localId}}" target="_blank">
+                {{$root.candidatesInStages[0].vacancyId.position}},
+            </a>
+            <span>{{'client'|translate}}</span>
+            <a ng-href="#/clients/{{$root.candidatesInStages[0].vacancyId.clientId.localId}}" target="_blank">
+                {{$root.candidatesInStages[0].vacancyId.clientId.name}}
+            </a>
+        </p>
+        <div class="col-lg-3 padding-right pull-right" ng-if="$root.activePage == 'Send test candidate to email'">
+            <div class="text-right button">
+                <a type="button" class="btn btn-primary accept" ng-show="groupNameList.length > 0" ng-click="sendTestToCandidate()">{{'send_test'|translate}}</a>
+            </div>
+        </div>
+        <div class="col-lg-3 padding-right addChancelBtn pull-right" ng-if="objCandiateEmail.length > 0 && $root.activePage == 'Send test candidate to email from vacancy'">
+            <div class="text-right button">
+                <a type="button" href="#/vacancies/{{$root.candidatesInStages[0].vacancyId.localId}}" class="btn btn-primary cancel">
+                    <span>
+                        {{'cancel'|translate}}
+                    </span>
+                </a>
+                <a type="button" class="btn btn-primary accept" ng-click="sendTestToCandidate()">{{'send_test'|translate}}</a>
+            </div>
+        </div>
+        <div class="col-lg-3 padding-right addChancelBtn btnForCandidate pull-right" ng-if="emailTestCandidate != undefined && $root.activePage == 'Send test candidate to email from candidate'">
+            <div class="text-right button">
+                <a type="button" href="#/candidates/{{$root.candidateToTest.localId}}" class="btn btn-primary cancel">
+                    <span>
+                        {{'cancel'|translate}}
+                    </span>
+                </a>
+                <a type="button" class="btn btn-primary accept" ng-click="sendTestToCandidate()">{{'send_test'|translate}}</a>
+            </div>
+        </div>
+    </div>
+    <div class="row addCandidate">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mrgTop">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 autoSelect padding" ng-if="$root.activePage == 'Send test candidate to email'">
+                <input type="hidden" test-candidate-autocompleter id="testCandidate"/>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 autoSelect padding" ng-if="$root.activePage == 'Send test candidate to email from vacancy'">
+                <input type="hidden" test-autocompleter id="testCandidate2"/>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 autoSelect padding" ng-if="$root.activePage == 'Send test candidate to email from candidate'">
+                <input type="hidden" test-autocompleter id="testCandidate2"/>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email" ng-if="groupNameList.length > 0 && $root.activePage == 'Send test candidate to email'">
+                <div class="item mail-checkbox" ng-show="$root.me.emails.length > 1">
+                    <label>{{"Select email"|translate}}</label>
+                    <div ng-click="$root.addEmailFromWhatSend(email)"
+                         ng-repeat="email in $root.me.emails">
+                        <label>
+                            <input ng-checked="email.email == $root.emailTemplateInModal.email" type="checkbox">{{email.email}}
+                        </label>
+                    </div>
+                </div>
+                <div ng-show="$root.me.emails.length == 1" class="item mail-checkbox">
+                    <label>{{"Send from"|translate}} <a ng-href="mailTo:{{$root.me.emails[0].email}}">{{$root.me.emails[0].email}}</a></label>
+                </div>
+                <div class="alert alert-danger" ng-show="$root.me.emails.length == 0">
+                    <a href="#/email-integration" target='_blank'>{{"add integration with email"|translate}}</a>
+                    {{"To send a letter from your mailbox, you need to_1"|translate}}
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email" ng-if="$root.activePage == 'Send test candidate to email from vacancy'">
+                <!--<div ng-show="objCandiateEmail.length >= 1" class="item mail-checkbox">-->
+                    <!--<label>{{"Send from"|translate}} <a ng-href="mailTo:{{email.email}}" ng-repeat="email in objCandiateEmail track by $index">{{email.email}}{{$last ? '' : ', '}}</a></label>-->
+                <!--</div>-->
+                <!--<div class="alert alert-danger" ng-show="$root.me.emails.length == 0">-->
+                    <!--<a href="#/email-integration" target='_blank'>{{"add integration with email"|translate}}</a>-->
+                    <!--{{"To send a letter from your mailbox, you need to_1"|translate}}-->
+                <!--</div>-->
+                <div class="item mail-checkbox" ng-show="$root.me.emails.length > 1">
+                    <label>{{"Select email"|translate}}</label>
+                    <div ng-click="$root.addEmailFromWhatSend(email)"
+                         ng-repeat="email in $root.me.emails">
+                        <label>
+                            <input ng-checked="email.email == $root.emailTemplateInModal.email" type="checkbox">{{email.email}}
+                        </label>
+                    </div>
+                </div>
+                <div ng-show="$root.me.emails.length == 1" class="item mail-checkbox">
+                    <label>{{"Send from"|translate}} <a ng-href="mailTo:{{$root.me.emails[0].email}}">{{$root.me.emails[0].email}}</a></label>
+                </div>
+                <div class="alert alert-danger" ng-show="$root.me.emails.length == 0">
+                    <a href="#/email-integration" target='_blank'>{{"add integration with email"|translate}}</a>
+                    {{"To send a letter from your mailbox, you need to_1"|translate}}
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email" ng-if="$root.activePage == 'Send test candidate to email from candidate'">
+                <div ng-show="objCandiateEmail.length >= 1" class="item mail-checkbox">
+                    <label>{{"Send from"|translate}} <a ng-href="mailTo:{{email.email}}" ng-repeat="email in objCandiateEmail track by $index">{{email.email}}{{$last ? '' : ', '}}</a></label>
+                </div>
+                <div class="alert alert-danger" ng-show="$root.me.emails.length == 0">
+                    <a href="#/email-integration" target='_blank'>{{"add integration with email"|translate}}</a>
+                    {{"To send a letter from your mailbox, you need to_1"|translate}}
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 testCandidateBlock testCandidateFromVacancy testCandidateFromVacancy2" id="testCandidateFromVacancyId" ng-if="$root.activePage == 'Send test candidate to email from vacancy'" custom-scrollbar>
+                <div class="checkboxes">
+                    <h4>{{"Choose candidates on stage"|translate}}<span ng-show="!$root.activeCustomStageName">{{$root.candidatesInStages[0].state|translate}}</span> <span ng-show="$root.activeCustomStageName" class="showCustomStage">{{$root.activeCustomStageName}}</span></h4>
+                    <div class="checkbox">
+                        <label ng-repeat="candidate in $root.candidatesInStages track by $index">
+                            <i ng-show="candidate.candidateId.email == undefined" title="{{'Please add an email before sending a test to this candidate'|translate}}" class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                            <input type="checkbox" ng-show="candidate.candidateId.email" ng-click="addCandidateLinkToText(candidate, $index)" ng-model="candidate.checked"  ng-checked="candidate.checked == true" value="">
+                            <a href="#/candidates/{{candidate.candidateId.localId}}" ng-click="$event.stopPropagation();" target="_blank">
+                                {{candidate.candidateId.fullName}}
+                            </a>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 testCandidateBlock testCandidateFromVacancy2 testCandidateFromCandidate" ng-if="$root.activePage == 'Send test candidate to email from candidate'">
+                <span class="hidden">{{$root.fromCandidate}}</span>
+                <div class="col-lg-12 col-md-12 candidateString" hgobject="addCandidate" ng-repeat="addCandidate in $root.fromCandidate">
+                    <div class="col-lg-7 col-md-6 col-sm-6 col-xs-6 padding">
+                        <a ng-href="#/candidates/{{addCandidate.localId}}" target="_blank" class="bold">{{addCandidate.fullName}},</a> {{addCandidate.position}}
+                    </div>
+                    <div ng-show="contact.type == 'email'" ng-repeat="contact in addCandidate.contacts" class="col-lg-4 col-md-5 col-sm-5 col-xs-5 padding-right grey">
+                        <a ng-href="mailTo:{{$root.emailCandidate}}">{{$root.emailCandidate}}</a>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 padding-right iconsStyle">
+                        <i class="fa fa-pencil edit" ng-click="changeEmailTestCandidate(addCandidate, 'candidate')" aria-hidden="true"></i>
+                        <span data-title="'PREVIEW'" priview pageid="candidate_pages" candidate="addCandidate"
+                              class="preview-candidate pull-right hidden-xs">
+                            <i show-preview-candidate candidate="addCandidate" class="fa fa-address-card-o text_change"
+                               aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 testCandidateBlock testCandidateBlock2" ng-if="groupNameList.length > 0 && $root.activePage == 'Send test candidate to email'" custom-scrollbar>
+                <div class="col-lg-12 col-md-12 candidateString" ng-show="addCandidate != undefined" hgobject="addCandidate" ng-repeat="addCandidate in groupNameList">
+                    <div class="col-lg-7 col-md-6 col-sm-6 col-xs-6 padding">
+                        <a ng-href="#/candidates/{{addCandidate.localId}}" target="_blank" class="bold">{{addCandidate.fullName}},</a> {{addCandidate.position}}
+                    </div>
+                    <div ng-show="addCandidate.email != undefined" class="col-lg-4 col-md-5 col-sm-5 col-xs-5 padding-right grey">
+                        <a ng-href="mailTo:{{addCandidate.email[0].value}}">{{addCandidate.email[0].value}}</a>
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 padding-right iconsStyle">
+                        <i class="fa fa-pencil edit" ng-click="changeEmailTestCandidate(addCandidate)" aria-hidden="true"></i>
+                        <i class="fa fa-times delete" ng-click="deleteCandidate(addCandidate)" aria-hidden="true"></i>
+                        <span data-title="'PREVIEW'" priview pageid="candidate_pages" candidate="addCandidate"
+                              class="preview-candidate pull-right hidden-xs">
+                            <i show-preview-candidate candidate="addCandidate" class="fa fa-address-card-o text_change"
+                               aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mrgTop2" ng-if="groupNameList.length > 0 && $root.activePage == 'Send test candidate to email'">
+            <div class="background">
+                <div class="item">
+                    <span class="title">{{'Letter subject' | translate}}</span>
+                    <input ng-model="emailTestCandidate" class="form-control" type="text">
+                </div>
+                <div class="item">
+                    <textarea id="testCandidateMCE" ui-tinymce ng-model="textEmailTestCandidate"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mrgTop2" ng-if="objCandiateEmail.length > 0 && $root.activePage == 'Send test candidate to email from vacancy'">
+            <div class="background">
+                <div class="item">
+                    <span class="title">{{'Letter subject' | translate}}</span>
+                    <input ng-model="emailTestCandidate" class="form-control" type="text">
+                </div>
+                <div class="item">
+                    <textarea id="testCandidateMCE2" ui-tinymce ng-model="textEmailTestCandidate"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mrgTop2 showLetter" ng-if="$root.activePage == 'Send test candidate to email from candidate'">
+            <div class="background">
+                <div class="item">
+                    <span class="title">{{'Letter subject' | translate}}</span>
+                    <input ng-model="emailTestCandidate" class="form-control" type="text">
+                </div>
+                <div class="item">
+                    <textarea id="testCandidateMCE2" ui-tinymce ng-model="textEmailTestCandidate"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="candidate_preview">
+    <div class="arrow_preview" id="arrow_preview"></div>
+    <div class="ui bottom attached segment red"
+         style="padding: 6px 6px 3px 6px;border-top: 0.2em solid #FFFFFF !important;"
+         ng-show="!candidatePreview.showDocument">
+        <!--<div class="ui inverted dimmer"  style="background-color:rgba(255, 255, 255, 0)!important;"-->
+        <!--ng-class="{'active':loadingPriview}">-->
+        <!--<div class="ui large text loader">{{'Loading'|translate}}...</div>-->
+        <!--</div>-->
+        <div ng-show="!loadingPriview" class="ui vertically divided grid">
+            <div class="ui vertically-divided grid">
+                <div class="sixteen wide column"
+                     style="padding-left:0px;border-bottom: 1px solid rgba(0, 0, 0, 0.1);padding-left: 6px;">
+                    <span class="ui small header" style="margin: 0px;">
+                        <div>
+                            <a style="margin-right: -4px;" href="#/candidates/{{candidatePreview.localId}}">
+                                {{candidatePreview.fullName}}</a>
+                            <span ng-show="candidatePreview.db">, {{candidatePreview.db|ageOfDate}}</span>
+                        </div>
+                        <div>
+                            {{candidatePreview.position}}
+                            <span ng-show="candidatePreview != undefined && candidatePreview.salary">,
+                                <span ng-show="candidatePreview.salary != 0">{{candidatePreview.salary}} {{candidatePreview.currency}}</span>
+                            </span>
+
+                            <span ng-switch="candidatePreview.sex">
+                                <span ng-switch-when="true"><i title="{{'male'|translate}}" class="male large icon"
+                                                               style="color: #808080;margin-bottom: 7px;"></i></span>
+                                <span ng-switch-when="false"><i title="{{'female'|translate}}" class="female large icon"
+                                                                style="color: #808080;margin-bottom: 7px;"></i></span>
+                            </span>
+                        </div>
+                    </span>
+                </div>
+            </div>
+            <div class="ui vertically divided-grid">
+                <img ng-if="candidatePreview.photo!=undefined"
+                     ng-src="{{$root.serverAddress}}/getapp?id={{candidatePreview.photo}}&d={{$root.me.personId}}"
+                     alt="" class="pull-left"/>
+                <!--<img ng-if="candidatePreview.photo==undefined" border="5" src="img/missing-image-640x360.png" alt=""-->
+                <!--style="margin:10px 10px 10px 3px;width: 172px;height: 115px; border-radius: 15%;border: 7.2em solid #E78409 !important;"/>-->
+
+                <div class="twelve-wide column pull-right">
+
+                    <table class="ui basic without_tr_border table">
+                        <tbody class="candidatePreview-info">
+                        <tr ng-show="candidatePreview != undefined && candidatePreview.region.city">
+                            <td class="content-header">{{'lives_in'|translate}}</td>
+                            <td class="item-in-table" style="padding: 0.5em 0.3em">
+                                {{candidatePreview.region.displayCity}}
+                            </td>
+                        </tr>
+
+                        <tr ng-show="candidatePreview != undefined && candidatePreview.expirence">
+                            <td class="content-header">{{'experience'|translate}}</td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                {{'experience_assoc.'+candidatePreview.expirence|translate}}
+                            </td>
+                        </tr>
+
+                        <tr ng-show="candidatePreview != undefined && candidatePreview.languages.length > 0">
+                            <td class="content-header">{{'languages'|translate}}</td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <span class="inlineLang" ng-repeat="lang in candidatePreview.languages">{{lang.name}}: <span translate="{{lang.level}}"></span><br/></span>
+                            </td>
+                        </tr>
+                        <tr ng-show="candidatePreview != undefined && candidatePreview.employmentType">
+                            <td class="content-header">{{'employment_type'|translate}}</td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em;word-break: break-all;"
+                                ng-show="candidatePreview.employmentType">
+                                    <span ng-repeat="emplType in candidatePreview.employmentType.split(',')">
+                                        {{emplType|translate}}
+                                        <!--{{$index}}{{emplType}}-->
+                                    </span>
+                            </td>
+                        </tr>
+                        <tr ng-show="candidatePreview != undefined && candidatePreview.readyRelocate && candidatePreview.relatedRegions!=undefined">
+                            <td class="content-header" translate="ready_to_relocate"></td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <span ng-repeat="region in candidatePreview.relatedRegions">{{region.fullName}}&nbsp;</span>
+                            </td>
+                        </tr>
+
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'mphone').length > 0">
+                            <td class="content-header"><i class="fa fa-phone" aria-hidden="true"></i></td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <div ng-repeat=" contact in candidatePreview.contacts|filter:type = 'mphone'">
+                                    {{contact.value}}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'email').length > 0">
+                            <td class="content-header"><i class="fa fa-envelope" aria-hidden="true"></i></td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'email'">
+                                    <a href="mailto:{{contact.value.split(' ')[0]}}">
+                                        {{contact.value.split(' ')[0]}}
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'skype').length > 0">
+                            <td class="content-header"><i class="fa fa-skype" aria-hidden="true"></i> </td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <div ng-repeat=" contact in candidatePreview.contacts|filter:type = 'Skype'">
+                                    {{contact.value}}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'linkedin').length > 0">
+                            <td class="content-header"><i class="fa fa-linkedin" aria-hidden="true"></i></td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'linkedin'">
+                                    <a target="_blank" href="{{contact.value}}">{{contact.value|cut:true:30}}</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'facebook').length > 0">
+                            <td class="content-header"><i class="fa fa-facebook" aria-hidden="true"></i></td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'facebook'">
+                                    <a target="_blank" href="{{contact.value}}">{{contact.value|cut:true:30}}</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'googleplus').length > 0">
+                            <td class="content-header"><i class="fa fa-google-plus" aria-hidden="true"></i></td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'googleplus'">
+                                    <a target="_blank" href="{{contact.value}}">{{contact.value|cut:true:30}}</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'homepage').length > 0">
+                            <td class="content-header"><i class="fa fa-home" aria-hidden="true"></i></td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em;word-break: break-word;">
+                                <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'homepage'">
+                                    <a target="_blank" href="{{contact.value}}">{{contact.value|cut:true:30}}</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="margin-left: 27%;margin-top: 14%;" ng-show="$root.previewInfoIsMissing">Информация
+                        отсутствует
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="ui vertically-divided-grid ">
+                <div class="sixteen wide column">
+                    <div class="ui feed ">
+                        <ng-include src="'partials/activity/preview_candidate.html'"></ng-include>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="ui bottom attached segment red"
+         style="padding: 6px 6px 3px 6px;border-top: 0.2em solid #FFFFFF !important;"
+         ng-show="candidatePreview.showDocument">
+        <div ng-show="$index == currentDocPreviewPage" ng-repeat="file in candidatePreview.files" style="position: relative;">
+            <i ng-show="currentDocPreviewPage > 0" class="fa fa-angle-left prevDoc" aria-hidden="true" ng-click="prevDoc()"></i>
+            <i ng-show="!$last" class="fa fa-angle-right nextDoc" aria-hidden="true" ng-click="nextDoc()"></i>
+            <iframe ng-src="{{file.linkFileForShow}}" frameborder="0" style="width: 100%; height: 400px;"></iframe>
+        </div>
+    </div>
+</div>

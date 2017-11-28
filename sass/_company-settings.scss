@@ -1,0 +1,309 @@
+.block-company-settings {
+	.breadcrumbs {
+		margin-top: 20px;
+		& > .breadcrumb {
+			& > li {
+				& > i {
+					font-size: 9px;
+
+					padding: 0 5px;
+				}
+			}
+			& > li:before {
+				padding: 0;
+
+				content: "";
+			}
+		}
+	}
+	.company-settings {
+		@include bt-margins-from-side();
+
+		padding: 0 15px;
+		& > .fullName-position {
+			float: none;
+			margin: 20px 0;
+			padding: 0;
+			& > span {
+				@include bold();
+
+				font-size: 18px;
+				& > span {
+					font-size: 14px;
+					font-weight: 500;
+
+					color: #777;
+				}
+			}
+		}
+		& > .leftBar {
+			padding: 0;
+			padding-bottom: 50px;
+
+			border-radius: 5px;
+			background-color: #fff;
+			& > .company-settings-foto {
+				padding: 15px;
+				& > img {
+					width: 100%;
+					height: auto;
+				}
+			}
+			& > .addedPhotoProfile {
+				display: inline-block;
+				width: 100%;
+				padding: 0 15px;
+				a.add-image {
+					font-weight: 600;
+
+					display: block;
+					margin-top: 15px;
+
+					color: $theme-dark;
+					border: 1px solid $theme-dark-green;
+					background-color: $theme-white;
+					&:hover {
+						@include button-green-styling();
+					}
+					.size {
+						font-size: 11px;
+						font-weight: 300;
+
+						color: $theme-grey;
+					}
+				}
+				//&:hover .add-image {
+				//	@include button-green-styling();
+				//}
+				.showBtn {
+					.company-label {
+						font-weight: 500;
+
+						margin-left: 10px;
+
+						color: $theme-grey;
+					}
+					.company-settings {
+						@include input-styling();
+
+						margin-top: -10px;
+					}
+					.save-button {
+						@include button-green-styling();
+
+						display: none;
+						margin: -30px 0 5px 0;
+
+						color: $theme-white;
+						background-color: $theme-dark-green;
+						&:hover {
+							background-color: $theme-light-green-hover;
+						}
+					}
+					&:hover .save-button {
+						display: block;
+					}
+				}
+				.add-image {
+					@include button-styling();
+
+					display: none;
+					padding: 5px;
+				}
+			}
+			.changeWebSiteOrFb {
+				.ourSite {
+					display: inline-block;
+					width: 100%;
+					padding: 0 15px;
+				}
+				.fbPage {
+					display: inline-block;
+					width: 100%;
+					padding: 0 15px;
+				}
+				.nameTittle {
+					display: inline-block;
+					margin-top: 5px;
+					margin-left: 10px;
+
+					color: $theme-grey;
+				}
+				a {
+					@include link-styling();
+
+					margin-left: 10px;
+					i {
+						color: $theme-dark-green;
+					}
+				}
+				input {
+					@include input-styling();
+					@include border-radius();
+
+					width: 100%;
+					padding-left: 15px;
+					&:focus {
+						outline: none;
+					}
+				}
+				.text-center {
+					margin-top: 10px;
+					.btn {
+						@include button-styling();
+					}
+					.accept {
+						color: $theme-white;
+						background-color: $theme-dark-green;
+						&:hover {
+							background-color: $theme-light-green-hover;
+						}
+					}
+					.cancel {
+						color: #585859;
+						background-color: #e3e3e3;
+						&:hover {
+							background-color: $theme-light-grey-hover;
+						}
+					}
+					&:last-child {
+						margin-left: 10px;
+					}
+				}
+			}
+		}
+		& > .centerBar {
+			& > .topBar {
+				padding: 0;
+				padding-bottom: 30px;
+
+				border-bottom: 1px solid #e5e4e4;
+				& > .addTabJobs {
+					padding: 0;
+					& > h4 {
+						font-size: 16px;
+						font-weight: 600;
+
+						margin: 0;
+					}
+					& > .button {
+						display: inline-block;
+						margin-top: 30px;
+						margin-bottom: 15px;
+						& > a {
+							@include button-green-styling();
+
+							border: none;
+						}
+					}
+				}
+				& > .imgCompanyTab {
+					& > img {
+						width: 100%;
+						height: auto;
+
+						cursor: pointer;
+					}
+				}
+			}
+			& > .bottomBar {
+				margin-top: 30px;
+				padding: 0;
+				.header {
+					@include disabled-margins-for-row;
+
+					padding: 10px;
+					padding-left: 0;
+					h4 {
+						font-size: 16px;
+						font-weight: 600;
+					}
+				}
+				.bodies {
+					padding: 0 15px;
+					& > .table {
+						background-color: $theme-white;
+						& > tbody {
+							& > tr {
+								.text-center {
+									width: 25px;
+								}
+								.name {
+									width: 120px;
+									& > a {
+										@include bold();
+										@include link-styling();
+									}
+								}
+								.responsible {
+									width: 455px;
+									& > i {
+										cursor: pointer;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		#cropper-wrap {
+			padding: 10px;
+
+			border: #e3f2dd 1px solid;
+			border-radius: 5px;
+			#close {
+				@include button-styling-cancel();
+			}
+			#cropp {
+				@include button-green-styling();
+
+				margin-left: 20px;
+			}
+			#img-wrapper {
+				margin-bottom: 20px;
+			}
+		}
+		#wrapperForPng {
+			padding: 10px;
+
+			border: #e3f2dd 1px solid;
+			border-radius: 5px;
+			img {
+				width: 280px;
+				height: 280px;
+				margin-bottom: 15px;
+			}
+			#cancel {
+				@include button-styling-cancel();
+			}
+			#download {
+				@include button-green-styling();
+
+				margin-left: 20px;
+			}
+		}
+	}
+}
+
+@media (max-width: 1200px) {
+	.block-company-statistics .img-section {
+		text-align: center;
+	}
+	.block-company-statistics .img-section #wrapperForPng {
+		max-width: 200px;
+		margin: auto;
+	}
+	.block-company-statistics .img-section #cropper-wrap {
+		max-width: 300px;
+		margin: auto;
+	}
+	.block-company-settings .company-settings #cropper-wrap {
+		max-width: 300px;
+		margin: auto;
+	}
+	.block-company-settings .company-settings #wrapperForPng {
+		max-width: 300px;
+		margin: auto;
+	}
+}

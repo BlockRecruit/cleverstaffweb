@@ -1,0 +1,18 @@
+.pipeline-descr {
+	.modal-header {
+		h4 {
+			font-weight: bold;
+		}
+	}
+	.modal-body {
+		.green {
+			background-color: $theme-light-green;
+		}
+		.red {
+			background-color: rgba(255, 99, 109, 0.4);
+		}
+		.yellow {
+			background-color: rgba(255, 233, 166, 0.6);
+		}
+	}
+}

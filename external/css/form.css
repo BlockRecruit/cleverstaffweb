@@ -1,0 +1,315 @@
+.contactUs{
+    background-color: #fff;
+    padding: 30px 15px 15px 15px;
+    border-radius: 8px;
+    position: relative;
+    top: -55px;
+    box-shadow: 0px 1px 35px 1px #D6EAD1;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.question-form{
+    margin-top: 30px;
+}
+.float-left{
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+}
+.nameForm,
+.phoneForm,
+.emailForm,
+.companyForm,
+.passwordForm,
+.password2Form{
+    margin-left: 0;
+    font-weight: 100;
+}
+.error-firstName,
+.error-email,
+.error-orgName,
+.error-usersCount,
+.error-password,
+.error-terms{
+    color: red;
+    margin-top: 20px;
+}
+.error-phone{
+    color: red;
+    margin-top: 40px;
+}
+.red{
+    background-color: #FF8B8B;
+}
+.green{
+    background-color: #79BE79;
+}
+.margin-bottom{
+    margin-bottom: 5px;
+}
+.input-large{
+    width: 100%;
+    margin: 0 auto 25px auto;
+    display: block;
+}
+.form-gr{
+    margin: 0 auto 10px auto;
+    width: 70%;
+}
+.form-gr .lastName {
+    width: 60%;
+    float: right;
+}
+.form-gr .firstName {
+    width: 37%;
+    float: left;
+}
+.mistake{
+    margin-top: 30px;
+}
+.form-gr input{
+    border: 1px solid #E5E5E6;
+    border-radius: 30px;
+    padding: 5px 15px 5px 20px;
+    background-color: #FCFCFC;
+    z-index: 15;
+    /*position: relative;*/
+}
+.form-gr input[type="checkbox"]{
+    display: inline-block;
+    width: auto;
+    border: 1px solid #E5E5E6;
+    border-radius: 30px;
+    padding: 5px 15px 5px 20px;
+    background-color: #FCFCFC;
+    z-index: 15;
+    /*position: relative;*/
+}
+.form-gr .terms {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+}
+.form-gr select{
+    border: 1px solid #E5E5E6;
+    border-radius: 30px;
+    padding: 5px 15px 5px 20px;
+    background-color: #FCFCFC;
+    color: #909090;
+    cursor: pointer;
+}
+.form-gr select option{
+    color: #686769;
+    background-color: #fff;
+}
+.form-gr select option:nth-child(2n+1){
+    background-color: #FCFCFC;
+}
+.form-gr textarea{
+    border: 1px solid #E5E5E6;
+    border-radius: 20px;
+    padding: 15px 15px 15px 20px;
+    resize: none;
+    height: 200px;
+    background-color: #FCFCFC;
+    z-index: 15;
+    position: relative;
+}
+.form-gr .textarea-demo{
+    height: 100px;
+}
+input, select, textarea:focus{
+    outline: none;
+}
+.form-last{
+    margin-bottom: 20px;
+}
+.create-account{
+    background-color: #F49618;
+    text-transform: uppercase;
+    width: 70%;
+    cursor: pointer;
+}
+.create-account:hover{
+    background-color: #FCFCFC;
+    border: 1px solid #F49618;
+    color: #F49618;
+}
+.administrator-account{
+    margin-top: 20px;
+    padding-bottom: 15px;
+}
+.signup-contact{
+    top: 1800px;
+    transition: all 1.7s;
+}
+.or{
+    margin: 25px 0;
+}
+.hidden-not-important {
+    display: none;
+}
+.google-form{
+    width: 536px;
+}
+.google-form-width{
+    width: 100%;
+}
+.form-gr label{
+    font-weight: 100;
+}
+#selectForCountryCode{
+    border: none!important;
+    border-radius: 0!important;
+    color: inherit!important;
+    background: inherit!important;
+    padding: 0!important;
+}
+.displayTable{
+    display: table;
+}
+.displayTable .countries{
+    width: 37%;
+}
+.displayTable .phone{
+    width: 60%;
+}
+.displayTable .phone .phoneNumber{
+    -moz-appearance: textfield;
+}
+.select2-container{
+    width: 145px!important;
+    float: left;
+}
+.displayTable .countries  .select2-container{
+    width: 100%!important;
+}
+.select2-container--default .select2-selection--single{
+    border: 1px solid #E5E5E6;
+    border-radius: 30px!important;
+    padding: 5px 15px 5px 20px;
+    background-color: #FCFCFC!important;
+    height: 32px!important;
+}
+.select2-container--default .select2-selection--single:focus{
+    outline: none;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    color: #8F8F8F!important;
+    padding-left: 0!important;
+    line-height: 20px!important;
+    text-align: left;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.facebook-modal .modal-header{
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.facebook-modal .modal-header h4{
+    margin: 5px 0 0px;
+}
+.facebook-modal .modal-body{
+    padding: 0 15px;
+}
+.facebook-modal .modal-footer{
+    padding: 0 15px;
+    border-top: none;
+}
+.facebook-modal-en .modal-header{
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.facebook-modal-en .modal-header h4{
+    margin: 5px 0 0px;
+}
+.facebook-modal-en .modal-body{
+    padding: 0 15px;
+}
+.facebook-modal-en .modal-footer{
+    padding: 0 15px;
+    border-top: none;
+}
+.google-modal .modal-header{
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.google-modal .modal-header h4{
+    margin: 5px 0 0px;
+}
+.google-modal .modal-body{
+    padding: 0 15px;
+}
+.google-modal .modal-footer{
+    padding: 0 15px;
+    border-top: none;
+}
+.google-modal-en .modal-header{
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.google-modal-en .modal-header h4{
+    margin: 5px 0 0px;
+}
+.google-modal-en .modal-body{
+    padding: 0 15px;
+}
+.google-modal-en .modal-footer{
+    padding: 0 15px;
+    border-top: none;
+}
+@media screen and (max-width: 1199px) {
+    .select2-container{
+        width: 125px!important;
+    }
+    .displayTable .countries  .select2-container{
+        width: 100%!important;
+    }
+}
+@media screen and (max-width: 991px) {
+    .select2-container{
+        width: 160px!important;
+    }
+}
+@media screen and (max-width: 768px) {
+    .google-form{
+        margin: 0 auto;
+        top: 0;
+    }
+    .select2-container{
+        width: 118px!important;
+    }
+}
+@media screen and (max-width: 440px) {
+    .nameForm,
+    .phoneForm,
+    .emailForm,
+    .companyForm,
+    .passwordForm,
+    .password2Form{
+        margin: 0 auto;
+    }
+    .google-form{
+        width: 300px;
+    }
+    .form-gr, .create-account{
+        width: 100%;
+    }
+    .form-gr .phoneNumber{
+        width: 100%;
+    }
+    .displayTable .countries{
+        width: 100%;
+    }
+    .displayTable .phone{
+        width: 100%;
+        margin-top: 20px;
+    }
+    .select2-container{
+        width: 100%!important;
+    }
+}

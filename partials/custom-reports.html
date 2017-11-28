@@ -1,0 +1,229 @@
+<div class="block-custom-reports">
+    <div class="container-fluid">
+        <header>
+            <h3>
+                <span ng-bind="'_Report'|translate"></span>
+                <span ng-bind="::ctrlReport.dataReport['name']" style="margin:0 10px ;"></span>
+                <div class="icon" ng-show="$root.me.recrutRole === 'admin'">
+                    <a href="#/reports/edit-reports" ng-click="">
+                        <i class="fa fa-pencil" title="{{'Edit report parameters'|translate}}"></i>
+                    </a>
+                    <i class="fa fa-times" title="{{'Delete report'|translate}}" ng-click="ctrlReport.remove(ctrlReport.dataReport.customVacancyReportId, this)"></i>
+                </div>
+                <button ng-show="!$root.loading" type="button" class="btn btn-primary accept downloadReport"
+                        ng-click="ctrlReport.downloadReport()">
+                    <span>{{'Download report as Excel'|translate}}</span>
+                </button>
+                <a id="downloadReport"></a>
+            </h3>
+        </header>
+        <main class="container-fluid" >
+            <p ng-bind="::ctrlReport.dataReport['descr']" ng-if="ctrlReport.dataReport['descr']"></p>
+            <section class="row">
+                <div class="form" style="display: inline-block">
+                    <div class="two fields" style="width: 100%;">
+                        <div class="field pull-left">
+                            <span class="pull-left">{{'Date' | translate}}:</span>
+                            <label class="pull-left">{{'from3'|translate}}</label>
+                            <input placeholder="{{'from3'|translate}}" style="cursor: not-allowed" class="startDate pull-left"  disabled type="text">
+                        </div>
+                        <div class="field pull-left" style="margin-left: 8px;">
+                            <label class="pull-left">{{'to1'|translate}}</label>
+                            <input style="cursor: not-allowed" placeholder="{{'to1'|translate}}" class="endDate pull-left"  disabled type="text">
+                        </div>
+                        <i class="fa fa-info-circle info" ng-mouseover="ctrlReport.inHover($event)" ng-mouseleave="ctrlReport.outHover($event)"></i>
+                        <div class="info-content"><p>{{"This filter 'by date' in the report shows the last date when a candidate was moved to a new vacancy stage." | translate}}</p><p>{{"The filter is not applied for dates of vacancy creation and date when a candidate was added to a vacancy." | translate}}</p></div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </section>
+            <section ng-style="(ctrlReport.dataReport.vacancyFields.length > 8)? {'overflow-x':'scroll'} : false" ng-show="!ctrlReport.dataReport.withCandidates && ctrlReport.build">
+                <table class="table custom-report" style="margin-bottom: 0px;"
+                       ng-style="(ctrlReport.dataReport.vacancyFields.length > 8)? {'max-width':'4000px','min-width':'4000px','width':'100%'}:{'width':'100%'}">
+                    <thead>
+                    <tr>
+                        <th  style="text-align: left; vertical-align: middle;">
+                            <span>{{"Vacancy" |translate}}</span>
+                        </th>
+                        <th ng-repeat="(index, field) in ctrlReport.fieldsList track by $index" ng-if="field.visiable" style="text-align: left; vertical-align: middle;">
+                            <span  ng-style="(key === 'responsibles')? {'width':'9%'}: false">{{field.value |translate}}</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="vacancyField in ctrlReport.vacancyData track by $index">
+                        <td ng-bind="vacancyField['position']"></td>
+                        <td ng-if="field.visiable" ng-repeat="field in ctrlReport.fieldsList track by $index">{{{value:vacancyField[field.value],type: field,vacancy:vacancyField}|filterDataForReport:this}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+            <div class="table-outer" ng-if="ctrlReport.dataReport.withCandidates">
+                <table class="table report-first">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th ng-bind="'Candidate'|translate"></th>
+                            <th ng-bind="'interview_status'|translate"></th>
+                            <th ng-bind="'salary'|translate"></th>
+                            <th ng-bind="'location'|translate"></th>
+                            <th ng-bind="'languages_1'|translate"></th>
+                            <th ng-bind="'recruter'|translate"></th>
+                            <th ng-bind="'source'|translate"></th>
+                            <th ng-bind="'last comment'|translate"></th>
+                            <th ng-bind="'Start Date'|translate"></th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="table-outer-scroll">
+                    <div ng-repeat="vacancy in ctrlReport.mainData track by $index"  ng-init="outerIndex = $index">
+                        <table class="table tableWithoutBorderTr">
+                            <thead>
+                                <tr class="checkoutTable tableVacancy">
+                                    <th class="number-second-table">
+                                        # {{$index + 1}}.
+                                    </th>
+                                    <th class="number-second-table2">
+                                        <span>{{'vacancy'|translate}}:</span>
+                                        <a href="#/vacancies/{{vacancy.vacancy.localId}}" target="_blank">{{vacancy.vacancy.position}}</a>
+                                    </th>
+                                    <th ng-if="vacancy.vacancy.status" class="number-second-table3">
+                                        <span>{{'Vacancy status'|translate}}:</span>
+                                        <div>{{vacancy.vacancy.status | translate}}</div>
+                                    </th>
+                                    <th ng-if="vacancy.vacancy.dc" class="number-second-table4">
+                                        <span>{{'Open date'|translate}}:</span>
+                                        <div>{{vacancy.vacancy.dc | dateFormat}}</div>
+                                    </th>
+                                    <!--<th style="width: 51px;padding: 0px"></th>-->
+                                </tr>
+                            </thead>
+                            <thead>
+                            <tr class="checkoutTable tableVacancy">
+                                <th class="number-second-table">
+                                </th>
+                                <th ng-if="vacancy.vacancy.clientId.localId" class="number-second-table2">
+                                    <span>{{'Client'|translate}}:</span>
+                                    <a class="" href="#clients/{{vacancy.vacancy.clientId.localId}}"target="_blank">{{vacancy.vacancy.clientId.name}}</a>
+                                </th>
+                                <th ng-if="vacancy.vacancy.regionId" class="number-second-table3">
+                                    <span>{{'location'|translate}}:</span>
+                                    <div>{{ctrlReport.regionIdToName(vacancy.vacancy.regionId)}}</div>
+                                </th>
+                                <th ng-if="vacancy.vacancy.daysInWork" class="number-second-table4">
+                                    <span>{{'Days in work'|translate}}:</span>
+                                    <div>{{ vacancy.vacancy.daysInWork }}</div>
+                                </th>
+                                <!--<th style="width: 51px;padding: 0px"></th>-->
+                            </tr>
+                            </thead>
+                            <tr class="tableVacancy">
+                                <td>
+                                </td>
+                                <td  ng-if="vacancy.vacancy.responsibles && vacancy.vacancy.responsibles.length > 0" class="payment" style="text-align: left;">
+                                    <span>{{'responsible'|translate}}:</span>
+                                    <span ng-repeat="responsible in vacancy.vacancy.responsibles track by $index">
+                                    <a class="inline" href="#users/{{responsible.personId}}" target="_blank">{{ctrlReport.getPersonFullName(responsible.personId)}}</a><span ng-show="!$last">,</span>
+                                </span>
+                                </td>
+                                <td ng-if="vacancy.vacancy.datePayment" class="payment" style="text-align: left">
+                                    <span>{{"Payment date"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.datePayment}}</span>
+                                </td>
+                                <td ng-if="vacancy.vacancy.dateFinish" class="payment" style="text-align: left">
+                                    <span>{{"Deadline"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.dateFinish}}</span>
+                                </td>
+                            </tr>
+                            <tr class="tableVacancy">
+                                <td>
+                                </td>
+                                <td ng-if="vacancy.vacancy.budget" class="payment" style="text-align: left">
+                                    <span>{{"Budget"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.budget}}{{vacancy.vacancy.currency}}</span>
+                                </td>
+                                <td ng-if="vacancy.vacancy.employmentType" style="text-align: left">
+                                    <span>{{"Employment type"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.employmentType|translate}}</span>
+                                </td>
+                                <td  ng-if="vacancy.vacancy.candidatesAdded" style="text-align: left">
+                                    <span>{{"Candidates added"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.candidatesAdded}}</span>
+                                </td>
+                            </tr>
+                            <tr class="tableVacancy">
+                                <td>
+                                </td>
+                                <td ng-if="vacancy.vacancy.candidatesInWork" class="payment" style="text-align: left">
+                                    <span>{{"Candidates in work"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.candidatesInWork}}</span>
+                                </td>
+                                <td ng-if="vacancy.vacancy.candidatesApproved" style="text-align: left">
+                                    <span>{{"Hired"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.candidatesApproved}}</span>
+                                </td>
+                                <td  ng-if="vacancy.vacancy.candidatesRefused" style="text-align: left">
+                                    <span>{{"Declined"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.candidatesRefused}}</span>
+                                </td>
+                            </tr>
+                            <tr class="tableVacancy">
+                                <td>
+                                </td>
+                                <td ng-if="vacancy.vacancy.salaryTo" class="payment" style="text-align: left">
+                                    <span>{{"salary"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.salaryTo}}</span>
+                                    <span style="color: black">{{vacancy.vacancy.currency}}</span>
+                                </td>
+                                <td ng-if="vacancy.vacancy.numberOfPositions" class="payment" style="text-align: left">
+                                    <span>{{"numberOfPositions"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.numberOfPositions}}</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="margin-top: 0px; margin-bottom: 0px; border-top: 0px!important; table-layout: fixed;" class="table table-striped custom-all-table">
+                            <tr ng-repeat="candidate in vacancy.info track by $index" subparagraphnumber class="tableCandidate candidateTableLast">
+                                <td>
+                                    {{outerIndex + 1}}.{{$index + 1}}.
+                                </td>
+                                <td class="payment">
+                                    <a href="#/candidates/{{candidate.candidate.localId}}">{{candidate.candidate.fullName}}</a>
+                                </td>
+                                <td class="payment">
+                                    {{candidate.interview.state | translate}}
+                                </td>
+                                <td class="payment">
+                                    <div ng-show="candidate.candidate.currency && candidate.candidate.salary">
+                                        {{candidate.candidate.salary}} {{candidate.candidate.currency}}
+                                    </div>
+                                </td>
+                                <td class="payment">
+                                    {{candidate.candidate.regionfullName}}
+                                </td>
+                                <td class="language">
+                                    <span class="inlineLang" ng-repeat="lang in candidate.candidate.languages track by $index">{{lang.name}} {{lang.level|translate}}<span ng-if="!$last">, </span></span>
+                                </td>
+                                <td class="text-left">
+                                    {{candidate.interview.creatorCutFullName}}
+                                </td>
+                                <td class="text-left">
+                                    {{candidate.candidate.origin}}
+                                </td>
+                                <td class="comment" popup data-html="{{candidate.interview.comment}}">
+                                    {{candidate.interview.comment}}
+                                </td>
+                                <td class="payment">
+                                    {{candidate.interview.dateEmployee | dateFormat}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <button ng-show="!$root.loading" type="button" style="margin-top: 30px;" class="btn btn-primary accept downloadReport"
+                        ng-click="ctrlReport.downloadReport()">
+                    <span>{{'Download report as Excel'|translate}}</span>
+                </button>
+            </div>
+        </main>
+    </div>
+</div>

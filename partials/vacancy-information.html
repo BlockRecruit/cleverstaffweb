@@ -1,0 +1,240 @@
+<div class="row main-info block-vacancy-descr">
+    <span>{{vacancy}}</span>
+    <div class="col-lg-7">
+        <form name="vacancyForm" ng-submit="submitForm()" novalidate>
+            <div class="col-lg-12">
+                <h3>Добавить вакансию</h3>
+                <div class="col-lg-7 input-outer">
+                    <span class="title">{{'vacancy_name'|translate}}*</span>
+                    <input class="form-control"
+                           type="text"
+                           name="position"
+                           ng-model="vacancy.position"
+                           ng-class="{'error': vacancyForm.position.$invalid && !vacancyForm.position.$pristine}"
+                           ng-maxlength="80" required/>
+                    <div class="alert alert-danger" ng-show="vacancyForm.position.$invalid && !vacancyForm.position.$pristine && vacancyForm.position.$error.required == true">
+                        {{'enter_vacancy_name'|translate}}.
+                    </div>
+                </div>
+                <div class="col-lg-5 input-outer">
+                    <div class="col-lg-6">
+                        <span class="title">{{'from'|translate}}</span>
+                        <input class="form-control" type="number"
+                               ng-model="vacancy.ageFrom"
+                               name="ageFrom"
+                               min="0"/>
+                    </div>
+                    <div class="col-lg-6">
+                        <span class="title">{{'to date'|translate}}</span>
+                        <input class="form-control" type="number"
+                               ng-model="vacancy.ageTo"
+                               name="ageTo"
+                               min="0"/>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="alert alert-danger" ng-show="vacancyForm.ageFrom.$invalid && !vacancyForm.ageFrom.$pristine || vacancyForm.ageTo.$invalid && !vacancyForm.ageTo.$pristine" translate="information_should_be_given_numbers">
+                    </div>
+                </div>
+                <div class="col-lg-7 input-outer">
+                    <span class="title"> {{'client'|translate}}*</span>
+                    <div class="select">
+                        <select class="form-control select-with-size"
+                                ng-disabled="$root.me.recrutRole=='client'" ng-model="vacancy.clientId.clientId"
+                                required
+                                ng-options="clients.clientId as clients.name for clients in clients"
+                                name="client" onfocus="this.size=15;" onchange="this.size=1; this.blur();" onblur="this.size=1;">
+                        </select>
+                    </div>
+                    <div class="alert alert-danger" ng-show="vacancyForm.client.$invalid && !vacancyForm.client.$pristine">
+                        {{'choose_client'|translate}}.
+                    </div>
+                </div>
+                <div class="col-lg-5 input-outer">
+                    <span class="title">{{'preferred_sex'|translate}}</span>
+                    <div class="select">
+                        <select class="form-control" ng-model="vacancy.sex"
+                                ng-show="lang.use() == 'en'"
+                                ng-init="vacancy.sex = null"
+                                ng-options="sex.value as sex.name for sex in sexObject">
+                            <option value="" ng-if="false"></option>
+                        </select>
+                    </div>
+                    <div class="select">
+                        <select class="form-control" ng-model="vacancy.sex"
+                                ng-show="lang.use() == 'ru'"
+                                ng-init="vacancy.sex = null"
+                                ng-options="sex.value as sex.name for sex in sexObjectRU">
+                            <option value="" ng-if="false"></option>
+                        </select>
+                    </div>
+                    <div class="select">
+                        <select class="form-control" ng-model="vacancy.sex"
+                                ng-show="lang.use() == 'ua'"
+                                ng-init="vacancy.sex = null"
+                                ng-options="sex.value as sex.name for sex in sexObjectUA">
+                            <option value="" ng-if="false"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-7 input-outer salary">
+                    <div class="col-lg-4">
+                        <span class="title">{{'salary'|translate}} {{'from'|translate}}</span>
+                        <input class="form-control"
+                               name="salaryFrom"
+                               type="number"
+                               min="0"
+                               max="99999999"
+                               ng-class="{'error': vacancyForm.salaryFrom.$invalid && !vacancyForm.salaryFrom.$pristine}"
+                               ng-model="vacancy.salaryFrom"/>
+                    </div>
+                    <div class="col-lg-4">
+                        <span class="title">{{'salary'|translate}} {{'to date'|translate}}</span>
+                        <input class="form-control"
+                               name="salaryTo"
+                               ng-model="vacancy.salaryTo"
+                               ng-class="{'error': vacancyForm.salaryTo.$invalid && !vacancyForm.salaryTo.$pristine}"
+                               type="number" min="0" max="99999999"/>
+                    </div>
+                    <div class="col-lg-4">
+                        <span class="title invisible">Валюта</span>
+                        <div class="select">
+                            <select class="form-control" ng-model="vacancy.currency">
+                                <option value="{{currency.value}}" ng-repeat="currency in currency">{{currency.value}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="alert alert-danger"  ng-show="vacancyForm.salaryFrom.$error.number
+                    && !vacancyForm.salaryFrom.$pristine
+                    || vacancyForm.salaryTo.$error.number && !vacancyForm.salaryTo.$pristine" translate="information_should_be_given_numbers">
+                    </div>
+                    <div class="alert alert-danger"  ng-show="vacancyForm.salaryFrom.$error.max
+                    && !vacancyForm.salaryFrom.$pristine
+                    || vacancyForm.salaryTo.$error.max && !vacancyForm.salaryTo.$pristine" translate="Unacceptably large number">
+                    </div>
+                </div>
+                <div class="col-lg-5 input-outer">
+                    <span class="title">{{'budget'|translate}}</span>
+                    <input class="form-control" placeholder="" ng-maxlength="50" name="budget" ng-model="vacancy.budget" type="text"
+                           ng-class="{'error': vacancyForm.budget.$invalid && !vacancyForm.budget.$pristine && vacancyForm.budget.$error.maxlength == true}"/>
+                    <div class="alert alert-danger" ng-show="vacancyForm.budget.$invalid && !vacancyForm.budget.$pristine && vacancyForm.budget.$error.maxlength == true"
+                         translate="text_should_be_no_longer_than_50_characters"></div>
+                </div>
+                <div class="col-lg-7 input-outer">
+                    <span class="title">{{'required_experience'|translate}}</span>
+                    <input class="form-control" name="experience" ng-maxlength="50" placeholder="" ng-model="vacancy.experience" type="text"
+                           ng-class="{'error': vacancyForm.experience.$invalid && !vacancyForm.client.$pristine}"/>
+                    <div class="alert alert-danger" ng-show="vacancyForm.experience.$invalid && !vacancyForm.experience.$pristine && vacancyForm.experience.$error.maxlength == true"
+                         translate="text_should_be_no_longer_than_50_characters"></div>
+                </div>
+                <div class="col-lg-5 input-outer">
+                    <span class="title">{{'deadline'|translate}}</span>
+                    <input class="form-control deadLinePicker" type="text" placeholder="{{'day/month/year'|translate}}" />
+                </div>
+                <div class="col-lg-7 input-outer">
+                    <span class="title">{{'employment_type'|translate}}</span>
+                    <div class="select">
+                        <select class="form-control" ng-model="vacancy.employmentType">
+                            <option ng-selected="et.value == vacancy.employmentType" value="{{et.value}}" ng-repeat="et in employmentType">{{'employment_type_assoc.' + et.value|translate}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-5 input-outer">
+                    <span class="title">{{'payment_date'|translate}}</span>
+                    <input class="form-control paymentPicker" placeholder="{{'day/month/year'|translate}}" type="text"/>
+                </div>
+                <div class="col-lg-7 input-outer">
+                    <span class="title">{{'region'|translate}}*</span>
+                    <input class="form-control" id="pac-input" ng-model="regionInput" googleplace ng-required="vacancy.employmentType != 'telework'" name="regionInput"/>
+                    <div class="clearfix"></div>
+                    <div class="alert alert-danger" ng-show="vacancyForm.regionInput.$invalid && !vacancyForm.regionInput.$pristine && vacancy.employmentType != 'telework'"
+                         translate="Choose the city or employment type Remote"></div>
+                </div>
+                <div class="col-lg-5 input-outer">
+                    <span class="title">{{'status'|translate}}</span>
+                    <div class="select">
+                        <select class="form-control"
+                                ng-model="vacancy.status"
+                                name="status"
+                                required
+                                ng-init="vacancy.status = 'open'"
+                                ng-selected="status.value == vacancy.status">
+                            <option value="{{status.value}}" ng-show="status.value" ng-repeat="status in status">{{'vacancy_status_assoc.' + status.value|translate}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-7 input-outer">
+                    <span class="title">{{'languages'|translate}}</span>
+                    <input class="form-control select2-lang" type="text" ng-model="vacancy.langs"/>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-lg-12 input-outer vacancy-details">
+                    <span class="title">{{'description'|translate}}</span>
+                    <textarea id="tinymce" ui-tinymce ng-model="vacancy.descr"></textarea>
+                </div>
+                <div class="text-center button">
+                    <a type="button" class="btn btn-primary" ng-click="save()">{{'save'|translate}}</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-5 short-info">
+        <div class="info">
+            <h4>Основные данные</h4>
+            <div class="input-outer">
+                <span class="title">Статус</span>
+                <div class="select">
+                    <select class="form-control">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-outer">
+                <span class="title">Ответственный</span>
+                <div class="select">
+                    <select class="form-control">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <a class="public-link" href="#">
+            <i class="fa fa-link" aria-hidden="true"></i>
+            Публичная вакансия
+        </a>
+        <div class="social">
+            <h4>
+                Social Networks
+            </h4>
+            Получите отклики кандидатов из соцсетей.
+            <br/>
+            Опубликуйте вакансию на своей странице в:
+            <div class="social-links">
+                <i class="fa fa-linkedin linkedin" aria-hidden="true"></i>
+                <i class="fa fa-facebook facebook" aria-hidden="true"></i>
+                <i class="fa fa-twitter twitter" aria-hidden="true"></i>
+                <i class="fa fa-vk vk" aria-hidden="true"></i>
+            </div>
+            <div class="statistic">
+                <span class="grey">Опубликовано в соцсетях:</span>
+                <strong>1</strong>
+                <br/>
+                <span class="grey">Уникальных посещений:</span>
+                <strong>1</strong>
+                <br/>
+                <span class="grey">Получено откликов:</span>
+                <strong>1</strong>
+            </div>
+            <a class="send-vacancy" href="#">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                Отправить на почту
+            </a>
+        </div>
+    </div>
+</div>

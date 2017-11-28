@@ -1,0 +1,16 @@
+<div class="col-lg-3">
+    <span class="time" bo-html="vacancy.actions.objects[0].dm |dateFormat6:true"></span>
+</div>
+<div class="col-lg-9">
+    <a href="#/vacancies/{{vacancy.localId}}"  class="user">
+        <span once-text="vacancy.position"></span>
+    </a>
+    <span class="coma">, {{vacancy.clientId.name}},</span>
+    <a href="#/users/{{vacancy.creator.userId}}" >&nbsp;&nbsp;
+        <i class="fa fa-user" aria-hidden="true"></i>
+        {{vacancy.actions.objects[0].person.fullName}}
+    </a>
+    <br/>
+    {{'history_info.message_client'|translate}}:
+    <span ng-bind-html="vacancy.actions.objects[0].descr|textForNotice:false"></span>
+</div>

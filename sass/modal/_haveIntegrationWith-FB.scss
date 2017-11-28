@@ -1,0 +1,40 @@
+.notHaveIntegrationWith-FB {
+	.modal-header {
+		& > h4 {
+			@include bold();
+		}
+		i {
+			@include close-item();
+		}
+	}
+	.modal-body {
+		& > div {
+			height: 30px;
+			padding: 5px;
+			& > .checkbox {
+				margin: 0;
+			}
+			& > .publish-vacancy-to-FB {
+				& > a {
+					@include button-styling();
+
+					background-color: $theme-dark-green;
+				}
+			}
+		}
+	}
+	.modal-footer {
+		clear: both;
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			color: $theme-white;
+			background-color: $theme-dark-green;
+		}
+		.cancel {
+			color: #585859;
+			background-color: #e3e3e3;
+		}
+	}
+}

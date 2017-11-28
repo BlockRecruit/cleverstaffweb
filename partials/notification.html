@@ -1,0 +1,31 @@
+<div class="block-notifications">
+    <div class="row notifications">
+        <div class="col-lg-6 col-lg-offset-3 fullName-position">
+            <h3 class="text-center">{{'Configuring_notifications_by_email'|translate}}</h3>
+            <span class="messageCheckMark text-center">{{'A_check_mark_means_that_you_want_to_receive_messages_of_this_type'|translate}}</span>
+            <table class="table text-left">
+                <tbody>
+                <tr ng-repeat="notification in sendNotificationObj" ng-hide="(notification.name == 'mailDailyReport' && ($root.me.recrutRole == 'freelancer' || $root.me.recrutRole == 'client' || $root.me.recrutRole == 'researcher'))">
+                    <td>
+                        <span translate="{{notification.name}}"></span>.
+                        <span ng-if="notification.name == 'mailDailyReport'" class="requestReport">
+                            <a ng-click="requestReportModal()" translate="Haven`t received the report?"></a>
+                        </span>
+                    </td>
+                    <td>
+                        <input type="checkbox" ng-checked="notification.value == 'Y'" name="{{notification.name}}" value=""
+                               ng-click="changeReport(notification);">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <br/>
+            <span class="receiveAllMessages text-center">
+                {{'To_receive_all_messages_from_CleverStaff_add'|translate}}
+                <a href="mailto:contact@cleverstaff.net" target="_blank">contact@cleverstaff.net</a>
+                <span>{{'in_the_contact_list_of_your_mail'|translate}}</span>
+            </span>
+            <span id="ShowSaveSettings" class="text-center">{{'settings applied'|translate}}</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="delete-responsible">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">{{'Are you sure to delete the test'|translate}} <span>'{{testForDelete.testName}}'</span> ?</h4>
+    </div>
+    <div class="modal-body">
+        <!--<label>Вы хотите убрать ответственного Vik BG  из вакансии kmlklk?</label>-->
+        <p>{{'This test  will be removed from your company account.'|translate}} </p>
+        <p>{{'All test results will remain at candidate profiles.'|translate}}</p>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'cancel_2'|translate}}</a>
+            <a type="button" class="btn btn-primary del" ng-click="$root.deleteTest($root.testForDelete.testId)">{{'Yes, delete'|translate}}</a>
+        </div>
+    </div>
+</div>

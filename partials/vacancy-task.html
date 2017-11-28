@@ -1,0 +1,93 @@
+<div class="row vacancy-task-page block-vacancy-task">
+    <div class="row vacancy-task">
+        <div class="col-lg-3 leftBar">
+            <h4><i class="fa fa-clone" aria-hidden="true"></i> {{'Adding a task'|translate}}</h4>
+            <input type="text" class="form-control" ng-model="$root.newTask.title" placeholder="{{'Header text'|translate}}">
+            <button type="button" class="btn btn-default" ng-class="{'btn-success': $root.newTask.type == 'Task'}" ng-click="$root.changeTabOnTaskForNewTask('Task');">{{'Task'|translate}}</button>
+            <button type="button" class="btn btn-default" ng-class="{'btn-success': $root.newTask.type == 'Call'}" ng-click="$root.changeTabOnTaskForNewTask('Call');">{{'Call'|translate}}</button>
+            <button type="button" class="btn btn-default" ng-class="{'btn-success': $root.newTask.type == 'Meeting'}" ng-click="$root.changeTabOnTaskForNewTask('Meeting');">{{'Meeting'|translate}}</button>
+            <label class="calendar-for-task" for="changeDateNewTask">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+            </label>
+            <input type="text" id="changeDateNewTask" class="form-control changeDateNewTask" readonly placeholder="{{'Run on' | translate}}">
+            <span class="addPerformer">
+                {{'Add perfomer' | translate}}:
+            <i hide-onclick-anywhere-but-here=""
+               class="fa fa-plus-square-o"
+               title="{{'Add perfomer' | translate}}" aria-hidden="true">
+                <div class="clever-window hideable responsible" ng-show="false">
+                    <div class="clever-window-element"
+                         ng-repeat="person in $root.persons | orderBy:'cutFullName'"
+                         ng-show="person.status != 'N' && (person.recrutRole == 'admin' || person.recrutRole == 'recruter' || person.recrutRole == 'freelancer' || person.recrutRole == 'salesmanager' || person.recrutRole == 'researcher')"
+                         ng-click="$root.addResponsible(person)">
+                        <span ng-if="person.cutFullName == $root.me.cutFullName">({{'Me' | translate}}) {{$root.me.cutFullName}}</span>
+                    </div>
+                    <div class="clever-window-element"
+                         ng-repeat="person in $root.persons | orderBy:'cutFullName'"
+                         ng-show="statusPerson.status == 'ok' && person.status != 'N'"
+                         ng-click="$root.addResponsible(person)">
+                        <span ng-hide="person.cutFullName == $root.me.cutFullName">{{person.cutFullName}}</span>
+                    </div>
+                </div>
+            </i>
+            </span>
+            <!--<a target="_blank" ng-hide="modalEditTaskToCandidateOpened" ng-repeat="responsible in $root.responsiblePersons" href="#users/{{responsible.userId}}">{{responsible.fullName}}</a>-->
+            <span class="performer" ng-show="modalEditTaskToCandidateOpened" ng-repeat="responsible in $root.responsiblePersonsEdit">
+                <a target="_blank" href="#/users/{{responsible.userId}}">
+                    {{responsible.fullName}}
+                </a>
+                <i title="{{'Delete perfomer' | translate}}" ng-click="$root.deleteResponsible(responsible);$event.stopPropagation();" class="fa fa-times" aria-hidden="true"></i>
+                </br>
+            </span>
+            <input type="text" class="form-control" ng-model="$root.newTask.text" placeholder="{{'Task text'|translate}}">
+
+            <div class="text-center btn-for-task" ng-click="$root.saveNewTask()">
+                <a type="button" class="btn btn-primary">{{'save'|translate}}</a>
+            </div>
+        </div>
+        <div class="col-lg-9 centerBar no-padding-sm">
+            <div class="vacancy-task-outer">
+                <table class="table vacancy-task-table">
+                    <tbody>
+                    <tr ng-click="showModalEditTaskToCandidate(task);" ng-class="{'finishedTask':task.targetDate < todayDate && task.status != 'completed'}"
+                        ng-repeat="task in vacancyTasks">
+                        <td class="text-left date" >
+                            <div bo-html="task.targetDate | dateFormat6:true"></div>
+                            <!--<span>30 мая</span><br>-->
+                            <!--<span>18:00</span>-->
+                        </td>
+                        <td class="linkTask hidden-xs">
+                            <a href="#/users/{{responsible.responsible.userId}}" title="{{responsible.responsible.fullName}}" ng-repeat="responsible in task.responsiblesPerson"
+                            ng-click="$event.stopPropagation()">
+                                <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
+
+                                <span>{{getFirstLetters(responsible.responsible.fullName)}}</span>
+                            </a>
+                        </td>
+                        <td class="task">
+                            <span class="tasking" ng-class="{tasking : $root.editableTask.type == 'Task',
+                             meeting : $root.editableTask.type == 'Meeting',
+                             calling : $root.editableTask.type == 'Call'}">{{task.type|translate}}</span>
+                            <span>"{{task.title}}"</span>
+                            <div class="text-description">{{task.text|cutName:0:25}}</div>
+                        </td>
+                        <td class="statuses text-center">
+                            <span class="row">
+                                <label for="taskStatus"></label>
+                                <select class="form-control not-finished" id="taskStatus"
+                                        ng-model="task.status"
+                                        ng-change="$root.changeTaskState(task)" ng-click="$event.stopPropagation()"
+                                        ng-class="{'finished': task.status == 'completed'}">
+                                    <option value="open">{{'notCompleted'|translate}}</option>
+                                    <option value="completed">{{'completed'|translate}}</option>
+                                    <option value="Cancelled">{{'Cancelled'|translate}}</option>
+                                </select>
+                            </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,90 @@
+.invite-new-user {
+	::-webkit-input-placeholder {
+		color: $theme-grey;
+	}
+	::-moz-placeholder {
+		color: $theme-grey;
+	}/* Firefox 19+ */
+	:-moz-placeholder {
+		color: $theme-grey;
+	}/* Firefox 18- */
+	:-ms-input-placeholder {
+		color: $theme-grey;
+	}
+	.modal-header {
+		& > h4 {
+			@include bold();
+		}
+		i {
+			@include close-item();
+		}
+	}
+	.modal-body {
+		& > span {
+			color: $theme-grey;
+		}
+		& > input {
+			@include input-styling();
+		}
+		.inviteHM {
+			ul {
+				li {
+					span {
+						@include bold();
+					}
+				}
+			}
+		}
+		& > .roleInviteUser {
+			margin-top: 10px;
+			& > span {
+				color: $theme-grey;
+			}
+			& > .checkboxes {
+				& > .checkbox-outer {
+					input {
+						cursor: pointer;
+						vertical-align: text-top;
+						&:focus {
+							outline: none;
+						}
+					}
+					span.grey {
+						font-size: 13px;
+
+						color: $theme-grey;
+					}
+				}
+			}
+			& > .form-inline-position {
+				& > .select {
+					& > select {
+						@include input-styling();
+					}
+				}
+			}
+		}
+	}
+	.modal-footer {
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			@include button-styling();
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+		#disabledBtn {
+			margin-left: 30px;
+
+			cursor: pointer;
+
+			color: $theme-white;
+			background-color: $theme-blue;
+			&:focus {
+				outline: none;
+			}
+		}
+	}
+}

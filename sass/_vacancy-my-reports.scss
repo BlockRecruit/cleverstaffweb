@@ -1,0 +1,10 @@
+.block-my-reports {
+	.fa {
+		cursor: pointer;
+
+		color: #0096f5;
+		&:last-child {
+			margin: 0 5px;
+		}
+	}
+}

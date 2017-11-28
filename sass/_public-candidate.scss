@@ -1,0 +1,116 @@
+.block-candidate-public {
+	padding: 0 15px;
+	.row {
+		@include bt-margins-from-side();
+		& > .fullName-position {
+			float: none;
+			margin: 25px 0;
+			& > span {
+				@include bold();
+
+				font-size: 20px;
+				& > span {
+					font-size: 14px;
+					font-weight: 500;
+
+					color: #777;
+				}
+			}
+		}
+		& > .candidate-public-background {
+			@include border-radius();
+
+			padding: 20px;
+			padding-left: 0;
+
+			background-color: $theme-white;
+			& > .candidate-public-miniBlock {
+				padding-bottom: 20px;
+
+				border-bottom: 1px solid $theme-light-grey;
+				& > .candidate-public-information {
+					line-height: 25px;
+					a {
+						@include link-styling();
+						@include text-ellipsis();
+
+						display: block;
+						&:not(:first-child) {
+							margin-top: 15px;
+						}
+						i {
+							margin-right: 10px;
+
+							color: $theme-dark-green;
+						}
+						&.phone {
+							color: $theme-dark;
+						}
+					}
+					.languages {
+						.langs-item {
+							margin-left: 15px;
+							.lang {
+								display: block;
+								.lang-level {
+									color: #b8b8b8;
+								}
+							}
+						}
+					}
+				}
+			}
+			.companyLogo {
+				.attachmentsFiles {
+					width: 85%;
+					margin-top: 10px;
+					h5 {
+						@include bold();
+					}
+					a {
+						@include link-styling();
+						i {
+							margin-top: 2px;
+							margin-right: 5px;
+
+							color: $theme-dark-green;
+						}
+					}
+				}
+			}
+			.activity-description {
+				margin-top: 10px;
+				padding-left: 0;
+				.activity {
+					margin: 0 -15px;
+					padding: 1px 30px;
+
+					background-color: $theme-white;
+					h4 {
+						font-weight: 600;
+
+						color: $theme-dark-green;
+					}
+				}
+				.description {
+					margin: 0 -15px;
+					padding: 15px 30px;
+
+					border-bottom-right-radius: 5px;
+					border-bottom-left-radius: 5px;
+					background-color: $theme-white;
+					h4 {
+						font-weight: 600;
+
+						margin-bottom: 20px;
+					}
+				}
+			}
+		}
+	}
+	@media (max-width: $screen-sm) {
+		.no-padding-sm {
+			padding: 0;
+		}
+	}
+}

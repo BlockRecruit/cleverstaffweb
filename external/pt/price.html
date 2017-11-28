@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="UTF-8">
+    <title>Preços | CleverStaff | ATS e Software de Recrutamento</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Vagas e candidatos ilimitados| Integrações com LinkedIn e e-mail | fluxo customizáveis adaptados ao seu recrutamento  e outras funcionalidades que se ajustam ao seu negócio.">
+    <meta name="keywords" content="Acompanhamento de candidatos, automatização do recrutamento, sistema de rastreamento de candidatos, serviço de recrutamento, ATS, software de recrutamento, módulo de rh, parsing de CVs, pesquisa de base de dados, etapas dos fluxos de trabalho, sugestão de candidatos, parsing de currículos">
+    <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../external/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../external/css/normalize.css">
+    <link rel="stylesheet" href="../external/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../external/css/animate.min.css">
+    <link rel="stylesheet" href="../external/css/main.min.css?b2">
+    <script src="../external/js/wow.min.js"></script>
+    <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="../../js/ApiKey.js?b1"></script>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Planos e preços | CleverStaff | Software ATS e Recrutamento 'Tudo em Um'"/>
+    <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
+    <meta property="og:image" content="https://dev.cleverstaff.net/images/sprite/for_preview_1080-1080.jpg"/>
+    <meta property="og:image:width" content="1080" />
+    <meta property="og:image:height" content="1080" />
+    <meta property="og:site_name" content="CleverStaff"/>
+</head>
+<body>
+<div class="wrapper">
+    <header>
+        <div class="corner-ribbon corner-ribbon-ru">
+            <div class="corner-ribbon-wrapper-ru">
+                Interface adaptativa
+            </div>
+        </div>
+        <div class="corner-ribbon-info">
+            <img src="img/responsive-design.png">
+            <p><strong>Interface adaptativa</strong></p>
+            <p>Todas as páginas internas com recursos essenciais adaptados para dispositivos móveis: smartphones, tablets e ecrãs de todos os tamanhos</p>
+            <p>Tente CleverStaff agora em qualquer dispositivo que pretenda ;)</p>
+        </div>
+        <div class="container">
+            <a href="index.html" class="logo pull-left"></a>
+            <a href="index.html" class="logo2 pull-left"></a>
+            <a class="signinButtonPt btn btn-default navbar-btn loginBtn  adaptiveMenuShow btn-menu">Começar</a>
+            <span class="rusIcon" style="display: none"><img src="/images/sprite/ru-flag-icon.png" width="21" height="21" alt="">
+                <span class="hidden-xs">PT</span>
+            </span>
+            <div class="useRusServers">
+                <b class="text-center">We use Russian servers to store data of Russian citizens.</b>
+
+                <p>Thus, we follow the law on the processing and storage of personal data (users, candidates, and clients) in the Russian Federation.</p>
+            </div>
+            <nav class="navbar pull-right">
+                <div class="container-fluid">
+                    <ul class="nav navbar-nav adaptiveMenu">
+                        <li><a href="why.html">Por quê</a></li>
+                        <li><a href="features.html">Características</a></li>
+                        <li><a href="price.html">Preçário</a></li>
+                        <li><a href="https://cleverstaff.net/news//" target="_blank">Blog</a></li>
+                    </ul>
+                    <a class="signinButtonPt btn btn-default navbar-btn loginBtn adaptiveMenu pull-left">Começar</a>
+                    <div class="dropdown pull-right adaptiveMenu">
+                        <button class="btn btn-primary dropdown-toggle"
+                                type="button"
+                                data-toggle="dropdown">PT<span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="../en/index.html" onclick="localStorage.setItem('NG_TRANSLATE_LANG_KEY', 'en')">ENG</a></li>
+                        </ul>
+                    </div>
+                    <span class="iconMenu">
+                        <a id="menuFunc"><i class="fa fa-bars" aria-hidden="true"></i></a>
+                    </span>
+                </div>
+            </nav>
+            <div class="menuLanding">
+                <nav class="navbar pull-right">
+                    <div class="container-fluid">
+                        <ul class="nav navbar-nav adaptiveMenuShow mrg-5px-top pull-left">
+                            <li><a href="why.html">Por quê</a></li>
+                            <li><a href="features.html">Características</a></li>
+                            <li><a href="price.html">Preçário</a></li>
+                            <li><a href="https://cleverstaff.net/news/" target="_blank">Blog</a></li>
+                        </ul>
+                        <div class="dropdown pull-right adaptiveMenuShow float-none-mob">
+                            <button class="btn btn-primary dropdown-toggle"
+                                    type="button"
+                                    data-toggle="dropdown">PT <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="../en/index.html">EN</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="block priceBackground" id="home">
+        <div class="priceMan"></div>
+        <div class="priceFlower"></div>
+        <div class="row">
+            <div class="col-md-12 text-center priceHeader big-tittle">
+                <h1>Preços acessíveis para as necessidades da sua empresa</h1>
+                <a href="#need-demo-modal" data-toggle="modal"  data-params="demo" onclick="tariffFunc('demo');" class="orangeBtnBorder demoParams pt-font-bold">Preciso de uma demonstração</a>
+            </div>
+        </div>
+        <div class="priceCheer"></div>
+        <div class="priceGraf"></div>
+    </div>
+    <div class="block" id="block_2">
+        <div class="container">
+            <div class="row big-tittle">
+                <div class="col-md-3 col-sm-6 mrgTopMob">
+                    <div class="tarif">
+                        <h4 class="text-center">1 Recrutador</h4>
+                        <div class="howMuchMoney">
+                            <h5 class="text-center">$0</h5>
+                            <span class="text-center">1 utilizador</span>
+                        </div>
+                        <p class="text-center mrgTop" style="margin-top: 23px">Solução gratuita para um recrutador. Recursos limitados</p>
+                        <a class="orangeBtn priceOrangeBtn price-btn-small startNowOnerecrut pt-font mobile-position" data-params="freeOrStart">Comece agora</a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mrgForMob">
+                    <div class="tarif teamWork">
+                        <div class="mostPopular"></div>
+                        <h4 class="tarif-pt text-center">Trabalho em equipa</h4>
+                        <!--<div class="howMuchMoney">-->
+                        <!--<h5 class="text-center">$25/mo</h5>-->
+                        <!--<span class="text-center">per user</span>-->
+                        <!--</div>-->
+                        <!--<div class="text-center discount">-->
+                        <!--<span>10% discount for 4 month prepayment</span>-->
+                        <!--<span>20% discount for 12 month prepayment</span>-->
+                        <!--</div>-->
+                        <a href="#need-demo-modal" onclick="tariffFunc('team_work');" data-toggle="modal" class="btn btn-default navbar-btn loginBtn loginBtn-pt">Solicitar cotação de preços</a>
+                        <div class="text-center discount">
+                            <span>e nós enviar-lhe-emos de imediato <br/> uma cotação personalizada</span>
+                        </div>
+                        <p class="text-center mrgTop">Gerir candidatos, entrevistas, automatizar todos os processos.</p>
+                        <a class="orangeBtn priceOrangeBtn price-btn-small teamWorkStartTrial pt-font-bold" data-params="teamwork">Inicie o teste de 14 dias</a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mrgForTab">
+                    <div class="tarif corporate">
+                        <h4 class="text-center">Corporativo</h4>
+                        <!--<div class="howMuchMoney">-->
+                        <!--<h5 class="text-center">$450/mo</h5>-->
+                        <!--<span class="text-center">up to 25 users</span>-->
+                        <!--</div>-->
+                        <!--<div class="text-center discount">-->
+                        <!--<span>10% discount for 4 month prepayment</span>-->
+                        <!--<span>20% discount for 12 month prepayment</span>-->
+                        <!--</div>-->
+                        <a href="#need-demo-modal" data-toggle="modal" onclick="tariffFunc('corporate');"
+                           class="btn btn-default navbar-btn loginBtn loginBtn-pt" style="margin-top: 34px">
+                            Solicitar cotação de preços
+                        </a>
+                        <div class="text-center discount">
+                            <span>e nós enviar-lhe-emos de imediato <br> uma cotação personalizada</span>
+                        </div>
+                        <p class="text-center mrgTop padding-bottom-pt">Faturado anualmente, preço fixo, API, nome da sua empresa como domínio, personalizações</p>
+                        <a class="orangeBtn priceOrangeBtn price-btn-small corporateEnStart pt-font-bold" data-params="corporate">Inicie o teste de 14 dias</a>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6 mrgForTab">
+                    <div class="tarif enterPrize">
+                        <h4 class="text-center">Versão "Enterprise"</h4>
+                        <div class="howMuchMoney">
+                            <h5 class="text-center size-pt">Obter uma Cotação</h5>
+                        </div>
+                        <p class="text-center lstChild lstChildPt">Licença autónoma do Sistema CleverStaff em seu próprio servidor</p>
+                        <a href="mailto:roman@cleverstaff.net?subject=Request for Premium offer&body=(Por favor, escreva aqui dados da sua empresa e respetivos contatos)"
+                           class="orangeBtn priceOrangeBtn enterprizeGetOfferOne pt-font-bold mobile-position"
+                           data-params="enterprize">Obter uma Cotação</a>
+                    </div>
+                </div>
+                <div class="col-md-12 menu wow fadeInUp" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60">
+                    <a href="#block_4" class="text-center comparePlans">Compare os planos<br> <span class="arrow-down"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block csPlan" id="block_3">
+        <div class="container">
+            <div class="row">
+                <h2 class="text-center wow fadeInUp">Todos os planos CleverStaff incluem</h2>
+                <div class="col-md-4 col-sm-6 wow fadeInUp">
+                    <p><span class="plan-1"></span>Vagas ilimitadas</p>
+                    <p><span class="plan-2"></span>Candidatos ilimitados</p>
+                    <p><span class="plan-3"></span>Exportação e importação de CVs em massa</p>
+                </div>
+                <div class="col-md-4 col-sm-6 wow fadeInUp">
+                    <p><span class="plan-4"></span>Integrações com LinkedIn e e-mail *</p>
+                    <p><span class="plan-5"></span>Sugestões e avaliações de candidatos *</p>
+                    <p><span class="plan-6"></span>Pesquisa Inteligente no LinkedIn</p>
+                </div>
+                <div class="col-md-4 col-sm-6 wow fadeInUp">
+                    <p><span class="plan-7"></span>Fluxos de recrutamento customizáveis</p>
+                    <p><span class="plan-8"></span>Acesso do cliente à sua conta e ao email*</p>
+                    <p><span class="plan-9"></span> Modelos ​​de e-mail *</p>
+                </div>
+                <div class="clearfix"></div>
+                <p class="limited wow fadeInUp">* limitado para o plano '1 Recruitador'</p>
+            </div>
+        </div>
+    </div>
+    <div class="block tablePrise" id="block_4">
+        <div class="container">
+            <div class="row">
+                <h2 class="text-center wow fadeInUp">Comparação de planos</h2>
+                <div class="prices-block pull-right">
+                    <div class="col-md-1 text-center pull-right plans enterPrizeTable wow fadeInUp pt-padding pt-mobile">Versão "Enterprise"</div>
+                    <div class="col-md-1 text-center pull-right plans corporateTable corporateTableEn wow fadeInUp pt-mobile">Corporativo</div>
+                    <div class="col-md-1 text-center pull-right plans teamWorkTable wow fadeInUp pt-padding pt-mobile">Trabalho em equipa</div>
+                    <div class="col-md-1 text-center pull-right plans oneRecrTable wow fadeInUp pt-mobile">1 Recrutador</div>
+                </div>
+                <div class="hide-block pull-right"></div>
+                <div class="clearfix"></div>
+                <table class="table styleHeaderTable wow fadeInUp">
+                    <tbody>
+                    <tr>
+                        <td class="firstStyleHeaderTable"><h4 class="pt-font-bold">Gestão de Base de dados</h4></td>
+                        <td class="secondStyleHeaderTable">Preencha a sua base de dados em segundos. Encontre todos os dados que precisa.</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered wow fadeInUp">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td class="title">Importação de base de dados</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Exportação de base de dados</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Integração com LinkedIn</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Pesquise no LinkedIn e em portais de emprego locais</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Pesquisa sofisticada de base de dados</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Competências e Tags para Candidatos</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Registo completo de atividades: vagas, candidatos, utilizadores</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Tecnologia de parsing de CVs</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table styleHeaderTable no-border-top wow fadeInUp">
+                    <tbody>
+                    <tr>
+                        <td class="firstStyleHeaderTable">Sistema de Rastreamento do Candidato - ATS</td>
+                        <td class="secondStyleHeaderTable">Uma forma centralizada para avaliar, acompanhar e analisar os candidatos.</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered no-border-top wow fadeInUp">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td class="title">Etapas de fluxo de trabalho customizaveis</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Configurações personalizadas da base de dados</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Acesso para gestores de contratação</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Tarefas e comentários para vagas e para candidatos</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Tags e competências para candidatos</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Integração com Portais de Emprego locais</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Sincronização de Email e Upload de CVs</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Gestão de funções e privilégios</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Customizable email templates</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Modelos customizáveis ​​de e-mail</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">22 critérios de pesquisa de base de dados</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table styleHeaderTable no-border-top wow fadeInUp">
+                    <tbody>
+                    <tr>
+                        <td class="firstStyleHeaderTable pt-font-bold">Automatização do  Recrutamento</td>
+                        <td class="secondStyleHeaderTable">Automatize os processos de recrutamento e aumente a sua eficiência</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered no-border-top wow fadeInUp">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td class="title">Integração com Google Calendar</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Enviar lista de candidatos por e-mail</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Relatórios de vagas</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Funil de recrutamento</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Envio de listagens restritas "shortlists" por e-mail</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Publicações de vagas em redes sociais via link</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Extensão do navegador para integração com 1 clique</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Pré-visualização de arquivos anexados</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">5 tipos de relatório por vagas e produtividade do recrutamento</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Campos personalizados para candidatos, vagas e clientes</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Módulo de testes - permite criar e enviar testes aos candidatos</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Envio de email a candidatos e a clientes através da interface</td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table styleHeaderTable no-border-top wow fadeInUp">
+                    <tbody>
+                    <tr>
+                        <td class="firstStyleHeaderTable pt-font-bold">Funcionalidades avançadas</td>
+                        <td class="secondStyleHeaderTable">Recrutamento sem limitações</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered no-padding-mob no-border-top wow fadeInUp">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td class="title">Controle completo da base de dados</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">O seu nome de domínio (*empresa*.cleverstaff.net)</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">API CleverStaff para integração</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">A sua própria licença: use CleverStaff de forma autónoma no seu servidor</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Módulo de RH</td>
+                        <td class="active text-center twoHundred"></td>
+                        <td class="active text-center twoHundred"><span class="center-prize">+ $300 / ano</span></td>
+                        <td class="active text-center twoHundred"></td>
+                        <td class="active text-center"></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Backup de base de dados</td>
+                        <td class="active text-center twoHundred"></td>
+                        <td class="active text-center twoHundred"><span class="center-prize">+ $500 / ano</span></td>
+                        <td class="active text-center twoHundred"></td>
+                        <td class="active text-center"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table styleHeaderTable no-border-top wow fadeInUp">
+                    <tbody>
+                    <tr>
+                        <td class="firstStyleHeaderTable">Suporte</td>
+                        <td class="secondStyleHeaderTable">Estamos sempre disponíveis para ajudá-lo em qualquer problema</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered no-border-top wow fadeInUp">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td class="title">Assistência Onboard</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                    </tr>
+                    <tr>
+                        <td class="title">Suporte ao cliente + atualizações de versão</td>
+                        <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
+                        <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
+                        <td class="goldSuccess text-center">$2000 / ano</td>
+                    </tr>
+                    <tr>
+                        <td class="title">Importação de dados em 3 dias</td>
+                        <td class="twoHundred active text-center"></td>
+                        <td class="twoHundred active text-center"><span class="center-prize">até $ 300</span></td>
+                        <td class="twoHundred active text-center"></td>
+                        <td class="twoHundred active text-center"></td>
+                    </tr>
+                    <tr class="display-none">
+                        <td class="title no-border"></td>
+                        <td class="text-center no-border"><a class="orangeBtn price-btn-small startNowOneRecrutTwo pt-font-bold" data-params="freeOrStart">Comece agora</a></td>
+                        <td class="text-center no-border"><a class="orangeBtn price-btn-small teamWorkStartTrialTwo pt-font-bold" data-params="teamwork">Inicie o teste de 14 dias</a></td>
+                        <td class="text-center no-border"><a class="orangeBtn price-btn-small corporateEnStartTwo pt-font-bold" data-params="corporate">Inicie o teste de 14 dias</a></td>
+                        <td class="text-center no-border"><a href="mailto:roman@cleverstaff.net?subject=Request for Premium offer&body=(Por favor, escreva aqui dados da sua empresa e respetivos contatos)" class="orangeBtn enterprizeGetOfferTwo pt-font-bold" data-params="enterprize">Obter uma Cotação</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="text-center no-border mobBtn">
+                    <a class="orangeBtn price-btn-small pull-left">Comece agora</a>
+                    <a class="orangeBtn price-btn-small">Inicie o teste de 14 dia</a>
+                    <a href="mailto:roman@cleverstaff.net?subject=Request for Premium offer&body=(Por favor, escreva aqui dados da sua empresa e respetivos contatos)" class="orangeBtn pull-right ">Obter uma Cotação</a>
+                </div>
+                <div class="clearfix"></div>
+                <span class="greyLine"></span>
+            </div>
+        </div>
+    </div>
+    <div class="block" id="block_10">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="why.html">Por quê</a></li>
+                        <li><a href="features.html">Características</a></li>
+                        <li><a href="price.html">Preçário</a></li>
+                        <li><a href="https://cleverstaff.net/news/" target="_blank">Blog</a></li>
+                        <li><a href="../api.html" target="_blank">API</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-8 col-sm-4 col-md-4">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><a href="mailto:paulo.rodrigues@pt.cleverstaff.net" target="_blank"><span class="email pull-left"></span>paulo.rodrigues@pt.cleverstaff.net</a></li>
+                        <li><a href="skype:paulojorgerod?chat"><span class="skype pull-left"></span>paulojorgerod</a></li>
+                        <li><span class="tel pull-left"></span>+351 91 923 62 33</li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4">
+                    <h4>Junte-se</h4>
+                    <a href="https://www.facebook.com/cleverstaff.net" target="_blank" class="pull-left"><span class="fb"></span></a>
+                    <a href="https://www.linkedin.com/company/cleverstaff" target="_blank" class="pull-left"><span class="linkdIn"></span></a>
+                    <a href="https://www.youtube.com/user/cleverstaff" target="_blank" class="pull-left"><span class="youTube"></span></a>
+                    <a href="https://twitter.com/cleverstaff" target="_blank" class="pull-left"><span class="twit"></span></a>
+                    <a href="https://plus.google.com/u/1/b/103298552184404196991/103298552184404196991" target="_blank" class="pull-left"><span class="gplus"></span></a>
+                    <div class="clearfix"></div>
+                    <br/>
+                    <a href='http://www.capterra.com/applicant-tracking-software/reviews/137247/CleverStaff/CleverStaff?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge' target="_blank"> <img border='0' src='https://assets.capterra.com/badge/62e9b8dfc9d563272407e48ee5216da2.png?v=2096814&p=137247' /></a>
+                </div>
+                <div class="clearfix"></div>
+                <footer>
+                    &copy; CleverStaff 2014-2017
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="need-demo-modal" class="demo modal fade" role="dialog">
+    <div class="modal-dialog modal-md demo-modal text-center">
+        <div class="modal-body">
+            <h2 class="modal-title text-center showDemo">
+                Preciso de uma demonstração
+            </h2>
+            <h2 class="modal-title text-center showTariffPrice" style="display: none">
+                Solicitar cotação de preços
+            </h2>
+            <form class="question-form" action="" method="" name="" id="questionForm-index">
+                <div class="form-gr">
+                    <label for="ex1_firstName" class="nameForm pull-left">Nome *</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_firstName" class="float-left" type="text" name="name" placeholder="Nome *">
+                    <div class="error-firstName hidden"></div>
+                </div>
+                <div class="form-gr displayTable">
+                    <label for="ex1_number" class="phoneForm pull-left">Número de telefone *</label>
+                    <div class="clearfix"></div>
+                    <div class="countries pull-left">
+                        <select class="countryCustom" name="countryCustom"></select>
+                    </div>
+                    <div class="phone pull-right">
+                        <input id="ex1_number" class="float-left phoneNumber pull-right" oninput="this.value = this.value.replace(/[^0-9]/g, ''); " type="number" name="phone" placeholder="Número de telefone *">
+                    </div>
+                    <div class="error-phone hidden"></div>
+                </div>
+                <!--<div class="form-gr">-->
+                    <!--<label for="ex1_number" class="phoneForm pull-left">Número de telefone*</label>-->
+                    <!--<div class="clearfix"></div>-->
+                    <!--<input id="ex1_number" class="float-left" type="number" name="phone" placeholder="Número de telefone *">-->
+                    <!--<div class="error-phone hidden"></div>-->
+                <!--</div>-->
+                <div class="form-gr">
+                    <label for="ex1_mail" class="emailForm pull-left">Email *</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_mail" class="float-left" type="email" name="email" placeholder="Email *">
+                    <div class="error-email hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_skype" class="skypeForm pull-left">Skype</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_skype" class="float-left" type="text" name="skype" placeholder="Skype">
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_orgName" class="companyForm pull-left">Nome da empresa*</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_orgName" class="float-left" type="text" name="companyName" placeholder="Nome da empresa *">
+                    <div class="error-orgName hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_usersCount" class="usersCountForm pull-left">Quantos recrutadores tem na empresa?*</label>
+                    <div class="clearfix"></div>
+                    <select name="numberOfRecruiters" id="ex1_usersCount" class="float-left">
+                        <option value>Quantos recrutadores tem na empresa?*</option>
+                        <option value="1">Apenas eu</option>
+                        <option value="1+">Apenas eu por agora.  Podem juntar-se novos Recrutadores  mais tarde</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value=">10">10  ou mais</option>
+                    </select>
+                    <div class="error-usersCount hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_averageNum" class="numberVacancyForm pull-left">Vagas abertas por mês na sua empresa *</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_averageNum" class="float-left" type="number" name="numberOfVacancies" placeholder="Vagas abertas por mês na sua empresa *">
+                    <div class="error-averageNum hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_soft" class="softForm pull-left">Que software de recrutamento usa atualmente?</label>
+                    <input type="text" id="ex1_soft" class="float-left"  name="currentRecruitmentSoftware" placeholder="Que software de recrutamento usa atualmente?">
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_keyRequirements" class="keyRequirementsForm pull-left">Informe-nos quais os requisitos essenciais</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_keyRequirements" class="float-left" type="text" name="keyRequirements" placeholder="Informe-nos quais os requisitos essenciais">
+                    <div class="error-tellUs hidden"></div>
+                </div>
+                <div class="form-gr hidden">
+                    <input class="float-left" id="valueTariff" type="text" value="" name="tariff" placeholder="">
+                </div>
+                <input type="hidden" class="" name="country" value="null">
+                <div class="clearfix"></div>
+                <div class="form-last text-center">
+                    <input id="askQuestionSubmit2" data-toggle="modal" class="feedback orangeBtn border-width" name="send" type="button" value="Enviar">
+                </div>
+            </form>
+            <span class="close" data-dismiss="modal"></span>
+        </div>
+    </div>
+</div>
+<div id="thanks-modal" class="thanks modal fade" role="dialog">
+    <div class="modal-dialog modal-md thanks-modal thanks-modal-ru text-center">
+        <div class="modal-body padding-modal">
+            <h4 class="modal-title">
+                Obrigado<br>
+                Nós responderemos o mais rápido possível :)
+            </h4>
+            <span class="close" data-dismiss="modal"></span>
+            <span class="arrow-modal"></span>
+            <span class="plan-modal"></span>
+        </div>
+    </div>
+</div>
+<div id="isIe" class="ie modal fade" role="dialog">
+    <div class="modal-dialog modal-md ie-modal text-center">
+        <div class="modal-body">
+            <h4 class="modal-title">
+                O Internet Explorer não é adequado para trabalhar no CleverStaff, use o Chrome ou o Firefox
+            </h4>
+            <img src="img/chrome.png" width="50" height="50" class="imgBrower" alt=""/>
+            <img src="img/firefox.png" width="50" height="50" class="imgBrower" alt=""/>
+            <span class="close" data-dismiss="modal"></span>
+        </div>
+    </div>
+</div>
+<link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" />
+<link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" />
+<script src="../external/js/script.min.js?b3"></script>
+<script src="../external/js/bootstrap.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+<script type="text/javascript">
+    if (document.domain === 'cleverstaff.net') {
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            mrentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-52127049-4', {
+            'cookieDomain': document.domain
+        });
+        ga('send', 'pageview');
+    }
+</script>
+</body>
+</html>

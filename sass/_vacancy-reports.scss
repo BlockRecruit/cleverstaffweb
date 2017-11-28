@@ -1,0 +1,158 @@
+.block-vacancy-reports {
+	.breadcrumb {
+		margin-bottom: 6px;
+	}
+	h3.main-title {
+		font-size: 20px;
+		font-weight: 600;
+
+		margin: 0 0 0 30px;
+		.accept {
+			@include button-green-styling();
+
+			margin-top: 1px;
+			margin-right: 15px;
+		}
+	}
+	& > .row {
+		@include bt-margins-from-side();
+
+		padding: 15px;
+		& > .col-lg-12 {
+			padding: 15px;
+
+			background: $theme-white;
+			.funnel-header {
+				font-size: 20px;
+
+				margin-bottom: 10px;
+
+				text-align: center;
+			}
+			&.report-info {
+				margin-bottom: 15px;
+				h4 {
+					font-size: 14px;
+					font-weight: 600;
+
+					margin: 0 0 5px 0;
+				}
+				.resp-preson {
+					display: inline-block;
+					span {
+						position: relative;
+						left: -3px;
+
+						margin-right: 5px;
+					}
+				}
+			}
+
+			& > .pull-left {
+				& > a {
+					display: block;
+				}
+				.btn-primary {
+					@include button-styling();
+				}
+			}
+			& > .dateFrom {
+				margin-top: 5px;
+
+				cursor: pointer;
+				& > .field {
+					& > label {
+					}
+					& > #dateFrom,
+					#dateTo {
+						@include input-styling();
+						@include border-radius();
+
+						clear: both;
+						width: 300px;
+
+						cursor: pointer;
+
+						background-image: url("../images/sprite/calendar.png");
+						background-repeat: no-repeat;
+						background-position: right center;
+					}
+					&:first-child {
+						margin-right: 15px;
+					}
+				}
+				& > .pull-left:last-child {
+					margin-top: 21px;
+					margin-left: 15px;
+				}
+			}
+		}
+		& > .tableUpdate {
+			padding: 0;
+
+			background-color: inherit;
+
+			& > .table {
+				@include table-styling();
+				tr {
+					th {
+						font-weight: normal;
+						&.no-background {
+							background-color: $theme-white;
+						}
+					}
+					td {
+						width: 20%;
+						&:first-child {
+							width: 40%;
+						}
+					}
+					.description-row {
+						padding-top: 0;
+
+						border-top: none;
+						span {
+							font-size: 22px;
+
+							display: inline-block;
+							margin-right: 10px;
+							margin-left: 10px;
+
+							-webkit-transform: scale(-1, 1);
+							-moz-transform: scale(-1, 1);
+							-ms-transform: scale(-1, 1);
+							-o-transform: scale(-1, 1);
+							transform: scale(-1, 1);
+						}
+					}
+				}
+			}
+		}
+		& > .funnelPanel {
+			& > div {
+				.myChartFunnel {
+					.text-center {
+						display: table;
+						margin: 0 auto;
+						svg {
+							padding-left: 110px;
+						}
+					}
+				}
+				& > .text-center {
+					margin-top: 20px;
+					.btn {
+						@include button-styling();
+					}
+					.accept {
+						color: $theme-white;
+						background-color: $theme-dark-green;
+						&:hover {
+							background-color: $theme-light-green-hover;
+						}
+					}
+				}
+			}
+		}
+	}
+}

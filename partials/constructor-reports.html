@@ -1,0 +1,509 @@
+<div class="block-constructor-reports">
+    <header style="position: relative;">
+        <h3 class="title">{{"Design custom report"| translate}}</h3>
+        <p class="description">{{"Custom reports designer allows you build your own reports with appropriate parameters."|translate}}</p>
+        <p class="description">{{"Only users with the Admin role are able to save the custom report parameters."|translate}}</p>
+    </header>
+    <main class="all-vacancy">
+        <div ng-show="emptyAccount && !$root.loading" class="row add-vacancy">
+            <div><h3 translate="empty_vacancies"></h3></div>
+            <div>
+                <div>
+                    <a type="button" href="#/vacancy/add" ng-bind="'add_vacancy'|translate" class="btn btn-primary accept"></a>
+                </div>
+            </div>
+        </div>
+        <article ng-show="!emptyAccount">
+            <section class="row section-one">
+                <div class="wrapper-for-padding-left col-lg-6">
+                    <div class="wrapper-background clearfix" ng-click="showChoosingMenu()">
+                        <div class="col-lg-6 block-status">
+                            <h4 style="margin-right: 3px;">{{'Statuses' | translate}}:</h4>
+                        </div>
+                        <div class="vacancy-statuses col-lg-12">
+                               <span class="status" ng-repeat="status in vacancyStatuses track by $index"
+                                     ng-if="status.added">
+                                   {{status.value|translate}}
+                                   <span class="counter">
+                                      ({{status.count}})
+                                   </span><span>,&nbsp;</span>
+                               </span>
+                        </div>
+                        <i class="fa fa-pencil"></i>
+                    </div>
+                    <div class="chooseStatusMenu">
+                                <span class="item">
+                                    <span>
+                                        {{'Select vacancy statuses' | translate}}:
+                                     </span>
+                                </span>
+                        <a class="item choosingStages pull-left"
+                           ng-repeat="status in vacancyStatuses track by $index"
+                           ng-click="changeVacancyStatuses(status)">
+                            <button class="ui icon button" ng-class="{'checkmark': (status.added == true)}">
+                                <i class="fa fa-check-square checkmark" ng-show="status.added == true"  ng-checked="true" aria-hidden="true" checked="checked"></i>
+                            </button>
+                            <span>
+                                    {{status.value|translate}}
+                                    <span>({{status.count}})</span>
+                                </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="wrapper-for-padding-right col-lg-6 col-md-12">
+                    <div class="col-lg-12 col-md-12 block-candidate-show">
+                        <h4 class="candidate-show">
+                            <span style="margin-right: 3px;">{{"Show candidates in the report"|translate}}:</span>
+                            <!--<button type="button" class="ui icon button" ng-class="{'checkmark': (withCandidates == true)}" ng-click="withCandidates = !withCandidates; firstTimeLoading = 1; (build)? build = false: false">-->
+                                <!--<i class="fa fa-check-square" ng-class="{'checkmark': (withCandidates == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>-->
+                            <!--</button>-->
+                            <div class="switch ">
+                                <input  ng-click="withCandidates = !withCandidates; firstTimeLoading = 1; (build)? build = false: false" id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round upcomingScopeSwticher" type="checkbox">
+                                <label  class="" style="margin: 0px 0px 0px 8px;" for="cmn-toggle-9"></label>
+                            </div>
+                        </h4>
+                    </div>
+                </div>
+            </section>
+            <section class="row section-two">
+                <div class="wrapper-for-padding-left col-lg-6" ng-if="withCandidates">
+                    <div class="block-stages col-lg-12" ng-click="showChoosingMenuStages($event)">
+                        <h4>{{'Show candidates in stages' | translate}}: <i class="fa fa-pencil"></i></h4>
+                        <div class="col-lg-12 stage clearfix">
+                            <span class="col-md-15 col-xs-3" ng-if="status.added" ng-repeat="status in activeInVacancyStatuses track by $index">
+                                <span>
+                                    {{status.value|translate}}
+                                     <span class="counter">
+                                        ({{status.count}})
+                                     <span ng-if="customStagesActive.length != 0 || !$last">,</span>
+                                    </span>
+                                </span>
+                            </span>
+                            <span class="col-md-15 col-xs-3" ng-if="status.added" ng-repeat="status in customStagesActive track by $index">
+                                <span>
+                                    {{status.name|translate}}
+                                    <span class="counter">
+                                        ({{status.count}})
+                                        <span ng-if="customStagesActive.length != 0 || !$last">,</span>
+                                    </span>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="chooseStagesMenu pull-left">
+                        <div class="stagesMenu pull-left">
+                                <span class="item">
+                                    <span>
+                                        {{'Standard stages' | translate}}
+                                    </span>
+                                    <span ng-click="changeAllVacancyStatuses('standard')" class="choosingStages">
+                                        <button type="button" class="ui icon button" ng-class="{'checkmark': (allStatuses.standard == true)}">
+                                           <i class="fa fa-check-square" ng-class="{'checkmark': (allStatuses.standard == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
+                                        </button>
+                                    </span>
+                                </span>
+                            <a class="item choosingStages"
+                               ng-repeat="status in inVacancyStatuses track by $index"
+                               ng-click="changeInVacancyStatuses(status)"
+                               ng-hide="status.value == 'no_contacts' || status.value == 'notafit' || status.value == 'declinedoffer'
+                             || status.value == 'no_response'">
+                                <button type="button" class="ui icon button" ng-class="{'checkmark': (status.added == true)}">
+                                    <i class="fa fa-check-square" ng-class="{'checkmark': (status.added == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
+                                </button>
+                                <span>
+                                        {{status.value|translate}}
+                                        <span>({{status.count}})</span>
+                                    </span>
+                            </a>
+                        </div>
+                        <div class="stagesMenu pull-right">
+                            <div class="pull-left" style="width: 49%;">
+                                    <span class="item">
+                                        <span>
+                                            {{'Company stages' | translate}}
+                                        </span>
+                                        <span ng-click="changeAllVacancyStatuses('custom')" class="choosingStages">
+                                            <button type="button" class="ui icon button" ng-class="{'checkmark': (allStatuses.custom == true)}">
+                                                 <i class="fa fa-check-square" ng-class="{'checkmark': (allStatuses.custom == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
+                                            </button>
+                                        </span>
+                                    </span>
+                                <a class="item choosingStages"
+                                   ng-repeat="status in customStages track by $index"
+                                   ng-click="changeInVacancyStatuses(status)"
+                                   ng-show="status.type != 'refuse'">
+                                    <button type="button" class="ui icon button" ng-class="{'checkmark': (status.added == true)}">
+                                        <i class="fa fa-check-square" ng-class="{'checkmark': (status.added == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
+                                    </button>
+                                    <span>{{status.name|translate}}<span>({{status.count}})</span></span>
+                                </a>
+                            </div>
+                            <div class="pull-right" style="width: 40%;">
+                                    <span class="item">
+                                        <span>
+                                            {{'Reasons for refusal' | translate}}
+                                        </span>
+                                        <span ng-click="changeAllVacancyStatuses('reasons')" class="choosingStages">
+                                             <button type="button" class="ui icon button" ng-class="{'checkmark': (allStatuses.reasons == true)}">
+                                                 <i class="fa fa-check-square" ng-class="{'checkmark': (allStatuses.reasons == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
+                                             </button>
+                                        </span>
+                                    </span>
+                                <a class="item choosingStages"
+                                   ng-repeat="status in customStages track by $index"
+                                   ng-click="changeInVacancyStatuses(status)"
+                                   ng-show="status.type == 'refuse'">
+                                    <button type="button" class="ui icon button" ng-class="{'checkmark': (status.added == true)}">
+                                        <i class="fa fa-check-square" ng-class="{'checkmark': (status.added == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
+                                    </button>
+                                    <span>{{status.name|translate}}<span>({{status.count}})</span></span>
+                                </a>
+                                <a class="item choosingStages"
+                                   ng-repeat="status in inVacancyStatuses track by $index"
+                                   ng-click="changeInVacancyStatuses(status)"
+                                   ng-show="status.value == 'no_contacts' || status.value == 'notafit' || status.value == 'declinedoffer'
+                             || status.value == 'no_response'">
+                                    <button type="button" class="ui icon button" ng-class="{'checkmark': (status.added == true)}">
+                                        <i class="fa fa-check-square checkmark" ng-class="{'checkmark': (status.added == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
+                                    </button>
+                                    <span>{{status.value|translate}}<span>({{status.count}})</span></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper-for-padding-right col-lg-6" ng-style="(!withCandidates)? {'padding-left':'0px', 'padding-right':'15px'} : false">
+                    <div class='add-rem-fields col-lg-12 clearfix' ng-click="showChoosingFields()">
+                        <h4 style="margin-bottom: 8px">{{"Add / Remove report fields"|translate}}</h4>
+                        <div class="fields-list clearfix" ng-if="fieldsList.length > 0">
+                            <ul class="fields-list-row col-lg-6 clearfix">
+                                <li ng-repeat="(index, field) in fieldsList track by $index" ng-if="field.visiable && !(field.id && withCandidates)" class="col-md-15 col-xs-3 ">
+                                    <span ng-repeat="(item, key) in fieldsList[index] track by $index" ng-if="!($index > 0)">{{key|translate}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <i class="fa fa-pencil"></i>
+                    </div>
+                    <div class="chooseListFields" style="display: none;">
+                        <ul class="fields-list-row clearfix col-lg-12">
+                            <li ng-repeat="field in fieldsList track by $index" class="col-md-15 col-xs-3" ng-if="!(field.id && withCandidates)" ng-click="checkFields(field, $event)">
+                                <button class="ui icon button">
+                                    <i class="fa fa-check-square" ng-class="{'checkmark': (field.visiable == true)}"> </i>
+                                </button>
+                                <span>{{field.value |translate}}</span>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="alert alert-danger clearfix" ng-if="checkListFields.length  == 0 && checkListFieldsLength" ng-bind="'Please select at least one report criteria'|translate"></div>
+                </div>
+            </section>
+            <section class="row section-three">
+                <div class="wrapper-for-padding-left col-lg-6">
+                    <div class="pen-show clearfix" ng-click="showPersonMenu()" style="background-color: #fff;padding: 16px 8px;border-radius: 5px;padding-right: 0px;">
+                        <div class="chooseUsers col-lg-12 clearfix"  style="background: none">
+                            <span class="item">
+                                <h4 ng-show="!leastChosen">
+                                    {{'By all users' | translate}}
+                                </h4>
+                                <span ng-show="leastChosen">
+                                    {{'By users' | translate}}:
+                                </span>
+                            </span>
+                        </div>
+                        <i class="fa fa-pencil"></i>
+                        <div class="row persons col-lg-12" ng-show="leastChosen">
+                            <div class=" person" ng-click="showPersonMenu()">
+                               <span class="col-md-15 col-xs-3" ng-repeat="person in associativePerson track by $index" ng-if="person.added">
+                                   <span>
+                                       {{person.cutFullName|translate}}
+                                   </span>
+                               </span>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="choosePersonMenu clearfix">
+                        <span class="item">
+                            <span>
+                                {{'Select users' | translate}}:
+                            </span>
+                        </span>
+                        <div class="floatLeft pull-left">
+                            <a class="item choosingStages reportPersonChoose pull-left"
+                               ng-repeat="person in associativePerson track by $index"
+                               ng-click="changePersonAdd(person)"
+                               ng-show="person.status != 'N'">
+                                <button type="button" class="ui icon button" ng-class="{'checkmark': (person.added == true)}">
+                                    <i class="fa fa-check-square checkmark" ng-if="person.added == true" ng-class="{'checkmark': (person.added == true)}" ng-checked="true" aria-hidden="true" checked="checked"></i>
+                                </button>
+                                <span>
+                               {{person.cutFullName}}
+                           </span>
+                            </a>
+                        </div>
+                    </div>
+                    <i class="fa fa-pencil"></i>
+                </div>
+                <div class="wrapper-for-padding-right col-lg-6">
+                    <div class="form">
+                        <div class="two fields">
+                            <div class="field pull-left" style="margin-right: 10px;">
+                                <h4 class="pull-left" style="margin-right: 8px;">{{'Date' | translate}}:</h4>
+                                <label class="pull-left">{{'from3'|translate}}</label>
+                                <input placeholder="{{'from3'|translate}}" class="startDate pull-left" style="margin-left: 8px;" type="text">
+                            </div>
+                            <div class="field pull-left">
+                                <label class="pull-left">{{'to1'|translate}}</label>
+                                <input placeholder="{{'to1'|translate}}" class="endDate pull-left" type="text">
+                            </div>
+                            <i class="fa fa-info-circle info" ng-mouseover="inHover()" ng-mouseleave="outHover()"></i>
+                            <div class="info-content"><p>{{"This filter 'by date' in the report shows the last date when a candidate was moved to a new vacancy stage." | translate}}</p><p>{{"The filter is not applied for dates of vacancy creation and date when a candidate was added to a vacancy." | translate}}</p></div>
+                        </div>
+                        <div  style="display: inline-block" class="alert alert-danger" ng-show="timeMaxZone || timeMaxZone2">{{"The selected date can not be more than the current date."|translate}}</div>
+                    </div>
+                </div>
+            </section>
+            <section class="row">
+                <div class="payButtonOuter" ng-show="!$root.loading">
+                    <a type="button"   class="btn btn-primary create-or-reload-reports"
+                       ng-click="(withCandidates)? updateReport(false): createReport(false)">
+                        <span ng-show="firstTimeLoading == 1 && !build">{{'Make a report'|translate}}<i class="fa fa-caret-right" aria-hidden="true"></i></span>
+                        <span ng-show="firstTimeLoading > 1">{{'Update report'|translate}}<i class="fa fa-caret-right" aria-hidden="true"></i></span>
+                        <span ng-show="!withCandidates && build">{{'Update report'|translate}}<i class="fa fa-caret-right" aria-hidden="true"></i></span>
+                    </a>
+                    <div ng-show="firstTimeLoading > 1 || build && !$root.loading" style="margin-left: 8px;">
+                        <button type="button"
+                                ng-click="btnSaveCustomVacancyReport()"
+                                ng-show="(firstTimeLoading > 1 || build) && $root['me']['recrutRole'] == 'admin'" class="btn btn-primary accept save">
+                            <span>{{'Save report settings'|translate}}</span>
+                        </button>
+                        <span ng-show="firstTimeLoading > 1 && $root['me']['recrutRole'] !== 'admin'" class="showSaveReports">{{"Only users with Admin role are able to save the report parameters"|translate}}</span>
+                    </div>
+                    <button type="button" ng-show="(firstTimeLoading > 1 || build) && $root['me']['recrutRole'] == 'admin' && !$root.loading" class="btn btn-primary accept downloadReport"
+                            ng-click="downloadReport()">
+                        <span>{{'Download report as Excel'|translate}}</span>
+                    </button>
+                    <a id="downloadReport"></a>
+                    <div class="clearfix"></div>
+                </div>
+            </section>
+            <div ng-show="firstTimeLoading > 1 && mainData.length == 0 || vacancyData.length == 0">
+                <h3 translate="No results on this search params"></h3>
+            </div>
+            <section
+                    ng-style="(checkListFields.length > 8)? {'overflow-x':'scroll'} : false"
+                    ng-show="!withCandidates && build">
+                <table class="table custom-report"
+                       style="margin-bottom: 0px;"
+                       ng-style="(checkListFields.length > 8)? {'max-width':'4000px','min-width':'4000px','width':'100%'}:{'width':'100%'}">
+                    <thead>
+                    <tr>
+                        <th  style="text-align: left; vertical-align: middle;">
+                            <span>{{"Vacancy" |translate}}</span>
+                        </th>
+                        <th ng-repeat="(index, field) in fieldsList track by $index" ng-if="field.visiable" style="text-align: left; vertical-align: middle;">
+                            <span  ng-style="(key === 'responsibles')? {'width':'9%'}: false">{{field.value |translate}}</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="vacancyField in vacancyData track by $index">
+                        <td ng-bind="vacancyField['position']"></td>
+                        <td ng-repeat="field in fieldsList track by $index"
+                            ng-if="field.visiable">{{{value:vacancyField[field.value],type: field,vacancy:vacancyField}|filterDataForReport:this |translate}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+            <div class="row table-outer" ng-show="firstTimeLoading > 1 && mainData.length > '0' && !build && withCandidates" style="padding: 0px;">
+                <table class="table report-first">
+                    <thead>
+                    <tr>
+                        <th>
+                            №
+                        </th>
+                        <th>
+                            {{'Candidate'|translate}}
+                        </th>
+                        <th>
+                            {{'interview_status'|translate}}
+                        </th>
+                        <th>
+                            {{'salary'|translate}}
+                        </th>
+                        <th>
+                            {{'location'|translate}}
+                        </th>
+                        <th>
+                            {{'languages_1'|translate}}
+                        </th>
+                        <th>
+                            {{'recruter'|translate}}
+                        </th>
+                        <th>
+                            {{'source'|translate}}
+                        </th>
+                        <th>
+                            {{'last comment'|translate}}
+                        </th>
+                        <th>
+                            {{'Start Date'|translate}}
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+                <div class="table-outer-scroll">
+                    <div ng-repeat="vacancy in mainData track by $index" ng-show="!loading" ng-init="outerIndex = $index">
+                        <table class="table tableWithoutBorderTr">
+                            <thead>
+                            <tr class="checkoutTable tableVacancy">
+                                <th class="number-second-table">
+                                    # {{$index + 1}}.
+                                </th>
+                                <th class="number-second-table2">
+                                    <span>{{'Vacancy'|translate}}:</span>
+                                    <a href="#/vacancies/{{vacancy.vacancy.localId}}" target="_blank">{{vacancy.vacancy.position}}</a>
+                                </th>
+                                <th ng-if="vacancy.vacancy.status" class="number-second-table3">
+                                    <span>{{'Vacancy status'|translate}}:</span>
+                                    <div>{{vacancy.vacancy.status | translate}}</div>
+                                </th>
+                                <th ng-if="vacancy.vacancy.dc" class="number-second-table4">
+                                    <span>{{'Open date'|translate}}:</span>
+                                    <div>{{vacancy.vacancy.dc | dateFormat}}</div>
+                                </th>
+                                <!--<th style="width: 51px;padding: 0px"></th>-->
+                            </tr>
+                            </thead>
+                            <thead>
+                            <tr class="checkoutTable tableVacancy">
+                                <th class="number-second-table">
+                                </th>
+                                <th ng-if="vacancy.vacancy.clientId.localId" class="number-second-table2">
+                                    <span>{{'Client'|translate}}:</span>
+                                    <a class="" href="#clients/{{vacancy.vacancy.clientId.localId}}"target="_blank">{{vacancy.vacancy.clientId.name}}</a>
+                                </th>
+                                <th ng-if="vacancy.vacancy.regionId" class="number-second-table3">
+                                    <span>{{'location'|translate}}:</span>
+                                    <div>{{regionIdToName(vacancy.vacancy.regionId)}}</div>
+                                </th>
+                                <th ng-if="vacancy.vacancy.daysInWork" class="number-second-table4">
+                                    <span>{{'Days in work'|translate}}:</span>
+                                    <div>{{ vacancy.vacancy.daysInWork }}</div>
+                                </th>
+                                <!--<th style="width: 51px;padding: 0px"></th>-->
+                            </tr>
+                            </thead>
+                            <tr class="tableVacancy">
+                                <td>
+                                </td>
+                                <td  ng-if="vacancy.vacancy.responsibles && vacancy.vacancy.responsibles.length > 0" class="payment" style="text-align: left;">
+                                    <span>{{'responsible'|translate}}:</span>
+                                    <span ng-repeat="responsible in vacancy.vacancy.responsibles track by $index">
+                                <a class="inline" href="#users/{{responsible.personId}}" target="_blank">{{getPersonFullName(responsible.personId)}}</a><span ng-show="!$last">,</span>
+                            </span>
+                                </td>
+                                <td ng-if="vacancy.vacancy.datePayment" class="payment" style="text-align: left">
+                                    <span>{{"Payment date"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.datePayment}}</span>
+                                </td>
+                                <td ng-if="vacancy.vacancy.dateFinish" class="payment" style="text-align: left">
+                                    <span>{{"Deadline"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.dateFinish}}</span>
+                                </td>
+                            </tr>
+                            <tr class="tableVacancy">
+                                <td>
+                                </td>
+                                <td ng-if="vacancy.vacancy.budget" class="payment" style="text-align: left">
+                                    <span>{{"Budget"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.budget}}{{vacancy.vacancy.currency}}</span>
+                                </td>
+                                <td ng-if="vacancy.vacancy.employmentType" style="text-align: left">
+                                    <span>{{"Employment type"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.employmentType|translate}}</span>
+                                </td>
+                                <td  ng-if="vacancy.vacancy.candidatesAdded" style="text-align: left">
+                                    <span>{{"Candidates added"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.candidatesAdded}}</span>
+                                </td>
+                            </tr>
+                            <tr class="tableVacancy">
+                                <td>
+                                </td>
+                                <td ng-if="vacancy.vacancy.candidatesInWork" class="payment" style="text-align: left">
+                                    <span>{{"Candidates in work"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.candidatesInWork}}</span>
+                                </td>
+                                <td ng-if="vacancy.vacancy.candidatesApproved" style="text-align: left">
+                                    <span>{{"Hired"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.candidatesApproved}}</span>
+                                </td>
+                                <td  ng-if="vacancy.vacancy.candidatesRefused" style="text-align: left">
+                                    <span>{{"Declined"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.candidatesRefused}}</span>
+                                </td>
+                            </tr>
+                            <tr class="tableVacancy">
+                                <td>
+                                </td>
+                                <td ng-if="vacancy.vacancy.salaryTo" class="payment" style="text-align: left">
+                                    <span>{{"salary"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.salaryTo}}</span>
+                                    <span style="color: black">{{vacancy.vacancy.currency}}</span>
+                                </td>
+                                <td ng-if="vacancy.vacancy.numberOfPositions" class="payment" style="text-align: left">
+                                    <span>{{"numberOfPositions"|translate}}:</span>
+                                    <span style="color: black">{{vacancy.vacancy.numberOfPositions}}</span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="margin-top: 0px; margin-bottom: 0px; border-top: 0px!important; table-layout: fixed;" class="table table-striped custom-all-table">
+                            <tr ng-repeat="candidate in vacancy.info track by $index" subparagraphnumber class="tableCandidate candidateTableLast">
+                                <td>
+                                    {{outerIndex+1}}.{{$index + 1}}.
+                                </td>
+                                <td class="payment">
+                                    <a href="#/candidates/{{candidate.candidate.localId}}">{{candidate.candidate.fullName}}</a>
+                                </td>
+                                <td class="payment">
+                                    {{candidate.interview.state | translate}}
+                                </td>
+                                <td class="payment">
+                                    <div ng-show="candidate.candidate.currency && candidate.candidate.salary">
+                                        {{candidate.candidate.salary}} {{candidate.candidate.currency}}
+                                    </div>
+                                </td>
+                                <td class="payment">
+                                    {{candidate.candidate.regionfullName}}
+                                </td>
+                                <td class="language">
+                                    <span class="inlineLang" ng-repeat="lang in candidate.candidate.languages track by $index">{{lang.name}} {{lang.level|translate}}<span ng-if="!$last">, </span></span>
+                                </td>
+                                <td class="text-left">
+                                    {{candidate.interview.creatorCutFullName}}
+                                </td>
+                                <td class="text-left">
+                                    {{candidate.candidate.origin}}
+                                </td>
+                                <td class="comment" popup data-html="{{candidate.interview.comment}}">
+                                    {{candidate.interview.comment}}
+                                </td>
+                                <td class="payment">
+                                    {{candidate.interview.dateEmployee | dateFormat}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="payButtonOuter text-center">
+                <button type="button" ng-show="(firstTimeLoading > 1 || build) && $root['me']['recrutRole'] == 'admin' && !$root.loading" class="btn btn-primary accept"
+                        ng-click="downloadReport()">
+                    <span>{{'Download report as Excel'|translate}}</span>
+                </button>
+            </div>
+        </article>
+    </main>
+</div>

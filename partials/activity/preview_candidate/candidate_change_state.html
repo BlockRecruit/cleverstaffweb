@@ -1,0 +1,13 @@
+<ng-include src="'partials/activity/preview_candidate/header.html'"></ng-include>
+<div class="summary">
+    {{'history_info.changed_the_status_of_candidate'|translate}}
+     <span class="status  passed {{history.stateOld}}">
+        {{history.stateOld | translate}}
+    </span>
+    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+    <span class="status {{history.stateNew}}">
+        {{history.stateNew | translate}}
+    </span>
+    <br>
+    {{history.descr|textForNotice:false}}
+</div>

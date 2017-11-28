@@ -1,0 +1,242 @@
+<div class="controller-view">
+    <div class="block-pay">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>{{'Pay for using CleverStaff'| translate}}</h2>
+                <p ng-show="!balance.amount" ng-class="{'ng-hide': $root.companyParams.paidTillDate == undefined }">{{'Next payment'| translate}}: <span>{{$root.companyParams.paidTillDate}}</span></p>
+            </div>
+            <div class="col-lg-6 leftBar pull-left">
+                <div class="col-lg-12" ng-show="errorMessage">
+                    <div>{{errorMessage}}</div>
+                </div>
+                <!--<div class="col-lg-12 blockedAccount">-->
+                    <!--<p><span>Ваш аккаунт заблокирован за долг по оплате.</span>&nbsp;Напоминаем, Вы перешли на платный тариф Стандарт  28 октября .-->
+                        <!--Олатите Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, reiciendis, veniam. Accusamus, alias asperiores consequatur dicta dolorem eius enim eum fugit inventore minima optio pariatur perferendis, soluta tempora ullam? Animi.-->
+                    <!--</p>-->
+                    <!--<i class="fa fa-times" aria-hidden="true"></i>-->
+                <!--</div>-->
+                <div class="col-lg-12 payForMonth">
+                    <div ng-show="balance.amount === undefined">
+                        <p>{{'CleverStaff is paid for'|translate}} 25 {{'USD per month for each active user'| translate}}</p>
+                        <p>{{'Pay1 discount'| translate}}</p>
+                    </div>
+                    <div ng-show="balance.amount !== undefined">
+                        <p>{{'CleverStaff is paid for-2'|translate}} {{dailyRate}} {{'USD per day'|translate}} {{monthRate}} {{'USD per month for each active user-2'| translate}}</p>
+                        <p>{{'Pay2 discount'| translate}}</p>
+                    </div>
+                    <div class="payFor">
+                        <div class="checkoutSelectOuter">
+                            <div class="checkoutInner">
+                                <h4 class="payFor floatLeft">{{"Pay for"|translate}}</h4>
+                            </div>
+                            <div class="checkoutInner word floatRight">
+                                <div class="paySelectOuter pull-left">
+                                    <span class="ammount floatLeft">{{'Users2'| translate}}</span>
+                                    <br/>
+                                    <select class="paySelect" id="countPeople">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                        <option>10</option>
+                                        <option>11</option>
+                                        <option>12</option>
+                                    </select>
+                                </div>
+                                <!--<div class="clear"></div>-->
+                                <div class="paySelectOuter pull-left">
+                                    <span class="ammount ammountMonth floatLeft">{{'Months2'| translate}}</span>
+                                    <br/>
+                                    <select class="paySelect" id="countMonth">
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                        <option>10</option>
+                                        <option>11</option>
+                                        <option>12</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="payButtonOuter pull-right">
+                                <span id="priceWOrd" class="payPrice">{{'Amount'| translate}}:</span>
+                                <span id="price" class="payPrice">{{price}} USD</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="creditCards">
+                        <!--<div class="text-center important-text">-->
+                            <!--<span>{{'Only account administrator is able to make a payment' | translate}}</span>-->
+                        <!--</div>-->
+                        <img class="pull-left" src="../images/sprite/visa-mastercard.png" alt="">
+                        <div class="text-center pull-right">
+                            <p id="bonuce" class="hidden">
+                                {{"The balance of your company account is"|translate}}
+                                <span id="amountBonus"></span>
+                                {{"including"|translate}}
+                                {{bonuce + '%'}}
+                                {{'of the bonus'|translate}}
+                            </p>
+                            <a id="payButton" type="button" ng-click="payClick()" class="btn btn-primary accept ng-binding">
+                                {{'Go to payment service'|translate}}
+                            </a>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-lg-12 payHistory">
+                    <div class="titleForProgress" ng-if="fromPayment == true">
+                        <span>
+                            {{'Thank you! Your payment is complete' | translate}}.
+                        </span>
+                    </div>
+                    <div class="text-left title" ng-show="payments.length == 0">
+                        <h4 style="font-weight: 600;">
+                            {{'Here will be the log of your payments by card' | translate}}
+                        </h4>
+                    </div>
+                    <div class="wrap-table">
+                        <table class="table" ng-show="payments.length > 0">
+                            <thead>
+                            <tr>
+                                <th>{{'Invoice created'|translate}}</th>
+                                <th>{{'Payment received'|translate}}</th>
+                                <th>{{'Sum'|translate}}</th>
+                                <th>{{'Purpose'|translate}}</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-class="{'lastPayment': $index == 0 && fromPayment == true}" ng-repeat="payment in payments| orderBy:'-dc'" hgtablecollspan="7">
+                                <td>{{payment.dc| dateFormat2:true}}</td>
+                                <td>
+                                    <span ng-if="payment.status === 'success' || payment.status === 'Approved' || payment.status === 'sandbox' || payment.status === 'SALE'">
+                                        <i class="fa fa-check" aria-hidden="true"></i>{{payment.dm| dateFormat2:true}}
+                                    </span>
+                                    <span class="paymentStatus" ng-class="{'failure' : payment.status != 'success' && payment.status != 'Approved' && payment.status != 'sandbox' && payment.status != 'SALE'}">{{payment.status}}</span>
+                                </td>
+                                <td>{{payment.amount}} {{payment.currency}}</td>
+                                <td>
+                                    {{'For'|translate}} {{payment.params.users}}
+                                    <span ng-if="payment.params.users == 1">{{'User2'|translate}}</span>
+                                    <span ng-if="payment.params.users > 1">{{'Users2'|translate}}</span>
+                                    {{'For2'|translate}} {{payment.params.months}}
+                                    <span ng-if="payment.params.months == 1">{{'Month2'|translate}}</span>
+                                    <span ng-if="payment.params.months <= 4 && payment.params.months > 1">{{'Months3'|translate}}</span>
+                                    <span ng-if="payment.params.months > 4">{{'Months2'|translate}}</span>
+                                </td>
+                                <td class="delete-icon">
+                                    <!--<i title="{{'Pay'|translate}}" ng-if="payment.dm == null" ng-click="payViaTab(payment)" class="fa fa-cc-visa" aria-hidden="true"></i>-->
+                                    <i title="{{'Delete'|translate}}" ng-click="deletePayment(payment)" ng-if="payment.status == 'new' || payment.status == 'Expired'" class="fa fa-times" aria-hidden="true"></i>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="text-align: center; padding-top: 9px;" ng-show="!payments">
+                    <span style="font-size:20px;color:grey">
+                        {{"Here will be payment history"|translate}}
+                    </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 rightBar pull-left" ng-show="balance.amount >= 0 || balance.amount <= 0">
+                <div class="col-lg-12 balance">
+                    <h4>{{'The balance of your company account is' | translate}} <strong>{{balance.amount + ' '}} USD.</strong>{{'tarif'|translate}}<strong ng-bind="tarif"></strong></h4>
+
+                    <span>{{'The number of your company account users is' | translate}} <strong>{{countPeople}}</strong>.</span>
+                    <br/>
+                    <span ng-show="tarif !== 'free'">{{(balance.dayCount == 0)? "Your account will be active until today's." : "Your account will be active for" | translate}}<strong ng-show="balance.dayCount !== 0">{{' ' + (balance.dayCount < 0? balance.dayCount = 0 : balance.dayCount) }}</strong> <span ng-show="balance.dayCount !== 0">{{'days_1' | translate}}</span> - <strong> {{'until' | translate}} {{balance.tillDate.dayOfMonth}} / {{balance.tillDate.monthValue}} / {{balance.tillDate.year}} {{"inclusive"|translate}}</strong>.</span>
+                </div>
+                <div class="col-lg-12 rightBar mail-us" style="margin-top: 15px;">
+                    <span style="font-weight: bold">{{'Questions?'| translate}}</span>
+                    <span>
+                        {{'Email us at'|translate}}
+                        <a href="mailto:finance@cleverstaff.net">finance@cleverstaff.net</a>{{'and we will answer you instantly'|translate}}.
+                    </span>
+                </div>
+                <div class="col-lg-12 expenses">
+                    <h4>{{'Daily payments history of your company account' | translate}} <i tooltip-class="customClass" uib-tooltip="{{'Here is the history of your daily payments' | translate}}" class="fa fa-info-circle tooltip-icon" aria-hidden="true"></i></h4>
+                    <div>
+                        <table class="table scrollForTbody">
+                            <thead>
+                            <tr>
+                                <td>{{'date' | translate}}</td>
+                                <td>{{'Payments' | translate}}</td>
+                                <!--<td>{{'Daily payment' | translate}}</td>-->
+                                <td>{{'Amount'|translate}}</td>
+                                <td>{{'Balance' | translate}}</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="expense in expenses">
+                                <td>{{expense.targetDate | dateFormat}}</td>
+                                <td ng-show="(!expense.descr) && (expense.type == 'expense') ">
+                                    <span>{{'Charge for'|translate}}{{" " + expense.peopleCount }} </span>
+                                    <span ng-if="expense.peopleCount == 1">{{'User2'|translate}}</span>
+                                    <span ng-if="expense.peopleCount > 1">{{'Users2'|translate}}</span>
+                                </td>
+                                <td ng-show="(!expense.descr) && (expense.type == 'pay')">
+                                    <span>{{"Reffilling the balance"|translate}}</span>
+                                </td>
+                                <td ng-show="(!!expense.descr) && (expense.type == 'adjustment')">
+                                    {{expense.descr}}
+                                </td>
+                                <!--<td ng-class="{'blue': expense.entity =='payment'}" ng-show="!expense.descr"><span ng-show="expense.entity =='expense'">-</span>${{expense.amount}}</td>-->
+                                <!--<td colspan="1" ng-show="expense.descr">{{expense.descr}}</td>-->
+                                <td>{{expense.amountDouble + ' '}} USD</td>
+                                <td>{{expense.balanceDouble + ' '}}USD</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 unlockAllCleverstaff pull-right" ng-show="tarif == 'free'">
+                <div class="blockUnlockAllCleverstaff">
+                    <h3 class="text-left">{{'Unlock all CleverStaff features with paid plans'|translate}}</h3>
+                    <p>{{'Being a 1 Recruiter (free plan) user, you have limited access to CleverStaff features'|translate}}</p>
+                    <span>{{'Unlock all features for high-level recruiting'|translate}}</span>
+                    <br/>
+                    <span>{{"Just upgrade you plan to Team Work, Corporate, or Enterprise"|translate}}</span>
+                    <br/>
+                    <br/>
+                    <span class="boldText">{{'Upgrade now and you will be able to'|translate}}</span>
+                    <ul>
+                        <br/>
+                        <li> &nbsp;<span>{{'Export your candidates data into Excel'|translate}}</span></li>
+                        <li> &nbsp;<span>{{'Check & download reports for a specific vacancy and recruiting funnel'|translate}}</span></li>
+                        <li> &nbsp;<span>{{'Track reports for each vacancy and user actions history'|translate}}</span></li>
+                        <br/>
+                        <li> &nbsp;<span>{{'Download candidates CVs into .docx files'|translate}}</span></li>
+                        <li> &nbsp;<span>{{'View all vacancies reports'|translate}}</span></li>
+                        <li> &nbsp;<span>{{'Receive candidates suggestions for your active vacancies'|translate}}</span></li>
+                        <br/>
+                        <li> &nbsp;<span>{{'Add Clients to your CleverStaff Account'|translate}}</span></li>
+                        <li> &nbsp;<span>{{'Custom Email templates for candidates'|translate}}</span></li>
+                        <li> &nbsp;<span>{{'Use the CleverStaff API'|translate}}</span></li>
+                    </ul>
+                    <p>{{'Upgrade your plan to'|translate}}:</p>
+                    <p><span class="boldText">"Team Work"</span> - {{'pay only 25 USD per 1 user (payment form on the left)'|translate}}</p>
+                    <p><span class="boldText">"Corporate"</span>
+                        {{'or'|translate}}
+                        <span class="boldText">"Enterprise"</span> - {{'email us on'|translate}}
+                        <a href="mailto:contact@cleverstaff.net" target="_blank">contact@cleverstaff.net</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

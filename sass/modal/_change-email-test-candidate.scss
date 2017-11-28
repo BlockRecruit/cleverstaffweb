@@ -1,0 +1,28 @@
+.change-email-test-candidate {
+	.modal-header {
+		& > h4 {
+			@include bold();
+		}
+	}
+	.modal-body {
+		input {
+			@include input-styling();
+		}
+	}
+	.modal-footer {
+		border-top: none;
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			color: $theme-white;
+			background-color: $theme-dark-green;
+			&:hover {
+				background-color: $theme-light-green-hover;
+			}
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+	}
+}

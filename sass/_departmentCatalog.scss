@@ -1,0 +1,79 @@
+.block-departmentCatalog {
+	& > .row {
+		@include bt-margins-from-side();
+
+		padding: 15px;
+		& > .col-lg-7 {
+			& > h3 {
+				@include bold();
+
+				font-size: 20px;
+
+				margin: 0 0 15px 0;
+			}
+			& > .col-lg-12 {
+				& > .last-actions-header {
+					padding: 15px;
+
+					background-color: $theme-light-green;
+					.title-header {
+						@include bold();
+
+						font-size: 18px;
+					}
+					.btn {
+						@include button-styling();
+
+						padding: 2px 10px;
+					}
+					.accept {
+						color: $theme-white;
+						background-color: $theme-dark-green;
+						&:hover {
+							background-color: $theme-light-green-hover;
+						}
+					}
+				}
+				& > .event {
+					display: block;
+					margin-left: 0;
+					padding: 0;
+
+					border-bottom: 1px solid $theme-border-color-base;
+					background-color: $theme-white;
+					& > .department-name {
+						@include bold();
+
+						padding: 15px;
+
+						border-bottom: 1px solid $theme-light-grey-hover;
+					}
+					& > .department-icons {
+						padding: 15px;
+
+						border-bottom: 1px solid $theme-light-grey-hover;
+						& > i {
+							padding: 2px 9px;
+
+							cursor: pointer;
+
+							color: $theme-grey;
+							border-radius: 5px;
+							background-color: $theme-light-grey-hover;
+						}
+					}
+				}
+			}
+		}
+	}
+	.btn-default {
+		@include button-styling-cancel();
+
+		font-size: 14px;
+	}
+	.btn-primary {
+		@include button-styling();
+
+		font-size: 14px;
+	}
+}

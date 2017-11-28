@@ -1,0 +1,53 @@
+<div class="col-lg-2" title="{{history.dm|dateFormat:true}}">
+    <div class="time-comment">
+        {{history.dm|dateFormat:false}}
+    </div>
+    <a href="#/users/{{history.person.userId}}" class="text-left user">
+        <span once-text="history.person.firstName"></span>
+        <span once-text="history.person.lastName"></span>
+    </a>
+</div>
+<div class="col-lg-10 margin-top">
+    <span>
+        <a href="#/candidates/{{history.candidate.localId}}">
+            {{history.candidate.fullName}}
+        </a>
+        {{'history_info.added_in'|translate}}
+       <span ng-show="!history.stateNewName" class="status {{history.stateNew}}">
+            {{history.stateNew | translate}}
+        </span>
+        <span ng-show="history.stateNewName" class="status {{history.stateNewName}}">
+            {{history.stateNewName | translate}}
+        </span>
+        {{'history_info.on_vacancy'|translate}}
+        <a href="#/vacancies/{{ history.vacancy.localId}}">
+            {{history.vacancy.position}}
+        </a>
+    </span>
+    <br/>
+    <span ng-show="history.targetDate">
+        {{'interview_times'|translate}}:
+        {{history.targetDate|dateFormat:true}}
+    </span>
+    <a title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href=""
+       ng-click="changeCommentFlag(history)" class="editMessage pull-right">
+        <i class="fa fa-pencil" aria-hidden="true"></i>
+    </a>
+     <span ng-show="history.descr">
+         <br>
+         {{'history_info.message'|translate}}:
+         <br/>
+         <span ng-bind-html="history.descr|textForNotice:false"></span>
+     </span>
+    <div class="textField" ng-show="history.editCommentFlag">
+        <div class="field">
+            <textarea class="editCommentArea" ng-model="editComment"></textarea>
+        </div>
+        <div ng-click="history.editCommentFlag = false" class="btn btn-primary cancel">
+            {{'cancel'|translate}}
+        </div>
+        <div ng-click="changeComment(history, editComment)" class="btn btn-primary accept">
+            {{'save'|translate}}
+        </div>
+    </div>
+</div>

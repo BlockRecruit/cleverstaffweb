@@ -1,0 +1,24 @@
+<div class="candidate-add-tags-multiple">
+    <div class="modal-header">
+        <h4 class="modal-title">
+            {{'add tags' | translate}} {{$root.candidatesAddToVacancyIds.length}} {{'candidate_3' | translate}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <p>{{'Tags will be added for candidates you choose' | translate}}</p>
+        <div class="item">
+            <input type="text" class="addTagsCandidateForMass pull-right" select2-groups-for-mass groups="{{candidate.groups}}" placeholder="{{'add tags'| translate}}">
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">
+                <span>{{'cancel'|translate}}</span>
+            </a>
+            <a type="button" class="btn btn-primary accept"  ng-click="$root.addTagsForMass()">
+                <span>{{'save'|translate}}</span>
+            </a>
+        </div>
+    </div>
+</div>

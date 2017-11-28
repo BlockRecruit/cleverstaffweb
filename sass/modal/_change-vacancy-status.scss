@@ -1,0 +1,33 @@
+.change-vacancy-status {
+	.modal-header {
+		& > h4 {
+			@include bold();
+		}
+		i {
+			@include close-item();
+		}
+	}
+	.modal-body {
+		& > .taskText {
+			& > .form-control {
+				height: 200px;
+				max-height: 380px;
+
+				resize: vertical;
+			}
+		}
+	}
+	.modal-footer {
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			color: $theme-white;
+			background-color: $theme-dark-green;
+		}
+		.cancel {
+			color: #585859;
+			background-color: #e3e3e3;
+		}
+	}
+}

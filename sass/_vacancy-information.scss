@@ -1,0 +1,458 @@
+.block-vacancy-descr {
+	padding: 15px;
+	&.main-info {
+		@include disabled-margins-for-row();
+
+		margin-top: 15px;
+		padding: 0 15px 15px 0;
+		& > div {
+			padding: 0 15px 15px 15px;
+
+			background-color: $theme-white;
+		}
+		h3 {
+			font-weight: 600;
+
+			margin-top: 0;
+
+			background-color: $theme-white;
+		}
+
+		.upper-info {
+			padding: 15px;
+
+			border-bottom: 1px solid $theme-light-grey;
+			border-top-left-radius: 5px;
+			border-top-right-radius: 5px;
+			background-color: $theme-white;
+			.title {
+				font-size: 12px;
+				font-weight: 500;
+
+				color: $theme-light-grey;
+			}
+			.noneNowrap {
+				white-space: inherit;
+			}
+			.col-lg-12 {
+				padding-left: 0;
+			}
+			.lang {
+				.newLang {
+					margin-left: 10px;
+					.inlineLang {
+						display: block;
+						span {
+							font-weight: normal;
+
+							color: #b8b8b8;
+						}
+					}
+				}
+			}
+			& > div {
+				a {
+					@include link-styling();
+
+					line-height: 35px;
+
+					display: block;
+					&:not(.experience) {
+						@include text-ellipsis();
+					}
+					&.inline {
+						display: inline;
+					}
+					i {
+						margin-right: 10px;
+
+						color: $theme-dark-green;
+					}
+					i ~ span {
+						font-weight: 500;
+					}
+					&.item {
+						color: $theme-dark;
+						&.with-link {
+							display: inline;
+						}
+						&.link {
+							@include link-styling();
+
+							display: inline;
+						}
+					}
+					&.for-print {
+						display: none;
+					}
+					span {
+						@include bold();
+					}
+					span ~ span {
+						font-weight: 500;
+					}
+				}
+				.find-button {
+					line-height: 2;
+
+					display: table;
+					padding: 0;
+
+					color: $theme-link-color;
+					&:hover {
+						text-decoration: underline;
+
+						color: $theme-link-color;
+					}
+				}
+
+				div {
+					&:not(:first-child) {
+						line-height: 35px;
+					}
+					&.tooltip-inner {
+						line-height: normal;
+					}
+					&.customFields {
+						line-height: 19px;
+
+						margin-bottom: 9px;
+					}
+				}
+				.source-for-contact {
+					color: $theme-dark;
+					& > span {
+						color: $theme-light-grey;
+					}
+					&:hover {
+						color: $theme-dark;
+					}
+				}
+			}
+		}
+
+		.paddingZero {
+			padding: 0;
+			.input-outer {
+				padding: 5px 15px 5px 15px;
+				&.salary {
+					padding: 0;
+				}
+				.tinyMCE-for-block {
+					height: 330px!important;
+				}
+
+				input {
+					&:not(.select2-input) {
+						@include input-styling();
+
+						height: 25px;
+						padding-bottom: 4px;
+					}
+				}
+				.title {
+					font-size: 12px;
+
+					margin-left: 12px;
+
+					color: $theme-light-grey;
+				}
+				.blockRespUser {
+					height: 37px;
+					.respUser {
+						display: block;
+						height: 23px;
+						margin-bottom: -10px;
+						h5 {
+							@include bold();
+							i {
+								@include link-styling();
+							}
+						}
+						.no-left-margin {
+							margin-top: 3px;
+							margin-left: 0;
+						}
+						.responsibleSelect {
+							select {
+								@include select-styling();
+
+								max-width: 200px;
+								margin-left: -4px;
+								padding-left: 0;
+
+								background-color: #f8f8f8;
+							}
+							.disable {
+								color: $theme-light-grey;
+							}
+						}
+					}
+				}
+				.select {
+					.select-with-size {
+						position: absolute;
+						z-index: 9;
+
+						width: 91%;
+						height: inherit;
+					}
+					select {
+						@include select-styling();
+					}
+				}
+			}
+		}
+
+		.experience {
+			margin-top: 20px;
+		}
+		.button {
+			margin-top: 15px;
+			a {
+				&:not(.stantdart) {
+					@include button-styling-cancel();
+				}
+			}
+		}
+		.vacancy-details {
+			margin-bottom: 10px;
+		}
+		.short-info {
+			background-color: #f8f8f8;
+			i {
+				font-size: 14px;
+
+				cursor: pointer;
+				&.plus-icon {
+					font-size: 18px;
+				}
+			}
+			.info {
+				padding: 15px;
+
+				background-color: $theme-white;
+				h4 {
+					font-weight: 600;
+				}
+			}
+			.responsibles {
+				margin: 12px 0 12px 0;
+				.responsible {
+					margin-top: 0;
+					a {
+						@include link-styling();
+
+						width: 45%;
+
+						cursor: pointer;
+						word-break: break-word;
+					}
+					i {
+						margin: 4px 5px;
+
+						opacity: 0;
+						color: $theme-dark;
+					}
+					&:hover {
+						i {
+							opacity: 1;
+						}
+					}
+					select {
+						@include select-styling();
+
+						max-width: 130px;
+						margin-top: 7px;
+
+						background-color: #f8f8f8;
+					}
+				}
+			}
+			.clever-window {
+				position: absolute;
+				z-index: 999;
+
+				width: 300px;
+
+				background-color: $theme-white;
+				.clever-window-element {
+					padding: 5px;
+					&:hover {
+						cursor: pointer;
+
+						background-color: $theme-blue;
+					}
+				}
+			}
+			.public-link {
+				display: inline-block;
+				margin-right: 15px;
+
+				color: $theme-dark;
+				i {
+					color: #ffc100;
+				}
+				&:hover {
+					text-decoration: none;
+					span {
+						text-decoration: underline;
+					}
+				}
+			}
+			.promoImg {
+				display: inline-block;
+				margin-right: 15px;
+
+				color: $theme-dark;
+				i {
+					color: #ffc100;
+				}
+				&:hover {
+					text-decoration: none;
+					span {
+						text-decoration: underline;
+					}
+				}
+			}
+			.send-vacancy {
+				display: inline-block;
+				margin: 0 0 15px 0;
+
+				color: $theme-dark;
+				i {
+					color: #ffc100;
+				}
+				&:hover {
+					text-decoration: none;
+					span {
+						text-decoration: underline;
+					}
+				}
+			}
+			.social {
+				padding: 15px;
+
+				background-color: $theme-white;
+				h4 {
+					&:not(.not-bold) {
+						font-weight: 600;
+					}
+				}
+				.hoverFbPages {
+					i {
+						cursor: pointer;
+					}
+				}
+				.social-links {
+					margin-top: 15px;
+					a {
+						margin-left: 15px;
+
+						text-decoration: none;
+					}
+					i {
+						@include social-buttons();
+						&:not(:first-child) {
+							margin-left: 15px;
+						}
+						&.linkedin {
+							background-color: #4a73a0;
+						}
+						&.twitter {
+							background-color: #0f98ce;
+						}
+						&.vk {
+							background-color: #597da3;
+						}
+					}
+				}
+				.statistic {
+					margin-top: 15px;
+					.grey {
+						color: $theme-grey;
+					}
+				}
+			}
+			.files {
+				margin-top: 15px;
+				padding: 15px;
+
+				background-color: $theme-white;
+				h4 {
+					font-weight: 600;
+				}
+				div.item {
+					position: relative;
+					.editFileMenu {
+						position: absolute;
+						z-index: 9;
+						top: 20px;
+						right: 0;
+
+						padding: 5px;
+
+						border: 1px solid gray;
+						background-color: white;
+					}
+				}
+				label {
+					@include button-styling();
+				}
+			}
+			.delete-vacancy {
+				margin-top: 15px;
+				.button {
+					margin-top: 15px;
+					a {
+						&:not(.stantdart) {
+							@include button-styling();
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+.fa {
+	position: relative;
+	.tooltip-inner-info {
+		font-family: "Open Sans", Arial, Verdana, sans-serif;
+		font-size: 13px;
+		line-height: 1.4;
+
+		position: absolute;
+		z-index: 2000;
+		top: -113px;
+		left: 11px;
+
+		width: 335px;
+		max-width: none;
+		padding: 10px;
+
+		text-align: left;
+
+		color: $theme-dark;
+		border-radius: 5px;
+		background-color: $theme-white;
+		box-shadow: 0 0 5px 2px #b8b8b8;
+
+		p {
+			margin: 0;
+		}
+	}
+}
+
+
+.block-vacancy-descr {
+	.short-info-bg {
+		background-color: rgba(227, 227, 227, 0.12) !important;
+	}
+}
+
+@media (max-width: $screen-md-min) {
+	.fa {
+		display: none;
+	}
+}

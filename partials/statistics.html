@@ -1,0 +1,166 @@
+<div class="controller-view">
+    <div class="block-company-statistics">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="statistics-outer">
+                        <div class="row header">
+                            <div class="col-lg-6">
+                                <h4>{{'Users statistics for'| translate}} <span id="searchText">{{'all time'| translate}}</span></h4>
+                                <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.statisticTooltip" aria-hidden="true"></i>
+                            </div>
+                            <div class="col-lg-4 col-lg-offset-2 text-right links pull-right">
+                                <div class="">
+                                    <span class="all-time" ng-click="changeParOfSearch('Forever')" ng-class="{'active': activeSearchName == 'Forever'}">
+                                       {{'all_time'|translate}}
+                                   </span>
+                                </div>
+                                <div class="">
+                                   <span class="dateOptionsYearMonthWeek" ng-class="{'active': activeSearchName == 'week'}">
+                                       {{'week'|translate}}
+                                   </span>
+                                </div>
+                                <div class=" month">
+                                    <span class="my_widget" ng-class="{'active': activeSearchName == 'month'}">
+                                       {{'month'|translate}}
+                                   </span>
+                                </div>
+                                <div class=" years">
+                                    <select class="form-control bigLetter" ng-class="{'active': activeSearchName == 'year'}" ng-model="year" ng-change="changeToYear(year)">
+                                        <option value="" ng-click="changeToYear(2017)">{{'year'|translate}}</option>
+                                        <option ng-repeat="year in years" value="{{year}}" ng-click="changeToYear(year)">{{year}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <table ng-table="tableParams" class="table statistics" template-pagination="custom/pager">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <table width="100%">
+                                        <tr>
+                                            <td>№<i class="fa fa-sort" aria-hidden="true"></i></td>
+                                        </tr>
+                                    </table>
+                                </th>
+                                <th ng-click="tableParams.sorting({'firstName': tableParams.isSortBy('firstName', 'asc') ? 'desc' : 'asc'})">
+                                    <table width="100%">
+                                        <tr>
+                                            <td>{{'user' | translate}}<i class="fa fa-sort" aria-hidden="true"></i></td>
+                                        </tr>
+                                    </table>
+                                </th>
+                                <th ng-click="tableParams.sorting({'candidateCreatorStat.count': tableParams.isSortBy('candidateCreatorStat.count', 'asc') ? 'desc' : 'asc'})">
+                                    <table width="100%">
+                                        <tr>
+                                            <td>{{'candidate_added' | translate}} <i class="fa fa-sort" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr ng-if="candWithoutContacts != 'loaded'">
+                                            <td ng-click="$event.stopPropagation();candidatesWithoutContacts()"><a>{{'No name/contacts' | translate}}</a></td>
+                                        </tr>
+                                        <tr ng-if="candWithoutContacts == 'loaded'">
+                                            <td ng-click="$event.stopPropagation();candidatesWithoutContacts()"><a>{{'all_candidates' | translate}}</a></td>
+                                        </tr>
+                                    </table>
+                                </th>
+                                <th ng-click="tableParams.sorting({'vacancyCreatedInterview.count': tableParams.isSortBy('vacancyCreatedInterview.count', 'asc') ? 'desc' : 'asc'})">
+                                    <table width="100%">
+                                        <tr>
+                                            <td>{{'interviews' | translate}}<i class="fa fa-sort" aria-hidden="true"></i></td>
+                                        </tr>
+                                    </table>
+                                </th>
+                                <th ng-click="tableParams.sorting({'vacancyCreatorStat.count': tableParams.isSortBy('vacancyCreatorStat.count', 'asc') ? 'desc' : 'asc'})">
+                                    <table width="100%">
+                                        <tr>
+                                            <td colspan="3">{{'vacancies'|translate}} <i class="fa fa-sort" aria-hidden="true"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="33%">
+                                                <span>{{'history_info.Added1'|translate}}</span>
+                                            </td>
+                                            <td width="33%">
+                                                <span>{{'In work'|translate}}</span>
+                                            </td>
+                                            <td width="33%">
+                                                {{'Closed'|translate}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </th>
+                                <th ng-click="tableParams.sorting({'vacancyResponsibleCompletedTimeStat.count': tableParams.isSortBy('vacancyResponsibleCompletedTimeStat.count', 'asc') ? 'desc' : 'asc'})">
+                                    <table width="100%">
+                                        <tr>
+                                            <td>{{'vacancies_filling_time'|translate}}<i class="fa fa-sort" aria-hidden="true"></i></td>
+                                        </tr>
+                                    </table>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="person in $data">
+                                <td class="table-page">{{(tableParams.page() - 1) *
+                                    tableParams.count() + $index + 1}}</td>
+                                <td sortable="firstName" class="name">
+                                    <a href="">
+                                        <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
+                                        <div class="responsible-initials">
+                                            <span>{{getFirstLetters(person.firstName + ' ' + person.lastName)}}</span>
+                                        </div>
+                                        <a href="#/users/{{person.userId}}">
+                                            {{person.firstName}}
+                                            {{person.lastName}}
+                                        </a>
+                                    </a>
+                                </td>
+                                <td data-title="'Candidate added'" sortable="candidateCreatorStat.count">
+                                    <strong ng-if="candWithoutContacts != 'loaded'">{{person.candidateCreatorStat.count}}</strong>
+                                    <span class="small-font" ng-if="candWithoutContacts != 'loaded'">{{person.candidateCreatorPercent}}</span>
+                                    <strong class="" ng-if="person.addedCandidatesWithoutNameOrContacts && candWithoutContacts == 'loaded'">{{person.addedCandidatesWithoutNameOrContacts}}</strong>
+                                    <span class="small-font" ng-if="person.percentOfAddedCandidatesWithoutNameOrContacts && candWithoutContacts == 'loaded'">{{person.percentOfAddedCandidatesWithoutNameOrContacts}}</span>
+                                    <strong class="" ng-if="!person.addedCandidatesWithoutNameOrContacts && candWithoutContacts == 'loaded'">0</strong>
+                                    <span class="small-font" ng-if="!person.percentOfAddedCandidatesWithoutNameOrContacts && candWithoutContacts == 'loaded'">0%</span>
+                                </td>
+                                <td>
+                                    <strong>{{person.vacancyCreatedInterview.count}}</strong>
+                                    <span class="small-font">{{person.vacancyCreatedInterviewPercent}}</span>
+                                </td>
+                                <td>
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="33%">
+                                                <strong>{{person.vacancyCreatorStat.count}}</strong>
+                                                <span class="small-font">{{person.vacancyCreatorStatPercent}}</span>
+                                            </td>
+                                            <td width="33%">
+                                                <strong class="pull-right second-value" ng-if="person.vacancyResponsibleInWorkStat">{{person.vacancyResponsibleInWorkStat}}</strong>
+                                                <strong class="pull-right second-value" ng-if="!person.vacancyResponsibleInWorkStat">0</strong>
+                                            </td>
+                                            <td width="33%">
+                                                <strong>{{person.vacancyResponsibleCompletedStat.count}}</strong>
+                                                <span class="small-font">{{person.vacancyResponsibleCompletedStatPercent}}</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td sortable="vacancyResponsibleCompletedTimeStat.count">
+                                    <span ng-if="person.vacancyResponsibleCompletedTimeStat.count">{{person.vacancyResponsibleCompletedTimeStat.count|dayFormat}}</span>
+                                    <span ng-if="!person.vacancyResponsibleCompletedTimeStat.count">&#8212;</span>
+                                    <!--<strong>-->
+                                        <!--31-->
+                                    <!--</strong>-->
+                                    <!--д.-->
+                                    <!--<strong>-->
+                                        <!--1-->
+                                    <!--</strong>-->
+                                    <!--ч.-->
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

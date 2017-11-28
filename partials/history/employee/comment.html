@@ -1,0 +1,31 @@
+<div class="col-lg-2" title="{{history.dc|dateFormat:true}}">
+    <span class="time">
+        {{history.dc|dateFormat:false}}
+    </span>
+    <a href="#/users/{{history.person.empId}}" class="user">
+        <span>{{history.person.firstName}}</span>
+        <span>{{history.person.lastName}}</span>
+    </a>
+</div>
+<div class="col-lg-10">
+    <span ng-show="history.dateEdit" class="date" style="float:none">({{'edited'|translate}} {{history.dateEdit|dateFormat4:true}})</span>
+    {{'history_info.message'|translate}}
+    <br/>
+    <a title="{{'Delete comment' | translate}}" ng-show="($root.me.fullName == history.person.fullName || $root.me.recrutRole === 'admin') && history.comment" href=""
+       ng-click="showDeleteComment(history)" class="removeMessage pull-right">
+        <i class="fa fa-times"></i>
+    </a>
+    <a title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href="" ng-click="history.editCommentFlag = !history.editCommentFlag" class="pull-right"><i class="fa fa-pencil"></i></a>
+    <span ng-show="!history.editCommentFlag" ng-bind-html="history.comment|textForNotice:false"></span>
+    <div class="textField" ng-show="history.editCommentFlag">
+        <div class="field">
+            <textarea class="editCommentArea" ng-model="history.comment"></textarea>
+        </div>
+        <button class="btn cancel" ng-click="history.editCommentFlag = false">
+            {{'cancel'|translate}}
+        </button>
+        <button class="btn accept" ng-click="changeCommentEmployee(history)">
+            {{'save'|translate}}
+        </button>
+    </div>
+</div>

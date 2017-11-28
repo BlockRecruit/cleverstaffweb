@@ -1,0 +1,20 @@
+<div class="delete-vacancy">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">{{'Remove_Jobs_tab_in_the_settings'|translate}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="item taskText">
+            <p>
+                {{'can_only_Facebook_a_application'|translate}}
+            </p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept"  ng-click="$root.deleteTabOnFacebook();">{{'Ok'|translate}}</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+.request-report-modal {
+	.modal-header {
+		& > h4 {
+			@include bold();
+		}
+		i {
+			@include close-item();
+		}
+	}
+	.modal-body {
+		input {
+			width: 33%;
+
+			background-color: #fff;
+			background-image: url("../../images/sprite/calendar.png");
+			background-repeat: no-repeat;
+			background-position: right center;
+		}
+		.flex-container {
+			display: flex;
+			.info-text {
+				line-height: 18px;
+
+				margin-left: 18px;
+			}
+		}
+	}
+	.modal-footer {
+		.button {
+			display: flex;
+
+			align-items: baseline;
+			justify-content: center;
+		}
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			@include button-styling();
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+		.cancel-text {
+			margin-left: 15px;
+
+			cursor: pointer;
+
+			color: $theme-light-grey;
+			&:hover {
+				text-decoration: none;
+
+				color: $theme-grey;
+			}
+		}
+	}
+}

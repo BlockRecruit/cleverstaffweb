@@ -1,0 +1,304 @@
+<div class="block-custom-report-edit">
+    <header class="header">
+        <h3 class="title">
+            <span ng-bind="'Edit report title and description'|translate"></span>
+            <span>"{{editReport.data.name}}"</span>
+            <i class="fa fa-pencil" style="cursor:pointer;color: #0096f5; font-size: 20px;" title="{{'Edit report parameters'|translate}}" ng-click="editReport.changeNameOrDescription(this)"></i>
+        </h3>
+        <div class="buttons" ng-show="!$root.loading">
+            <a href="#/reports" class="btn cancel" ng-bind="'cancel_2'|translate"></a>
+            <a class="btn cancel"
+               ng-bind="'Delete Report'|translate"
+               ng-click="editReport.remove(editReport.data.customVacancyReportId, this)"></a>
+            <a class="btn save"
+               ng-click="editReport.saveCustomReport(this)"
+               ng-show="!editReport.change"
+               ng-bind="'save'|translate"></a>
+        </div>
+    </header>
+
+    <div class="clearfix"></div>
+    <main class="all-vacancy">
+        <p class="description"  ng-bind="editReport.data.descr"></p>
+        <article ng-show="!emptyAccount">
+            <section class="row section-one">
+                <div class="wrapper-for-padding-left col-lg-6">
+                    <div class="wrapper-background clearfix" ng-click="editReport.showChoosingMenu('.chooseStatusMenu')">
+                        <div class="col-lg-6 block-status">
+                            <h4 style="margin-right: 3px;">{{'Statuses' | translate}}:</h4>
+                        </div>
+                        <div class="vacancy-statuses col-lg-12">
+                               <span class="status" ng-repeat="status in editReport.vacancyStatuses track by $index"
+                                     ng-if="status.added">
+                                   {{status.value|translate}}
+                                   <span class="counter">
+                                      ({{status.count}})
+                                   </span><span>,&nbsp;</span>
+                               </span>
+                        </div>
+                        <i class="fa fa-pencil"></i>
+                    </div>
+                    <div class="chooseStatusMenu">
+                                <span class="item">
+                                    <span>
+                                        {{'Select vacancy statuses' | translate}}:
+                                    </span>
+                                </span>
+                        <a class="item choosingStages pull-left"
+                           ng-repeat="status in editReport.vacancyStatuses track by $index"
+                           ng-click="editReport.selectValue(status)">
+                            <button class="ui icon button" ng-class="{'checkmark': (status.added == true)}">
+                                <i class="fa fa-check-square checkmark" ng-show="status.added == true"  ng-checked="true" aria-hidden="true" checked="checked"></i>
+                            </button>
+                            <span>
+                                    {{status.value|translate}}
+                                    <span>({{status.count}})</span>
+                                </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="wrapper-for-padding-right col-lg-6 col-md-12">
+                    <div class="col-lg-12 col-md-12 block-candidate-show">
+                        <h4 class="candidate-show">
+                            <span style="margin-right: 3px;">{{"Show candidates in the report"|translate}}:</span>
+                            <!--<button type="button" class="ui icon button" ng-class="{'checkmark': (withCandidates == true)}" ng-click="withCandidates = !withCandidates; firstTimeLoading = 1; (build)? build = false: false">-->
+                                <!--<i class="fa fa-check-square" ng-class="{'checkmark': (withCandidates == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>-->
+                            <!--</button>-->
+                            <div class="switch" id="switch">
+                                <input  ng-click="editReport.showOrHideCandidates()"
+                                        ng-checked="editReport.data.withCandidates"
+                                        id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round upcomingScopeSwticher" type="checkbox">
+                                <label  class=""
+                                        style="margin: 0px 0px 0px 8px;" for="cmn-toggle-9"></label>
+                            </div>
+                        </h4>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </section>
+            <section class="row section-two">
+                <div class="wrapper-for-padding-left col-lg-6" ng-if="editReport.data.withCandidates">
+                    <div class="block-stages col-lg-12" ng-click="editReport.showChoosingMenu('.chooseStagesMenu')">
+                        <h4>{{'Show candidates in stages' | translate}}: <i class="fa fa-pencil"></i></h4>
+                        <div class="ccol-lg-12 stage clearfix">
+                           <span class="col-md-15 col-xs-3" ng-show="status.added" ng-repeat="status in editReport.selectStages track by $index">
+                               <span>
+                                   {{status.value|translate}}
+                                   <span class="counter">
+                                        ({{status.count}})
+                                       <span ng-if="!$last">,</span>
+                                   </span>
+                               </span>
+                           </span>
+                                <span class="col-md-15 col-xs-3" ng-if="status.added" ng-repeat="status in customStagesActive track by $index">
+                                <span>
+                                   {{status.name|translate}}
+                                   <span class="counter">
+                                        ({{status.count}})
+                                       <span ng-if="customStagesActive.length != 0 || !$last">,</span>
+                                   </span>
+                               </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="chooseStagesMenu pull-left">
+                        <div class="stagesMenu pull-left">
+                                <span class="item">
+                                    <span>
+                                        {{'Standard stages' | translate}}
+                                    </span>
+                                    <span ng-click="editReport.selectAllStages('Standard', editReport.allStages)" class="choosingStages">
+                                        <button type="button" class="ui icon button" ng-class="{'checkmark': (editReport.allStages['Standard']['select'] == true)}">
+                                            <i class="fa fa-check-square" ng-class="{'checkmark': (editReport.allStages['Standard']['select'] == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
+                                        </button>
+                                    </span>
+                                </span>
+                            <a class="item choosingStages"
+                               ng-repeat="status in editReport.allStages['Standard'] track by $index"
+                               ng-click="editReport.selectValueStages(status, 'Standard', editReport.allStages, this); editReport.allStages['Standard']['select'] = false;"
+                               ng-hide="status.value == 'no_contacts' || status.value == 'notafit' || status.value == 'declinedoffer'
+                           || status.value == 'no_response'">
+                                <button type="button" class="ui icon button" ng-class="{'checkmark': (status.added == true)}">
+                                    <i class="fa fa-check-square" ng-class="{'checkmark': (status.added == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
+                                </button>
+                                <span>
+                                {{status.value|translate}}
+                                <span>({{(status.count)? status.count : 0}})</span>
+                            </span>
+                            </a>
+                        </div>
+                        <div class="stagesMenu pull-right">
+                            <div class="pull-left" style="width: 49%;">
+                            <span class="item">
+                                <span>
+                                    {{'Company stages' | translate}}
+                                </span>
+                                <span ng-click="editReport.selectAllStages('Company', editReport.allStages)" class="choosingStages">
+                                    <button type="button" class="ui icon button" ng-class="{'checkmark': (editReport.allStages['Company']['select'] == true)}">
+                                        <i class="fa fa-check-square" ng-class="{'checkmark': (editReport.allStages['Company']['select'] == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
+                                    </button>
+                                </span>
+                            </span>
+                                <a class="item choosingStages"
+                                   ng-repeat="status in editReport.allStages['Company']  track by $index"
+                                   ng-click="editReport.selectValueStages(status, 'Company', editReport.allStages, this); editReport.allStages['Company']['select'] = false;"
+                                   ng-show="status.type != 'refuse'">
+                                    <button type="button" class="ui icon button" ng-class="{'checkmark': (status.added == true)}">
+                                        <i class="fa fa-check-square" ng-class="{'checkmark': (status.added == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
+                                    </button>
+                                    <span>
+                                {{status.name|translate}}
+                                <span>({{(status.count)? status.count : 0}})</span>
+                            </span>
+                                </a>
+                            </div>
+                            <div class="pull-right" style="width: 40%;">
+                              <span class="item">
+                            <span>
+                                {{'Reasons for refusal' | translate}}
+                            </span>
+                             <span ng-click="editReport.selectAllStages('Refuse', editReport.allStages)" class="choosingStages">
+                                 <button type="button" class="ui icon button" ng-class="{'checkmark': (editReport.allStages['Refuse']['select'] == true)}">
+                                     <i class="fa fa-check-square" ng-class="{'checkmark': (editReport.allStages['Refuse']['select'] == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
+                                 </button>
+                             </span>
+                        </span>
+                                <a class="item choosingStages"
+                                   ng-repeat="status in editReport.allStages['Refuse'] track by $index"
+                                   ng-click="editReport.selectValueStages(status, 'Refuse', editReport.allStages, this); editReport.allStages['Refuse']['select'] = false;"
+                                   ng-show="status.type == 'refuse'">
+                                    <button type="button" class="ui icon button" ng-class="{'checkmark': (status.added == true)}">
+                                        <i class="fa fa-check-square" ng-class="{'checkmark': (status.added == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
+                                    </button>
+                                    <span>
+                                {{status.value|translate}}
+                                <span>({{(status.count)? status.count : 0}})</span>
+                            </span>
+                                </a>
+                                <a class="item choosingStages"
+                                   ng-repeat="status in inVacancyStatuses track by $index"
+                                   ng-click="changeInVacancyStatuses(status)"
+                                   ng-show="status.value == 'no_contacts' || status.value == 'notafit' || status.value == 'declinedoffer'
+                           || status.value == 'no_response'">
+                                    <button type="button" class="ui icon button" ng-class="{'checkmark': (status.added == true)}">
+                                        <i class="fa fa-check-square checkmark" ng-class="{'checkmark': (status.added == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
+                                    </button>
+                                    <span>
+                                {{status.value|translate}}
+                                <span>({{(status.count)? status.count : 0}})</span>
+                            </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wrapper-for-padding-right col-lg-6 col-md-12" ng-style="(!editReport.data.withCandidates)? {'padding-left':'0px', 'padding-right':'15px'} : false">
+                    <div class='add-rem-fields col-lg-12' ng-click="editReport.showChoosingMenu('.chooseListFields')">
+                        <h4 style="margin-bottom: 8px;">{{"Add / Remove report fields"|translate}}</h4>
+                        <div class="fields-list">
+                            <ul class="fields-list-row col-lg-6">
+                                <li ng-repeat="(index, field) in editReport.fieldsList track by $index"  ng-if="field.visible && !(field.id && editReport.data.withCandidates)"  class="col-md-15 col-xs-3 ">
+                                    <span ng-repeat="(item, key) in editReport.fieldsList[index] track by $index" ng-if="!($index > 0)">{{key|translate}}</span>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <i class="fa fa-pencil"></i>
+                    </div>
+                    <div class="chooseListFields" style="display: none;">
+                        <ul class="fields-list-row col-lg-12">
+                            <li ng-repeat="(index, field) in editReport.fieldsList track by $index"
+                                ng-if="!(field.id && editReport.data.withCandidates)"
+                                class="col-md-15 col-xs-3"
+                                ng-click="editReport.selectValueVacancyFields(field)">
+                                <button type="button" class="ui icon button" ng-class="{'checkmark': (field.visible == true)}">
+                                    <i class="fa fa-check-square checkmark" ng-if="field.visible == true" ng-class="{'checkmark': (field.added == true)}" ng-checked="true" aria-hidden="true" checked="checked"></i>
+                                </button>
+                                <span ng-repeat="(item, key) in editReport.fieldsList[index] track by $index" ng-if="!($index > 0)">{{key |translate}}</span>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </section>
+            <section class="row section-three">
+                <div class="wrapper-for-padding-left col-lg-6">
+                    <div class="pen-show clearfix" ng-click="editReport.showChoosingMenu('.choosePersonMenu')" style="background-color: #fff;padding: 16px 8px;border-radius: 5px;padding-right: 0px;">
+                        <div class="chooseUsers col-lg-12 clearfix"  style="background: none">
+                            <span  class="item">
+                                <span ng-show="!leastChosen">
+                                    {{'By all users' | translate}}
+                                </span>
+                                <span ng-show="leastChosen">
+                                    {{'By users' | translate}}:
+                                </span>
+                            </span>
+                            <div class="row persons col-lg-12">
+                                <div class=" person" >
+                               <span class="col-md-15 col-xs-3" ng-repeat="person in editReport.associativePerson track by $index" ng-if="person.added">
+                                   <span>
+                                       {{person.cutFullName|translate}}
+                                   </span>
+                               </span>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <i class="fa fa-pencil"></i>
+                    </div>
+                    <div class="choosePersonMenu clearfix">
+                    <span class="item">
+                        <span>
+                            {{'Select users' | translate}}:
+                        </span>
+                    </span>
+                        <div class="floatLeft pull-left">
+                            <a class="item choosingStages reportPersonChoose pull-left"
+                               ng-repeat="person in editReport.associativePerson track by $index"
+                               ng-click="editReport.selectValue(person)"
+                               ng-show="person.status != 'N'">
+                                <button type="button" class="ui icon button" ng-class="{'checkmark': (person.added == true)}">
+                                    <i class="fa fa-check-square checkmark" ng-if="person.added == true" ng-class="{'checkmark': (person.added == true)}" ng-checked="true" aria-hidden="true" checked="checked"></i>
+                                </button>
+                                <span>
+                               {{person.cutFullName}}
+                           </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="wrapper-for-padding-right col-lg-6 col-md-12">
+                    <div class="form">
+                        <div class="two fields">
+                            <div class="field pull-left">
+                                <span class="pull-left">{{'Date' | translate}}:</span>
+                                <label class="pull-left">{{'from3'|translate}}</label>
+                                <input placeholder="{{'from3'|translate}}" class="startDate pull-left" type="text">
+                            </div>
+                            <div class="field pull-left" style="margin-left: 8px;">
+                                <label class="pull-left">{{'to1'|translate}}</label>
+                                <input placeholder="{{'to1'|translate}}" class="endDate pull-left" type="text">
+                            </div>
+                            <i class="fa fa-info-circle info" ng-mouseover="editReport.inHover($event)" ng-mouseleave="editReport.outHover($event)"></i>
+                            <div class="info-content"><p>{{"This filter 'by date' in the report shows the last date when a candidate was moved to a new vacancy stage." | translate}}</p><p>{{"The filter is not applied for dates of vacancy creation and date when a candidate was added to a vacancy." | translate}}</p></div>
+                        </div>
+                        <div class="alert alert-danger" ng-show="editReport.timeMaxZone || editReport.timeMaxZone2">{{"The selected date can not be more than the current date."|translate}}</div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </main>
+    <footer>
+        <div class="buttons" ng-show="!$root.loading">
+            <a href="#/reports" class="btn cancel" ng-bind="'cancel_2'|translate"></a>
+            <a class="btn  cancel"
+               ng-click="editReport.remove(editReport.data.customVacancyReportId, this)"
+               ng-bind="'Delete Report'|translate"></a>
+            <a class="btn save"
+               ng-click="editReport.saveCustomReport(this)"
+               ng-show="!editReport.change"
+               ng-bind="'save'|translate"></a>
+        </div>
+    </footer>
+</div>

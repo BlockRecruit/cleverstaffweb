@@ -1,0 +1,76 @@
+.block-employee-add-from-candidate {
+	.AddingContact {
+		@include border-radius();
+
+		margin-top: 20px;
+		padding: 15px;
+
+		background-color: $theme-white;
+		.btn-danger {
+			@include button-styling-cancel();
+		}
+		.red {
+			color: $theme-red;
+		}
+		.error {
+			color: $theme-red!important;
+			border-color: $theme-red;
+		}
+		.field {
+			margin-top: 10px;
+			select {
+				@include select-styling();
+			}
+			label {
+				font-weight: 400;
+
+				margin: 0;
+
+				color: $theme-light-grey;
+			}
+			input {
+				@include input-styling();
+				@include border-radius();
+
+				clear: both;
+				width: 100%;
+				padding-left: 10px;
+				&:focus {
+					outline: none;
+				}
+			}
+			.no-padding {
+				padding-right: 0;
+				padding-left: 0;
+			}
+			.not-visible {
+				opacity: 0;
+			}
+			.btn-group {
+				margin-top: 15px;
+				.btn {
+					padding: 5px 30px;
+
+					border-radius: 5px;
+					background-color: #e3e3e3;
+					&.active {
+						color: $theme-white;
+						background-color: $theme-dark-green;
+					}
+					&:focus {
+						outline: none;
+					}
+				}
+			}
+		}
+		.text-center {
+			margin-top: 20px;
+			.btn:not(.btn-danger) {
+				@include button-styling();
+				&.accept {
+					@include button-styling();
+				}
+			}
+		}
+	}
+}

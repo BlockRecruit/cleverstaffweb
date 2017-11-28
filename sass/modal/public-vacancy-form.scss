@@ -1,0 +1,117 @@
+.public-vacancy-form {
+	position: relative;
+
+	padding: 30px 50px;
+
+	border-radius: 7px;
+	background-color: #e3f2dd;
+	span.form-name {
+		font-family: "Helvetica-Medium";
+		font-size: 20px;
+
+		display: block;
+		margin-bottom: 30px;
+
+		text-align: center;
+	}
+	.form {
+		padding: 0;
+
+		border-radius: 0;
+		background: none;
+	}
+	.recallForm {
+		input,
+		textarea {
+			display: inline-block;
+			max-width: 45%;
+			height: 28px;
+			margin-bottom: 15px;
+			padding: 5px 10px;
+
+			color: #000;
+			border: 1px solid #c2bcbc;
+			border-radius: 13px;
+			outline: none;
+			&.margin-right {
+				margin-right: 9%;
+			}
+			&.error {
+				border: 1px solid #dd514c;
+			}
+		}
+		textarea {
+			max-width: 100%;
+			height: 85px;
+			min-height: 100px;
+			margin: 0;
+
+			resize: none;
+		}
+		.attachFile {
+			margin: 20px 0 0 10px;
+			& label {
+				margin-left: 3px;
+				&:hover {
+					cursor: pointer;
+				}
+			}
+			& img:hover {
+				cursor: pointer;
+			}
+		}
+		.recallForm__error {
+			font-size: 11px;
+			line-height: 10px;
+
+			display: inline-block;
+			width: 49%;
+			max-height: 20px;
+			margin-bottom: 15px;
+
+			text-align: center;
+			white-space: nowrap;
+			& span {
+				padding: 5px 10px;
+
+				color: #a94442;
+				border-radius: 13px;
+				background-color: #f2dede;
+			}
+		}
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+		}
+	}
+	.closeModal {
+		font-size: 15px;
+		font-weight: 600;
+
+		position: absolute;
+		top: 0;
+		right: 8px;
+
+		color: #000;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}
+
+@media (max-width: 499px) {
+	.public-vacancy-form .recallForm input,
+	.public-vacancy-form .recallForm textarea {
+		min-width: 100%;
+	}
+	.public-vacancy-form .recallForm .recallForm__error {
+		width: 100%;
+
+		text-align: left;
+	}
+	.btn-modern {
+		display: block;
+		float: none!important;
+		margin: 15px auto 0;
+	}
+}

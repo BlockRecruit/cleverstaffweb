@@ -1,0 +1,111 @@
+<div class="block-test-candidate-public">
+    <div class="row">
+        <div class="col-lg-9 col-lg-offset-1 publicTest" ng-show="showFirstTest && currentTab == 'start_test' && firstTestQuestion == undefined">
+            <div class="text-center tests">
+                <h3 ng-show="getTestCandidate.testName != undefined">
+                    {{getTestCandidate.testName}}
+                    <span ng-show="companyName != undefined">{{'Test by'|translate}} {{companyName}}</span>
+                </h3>
+                <h4 ng-show="getTestCandidate.description != undefined">{{getTestCandidate.description}}</h4>
+                <a type="button" ng-show="!showStartTest && !showStartTest2" class="btn btn-primary startTest" ng-click="startTestFunc('first_test')">{{'start test'|translate}}</a>
+                <p class="text-center error-message" ng-show="showStartTest">{{'This test is already passed. If you want to pass it one more time, please contact the recruiter who sent you the test link'|translate}}</p>
+                <p class="text-center error-message" ng-show="showStartTest2">{{'This test is inactive now. Please contact the recruiter if you want to pass the test'|translate}}</p>
+                <p class="time" ng-show="getTestCandidate.timeLimit > 0">
+                    <span class="bold">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        {{'Time limit'|translate}}:</span>
+                    <span ng-show="currentLang == 'ru' || currentLang == 'ua'" class="allTime">{{getTestCandidate.timeLimit | secondsToDateTime|date : "H 'часов' m 'минут'" }}.</span>
+                    <span ng-show="currentLang == 'ru' || currentLang == 'ua'" class="hour">{{getTestCandidate.timeLimit | secondsToDateTime|date : "H 'часов'" }}.</span>
+                    <span ng-show="currentLang == 'ru' || currentLang == 'ua'" class="min">{{getTestCandidate.timeLimit | secondsToDateTime|date : "m 'минут'" }}.</span>
+                    <span ng-show="currentLang == 'en'" class="allTime">{{getTestCandidate.timeLimit | secondsToDateTime|date : "H 'hours' m 'minutes'" }}.</span>
+                    <span ng-show="currentLang == 'en'" class="hour">{{getTestCandidate.timeLimit | secondsToDateTime|date : "H 'hours'" }}.</span>
+                    <span ng-show="currentLang == 'en'" class="min">{{getTestCandidate.timeLimit | secondsToDateTime|date : "m 'minutes'" }}.</span>
+                    <i class="fa fa-info-circle tooltip-icon" title="" ng-mouseover="inHover()" ng-mouseleave="outHover()" aria-hidden="true"></i>
+                </p>
+                <div class="showPrompt text-left" ng-show="showHover">
+                    <p>{{'The time for passing this test is limited'|translate}}</p>
+
+                    <p>{{'The timer will be displayed while you work on this test'|translate}}</p>
+
+                    <p>{{'If you will not be able to finish the test before the deadline, the test page will be closed, all the data you enter will be saved, and results will be sent to a recruiter'|translate}}</p>
+                </div>
+                <p class="minWidth" ng-show="!showStartTest && !showStartTest2">{{'Once you pass the test, your answers will be sent to a recruiter. You have only one attempt to pass the test'|translate}}</p>
+            </div>
+            <div class="powered-by">
+                <p class="logo-cs text-center">Powered by <a href="/" class="new-logo-cs" target="_blank"><span>CleverStaff</span></a></p>
+                <p class="text-center">{{'All-in-One Software for Application Tracking and Recruitment Automation'|translate}}</p>
+            </div>
+        </div>
+        <div class="col-lg-9 col-md-10 col-sm-10 col-xs-12 publicTest2" ng-show="currentTab == 'first_test' && hideTest && firstTestQuestion != undefined">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 padding">
+               <div ng-show="initialCountdown > 0">
+                   <span class="bold">{{'Time left'|translate}}:</span>
+                   <span ng-show="(currentLang == 'ru' || currentLang == 'ua') && (countdown != null || countdown != undefined || countdown != NaN)">{{countdown | secondsToDateTime | date:"HH 'ч.' mm 'мин.' ss 'сек'"}}.</span>
+                   <span ng-show="(currentLang == 'en') && (countdown != null || countdown != undefined || countdown != NaN)">{{countdown | secondsToDateTime | date:"HH 'hr' mm 'min' ss 'sec'"}}.</span>
+               </div>
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-3 col-xs-6 text-center">
+                <span class="bold">{{firstPage}}</span>/{{firstTestQuestion.allPageCount}}
+            </div>
+            <div class="col-lg-4 col-md-5 col-sm-5 col-xs-5">
+                <!--<p>Powered by <a href="/" class="new-logo-cs" target="_blank"><span>CleverStaff</span></a></p>-->
+                <!--<p>{{'All-in-One Software for Application Tracking and Recruitment Automation'|translate}}</p>-->
+            </div>
+            <div class="tests2">
+                <img ng-show="firstTestQuestion.object.question.imageId != undefined" ng-src="{{imageId}}" alt=""/>
+                <h4>{{firstTestQuestion.object.question.text}}?</h4>
+                <div class="checkboxBlock" ng-switch="firstTestQuestion.object.question.answerType">
+                    <p ng-switch-when="few_answers">{{'Choose multiple answers'|translate}}</p>
+                    <span ng-switch-when="few_answers" ng-checked="variantsAnswer" ng-click="checkFewAnswer(selectAnswer)" ng-repeat="selectAnswer in firstTestQuestion.object.question.variantsArray track by $index">
+                        <input type="checkbox" ng-checked="variantsAnswer.indexOf(selectAnswer) != -1"/>
+                        {{selectAnswer}}
+                    </span>
+                    <p ng-switch-when="one_answer">{{'Choose one option'|translate}}</p>
+                    <span ng-switch-when="one_answer" ng-click="checkOneAnswer(selectAnswer)" ng-checked="checkAnswerText" ng-repeat="selectAnswer in firstTestQuestion.object.question.variantsArray track by $index">
+                        <input type="radio" ng-checked="checkAnswerText==selectAnswer"/>
+                        {{selectAnswer}}
+                    </span>
+                    <textarea ng-switch-when="task_question" ng-keyup="textAnswer(textAnswers)" id="answersText" ng-model="textAnswers" class="form-control" placeholder="{{'Enter your answer'|translate}}" cols="30" rows="10"></textarea>
+                </div>
+                <div class="text-center button">
+                    <a type="button" class="btn btn-primary cancel" ng-show="firstPage != 1" ng-click="nextTestQuestion('prev')">{{'Previous'|translate}}</a>
+                    <a type="button" class="btn btn-primary accept" ng-click="nextTestQuestion('next')">{{'Next_1'|translate}}</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <footer class="text-center">
+                <p class="logo-cs">Powered by <a href="/" class="new-logo-cs" target="_blank"><span>CleverStaff</span></a></p>
+                <p>{{'All-in-One Software for Application Tracking and Recruitment Automation'|translate}}</p>
+            </footer>
+        </div>
+        <div class="col-lg-9 publicTest3" ng-show="saveAnswersTest">
+            <div class="text-center tests3">
+                <h3>{{'Do you want to finish the test'|translate}}</h3>
+                <p class="minWidth">
+                    {{'Once you finish the test, your answers will be sent to a recruiter'|translate}}
+                    <br/>
+                    <br/>
+                    {{'You have only one attempt to pass the test'|translate}}
+                </p>
+                <a type="button" class="btn btn-primary cancel" ng-click="previousTestQuestion()">{{'Go back'|translate}}</a>
+                <a type="button" class="btn btn-primary endTest" ng-click="endTestTimeOrSubmit('done')">{{'Save and finish the test'|translate}}</a>
+                <div class="powered-by text-center">
+                    <p class="logo-cs">Powered by <a href="/" class="new-logo-cs" target="_blank"><span>CleverStaff</span></a></p>
+                    <p>{{'All-in-One Software for Application Tracking and Recruitment Automation'|translate}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 publicTest4" ng-show="showThanksMessage">
+            <div class="text-center tests4">
+                <h3>{{'Thank you_1'|translate}}</h3>
+                <p class="minWidth">
+                    {{'Your answers are saved and sent to the recruiter'|translate}}
+                </p>
+            </div>
+            <div class="powered-by text-center">
+                <p class="logo-cs">Powered by <a href="/" class="new-logo-cs" target="_blank"><span>CleverStaff</span></a></p>
+                <p>{{'All-in-One Software for Application Tracking and Recruitment Automation'|translate}}</p>
+            </div>
+        </div>
+    </div>
+</div>

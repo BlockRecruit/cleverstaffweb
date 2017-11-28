@@ -1,0 +1,94 @@
+<div class="controller-view">
+    <div class="block-invitereg">
+        <div class="row">
+            <div class="col-lg-7 col-lg-offset-2 invitesYou">
+                <h4>{{'Welcome to CleverStaff!'|translate}}</h4>
+                <div class="inviteregYouAccount">
+                    <div><b>{{registration.inviter}}</b> {{'invites you at the account of the company'|translate}} <b>{{registration.orgName}}</b> {{"invites you at the account of the company2"|translate}} {{"in"|translate}} CleverStaff.</div>
+                    <div style="padding-top: 3px;">{{'To complete the registration please fill in the form below.'|translate}}</div>
+                </div>
+            </div>
+            <div class="col-lg-5 col-lg-offset-3 registerForm">
+                <form name="registrationForm" ng-submit="submitForm()" novalidate autocomplete="off" id="signup">
+                    <div class="ui form segment">
+                        <div class="field">
+                            <div class="field"
+                                 ng-class="{'error': registrationForm.firstName.$invalid && !registrationForm.firstName.$pristine}">
+                                <label>{{"name"|translate}}</label>
+
+                                <div class="ui  labeled icon input">
+                                    <input placeholder="{{'Enter your name' |translate}}"
+                                           ng-model="registration.firstName"
+                                           name="firstName"
+                                           type="text"
+                                           required>
+
+                                    <div class="ui corner label">
+                                        <i class="icon asterisk"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Email</label>
+
+                            <div class="ui left  labeled icon input">
+                                <input placeholder="{{'Enter your email'|translate}}"
+                                       ng-model="registration.login"
+                                       type="email"
+                                       name="login"
+                                       required disabled
+                                       style="width:50%;">
+                                <span>- {{"it will be your login in CleverStaff" | translate}}</span>
+                                <i class="mail icon"></i>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>{{"phone"|translate}}</label>
+
+                            <div class="ui left labeled icon input">
+                                <i class="phone icon"></i>
+                                <input placeholder="{{'Enter your phone number'|translate}}"
+                                       ng-model="registration.phone"
+                                       name="phone"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>{{"password"|translate}}</label>
+
+                            <div class="ui  labeled icon input">
+                                <input placeholder="{{'Enter your password'|translate}}" type="password"
+                                       ng-model="password"
+                                       name="password"
+                                       required>
+
+                                <div class="ui corner label">
+                                    <i class="icon asterisk"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>{{"Confirm password"|translate}}</label>
+
+                            <div class="ui  labeled icon input">
+                                <input placeholder="{{'Enter your password again'|translate}}" type="password" name="password2" ng-model="password2" required>
+
+                                <div class="ui corner label">
+                                    <i class="icon asterisk"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <input ng-model="registration.orgName"
+                               type="hidden"
+                               name="orgName"
+                               required disabled>
+                        <a type="button" ng-click="ngClickRegistration()" class="btn btn-primary accept">
+                            {{'Sign Up and Sign In'|translate}}
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

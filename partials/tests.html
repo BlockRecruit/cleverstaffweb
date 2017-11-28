@@ -1,0 +1,185 @@
+<div class="block-tests container-fluid">
+    <div class="col-lg-12 title">
+        <h3  ng-show="optionTab == 'add' || optionTab == 'show'">
+            {{"Tests and forms"|translate}}
+        </h3>
+        <h3  ng-if="optionTab == 'edit'">
+            {{newTestParam.testName}}
+        </h3>
+    </div>
+    <div class="col-lg-12 option-tab" ng-show="optionTab == 'add' || optionTab == 'show'">
+        <a ng-click="changeTab('show')" ng-class="{'active': optionTab == 'show'}" ng-show="allTests.length > 0">{{'My tests'|translate}}</a>
+        <a ng-click="changeTab('add')" ng-class="{'active': optionTab == 'add'}">{{'Create new test'|translate}}</a>
+    </div>
+    <!--'My Tests'-->
+    <div class="row my-tests" ng-show="optionTab == 'show'">
+        <div class="col-lg-12 tab-description">
+            <p>
+                {{'A list of all the tests created in your account by results. View detailed results, send tests to new candidates, edit and delete them.'|translate}}
+            </p>
+        </div>
+        <div class="row tests-table">
+            <div class="col-lg-12 outer-block">
+                <table class="table" id="mainTable" >
+                    <thead>
+                    <tr>
+                        <th>
+                            {{'Test title'| translate}}
+                        </th>
+                        <th>
+                            {{'Received'| translate}}
+                        </th>
+                        <th class="hidden-xs">
+                            {{'Passed'| translate}}
+                        </th>
+                        <th class="hidden-xs">
+                            {{'Detailed results'| translate}}
+                        </th>
+                        <th class="hidden-xs">
+                            <!--{{'Sending a test'| translate}}-->
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="test in allTests track by $index" >
+                        <td class="test-name clickable">
+                            <a ng-href="#/candidate/test/{{test.test.id}}"  title="{{'Preview'|translate}}">
+                                {{test.test.testName | limitTo: 40}}{{test.test.testName.length > 40 ? '...' : ''}}
+                            </a>
+                        </td>
+                        <td class="received clickable">
+                            {{test.send}}
+                        </td>
+                        <td class="passed hidden-xs">
+                            {{test.passed}}
+                        </td>
+                        <td class="show-details hidden-xs">
+                            <a class="btn btn-group" ng-href="#/candidate/test/results/{{test.test.id}}">{{'Show'|translate}}</a>
+                        </td>
+                        <td class="send hidden-xs">
+                            <a class="btn btn-group"  ng-href="#/candidate/send-test-candidate-to-email/{{test.test.id}}">{{'Send'| translate}}</a>
+                            <a title="{{'Delete'|translate}}" href="" ng-click="showDeleteTest(test.test.id, test.test.testName)" class="pull-right ng-scope edit-test">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+                            <a href="" class="pull-right ng-binding edit-test" title="{{'Edit'| translate}}" ng-click="changeTab('edit', test.test.id)">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--'My test end'-->
+    <!--'Create test'-->
+    <div class="row create-test" ng-show="optionTab == 'add' || optionTab == 'edit'">
+        <div class="col-lg-12 details">
+            <h4 ng-show="optionTab == 'add'">
+                {{'Create new test'| translate}}
+            </h4>
+            <p ng-show="optionTab == 'add'">
+                {{'Prepare tests for candidates and employees: choose question types, correct answers, time limits for passing, and send tests via email. '| translate}}
+                {{'Once the test is passed, you will receive an email with the link on results.' | translate}}
+            </p>
+        </div>
+        <form class="col-lg-12 create-test-fields">
+            <div class="col-lg-12 create-block title-block">
+                <div class=" col-lg-6 item">
+                    <h5>{{'Test title'|translate}}</h5>
+                    <input type="text" placeholder="{{'Test title'|translate}} *" ng-model="newTestParam.testName" ng-focus="removeObligatory()" class="obligatory">
+                </div>
+                <div class=" col-lg-12 item">
+                    <h5>{{'Test description'| translate}}</h5>
+                    <input type="text" placeholder="{{'Test description'| translate}}" ng-model="newTestParam.description">
+                </div>
+            </div>
+        </form>
+        <form class="col-lg-12 create-test-fields">
+            <div class="col-lg-12 no-padding">
+                <div class="col-lg-12 create-block paddingForQuestions questions" id="question-1" ng-repeat="(questIndex, question) in newTestParam.questions track by $index">
+                    <div class="col-lg-10 col-lg-offset-1 item question-foto text-center" ng-class="['owner_photo_wrap' + $index]" id="owner_photo_wrap">
+                        <input id="the-file-input" accept="image/*" type="file" style="display: none" multiple/>
+                        <img ng-show="$root.testQuestionLogo != undefined || $root.testQuestionLogo != null" ng-class="['img_wrap' + $index]" ng-src="{{serverAddress}}/getapp?id={{$root.testQuestionLogo[$index]}}&d=" alt=""/>
+                        <div ng-show="$root.me.recrutRole == 'admin' && $root.testQuestionLogo[$index] != undefined" ng-class="['owner_photo_bubble_wrap' + $index]" id="owner_photo_bubble_wrap">
+                            <div id="owner_photo_bubble">
+                                <div class="owner_photo_bubble_action owner_photo_bubble_action_update openFile{{$index}}" ng-click="openFiles($index)" add-logo-test-candidate-question="{{'myFile' + $index}}">
+                                    <span class="owner_photo_bubble_action_in">{{'Change Image'|translate}}</span>
+                                </div>
+                                <div class="owner_photo_bubble_action owner_photo_bubble_action_crop deleteFile{{$index}}" ng-click="removeLogoTestCandidateQuestion(questIndex, question, $event)">
+                                    <span class="owner_photo_bubble_action_in">{{'Delete Image'|translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-lg-2 col-md-2 item">
+                        <h5>{{'Question'|translate}} {{questIndex + 1}}</h5>
+                    </div>
+                    <div class=" col-lg-6 item">
+                        <div class="switch" ng-click="changeAnswerType($event, questIndex)">
+                            <label ng-click="$event.preventDefault()" ng-class="{grey: newTestParam.questions[questIndex].answerType}" class="floatLeft">{{'Select from the list'|translate}}</label>
+                            <input id="cmn-toggle-9" ng-class="{checked: !newTestParam.questions[questIndex].answerType}" class="cmn-toggle cmn-toggle-round" type="checkbox" value="false" ng-model="newTestParam.questions[questIndex].answerType">
+                            <label class="" ng-click="$event.preventDefault()" for="cmn-toggle-9"></label>
+                            <label ng-click="$event.preventDefault()" ng-class="{grey: !newTestParam.questions[questIndex].answerType}" class="floatLeft">{{'full_text'|translate}}</label>
+                        </div>
+                        <input type="number" ng-show="!newTestParam.questions[questIndex].answerType" min="0" max="1000" id="val{{$index}}" ng-model="question.points" ng-focus="removeObligatory()" class="obligatory">
+                        <label for="val{{$index}}" ng-show="!newTestParam.questions[questIndex].answerType" class="points-label">{{'Points_2'|translate}}</label>
+                        <a title="Delete" href="" ng-show="$index > 0 " ng-click="deleteQuestion(questIndex);" class="pull-right ng-scope">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="col-lg-4 item text-center" ng-show="$root.testQuestionLogo[$index] == undefined || $root.testQuestionLogo[$index] == null" id="logo-button{{$index}}">
+                        <a href class="downImg openFile{{$index}}" ng-click="openFiles($index)" add-logo-test-candidate-question="{{'myFile' + $index}}">
+                            <i class="fa fa-picture-o" title="{{'Add image'|translate}}" aria-hidden="true"></i>
+                            {{'Add image'|translate}}
+                        </a>
+                        <span class="clarification">
+                            {{'Image size:'|translate}}
+                            960*380
+                        </span>
+                    </div>
+                    <div class=" col-lg-8 col-md-8 item">
+                        <input type="text" placeholder="{{'Question text' |translate}} {{questIndex + 1}} *" ng-focus="removeObligatory()" ng-model="question.text"  class="obligatory">
+                    </div>
+                    <div class="col-lg-12 answers" ng-show="!newTestParam.questions[questIndex].answerType" id="answer-1" ng-repeat="answers in question.variantsArray track by $index">
+                        <div class="col-lg-8 item">
+                            <input type="text" placeholder="{{'Answer'|translate}} {{$index+1}} *" ng-model="answers.value" ng-focus="removeObligatory()" class="obligatory">
+                            <input type="checkbox" name="correctAnsw{{questIndex}}{{$index}}" id="correctAnsw{{questIndex}}{{$index}}" ng-model="answers.isCorrect">
+                            <label for="correctAnsw{{questIndex}}{{$index}}">{{'This is the correct answer'| translate}}</label>
+                            <a title="Delete" href="" ng-show="$index > 0 " ng-click="deleteAnswer(questIndex, $index);" class="pull-right ng-scope">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row add-buttons">
+                        <div class="col-lg-9 add-answer" ng-if="newTestParam.questions[questIndex].variantsArray.length < 10">
+                            <button class="btn-link" ng-click="answerAdd(questIndex)" ng-show="!newTestParam.questions[questIndex].answerType">{{'Add a new answer'|translate}}</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row add-buttons">
+                    <div class="col-lg-12">
+                        <button class="btn btn-primary" ng-click="questAdd()">{{'Add a question'| translate}}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 create-block time-limit">
+                <div class="col-lg-12">
+                    <i class="fa fa-clock-o"></i>
+                    <b>{{'Time limit'|translate}}:</b>
+                    <input type="number" min="0" max="24" id="hours" ng-model="timeLimit.hh">
+                    <label for="hours">{{'hours'| translate}}</label>
+                    <input type="number" min="0" max="60" id="min" ng-model="timeLimit.mm">
+                    <label for="min">{{'minutes'|translate}}</label>
+                    <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="top-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.timeLimit" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="col-lg-12 text-center buttons">
+                <button class="btn btn-group cancel" ng-click="changeTab('show')" ng-show="allTests.length > 0">{{'cancel'|translate}}</button>
+                <button class="btn btn-group cancel" ng-show="optionTab == 'edit'" ng-click="showDeleteTest(newTestParam.id, newTestParam.testName)">{{'Delete test'| translate}}</button>
+                <button class="btn btn-group accept" type="submit" ng-click="saveTest()" ng-show="newTestParam.testName || newTestParam.description || newTestParam.questions[0].text || newTestParam.questions[0].variantsArray[0].value">{{'Save test'| translate}}</button>
+            </div>
+        </form>
+    </div>
+    <!--'Create test end'-->
+</div>

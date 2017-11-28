@@ -1,0 +1,58 @@
+.add-coment {
+	.modal-header {
+		& > h4 {
+			@include bold();
+		}
+		& > i {
+			@include close-item();
+		}
+	}
+	.modal-body {
+		padding: 15px 15px 10px 15px;
+		& > .taskText {
+			& > .form-control {
+				height: 200px;
+				max-height: 380px;
+
+				resize: vertical;
+			}
+			& > .edit-teg-form-control {
+				height: 34px;
+
+				resize: vertical;
+			}
+		}
+		.toggleSwitcher {
+			margin-top: 15px;
+			padding-left: 10px;
+			label {
+				font-weight: 500;
+
+				cursor: pointer;
+			}
+			.grey {
+				color: #999;
+			}
+			input.cmn-toggle-round + label:before {
+				background-color: #8ce196;
+			}
+			.hideComment {
+				margin-right: 5px;
+			}
+			.showComment {
+				margin-left: 5px;
+			}
+		}
+	}
+	.modal-footer {
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			@include button-styling();
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+	}
+}
