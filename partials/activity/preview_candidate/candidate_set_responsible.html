@@ -7,5 +7,7 @@
     {{'history_info.as_responsible'|translate}} <a href="#/vacancies/{{history.vacancy.localId}}"><span
             once-text="history.vacancy.position"></span></a>
     <br>
-    <span ng-bind-html="history.descr|textForNotice:false"></span>
+    <div class="fixed-comment-width">
+        <span ng-bind-html="history.descr|textForNotice:false"></span>
+    </div>
 </div>

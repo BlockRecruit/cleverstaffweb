@@ -540,7 +540,8 @@ function navBarController(Vacancy, serverAddress, notificationService, $scope, t
                                     }
 
                                     $('#price').html($scope.price + " USD");
-                                    $('.checkoutInner select').unbind().on('change', function () {
+                                    $('.checkoutInner select').on('change', function () {
+                                        console.log("changed");
                                         $scope.countMonth = $('#countMonth').val();
                                         $scope.countPeople = $('#countPeople').val();
                                         if(!$scope.monthRate) {

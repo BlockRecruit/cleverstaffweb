@@ -782,6 +782,9 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
                     value: 'N'
                 }, function (resp) {
                     if (resp.status == "ok") {
+                        $('html, body').animate({
+                            scrollTop: $("#accordion").offset().top
+                        }, 1000);
                         $rootScope.updateQuestStatus();
                     }else{
                         notificationService.error(resp.message);

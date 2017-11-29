@@ -243,25 +243,32 @@
                 </div>
             </div>
             <div class="col-lg-5 short-info short-info-bg">
-                <a class="public-link" target="_blank" ng-href="{{publicLink}}" ng-show="vacancy.descr.length > 30">
+                <a class="public-link pull-left" target="_blank" ng-href="{{publicLink}}" ng-show="vacancy.descr.length > 30">
                     <i class="fa fa-link" aria-hidden="true"></i>
                     <span>
                         {{'Go to public vacancy'|translate}}
                     </span>
                 </a>
-                <!--<a class="promoImg" href="" ng-click="">-->
+                <!--<a class="promoImg" add-promo-logo ng-show="$root.promoLogo == undefined" href="" id="logo-button">-->
                     <!--<i class="fa fa-picture-o" aria-hidden="true"></i>-->
                     <!--<span>-->
                         <!--{{'Add promo image'|translate}}-->
                     <!--</span>-->
                 <!--</a>-->
-                <a class="send-vacancy" href="" ng-show="vacancy.descr.length > 30" ng-click="showSendEmailTemplateModal()">
+                <!--<div id="owner_photo_wrap" class="pull-left">-->
+                    <!--<input id="the-file-input" accept="image/*" type="file" style="display:none">-->
+                    <!--<img ng-show="$root.promoLogo != undefined" class="imgForPromo" ng-click="openPromoLogo($root.promoLogo);" ng-src="{{$root.serverAddress}}/getapp?id={{$root.promoLogo}}&d=" alt=""/>-->
+                    <!--<span ng-show="$root.promoLogo != undefined" class="deletePromoLogo">-->
+                        <!--<i class="fa fa-times pull-right" ng-click="removePromoLogo()" title="{{'remove_logo'|translate}}"></i>-->
+                    <!--</span>-->
+                <!--</div>-->
+                <a class="send-vacancy pull-left" href="" ng-show="vacancy.descr.length > 30" ng-click="showSendEmailTemplateModal()">
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                         <span>
                             {{'Send by email'|translate}}
                         </span>
                 </a>
-
+                <div class="clearfix"></div>
                 <div class="social hidden-xs hidden-sm"
                      ng-if="vacancy.descr.length > 30 && (vacancy.status != 'payment' && vacancy.status != 'canceled' && vacancy.status != 'completed')">
                     <h4>
@@ -570,7 +577,7 @@
                     </h4>
                 </div>
                 <div class="col-lg-8 text-right links hidden-xs hidden-sm">
-                    <div class="col-lg-4">
+                    <div class="col-lg-4" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'salesmanager'">
                         <a ng-show="vacancy.testIds.length > 0" ng-click="$root.sendTestFromVacancyStage(activeName, 'longlist', dataForVacancy)" title="{{'Send test' | translate}}">
                             {{'Send test' | translate}}
                             <i class="fa fa-check-square-o" aria-hidden="true"></i>
@@ -590,7 +597,7 @@
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>
                         </button>
                     </div>
-                    <div class="col-lg-4" ng-class="{'col-lg-12': !($root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y'))}" ng-show="$root.me.recrutRole != 'salesmanager'">
+                    <div class="col-lg-4" ng-show="$root.me.recrutRole != 'salesmanager'">
                         <a id="export_in_excel" class="hidden" href="">
                         </a>
                         <a href="#/email/vacancy/{{vacancy.localId}}">
@@ -674,8 +681,10 @@
                         <!--<span>{{candidate.comment}}</span>-->
                     <!--</td>-->
                     <td class="add-comment-text text-right hidden-xs" ng-if="candidate.candidateId.status != 'archived'" ng-click="showModalAddCommentToCandidate(candidate);$event.stopPropagation();">
-                        <span title="{{::candidate.dm | dateFormat2}}" ng-show="activeName != 'approved'" class="comment pull-left">{{candidate.comment | limitTo:48}}</span>
-                        <span class="comment pull-left" ng-show="candidate.comment.length > 30 && activeName != 'approved'">...</span>&nbsp;
+                        <span title="{{::candidate.dm | dateFormat2}}" ng-show="activeName != 'approved'" class="comment text-left pull-left">
+                            {{candidate.comment | limitTo:53}}
+                            <span class="comment" ng-show="candidate.comment.length > 53 && activeName != 'approved'">...</span>
+                        </span>
                         <i ng-show="activeName != 'approved'" title="{{'Edit comment' | translate}}" class="fa fa-pencil" aria-hidden="true"></i>
                         <a href="#/company/employee/add/{{::candidate.candidateId.localId}}" ng-click="$event.stopPropagation();"
                            ng-show="activeName == 'approved' && $root.me.personParams.enableEmployee == 'Y' && $root.me.orgParams.enableEmployee == 'Y'"

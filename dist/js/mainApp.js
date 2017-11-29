@@ -3722,6 +3722,60 @@ var directive = angular.module('RecruitingApp.directives', []).
                 });
             }
         }
+    }]).directive('selectWithScroll' , [function() {
+        return {
+            restrict: 'A',
+            scope: {
+                scrollSize: "=",
+                activeClass: "="
+            },
+            link: function(scope, element) {
+
+                element.on(
+                    {
+                        mousedown: () => showOptions(event),
+                        change: () => reset(event),
+                        blur: () =>  reset(event),
+                        contextmenu: () => disableContextMenu()
+                    }
+                );
+
+                let optionsLength = element.children('option').length;
+                let showUsers = !(element.attr('size'));
+                let selectedOption = null;
+
+
+                function showOptions(e) {
+                    if(showUsers && optionsLength > scope.scrollSize - 1) {
+                        element.attr('size', scope.scrollSize);
+                        element.addClass(scope.activeClass);
+                        showUsers = false;
+                    }
+
+                    if(e.target === selectedOption && !showUsers && e.target.tagName.toLowerCase() !== 'select') {
+                        reset(e);
+                    }
+
+                    if(e.target.tagName.toLowerCase() === 'option') {
+                        selectedOption = e.target;
+                    }
+                }
+
+                function reset(e) {
+                    element.removeAttr('size');
+                    element.removeClass(scope.activeClass);
+                    showUsers = true;
+                    if(e.target.tagName.toLowerCase() === 'option') selectedOption = e.target;
+                    if(e.type === 'change') element.blur();
+                }
+
+                function disableContextMenu() {
+                    selectedOption = null;
+                    return false;
+                }
+
+            }
+        }
     }]).directive('fixedHeaderTable', [function() {
         return {
             restrict: 'EA',
@@ -5781,6 +5835,9 @@ angular.module('services.candidate', [
                     $rootScope.resumeToSave = data;
                     $scope.fastCandLoading = false;
                     $rootScope.loading = false;
+                    setTimeout(function(){
+                        $scope.imgWidthFunc();
+                    }, 3000);
                     if(data.data.status != 'error' ){
                         $location.path("candidate/add");
                     } else {
@@ -5809,6 +5866,9 @@ angular.module('services.candidate', [
                 });
                 file.$upload(serverAddress + '/candidate/addPhoto', file).then(function(data) {
                     $scope.callbackAddPhoto(data.data.objects[0]);
+                    setTimeout(function(){
+                        $scope.imgWidthFunc();
+                    }, 2000);
                 });
             },
             setError: function(err, data) {
@@ -5817,171 +5877,199 @@ angular.module('services.candidate', [
         };
     };
 
-    //var duplicatesByNameAndContacts = false;
-    //candidate.checkDuplicatesByNameAndContacts = function($scope) {
-    //        console.log(duplicatesByNameAndContacts);
-    //    //if ((!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.mphone && $scope.contacts.mphone.length > 4) || (!duplicatesByNameAndContacts && $scope.candidate.fullName && $scope.candidate.fullName.length > 3)) {
-    //    if (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4 && $scope.contacts.skype && $scope.contacts.skype.length > 4 && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4 && $scope.contacts.mphone && $scope.contacts.mphone.length > 4 && $scope.candidate.fullName && $scope.candidate.fullName.length > 3) {
-    //        duplicatesByNameAndContacts = true;
-    //        candidate.getDuplicatesByNameAndContacts({
-    //            email: $scope.contacts.email,
-    //            skype: $scope.contacts.skype,
-    //            linkedInUrl: $scope.contacts.linkedin,
-    //            phone: $scope.contacts.mphone,
-    //            fullName: $scope.candidate.fullName
-    //        }, function (res) {
-    //            $scope.duplicatesByNameAndContacts = [];
+    var duplicatesByNameAndContacts = false;
+    candidate.checkDuplicatesByNameAndContacts = function($scope) {
+        console.log(duplicatesByNameAndContacts);
+        $scope.dublicetesTypeName = '';
+        $scope.dublicetesTypeMphone = '';
+        $scope.dublicetesTypeEmail = '';
+        $scope.dublicetesTypeSkype = '';
+        $scope.dublicetesTypeLinkedin = '';
+        if ((!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.mphone && $scope.contacts.mphone.length > 4) || (!duplicatesByNameAndContacts && $scope.candidate.fullName && $scope.candidate.fullName.length > 3)) {
+        //if (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4 && $scope.contacts.skype && $scope.contacts.skype.length > 4 && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4 && $scope.contacts.mphone && $scope.contacts.mphone.length > 4 && $scope.candidate.fullName && $scope.candidate.fullName.length > 3) {
+            duplicatesByNameAndContacts = true;
+            setTimeout(function(){
+                candidate.getDuplicatesByNameAndContacts({
+                    email: $scope.contacts.email,
+                    skype: $scope.contacts.skype,
+                    linkedInUrl: $scope.contacts.linkedin,
+                    phone: $scope.contacts.mphone,
+                    fullName: $scope.candidate.fullName
+                }, function (res) {
+                    $scope.duplicatesByNameAndContacts = [];
+                    if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
+                        angular.forEach(res.objects, function (c, i) {
+                            console.log(c.candidateId != $scope.candidate.candidateId, ' candID');
+                            if (c.candidateId != $scope.candidate.candidateId) {
+                                $scope.duplicatesByNameAndContacts.push(c);
+                                if (c.type == "name") {
+                                    $scope.dublicetesTypeName = c.type;
+                                }
+                                if (c.type == "mphone") {
+                                    $scope.dublicetesTypeMphone = c.type;
+                                }
+                                if (c.type == "email") {
+                                    $scope.dublicetesTypeEmail = c.type;
+                                    console.log($scope.dublicetesTypeEmail);
+                                }
+                                if (c.type == "skype") {
+                                    $scope.dublicetesTypeSkype = c.type;
+                                    console.log($scope.dublicetesTypeSkype);
+                                }
+                                if (c.type == "linkedin") {
+                                    $scope.dublicetesTypeLinkedin = c.type;
+                                }
+                                console.log($scope.duplicatesByNameAndContacts.length > 0);
+                                console.log($scope.dublicetesTypeSkype);
+                                console.log($scope.contacts.skype.length > 0);
+                                console.log($scope.duplicatesByNameAndContacts);
+                            }
+                        });
+                    } else {
+                        $scope.duplicatesByNameAndContacts = [];
+                    }
+                    duplicatesByNameAndContacts = false;
+                }, function (resp) {
+                    $scope.duplicatesByNameAndContacts = [];
+                    duplicatesByNameAndContacts = false;
+                });
+            }, 2000);
+        } else {
+            $scope.duplicatesByNameAndContacts = [];
+        }
+    };
+
+    //var duplicatesByEmailGO = false;
+    //candidate.checkDuplicatesByEmail = function($scope) {
+    //    if (!duplicatesByEmailGO && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) {
+    //        duplicatesByEmailGO = true;
+    //        candidate.getDuplicates({email: $scope.contacts.email, phone: ""}, function(res) {
+    //            $scope.duplicatesByEmail = [];
     //            if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
-    //                angular.forEach(res.objects, function (c, i) {
+    //                angular.forEach(res.objects, function(c, i) {
     //                    if (c.candidateId != $scope.candidate.candidateId) {
-    //                        $scope.duplicatesByNameAndContacts.push(c);
-    //                        console.log($scope.duplicatesByNameAndContacts);
+    //                        $scope.duplicatesByEmail.push(c);
+    //                    }
+    //                });
+    //                //$scope.duplicatesByEmail = res.objects;
+    //            } else {
+    //                $scope.duplicatesByEmail = [];
+    //            }
+    //            duplicatesByEmailGO = false;
+    //        }, function(resp) {
+    //            $scope.duplicatesByEmail = [];
+    //            duplicatesByEmailGO = false;
+    //        });
+    //    } else {
+    //        $scope.duplicatesByEmail = [];
+    //    }
+    //};
+    //
+    //var duplicatesBySkypeGO = false;
+    //candidate.checkDuplicatesBySkype = function($scope) {
+    //    if (!duplicatesBySkypeGO && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) {
+    //        duplicatesBySkypeGO = true;
+    //        candidate.getDuplicates({skype: $scope.contacts.skype, phone: ""}, function(res) {
+    //            $scope.duplicatesBySkype = [];
+    //            if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
+    //                angular.forEach(res.objects, function(c, i) {
+    //                    if (c.candidateId != $scope.candidate.candidateId) {
+    //                        $scope.duplicatesBySkype.push(c);
+    //                    }
+    //                });
+    //                //$scope.duplicatesByEmail = res.objects;
+    //            } else {
+    //                $scope.duplicatesBySkype = [];
+    //            }
+    //            duplicatesBySkypeGO = false;
+    //        }, function(resp) {
+    //            $scope.duplicatesBySkype = [];
+    //            duplicatesBySkypeGO = false;
+    //        });
+    //    } else {
+    //        $scope.duplicatesBySkype = [];
+    //    }
+    //};
+    //var duplicatesByLinkedinGO = false;
+    //candidate.checkDuplicatesByLinkedin = function($scope) {
+    //    if (!duplicatesByLinkedinGO && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) {
+    //        duplicatesByLinkedinGO = true;
+    //        candidate.getDuplicates({ linkedInUrl: $scope.contacts.linkedin, phone: ""}, function(res) {
+    //            $scope.duplicatesByLinkedin = [];
+    //            if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
+    //                angular.forEach(res.objects, function(c, i) {
+    //                    if (c.candidateId != $scope.candidate.candidateId) {
+    //                        $scope.duplicatesByLinkedin.push(c);
+    //                    }
+    //                });
+    //                //$scope.duplicatesByEmail = res.objects;
+    //            } else {
+    //                $scope.duplicatesByLinkedin = [];
+    //            }
+    //            duplicatesByLinkedinGO = false;
+    //        }, function(resp) {
+    //            $scope.duplicatesByLinkedin = [];
+    //            duplicatesByLinkedinGO = false;
+    //        });
+    //    } else {
+    //        $scope.duplicatesByLinkedin = [];
+    //    }
+    //};
+    //
+    //var duplicatesByPhoneGO = false;
+    //candidate.checkDuplicatesByPhone = function($scope) {
+    //    if (!duplicatesByPhoneGO && $scope.contacts && $scope.contacts.mphone && $scope.contacts.mphone.length > 4) {
+    //        duplicatesByPhoneGO = true;
+    //        candidate.getDuplicates({email: "", phone: $scope.contacts.mphone}, function(res) {
+    //            $scope.duplicatesByPhone = [];
+    //            if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
+    //                angular.forEach(res.objects, function(c, i) {
+    //                    if (c.candidateId != $scope.candidate.candidateId) {
+    //                        $scope.duplicatesByPhone.push(c);
+    //                    }
+    //                });
+    //                //$scope.duplicatesByPhone = res.objects;
+    //            } else {
+    //                $scope.duplicatesByPhone = [];
+    //            }
+    //            duplicatesByPhoneGO = false;
+    //        }, function(resp) {
+    //            $scope.duplicatesByPhone = [];
+    //            duplicatesByPhoneGO = false;
+    //        });
+    //    } else {
+    //        $scope.duplicatesByPhone = [];
+    //    }
+    //};
+    //
+    //var duplicatesByNameGO = false;
+    //var fullNamePattern = "/^[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+(\s+[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+)+(\s+[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+)*$/";
+    //candidate.checkDuplicatesByName = function($scope) {
+    //    console.log(duplicatesByNameGO);
+    //    console.log($scope.candidate.fullName);
+    //    console.log($scope.candidate.fullName.match(fullNamePattern));
+    //    if (!duplicatesByNameGO && $scope.candidate.fullName && $scope.candidate.fullName.length > 3) {
+    //        duplicatesByNameGO = true;
+    //        candidate.getDuplicatesByName({fullName: $scope.candidate.fullName}, function(res) {
+    //            $scope.duplicatesByName = [];
+    //            if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
+    //                angular.forEach(res.objects, function(c, i) {
+    //                    if (c.candidateId != $scope.candidate.candidateId) {
+    //                        $scope.duplicatesByName.push(c);
     //                    }
     //                });
     //            } else {
-    //                $scope.duplicatesByNameAndContacts = [];
+    //                $scope.duplicatesByName = [];
     //            }
-    //            duplicatesByNameAndContacts = false;
-    //        }, function (resp) {
-    //            $scope.duplicatesByNameAndContacts = [];
-    //            duplicatesByNameAndContacts = false;
+    //            duplicatesByNameGO = false;
+    //        }, function(resp) {
+    //            $scope.duplicatesByName = [];
+    //            duplicatesByNameGO = false;
     //        });
     //    } else {
-    //        $scope.duplicatesByNameAndContacts = [];
+    //        $scope.duplicatesByName = [];
     //    }
     //};
-
-    var duplicatesByEmailGO = false;
-    candidate.checkDuplicatesByEmail = function($scope) {
-        if (!duplicatesByEmailGO && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) {
-            duplicatesByEmailGO = true;
-            candidate.getDuplicates({email: $scope.contacts.email, phone: ""}, function(res) {
-                $scope.duplicatesByEmail = [];
-                if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
-                    angular.forEach(res.objects, function(c, i) {
-                        if (c.candidateId != $scope.candidate.candidateId) {
-                            $scope.duplicatesByEmail.push(c);
-                        }
-                    });
-                    //$scope.duplicatesByEmail = res.objects;
-                } else {
-                    $scope.duplicatesByEmail = [];
-                }
-                duplicatesByEmailGO = false;
-            }, function(resp) {
-                $scope.duplicatesByEmail = [];
-                duplicatesByEmailGO = false;
-            });
-        } else {
-            $scope.duplicatesByEmail = [];
-        }
-    };
-
-    var duplicatesBySkypeGO = false;
-    candidate.checkDuplicatesBySkype = function($scope) {
-        if (!duplicatesBySkypeGO && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) {
-            duplicatesBySkypeGO = true;
-            candidate.getDuplicates({skype: $scope.contacts.skype, phone: ""}, function(res) {
-                $scope.duplicatesBySkype = [];
-                if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
-                    angular.forEach(res.objects, function(c, i) {
-                        if (c.candidateId != $scope.candidate.candidateId) {
-                            $scope.duplicatesBySkype.push(c);
-                        }
-                    });
-                    //$scope.duplicatesByEmail = res.objects;
-                } else {
-                    $scope.duplicatesBySkype = [];
-                }
-                duplicatesBySkypeGO = false;
-            }, function(resp) {
-                $scope.duplicatesBySkype = [];
-                duplicatesBySkypeGO = false;
-            });
-        } else {
-            $scope.duplicatesBySkype = [];
-        }
-    };
-    var duplicatesByLinkedinGO = false;
-    candidate.checkDuplicatesByLinkedin = function($scope) {
-        if (!duplicatesByLinkedinGO && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) {
-            duplicatesByLinkedinGO = true;
-            candidate.getDuplicates({ linkedInUrl: $scope.contacts.linkedin, phone: ""}, function(res) {
-                $scope.duplicatesByLinkedin = [];
-                if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
-                    angular.forEach(res.objects, function(c, i) {
-                        if (c.candidateId != $scope.candidate.candidateId) {
-                            $scope.duplicatesByLinkedin.push(c);
-                        }
-                    });
-                    //$scope.duplicatesByEmail = res.objects;
-                } else {
-                    $scope.duplicatesByLinkedin = [];
-                }
-                duplicatesByLinkedinGO = false;
-            }, function(resp) {
-                $scope.duplicatesByLinkedin = [];
-                duplicatesByLinkedinGO = false;
-            });
-        } else {
-            $scope.duplicatesByLinkedin = [];
-        }
-    };
-
-    var duplicatesByPhoneGO = false;
-    candidate.checkDuplicatesByPhone = function($scope) {
-        if (!duplicatesByPhoneGO && $scope.contacts && $scope.contacts.mphone && $scope.contacts.mphone.length > 4) {
-            duplicatesByPhoneGO = true;
-            candidate.getDuplicates({email: "", phone: $scope.contacts.mphone}, function(res) {
-                $scope.duplicatesByPhone = [];
-                if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
-                    angular.forEach(res.objects, function(c, i) {
-                        if (c.candidateId != $scope.candidate.candidateId) {
-                            $scope.duplicatesByPhone.push(c);
-                        }
-                    });
-                    //$scope.duplicatesByPhone = res.objects;
-                } else {
-                    $scope.duplicatesByPhone = [];
-                }
-                duplicatesByPhoneGO = false;
-            }, function(resp) {
-                $scope.duplicatesByPhone = [];
-                duplicatesByPhoneGO = false;
-            });
-        } else {
-            $scope.duplicatesByPhone = [];
-        }
-    };
-
-    var duplicatesByNameGO = false;
-    var fullNamePattern = "/^[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+(\s+[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+)+(\s+[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+)*$/";
-    candidate.checkDuplicatesByName = function($scope) {
-        console.log(duplicatesByNameGO);
-        console.log($scope.candidate.fullName);
-        console.log($scope.candidate.fullName.match(fullNamePattern));
-        if (!duplicatesByNameGO && $scope.candidate.fullName && $scope.candidate.fullName.length > 3) {
-            duplicatesByNameGO = true;
-            candidate.getDuplicatesByName({fullName: $scope.candidate.fullName}, function(res) {
-                $scope.duplicatesByName = [];
-                if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
-                    angular.forEach(res.objects, function(c, i) {
-                        if (c.candidateId != $scope.candidate.candidateId) {
-                            $scope.duplicatesByName.push(c);
-                        }
-                    });
-                } else {
-                    $scope.duplicatesByName = [];
-                }
-                duplicatesByNameGO = false;
-            }, function(resp) {
-                $scope.duplicatesByName = [];
-                duplicatesByNameGO = false;
-            });
-        } else {
-            $scope.duplicatesByName = [];
-        }
-    };
 
     function countCandProperties($scope, candidate) {
         var allPuncts = 15;
@@ -6218,16 +6306,16 @@ angular.module('services.candidate', [
                 if ($scope.contacts.email) {
                     cand.contacts.push({type: "email", value: $scope.contacts.email});
                 }
-                //candidate.checkDuplicatesByNameAndContacts($scope);
-                candidate.checkDuplicatesByEmail($scope);
+                console.log('vik12q');
+                //candidate.checkDuplicatesByEmail($scope);
                 if ($scope.contacts.mphone) {
                     cand.contacts.push({type: "mphone", value: $scope.contacts.mphone});
                 }
-                candidate.checkDuplicatesByPhone($scope);
+                //candidate.checkDuplicatesByPhone($scope);
                 if ($scope.contacts.skype) {
                     cand.contacts.push({type: "skype", value: $scope.contacts.skype});
                 }
-                candidate.checkDuplicatesBySkype($scope);
+                //candidate.checkDuplicatesBySkype($scope);
                 if ($scope.contacts.linkedin) {
                     cand.contacts.push({type: "linkedin", value: $scope.contacts.linkedin});
                 }
@@ -6487,8 +6575,8 @@ angular.module('services.candidate', [
                     }
                     updateText += ' ' + $filter('translate')("Email");
                 }
-                //candidate.checkDuplicatesByNameAndContacts($scope);
-                candidate.checkDuplicatesByEmail($scope);
+                candidate.checkDuplicatesByNameAndContacts($scope);
+                //candidate.checkDuplicatesByEmail($scope);
                 if (angular.equals(c.type, "skype") && !$scope.contacts.skype && c.value) {
                     $scope.contacts.skype = c.value;
                     if (updateText) {
@@ -6504,7 +6592,7 @@ angular.module('services.candidate', [
                     updateText += ' ' + $filter('translate')("phone");
                 }
                 //candidate.checkDuplicatesByNameAndContacts($scope);
-                candidate.checkDuplicatesByPhone($scope);
+                //candidate.checkDuplicatesByPhone($scope);
                 if (angular.equals(c.type, "homepage") && !$scope.contacts.homepage && c.value) {
                     $scope.contacts.homepage = c.value;
                     if (updateText) {
@@ -6532,8 +6620,8 @@ angular.module('services.candidate', [
                         updateText += ' ' + $filter('translate')("Email");
                     }
                 }
-                //candidate.checkDuplicatesByNameAndContacts($scope);
-                candidate.checkDuplicatesByEmail($scope);
+                candidate.checkDuplicatesByNameAndContacts($scope);
+                //candidate.checkDuplicatesByEmail($scope);
                 if (angular.equals(c.type, "skype") && c.value) {
                     var needContact = true;
                     $.each($scope.candidate.contacts, function(j, cOld) {
@@ -6550,7 +6638,7 @@ angular.module('services.candidate', [
                     }
                 }
                 //candidate.checkDuplicatesByNameAndContacts($scope);
-                candidate.checkDuplicatesBySkype($scope);
+                //candidate.checkDuplicatesBySkype($scope);
                 if (angular.equals(c.type, "mphone") && c.value) {
                     var needContact = true;
                     $.each($scope.candidate.contacts, function(j, cOld) {
@@ -6567,7 +6655,7 @@ angular.module('services.candidate', [
                     }
                 }
                 //candidate.checkDuplicatesByNameAndContacts($scope);
-                candidate.checkDuplicatesByPhone($scope);
+                //candidate.checkDuplicatesByPhone($scope);
             });
         }
         if (!$scope.candidate.descr && object.descr && updateText !== '') {
@@ -13452,7 +13540,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=25'
+        suffix: '.json?b=26'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -14981,6 +15069,9 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
                     value: 'N'
                 }, function (resp) {
                     if (resp.status == "ok") {
+                        $('html, body').animate({
+                            scrollTop: $("#accordion").offset().top
+                        }, 1000);
                         $rootScope.updateQuestStatus();
                     }else{
                         notificationService.error(resp.message);
@@ -16631,9 +16722,24 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             notificationService.error($filter('translate')('Enter a valid url'));
         }
     };
+        $scope.imgWidthFunc = function(){
+            var width = $('#page-avatar')[0].naturalWidth;
+            var height = $('#page-avatar')[0].naturalHeight;
+            var minus = width - height;
+            if(width >= height && minus > 40 && minus <=100){
+                $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+            }else if(width >= 300 && width <= 349 && width != height){
+                $('#page-avatar').css({'width': '100%', 'height': '385px', 'margin': 'inherit'});
+            }else if(width >= 350){
+                $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+            }else{
+                $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
+            }
+        };
     $scope.callbackAddPhoto = function(photo) {
         $scope.candidate.photo = photo;
         $scope.photoLink = $scope.serverAddress + "/getapp?id=" + photo + "&d=true";
+        $scope.imgWidthFunc();
         Candidate.progressUpdate($scope, true);
         $rootScope.closeModal();
     };
@@ -16704,7 +16810,6 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
     FileInit.initCandFileOption($scope, "", "", false);
     $scope.callbackFile = function(resp, names) {
         $scope.fileForSave.push({"attId": resp, "fileName": names});
-        $scope.progressUpdate();
     };
 
     $scope.removeFile = function(id) {
@@ -16945,24 +17050,24 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             $scope.candidateForm.salary.$pristine = false;
         }
     };
-    //$scope.checkDuplicatesByNameAndContacts = function() {
-    //    Candidate.checkDuplicatesByNameAndContacts($scope);
+    $scope.checkDuplicatesByNameAndContacts = function() {
+        Candidate.checkDuplicatesByNameAndContacts($scope);
+    };
+    //$scope.checkDuplicatesByEmail = function() {
+    //    Candidate.checkDuplicatesByEmail($scope);
     //};
-    $scope.checkDuplicatesByEmail = function() {
-        Candidate.checkDuplicatesByEmail($scope);
-    };
-    $scope.checkDuplicatesByPhone = function() {
-        Candidate.checkDuplicatesByPhone($scope);
-    };
-    $scope.checkDuplicatesByName = function() {
-        Candidate.checkDuplicatesByName($scope);
-    };
-    $scope.checkDuplicatesBySkype = function() {
-        Candidate.checkDuplicatesBySkype($scope);
-    };
-    $scope.checkDuplicatesByLinkedin = function() {
-        Candidate.checkDuplicatesByLinkedin($scope);
-    };
+    //$scope.checkDuplicatesByPhone = function() {
+    //    Candidate.checkDuplicatesByPhone($scope);
+    //};
+    //$scope.checkDuplicatesByName = function() {
+    //    Candidate.checkDuplicatesByName($scope);
+    //};
+    //$scope.checkDuplicatesBySkype = function() {
+    //    Candidate.checkDuplicatesBySkype($scope);
+    //};
+    //$scope.checkDuplicatesByLinkedin = function() {
+    //    Candidate.checkDuplicatesByLinkedin($scope);
+    //};
     $('.ui.dropdown').dropdown();
 
     $('#pac-input').blur(function() {
@@ -17019,6 +17124,7 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
     $scope.fastCandResumeClick = function() {
         if ($scope.fastCandResume) {
             $scope.fastCandResume = false;
+            $scope.imgWidthFunc();
         } else {
             $scope.fastCandResume = true;
             $scope.fastCandText = false;
@@ -17506,6 +17612,20 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.customStages = resp.object.interviewStates;
         $rootScope.customStages = resp.object.interviewStates;
     });
+    $scope.imgWidthFunc = function(){
+        var width = $('#page-avatar')[0].naturalWidth;
+        var height = $('#page-avatar')[0].naturalHeight;
+        var minus = width - height;
+        if(width >= height && minus > 40 && minus <=100){
+            $('#page-avatar').css({'width': '100%', 'height': 'auto'});
+        }else if(width >= 300 && width <= 349 && width != height){
+            $('#page-avatar').css({'width': '100%', 'height': '385px'});
+        }else if(width >= 350){
+            $('#page-avatar').css({'width': '100%', 'height': 'auto'});
+        }else{
+            $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
+        }
+    };
     $rootScope.closeModal = function(){
         $scope.modalInstance.close();
     };
@@ -19840,7 +19960,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     $scope.candidate = resp.object;
 
 
-
+                    $scope.checkDuplicatesByNameAndContacts();
                     if(!$scope.candidate.customFields){
                         $scope.candidate.customFields = [];
                     }
@@ -19978,10 +20098,16 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             var img = new Image();
             img.onload = function() {
                 var width = this.width;
-                if(width >= 300){
-                    $('.photoWidth').css({'width': '100%', 'height': 'auto'});
+                var height = this.height;
+                var minus = width - height;
+                if(width >= height && minus > 40 && minus <=100){
+                    $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+                }else if(width >= 300 && width <= 349 && width != height){
+                    $('#page-avatar').css({'width': '100%', 'height': '385px', 'margin': 'inherit'});
+                }else if(width >= 350){
+                    $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
                 }else{
-                    $('.photoWidth').css({'width': 'inherit', 'display': 'block', 'margin': '0 auto'});
+                    $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
             if($location.$$host == '127.0.0.1'){
@@ -20399,8 +20525,11 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             }
         };
 
-        $scope.checkDuplicatesByName = function() {
-            Candidate.checkDuplicatesByName($scope);
+        //$scope.checkDuplicatesByName = function() {
+        //    Candidate.checkDuplicatesByName($scope);
+        //};
+        $scope.checkDuplicatesByNameAndContacts = function() {
+            Candidate.checkDuplicatesByNameAndContacts($scope);
         };
 
         $scope.removeLink = function(id) {
@@ -27971,7 +28100,8 @@ function navBarController(Vacancy, serverAddress, notificationService, $scope, t
                                     }
 
                                     $('#price').html($scope.price + " USD");
-                                    $('.checkoutInner select').unbind().on('change', function () {
+                                    $('.checkoutInner select').on('change', function () {
+                                        console.log("changed");
                                         $scope.countMonth = $('#countMonth').val();
                                         $scope.countPeople = $('#countPeople').val();
                                         if(!$scope.monthRate) {
@@ -30767,7 +30897,6 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         $('.checkoutInner select').on('change', function () {
             $scope.countMonth = $('#countMonth').val();
             $scope.countPeople = $('#countPeople').val();
-            console.log('in change wp');
             if(!$scope.monthRate) {
                 if ($scope.countMonth >= 12) {
                     $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
@@ -30800,6 +30929,7 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             $('#price').html($scope.price + " USD");
             $scope.$apply();
         });
+
         $scope.payClick = function () {
             Pay.createPaymentUsage({
                 months: $scope.countMonth,
@@ -30834,6 +30964,7 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
                 //notificationService.error($filter('translate')('service temporarily unvailable'));
             });
         };
+
 
         $scope.updatePaymentsList = function () {
             Pay.getPayments(function (resp) {
@@ -33426,6 +33557,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         data.object.text = data.object.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $scope.vacancy.position + '</a>');
                         data.object.text = data.object.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName);
                         data.object.title = data.object.title.replace(/\[\[vacancy name\]\]/g, $scope.vacancy.position);
+                        console.log('data.object.text,$scope.publicLink',data.object.text,$scope.publicLink)
                         $rootScope.sendEmailTemplate.template = data.object;
                         $rootScope.sendEmailTemplate.template.text = $rootScope.sendEmailTemplate.template.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName ? $rootScope.candnotify.fullName : "");
                         $rootScope.sendEmailTemplate.template.text = $rootScope.sendEmailTemplate.template.text.replace(/\[\[recruiter's phone\]\]/g, $rootScope.me.phone ? $rootScope.me.phone : "");
@@ -33451,6 +33583,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         if($rootScope.sendEmailTemplate.template.fileId && $rootScope.sendEmailTemplate.template.fileName){
                             $rootScope.fileForSave.push({"fileId": $rootScope.sendEmailTemplate.template.fileId, "fileName": $rootScope.sendEmailTemplate.template.fileName});
                         }
+                        console.log('$rootScope.sendEmailTemplate',$rootScope.sendEmailTemplate)
                     });
                 },0);
             });
@@ -37414,9 +37547,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             });
         };
         $scope.getCompanyParams();
-        $scope.toBottom = function () {
-            $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-        }
     }
 
 ]);

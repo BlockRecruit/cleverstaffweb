@@ -3339,6 +3339,9 @@ angular.module('services.candidate', [
                     $rootScope.resumeToSave = data;
                     $scope.fastCandLoading = false;
                     $rootScope.loading = false;
+                    setTimeout(function(){
+                        $scope.imgWidthFunc();
+                    }, 3000);
                     if(data.data.status != 'error' ){
                         $location.path("candidate/add");
                     } else {
@@ -3367,6 +3370,9 @@ angular.module('services.candidate', [
                 });
                 file.$upload(serverAddress + '/candidate/addPhoto', file).then(function(data) {
                     $scope.callbackAddPhoto(data.data.objects[0]);
+                    setTimeout(function(){
+                        $scope.imgWidthFunc();
+                    }, 2000);
                 });
             },
             setError: function(err, data) {
@@ -3375,171 +3381,199 @@ angular.module('services.candidate', [
         };
     };
 
-    //var duplicatesByNameAndContacts = false;
-    //candidate.checkDuplicatesByNameAndContacts = function($scope) {
-    //        console.log(duplicatesByNameAndContacts);
-    //    //if ((!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.mphone && $scope.contacts.mphone.length > 4) || (!duplicatesByNameAndContacts && $scope.candidate.fullName && $scope.candidate.fullName.length > 3)) {
-    //    if (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4 && $scope.contacts.skype && $scope.contacts.skype.length > 4 && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4 && $scope.contacts.mphone && $scope.contacts.mphone.length > 4 && $scope.candidate.fullName && $scope.candidate.fullName.length > 3) {
-    //        duplicatesByNameAndContacts = true;
-    //        candidate.getDuplicatesByNameAndContacts({
-    //            email: $scope.contacts.email,
-    //            skype: $scope.contacts.skype,
-    //            linkedInUrl: $scope.contacts.linkedin,
-    //            phone: $scope.contacts.mphone,
-    //            fullName: $scope.candidate.fullName
-    //        }, function (res) {
-    //            $scope.duplicatesByNameAndContacts = [];
+    var duplicatesByNameAndContacts = false;
+    candidate.checkDuplicatesByNameAndContacts = function($scope) {
+        console.log(duplicatesByNameAndContacts);
+        $scope.dublicetesTypeName = '';
+        $scope.dublicetesTypeMphone = '';
+        $scope.dublicetesTypeEmail = '';
+        $scope.dublicetesTypeSkype = '';
+        $scope.dublicetesTypeLinkedin = '';
+        if ((!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.mphone && $scope.contacts.mphone.length > 4) || (!duplicatesByNameAndContacts && $scope.candidate.fullName && $scope.candidate.fullName.length > 3)) {
+        //if (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4 && $scope.contacts.skype && $scope.contacts.skype.length > 4 && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4 && $scope.contacts.mphone && $scope.contacts.mphone.length > 4 && $scope.candidate.fullName && $scope.candidate.fullName.length > 3) {
+            duplicatesByNameAndContacts = true;
+            setTimeout(function(){
+                candidate.getDuplicatesByNameAndContacts({
+                    email: $scope.contacts.email,
+                    skype: $scope.contacts.skype,
+                    linkedInUrl: $scope.contacts.linkedin,
+                    phone: $scope.contacts.mphone,
+                    fullName: $scope.candidate.fullName
+                }, function (res) {
+                    $scope.duplicatesByNameAndContacts = [];
+                    if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
+                        angular.forEach(res.objects, function (c, i) {
+                            console.log(c.candidateId != $scope.candidate.candidateId, ' candID');
+                            if (c.candidateId != $scope.candidate.candidateId) {
+                                $scope.duplicatesByNameAndContacts.push(c);
+                                if (c.type == "name") {
+                                    $scope.dublicetesTypeName = c.type;
+                                }
+                                if (c.type == "mphone") {
+                                    $scope.dublicetesTypeMphone = c.type;
+                                }
+                                if (c.type == "email") {
+                                    $scope.dublicetesTypeEmail = c.type;
+                                    console.log($scope.dublicetesTypeEmail);
+                                }
+                                if (c.type == "skype") {
+                                    $scope.dublicetesTypeSkype = c.type;
+                                    console.log($scope.dublicetesTypeSkype);
+                                }
+                                if (c.type == "linkedin") {
+                                    $scope.dublicetesTypeLinkedin = c.type;
+                                }
+                                console.log($scope.duplicatesByNameAndContacts.length > 0);
+                                console.log($scope.dublicetesTypeSkype);
+                                console.log($scope.contacts.skype.length > 0);
+                                console.log($scope.duplicatesByNameAndContacts);
+                            }
+                        });
+                    } else {
+                        $scope.duplicatesByNameAndContacts = [];
+                    }
+                    duplicatesByNameAndContacts = false;
+                }, function (resp) {
+                    $scope.duplicatesByNameAndContacts = [];
+                    duplicatesByNameAndContacts = false;
+                });
+            }, 2000);
+        } else {
+            $scope.duplicatesByNameAndContacts = [];
+        }
+    };
+
+    //var duplicatesByEmailGO = false;
+    //candidate.checkDuplicatesByEmail = function($scope) {
+    //    if (!duplicatesByEmailGO && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) {
+    //        duplicatesByEmailGO = true;
+    //        candidate.getDuplicates({email: $scope.contacts.email, phone: ""}, function(res) {
+    //            $scope.duplicatesByEmail = [];
     //            if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
-    //                angular.forEach(res.objects, function (c, i) {
+    //                angular.forEach(res.objects, function(c, i) {
     //                    if (c.candidateId != $scope.candidate.candidateId) {
-    //                        $scope.duplicatesByNameAndContacts.push(c);
-    //                        console.log($scope.duplicatesByNameAndContacts);
+    //                        $scope.duplicatesByEmail.push(c);
+    //                    }
+    //                });
+    //                //$scope.duplicatesByEmail = res.objects;
+    //            } else {
+    //                $scope.duplicatesByEmail = [];
+    //            }
+    //            duplicatesByEmailGO = false;
+    //        }, function(resp) {
+    //            $scope.duplicatesByEmail = [];
+    //            duplicatesByEmailGO = false;
+    //        });
+    //    } else {
+    //        $scope.duplicatesByEmail = [];
+    //    }
+    //};
+    //
+    //var duplicatesBySkypeGO = false;
+    //candidate.checkDuplicatesBySkype = function($scope) {
+    //    if (!duplicatesBySkypeGO && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) {
+    //        duplicatesBySkypeGO = true;
+    //        candidate.getDuplicates({skype: $scope.contacts.skype, phone: ""}, function(res) {
+    //            $scope.duplicatesBySkype = [];
+    //            if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
+    //                angular.forEach(res.objects, function(c, i) {
+    //                    if (c.candidateId != $scope.candidate.candidateId) {
+    //                        $scope.duplicatesBySkype.push(c);
+    //                    }
+    //                });
+    //                //$scope.duplicatesByEmail = res.objects;
+    //            } else {
+    //                $scope.duplicatesBySkype = [];
+    //            }
+    //            duplicatesBySkypeGO = false;
+    //        }, function(resp) {
+    //            $scope.duplicatesBySkype = [];
+    //            duplicatesBySkypeGO = false;
+    //        });
+    //    } else {
+    //        $scope.duplicatesBySkype = [];
+    //    }
+    //};
+    //var duplicatesByLinkedinGO = false;
+    //candidate.checkDuplicatesByLinkedin = function($scope) {
+    //    if (!duplicatesByLinkedinGO && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) {
+    //        duplicatesByLinkedinGO = true;
+    //        candidate.getDuplicates({ linkedInUrl: $scope.contacts.linkedin, phone: ""}, function(res) {
+    //            $scope.duplicatesByLinkedin = [];
+    //            if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
+    //                angular.forEach(res.objects, function(c, i) {
+    //                    if (c.candidateId != $scope.candidate.candidateId) {
+    //                        $scope.duplicatesByLinkedin.push(c);
+    //                    }
+    //                });
+    //                //$scope.duplicatesByEmail = res.objects;
+    //            } else {
+    //                $scope.duplicatesByLinkedin = [];
+    //            }
+    //            duplicatesByLinkedinGO = false;
+    //        }, function(resp) {
+    //            $scope.duplicatesByLinkedin = [];
+    //            duplicatesByLinkedinGO = false;
+    //        });
+    //    } else {
+    //        $scope.duplicatesByLinkedin = [];
+    //    }
+    //};
+    //
+    //var duplicatesByPhoneGO = false;
+    //candidate.checkDuplicatesByPhone = function($scope) {
+    //    if (!duplicatesByPhoneGO && $scope.contacts && $scope.contacts.mphone && $scope.contacts.mphone.length > 4) {
+    //        duplicatesByPhoneGO = true;
+    //        candidate.getDuplicates({email: "", phone: $scope.contacts.mphone}, function(res) {
+    //            $scope.duplicatesByPhone = [];
+    //            if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
+    //                angular.forEach(res.objects, function(c, i) {
+    //                    if (c.candidateId != $scope.candidate.candidateId) {
+    //                        $scope.duplicatesByPhone.push(c);
+    //                    }
+    //                });
+    //                //$scope.duplicatesByPhone = res.objects;
+    //            } else {
+    //                $scope.duplicatesByPhone = [];
+    //            }
+    //            duplicatesByPhoneGO = false;
+    //        }, function(resp) {
+    //            $scope.duplicatesByPhone = [];
+    //            duplicatesByPhoneGO = false;
+    //        });
+    //    } else {
+    //        $scope.duplicatesByPhone = [];
+    //    }
+    //};
+    //
+    //var duplicatesByNameGO = false;
+    //var fullNamePattern = "/^[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+(\s+[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+)+(\s+[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+)*$/";
+    //candidate.checkDuplicatesByName = function($scope) {
+    //    console.log(duplicatesByNameGO);
+    //    console.log($scope.candidate.fullName);
+    //    console.log($scope.candidate.fullName.match(fullNamePattern));
+    //    if (!duplicatesByNameGO && $scope.candidate.fullName && $scope.candidate.fullName.length > 3) {
+    //        duplicatesByNameGO = true;
+    //        candidate.getDuplicatesByName({fullName: $scope.candidate.fullName}, function(res) {
+    //            $scope.duplicatesByName = [];
+    //            if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
+    //                angular.forEach(res.objects, function(c, i) {
+    //                    if (c.candidateId != $scope.candidate.candidateId) {
+    //                        $scope.duplicatesByName.push(c);
     //                    }
     //                });
     //            } else {
-    //                $scope.duplicatesByNameAndContacts = [];
+    //                $scope.duplicatesByName = [];
     //            }
-    //            duplicatesByNameAndContacts = false;
-    //        }, function (resp) {
-    //            $scope.duplicatesByNameAndContacts = [];
-    //            duplicatesByNameAndContacts = false;
+    //            duplicatesByNameGO = false;
+    //        }, function(resp) {
+    //            $scope.duplicatesByName = [];
+    //            duplicatesByNameGO = false;
     //        });
     //    } else {
-    //        $scope.duplicatesByNameAndContacts = [];
+    //        $scope.duplicatesByName = [];
     //    }
     //};
-
-    var duplicatesByEmailGO = false;
-    candidate.checkDuplicatesByEmail = function($scope) {
-        if (!duplicatesByEmailGO && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) {
-            duplicatesByEmailGO = true;
-            candidate.getDuplicates({email: $scope.contacts.email, phone: ""}, function(res) {
-                $scope.duplicatesByEmail = [];
-                if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
-                    angular.forEach(res.objects, function(c, i) {
-                        if (c.candidateId != $scope.candidate.candidateId) {
-                            $scope.duplicatesByEmail.push(c);
-                        }
-                    });
-                    //$scope.duplicatesByEmail = res.objects;
-                } else {
-                    $scope.duplicatesByEmail = [];
-                }
-                duplicatesByEmailGO = false;
-            }, function(resp) {
-                $scope.duplicatesByEmail = [];
-                duplicatesByEmailGO = false;
-            });
-        } else {
-            $scope.duplicatesByEmail = [];
-        }
-    };
-
-    var duplicatesBySkypeGO = false;
-    candidate.checkDuplicatesBySkype = function($scope) {
-        if (!duplicatesBySkypeGO && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) {
-            duplicatesBySkypeGO = true;
-            candidate.getDuplicates({skype: $scope.contacts.skype, phone: ""}, function(res) {
-                $scope.duplicatesBySkype = [];
-                if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
-                    angular.forEach(res.objects, function(c, i) {
-                        if (c.candidateId != $scope.candidate.candidateId) {
-                            $scope.duplicatesBySkype.push(c);
-                        }
-                    });
-                    //$scope.duplicatesByEmail = res.objects;
-                } else {
-                    $scope.duplicatesBySkype = [];
-                }
-                duplicatesBySkypeGO = false;
-            }, function(resp) {
-                $scope.duplicatesBySkype = [];
-                duplicatesBySkypeGO = false;
-            });
-        } else {
-            $scope.duplicatesBySkype = [];
-        }
-    };
-    var duplicatesByLinkedinGO = false;
-    candidate.checkDuplicatesByLinkedin = function($scope) {
-        if (!duplicatesByLinkedinGO && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) {
-            duplicatesByLinkedinGO = true;
-            candidate.getDuplicates({ linkedInUrl: $scope.contacts.linkedin, phone: ""}, function(res) {
-                $scope.duplicatesByLinkedin = [];
-                if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
-                    angular.forEach(res.objects, function(c, i) {
-                        if (c.candidateId != $scope.candidate.candidateId) {
-                            $scope.duplicatesByLinkedin.push(c);
-                        }
-                    });
-                    //$scope.duplicatesByEmail = res.objects;
-                } else {
-                    $scope.duplicatesByLinkedin = [];
-                }
-                duplicatesByLinkedinGO = false;
-            }, function(resp) {
-                $scope.duplicatesByLinkedin = [];
-                duplicatesByLinkedinGO = false;
-            });
-        } else {
-            $scope.duplicatesByLinkedin = [];
-        }
-    };
-
-    var duplicatesByPhoneGO = false;
-    candidate.checkDuplicatesByPhone = function($scope) {
-        if (!duplicatesByPhoneGO && $scope.contacts && $scope.contacts.mphone && $scope.contacts.mphone.length > 4) {
-            duplicatesByPhoneGO = true;
-            candidate.getDuplicates({email: "", phone: $scope.contacts.mphone}, function(res) {
-                $scope.duplicatesByPhone = [];
-                if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
-                    angular.forEach(res.objects, function(c, i) {
-                        if (c.candidateId != $scope.candidate.candidateId) {
-                            $scope.duplicatesByPhone.push(c);
-                        }
-                    });
-                    //$scope.duplicatesByPhone = res.objects;
-                } else {
-                    $scope.duplicatesByPhone = [];
-                }
-                duplicatesByPhoneGO = false;
-            }, function(resp) {
-                $scope.duplicatesByPhone = [];
-                duplicatesByPhoneGO = false;
-            });
-        } else {
-            $scope.duplicatesByPhone = [];
-        }
-    };
-
-    var duplicatesByNameGO = false;
-    var fullNamePattern = "/^[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+(\s+[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+)+(\s+[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+)*$/";
-    candidate.checkDuplicatesByName = function($scope) {
-        console.log(duplicatesByNameGO);
-        console.log($scope.candidate.fullName);
-        console.log($scope.candidate.fullName.match(fullNamePattern));
-        if (!duplicatesByNameGO && $scope.candidate.fullName && $scope.candidate.fullName.length > 3) {
-            duplicatesByNameGO = true;
-            candidate.getDuplicatesByName({fullName: $scope.candidate.fullName}, function(res) {
-                $scope.duplicatesByName = [];
-                if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
-                    angular.forEach(res.objects, function(c, i) {
-                        if (c.candidateId != $scope.candidate.candidateId) {
-                            $scope.duplicatesByName.push(c);
-                        }
-                    });
-                } else {
-                    $scope.duplicatesByName = [];
-                }
-                duplicatesByNameGO = false;
-            }, function(resp) {
-                $scope.duplicatesByName = [];
-                duplicatesByNameGO = false;
-            });
-        } else {
-            $scope.duplicatesByName = [];
-        }
-    };
 
     function countCandProperties($scope, candidate) {
         var allPuncts = 15;
@@ -3776,16 +3810,16 @@ angular.module('services.candidate', [
                 if ($scope.contacts.email) {
                     cand.contacts.push({type: "email", value: $scope.contacts.email});
                 }
-                //candidate.checkDuplicatesByNameAndContacts($scope);
-                candidate.checkDuplicatesByEmail($scope);
+                console.log('vik12q');
+                //candidate.checkDuplicatesByEmail($scope);
                 if ($scope.contacts.mphone) {
                     cand.contacts.push({type: "mphone", value: $scope.contacts.mphone});
                 }
-                candidate.checkDuplicatesByPhone($scope);
+                //candidate.checkDuplicatesByPhone($scope);
                 if ($scope.contacts.skype) {
                     cand.contacts.push({type: "skype", value: $scope.contacts.skype});
                 }
-                candidate.checkDuplicatesBySkype($scope);
+                //candidate.checkDuplicatesBySkype($scope);
                 if ($scope.contacts.linkedin) {
                     cand.contacts.push({type: "linkedin", value: $scope.contacts.linkedin});
                 }
@@ -4045,8 +4079,8 @@ angular.module('services.candidate', [
                     }
                     updateText += ' ' + $filter('translate')("Email");
                 }
-                //candidate.checkDuplicatesByNameAndContacts($scope);
-                candidate.checkDuplicatesByEmail($scope);
+                candidate.checkDuplicatesByNameAndContacts($scope);
+                //candidate.checkDuplicatesByEmail($scope);
                 if (angular.equals(c.type, "skype") && !$scope.contacts.skype && c.value) {
                     $scope.contacts.skype = c.value;
                     if (updateText) {
@@ -4062,7 +4096,7 @@ angular.module('services.candidate', [
                     updateText += ' ' + $filter('translate')("phone");
                 }
                 //candidate.checkDuplicatesByNameAndContacts($scope);
-                candidate.checkDuplicatesByPhone($scope);
+                //candidate.checkDuplicatesByPhone($scope);
                 if (angular.equals(c.type, "homepage") && !$scope.contacts.homepage && c.value) {
                     $scope.contacts.homepage = c.value;
                     if (updateText) {
@@ -4090,8 +4124,8 @@ angular.module('services.candidate', [
                         updateText += ' ' + $filter('translate')("Email");
                     }
                 }
-                //candidate.checkDuplicatesByNameAndContacts($scope);
-                candidate.checkDuplicatesByEmail($scope);
+                candidate.checkDuplicatesByNameAndContacts($scope);
+                //candidate.checkDuplicatesByEmail($scope);
                 if (angular.equals(c.type, "skype") && c.value) {
                     var needContact = true;
                     $.each($scope.candidate.contacts, function(j, cOld) {
@@ -4108,7 +4142,7 @@ angular.module('services.candidate', [
                     }
                 }
                 //candidate.checkDuplicatesByNameAndContacts($scope);
-                candidate.checkDuplicatesBySkype($scope);
+                //candidate.checkDuplicatesBySkype($scope);
                 if (angular.equals(c.type, "mphone") && c.value) {
                     var needContact = true;
                     $.each($scope.candidate.contacts, function(j, cOld) {
@@ -4125,7 +4159,7 @@ angular.module('services.candidate', [
                     }
                 }
                 //candidate.checkDuplicatesByNameAndContacts($scope);
-                candidate.checkDuplicatesByPhone($scope);
+                //candidate.checkDuplicatesByPhone($scope);
             });
         }
         if (!$scope.candidate.descr && object.descr && updateText !== '') {

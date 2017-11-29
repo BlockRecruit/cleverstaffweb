@@ -1802,6 +1802,42 @@
 				a {
 					@include link-styling();
 				}
+				.fixed-comment-width {
+					line-height: 24px;
+
+					overflow: hidden;
+					width: 100%;
+					height: 100px;
+					&:before {
+						float: left;
+						width: 5px;
+						height: 100px;
+
+						content: "";
+					}
+					&:after {
+						position: relative;
+						top: -28px;
+						left: 99%;
+
+						float: right;
+						box-sizing: content-box;
+						width: 3em;
+						margin-left: -3em;
+						padding-right: 5px;
+
+						content: "\02026";
+						text-align: right;
+
+						background: linear-gradient(to right, rgba(255, 255, 255, 0), white 50%, white);
+						background-size: 100% 100%;
+					}
+					& > *:first-child {
+						float: right;
+						width: 100%;
+						margin-left: -5px;
+					}
+				}
 			}
 		}
 	}

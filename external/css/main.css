@@ -2513,9 +2513,9 @@ footer{
     .padding-block-ru:nth-child(3) p{
         margin-top: 83px;
     }
-    .lstChild{
-        margin-top: 32px;
-    }
+    /*.lstChild{*/
+        /*margin-top: 32px;*/
+    /*}*/
     .lstChildRu {
         margin-top: 160px;
     }

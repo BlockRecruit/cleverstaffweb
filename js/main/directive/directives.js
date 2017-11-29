@@ -3722,6 +3722,60 @@ var directive = angular.module('RecruitingApp.directives', []).
                 });
             }
         }
+    }]).directive('selectWithScroll' , [function() {
+        return {
+            restrict: 'A',
+            scope: {
+                scrollSize: "=",
+                activeClass: "="
+            },
+            link: function(scope, element) {
+
+                element.on(
+                    {
+                        mousedown: () => showOptions(event),
+                        change: () => reset(event),
+                        blur: () =>  reset(event),
+                        contextmenu: () => disableContextMenu()
+                    }
+                );
+
+                let optionsLength = element.children('option').length;
+                let showUsers = !(element.attr('size'));
+                let selectedOption = null;
+
+
+                function showOptions(e) {
+                    if(showUsers && optionsLength > scope.scrollSize - 1) {
+                        element.attr('size', scope.scrollSize);
+                        element.addClass(scope.activeClass);
+                        showUsers = false;
+                    }
+
+                    if(e.target === selectedOption && !showUsers && e.target.tagName.toLowerCase() !== 'select') {
+                        reset(e);
+                    }
+
+                    if(e.target.tagName.toLowerCase() === 'option') {
+                        selectedOption = e.target;
+                    }
+                }
+
+                function reset(e) {
+                    element.removeAttr('size');
+                    element.removeClass(scope.activeClass);
+                    showUsers = true;
+                    if(e.target.tagName.toLowerCase() === 'option') selectedOption = e.target;
+                    if(e.type === 'change') element.blur();
+                }
+
+                function disableContextMenu() {
+                    selectedOption = null;
+                    return false;
+                }
+
+            }
+        }
     }]).directive('fixedHeaderTable', [function() {
         return {
             restrict: 'EA',

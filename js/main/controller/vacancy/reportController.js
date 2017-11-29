@@ -385,9 +385,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             });
         };
         $scope.getCompanyParams();
-        $scope.toBottom = function () {
-            $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-        }
     }
 
 ]);

@@ -20,30 +20,30 @@
                 </span>
             </a>
             <div class="clearfix"></div>
-            <!--<div ng-show="duplicatesByNameAndContacts.length > 0" class="alert col-lg-9 alert-danger duplicate-alert pull-right">-->
-                <!--<span>{{'Maybe, you have similar candidates in your database' | translate}}:</span>-->
-                <!--<label ng-repeat="duplicate in duplicatesByNameAndContacts">-->
-                    <!--<a ng-href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>-->
-                <!--</label>-->
-            <!--</div>-->
-            <div ng-show="duplicatesByName.length > 0 || duplicatesByPhone.length > 0 || duplicatesByEmail.length > 0 || duplicatesBySkype.length > 0 || duplicatesByLinkedin.length > 0" class="alert col-lg-9 alert-danger duplicate-alert pull-right">
+            <div ng-show="duplicatesByNameAndContacts.length > 0" class="alert col-lg-9 alert-danger duplicate-alert pull-right">
                 <span>{{'Maybe, you have similar candidates in your database' | translate}}:</span>
-                <label ng-repeat="duplicate in duplicatesByName">
-                    <a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>
-                </label>
-                <label ng-repeat="duplicate in duplicatesByPhone">
-                    <a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>
-                </label>
-                <label ng-repeat="duplicate in duplicatesByEmail">
-                    <a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>
-                </label>
-                <label ng-repeat="duplicate in duplicatesBySkype">
-                    <a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>
-                </label>
-                <label ng-repeat="duplicate in duplicatesByLinkedin">
-                    <a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>
+                <label ng-repeat="duplicate in duplicatesByNameAndContacts">
+                    <a ng-href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>
                 </label>
             </div>
+            <!--<div ng-show="duplicatesByName.length > 0 || duplicatesByPhone.length > 0 || duplicatesByEmail.length > 0 || duplicatesBySkype.length > 0 || duplicatesByLinkedin.length > 0" class="alert col-lg-9 alert-danger duplicate-alert pull-right">-->
+                <!--<span>{{'Maybe, you have similar candidates in your database' | translate}}:</span>-->
+                <!--<label ng-repeat="duplicate in duplicatesByName">-->
+                    <!--<a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>-->
+                <!--</label>-->
+                <!--<label ng-repeat="duplicate in duplicatesByPhone">-->
+                    <!--<a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>-->
+                <!--</label>-->
+                <!--<label ng-repeat="duplicate in duplicatesByEmail">-->
+                    <!--<a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>-->
+                <!--</label>-->
+                <!--<label ng-repeat="duplicate in duplicatesBySkype">-->
+                    <!--<a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>-->
+                <!--</label>-->
+                <!--<label ng-repeat="duplicate in duplicatesByLinkedin">-->
+                    <!--<a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>-->
+                <!--</label>-->
+            <!--</div>-->
             <div class="row candidate-add-profile-rezume">
                 <div class="col-lg-3 col-md-3 leftBar">
                     <!--<h5 ng-if="$root.activePage == 'Candidate add' && !$root.file && addedFromResume">{{'Quickly_add_candidate'|translate}}</h5>-->
@@ -229,8 +229,8 @@
                             <div class="col-lg-4 col-md-4">
                                 <div class="item">
                                     <label>{{'full_name'|translate}}*</label>
-                                    <!--<input ng-maxlength="50" placeholder="" ng-class="{'error': candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.required == true || candidate.fullName.length > 0}" name="name" ng-model="candidate.fullName" type="text" required ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()">-->
-                                    <input ng-maxlength="50" placeholder="" ng-change="checkDuplicatesByName()" ng-class="{'error': candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.required == true || duplicatesByName.length > 0}" name="name" ng-model="candidate.fullName" type="text" required ng-change="progressUpdate()" ng-blur="checkDuplicatesByName()">
+                                    <input ng-maxlength="50" placeholder="" ng-class="{'error': candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.required == true || (candidate.fullName.length > 0 && dublicetesTypeName)}" name="name" ng-model="candidate.fullName" type="text" required ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()">
+                                    <!--<input ng-maxlength="50" placeholder="" ng-change="checkDuplicatesByName()" ng-class="{'error': candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.required == true || duplicatesByName.length > 0}" name="name" ng-model="candidate.fullName" type="text" required ng-change="progressUpdate()" ng-blur="checkDuplicatesByName()">-->
                                     <div class="alert alert-danger" ng-show="candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.required == true">
                                         {{'enter_candidate_name'|translate}}
                                     </div>
@@ -472,26 +472,26 @@
                             <div class="col-lg-4 col-md-4 contactCandidate">
                                 <div class="item">
                                     <label>{{'phone'|translate}}</label>
-                                    <!--<input placeholder="" ng-model="contacts.mphone" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && contacts.mphone.length > 0}">-->
-                                    <input placeholder="" ng-model="contacts.mphone" type="text" ng-blur="progressUpdate();checkDuplicatesByPhone()" ng-class="{'error':duplicatesByPhone.length > 0}">
+                                    <input placeholder="" ng-model="contacts.mphone" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone.length > 0}">
+                                    <!--<input placeholder="" ng-model="contacts.mphone" type="text" ng-blur="progressUpdate();checkDuplicatesByPhone()" ng-class="{'error':duplicatesByPhone.length > 0}">-->
                                     <i class="phone icon"></i>
                                 </div>
                                 <div class="item">
                                     <label>Email</label>
-                                    <!--<input placeholder="" ng-model="contacts.email" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && contacts.email.length > 0}">-->
-                                    <input placeholder="" ng-model="contacts.email" type="text" ng-blur="progressUpdate();checkDuplicatesByEmail()" ng-class="{'error':duplicatesByEmail.length > 0}">
+                                    <input placeholder="" ng-model="contacts.email" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeEmail && contacts.email.length > 0}">
+                                    <!--<input placeholder="" ng-model="contacts.email" type="text" ng-blur="progressUpdate();checkDuplicatesByEmail()" ng-class="{'error':duplicatesByEmail.length > 0}">-->
                                     <i class="mail icon"></i>
                                 </div>
                                 <div class="item" >
                                     <label>Skype</label>
-                                    <!--<input placeholder="" ng-model="contacts.skype" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()"  ng-class="{'error':duplicatesByNameAndContacts.length > 0 && contacts.skype.length > 0}">-->
-                                    <input placeholder="" ng-model="contacts.skype" type="text" ng-blur="progressUpdate();checkDuplicatesBySkype()"  ng-class="{'error':duplicatesBySkype.length > 0}">
+                                    <input placeholder="" ng-model="contacts.skype" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()"  ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeSkype && contacts.skype.length > 0}">
+                                    <!--<input placeholder="" ng-model="contacts.skype" type="text" ng-blur="progressUpdate();checkDuplicatesBySkype()"  ng-class="{'error':duplicatesBySkype.length > 0}">-->
                                     <i class="skype icon"></i>
                                 </div>
                                 <div class="item">
                                     <label>Linkedin</label>
-                                    <!--<input placeholder="" ng-model="contacts.linkedin" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && contacts.linkedin.length > 0}">-->
-                                    <input placeholder="" ng-model="contacts.linkedin" type="text" ng-blur="progressUpdate();checkDuplicatesByLinkedin()" ng-class="{'error':duplicatesByLinkedin.length > 0}">
+                                    <input placeholder="" ng-model="contacts.linkedin" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeLinkedin && contacts.linkedin.length > 0}">
+                                    <!--<input placeholder="" ng-model="contacts.linkedin" type="text" ng-blur="progressUpdate();checkDuplicatesByLinkedin()" ng-class="{'error':duplicatesByLinkedin.length > 0}">-->
                                     <i class="linkedin icon"></i>
                                 </div>
                                 <div class="item">

@@ -2,5 +2,7 @@
 <div class="summary">
     {{'history_info.message'|translate}}:
     <br/>
-    <span ng-bind-html="history.descr|textForNotice:false"></span>
+    <div class="fixed-comment-width">
+        <span ng-bind-html="history.descr|textForNotice:false"></span>
+    </div>
 </div>

@@ -70,7 +70,6 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         $('.checkoutInner select').on('change', function () {
             $scope.countMonth = $('#countMonth').val();
             $scope.countPeople = $('#countPeople').val();
-            console.log('in change wp');
             if(!$scope.monthRate) {
                 if ($scope.countMonth >= 12) {
                     $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
@@ -103,6 +102,7 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             $('#price').html($scope.price + " USD");
             $scope.$apply();
         });
+
         $scope.payClick = function () {
             Pay.createPaymentUsage({
                 months: $scope.countMonth,
@@ -137,6 +137,7 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
                 //notificationService.error($filter('translate')('service temporarily unvailable'));
             });
         };
+
 
         $scope.updatePaymentsList = function () {
             Pay.getPayments(function (resp) {

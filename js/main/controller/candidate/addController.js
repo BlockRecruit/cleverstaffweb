@@ -204,9 +204,24 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             notificationService.error($filter('translate')('Enter a valid url'));
         }
     };
+        $scope.imgWidthFunc = function(){
+            var width = $('#page-avatar')[0].naturalWidth;
+            var height = $('#page-avatar')[0].naturalHeight;
+            var minus = width - height;
+            if(width >= height && minus > 40 && minus <=100){
+                $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+            }else if(width >= 300 && width <= 349 && width != height){
+                $('#page-avatar').css({'width': '100%', 'height': '385px', 'margin': 'inherit'});
+            }else if(width >= 350){
+                $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+            }else{
+                $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
+            }
+        };
     $scope.callbackAddPhoto = function(photo) {
         $scope.candidate.photo = photo;
         $scope.photoLink = $scope.serverAddress + "/getapp?id=" + photo + "&d=true";
+        $scope.imgWidthFunc();
         Candidate.progressUpdate($scope, true);
         $rootScope.closeModal();
     };
@@ -277,7 +292,6 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
     FileInit.initCandFileOption($scope, "", "", false);
     $scope.callbackFile = function(resp, names) {
         $scope.fileForSave.push({"attId": resp, "fileName": names});
-        $scope.progressUpdate();
     };
 
     $scope.removeFile = function(id) {
@@ -518,24 +532,24 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             $scope.candidateForm.salary.$pristine = false;
         }
     };
-    //$scope.checkDuplicatesByNameAndContacts = function() {
-    //    Candidate.checkDuplicatesByNameAndContacts($scope);
+    $scope.checkDuplicatesByNameAndContacts = function() {
+        Candidate.checkDuplicatesByNameAndContacts($scope);
+    };
+    //$scope.checkDuplicatesByEmail = function() {
+    //    Candidate.checkDuplicatesByEmail($scope);
     //};
-    $scope.checkDuplicatesByEmail = function() {
-        Candidate.checkDuplicatesByEmail($scope);
-    };
-    $scope.checkDuplicatesByPhone = function() {
-        Candidate.checkDuplicatesByPhone($scope);
-    };
-    $scope.checkDuplicatesByName = function() {
-        Candidate.checkDuplicatesByName($scope);
-    };
-    $scope.checkDuplicatesBySkype = function() {
-        Candidate.checkDuplicatesBySkype($scope);
-    };
-    $scope.checkDuplicatesByLinkedin = function() {
-        Candidate.checkDuplicatesByLinkedin($scope);
-    };
+    //$scope.checkDuplicatesByPhone = function() {
+    //    Candidate.checkDuplicatesByPhone($scope);
+    //};
+    //$scope.checkDuplicatesByName = function() {
+    //    Candidate.checkDuplicatesByName($scope);
+    //};
+    //$scope.checkDuplicatesBySkype = function() {
+    //    Candidate.checkDuplicatesBySkype($scope);
+    //};
+    //$scope.checkDuplicatesByLinkedin = function() {
+    //    Candidate.checkDuplicatesByLinkedin($scope);
+    //};
     $('.ui.dropdown').dropdown();
 
     $('#pac-input').blur(function() {
@@ -592,6 +606,7 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
     $scope.fastCandResumeClick = function() {
         if ($scope.fastCandResume) {
             $scope.fastCandResume = false;
+            $scope.imgWidthFunc();
         } else {
             $scope.fastCandResume = true;
             $scope.fastCandText = false;

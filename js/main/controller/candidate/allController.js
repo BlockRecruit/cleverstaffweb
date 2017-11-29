@@ -16,6 +16,20 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.customStages = resp.object.interviewStates;
         $rootScope.customStages = resp.object.interviewStates;
     });
+    $scope.imgWidthFunc = function(){
+        var width = $('#page-avatar')[0].naturalWidth;
+        var height = $('#page-avatar')[0].naturalHeight;
+        var minus = width - height;
+        if(width >= height && minus > 40 && minus <=100){
+            $('#page-avatar').css({'width': '100%', 'height': 'auto'});
+        }else if(width >= 300 && width <= 349 && width != height){
+            $('#page-avatar').css({'width': '100%', 'height': '385px'});
+        }else if(width >= 350){
+            $('#page-avatar').css({'width': '100%', 'height': 'auto'});
+        }else{
+            $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
+        }
+    };
     $rootScope.closeModal = function(){
         $scope.modalInstance.close();
     };

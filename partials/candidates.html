@@ -664,7 +664,7 @@
                             </td>
                             <td class="name" data-title="'Name'" ng-context-menu="menuOptions" sortable="fullName">
                                 <a ng-if="user.fullName" ng-click="tofullinformation($event,user)"
-                                   ng-bind="::user.fullName"></a>
+                                   bo-html="::user.fullName"></a>
                                 <span ng-repeat="file in user.files| orderBy:'-url'" class="hidden-xs">
                                     <a ng-href="{{::serverAddress}}/getapp/{{::file.fileId}}/{{::file.fileName}}"
                                        ng-show="file.fileId"
@@ -696,7 +696,7 @@
                                 <!--</div>-->
                                 <!--</div>-->
                                 <br>
-                                <span data-title="'Position'" sortable="position" ng-bind="::user.position"></span>
+                                <span ng-if="user.position" data-title="'Position'" sortable="position" bo-html="::user.position"></span>
                             </td>
                             <td class="responsible" data-title="'Responsible'" ng-context-menu="menuOptions" sortable="responsible.lastName">
                                 <a ng-href="#/candidates/{{::user.localId}}" title="{{::user.responsible.cutFullName}}">
@@ -1819,7 +1819,7 @@
             </div>
             <div class="ui vertically-divided-grid ">
                 <div class="sixteen wide column">
-                    <div class="ui feed ">
+                    <div class="ui feed">
                         <ng-include src="'partials/activity/preview_candidate.html'"></ng-include>
                     </div>
                 </div>

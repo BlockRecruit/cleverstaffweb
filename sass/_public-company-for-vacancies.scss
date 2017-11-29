@@ -433,8 +433,18 @@ body {
 	}
 }
 
+@media (max-width: 530px) {
+	.block-company-public-vacancies .company-info .info h2 {
+		overflow: hidden;
+		width: 100%;
 
-@media (max-width: 490px) {
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+	.block-company-public-vacancies .company-info {
+		min-width: 0;
+		max-width: 100%;
+	}
 	.block-company-public-vacancies .company-info .logo {
 		max-width: 60%;
 
@@ -444,9 +454,9 @@ body {
 		max-width: 100%;
 		margin-top: 10px;
 	}
-	.block-company-public-vacancies .company-info {
-		min-width: 0;
-	}
+}
+
+@media (max-width: 490px) {
 	.block-company-public-vacancies .vacancies .vacancy a span.vacancy__name,
 	.block-company-public-vacancies .vacancies .vacancy a span.vacancy__location {
 		width: 100%;
@@ -503,6 +513,13 @@ body {
 		right: 1%;
 	}
 }
+
+@media (min-width: 491px) {
+	.phones-only {
+		display: none;
+	}
+}
+
 @media (max-width:490px) {
 	.block-company-public-vacancies .background-animations img.position.calendar {
 		display: none;
@@ -515,6 +532,9 @@ body {
 	}
 	.block-company-public-vacancies .background-animations img.position.calendar-2 {
 		top: 450px;
+	}
+	.phones-only {
+		display: block;
 	}
 }
 

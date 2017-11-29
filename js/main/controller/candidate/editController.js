@@ -245,7 +245,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     $scope.candidate = resp.object;
 
 
-
+                    $scope.checkDuplicatesByNameAndContacts();
                     if(!$scope.candidate.customFields){
                         $scope.candidate.customFields = [];
                     }
@@ -383,10 +383,16 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             var img = new Image();
             img.onload = function() {
                 var width = this.width;
-                if(width >= 300){
-                    $('.photoWidth').css({'width': '100%', 'height': 'auto'});
+                var height = this.height;
+                var minus = width - height;
+                if(width >= height && minus > 40 && minus <=100){
+                    $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+                }else if(width >= 300 && width <= 349 && width != height){
+                    $('#page-avatar').css({'width': '100%', 'height': '385px', 'margin': 'inherit'});
+                }else if(width >= 350){
+                    $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
                 }else{
-                    $('.photoWidth').css({'width': 'inherit', 'display': 'block', 'margin': '0 auto'});
+                    $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
             if($location.$$host == '127.0.0.1'){
@@ -804,8 +810,11 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             }
         };
 
-        $scope.checkDuplicatesByName = function() {
-            Candidate.checkDuplicatesByName($scope);
+        //$scope.checkDuplicatesByName = function() {
+        //    Candidate.checkDuplicatesByName($scope);
+        //};
+        $scope.checkDuplicatesByNameAndContacts = function() {
+            Candidate.checkDuplicatesByNameAndContacts($scope);
         };
 
         $scope.removeLink = function(id) {
