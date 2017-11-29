@@ -37270,17 +37270,22 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 d.setHours(0, 0, 0, 0);
                 $("#dateTo").datetimepicker("setDate", d);
             }
-            Statistic.getVacancyInterviewDetalInfo({"vacancyId": $scope.vacancy.vacancyId}, function(detailResp) {
+            Statistic.getVacancyInterviewDetalInfo(
+                {
+                    "vacancyId": $scope.vacancy.vacancyId,
+                    withCandidatesHistory: true
+                }, function(detailResp) {
                 if (detailResp != undefined) {
                     var vacancyInterviewDetalInfo = [];
-                    console.log(detailResp);
                     angular.forEach(detailResp.vacancyInterviewDetalInfo, function(value, key){
                         vacancyInterviewDetalInfo.push({
                             key: key,
                             value: value
                         });
                     });
-                    $scope.detailInterviewInfo =vacancyInterviewDetalInfo;
+
+                    $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
+
                     angular.forEach($scope.detailInterviewInfo, function(value){
                         angular.forEach($scope.customStages, function(resp){
                             if(value.key == resp.customInterviewStateId){
@@ -37300,6 +37305,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     "dateFrom": dateFrom,
                     "dateTo": dateTo
                 }, function(resp) {
+                    // console.log('resp',resp.funnelMap);
                     $scope.hasFunnelChart = false;
                     if (resp['longlist'] != 0) {
                         $scope.hasFunnelChart = true;
@@ -37312,12 +37318,14 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                             var values3 = [];
                             var values4 = [];
                             var lastCount = null;
-                            angular.forEach(resp.funnelMap, function(i, s) {
+                            $scope.funnelMap = resp.funnelMap;
+                            angular.forEach($scope.funnelMap, function(i, s) {
                                 angular.forEach($scope.customStages, function(resp){
                                     if(s == resp.customInterviewStateId){
                                         s = resp.name;
                                     }
                                 });
+                                console.log($scope.detailInterviewInfo);
                                 series.push({
                                     "values": [i]
                                 });
@@ -37337,47 +37345,53 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                             });
                             myChart = {
                                 "type": "funnel",
-                                "width":'900px',
+                                "width":'1000px',
                                 "series": series,
                                 tooltip: {visible: true, shadow: 0},
                                 "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 75}},
                                 "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": -60}},
                                 "scale-y-3": {
-                                    "values": values3, "item": {fontSize: 12,"offset-x": -40}
+                                    "values": values3, "item": {fontSize: 12,"offset-x": 25}
                                 },
                                 "scale-y-4": {
-                                    "values": values4, "item": {fontSize: 12,"offset-x": 12}
+                                    "values": values4, "item": {fontSize: 12,"offset-x": 107}
                                 },
                                 "plot": {
                                     // "offset-x": '60px'
+                                },
+                                plotarea: {
+                                    margin: '-10% 0 0 25%'
                                 },
                                 "scale-x": {"values": [""]},
                                 labels: [{
                                     text: $filter('translate')('Relative conversion'),
                                     fontWeight: "bold",
                                     fontSize: 12,
-                                    offsetX: $translate.use() != 'en' ?  775 : 785,
+                                    // offsetX: $translate.use() != 'en' ?  775 : 785,
+                                    offsetX: $translate.use() != 'en' ?  1000 : 1010,
                                     offsetY: 10
                                 },
                                     {
                                         text: $filter('translate')('Absolute conversion'),
                                         fontWeight: "bold",
                                         fontSize: 12,
-                                        offsetX: 870,
+                                        // offsetX: 870,
+                                        offsetX: 1100,
                                         offsetY: 10
                                     },
                                     {
                                         text: $filter('translate')('Candidates'),
                                         fontWeight: "bold",
                                         fontSize: 12,
-                                        offsetX: $translate.use() != 'en' ? 700 : 710,
+                                        // offsetX: $translate.use() != 'en' ? 700 : 710,
+                                        offsetX: $translate.use() != 'en' ? 920 : 930,
                                         offsetY: 10
                                     },
                                     {
                                         text: $filter('translate')('status'),
                                         fontWeight: "bold",
                                         fontSize: 12,
-                                        offsetX: 123,
+                                        offsetX: 270,
                                         offsetY: 10
                                     }
                                 ],
@@ -37537,8 +37551,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                             id: "myChartDiv",
                             data: myChart,
                             height: chartHeight,
-                            width: 1200,
-                            "padding-left": '300px',
+                            width: 1290,
                             output: "html5"
                         });
                     }
@@ -37556,11 +37569,11 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 {
                     "vacancyId": $scope.vacancy.vacancyId,
                     "from": dateFrom,
-                    "to": dateTo
+                    "to": dateTo,
+                    withCandidatesHistory: true
                 }, function(detailResp) {
                     if (detailResp != undefined) {
                         var vacancyInterviewDetalInfo = [];
-                        console.log(detailResp);
                         angular.forEach(detailResp.vacancyInterviewDetalInfo, function(value, key){
                             vacancyInterviewDetalInfo.push({
                                 key: key,
@@ -37596,7 +37609,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             Statistic.getVacancyInterviewDetalInfoFile({
                 "vacancyId": $scope.vacancy.vacancyId,
                 "from": dateFrom,
-                "to": dateTo
+                "to": dateTo,
+                withCandidatesHistory: true
             },function(resp){
                 if(resp.status == 'ok'){
                     pdfId = resp.object;
