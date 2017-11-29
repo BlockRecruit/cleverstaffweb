@@ -190,9 +190,8 @@
 	.candidates-statuses {
 		@include bt-margins-from-side;
 		.statuses {
-			margin-top: 15px;
-			padding: 0;
-			padding-left: 15px;
+			margin-top: 20px;
+			padding: 0 15px;
 			& p.margin-top {
 				margin-top: 20px;
 			}
@@ -430,9 +429,8 @@
 			}
 		}
 		.candidates-search-table {
-			margin-top: 15px;
 			.breadcrumbs {
-				margin-top: 0;
+				margin-top: 20px;
 				& > .breadcrumb {
 					padding: 0;
 					& > li {
@@ -488,7 +486,7 @@
 			}
 			& > .criterionSearchCandidate {
 				margin-top: 15px;
-				padding-left: 0;
+				padding-left: 6px;
 				div {
 					@include bold();
 
@@ -522,7 +520,6 @@
 						display: inline-block;
 						margin-bottom: 5px;
 						padding: 2px 6px;
-						padding-left: 0;
 
 						background-color: #f5f5f5;
 						box-shadow: 0 0 1px 1px $theme-light-grey-hover;
@@ -542,18 +539,6 @@
 
 							cursor: pointer;
 							vertical-align: inherit;
-						}
-						&.too-match {
-							background-color: #e3f2dd;
-							& > .count {
-								position: absolute;
-								bottom: -3px;
-
-								width: 485px;
-								padding: 2px 10px;
-
-								text-transform: initial;
-							}
 						}
 					}
 				}
@@ -619,13 +604,9 @@
 						}
 					}
 				}
-				&.limited {
-					margin-bottom: 10px;
-				}
 			}
 			.addCandidatesInVacancy {
 				margin-bottom: 15px;
-				padding-left: 4px;
 				.addTagsCandidateForMass {
 					max-width: 280px;
 					margin: -5px 0 0 0;
@@ -685,7 +666,7 @@
 			& > .form-inline-search-candidates {
 				& > .input-group {
 					width: 100%;
-					margin-bottom: 15px;
+					margin-bottom: 10px;
 					.col-lg-12 {
 						padding: 0;
 						.input-group-addon {
@@ -1299,14 +1280,77 @@
 							& > .text-center {
 								color: $theme-dark-green;
 								&.width-for-table-eye {
+									position: relative;
+
 									cursor: pointer;
+									.user-files {
+										max-width: 44px;
+										margin: 0 auto;
+
+										text-align: center;
+										&.toggle {
+											position: absolute;
+											z-index: 100;
+											left: calc(50% - 22px); // 22px - half of .user-files width
+
+											display: block;
+											margin-top: 5px;
+
+											border: 1px solid rgba(0, 0, 0, 0.2);
+											background-color: #fff;
+										}
+										.fa-paperclip {
+											display: inline-block;
+											margin-right: 4px;
+										}
+										a:hover,
+										a:focus {
+											text-decoration: none;
+										}
+									}
+									.user-files-block {
+										display: block;
+									}
+									.user-files-toggle {
+										position: relative;
+
+										display: block;
+										margin-top: 2px;
+
+										text-align: center;
+
+										color: #000;
+										&.arrow-up::after {
+											font-size: 11px;
+
+											content: "▲";
+
+											color: #000;
+										}
+										&.arrow-down::after {
+											font-size: 11px;
+
+											content: "▼";
+
+											color: #000;
+										}
+									}
+									.file {
+										display: inline-block;
+										min-width: 44px;
+										&.half-width {
+											min-width: 21px;
+											padding-left: 2px;
+										}
+									}
 								}
 								.count-active-vacancy {
-									font-size: 12px;
+									font-size: 11px;
+									line-height: 12px;
 
 									display: inline-block;
-									width: 21px; //17 fz 12
-									height: 21px;
+									width: 14px;
+									height: 14px;
 
 									border: 1px solid $theme-light-grey;
 									border-radius: 50%;
@@ -1535,6 +1579,15 @@
 	}
 }
 @media (max-width: $screen-md) {
+	.pagination-block > span {
+		right: 0;
+		left: 0;
+
+		display: inline-block;
+		margin-left: 0;
+
+		text-align: center;
+	}
 	.block-candidates .candidates-statuses .candidates-search-table > .miniMenuCandidate .item .clever-window {
 		top: 27px;
 		right: -163px;
@@ -1554,11 +1607,6 @@
 	}
 }
 @media (max-width: $screen-sm) {
-	.block-candidates .candidates-statuses .candidates-search-table > .criterionSearchCandidate .pivots li.too-match > .count {
-		position: relative;
-
-		width: 68%;
-	}
 	.block-candidates .candidates-statuses .candidates-search-table .status-info table > tbody > tr .responsible {
 		width: 40%;
 	}
@@ -1651,7 +1699,69 @@
 		padding: 0;
 	}
 }
+.pagination-block {
+	display: flex;
+	margin-bottom: -30px;
 
+	background-color: rgba(204,204,204,0.2);
+
+	justify-content: space-between;
+	& > span {
+		display: flex;
+		margin-left: 3%;
+
+		align-items: center;
+		& > span {
+			display: block;
+			input {
+				width: 40px;
+
+				-moz-appearance: textfield;
+			}
+			input::-webkit-outer-spin-button,
+			input::-webkit-inner-spin-button {
+				-webkit-appearance: none;
+			}
+			.item {
+				&:hover {
+					text-decoration: none;
+				}
+				.fa-arrow-left {
+					cursor: pointer;
+					vertical-align: inherit;
+
+					color: $theme-dark;
+				}
+				.fa-arrow-right {
+					cursor: pointer;
+					vertical-align: inherit;
+
+					color: $theme-dark;
+				}
+			}
+		}
+	}
+	.pagination-right-block {
+		margin-right: 3%;
+		.item-type-candidates {
+			display: none;
+		}
+		& > .pagination {
+			& > a {
+				padding: 5px;
+
+				cursor: pointer;
+				&:hover {
+					text-decoration: none;
+				}
+			}
+			& > .active {
+				color: $theme-white;
+				background-color: $theme-dark;
+			}
+		}
+	}
+}
 .more_history {
 	.findCandidates {
 		.btn {
@@ -1693,16 +1803,13 @@
 	.divided-grid {
 		img {
 			position: absolute;
-			top: 5px;
-			left: 10px;
+			top: 0;
 
 			width: 33%;
 			max-height: 190px;
-			margin: 0 auto;
+			margin: 0 2% 0 0;
 
 			border-radius: 15%;
-
-			object-fit: fill;
 		}
 		.twelve-wide {
 			float: right;
