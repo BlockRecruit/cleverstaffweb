@@ -1,0 +1,19 @@
+<div class="candidate-add-in-vacancy">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="modalInstance.close()"></i>
+        <h4 class="modal-title"> {{'adding_candidate'|translate}}</h4>
+    </div>
+    <div class="modal-body">
+        <div class="item">
+            <input type="hidden" mailing-candidate-autocompleter ng-change="errorMessageForAddCandidate.show = false" ng-model="candidateToAddInInterview" id="candidateToAddInInterview">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <!--<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>-->
+        <!--<button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>-->
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="modalInstance.close()">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept" ng-show="newRecipient"  ng-click="addRecipient()">{{'add'|translate}}</a>
+        </div>
+    </div>
+</div>

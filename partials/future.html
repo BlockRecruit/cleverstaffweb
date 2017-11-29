@@ -7,10 +7,10 @@
                                 {{'Interviews and tasks' | translate}}
                             </span>
                     <div class="switch pull-right ">
-                        <label ng-show="activeScopeParam.name != 'onlyMy'" ng-click="upcomingEventsUpdate('allUsers')" ng-class="{grey: $root.upcomingEventsScope}" class="floatLeft">{{'Of all users'|translate}}</label>
+                        <label ng-show="activeScopeParam.name != 'onlyMy'" ng-click="upcomingEventsUpdate('allUsers')" ng-class="{grey: $root.upcomingEventsScope}" class="floatLeft" translate="Of all users"></label>
                         <input ng-show="activeScopeParam.name != 'onlyMy'" id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round upcomingScopeSwticher" type="checkbox">
                         <label ng-show="activeScopeParam.name != 'onlyMy'" class="" ng-click="upcomingEventsUpdate('switch')" for="cmn-toggle-9"></label>
-                        <label ng-click="upcomingEventsUpdate('onlyMy')" ng-class="{grey: !$root.upcomingEventsScope && activeScopeParam.name != 'onlyMy'}" class="floatLeft">{{'only_me1'|translate}}</label>
+                        <label ng-click="upcomingEventsUpdate('onlyMy')" ng-class="{grey: !$root.upcomingEventsScope && activeScopeParam.name != 'onlyMy'}" class="floatLeft" translate="only_me1"></label>
                     </div>
                 </div>
 

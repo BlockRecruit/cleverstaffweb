@@ -146,13 +146,13 @@
                     <li class="dropdown">
                         <a href="#/organizer" ng-class="{'active': $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'}">
                             <i class="sprite sprite-calendar"></i>
-                            <span>{{'activity'| translate}}</span>
+                            <span translate="activity"></span>
                         </a>
                     </li>
                     <li>
                         <a href="#/vacancies" ng-class="{'active': $root.activePage == 'Vacancies' || $root.activePage == 'Vacancy add' || $root.activePage == 'Vacancy edit' }">
                             <i class="sprite sprite-vacancy"></i>
-                            <span>{{'Vacancies'| translate}}</span>
+                            <span translate="Vacancies"></span>
                         </a>
                     </li>
                     <li>
@@ -160,21 +160,21 @@
                                                                     || $root.activePage == 'Zip' || $root.activePage == 'Excel History' || $root.activePage == 'Candidate edit' || $root.activePage == 'Tests and forms'
                                                                     || $root.activePage == 'Send test candidate to email' || $root.activePage == 'Test results' || $root.activePage == 'Test page' || $root.activePage == 'Candidate'}">
                             <i class="sprite sprite-candidates"></i>
-                            <span>{{'candidates'| translate}}</span>
+                            <span translate="candidates"></span>
                         </a>
                     </li>
                     <li class="dropdown">
                         <a href="#/clients" ng-class="{'active': $root.activePage == 'Clients' || $root.activePage == 'Client add' || $root.activePage == 'Client edit'}"
                            ng-if="$root.me.personParams.clientAccessLevel != 'hide'">
                             <i class="sprite sprite-clients"></i>
-                            <span ng-show="$root.me!=undefined">{{'clients'| translate}}</span>
+                            <span ng-show="$root.me!=undefined" translate="clients"></span>
                             <!--<span ng-if="$root.me.recrutRole=='client'">{{'client(i)'| translate}}</span>-->
                         </a>
                     </li>
                     <li class="dropdown" ng-if="$root.me!=undefined && $root.me.recrutRole!='client'">
                         <a href="#/company/users" ng-class="{'active': $root.activePage == 'Users' || $root.activePage == 'Company History' || $root.activePage == 'Company settings' || $root.activePage == 'Company users' || $root.activePage == 'Company employees' || $root.activePage == 'Employee add' || $root.activePage == 'Employee User' || $root.activePage == 'Department Catalog' || $root.activePage == 'Employee Edit User' || $root.activePage == 'Custom fields'}">
                             <i class="sprite sprite-company"></i>
-                            <span>{{'Account'| translate}}</span>
+                            <span translate="Account"></span>
                         </a>
                     </li>
                     <li class="dropdown"  ng-if="$root.me!= undefined &&  $root.me.recrutRole!='salesmanager' && $root.me.recrutRole!='researcher'">
@@ -182,13 +182,13 @@
                            ng-show="$root.me.recrutRole !== 'freelancer' && $root.me.recrutRole!='client'"
                            ng-class="{'active': $root.activePage == 'Pipeline' || $root.activePage == 'Statistics client' || $root.activePage == 'Report all' || $root.activePage == 'Vacancy report' || $root.activePage == 'Reports' || $root.activePage ==  'Reports constructor' ||  $root.activePage == 'Custom Reports'|| $root.activePage == 'Edit Reports'}">
                             <i class="fa fa-bar-chart"></i>
-                            <span>{{'Reports'| translate}}</span>
+                            <span translate="Reports"></span>
                         </a>
                         <a href="#/reports/pipeline"
                            ng-show="$root.me.recrutRole == 'freelancer' || $root.me.recrutRole == 'client'"
                            ng-class="{'active': $root.activePage == 'Pipeline' || $root.activePage == 'Statistics client' || $root.activePage == 'Report all' || $root.activePage == 'Vacancy report' || $root.activePage == 'Reports' || $root.activePage ==  'Reports constructor' ||  $root.activePage == 'Custom Reports'|| $root.activePage == 'Edit Reports'}">
                             <i class="fa fa-bar-chart"></i>
-                            <span>{{'Reports'| translate}}</span>
+                            <span translate="Reports"></span>
                         </a>
 
                     </li>
@@ -659,7 +659,7 @@
               || $root.activePage == 'Excel History' || $root.activePage == 'Tests and forms'
               || $root.activePage == 'Send test candidate to email' || $root.activePage == 'Detailed test results' || $root.activePage == 'Detailed test results'
               || $root.activePage == 'Tests results'|| $root.activePage == 'Test results' || $root.activePage == 'Test page' ||
-              $root.activePage == 'Send test candidate to email from vacancy' || $root.activePage == 'Send test candidate to email from candidate')">
+              $root.activePage == 'Send test candidate to email from vacancy' || $root.activePage == 'Send test candidate to email from candidate'|| $root.activePage == 'Mailings')">
             <div class="second-navbar">
                 <ul class="nav navbar-nav col-lg-7 col-md-8 col-sm-12 col-xs-12 col-sm-offset-3 col-xs-offset-1 text-center">
                     <li class="dropdown">
@@ -679,6 +679,13 @@
                         <a ng-click="$root.changeSearchType('add')"
                            ng-class="{'selected': $root.activePage == 'Tests and forms'}" ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter'" href="#/candidate/tests">
                             {{'Tests and forms'|translate}}
+                            <span class="new-label">New</span>
+                        </a>
+                    </li>
+                    <li class="hidden-sm hidden-xs">
+                        <a ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter'" class="mailing-tab" href="#/mailings" ng-class="{'selected': $root.activePage == 'Mailings'}">
+                            {{'Mass mailings'|translate}}
+                            <span class="new-label">New</span>
                         </a>
                     </li>
                 </ul>
@@ -1076,8 +1083,124 @@
                     </a>
                 </li>
             </ul>
+                <ul class="nav navbar-nav col-lg-3 text-right hidden-md hidden-sm hidden-xs">
+                    <li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"
+                        id="drop_down_scope" uib-dropdown is-open="status.isopen">
+                        <a href="" uib-dropdown-toggle title="{{'scope'|translate}}">
+                            {{'scope'|translate}}:
+                            <span ng-show="scopeActiveObject.name=='company' && scopeActiveObject.check">
+                                    <span>{{'entire account'|translate}}</span>
+                                  <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                </span>
+                            <span ng-show="scopeActiveObject.name=='onlyMy' && scopeActiveObject.check">
+                                    <span>{{'only_me1'|translate}}</span>
+                                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                </span>
+                            <span ng-show="scopeActiveObject.name=='region' && scopeActiveObject.check">
+                                    {{'only'|translate}} <span>{{scopeActiveObject.value.name}}</span>
+                                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                </span>
+                            <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip" aria-hidden="true"></i>
+                        </a>
+                        <ul class="dropdown-menu showScopeMenu" uib-dropdown-menu role="menu" scope-directive aria-labelledby="single-button">
+                            <h4 class="text-center">{{'scope'|translate}}</h4>
+                            <p>{{'scope_message'|translate}}</p>
+                            <!--<p ng-show="$root.me.recrutRole =='freelancer'">{{'I am in the companys account of'|translate}}</p>-->
+                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='company' && scopeActiveObject.check}">
+                                <span class="col-lg-1 no-margin no-padding">
+                                    <button id="scopeCheckmarkOrg" class="ui icon button"
+                                            ng-click="changeScope('company')">
+                                        <!--<i class=" icon"-->
+                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"-->
+                                        <!--ng-checked="true"></i>-->
+                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"
+                                           ng-checked="true" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                                <span class="col-lg-5 no-margin">{{'entire account'|translate}}</span>
+                                <span class="col-lg-6 no-margin" ng-show="orgs.length > 1">
+                                    <select ng-model="orgId" name="region"
+                                            class="select2-container form-control input-lg select2 select12"
+                                            ng-options="org.orgId as org.orgName for org in orgs"
+                                            ng-change="changeScope('company')"
+                                            ng-click="$event.stopPropagation();"
+                                            required="">
+                                    </select>
+                                </span>
+                                <span class="col-lg-6 no-margin" ng-show="orgs.length < 2">
+                                    <div ng-repeat="org in orgs|filter:{ orgId: orgId }">
+                                        {{org.orgName}}
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='region' && scopeActiveObject.check}">
+                                <span class="col-lg-1 no-margin no-padding">
+                                    <button id="scopeCheckmarkRegion" class="ui icon button"
+                                            ng-click="changeScope('region')">
+                                        <!--<i class=" icon"-->
+                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"-->
+                                        <!--ng-checked="true"></i>-->
+                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"
+                                           ng-checked="true" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                                <span class="col-lg-5 no-margin">
+                                    <label style="font-size: 14px">{{'only_region'|translate}}</label>
+                                </span>
+                                <span class="col-lg-6 no-margin">
+                                    <select ng-model="regionId"
+                                            ng-style="regionListStyle"
+                                            class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"
+                                            ng-click="$event.stopPropagation();"
+                                            ng-change="changeScopeForRegionSelect('region')">
+                                    </select>
+                                </span>
+                            </div>
+                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}">
+                                <span class="col-lg-1 no-margin no-padding">
+                                    <button id="scopeCheckmarkMe" class="ui icon button "
+                                            ng-click="changeScope('onlyMy')">
+                                        <!--<i class=" icon"-->
+                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"-->
+                                        <!--ng-checked="true"></i>-->
+                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"
+                                           ng-checked="true" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                                <span class="col-lg-11 no-margin">
+                                    <span>
+                                        {{'only_me1'|translate}}
+                                    </span>
+                                    &nbsp;
+                                    <span>
+                                        {{'only_me2'|translate}}
+                                    </span>
+                                </span>
+                            </div>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
+        <!--Navbar for mailing-->
+        <div ng-show="$root.activePage == 'Mailing' " class="container-fluid second-navbar">
+            <div class="second-navbar">
+                <ul class="nav navbar-nav col-lg-9">
+                    <li class="hidden-sm hidden-xs">
+                        <a href="#/mailing" ng-class="{'selected': $root.activePage == 'Mailing'}" translate="Mailing create"></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--<div ng-show="$root.activePage == 'Mailings' && (!$root.previousLocation || $root.previousLocation.indexOf('candidates')==-1)" class="container-fluid second-navbar">-->
+            <!--<div class="second-navbar">-->
+                <!--<ul class="nav navbar-nav col-lg-9">-->
+                    <!--<li class="hidden-sm hidden-xs">-->
+                        <!--<a href="#/mailings" ng-class="{'selected': $root.activePage == 'Mailings'}" translate="My mailings"></a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>-->
         <!--Navbar for mail integration-->
         <div ng-show="$root.activePage == 'Integration with email' " class="container-fluid second-navbar">
             <div class="second-navbar">

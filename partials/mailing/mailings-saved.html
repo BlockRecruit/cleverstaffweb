@@ -1,0 +1,51 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table mailings-saved" ng-show="objectSize" ng-table="tableParams" template-pagination="custom/pager">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th translate="Title" class="name"></th>
+                    <th></th>
+                    <th translate="last_event" class="date"></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="mailing in savedMailings track by $index" ng-click="toEditMailing(mailing)">
+                    <td></td>
+                    <!--<td class="clickable">-->
+                            <!--<span class="">-->
+                                <!--<input type="checkbox" ng-model="mailing.checked">-->
+                            <!--</span>-->
+                    <!--</td>-->
+                    <td class="clickable hidden-xs">
+                        <a>
+                            {{mailing.internalName}}
+                        </a>
+                    </td>
+                    <td></td>
+                    <!--<td class="clickable send">-->
+                        <!--<button class="send-button" ng-class="{'show-item': mailing.checked}" ng-click="sendMailing(mailing.compaignId)">{{'Send'|translate}}</button>-->
+                    <!--</td>-->
+                    <td class="clickable date">
+                            <span>
+                                {{(mailing.dm?mailing.dm:mailing.dc)|dateFormat2}}
+                            </span>
+                    </td>
+                    <td class="clickable hidden-xs delete" ng-click="$event.stopPropagation();deleteMailing(mailing.internalName, mailing.compaignId)">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <div class="row" ng-show="objectSize === 0">
+        <div class="col-lg-12">
+            <h4 class="text-center" translate="You have no prepared mailing campaign now. Create a new one"></h4>
+        </div>
+    </div>
+</div>

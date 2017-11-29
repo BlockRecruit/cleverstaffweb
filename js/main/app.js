@@ -1,5 +1,6 @@
 angular.module('RecruitingApp', [
     'ngRoute',
+    'ui.router',
     'ngCookies',
     'RecruitingApp.filters',
     'services',
@@ -19,6 +20,7 @@ angular.module('RecruitingApp', [
     'googlechart',
     'googleApi',
     'controller',
+    'components',
     'constant',
     'ng-sortable',
     'angulartics',
@@ -26,7 +28,7 @@ angular.module('RecruitingApp', [
     'ngQuickDate',
     'ui.bootstrap',
     'outlookApi'
-]).config(['$routeProvider', '$locationProvider','$analyticsProvider', function ($routeProvider, $locationProvider, $analyticsProvider) {
+]).config(['$routeProvider', '$locationProvider','$analyticsProvider', '$stateProvider', '$urlRouterProvider', function ($routeProvider, $locationProvider, $analyticsProvider, $stateProvider, $urlRouterProvider) {
     var universalResolves = {
         app: function ($q, $rootScope, $location, $route, $http, serverAddress,$filter, notificationService) {
             var defer = $q.defer();
@@ -42,6 +44,7 @@ angular.module('RecruitingApp', [
             return this;
         }
     });
+    $locationProvider.hashPrefix('');
     customRouteProvider
         .when('/organizer', {
             templateUrl: 'partials/future.html',
@@ -483,7 +486,45 @@ angular.module('RecruitingApp', [
         //    controller: "hrModuleInfoController",
         //    pageName: "Hr-module info"
         //})
+        .when('/mailing',{
+            title: "Create a mailing list",
+            templateUrl: "partials/mailing/mailing.html",
+            controller: "mailingController",
+            pageName: "Mailing"
+        })
+        .when('/mailings',{
+            title: "My mailings",
+            templateUrl: "partials/mailing/mailings.html",
+            controller: "mailingsController",
+            pageName: "Mailings"
+        })
+        .when('/mailing-sent',{
+            title: "Sent mailing",
+            templateUrl: "partials/mailing/mailing-sent.html",
+            controller: "mailingSentController",
+            pageName: "Sent mailing"
+        })
         .otherwise({redirectTo: '/organizer'});
+
+    let states = [{
+        name: 'mailing-details',
+        component: 'mDetails'
+    },{
+        name: 'mailing-editor',
+        component: 'editor'
+    },{
+        name: 'mailing-preview',
+        component: 'preview'
+    },{
+        name: 'mailings-saved',
+        component: 'saved'
+    },{
+        name: 'mailings-sent',
+        component: 'sent'
+    }];
+    states.forEach((state) => {
+        $stateProvider.state(state);
+    });
 }]).config(['$provide', '$httpProvider', 'serverAddress', 'frontMode', function ($provide, $httpProvider, serverAddress, frontMode) {
     var allRequest = {};
     var isExecuted = false;
@@ -573,9 +614,6 @@ angular.module('RecruitingApp', [
                 // $rootScope.notFormatedTitle = $filter('translate')(current.$$route.title);
                 translateWords.getTranslete(current.$$route.title, $rootScope, 'title', true);
                 $rootScope.title = $filter('translate')(current.$$route.title) + " | CleverStaff";
-                //var firstPage = "http://127.0.0.1:8080/!#/ask_question";
-                //var secondPage = "http://127.0.0.1:8080/!#/report_problem_on_this_page";
-                //var thirdPage = "http://127.0.0.1:8080/!#/suggest_improvement_or_request_feature";
                 var firstPage = $location.$$protocol + "://" + $location.$$host + "/!#/ask_question";
                 var secondPage = $location.$$protocol + "://" + $location.$$host + "/!#/report_problem_on_this_page";
                 var thirdPage = $location.$$protocol + "://" + $location.$$host + "/!#/suggest_improvement_or_request_feature";
@@ -719,7 +757,7 @@ angular.module('RecruitingApp', [
 });
 
 var controller = angular.module('controller', []);
-
+var component = angular.module('components', []);
 function handErrorException(isExecuted, serverAddress, status, frontMode, $window, route, $rootScope) {
     if (status == 403 || status == 502) {
         if (!isExecuted) {
@@ -744,7 +782,11 @@ function checkAuth(serverType, $rootScope, callback) {
     var request = new XMLHttpRequest();
     request.open('GET', serverType + '/person/authping', true);
     request.onload = function () {
-        callback(request.status);
+        try {
+            callback(request.status);
+        }catch (error) {
+            console.log(error.status)
+        }
     };
 
     request.send();
@@ -832,7 +874,7 @@ function checkUrlByRole(url, Role,  accessLevel, $location, serverAddress, $http
 }
 
 function setPersonParams($http, userId, paramName, paramValue, serverAddress) {
-    $http.get(serverAddress + '/person/changeUserParam?userId=' + userId + "&name=" + paramName + "&value=" + paramValue).success(function (resp) {
+    $http.get(serverAddress + '/person/changeUserParam?userId=' + userId + "&name=" + paramName + "&value=" + paramValue).then(function (resp) {
     });
 }
 

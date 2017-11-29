@@ -802,7 +802,6 @@ angular.module('services.vacancy', [
         $rootScope.loading = true;
         return new Promise((resolve, reject) => {
             vacancy.getCandidatesInStages(params, (response) => {
-                console.log('!!!!!!!!!!!!!!')
                 vacancy.candidateLastRequestParams = params;
                 vacancy.getCandidate = response.objects.map(item => item.candidateId.localId);
                 localStorage.setItem('candidateLastRequestParams', JSON.stringify(params));

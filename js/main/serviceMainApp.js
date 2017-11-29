@@ -35,7 +35,8 @@ angular.module('services', [
         'services.translateWords',
         'services.CustomReportsService',
         'services.CustomReportEditService',
-        'services.slider'
+        'services.slider',
+        'services.mailing'
     ]
 );
 

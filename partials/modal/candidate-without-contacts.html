@@ -1,0 +1,19 @@
+<div class="candidate-without-contacts">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title" translate="No email for the following candidates found in database"></h4>:
+    </div>
+    <div class="modal-body">
+        <div class="without-contacts">
+            <div ng-repeat="candidate in $root.candidatesWithoutMail track by $index">{{$index + 1}}. <a href="#/candidates/{{candidate.candidateId.localId}}" target="_blank" ng-bind="candidate.candidateId.fullName"></a></div>
+        </div>
+        <div translate="The mailing will not process these candidates" class="pull-left bottom-body-block">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal()" translate="cancel"></a>
+            <a type="button" class="btn btn-primary accept"  ng-click="toTheMailing()" translate="Continue"></a>
+        </div>
+    </div>
+</div>

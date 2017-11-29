@@ -1,0 +1,75 @@
+<div class="container-fluid mailing-preview-block">
+    <!--<div class="row">-->
+        <!--{{mailingParams.currentStep}}-->
+        <!--<div class="col-lg-4 text-right" translate="Internal mailing name"></div>-->
+        <!--<div class="col-lg-8 text-left" ng-bind="mailingParams.name"></div>-->
+    <!--</div>-->
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="row">
+                <div class="col-lg-5 field-titles text-left" translate="Sender name and email"></div>
+                <div class="col-lg-7 text-left" >
+                    <span ng-bind="::mailingParams.fromName"></span>
+                    <<span ng-bind="::mailingParams.fromMail" title="{{::mailingParams.fromMail}}"></span>>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-5 field-titles text-left" translate="Subject line"></div>
+                <div class="col-lg-7 text-left" ng-bind="::mailingParams.name"></div>
+            </div>
+            <div class="row show-test-mail">
+                <div class="col-lg-12">
+                    <button class="orange-button" ng-click="showSendTest()" translate="Test letter"></button>
+                </div>
+            </div>
+            <div class="row test-email" ng-show="sendTestShow">
+                <div class="col-lg-8">
+                    <input id="test-mail" ng-focus="fieldFocused($event)" type="text" class="form-control" placeholder="{{'Add email address to receive a test email'|translate}}" ng-model="testEmail">
+                </div>
+                <div class="col-lg-4 text-right">
+                    <button class="save-button" translate="Send" ng-click="sendTestMail()"></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="row email-text">
+                <div class="col-lg-3 field-titles field-titles text-left" translate="Text of the letter"></div>
+                <div class="col-lg-12 text-left">
+                    <div class="text-block-wrapper">
+                        <div class="text-block" ng-bind-html="::mailingParams.text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="row recipients" >
+                <div class="col-lg-12 field-titles text-left">
+                    <span ng-bind="::candidatesForMailing.length"></span>
+                    <span ng-if="candidatesForMailing.length > 4" ><span translate="Recipients"></span>:</span>
+                    <span ng-if="candidatesForMailing.length < 5 && candidatesForMailing.length > 1" ><span translate="Recipients_1"></span>:</span>
+                    <span ng-if="candidatesForMailing.length == 1" ><span translate="Recipients_2"></span>:</span>
+                </div>
+                <div class="col-lg-12">
+                    <div class="recipients-table">
+                        <div ng-repeat="recipient in candidatesForMailing track by $index">
+                            <a ng-href="!#/candidates/{{::recipient.candidateId.localId}}" target="_blank">{{::recipient.candidateId.lastName}} {{::recipient.candidateId.firstName}}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 ">
+                    <a ng-click="editDetails()" translate="Go to step 1 to view and edit"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row send-mailing">
+        <div class="col-lg-12 text-center">
+            <!--<button class="cancel-button" translate="Save and edit template" ng-click="editMessage()"></button>-->
+            <button id="go-back-button" class="cancel-button" translate="Go back"></button>
+            <button class="save-button" ng-if="candidatesForMailing.length == 1" ng-click="sendMailing()"><span translate="Send to"></span> {{::candidatesForMailing.length}} <span translate="recipient"></span></button>
+            <button class="save-button" ng-if="candidatesForMailing.length > 1" ng-click="sendMailing()"><span translate="Send to"></span> {{::candidatesForMailing.length}} <span translate="recipients"></span></button>
+            <!--<button class="save-button" translate="Save mailing" ng-click="saveMailing()"></button>-->
+        </div>
+    </div>
+</div>

@@ -68,6 +68,11 @@
                         {{'Email templates vacancy' | translate}}
                     </button>
                 </li>
+                <li class="pull-left" ng-show="isSavedMailing && ($root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'admin')">
+                    <a  class="hidden-xs pull-left" ng-click="toMyMailings()">
+                        {{'My mailings' | translate}}
+                    </a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
                 <li class="dropdown" ng-show="$root.hideTariff && $root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'salesmanager'" >
@@ -158,7 +163,7 @@
                                     <span class="title no-left-margin pull-right"> {{'Responsible types'|translate}}</span>
                                     <span class="responsibleSelect" ng-switch="vacancy.responsiblesPerson.length > 0">
 
-                                        <select class="form-control pull-left" ng-show="$root.me.recrutRole != 'client'" hide-onclick-anywhere-but-here="" ng-model="person.userId" ng-change="showAddResponsibleUser(person)">
+                                        <select class="form-control pull-left" ng-show="$root.me.recrutRole != 'client'" hide-onclick-anywhere-but-here="" ng-model-options="{ updateOn: 'change', debounce: { change: 0 } }" ng-model="person.userId" ng-change="showAddResponsibleUser(person)">
                                             <option value="" disabled selected hidden>{{'choose_user2' | translate}}</option>
                                             <option ng-repeat="person in persons| responsibleWithout:vacancy.responsiblesPerson"
                                                     ng-show="state.value != 'deleted'
@@ -619,6 +624,13 @@
                             <!--<i class="fa fa-envelope" aria-hidden="true"></i>-->
                         <!--</a>-->
                     </div>
+                    <div class="mailing" ng-show="$root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'admin'" ng-class="{'col-lg-4': !($root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y'))}">
+                        <a href="" ng-click="toCreateMailing()">
+                            <span translate="Create email campaign"></span>
+                            <i class="letters" ></i>
+                            <span class="new-label">New</span>
+                        </a>
+                    </div>
                 </div>
             </div>
             <table class="table" ng-table="tableParams" template-pagination="custom/pager">
@@ -696,8 +708,6 @@
                     <td class="responsible hidden-xs" ng-if="candidate.candidateId.status != 'archived'" ng-click="$event.stopPropagation()">
                         <a ng-repeat="responsible in persons" href="#/users/{{::responsible.userId}}"
                            ng-show="responsible.userId && (responsible.userId == candidate.creatorId)">
-                            <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
-                            <!--{{responsible.fullName}}-->
                             <div class="responsible-initials" title="{{::responsible.cutFullName}}">
                                 <span>{{getFirstLetters(responsible.fullName)}}</span>
                             </div>
@@ -757,7 +767,7 @@
         </div>
         <div id="recallsTable" class="col-lg-7 status-info no-padding-sm" ng-class="{'col-lg-12' : showSearchCandidate}"
              ng-if="($root.me.recrutRole !== 'client')">
-            <table class="table">
+            <table class="table recalls-table">
                 <thead class="recalls-header">
                 <tr>
                     <th translate="application_date"></th>

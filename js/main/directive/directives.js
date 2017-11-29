@@ -4191,6 +4191,15 @@ directive('appVersion', ['version', function(version) {
             },
 
         };
+    }]).directive('historyBack', ['$window', function($window) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                elem.on('click', function () {
+                    $window.history.back();
+                });
+            }
+        };
     }]).directive('customScrollbarPagination', function() {
             return function(scope, element, attrs) {
                 $(element).mCustomScrollbar({
@@ -4483,6 +4492,38 @@ directive('appVersion', ['version', function(version) {
                     return drListElement
                 }
 
+            }
+        }
+    }]).directive('breadcrumbs', ['$compile', function ($compile) {
+        return {
+            restrict: 'AE',
+            scope: {
+                crumbs: '='
+            },
+            //crumbs is an array of objects with fields:  href - optional, transl||value.
+            link: function (scope, element, attributes) {
+                let fullCrumbsElement = '<ol class="breadcrumb hidden-xs hidden-sm">';
+                if(scope.crumbs && scope.crumbs.length > 0) {
+                    scope.crumbs.forEach((crumb) => {
+                        if(crumb.href) {
+                            if(crumb.transl) {
+                                fullCrumbsElement += ('<li><a href="' + crumb.href + '" translate="' + crumb.transl +'"></a></li>')
+                            } else {
+                                fullCrumbsElement += ('<li><a href="' + crumb.href + '">' + crumb.value + '</a></li>')
+                            }
+                        } else {
+                            if(crumb.transl) {
+                                fullCrumbsElement += ('<li translate="' + crumb.transl +'"></li>')
+                            } else {
+                                fullCrumbsElement += ('<li>' + crumb.value +'</li>')
+                            }
+                        }
+                    });
+                    fullCrumbsElement += '</ol>';
+                    element.append($compile(fullCrumbsElement)(scope));
+                } else {
+                    console.log('Error, "crumbs" directive needs args!');
+                }
             }
         }
     }]);

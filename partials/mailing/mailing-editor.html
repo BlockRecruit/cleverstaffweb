@@ -1,0 +1,51 @@
+<div class="container-fluid mailing-editor-block">
+    <form class="form-horizontal">
+        <div class="sender">
+            <label class="control-label" for="from">
+                <span translate="Sender name and email" class="without-info"></span>
+            </label>
+            <div class="" id="from">
+                <div class=" from" ng-show="!editFromName">
+                    <div class=" name"><span ng-bind="fromName"></span></div>
+                    <div class=" mail"><span ng-bind="fromMail"></span></div>
+                    <div class=" text-right"> <i class="fa fa-pencil" aria-hidden="true" title="{{'Edit'|translate}}" ng-click="editFromEmail()"></i></div>
+                </div>
+                <div class=" from-editable" ng-show="editFromName">
+                    <div class=" name"><input ng-model="fromNameEdit" type="text" class="form-control"></div>
+                    <div class=" mail"><input ng-model="fromMailEdit" type="text" class="form-control"></div>
+                    <div class=" edit-from-name">
+                        <button class="save-button" aria-hidden="true" ng-click="saveFromEmail()" translate="save"></button>
+                        <button class="cancel-button" aria-hidden="true" ng-click="cancelEdit()" translate="cancel"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="subject">
+            <label class="control-label" for="topic">
+                <span translate="Subject line"></span>*
+                <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="top-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.mailingTopic" aria-hidden="true"></i>
+            </label>
+            <div class="">
+                <input type="text" class="form-control required" id="topic" maxlength="150" ng-model="topic" ng-model-options="{debounce: 100}" ng-focus="fieldFocused($event)">
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="textaria-container">
+                <label class="form-description">{{'Text of the letter'|translate}}</label>
+                <textarea id="mailingEditor" ui-tinymce placeholder="SOme placeholder" ng-model="emailText"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 ">
+            <div class="buttons-block text-center clearfix">
+                <button id="go-back-button" class="cancel-button" translate="Go back"></button>
+                <button class="save-button " ng-click="saveMailing()" translate="save"></button>
+                <button class="orange-button preview-button " ng-click="toPreview()" translate="Preview and sending"></button>
+                <!--<button class="cancel-button preview-button pull-right" ng-click="toDetails()" translate="Go_back"></button>-->
+            </div>
+        </div>
+    </div>
+</div>

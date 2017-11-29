@@ -381,3 +381,72 @@
 		outline: none;
 	}
 }
+@mixin option-tab {
+	padding: 15px;
+
+	background-color: white;
+	.active {
+		background-color: #ffe9a6;
+		&:hover {
+			border: 1px solid #ffe9a6;
+		}
+	}
+	& > div {
+		display: inline-block;
+		width: 49%;
+	}
+	&  a {
+		font-weight: 600;
+
+		margin-left: 30px;
+		padding: 5px;
+
+		cursor: pointer;
+
+		color: #202021;
+		border: 1px solid white;
+		border-radius: 5px;
+		&:hover {
+			text-decoration: none;
+
+			border: 1px solid #ffe9a6;
+		}
+		&:focus {
+			text-decoration: none;
+
+			outline: none;
+		}
+	}
+}
+
+@mixin modal-styling {
+	.modal-header {
+		h4 {
+			display: inline;
+			margin-left: 10px;
+		}
+		i {
+			@include close-item();
+		}
+		a {
+			@include link-styling();
+
+			font-size: 18px;
+			font-weight: 600;
+		}
+	}
+	.modal-footer {
+		.btn {
+			@include button-green-styling();
+		}
+		.del {
+			@include button-styling();
+		}
+		.accept {
+			@include button-green-styling();
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+	}
+}

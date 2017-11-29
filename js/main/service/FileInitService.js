@@ -575,7 +575,7 @@
                 url: serverAddress + '/addPhotoByReference',
                 method: "GET",
                 params: {reference: url}
-            }).success(function(data) {
+            }).then(function(data) {
                 if (data.status == "ok") {
                     callback(data.object);
                 } else if (data.status == "error") {

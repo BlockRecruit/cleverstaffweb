@@ -1,0 +1,12 @@
+<div class="delete-mailing">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="closeModal()"></i>
+        <h4 class="modal-title">{{'Do you want to delete the mailing'|translate}}: "{{mailingName}}" ?</h4>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="closeModal()" translate="cancel"></a>
+            <a type="button" class="btn btn-primary accept" translate="Delete" ng-click="confirmDeleteMailing()"></a>
+        </div>
+    </div>
+</div>

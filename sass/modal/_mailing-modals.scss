@@ -1,0 +1,254 @@
+.candidate-without-contacts {
+	& > div {
+		border: none;
+	}
+	.modal-header {
+		h4 {
+			display: inline;
+		}
+		i {
+			@include close-item();
+		}
+		a {
+			@include link-styling();
+
+			font-size: 18px;
+			font-weight: 600;
+		}
+	}
+	.modal-body {
+		padding-top: 0;
+		.without-contacts {
+			margin-bottom: 15px;
+			padding: 5px;
+
+			border: 1px solid $theme-green;
+			border-radius: 5px;
+			background-color: $theme-light-green;
+		}
+		.bottom-body-block {
+			font-size: 18px;
+		}
+		a {
+			color: #202021;
+			&:hover {
+				text-decoration: none;
+			}
+		}
+	}
+	.modal-footer {
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			color: $theme-white;
+			background-color: $theme-dark-green;
+			&:hover {
+				background-color: $theme-light-green-hover;
+			}
+		}
+		.cancel {
+			color: #585859;
+			background-color: #e3e3e3;
+			&:hover {
+				background-color: $theme-light-grey-hover;
+			}
+		}
+	}
+}
+
+
+.delete-from-mailing {
+	& > div {
+		border: none;
+	}
+	.modal-header {
+		h4 {
+			display: inline;
+			margin-left: 10px;
+		}
+		i {
+			@include close-item();
+		}
+		a {
+			@include link-styling();
+
+			font-size: 18px;
+			font-weight: 600;
+		}
+	}
+	.modal-body {
+		margin: 0 24px;
+		padding: 16px;
+
+		border-top: 1px solid #ccc;
+		border-bottom: 1px solid #ccc;
+		& > .item {
+			& > label {
+				margin: 0;
+				padding-left: 10px;
+				& > label {
+					color: $theme-red;
+				}
+			}
+			& > select {
+				height: 30px;
+			}
+			& > input {
+				@include border-radius();
+
+				width: 100%;
+				padding: 0 10px;
+				&:focus {
+					outline: none;
+				}
+			}
+			& > .row {
+				& > label {
+					width: 100%;
+					padding-left: 25px;
+				}
+				& > .col-lg-10 {
+					& > input {
+						@include border-radius();
+
+						width: 100%;
+						margin-top: 5px;
+						padding: 0 10px;
+						&:focus {
+							outline: none;
+						}
+					}
+				}
+				& > .col-lg-2 {
+					& > select {
+						width: 60px;
+						height: 25px;
+						padding: 0;
+					}
+				}
+			}
+		}
+		input {
+			@include input-styling();
+		}
+		select {
+			@include select-styling();
+		}
+		.item:not(:first-child) {
+			margin-top: 15px;
+		}
+		.currency {
+			padding-left: 0;
+		}
+	}
+	.modal-footer {
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			@include button-styling();
+
+			margin-left: 15px;
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+	}
+}
+
+
+.delete-mailing {
+	.modal-header {
+		border: none;
+		& > h4 {
+			@include bold();
+		}
+		i {
+			@include close-item();
+		}
+	}
+	.modal-body {
+		& > .taskText {
+			& > .form-control {
+				height: 200px;
+				max-height: 380px;
+
+				resize: vertical;
+			}
+		}
+		&.news-modal {
+			overflow-x: hidden;
+		}
+	}
+	.modal-footer {
+		border: none;
+		.btn {
+			@include button-green-styling();
+		}
+		.del {
+			@include button-styling();
+		}
+		.accept {
+			@include button-green-styling();
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+	}
+}
+
+.mailing-preview-modal {
+	@include modal-styling();
+	.modal-footer {
+		padding-top: 0;
+
+		border: none;
+	}
+	.modal-header {
+		padding-bottom: 0;
+
+		border: none;
+		h4 {
+			margin-left: 0;
+		}
+	}
+	.container-fluid {
+		border: 1px solid $theme-green;
+		border-radius: 5px;
+
+		#email-text {
+			margin: 5px 0;
+			padding: 15px 15px;
+
+			background-color: white;
+		}
+	}
+}
+
+.mailing-clone-modal {
+	@include modal-styling();
+	.modal-footer {
+		padding-top: 0;
+
+		border: none;
+	}
+	.modal-header {
+		padding-bottom: 10px;
+
+		h4 {
+			margin-left: 0;
+		}
+	}
+	.container-fluid {
+		.clone-name {
+			line-height: 30px;
+		}
+		input {
+			width: 100%;
+			height: 30px;
+
+			border-radius: 5px;
+		}
+	}
+}

@@ -1,0 +1,47 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table sent-mailings" ng-show="objectSize" ng-table="tableParams" template-pagination="custom/pager">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th translate="Title" class="sent-name"></th>
+                    <th translate="Send date" class="sent-date"></th>
+                    <th></th>
+                    <th class="last-column"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="mailing in sentMailings"  ng-click="toSentPreview(mailing)">
+                    <td class="clickable">
+                    </td>
+                    <td class="clickable hidden-xs sent-name">
+                        <a>
+                            {{mailing.internalName}}
+                        </a>
+                    </td>
+                    <td class="clickable sent-date">
+                        <span>
+                            {{(mailing.sendDate)|dateFormat2}}
+                        </span>
+                    </td>
+                    <td class="clickable hidden-xs last-column">
+                        <sent-mailing-status sent="mailing.sent" delivered="mailing.sent - mailing.undelivered" opened="mailing.opens" class="status-panel"></sent-mailing-status>
+                    </td>
+                    <td class="clone" ng-click="$event.stopPropagation()">
+                        <button translate="Clone mailing" class="button" ng-click="cloneModal(mailing.compaignId)"></button>
+                        <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="top-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.mailingClone" aria-hidden="true"></i>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <div class="row" ng-show="objectSize === 0">
+        <div class="col-lg-12">
+            <h4 class="text-center" translate="You have not sent mailings yet"></h4>
+        </div>
+    </div>
+</div>

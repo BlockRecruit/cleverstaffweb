@@ -4191,6 +4191,15 @@ directive('appVersion', ['version', function(version) {
             },
 
         };
+    }]).directive('historyBack', ['$window', function($window) {
+        return {
+            restrict: 'A',
+            link: function (scope, elem, attrs) {
+                elem.on('click', function () {
+                    $window.history.back();
+                });
+            }
+        };
     }]).directive('customScrollbarPagination', function() {
             return function(scope, element, attrs) {
                 $(element).mCustomScrollbar({
@@ -4485,6 +4494,38 @@ directive('appVersion', ['version', function(version) {
 
             }
         }
+    }]).directive('breadcrumbs', ['$compile', function ($compile) {
+        return {
+            restrict: 'AE',
+            scope: {
+                crumbs: '='
+            },
+            //crumbs is an array of objects with fields:  href - optional, transl||value.
+            link: function (scope, element, attributes) {
+                let fullCrumbsElement = '<ol class="breadcrumb hidden-xs hidden-sm">';
+                if(scope.crumbs && scope.crumbs.length > 0) {
+                    scope.crumbs.forEach((crumb) => {
+                        if(crumb.href) {
+                            if(crumb.transl) {
+                                fullCrumbsElement += ('<li><a href="' + crumb.href + '" translate="' + crumb.transl +'"></a></li>')
+                            } else {
+                                fullCrumbsElement += ('<li><a href="' + crumb.href + '">' + crumb.value + '</a></li>')
+                            }
+                        } else {
+                            if(crumb.transl) {
+                                fullCrumbsElement += ('<li translate="' + crumb.transl +'"></li>')
+                            } else {
+                                fullCrumbsElement += ('<li>' + crumb.value +'</li>')
+                            }
+                        }
+                    });
+                    fullCrumbsElement += '</ol>';
+                    element.append($compile(fullCrumbsElement)(scope));
+                } else {
+                    console.log('Error, "crumbs" directive needs args!');
+                }
+            }
+        }
     }]);
 function similar_text(first, second, percent) {
     if (first === null || second === null || typeof first === 'undefined' || typeof second === 'undefined') {
@@ -4591,6 +4632,349 @@ function createDivForInterviewStatusHistory(status, $filter) {
     }
 }
 
+directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress", function($filter, serverAddress) {
+    return {
+        restrict: 'EA',
+        replace: true,
+        link: function(scope, element, attrs) {
+            console.log('elem', $(element[0]))
+            if ($(element[0])) {
+                element.select2({
+                    placeholder: $filter('translate')('select candidate'),
+                    minimumInputLength: 0,
+                    ajax: {
+                        url: serverAddress + "/candidate/autocompleate",
+                        dataType: 'json',
+                        crossDomain: true,
+                        type: "POST",
+                        data: function(term, page) {
+                            return {
+                                name: term.trim(),
+                                withPersonalContacts: true
+                            };
+                        },
+                        results: function(data, page) {
+                            var results = [];
+                            if (data['objects'] !== undefined) {
+                                angular.forEach(data['objects'], function(item) {
+                                    if(item.contacts != undefined) {
+                                        results.push({
+                                            id: item.localId,
+                                            text: item.fullName,
+                                            contacts: item.contacts
+                                        });
+                                    }
+                                });
+                            }
+                            return {
+                                results: results
+                            };
+                        }
+                    },
+                    dropdownCssClass: "bigdrop"
+                }).on('change', (e) => {
+                    if(e.added) {
+                        scope.$parent.newRecipient = e.added;
+                    }
+                });
+            }
+        }
+    }
+}]).directive('mailingVacancyAutocompleter', ["$filter", "$localStorage", "serverAddress", "$translate", "$rootScope", "Vacancy","Mailing", function($filter, $localStorage, serverAddress, $translate, $rootScope, Vacancy, Mailing) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            link: function($scope, element) {
+                let candidatesCount = [];
+                $(element[0]).select2({
+                    placeholder: $filter('translate')('enter job title'),
+                    minimumInputLength: 0,
+                    ajax: {
+                        url: serverAddress + "/vacancy/autocompleter",
+                        dataType: 'json',
+                        crossDomain: true,
+                        quietMillis: 500,
+                        type: "POST",
+                        data: function(term, page) {
+                            return {
+                                name: term.trim()
+                            };
+                        },
+                        results: function(data, page) {
+                            var results = [];
+                            if (data['objects'] !== undefined) {
+                                $.each(data['objects'], function(index, item) {
+                                    var clientName = "";
+                                    if (item.clientId.name.length > 20) {
+                                        clientName = item.clientId.name.substring(0, 20);
+                                    } else {
+                                        clientName = item.clientId.name;
+                                    }
+                                    var inVacancy = false;
+                                    var interviewStatus;
+                                    if (item.interviewStatus == undefined) {
+                                        item.interviewStatus = 'longlist,shortlist,interview,approved,notafit,declinedoffer';
+                                    }
+                                    var extraText = "";
+                                    if (item.interviews != null) {
+                                        interviewStatus = item.interviews[0].state;
+                                        angular.forEach($rootScope.customStages, function(stage){
+                                            if(interviewStatus == stage.customInterviewStateId){
+                                                interviewStatus = stage.name
+                                            }
+                                        });
+                                        extraText = " [ " + $filter('translate')(interviewStatus) + " ]";
+                                        inVacancy = true;
+                                    }
+                                    results.push({
+                                        vacancy: item,
+                                        id: item.vacancyId,
+                                        localId: item.localId,
+                                        status: interviewStatus,
+                                        text: item.position + " (" + clientName + ")" + extraText,
+                                        interviewStatus: item.interviewStatus,
+                                        inVacancy: inVacancy
+                                    });
+                                });
+                            }
+                            return {
+                                results: results
+                            };
+                        }
+                    },
+                    dropdownCssClass: "bigdrop"
+                }).on("change", function(e) {
+                    $scope.vacancy = e.added;
+                    statusListForming($scope.vacancy.id, $scope.vacancy.interviewStatus)
+                });
+
+                function setSelect2Vacancy() {
+                    let recipientsSource = JSON.parse($localStorage.get('mailingRecipientsSource'));
+                    if(recipientsSource && recipientsSource.state && recipientsSource.localId) {
+                        Mailing.getVacancyParams(recipientsSource.localId).then((result) => {
+                            $(element[0]).select2("data", {id: result.vacancyId, text: result.position});
+                            statusListForming(result.vacancyId, result.statuses).then((result) => {
+                                $scope.va
+                                console.log("$scope.VacancyStatusFiltered",$scope.VacancyStatusFiltered)
+                                $scope.VacancyStatusFiltered.some((status)=> {
+                                    if(status.value == recipientsSource.state) {
+                                        recipientsSource.fullState = status;
+                                        return true
+                                    } else {
+                                        return false
+                                    }
+                                });
+                                $('#stageSelect').val(JSON.stringify(recipientsSource.fullState));
+                            });
+                        }, (error) =>{
+                            notificationService.error(error)
+                        })
+                    }
+                }
+                setSelect2Vacancy();
+
+                function statusListForming(vacancyId, statuses) {
+                    return new Promise((resolve, reject) => {
+                        if(vacancyId) {
+                            Vacancy.getCounts({vacancyId: vacancyId}, (resp) => {
+                                candidatesCount = resp.object;
+                                var sortedStages = [];
+                                var array = statuses.split(',');
+                                var VacancyStatus = Vacancy.interviewStatusNew();
+                                var i = 0;
+                                angular.forEach(array, function(resp) {
+                                    angular.forEach(VacancyStatus, function(vStatus) {
+                                        if (vStatus.used) {
+                                            if(i == 0){
+                                                angular.forEach($rootScope.customStages, function(res) {
+                                                    res.value = res.name;
+                                                    res.movable = true;
+                                                    res.added = false;
+                                                    res.count = 0;
+                                                    vStatus.status.push(res);
+                                                    i = i+1;
+                                                });
+                                            }
+                                            angular.forEach(vStatus.status, function(vStatusIn) {
+                                                if(resp == vStatusIn.value){
+                                                    vStatusIn.added = true;
+                                                    sortedStages.push(vStatusIn);
+                                                } else if(resp == vStatusIn.customInterviewStateId){
+                                                    vStatusIn.added = true;
+                                                    sortedStages.push(vStatusIn);
+                                                }
+                                            })
+                                        }
+                                    })
+                                });
+                                candidatesCount.forEach((candidateCount) => {
+                                    sortedStages.forEach((stage) => {
+                                        if(stage.customInterviewStateId) {
+                                            if(stage.customInterviewStateId == candidateCount.item) {
+                                                stage.count =  candidateCount.count
+                                            }
+                                        } else {
+                                            if(stage.value == candidateCount.item) {
+                                                stage.count =  candidateCount.count
+                                            }
+                                        }
+                                    })
+                                });
+                                $scope.VacancyStatusFiltered = sortedStages;
+
+                                if (!$scope.$$phase && !$rootScope.$$phase) {
+                                    $scope.$apply();
+                                }
+                                resolve();
+                            }, (error) => {
+                                notificationService.error(error.message);
+                                reject();
+                            });
+                        }
+                    })
+
+                }
+            }
+        }
+    }]).directive('mailingFetchCandidates',["$q", "$localStorage", "$filter", "$rootScope", "notificationService", "Vacancy", function ($q, $localStorage, $filter, $rootScope, notificationService, Vacancy) {
+        return {
+            restrict: 'EA',
+            template: `<div class="item" ng-show="statuses">
+                            <label ng-show="statuses && (status.value != 'approved' && status.value != 'notafit')">{{'interview_status'|translate}}</label>
+                            <div ng-show="$root.hover && $root.status2 === false" style="position: absolute">{{"longlist"|translate}}</div>
+                            <select ng-model="currentStatus" class="stage-select" ng-change="fetchCandidates()" id="stageSelect">
+                                <option ng-repeat="status in statuses track by status.value"
+                                        value="{{status}}">
+                                    {{status.value|translate}} ({{status.count?status.count:'0'}})
+                                </option>
+                            </select>
+                        </div>`,
+            scope: {
+              statuses: '=',
+              vacancyId: '@',
+              localId: '@',
+              candidates: '='
+            },
+            link: function (scope, element) {
+                scope.currentStatus = {};
+                let regForMailSplit = /[\s,;]+/;
+                let maxCandidatesPerRequest = 500;
+                let vacancySearchParams = {
+                    state: status.value,
+                    page: {number:0, count: maxCandidatesPerRequest},
+                    vacancyId: scope.vacancyId,
+                    interviewSortEnum: 'addInVacancyDate',
+                    withCandidates: true,
+                    withVacancies: false
+                };
+                let recipientsSource = JSON.parse($localStorage.get('mailingRecipientsSource'));
+                recipientsSource = recipientsSource?recipientsSource:{localId: "", vacancyId: "",};
+                scope.fetchCandidates = function () {
+                    let statusPicked = JSON.parse(scope.currentStatus);
+                    vacancySearchParams.page.count = statusPicked.count;
+                    vacancySearchParams.vacancyId = scope.vacancyId||recipientsSource.vacancyId;
+                    vacancySearchParams.state = statusPicked.customInterviewStateId?statusPicked.customInterviewStateId:statusPicked.value;
+                    if(statusPicked.count > 0 && statusPicked.count < maxCandidatesPerRequest) {
+                        fetchCandidate(vacancySearchParams).then((result) => {
+                            setTable(result);
+                        }, (error) => {
+                        });
+//If candidates count too large, load through several requests
+                    } else if (statusPicked.count >= maxCandidatesPerRequest){
+                        let pagesCount = Math.ceil(statusPicked.count/maxCandidatesPerRequest);
+                        vacancySearchParams.page.count = maxCandidatesPerRequest;
+                        recursiveFetch(pagesCount, []);
+                    }
+                };
+
+
+                function recursiveFetch(pages,candidates) {
+                    let countPages = pages;
+                    let allFetched = candidates;
+                    if(pages > 0) {
+                        countPages--;
+                        vacancySearchParams.page.number = countPages;
+                        fetchCandidate(vacancySearchParams).then((result) => {
+                            allFetched = allFetched.concat(result);
+                            recursiveFetch(countPages,allFetched);
+                        }, (error) => {
+                        });
+                    } else {
+                        setTable(allFetched);
+                    }
+                }
+
+                function setTable(result) {
+                    let candidates = candidatesToTable(result);
+                    if(candidates && candidates.length > 0) {
+                        scope.candidates = candidatesToTable(result);
+                        $localStorage.set('candidatesForMailing', scope.candidates);
+                    } else {
+                        notificationService.error($filter('translate')('No active candidates on this stage'));
+                    }
+                }
+
+
+                function fetchCandidate(params) {
+                    return new $q((resolve, reject) => {
+                        $rootScope.loading = true;
+                        Vacancy.getCandidatesInStages(params, (resp) => {
+                            if(resp.status != 'error') {
+                                saveVacancyParams(params.state, scope.localId, scope.vacancyId);
+                                $rootScope.loading = false;
+                                if(!$rootScope.$$phase)
+                                    $rootScope.$apply();
+                                resolve(resp.objects);
+                            } else {
+                                notificationService.error(resp.message);
+                                $rootScope.loading = false;
+                                if(!$rootScope.$$phase)
+                                    $rootScope.$apply();
+                                reject();
+                            }
+                        }, (error) => {
+                            notificationService.error(error.message);
+                            $rootScope.loading = false;
+                            if(!$rootScope.$$phase)
+                                $rootScope.$apply();
+                            reject();
+                        })
+                    })
+                }
+
+
+                function saveVacancyParams(state, localId, vacancyId) {
+                    $localStorage.set('mailingRecipientsSource', JSON.stringify({
+                        localId: localId?localId:recipientsSource.localId,
+                        vacancyId: vacancyId?vacancyId:recipientsSource.vacancyId,
+                        state: state,
+                        fullState: JSON.parse(scope.currentStatus)
+                    }));
+                }
+
+                
+                function candidatesToTable(fetched) {
+                    let transformed = [];
+                    fetched.forEach((candidate)=> {
+                        if(candidate.candidateId.status != 'archived') {
+                            transformed.push({
+                                candidateId: {
+                                    fullName:  candidate.candidateId.fullName,
+                                    firstName: candidate.candidateId.fullName.split(' ')[0],
+                                    lastName: candidate.candidateId.fullName.split(' ')[1]?candidate.candidateId.fullName.split(' ')[1]:'',
+                                    email: candidate.candidateId.email?candidate.candidateId.email.split(regForMailSplit)[0]:'',
+                                    localId: candidate.candidateId.localId
+                                },
+                                mailing: true
+                            });
+                        }
+                    });
+                    return transformed
+                }
+
+            }
+        }
+}]);
 'use strict';
 
 /* Filters */
@@ -4973,6 +5357,46 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                 } else {
                     return $filter('date')(date, dateMD + '<br/>' + hour);
                 }
+            } else {
+                return $filter('date')(date, dateMDY + hour);
+            }
+        };
+    }])
+    //dateFormat7 - like dateFormat2, but always show year
+    .filter('dateFormat7', ["$filter", "$translate",'$rootScope' , function ($filter, $translate, $rootScope) {
+        return function (date, withHour) {
+            var hour = "";
+            var dateToday = new Date().getTime();
+            var dateTomorrow = new Date().setDate(new Date().getDate() + 1);
+            var lang = $translate.use() || $rootScope.currentLang || 'ru';
+            var dateMD = "";
+            var dateMDY = "";
+            if (lang == 'ru' || lang == 'ua') {
+                dateMD = "d MMM ";
+                dateMDY = "d MMM y ";
+            } else if (lang == 'en') {
+                dateMD = "MMM d ";
+                dateMDY = "MMM d, y ";
+            }
+            if (withHour === true) {
+                if (lang == 'en') {
+                    hour = "h:mm a";
+                } else {
+                    hour = "H:mm";
+                }
+            }
+            if (angular.equals($filter('date')(dateToday, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
+                var res = $filter("translate")("today");
+                if (withHour) {
+                    res += " " + $filter("translate")("at") + " " + $filter('date')(date, hour)
+                }
+                return res;
+            } else if (angular.equals($filter('date')(dateTomorrow, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
+                var res = $filter("translate")("tomorrow");
+                if (withHour) {
+                    res += " " + $filter("translate")("at") + " " + $filter('date')(date, hour)
+                }
+                return res;
             } else {
                 return $filter('date')(date, dateMDY + hour);
             }
@@ -9455,7 +9879,7 @@ angular.module('services.employee', [
                 url: serverAddress + '/addPhotoByReference',
                 method: "GET",
                 params: {reference: url}
-            }).success(function(data) {
+            }).then(function(data) {
                 if (data.status == "ok") {
                     callback(data.object);
                 } else if (data.status == "error") {
@@ -10835,6 +11259,758 @@ angular.module('services.localStorage', []
     }());
 }]);
 
+angular.module('services.mailing',[]
+).factory('Mailing', [ 'serverAddress', '$location', '$resource', '$q', '$state', 'notificationService','$translate', '$filter', '$rootScope','$window','$localStorage', 'Vacancy',
+    function (serverAddress, $location, $resource, $q, $state, notificationService, $translate, $filter, $rootScope, $window, $localStorage, Vacancy) {
+
+    let service = $resource(serverAddress + '/:service/:action', {service: "compaign", action: "@action"}, {
+        setList: {
+            method: "POST",
+            params: {
+                action: "addSubscribersAndList"
+            }
+        },
+        updateSubscriberList: {
+            method: "POST",
+            params: {
+                action: "updateSubscriberList"
+            }
+        },
+        createCompaign: {
+            method: "POST",
+            params: {
+                action: "createCompaign"
+            }
+        },
+        sandCompaign: {
+            method: "GET",
+            params: {
+                action: "sandCompaign"
+            }
+        },
+        updateCompaign: {
+            method: "POST",
+            params: {
+                action: "updateCompaign"
+            }
+        },
+        getAllCompaigns: {
+            method: "POST",
+            params: {
+                action: "getAllCompaigns"
+            }
+        },
+        getSubscriberList: {
+            method: "GET",
+            params: {
+                action: "getSubscriberList"
+            }
+        },
+        sandTestCompaign: {
+            method: "POST",
+            params: {
+                action: "sandTestCompaign"
+            }
+        },
+        deleteCompaign: {
+            method: "POST",
+            params: {
+                action: "deleteCompaign"
+            }
+        },
+        getAnalytics: {
+            method: "GET",
+            params: {
+                action: "getAnalytics"
+            }
+        },
+        cloneMailing: {
+            method: "POST",
+            params: {
+                action: "cloneCompaign"
+            }
+        }
+    });
+
+    try {
+        service.currentStep = JSON.parse($localStorage.get('currentStep')) || "mailing-details";
+    } catch (err){
+        console.log('Error in parse JSON service.currentStep', err);
+    }
+
+    service.candidatesForMailing = [];
+    service.listObject = {};
+    service.savedCampaigns = {};
+    service.internalName = '';
+
+
+    service.updateInternal = function (internal) {
+        service.internalName = internal;
+    };
+
+
+    service.getInternal = function () {
+        return service.internalName;
+    };
+
+
+    service.setStep = function (step) {
+        service.currentStep = step;
+        $localStorage.set('currentStep', JSON.stringify(step));
+        $state.go(step);
+    };
+
+
+    service.getMailingDetails = function () {
+        try {
+            return JSON.parse($localStorage.get('subscriberListParams'));
+        } catch (error) {
+            console.log('getMailingDetails Error');
+            return null;
+        }
+    };
+
+
+    service.newMailing = function () {
+        $localStorage.remove('mailingRecipientsSource');
+        $localStorage.remove('candidatesForMailing');
+        $localStorage.remove('subscriberListParams');
+        $localStorage.remove('currentStep');
+        $localStorage.remove('stepClickable');
+        service.setStep("mailing-details");
+        $location.url("/mailing");
+    };
+
+
+    service.updateSubList = function (internal, candidates) {
+        let paramsObject = {};
+        let newListParams = {};
+        paramsObject = subscriberListParamsPrepared(internal, candidates);
+        let existedList = service.getMailingDetails();
+        if(existedList && existedList.subscriberLists) {
+            paramsObject.subscriberListId = existedList.subscriberLists[0].subscriberListId;
+        }
+        let recipientsSource = JSON.parse($localStorage.get('mailingRecipientsSource'));
+        if(recipientsSource) {
+            paramsObject.vacancyId = recipientsSource.vacancyId;
+            paramsObject.vacancyName = recipientsSource.localId;
+            paramsObject.stageId = recipientsSource.state;
+        }
+        return $q((resolve, reject) => {
+            if(paramsObject.subscriberListId && !existedList.compaignId) {
+                service.updateSubscriberList(paramsObject, (resp) => {
+                    if(resp.status != 'error') {
+                        resolve(resp);
+                    } else {
+                        reject(resp);
+                    }
+                }, (error) => {
+                    reject(error);
+                })
+            } else {
+                service.setList(paramsObject, (resp) => {
+                    if(resp.object && resp.object.subscriberListId) {
+                        if(existedList) {
+                            existedList.subscriberLists = [{subscriberListId: resp.object.subscriberListId}];
+                            existedList.name = resp.object.name;
+                            $localStorage.set('subscriberListParams', JSON.stringify(existedList));
+                            service.saveMailing().then(result => {
+                                    resolve('new list')
+                                },
+                                error => {
+                                    reject('New subList save and compaign update error', error.message)
+                                });
+                        } else {
+                            paramsObject.subscriberLists = [{subscriberListId: resp.object.subscriberListId}];
+                            $localStorage.set('subscriberListParams', JSON.stringify(paramsObject));
+                        }
+                    }
+
+                }, (error) => {
+                    reject('New subList save error', error.message)
+                })
+            }
+        });
+    };
+
+
+    service.saveSubscribersList = function (topic, internal, Name, Mail, candidates, goToEditor) {
+        let savedMailing = JSON.parse($localStorage.get('subscriberListParams'));
+        let mailingText = savedMailing&&savedMailing.text?savedMailing.text:'...';
+        $rootScope.loading = true;
+        let paramsObject = {};
+        paramsObject = subscriberListParamsPrepared(topic, candidates);
+        let existedList = service.getMailingDetails();
+        let recipientsSource = JSON.parse($localStorage.get('mailingRecipientsSource'));
+        if(recipientsSource) {
+            paramsObject.vacancyId = recipientsSource.vacancyId;
+            paramsObject.vacancyName = recipientsSource.localId;
+            paramsObject.stageId = recipientsSource.state;
+        }
+        if(existedList && existedList.subscriberLists && !existedList.compaignId) {
+            paramsObject.subscriberListId = existedList.subscriberLists[0].subscriberListId;
+            updateList();
+        } else  {
+            saveNewList();
+        }
+        function saveNewList() {
+            service.setList(paramsObject, function (resp) {
+                if(resp.object && resp.object.subscriberListId) {
+                    paramsObject.fromName = Name;
+                    paramsObject.fromMail = Mail;
+                    paramsObject.subscriberLists = [{subscriberListId: resp.object.subscriberListId}];
+                    paramsObject.subject = topic;
+                    paramsObject.internalName = internal;
+                    paramsObject.compaignId = existedList?existedList.compaignId:null;
+                    $localStorage.set('subscriberListParams', JSON.stringify(paramsObject));
+                    service.saveMailing(mailingText).then(
+                        result => {
+                            notificationService.success($filter('translate')('Changes are saved'));
+                            if(goToEditor)
+                                service.setStep('mailing-editor');
+                        },
+                        error => {
+                            console.log('Error: /createCompaign ' + error.status + ' ' + error.statusText);
+                        }
+                    );
+                } else {
+                    if(resp.code == 'incorrectEmail') {
+                        notificationService.error($filter('translate')('Candidate incorrect email'))
+                    } else {
+                        notificationService.error(resp.message)
+                    }
+                }
+                $rootScope.loading = false;
+            }, function (error) {
+                $rootScope.loading = false;
+                notificationService.error(error)
+            });
+        }
+        function updateList() {
+            service.updateSubscriberList(paramsObject, function (resp) {
+                if(resp.object && resp.object.subscriberListId) {
+                    existedList.subscribers = paramsObject.subscribers;
+                    existedList.name = paramsObject.name;
+                    existedList.fromName = Name;
+                    existedList.fromMail = Mail;
+                    existedList.subject = topic;
+                    existedList.internalName = internal;
+                    $localStorage.set('subscriberListParams', JSON.stringify(existedList));
+                    service.saveMailing(mailingText).then(
+                        result => {
+                            notificationService.success($filter('translate')('Changes are saved'));
+                            if(goToEditor)
+                                service.setStep('mailing-editor');
+                        },
+                        error => {
+                            console.log('Error: /createCompaign ' + error.status + ' ' + error.statusText);
+                        }
+                    );
+                } else {
+                    if(resp.code == 'incorrectEmail') {
+                        notificationService.error($filter('translate')('Candidate incorrect email'))
+                    } else {
+                        notificationService.error(resp.message)
+                    }
+                }
+                $rootScope.loading = false;
+            }, function (error) {
+                $rootScope.loading = false;
+                notificationService.error(error)
+            });
+        }
+    };
+
+    service.verifyEmails = function(candidates) {
+        let incorrectMails = [];
+        candidates.forEach((candidate)=> {
+            if(candidate.candidateId.email.indexOf('@') == -1) {
+                incorrectMails.push(candidate.candidateId.email)
+            }
+        });
+        return incorrectMails
+    };
+
+
+    service.saveTestSubscribersList = function (mail) {
+        let params = {
+            name: 'testList',
+            subscribers: [{
+                email: mail,
+                firstName: "firstName",
+                lastName: "lastName"
+            }]
+        };
+        return new Promise((resolve, reject) => {
+            service.setList(params, function (resp) {
+                if(resp.object && resp.object.subscriberListId) {
+                    resolve(resp.object.subscriberListId);
+                } else {
+                    reject(resp)
+                }
+            }, function (err) {
+                reject(err);
+                console.log('error in saveTestSubscribersList--setList', err);
+            })
+        });
+    };
+
+
+    service.toCreateMailing = function (candidates, $uibModal, $scope) {
+        candidatesForMailing = [];
+        delete $rootScope.VacancyStatusFiltered;
+        $localStorage.remove('mailingRecipientsSource');
+        $localStorage.remove('candidatesForMailing');
+        $localStorage.remove('subscriberListParams');
+        $localStorage.remove('currentStep');
+        $localStorage.remove('stepClickable');
+        $scope.toTheMailing = function () {
+            service.setStep("mailing-details");
+            $localStorage.set('candidatesForMailing', $rootScope.candidatesWithMail);
+            $location.url("/mailing");
+        };
+        angular.forEach(candidates, function (candidate) {
+            if(candidate.mailing) {
+                candidatesForMailing.push(candidate);
+            }
+        });
+        if(candidatesForMailing.length != 0) {
+            $rootScope.candidatesWithoutMail = [];
+            $rootScope.candidatesWithMail = [];
+            angular.forEach(candidatesForMailing, function (candidate) {
+                if(!candidate.candidateId.email) {
+                    $rootScope.candidatesWithoutMail.push(candidate);
+                } else {
+                    $rootScope.candidatesWithMail.push(candidate);
+                }
+            });
+            if($rootScope.candidatesWithoutMail.length > 0) {
+                if($rootScope.candidatesWithoutMail.length != candidatesForMailing.length) {
+                    $scope.modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: '../partials/modal/candidate-without-contacts.html?b1',
+                        size: '',
+                        scope: $scope,
+                        resolve: function(){
+                        }
+                    });
+                } else {
+                    notificationService.error($filter('translate')('Please pick the candidates with email'));
+                }
+            } else {
+                $scope.toTheMailing();
+            }
+        } else {
+            notificationService.error($filter('translate')('Please pick the candidates'));
+        }
+    };
+
+
+    service.updateCompaignFromEditor = function (htmlText, topic, fromName, fromMail) {
+        let newMailing = JSON.parse($localStorage.get('subscriberListParams'));
+        let mailingForSend = {
+            subject: topic,
+            html: htmlText,
+            fromName: fromName,
+            fromEmail: fromMail,
+            subscriberLists: newMailing.subscriberLists,
+            compaignId: newMailing.compaignId,
+            internalName: newMailing.internalName
+        };
+        newMailing.text = htmlText;
+        newMailing.fromName = fromName;
+        newMailing.fromMail = fromMail;
+        newMailing.name = topic;
+        newMailing.subject = topic;
+        let recipientsSource = JSON.parse($localStorage.get('mailingRecipientsSource'));
+        if(recipientsSource) {
+            newMailing.vacancyId = recipientsSource.vacancyId;
+            newMailing.vacancyName = recipientsSource.localId;
+            newMailing.stageId = recipientsSource.state;
+        }
+        function saveNewList(resolve, reject) {
+            service.setList({name: newMailing.name,
+                subscribers: newMailing.subscribers,
+                vacancyId: newMailing.vacancyId,
+                vacancyName: newMailing.vacancyName,
+                stageId: newMailing.stageId
+            }, function (resp) {
+                if(resp.object && resp.object.subscriberListId) {
+                    mailingForSend.subscriberLists = [{subscriberListId: resp.object.subscriberListId}];
+                    $localStorage.set('subscriberListParams', JSON.stringify(newMailing));
+                    if(mailingForSend.compaignId) {
+                        service.updateCompaign(mailingForSend, function (res) {
+                            if(res.status != 'error') {
+                                resolve(res);
+                            } else {
+                                notificationService.error(res.message || res.status);
+                                reject(res.status);
+                            }
+                        }, function (err) {
+                            reject(err);
+                        })
+                    }
+                } else {
+                    if(resp.code == 'incorrectEmail') {
+                        notificationService.error($filter('translate')('Candidate incorrect email'))
+                    } else {
+                        notificationService.error(resp.message)
+                    }
+                }
+                $rootScope.loading = false;
+            }, function (error) {
+                $rootScope.loading = false;
+                notificationService.error(error)
+            });
+        }
+        return new Promise((resolve, reject) => {
+            saveNewList(resolve,reject)
+        });
+    };
+
+
+    service.saveMailing = function (text) {
+        let newMailing = JSON.parse($localStorage.get('subscriberListParams'));
+        let mailingForSend = {
+            subject: newMailing.subject,
+            internalName: newMailing.internalName,
+            html: text || newMailing.text,
+            fromName: newMailing.fromName,
+            fromEmail: newMailing.fromMail,
+            subscriberLists: newMailing.subscriberLists,
+            compaignId: newMailing.compaignId
+        };
+        newMailing.text = text || newMailing.text;
+        $localStorage.set('subscriberListParams', JSON.stringify(newMailing));
+        return new Promise((resolve, reject) => {
+            if(mailingForSend.compaignId) {
+                service.updateCompaign(mailingForSend, function (res) {
+                    if(res.status != 'error') {
+                        resolve(res);
+                    } else {
+                        notificationService.error(res.message || res.status);
+                        reject(res.status);
+                    }
+                }, function (err) {
+                    reject(err);
+                })
+            } else {
+                service.createCompaign(mailingForSend, function (res) {
+                    if(res.status != 'error') {
+                        newMailing.compaignId = res.object.compaignId;
+                        $localStorage.set('subscriberListParams', JSON.stringify(newMailing));
+                        resolve(res);
+                    } else {
+                        notificationService.error(res.message || res.status);
+                        reject(res.status);
+                    }
+                }, function (err) {
+                    reject(err);
+                })
+            }
+        });
+    };
+
+
+    service.createTestCampaign = function (subscriberListId) {
+        let newMailing = JSON.parse($localStorage.get('subscriberListParams'));
+        let mailingForSend = {
+            subject: newMailing.subject + ' -- TEST',
+            html: newMailing.text,
+            internalName: newMailing.internalName,
+            fromName: newMailing.fromName,
+            fromEmail: newMailing.fromMail,
+            subscriberLists: [{subscriberListId: subscriberListId}]
+        };
+        return new Promise((resolve, reject) => {
+            service.createCompaign(mailingForSend, function (res) {
+                if(res.status != 'error') {
+                    resolve(res.object.compaignId);
+                } else {
+                    notificationService.error(res.message || res.status);
+                    reject(res.status);
+                }
+            }, function (err) {
+                reject(err);
+            })
+        })
+    };
+
+
+    service.toThePreview = function (text) {
+        let htmlText = '';
+        if(text) {
+            htmlText =  text ;
+        } else {
+            htmlText = service.getMailingDetails().text
+        }
+        if(text) {
+            service.saveMailing(htmlText).then(
+                result => {
+                    service.setStep('mailing-preview');
+                },
+                error => {
+                    service.setStep('mailing-preview');
+                    console.log('Error: /createCompaign ' + error.status + ' ' + error.statusText);
+                }
+            )
+        } else {
+            service.setStep('mailing-preview');
+        }
+    };
+
+
+    service.sendCampaign = function (campaignId) {
+      let details = service.getMailingDetails();
+      return $q((resolve, reject) => {
+          if(details && details.compaignId) {
+              service.sandCompaign({"compaignId": campaignId?campaignId:details.compaignId}, function (resp) {
+                  if(resp.status != 'error') {
+                      resolve(resp);
+                      notificationService.success($filter('translate')('Mailing sent'))
+                  } else {
+                      reject(resp);
+                      notificationService.error(resp.message);
+                  }
+              });
+          } else {
+              reject('no details.compaignId');
+              notificationService.error('Nothing to send');
+          }
+      })
+    };
+
+
+    service.sendTestMail = function (testEmail) {
+        let newMailing = JSON.parse($localStorage.get('subscriberListParams'));
+        let requestData = {
+            subscriberList: {
+                name: 'testSubscriberListName',
+                subscribers: [{
+                    email: testEmail,
+                    firstName: "firstName",
+                    lastName: "lastName"
+                }],
+            },
+            compaign: {
+                subject: newMailing.subject + ' -- TEST',
+                internalName: newMailing.internalName,
+                html: newMailing.text,
+                fromName: newMailing.fromName,
+                fromEmail: newMailing.fromMail
+            }
+        };
+        return $q((resolve, reject) => {
+            service.sandTestCompaign(requestData, function (resp) {
+                if(resp.status != 'error') {
+                    notificationService.success($filter('translate')('Sent test email'));
+                    resolve('ok');
+                } else {
+                    notificationService.error(resp.message);
+                    reject(resp.message);
+                }
+            }, function (error) {
+                notificationService.error('request Error');
+                reject(error);
+            });
+        });
+    };
+
+
+    service.afterSending = function () {
+        //$localStorage.remove('candidatesForMailing');
+        //$localStorage.remove('subscriberListParams');
+        //$localStorage.remove('currentStep');
+        $location.url("/mailings");
+        //$state.go('mailings-saved').then(() => $location.url("/mailings"));
+    };
+
+
+    service.makeStepClickable = function (step) {
+        let currentStepProgress = $localStorage.get('stepClickable');
+        if( !currentStepProgress || step > currentStepProgress) {
+            $localStorage.set('stepClickable', step);
+            currentStepProgress = step;
+        }
+        if( currentStepProgress > 2 ) {
+          $('#step_3').addClass('clickable');
+        }
+    };
+
+
+    service.toEditMailing = function (mailingForEdit) {
+        let candidatesContacts = [];
+        let candidatesForMailing = [];
+        let subscriberListParams = {};
+        let mailingName = '';
+        let vacancySelectParam = {};
+        let subListId = mailingForEdit.subscriberListIds[0];
+        if(subListId) {
+            service.getSubscriberList({
+                subscriberListId: subListId
+            }, function (resp) {
+                if(resp.status != 'error') {
+                    mailingName = resp.object.name;
+                    vacancySelectParam = {
+                        localId: resp.object.vacancyName,
+                        vacancyId: resp.object.vacancyId,
+                        state: resp.object.stageId
+                    };
+                    resp.object.subscribers.forEach((currentValue) => {
+                        candidatesContacts.push(_.pick(currentValue, ['firstName', 'lastName', 'email', 'localId']))
+                    });
+                    candidatesContacts.forEach((currentValue) => {
+                        currentValue.fullName = currentValue.firstName + ' ' + currentValue.lastName;
+                        candidatesForMailing.push({
+                            candidateId: currentValue,
+                            mailing: true
+                        })
+                    });
+                    subscriberListParams = {
+                        subscribers: candidatesContacts,
+                        name: mailingName,
+                        fromName: mailingForEdit.fromName,
+                        fromMail: mailingForEdit.fromEmail,
+                        subscriberLists: [
+                            {
+                                subscriberListId: subListId
+                            }
+                        ],
+                        subject: mailingForEdit.subject,
+                        internalName: mailingForEdit.internalName,
+                        text: mailingForEdit.html,
+                        compaignId: mailingForEdit.compaignId
+                    };
+                    $localStorage.remove('mailingRecipientsSource');
+                    $localStorage.set('mailingRecipientsSource', JSON.stringify(vacancySelectParam));
+                    $localStorage.set('candidatesForMailing', candidatesForMailing);
+                    $localStorage.set('subscriberListParams', subscriberListParams);
+                    $localStorage.set('currentStep', JSON.stringify("mailing-details"));
+                    $location.url('/mailing');
+                }
+            });
+        } else {
+            subscriberListParams = {
+                fromName: mailingForEdit.fromName,
+                fromMail: mailingForEdit.fromEmail,
+                subject: mailingForEdit.subject,
+                internalName: mailingForEdit.internalName,
+                text: mailingForEdit.html,
+                compaignId: mailingForEdit.compaignId
+            };
+            $localStorage.remove('mailingRecipientsSource');
+            $localStorage.remove('mailingRecipientsSource');
+            $localStorage.remove('candidatesForMailing');
+            $localStorage.set('subscriberListParams', subscriberListParams);
+            $localStorage.set('currentStep', JSON.stringify("mailing-details"));
+            $location.url('/mailing');
+        }
+    };
+
+
+    service.toSentPreview = function (mailing) {
+        let sentPreviewObj = {};
+        let candidatesContacts = [];
+        service.getSubscriberList({
+            subscriberListId: mailing.subscriberListIds[0]
+        }, (resp) =>{
+            if(resp.status != 'error') {
+                resp.object.subscribers.forEach((currentValue) => {
+                    candidatesContacts.push(_.pick(currentValue, ['firstName', 'lastName', 'email', 'localId']))
+                });
+                candidatesContacts.forEach((currentValue) => {
+                    currentValue.fullName = currentValue.firstName + ' ' + currentValue.lastName;
+                });
+                sentPreviewObj = {
+                    name: resp.object.name,
+                    fromEmail: mailing.fromEmail,
+                    fromName: mailing.fromName,
+                    html: mailing.html,
+                    sendDate: mailing.sendDate,
+                    subject: mailing.subject,
+                    internalName: mailing.internalName,
+                    receivers: candidatesContacts,
+                    compaignId: mailing.compaignId
+                };
+
+                $localStorage.set('sentMailing', JSON.stringify(sentPreviewObj));
+                $location.url('/mailing-sent')
+            }
+        },(error) => {
+            notificationService.error(error.message);
+        });
+    };
+
+
+    service.emailValidation = function (email) {
+        let regForValidation =  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,15})+$/;
+        return regForValidation.test(email)
+    };
+
+
+    service.editorChangeStep = function (text, topic, fromName, fromMail, step) {
+        let htmlText = text ;
+        return $q((resolve,reject) => {
+            service.updateCompaignFromEditor(htmlText, topic, fromName, fromMail).then(
+                result => {
+                    notificationService.success($filter('translate')('Changes are saved'));
+                    resolve(result);
+                    if(step == 'details') {
+                        service.setStep('mailing-details');
+                    } else {
+                        if(step == 'preview')
+                        service.setStep('mailing-preview');
+                    }
+                },
+                error => {
+                    reject(error);
+                    console.log('Error: /service.editorToDetails ' + error.status + ' ' + error.statusText);
+                }
+            )
+        })
+    };
+
+
+    service.getVacancyParams = function (localId) {
+        return new Promise((resolve, reject) => {
+            Vacancy.one({localId: localId}, (result) => {
+                if(result && result.status != 'error') {
+                    resolve({
+                        vacancyId: result.object.vacancyId,
+                        position: result.object.position,
+                        statuses: result.object.interviewStatus
+                    });
+                } else {
+                    reject(result.message)
+                }
+            }, (error) => {
+                reject(error.message)
+            })
+        });
+    };
+
+
+    function subscriberListParamsPrepared(internal, candidates) {
+        let prepared = {
+            name: internal,
+            subscribers: []
+        };
+        candidates.forEach(function (o) {
+            if(o.mailing) {
+                let neededFields = {};
+                neededFields.firstName = o.candidateId.fullName.split(' ')[0];
+                neededFields.lastName = o.candidateId.fullName.split(' ')[1]?o.candidateId.fullName.split(' ')[1]:'';
+                neededFields.email = o.candidateId.email;
+                neededFields.localId = o.candidateId.localId;
+                prepared.subscribers.push(neededFields);
+            }
+        });
+        return prepared
+    }
+
+
+    return service;
+}]);
 angular.module('services.mail', [
     'ngResource'
 ]).factory('Mail', ['$resource', 'serverAddress', '$uibModal', '$rootScope', function ($resource, serverAddress, $uibModal, $rootScope) {
@@ -12834,16 +14010,18 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "showTooltipTrial" : $sce.trustAsHtml($filter('translate')("Days left until your trial expires") + '</br>' + $filter('translate')("All features are unlimited within your trial. You could invite unlimited number of users to test the system.") + '</br>' +  $filter('translate')('If your account will not be paid until trial end date:') + '</br>'
                         + '<ul>' + '<li>' + $filter('translate')("it will be automatically changed to ‘1 RECRUITER’ plan with limited features;") + '</li>' + '<li>' + $filter('translate')("all invited users will be blocked until account is paid.") +'</li>'+'</ul>'),
                     "statisticTooltip": $sce.trustAsHtml($filter('translate')('\'Statistics\' report shows the results of every account user: the quantity and the percentage of added candidates, vacancies, interviews, an average time to fill a vacancy for a specific time period.')),
-                    "mailingTopic": $sce.trustAsHtml('Your letter topic, receiver will read in his Inbox'),
+                    "mailingTopic": $sce.trustAsHtml($filter("translate")('Your letter topic, receiver will read in his Inbox')),
                     "toolTipForTestResults": $sce.trustAsHtml($filter('translate')('Percentile shows the percent of candidates, who received fewer points for passing the test, than a specific candidate with the percentile value')),
-                    "mailingInternal": $sce.trustAsHtml('Mailing name for your internal usage. Visible only for you.'),
+                    "mailingInternal": $sce.trustAsHtml($filter("translate")('Mailing name for your internal usage. Visible only for you.')),
                     "profilesMerge": $sce.trustAsHtml($filter("translate")("The 'rules' of profiles merge") + '<ul>' + '<li>' + $filter("translate")("Only fields with different values are available for selection") + '</li>' + '<li>' + $filter("translate")("If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default") + '</li>' + '<li>' + $filter("translate")("Tags in the merged profile will be saved from both original ones") + '</li>' + '</ul>'),
                     "helpWindowZip1":  $sce.trustAsHtml($filter('translate')('You can just upload all resumes in one big folder and pack') + '</br></br>' + '<img src="../images/sprite/ZipArchive2.png" alt=""/>'),
                     "helpWindowZip2":  $sce.trustAsHtml($filter('translate')('If your resumes folders like in the picture:') + '</br></br>' + '<img src="../images/sprite/ZipArchive1.png" alt=""/>' + '</br></br>' + $filter('translate')('simply pack the root folder in the ZIP-archive. This is a good option')),
                     "helpWindowZip3":  $sce.trustAsHtml($filter('translate')('If you have any candidates in the program E-Staff, they can be exported in two steps') + '</br></br>' + '<div>1.' + $filter('translate')('Create a script export (Menu -> Tools -> Administration -> Other -> Scripts exports). Uploaded types of objects - the candidate. Specify the name of the script and save')+'.' + '</br></br>2.' + $filter('translate')('Upload (Menu -> Tools -> Export -> Your script that you received from p.1. You will receive a folder with files of the candidate-0x0A1234E567C890A0.xml. All you need to pack a folder in the ZIP-archive and send it here. So the candidates of the E-Staff will take a CleverStaff.')),
                     "boolSearchInfo": $sce.trustAsHtml($filter('translate')('Boolean search info')),
                     "exchangeHost":  $sce.trustAsHtml($filter('translate')('The Exchange server URL')),
-                    "exchangeDomain":  $sce.trustAsHtml($filter('translate')('Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address'))
+                    "exchangeDomain":  $sce.trustAsHtml($filter('translate')('Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address')),
+                    "mailingAddFromJob": $sce.trustAsHtml($filter('translate')('Select the vacancy and the stage. Candidates from the selected stage will become the recipients of the mailing. Only candidates with e-mail will be added')),
+                    "mailingClone": $sce.trustAsHtml($filter('translate')('Create the copy of current mailing for the further sending'))
                 };
                 $rootScope.tooltips = options;
             });
@@ -13923,7 +15101,6 @@ angular.module('services.vacancy', [
         $rootScope.loading = true;
         return new Promise((resolve, reject) => {
             vacancy.getCandidatesInStages(params, (response) => {
-                console.log('!!!!!!!!!!!!!!')
                 vacancy.candidateLastRequestParams = params;
                 vacancy.getCandidate = response.objects.map(item => item.candidateId.localId);
                 localStorage.setItem('candidateLastRequestParams', JSON.stringify(params));
@@ -14014,7 +15191,8 @@ angular.module('services', [
         'services.translateWords',
         'services.CustomReportsService',
         'services.CustomReportEditService',
-        'services.slider'
+        'services.slider',
+        'services.mailing'
     ]
 );
 
@@ -14022,6 +15200,7 @@ angular.module('services', [
 angular.module('constant', []).constant('serverAddress', '/hr').constant('frontMode', 'war');
 angular.module('RecruitingApp', [
     'ngRoute',
+    'ui.router',
     'ngCookies',
     'RecruitingApp.filters',
     'services',
@@ -14041,6 +15220,7 @@ angular.module('RecruitingApp', [
     'googlechart',
     'googleApi',
     'controller',
+    'components',
     'constant',
     'ng-sortable',
     'angulartics',
@@ -14048,7 +15228,7 @@ angular.module('RecruitingApp', [
     'ngQuickDate',
     'ui.bootstrap',
     'outlookApi'
-]).config(['$routeProvider', '$locationProvider','$analyticsProvider', function ($routeProvider, $locationProvider, $analyticsProvider) {
+]).config(['$routeProvider', '$locationProvider','$analyticsProvider', '$stateProvider', '$urlRouterProvider', function ($routeProvider, $locationProvider, $analyticsProvider, $stateProvider, $urlRouterProvider) {
     var universalResolves = {
         app: function ($q, $rootScope, $location, $route, $http, serverAddress,$filter, notificationService) {
             var defer = $q.defer();
@@ -14064,6 +15244,7 @@ angular.module('RecruitingApp', [
             return this;
         }
     });
+    $locationProvider.hashPrefix('');
     customRouteProvider
         .when('/organizer', {
             templateUrl: 'partials/future.html',
@@ -14505,7 +15686,45 @@ angular.module('RecruitingApp', [
         //    controller: "hrModuleInfoController",
         //    pageName: "Hr-module info"
         //})
+        .when('/mailing',{
+            title: "Create a mailing list",
+            templateUrl: "partials/mailing/mailing.html",
+            controller: "mailingController",
+            pageName: "Mailing"
+        })
+        .when('/mailings',{
+            title: "My mailings",
+            templateUrl: "partials/mailing/mailings.html",
+            controller: "mailingsController",
+            pageName: "Mailings"
+        })
+        .when('/mailing-sent',{
+            title: "Sent mailing",
+            templateUrl: "partials/mailing/mailing-sent.html",
+            controller: "mailingSentController",
+            pageName: "Sent mailing"
+        })
         .otherwise({redirectTo: '/organizer'});
+
+    let states = [{
+        name: 'mailing-details',
+        component: 'mDetails'
+    },{
+        name: 'mailing-editor',
+        component: 'editor'
+    },{
+        name: 'mailing-preview',
+        component: 'preview'
+    },{
+        name: 'mailings-saved',
+        component: 'saved'
+    },{
+        name: 'mailings-sent',
+        component: 'sent'
+    }];
+    states.forEach((state) => {
+        $stateProvider.state(state);
+    });
 }]).config(['$provide', '$httpProvider', 'serverAddress', 'frontMode', function ($provide, $httpProvider, serverAddress, frontMode) {
     var allRequest = {};
     var isExecuted = false;
@@ -14595,9 +15814,6 @@ angular.module('RecruitingApp', [
                 // $rootScope.notFormatedTitle = $filter('translate')(current.$$route.title);
                 translateWords.getTranslete(current.$$route.title, $rootScope, 'title', true);
                 $rootScope.title = $filter('translate')(current.$$route.title) + " | CleverStaff";
-                //var firstPage = "http://127.0.0.1:8080/!#/ask_question";
-                //var secondPage = "http://127.0.0.1:8080/!#/report_problem_on_this_page";
-                //var thirdPage = "http://127.0.0.1:8080/!#/suggest_improvement_or_request_feature";
                 var firstPage = $location.$$protocol + "://" + $location.$$host + "/!#/ask_question";
                 var secondPage = $location.$$protocol + "://" + $location.$$host + "/!#/report_problem_on_this_page";
                 var thirdPage = $location.$$protocol + "://" + $location.$$host + "/!#/suggest_improvement_or_request_feature";
@@ -14741,7 +15957,7 @@ angular.module('RecruitingApp', [
 });
 
 var controller = angular.module('controller', []);
-
+var component = angular.module('components', []);
 function handErrorException(isExecuted, serverAddress, status, frontMode, $window, route, $rootScope) {
     if (status == 403 || status == 502) {
         if (!isExecuted) {
@@ -14766,7 +15982,11 @@ function checkAuth(serverType, $rootScope, callback) {
     var request = new XMLHttpRequest();
     request.open('GET', serverType + '/person/authping', true);
     request.onload = function () {
-        callback(request.status);
+        try {
+            callback(request.status);
+        }catch (error) {
+            console.log(error.status)
+        }
     };
 
     request.send();
@@ -14854,7 +16074,7 @@ function checkUrlByRole(url, Role,  accessLevel, $location, serverAddress, $http
 }
 
 function setPersonParams($http, userId, paramName, paramValue, serverAddress) {
-    $http.get(serverAddress + '/person/changeUserParam?userId=' + userId + "&name=" + paramName + "&value=" + paramValue).success(function (resp) {
+    $http.get(serverAddress + '/person/changeUserParam?userId=' + userId + "&name=" + paramName + "&value=" + paramValue).then(function (resp) {
     });
 }
 
@@ -32449,6 +33669,11 @@ controller.controller('recallController', ["$localStorage", "frontMode", "google
         });
     }]);
 
+controller.controller('ThanksController',["$localStorage", "frontMode", "googleService", "serverAddress", "$rootScope", "$scope", "$routeParams","$translate",
+    function($localStorage, frontMode, googleService, serverAddress, $rootScope, $scope, $routeParams, $translate) {
+
+    }]);
+
 controller.controller('usersController', ["$localStorage", "$translate", "$scope", "ngTableParams", "Person", "$rootScope", "$filter", "$location",
     "notificationService", "Service", "Company", "Vacancy", "ScopeService", "$uibModal",
     function ($localStorage, $translate, $scope, ngTableParams, Person, $rootScope, $filter, $location, notificationService, Service, Company, Vacancy, ScopeService, $uibModal) {
@@ -35239,12 +36464,12 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
 
 
 
-controller.controller('vacancyController', ["localStorageService", "CacheCandidates", "$localStorage", "$scope", "Vacancy",
+controller.controller('vacancyController', ["$state", "localStorageService", "CacheCandidates", "$localStorage", "$scope", "Vacancy",
     "Service", "$translate", "$routeParams", "$filter", "ngTableParams", "Person", "$location", "$rootScope", "FileInit",
-    "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route", "$timeout",
-    function (localStorageService, CacheCandidates, $localStorage, $scope, Vacancy, Service, $translate, $routeParams,
+    "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route", "Mailing", "$timeout",
+    function ($state, localStorageService, CacheCandidates, $localStorage, $scope, Vacancy, Service, $translate, $routeParams,
               $filter, ngTableParams, Person, $location, $rootScope, FileInit,
-              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route,$timeout) {
+              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route, Mailing, $timeout) {
         $rootScope.currentElementPos = true;
         $rootScope.setCurrent = true;
         $rootScope.isAddCandidates= true;
@@ -36373,22 +37598,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             });
         };
 
-        //$scope.clickSendEmail = function () {
-        //    var contacts = "";
-        //    angular.forEach($rootScope.me.contacts, function (val) {
-        //        if (val.contactType == "phoneMob") {
-        //            contacts = ", " + val.value;
-        //        }
-        //    });
-        //    var textTemplate = $filter('translate')('staff-public-link');
-        //    var textMessage = textTemplate.replace('{vacancy}', $scope.vacancy.position)
-        //        .replace('{link}', $scope.publicLink)
-        //        .replace('{fio}', $rootScope.me.firstName)
-        //        .replace('{contacts}', contacts);
-        //    var mailTemplate = "mailto:?subject={subject}&body={body}";
-        //    window.open(mailTemplate
-        //        .replace('{subject}', $filter('translate')('vacancy') + " " + $scope.vacancy.position).replace('{body}', encodeURIComponent(textMessage)), '_newtab');
-        //};
         $scope.showSendEmailTemplateModal = function(){
             $scope.lang= localStorage.getItem('NG_TRANSLATE_LANG_KEY');
             $rootScope.sendEmailTemplate ={
@@ -37147,7 +38356,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 }
             }
             if (sourse === 'facebook') {
-                console.log($scope.facebookAppId);
                 FB.getLoginStatus(function (response) {
                     var setinterval =  setInterval(()=>{
                         let frame = document.querySelector('.FB_UI_Dialog');
@@ -37300,6 +38508,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
                                     if(elem == urlStage && (!$scope.VacancyStatusFiltered[index]['hidden']) || $rootScope.me.recrutRole !== 'client' ){
                                         $scope.dataForVacancy = cd;
+                                        returnPick();
                                         $defer.resolve(cd);
                                         $scope.noAccess = false;
                                     }else if(elem  == urlStage && $scope.VacancyStatusFiltered[index]['hidden']){
@@ -37308,12 +38517,14 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                     }else if(!$scope.visiable){
                                         $scope.dataForVacancy = cd;
                                         $scope.noAccess = false;
+                                        returnPick();
                                         $defer.resolve(cd);
                                     }else{
                                         $scope.noAccess = true;
                                     }
                                 } else {
                                     $scope.dataForVacancy = cd;
+                                    returnPick();
                                     $scope.dataForVacancy.map((item) => {
                                         console.log(item.state,item.isInterview);
                                     });
@@ -37821,7 +39032,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         }
                                     }
                                     Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
-                                        console.log("gooo");
                                         $scope.vacancy = resp.object;
                                         $rootScope.vacancy = resp.object;
                                         $scope.recalls = resp.object.recalls;
@@ -38153,7 +39363,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         $scope.countActivePersons = resp.message;
                         if ($scope.countActivePersons == 1 && ($scope.vacancy.responsiblesPerson == undefined || $scope.vacancy.responsiblesPerson.length == 0)) {
                             Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
-                                console.log("tru123e");
                                 $scope.vacancy.responsiblesPerson = resp.object.responsiblesPerson;
                             });
                         }
@@ -38889,6 +40098,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         $scope.changeInputPage = function(params,searchNumber){
+            pushCurrentPick();
             var searchNumber = Math.round(searchNumber);
             var maxValue = $filter('roundUp')(params.settings().total/params.count());
             if(searchNumber){
@@ -39512,6 +40722,50 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         if($scope.activeName === 'extra_status') {
             setActiveStatus();
         }
+        ////////////////////////////////////////////////////////End of edit page
+        ////////////////////////////////////////////////////////Mailing start
+        $scope.allCandidatesChecked = false;
+        $scope.isSavedMailing = false;
+        Mailing.getAllCompaigns({ page:{count: 1, number: 0}} ,function (resp) {
+            if(resp && resp.object.page && resp.object.page.totalElements > 0)
+                $scope.isSavedMailing = true;
+        });
+        let dataForMailingVacancy = [];
+        $scope.toCreateMailing = function () {
+            pushCurrentPick();
+            Mailing.toCreateMailing(dataForMailingVacancy, $uibModal, $scope, $state);
+        };
+        $scope.checkAllForMailing = function () {
+            if ($scope.allCandidatesChecked) {
+                angular.forEach($scope.dataForVacancy, function (candidate) {
+                    candidate.mailing = true;
+                })
+            } else {
+                angular.forEach($scope.dataForVacancy, function (candidate) {
+                    candidate.mailing = false;
+                })
+            }
+        };
+        $scope.toMyMailings = function () {
+            $location.url("/mailings");
+        };
+        function pushCurrentPick() {
+            dataForMailingVacancy = _.unionBy(_.filter($scope.dataForVacancy, 'mailing'), dataForMailingVacancy, 'interviewId');
+            _.remove(dataForMailingVacancy, function (o) {
+                return _.find(_.filter($scope.dataForVacancy, function (obj) {
+                    return (!obj.mailing || obj.candidateId.status === 'archived')
+                }), ['interviewId', o.interviewId]);
+            });
+        }
+        function returnPick() {
+            angular.forEach($scope.dataForVacancy, function (candidate, index) {
+                if(_.find(dataForMailingVacancy, ['interviewId', candidate.interviewId])) {
+                    $scope.dataForVacancy[index].mailing = true;
+                }
+            });
+            $scope.allCandidatesChecked = ( $scope.dataForVacancy && $scope.dataForVacancy.length > 0 && _.find($scope.dataForVacancy, function (o) {return ! o.mailing;}) === undefined );
+        }
+        ///////////////////////////////////////////////////////Mailing End
 
         function resetTemplate() {
             $scope.activeTemplate = '';
@@ -44769,3 +46023,1031 @@ controller
         "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService", MyReportsCtrl]);
 
 
+
+controller.controller('mailingController', ['$scope', '$rootScope','$localStorage', 'notificationService','$filter', '$uibModal','$state', '$transitions', 'Mailing', function ($scope, $rootScope, $localStorage, notificationService, $filter, $uibModal, $state, $transitions, Mailing) {
+    $scope.currentStep = Mailing.currentStep;
+
+    let mailingDetails = Mailing.getMailingDetails();
+
+    if(mailingDetails) {
+        $scope.internalName = mailingDetails.internalName;
+    } else {
+        $scope.internalName = '';
+    }
+
+    switch ($scope.currentStep) {
+        case 'mailing-details':
+            $state.go('mailing-details');
+            break;
+        case 'mailing-editor':
+            $state.go('mailing-editor');
+            break;
+        case 'mailing-preview':
+            $state.go('mailing-preview');
+            break;
+        default:
+            $state.go('mailing-details');
+            break;
+    }
+
+
+    $scope.fieldFocused = function (event) {
+        event.currentTarget.classList.remove('empty');
+    };
+
+
+    $scope.updateInternal = function () {
+          Mailing.updateInternal($scope.internalName);
+    };
+    $scope.updateInternal();
+
+    $rootScope.setDocCounter = function(){
+        $scope.currentDocPreviewPage = 0;
+    };
+
+
+}]);
+component.component('mDetails', {
+    templateUrl: "partials/mailing/mailing-details.html",
+    controller: function ($location, $scope, $rootScope, $localStorage, notificationService, $filter, $uibModal, $http, $state, Mailing, vacancyStages) {
+        $scope.candidatesForMailing = $localStorage.get('candidatesForMailing')?JSON.parse($localStorage.get('candidatesForMailing')):[];
+        let olderAvailableStep = $localStorage.get('stepClickable');
+        $scope.newRecipient = {};
+        $scope.editFromName = false;
+        $scope.topic = '';
+        $scope.allChecked = true;
+        $scope.vacancy = {};
+        let regForMailSplit = /[\s,;]+/;
+
+        $scope.mailingDetails = Mailing.getMailingDetails();
+
+        if($scope.mailingDetails) {
+            $scope.topic = $scope.mailingDetails.subject;
+            $scope.fromName = $scope.mailingDetails.fromName;
+            $scope.fromMail = $scope.mailingDetails.fromMail;
+        } else {
+            $scope.fromName = $rootScope.me.fullName;
+            $scope.fromMail = $rootScope.me.login;
+            for(let i = $scope.candidatesForMailing.length - 1; i >= 0; i-- ) {
+                $scope.candidatesForMailing[i].candidateId.email = $scope.candidatesForMailing[i].candidateId.email.split(regForMailSplit)[0];
+                $scope.candidatesForMailing[i].mailing = true;
+            }
+        }
+        //Set new params or get already set -- end
+
+
+        $scope.checkAll = function () {
+            if($scope.allChecked) {
+                for(let i = $scope.candidatesForMailing.length - 1; i >= 0; i-- ) {
+                    $scope.candidatesForMailing[i].mailing = true;
+                }
+            } else {
+                for(let i = $scope.candidatesForMailing.length - 1; i >= 0; i-- ) {
+                    $scope.candidatesForMailing[i].mailing = false;
+                }
+            }
+        };
+
+
+
+
+
+        $scope.saveCandidateContacts = function (candidate) {
+            if(!candidate.localId) {
+                notificationService.error('There is no candidate Id. This mailing is broken. Please, create new mailing');
+                return
+            }
+            if(Mailing.emailValidation(candidate.email)) {
+                editCandidate(candidate);
+            } else {
+                notificationService.error($filter('translate')('wrong_email'));
+            }
+        };
+
+
+        $scope.cancelSavingCandidateContacts = function (localId) {
+            hideEditInput(localId)
+        };
+
+
+        $scope.deleteCandidates = function (candidateObj) {
+            $scope.candidateForDelete = candidateObj;
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/delete-candidates-from-mailing.html?1',
+                size: '',
+                scope: $scope,
+                resolve: function(){
+                }
+            });
+        };
+
+
+        $scope.addRecipient = function () {
+            if($scope.newRecipient && $scope.newRecipient.contacts) {
+                let preparedCandidate = candidateTransform($scope.newRecipient);
+                preparedCandidate.mailing = true;
+                if(preparedCandidate) {
+                    $scope.candidatesForMailing.unshift(preparedCandidate);
+                    Mailing.updateSubList(Mailing.getInternal(), $scope.candidatesForMailing).then((response) => {
+                        $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
+                        notificationService.success($filter('translate')('Recipient added'));
+                    }, (error) => {
+                        notificationService.error(error.message);
+                    });
+                    $scope.modalInstance.close();
+                } else {
+                    notificationService.error($filter('translate')('No email for this candidate found in database'))
+                }
+            } else {
+                notificationService.error($filter('translate')('No email for this candidate found in database'))
+            }
+
+            function candidateTransform(candidate) {
+                let candidateTransformed = {
+                    candidateId: {}
+                };
+                let withEmail = candidate.contacts.some((contact) => {
+                    if(contact.type == 'email') {
+                        candidateTransformed.candidateId.email = contact.value;
+                        candidateTransformed.candidateId.localId = candidate.id;
+                        candidateTransformed.candidateId.firstName = candidate.text.split(' ')[0];
+                        candidateTransformed.candidateId.lastName = candidate.text.split(' ')[1]?candidate.text.split(' ')[1]:'';
+                        candidateTransformed.candidateId.fullName = candidate.text;
+                        return true
+                    }
+                });
+                if(withEmail) {
+                    return candidateTransformed
+                } else {
+                    return false
+                }
+            }
+
+        };
+
+
+        $scope.confirmDelete = function () {
+            if($scope.candidatesForMailing.length > 1) {
+                let beforeDeleting = angular.copy($scope.candidatesForMailing);
+                _.remove($scope.candidatesForMailing, function (obj) {
+                    return (obj.candidateId.localId == $scope.candidateForDelete.localId) && obj.candidateId.localId && obj.candidateId.localId;
+                });
+                $scope.modalInstance.close();
+                $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
+                Mailing.updateSubList(Mailing.getInternal(), $scope.candidatesForMailing).then((response) => {
+                    notificationService.success($filter('translate')('deleted'));
+                }, (error) => {
+                    $scope.candidatesForMailing = angular.copy(beforeDeleting);
+                    notificationService.error(error.message);
+                });
+            } else {
+                notificationService.error($filter('translate')('Must be at least one recipient'));
+            }
+        };
+
+
+        $scope.toTheEditor = function (toThePreview) {
+            let notValid = false;
+            $('.required').each(function () {
+                let element = $(this);
+                element.removeClass('empty');
+                if(element[0].value.length == 0) {
+                    element.addClass('empty');
+                    notValid = true;
+                }
+            });
+            if(notValid) {
+                $('html, body').animate({scrollTop: 0}, 500, 'easeOutQuart');
+                notificationService.error($filter('translate')('You should fill all obligatory fields.'))
+            } else {
+                $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
+                if($scope.candidatesForMailing && $scope.candidatesForMailing.some(function (candidate) {return candidate.mailing})) {
+                    if($scope.candidatesForMailing.length > 1000) {
+                        notificationService.error($filter('translate')('Count of recipients should be less than 1000'));
+                        return
+                    }
+                    let incorrectEmails = false;
+                    angular.forEach($scope.candidatesForMailing, (candidate)=>{
+                        if(candidate.candidateId.email.indexOf('@') == -1 && candidate.mailing) {
+                            candidate.wrongEmail = true;
+                            incorrectEmails = true;
+                        }
+                    });
+                    if(!$scope.$$phase && !$rootScope.$$phase) {
+                        $scope.$apply();
+                    }
+                    if(!incorrectEmails) {
+                        if(toThePreview) {
+                            Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing);
+                            Mailing.toThePreview();
+                        } else {
+                            Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, true);
+                        }
+                    } else {
+                        notificationService.error($filter('translate')('Wrong emails'))
+                    }
+
+                } else {
+                    notificationService.error($filter('translate')('Please pick the candidates'));
+                }
+            }
+        };
+
+
+        $scope.addRecipientModal = function () {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/mailing-add-recipient.html',
+                size: '',
+                scope: $scope,
+                resolve: function(){
+
+                }
+            });
+        };
+
+        $scope.candidateCheckbox = function (candidate) {
+            updateCheckboxState(candidate);
+        };
+
+
+        function toPreview() {
+            $scope.toTheEditor(true);
+        }
+
+
+        function editCandidate(candidate) {
+            hideEditInput(candidate.localId);
+            updateContactsInLocalStorage(candidate);
+            notificationService.success($filter('translate')('Changes are saved'));
+        }
+
+
+        function hideEditInput(localId) {
+            $scope.candidatesForMailing.some(function (candidate) {
+                if(candidate.candidateId.localId == localId) {
+                    candidate.editable = false;
+                    return true
+                }
+            });
+        }
+
+
+        function updateContactsInLocalStorage(candidate) {
+            $scope.candidatesForMailing.some(function (obj) {
+                if(obj.candidateId.localId == candidate.localId) {
+                    obj.candidateId.fullName = candidate.fullName;
+                    obj.candidateId.contacts = candidate.contacts;
+                    if(obj.wrongEmail)
+                        delete obj.wrongEmail;
+                    return true
+                }
+                return false
+            });
+            $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
+        }
+
+
+        function updateCheckboxState(candidate) {
+            $scope.candidatesForMailing.some(function (obj) {
+                if(obj.candidateId.localId == candidate.localId) {
+                    obj.mailing = !obj.mailing;
+                    return true
+                }
+                return false
+            });
+            $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
+        }
+
+        $('#step_1').unbind();
+        $('#step_2').unbind().on('click',() => {
+            $scope.toTheEditor();
+        });
+        if(olderAvailableStep == 3) {
+            $('#step_3').addClass('clickable').unbind().on('click', () => {
+                toPreview();
+            });
+        }
+
+        //Get custom stages for vacancyAutocompleter
+        if(!$rootScope.customStages) {
+            vacancyStages.get(function(resp){
+                $rootScope.customStages = resp.object.interviewStates;
+            });
+        }
+
+    }
+});
+controller.controller('mailingEditorController', ['$scope', '$rootScope','$localStorage', 'notificationService','$filter', '$uibModal', 'Mailing', ]);
+component.component('editor', {
+    templateUrl: "partials/mailing/mailing-editor.html",
+    controller: function ($scope, $rootScope, $localStorage, notificationService, $filter, $uibModal, Mailing) {
+        $scope.emailText = '';
+        let emailDetails = Mailing.getMailingDetails();
+        if(emailDetails && emailDetails.text) {
+            $scope.emailText = emailDetails.text;
+            $scope.topic = emailDetails.name;
+            $scope.fromName = emailDetails.fromName;
+            $scope.fromMail = emailDetails.fromMail;
+        } else {
+            $scope.fromName = $rootScope.me.fullName;
+            $scope.fromMail = $rootScope.me.login;
+        }
+
+        $scope.saveMailing = function () {
+            changeStep('save');
+        };
+
+
+        $scope.editFromEmail = function () {
+            $scope.editFromName = true;
+            $scope.fromMailEdit = $scope.fromMail;
+            $scope.fromNameEdit = $scope.fromName;
+        };
+
+
+        $scope.cancelEdit = function () {
+            $scope.editFromName = false;
+        };
+
+
+        $scope.saveFromEmail = function () {
+            if($scope.fromMailEdit != $scope.fromMail || $scope.fromNameEdit != $scope.fromName) {
+                if($scope.fromNameEdit.length > 0 ) {
+                    if (Mailing.emailValidation($scope.fromMailEdit)) {
+                        $scope.fromMail = $scope.fromMailEdit;
+                        $scope.fromName = $scope.fromNameEdit;
+                        $scope.editFromName = false;
+                    } else {
+                        notificationService.error($filter('translate')('wrong_email'));
+                    }
+                } else {
+                    notificationService.error($filter('translate')('enter_first_name'));
+                }
+            } else {
+                $scope.fromMail = $scope.fromMailEdit;
+                $scope.fromName = $scope.fromNameEdit;
+                $scope.editFromName = false;
+            }
+        };
+
+
+        $scope.toDetails = function () {
+            changeStep('details')
+        };
+
+
+        $scope.toPreview = function () {
+            changeStep('preview')
+        };
+
+
+        function changeStep(step) {
+            let notValid = false;
+            if(step != 'details') {
+                $('.required').each(function () {
+                    let element = $(this);
+                    element.removeClass('empty');
+                    if(element[0].value.length == 0) {
+                        element.addClass('empty');
+                        notValid = true;
+                    }
+                });
+            }
+
+            if(notValid) {
+                $('html, body').animate({scrollTop: 0}, 500, 'easeOutQuart');
+                notificationService.error($filter('translate')('You should fill all obligatory fields.'))
+            } else {
+                $rootScope.loader = true;
+                if($scope.emailText) {
+                    Mailing.editorChangeStep($scope.emailText, $scope.topic, $scope.fromName, $scope.fromMail, step).then(results => {
+                        $rootScope.loader = false;
+                        if(step == 'save') {
+                            Mailing.afterSending();
+                        }
+                    }, error => {
+                        $rootScope.loader = false;
+                        console.log('error in $scope.toDetails', error)
+                    });
+                } else {
+                    notificationService.error($filter('translate')('Enter the text of the letter'))
+                }
+            }
+        };
+
+
+        Mailing.makeStepClickable(3);
+        $('#step_3').unbind().on('click', $scope.toPreview);
+        $('#step_2').unbind();
+        $('#go-back-button').unbind().on('click', $scope.toDetails);
+        $('#step_1').unbind().on('click', $scope.toDetails);
+
+
+    }
+})
+controller.controller('mailingPreviewController', ['$scope', '$rootScope', 'notificationService', '$localStorage', '$filter', '$uibModal','$state', '$location', 'Mailing']);
+component.component('preview', {
+    templateUrl: "partials/mailing/mailing-preview.html",
+    controller: function ($scope, $rootScope, notificationService, $localStorage, $filter, $uibModal, $state, $location, Mailing) {
+        $scope.candidatesForMailing = $localStorage.get('candidatesForMailing')?JSON.parse($localStorage.get('candidatesForMailing')):[];
+        $scope.mailingParams = {};
+        $scope.mailingParams = Mailing.getMailingDetails();
+        $scope.testEmail = '';
+        $scope.sendTestShow = false;
+        $scope.mailingPreview = function () {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/mailing-preview.html?1',
+                size: '',
+                scope: $scope
+            });
+        };
+
+
+        $scope.showSendTest = function () {
+            $scope.sendTestShow = !$scope.sendTestShow;
+        };
+
+
+        $scope.editMessage = function () {
+            Mailing.setStep('mailing-editor');
+        };
+
+
+        $scope.editDetails = function () {
+            Mailing.setStep("mailing-details");
+        };
+
+
+        $scope.sendMailing = function () {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/confirm-send-mailing.html?1',
+                size: '',
+                scope: $scope,
+                resolve: function(){
+
+                }
+            });
+        };
+
+
+        $scope.confirmSendMailing = function () {
+            $scope.modalInstance.close();
+            $rootScope.loading = true;
+            Mailing.sendCampaign().then(
+                result => {
+                    $rootScope.loading = false;
+                    Mailing.afterSending();
+                },
+                error => {
+                    $rootScope.loading = false;
+                    console.log('in error', error)
+                }
+            );
+        };
+
+
+        $scope.saveMailing = function () {
+            Mailing.saveMailing().then(
+                result => {
+                    Mailing.afterSending();
+                },
+                error => {
+                    console.log('saveMailing Error', error);
+                }
+            );
+        };
+
+
+        $scope.sendTestMail = function () {
+            if(Mailing.emailValidation($scope.testEmail)) {
+                $rootScope.loading = true;
+                Mailing.sendTestMail($scope.testEmail).then(result => {
+                    $rootScope.loading = false;
+                    $scope.testEmail = '';
+                }, error => {
+                    $rootScope.loading = false;
+                    console.log('error in $scope.sendTestMail', error)
+                });
+            } else {
+                $('#test-mail').addClass('empty');
+                notificationService.error($filter('translate')('wrong_email'));
+            }
+        };
+
+
+        $scope.closeModal = function () {
+            $scope.modalInstance.close();
+        };
+
+
+        $('#step_2').unbind().on('click', $scope.editMessage);
+        $('#step_1').unbind().on('click', $scope.editDetails);
+        $('#go-back-button').unbind().on('click', $scope.editMessage);
+
+
+    }
+});
+controller.controller('mailingsController', ['$scope', '$localStorage', '$rootScope', '$state','$timeout', '$filter', '$transitions', '$uibModal', 'Mailing',
+    function ($scope, $localStorage, $rootScope, $state, $timeout, $filter, $transitions, $uibModal, Mailing) {
+
+        $scope.savedMailings = [];
+        let isPreviousSentMailings = $rootScope.previousLocation?$rootScope.previousLocation.indexOf('mailing-sent')!=-1:false;
+        let defaultBreadcrumbs = [
+            {
+                href: '#/candidates',
+                transl: 'our_base'
+            },
+            {
+                transl: 'My mailings'
+            }
+        ];
+        if($rootScope.previousLocation) {
+            if($rootScope.previousLocation.indexOf('vacancies') != -1) {
+                if($rootScope.vacancy) {
+                    $localStorage.set('breadcrumbs', JSON.stringify([
+                        {
+                            href: '#/vacancies',
+                            transl: 'vacancies'
+                        },
+                        {
+                            href: '#/vacancies/' + $rootScope.vacancy.localId,
+                            value: $rootScope.vacancy.position
+                        },
+                        {
+                            transl: 'My mailings'
+                        }
+                    ]));
+                } else {
+                    $localStorage.set('breadcrumbs', JSON.stringify(defaultBreadcrumbs));
+                }
+            } else {
+                $localStorage.set('breadcrumbs', JSON.stringify(defaultBreadcrumbs));
+            }
+        }
+
+        let storedBreadcrumbs = $localStorage.get('breadcrumbs');
+        $rootScope.breadCrumbs = storedBreadcrumbs?JSON.parse(storedBreadcrumbs):defaultBreadcrumbs;
+
+        if(isPreviousSentMailings) {
+            $state.go('mailings-sent');
+        } else {
+            $state.go('mailings-saved');
+        }
+
+
+        $scope.newMailing = function () {
+            Mailing.newMailing();
+        };
+
+}]);
+controller.controller('mailingSentController',['$scope', '$rootScope', '$filter', '$translate', 'notificationService', '$uibModal', '$state', '$localStorage', 'Mailing', function ($scope, $rootScope, $filter, $translate, notificationService, $uibModal, $state, $localStorage, Mailing) {
+    $scope.sentMailing = JSON.parse($localStorage.get('sentMailing'));
+    let storedBreadcrumbs = $localStorage.get('breadcrumbs');
+    $scope.cloneName = '';
+    let statistics = {};
+    $scope.readers = [];
+    $scope.statistics = {};
+    let defaultBreadcrumbs = [
+        {
+            href: '#/candidates',
+            transl: 'our_base'
+        },
+        {
+            transl: 'My mailings'
+        }
+    ];
+    let breadCrumbs = storedBreadcrumbs?JSON.parse(storedBreadcrumbs):defaultBreadcrumbs;
+    breadCrumbs.pop();
+    breadCrumbs.push({
+        href: '#/mailings',
+        transl: 'My mailings'
+        },{
+        value: $scope.sentMailing.internalName
+    });
+    $rootScope.breadCrumbs = breadCrumbs;
+
+
+    Mailing.getAnalytics({compaignIds: [$scope.sentMailing.compaignId]},function (resp) {
+        let respObj = resp.object[0];
+        if(resp.status != 'error') {
+            statistics.common = getCommonStatistics(respObj.compaign);
+            $scope.readers = getReadersList(respObj.compaignEntries);
+            $scope.statistics = {
+              opens: statistics.common.opens,
+              sent: statistics.common.sent,
+              undelivered: statistics.common.undelivered
+            };
+            chartRendering(statistics.common);
+        }
+    },function (error) {
+        console.log('error',error);
+    });
+
+
+    $scope.cloneModal = function () {
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/mailing-clone.html',
+            size: '',
+            scope: $scope
+        });
+    };
+
+
+    $scope.cloneMailing = function (cloneName) {
+        if(cloneName && cloneName.length > 0) {
+            Mailing.cloneMailing({
+                    'сompaignId': $scope.sentMailing.compaignId,
+                    'internalName': cloneName
+            },(resp)=> {
+                if(resp.status !== 'error') {
+                    console.log('newMail', resp)
+                }
+            }, (error)=>{
+                notificationService.error(error)
+            });
+            $scope.modalInstance.close();
+        } else {
+            notificationService.error($filter('translate')('Fill in the new mailing name'))
+        }
+    };
+
+
+    $scope.readerListToggle = function () {
+        $scope.opensListFlag = !$scope.opensListFlag;
+    };
+
+
+    function getCommonStatistics(statParams) {
+        let result = {};
+        if(statParams.opens > statParams.sent)
+            statParams.opens = statParams.sent;
+        let delivered = (statParams.sent!==undefined && statParams.undelivered!==undefined)?(statParams.sent - statParams.undelivered):0;
+        result = {
+            sent: statParams.sent?statParams.sent:0,
+            opens: statParams.opens?statParams.opens:0,
+            undelivered: statParams.undelivered?statParams.undelivered:0,
+            delivered:delivered,
+            notOpened: (statParams.opens!==undefined)?(delivered - statParams.opens):0
+        };
+        return result;
+    }
+
+
+    function getReadersList(readersList) {
+        let readers = [];
+        readersList.forEach((reader) => {
+            if(reader.status == 'open') {
+                readers.push({
+                    email: reader.subscriber.email,
+                    name: reader.subscriber.firstName + reader.subscriber.lastName,
+                    localId: reader.subscriber.localId
+                });
+            }
+        });
+        return readers;
+    }
+
+
+    function chartRendering(common) {
+        var myConfig = {
+            "type":"pie",
+            "plot": {
+                "borderColor": "#eee",
+                "borderWidth": 3,
+                "valueBox": {
+                    "placement": 'out',
+                    "text": '%t\n%npv%',
+                    "fontFamily": "Open Sans"
+                },
+                "tooltip":{
+                    "fontSize": '18',
+                    "fontFamily": "Open Sans",
+                    "padding": "5 10"
+                },
+                "animation":{
+                    "effect": 2,
+                    "method": 5,
+                    "speed": 900,
+                    "sequence": 1,
+                    "delay": 1000
+                }
+            },
+            "title":{
+                "text":$translate.instant('statistics'),
+                "fontColor": "#8e99a9",
+                "align": "left",
+                "offsetX": 10,
+                "fontFamily": "Open Sans",
+                "fontSize": 18
+            },
+            "plotarea": {
+                "margin": "20 0 0 0"
+            },
+            "series":[
+                {
+                    "values":[common.notOpened],
+                    "text": $translate.instant('Not opened')
+                },
+                {
+                    "values":[common.opens],
+                    "text": $translate.instant('Read'),
+                    "backgroundColor":"#7ca82b"
+                },
+                {
+                    "values":[common.undelivered],
+                    "text": $translate.instant('Not delivered'),
+                    "backgroundColor":"#d31e1e"
+                }
+            ]
+        };
+
+        zingchart.render({
+            id : 'commonStat',
+            data : myConfig,
+            height: 300,
+            width: "100%"
+        });
+        zingchart.render({
+            id : 'failsStat',
+            data : myConfig,
+            height: 300,
+            width: "100%"
+        });
+    }
+
+}]);
+component.component('saved',{
+    templateUrl: "partials/mailing/mailings-saved.html",
+    controller: function ($scope, $rootScope, $timeout, $anchorScroll, $localStorage, notificationService, $uibModal, $filter, ngTableParams, Mailing, Service) {
+        $scope.a = {};
+        $scope.a.searchNumber = 1;
+        $scope.requestParams = {
+            page: {number: 0, count: 15},
+            status: 'newComp'
+        };
+
+
+        $scope.toEditMailing = function (mailingForEdit) {
+            Mailing.makeStepClickable(3);
+            Mailing.toEditMailing(mailingForEdit);
+        };
+
+
+        $scope.tableParams = new ngTableParams({
+            page: 1,
+            count: $scope.requestParams.page.count
+        }, {
+            total: 0,
+            getData: function($defer, params) {
+                $rootScope.loading = true;
+                $scope.requestParams.page.number = params.$params.page - 1;
+                $scope.requestParams.page.count = params.$params.count;
+
+                function getMailings(page, count) {
+                    if(page || count) {
+                        $scope.requestParams.page.number = page;
+                        $scope.requestParams.page.count = count;
+                    } else {
+                        $scope.isShowMore = false;
+                        if(document.getElementById('scrollup'))
+                            document.getElementById('scrollup').style.display = 'none';
+                        $timeout(function() {
+                            $anchorScroll('mainTable');
+                        });
+                    }
+                    Mailing.getAllCompaigns($scope.requestParams, function(response) {
+                        $rootScope.loading = false;
+                        $scope.objectSize =  response['object'] != undefined ? response['object']['page']['totalElements'] : 0;
+                        params.total(response['object']['page']['totalElements']);
+                        $scope.paginationParams = {
+                            currentPage: $scope.requestParams.page.number,
+                            totalCount: $scope.objectSize
+                        };
+                        let pagesCount = response['object']['page']['totalPages'];
+                        if(pagesCount == $scope.requestParams.page.number + 1) {
+                            $('#show_more').hide();
+                        } else {
+                            $('#show_more').show();
+                        }
+                        if(page) {
+                            $scope.savedMailings = $scope.savedMailings.concat(response['object']['page']['content'])
+                        } else {
+                            $scope.savedMailings = response['object']['page']['content'];
+                        }
+                        $defer.resolve($scope.savedMailings);
+                        $scope.a.searchNumber = $scope.tableParams.page();
+                    });
+                }
+                getMailings();
+                $scope.showMore = function () {
+                    $scope.isShowMore = true;
+                    Service.dynamicTableLoading(params.total(), $scope.requestParams.page.number, $scope.requestParams.page.count, getMailings)
+                };
+            }
+        });
+
+
+        $scope.deleteMailing = function (name, id) {
+            $scope.mailingName = name;
+            $scope.mailingId = id;
+                $scope.modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '../partials/modal/delete-mailing.html',
+                    size: '',
+                    scope: $scope,
+                    resolve: function(){
+
+                    }
+                });
+        };
+
+
+        $scope.confirmDeleteMailing = function () {
+            let mailingsIds = [$scope.mailingId];
+            Mailing.deleteCompaign({compaignIds: mailingsIds}, function (resp) {
+                if(resp.status != 'error') {
+                    $scope.closeModal();
+                    $scope.tableParams.reload();
+                    notificationService.success($filter('translate')('Mailing deleted'));
+                    delete $scope.mailingName;
+                    delete $scope.mailingId;
+                } else {
+                    notificationService.error(resp.message);
+                }
+            }, function (err) {
+                notificationService.error('Error.')
+            });
+        };
+
+
+        $scope.closeModal = function () {
+            $scope.modalInstance.close();
+        };
+
+
+        $scope.sendMailing = function (mailingId) {
+            $rootScope.loading = true;
+            Mailing.sendCampaign(mailingId).then(result => {
+                $rootScope.loading = false;
+        }, error => {
+                console.log('Error in $scope.sendMailing', error);
+                $rootScope.loading = false;
+            });
+        };
+
+
+    }
+});
+component.component('sent', {
+    templateUrl: "partials/mailing/mailings-sent.html",
+    controller: function ($scope, $rootScope, $timeout, $anchorScroll , $localStorage, notificationService, $filter, $uibModal, ngTableParams, Mailing, Service) {
+        $scope.a = {};
+        $scope.a.searchNumber = 1;
+        $scope.requestParams = {
+            page: {number: 0, count: 15},
+            status: 'sent'
+        };
+        $scope.tableParams = new ngTableParams({
+            page: 1,
+            count: $scope.requestParams.page.count
+        }, {
+            total: 0,
+            getData: function($defer, params) {
+                $rootScope.loading = true;
+                $scope.requestParams.page.number = params.$params.page - 1;
+                $scope.requestParams.page.count = params.$params.count;
+
+                function getMailings(page, count) {
+                    if(page || count) {
+                        $scope.requestParams.page.number = page;
+                        $scope.requestParams.page.count = count;
+                    } else {
+                        $scope.isShowMore = false;
+                        if(document.getElementById('scrollup'))
+                            document.getElementById('scrollup').style.display = 'none';
+                        $timeout(function() {
+                            $anchorScroll('mainTable');
+                        });
+                    }
+                    Mailing.getAllCompaigns($scope.requestParams, function(response) {
+                        $rootScope.loading = false;
+                        $scope.objectSize =  response['object'] != undefined ? response['object']['page']['totalElements'] : 0;
+                        params.total(response['object']['page']['totalElements']);
+                        $scope.paginationParams = {
+                            currentPage: $scope.requestParams.page.number,
+                            totalCount: $scope.objectSize
+                        };
+                        let pagesCount = response['object']['page']['totalPages'];
+                        if(pagesCount == $scope.requestParams.page.number + 1) {
+                            $('#show_more').hide();
+                        } else {
+                            $('#show_more').show();
+                        }
+                        if(page) {
+                            $scope.sentMailings = $scope.sentMailings.concat(response['object']['page']['content'])
+                        } else {
+                            $scope.sentMailings = response['object']['page']['content'];
+                        }
+                        $defer.resolve($scope.sentMailings);
+                        $scope.a.searchNumber = $scope.tableParams.page();
+                    });
+                }
+                getMailings();
+                $scope.showMore = function () {
+                    $scope.isShowMore = true;
+                    Service.dynamicTableLoading(params.total(), $scope.requestParams.page.number, $scope.requestParams.page.count, getMailings)
+                };
+            }
+        });
+
+
+        $scope.toSentPreview = function (mailing) {
+            Mailing.toSentPreview(mailing);
+        };
+
+
+        $scope.cloneModal = function (id) {
+            $scope.cloningCompaignId = id;
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/mailing-clone.html',
+                size: '',
+                scope: $scope
+            });
+        };
+
+
+        $scope.cloneMailing = function (cloneName) {
+            if(cloneName && cloneName.length > 0) {
+                Mailing.cloneMailing({
+                    'compaignId': $scope.cloningCompaignId,
+                    'internalName': cloneName
+                },(resp)=> {
+                    if(resp.status !== 'error') {
+                        console.log('newMail', resp)
+                    }
+                }, (error)=>{
+                    notificationService.error(error)
+                });
+                $scope.modalInstance.close();
+            } else {
+                notificationService.error($filter('translate')('Fill in the new mailing name'))
+            }
+        };
+
+    }
+});
+component.component('sentMailingStatus',{
+    bindings: {
+        sent: '=',
+        delivered: '<',
+        opened: '<'
+    },
+    template: `
+                <div class="stat-sent" ng-class="{'not-completed': $ctrl.sent == 0}" title="{{$ctrl.titleTexts.sent}}" ng-bind="$ctrl.sent"></div>
+                <div class="stat-delivered" ng-class="{'not-completed': $ctrl.delivered < $ctrl.sent || $ctrl.sent == 0}" title="{{$ctrl.titleTexts.delivered}}" ng-bind="$ctrl.delivered"></div>
+                <div class="stat-opened" ng-class="{'not-completed': $ctrl.opened < $ctrl.sent || $ctrl.sent == 0}" title="{{$ctrl.titleTexts.opened}}" ng-bind="$ctrl.opened"></div>
+               `,
+    controller: function ($translate) {
+        this.$onInit = function () {
+            this.opened = (this.opened <= this.sent?this.opened:this.sent);
+            let titleTextsPerc = {
+                delivered: (Math.round(this.delivered/this.sent*10000))/100,
+                opened: (Math.round(this.opened/this.sent*10000))/100
+            };
+            let titleTextsAbs = {
+                sent: (this.sent ? this.sent : this.sent = 0),
+                delivered: (this.delivered ? this.delivered : this.delivered = 0),
+                opened: (this.opened ? this.opened : this.opened = 0)
+            };
+            this.titleTexts = {
+                sent: $translate.instant('Sent_stat') + ': ' + titleTextsAbs.sent,
+                delivered: $translate.instant('Delivered_stat') + ': ' + titleTextsAbs.delivered + ' (' + titleTextsPerc.delivered + '%)',
+                opened: $translate.instant('Opened_stat') + ': ' + titleTextsAbs.opened + ' (' + titleTextsPerc.opened + '%)',
+            };
+        };
+    },
+    controllerAs: '$ctrl'
+
+}).component('slideStatisticList',{
+    bindings:{
+        candidatesList: '<',
+        toggleFlag: '='
+    },
+    template: `<div class="slide-list-wrapper" ng-class="{'show': $ctrl.toggleFlag}">
+                    <div class="header row">
+                        <div class="col-lg-6" translate="full_name"></div>
+                        <div class="col-lg-6" translate="email"></div>
+                    </div>
+                    <div class="row" ng-repeat="candidate in $ctrl.candidatesList">
+                        <div class="col-lg-6" ><a href="!#/candidates/{{candidate.localId}}" target="_blank" ng-bind="candidate.name"></a></div>
+                        <div ng-bind="candidate.email" class="col-lg-6"></div>
+                    </div>
+               </div>`,
+    controllerAs: '$ctrl'
+});

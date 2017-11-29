@@ -1,0 +1,98 @@
+<div class="container-fluid sent-mailing-block">
+    <div class="breadcrumbs" breadcrumbs crumbs="$root.breadCrumbs"></div>
+    <div class="row header">
+        <div class="col-lg-12">
+            <h3>
+                <span translate="Mailing"></span>
+                "<span ng-bind="::sentMailing.internalName"></span>"
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="row sender">
+                <div class="col-lg-4 text-right" translate="Sender name and email"></div>
+                <div class="col-lg-8 text-left" >
+                    <span ng-bind="::sentMailing.fromName"></span>
+                    <<span ng-bind="::sentMailing.fromEmail"></span>>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 text-right" translate="Subject line"></div>
+                <div class="col-lg-8 text-left" ng-bind="::sentMailing.name"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 text-right" translate="Send date"></div>
+                <div class="col-lg-8 text-left">{{(sentMailing.sendDate)|dateFormat7:true}}</div>
+            </div>
+            <div class="row email-text">
+                <div class="col-lg-4 text-right" translate="Text of the letter"></div>
+                <div class="col-lg-8 text-left">
+                    <div class="text-block-wrapper">
+                        <div class="text-block" ng-bind-html="::sentMailing.html">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clone">
+                <div class="col-lg-4 text-right">
+                </div>
+                <div class="col-lg-8">
+                    <a translate="Clone mailing" ng-click="cloneModal()"></a>
+                    <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="top-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.mailingClone" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="row recipients">
+                <div class="col-lg-2 text-right" translate="Recipients_all"></div>
+                <div class="col-lg-10">
+                    <div class="recipients-table">
+                        <div class="row recipients-header">
+                            <div class="col-lg-6" translate="full_name"></div>
+                            <div class="col-lg-6" translate="email"></div>
+                        </div>
+                        <div class="recipients-scrollable">
+                            <div class="row recipients-list" ng-repeat="receiver in ::sentMailing.receivers">
+                                <div class="col-lg-6"><a ng-href="!#/candidates/{{receiver.localId}}" target="_blank" ng-bind="receiver.fullName"></a></div>
+                                <div class="col-lg-6" ng-bind="receiver.email"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Analytics -->
+    <div class="row statistics" ng-show="statistics.sent > 0">
+        <div class="col-lg-12 statistics-top">
+            <div class="col-lg-4">
+                <div translate="Sent_stat"></div>
+                <div ng-bind="statistics.sent"></div>
+            </div>
+            <div class="col-lg-4 read">
+                <div translate="Read"></div>
+                <div ng-bind="statistics.opens" class="count" ng-class="{'clickable': statistics.opens > 0}" ng-click="readerListToggle()"></div>
+                <slide-statistic-list ng-if="statistics.opens > 0" class="slide-list" candidates-list="readers" toggle-flag="opensListFlag"></slide-statistic-list>
+            </div>
+            <div class="col-lg-4">
+                <div translate="Not delivered"></div>
+                <div ng-bind="statistics.undelivered"></div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="row charts-header">
+                <div class="col-lg-12">
+                    <h4><span translate="Delivery result"></span>:</h4>
+                </div>
+            </div>
+            <div class="row charts">
+                <div class="col-lg-6" id="commonStat"></div>
+                <div class="col-lg-6" id="failsStat"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row go-back">
+        <button class="cancel-button" translate="Go back" history-back></button>
+    </div>
+</div>

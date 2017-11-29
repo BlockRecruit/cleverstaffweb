@@ -66,6 +66,7 @@ module.exports = function () {
 					, config.path.libDir + "select2/select2.min.js"
 					, config.path.libDir + "select2/angular-select2.js"
 					, config.path.libDir + "angular/angular-route.min.js"
+                    , config.path.libDir + "angular/angular-ui-router.min.js"
 					, config.path.libDir + "angular/angular-resource.min.js"
 					, config.path.libDir + "angular/angular-sanitize.min.js"
 					, config.path.libDir + "angular/angular-animate.min.js"
@@ -104,6 +105,7 @@ module.exports = function () {
 				filename: 'mainApp.js'
 				, files:  [
 					config.path.jsDir + "main/directive/directives.js"
+                    , config.path.jsDir + "main/directive/mailingDirectives.js"
 					, config.path.jsDir + "main/filter/filters.js"
 					, config.path.jsDir + "main/service/*.js"
 					, config.path.jsDir + "main/serviceMainApp.js"
@@ -119,6 +121,7 @@ module.exports = function () {
 					, config.path.jsDir + "main/globalFunction.js"
 					, config.path.jsDir + "main/controller/employee/*.js"
                     , config.path.jsDir + "main/controller/reports/*.js"
+                    , config.path.jsDir + "main/components/mailingComponents/*.js"
 				]
 			}
 		},

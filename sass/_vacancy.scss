@@ -284,6 +284,7 @@
 			}
 			.sortableOptions {
 				& > .status:last-child {
+					background-color: #eee;
 					&:hover {
 						background-color: #e3f2dd;
 					}
@@ -305,7 +306,57 @@
 					display: inline-block;
 				}
 				.links {
+					display: flex;
 					margin-top: 10px;
+					padding: 0;
+
+					justify-content: space-between;
+					.send-test {
+						& > a {
+							& > i {
+								top: 2px;
+							}
+						}
+					}
+					.mailing {
+						padding-right: 20px;
+						.letters {
+							top: 3px;
+							right: -23px;
+
+							display: inline-block;
+							width: 23px;
+							height: 15px;
+
+							background-image: url(../../images/sprite/icons/sprite.svg);
+							background-repeat: no-repeat;
+							background-position: 95% 15%;
+							background-size: 164px auto;
+						}
+					}
+					a {
+						position: relative;
+
+						display: inline-block;
+
+						text-align: left;
+						i {
+							position: absolute;
+							top: 0;
+							right: -20px;
+						}
+						.new-label {
+							font-size: 9px;
+
+							position: absolute;
+							right: -36px;
+							bottom: 15px;
+
+							margin-left: 2px;
+
+							color: red;
+						}
+					}
 				}
 				a {
 					cursor: pointer;
@@ -329,6 +380,16 @@
 					&:focus {
 						outline: none;
 					}
+				}
+				.col-lg-1 {
+					input {
+						margin-top: 14px;
+					}
+				}
+				.stage-name {
+					padding-left: 0;
+
+					white-space: nowrap;
 				}
 			}
 			.changeStatusBtn {
@@ -399,6 +460,13 @@
 					padding: 8px;
 
 					vertical-align: middle;
+					&:first-child {
+						width: 10px;
+						padding-left: 15px;
+						input {
+							margin-top: 5px;
+						}
+					}
 					&.candidate-deleted {
 						width: 27%;
 					}
@@ -432,7 +500,7 @@
 					padding-left: 8px;
 				}
 				.number {
-					width: 20px;
+					width: 45px;
 				}
 				.checklist {
 					width: 20px;
