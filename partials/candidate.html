@@ -86,15 +86,20 @@
                             </form>
                             <input ng-show="$root.me.recrutRole != 'client'" type="text" class="addTagsCandidate pull-left" ng-class="{addTagsCandidateForAdmin: $root.me.recrutRole == 'admin'}" id="candGroups" select2-groups groups="{{candidate.groups}}" placeholder="{{'add tags'| translate}}">
                         </div>
-                        <div class="col-xs-6 wrap-add-vacancy not-for-print">
-                            <img class="add-vacancy-icon"
-                                 src="../images/sprite/addVacancy.png" title="{{'Add to vacancy'|translate}}"
+                        <div class="col-xs-6 wrap-action-buttons not-for-print">
+                            <img class="action-button"
+                                 src="../images/sprite/addVacancy.png"
                                  alt="{{'Add to vacancy'|translate}}"
                                  ng-click="toAddVacancyForm(null, true, false);">
-                            <a type="button" for="vacancy" ng-click="toAddVacancyForm(null, true, false);"
-                               class="btn btn-primary find-button">
-                                {{'Add to vacancy'|translate}}
-                            </a>
+                            <!--<img ng-click="toEdit(candidate.localId)"-->
+                                 <!--class="action-button"-->
+                                 <!--src="../images/sprite/edit.png"-->
+                                 <!--alt="{{'edit_profile'|translate}}">-->
+                            <img ng-click="showModalAddCommentToCandidate('md');"
+                                 ng-show="$root.me.recrutRole != 'client'"
+                                 class="action-button"
+                                 src="../images/sprite/addMessage.png"
+                                 alt="{{'add_comment'|translate}}">
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-lg-12 participate-in-job not-for-print">
@@ -350,51 +355,57 @@
                 </div>
                 <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12 centerBar">
                     <div class="col-lg-12 profile-menu not-for-print">
-                        <ul class="hidden-sm hidden-xs">
+                        <ul class=" hidden-xs">
                             <li>
-                                <a href="" title="{{'Add to vacancy'|translate}}"
-                                           ng-click="toAddVacancyForm(null, true, false);"
-                                           class="addVacancy">
+                                <a href="" title="{{'Add to vacancy'|translate}}" ng-click="toAddVacancyForm(null, true, false);">
                                     <img src="../images/sprite/addVacancy.png" alt="{{'Add to vacancy'|translate}}">
                                 </a>
                             </li>
                             <li>
-                                <a href="" ng-click="toEdit(candidate.localId)">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                                    {{'Edited_1'|translate}}
-                                </a>
-                            </li>
-                            <li>
-                                <a ng-click="toggleDescriptionFunc('expand')" href="javaScript:window.print(); ">
-                                    <i class="fa fa-print" aria-hidden="true"></i>
-                                    {{'print'|translate}}
-                                </a>
-                            </li>
-                            <li ng-show="$root.hideTariff">
-                                <a ng-click="downloadDoc()">
-                                    <i class="fa fa-file-word-o" aria-hidden="true"></i>
-                                    {{'download_docx'|translate}}
+                                <a href="" title="{{'edit_profile'|translate}}" ng-click="toEdit(candidate.localId)">
+                                    <img src="../images/sprite/edit.png" alt="{{'edit_profile'|translate}}">
                                 </a>
                             </li>
                             <li ng-show="$root.me.recrutRole != 'client'">
-                                <a ng-click="showCandidateSentEmail()">
-                                    <i class="fa fa-envelope" aria-hidden="true"></i>
-                                    {{'Send email'|translate}}
+                                <a title="{{'add_comment'|translate}}" ng-click="showModalAddCommentToCandidate('md');">
+                                    <img src="../images/sprite/addMessage.png" alt="{{'Add to vacancy'|translate}}">
+                                </a>
+                            </li>
+                            <li ng-show="$root.me.recrutRole != 'client'">
+                                <a title="{{'Send email'|translate}}" ng-click="showCandidateSentEmail()">
+                                    <img class="lessSize" src="../images/sprite/sendEmail.png" alt="{{'Send email'|translate}}">
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class=" hidden-xs right-side">
+                            <li>
+                                <a href="javaScript:window.print(); " title="{{'print'|translate}}" ng-click="toggleDescriptionFunc('expand')">
+                                    <img src="../images/sprite/Print.png" alt="{{'Add to vacancy'|translate}}">
+                                </a>
+                            </li>
+                            <li ng-show="$root.hideTariff">
+                                <a title="{{'Download as docx'|translate}}" ng-click="downloadDoc()">
+                                    <img src="../images/sprite/download.png" alt="{{'Add to vacancy'|translate}}">
+                                </a>
+                            </li>
+                            <li class="last-child" ng-show="true">
+                                <a title="{{'Merge with another profile'|translate}}" ng-click="merge()">
+                                    <img src="../images/sprite/merge.png" alt="{{'Add to vacancy'|translate}}">
                                 </a>
                             </li>
                             <input type="file" oi-file="optionsForTemplate" id="fileTemplate" class="hidden"/>
                             <a style="display: none;" id="downloadDoc"></a>
-                            <li>
-                                <button id="disabledBtn" ng-click="$root.disabledBtnFunc();" ng-show="!$root.hideTariff"
+                            <li ng-if="!$root.hideTariff">
+                                <button id="disabledBtn" ng-click="$root.disabledBtnFunc();"
                                         type="button" class="btn btn-default disabled">
                                     {{'download_docx'|translate}}
                                 </button>
                             </li>
                         </ul>
-                        <img ng-click="toAddVacancyForm(null, true, false);"
-                             src="../images/sprite/addVacancy.png" alt="{{'Add to vacancy'|translate}}"
-                             class="addVacancy-icon-tablet">
-                        <a href="" ng-click="showModalAddCommentToCandidate('md');" class="pull-right move-bot"><i class="fa fa-pencil" aria-hidden="true"></i>{{'add_comment'|translate}}</a>
+                        <!--<img ng-click="toAddVacancyForm(null, true, false);"-->
+                             <!--src="../images/sprite/addVacancy.png" alt="{{'Add to vacancy'|translate}}"-->
+                             <!--class="addVacancy-icon-tablet">-->
+                        <!--<a href="" ng-click="showModalAddCommentToCandidate('md');" class="pull-right move-bot"><i class="fa fa-pencil" aria-hidden="true"></i>{{'add_comment'|translate}}</a>-->
                     </div>
                     <div class="main-info col-lg-12">
                         <div class="col-lg-6">
@@ -741,7 +752,7 @@
                                 <ng-include src="'partials/history/candidate/candidate_change_state.html'"></ng-include>
                             </div>
                             <div class="col-lg-12" ng-switch-when="candidate_message">
-                                <ng-include src="'partials/history/candidate/candidate_message.html?1'"></ng-include>
+                                <ng-include src="'partials/history/candidate/candidate_message.html'"></ng-include>
                             </div>
                             <div class="col-lg-12 not-for-print" ng-switch-when="task_create">
                                 <ng-include src="'partials/history/client/task_create.html'"></ng-include>
@@ -1004,7 +1015,7 @@
                                 <ng-include src="'partials/history/candidate/candidate_change_state.html'"></ng-include>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_message">
-                                <ng-include src="'partials/history/candidate/candidate_message.html?1'"></ng-include>
+                                <ng-include src="'partials/history/candidate/candidate_message.html'"></ng-include>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="task_create">
                                 <ng-include src="'partials/history/client/task_create.html'"></ng-include>
