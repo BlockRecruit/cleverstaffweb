@@ -663,19 +663,16 @@
                                 <input ng-show="$root.me.recrutRole != 'client'" ng-click="pushCandidateToVacancy(user)" type="checkbox" ng-model="user.added"/>
                             </td>
                             <td class="text-center width-for-table-eye" ng-context-menu="menuOptions" ng-class="{'text-right':!user.countActiveVacancy}">
-                                <span class="count-active-vacancy pull-left" ng-show="user.countActiveVacancy"
-                                      title="{{'This candidate added to'|translate}}{{::user.countActiveVacancy}}{{'active vacancies'|translate}}" ng-bind="::user.countActiveVacancy">
+                               <span class="count-active-vacancy" ng-show="user.countActiveVacancy"
+                                     title="{{'This candidate added to'|translate}}{{::user.countActiveVacancy}}{{'active vacancies'|translate}}">
+                                    {{::user.countActiveVacancy}}
                                 </span>
                                 <span data-title="'PREVIEW'" priview pageid="candidate_pages" candidate="user"
-                                      class="preview-candidate pull-right hidden-xs">
+                                      class="preview-candidate hidden-xs">
                                     <i show-preview-candidate candidate="user" title="{{'Profile preview'|translate}}" class="fa fa-address-card-o text_change"
                                        aria-hidden="true"></i>
                                 </span>
-                            </td>
-                            <td class="name" data-title="'Name'" ng-context-menu="menuOptions" sortable="fullName">
-                                <a ng-if="user.fullName" ng-href="#/candidates/{{user.localId}}" ng-click="tofullinformation($event,user)"
-                                   bo-html="::user.fullName"></a>
-                                <span ng-repeat="file in user.files| orderBy:'-url'" class="hidden-xs">
+                                <span ng-repeat="file in user.files| orderBy:'-url'" class="hidden-xs user-files user-files-block" ng-if="user.files.length <= 1">
                                     <a ng-href="{{::serverAddress}}/getapp/{{::file.fileId}}/{{::file.fileName}}"
                                        ng-show="file.fileId"
                                        ng-show="user.files"
@@ -688,6 +685,28 @@
                                            aria-hidden="true"></i>
                                     </span>
                                 </span>
+                                <i ng-if="user.files.length > 1" ng-click="showUserFiles(user)" ng-class="{'arrow-up' : clickedUser === user, 'arrow-down':clickedUser !== user}" class="fa fa-paperclip user-files-toggle"  aria-hidden="true"></i>
+                                <!--<i ng-if="user.files.length > 1 && clickedUser !== user" ng-click="showUserFiles(user)" class="fa fa-chevron-down user-files-toggle" aria-hidden="true"></i>-->
+                                <!--<i ng-if="user.files.length > 1 && clickedUser === user" ng-click="showUserFiles(user)" class="fa fa-chevron-up user-files-toggle" aria-hidden="true"></i>-->
+                                <div class="user-files toggle" ng-show="clickedUser === user">
+                                    <span ng-repeat="file in user.files| orderBy: 'showGDocs'" ng-class="{'half-width' : !file.showGDocs}" class="file">
+                                        <a ng-href="{{::serverAddress}}/getapp/{{::file.fileId}}/{{::file.fileName}}"
+                                           ng-show="file.fileId"
+                                           ng-show="user.files"
+                                           title="{{'Download file'|translate}}{{file.fileName| fileNameCut:0:25}}">
+                                            <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                        </a>
+                                        <span data-title="'PREVIEW'" ng-show="file.showGDocs" priview
+                                              pageid="candidate_pages" candidate="user" class="preview-docs">
+                                            <i show-preview-candidate candidate="user" class="fa fa-eye text_change"
+                                               aria-hidden="true"></i>
+                                        </span>
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="name" data-title="'Name'" ng-context-menu="menuOptions" sortable="fullName">
+                                <a ng-if="user.fullName" ng-click="tofullinformation($event,user)"
+                                   translate="{{::user.fullName}}"></a>
                                 <!--ng-click="showCandidateFiles(user.candidateId);"-->
                                 <!--<div class="saveCandidateFile" ng-show="candidateIdFiles == user.candidateId">-->
                                 <!--<div ng-repeat="file in user.files| orderBy:'-url'" class="pull-left">-->

@@ -430,8 +430,7 @@
 			}
 		}
 		.candidates-search-table {
-			margin-top: 15px;
-			.breadcrumbs {
+			margin-top: 15px;.breadcrumbs {
 				margin-top: 0;
 				& > .breadcrumb {
 					padding: 0;
@@ -1299,14 +1298,77 @@
 							& > .text-center {
 								color: $theme-dark-green;
 								&.width-for-table-eye {
+									position: relative;
+
 									cursor: pointer;
+									.user-files {
+										max-width: 44px;
+										margin: 0 auto;
+
+										text-align: center;
+										&.toggle {
+											position: absolute;
+											z-index: 100;
+											left: calc(50% - 22px); // 22px - half of .user-files width
+
+											display: block;
+											margin-top: 5px;
+
+											border: 1px solid rgba(0, 0, 0, 0.2);
+											background-color: #fff;
+										}
+										.fa-paperclip {
+											display: inline-block;
+											margin-right: 4px;
+										}
+										a:hover,
+										a:focus {
+											text-decoration: none;
+										}
+									}
+									.user-files-block {
+										display: block;
+									}
+									.user-files-toggle {
+										position: relative;
+
+										display: block;
+										margin-top: 2px;
+
+										text-align: center;
+
+										color: #000;
+										&.arrow-up::after {
+											font-size: 11px;
+
+											content: "▲";
+
+											color: #000;
+										}
+										&.arrow-down::after {
+											font-size: 11px;
+
+											content: "▼";
+
+											color: #000;
+										}
+									}
+									.file {
+										display: inline-block;
+										min-width: 44px;
+										&.half-width {
+											min-width: 21px;
+											padding-left: 2px;
+										}
+									}
 								}
 								.count-active-vacancy {
-									font-size: 12px;
+									font-size: 11px;
+									line-height: 12px;
 
 									display: inline-block;
-									width: 21px; //17 fz 12
-									height: 21px;
+									width: 14px;
+									height: 14px;
 
 									border: 1px solid $theme-light-grey;
 									border-radius: 50%;

@@ -1014,6 +1014,19 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $(".AdvancedSearchCandidate,.sortBy").click(function (e){
         e.stopPropagation();
     });
+
+    $scope.clickedUser = null;
+
+    $scope.showUserFiles = function(user) {
+        if($scope.clickedUser !== user) {
+            var clickedUserIndex = $scope.tableParams.data.indexOf(user);
+            $scope.clickedUser = $scope.tableParams.data[clickedUserIndex];
+        } else {
+            $scope.clickedUser = null;
+        }
+        console.log($scope.tableParams.data[clickedUserIndex]);
+    };
+
     $scope.closeSearchTags = function (param){
         if(param == 'industry'){
             $scope.staticSearchParam[0].industry = 'null';
