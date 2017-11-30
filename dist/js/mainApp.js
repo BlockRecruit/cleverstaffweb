@@ -13545,6 +13545,7 @@ angular.module('RecruitingApp', [
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
     $translateProvider.translations('ua');
+    $translateProvider.translations('pt');
     var userLang = navigator.language || navigator.userLanguage;
     var lST = userLang.substring(0, 2);
     if (lST == "ru" || lST == "be") {
@@ -13552,6 +13553,9 @@ angular.module('RecruitingApp', [
     }
     if (lST == "uk") {
         $translateProvider.preferredLanguage('ua');
+    }
+    if (lST == "pt") {
+        $translateProvider.preferredLanguage('pt');
     } else {
       $translateProvider.preferredLanguage('en');
     }
@@ -28038,7 +28042,8 @@ function navBarController(Vacancy, serverAddress, notificationService, $scope, t
                 }
                 $rootScope.updateQuestStatus();
                 if (response.object.personParams != undefined && response.object.personParams.lang != undefined) {
-                    $rootScope.currentLang = response.object.personParams.lang === 'en' || response.object.personParams.lang === 'ru' ? response.object.personParams.lang : 'en';
+                    // $rootScope.currentLang = response.object.personParams.lang === 'en' || response.object.personParams.lang === 'ru' ? response.object.personParams.lang : 'en';
+                    $rootScope.currentLang = response.object.personParams.lang;
                     tmhDynamicLocale.set($rootScope.currentLang);
                     $translate.use($rootScope.currentLang);
                 }
@@ -33557,7 +33562,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         data.object.text = data.object.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $scope.vacancy.position + '</a>');
                         data.object.text = data.object.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName);
                         data.object.title = data.object.title.replace(/\[\[vacancy name\]\]/g, $scope.vacancy.position);
-                        console.log('data.object.text,$scope.publicLink',data.object.text,$scope.publicLink)
                         $rootScope.sendEmailTemplate.template = data.object;
                         $rootScope.sendEmailTemplate.template.text = $rootScope.sendEmailTemplate.template.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName ? $rootScope.candnotify.fullName : "");
                         $rootScope.sendEmailTemplate.template.text = $rootScope.sendEmailTemplate.template.text.replace(/\[\[recruiter's phone\]\]/g, $rootScope.me.phone ? $rootScope.me.phone : "");
@@ -33583,7 +33587,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         if($rootScope.sendEmailTemplate.template.fileId && $rootScope.sendEmailTemplate.template.fileName){
                             $rootScope.fileForSave.push({"fileId": $rootScope.sendEmailTemplate.template.fileId, "fileName": $rootScope.sendEmailTemplate.template.fileName});
                         }
-                        console.log('$rootScope.sendEmailTemplate',$rootScope.sendEmailTemplate)
                     });
                 },0);
             });

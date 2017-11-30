@@ -675,6 +675,7 @@ angular.module('RecruitingApp', [
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
     $translateProvider.translations('ua');
+    $translateProvider.translations('pt');
     var userLang = navigator.language || navigator.userLanguage;
     var lST = userLang.substring(0, 2);
     if (lST == "ru" || lST == "be") {
@@ -682,6 +683,9 @@ angular.module('RecruitingApp', [
     }
     if (lST == "uk") {
         $translateProvider.preferredLanguage('ua');
+    }
+    if (lST == "pt") {
+        $translateProvider.preferredLanguage('pt');
     } else {
       $translateProvider.preferredLanguage('en');
     }

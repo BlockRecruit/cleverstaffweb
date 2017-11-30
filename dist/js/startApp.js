@@ -95,12 +95,15 @@ var app = angular.module('RecruitingAppStart', [
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
     $translateProvider.translations('ua');
+    $translateProvider.translations('pt');
     var userLang = navigator.language || navigator.userLanguage;
     var lST = userLang.substring(0, 2);
     if (lST == "ru" || lST == "be") {
         $translateProvider.preferredLanguage('ru');
     } else if (lST == "uk") {
         $translateProvider.preferredLanguage('ua');
+    } else if (lST == "pt") {
+        $translateProvider.preferredLanguage('pt');
     } else {
         $translateProvider.preferredLanguage('en');
     }
