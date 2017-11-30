@@ -8,9 +8,16 @@
     </a>
 </div>
 <div class="col-lg-10">
-    {{'candidates'|translate}} <span class="comma"><span ng-repeat="candidate in history.candidates"><a href="#/candidates/{{candidate.localId}}">{{candidate.fullName}}</a></span></span>
+    {{'candidates'|translate}}
+    <span class="comma">
+        <span ng-repeat="candidate in history.candidates">
+            <a href="#/candidates/{{candidate.localId}}">{{candidate.fullName}}
+                <span ng-if="history.candidates.indexOf(candidate) < history.candidates.length - 1">,</span>
+            </a>
+        </span>
+    </span>
     <span ng-show="$root.currentLang =='ru' || $root.currentLang =='ua'">{{'by_vacancy'|translate}}</span>
-    <span ng-show="$root.currentLang =='en'">{{'on vacancy'|translate}}</span> <a href="#/vacancies/{{history.vacancy.localId}}">{{history.vacancy.position}}</a>
+    <span ng-show="$root.currentLang =='en'">{{'for vacancy'|translate}}</span> <a href="#/vacancies/{{history.vacancy.localId}}">{{history.vacancy.position}}</a>
     <span ng-show="candidatesLengts!=0">{{'and another'|translate}} {{candidatesLengts}}</span> {{'were sent to the Email'|translate}}
     <span ng-switch="$root.me.personParams.clientAccessLevel">
         <span ng-switch-when="hide">{{history.client.name}}</span>
