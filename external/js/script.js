@@ -4713,6 +4713,7 @@ function signupForm() {
                 $("#after_registration_message").css('display', 'block');
                 $("#reg_company_name").text(res.orgName);
                 $("#reg_email").text(res.login);
+                fbq('track', 'Registration');
                 if(res.lang == 'ru'){
                     window.location.replace("/finishreg");
                 }else if(res.lang == 'en'){
