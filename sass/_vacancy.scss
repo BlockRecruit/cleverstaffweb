@@ -150,10 +150,16 @@
 				.admin {
 					.fa-unlock {
 						visibility: hidden;
+						&.visible {
+							visibility: visible;
+						}
 					}
 
 					.fa-lock {
 						visibility: visible;
+						&.visible {
+							visibility: visible;
+						}
 					}
 				}
 				&:hover .admin {
@@ -209,8 +215,25 @@
 				}
 			}
 			.settings {
-				margin-top: 10px;
+				margin-top: 8px;
 				margin-left: 10px;
+				a {
+					display: block;
+					width: 23px;
+					height: 23px;
+
+					background-image: url("/images/sprite/settings-icon.svg");
+					background-repeat: no-repeat;
+					background-position: 0 0;
+					background-size: 45px;
+					&:hover,
+					&:active,
+					&:focus {
+						cursor: pointer;
+
+						background-position: -22px 0;
+					}
+				}
 			}
 			a {
 				text-decoration: none;
@@ -521,6 +544,7 @@
 			.alert-success {
 				position: absolute;
 				z-index: 9;
+				top: 0;
 				right: 0;
 				left: 0;
 
@@ -547,8 +571,6 @@
 
 					cursor: pointer;
 					input {
-						margin-left: 5px;
-
 						vertical-align: top;
 					}
 				}
