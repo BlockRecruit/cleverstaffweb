@@ -4311,6 +4311,7 @@ function signupGoogle() {
                     url: 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + access_token,
                     data: null,
                     success: function(user) {
+                        fbq('track', 'Registration');
                         console.log('user', user);
                         $("#google_mail").val(user.email);
                         $("#google_name").val(user.name);
@@ -4754,6 +4755,7 @@ function signupFacebook() {
         if (response.authResponse) {
             var code = response.authResponse.accessToken; //get access token
             FB.api('/me?fields=email,name', function(user) {
+                fbq('track', 'Registration');
                 console.log(user);
                 $("#facebook_mail").val(user.email);
                 $("#facebook_name").val(user.name);
