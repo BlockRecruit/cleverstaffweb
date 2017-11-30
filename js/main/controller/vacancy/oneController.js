@@ -425,7 +425,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     }
                 });
             } else {
-                notificationService.error($filter('translate')('Please select a date'));
+                notificationService.error($filter('translate')('Select the interview date'));
             }
         };
         $rootScope.getTextToCopy = function () {
