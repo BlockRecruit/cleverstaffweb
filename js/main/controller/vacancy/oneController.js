@@ -400,29 +400,33 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             var object = $rootScope.vacancyChangeInterviewDate;
             var newDate = $('.changeVacancyInterviewDatePicker').datetimepicker('getDate') != null ?
                 $('.changeVacancyInterviewDatePicker').datetimepicker('getDate').getTime() : null;
-            Vacancy.changeInterviewDate({
-                interviewId: object.interviewObject.interviewId,
-                date: newDate,
-                comment: object.comment != null ? object.comment : "",
-                lang: $translate.use()
-            }, function (resp) {
-                object.interviewObject.dateInterview = newDate;
-                $rootScope.closeModal();
-                Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
-                    $scope.vacancy = resp.object;
-                    $rootScope.vacancy = resp.object;
-                    $scope.tableParams.reload();
-                });
-                $scope.getLastEvent();
-                if ($rootScope.selectedCalendar != undefined) {
-                    if ($rootScope.calendarShow) {
-                        googleCalendarUpdateEvent(googleService, new Date(newDate), resp.object.candidateId.fullName,
-                            $scope.vacancy.position, $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
-                            resp.object.comment, resp.object.interviewId + object.interviewObject.state, $filter);
-                    }
+            if(newDate) {
+                Vacancy.changeInterviewDate({
+                    interviewId: object.interviewObject.interviewId,
+                    date: newDate,
+                    comment: object.comment != null ? object.comment : "",
+                    lang: $translate.use()
+                }, function (resp) {
+                    object.interviewObject.dateInterview = newDate;
+                    $rootScope.closeModal();
+                    Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
+                        $scope.vacancy = resp.object;
+                        $rootScope.vacancy = resp.object;
+                        $scope.tableParams.reload();
+                    });
+                    $scope.getLastEvent();
+                    if ($rootScope.selectedCalendar != undefined) {
+                        if ($rootScope.calendarShow) {
+                            googleCalendarUpdateEvent(googleService, new Date(newDate), resp.object.candidateId.fullName,
+                                $scope.vacancy.position, $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
+                                resp.object.comment, resp.object.interviewId + object.interviewObject.state, $filter);
+                        }
 
-                }
-            });
+                    }
+                });
+            } else {
+                notificationService.error($filter('translate')('Please select a date'));
+            }
         };
         $rootScope.getTextToCopy = function () {
             return $scope.publicLink;
