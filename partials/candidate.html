@@ -361,12 +361,12 @@
                                     <img src="../images/sprite/addVacancy.png" alt="{{'Add to vacancy'|translate}}">
                                 </a>
                             </li>
-                            <li>
+                            <li ng-show="$root.me.recrutRole != 'salesmanager' && $root.me.recrutRole != 'client'">
                                 <a href="" title="{{'edit_profile'|translate}}" ng-click="toEdit(candidate.localId)">
                                     <img src="../images/sprite/edit.png" alt="{{'edit_profile'|translate}}">
                                 </a>
                             </li>
-                            <li ng-show="$root.me.recrutRole != 'client'">
+                            <li>
                                 <a title="{{'add_comment'|translate}}" ng-click="showModalAddCommentToCandidate('md');">
                                     <img src="../images/sprite/addMessage.png" alt="{{'Add to vacancy'|translate}}">
                                 </a>
@@ -388,7 +388,7 @@
                                     <img src="../images/sprite/download.png" alt="{{'Add to vacancy'|translate}}">
                                 </a>
                             </li>
-                            <li class="last-child" ng-show="true">
+                            <li class="last-child" ng-show="$root.me.recrutRole == 'admin' && $root.me.recrutRole == 'recruter'">
                                 <a title="{{'Merge with another profile'|translate}}" ng-click="merge()">
                                     <img src="../images/sprite/merge.png" alt="{{'Add to vacancy'|translate}}">
                                 </a>
