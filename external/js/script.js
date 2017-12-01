@@ -2926,6 +2926,7 @@ $('#askQuestionSubmit2').on('click',function(e){
             $('.softForm').css('display', 'none');
             $('.numberVacancyForm').css('display', 'none');
             $('.keyRequirementsForm').css('display', 'none');
+            fbq('track', 'Schedule a demo');
             //$('#contact').slideUp('slow');
             //$('.tyMessageQuestion').delay(800).fadeIn();
         },
@@ -3415,6 +3416,7 @@ $('#askQuestionSubmit3').on('click',function(e){
       $('.softForm').css('display', 'none');
       $('.numberVacancyForm').css('display', 'none');
       $('.keyRequirementsForm').css('display', 'none');
+      fbq('track', 'Schedule a demo');
       //$('#contact').slideUp('slow');
       //$('.tyMessageQuestion').delay(800).fadeIn();
     },
@@ -3492,6 +3494,7 @@ $('#askQuestionSubmit4').on('click',function(e){
             $('.numberVacancyForm').css('display', 'none');
             $('.usersCountForm').css('display', 'none');
             $('.keyRequirementsForm').css('display', 'none');
+            fbq('track', 'Schedule a demo');
             //$('#contact').slideUp('slow');
             //$('.tyMessageQuestion').delay(800).fadeIn();
         }
