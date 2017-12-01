@@ -49,7 +49,7 @@
                         <input type="file" oi-file="optionsForEditFromResume" multiple="multiple" id="fileForEditFromResume" style="display:none"/>
                         <div class="col-lg-12 candidate-foto" ng-show="candidate.photo">
                             <div>
-                                <img class="photoWidth small-image-for-print" ng-src="{{serverAddress}}/getapp?id={{candidate.photo}}&d={{$root.me.personId}}" alt="" ng-if="candidate.photo"/>
+                                <img id="page_avatar" class="photoWidth small-image-for-print" ng-src="{{serverAddress}}/getapp?id={{candidate.photo}}&d={{$root.me.personId}}" alt="" ng-if="candidate.photo"/>
                             </div>
                         </div>
                         <div class="col-sm-12 col-xs-6 candidate-control not-for-print" ng-class="{'groups': candidate.groups.length > 0}">

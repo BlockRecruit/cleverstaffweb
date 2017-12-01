@@ -5910,19 +5910,13 @@ angular.module('services.candidate', [
                                 }
                                 if (c.type == "email") {
                                     $scope.dublicetesTypeEmail = c.type;
-                                    console.log($scope.dublicetesTypeEmail);
                                 }
                                 if (c.type == "skype") {
                                     $scope.dublicetesTypeSkype = c.type;
-                                    console.log($scope.dublicetesTypeSkype);
                                 }
                                 if (c.type == "linkedin") {
                                     $scope.dublicetesTypeLinkedin = c.type;
                                 }
-                                console.log($scope.duplicatesByNameAndContacts.length > 0);
-                                console.log($scope.dublicetesTypeSkype);
-                                console.log($scope.contacts.skype.length > 0);
-                                console.log($scope.duplicatesByNameAndContacts);
                             }
                         });
                     } else {
