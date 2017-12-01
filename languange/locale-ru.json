@@ -347,6 +347,7 @@
   "write_a_comment_why_do_you_add_responsible_user": "Ваш комментарий по назначению ответственного (не обязательно)",
   "write_a_comment_why_do_you_add_candidate": "Ваш комментарий по добавлению кандидата (не обязательно)",
   "select candidate": "Введите фамилию или имя кандидата",
+  "select merge candidate": "Введите имя кандидата",
   "write_a_comment_why_do_you_remove_responsible_user": "Напишите комментарий, почему Вы удаляете ответственного",
   "candidates_who_may_approach_on_this_vacancy": "Кандидаты, найденные на эту вакансию",
   "candidates_who_declined_job_offer": "Отказавшиеся кандидаты",
@@ -514,6 +515,7 @@
     "In__vacancy": "в вакансию",
     "ADDed_in": "Добавлен в",
     "added_candidate": "Добавлен кандидат",
+    "merged with": "Объединён с",
     "added_candidate_from_superJob": "добавлен из SuperJob",
     "updated_candidate_from_superJob": "Кандидат обновлен из SuperJob",
     "added_candidate_from_cvlv": "добавлен из Cv.lv",
@@ -2786,6 +2788,8 @@
   "enter_phone_length": "Вы можете ввести не более 15 символов",
   "Please choose the E-mail from which the letter will be sent":"Пожалуйста выберите E-mail,  с которого будет отправлено письмо",
   "saved":"сохранен",
+  "Merge Duplicates": "Объединить дубликаты",
+  "Choose data that differs in two candidate profiles and save the correct one": "Выбирайте различающиеся данные из двух профилей кандидатов и сохраняйте верные.",
   "numberOfPositions":"Количество позиций",
   "Candidate has been removed from the database": "Кандидат удален из базы",
   "Restore": "Восстановить",
@@ -2802,18 +2806,35 @@
   "Please, choose the date": "Пожалуйста выберите дату",
   "Share vacancy via LinkedIn": "Опубликовать в LinkedIn",
   "Share vacancy via Facebook": "Опубликовать в Facebook",
+  "Choose fields for Merge": "Выберите поля для обьединения",
+  "candidate_": "кандидатом",
   "Show more": "Показать ещё",
   "Only account administrator is able to make a payment":"Только администратор аккаунта может произвести оплату",
   "Candidate added in vacancy": "Кандидат добавлен в вакансию",
   "Candidates added in vacancy": "Кандидаты добавлены в вакансию",
   "Select the interview date": "Выберите дату собеседования",
+<<<<<<< HEAD
+=======
+  "The large quantity of results has been found.": "Найдено большое количество результатов. Показано <b>{{total_count}}</b>. Уточните критерии, чтобы получить более точные результаты",
+<<<<<<< HEAD
+>>>>>>> add-merge-dublicates
   "_Previous": "Предыдущая",
   "_Next": "Следующая",
   "_Show": "Отображать",
   "items on page": "строк на одной странице",
   "Go to initial page": "На исходную страницу",
   "You has granted role": "Вы назначили роль",
+<<<<<<< HEAD
   "_for":"для",
   "The large quantity of results has been found.": "Найдено большое количество результатов. Показано <b>{{total_count}}</b>. Уточните критерии, чтобы получить более точные результаты",
   "Please add the candidates to this stage":"Добавьте кандидатов на этап"
+=======
+  "_for":"для"
+=======
+  "The 'rules' of profiles merge": "При объединении профилей:",
+  "Only fields with different values are available for selection": "Для выбора отображаются только поля с различными значениями.",
+  "If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default": "Не отобразятся поле, которое \"пустое\" в одном из профилей и \"заполненное\" в другом: в объединённом профиле сохранится только \"заполненное\" значение по умолчанию.",
+  "Tags in the merged profile will be saved from both original ones": "Теги в объединённом профиле кандидата сохранятся из обоих оригинальных профилей."
+>>>>>>> add-merge-dublicates
+>>>>>>> add-merge-dublicates
 }

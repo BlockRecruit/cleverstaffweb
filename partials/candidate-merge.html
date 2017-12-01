@@ -3,28 +3,25 @@
         <div class="row candidate-add-information">
             <div class="col-lg-6 fullName-position">
                 <span>{{'Merge profile with another candidate'|translate}}</span>
+                <p>
+                    {{'Choose data that differs in two candidate profiles and save the correct one'|translate}}
+                    <i class="fa fa-info-circle profilesMerge" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.profilesMerge" aria-hidden="true"></i>
+                </p>
             </div>
             <a type="button" ng-click="saveCandidate()" class="btn btn-primary pull-right saveButton">
                 <span>
                     {{'save'|translate}}
                 </span>
             </a>
-            <div ng-show="duplicatesByName.length > 0 || duplicatesByPhone.length > 0 || duplicatesByEmail.length > 0 || duplicatesBySkype.length > 0 || duplicatesByLinkedin.length > 0" class="alert col-lg-9 alert-danger duplicate-alert pull-right">
+            <a type="button" href="#/candidates/{{candidate.localId}}" class="btn btn-primary btn-cancel pull-right cancelBtn">
+                <span>
+                    {{'cancel'|translate}}
+                </span>
+            </a>
+            <div ng-show="duplicatesByNameAndContacts.length > 0" class="alert col-lg-9 alert-danger duplicate-alert pull-right">
                 <span>{{'Maybe, you have similar candidates in your database' | translate}}:</span>
-                <label ng-repeat="duplicate in duplicatesByName">
-                    <a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>
-                </label>
-                <label ng-repeat="duplicate in duplicatesByPhone">
-                    <a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>
-                </label>
-                <label ng-repeat="duplicate in duplicatesByEmail">
-                    <a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>
-                </label>
-                <label ng-repeat="duplicate in duplicatesBySkype">
-                    <a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>
-                </label>
-                <label ng-repeat="duplicate in duplicatesByLinkedin">
-                    <a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>
+                <label ng-repeat="duplicate in duplicatesByNameAndContacts">
+                    <a ng-href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>
                 </label>
             </div>
             <div class="row candidate-add-profile-rezume">
@@ -224,94 +221,178 @@
                 <div class="col-lg-9 centerBar">
                     <form name="candidateForm" ng-submit="submitForm()" novalidate>
                         <div class="main-info col-lg-12">
-                            <div class="col-lg-4">
-                                <div class="item with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.fullName"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.fullName, false, 'fullName')" ng-init="src.fullName = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                            <div class="col-lg-6">
+                                <div class="item with-border fullNames" ng-show="candidateBeforeMerge.fullName != candidate2.fullName">
                                     <label>{{'full_name'|translate}}*</label>
-                                    <input ng-maxlength="50" placeholder="" ng-change="checkDuplicatesByName()" ng-class="{'error': candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.required == true || duplicatesByName.length > 0}" name="name" ng-model="candidate.fullName" type="text" required ng-blur="checkDuplicatesByName()">
-                                    <div class="alert alert-danger" ng-show="candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.required == true">
-                                        {{'enter_candidate_name'|translate}}
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.fullName"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.fullName, false, 'fullName')" ng-init="src.fullName = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.fullName = '0'">
+                                        <button type="button" class="btn btn-secondary" ng-class="{'active': src.fullName == '1', 'fullName' : src.fullName == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'fullName')" title="{{candidateBeforeMerge.fullName}}">{{candidateBeforeMerge.fullName}}</button>
+                                        <button type="button" class="btn btn-secondary secondBtn" ng-class="{'active': src.fullName == '2', 'fullName' : src.fullName == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'fullName')" title="{{candidate2.fullName}}">{{candidate2.fullName}}</button>
                                     </div>
-                                    <div class="alert alert-danger"
-                                         ng-show="candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.maxlength == true">
-                                        {{'text_should_be_no_longer_than_50_characters'|translate}}
-                                    </div>
+                                    <!--<label>{{'full_name'|translate}}*</label>-->
+                                    <!--<input ng-maxlength="50" placeholder="" ng-change="checkDuplicatesByName()" ng-class="{'error': candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.required == true || duplicatesByName.length > 0}" name="name" ng-model="candidate.fullName" type="text" required ng-blur="checkDuplicatesByName()">-->
+                                    <!--<div class="alert alert-danger" ng-show="candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.required == true">-->
+                                    <!--{{'enter_candidate_name'|translate}}-->
+                                    <!--</div>-->
+                                    <!--<div class="alert alert-danger"-->
+                                    <!--ng-show="candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.maxlength == true">-->
+                                    <!--{{'text_should_be_no_longer_than_50_characters'|translate}}-->
+                                    <!--</div>-->
                                 </div>
-                                <div class="item">
+                                <div class="item with-border hidden" ng-show="(candidateBeforeMerge.db && candidate2.db) && candidateBeforeMerge.db != candidate2.db">
                                     <label>{{'date_of_birth'|translate}}</label>
-                                    <input placeholder="" class="datepickerOfBirth" type="text" style="background-image: url('images/sprite/calendar.png');background-position: right center;background-repeat: no-repeat;">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button ng-show="candidateBeforeMerge.db" type="button" class="btn btn-secondary" ng-class="{'active': src.db == '1'}"
+                                                ng-click="selectSource('1', null, null, false, 'db')" title="{{candidateBeforeMerge.db}}">{{candidateBeforeMerge.db}}</button>
+                                        <button ng-show="candidate2.db" type="button" class="btn btn-secondary secondBtn" ng-class="{'active': src.db == '2'}"
+                                                ng-click="selectSource('2', null, null, false, 'db')" title="{{candidate2.db}}">{{candidate2.db}}</button>
+                                    </div>
+                                    <!--<input placeholder="" class="datepickerOfBirth" type="text" style="background-image: url('images/sprite/calendar.png');background-position: right center;background-repeat: no-repeat;">-->
                                 </div>
-                                <div class="btn-group" role="group" aria-label="Basic example" ng-init="candidate.sex = true">
-                                    <button type="button" class="btn btn-secondary" ng-class="{'active': candidate.sex == true}"
-                                            ng-click="candidate.sex = true">{{'male'|translate}}</button>
-                                    <button type="button" class="btn btn-secondary" ng-class="{'active': candidate.sex == false}"
-                                            ng-click="candidate.sex = false">{{'female'|translate}}</button>
+                                <div class="with-border sex hidden">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button type="button" class="btn btn-secondary" ng-class="{'active': candidate.sex == true}"
+                                                ng-click="candidate.sex = true">{{'male'|translate}}</button>
+                                        <button type="button" class="btn btn-secondary" ng-class="{'active': candidate.sex == false}"
+                                                ng-click="candidate.sex = false">{{'female'|translate}}</button>
+                                    </div>
                                 </div>
-                                <div class="item with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.salary"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.salary, false, 'salary')" ng-init="src.salary = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="item with-border salarys" ng-show="(candidateBeforeMerge.salary > 0 && candidate2.salary > 0) && candidateBeforeMerge.salary != candidate2.salary">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.salary"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.salary, false, 'salary')" ng-init="src.salary = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>{{'desired_salary'|translate}}</label>
-                                    <input class="pull-left" placeholder="" name="salary" ng-model="candidate.salary" type="number"
-                                            min="0" max="99999999">
-                                    <select class="select2-container form-control input-lg select2  select14 widthSelectInput"
-                                            ng-model="candidate.currency" ng-init="candidate.currency = 'USD'"
-                                            ng-options="currency.value as currency.value for currency in currency">
-                                        <option value="" ng-if="false"></option>
-                                    </select>
-                                    <div class="alert alert-danger" ng-show="candidateForm.salary.$invalid && !candidateForm.salary.$pristine && candidateForm.salary.$error.required == true">
-                                        {{'enter_salary'|translate}}.
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.salary = '0'">
+                                        <button ng-show="candidateBeforeMerge.salary > 0" type="button" class="btn btn-secondary" ng-class="{'active': src.salary == '1', 'salary' : src.salary == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'salary')" title="{{candidateBeforeMerge.salary}} {{candidateBeforeMerge.currency}}">{{candidateBeforeMerge.salary}} {{candidateBeforeMerge.currency}}</button>
+                                        <button ng-show="candidate2.salary > 0" type="button" class="btn btn-secondary secondBtn" ng-class="{'active': src.salary == '2', 'salary' : src.salary == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'salary')" title="{{candidate2.salary}} {{candidate2.currency}}">{{candidate2.salary}} {{candidate2.currency}}</button>
                                     </div>
+                                    <!--<input class="pull-left" placeholder="" name="salary" ng-model="candidate.salary" type="number"-->
+                                    <!--min="0" max="99999999">-->
+                                    <!--<select class="select2-container form-control input-lg select2  select14 widthSelectInput"-->
+                                    <!--ng-model="candidate.currency" ng-init="candidate.currency = 'USD'"-->
+                                    <!--ng-options="currency.value as currency.value for currency in currency">-->
+                                    <!--<option value="" ng-if="false"></option>-->
+                                    <!--</select>-->
+                                    <!--<div class="alert alert-danger" ng-show="candidateForm.salary.$invalid && !candidateForm.salary.$pristine && candidateForm.salary.$error.required == true">-->
+                                    <!--{{'enter_salary'|translate}}.-->
+                                    <!--</div>-->
                                 </div>
-                                <div class="item with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.education"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.education, false, 'education')" ng-init="src.education = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="item with-border educations" ng-show="(candidateBeforeMerge.education && candidate2.education) && candidateBeforeMerge.education != candidate2.education">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.education"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.education, false, 'education')" ng-init="src.education = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>{{'education'|translate}}</label>
-                                    <input name="education" ng-maxlength="100" placeholder="" ng-model="candidate.education" type="text">
-                                    <div class="alert alert-danger"
-                                         ng-show="candidateForm.education.$invalid && !candidateForm.education.$pristine && candidateForm.education.$error.maxlength == true">
-                                        {{'text_should_be_no_longer_than_100_characters'|translate}}
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.education = '0'">
+                                        <button ng-show="candidateBeforeMerge.education" type="button" class="btn btn-secondary" ng-class="{'active': src.education == '1', 'education' : src.education == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'education')" title="{{candidateBeforeMerge.education}}">{{candidateBeforeMerge.education}}</button>
+                                        <button ng-show="candidate2.education" type="button" class="btn btn-secondary pull-right" ng-class="{'active': src.education == '2', 'education' : src.education == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'education')" title="{{candidate2.education}}">{{candidate2.education}}</button>
+                                    </div>
+                                    <!--<input name="education" ng-maxlength="100" placeholder="" ng-model="candidate.education" type="text">-->
+                                    <!--<div class="alert alert-danger"-->
+                                    <!--ng-show="candidateForm.education.$invalid && !candidateForm.education.$pristine && candidateForm.education.$error.maxlength == true">-->
+                                    <!--{{'text_should_be_no_longer_than_100_characters'|translate}}-->
+                                    <!--</div>-->
+                                </div>
+                                <div class="item with-border langs" ng-show="candidateBeforeMerge.languages.length > 0 && candidate2.languages.length > 0">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.languages"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.languages, false, 'languages')" ng-init="src.languages = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
+                                    <label>{{'Languages (choose/add)'|translate}}</label>
+                                    <div class="btn-group langs" role="group" aria-label="Basic example" ng-init="src.languages = '0'">
+                                        <button ng-show="candidateBeforeMerge.languages.length > 0" type="button" class="btn btn-secondary" ng-class="{'active': src.languages == '1', 'languages' : src.languages == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'languages')">
+                                            <span ng-repeat="lang in candidateBeforeMerge.languages" title="{{lang.name}}, {{lang.level|translate}}">
+                                                {{lang.name}}, {{lang.level|translate}}<br>
+                                            </span>
+                                        </button>
+                                        <button ng-show="candidate2.languages.length > 0" type="button" class="btn btn-secondary secondBtn" ng-class="{'active': src.languages == '2', 'languages' : src.languages == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'languages')">
+                                            <span ng-repeat="lang in candidate2.languages" title="{{lang.name}}, {{lang.level|translate}}">
+                                                {{lang.name}}, {{lang.level|translate}}<br>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <input placeholder="{{'Choose/add'|translate}}" class="pull-left select-lang-container hidden" select2-lang name="languages"  type="text"/>
+                                    <div class="pull-right levelDiv hidden">
+                                        <select class="addingLangs pull-right" ng-repeat="langId in addedLang track by $index" id="{{langId.id}}"
+                                                name="level" title="{{'Proficiency level'|translate}}" ng-change="changeLevel(candidate.level[$index], langId.id);"
+                                                ng-model="candidate.level[$index]">
+                                            <option value="undefined" ng-selected="langId.level == 'undefined' || langId.level == null">{{'undefined'|translate}}</option>
+                                            <option value="Basic" ng-selected="langId.level == 'Basic'">{{'Basic'|translate}}</option>
+                                            <option value="Pre_Intermediate" ng-selected="langId.level == 'Pre_Intermediate'">{{'Pre_Intermediate'|translate}}</option>
+                                            <option value="Intermediate" ng-selected="langId.level == 'Intermediate'">{{'Intermediate'|translate}}</option>
+                                            <option value="Upper_Intermediate" ng-selected="langId.level == 'Upper_Intermediate'">{{'Upper_Intermediate'|translate}}</option>
+                                            <option value="Advanced" ng-selected="langId.level == 'Advanced'">{{'Advanced'|translate}}</option>
+                                            <option value="Native" ng-selected="langId.level == 'Native'">{{'Native'|translate}}</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="item with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.languages"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.languages, false, 'languages')" ng-init="src.languages = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
-                                    <label>{{'languages'|translate}}</label>
-                                    <input placeholder="" select2-lang name="languages"  type="text" >
+                                <div class="item with-border customFieldss" ng-show="candidateBeforeMerge.customFields.length > 0 && candidate2.customFields.length > 0 && (fieldValueFirstValue && fieldValueSecondValue)">
+                                    <div class="customFirstCandidate pull-left">
+                                        <div ng-show="candidateBeforeMerge.customFields.length > 0 && customField.fieldValue" ng-repeat="customField in candidateBeforeMerge.customFields track by customField.fieldId">
+                                            <label>{{customField.title}}</label>
+                                            <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.fieldValues = '0'">
+                                                <button type="button" class="btn btn-secondary customFieldBtn{{$index}}" ng-class="{'fieldValues' : src.customFields == '0'}"
+                                                        ng-click="selectSource('1', $index, customField, false, 'fieldValues')" value="{{customField.fieldId}}" title="{{customField.fieldValue.value}}">
+                                                    <span ng-if="(customField.type == 'string' || customField.type == 'select') && customField.state == 'A'">{{customField.fieldValue.value}}</span>
+                                                    <span ng-if="customField.type == 'date' && customField.state == 'A'">{{customField.fieldValue.dateTimeValue|dateFormat}}</span>
+                                                    <span ng-if="customField.type == 'datetime' && customField.state == 'A'">{{customField.fieldValue.dateTimeValue|dateFormat2:true}}</span>
+                                                </button>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <div class="customSecondCandidate pull-right">
+                                        <div ng-show="candidate2.customFields.length > 0 && customField.fieldValue" ng-repeat="customField in candidate2.customFields track by customField.fieldId">
+                                            <label>{{customField.title}}</label>
+                                            <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.customFields = '0'">
+                                                <button type="button" class="btn btn-secondary secondBtn customFieldSecondBtn{{$index}}" ng-class="{'fieldValues' : src.customFields == '0'}"
+                                                        ng-click="selectSource('2', $index, customField, false, 'fieldValues')" value="{{customField.fieldId}}" title="{{customField.fieldValue.value}}">
+                                                    <span ng-if="(customField.type == 'string' || customField.type == 'select') && customField.state == 'A'">{{customField.fieldValue.value}}</span>
+                                                    <span ng-if="customField.type == 'date' && customField.state == 'A'">{{customField.fieldValue.dateTimeValue|dateFormat}}</span>
+                                                    <span ng-if="customField.type == 'datetime' && customField.state == 'A'">{{customField.fieldValue.dateTimeValue|dateFormat2:true}}</span>
+                                                </button>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="item with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.region"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.region, false, 'region')" ng-init="src.region = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="item with-border regions" ng-show="(candidateBeforeMerge.region.displayFullName && candidate2.region.displayFullName) && candidateBeforeMerge.region.displayFullName != candidate2.region.displayFullName">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.region"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.region, false, 'region')" ng-init="src.region = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>
                                         {{'lives_in'|translate}}
                                         <span ng-show="region2">-</span>
@@ -321,168 +402,292 @@
                                             <span translate="showMap"></span>
                                         </a>
                                     </label>
-
-                                    <div ng-init="candidate.region">
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.region = '0'">
+                                        <button ng-show="candidateBeforeMerge.region.displayFullName" type="button" class="btn btn-secondary region"
+                                                ng-class="{'active': src.region == '1', 'region' : src.region == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'region')" title="{{candidateBeforeMerge.region.displayFullName}}">
+                                            {{candidateBeforeMerge.region.displayFullName}}
+                                        </button>
+                                        <button ng-show="candidate2.region.displayFullName" type="button" class="btn btn-secondary secondBtn"
+                                                ng-class="{'active': src.region == '2', 'region' : src.region == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'region')" title="{{candidate2.region.displayFullName}}">
+                                            {{candidate2.region.displayFullName}}
+                                        </button>
+                                    </div>
+                                    <div class="hidden">
                                         <input id="pac-input" placeholder="{{'Enter the address'|translate}}" ng-model="regionInput" googleplace/>
                                     </div>
-                                    <div ng-if="showRegion2Map" class="clever-window" style="width: 471px;left: 29px;">
-                                        <ui-gmap-google-map center="map.center" draggable='true' zoom="map.zoom" options="map.options">
-                                            <ui-gmap-marker coords="marker.coords" idkey="marker.id">
-                                            </ui-gmap-marker>
-                                        </ui-gmap-google-map>
-                                    </div>
+                                    <!--<div ng-if="showRegion2Map" class="clever-window" style="width: 471px;left: 29px;">-->
+                                    <!--<ui-gmap-google-map center="map.center" draggable='true' zoom="map.zoom" options="map.options">-->
+                                    <!--<ui-gmap-marker coords="marker.coords" idkey="marker.id">-->
+                                    <!--</ui-gmap-marker>-->
+                                    <!--</ui-gmap-google-map>-->
+                                    <!--</div>-->
                                 </div>
-                                <div class="item">
-                                    <label style="margin-bottom: 4px;">
-                                        <input id="Readytorelocate" ng-model="candidate.readyRelocate" ng-init="candidate.readyRelocate = false" type="checkbox">
-                                        <label for="Readytorelocate">{{'ready_to_relocate'|translate}}</label>
-                                    </label>
-
-                                    <div  ng-show="candidate.readyRelocate == true">
-                                        <div class="select2-container select2-container-multi" >
-                                            <ul class="select2-choices" style="border: 0px solid rgba(0, 0, 0, 0.15);" >
-                                                <li style="border-radius: 0px;margin:3px 0 3px 2px;" class="select2-search-choice" ng-repeat="regionToRelocate in regionToRelocate">
-                                                    <a  class="select2-search-choice-close" ng-click="deleteRegion2ToRelocate($index)"></a>
-                                                    <div>{{regionToRelocate.fullName}}</div>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <span ng-show="candidate.readyRelocate == true">
-                                  <div>
-                                      <input id="pac-input2" placeholder="{{'Enter a location'|translate}}" class="pac-input" ng-model="regionInputRelocate" googleplacerelocate=""/>
-                                  </div>
-                                </span>
+                                <div class="item with-border hidden" ng-show="(candidateBeforeMerge.readyRelocate && candidateBeforeMerge.relatedRegions) || (candidate2.readyRelocate && candidate2.relatedRegions)">
+                                    <!--<label style="margin-bottom: 4px;">-->
+                                    <!--<input id="Readytorelocate" ng-model="candidate.readyRelocate" ng-init="candidate.readyRelocate = false" type="checkbox">-->
+                                    <!--</label>-->
+                                    <label>{{'ready_to_relocate'|translate}}</label>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <button ng-show="candidateBeforeMerge.readyRelocate && candidateBeforeMerge.relatedRegions.length > 0" type="button" class="btn btn-secondary"
+                                                ng-class="{'active': src.relatedRegions == '1'}" ng-click="selectSource('1', null, null, false, 'relatedRegions')">
+                                            <span class="displayed" ng-repeat="relatedRegions in candidateBeforeMerge.relatedRegions" title="{{relatedRegions.displayFullName}}">
+                                                {{relatedRegions.displayFullName}}
+                                            </span>
+                                        </button>
+                                        <button ng-show="candidate2.readyRelocate && candidate2.relatedRegions.length > 0" type="button" class="btn btn-secondary secondBtn"
+                                                ng-class="{'active': src.relatedRegions == '2'}" ng-click="selectSource('2', null, null, false, 'relatedRegions')">
+                                            <span class="displayed" ng-repeat="relatedRegions in candidate2.relatedRegions" title="{{relatedRegions.displayFullName}}">
+                                                {{relatedRegions.displayFullName}}
+                                            </span>
+                                        </button>
                                     </div>
+
+                                    <!--<div  ng-show="candidate.readyRelocate == true">-->
+                                    <!--<div class="select2-container select2-container-multi" >-->
+                                    <!--<ul class="select2-choices" style="border: 0px solid rgba(0, 0, 0, 0.15);" >-->
+                                    <!--<li style="border-radius: 0px;margin:3px 0 3px 2px;" class="select2-search-choice" ng-repeat="regionToRelocate in regionToRelocate">-->
+                                    <!--<a  class="select2-search-choice-close" ng-click="deleteRegion2ToRelocate($index)"></a>-->
+                                    <!--<div>{{regionToRelocate.fullName}}</div>-->
+                                    <!--</li>-->
+                                    <!--</ul>-->
+                                    <!--</div>-->
+
+                                    <!--<span ng-show="candidate.readyRelocate == true">-->
+                                    <!--<div>-->
+                                    <!--<input id="pac-input2" placeholder="{{'Enter a location'|translate}}" class="pac-input" ng-model="regionInputRelocate" googleplacerelocate=""/>-->
+                                    <!--</div>-->
+                                    <!--</span>-->
+                                    <!--</div>-->
                                 </div>
                             </div>
-                            <div class="col-lg-4">
-                                <div class="item with-border" ng-class="{'error-select': candidateForm.position.$invalid && !candidateForm.position.$pristine}">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.position"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.position, false, 'position')" ng-init="src.position = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                            <div class="col-lg-6">
+                                <div class="item with-border positions" ng-show="(candidateBeforeMerge.position && candidateBeforeMerge.position.length > 1 && candidate2.position && candidate2.position.length > 1) && candidateBeforeMerge.position != candidate2.position">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.position"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.position, false, 'position')" ng-init="src.position = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>{{'desired position'|translate}}*</label>
-                                    <input position-autocompleter class="positionAutocompleterOuterSelect" ng-maxlength="200" name="position" ng-model="candidate.position" type="text" required>
-                                    <div class="alert alert-danger" ng-show="candidateForm.position.$invalid && !candidateForm.position.$pristine && candidateForm.position.$error.required == true">
-                                        {{'enter_position_name'|translate}}
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.position = '0'">
+                                        <button ng-show="candidateBeforeMerge.position && candidateBeforeMerge.position.length > 1" type="button" class="btn btn-secondary"
+                                                ng-class="{'active': src.position == '1', 'position' : src.position == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'position')" title="{{candidateBeforeMerge.position}}">
+                                            {{candidateBeforeMerge.position}}
+                                        </button>
+                                        <button ng-show="candidate2.position && candidate2.position.length > 1" type="button" class="btn btn-secondary secondBtn"
+                                                ng-class="{'active': src.position == '2', 'position' : src.position == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'position')" title="{{candidate2.position}}">
+                                            {{candidate2.position}}
+                                        </button>
                                     </div>
-                                    <div class="alert alert-danger"
-                                         ng-show="candidateForm.position.$invalid && !candidateForm.position.$pristine && candidateForm.position.$error.maxlength == true">
-                                        {{'text_should_be_no_longer_than_200_characters'|translate}}
-                                    </div>
+                                    <input position-autocompleter class="positionAutocompleterOuterSelect hidden" ng-maxlength="200" name="position" ng-model="candidate.position" type="text" required>
+                                    <!--<div class="alert alert-danger" ng-show="candidateForm.position.$invalid && !candidateForm.position.$pristine && candidateForm.position.$error.required == true">-->
+                                    <!--{{'enter_position_name'|translate}}-->
+                                    <!--</div>-->
+                                    <!--<div class="alert alert-danger"-->
+                                    <!--ng-show="candidateForm.position.$invalid && !candidateForm.position.$pristine && candidateForm.position.$error.maxlength == true">-->
+                                    <!--{{'text_should_be_no_longer_than_200_characters'|translate}}-->
                                 </div>
-                                <div class="item with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.industry"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.industry, false, 'industry')" ng-init="src.industry = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="item with-border industrys" ng-show="(candidateBeforeMerge.industry && candidate2.industry) && candidateBeforeMerge.industry != candidate2.industry">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.industry"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.industry, false, 'industry')" ng-init="src.industry = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label class="label-top">{{'industry'|translate}}</label>
-                                    <select ng-model="candidate.industry"
-                                            class="select2-container form-control input-lg select2 select14 widthSelectInput1" style="width: 100%;">
-                                        <option ng-repeat="industry in industries" value="{{industry.value}}">
-                                            {{'industries_assoc.' + [industry.value]|translate}}
-                                        </option>
-                                    </select>
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.industry = '0'">
+                                        <button ng-show="candidateBeforeMerge.industry" type="button" class="btn btn-secondary"
+                                                ng-class="{'active': src.industry == '1', 'industry' : src.industry == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'industry')" title="{{'industries_assoc.' + candidateBeforeMerge.industry|translate}}">
+                                            {{'industries_assoc.' + candidateBeforeMerge.industry|translate}}
+                                        </button>
+                                        <button ng-show="candidate2.industry" type="button" class="btn btn-secondary secondBtn"
+                                                ng-class="{'active': src.industry == '2', 'industry' : src.industry == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'industry')" title="{{'industries_assoc.' + candidate2.industry|translate}}">
+                                            {{'industries_assoc.' + candidate2.industry|translate}}
+                                        </button>
+                                    </div>
+                                    <!--<select ng-model="candidate.industry"-->
+                                    <!--class="select2-container form-control input-lg select2 select14 widthSelectInput1" style="width: 100%;">-->
+                                    <!--<option ng-repeat="industry in industries" value="{{industry.value}}">-->
+                                    <!--{{'industries_assoc.' + [industry.value]|translate}}-->
+                                    <!--</option>-->
+                                    <!--</select>-->
                                 </div>
-                                <div class="item with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.expirence"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.expirence, false, 'expirence')" ng-init="src.expirence = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="item with-border expirences" ng-show="(candidateBeforeMerge.expirence && candidate2.expirence) && candidateBeforeMerge.expirence != candidate2.expirence">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.expirence"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.expirence, false, 'expirence')" ng-init="src.expirence = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label class="label-top">{{'experience'|translate}}</label>
-                                    <select ng-model="candidate.expirence"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-selected="ex.value == candidate.expirence">
-                                        <option value="{{ex.value}}" ng-repeat="ex in experience">{{'experience_assoc.' + ex.value|translate}}</option>
-                                    </select>
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.expirence = '0'">
+                                        <button ng-show="candidateBeforeMerge.expirence" type="button" class="btn btn-secondary"
+                                                ng-class="{'active': src.expirence == '1', 'expirence' : src.expirence == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'expirence')" title="{{'experience_assoc.' + candidateBeforeMerge.expirence|translate}}">
+                                            {{'experience_assoc.' + candidateBeforeMerge.expirence|translate}}
+                                        </button>
+                                        <button ng-show="candidate2.expirence" type="button" class="btn btn-secondary secondBtn"
+                                                ng-class="{'active': src.expirence == '2', 'expirence' : src.expirence == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'expirence')" title="{{'experience_assoc.' + candidate2.expirence|translate}}">
+                                            {{'experience_assoc.' + candidate2.expirence|translate}}
+                                        </button>
+                                    </div>
+                                    <!--<select ng-model="candidate.expirence"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-selected="ex.value == candidate.expirence">-->
+                                    <!--<option value="{{ex.value}}" ng-repeat="ex in experience">{{'experience_assoc.' + ex.value|translate}}</option>-->
+                                    <!--</select>-->
                                 </div>
-                                <div class="item item-top with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.employmentType"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.employmentType, false, 'employmentType')" ng-init="src.employmentType = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="item item-top with-border employmentTypes" ng-show="(candidateBeforeMerge.employmentType && candidate2.employmentType) && candidateBeforeMerge.employmentType != candidate2.employmentType">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.employmentType"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.employmentType, false, 'employmentType')" ng-init="src.employmentType = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>{{'employment_type'|translate}}</label>
-                                    <div class="typeOfJob">
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.employmentType = '0'">
+                                        <button ng-show="candidateBeforeMerge.employmentType" type="button" class="btn btn-secondary"
+                                                ng-class="{'active': src.employmentType == '1', 'employmentType' : src.employmentType == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'employmentType')" title="{{'employment_type_assoc.' + candidateBeforeMerge.employmentType|translate}}">
+                                             <span ng-repeat="emplType in candidateBeforeMerge.employmentType.split(',') track by $index">
+                                                {{emplType.trim() | translate}}
+                                             </span>
+                                        </button>
+                                        <button ng-show="candidate2.employmentType" type="button" class="btn btn-secondary secondBtn"
+                                                ng-class="{'active': src.employmentType == '2', 'employmentType' : src.employmentType == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'employmentType')" title="{{'employment_type_assoc.' + candidate2.employmentType|translate}}">
+                                            <span ng-repeat="emplType in candidate2.employmentType.split(',') track by $index">
+                                                {{emplType.trim() | translate}}
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <div class="typeOfJob hidden">
                                         <input placeholder="" select2-employment-type  type="text">
                                     </div>
                                 </div>
-                                <div class="item item-top with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.currentWorkPlace"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.currentWorkPlace, false, 'currentWorkPlace')" ng-init="src.currentWorkPlace = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="item item-top with-border currentWorkPlaces" ng-show="(candidateBeforeMerge.currentWorkPlace && candidate2.currentWorkPlace) && candidateBeforeMerge.currentWorkPlace != candidate2.currentWorkPlace">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.currentWorkPlace"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.currentWorkPlace, false, 'currentWorkPlace')" ng-init="src.currentWorkPlace = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>{{'Current company'|translate}}</label>
-                                    <input name="currentWorkPlace" ng-maxlength="100" placeholder="" ng-model="candidate.currentWorkPlace" type="text">
-                                    <div class="alert alert-danger"
-                                         ng-show="candidateForm.currentWorkPlace.$invalid && !candidateForm.currentWorkPlace.$pristine && candidateForm.currentWorkPlace.$error.maxlength == true">
-                                        {{'text_should_be_no_longer_than_100_characters'|translate}}
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.currentWorkPlace = '0'">
+                                        <button ng-show="candidateBeforeMerge.currentWorkPlace" type="button" class="btn btn-secondary"
+                                                ng-class="{'active': src.currentWorkPlace == '1', 'currentWorkPlace' : src.currentWorkPlace == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'currentWorkPlace')" title="{{candidateBeforeMerge.currentWorkPlace}}">
+                                            {{candidateBeforeMerge.currentWorkPlace}}
+                                        </button>
+                                        <button ng-show="candidate2.currentWorkPlace" type="button" class="btn btn-secondary secondBtn"
+                                                ng-class="{'active': src.currentWorkPlace == '2', 'currentWorkPlace' : src.currentWorkPlace == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'currentWorkPlace')" title="{{candidate2.currentWorkPlace}}">
+                                            {{candidate2.currentWorkPlace}}
+                                        </button>
                                     </div>
+                                    <!--<input name="currentWorkPlace" ng-maxlength="100" placeholder="" ng-model="candidate.currentWorkPlace" type="text">-->
+                                    <!--<div class="alert alert-danger"-->
+                                    <!--ng-show="candidateForm.currentWorkPlace.$invalid && !candidateForm.currentWorkPlace.$pristine && candidateForm.currentWorkPlace.$error.maxlength == true">-->
+                                    <!--{{'text_should_be_no_longer_than_100_characters'|translate}}-->
+                                    <!--</div>-->
                                 </div>
-                                <div class="item item-top with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.currentPosition"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.currentPosition, false, 'currentPosition')" ng-init="src.currentPosition = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="item item-top with-border currentPositions" ng-show="(candidateBeforeMerge.currentPosition && candidate2.currentPosition) && candidateBeforeMerge.currentPosition != candidate2.currentPosition">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.currentPosition"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.currentPosition, false, 'currentPosition')" ng-init="src.currentPosition = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>{{'Current position'|translate}}</label>
-                                    <input name="currentPosition" ng-maxlength="100" placeholder="" ng-model="candidate.currentPosition" type="text">
-                                    <div class="alert alert-danger"
-                                         ng-show="candidateForm.currentPosition.$invalid && !candidateForm.currentPosition.$pristine && candidateForm.currentPosition.$error.maxlength == true">
-                                        {{'text_should_be_no_longer_than_100_characters'|translate}}
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.currentPosition = '0'">
+                                        <button ng-show="candidateBeforeMerge.currentPosition" type="button" class="btn btn-secondary"
+                                                ng-class="{'active': src.currentPosition == '1', 'currentPosition' : src.currentPosition == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'currentPosition')" title="{{candidateBeforeMerge.currentPosition}}">
+                                            {{candidateBeforeMerge.currentPosition}}
+                                        </button>
+                                        <button ng-show="candidate2.currentPosition" type="button" class="btn btn-secondary secondBtn"
+                                                ng-class="{'active': src.currentPosition == '2', 'currentPosition' : src.currentPosition == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'currentPosition')" title="{{candidate2.currentPosition}}">
+                                            {{candidate2.currentPosition}}
+                                        </button>
                                     </div>
+                                    <!--<input name="currentPosition" ng-maxlength="100" placeholder="" ng-model="candidate.currentPosition" type="text">-->
+                                    <!--<div class="alert alert-danger"-->
+                                    <!--ng-show="candidateForm.currentPosition.$invalid && !candidateForm.currentPosition.$pristine && candidateForm.currentPosition.$error.maxlength == true">-->
+                                    <!--{{'text_should_be_no_longer_than_100_characters'|translate}}-->
+                                    <!--</div>-->
                                 </div>
 
-                                <div class="item with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.origin"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.origin, false, 'origin')" ng-init="src.origin = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="item with-border origins" ng-show="(candidateBeforeMerge.origin && candidate2.origin) && candidateBeforeMerge.origin != candidate2.origin">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.origin"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.origin, false, 'origin')" ng-init="src.origin = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>{{'source'|translate}}</label>
-                                    <input origin-autocompleter >
-                                    <label  class="ng-binding" style="font-size:12px; color:#666;">{{'Here you can write any text or choose used previous value'|translate}}</label>
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.origin = '0'">
+                                        <button ng-show="candidateBeforeMerge.origin" type="button" class="btn btn-secondary"
+                                                ng-class="{'active': src.origin == '1', 'origin' : src.origin == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'origin')" title="{{candidateBeforeMerge.origin}}">
+                                            {{candidateBeforeMerge.origin}}
+                                        </button>
+                                        <button ng-show="candidate2.origin" type="button" class="btn btn-secondary secondBtn"
+                                                ng-class="{'active': src.origin == '2', 'origin' : src.origin == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'origin')" title="{{candidate2.origin}}">
+                                            {{candidate2.origin}}
+                                        </button>
+                                    </div>
+                                    <input class="hidden" origin-autocompleter >
+                                    <!--<label  class="ng-binding" style="font-size:12px; color:#666;">{{'Here you can write any text or choose used previous value'|translate}}</label>-->
                                 </div>
                             </div>
-                            <div class="col-lg-4 contactCandidate">
-                                <div class="item with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.mphone"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.mphone, true, 'mphone')" ng-init="src.mphone = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                            <div class="col-lg-12 contactCandidate">
+                                <div class="col-lg-6 item with-border mphones" ng-show="(contacts.mphone && contacts2.mphone) && contacts.mphone != contacts2.mphone">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.mphone"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.mphone, true, 'mphone')" ng-init="src.mphone = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>{{'phone'|translate}}</label>
-                                    <input placeholder="" ng-model="contacts.mphone" type="text" ng-change="checkDuplicatesByPhone()" ng-blur="checkDuplicatesByPhone()" ng-class="{'error':duplicatesByPhone.length > 0}">
-                                    <i class="phone icon"></i>
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.mphone = '0'">
+                                        <button ng-repeat="mphone in candidateBeforeMerge.contacts|filter :'mphone'" title="{{mphone.value}}" type="button"
+                                                class="btn btn-secondary" ng-class="{'active': src.mphone == '1', 'mphone' : src.mphone == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'mphone')">
+                                            {{mphone.value}}
+                                        </button>
+                                        <button ng-repeat="mphone in candidate2.contacts|filter :'mphone'" title="{{mphone.value}}" type="button"
+                                                class="btn btn-secondary secondBtn" ng-class="{'active': src.mphone == '2', 'mphone' : src.mphone == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'mphone')" >
+                                            {{mphone.value}}
+                                        </button>
+                                    </div>
+                                    <!--<input placeholder="" ng-model="contacts.mphone" type="text" ng-change="checkDuplicatesByPhone()" ng-blur="checkDuplicatesByPhone()" ng-class="{'error':duplicatesByPhone.length > 0}">-->
+                                    <!--<i class="phone icon"></i>-->
                                     <!--<div class="ui red pointing above ui label"  ng-show="duplicatesByPhone.length > 0" style="width: 100%">-->
                                     <!--<label class="ui icon" style="float: right;cursor: pointer" ng-click="duplicatesByPhone = []"><i class="icon close"></i></label>-->
                                     <!--<label>{{'Already have a candidate with such phone'|translate}}:</label>-->
@@ -493,18 +698,30 @@
                                     <!--</div>-->
 
                                 </div>
-                                <div class="item with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.email"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.email, true, 'email')" ng-init="src.email = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="col-lg-6 item with-border emails" ng-show="(contacts.email && contacts2.email) && contacts.email != contacts2.email">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.email"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.email, true, 'email')" ng-init="src.email = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>Email</label>
-                                    <input placeholder="" ng-model="contacts.email" type="text" ng-change="checkDuplicatesByEmail()" ng-blur="checkDuplicatesByEmail()" ng-class="{'error':duplicatesByEmail.length > 0}">
-                                    <i class="mail icon"></i>
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.email = '0'">
+                                        <button ng-repeat="email in candidateBeforeMerge.contacts|filter :'email'" title="{{email.value}}" type="button"
+                                                class="btn btn-secondary" ng-class="{'active': src.email == '1', 'email' : src.email == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'email')">
+                                            {{email.value}}
+                                        </button>
+                                        <button ng-repeat="email in candidate2.contacts|filter :'email'" title="{{email.value}}" type="button"
+                                                class="btn btn-secondary secondBtn" ng-class="{'active': src.email == '2', 'email' : src.email == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'email')" >
+                                            {{email.value}}
+                                        </button>
+                                    </div>
+                                    <!--<input placeholder="" ng-model="contacts.email" type="text" ng-change="checkDuplicatesByEmail()" ng-blur="checkDuplicatesByEmail()" ng-class="{'error':duplicatesByEmail.length > 0}">-->
+                                    <!--<i class="mail icon"></i>-->
                                     <!--<div class="ui red pointing above ui label"  ng-show="duplicatesByEmail.length > 0" style="width: 100%">-->
                                     <!--<label class="ui icon" style="float: right;cursor: pointer" ng-click="duplicatesByEmail = []"><i class="icon close"></i></label>-->
                                     <!--<label>{{'Already have a candidate with such email'|translate}}:</label><br/>-->
@@ -513,93 +730,171 @@
                                     <!--</label>-->
                                     <!--</div>-->
                                 </div>
-                                <div class="item with-border" >
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.skype"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.skype, true, 'skype')" ng-init="src.skype = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="col-lg-6 item with-border skypes" ng-show="(contacts.skype && contacts2.skype) && contacts.skype != contacts2.skype">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.skype"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.skype, true, 'skype')" ng-init="src.skype = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>Skype</label>
-                                    <input placeholder="" ng-model="contacts.skype" type="text" ng-blur="checkDuplicatesBySkype()"  ng-class="{'error':duplicatesBySkype.length > 0}">
-                                    <i class="skype icon"></i>
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.skype = '0'">
+                                        <button ng-repeat="skype in candidateBeforeMerge.contacts|filter :'skype'" title="{{skype.value}}" type="button"
+                                                class="btn btn-secondary" ng-class="{'active': src.skype == '1', 'skype' : src.skype == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'skype')">
+                                            {{skype.value}}
+                                        </button>
+                                        <button ng-repeat="skype in candidate2.contacts|filter :'skype'" title="{{skype.value}}" type="button"
+                                                class="btn btn-secondary secondBtn" ng-class="{'active': src.skype == '2', 'skype' : src.skype == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'skype')" >
+                                            {{skype.value}}
+                                        </button>
+                                    </div>
+                                    <!--<input placeholder="" ng-model="contacts.skype" type="text" ng-blur="checkDuplicatesBySkype()"  ng-class="{'error':duplicatesBySkype.length > 0}">-->
+                                    <!--<i class="skype icon"></i>-->
                                 </div>
-                                <div class="item with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.linkedin"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.linkedin, true, 'linkedin')" ng-init="src.linkedin = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="col-lg-6 item with-border linkedins" ng-show="(contacts.linkedin && contacts2.linkedin) && contacts.linkedin != contacts2.linkedin">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.linkedin"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.linkedin, true, 'linkedin')" ng-init="src.linkedin = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>Linkedin</label>
-                                    <input placeholder="" ng-model="contacts.linkedin" type="text" ng-blur="checkDuplicatesByLinkedin()" ng-class="{'error':duplicatesByLinkedin.length > 0}">
-                                    <i class="linkedin icon"></i>
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.linkedin = '0'">
+                                        <button ng-repeat="linkedin in candidateBeforeMerge.contacts|filter :'linkedin'" title="{{linkedin.value}}"
+                                                type="button" class="btn btn-secondary" ng-class="{'active': src.linkedin == '1', 'linkedin' : src.linkedin == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'linkedin')">
+                                            {{linkedin.value}}
+                                        </button>
+                                        <button ng-repeat="linkedin in candidate2.contacts|filter :'linkedin'" title="{{linkedin.value}}" type="button"
+                                                class="btn btn-secondary secondBtn" ng-class="{'active': src.linkedin == '2', 'linkedin' : src.linkedin == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'linkedin')" >
+                                            {{linkedin.value}}
+                                        </button>
+                                    </div>
+                                    <!--<input placeholder="" ng-model="contacts.linkedin" type="text" ng-blur="checkDuplicatesByLinkedin()" ng-class="{'error':duplicatesByLinkedin.length > 0}">-->
+                                    <!--<i class="linkedin icon"></i>-->
                                 </div>
-                                <div class="item with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.facebook"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.facebook, true, 'facebook')" ng-init="src.facebook = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="col-lg-6 item with-border facebooks" ng-show="(contacts.facebook && contacts2.facebook) && contacts.facebook != contacts2.facebook">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.facebook"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.facebook, true, 'facebook')" ng-init="src.facebook = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>Facebook</label>
-                                    <input placeholder="" ng-model="contacts.facebook" type="text">
-                                    <i class="facebook icon"></i>
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.facebook = '0'">
+                                        <button ng-repeat="facebook in candidateBeforeMerge.contacts|filter :'facebook'" title="{{facebook.value}}"
+                                                type="button" class="btn btn-secondary" ng-class="{'active': src.facebook == '1', 'facebook' : src.facebook == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'facebook')">
+                                            {{facebook.value}}
+                                        </button>
+                                        <button ng-repeat="facebook in candidate2.contacts|filter :'facebook'" title="{{facebook.value}}" type="button"
+                                                class="btn btn-secondary secondBtn" ng-class="{'active': src.facebook == '2', 'facebook' : src.facebook == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'facebook')" >
+                                            {{facebook.value}}
+                                        </button>
+                                    </div>
+                                    <!--<input placeholder="" ng-model="contacts.facebook" type="text">-->
+                                    <!--<i class="facebook icon"></i>-->
                                 </div>
-                                <div class="item with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.googleplus"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.googleplus, true, 'googleplus')" ng-init="src.googleplus = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="col-lg-6 item with-border googlepluss" ng-show="(contacts.googleplus && contacts2.googleplus) && contacts.googleplus != contacts2.googleplus">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.googleplus"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.googleplus, true, 'googleplus')" ng-init="src.googleplus = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>Google+</label>
-                                    <input placeholder="" ng-model="contacts.googleplus" type="text">
-                                    <i class="google plus icon"></i>
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.googleplus = '0'">
+                                        <button ng-repeat="googleplus in candidateBeforeMerge.contacts|filter :'googleplus'" title="{{googleplus.value}}"
+                                                type="button" class="btn btn-secondary" ng-class="{'active': src.googleplus == '1', 'googleplus' : src.googleplus == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'googleplus')">
+                                            {{googleplus.value}}
+                                        </button>
+                                        <button ng-repeat="googleplus in candidate2.contacts|filter :'googleplus'" title="{{googleplus.value}}" type="button"
+                                                class="btn btn-secondary secondBtn" ng-class="{'active': src.googleplus == '2', 'googleplus' : src.googleplus == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'googleplus')" >
+                                            {{googleplus.value}}
+                                        </button>
+                                    </div>
+                                    <!--<input placeholder="" ng-model="contacts.googleplus" type="text">-->
+                                    <!--<i class="google plus icon"></i>-->
                                 </div>
-                                <div class="item with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.github"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.github, true, 'github')" ng-init="src.github = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="col-lg-6 item with-border githubs" ng-show="(contacts.github && contacts2.github) && contacts.github != contacts2.github">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.github"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.github, true, 'github')" ng-init="src.github = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>Git</label>
-                                    <input placeholder="" ng-model="contacts.github" type="text">
-                                    <i class="github icon"></i>
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.github = '0'">
+                                        <button ng-repeat="github in candidateBeforeMerge.contacts|filter :'github'" title="{{github.value}}" type="button"
+                                                class="btn btn-secondary" ng-class="{'active': src.github == '1', 'github' : src.github == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'github')">
+                                            {{github.value}}
+                                        </button>
+                                        <button ng-repeat="github in candidate2.contacts|filter :'github'" title="{{github.value}}" type="button"
+                                                class="btn btn-secondary secondBtn" ng-class="{'active': src.github == '2', 'github' : src.github == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'github')" >
+                                            {{github.value}}
+                                        </button>
+                                    </div>
+                                    <!--<input placeholder="" ng-model="contacts.github" type="text">-->
+                                    <!--<i class="github icon"></i>-->
                                 </div>
-                                <div class="item with-border">
-                                    <label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>
-                                    <select ng-model="src.homepage"
-                                            class="select2-container form-control input-lg select2  select14 widthSelectInput1 "
-                                            ng-change="selectSource(src.homepage, true, 'homepage')" ng-init="src.homepage = '1'">
-                                        <option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>
-                                        <option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>
-                                        <option value="3">3. {{'Enter data manually'|translate}}</option>
-                                    </select>
+                                <div class="col-lg-6 item with-border homepages" ng-show="(contacts.homepage && contacts2.homepage) && contacts.homepage != contacts2.homepage">
+                                    <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
+                                    <!--<select ng-model="src.homepage"-->
+                                    <!--class="select2-container form-control input-lg select2  select14 widthSelectInput1 "-->
+                                    <!--ng-change="selectSource(src.homepage, true, 'homepage')" ng-init="src.homepage = '1'">-->
+                                    <!--<option value="1">1. {{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</option>-->
+                                    <!--<option value="2">2. {{candidate2.fullName}}, {{candidate2.position}}</option>-->
+                                    <!--<option value="3">3. {{'Enter data manually'|translate}}</option>-->
+                                    <!--</select>-->
                                     <label>{{'home_page'|translate}}</label>
-                                    <input placeholder="" ng-model="contacts.homepage" type="text">
-                                    <i class="home icon"></i>
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.homepage = '0'">
+                                        <button ng-repeat="homepage in candidateBeforeMerge.contacts|filter :'homepage'" title="{{homepage.value}}"
+                                                type="button" class="btn btn-secondary" ng-class="{'active': src.homepage == '1', 'homepage' : src.homepage == '0'}"
+                                                ng-click="selectSource('1', null, null, false, 'homepage')" ng-model="contacts.homepage">
+                                            {{homepage.value}}
+                                        </button>
+                                        <button ng-repeat="homepage in candidate2.contacts|filter :'homepage'" title="{{homepage.value}}" type="button"
+                                                class="btn btn-secondary secondBtn" ng-class="{'active': src.homepage == '2', 'homepage' : src.homepage == '0'}"
+                                                ng-click="selectSource('2', null, null, false, 'homepage')" ng-model="contacts2.homepage">
+                                            {{homepage.value}}
+                                        </button>
+                                    </div>
+                                    <!--<input placeholder="" ng-model="contacts.homepage" type="text">-->
+                                    <!--<i class="home icon"></i>-->
                                 </div>
                             </div>
-                            <div class="col-lg-12 SkillsWithRating">
-                                <div class="col-lg-5">
+                            <div class="col-lg-12 SkillsWithRating" ng-show="(candidateBeforeMerge.skills && candidateBeforeMerge.skills.length > 0 && candidate2.skills && candidate2.skills.length > 0) && candidateBeforeMerge.skills != candidate2.skills || (candidateBeforeMerge.coreSkills && candidate2.coreSkills) && candidateBeforeMerge.coreSkills != candidate2.coreSkills">
+                                <div class="col-lg-6 SkillsAsRating" ng-show="(candidateBeforeMerge.skills && candidateBeforeMerge.skills.length > 0 && candidate2.skills && candidate2.skills.length > 0) && candidateBeforeMerge.skills != candidate2.skills">
                                 <span style="display: block;position:relative;">
                                     {{'Skills with rating'|translate}}
                                 </span>
                                     <div class="field floatLeft">
                                         <br>
-                                        <input skills-autocompleter name="skills" ng-maxlength="50" placeholder="" ng-model="skillInput" type="text">
+                                        <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.skills = '0'">
+                                            <button ng-show="candidateBeforeMerge.skills" type="button" class="btn btn-secondary" ng-class="{'active': src.skills == '1', 'skills' : src.skills == '0'}"
+                                                    ng-click="selectSource('1', null, null, false, 'skills')" title="{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}">{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</button>
+                                            <button ng-show="candidate2.skills" type="button" class="btn btn-secondary" ng-class="{'active': src.skills == '2', 'skills' : src.skills == '0'}"
+                                                    ng-click="selectSource('2', null, null, false, 'skills')" title="{{candidate2.fullName}}, {{candidate2.position}}">{{candidate2.fullName}}, {{candidate2.position}}</button>
+                                        </div>
+                                        <input skills-autocompleter class="hidden" name="skills" ng-maxlength="50" placeholder="" ng-model="skillInput" type="text">
                                         <div class="item-in-table">
                                             <div  class="clearfix" ng-repeat="skill in candidate.skills" style="margin-top: 7px;">
                                                 <div class="stars pull-left">
@@ -636,42 +931,42 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-7">
+                                <div class="col-lg-6 SkillsAsText" ng-show="(candidateBeforeMerge.coreSkills && candidate2.coreSkills) && candidateBeforeMerge.coreSkills != candidate2.coreSkills">
                                     <div class="field skillsBlock floatRight">
                                         <label class="form-description">{{'Skills with text'|translate}}</label>
-                                        <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.coreSkills = '1'">
-                                            <button type="button" class="btn btn-secondary" ng-class="{'active': src.coreSkills == '1'}"
-                                                    ng-click="selectSource('1', true, 'coreSkills')" title="{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}">{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</button>
-                                            <button type="button" class="btn btn-secondary" ng-class="{'active': src.coreSkills == '2'}"
-                                                    ng-click="selectSource('2', true, 'coreSkills')" title="{{candidate2.fullName}}, {{candidate2.position}}">{{candidate2.fullName}}, {{candidate2.position}}</button>
+                                        <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.coreSkills = '0'">
+                                            <button ng-show="candidateBeforeMerge.coreSkills" type="button" class="btn btn-secondary" ng-class="{'active': src.coreSkills == '1', 'coreSkills' : src.coreSkills == '0'}"
+                                                    ng-click="selectSource('1', null, null, false, 'coreSkills')" title="{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}">{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</button>
+                                            <button ng-show="candidate2.coreSkills" type="button" class="btn btn-secondary" ng-class="{'active': src.coreSkills == '2', 'coreSkills' : src.coreSkills == '0' && candidate2.coreSkills}"
+                                                    ng-click="selectSource('2', null, null, false, 'coreSkills')" title="{{candidate2.fullName}}, {{candidate2.position}}">{{candidate2.fullName}}, {{candidate2.position}}</button>
                                         </div>
                                         <textarea id="tinymceTwo" ui-tinymce ng-model="candidate.coreSkills"></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12 description-add">
+                            <div class="col-lg-12 description-add" ng-show="(candidateBeforeMerge.descr && candidate2.descr) && candidateBeforeMerge.descr != candidate2.descr">
                                 <div class="field big_tinymce">
                                     <label class="form-description">{{'description'|translate}}</label>
-                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.descr = '1'">
-                                        <button type="button" class="btn btn-secondary" ng-class="{'active': src.descr == '1'}"
-                                                ng-click="selectSource('1', true, 'descr')" title="{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}">{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</button>
-                                        <button type="button" class="btn btn-secondary" ng-class="{'active': src.descr == '2'}"
-                                                ng-click="selectSource('2', true, 'descr')" title="{{candidate2.fullName}}, {{candidate2.position}}">{{candidate2.fullName}}, {{candidate2.position}}</button>
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.descr = '0'">
+                                        <button ng-show="candidateBeforeMerge.descr" type="button" class="btn btn-secondary" ng-class="{'active': src.descr == '1', 'descr' : src.descr == '0'}"
+                                                ng-click="selectSource('1', null, null, true, 'descr')" title="{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}">{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</button>
+                                        <button ng-show="candidateBeforeMerge.descr" type="button" class="btn btn-secondary" ng-class="{'active': src.descr == '2', 'descr' : src.descr == '0' && candidate2.descr}"
+                                                ng-click="selectSource('2', null, null, true, 'descr')" title="{{candidate2.fullName}}, {{candidate2.position}}">{{candidate2.fullName}}, {{candidate2.position}}</button>
                                     </div>
                                     <textarea id="tinymce" ui-tinymce ng-model="candidate.descr"></textarea>
                                 </div>
-                                <div class="text-center">
-                                    <a type="button" href="#/candidates/{{candidate.localId}}" class="btn btn-primary btn-cancel">
+                            </div>
+                            <div class="col-lg-12 text-center saveCancelBtn">
+                                <a type="button" href="#/candidates/{{candidate.localId}}" class="btn btn-primary btn-cancel">
                                         <span>
                                             {{'cancel'|translate}}
                                         </span>
-                                    </a>
-                                    <a type="button" ng-click="saveCandidate()" class="btn btn-primary">
+                                </a>
+                                <a type="button" ng-click="saveCandidate()" class="btn btn-primary">
                                         <span>
                                             {{'save'|translate}}
                                         </span>
-                                    </a>
-                                </div>
+                                </a>
                             </div>
                         </div>
                     </form>

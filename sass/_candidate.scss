@@ -576,9 +576,7 @@
 					border-radius: 5px;
 					background-color: $theme-white;
 					& > ul {
-						line-height: 50px;
-
-						display: inline-flex;
+						display: -webkit-inline-box;
 						margin-bottom: 0;
 						padding: 0;
 
@@ -586,7 +584,10 @@
 						& > li {
 							position: relative;
 
-							padding: 4px 10px 0 0;
+							display: inline-block;
+							padding: 4px 20px 0 0;
+
+							vertical-align: top;
 							#disabledBtn {
 								cursor: pointer;
 
@@ -603,7 +604,7 @@
 
 								color: $theme-dark;
 								& > i {
-									margin-right: 7px;
+									margin-right: 0;
 
 									color: $theme-button-color;
 								}
@@ -638,7 +639,10 @@
 						outline: none;
 						&.move-bot {
 							position: relative;
-							top: 4px;
+							//top: 4px;
+							//margin-top: -22px;
+
+							margin-right: 26px;
 						}
 						& > i {
 							margin-right: 10px;

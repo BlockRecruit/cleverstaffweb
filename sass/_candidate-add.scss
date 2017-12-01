@@ -32,6 +32,17 @@
 					color: #777;
 				}
 			}
+			.profilesMerge {
+				font-size: 14px;
+
+				width: 12px;
+				height: 14px;
+				margin-left: 5px;
+
+				cursor: pointer;
+
+				color: $theme-blue;
+			}
 		}
 		.duplicate-alert {
 			width: 71%;
@@ -52,6 +63,11 @@
 					}
 				}
 			}
+		}
+		.cancelBtn {
+			@include button-styling-cancel();
+
+			margin-right: 10px;
 		}
 		.saveButton {
 			@include button-styling();
@@ -356,7 +372,8 @@
 			.main-info {
 				border-radius: 5px;
 				background-color: $theme-white;
-				& > .col-lg-4 {
+				.col-lg-4,
+				.col-lg-6 {
 					& > .item {
 						width: 100%;
 						&.celendar {
@@ -596,6 +613,7 @@
 						}
 					}
 					.langs {
+						display: inline-block;
 						margin: 15px 0;
 						.select2-search-field {
 							width: 100%;
@@ -627,11 +645,95 @@
 						}
 					}
 					.with-border {
+						display: inline-block;
 						margin: 5px 0;
 						padding: 5px;
 
-						border: 1px solid #e8e8e8;
-						border-radius: 5px;
+						//border: 1px solid #e8e8e8;
+						//border-radius: 5px;
+						.btn-group {
+							display: block;
+							margin: 5px 0 0 4px;
+							.btn {
+								@include button-switch-styling();
+
+								width: 48%;
+
+								text-align: left;
+								white-space: normal;
+								.displayed {
+									display: block;
+								}
+								&:first-child {
+									word-break: break-word;
+								};
+								&:last-child {
+									margin-top: 0;
+									margin-left: 4px;
+
+									word-break: break-word;
+								}
+								&:hover {
+									color: #202021;
+									background-color: #e3e3e3;
+								}
+							}
+							.secondBtn {
+								margin-top: 10px;
+							}
+							.active {
+								border: none!important;
+								background-color: $theme-light-green-hover;
+								&:hover {
+									background-color: $theme-light-green-hover;
+								}
+							}
+							:focus {
+								outline: none;
+							}
+						}
+						.langs {
+							display: flex;
+							.secondBtn {
+								margin-top: 0;
+								margin-left: 5px;
+							}
+						}
+					}
+					.customFirstCandidate,
+					.customSecondCandidate {
+						//clear: both;
+						width: 50%!important;
+						button {
+							width: 100%!important;
+						}
+					}
+					//.customSecondCandidate {
+					//	margin-top: 21px;
+					//div {
+					//	margin-bottom: 25px;
+					//	&:last-child {
+					//		margin-bottom: 0;
+					//	}
+					//}
+					//}
+					.education {
+						.btn-group {
+							display: block;
+							.btn {
+								width: 48%;
+
+								white-space: normal;
+							}
+						}
+					}
+					.sex {
+						.btn-group {
+							display: inline-flex;
+							.btn:last-child {
+								margin-left: 4px;
+							}
+						}
 					}
 					.select2-search-field {
 						input {
@@ -649,12 +751,66 @@
 							&.active {
 								background-color: $theme-light-green-hover;
 							}
+							.error {
+								border: 1px solid $theme-red;
+							}
 						}
 					}
 				}
 				& > .contactCandidate {
 					& > .item {
 						margin: 5px 0 7px 0;
+					}
+					.with-border {
+						display: inline-block;
+						margin: 5px 0;
+						padding: 5px;
+						.btn-group {
+							display: block;
+							width: 100%;
+							margin: 5px 0 0 4px;
+							.btn {
+								@include button-switch-styling();
+
+								width: 48%;
+
+								text-align: left;
+								white-space: normal;
+								&:first-child {
+									word-break: break-word;
+								};
+								&:last-child {
+									margin-top: 0;
+									margin-left: 4px;
+
+									word-break: break-word;
+								}
+								&:hover {
+									color: #202021;
+									background-color: #e3e3e3;
+								}
+							}
+							.secondBtn {
+								margin-top: 10px;
+							}
+							.active {
+								background-color: $theme-light-green-hover;
+							}
+							.error {
+								border: 1px solid $theme-red;
+							}
+							:focus {
+								outline: none;
+							}
+						}
+						label {
+							font-size: 12px;
+							font-weight: normal;
+
+							margin: 4px 0 0 8px;
+
+							color: $theme-light-grey;
+						}
 					}
 				}
 				& > .SkillsWithRating {
@@ -664,13 +820,41 @@
 					border-top: 1px solid #ccc;
 					border-bottom: 1px solid #ccc;
 
-					& > .col-lg-5 {
+					& > .col-lg-5,
+					.col-lg-6 {
 						& > span {
 							@include bold();
 
 							display: block;
 						}
 						& > .floatLeft {
+							& > .btn-group {
+								margin: 15px 0 5px 1px;
+								.btn {
+									@include button-switch-styling();
+
+									overflow-x: hidden;
+									width: 200px;
+
+									text-overflow: ellipsis;
+									&:hover {
+										color: #202021;
+										background-color: #e3e3e3;
+									}
+									&:focus {
+										outline: none;
+									}
+									&:last-child {
+										margin-left: 5px;
+									}
+									&.active {
+										background-color: $theme-light-green-hover;
+										&:hover {
+											background-color: $theme-light-green-hover;
+										}
+									}
+								}
+							}
 							& > .item-in-table {
 								display: block;
 								padding-left: 0!important;
@@ -734,11 +918,21 @@
 								width: 200px;
 
 								text-overflow: ellipsis;
+								&:hover {
+									color: #202021;
+									background-color: #e3e3e3;
+								}
+								&:focus {
+									outline: none;
+								}
 								&:last-child {
-									margin-left: 25px;
+									margin-left: 5px;
 								}
 								&.active {
 									background-color: $theme-light-green-hover;
+									&:hover {
+										background-color: $theme-light-green-hover;
+									}
 								}
 							}
 						}
@@ -768,6 +962,8 @@
 					}
 					.form-description {
 						display: block;
+
+						text-transform: capitalize;
 					}
 					.btn-group {
 						margin: 5px 0 5px 1px;
@@ -778,13 +974,33 @@
 							width: 200px;
 
 							text-overflow: ellipsis;
+							&:hover {
+								color: #202021;
+								background-color: #e3e3e3;
+							}
+							&:focus {
+								outline: none;
+							}
 							&:last-child {
 								margin-left: 25px;
 							}
 							&.active {
 								background-color: $theme-light-green-hover;
+								&:hover {
+									background-color: $theme-light-green-hover;
+								}
 							}
 						}
+					}
+				}
+				& > .saveCancelBtn {
+					padding: 20px;
+
+					& > a {
+						@include button-styling();
+					}
+					& > .btn-cancel {
+						@include button-styling-cancel();
 					}
 				}
 				textarea {
