@@ -391,6 +391,8 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     $('#page-avatar').css({'width': '100%', 'height': '385px', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+                }else if(width >= 266){
+                    $('#page-avatar').css({'width': '100%', 'height': 'auto'});
                 }else{
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }

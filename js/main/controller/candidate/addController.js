@@ -40,13 +40,13 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
     $scope.showResumeFromLinkSiteErrorFlag = false;
     $scope.showResumeFromLinkErrorFlag = false;
     $scope.saveButtonIsPressed = false;
-    // $scope.candidate.fieldValues = [];
         $scope.getFullCustomFields = function(){
             CustomField.getFullFields({
                 objectType: 'candidate'
             }, function(resp) {
                 if (resp.status == "ok") {
                     $scope.allObjCustomField = resp.objects;
+                    $scope.checkDuplicatesByNameAndContacts();
                 } else {
                     notificationService.error(resp.message);
                 }
@@ -214,6 +214,8 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
                 $('#page-avatar').css({'width': '100%', 'height': '385px', 'margin': 'inherit'});
             }else if(width >= 350){
                 $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+            }else if(width >= 266){
+                $('#page-avatar').css({'width': '100%', 'height': 'auto'});
             }else{
                 $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
             }

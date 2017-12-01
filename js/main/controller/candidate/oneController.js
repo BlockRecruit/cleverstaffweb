@@ -631,20 +631,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 $scope.changeStatus = $scope.candidate.status;
                 cascadeStages();
 
-                var img = new Image();
-                img.onload = function() {
-                    var width = this.width;
-                    if(width >= 290){
-                        $('.photoWidth').css({'width': '100%', 'height': 'auto'});
-                    }else{
-                        $('.photoWidth').css({'width': 'inherit', 'display': 'block', 'margin': '0 auto'});
-                    }
-                };
-                if($location.$$host == '127.0.0.1'){
-                    img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-                }else{
-                    img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-                }
+                $scope.imgWidthFunc();
                 $rootScope.newTask.candidateId = $scope.candidate.candidateId;
                 angular.forEach($scope.candidate.interviews, function(value){
                     value.vacancyId.interviewStatusNotTouchable = value.vacancyId.interviewStatus;
@@ -1011,6 +998,30 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             //$rootScope.persons = $scope.persons;
         });
 
+        $scope.imgWidthFunc = function(){
+            var img = new Image();
+            img.onload = function() {
+                var width = this.width;
+                var height = this.height;
+                var minus = width - height;
+                if(width >= height && minus > 40 && minus <=100){
+                    $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+                }else if(width >= 300 && width <= 349 && width != height){
+                    $('#page-avatar').css({'width': '100%', 'height': '350px', 'margin': 'inherit'});
+                }else if(width >= 350){
+                    $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+                }else if(width >= 266){
+                    $('#page-avatar').css({'width': '100%', 'height': 'auto'});
+                }else{
+                    $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
+                }
+            };
+            if($location.$$host == '127.0.0.1'){
+                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
+            }else{
+                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
+            }
+        };
         $scope.pathName = "candidate";
         $scope.callbackFile = function (resp, name) {
             if (!$scope.candidate.files) {
