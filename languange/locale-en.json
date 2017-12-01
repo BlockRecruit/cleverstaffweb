@@ -2204,5 +2204,9 @@
   "Only account administrator is able to make a payment":"Only account administrator is able to make a payment",
   "Recruiters shared no vacancies for you yet. Ask them to do that or add new vacancy by yourself. They will see it.":"Recruiters shared no vacancies for you yet. Ask them to do that.",
   "enter a comment": "Enter a comment",
-  "Select the interview date": "Select the interview date"
+  "Select the interview date": "Select the interview date",
+  "_Previous": "Previous",
+  "_Next": "Next",
+  "_Show": "Show",
+  "items on page": "items on page"
 }

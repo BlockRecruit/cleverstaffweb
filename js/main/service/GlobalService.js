@@ -1245,7 +1245,7 @@ angular.module('services.globalService', [
             scrollUp.style.display = 'block';
             scrollUp.style.position = 'fixed';
             scrollUp.style.bottom = '20px';
-            scrollUp.style.left = '10px';
+            scrollUp.style.left = '0px';
             scrollUp.onmouseover = function() { // добавить прозрачность
                 scrollUp.style.opacity=0.3;
                 scrollUp.style.filter  = 'alpha(opacity=30)';

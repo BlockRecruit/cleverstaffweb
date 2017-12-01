@@ -1516,15 +1516,6 @@
 	}
 }
 @media (max-width: $screen-md) {
-	.pagination-block > span {
-		right: 0;
-		left: 0;
-
-		display: inline-block;
-		margin-left: 0;
-
-		text-align: center;
-	}
 	.block-candidates .candidates-statuses .candidates-search-table > .miniMenuCandidate .item .clever-window {
 		top: 27px;
 		right: -163px;
@@ -1636,69 +1627,7 @@
 		padding: 0;
 	}
 }
-.pagination-block {
-	display: flex;
-	margin-bottom: -30px;
 
-	background-color: rgba(204,204,204,0.2);
-
-	justify-content: space-between;
-	& > span {
-		display: flex;
-		margin-left: 3%;
-
-		align-items: center;
-		& > span {
-			display: block;
-			input {
-				width: 40px;
-
-				-moz-appearance: textfield;
-			}
-			input::-webkit-outer-spin-button,
-			input::-webkit-inner-spin-button {
-				-webkit-appearance: none;
-			}
-			.item {
-				&:hover {
-					text-decoration: none;
-				}
-				.fa-arrow-left {
-					cursor: pointer;
-					vertical-align: inherit;
-
-					color: $theme-dark;
-				}
-				.fa-arrow-right {
-					cursor: pointer;
-					vertical-align: inherit;
-
-					color: $theme-dark;
-				}
-			}
-		}
-	}
-	.pagination-right-block {
-		margin-right: 3%;
-		.item-type-candidates {
-			display: none;
-		}
-		& > .pagination {
-			& > a {
-				padding: 5px;
-
-				cursor: pointer;
-				&:hover {
-					text-decoration: none;
-				}
-			}
-			& > .active {
-				color: $theme-white;
-				background-color: $theme-dark;
-			}
-		}
-	}
-}
 .more_history {
 	.findCandidates {
 		.btn {

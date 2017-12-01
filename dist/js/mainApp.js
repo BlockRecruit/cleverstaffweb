@@ -4067,6 +4067,19 @@ var directive = angular.module('RecruitingApp.directives', []).
             },
 
         };
+    }]).directive("navPagination", ["$rootScope", function ($rootScope) {
+        return {
+            restrict: 'AE',
+            templateUrl: '../partials/pagination.html?1',
+            link: function (scope, element, attributes) {
+                console.log('total', scope.paginationParams)
+                scope.$watch('paginationParams', function (newValue, oldValue) {
+                   console.log('in watcher newValue, oldValue', newValue, oldValue)
+                });
+                //console.log('total', $rootScope.objectSize,scope.params.count())
+                //scope.totalPagesCount = Math.ceil(scope.params.total()/scope.params.count());
+            }
+        }
     }]);
 function similar_text(first, second, percent) {
     if (first === null || second === null || typeof first === 'undefined' || typeof second === 'undefined') {
@@ -9989,7 +10002,7 @@ angular.module('services.globalService', [
             scrollUp.style.display = 'block';
             scrollUp.style.position = 'fixed';
             scrollUp.style.bottom = '20px';
-            scrollUp.style.left = '10px';
+            scrollUp.style.left = '0px';
             scrollUp.onmouseover = function() { // добавить прозрачность
                 scrollUp.style.opacity=0.3;
                 scrollUp.style.filter  = 'alpha(opacity=30)';
@@ -31423,6 +31436,10 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
     $scope.onlyMe = $rootScope.onlyMe;
     $scope.salaryObject = Service.getSalary();
     $scope.previousFlag = true;
+    $scope.paginationParams = {
+      currentPage: 1,
+      totalCount: 0
+    };
     $scope.a = {};
     $scope.a.searchNumber = 1;
     let sortDirection = 'desc';
@@ -31637,9 +31654,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                     var activeParam = ScopeService.getActiveScopeObject();
                     $scope.activeScopeParam = activeParam;
                     Vacancy.setOptions("page", {number: (params.$params.page - 1), count: params.$params.count});
-                    if(params.$params.count == 30 || params.$params.count == 60 || params.$params.count == 120) {
-                        localStorage.countVacancy = params.$params.count;
-                    }
+                    localStorage.countVacancy = params.$params.count;
                     $scope.searchParam.pages.count = params.$params.count;
                     $scope.searchParam.personId = $scope.searchParam.personId == 'null' ? null: $scope.searchParam.personId;
                     Vacancy.setOptions("personId", $scope.searchParam.personId != undefined ? $scope.searchParam.personId : activeParam.name == 'onlyMy' ? $rootScope.userId : null);
@@ -31677,6 +31692,10 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                         }
                         Vacancy.all(Vacancy.searchOptions(), function(response) {
                             $rootScope.objectSize = response['objects'] != undefined ? response['total'] : undefined;
+                            $scope.paginationParams = {
+                                currentPage: Vacancy.searchOptions().page.number,
+                                totalCount: $rootScope.objectSize
+                            };
                             params.total(response['total']);
                             angular.forEach(response['objects'], function(val) {
                                 if (val.region) {
