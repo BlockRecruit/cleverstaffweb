@@ -364,6 +364,13 @@
                                     {{'Edited_1'|translate}}
                                 </a>
                             </li>
+                            <li ng-show="$root.me.recrutRole != 'client' && $root.me.recrutRole != 'salesmanager' && $root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer'">
+                                <a href="" ng-click="toMergeModal()">
+                                    <i class="fa fa-users" aria-hidden="true"></i>
+                                    {{'Merge Duplicates'|translate}}
+                                </a>
+                                <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.candidateMerge" aria-hidden="true"></i>
+                            </li>
                             <li>
                                 <a ng-click="toggleDescriptionFunc('expand')" href="javaScript:window.print(); ">
                                     <i class="fa fa-print" aria-hidden="true"></i>

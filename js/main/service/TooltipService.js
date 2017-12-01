@@ -31,7 +31,8 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "statisticTooltip": $sce.trustAsHtml($filter('translate')('\'Statistics\' report shows the results of every account user: the quantity and the percentage of added candidates, vacancies, interviews, an average time to fill a vacancy for a specific time period.')),
                     "mailingTopic": $sce.trustAsHtml('Your letter topic, receiver will read in his Inbox'),
                     "toolTipForTestResults": $sce.trustAsHtml($filter('translate')('Percentile shows the percent of candidates, who received fewer points for passing the test, than a specific candidate with the percentile value')),
-                    "mailingInternal": $sce.trustAsHtml('Mailing name for your internal usage. Visible only for you.')
+                    "mailingInternal": $sce.trustAsHtml('Mailing name for your internal usage. Visible only for you.'),
+                    "profilesMerge": $sce.trustAsHtml($filter("translate")("The 'rules' of profiles merge") + '<ul>' + '<li>' + $filter("translate")("Only fields with different values are available for selection") + '</li>' + '<li>' + $filter("translate")("If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default") + '</li>' + '<li>' + $filter("translate")("Tags in the merged profile will be saved from both original ones") + '</li>' + '</ul>')
                 };
                 $rootScope.tooltips = options;
             });
