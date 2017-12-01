@@ -36137,6 +36137,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
             $scope.updateTasks();
         };
+
         $scope.openVacancyCandidateChangeStatus = function (candidate) {
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.status = '';
