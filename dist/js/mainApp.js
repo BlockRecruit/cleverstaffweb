@@ -13566,7 +13566,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=30'
+        suffix: '.json?b=31'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -34461,7 +34461,11 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                     }
                                 } else {
                                     $scope.dataForVacancy = cd;
+                                    $scope.dataForVacancy.map((item) => {
+                                        console.log(item.state,item.isInterview);
+                                    });
                                     $defer.resolve(cd);
+
                                 }
 
                             }

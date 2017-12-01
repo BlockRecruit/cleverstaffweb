@@ -366,6 +366,9 @@
 							color: #fdd14a;
 						}
 					}
+					&.fixed-width {
+						width: 165px;
+					}
 				}
 				.add-comment-text {
 					padding-right: 0;
@@ -463,7 +466,7 @@
 				.comment {
 					display: inline-block;
 					overflow-x: hidden;
-					max-width: 75%;
+					max-width: 82%;
 
 					vertical-align: bottom;
 

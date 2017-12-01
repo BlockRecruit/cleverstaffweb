@@ -654,11 +654,16 @@
                         <a href="#/candidates/{{::candidate.candidateId.localId}}" ng-click="$event.stopPropagation();">{{::candidate.candidateId.fullName}}</a>
                     </td>
 
-                    <td class="date" ng-if="candidate.candidateId.status != 'archived'" ng-show="showSearchCandidate ||candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview'
-                    || candidate.state == 'hr_interview' || candidate.state == 'interview_with_the_boss' || candidate.state == 'interview_with_the_client')"
-                        ng-click="openChangeVacancyInterviewDate(candidate);$event.stopPropagation();">
-                        {{::candidate.dateInterview|dateFormat:true}} <i ng-if="candidate.dateInterview" class="fa fa-pencil" aria-hidden="true"></i>
-                        <span ng-if="!candidate.dateInterview" class="set-interview">{{'Set interview time' | translate}} <i class="fa fa-calendar" aria-hidden="true"></i></span>
+                    <td class="date" ng-if="candidate.candidateId.status != 'archived'">
+                        <span ng-click="openChangeVacancyInterviewDate(candidate);$event.stopPropagation();">
+                            {{::candidate.dateInterview|dateFormat:true}}
+                            <i ng-if="candidate.dateInterview" class="fa fa-pencil" aria-hidden="true"></i>
+                        </span>
+                        <span ng-if="!candidate.dateInterview"
+                              ng-show="candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview'
+                              || candidate.state == 'hr_interview' || candidate.state == 'interview_with_the_boss' || candidate.state == 'interview_with_the_client')"
+                              ng-click="openChangeVacancyInterviewDate(candidate);$event.stopPropagation();"
+                              class="set-interview">{{'Set interview time' | translate}} <i class="fa fa-calendar" aria-hidden="true"></i></span>
                     </td>
                     <td class="button-outer" ng-if="candidate.candidateId.status != 'archived'" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidate);" ng-class="{'hidden-xs': showSearchCandidate ||candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview'
                     || candidate.state == 'hr_interview' || candidate.state == 'interview_with_the_boss' || candidate.state == 'interview_with_the_client')}">
@@ -674,15 +679,15 @@
                             </div>
                         </a>
                     </td>
-                    <td ng-show="showSearchCandidate" ng-if="candidate.candidateId.status != 'archived'">
-                        <span>{{::candidate.state | translate | limitTo: 10}}{{::candidate.state.length > 10 ? '...' : ''}}</span>
+                    <td ng-show="showSearchCandidate" ng-class="{'fixed-width' : candidate.candidateId.status !== 'archived'}" ng-if="candidate.candidateId.status != 'archived'">
+                        <span title="{{candidate.state | translate}}">{{::candidate.state | translate | limitTo: 16}}{{::candidate.state.length > 16 ? '...' : ''}}</span>
                     </td>
                     <!--<td class="comment">-->
                         <!--<span>{{candidate.comment}}</span>-->
                     <!--</td>-->
                     <td class="add-comment-text text-right hidden-xs" ng-if="candidate.candidateId.status != 'archived'" ng-click="showModalAddCommentToCandidate(candidate);$event.stopPropagation();">
                         <span title="{{::candidate.dm | dateFormat2}}" ng-show="activeName != 'approved'" class="comment text-left pull-left">
-                            {{candidate.comment | limitTo:53}}
+                            {{candidate.comment | limitTo:80}}
                             <span class="comment" ng-show="candidate.comment.length > 53 && activeName != 'approved'">...</span>
                         </span>
                         <i ng-show="activeName != 'approved'" title="{{'Edit comment' | translate}}" class="fa fa-pencil" aria-hidden="true"></i>
@@ -701,10 +706,12 @@
                     </td>
                     <td ng-if="candidate.candidateId.status == 'archived'" class="candidate-deleted" translate="Candidate has been removed from the database" colspan="2">
                     </td>
-                    <td ng-if="candidate.candidateId.status == 'archived'" colspan="2" class="hidden-xs">
-                        <button class="restore-candidate pull-left" translate="Restore" ng-click="restoreCandidate(candidate.candidateId.candidateId, candidate.candidateId.localId, candidate.candidateId.fullName)">
+                    <td ng-if="candidate.candidateId.status == 'archived'" colspan="2" class="text-center hidden-xs">
+                        <button class="restore-candidate" translate="Restore" ng-click="restoreCandidate(candidate.candidateId.candidateId, candidate.candidateId.localId, candidate.candidateId.fullName)">
                         </button>
-                        <span translate="Remove from this vacancy" class="remove-from-vacancy pull-right" ng-click="showDeleteInterview(candidate);$event.stopPropagation();">
+                    </td>
+                    <td ng-if="candidate.candidateId.status == 'archived'" colspan="2" class="text-left hidden-xs">
+                        <span translate="Remove from this vacancy" class="remove-from-vacancy" ng-click="showDeleteInterview(candidate);$event.stopPropagation();">
                         </span>
                     </td>
                 </tr>

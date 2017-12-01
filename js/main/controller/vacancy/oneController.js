@@ -1952,7 +1952,11 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                     }
                                 } else {
                                     $scope.dataForVacancy = cd;
+                                    $scope.dataForVacancy.map((item) => {
+                                        console.log(item.state,item.isInterview);
+                                    });
                                     $defer.resolve(cd);
+
                                 }
 
                             }
