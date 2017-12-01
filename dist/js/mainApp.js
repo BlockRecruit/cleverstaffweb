@@ -36140,6 +36140,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.openVacancyCandidateChangeStatus = function (candidate) {
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.status = '';
+            $rootScope.changeStatusOfInterviewInVacancy.comment = candidate.comment;
             $rootScope.showEmployedFields = false;
             $rootScope.changeStatus = '';
             if(candidate.candidateId && typeof candidate.candidateId == 'string' && candidate.candidates) {
