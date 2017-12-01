@@ -2415,6 +2415,59 @@ var directive = angular.module('RecruitingApp.directives', []).
                                 notificationService.error($filter('translate')('Please choose image 960 x 380 px or larger'));
                             }
                         }
+<<<<<<< HEAD
+
+                    };
+                    console.log(file);
+                    reader.readAsDataURL(file);
+                };
+                function cropperFunc(index) {
+                    var image = document.getElementById('image');
+                    var cropper = new Cropper(image, {
+                        aspectRatio: 960 / 380,
+                        movable: false,
+                        zoomable: false
+                    });
+
+                    $('#cropp').on('click',function () {
+                        var canvasImg = image.cropper.getCroppedCanvas();
+                        var ctx = canvasImg.getContext('2d');
+
+                        var canvasCopy = document.createElement("canvas");
+                        var copyContext = canvasCopy.getContext("2d");
+                        canvasCopy.width = 960;
+                        canvasCopy.height = 380;
+                        copyContext.drawImage(canvasImg, 0, 0, 960, 380);
+                        canvasImg.width = 960;
+                        canvasImg.height = 380;
+                        ctx.drawImage(canvasCopy, 0, 0, canvasImg.width, canvasImg.height,  0, 0,  canvasCopy.width, canvasCopy.height);
+                        $scope.dataUrl = canvasImg.toDataURL();
+                        $('#wrapperForPng').show();
+                        $('#wrapperForPng').html("<img  src='" + $scope.dataUrl + "' > <button id='cancel'>" + $filter('translate')('cancel') + "</button><button id='download'>" + $filter('translate')('save') + "</button>");
+                        $('#cropper-wrap').hide();
+                        $('#cancel').on('click', function () {
+                            $('#cropper-wrap').show();
+                            $('#wrapperForPng').find('img').remove();
+                            $('#cancel').remove();
+                            $('#download').remove();
+                        });
+                        $('#download').on('click', function () {
+                            Test.uploadTestQuestionLogo($scope.dataUrl).then(function (data) {
+                                $scope.callbackTestQuestionLogo(data.data.object, $rootScope.questionIndex);
+                                $('#company-logo').show();
+                                cropper.destroy();
+                                $('#cropper-wrap').remove();
+                                $('#wrapperForPng').remove();
+                                $("#the-file-input").val('');
+                                $(".owner_photo_wrap" + index).find('img').show();
+                                $(".owner_photo_wrap" + index).find('.owner_photo_bubble_wrap' + index).show();
+                                $(".block-company .img-section img").prop('href','$rootScope.testQuestionLogoLink');
+                                $('#logo-button' + index).show();
+                            }, function (error) {
+                                notificationService.error(error.data.message);
+                            });
+
+=======
 
                     };
                     console.log(file);
@@ -2543,6 +2596,193 @@ var directive = angular.module('RecruitingApp.directives', []).
             }
         }]
     )
+    .directive('addPromoLogo', ["$rootScope", "Vacancy", "notificationService", "$filter", function ($rootScope, Vacancy, notificationService, $filter) {
+        return {
+            restrict: 'AE',
+            link: function ($scope, elem, attr, ctrl) {
+
+                elem.on('click', function () {
+                    if ($rootScope.me.recrutRole == 'admin') {
+                        $("#the-file-input").click();
+                    } else {
+                        notificationService.error($filter('translate')('Only admin can set logo'));
+                    }
+                });
+
+                var Cropper = window.Cropper;
+
+                $("#the-file-input").unbind('change').change(function() {
+                    renderImage(this.files[0]);
+                });
+
+                renderImage = function (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (event) {
+                        var the_url = event.target.result;
+                        var logoImg = new Image();
+                        logoImg.src = the_url;
+                        logoImg.onload = function () {
+                            $('#logo-button').hide();
+                            if(logoImg.width > 290 && logoImg.height > 290){
+                                if($("#cropper-wrap").length == 0) {
+                                    $("#owner_photo_wrap").prepend('<div id="cropper-wrap"> <div id="img-wrapper"> </div> <button id="close">' + $filter("translate")("Close") + '</button> <button id="cropp">' + $filter("translate")("Accept_1") + '</button> <div id="wrapper"></div>  </div> <div id="wrapperForPng"></div>');
+                                    $("#owner_photo_wrap").find('img').hide();
+                                    $("#owner_photo_bubble_wrap").hide();
+                                    $('#wrapperForPng').hide();
+                                }
+                                $('#img-wrapper').html("<img id='image' src='" + the_url + "'>");
+                                cropperFunc();
+                            } else if(logoImg.width == 290 && logoImg.height == 290){
+                                Vacancy.uploadPromoLogo(the_url).then(function (data) {
+                                    $scope.callbackAddPromoLogo(data.data.object);
+                                    $('#logo-button').show();
+                                }, function (error) {
+                                    notificationService.error(error.data.message);
+                                    $('#logo-button').show();
+                                });
+                            } else {
+                                $('#logo-button').show();
+                                notificationService.error($filter('translate')('Please choose image 290 x 290 px or larger'));
+                            }
+                        }
+
+                    };
+                    reader.readAsDataURL(file);
+                };
+
+                function cropperFunc() {
+                    var image = document.getElementById('image');
+                    var cropper = new Cropper(image, {
+                        aspectRatio: 1 / 1,
+                        movable: false,
+                        zoomable: false
+                    });
+
+                    $('#cropp').on('click',function () {
+                        var canvasImg = image.cropper.getCroppedCanvas();
+                        var ctx = canvasImg.getContext('2d');
+
+                        var canvasCopy = document.createElement("canvas");
+                        var copyContext = canvasCopy.getContext("2d");
+                        canvasCopy.width = 290;
+                        canvasCopy.height = 290;
+                        copyContext.drawImage(canvasImg, 0, 0, 290, 290);
+                        canvasImg.width = 290;
+                        canvasImg.height = 290;
+                        ctx.drawImage(canvasCopy, 0, 0, canvasImg.width, canvasImg.height,  0, 0,  canvasCopy.width, canvasCopy.height);
+                        $scope.dataUrl = canvasImg.toDataURL();
+                        $('#wrapperForPng').show();
+                        $('#wrapperForPng').html("<img  src='" + $scope.dataUrl + "' > <button id='cancel'>" + $filter('translate')('cancel') + "</button><button id='download'>" + $filter('translate')('save') + "</button>");
+                        $('#cropper-wrap').hide();
+                        $('#cancel').on('click', function () {
+                            $('#cropper-wrap').show();
+                            $('#wrapperForPng').find('img').remove();
+                            $('#cancel').remove();
+                            $('#download').remove();
+                        });
+                        $('#download').on('click', function () {
+                            Vacancy.uploadPromoLogo($scope.dataUrl).then(function (data) {
+                                $scope.callbackAddPromoLogo(data.data.object);
+                                $('#company-logo').show();
+                                cropper.destroy();
+                                $('#cropper-wrap').remove();
+                                $('#wrapperForPng').remove();
+                                $("#the-file-input").val('');
+                                $("#owner_photo_wrap").find('img').show();
+                                $("#owner_photo_bubble_wrap").show();
+                                $(".block-company .img-section img").prop('href','$rootScope.promoLogoLink');
+                                $('#logo-button').show();
+                            }, function (error) {
+                                notificationService.error(error.data.message);
+                            });
+
+>>>>>>> 1499-vacancyImg-sharingFb
+                        });
+                    });
+                    $('#close').on('click', function () {
+                        cropper.destroy();
+                        $('#cropper-wrap').remove();
+                        $('#wrapperForPng').remove();
+                        $("#the-file-input").val('');
+<<<<<<< HEAD
+                        $(".owner_photo_wrap" + index).find('img').hide();
+                        $(".owner_photo_wrap" + index).find('.owner_photo_bubble_wrap' + index).show();
+                        $("#logo-button" + index).show();
+=======
+                        $("#owner_photo_wrap").find('img').show();
+                        $("#owner_photo_bubble_wrap").show();
+                        if($rootScope.promoLogo == undefined) {
+                            $("#logo-button").show();
+                        }
+>>>>>>> 1499-vacancyImg-sharingFb
+                    });
+                }
+            }
+        }
+    }])
+<<<<<<< HEAD
+    .directive('testAutocompleter', ["$filter", "serverAddress", "$rootScope", function($filter, serverAddress, $rootScope) {
+            return {
+                restrict: 'EA',
+                replace: true,
+                link: function($scope, element, attrs) {
+                    $scope.addedTest = {};
+                    var inputText = "";
+
+                    $(element[0]).select2({
+                        placeholder: $filter('translate')('Choose test'),
+                        //minimumInputLength: 2,
+                        allowClear: true,
+                        //formatInputTooShort: function () {
+                        //    return ""+ $filter('translate')('Please enter 2 characters') +"";
+                        //},
+                        formatNoMatches: function(term) {
+                            return "<div class='select2-result-label' style='cursor: s-resize;'><span class='select2-match'></span>" + $filter('translate')('Please enter test title') + "</div>";
+                        },
+                        createSearchChoice: function(term, data) {
+                            if ($(data).filter(function() {
+                                    return this.text.localeCompare(term) === 0;
+                                }).length === 0) {
+                                inputText = term;
+                                return {id: data.id, text: term};
+                            }
+                        },
+                        ajax: {
+                            url: serverAddress + "/test/autocompleteTest",
+                            dataType: 'json',
+                            crossDomain: true,
+                            type: "POST",
+                            data: function(term, page) {
+                                return {
+                                    text: term.trim()
+                                };
+                            },
+                            results: function(data, page) {
+                                var result = [];
+                                angular.forEach(data['objects'], function(val) {
+                                    if(val.status != 'D'){
+                                        result.push({id: val.id, text: val.testName})
+                                    }
+                                });
+                                return {
+                                    results: result
+                                };
+                            }
+                        },
+                        dropdownCssClass: "bigdrop"
+                    }).on("change", function(e){
+                        if (e.added != undefined) {
+                            $scope.addedTest = {
+                                id: e.added.id,
+                                text: e.added.text
+                            };
+                            $rootScope.$broadcast('addedTest', $scope.addedTest);
+                        }
+                    });
+                }
+            }
+        }]
+    )
     .directive('clickAnywhereButHere', function($document) {
         return {
             restrict: 'A',
@@ -2582,6 +2822,47 @@ var directive = angular.module('RecruitingApp.directives', []).
                 }
             }
         }
+=======
+    .directive('clickAnywhereButHere', function($document) {
+        return {
+            restrict: 'A',
+            link: function(scope, elem, attr, ctrl) {
+                elem.on('click', function(e) {
+                    $(".clever-window.hideable").not(".ng-hide").addClass("ng-hide");
+                    e.stopPropagation();
+                });
+                $document.on('click', function() {
+                    scope.$apply(attr.clickAnywhereButHere);
+                })
+            }
+        }
+    })
+    .directive('hideOnclickAnywhereButHere', function($document) {
+        return {
+            restrict: 'A',
+            scope: {
+                show: '='
+            },
+            link: function(scope, elem, attr, ctrl) {
+                if(scope.show != false){
+                    elem.on('click', function(e) {
+                        var hidden = true;
+                        if (!elem.children(".clever-window").hasClass("ng-hide")) {
+                            hidden = false
+                        }
+                        $(".clever-window.hideable").not(".ng-hide").addClass("ng-hide");
+                        if (hidden) {
+                            elem.children(".clever-window").removeClass("ng-hide")
+                        }
+                        e.stopPropagation();
+                    });
+                    $document.on('click', function() {
+                        $(".clever-window.hideable").not(".ng-hide").addClass("ng-hide");
+                    })
+                }
+            }
+        }
+>>>>>>> 1499-vacancyImg-sharingFb
     }).directive('originAutocompleter', ["$filter", "serverAddress", function($filter, serverAddress) {
         return {
             restrict: 'EA',
@@ -3476,6 +3757,124 @@ var directive = angular.module('RecruitingApp.directives', []).
                                     }
                                 }
                             });
+<<<<<<< HEAD
+
+                        }
+                        $scope.getSkillAutocompleterValueForSearch('');
+                        $scope.$apply();
+                        if (inputText.length > 0) {
+                            $(element[0]).select2("data", {id: inputText, text: inputText});
+                        }
+                    }).on("select2-selecting", function(e) {
+                        inputText = "";
+                    });
+                }
+            }
+        }]
+).directive('select2GroupsSearch', ["$filter", "serverAddress", "Service", "CandidateGroup", function($filter, serverAddress, Service, CandidateGroup) {
+            return {
+                restrict: 'EA',
+                replace: true,
+                link: function($scope, element, attrs) {
+                    $scope.clearTags = function(){
+                        $(element[0]).select2('data', null);
+                        $scope.groupIdsForSearch = [];
+                    };
+                    $scope.setGroups=function(groups, groupsByCandidate) {
+                        var candidateGroups = groupsByCandidate;
+                        var groupList = groups;
+                        var groupNameList = [];
+                        $scope.groupsForEdit = [];
+                        angular.forEach(groupList, function (val, key) {
+                            groupNameList.push(val.name);
+                        });
+                        $(element[0]).select2({
+                                tags: groupNameList,
+                                tokenSeparators: [","]
+                            }
+                        ).on("change", function(e) {
+                            if (e.removed) {
+                                var newGroupList = $scope.getSelect2Group().split(",");
+                                var isExists = false;
+                                angular.forEach(groupList, function(val, key) {
+                                    isExists = false;
+                                    angular.forEach(newGroupList, function(nval, nkey) {
+                                        if (nval == val.name) {
+                                            isExists = true;
+                                        }else if(val.candidateGroupId == nval){
+                                            isExists = true;
+                                        }
+                                    });
+                                    if (!isExists) {
+                                        //angular.forEach(newGroupList, function(nval, key) {
+                                        //    angular.forEach(groupList, function(val, nkey) {
+                                        //        if (nval == val.name) {
+                                        //            groupsIds.push(val.candidateGroupId);
+                                        //        }
+                                        //    });
+                                        //});
+                                        var deleteFromArray = $scope.groupIdsForSearch.indexOf(val.candidateGroupId);
+                                        if (deleteFromArray > -1) {
+                                            $scope.groupIdsForSearch.splice(deleteFromArray, 1);
+                                        }
+                                    }
+                                });
+                            } else {
+                                var groupsIds = [];
+                                var newGroupList = $scope.getSelect2Group().split(",");
+                                var isExists = false;
+                                angular.forEach(newGroupList, function(nval, key) {
+                                    isExists = false;
+                                    angular.forEach(candidateGroups, function(val, nkey) {
+                                        if (nval == val.name) {
+                                            isExists = true;
+                                        }
+                                    });
+                                    if (!isExists) {
+                                        angular.forEach(groupList, function(val, nkey) {
+                                            if (nval == val.name) {
+                                                groupsIds.push(val.candidateGroupId);
+                                                var alreadyAdded = false;
+                                                angular.forEach($scope.groupsForEdit,function (forEdit) {
+                                                    if(val.candidateGroupId == forEdit.candidateGroupId) {
+                                                        alreadyAdded = true;
+                                                    }
+                                                });
+                                                if(!alreadyAdded) {
+                                                    $scope.groupsForEdit.push({name: val.name, candidateGroupId: val.candidateGroupId})
+                                                }
+                                            }else if(val.candidateGroupId == nval){
+                                                groupsIds.push(val.candidateGroupId)
+                                            }
+                                        });
+                                        //CandidateGroup.add({name : nval, candidateIds : candidates},function(res){
+                                        //    candidateGroups.push(res.object);
+                                        //});
+                                    }
+                                });
+                                $('a.select2-search-choice-edit').attr("title", $filter('translate')('Edit tag for all candidates'));
+                                $('a.select2-search-choice-edit').off().on('click',function (e) {
+                                    $scope.editTagName(e.currentTarget);
+                                });
+                                $scope.groupIdsForSearch = groupsIds;
+                                $scope.$apply();
+                            }
+                        });
+                    };
+                    $scope.getSelect2Group = function() {
+                        var val = $(element[0]).select2('val');
+                        return val != null ? val.toString() : null;
+                    };
+                    $scope.setSelect2Group = function(val) {
+                        if (val != undefined) {
+                            $(element[0]).select2('val', val);
+                        }
+                    };
+                }
+            }
+        }]
+).directive('ngMin', function() {
+=======
 
                         }
                         $scope.getSkillAutocompleterValueForSearch('');
@@ -3596,6 +3995,32 @@ var directive = angular.module('RecruitingApp.directives', []).
             restrict: 'A',
             require: 'ngModel',
             link: function(scope, elem, attr, ctrl) {
+                scope.$watch(attr.ngMin, function(){
+                    ctrl.$setViewValue(ctrl.$viewValue);
+                });
+                var minValidator = function(value) {
+                    var min = scope.$eval(attr.ngMin) || 0;
+                    if (!isEmpty(value) && value < min) {
+                        ctrl.$setValidity('ngMin', false);
+                        return undefined;
+                    } else {
+                        ctrl.$setValidity('ngMin', true);
+                        return value;
+                    }
+                };
+
+                ctrl.$parsers.push(minValidator);
+                ctrl.$formatters.push(minValidator);
+            }
+        };
+    }
+).directive('ngMax', function() {
+>>>>>>> 1499-vacancyImg-sharingFb
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function(scope, elem, attr, ctrl) {
+<<<<<<< HEAD
                 scope.$watch(attr.ngMin, function(){
                     ctrl.$setViewValue(ctrl.$viewValue);
                 });
@@ -3754,6 +4179,141 @@ var directive = angular.module('RecruitingApp.directives', []).
                 activeClass: "="
             },
             link: function(scope, element) {
+=======
+                scope.$watch(attr.ngMax, function(){
+                    ctrl.$setViewValue(ctrl.$viewValue);
+                });
+                var maxValidator = function(value) {
+                    var max = scope.$eval(attr.ngMax) || Infinity;
+                    if (!isEmpty(value) && value > max) {
+                        ctrl.$setValidity('ngMax', false);
+                        return undefined;
+                    } else {
+                        ctrl.$setValidity('ngMax', true);
+                        return value;
+                    }
+                };
+
+                ctrl.$parsers.push(maxValidator);
+                ctrl.$formatters.push(maxValidator);
+            }
+        };
+    }).directive('showPreviewCandidate', function () {
+            return {
+                scope: {
+                    candidate: '='
+                },
+                restrict: 'A',
+                link: function (scope, element, attrs) {
+                    var showDocument = false;
+                    if(scope.candidate.files){
+                        angular.forEach(scope.candidate.files,function(resp){
+                            initDocuments(resp);
+                            if(resp.showGDocs){
+                                showDocument = true;
+                                resp.showDocument = true;
+                            }
+                        });
+                    }
+                    if(showDocument){
+                        $(element).addClass('attachment');
+                        $(element).click(function () {
+                            $(this).removeClass('attachment');
+                            $(this).addClass('unhide');
+                        }, function () {
+                            $(this).addClass('attachment');
+                            $(this).removeClass('unhide');
+                        });
+                    }else{
+                        $(element).addClass('unhide')
+                    }
+                }
+            }
+        }).directive('myEnter', function () {
+        return function (scope, element, attrs) {
+            console.log('here');
+            element.bind("keydown keypress", function (event) {
+                if(event.which === 13) {
+                    scope.$apply(function (){
+                        scope.$eval(attrs.myEnter);
+                    });
+
+                    event.preventDefault();
+                }
+            });
+        };
+    }).directive('filterList', function($timeout) {
+        return {
+            link: function(scope, element, attrs) {
+
+                var li = Array.prototype.slice.call(element[0].children);
+                function filterBy(value) {
+                    li.forEach(function(el) {
+                        if($(el).attr('role') == 'tab'){
+                            el.className = el.outerText.toLowerCase().indexOf(value.toLowerCase()) !== -1 ? 'panel-heading' : 'ng-hide';
+                            if(el.outerText.toLowerCase().indexOf(value.toLowerCase()) !== -1){
+                                $(el).parent().css({'display': 'block', 'margin-top': '20px'});
+                                if(el.className != 'ng-hide'){
+                                    $(el).parents('.guideAndWork').find('.mrg-bottom').css('display', 'none');
+                                }
+                                if(scope.searchFaq.length == 0){
+                                    $(el).parents('.guideAndWork').find('.mrg-bottom').css('display', 'block');
+                                }
+                            }else{
+                                $(el).parents('.guideAndWork').find('.mrg-bottom').css('display', 'none');
+                                $(el).parent().css('display', 'none');
+                            }
+                        }else{
+                            if(el.textContent.toLowerCase().indexOf(value.toLowerCase()) !== -1){
+                                $(el).parent().css('display', 'block');
+                                $(el).parent()[0].children[0].className = 'panel-heading';
+                            }
+                        }
+                    });
+                }
+
+                scope.$watch(attrs.filterList, function(newVal, oldVal) {
+                    if (newVal !== oldVal) {
+                        filterBy(newVal);
+                    }
+                });
+            }
+        };
+    }).directive("fileread", [function () {
+        return {
+            restrict: 'AE',
+            scope: {
+                fileread: "="
+            },
+            link: function (scope, element, attributes) {
+                element.bind("change", function (changeEvent) {
+                    var reader = new FileReader();
+                    reader.onload = function (loadEvent) {
+                        scope.$apply(function () {
+                            var txt = "";
+                            if ('files' in element[0]) {
+                                for (var i = 0; i < element[0].files.length; i++) {
+                                    var file = element[0].files[i];
+                                    if ('name' in file) {
+                                        txt += file.name;
+                                    }
+                                }
+                            }
+                            scope.fileread = txt;
+                        });
+                    };
+                    reader.readAsDataURL(changeEvent.target.files[0]);
+                });
+            }
+        }
+    }]).directive('selectWithScroll' , [function() {
+        return {
+            restrict: 'A',
+            scope: {
+                scrollSize: "=",
+                activeClass: "="
+            },
+            link: function(scope, element) {
 
                 element.on(
                     {
@@ -3764,6 +4324,21 @@ var directive = angular.module('RecruitingApp.directives', []).
                     }
                 );
 
+                let optionsLength = element.children('option').length;
+                let showUsers = !(element.attr('size'));
+                let selectedOption = null;
+>>>>>>> 1499-vacancyImg-sharingFb
+
+                element.on(
+                    {
+                        mousedown: () => showOptions(event),
+                        change: () => reset(event),
+                        blur: () =>  reset(event),
+                        contextmenu: () => disableContextMenu()
+                    }
+                );
+
+<<<<<<< HEAD
                 let optionsLength = element.children('option').length;
                 let showUsers = !(element.attr('size'));
                 let selectedOption = null;
@@ -4048,10 +4623,236 @@ var directive = angular.module('RecruitingApp.directives', []).
 
                             if(!flag){
 
+=======
+                function showOptions(e) {
+                    if(showUsers && optionsLength > scope.scrollSize - 1) {
+                        element.attr('size', scope.scrollSize);
+                        element.addClass(scope.activeClass);
+                        showUsers = false;
+                    }
+
+                    if(e.target === selectedOption && !showUsers && e.target.tagName.toLowerCase() !== 'select') {
+                        reset(e);
+                    }
+
+                    if(e.target.tagName.toLowerCase() === 'option') {
+                        selectedOption = e.target;
+                    }
+                }
+
+                function reset(e) {
+                    element.removeAttr('size');
+                    element.removeClass(scope.activeClass);
+                    showUsers = true;
+                    if(e.target.tagName.toLowerCase() === 'option') selectedOption = e.target;
+                    if(e.type === 'change') element.blur();
+                }
+
+                function disableContextMenu() {
+                    selectedOption = null;
+                    return false;
+                }
+
+            }
+        }
+    }]).directive('fixedHeaderTable', [function() {
+        return {
+            restrict: 'EA',
+            scope: {
+                columns: "=",
+                secondColumns: "="
+            },
+            link: function(scope, element, attrs) {
+                $(element).after('<table class="table" id="header-fixed" columns="10" second-columns="8" style="position: fixed;top: 0;display: none;background-color: inherit; margin-right: 15px;width: 98%"></table>');
+                setTimeout(function(){
+                    var tableOffset = $('#'+ attrs.id).offset().top;
+                    /////////////////////////////////////////////////////////////////////////  Id is a must!!!!!!
+                    /////////////////////////////////////////////////////////////////////////  ".main-header" is a must!!!!!!
+                    var header = $('#'+ attrs.id + " #main-header").clone();
+                    var secondHeader = $('#'+ attrs.id + " #second_header").clone();
+                    var $fixedHeader = $("#header-fixed").append(header);
+                    $fixedHeader = $("#header-fixed").append(secondHeader);
+                  setTimeout(function(){
+                      $("#header-fixed #main-header td:nth-child(1)").css('width', '95');
+                      $("#header-fixed #main-header td:nth-child(2)").css('width', '95');
+                      $("#header-fixed #main-header td:nth-child(3)").css('width', '105');
+                      $("#header-fixed #main-header td:nth-child(4)").css('width', '130');
+                      $("#header-fixed #main-header td:nth-child(5)").css('width', '92');
+                      $("#header-fixed #main-header td:nth-child(6)").css('width', '100');
+                      $("#header-fixed #main-header td:nth-child(7)").css('width', '239');
+                      $("#header-fixed #main-header td:nth-child(8)").css('width', '271');
+                      $("#header-fixed #main-header td:nth-child(9)").css('width', '127');
+                      $("#header-fixed #main-header td:nth-child(10)").css('width', '152');
+                      //for (var i = 1; i <= scope.columns; i++){
+                      //    $("#header-fixed #main-header td:nth-child("+i+")").css('width', $('#'+ attrs.id + " #main-header td:nth-child("+i+")").css('width'));
+                      //}
+                      if(secondHeader){
+                          console.log(scope.secondColumns);
+                          $("#header-fixed #second_header td:nth-child(1)").css('width', '105');
+                          $("#header-fixed #second_header td:nth-child(2)").css('width', '119');
+                          $("#header-fixed #second_header td:nth-child(3)").css('width', '93');
+                          $("#header-fixed #second_header td:nth-child(4)").css('width', '119');
+                          $("#header-fixed #second_header td:nth-child(5)").css('width', '56');
+                          $("#header-fixed #second_header td:nth-child(6)").css('width', '84');
+                          $("#header-fixed #second_header td:nth-child(7)").css('width', '88');
+                          $("#header-fixed #second_header td:nth-child(8)").css('width', '84');
+                          //for (var i = 1; i <= scope.secondColumns; i++){
+                          //    $("#header-fixed #second_header td:nth-child("+i+")").css('width', $('#'+ attrs.id + " #second_header td:nth-child("+i+")").css('width'));
+                          //}
+                      }
+                      console.log('done')
+                  },1000);
+
+                    $(window).bind("scroll", function() {
+                        var offset = $(this).scrollTop();
+                        if (offset >= tableOffset && $fixedHeader.is(":hidden")) {
+                            if(window.screen.width >= '1400'){
+                                $fixedHeader.css('display', 'inline-table');
+                                $("#header-fixed #main-header td:nth-child(7)").css('width', '226');
+                                $("#header-fixed #main-header td:nth-child(8)").css('width', '225');
+                                $("#header-fixed #main-header td:nth-child(9)").css('width', '157');
+                                $("#header-fixed #main-header td:nth-child(10)").css('width', '183');
+                            }else{
+                                $fixedHeader.css('display', 'block');
+                            }
+                        }
+                        else if (offset < tableOffset) {
+                            $fixedHeader.hide();
+                        }
+                    });
+                },500)
+
+            }
+        }
+    }]).directive('datepickerForTask', ["$filter",  "$rootScope" ,"$translate", "$route", "Task" ,function($filter,  $rootScope, $translate, $route, Task){
+        return {
+            restrict:"EA",
+            link: function ($scope, element, attrs) {
+                $(".editDateTask").datetimepicker({
+                    format: "dd/mm/yyyy hh:00",
+                    startView: 2,
+                    minView: 1,
+                    autoclose: true,
+                    weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                    language: $translate.use(),
+                    initialDate: new Date(),
+                    startDate: new Date()
+                }).on('changeDate', function (data) {
+                    $rootScope.editableTask.targetDate = $('.editDateTask').datetimepicker('getDate');
+                    $scope.roundMinutes($rootScope.editableTask.targetDate);
+                    Task.changeTargetDate({
+                        "taskId": $rootScope.editableTask.taskId,
+                        "date":$rootScope.editableTask.targetDate
+                    }, function(resp){
+                        if($route.current.$$route.pageName != 'Activity'){
+                            $rootScope.getHistoryForAllActions();
+                            $scope.updateTasks();
+                            $scope.getLastEvent();
+                        } else{
+                            $rootScope.getHistoryForAllActions();
+                            $scope.tableParams.reload();
+                        }
+                    })
+                }).on('hide', function () {
+                    if ($('.editDateTask').val() == "") {
+                        $rootScope.editableTask.date = "";
+                    }
+                });
+            }
+        };
+    }]).directive('datepickerForReportOnRequest', ["$filter",  "$rootScope" ,"$translate", "Statistic" ,function($filter,  $rootScope, $translate, Statistic){
+        return {
+            restrict:"EA",
+            link: function ($scope, element, attrs) {
+                let today = new Date();
+                let yesterday = new Date(today);
+                yesterday.setDate(today.getDate() - 1);
+                element.datetimepicker({
+                    format: "dd/mm/yyyy",
+                    startView: 2,
+                    minView: 2,
+                    maxView: 4,
+                    autoclose: true,
+                    weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                    language: $translate.use(),
+                    initialDate: yesterday,
+                    startDate: new Date($rootScope.me.org.dc),
+                    endDate: yesterday
+                }).on('changeDate', function (data) {
+                    function datepickerDSTfix(dateFromPicker) {
+                        let currentTimeZone = (new Date()).getTimezoneOffset();
+                        let pickerTimeZone = dateFromPicker.getTimezoneOffset();
+                        if(pickerTimeZone == currentTimeZone) {
+                            let corrected = new Date(dateFromPicker - dateFromPicker.getMinutes()* 60000 - dateFromPicker.getSeconds()*1000 + currentTimeZone*60000);
+                            return corrected - corrected.getHours() * 3600000
+                        } else {
+                            let timeZoneShift = pickerTimeZone - currentTimeZone;
+                            let corrected = new Date(dateFromPicker - dateFromPicker.getMinutes()* 60000 - dateFromPicker.getSeconds()*1000 + currentTimeZone*60000 + timeZoneShift*60000);
+                            return corrected - corrected.getHours() * 3600000
+                        }
+                    }
+
+                    if (data.date != undefined) {
+                        Statistic.setParam('requestReportDate', datepickerDSTfix(data.date));
+                    }
+                }).on('hide', function () {
+                    element.blur();
+                });
+            }
+        };
+    }]).directive('datepickerOfCustomEditTime', ["$filter",  "$rootScope","$translate" ,function($filter,  $rootScope, $translate){
+        return {
+            restrict:"EA",
+            link: function ($scope, element, attrs) {
+                    element.datetimepicker({
+                        format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy hh:00" : "mm/dd/yyyy hh:00",
+                        startView: 2,
+                        minView: 1,
+                        autoclose: true,
+                        language: $translate.use(),
+                        weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                        initialDate: new Date(),
+                        startDate: new Date()
+                    }).on('changeDate', function (val) {
+                        var flag = false;
+
+                        function datepickerDSTfix(dateFromPicker) {
+                            let currentTimeZone = (new Date()).getTimezoneOffset();
+                            let pickerTimeZone = dateFromPicker.getTimezoneOffset();
+                            if(pickerTimeZone == currentTimeZone) {
+                                return dateFromPicker - dateFromPicker.getMinutes()* 60000 - dateFromPicker.getSeconds()*1000 + currentTimeZone*60000
+                            } else {
+                                let timeZoneShift = pickerTimeZone - currentTimeZone;
+                                return dateFromPicker - dateFromPicker.getMinutes()* 60000 - dateFromPicker.getSeconds()*1000 + currentTimeZone*60000 + timeZoneShift*60000
+                            }
+                        }
+
+                        if (val.date != undefined) {
+                            $scope.editCustomValueDate = datepickerDSTfix(val.date);
+                            if($scope[$scope.objType].fieldValues &&  $scope[$scope.objType].fieldValues.length > 0){
+                                angular.forEach($scope[$scope.objType].fieldValues, function(val) {
+                                    if (val.field.fieldId == $scope.editCustomId) {
+                                        val.dateTimeValue = $scope.editCustomValueDate;
+                                        flag = true;
+                                    }
+                                });
+                                    if(!flag){
+                                      $scope[$scope.objType].fieldValues.push({
+                                          objType: $scope.objType,
+                                          dateTimeValue: $scope.editCustomValueDate,
+                                          fieldValueId: $scope.editCustomFieldValueId,
+                                          field: {
+                                             fieldId: $scope.editCustomId
+                                        }
+                                    });
+                                }
+                            }else{
+>>>>>>> 1499-vacancyImg-sharingFb
                                 $scope[$scope.objType].fieldValues.push({
                                     objType: $scope.objType,
                                     dateTimeValue: $scope.editCustomValueDate,
                                     fieldValueId: $scope.editCustomFieldValueId,
+<<<<<<< HEAD
                                     field: {
                                         fieldId: $scope.editCustomId
                                     }
@@ -4401,6 +5202,147 @@ function similar_text(first, second, percent) {
 }
 
 
+=======
+                                    field : {
+                                        fieldId:  $scope.editCustomId
+                                    }
+                                });
+                            }
+                        }
+                    }).on('hide', function (val) {
+                        if ($(element).name == $scope.editCustomId) {
+                            console.log($scope[$scope.objType], '$scope[$scope.objType].fieldValue');
+                            angular.forEach($scope[$scope.objType].fieldValues, function (nval) {
+                                if ($(element).value != '') {
+                                    if ($scope.editCustomId == nval.field.fieldId) {
+                                        nval.dateTimeValue = "";
+                                    }
+                                }
+                            });
+                        }
+                        $(element).blur();
+                    });
+            }
+        };
+    }]).directive('datepickerOfCustomEdit', ["$filter",  "$rootScope","$translate" ,function($filter,  $rootScope, $translate){
+        return {
+            restrict:"EA",
+            link: function ($scope, element, attrs) {
+                $(element).datetimepicker({
+                    format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
+                    startView: 4,
+                    minView: 2,
+                    autoclose: true,
+                    language: $translate.use(),
+                    weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                    initialDate: new Date(),
+                    startDate: new Date()
+                }).on('changeDate', function (val) {
+                    var flag = false;
+                    if (val.date != undefined) {
+                        $scope.editCustomValueDate = val.date.getTime();
+                        console.log($scope[$scope.objType].fieldValues, '$scope[$scope.objType].fieldValuesDate');
+                        if ($scope[$scope.objType].fieldValues &&  $scope[$scope.objType].fieldValues.length > 0) {
+
+                            console.log('1date');
+                            angular.forEach($scope[$scope.objType].fieldValues, function (val) {
+                                if (val.field.fieldId == $scope.editCustomId) {
+                                    val.dateTimeValue = $scope.editCustomValueDate;
+                                    flag = true;
+                                    console.log('flag = true;');
+                                }
+                            });
+
+                            if(!flag){
+
+                                $scope[$scope.objType].fieldValues.push({
+                                    objType: $scope.objType,
+                                    dateTimeValue: $scope.editCustomValueDate,
+                                    fieldValueId: $scope.editCustomFieldValueId,
+                                    field: {
+                                        fieldId: $scope.editCustomId
+                                    }
+                                });
+                            }
+                        } else {
+                            console.log('2date');
+
+                            // $scope[$scope.objType].fieldValues = [];
+
+                            $scope[$scope.objType].fieldValues.push({
+                                objType: $scope.objType,
+                                dateTimeValue: $scope.editCustomValueDate,
+                                fieldValueId: $scope.editCustomFieldValueId,
+                                field: {
+                                    fieldId: $scope.editCustomId
+                                }
+                            });
+                        }
+                        console.log($scope[$scope.objType].fieldValues, '$scope[$scope.objType].fieldValues');
+                    }
+                }).on('hide', function () {
+                    if ($(element).name == $scope.editCustomId) {
+                        console.log($scope[$scope.objType], '$scope[$scope.objType].fieldValue');
+
+                        angular.forEach($scope[$scope.objType].fieldValues, function (nval) {
+                            if ($(element).value != '') {
+                                if ($scope.editCustomId == nval.field.fieldId) {
+                                    nval.dateTimeValue = "";
+                                }
+                            }
+                        });
+                    }
+                    $(element).blur();
+                });
+
+            },
+
+        };
+    }]);
+function similar_text(first, second, percent) {
+    if (first === null || second === null || typeof first === 'undefined' || typeof second === 'undefined') {
+        return 0;
+    }
+    first += '';
+    second += '';
+    var pos1 = 0,
+        pos2 = 0,
+        max = 0,
+        firstLength = first.length,
+        secondLength = second.length,
+        p, q, l, sum;
+    max = 0;
+    for (p = 0; p < firstLength; p++) {
+        for (q = 0; q < secondLength; q++) {
+            for (l = 0;
+                 (p + l < firstLength) && (q + l < secondLength) && (first.charAt(p + l) === second.charAt(q + l)); l++)
+                ;
+            if (l > max) {
+                max = l;
+                pos1 = p;
+                pos2 = q;
+            }
+        }
+    }
+    sum = max;
+    if (sum) {
+        if (pos1 && pos2) {
+            sum += similar_text(first.substr(0, pos1), second.substr(0, pos2));
+        }
+        if ((pos1 + max < firstLength) && (pos2 + max < secondLength)) {
+            sum += similar_text(first.substr(pos1 + max, firstLength - pos1 - max), second.substr(pos2 + max,
+                secondLength - pos2 - max));
+        }
+    }
+    if (!percent) {
+        return sum;
+    } else {
+        return (sum * 200) / (firstLength + secondLength);
+    }
+}
+
+
+>>>>>>> 1499-vacancyImg-sharingFb
 function getPosition(element) {
     var xPosition = 0;
     var yPosition = 0;
@@ -4751,6 +5693,156 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             } else {
                 return $filter('date')(date, dateMDY) + $filter('translate')('at') + " " + $filter('date')(date, hour);
             }
+<<<<<<< HEAD
+        };
+    }])
+    .filter('dateFormat5', ["$filter", "$translate", function ($filter, $translate) {
+        return function (date, withHour) {
+            var hour = "";
+            var dateforToday = "";
+            var dateToday = new Date().getTime();
+            var dateTomorrow = new Date().setDate(new Date().getDate() + 1);
+            var dateYesterday = new Date().setDate(new Date().getDate() - 1);
+            var lang = $translate.use();
+            var dateMD = "";
+            var dateMDY = "";
+            if (lang == 'ru' || lang == 'ua') {
+                dateMD = "d MMM ";
+                dateMDY = "d MMM y ";
+            } else if (lang == 'en') {
+                dateMD = "MMM d ";
+                dateMDY = "MMM d, y ";
+            }
+            if (withHour === true) {
+                if (lang == 'en') {
+                    hour = "h:mm a";
+                    dateforToday = "h:mm:ss a";
+                } else {
+                    hour = "H:mm";
+                    dateforToday = "H:mm:ss";
+                }
+            }
+            if (angular.equals($filter('date')(dateToday, 'y'), $filter('date')(date, 'y'))) {
+                if (angular.equals($filter('date')(dateToday, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
+                    var res = $filter("translate")("today");
+                    if (withHour) {
+                        res += " " + $filter("translate")("at") + " " + $filter('date')(date, dateforToday)
+                    }
+                    return res;
+                } else if (angular.equals($filter('date')(dateYesterday, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
+                    var res = $filter("translate")("yesterday");
+                    if (withHour) {
+                        res += " " + $filter("translate")("at") + " " + $filter('date')(date, dateforToday)
+                    }
+                    return res;
+                } else {
+                    return $filter('date')(date, dateMD);
+                }
+            } else {
+                return $filter('date')(date, dateMDY);
+            }
+        };
+    }])
+    .filter('dateFormat6', ["$filter", "$translate", function ($filter, $translate) {
+        return function (date, withHour) {
+            var hour = "";
+            var dateToday = new Date().getTime();
+            var dateTomorrow = new Date().setDate(new Date().getDate() + 1);
+            var lang = $translate.use();
+            var dateMD = "";
+            var dateMDY = "";
+            if (lang == 'ru' || lang == 'ua') {
+                dateMD = "d MMM ";
+                dateMDY = "d MMM '<br/>' y ";
+            } else if (lang == 'en') {
+                dateMD = "MMM d ";
+                dateMDY = "MMM d, y ";
+            }
+            if (withHour === true) {
+                if (lang == 'en') {
+                    hour = "h:mm a";
+                } else {
+                    hour = "H:mm";
+                }
+            }
+            if (angular.equals($filter('date')(dateToday, 'y'), $filter('date')(date, 'y'))) {
+                if (angular.equals($filter('date')(dateToday, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
+                    var res = $filter("translate")("today");
+                    if (withHour) {
+                        res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour)
+                    }
+                    return res;
+                } else if (angular.equals($filter('date')(dateTomorrow, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
+                    var res = $filter("translate")("tomorrow");
+                    if (withHour) {
+                        res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour)
+                    }
+                    return res;
+                } else {
+                    return $filter('date')(date, dateMD + '<br/>' + hour);
+                }
+            } else {
+                return $filter('date')(date, dateMDY + hour);
+            }
+        };
+    }])
+    .filter('salaryFormat', ["$filter", function ($filter) {
+        return function (salaryFrom, salaryTo) {
+            var res = "";
+            if (salaryFrom && salaryTo) {
+                res = salaryFrom + "-" + salaryTo;
+            } else if (salaryFrom && !salaryTo) {
+                res = salaryFrom + "+";
+            } else if (!salaryFrom && salaryTo) {
+                res = $filter('translate')('up to') + " " + salaryTo;
+            } else if (!salaryFrom && !salaryTo) {
+                res = $filter('translate')('on the interview results');
+            }
+            return res;
+        };
+    }])
+    .filter('secondsToHhMm', ["$filter", function ($filter) {
+        return function (seconds) {
+            if (seconds != undefined && seconds != null && !isNaN(seconds) && seconds != 0) {
+                var res = "";
+                if(seconds >= 60) {
+                    var hour = parseInt(seconds / 3600 );
+                    if (hour != 0) {
+                        res += hour + " " + $filter("translate")("h") + " ";
+                    }
+                    var min =  parseInt((seconds - (hour * 3600)) / 60);
+                    res += min + " " + $filter("translate")("min");
+                    return res;
+                } else {
+                    var sec = seconds + " " +$filter("translate")("sec");
+                    return sec;
+                }
+            } else {
+                return "";
+            }
+        };
+    }])
+    .filter('dayFormat', ["$filter", function ($filter) {
+        return function (seconds) {
+            if (seconds != undefined && seconds != null && !isNaN(seconds) && seconds != 0) {
+                var res = "";
+                var day = parseInt(seconds / 3600 / 24);
+                if (day != 0) {
+                    res += day + " " + $filter("translate")("d") + ". ";
+                }
+                var hour = Math.round((seconds / 3600) % 24);
+                if (hour != 0) {
+                    res += hour + " " + $filter("translate")("h") + ". "
+                } else if (seconds < 3600) {
+                    res += "1 " + $filter("translate")("h") + ". "
+                }
+                return res;
+            } else {
+                return "";
+            }
+        };
+    }])
+=======
         };
     }])
     .filter('dateFormat5', ["$filter", "$translate", function ($filter, $translate) {
@@ -4899,6 +5991,7 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             }
         };
     }])
+>>>>>>> 1499-vacancyImg-sharingFb
     .filter('dayFormat2', ["$filter", "$translate", function ($filter, $translate) {
         return function (date, done) {
             if (date) {
@@ -4966,6 +6059,229 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                 var cases = [2, 0, 1, 1, 1, 2];
                 var translate = $filter('translate');
                 return age + " " + [translate('year'), translate('years'), translate('age_1')][(age % 100 > 4 && age % 100 < 20) ? 2 : cases[(age % 10 < 5) ? age % 10 : 5]];
+<<<<<<< HEAD
+
+            }
+        };
+    }])
+    .filter('ageDisplay', ["$filter", function ($filter) {
+        return function (ageFrom, ageTo) {
+            if (ageFrom != undefined && ageTo == undefined) {
+                return $filter('translate')('from') + " " + ageFrom
+            } else if (ageTo != undefined && ageFrom == undefined) {
+                return $filter('translate')('to') + " " + ageTo
+            } else if (ageTo != undefined && ageFrom != undefined) {
+                return ageFrom + "-" + ageTo;
+            }
+        }
+    }])
+    .filter('adviceFilter', function () {
+        return function (advices, criteria) {
+            var filtered = [];
+            var limit = criteria.limit;
+            angular.forEach(advices, function (val, s, i) {
+                if (limit != undefined && limit > s) {
+                    if (val.scorePersent != undefined && val.scorePersent > 25) {
+                        filtered.push(val);
+                    }
+                }
+            });
+            return filtered;
+        }
+    })
+    .filter('transliteration', ["transliteration", function (transliteration) {
+        return function (value) {
+            var transl = transliteration.getArray();
+            var result = "";
+            for (var i = 0; i < value.length; i++) {
+                if (transl[value[i]] != undefined) {
+                    result += transl[value[i]];
+                } else {
+                    if (value[i].match(/\w/)) {
+                        result += value[i];
+                    } else if(value[i] == '#'){
+                        result += '-sharp'
+                    }else if(value[i] == '/'){
+                        result += '|'
+                    } else {
+                        result += '_';
+                    }
+                }
+            }
+            return result;
+        }
+    }])
+    .filter('responsibleWithout', function () {
+        return function (responsible, responsibleHas) {
+            var filtered = [];
+            angular.forEach(responsible, function (person) {
+                if (person.userId != undefined) {
+                    var has = false;
+                    angular.forEach(responsibleHas, function (hasPerson) {
+                        if (hasPerson.responsible && hasPerson.responsible.userId === person.userId) {
+                            has = true;
+                        }
+                    });
+                    if (!has) {
+                        filtered.push(person);
+                    }
+                }
+            });
+            return filtered;
+        };
+    })
+    .filter('scopeRegionFilter', function () {
+        return function (regions, regionId) {
+            var filtered = [];
+            angular.forEach(regions, function (region) {
+                if (angular.equals(region.regionId, regionId)) {
+                    filtered.push(region);
+                }
+            });
+            return filtered;
+        };
+    })
+    .filter('cutName', function () {
+        return function (value, wordwise, max, tail) {
+            if (!value) return '';
+
+            max = parseInt(max, 10);
+            if (!max) return value;
+            if (value.length <= max) return value;
+
+            value = value.substr(0, max);
+            if (wordwise) {
+                var lastspace = value.lastIndexOf(' ');
+                if (lastspace != -1) {
+                    value = value.substr(0, lastspace);
+                }
+            }
+
+            return value + (tail || '…');
+        };
+    })
+    .filter('cut', function () {
+        return function (value, wordwise, max, tail) {
+            var endExtension = "";
+            if (!value)
+                return '';
+            if (value.split('.').length === 2) {
+                endExtension = value.split('.')[1];
+                value = value.split('.')[0];
+            }
+            max = parseInt(max, 10);
+            if (!max)
+                return value;
+            if (value.length + value.split(' ').length <= max)
+                return value + endExtension;
+
+            value = value.substr(0, max);
+            if (wordwise) {
+                var lastspace = value.lastIndexOf(' ');
+                if (lastspace !== -1) {
+                    value = value.substr(0, lastspace);
+                }
+            }
+            return value + (tail || '...') + endExtension;
+        };
+    })
+    .filter('modalchangestatusplaceholder', ["$filter", function ($filter) {
+        return function (value) {
+            if (value == 'declinedoffer') {
+                return $filter('translate')('Write a comment why candidate long offer (required)')
+            } else {
+                return $filter('translate')('Write a comment about changing candidate status to') + ' '
+                     + $filter('translate')('(optional)');
+            }
+
+        };
+    }])
+    .filter('spellcheck', function () {
+        return function (value) {
+            if (!value) {
+                return '';
+            }
+            if (value === 'admin') {
+                return 'Admin';
+            }
+            if (value === 'client') {
+                return 'Hiring manager';
+            }
+            if (value === 'hr:client') {
+                return 'Hiring manager';
+            }
+            if (value === 'recruter') {
+                return 'Recruiter';
+            }
+            if (value === 'researcher') {
+                return 'Researcher';
+            }
+            if (value === 'hr:admin') {
+                return 'Admin';
+            }
+            if (value === 'hr:recruter') {
+                return 'Recruiter';
+            }
+            if (value == "salesmanager") {
+                return "Sales Manager"
+            }
+            if (value === 'hr:salesmanager') {
+                return 'Sales Manager';
+            }
+            if (value === 'freelancer') {
+                return 'Freelancer';
+            }
+            if (value === 'hr:freelancer') {
+                return 'Freelancer';
+            }
+            return value;
+        };
+    })
+    .filter('cutScope', function () {
+        return function (value) {
+            if (!value)
+                return '';
+            if (value.length < 15) {
+                return value;
+            } else {
+                value = value.substr(0, 13);
+                return value + '...';
+            }
+        };
+    })
+    .filter('unique', function () {
+
+        return function (items, filterOn) {
+
+            if (filterOn === false) {
+                return items;
+            }
+
+            if ((filterOn || angular.isUndefined(filterOn)) && angular.isArray(items)) {
+                var hashCheck = {}, newItems = [];
+
+                var extractValueToCompare = function (item) {
+                    if (angular.isObject(item) && angular.isString(filterOn)) {
+                        return item[filterOn];
+                    } else {
+                        return item;
+                    }
+                };
+
+                angular.forEach(items, function (item) {
+                    var valueToCheck, isDuplicate = false;
+
+                    for (var i = 0; i < newItems.length; i++) {
+                        if (angular.equals(extractValueToCompare(newItems[i]), extractValueToCompare(item))) {
+                            isDuplicate = true;
+                            break;
+                        }
+                    }
+                    if (!isDuplicate) {
+                        newItems.push(item);
+                    }
+
+=======
 
             }
         };
@@ -5284,8 +6600,265 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                     } else {
                         count = count + limitRow;
                     }
+>>>>>>> 1499-vacancyImg-sharingFb
+                });
+                items = newItems;
+            }
+<<<<<<< HEAD
+            return items;
+        };
+    })
+    .filter('escape', function () {
+        return window.escape;
+    })
+    .filter('interpolate', ['version', function (version) {
+        return function (text) {
+            return String(text).replace(/\%VERSION\%/mg, version);
+        };
+    }])
+    .filter("translatestatus", ["$filter", function ($filter) {
+        return function (text) {
+            switch (text) {
+                case"shortlist":
+                    return $filter("translate")("short_list");
+                case"longlist":
+                    return $filter("translate")("long_list");
+                case"interview":
+                    return $filter("translate")("interview");
+                case"approved":
+                    return $filter("translate")("approved");
+                case"notafit":
+                    return $filter("translate")("not_a_fit");
+                case"declinedoffer":
+                    return $filter("translate")("declined_offer");
+                case"no_contacts":
+                    return $filter("translate")("no_contacts");
+                case"no_response":
+                    return $filter("translate")("no_response");
+            }
+
+        }
+    }])
+    .filter('getorders', function () {
+        return function (orders) {
+            var filtered_list = [];
+            if (orders != undefined) {
+                for (var i = 0; i < orders.length; i++) {
+                        var two_days_ago = new Date().getTime() - 24 * 60 * 60 * 1000;
+                        var last_modified = new Date(orders[i].date).getTime();
+
+                        //if (two_days_ago <= last_modified || orders[i].type == 'task') {
+                            filtered_list.push(orders[i]);
+                        //}
+                }
+            }
+
+            //filtered_list.sort(function (a, b) {
+            //    return a.date - b.date;
+            //});
+            return filtered_list;
+        }
+    })
+    .filter('showRegionInVacancy', function () {
+        return function (region) {
+
+            if (region) {
+                if (region.city) {
+                    return region.city;
+                } else if (region.country)
+                    return region.country;
+            }
+            return "";
+
+        }
+    })
+    .filter('textForNotice', function ($sce, $filter) {
+        return function (text, withDot) {
+            withDot == undefined ? false : withDot;
+            var respText;
+            var dots = "";
+            if ($filter('countOfTextInSticker')(text) > 210 && withDot)dots = "...";
+            if (text != undefined && text.length > 0) {
+                respText = linkify3(text) + dots;
+            } else {
+                respText = "";
+            }
+            respText = respText.replace(new RegExp('\n', 'g'), '<br />');
+            return $sce.trustAsHtml(respText);
+        }
+    })
+    .filter('countOfTextInSticker', function () {
+        return function (text) {
+            var limitRow = 30;
+            var count = 0;
+            if (text != undefined) {
+                var arr = text.split(/\n/g);
+                angular.forEach(arr, function (val) {
+                    if (val.length >= limitRow) {
+                        count = count + val.length;
+                    } else {
+                        count = count + limitRow;
+                    }
                 });
             }
+            return count;
+        }
+    })
+    .filter('stringToJson', function () {
+        return function (text) {
+            if (text != undefined) {
+                var s = JSON.parse(text);
+                if (angular.isArray(s)) {
+                    return s;
+                } else {
+                    return s.split(',');
+                }
+            }
+            return [];
+        }
+    })
+    .filter('numberSpacing', function () {
+        return function (number) {
+            if (number != undefined) {
+                //return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                var parts = number.toString().split(".");
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                return parts.join(".");
+            }
+            return [];
+        }
+    })
+    .filter('dateCounter', function ($filter, $sce) {
+        return function (date, type) {
+            if (!date) {
+                return "";
+            }
+            var msDate = null;
+            switch (type) {
+                case "String":
+                    msDate = new Date(date);
+                    break;
+                case "second":
+                    msDate = new Date(date * 1000);
+                    break;
+                case "milliseconds":
+                    msDate = new Date(date);
+                default:
+                    msDate = date;
+            }
+
+            var today = new Date();
+            today.setUTCHours(0, 0, 0, 0);
+            msDate.setUTCHours(0, 0, 0, 0);
+            var seconds = (today.getTime() - msDate.getTime()) / 1000;
+            var future = false;
+            if (seconds < 0) {
+                seconds = Math.abs(seconds);
+                future = true;
+            }
+
+            var res = "";
+            var day = parseInt(seconds / 3600 / 24);
+            var translate = $filter("translate");
+            if (day === 0) {
+                return $sce.trustAsHtml(translate("today"));
+            } else if (day === 1) {
+                if (future) {
+                    return $sce.trustAsHtml(translate("tomorrow"));
+                } else {
+                    return $sce.trustAsHtml("<span style='color:#D95C5C'>" + translate("yesterday") + "</span>");
+                }
+            } else {
+                var cases = [2, 0, 1, 1, 1, 2];
+                res += day + " " + [translate('day'), translate('days'), translate('days_1')][(day % 100 > 4 && day % 100 < 20) ? 2 : cases[(day % 10 < 5) ? day % 10 : 5]]
+            }
+            if (!future) {
+                res += " " + translate("ago");
+                res = "<span style='color:#D95C5C'>" + res + "</span>";
+            } else {
+                res = translate("in_1") + " " + res;
+            }
+            return $sce.trustAsHtml(res);
+        };
+    })
+    .filter("makeLink", [function () {
+        return function (linkName) {
+            if (linkName != undefined) {
+                var linkNameArr = linkName.split(":");
+                if(linkNameArr[0] != 'http' && linkNameArr[0] != 'https'){
+                    linkNameArr.unshift("http://");
+                    linkNameArr = linkNameArr.join("");
+                    return linkNameArr;
+                }else{
+                    linkNameArr = linkNameArr.join(":");
+                    return linkNameArr;
+                }
+            } else {
+                return "";
+            }
+
+        }
+    }])
+    .filter('filter_refToDomain', function(){
+        return function (value) {
+            if(!value) return;
+            return value.split('/')[2];
+        };
+    })
+    .filter('filter_parseObject', function () {
+        return function (value) {
+            var str,
+                str2,
+                i = 0 ,
+                max, resault = '';
+
+            if(!value)return;
+
+            value = JSON.parse(value);
+            max = Object.entries(value);
+
+            for(; i < max.length; i++) {
+                str = max[i][0];
+                str2 = max[i][1];
+                resault += str + ":" + str2 + '<br />' ;
+            }
+
+            return resault;
+        }
+    })
+    .filter('filterDataForReport',filterFildsForCustomReports)
+    .filter('parseCamelCase' , function() {
+       return function(string) {
+           var result = [];
+           Array.prototype.map.call(string, (letter) => {
+                if(letter === letter.toLowerCase()) {
+                    result.push(letter);
+                } else {
+                    result.push(" ");
+                    result.push(letter);
+                }
+           });
+           return result.join("");
+       }
+    });
+function linkify3(text) {
+    if (text) {
+        text = text.replace(
+            /((https?\:\/\/)|(www\.))(\S+)(\w{2,4})(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/gi,
+            function (url) {
+                var full_url = url;
+                if (!full_url.match('^https?:\/\/')) {
+                    full_url = 'http://' + full_url;
+                }
+                url = url.replace('http://', '').replace('https://', '').replace('www.', '');
+                var dot = "";
+                if (url.length > 24) {
+                    dot = "...";
+                }
+                return '<a target="_blank" href="' + full_url + '">' + url.substr(0, 24) + dot + '</a>';
+            }
+        );
+=======
             return count;
         }
     })
@@ -5494,6 +7067,195 @@ function filterFildsForCustomReports($filter) {
         }
 
         return field.value;
+>>>>>>> 1499-vacancyImg-sharingFb
+    }
+    return text;
+}
+
+<<<<<<< HEAD
+
+function linkify(inputText) {
+    var replacedText, replacePattern1, replacePattern2, replacePattern3;
+=======
+function formatDate(date) {
+    if(!date) return '-';
+     date = new Date(date);
+
+
+    var dd = date.getDate();
+    if (dd < 10) dd = '0' + dd;
+
+    var mm = date.getMonth() + 1;
+    if (mm < 10) mm = '0' + mm;
+
+    var yy = date.getFullYear() % 100;
+
+    if (yy < 10) yy = '0' + yy;
+
+    return dd + '.' + mm + '.' + yy;
+}
+
+function filterCustomFildsForCustomReports(customField) {
+    let vacancy = customField.vacancy;
+
+    if(vacancy.customFieldsDto){
+        vacancy = vacancy.customFieldsDto.filter(item => item.fieldId == customField.type.id);
+        if(vacancy[0] && vacancy[0].type !== "date" && vacancy[0].type !== "datetime"){
+            return vacancy[0].value;
+        }else if(vacancy[0] && vacancy[0].type == "date"){
+            return vacancy[0].value.split(' ')[0];
+        }else if(vacancy[0] && vacancy[0].type == "datetime"){
+            console.log(vacancy[0], 'vacancy[0]');
+            return vacancy[0].value.split(':')[0] + ":" + vacancy[0].value.split(':')[1];
+        }
+    }
+
+    return '-';
+}
+
+angular.module('services.account', [
+    'ngResource',
+    'ngCookies'
+]).factory('Account', ['$resource', 'serverAddress', function($resource, serverAddress) {
+
+    var account = $resource(serverAddress + '/account/:param', {param: "@param"}, {
+
+        getAccountInfo: {
+            method : "GET",
+            headers: {'Content-type':'application/json; charset=UTF-8'},
+            params: {
+                param: 'getAccountInfo'
+            }
+        },
+        getExpenses: {
+            method : "POST",
+            headers: {'Content-type':'application/json; charset=UTF-8'},
+            params: {
+                param: 'getExpenses'
+            }
+        },
+        getAccountHistory: {
+            method : "POST",
+            headers: {'Content-type':'application/json; charset=UTF-8'},
+            params: {
+                param: 'getAccountHistory'
+            }
+        },
+        getAccountsInfo: {
+            method : "GET",
+            headers: {'Content-type':'application/json; charset=UTF-8'},
+            params: {
+                param: 'getAccountsInfo'
+            }
+        },
+        getTransactions:{
+            method:"POST",
+            headers:{'Content-type':'application/json; charset=UTF-8'},
+            params:{
+                param:'getTransactions'
+            }
+        },
+        addTransactionForFinancier: {
+            method: "POST",
+            headers:{'Content-type':'application/json; charset=UTF-8'},
+            params:{
+                param:'addTransactionForFinancier'
+            }
+        }
+
+
+    });
+
+    return account;
+}]);
+
+angular.module('services.achieve', [
+    'ngResource',
+    'ngCookies'
+]).factory('Achieve', ['$resource', 'serverAddress', function($resource, serverAddress) {
+
+    var achieve = $resource(serverAddress + '/achieve/:param', {param: "@param"}
+        , {
+            get:{
+                method:"POST",
+                params:{
+                    param:"get"
+                }
+            }
+
+
+        });
+
+    return achieve;
+}]);
+
+angular.module('services.action', [
+    'ngResource',
+    'ngCookies'
+]).factory('Action', ['$resource', 'serverAddress', '$filter', '$localStorage', function($resource, serverAddress, $filter, $localStorage) {
+
+    var action = $resource(serverAddress + '/action/:param', {param: "@param"}
+        , {
+            editAction: {
+                method : "POST",
+                headers: {'Content-type':'application/json; charset=UTF-8'},
+                params: {
+                    param: 'editAction'
+                }
+            },
+            removeMessageAction: {
+                method : "GET",
+                headers: {'Content-type':'application/json; charset=UTF-8'},
+                params: {
+                    param: 'removeMessageAction'
+                }
+            }
+>>>>>>> 1499-vacancyImg-sharingFb
+
+    //URLs starting with http://, https://, or ftp://
+    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    //console.log(inputText.match(replacePattern1))
+    replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    //console.log(inputText.match(replacePattern1))
+    replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+<<<<<<< HEAD
+    ////Change email addresses to mailto:: links.
+    //replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+    //replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+
+    return replacedText;
+}
+
+function filterFildsForCustomReports($filter) {
+    return (field, scope) =>{
+        if(scope.ctrlReport){
+            scope = scope.ctrlReport;
+        }
+
+        if(field.type.value == 'responsibles'){
+            if(!field.value) return '-';
+            return field.value.map(item => scope.getPersonFullName(item.personId)).join(', ');
+        }else if(field.type.value == 'client'){
+            return field['vacancy'].clientId.name;
+        }else if(field.type.value == 'location'){
+            return scope.regionIdToName(field['vacancy'].regionId);
+        }else if(field.type.value == 'salary'){
+            return (field['vacancy'].salaryTo)? field['vacancy'].salaryTo + " " + field['vacancy'].currency : '-';
+        }else if(field.type.value == "dc" || field.type.value == "dateFinish"  || field.type.value == "datePayment"){
+            return formatDate(field.value);
+        }else if(field.type.id && field.type.visiable){
+            return filterCustomFildsForCustomReports(field);
+        }
+
+        if(!field.value && field.type.visiable){
+            return '-';
+        }
+
+        return field.value;
     }
 }
 
@@ -5634,6 +7396,8 @@ angular.module('services.action', [
 
         });
 
+=======
+>>>>>>> 1499-vacancyImg-sharingFb
     return action;
 }]);
 
@@ -5865,6 +7629,32 @@ angular.module('services.candidate', [
                 }
             },
             getDuplicatesByName: {
+<<<<<<< HEAD
+                method: "POST",
+                params: {
+                    param: "getDuplicatesByName"
+                }
+            },
+            getDuplicatesByNameAndContacts: {
+                method: "POST",
+                params: {
+                    param: "getDuplicatesByNameAndContacts"
+                }
+            },
+            addToParserQueue: {
+                method: "POST",
+                params: {
+                    param: "addToParserQueue"
+                }
+            },
+            removeFromParserQueue: {
+                method: "POST",
+                params: {
+                    param: "removeFromParserQueue"
+                }
+            },
+            getParseEmailData: {
+=======
                 method: "POST",
                 params: {
                     param: "getDuplicatesByName"
@@ -5910,6 +7700,47 @@ angular.module('services.candidate', [
                 method: "POST",
                 headers: {'Content-type': 'application/json; charset=UTF-8'},
                 params: {
+                    param: "saveSearchFilter"
+                }
+            },
+            getSearchHistory: {
+                method: "POST",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "getSearchHistory"
+                }
+            },
+            getSearchHistoryAdmin: {
+                method: "POST",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "getSearchHistoryAdmin"
+                }
+            },
+            checkMailbox: {
+>>>>>>> 1499-vacancyImg-sharingFb
+                method: "GET",
+                params: {
+                    param: "getParseEmailData"
+                }
+            },
+            getMessages: {
+                method: "GET",
+                params: {
+                    param: "getMessages"
+                }
+            },
+            getParseEmailHistory: {
+                method: "POST",
+                params: {
+                    param: "getParseEmailHistory"
+                }
+            },
+            saveSearchFilter: {
+                method: "POST",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+<<<<<<< HEAD
                     param: "saveSearchFilter"
                 }
             },
@@ -6003,6 +7834,80 @@ angular.module('services.candidate', [
                 params: {
                     param: "getCandidateProperties"
                 }
+=======
+                    param: "checkMailbox"
+                }
+            },
+            addLink: {
+                method: "POST",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "addLink"
+                }
+            },
+            getCandidateLinks: {
+                method: "GET",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "getCandidateLinks"
+                }
+            },
+            removeCandidateLink: {
+                method: "GET",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "removeCandidateLink"
+                }
+            },
+            autocompleteSkill: {
+                method: "POST",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "autocompleteSkill"
+                }
+            },
+            updateFromFile: {
+                method: "GET",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "updateFromFile"
+                }
+            },
+            getCV: {
+                method: "GET",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "getCV"
+                }
+            },
+            addEmailAccess: {
+                method: "POST",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "addEmailAccess"
+                }
+            },
+            editEmailAccess: {
+                method: "POST",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "editEmailAccess"
+                }
+            },
+            editOriginAll: {
+                method: "GET",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "editOriginAll"
+                }
+            },
+            getCandidateProperties: {
+                method: "GET",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "getCandidateProperties"
+                }
+>>>>>>> 1499-vacancyImg-sharingFb
             }
         });
     candidate.getSearchHistoryUniqueLink = function(callback) {
@@ -6212,6 +8117,7 @@ angular.module('services.candidate', [
                         });
                     } else {
                         $scope.duplicatesByNameAndContacts = [];
+<<<<<<< HEAD
                     }
                     duplicatesByNameAndContacts = false;
                 }, function (resp) {
@@ -6704,6 +8610,500 @@ angular.module('services.candidate', [
                     if (angular.equals(c.type, "skype")) {
                         $scope.contacts.skype = c.value;
                     }
+=======
+                    }
+                    duplicatesByNameAndContacts = false;
+                }, function (resp) {
+                    $scope.duplicatesByNameAndContacts = [];
+                    duplicatesByNameAndContacts = false;
+                });
+            }, 2000);
+        } else {
+            $scope.duplicatesByNameAndContacts = [];
+        }
+    };
+
+    //var duplicatesByEmailGO = false;
+    //candidate.checkDuplicatesByEmail = function($scope) {
+    //    if (!duplicatesByEmailGO && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) {
+    //        duplicatesByEmailGO = true;
+    //        candidate.getDuplicates({email: $scope.contacts.email, phone: ""}, function(res) {
+    //            $scope.duplicatesByEmail = [];
+    //            if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
+    //                angular.forEach(res.objects, function(c, i) {
+    //                    if (c.candidateId != $scope.candidate.candidateId) {
+    //                        $scope.duplicatesByEmail.push(c);
+    //                    }
+    //                });
+    //                //$scope.duplicatesByEmail = res.objects;
+    //            } else {
+    //                $scope.duplicatesByEmail = [];
+    //            }
+    //            duplicatesByEmailGO = false;
+    //        }, function(resp) {
+    //            $scope.duplicatesByEmail = [];
+    //            duplicatesByEmailGO = false;
+    //        });
+    //    } else {
+    //        $scope.duplicatesByEmail = [];
+    //    }
+    //};
+    //
+    //var duplicatesBySkypeGO = false;
+    //candidate.checkDuplicatesBySkype = function($scope) {
+    //    if (!duplicatesBySkypeGO && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) {
+    //        duplicatesBySkypeGO = true;
+    //        candidate.getDuplicates({skype: $scope.contacts.skype, phone: ""}, function(res) {
+    //            $scope.duplicatesBySkype = [];
+    //            if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
+    //                angular.forEach(res.objects, function(c, i) {
+    //                    if (c.candidateId != $scope.candidate.candidateId) {
+    //                        $scope.duplicatesBySkype.push(c);
+    //                    }
+    //                });
+    //                //$scope.duplicatesByEmail = res.objects;
+    //            } else {
+    //                $scope.duplicatesBySkype = [];
+    //            }
+    //            duplicatesBySkypeGO = false;
+    //        }, function(resp) {
+    //            $scope.duplicatesBySkype = [];
+    //            duplicatesBySkypeGO = false;
+    //        });
+    //    } else {
+    //        $scope.duplicatesBySkype = [];
+    //    }
+    //};
+    //var duplicatesByLinkedinGO = false;
+    //candidate.checkDuplicatesByLinkedin = function($scope) {
+    //    if (!duplicatesByLinkedinGO && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) {
+    //        duplicatesByLinkedinGO = true;
+    //        candidate.getDuplicates({ linkedInUrl: $scope.contacts.linkedin, phone: ""}, function(res) {
+    //            $scope.duplicatesByLinkedin = [];
+    //            if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
+    //                angular.forEach(res.objects, function(c, i) {
+    //                    if (c.candidateId != $scope.candidate.candidateId) {
+    //                        $scope.duplicatesByLinkedin.push(c);
+    //                    }
+    //                });
+    //                //$scope.duplicatesByEmail = res.objects;
+    //            } else {
+    //                $scope.duplicatesByLinkedin = [];
+    //            }
+    //            duplicatesByLinkedinGO = false;
+    //        }, function(resp) {
+    //            $scope.duplicatesByLinkedin = [];
+    //            duplicatesByLinkedinGO = false;
+    //        });
+    //    } else {
+    //        $scope.duplicatesByLinkedin = [];
+    //    }
+    //};
+    //
+    //var duplicatesByPhoneGO = false;
+    //candidate.checkDuplicatesByPhone = function($scope) {
+    //    if (!duplicatesByPhoneGO && $scope.contacts && $scope.contacts.mphone && $scope.contacts.mphone.length > 4) {
+    //        duplicatesByPhoneGO = true;
+    //        candidate.getDuplicates({email: "", phone: $scope.contacts.mphone}, function(res) {
+    //            $scope.duplicatesByPhone = [];
+    //            if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
+    //                angular.forEach(res.objects, function(c, i) {
+    //                    if (c.candidateId != $scope.candidate.candidateId) {
+    //                        $scope.duplicatesByPhone.push(c);
+    //                    }
+    //                });
+    //                //$scope.duplicatesByPhone = res.objects;
+    //            } else {
+    //                $scope.duplicatesByPhone = [];
+    //            }
+    //            duplicatesByPhoneGO = false;
+    //        }, function(resp) {
+    //            $scope.duplicatesByPhone = [];
+    //            duplicatesByPhoneGO = false;
+    //        });
+    //    } else {
+    //        $scope.duplicatesByPhone = [];
+    //    }
+    //};
+    //
+    //var duplicatesByNameGO = false;
+    //var fullNamePattern = "/^[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+(\s+[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+)+(\s+[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+)*$/";
+    //candidate.checkDuplicatesByName = function($scope) {
+    //    console.log(duplicatesByNameGO);
+    //    console.log($scope.candidate.fullName);
+    //    console.log($scope.candidate.fullName.match(fullNamePattern));
+    //    if (!duplicatesByNameGO && $scope.candidate.fullName && $scope.candidate.fullName.length > 3) {
+    //        duplicatesByNameGO = true;
+    //        candidate.getDuplicatesByName({fullName: $scope.candidate.fullName}, function(res) {
+    //            $scope.duplicatesByName = [];
+    //            if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
+    //                angular.forEach(res.objects, function(c, i) {
+    //                    if (c.candidateId != $scope.candidate.candidateId) {
+    //                        $scope.duplicatesByName.push(c);
+    //                    }
+    //                });
+    //            } else {
+    //                $scope.duplicatesByName = [];
+    //            }
+    //            duplicatesByNameGO = false;
+    //        }, function(resp) {
+    //            $scope.duplicatesByName = [];
+    //            duplicatesByNameGO = false;
+    //        });
+    //    } else {
+    //        $scope.duplicatesByName = [];
+    //    }
+    //};
+
+    function countCandProperties($scope, candidate) {
+        var allPuncts = 15;
+        var allPuncts3 = allPuncts / 100 * 3;
+        var allPuncts5 = allPuncts / 100 * 5;
+        var allPuncts50 = allPuncts / 100 * 50;
+        var progressMessage = [];
+        var count = 0;
+        if (candidate) {
+            if (candidate.fullName) {
+                count = count + allPuncts5;
+            } else {
+                progressMessage.push($filter('translate')("full_name"));
+            }
+            if (candidate.contacts !== undefined && candidate.contacts !== null && candidate.contacts.length !== 0) {
+                var i = 0;
+                angular.forEach(candidate.contacts, function(val) {
+                    if (angular.equals(val.type, "email" || val.type, "skype")) {
+                        count = count + allPuncts5;
+                        i++
+                    }
+                    if (angular.equals(val.type, "linkedin")) {
+                        count = count + allPuncts5;
+                        i++
+                    }
+                    if (angular.equals(val.type, "mphone")) {
+                        count = count + allPuncts5;
+                        i++
+                    }
+                });
+                if(i < 3){
+                    progressMessage.push($filter('translate')("contacts") + "(" + $filter('translate')("Phone, email, linkedin") + ")");
+                }
+            } else {
+                progressMessage.push($filter('translate')("contacts") + "(" + $filter('translate')("Phone, email, linkedin") + ")");
+            }
+            if (candidate.coreSkills) {
+                if(candidate.coreSkills.length > 30){
+                    count = count + allPuncts3;
+                }else{
+                    progressMessage.push($filter('translate')("Skills with text"));
+                }
+            } else {
+                progressMessage.push($filter('translate')("Skills with text"));
+            }
+            if (candidate.db) {
+                count = count + allPuncts3;
+            } else {
+                progressMessage.push($filter('translate')("date_of_birth"));
+            }
+            if (candidate.descr || candidate.files || ($scope.fileForSave !== undefined && $scope.fileForSave !== null && $scope.fileForSave.length !== 0)) {
+                if(candidate.descr.length > 500){
+                    count = count + allPuncts50;
+                } else if(candidate.files.length > 0 || ($scope.fileForSave !== undefined && $scope.fileForSave !== null && $scope.fileForSave.length !== 0)){
+                    count = count + allPuncts50;
+                }
+            } else{
+                if(!candidate.descr <= 500){
+                    progressMessage.push($filter('translate')("description"));
+                }
+                if(!candidate.files || ($scope.fileForSave == undefined && $scope.fileForSave == null)){
+                    progressMessage.push($filter('translate')("files"));
+                }
+            }
+
+            //if (!candidate.descr || !candidate.files || ($scope.fileForSave == undefined && $scope.fileForSave == null && $scope.fileForSave.length == 0)) {
+            //
+            //}
+            //if (candidate.education) {
+            //    count++;
+            //} else {
+            //    progressMessage.push($filter('translate')("education"));
+            //}
+            //if (candidate.employmentType) {
+            //    count++;
+            //} else {
+            //    progressMessage.push($filter('translate')("employment_type"));
+            //}
+            if (candidate.expirence) {
+                count = count + allPuncts3;
+            } else {
+                progressMessage.push($filter('translate')("experience"));
+            }
+            //if (candidate.files || ($scope.fileForSave !== undefined && $scope.fileForSave !== null && $scope.fileForSave.length !== 0)) {
+            //    count++;
+            //} else {
+            //    progressMessage.push($filter('translate')("files"));
+            //}
+            //if (candidate.industry) {
+            //    count++;
+            //} else {
+            //    progressMessage.push($filter('translate')("industry"));
+            //}
+            if (candidate.languages) {
+                count = count + allPuncts3;
+            } else {
+                progressMessage.push($filter('translate')("languages"));
+            }
+            if (candidate.photo) {
+                count = count + allPuncts5;
+            } else {
+                progressMessage.push($filter('translate')("photo"));
+            }
+            if (candidate.position) {
+                count = count + allPuncts5;
+            } else {
+                progressMessage.push($filter('translate')("position"));
+            }
+            if (candidate.region) {
+                count = count + allPuncts5;
+            } else {
+                progressMessage.push($filter('translate')("lives_in"));
+            }
+            if (candidate.salary) {
+                count = count + allPuncts3;
+            } else {
+                progressMessage.push($filter('translate')("desired_salary"));
+            }
+        }
+        $scope.progressMessage = $filter('translate')("empty_fields") + "(" + progressMessage.length + "): ";
+        $.each(progressMessage, function(i, p) {
+            $scope.progressMessage += "" + p + "; ";
+        });
+        return count;
+    }
+    candidate.externalSource = function() {
+        if ($localStorage.isExist("search_external") && JSON.parse($localStorage.get("search_external")).version != undefined && JSON.parse($localStorage.get("search_external")).version == 6) {
+            return JSON.parse($localStorage.get("search_external"))
+        } else {
+            return {
+                openSettingsMenu: false,
+                externalToSearch: ["rabota", "hhUa", "work", "djinni", "superJobUa"],
+                visibleUa: "none",
+                visibleRu: "none",
+                version: 6,
+                visibleKz: "none",
+                visibleBy: "none",
+                sourcesUa: [
+                    {
+                        value: "rabota",
+                        name: "rabota.ua",
+                        check: false
+                    },
+                    {
+                        value: "hhUa",
+                        check: false,
+                        name: "hh.ua"
+                    },
+                    {
+                        value: "work",
+                        check: false,
+                        name: "work.ua"
+                    },
+                    {
+                        value: "djinni",
+                        check: false,
+                        name: "djinni.co"
+                    },
+                    {
+                        value: "superJobUa",
+                        check: false,
+                        name: "superjob.ua"
+                    }
+                ],
+                sourcesRu: [
+                    {
+                        value: "hhRu",
+                        check: false,
+                        name: "hh.ru"
+                    },
+                    {
+                        value: "superJobRu",
+                        check: false,
+                        name: "superjob.ru"
+                    },
+                    {
+                        value: "djinni",
+                        check: false,
+                        name: "djinni.co"
+                    }
+
+                ],
+                sourcesKz: [
+                    {
+                        value: "hhKz",
+                        check: false,
+                        name: "hh.kz"
+                    }
+                ],
+                sourcesBy: [
+                    {
+                        value: "hhBy",
+                        check: false,
+                        name: "jobs.tut.by"
+                    },
+                    {
+                        value: "superJobBy",
+                        check: false,
+                        name: "by.superjob.ru"
+                    },
+                    {
+                        value: "djinni",
+                        check: false,
+                        name: "djinni.co"
+                    },
+
+                ]
+            }
+        }
+    };
+
+    candidate.progressUpdate = function($scope, isEdit) {
+        var cand = angular.copy($scope.candidate);
+        if (isEdit) {
+            //candidate.checkDuplicatesByName($scope);
+            cand.languages = $scope.getSelect2Lang();
+            if(cand.languages && $scope.candidate.languages) {
+                if (!cand.languages.length && !$scope.candidate.languages.length){
+                    cand.languages = '';
+                }
+            } else {
+                cand.languages = '';
+            }
+            cand.employmentType = $scope.getSelect2EmploymentType();
+            cand.db = $('.datepickerOfBirth').datetimepicker();
+            console.log( cand.db, ' cand.db');
+            if ($("#pac-input").val() && $("#pac-input").val().length == 0) {
+                cand.region = null;
+            } else if ($("#pac-input").val() && $("#pac-input").val().length > 0) {
+                cand.region = $scope.region == undefined ? cand.region : $scope.region;
+            }
+            cand.contacts = [];
+            if ($scope.contacts !== undefined) {
+                if ($scope.contacts.email) {
+                    cand.contacts.push({type: "email", value: $scope.contacts.email});
+                }
+                console.log('vik12q');
+                //candidate.checkDuplicatesByEmail($scope);
+                if ($scope.contacts.mphone) {
+                    cand.contacts.push({type: "mphone", value: $scope.contacts.mphone});
+                }
+                //candidate.checkDuplicatesByPhone($scope);
+                if ($scope.contacts.skype) {
+                    cand.contacts.push({type: "skype", value: $scope.contacts.skype});
+                }
+                //candidate.checkDuplicatesBySkype($scope);
+                if ($scope.contacts.linkedin) {
+                    cand.contacts.push({type: "linkedin", value: $scope.contacts.linkedin});
+                }
+                if ($scope.contacts.facebook) {
+                    cand.contacts.push({type: "facebook", value: $scope.contacts.facebook});
+                }
+                if ($scope.contacts.googleplus) {
+                    cand.contacts.push({type: "googleplus", value: $scope.contacts.googleplus});
+                }
+                if ($scope.contacts.homepage) {
+                    cand.contacts.push({type: "homepage", value: $scope.contacts.homepage});
+                }
+            }
+        } else {
+            //candidate.checkDuplicatesByEmail($scope);
+            //candidate.checkDuplicatesByPhone($scope);
+            //candidate.checkDuplicatesByName($scope);
+        }
+        var c = countCandProperties($scope, cand);
+        $scope.progressPct = c / 15 * 100 < 100 ? Math.round(c / 15 * 100) : 100;
+        if ($scope.progressPct < 40) {
+            color = '#C5393A'; //red
+        } else if ($scope.progressPct >= 40 && $scope.progressPct < 85) {
+            color = '#E78409'; //orange
+        } else if ($scope.progressPct >= 85) {
+            color = '#74B830'; //green
+        } else {
+            var color = '#CCCCCC'; //grey
+        }
+        $scope.progress = {width: $scope.progressPct + '%', 'background-color': color};
+        if (!$scope.$$phase) {
+            $scope.$apply();
+        }
+    };
+
+
+    candidate.convert = function($scope, object) {
+        if (!object.fullName && !object.photo && !object.education && !object.position && !object.expirence && !object.languages && !object.coreSkills && !object.contacts && !object.db) {
+            new PNotify({
+                styling: 'jqueryui',
+                type: "error",
+                text: $filter('translate')("We found small amount of data, it doesn't look like resume.")
+            });
+        } else {
+            $scope.candidate = null;
+            $scope.candidate = object;
+            if ($scope.candidate.salary == 0) {
+                $scope.candidate.salary = '';
+            }
+            if (object.city) {
+                getPlaceInfo(object.city + ' ' + object.country, function(resp) {
+                    var reg = convertToRegionObject(resp);
+                    $scope.regionInput = reg.fullName;
+                    $("#pac-input").val(reg.fullName);
+                    $scope.candidate.region = reg;
+                    $scope.region = reg
+
+                });
+            }
+            if (object.country && !object.city) {
+                getPlaceInfo(object.country, function(resp) {
+                    var reg = convertToRegionObject(resp);
+                    $scope.regionInput = reg.fullName;
+                    $("#pac-input").val(reg.fullName);
+                    $scope.candidate.region = reg;
+                    $scope.region = reg
+
+                });
+            }
+            if ($scope.candidate.currency == undefined) {
+                $scope.candidate.currency = 'USD';
+            }
+            if ($scope.candidate.status == undefined) {
+                $scope.candidate.status = 'active_search';
+            }
+            $(".datepickerOfBirth").val('');
+            if (object.db != undefined) {
+                // $('.datepickerOfBirth').datetimepicker({
+                //     format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
+                //     startView: 4,
+                //     minView: 2,
+                //     autoclose: true,
+                //     language: $translate.use(),
+                //     weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                //     initialDate:  new Date(1167609600000),
+                //     startDate: new Date(-1262304000000),
+                //     endDate: new Date(1199134800000)
+                // });
+
+
+                $(".datepickerOfBirth").datetimepicker("setDate", new Date(object.db));
+            }
+            $scope.photoLink = $scope.serverAddress + "/getapp?id=" + $scope.candidate.photo + "&d=true";
+            $scope.fileForSave = [];
+            $scope.contacts = [];
+            if (object.contacts != undefined) {
+                $.each(object.contacts, function(i, c) {
+                    if (angular.equals(c.type, "email")) {
+                        $scope.contacts.email = c.value;
+                    }
+                    if (angular.equals(c.type, "skype")) {
+                        $scope.contacts.skype = c.value;
+                    }
+>>>>>>> 1499-vacancyImg-sharingFb
                     if (angular.equals(c.type, "mphone")) {
                         $scope.contacts.mphone = c.value;
                     }
@@ -7128,7 +9528,10 @@ angular.module('services.checkAccess', [
         return [
             {value: "future", name: "future"},
             {value: "in_work", name: "in work"},
+<<<<<<< HEAD
             {value: "on_hold", name: "on hold"},
+=======
+>>>>>>> 1499-vacancyImg-sharingFb
             {value: "all_done", name: "all done"},
             {value: "canceled", name: "canceled"},
             {value: "deleted", name: "deleted"}
@@ -11261,6 +13664,7 @@ angular.module('services.task', [
                     headers: {'Content-type': 'application/json; charset=UTF-8'},
                     params: {
                         param: "add"
+<<<<<<< HEAD
                     }
                 },
                 get: {
@@ -11326,6 +13730,73 @@ angular.module('services.task', [
                     params: {
                         param: "removeResponsible"
                     }
+=======
+                    }
+                },
+                get: {
+                    method: "POST",
+                    headers: {'Content-type': 'application/json; charset=UTF-8'},
+                    params: {
+                        param: "get"
+                    }
+                },
+                edit: {
+                    method: "POST",
+                    headers: {'Content-type': 'application/json; charset=UTF-8'},
+                    params: {
+                        param: "edit"
+                    }
+                },
+                changeState: {
+                    method: "POST",
+                    headers: {'Content-type': 'application/json; charset=UTF-8'},
+                    params: {
+                        param: "changeState"
+                    }
+                },
+                changeTargetDate: {
+                    method: "POST",
+                    headers: {'Content-type': 'application/json; charset=UTF-8'},
+                    params: {
+                        param: "changeTargetDate"
+                    }
+                },
+                taskComment: {
+                    method: "POST",
+                    params: {
+                        param: "comment"
+                    }
+                },
+                updateComment: {
+                    method: "POST",
+                    params: {
+                        param: "updateComment"
+                    }
+                },
+                removeComment: {
+                    method: "POST",
+                    params: {
+                        param: "removeComment"
+                    }
+                },
+                getHistory: {
+                    method: "POST",
+                    params: {
+                        param: "getHistory"
+                    }
+                },
+                addResponsible: {
+                    method: "POST",
+                    params: {
+                        param: "addResponsible"
+                    }
+                },
+                removeResponsible: {
+                    method: "POST",
+                    params: {
+                        param: "removeResponsible"
+                    }
+>>>>>>> 1499-vacancyImg-sharingFb
                 }
             });
 
@@ -12057,6 +14528,7 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "mailingInternal": $sce.trustAsHtml('Mailing name for your internal usage. Visible only for you.')
                 };
                 $rootScope.tooltips = options;
+<<<<<<< HEAD
             });
         }
     }
@@ -12246,6 +14718,197 @@ angular.module('services.company', [
 
         company.openVacancies = {};
 
+=======
+            });
+        }
+    }
+});
+angular.module('services.translateWords', [
+    'ngResource',
+    'ngCookies'
+]).factory('translateWords', ['$resource', 'serverAddress', '$filter', '$localStorage','$rootScope','$translate', function($resource, serverAddress, $filter, $localStorage, $rootScope,  $translate) {
+
+    class Translate{
+        constructor(){
+        }
+        getTranslete(str, $csope, name, ifTranslateForTitlePage){
+            $csope[name] = $translate.instant(str);
+            $rootScope.$on('$translateChangeSuccess', ()=> {
+                if(ifTranslateForTitlePage){
+                    $csope[name] = $translate.instant(str) + " | CleverStaff";
+                }else{
+                    $csope[name] = $translate.instant(str);
+                }
+            });
+        }
+    }
+    const translate = new Translate();
+
+    return translate;
+}]);
+ angular.module('services.transliteration', []).factory('transliteration', function() {
+    var transl = [];
+    transl['А'] = 'A';
+    transl['а'] = 'a';
+    transl['Б'] = 'B';
+    transl['б'] = 'b';
+    transl['В'] = 'V';
+    transl['в'] = 'v';
+    transl['Г'] = 'G';
+    transl['г'] = 'g';
+    transl['Д'] = 'D';
+    transl['д'] = 'd';
+    transl['Е'] = 'E';
+    transl['е'] = 'e';
+    transl['Ё'] = 'Yo';
+    transl['ё'] = 'yo';
+    transl['Ж'] = 'Zh';
+    transl['ж'] = 'zh';
+    transl['З'] = 'Z';
+    transl['з'] = 'z';
+    transl['И'] = 'I';
+    transl['и'] = 'i';
+    transl['Й'] = 'J';
+    transl['й'] = 'j';
+    transl['К'] = 'K';
+    transl['к'] = 'k';
+    transl['Л'] = 'L';
+    transl['л'] = 'l';
+    transl['М'] = 'M';
+    transl['м'] = 'm';
+    transl['Н'] = 'N';
+    transl['н'] = 'n';
+    transl['О'] = 'O';
+    transl['о'] = 'o';
+    transl['П'] = 'P';
+    transl['п'] = 'p';
+    transl['Р'] = 'R';
+    transl['р'] = 'r';
+    transl['С'] = 'S';
+    transl['с'] = 's';
+    transl['Т'] = 'T';
+    transl['т'] = 't';
+    transl['У'] = 'U';
+    transl['у'] = 'u';
+    transl['Ф'] = 'F';
+    transl['ф'] = 'f';
+    transl['Х'] = 'X';
+    transl['х'] = 'x';
+    transl['Ц'] = 'C';
+    transl['ц'] = 'c';
+    transl['Ч'] = 'Ch';
+    transl['ч'] = 'ch';
+    transl['Ш'] = 'Sh';
+    transl['ш'] = 'sh';
+    transl['Щ'] = 'Shh';
+    transl['щ'] = 'shh';
+    transl['Ъ'] = '"';
+    transl['ъ'] = '"';
+    transl['Ы'] = 'Y\'';
+    transl['ы'] = 'y\'';
+    transl['Ь'] = '\'';
+    transl['ь'] = '\'';
+    transl['Э'] = 'E\'';
+    transl['э'] = 'e\'';
+    transl['Ю'] = 'Yu';
+    transl['ю'] = 'yu';
+    transl['Я'] = 'Ya';
+    transl['я'] = 'ya';
+    transl['І'] = 'I';
+    transl['і'] = 'i';
+    transl['Ї'] = 'I';
+    transl['ї'] = 'I';
+    transl['\\'] = '_';
+    transl['/'] = '_';
+    return {
+        getArray: function() {
+            return transl;
+        }
+    };
+});
+angular.module('services.company', [
+    'ngResource',
+    'ngCookies'
+]).factory('Company', ['$resource', 'serverAddress', '$filter', '$localStorage', 'notificationService', '$http', 'Service', "$rootScope",
+    function ($resource, serverAddress, $filter, $localStorage, notificationService, $http, Service, $rootScope) {
+    var options;
+
+    var company = $resource(serverAddress + '/company/:param', {param: "@param"},
+        {
+            removeLogo: {
+                method: "POST",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "removeLogo"
+                }
+            },
+            addLogo: {
+                method: "POST",
+                headers: {'Content-type': undefined, 'contentDisposition': 'form-data'},
+                params: {
+                    param: "addLogo"
+                }
+            },
+            getParam: {
+                method: "GET",
+                params: {
+                    param: "getParam"
+                }
+            },
+            getParams: {
+                method: "GET",
+                params: {
+                    param: "getParams"
+                }
+            },
+            getInfo: {
+                method: "GET",
+                params: {
+                    param: "getInfo"
+                }
+            },
+            setDefaultInterviewStates: {
+                method: "GET",
+                params: {
+                    param: "setDefaultInterviewStates"
+                }
+            },
+            orgPages: {
+                method: "GET",
+                params: {
+                    param: "orgPages"
+                }
+            },
+            addFacebookPage: {
+                method: "POST",
+                params: {
+                    param: "addFacebookPage"
+                }
+            },
+            deleteFacebookPage: {
+                method: "GET",
+                params: {
+                    param: "deleteFacebookPage"
+                }
+            },
+            setParam: {
+                method: "GET",
+                params: {
+                    param: "setParam"
+                }
+            }
+        });
+
+    company.init = function () {
+
+        options = {
+            "logo": null
+        };
+    };
+
+        company.openVacancies = {};
+
+>>>>>>> 1499-vacancyImg-sharingFb
         company.uploadCompanyLogo = function(fileUp){
             var FD  = new FormData();
             var blobBin = atob(fileUp.split(',')[1]);
@@ -12297,7 +14960,11 @@ angular.module('services.company', [
 
 angular.module('services.vacancy', [
     'ngResource'
+<<<<<<< HEAD
 ]).factory('Vacancy', ['$resource', 'serverAddress','$rootScope', function($resource, serverAddress, $rootScope) {
+=======
+]).factory('Vacancy', ['$resource', 'serverAddress','$rootScope', '$http', function($resource, serverAddress, $rootScope, $http) {
+>>>>>>> 1499-vacancyImg-sharingFb
     var options;
     var vacancy = $resource(serverAddress + '/vacancy/:param', {param: "@param"}, {
         all: {
@@ -12516,6 +15183,21 @@ angular.module('services.vacancy', [
             params:{
                 param:'openHideState'
             }
+<<<<<<< HEAD
+=======
+        },
+        saveImg:{
+            method:"POST",
+            params:{
+                param:'saveImg'
+            }
+        },
+        removeImg:{
+            method:"POST",
+            params:{
+                param:'removeImg'
+            }
+>>>>>>> 1499-vacancyImg-sharingFb
         }
     });
 
@@ -13031,7 +15713,10 @@ angular.module('services.vacancy', [
             {value: "open", name: "open"},
             {value: "expects", name: "wait"},
             {value: "inwork", name: "in work"},
+<<<<<<< HEAD
             {value: "replacement", name: "replacement"},
+=======
+>>>>>>> 1499-vacancyImg-sharingFb
             {value: "payment", name: "payment"},
             {value: "completed", name: "completed"},
             {value: "canceled", name: "canceled"},
@@ -13078,6 +15763,27 @@ angular.module('services.vacancy', [
         };
     };
     vacancy.init();
+<<<<<<< HEAD
+=======
+    vacancy.uploadPromoLogo = function(fileUp){
+        var FD  = new FormData();
+        var blobBin = atob(fileUp.split(',')[1]);
+        var array = [];
+        for(var i = 0; i < blobBin.length; i++) {
+            array.push(blobBin.charCodeAt(i));
+        }
+        var file=new Blob([new Uint8Array(array)], {type: 'image/png'});
+        FD.append('image', file);
+        return $http({
+            url: serverAddress + "/vacancy/saveImg/" + $rootScope.vacancy.vacancyId,
+            method: 'POST',
+            data: FD,
+            withCredentials: true,
+            headers: { 'Content-Type': undefined},
+            transformRequest: angular.identity
+        });
+    };
+>>>>>>> 1499-vacancyImg-sharingFb
     return vacancy;
 }
 ]);
@@ -13834,7 +16540,15 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
+<<<<<<< HEAD
         suffix: '.json?b=32'
+=======
+<<<<<<< HEAD
+        suffix: '.json?b=30'
+=======
+        suffix: '.json?b=29'
+>>>>>>> 1499-vacancyImg-sharingFb
+>>>>>>> 1499-vacancyImg-sharingFb
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -35340,6 +38054,10 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.addCandidateInInterview.showSelect = showSelect;
             var value = $filter('filter')($scope.VacancyStatus, {used: true});
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1499-vacancyImg-sharingFb
             $rootScope.addCandidateInInterview.statusObject = $scope.VacancyStatusFiltered;
 
             $scope.modalInstance = $uibModal.open({
@@ -35356,7 +38074,10 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.candnotify.send = false;
             $scope.modalInstance.opened.then(function() {
                 setTimeout(function(){
+<<<<<<< HEAD
                     $("#addCandidateInInterview").find("option").eq(0).remove();
+=======
+>>>>>>> 1499-vacancyImg-sharingFb
                     tinymce.init({
                         selector: '#modalMCECandidate',
                         mode: 'exact',
@@ -37678,7 +40399,11 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         var chartHeight = 0;
         $scope.lang = $translate;
         vacancyStages.get(function(resp){
+<<<<<<< HEAD
             $scope.customStages = resp.object.interviewStates;
+=======
+            $scope.customStages =resp.object.interviewStates;
+>>>>>>> 1499-vacancyImg-sharingFb
         });
 
         Vacancy.one({"localId": $routeParams.id}, function(resp) {
@@ -37703,7 +40428,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
                 language: $translate.use()
             });
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1499-vacancyImg-sharingFb
             if ($scope.vacancy.dateFinish != undefined) {
                 $("#dateTo").datetimepicker("setDate", new Date($scope.vacancy.dateFinish));
             } else {
@@ -37711,6 +40439,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 d.setHours(0, 0, 0, 0);
                 $("#dateTo").datetimepicker("setDate", d);
             }
+<<<<<<< HEAD
 
             let stagesString = $scope.vacancy['interviewStatus'].split(',');
 
@@ -37725,12 +40454,19 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 }, function(detailResp) {
                 if (detailResp != undefined) {
                     var vacancyInterviewDetalInfo = [];
+=======
+            Statistic.getVacancyInterviewDetalInfo({"vacancyId": $scope.vacancy.vacancyId}, function(detailResp) {
+                if (detailResp != undefined) {
+                    var vacancyInterviewDetalInfo = [];
+                    console.log(detailResp);
+>>>>>>> 1499-vacancyImg-sharingFb
                     angular.forEach(detailResp.vacancyInterviewDetalInfo, function(value, key){
                         vacancyInterviewDetalInfo.push({
                             key: key,
                             value: value
                         });
                     });
+<<<<<<< HEAD
 
                     $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
 
@@ -38049,6 +40785,272 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 width: 1290,
                 output: "html5"
             });
+=======
+                    $scope.detailInterviewInfo =vacancyInterviewDetalInfo;
+                    angular.forEach($scope.detailInterviewInfo, function(value){
+                        angular.forEach($scope.customStages, function(resp){
+                            if(value.key == resp.customInterviewStateId){
+                                value.key = resp.name;
+                            }
+                        });
+                    });
+                }
+            });
+            initSalesFunnel(null, null);
+        });
+
+        function initSalesFunnel(dateFrom, dateTo) {
+            Statistic.getSalesFunnel(
+                {
+                    'vacancyId': $scope.vacancy.vacancyId,
+                    "dateFrom": dateFrom,
+                    "dateTo": dateTo
+                }, function(resp) {
+                    $scope.hasFunnelChart = false;
+                    if (resp['longlist'] != 0) {
+                        $scope.hasFunnelChart = true;
+                        var myChart = {};
+                        if (resp.funnelMap) {
+                            chartHeight = 30*resp.funnelMap.length;
+                            var series = [];
+                            var values = [];
+                            var values2 = [];
+                            var values3 = [];
+                            var values4 = [];
+                            var lastCount = null;
+                            angular.forEach(resp.funnelMap, function(i, s) {
+                                angular.forEach($scope.customStages, function(resp){
+                                    if(s == resp.customInterviewStateId){
+                                        s = resp.name;
+                                    }
+                                });
+                                series.push({
+                                    "values": [i]
+                                });
+                                values.push($filter('translate')(s));
+                                values2.push(i.toString());
+                                if (lastCount == null) {
+                                    values3.push('100%');
+                                } else {
+                                    values3.push((i != 0 ? Math.round(i / lastCount * 100) : 0) + '%');
+                                }
+                                if(lastCount == null) {
+                                    values4.push('100%');
+                                } else{
+                                    values4.push((i != 0 ? Math.round(i / resp.funnelMap['longlist'] * 100) : 0) + '%');
+                                }
+                                lastCount = i;
+                            });
+                            myChart = {
+                                "type": "funnel",
+                                "width":'900px',
+                                "series": series,
+                                tooltip: {visible: true, shadow: 0},
+                                "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 75}},
+                                "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": -60}},
+                                "scale-y-3": {
+                                    "values": values3, "item": {fontSize: 12,"offset-x": -40}
+                                },
+                                "scale-y-4": {
+                                    "values": values4, "item": {fontSize: 12,"offset-x": 12}
+                                },
+                                "plot": {
+                                    // "offset-x": '60px'
+                                },
+                                "scale-x": {"values": [""]},
+                                labels: [{
+                                    text: $filter('translate')('Relative conversion'),
+                                    fontWeight: "bold",
+                                    fontSize: 12,
+                                    offsetX: $translate.use() != 'en' ?  775 : 785,
+                                    offsetY: 10
+                                },
+                                    {
+                                        text: $filter('translate')('Absolute conversion'),
+                                        fontWeight: "bold",
+                                        fontSize: 12,
+                                        offsetX: 870,
+                                        offsetY: 10
+                                    },
+                                    {
+                                        text: $filter('translate')('Candidates'),
+                                        fontWeight: "bold",
+                                        fontSize: 12,
+                                        offsetX: $translate.use() != 'en' ? 700 : 710,
+                                        offsetY: 10
+                                    },
+                                    {
+                                        text: $filter('translate')('status'),
+                                        fontWeight: "bold",
+                                        fontSize: 12,
+                                        offsetX: 123,
+                                        offsetY: 10
+                                    }
+                                ],
+                                "backgroundColor": "#FFFFFF",
+                                "gui": {
+                                    "behaviors": [
+                                        {"id": "DownloadPDF", "enabled": "none"},
+                                        {"id": "Reload", "enabled": "none"},
+                                        {"id": "Print", "enabled": "none"},
+                                        {"id": "DownloadSVG", "enabled": "none"},
+                                        {"id": "LogScale", "enabled": "none"},
+                                        {"id": "About", "enabled": "none"},
+                                        {"id": "FullScreen", "enabled": "none"},
+                                        {"id": "BugReport", "enabled": "none"},
+                                        {"id": "ViewSource", "enabled": "none"},
+                                        {"id": "FullScreen", "enabled": "none"},
+                                        {
+                                            "id": "FullScreen", "enabled": "none"
+                                        }
+                                    ]
+                                }
+                            };
+                        } else {
+                            chartHeight = 350;
+                            myChart = {
+                                "type": "funnel",
+                                "width":'410px',
+                                "series": [
+                                    {
+                                        "values": [resp['longlist']]
+                                    }, {
+                                        "values": [resp['shortlist']]
+                                    }, {
+                                        "values": [resp['interview']]
+                                    }, {
+                                        "values": [resp['approved']]
+                                    }
+                                ],
+                                "tooltip": {
+                                    "visible": true
+                                },
+                                "scale-y": {
+                                    "values": [$filter('translate')('long_list'),
+                                        $filter('translate')('short_list'),
+                                        $filter('translate')('interview'),
+                                        $filter('translate')('approved')],
+                                    "item": {
+                                        fontSize: 12,
+                                        "offset-x": 35
+                                    }
+                                },
+                                "scale-y-2": {
+                                    "values": [resp['longlist'] + '',
+                                        resp['shortlist'] + '',
+                                        resp['interview'] + '',
+                                        resp['approved'] + ''],
+                                    "item": {
+                                        fontSize: 12,
+                                        "offset-x": 0
+                                    }
+                                },
+                                "scale-y-3": {
+                                    "values": ['100%',
+                                        Math.round(resp['shortlist'] / resp['longlist'] * 100) + '%',
+                                        (resp['shortlist'] != 0 ? Math.round(resp['interview'] / resp['shortlist'] * 100) : 0) + '%',
+                                        (resp['interview'] != 0 ? Math.round(resp['approved'] / resp['interview'] * 100) : 0) + '%'],
+                                    "item": {
+                                        fontSize: 12,
+                                        "offset-x": -10
+                                    }
+                                },
+                                "scale-y-4": {
+                                    "values": ['100%',
+                                        Math.round(resp['shortlist'] / resp['longlist'] * 100) + '%',
+                                        (resp['interview'] != 0 ? Math.round(resp['interview'] / resp['longlist'] * 100) : 0) + '%',
+                                        (resp['approved'] != 0 ? Math.round(resp['approved'] / resp['longlist'] * 100) : 0) + '%'],
+                                    "item": {
+                                        fontSize: 12,
+                                        "offset-x": 115
+                                    }
+                                },
+                                "scale-x": {
+                                    "values": [""]
+                                },
+                                labels: [
+                                    {
+                                        text: $filter('translate')('Relative conversion'),
+                                        fontWeight: "bold",
+                                        fontSize: 12,
+                                        offsetX: 570,
+                                        offsetY: 20
+                                    },
+                                    {
+                                        text: $filter('translate')('Absolute conversion'),
+                                        fontWeight: "bold",
+                                        fontSize: 12,
+                                        offsetX: 570,
+                                        offsetY: 20
+                                    },
+                                    {
+                                        text: $filter('translate')('Count'),
+                                        fontWeight: "bold",
+                                        fontSize: 12,
+                                        offsetX: $translate.use() != 'en' ? 485 : 505,
+                                        offsetY: 20
+                                    },
+                                    {
+                                        text: $filter('translate')('status'),
+                                        fontWeight: "bold",
+                                        fontSize: 12,
+                                        offsetX: 80,
+                                        offsetY: 20
+                                    }
+                                ],
+                                "backgroundColor": "#FFFFFF",
+                                "gui": {
+                                    "behaviors": [
+                                        {
+                                            "id": "DownloadPDF",
+                                            "enabled": "none"
+                                        }, {
+                                            "id": "Reload",
+                                            "enabled": "none"
+                                        }, {
+                                            "id": "Print",
+                                            "enabled": "none"
+                                        }, {
+                                            "id": "DownloadSVG",
+                                            "enabled": "none"
+                                        }, {
+                                            "id": "LogScale",
+                                            "enabled": "none"
+                                        }, {
+                                            "id": "About",
+                                            "enabled": "none"
+                                        }, {
+                                            "id": "FullScreen",
+                                            "enabled": "none"
+                                        }, {
+                                            "id": "BugReport",
+                                            "enabled": "none"
+                                        }, {
+                                            "id": "ViewSource",
+                                            "enabled": "none"
+                                        }, {
+                                            "id": "FullScreen",
+                                            "enabled": "none"
+                                        }, {
+                                            "id": "FullScreen",
+                                            "enabled": "none"
+                                        }
+                                    ]
+                                }
+                            };
+                        }
+                        zingchart.render({
+                            id: "myChartDiv",
+                            data: myChart,
+                            height: chartHeight,
+                            width: 1200,
+                            "padding-left": '300px',
+                            output: "html5"
+                        });
+                    }
+                });
+
+>>>>>>> 1499-vacancyImg-sharingFb
         }
 
         $scope.updateData = function() {
@@ -38061,11 +41063,19 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 {
                     "vacancyId": $scope.vacancy.vacancyId,
                     "from": dateFrom,
+<<<<<<< HEAD
                     "to": dateTo,
                     withCandidatesHistory: true
                 }, function(detailResp) {
                     if (detailResp != undefined) {
                         var vacancyInterviewDetalInfo = [];
+=======
+                    "to": dateTo
+                }, function(detailResp) {
+                    if (detailResp != undefined) {
+                        var vacancyInterviewDetalInfo = [];
+                        console.log(detailResp);
+>>>>>>> 1499-vacancyImg-sharingFb
                         angular.forEach(detailResp.vacancyInterviewDetalInfo, function(value, key){
                             vacancyInterviewDetalInfo.push({
                                 key: key,
@@ -38101,8 +41111,12 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             Statistic.getVacancyInterviewDetalInfoFile({
                 "vacancyId": $scope.vacancy.vacancyId,
                 "from": dateFrom,
+<<<<<<< HEAD
                 "to": dateTo,
                 withCandidatesHistory: true
+=======
+                "to": dateTo
+>>>>>>> 1499-vacancyImg-sharingFb
             },function(resp){
                 if(resp.status == 'ok'){
                     pdfId = resp.object;

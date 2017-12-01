@@ -249,19 +249,19 @@
                         {{'Go to public vacancy'|translate}}
                     </span>
                 </a>
-                <!--<a class="promoImg" add-promo-logo ng-show="$root.promoLogo == undefined" href="" id="logo-button">-->
-                    <!--<i class="fa fa-picture-o" aria-hidden="true"></i>-->
-                    <!--<span>-->
-                        <!--{{'Add promo image'|translate}}-->
-                    <!--</span>-->
-                <!--</a>-->
-                <!--<div id="owner_photo_wrap" class="pull-left">-->
-                    <!--<input id="the-file-input" accept="image/*" type="file" style="display:none">-->
-                    <!--<img ng-show="$root.promoLogo != undefined" class="imgForPromo" ng-click="openPromoLogo($root.promoLogo);" ng-src="{{$root.serverAddress}}/getapp?id={{$root.promoLogo}}&d=" alt=""/>-->
-                    <!--<span ng-show="$root.promoLogo != undefined" class="deletePromoLogo">-->
-                        <!--<i class="fa fa-times pull-right" ng-click="removePromoLogo()" title="{{'remove_logo'|translate}}"></i>-->
-                    <!--</span>-->
-                <!--</div>-->
+                <a class="promoImg" add-promo-logo ng-show="$root.promoLogo == undefined" href="" id="logo-button">
+                    <i class="fa fa-picture-o" aria-hidden="true"></i>
+                    <span>
+                        {{'Add promo image'|translate}}
+                    </span>
+                </a>
+                <div id="owner_photo_wrap" class="pull-left">
+                    <input id="the-file-input" accept="image/*" type="file" style="display:none">
+                    <img ng-show="$root.promoLogo != undefined" class="imgForPromo" ng-click="openPromoLogo($root.promoLogo);" ng-src="{{$root.serverAddress}}/getapp?id={{$root.promoLogo}}&d=" alt=""/>
+                    <span ng-show="$root.promoLogo != undefined" class="deletePromoLogo">
+                        <i class="fa fa-times pull-right" ng-click="removePromoLogo()" title="{{'remove_logo'|translate}}"></i>
+                    </span>
+                </div>
                 <a class="send-vacancy pull-left" href="" ng-show="vacancy.descr.length > 30" ng-click="showSendEmailTemplateModal()">
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                         <span>

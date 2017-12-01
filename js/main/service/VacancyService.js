@@ -1,6 +1,6 @@
 angular.module('services.vacancy', [
     'ngResource'
-]).factory('Vacancy', ['$resource', 'serverAddress','$rootScope', function($resource, serverAddress, $rootScope) {
+]).factory('Vacancy', ['$resource', 'serverAddress','$rootScope', '$http', function($resource, serverAddress, $rootScope, $http) {
     var options;
     var vacancy = $resource(serverAddress + '/vacancy/:param', {param: "@param"}, {
         all: {
@@ -218,6 +218,18 @@ angular.module('services.vacancy', [
             method:"GET",
             params:{
                 param:'openHideState'
+            }
+        },
+        saveImg:{
+            method:"POST",
+            params:{
+                param:'saveImg'
+            }
+        },
+        removeImg:{
+            method:"POST",
+            params:{
+                param:'removeImg'
             }
         }
     });
@@ -781,6 +793,24 @@ angular.module('services.vacancy', [
         };
     };
     vacancy.init();
+    vacancy.uploadPromoLogo = function(fileUp){
+        var FD  = new FormData();
+        var blobBin = atob(fileUp.split(',')[1]);
+        var array = [];
+        for(var i = 0; i < blobBin.length; i++) {
+            array.push(blobBin.charCodeAt(i));
+        }
+        var file=new Blob([new Uint8Array(array)], {type: 'image/png'});
+        FD.append('image', file);
+        return $http({
+            url: serverAddress + "/vacancy/saveImg/" + $rootScope.vacancy.vacancyId,
+            method: 'POST',
+            data: FD,
+            withCredentials: true,
+            headers: { 'Content-Type': undefined},
+            transformRequest: angular.identity
+        });
+    };
     return vacancy;
 }
 ]);
