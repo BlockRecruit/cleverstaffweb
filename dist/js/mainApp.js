@@ -34397,7 +34397,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         return;
                                     }
 
-                                    if(elem == urlStage && (!$scope.VacancyStatusFiltered[index]['hidden']) || $rootScope.me.recrutRole == 'admin'){
+                                    if(elem == urlStage && (!$scope.VacancyStatusFiltered[index]['hidden']) || $rootScope.me.recrutRole !== 'client' ){
                                         $scope.dataForVacancy = cd;
                                         $defer.resolve(cd);
                                         $scope.noAccess = false;
