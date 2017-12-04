@@ -2360,7 +2360,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.showRecalls = function (status) {
             $scope.visiable2 = status.hidden;
             $scope.visiable = false;
-            if($scope.visiable2){
+            if($scope.visiable2 && $rootScope.me.role == 'client'){
                 $scope.noAccess = true;
             }else{
                 $('#recallsTable').show();
