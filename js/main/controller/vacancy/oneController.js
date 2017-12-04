@@ -415,14 +415,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         $scope.tableParams.reload();
                     });
                     $scope.getLastEvent();
-                    if ($rootScope.selectedCalendar != undefined) {
-                        if ($rootScope.calendarShow) {
-                            googleCalendarUpdateEvent(googleService, new Date(newDate), resp.object.candidateId.fullName,
-                                $scope.vacancy.position, $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
-                                resp.object.comment, resp.object.interviewId + object.interviewObject.state, $filter);
-                        }
-
-                    }
                 });
             } else {
                 notificationService.error($filter('translate')('Select the interview date'));
@@ -2203,14 +2195,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                             } else {
                                                 var id = resp.object.interviewId + changeObj.status.value;
                                             }
-                                            //if (changeObj.date) {
-                                            //    if ($rootScope.calendarShow) {
-                                            //        googleCalendarCreateEvent(googleService, changeObj.date, changeObj.candidate.candidateId.fullName,
-                                            //            $scope.vacancy.position,
-                                            //            $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
-                                            //            changeObj.comment, id, $filter);
-                                            //    }
-                                            //}
                                         }
                                     }
                                     Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
@@ -2278,12 +2262,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                             } else {
                                                 var id = resp.object.interviewId + changeObj.status.value;
                                             }
-                                            //if ($rootScope.calendarShow) {
-                                            //    googleCalendarCreateEvent(googleService, changeObj.date, changeObj.candidate.candidateId.fullName,
-                                            //        $scope.vacancy.position,
-                                            //        $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
-                                            //        changeObj.comment, id, $filter);
-                                            //}
                                         }
                                     }
                                     Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
