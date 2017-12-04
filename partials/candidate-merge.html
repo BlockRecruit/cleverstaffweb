@@ -359,7 +359,7 @@
                                         <div ng-show="candidateBeforeMerge.customFields.length > 0 && customField.fieldValue" ng-repeat="customField in candidateBeforeMerge.customFields track by customField.fieldId">
                                             <label>{{customField.title}}</label>
                                             <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.fieldValues = '0'">
-                                                <button type="button" class="btn btn-secondary customFieldBtn{{$index}}" ng-class="{'fieldValues' : src.customFields == '0'}"
+                                                <button type="button" class="btn btn-secondary customFieldBtn{{$index}}" ng-class="{'fieldValues' : src.fieldValues == '0'}"
                                                         ng-click="selectSource('1', $index, customField, false, 'fieldValues')" value="{{customField.fieldId}}" title="{{customField.fieldValue.value}}">
                                                     <span ng-if="(customField.type == 'string' || customField.type == 'select') && customField.state == 'A'">{{customField.fieldValue.value}}</span>
                                                     <span ng-if="customField.type == 'date' && customField.state == 'A'">{{customField.fieldValue.dateTimeValue|dateFormat}}</span>
@@ -373,7 +373,7 @@
                                         <div ng-show="candidate2.customFields.length > 0 && customField.fieldValue" ng-repeat="customField in candidate2.customFields track by customField.fieldId">
                                             <label>{{customField.title}}</label>
                                             <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.customFields = '0'">
-                                                <button type="button" class="btn btn-secondary secondBtn customFieldSecondBtn{{$index}}" ng-class="{'fieldValues' : src.customFields == '0'}"
+                                                <button type="button" class="btn btn-secondary secondBtn customFieldSecondBtn{{$index}}" ng-class="{'fieldValues' : src.fieldValues == '0'}"
                                                         ng-click="selectSource('2', $index, customField, false, 'fieldValues')" value="{{customField.fieldId}}" title="{{customField.fieldValue.value}}">
                                                     <span ng-if="(customField.type == 'string' || customField.type == 'select') && customField.state == 'A'">{{customField.fieldValue.value}}</span>
                                                     <span ng-if="customField.type == 'date' && customField.state == 'A'">{{customField.fieldValue.dateTimeValue|dateFormat}}</span>
@@ -462,7 +462,7 @@
                                     <!--</div>-->
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 rightBlock">
                                 <div class="item with-border positions" ng-show="(candidateBeforeMerge.position && candidateBeforeMerge.position.length > 1 && candidate2.position && candidate2.position.length > 1) && candidateBeforeMerge.position != candidate2.position">
                                     <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
                                     <!--<select ng-model="src.position"-->
