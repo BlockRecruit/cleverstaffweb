@@ -104,6 +104,10 @@ controller.controller('testResults', ["$scope", "Test", "notificationService", "
                                 $scope.count++;
                             }
                         });
+                        $scope.paginationParams = {
+                            currentPage: $scope.requestParams.page.number,
+                            totalCount: response['total']
+                        };
                         $scope.candidateName = response.objects[0].candidateName;
                         $scope.candidateLocalId = response.objects[0].candidateLocalId;
                         $scope.objectSize =  response['objects'] != undefined ? response['total'] : 0;

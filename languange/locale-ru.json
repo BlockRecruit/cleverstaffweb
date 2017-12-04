@@ -2807,6 +2807,11 @@
   "Candidates added in vacancy": "Кандидаты добавлены в вакансию",
   "Select the interview date": "Выберите дату собеседования",
   "The large quantity of results has been found.": "Найдено большое количество результатов. Показано <b>{{total_count}}</b>. Уточните критерии, чтобы получить более точные результаты",
+  "_Previous": "Предыдущая",
+  "_Next": "Следующая",
+  "_Show": "Отображать",
+  "items on page": "строк на одной странице",
+  "Go to initial page": "На исходную страницу",
   "You has granted role": "Вы назначили роль",
   "_for":"для"
 }

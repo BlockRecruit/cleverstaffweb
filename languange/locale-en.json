@@ -2213,5 +2213,10 @@
   "Select the interview date": "Select the interview date",
   "You has granted role":"You has granted role",
   "_for":"for",
-  "The large quantity of results has been found.": "The large quantity of results has been found. <b>{{total_count}}</b> of them is shown. Please specify search criteria to get more accurate results"
+  "The large quantity of results has been found.": "The large quantity of results has been found. <b>{{total_count}}</b> of them is shown. Please specify search criteria to get more accurate results",
+  "_Previous": "Previous",
+  "_Next": "Next",
+  "_Show": "Show",
+  "items on page": "items on page",
+  "Go to initial page": "Go to initial page"
 }

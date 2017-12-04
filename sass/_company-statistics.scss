@@ -1,4 +1,7 @@
 .block-company-statistics {
+	#show_more {
+		display: none;
+	}
 	.row {
 		@include disabled-margins-for-row();
 	}

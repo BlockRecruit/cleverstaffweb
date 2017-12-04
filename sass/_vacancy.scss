@@ -811,7 +811,7 @@
 		.pagination-right-block {
 			margin-right: 3%;
 			.item-type-candidates {
-				display: inline-block;
+				display: inline-block !important;
 			}
 			.item-type-standard {
 				display: none;

@@ -907,6 +907,16 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         $rootScope.objectSizeCand = $rootScope.objectSize;
                         $rootScope.searchParam = $scope.searchParam;
                         params.total(response['total']);
+                        $scope.paginationParams = {
+                            currentPage: $scope.candidateSearchOptions.page.number,
+                            totalCount: $rootScope.objectSize
+                        };
+                        let pagesCount = Math.ceil(response['total']/$scope.candidateSearchOptions.page.count);
+                        if(pagesCount == $scope.candidateSearchOptions.page.number + 1) {
+                            $('#show_more').hide();
+                        } else {
+                            $('#show_more').show();
+                        }
                         $scope.candidateFound = response['total'] >= 1;
                         $scope.criteriaForExcel["page"] = {
                             number: 0,
@@ -1277,7 +1287,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 if (resp.status == "ok") {
                     $rootScope.changeStateInCandidate.candidate.status = resp.object.status;
                     notificationService.success($filter('translate')('candidate') + " " + $rootScope.changeStateInCandidate.candidate.fullName + " " + $filter('translate')('was_deleted'));
-                    $scope.tableParams.reload();
+                    if($scope.candidates.length == 1 && $scope.a.searchNumber > 0) {
+                        $scope.tableParams.page($scope.a.searchNumber - 1);
+                        $scope.tableParams.reload();
+                    } else {
+                        $scope.tableParams.reload();
+                    }
                 }
             });
             //    function (err) {
