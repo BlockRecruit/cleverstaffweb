@@ -1230,7 +1230,76 @@
 
     <!--ЗPignation in TAble-->
     <script type="text/ng-template" id="custom/pager">
-        <div class="pagination-block" nav-pagination ng-if="objectSize > 15">
+        <div class="pagination-block" ng-if="objectSize > 15">
+
+            <span>
+                <span ng-show="params.settings().total>params.count() && !isShowMore">
+                    {{'page'|translate}}
+                    &nbsp;
+                    <span ng-repeat="page in pages"
+                          ng-if="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                        <a ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                           ng-switch-when="prev" ng-click="params.page(page.number)" class="icon item">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                    <input type="number"
+                           ng-model="a.searchNumber"
+                           ng-change="changeInputPage(params,a.searchNumber)"/>
+                    <span ng-repeat="page in pages"
+                          ng-if="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                        <a ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                           ng-switch-when="next" ng-click="params.page(page.number)" class="icon item">
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                    &nbsp;
+                    {{'from_3'|translate}} {{(params.settings().total/params.count())|roundUp}}
+                </span>
+            </span>
+            <div class="hidden-xs hidden-sm pagination-right-block">
+                <span ng-show="params.settings().total >= params.count()">{{'Show on one page' | translate}}&nbsp;&nbsp;</span>
+                <div class="ui custom_small pagination menu">
+
+                    <!--Старая пагинация(Стрелки возле количества отображения на одной странице)-->
+
+
+                    <!--<span ng-repeat="page in pages"-->
+                    <!--ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">-->
+                    <!--<a ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"-->
+                    <!--ng-switch-when="prev" ng-click="params.page(page.number)" class="icon item">-->
+                    <!--<i class="left arrow icon"></i>-->
+                    <!--</a>-->
+                    <!--<a ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}" style="float: right;" ng-switch-when="next" ng-click="params.page(page.number)" class="icon item">-->
+                    <!--<i class="right arrow icon"></i>-->
+                    <!--</a>-->
+                    <!--</span>-->
+                    <a class="item" ng-class="{'active':params.count() == 15}" ng-show="params.total()>15"
+                       ng-click="params.count(15)">
+                        15
+                    </a>
+                    <a class="item" ng-class="{'active':params.count() == 30}" ng-show="params.total()>=30"
+                       ng-click="params.count(30)">
+                        30
+                    </a>
+                    <a class="item" ng-class="{'active':params.count() == 60}" ng-show="params.total()>=60"
+                       ng-click="params.count(60)">
+                        60
+                    </a>
+                    <a class="item" ng-class="{'active':params.count() == 120}" ng-show="params.total()>=120"
+                       ng-click="params.count(120)">
+                        120
+                    </a>
+                </div>
+                <span ng-show="params.settings().total >= params.count()">&nbsp;
+                    <span translate="items" class="item-type-standard"></span>
+                    <span translate="candidatesToCastomFild" class="item-type-candidates"></span>
+                </span>
+                <!--<div class="ui custom_small pagination menu" style="margin-left: 10px">-->
+                    <!--<a class="item" ng-show="params.total()>=15" translate="Show more" id="show_more" ng-click="showMore()">-->
+                    <!--</a>-->
+                <!--</div>-->
+            </div>
         </div>
     </script>
     <script type="text/ng-template" id="custom/pagerExternal">

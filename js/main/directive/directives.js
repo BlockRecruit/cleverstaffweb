@@ -4067,21 +4067,6 @@ var directive = angular.module('RecruitingApp.directives', []).
             },
 
         };
-    }]).directive("navPagination", ["$rootScope", function ($rootScope) {
-        return {
-            restrict: 'AE',
-            templateUrl: '../partials/pagination.html?1',
-            link: function (scope, element, attributes) {
-                console.log('total', scope.paginationParams)
-                scope.$watch('paginationParams', function (newValue, oldValue) {
-                   console.log('in watcher newValue, oldValue', newValue, oldValue)
-                    if(newValue)
-                    scope.totalPagesCount = Math.ceil(newValue.totalCount/scope.params.count());
-                });
-                //console.log('total', $rootScope.objectSize,scope.params.count())
-                //scope.totalPagesCount = Math.ceil(scope.params.total()/scope.params.count());
-            }
-        }
     }]);
 function similar_text(first, second, percent) {
     if (first === null || second === null || typeof first === 'undefined' || typeof second === 'undefined') {
