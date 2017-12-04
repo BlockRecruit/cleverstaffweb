@@ -657,7 +657,7 @@
 							.btn {
 								@include button-switch-styling();
 
-								width: 48%;
+								width: 48.5%;
 
 								text-align: left;
 								white-space: normal;
@@ -669,7 +669,7 @@
 								};
 								&:last-child {
 									margin-top: 0;
-									margin-left: 4px;
+									margin-left: 11px;
 
 									word-break: break-word;
 								}
@@ -703,7 +703,12 @@
 					.customFirstCandidate,
 					.customSecondCandidate {
 						//clear: both;
-						width: 50%!important;
+						width: 49%!important;
+						.btn {
+							&:last-child {
+								margin-left: 0!important;
+							}
+						}
 						button {
 							width: 100%!important;
 						}
@@ -721,7 +726,7 @@
 						.btn-group {
 							display: block;
 							.btn {
-								width: 48%;
+								width: 48.5%;
 
 								white-space: normal;
 							}
@@ -740,22 +745,10 @@
 							padding: 0;
 						}
 					}
-					.btn-group {
-						display: flow-root;
-						margin: 15px 0 15px 4px;
-						.btn {
-							@include button-switch-styling();
-							&:last-child {
-								margin-right: 4px;
-							}
-							&.active {
-								background-color: $theme-light-green-hover;
-							}
-							.error {
-								border: 1px solid $theme-red;
-							}
-						}
-					}
+				}
+				.rightBlock {
+					padding-right: 27px;
+					padding-left: 0;
 				}
 				& > .contactCandidate {
 					& > .item {
@@ -772,7 +765,7 @@
 							.btn {
 								@include button-switch-styling();
 
-								width: 48%;
+								width: 46.5%;
 
 								text-align: left;
 								white-space: normal;
@@ -781,7 +774,7 @@
 								};
 								&:last-child {
 									margin-top: 0;
-									margin-left: 4px;
+									margin-left: 11px;
 
 									word-break: break-word;
 								}
@@ -829,7 +822,8 @@
 						}
 						& > .floatLeft {
 							& > .btn-group {
-								margin: 15px 0 5px 1px;
+								display: inline-flex;
+								margin: 0 0 5px 1px;
 								.btn {
 									@include button-switch-styling();
 
@@ -909,7 +903,11 @@
 						}
 					}
 					.skillsBlock {
+						label {
+							display: block;
+						}
 						.btn-group {
+							display: inline-flex;
 							margin: 15px 0 5px 1px;
 							.btn {
 								@include button-switch-styling();
