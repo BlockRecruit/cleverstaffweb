@@ -2369,7 +2369,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 $('.pagination-block').hide();
                 $scope.noAccess = false;
             }
-            console.log($scope.noAccess, '$scope.noAccess')
 
             $scope.activeName = 'recalls';
             if($scope.recalls && $scope.recalls.length > 0) {
