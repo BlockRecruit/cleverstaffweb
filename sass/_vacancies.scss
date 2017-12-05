@@ -217,6 +217,10 @@
 				}
 				.vacancy-name {
 					font-weight: 600;
+
+					overflow: hidden;
+
+					text-overflow: ellipsis;
 					a {
 						color: #202021;
 						&:hover {
