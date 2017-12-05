@@ -5,7 +5,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         var chartHeight = 0;
         $scope.lang = $translate;
         vacancyStages.get(function(resp){
-            $scope.customStages =resp.object.interviewStates;
+            $scope.customStages = resp.object.interviewStates;
         });
 
         Vacancy.one({"localId": $routeParams.id}, function(resp) {
@@ -30,6 +30,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
                 language: $translate.use()
             });
+
             if ($scope.vacancy.dateFinish != undefined) {
                 $("#dateTo").datetimepicker("setDate", new Date($scope.vacancy.dateFinish));
             } else {
@@ -37,6 +38,13 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 d.setHours(0, 0, 0, 0);
                 $("#dateTo").datetimepicker("setDate", d);
             }
+
+            let stagesString = $scope.vacancy['interviewStatus'].split(',');
+
+            $scope.declinedStages = stagesString.slice(stagesString.indexOf('approved') + 1, stagesString.length);
+            $scope.notDeclinedStages = stagesString.slice(stagesString[0], stagesString.indexOf('approved') + 1);
+
+
             Statistic.getVacancyInterviewDetalInfo(
                 {
                     "vacancyId": $scope.vacancy.vacancyId,
@@ -53,10 +61,22 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
                     $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
 
-                    angular.forEach($scope.detailInterviewInfo, function(value){
-                        angular.forEach($scope.customStages, function(resp){
-                            if(value.key == resp.customInterviewStateId){
+                    angular.forEach($scope.customStages, function(resp){
+                        angular.forEach($scope.detailInterviewInfo, function(value){
+                            if(value.key === resp.customInterviewStateId){
                                 value.key = resp.name;
+                            }
+                        });
+
+                        angular.forEach($scope.declinedStages, function(value, index){
+                            if(value === resp.customInterviewStateId){
+                                $scope.declinedStages[index] = resp.name;
+                            }
+                        });
+
+                        angular.forEach($scope.notDeclinedStages, function(value, index){
+                            if(value === resp.customInterviewStateId){
+                                $scope.notDeclinedStages[index] = resp.name;
                             }
                         });
                     });
@@ -67,21 +87,34 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         function initSalesFunnel(dateFrom, dateTo) {
             $scope.funnelMap = {};
+            $scope.hasFunnelChart = false;
 
-            if($scope.detailInterviewInfo) {
+            if ($scope.detailInterviewInfo) {
                 angular.forEach($scope.detailInterviewInfo, (stage) => {
                     $scope.funnelMap[stage.key] = stage.value.length;
+
+                    angular.forEach($scope.declinedStages, (declinedStage) => {
+                        if(declinedStage === stage.key) {
+                            delete $scope.funnelMap[stage.key];
+                        }
+                    });
                 });
+
+                angular.forEach($scope.notDeclinedStages, (notDeclinedStage) => {
+                    if(!$scope.funnelMap[notDeclinedStage]) {
+                        $scope.funnelMap[notDeclinedStage] = 0;
+                    }
+                });
+
                 if($scope.funnelMap['longlist'] == 0) {
                     return;
                 }
             }
-            $scope.hasFunnelChart = false;
 
-            $scope.hasFunnelChart = true;
             var myChart = {};
             if ($scope.detailInterviewInfo) {
-                chartHeight = 30*$scope.funnelMap.length;
+                $scope.hasFunnelChart = true;
+                chartHeight = 30*Object.keys($scope.funnelMap).length;
                 var series = [];
                 var values = [];
                 var values2 = [];
@@ -112,6 +145,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     }
                     lastCount = i;
                 });
+
                 myChart = {
                     "type": "funnel",
                     "width":'900px',
@@ -129,7 +163,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                         // "offset-x": '60px'
                     },
                     plotarea: {
-                        margin: '-10% 0 0 20%'
+                        margin: '40px 0 0 20%'
                     },
                     "scale-x": {"values": [""]},
                     labels: [{
@@ -138,7 +172,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                         fontSize: 12,
                         // offsetX: $translate.use() != 'en' ?  775 : 785,
                         offsetX: $translate.use() != 'en' ?  895 : 905,
-                        offsetY: 10
+                        offsetY: 0
                     },
                         {
                             text: $filter('translate')('Absolute conversion'),
@@ -146,22 +180,22 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                             fontSize: 12,
                             // offsetX: 870,
                             offsetX: 990,
-                            offsetY: 10
+                            offsetY: 0
                         },
                         {
                             text: $filter('translate')('Candidates'),
                             fontWeight: "bold",
                             fontSize: 12,
                             // offsetX: $translate.use() != 'en' ? 700 : 710,
-                            offsetX: $translate.use() != 'en' ? 810 : 820,
-                            offsetY: 10
+                            offsetX: $translate.use() != 'en' ? 815 : 825,
+                            offsetY: 0
                         },
                         {
                             text: $filter('translate')('status'),
                             fontWeight: "bold",
                             fontSize: 12,
                             offsetX: 210,
-                            offsetY: 10
+                            offsetY: 0
                         }
                     ],
                     "backgroundColor": "#FFFFFF",
