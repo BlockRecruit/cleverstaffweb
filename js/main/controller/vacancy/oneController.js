@@ -665,6 +665,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
                     function isLockCheckStages(data,stages) {
                         let index, hiddenStages = data.map(item => item.objId);
+
                         stages.forEach(item =>{
                             if(hiddenStages.indexOf(item.value) !== -1 || hiddenStages.indexOf(item.customInterviewStateId) !== -1 ){
                                 item.hidden = true;
@@ -2360,7 +2361,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.showRecalls = function (status) {
             $scope.visiable2 = status.hidden;
             $scope.visiable = false;
-            if($scope.visiable2 && $rootScope.me.role == 'client'){
+
+            if($scope.visiable2 && $rootScope.me.recrutRole == 'client'){
                 $scope.noAccess = true;
             }else{
                 $('#recallsTable').show();
