@@ -21184,6 +21184,32 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
             //mphone: '1',
             //email: '1'
         };
+        $scope.secondRegion  = false;
+        $scope.secondLanguages  = false;
+        $scope.secondPosition  = false;
+        $scope.secondSex  = false;
+        $scope.secondCurrentWorkPlace  = false;
+        $scope.secondSalary  = false;
+        $scope.secondOrigin  = false;
+        $scope.secondCoreSkills  = false;
+        $scope.secondSkills  = false;
+        $scope.secondDescr  = false;
+        $scope.secondRelatedRegions  = false;
+        $scope.secondEducation  = false;
+        $scope.secondIndustry  = false;
+        $scope.secondExpirence  = false;
+        $scope.secondCurrentPosition  = false;
+        $scope.secondMphone  = false;
+        $scope.secondEmail  = false;
+        $scope.secondSkype  = false;
+        $scope.secondLinkedin  = false;
+        $scope.secondFacebook  = false;
+        $scope.secondGoogleplus  = false;
+        $scope.secondGithub  = false;
+        $scope.secondHomepage  = false;
+        $scope.secondDb  = false;
+        $scope.secondCustomFields  = false;
+        $scope.fieldValues = [];
         $('.col-lg-4').css({'max-width': '455px', 'display': 'inline-block', 'width': '100%'});
         $scope.deleteRegion2ToRelocate = function(index) {
             $scope.regionToRelocate.splice(index, 1);
@@ -21510,10 +21536,13 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                             console.log(val);
                             if(val != undefined){
                                 $scope.fieldValueFirstValue = true;
-                                console.log($('.customField' + index));
-                                //if($('.customFirstCandidate').find('.customField' + index)[0].classList.value.indexOf('ng-hide') == -1){
-                                //    $('.customSecondCandidate').find('.customField' + index).addClass('hidden');
-                                //}
+                                setTimeout(function(){
+                                    if($('.customFirstCandidate').find('.customField' + index)[0].classList.value.indexOf('ng-hide') > -1){
+                                        $('.customSecondCandidate').find('.customField2' + index).addClass('hidden');
+                                        $scope.fieldValues.push(val);
+                                        console.log($scope.fieldValues, '1cand');
+                                    }
+                                }, 0);
                             }
                         });
                         $scope.candidateBeforeMerge = angular.copy($scope.candidate);
@@ -21634,10 +21663,13 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                         console.log(index);
                         if(nval != undefined){
                             $scope.fieldValueSecondValue = true;
-                            console.log($('.customSecondCandidate').find('.customField2' + index));
-                            //if($('.customFirstCandidate').find('.customField' + index)[0].classList.value.indexOf('ng-hide') == -1){
-                            //    $('.customSecondCandidate').find('.customField2' + index).addClass('hidden');
-                            //}
+                            setTimeout(function(){
+                                if($('.customSecondCandidate').find('.customField2' + index)[0].classList.value.indexOf('ng-hide') > -1){
+                                    $('.customFirstCandidate').find('.customField' + index).addClass('hidden');
+                                    $scope.fieldValues.push(nval);
+                                    console.log($scope.fieldValues, '2cand');
+                                }
+                            }, 200);
                         }
                     });
                 } else {
@@ -21649,32 +21681,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
             });
         };
         $scope.updateCandidate2();
-        $scope.secondRegion  = false;
-        $scope.secondLanguages  = false;
-        $scope.secondPosition  = false;
-        $scope.secondSex  = false;
-        $scope.secondCurrentWorkPlace  = false;
-        $scope.secondSalary  = false;
-        $scope.secondOrigin  = false;
-        $scope.secondCoreSkills  = false;
-        $scope.secondSkills  = false;
-        $scope.secondDescr  = false;
-        $scope.secondRelatedRegions  = false;
-        $scope.secondEducation  = false;
-        $scope.secondIndustry  = false;
-        $scope.secondExpirence  = false;
-        $scope.secondCurrentPosition  = false;
-        $scope.secondMphone  = false;
-        $scope.secondEmail  = false;
-        $scope.secondSkype  = false;
-        $scope.secondLinkedin  = false;
-        $scope.secondFacebook  = false;
-        $scope.secondGoogleplus  = false;
-        $scope.secondGithub  = false;
-        $scope.secondHomepage  = false;
-        $scope.secondDb  = false;
-        $scope.secondCustomFields  = false;
-        $scope.fieldValues = [];
         $scope.selectSource = function (src, index, customField, isContact, type) {
             var sourceForRegion = function () {
                 //var source;
@@ -22391,6 +22397,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
             console.log($scope.src.fieldValues != 0);
             console.log($scope.candidate.fieldValues.length);
             console.log($scope.candidateBeforeMerge.fieldValues.length);
+            console.log($scope.fieldValues);
             console.log($scope.fieldValues.length);
             console.log($scope.fieldValues.length > 0);
             console.log($scope.candidateBeforeMerge.customFields.length > 0);
@@ -22434,11 +22441,11 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 //console.log(candidate.fieldValues);
 
                 if ($scope.candidateBeforeMerge.fieldValues.length > 0 && !$scope.secondCustomFields && $scope.fieldValueFirstValue) {
-                    //candidate.fieldValues = $scope.candidateBeforeMerge.fieldValues;
-                    candidate.fieldValues = candidate.fieldValues.concat($scope.candidateBeforeMerge.fieldValues);
+                    candidate.fieldValues = $scope.candidateBeforeMerge.fieldValues;
+                    //candidate.fieldValues = candidate.fieldValues.concat($scope.candidateBeforeMerge.fieldValues);
                 }else if ($scope.candidate2.fieldValues.length > 0 && $scope.candidate2.fieldValues && $scope.fieldValueSecondValue) {
-                    //candidate.fieldValues = $scope.candidate2.fieldValues;
-                    candidate.fieldValues = candidate.fieldValues.concat($scope.candidate2.fieldValues);
+                    candidate.fieldValues = $scope.candidate2.fieldValues;
+                    //candidate.fieldValues = candidate.fieldValues.concat($scope.candidate2.fieldValues);
                 }
                 if ($scope.candidateBeforeMerge.employmentType != undefined && $scope.candidateBeforeMerge.employmentType.length > 0) {
                     candidate.employmentType = $scope.candidateBeforeMerge.employmentType;
