@@ -438,11 +438,11 @@
                     </div>
                 </div>
                 <div class="clearfix"></div>
-                <div class="col-lg-12 criterionSearchCandidate" ng-show="searchParam.searchCs">
-                    <div ng-show="staticSearchParam[0].words || (staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
+                <div class="col-lg-12 criterionSearchCandidate" ng-class="{'limited': limitReached === true}" ng-show="searchParam.searchCs">
+                    <div ng-show="(staticSearchParam[0].words || (staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
                             (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType != null) ||
                             (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
-                            (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts != 'null'">
+                            (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts != 'null') && !limitReached">
                         <span class="count">{{'found'|translate}} <span>{{objectSize}}</span></span>
                         {{'criteria'|translate}}:
                     </div>
@@ -452,7 +452,13 @@
                             (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null') ||
                             (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts != 'null')">
-                            <span ng-show="!objectSize">{{'There are no candidates in your vacancies yet.'|translate}}</span> <span ng-show="objectSize"><span class="count">{{'total'|translate}} <span ng-bind="objectSize"></span></span>{{'criteria are not selected'|translate}}</span>
+                            <span ng-show="!objectSize">{{'There are no candidates in your vacancies yet.'|translate}}</span>
+                            <span ng-show="objectSize">
+                                <span class="count">{{'total'|translate}}
+                                    <span ng-bind="objectSize"></span>
+                                </span>
+                                {{'criteria are not selected'|translate}}
+                            </span>
                         </li>
                         <li ng-show="staticSearchParam[0].words" class="pivot">{{'full_text_1'|translate}}:
                             {{staticSearchParam[0].words}}
@@ -588,6 +594,12 @@
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts != 'null'|| staticSearchParam[0].origin != null">
                             <span id="btnCl12" class="button_add ui item icon teal button" ng-click="cleanTags();">
                             <i class="fa fa-trash" aria-hidden="true"></i></span>
+                        </li>
+                        <li class="too-match" ng-show="limitReached === true && (staticSearchParam[0].words || (staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
+                            (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null') ||
+                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
+                            (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts != 'null')">
+                            <span class="count" translate="The large quantity of results has been found." translate-values="{total_count: objectSize}"></span>
                         </li>
                     </ul>
                 </div>

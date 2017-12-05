@@ -1245,6 +1245,7 @@
                     </span>
                     <input type="number"
                            ng-model="a.searchNumber"
+                           ng-model-options="{debounce: 1000}"
                            ng-change="changeInputPage(params,a.searchNumber)"/>
                     <span ng-repeat="page in pages"
                           ng-if="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">

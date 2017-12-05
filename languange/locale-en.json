@@ -2206,5 +2206,6 @@
   "Only account administrator is able to make a payment":"Only account administrator is able to make a payment",
   "Recruiters shared no vacancies for you yet. Ask them to do that or add new vacancy by yourself. They will see it.":"Recruiters shared no vacancies for you yet. Ask them to do that.",
   "enter a comment": "Enter a comment",
-  "Select the interview date": "Select the interview date"
+  "Select the interview date": "Select the interview date",
+  "The large quantity of results has been found.": "The large quantity of results has been found. <b>{{total_count}}</b> of them is shown. Please specify search criteria to get more accurate results"
 }
