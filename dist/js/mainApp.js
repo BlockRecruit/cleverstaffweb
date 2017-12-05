@@ -13539,7 +13539,11 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
+<<<<<<< HEAD
         suffix: '.json?b=27'
+=======
+        suffix: '.json?b=28'
+>>>>>>> fix text notification for candidates page (add to vacancy)
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -19225,7 +19229,15 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         },function(resp){
             if(resp.status == 'ok'){
                 $rootScope.closeModal();
+<<<<<<< HEAD
                 notificationService.success($filter('translate')('Candidates added'));
+=======
+                if($scope.candidatesAddToVacancyIds.length == 1){
+                    notificationService.success($filter('translate')('Candidate added in vacancy'));
+                }else if($scope.candidatesAddToVacancyIds.length > 1){
+                    notificationService.success($filter('translate')('Candidates added in vacancy'));
+                }
+>>>>>>> fix text notification for candidates page (add to vacancy)
             }else{
                 notificationService.error(resp.message);
             }
@@ -33121,9 +33133,12 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     function isLockCheckStages(data,stages) {
                         let index, hiddenStages = data.map(item => item.objId);
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> change russian translate
+=======
+>>>>>>> fix text notification for candidates page (add to vacancy)
                         stages.forEach(item =>{
                             if(hiddenStages.indexOf(item.value) !== -1 || hiddenStages.indexOf(item.customInterviewStateId) !== -1 ){
                                 item.hidden = true;
@@ -34820,11 +34835,15 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $scope.visiable2 = status.hidden;
             $scope.visiable = false;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             if($scope.visiable2 && $rootScope.me.recrutRole == 'client'){
 =======
             if($scope.visiable2 && $rootScope.me.role == 'client'){
 >>>>>>> change russian translate
+=======
+            if($scope.visiable2 && $rootScope.me.role == 'client'){
+>>>>>>> fix text notification for candidates page (add to vacancy)
                 $scope.noAccess = true;
             }else{
                 $('#recallsTable').show();
