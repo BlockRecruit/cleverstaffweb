@@ -8,9 +8,14 @@
     </a>
 </div>
 <div class="col-lg-10">
-    {{'history_info.edited_information'|translate}}
-    <span ng-show="history.candidate">
-        {{'by candidate'|translate}}
+    {{'history_info.The candidate'|translate}}
+    <span ng-show="history.person">
+        <a href="#/candidates/{{history.candidate.localId}}"
+           once-text="history.person.firstName">
+        </a>
+    </span>
+    {{'history_info.profile was edited by'|translate}}
+     <span ng-show="history.candidate">
         <a href="#/candidates/{{history.candidate.localId}}"
            once-text="history.candidate.fullName">
         </a>

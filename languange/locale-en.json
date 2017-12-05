@@ -535,7 +535,9 @@
     "from vacancy": "from vacancy",
     "by recommendation of CleverStaff": "by the recommendation of CleverStaff",
     "Candidate test passed": "finished the",
-    "test": "test"
+    "test": "test",
+    "The candidate": "The candidate",
+    "profile was edited by": "profile was edited by"
   },
   "Remove Skill": "Remove skill",
   "information": "Vacancy details",

@@ -590,7 +590,9 @@
     "from vacancy": "из вакансии",
     "by recommendation of CleverStaff": "по рекомендации CleverStaff",
     "Candidate test passed": "закончил(а) прохождение теста",
-    "test": ""
+    "test": "",
+    "The candidate": "Профиль кандидата",
+    "profile was edited by": "был отредактирован"
   },
   "Remove Skill": "Удалить навык",
   "information": "Описание вакансии",
