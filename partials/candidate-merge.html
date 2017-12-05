@@ -356,7 +356,7 @@
                                 </div>
                                 <div class="item with-border customFieldss" ng-show="candidateBeforeMerge.customFields.length > 0 && candidate2.customFields.length > 0 && (fieldValueFirstValue && fieldValueSecondValue)">
                                     <div class="customFirstCandidate pull-left">
-                                        <div ng-show="candidateBeforeMerge.customFields.length > 0 && customField.fieldValue" ng-repeat="customField in candidateBeforeMerge.customFields track by customField.fieldId">
+                                        <div class="customField{{$index}}" ng-show="candidateBeforeMerge.customFields.length > 0 && customField.fieldValue" ng-repeat="customField in candidateBeforeMerge.customFields track by customField.fieldId">
                                             <label>{{customField.title}}</label>
                                             <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.fieldValues = '0'">
                                                 <button type="button" class="btn btn-secondary customFieldBtn{{$index}}" ng-class="{'fieldValues' : src.fieldValues == '0'}"
@@ -370,7 +370,7 @@
                                         </div>
                                     </div>
                                     <div class="customSecondCandidate pull-right">
-                                        <div ng-show="candidate2.customFields.length > 0 && customField.fieldValue" ng-repeat="customField in candidate2.customFields track by customField.fieldId">
+                                        <div class="customField2{{$index}}" ng-show="candidate2.customFields.length > 0 && customField.fieldValue" ng-repeat="customField in candidate2.customFields track by customField.fieldId">
                                             <label>{{customField.title}}</label>
                                             <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.customFields = '0'">
                                                 <button type="button" class="btn btn-secondary secondBtn customFieldSecondBtn{{$index}}" ng-class="{'fieldValues' : src.fieldValues == '0'}"
