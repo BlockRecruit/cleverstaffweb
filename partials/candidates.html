@@ -1714,7 +1714,7 @@
                 </div>
             </div>
             <div class="ui vertically divided-grid">
-                <img ng-if="candidatePreview.photo!=undefined"
+                <img id="photo-preview" ng-if="candidatePreview.photo!=undefined"
                      ng-src="{{$root.serverAddress}}/getapp?id={{candidatePreview.photo}}&d={{$root.me.personId}}"
                      alt="" class="pull-left"/>
                 <!--<img ng-if="candidatePreview.photo==undefined" border="5" src="img/missing-image-640x360.png" alt=""-->
