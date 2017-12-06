@@ -2926,7 +2926,11 @@ $('#askQuestionSubmit2').on('click',function(e){
             $('.softForm').css('display', 'none');
             $('.numberVacancyForm').css('display', 'none');
             $('.keyRequirementsForm').css('display', 'none');
-            fbq('track', 'Schedule a demo');
+            try {
+                if(fbq) fbq('track', 'Schedule a demo');
+            } catch(err) {
+                console.error("Facebook Pixel" ,err);
+            }
             //$('#contact').slideUp('slow');
             //$('.tyMessageQuestion').delay(800).fadeIn();
         },
@@ -3416,7 +3420,11 @@ $('#askQuestionSubmit3').on('click',function(e){
       $('.softForm').css('display', 'none');
       $('.numberVacancyForm').css('display', 'none');
       $('.keyRequirementsForm').css('display', 'none');
-      fbq('track', 'Schedule a demo');
+        try {
+            if(fbq) fbq('track', 'Schedule a demo');
+        } catch(err) {
+            console.error("Facebook Pixel" ,err);
+        }
       //$('#contact').slideUp('slow');
       //$('.tyMessageQuestion').delay(800).fadeIn();
     },
@@ -3494,7 +3502,11 @@ $('#askQuestionSubmit4').on('click',function(e){
             $('.numberVacancyForm').css('display', 'none');
             $('.usersCountForm').css('display', 'none');
             $('.keyRequirementsForm').css('display', 'none');
-            fbq('track', 'Schedule a demo');
+            try {
+                if(fbq) fbq('track', 'Schedule a demo');
+            } catch(err) {
+                console.error("Facebook Pixel" ,err);
+            }
             //$('#contact').slideUp('slow');
             //$('.tyMessageQuestion').delay(800).fadeIn();
         }
@@ -4314,7 +4326,11 @@ function signupGoogle() {
                     url: 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + access_token,
                     data: null,
                     success: function(user) {
-                        fbq('track', 'Registration');
+                        try {
+                            if(fbq) fbq('track', 'Registration');
+                        } catch(err) {
+                            console.error("Facebook Pixel" ,err);
+                        }
                         console.log('user', user);
                         $("#google_mail").val(user.email);
                         $("#google_name").val(user.name);
@@ -4717,7 +4733,12 @@ function signupForm() {
                 $("#after_registration_message").css('display', 'block');
                 $("#reg_company_name").text(res.orgName);
                 $("#reg_email").text(res.login);
-                fbq('track', 'Registration');
+                try {
+                    if(fbq) fbq('track', 'Registration');
+                } catch(err) {
+                    console.error("Facebook Pixel" ,err);
+                }
+
                 if(res.lang == 'ru'){
                     window.location.replace("/finishreg");
                 }else if(res.lang == 'en'){
@@ -4758,7 +4779,11 @@ function signupFacebook() {
         if (response.authResponse) {
             var code = response.authResponse.accessToken; //get access token
             FB.api('/me?fields=email,name', function(user) {
-                fbq('track', 'Registration');
+                try {
+                    if(fbq) fbq('track', 'Registration');
+                } catch(err) {
+                    console.error("Facebook Pixel" ,err);
+                }
                 console.log(user);
                 $("#facebook_mail").val(user.email);
                 $("#facebook_name").val(user.name);
