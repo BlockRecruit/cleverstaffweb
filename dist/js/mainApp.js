@@ -13539,7 +13539,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=27'
+        suffix: '.json?b=28'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -18503,6 +18503,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                             number: 0,
                             count: $scope.objectSize
                         };
+                        $scope.limitReached = response['limitReached'];
                         if(page) {
                             $scope.candidates = $scope.candidates.concat(response['objects'])
                         } else {
@@ -19225,7 +19226,11 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         },function(resp){
             if(resp.status == 'ok'){
                 $rootScope.closeModal();
-                notificationService.success($filter('translate')('Candidates added'));
+                if($scope.candidatesAddToVacancyIds.length == 1){
+                    notificationService.success($filter('translate')('Candidate added in vacancy'));
+                }else if($scope.candidatesAddToVacancyIds.length > 1){
+                    notificationService.success($filter('translate')('Candidates added in vacancy'));
+                }
             }else{
                 notificationService.error(resp.message);
             }
@@ -33120,6 +33125,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
                     function isLockCheckStages(data,stages) {
                         let index, hiddenStages = data.map(item => item.objId);
+
                         stages.forEach(item =>{
                             if(hiddenStages.indexOf(item.value) !== -1 || hiddenStages.indexOf(item.customInterviewStateId) !== -1 ){
                                 item.hidden = true;
@@ -34815,8 +34821,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.showRecalls = function (status) {
             $scope.visiable2 = status.hidden;
             $scope.visiable = false;
-            if($scope.visiable2 && $rootScope.me.role == 'client'){
 
+            if($scope.visiable2 && $rootScope.me.recrutRole == 'client'){
                 $scope.noAccess = true;
             }else{
                 $('#recallsTable').show();

@@ -902,6 +902,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                             number: 0,
                             count: $scope.objectSize
                         };
+                        $scope.limitReached = response['limitReached'];
                         if(page) {
                             $scope.candidates = $scope.candidates.concat(response['objects'])
                         } else {
@@ -1624,7 +1625,11 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         },function(resp){
             if(resp.status == 'ok'){
                 $rootScope.closeModal();
-                notificationService.success($filter('translate')('Candidates added'));
+                if($scope.candidatesAddToVacancyIds.length == 1){
+                    notificationService.success($filter('translate')('Candidate added in vacancy'));
+                }else if($scope.candidatesAddToVacancyIds.length > 1){
+                    notificationService.success($filter('translate')('Candidates added in vacancy'));
+                }
             }else{
                 notificationService.error(resp.message);
             }

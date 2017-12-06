@@ -590,7 +590,9 @@
     "from vacancy": "из вакансии",
     "by recommendation of CleverStaff": "по рекомендации CleverStaff",
     "Candidate test passed": "закончил(а) прохождение теста",
-    "test": ""
+    "test": "",
+    "The candidate": "Профиль кандидата",
+    "profile was edited by": "был отредактирован пользователем"
   },
   "Remove Skill": "Удалить навык",
   "information": "Описание вакансии",
@@ -2797,5 +2799,8 @@
   "Share vacancy via Facebook": "Опубликовать в Facebook",
   "Show more": "Показать ещё",
   "Only account administrator is able to make a payment":"Только администратор аккаунта может произвести оплату",
-  "Select the interview date": "Выберите дату собеседования"
+  "Candidate added in vacancy": "Кандидат добавлен в вакансию",
+  "Candidates added in vacancy": "Кандидаты добавлены в вакансию",
+  "Select the interview date": "Выберите дату собеседования",
+  "The large quantity of results has been found.": "Найдено большое количество результатов. Показано <b>{{total_count}}</b>. Уточните критерии, чтобы получить более точные результаты"
 }

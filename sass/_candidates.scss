@@ -540,6 +540,18 @@
 							cursor: pointer;
 							vertical-align: inherit;
 						}
+						&.too-match {
+							background-color: #e3f2dd;
+							& > .count {
+								position: absolute;
+								bottom: -3px;
+
+								width: 485px;
+								padding: 2px 10px;
+
+								text-transform: initial;
+							}
+						}
 					}
 				}
 				.btn {
@@ -603,6 +615,9 @@
 							background-color: $theme-dark-green;
 						}
 					}
+				}
+				&.limited {
+					margin-bottom: 10px;
 				}
 			}
 			.addCandidatesInVacancy {
@@ -1544,6 +1559,11 @@
 	}
 }
 @media (max-width: $screen-sm) {
+	.block-candidates .candidates-statuses .candidates-search-table > .criterionSearchCandidate .pivots li.too-match > .count {
+		position: relative;
+
+		width: 68%;
+	}
 	.block-candidates .candidates-statuses .candidates-search-table .status-info table > tbody > tr .responsible {
 		width: 40%;
 	}
