@@ -16,18 +16,28 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.customStages = resp.object.interviewStates;
         $rootScope.customStages = resp.object.interviewStates;
     });
-    $scope.imgWidthFunc = function(){
-        var width = $('#page-avatar')[0].naturalWidth;
-        var height = $('#page-avatar')[0].naturalHeight;
-        var minus = width - height;
-        if(width >= height && minus > 40 && minus <=100){
-            $('#page-avatar').css({'width': '100%', 'height': 'auto'});
-        }else if(width >= 300 && width <= 349 && width != height){
-            $('#page-avatar').css({'width': '100%', 'height': '385px'});
-        }else if(width >= 350){
-            $('#page-avatar').css({'width': '100%', 'height': 'auto'});
+    $scope.imgWidthFunc = function(id){
+        var img = new Image();
+        img.onload = function() {
+            var width = this.width;
+            var height = this.height;
+            var minus = width - height;
+            if(width >= height && minus > 40 && minus <=100){
+                $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+            }else if((width >= 300 && width <= 349) || width == height){
+                $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
+            }else if(width >= 350){
+                $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+            }else if(width >= 266){
+                $('#page-avatar').css({'width': '100%', 'height': 'auto'});
+            }else{
+                $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
+            }
+        };
+        if($location.$$host == '127.0.0.1'){
+            img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
         }else{
-            $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
         }
     };
     $rootScope.closeModal = function(){

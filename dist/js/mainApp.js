@@ -5864,7 +5864,7 @@ angular.module('services.candidate', [
                     $scope.fastCandLoading = false;
                     $rootScope.loading = false;
                     setTimeout(function(){
-                        $scope.imgWidthFunc();
+                        $scope.imgWidthFunc(file.object.photo);
                     }, 3000);
                     if(data.data.status != 'error' ){
                         $location.path("candidate/add");
@@ -5894,8 +5894,9 @@ angular.module('services.candidate', [
                 });
                 file.$upload(serverAddress + '/candidate/addPhoto', file).then(function(data) {
                     $scope.callbackAddPhoto(data.data.objects[0]);
+                    console.log(data)
                     setTimeout(function(){
-                        $scope.imgWidthFunc();
+                        $scope.imgWidthFunc(file.objects[0]);
                     }, 2000);
                 });
             },
@@ -16753,38 +16754,28 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             notificationService.error($filter('translate')('Enter a valid url'));
         }
     };
-        $scope.imgWidthFunc = function(){
-            var width2 = $('#page-avatar')[0].naturalWidth;
-            var height2 = $('#page-avatar')[0].naturalHeight;
-            console.log(width2);
-            console.log(height2);
+        $scope.imgWidthFunc = function(id){
             var img = new Image();
-            console.log(img);
             img.onload = function() {
-                console.log(this);
                 var width = this.width;
                 var height = this.height;
                 var minus = width - height;
-                console.log(width);
-                console.log(height);
                 if(width >= height && minus > 40 && minus <=100){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 300 && width <= 349 || width == height){
+                }else if((width >= 300 && width <= 349) || width == height){
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
+                }else if(width >= 350){
+                    $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+                }else if(width >= 266){
+                    $('#page-avatar').css({'width': '100%', 'height': 'auto'});
+                }else{
+                    $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
-                //else if(width >= 350){
-                //    $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                //}else{
-                //    $('#page-avatar').css({'width': '100%', 'height': 'auto'});
-                //}
-                //else{
-                //    $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
-                //}
             };
             if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $rootScope.file.object.photo + '&d=' + $rootScope.me.personId;
+                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
             }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $rootScope.file.object.photo + '&d=' + $rootScope.me.personId;
+                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
             }
         };
     $scope.callbackAddPhoto = function(photo) {
@@ -17663,18 +17654,28 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.customStages = resp.object.interviewStates;
         $rootScope.customStages = resp.object.interviewStates;
     });
-    $scope.imgWidthFunc = function(){
-        var width = $('#page-avatar')[0].naturalWidth;
-        var height = $('#page-avatar')[0].naturalHeight;
-        var minus = width - height;
-        if(width >= height && minus > 40 && minus <=100){
-            $('#page-avatar').css({'width': '100%', 'height': 'auto'});
-        }else if(width >= 300 && width <= 349 && width != height){
-            $('#page-avatar').css({'width': '100%', 'height': '385px'});
-        }else if(width >= 350){
-            $('#page-avatar').css({'width': '100%', 'height': 'auto'});
+    $scope.imgWidthFunc = function(id){
+        var img = new Image();
+        img.onload = function() {
+            var width = this.width;
+            var height = this.height;
+            var minus = width - height;
+            if(width >= height && minus > 40 && minus <=100){
+                $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+            }else if((width >= 300 && width <= 349) || width == height){
+                $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
+            }else if(width >= 350){
+                $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+            }else if(width >= 266){
+                $('#page-avatar').css({'width': '100%', 'height': 'auto'});
+            }else{
+                $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
+            }
+        };
+        if($location.$$host == '127.0.0.1'){
+            img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
         }else{
-            $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
         }
     };
     $rootScope.closeModal = function(){
@@ -22549,7 +22550,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 var minus = width - height;
                 if(width >= height && minus > 40 && minus <=100){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 300 && width <= 349 && width != height){
+                }else if((width >= 300 && width <= 349) || width == height){
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
