@@ -21406,6 +21406,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
         $scope.updateCandidate = function(){
             Candidate.one({"localId": $routeParams.id}, function(resp) {
                 if (angular.equals(resp.status, "ok")) {
+                    $scope.fieldValueFirstValue = false;
                     $scope.setOriginAutocompleterValue(resp.object.origin);
                     $scope.setPositionAutocompleterValue(resp.object.position);
                     if (resp.object.region != undefined && resp.object.region.lat != undefined && resp.object.region.lng != undefined) {
@@ -21486,8 +21487,9 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                         $scope.candidate.fieldValues = [];
 
                         if (resp.object.customFields) {
-                            angular.forEach(resp.object.customFields, function(val) {
+                            angular.forEach(resp.object.customFields, function(val, index) {
                                 if(val.fieldValue != undefined){
+                                    $scope.fieldValueFirstValue = true;
                                     if (angular.equals(val.type, "string")) {
                                         $scope.candidate.fieldValues.push({
                                             objType: "candidate",
@@ -21529,22 +21531,13 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                         });
                                     }
                                 }
-                            });
-                        }
-                        $scope.fieldValueFirstValue = false;
-                        angular.forEach($scope.candidate.fieldValues, function (val, index) {
-                            console.log(val);
-                            if(val != undefined){
-                                $scope.fieldValueFirstValue = true;
                                 setTimeout(function(){
                                     if($('.customFirstCandidate').find('.customField' + index)[0].classList.value.indexOf('ng-hide') > -1){
                                         $('.customSecondCandidate').find('.customField2' + index).addClass('hidden');
-                                        $scope.fieldValues.push(val);
-                                        console.log($scope.fieldValues, '1cand');
                                     }
                                 }, 0);
-                            }
-                        });
+                            });
+                        }
                         $scope.candidateBeforeMerge = angular.copy($scope.candidate);
                         $scope.contactsBeforeMerge = angular.copy($scope.contacts);
                     }
@@ -21564,6 +21557,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
         $scope.updateCandidate2 = function(){
             Candidate.one({"localId": $scope.candidate2.localId}, function(resp) {
                 if (angular.equals(resp.status, "ok")) {
+                    $scope.fieldValueSecondValue = false;
                     var name = "";
                     resp.object.fullName != undefined ? name + resp.object.fullName.replace(/\s/g, '_') : "";
                     resp.object.position != undefined ? name + resp.object.position.replace(/\s/g, '_') : "";
@@ -21612,8 +21606,9 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     $scope.candidate2.fieldValues = [];
 
                     if (resp.object.customFields) {
-                        angular.forEach(resp.object.customFields, function(val) {
+                        angular.forEach(resp.object.customFields, function(val, index) {
                             if(val.fieldValue != undefined){
+                                $scope.fieldValueSecondValue = true;
                                 if (angular.equals(val.type, "string")) {
                                     $scope.candidate2.fieldValues.push({
                                         objType: "candidate",
@@ -21655,23 +21650,13 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                     });
                                 }
                             }
-                        });
-                    }
-                    $scope.fieldValueSecondValue = false;
-                    angular.forEach($scope.candidate2.fieldValues, function (nval, index) {
-                        console.log(nval);
-                        console.log(index);
-                        if(nval != undefined){
-                            $scope.fieldValueSecondValue = true;
                             setTimeout(function(){
                                 if($('.customSecondCandidate').find('.customField2' + index)[0].classList.value.indexOf('ng-hide') > -1){
                                     $('.customFirstCandidate').find('.customField' + index).addClass('hidden');
-                                    $scope.fieldValues.push(nval);
-                                    console.log($scope.fieldValues, '2cand');
                                 }
                             }, 200);
-                        }
-                    });
+                        });
+                    }
                 } else {
                     notificationService.error($filter('translate')('candidate not found'));
                     $location.path('/candidates');
@@ -22101,13 +22086,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     console.log($scope.src);
                     if((src === '1' || src === '2' ) && $scope.fieldValues.length >= 0) {
                         console.log('1');
-                        if(src === '1'){
-                            $('.customFirstCandidate').find('.customFieldBtn' + index).addClass('active');
-                            $('.customSecondCandidate').find('.customFieldSecondBtn' + index).removeClass('active');
-                        }else if(src === '2'){
-                            $('.customSecondCandidate').find('.customFieldSecondBtn' + index).addClass('active');
-                            $('.customFirstCandidate').find('.customFieldBtn' + index).removeClass('active');
-                        }
                         if (angular.equals(customField.type, "string")) {
                             $scope.fieldValues.push({
                                 objType: "candidate",
@@ -22148,13 +22126,78 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                 }
                             });
                         }
-                        $scope.secondCustomFields  = false;
-                        $scope.candidate[type] = $scope.fieldValues;
-                        console.log($scope.candidate);
-                        $scope.src.fieldValues = '1';
-                        //$('.customFieldBtn' + index).removeClass('active');
-                        $('button.active').removeClass('fieldValues');
-                        $('button.customFields').css('border', 'none');
+                        if(src === '1'){
+                            $('.customFirstCandidate').find('.customFieldBtn' + index).addClass('active');
+                            $('.customSecondCandidate').find('.customFieldSecondBtn' + index).removeClass('active');
+                            //angular.forEach($scope.candidate[type], function (val, ind) {
+                            //    if(val.field.fieldId == customField.fieldValue.field.fieldId){
+                            //        console.log( $scope.candidate[type]);
+                            //        console.log(ind);
+                            //        $scope.candidate.fieldValues.splice(ind, 1)
+                            //    }
+                            //});
+                            function removeDuplicates(arr, prop) {
+                                var new_arr = [];
+                                var lookup  = {};
+
+                                for (var i in arr) {
+                                    lookup[arr[i][prop]] = arr[i];
+                                }
+
+                                for (i in lookup) {
+                                    new_arr.push(lookup[i]);
+                                }
+                                return new_arr;
+                            }
+
+                            var uniqueArrayMerge = removeDuplicates($scope.candidate[type], "fieldId");
+                            $scope.candidate[type] = uniqueArrayMerge;
+                            console.log($scope.candidate[type]);
+                            $scope.secondCustomFields  = false;
+                            console.log($scope.candidate);
+                            $scope.src.fieldValues = '1';
+                            //$('.customFieldBtn' + index).removeClass('active');
+                            $('button.active').removeClass('fieldValues');
+                            $('button.customFields').css('border', 'none');
+                        }else if(src === '2'){
+                            $('.customSecondCandidate').find('.customFieldSecondBtn' + index).addClass('active');
+                            $('.customFirstCandidate').find('.customFieldBtn' + index).removeClass('active');
+                            $scope.candidate[type] = $scope.candidate[type].concat($scope.fieldValues);
+                            //angular.forEach($scope.candidate[type], function (val) {
+                            //    if(val.field.fieldId == customField.fieldValue.field.fieldId){
+                            //        $scope.candidate.fieldValues.splice(index, 1);
+                                    //var uniqeElements = $.unique(val.field.fieldId);
+                                    //console.log(uniqeElements);
+                            //    }
+                            //});
+
+                            function removeDuplicates(arr, prop) {
+                                console.log(arr);
+                                console.log(prop);
+                                var new_arr = [];
+                                var lookup  = {};
+
+                                for (var i in arr) {
+                                    console.log(i);
+                                    console.log(arr[i]);
+                                    console.log(arr[i][prop]);
+                                    lookup[arr[i][prop]] = arr[i];
+                                }
+console.log(lookup);
+                                for (i in lookup) {
+                                    new_arr.push(lookup[i]);
+                                }
+                                return new_arr;
+                            }
+                            var uniqueArrayMerge2 = removeDuplicates($scope.candidate[type], "field");
+                            $scope.candidate[type] = uniqueArrayMerge2;
+                            $scope.secondCustomFields  = false;
+                            console.log($scope.candidate);
+                            $scope.src.fieldValues = '1';
+                            //$('.customFieldBtn' + index).removeClass('active');
+                            $('button.active').removeClass('fieldValues');
+                            $('button.customFields').css('border', 'none');
+                        }
                     }
                 }else if (index % 2 == 1){
                     //alert("3 - не четное число");
@@ -22173,13 +22216,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     console.log($scope.src);
                     if((src === '1' || src === '2') && $scope.fieldValues.length >= 0) {
                         console.log('2');
-                        if(src === '1'){
-                            $('.customFirstCandidate').find('.customFieldBtn' + index).addClass('active');
-                            $('.customSecondCandidate').find('.customFieldSecondBtn' + index).removeClass('active');
-                        }else if(src === '2'){
-                            $('.customSecondCandidate').find('.customFieldSecondBtn' + index).addClass('active');
-                            $('.customFirstCandidate').find('.customFieldBtn' + index).removeClass('active');
-                        }
                         if (angular.equals(customField.type, "string")) {
                             $scope.fieldValues.push({
                                 objType: "candidate",
@@ -22220,12 +22256,45 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                 }
                             });
                         }
-                        $scope.secondCustomFields  = true;
-                        $scope.candidate[type] = $scope.fieldValues;
-                        console.log($scope.candidate);
-                        $scope.src.fieldValues = '2';
-                        $('button.active').removeClass('fieldValues');
-                        $('button.customFields').css('border', 'none');
+                        if(src === '1'){
+                            $('.customFirstCandidate').find('.customFieldBtn' + index).addClass('active');
+                            $('.customSecondCandidate').find('.customFieldSecondBtn' + index).removeClass('active');
+                            //$scope.candidate[type] = $scope.candidate[type].concat($scope.fieldValues);
+                            //angular.forEach($scope.candidate[type], function (val) {
+                            //    if(val.field.fieldId == customField.fieldValue.field.fieldId){
+                            //        $scope.candidate.fieldValues.splice(index, 1)
+                            //    }
+                            //});
+                            var exists2 = false;
+                            angular.forEach($scope.candidate[type], function(val2, key) {
+                                if(angular.equals(customField.fieldValue.field.fieldId, val2.field.fieldId)){
+                                    exists2 = true
+                                };
+                            });
+                            if(exists2 == false && customField.fieldValue.field.fieldId != "") {
+                                //newArr.push(value);
+                                $scope.candidate[type] = $scope.candidate[type].concat($scope.fieldValues);
+                            }
+                            $scope.secondCustomFields  = true;
+                            console.log($scope.candidate);
+                            $scope.src.fieldValues = '2';
+                            $('button.active').removeClass('fieldValues');
+                            $('button.customFields').css('border', 'none');
+                        }else if(src === '2'){
+                            $('.customSecondCandidate').find('.customFieldSecondBtn' + index).addClass('active');
+                            $('.customFirstCandidate').find('.customFieldBtn' + index).removeClass('active');
+                            $scope.candidate[type] = $scope.candidate[type].concat($scope.fieldValues);
+                            angular.forEach($scope.candidate[type], function (val) {
+                                if(val.field.fieldId == customField.fieldValue.field.fieldId){
+                                    $scope.candidate.fieldValues.splice(index, 1)
+                                }
+                            });
+                            $scope.secondCustomFields  = true;
+                            console.log($scope.candidate);
+                            $scope.src.fieldValues = '2';
+                            $('button.active').removeClass('fieldValues');
+                            $('button.customFields').css('border', 'none');
+                        }
                     }
                 }
                 console.log($scope.fieldValues);
@@ -22440,13 +22509,11 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 //candidate.fieldValues = candidate.fieldValues.concat($scope.arrayFieldValue);
                 //console.log(candidate.fieldValues);
 
-                if ($scope.candidateBeforeMerge.fieldValues.length > 0 && !$scope.secondCustomFields && $scope.fieldValueFirstValue) {
-                    candidate.fieldValues = $scope.candidateBeforeMerge.fieldValues;
-                    //candidate.fieldValues = candidate.fieldValues.concat($scope.candidateBeforeMerge.fieldValues);
-                }else if ($scope.candidate2.fieldValues.length > 0 && $scope.candidate2.fieldValues && $scope.fieldValueSecondValue) {
-                    candidate.fieldValues = $scope.candidate2.fieldValues;
-                    //candidate.fieldValues = candidate.fieldValues.concat($scope.candidate2.fieldValues);
-                }
+                //if ($scope.candidateBeforeMerge.fieldValues.length > 0 && !$scope.secondCustomFields && $scope.fieldValueFirstValue) {
+                //    candidate.fieldValues = $scope.candidateBeforeMerge.fieldValues;
+                //}else if ($scope.candidate2.fieldValues.length > 0 && $scope.candidate2.fieldValues && $scope.fieldValueSecondValue) {
+                //    candidate.fieldValues = $scope.candidate2.fieldValues;
+                //}
                 if ($scope.candidateBeforeMerge.employmentType != undefined && $scope.candidateBeforeMerge.employmentType.length > 0) {
                     candidate.employmentType = $scope.candidateBeforeMerge.employmentType;
                 }else if ($scope.candidate2.employmentType) {
