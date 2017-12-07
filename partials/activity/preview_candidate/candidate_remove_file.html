@@ -1,7 +1,7 @@
 <ng-include src="'partials/activity/preview_candidate/header.html'"></ng-include>
 <div class="summary">
     {{'history_info.removed_file'|translate}}
-    <div class="fixed-comment-width">
+    <div ng-class="{'fixed-comment-width' : history.descr.length > 270}">
         <span style="color:#DAA10F">{{history.descr| cut:true:50:'...'}}</span>
     </div>
 </div>

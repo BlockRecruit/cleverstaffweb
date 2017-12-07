@@ -9,7 +9,7 @@
         {{history.stateNew | translate}}
     </span>
     <br>
-    <div class="fixed-comment-width">
+    <div ng-class="{'fixed-comment-width' : history.descr.length > 270}">
       <span>
             {{history.descr|textForNotice:false}}
       </span>

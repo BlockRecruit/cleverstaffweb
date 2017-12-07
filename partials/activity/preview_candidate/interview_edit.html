@@ -23,7 +23,7 @@
         <span bo-text="history.targetDate|dateFormat:true">
         </span>
     </span>
-        <div class="fixed-comment-width">
+        <div ng-class="{'fixed-comment-width' : history.descr.length > 270}">
             <span ng-bind-html="history.descr|textForNotice:false"></span>
         </div>
     </div>
