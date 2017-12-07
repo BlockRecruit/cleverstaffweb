@@ -73,6 +73,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                 });
                             }else if(emailDomen == 'gmail.com'){
                                 googleService.gmailAuth("modify",function(result) {
+                                    console.log('gmail add-1', result)
+                                    $rootScope.addedEmail.email = result.email;
                                     $rootScope.addedEmail.password = result.code;
                                     $rootScope.addedEmail.host = 'gmail';
                                     Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
@@ -99,6 +101,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                         $rootScope.itsGmail = resp.code;
                                         if(resp.code == 'gmail'){
                                             googleService.gmailAuth("modify",function(result) {
+                                                console.log('gmail add-2', result)
+                                                $rootScope.addedEmail.email = result.email;
                                                 $rootScope.addedEmail.password = result.code;
                                                 $rootScope.addedEmail.host = 'gmail';
                                                 Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
@@ -172,6 +176,7 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                 }else if(emailDomen == 'gmail.com' || emailDomen == 'gmail' || $rootScope.itsGmail == 'gmail' || $rootScope.itsGmailModal == 'gmail'){
                     googleService.gmailAuth("modify",function(result) {
                         $rootScope.editedEmail.password = result.code;
+                        $rootScope.addedEmail.email = result.email;
                         $rootScope.editedEmail.host = 'gmail';
                         Candidate.editEmailAccess($rootScope.editedEmail, function(resp){
                             if(resp.status == 'error'){
