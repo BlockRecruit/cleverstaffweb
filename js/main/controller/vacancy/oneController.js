@@ -164,12 +164,15 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 });
             },3);
             if($scope.currentTab == 'task'){
+                resetTemplate();
                 $scope.updateTasks(true)
             }
             if($scope.currentTab == 'settings'){
+                resetTemplate();
                 $scope.getEmailTemplates();
             }
             if($scope.currentTab == 'candidate'){
+                resetTemplate();
                 $scope.candidateInVacancy({value: "longlist"});
             }
         };
@@ -3745,7 +3748,12 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
                             });
                             ed.on('change', function(e) {
-                                $rootScope.emailTemplateInModal.text = tinyMCE.get('modalMCE').getContent();
+                                try{
+                                    $rootScope.emailTemplateInModal.text = tinymce.get('modalMCE').getContent();
+                                } catch (e) {
+                                    console.log('error in tinymce.get(\'modalMCE\').getContent(). It`s normal')
+                                }
+
                             });
                         }
                     });
@@ -3895,4 +3903,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             })
         }
         ////////////////////////////////////////////////////////End of edit page
+        function resetTemplate() {
+            $scope.activeTemplate = '';
+            $scope.showAddEmailTemplate = false;
+        }
     }]);
