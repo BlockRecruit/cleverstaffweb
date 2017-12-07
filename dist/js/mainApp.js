@@ -20159,7 +20159,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 var minus = width - height;
                 if(width >= height && minus > 40 && minus <=100){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 300 && width <= 349 && width != height){
+                }else if((width >= 300 && width <= 349) || width == height){
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
@@ -22550,7 +22550,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 var minus = width - height;
                 if(width >= height && minus > 40 && minus <=100){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if((width >= 300 && width <= 349) || width == height){
+                }else if(width >= 300 && width <= 349 && width != height){
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
@@ -26742,6 +26742,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                 });
                             }else if(emailDomen == 'gmail.com'){
                                 googleService.gmailAuth("modify",function(result) {
+                                    console.log('gmail add-1', result)
+                                    $rootScope.addedEmail.email = result.email;
                                     $rootScope.addedEmail.password = result.code;
                                     $rootScope.addedEmail.host = 'gmail';
                                     Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
@@ -26768,6 +26770,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                         $rootScope.itsGmail = resp.code;
                                         if(resp.code == 'gmail'){
                                             googleService.gmailAuth("modify",function(result) {
+                                                console.log('gmail add-2', result)
+                                                $rootScope.addedEmail.email = result.email;
                                                 $rootScope.addedEmail.password = result.code;
                                                 $rootScope.addedEmail.host = 'gmail';
                                                 Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
@@ -26841,6 +26845,7 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                 }else if(emailDomen == 'gmail.com' || emailDomen == 'gmail' || $rootScope.itsGmail == 'gmail' || $rootScope.itsGmailModal == 'gmail'){
                     googleService.gmailAuth("modify",function(result) {
                         $rootScope.editedEmail.password = result.code;
+                        $rootScope.addedEmail.email = result.email;
                         $rootScope.editedEmail.host = 'gmail';
                         Candidate.editEmailAccess($rootScope.editedEmail, function(resp){
                             if(resp.status == 'error'){
