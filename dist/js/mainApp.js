@@ -33147,23 +33147,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         $scope.showResponsiblePopup = true;
                     }
 
-                    Person.getAllPersons(function (resp) {
-                        var personsCount = 0;
-                        $scope.associativePerson = resp.object;
-                        angular.forEach($scope.associativePerson, function (val, key) {
-                            if (angular.equals(resp.status, 'ok')) {
-                                personsCount++;
-                            }
-                        });
-                        if (personsCount > 1) {
-                            $scope.needAutoSetResponsible = false;
-                        } else if (personsCount == 1 && ($scope.vacancy.responsiblesPerson == undefined || $scope.vacancy.responsiblesPerson.length == 0)) {
-                            $scope.needAutoSetResponsible = true;
-                        } else {
-                            $scope.needAutoSetResponsible = false;
-                        }
-                    });
-
                     angular.forEach($scope.vacancy.publish, function (val) {
                         $scope.shareObj[val.type] = true;
                     });
@@ -33953,6 +33936,16 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
             if (iUser) {
                 $scope.persons.unshift(iUser);
+            }
+
+            var personsCount = $scope.associativePerson.length;
+
+            if (personsCount > 1) {
+                $scope.needAutoSetResponsible = false;
+            } else if (personsCount == 1 && ($scope.vacancy.responsiblesPerson == undefined || $scope.vacancy.responsiblesPerson.length == 0)) {
+                $scope.needAutoSetResponsible = true;
+            } else {
+                $scope.needAutoSetResponsible = false;
             }
         });
 
