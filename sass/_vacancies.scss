@@ -292,6 +292,14 @@
 	&.reports {
 		margin-top: 0;
 	}
+	.select2-container .select2-choice abbr {
+		&.select2-search-choice-close {
+			top: 6px;
+		}
+		&.select2-search-choice-edit-origin {
+			display: none;
+		}
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////Fluid styles

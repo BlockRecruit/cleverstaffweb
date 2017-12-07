@@ -2076,6 +2076,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                     element.select2({
                         placeholder: $filter('translate')('client'),
                         minimumInputLength: 0,
+                        allowClear: true,
                         ajax: {
                             url: serverAddress + "/client/autocompleteClients",
                             dataType: 'json',
@@ -2091,11 +2092,6 @@ var directive = angular.module('RecruitingApp.directives', []).
                                 var inVacancy = false;
                                 var status = "";
                                 var realName = "";
-                                results.push({
-                                    id: null,
-                                    text:  $filter('translate')('client'),
-                                    name:  $filter('translate')('client')
-                                });
                                 if (data['objects'] !== undefined) {
                                     console.log(data['objects']);
                                     angular.forEach(data['objects'], function(item) {
@@ -31834,27 +31830,31 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                 $scope.vacancy.region = $scope.region;
             }
             $scope.vacancy.numberOfPositions = 1;
-            Vacancy.add($scope.vacancy, function(resp) {
-                if(resp.status == 'ok'){
-                    notificationService.success($filter('translate')('vacancy_save_1') + $scope.vacancy.position + $filter('translate')('vacancy_save_2'));
-                    $scope.vacancy.position = '';
-                    $scope.vacancy.employmentType = '';
-                    $scope.regionInput = '';
-                    $("#clientToAddAutocompleater").select2('data').id =null;
-                    $("#clientToAddAutocompleater").select2('data').text ='';
-                    $("#clientToAddAutocompleater").select2('data').name ='';
-                    $("#select2-chosen-1").html($filter('translate')('Client'));
-                    $scope.shortAddVacancyForm.regionInput.$pristine = true;
-                    $scope.shortAddVacancyForm.position.$pristine = true;
-                    if(relocate){
-                        $location.path("vacancies/" + resp.object.localId);
+            if($scope.vacancy.clientId.clientId) {
+                Vacancy.add($scope.vacancy, function(resp) {
+                    if(resp.status == 'ok'){
+                        notificationService.success($filter('translate')('vacancy_save_1') + $scope.vacancy.position + $filter('translate')('vacancy_save_2'));
+                        $scope.vacancy.position = '';
+                        $scope.vacancy.employmentType = '';
+                        $scope.regionInput = '';
+                        $("#clientToAddAutocompleater").select2('data').id =null;
+                        $("#clientToAddAutocompleater").select2('data').text ='';
+                        $("#clientToAddAutocompleater").select2('data').name ='';
+                        $("#select2-chosen-1").html($filter('translate')('Client'));
+                        $scope.shortAddVacancyForm.regionInput.$pristine = true;
+                        $scope.shortAddVacancyForm.position.$pristine = true;
+                        if(relocate){
+                            $location.path("vacancies/" + resp.object.localId);
+                        }else{
+                            $scope.tableParams.reload();
+                        }
                     }else{
-                        $scope.tableParams.reload();
+                        notificationService.error(resp.message);
                     }
-                }else{
-                    notificationService.error(resp.message);
-                }
-            });
+                });
+            }else{
+                notificationService.error($filter('translate')('choose_client'));
+            }
         }else{
             $scope.shortAddVacancyForm.position.$pristine = false;
             notificationService.error($filter('translate')('Please fill in all fields'));

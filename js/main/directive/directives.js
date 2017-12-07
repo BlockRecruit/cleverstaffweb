@@ -2076,6 +2076,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                     element.select2({
                         placeholder: $filter('translate')('client'),
                         minimumInputLength: 0,
+                        allowClear: true,
                         ajax: {
                             url: serverAddress + "/client/autocompleteClients",
                             dataType: 'json',
@@ -2091,11 +2092,6 @@ var directive = angular.module('RecruitingApp.directives', []).
                                 var inVacancy = false;
                                 var status = "";
                                 var realName = "";
-                                results.push({
-                                    id: null,
-                                    text:  $filter('translate')('client'),
-                                    name:  $filter('translate')('client')
-                                });
                                 if (data['objects'] !== undefined) {
                                     console.log(data['objects']);
                                     angular.forEach(data['objects'], function(item) {
