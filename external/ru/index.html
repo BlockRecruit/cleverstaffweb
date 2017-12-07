@@ -321,7 +321,9 @@
                                         </blockquote>
                                         <span class="saysArrow"></span>
                                         <div class="person-card">
-                                            <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-4.png" alt="Клиент">
+                                            <a href="https://www.facebook.com/profile.php?id=100007642774010" target="_blank">
+                                                <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-4.png" alt="Клиент">
+                                            </a>
                                             <div class="person-descr pull-left text-left">
                                                 <span class="person-name pull-left">МАРИНА МАЗУРЕНКО</span><br>
                                                 <span class="person-work text-muted pull-left">HR МЕНЕДЖЕР В NCUBE</span><br>
@@ -341,7 +343,9 @@
                                         </blockquote>
                                         <span class="saysArrow"></span>
                                         <div class="person-card">
-                                            <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-3.png" alt="Клиент">
+                                            <a href="https://www.facebook.com/NadezdaShtepa" target="_blank">
+                                                <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-3.png" alt="Клиент">
+                                            </a>
                                             <div class="person-descr pull-left text-left">
                                                 <span class="person-name pull-left">НАДЕЖДА ШТЕПА</span><br>
                                                 <span class="person-work text-muted pull-left">УПРАВЛЯЮЩИЙ ПАРТНЕР В BUSINESS PERSONAL</span><br>
@@ -361,7 +365,9 @@
                                         </blockquote>
                                         <span class="saysArrow"></span>
                                         <div class="person-card">
-                                            <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-1.png" alt="Клиент">
+                                            <a href="https://www.facebook.com/daria.borysenko" target="_blank">
+                                                <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-1.png" alt="Клиент">
+                                            </a>
                                             <div class="person-descr pull-left text-left">
                                                 <span class="person-name pull-left">ДАРЬЯ БОРИСЕНКО</span><br>
                                                 <span class="person-work text-muted pull-left">HR ДИРЕКТОР В INTERSOG</span><br>
@@ -381,7 +387,9 @@
                                         </blockquote>
                                         <span class="saysArrow"></span>
                                         <div class="person-card">
-                                            <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-2.png" alt="Клиент">
+                                            <a href="https://www.facebook.com/taisiia.mliuzan" target="_blank">
+                                                <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-2.png" alt="Клиент">
+                                            </a>
                                             <div class="person-descr pull-left text-left">
                                                 <span class="person-name pull-left">ТАИСИЯ МЛЮЗАН</span><br>
                                                 <span class="person-work text-muted pull-left">РУКОВОДИТЕЛЬ ГРУППЫ РЕКРУТЕРОВ</span><br>
@@ -668,19 +676,23 @@
 <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" />
 <script src="../external/js/style_func.js"></script>
 <script src="../external/js/bootstrap.js"></script>
-<script src="../external/js/jquery.jcarousellite.min.js"></script>
+<script src="../external/js/jquery.jcarousellite.js"></script>
 <script type="text/javascript" src="../external/js/script.min.js?b5"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 <script type="text/javascript">
     $(function () {
-        $(".auto .carousel").jCarouselLite({
-//                auto: 800,
-//                speed: 1000,
-            animation: 'fast',
-            btnNext: ".auto .next",
-            btnPrev: ".auto .prev",
-            visible: 1
-        });
+        var config = {
+                auto: 1500,
+                speed: 650,
+                btnNext: ".auto .next",
+                btnPrev: ".auto .prev",
+                visible: 1,
+                pauseOnMouseOver: true,
+                circular: true
+            };
+
+        $(".auto .carousel").jCarouselLite(config);
+
     });
 </script>
 <script type="text/javascript">

@@ -11,7 +11,7 @@
     };
 
     $.fn.jCarouselLite = function(options) {
-
+        console.log(options);
         options = $.extend({}, $.fn.jCarouselLite.options, options || {});
 
         return this.each(function() {   // Returns the element collection. Chainable.
@@ -20,7 +20,8 @@
                 animCss, sizeCss,
                 div = $(this), ul, initialLi, li,
                 liSize, ulSize, divSize,
-                numVisible, initialItemLength, itemLength, calculatedTo, autoTimeout;
+                numVisible, initialItemLength, itemLength, calculatedTo, autoTimeout,
+                preventAutoScroll;
 
             initVariables();                    // Set the above variables after initial calculations
             initStyles();                       // Set the appropriate styles for the carousel div, ul and li
@@ -67,6 +68,7 @@
 
             function initVariables() {
                 running = false;
+                preventAutoScroll = false;
                 animCss = options.vertical ? "top" : "left";
                 sizeCss = options.vertical ? "height" : "width";
                 ul = div.find(">ul");
@@ -151,12 +153,16 @@
             function attachEventHandlers() {
                 if(options.btnPrev) {
                     $(options.btnPrev).click(function() {
+                        preventAutoScroll = true;
+                        options.animate = false;
                         return go(calculatedTo - options.scroll);
                     });
                 }
 
                 if(options.btnNext) {
                     $(options.btnNext).click(function() {
+                        preventAutoScroll = true;
+                        options.animate = false;
                         return go(calculatedTo + options.scroll);
                     });
                 }
@@ -183,6 +189,7 @@
             }
 
             function setupAutoScroll() {
+                if(preventAutoScroll) return;
                 autoTimeout = setTimeout(function() {
                     go(calculatedTo + options.scroll);
                 }, options.auto);
@@ -243,7 +250,6 @@
 
             function animateToPosition(animationOptions) {
                 running = true;
-
                 ul.animate(
                     animCss == "left" ?
                     { left: -(calculatedTo*liSize) } :
@@ -265,6 +271,7 @@
         mouseWheel: false,          // Set "true" if you want the carousel scrolled using mouse wheel
         auto: 2500,                 // Set to a numeric value (800) in millis. Time period between auto scrolls
 
+        animate: true,              //  ** CUSTOM **
         speed: 200,                 // Set to a numeric value in millis. Speed of scroll
         easing: null,               // Set to easing (bounceout) to specify the animation easing
 
