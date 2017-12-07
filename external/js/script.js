@@ -2927,7 +2927,7 @@ $('#askQuestionSubmit2').on('click',function(e){
             $('.numberVacancyForm').css('display', 'none');
             $('.keyRequirementsForm').css('display', 'none');
             try {
-                if(fbq) fbq('track', 'Schedule a demo');
+                if (document.domain === 'cleverstaff.net') fbq('track', 'Schedule a demo');
             } catch(err) {
                 console.error("Facebook Pixel" ,err);
             }
@@ -3421,7 +3421,7 @@ $('#askQuestionSubmit3').on('click',function(e){
       $('.numberVacancyForm').css('display', 'none');
       $('.keyRequirementsForm').css('display', 'none');
         try {
-            if(fbq) fbq('track', 'Schedule a demo');
+            if (document.domain === 'cleverstaff.net') fbq('track', 'Schedule a demo');
         } catch(err) {
             console.error("Facebook Pixel" ,err);
         }
@@ -3503,7 +3503,7 @@ $('#askQuestionSubmit4').on('click',function(e){
             $('.usersCountForm').css('display', 'none');
             $('.keyRequirementsForm').css('display', 'none');
             try {
-                if(fbq) fbq('track', 'Schedule a demo');
+                if (document.domain === 'cleverstaff.net') fbq('track', 'Schedule a demo');
             } catch(err) {
                 console.error("Facebook Pixel" ,err);
             }
@@ -4327,7 +4327,7 @@ function signupGoogle() {
                     data: null,
                     success: function(user) {
                         try {
-                            if(fbq) fbq('track', 'Registration');
+                            if (document.domain === 'cleverstaff.net') fbq('track', 'Registration');
                         } catch(err) {
                             console.error("Facebook Pixel" ,err);
                         }
@@ -4734,7 +4734,7 @@ function signupForm() {
                 $("#reg_company_name").text(res.orgName);
                 $("#reg_email").text(res.login);
                 try {
-                    if(fbq) fbq('track', 'Registration');
+                    if (document.domain === 'cleverstaff.net') fbq('track', 'Registration');
                 } catch(err) {
                     console.error("Facebook Pixel" ,err);
                 }
@@ -4780,7 +4780,7 @@ function signupFacebook() {
             var code = response.authResponse.accessToken; //get access token
             FB.api('/me?fields=email,name', function(user) {
                 try {
-                    if(fbq) fbq('track', 'Registration');
+                    if (document.domain === 'cleverstaff.net') fbq('track', 'Registration');
                 } catch(err) {
                     console.error("Facebook Pixel" ,err);
                 }
