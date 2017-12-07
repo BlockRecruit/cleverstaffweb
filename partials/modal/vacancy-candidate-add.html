@@ -17,14 +17,13 @@
         </div>
         <div class="item" ng-show="$root.addCandidateInInterview.showSelect == true">
             <label ng-show="!$root.addCandidateInInterview.addedInVacancy">{{'interview_status'|translate}}</label>
-
-            <select  ng-model="$root.status2"
+            <select id="addCandidateInInterview" ng-model="$root.status2"
                      ng-change="$root.changeTemplateInAddCandidate($root.status2)">
-
-                <option value="{{$root.addCandidateInInterview.statusObject[0]}}" ng-selected="$root.status2 == false" disabled>{{"Add a stage"|translate}}</option>
+                <option value="{{$root.addCandidateInInterview.statusObject[0]}}" ng-selected="$root.status2 == false">{{$root.addCandidateInInterview.status.value|translate}}</option>
 
                 <option ng-repeat="status in $root.addCandidateInInterview.statusObject"
                         value="{{status}}"
+                        ng-hide="status.value == 'longlist'"
                         ng-selected="$root.addCandidateInVacancy.status === status">
                     {{status.value|translate}}
                 </option>

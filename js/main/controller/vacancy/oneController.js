@@ -2415,7 +2415,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.addCandidateInInterview.showSelect = showSelect;
             var value = $filter('filter')($scope.VacancyStatus, {used: true});
 
-
             $rootScope.addCandidateInInterview.statusObject = $scope.VacancyStatusFiltered;
 
             $scope.modalInstance = $uibModal.open({
@@ -2432,6 +2431,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.candnotify.send = false;
             $scope.modalInstance.opened.then(function() {
                 setTimeout(function(){
+                    $("#addCandidateInInterview").find("option").eq(0).remove();
                     tinymce.init({
                         selector: '#modalMCECandidate',
                         mode: 'exact',
