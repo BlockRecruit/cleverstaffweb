@@ -361,7 +361,10 @@
                                             <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.fieldValues = '0'">
                                                 <button type="button" class="btn btn-secondary customFieldBtn{{$index}}" ng-class="{'fieldValues' : src.fieldValues == '0'}"
                                                         ng-click="selectSource('1', $index, customField, false, 'fieldValues')" value="{{customField.fieldId}}" title="{{customField.fieldValue.value}}">
-                                                    <span ng-if="(customField.type == 'string' || customField.type == 'select') && customField.state == 'A'">{{customField.fieldValue.value}}</span>
+                                                    <span ng-if="(customField.type == 'string' || customField.type == 'select') && customField.state == 'A'">
+                                                        {{customField.fieldValue.value | limitTo:20}}
+                                                        <span class="comment" ng-show="customField.fieldValue.value.length > 28">...</span>
+                                                    </span>
                                                     <span ng-if="customField.type == 'date' && customField.state == 'A'">{{customField.fieldValue.dateTimeValue|dateFormat}}</span>
                                                     <span ng-if="customField.type == 'datetime' && customField.state == 'A'">{{customField.fieldValue.dateTimeValue|dateFormat2:true}}</span>
                                                 </button>
@@ -375,7 +378,10 @@
                                             <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.customFields = '0'">
                                                 <button type="button" class="btn btn-secondary secondBtn customFieldSecondBtn{{$index}}" ng-class="{'fieldValues' : src.fieldValues == '0'}"
                                                         ng-click="selectSource('2', $index, customField, false, 'fieldValues')" value="{{customField.fieldId}}" title="{{customField.fieldValue.value}}">
-                                                    <span ng-if="(customField.type == 'string' || customField.type == 'select') && customField.state == 'A'">{{customField.fieldValue.value}}</span>
+                                                    <span ng-if="(customField.type == 'string' || customField.type == 'select') && customField.state == 'A'">
+                                                        {{customField.fieldValue.value | limitTo:20}}
+                                                        <span class="comment" ng-show="customField.fieldValue.value.length > 28">...</span>
+                                                    </span>
                                                     <span ng-if="customField.type == 'date' && customField.state == 'A'">{{customField.fieldValue.dateTimeValue|dateFormat}}</span>
                                                     <span ng-if="customField.type == 'datetime' && customField.state == 'A'">{{customField.fieldValue.dateTimeValue|dateFormat2:true}}</span>
                                                 </button>
