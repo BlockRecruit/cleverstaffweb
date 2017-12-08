@@ -19,7 +19,9 @@ var app = angular.module('RecruitingAppStart', [
     'ngMeta',
     'ui.bootstrap',
     'ngAnimate'
-]).constant('serverAddress', '/hr').config(['$routeProvider', 'ngMetaProvider', function($routeProvider, ngMetaProvider) {
+]).constant('serverAddress', '/hr').config(['$routeProvider', 'ngMetaProvider', '$locationProvider', function($routeProvider, ngMetaProvider, $locationProvider) {
+    //$locationProvider.html5Mode(true);
+    //$locationProvider.hashPrefix('');
     $routeProvider
         .when('/confirmRegistration/finishReg/:personId/:key', {
             templateUrl: 'partials/start/finishreg.html',
@@ -973,11 +975,12 @@ controller.controller('mainController' ,function($scope, $location, $window) {
         var lST = userLang.substring(0, 2);
     })
     .controller('PublicVacancyController', ["$rootScope", "$scope", "$filter", "$location", "$routeParams", "$sce" , "$translate", "Service",
-                "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal" ,
+                "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal" , "ngMeta",
       function($rootScope, $scope, $filter, $location, $routeParams, $sce , $translate, Service,
-               notificationService, FileInit, serverAddress, $window, Company, $uibModal) {
+               notificationService, FileInit, serverAddress, $window, Company, $uibModal, ngMeta) {
 
-
+          ngMeta.setTag('og:description', 'DDDDDDDD');
+          ngMeta.setDefaultTag('description', 'DDDDDDDM');
         $rootScope.closeModal = function(){
           $scope.modalInstance.close();
         };

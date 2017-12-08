@@ -853,11 +853,12 @@ controller.controller('mainController' ,function($scope, $location, $window) {
         var lST = userLang.substring(0, 2);
     })
     .controller('PublicVacancyController', ["$rootScope", "$scope", "$filter", "$location", "$routeParams", "$sce" , "$translate", "Service",
-                "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal" ,
+                "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal" , "ngMeta",
       function($rootScope, $scope, $filter, $location, $routeParams, $sce , $translate, Service,
-               notificationService, FileInit, serverAddress, $window, Company, $uibModal) {
+               notificationService, FileInit, serverAddress, $window, Company, $uibModal, ngMeta) {
 
-
+          ngMeta.setTag('og:description', 'DDDDDDDD');
+          ngMeta.setDefaultTag('description', 'DDDDDDDM');
         $rootScope.closeModal = function(){
           $scope.modalInstance.close();
         };
