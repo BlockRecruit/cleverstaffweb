@@ -23860,8 +23860,6 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             });
             //$rootScope.persons = $scope.persons;
         });
-
-<<<<<<< HEAD
         $scope.imgWidthFunc = function(){
             var img = new Image();
             img.onload = function() {
@@ -23886,8 +23884,6 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
             }
         };
-=======
->>>>>>> add-merge-dublicates
         $scope.pathName = "candidate";
         $scope.callbackFile = function (resp, name) {
             if (!$scope.candidate.files) {
