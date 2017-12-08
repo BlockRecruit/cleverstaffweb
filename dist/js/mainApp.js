@@ -22550,7 +22550,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 var minus = width - height;
                 if(width >= height && minus > 40 && minus <=100){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 300 && width <= 349 && width != height){
+                }else if((width >= 300 && width <= 349) || width == height){
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
