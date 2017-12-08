@@ -459,6 +459,8 @@
     "In__vacancy": "In vacancy",
     "added_candidate": "Candidate added",
     "merged with": "Merged with",
+    "merged_save": "qwerty, ",
+    "merged_delete": "asdfg.",
     "added_candidate_from_superJob": "was added from SuperJob",
     "updated_candidate_from_superJob": "Candidate updated from SuperJob",
     "added_candidate_from_cvlv": "was added from cv.lv",

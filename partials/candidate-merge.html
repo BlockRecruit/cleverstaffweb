@@ -681,12 +681,12 @@
                                     <!--</select>-->
                                     <label>{{'phone'|translate}}</label>
                                     <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.mphone = '0'">
-                                        <button ng-repeat="mphone in candidateBeforeMerge.contacts|filter :'mphone'" title="{{mphone.value}}" type="button"
+                                        <button ng-repeat="mphone in candidateBeforeMerge.contacts|filter : {'type' : 'mphone'}" title="{{mphone.value}}" type="button"
                                                 class="btn btn-secondary" ng-class="{'active': src.mphone == '1', 'mphone' : src.mphone == '0'}"
                                                 ng-click="selectSource('1', null, null, false, 'mphone')">
                                             {{mphone.value}}
                                         </button>
-                                        <button ng-repeat="mphone in candidate2.contacts|filter :'mphone'" title="{{mphone.value}}" type="button"
+                                        <button ng-repeat="mphone in candidate2.contacts|filter : {'type' : 'mphone'}" title="{{mphone.value}}" type="button"
                                                 class="btn btn-secondary secondBtn" ng-class="{'active': src.mphone == '2', 'mphone' : src.mphone == '0'}"
                                                 ng-click="selectSource('2', null, null, false, 'mphone')" >
                                             {{mphone.value}}
@@ -715,12 +715,12 @@
                                     <!--</select>-->
                                     <label>Email</label>
                                     <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.email = '0'">
-                                        <button ng-repeat="email in candidateBeforeMerge.contacts|filter :'email'" title="{{email.value}}" type="button"
+                                        <button ng-repeat="email in candidateBeforeMerge.contacts|filter : {'type' : 'email'}" title="{{email.value}}" type="button"
                                                 class="btn btn-secondary" ng-class="{'active': src.email == '1', 'email' : src.email == '0'}"
                                                 ng-click="selectSource('1', null, null, false, 'email')">
                                             {{email.value}}
                                         </button>
-                                        <button ng-repeat="email in candidate2.contacts|filter :'email'" title="{{email.value}}" type="button"
+                                        <button ng-repeat="email in candidate2.contacts|filter : {'type' : 'email'}" title="{{email.value}}" type="button"
                                                 class="btn btn-secondary secondBtn" ng-class="{'active': src.email == '2', 'email' : src.email == '0'}"
                                                 ng-click="selectSource('2', null, null, false, 'email')" >
                                             {{email.value}}
@@ -747,12 +747,12 @@
                                     <!--</select>-->
                                     <label>Skype</label>
                                     <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.skype = '0'">
-                                        <button ng-repeat="skype in candidateBeforeMerge.contacts|filter :'skype'" title="{{skype.value}}" type="button"
+                                        <button ng-repeat="skype in candidateBeforeMerge.contacts|filter : {'type' : 'skype'}" title="{{skype.value}}" type="button"
                                                 class="btn btn-secondary" ng-class="{'active': src.skype == '1', 'skype' : src.skype == '0'}"
                                                 ng-click="selectSource('1', null, null, false, 'skype')">
                                             {{skype.value}}
                                         </button>
-                                        <button ng-repeat="skype in candidate2.contacts|filter :'skype'" title="{{skype.value}}" type="button"
+                                        <button ng-repeat="skype in candidate2.contacts|filter : {'type' : 'skype'}" title="{{skype.value}}" type="button"
                                                 class="btn btn-secondary secondBtn" ng-class="{'active': src.skype == '2', 'skype' : src.skype == '0'}"
                                                 ng-click="selectSource('2', null, null, false, 'skype')" >
                                             {{skype.value}}
@@ -772,12 +772,12 @@
                                     <!--</select>-->
                                     <label>Linkedin</label>
                                     <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.linkedin = '0'">
-                                        <button ng-repeat="linkedin in candidateBeforeMerge.contacts|filter :'linkedin'" title="{{linkedin.value}}"
+                                        <button ng-repeat="linkedin in candidateBeforeMerge.contacts|filter : {'type' : 'linkedin'}" title="{{linkedin.value}}"
                                                 type="button" class="btn btn-secondary" ng-class="{'active': src.linkedin == '1', 'linkedin' : src.linkedin == '0'}"
                                                 ng-click="selectSource('1', null, null, false, 'linkedin')">
                                             {{linkedin.value}}
                                         </button>
-                                        <button ng-repeat="linkedin in candidate2.contacts|filter :'linkedin'" title="{{linkedin.value}}" type="button"
+                                        <button ng-repeat="linkedin in candidate2.contacts|filter : {'type' : 'linkedin'}" title="{{linkedin.value}}" type="button"
                                                 class="btn btn-secondary secondBtn" ng-class="{'active': src.linkedin == '2', 'linkedin' : src.linkedin == '0'}"
                                                 ng-click="selectSource('2', null, null, false, 'linkedin')" >
                                             {{linkedin.value}}
@@ -797,12 +797,12 @@
                                     <!--</select>-->
                                     <label>Facebook</label>
                                     <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.facebook = '0'">
-                                        <button ng-repeat="facebook in candidateBeforeMerge.contacts|filter :'facebook'" title="{{facebook.value}}"
+                                        <button ng-repeat="facebook in candidateBeforeMerge.contacts|filter : {'type' : 'facebook'}" title="{{facebook.value}}"
                                                 type="button" class="btn btn-secondary" ng-class="{'active': src.facebook == '1', 'facebook' : src.facebook == '0'}"
                                                 ng-click="selectSource('1', null, null, false, 'facebook')">
                                             {{facebook.value}}
                                         </button>
-                                        <button ng-repeat="facebook in candidate2.contacts|filter :'facebook'" title="{{facebook.value}}" type="button"
+                                        <button ng-repeat="facebook in candidate2.contacts|filter : {'type' : 'facebook'}" title="{{facebook.value}}" type="button"
                                                 class="btn btn-secondary secondBtn" ng-class="{'active': src.facebook == '2', 'facebook' : src.facebook == '0'}"
                                                 ng-click="selectSource('2', null, null, false, 'facebook')" >
                                             {{facebook.value}}
@@ -822,12 +822,12 @@
                                     <!--</select>-->
                                     <label>Google+</label>
                                     <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.googleplus = '0'">
-                                        <button ng-repeat="googleplus in candidateBeforeMerge.contacts|filter :'googleplus'" title="{{googleplus.value}}"
+                                        <button ng-repeat="googleplus in candidateBeforeMerge.contacts|filter : {'type' : 'googleplus'}" title="{{googleplus.value}}"
                                                 type="button" class="btn btn-secondary" ng-class="{'active': src.googleplus == '1', 'googleplus' : src.googleplus == '0'}"
                                                 ng-click="selectSource('1', null, null, false, 'googleplus')">
                                             {{googleplus.value}}
                                         </button>
-                                        <button ng-repeat="googleplus in candidate2.contacts|filter :'googleplus'" title="{{googleplus.value}}" type="button"
+                                        <button ng-repeat="googleplus in candidate2.contacts|filter : {'type' : 'googleplus'}" title="{{googleplus.value}}" type="button"
                                                 class="btn btn-secondary secondBtn" ng-class="{'active': src.googleplus == '2', 'googleplus' : src.googleplus == '0'}"
                                                 ng-click="selectSource('2', null, null, false, 'googleplus')" >
                                             {{googleplus.value}}
@@ -847,12 +847,12 @@
                                     <!--</select>-->
                                     <label>Git</label>
                                     <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.github = '0'">
-                                        <button ng-repeat="github in candidateBeforeMerge.contacts|filter :'github'" title="{{github.value}}" type="button"
+                                        <button ng-repeat="github in candidateBeforeMerge.contacts|filter : {'type' : 'github'}" title="{{github.value}}" type="button"
                                                 class="btn btn-secondary" ng-class="{'active': src.github == '1', 'github' : src.github == '0'}"
                                                 ng-click="selectSource('1', null, null, false, 'github')">
                                             {{github.value}}
                                         </button>
-                                        <button ng-repeat="github in candidate2.contacts|filter :'github'" title="{{github.value}}" type="button"
+                                        <button ng-repeat="github in candidate2.contacts|filter : {'type' : 'github'}" title="{{github.value}}" type="button"
                                                 class="btn btn-secondary secondBtn" ng-class="{'active': src.github == '2', 'github' : src.github == '0'}"
                                                 ng-click="selectSource('2', null, null, false, 'github')" >
                                             {{github.value}}
@@ -872,12 +872,12 @@
                                     <!--</select>-->
                                     <label>{{'home_page'|translate}}</label>
                                     <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.homepage = '0'">
-                                        <button ng-repeat="homepage in candidateBeforeMerge.contacts|filter :'homepage'" title="{{homepage.value}}"
+                                        <button ng-repeat="homepage in candidateBeforeMerge.contacts|filter : {'type' : 'homepage'}" title="{{homepage.value}}"
                                                 type="button" class="btn btn-secondary" ng-class="{'active': src.homepage == '1', 'homepage' : src.homepage == '0'}"
                                                 ng-click="selectSource('1', null, null, false, 'homepage')" ng-model="contacts.homepage">
                                             {{homepage.value}}
                                         </button>
-                                        <button ng-repeat="homepage in candidate2.contacts|filter :'homepage'" title="{{homepage.value}}" type="button"
+                                        <button ng-repeat="homepage in candidate2.contacts|filter : {'type' : 'homepage'}" title="{{homepage.value}}" type="button"
                                                 class="btn btn-secondary secondBtn" ng-class="{'active': src.homepage == '2', 'homepage' : src.homepage == '0'}"
                                                 ng-click="selectSource('2', null, null, false, 'homepage')" ng-model="contacts2.homepage">
                                             {{homepage.value}}
