@@ -712,6 +712,23 @@
 </script>
 <script type="text/javascript">
 //    localStorage.countryRedirect == false;
+    function hasUrlParameterWithoutQ() {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] !== "q") {
+                return true;
+            }
+        }
+        return false;
+    }
+    if (hasUrlParameterWithoutQ()) {
+        var sPageURL = window.location.search.substring(1);
+        if (sPageURL && sPageURL !== '') {
+            localStorage.setItem("UTMS", sPageURL);
+        }
+    }
     if (localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'ru') {
         window.location.replace('/ru/index.html');
     }
@@ -808,23 +825,7 @@
     }
     var userTimeZoneOffset = new Date().getTimezoneOffset();
 
-    function hasUrlParameterWithoutQ() {
-        var sPageURL = window.location.search.substring(1);
-        var sURLVariables = sPageURL.split('&');
-        for (var i = 0; i < sURLVariables.length; i++) {
-            var sParameterName = sURLVariables[i].split('=');
-            if (sParameterName[0] !== "q") {
-                return true;
-            }
-        }
-        return false;
-    }
-    if (hasUrlParameterWithoutQ()) {
-        var sPageURL = window.location.search.substring(1);
-        if (sPageURL && sPageURL !== '') {
-            localStorage.setItem("UTMS", sPageURL);
-        }
-    }
+
     var messages = {
         send: "Отправка...",
         redirect: "Переадресация...",

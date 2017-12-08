@@ -145,6 +145,7 @@ $(document).ready(function () {
             var res = $("#signupGoogleForm").serializeObject();
             res.utms = null;
             res.intention =  localStorage.getItem("tarifParams");
+            res.utms = localStorage.getItem("UTMS");
             res.login = $("#google_mail").val();
             var string = res.country;
             if(string == 'null' || string == null || string == undefined){
@@ -537,6 +538,7 @@ $(document).ready(function () {
                     $($('input[name=password]')).css('border','2px solid #61B452');
                     $($('input[name=password2]')).css('border','2px solid #61B452');
                     if (data.personId !== undefined) {
+                            localStorage.removeItem("UTMS");
                         if (!isIE()) {
                             socialSuccess("google", messages.redirect);
                             sendGA('signin_success');
@@ -570,6 +572,7 @@ $(document).ready(function () {
             resetError();
             var res = $("#signupFacebookForm").serializeObject();
             res.intention =  localStorage.getItem("tarifParams");
+            res.utms = localStorage.getItem("UTMS");
             res.login = $("#facebook_mail").val();
             var string = res.country;
             if(string == 'null' || string == null || string == undefined){
@@ -961,6 +964,9 @@ $(document).ready(function () {
                     $($('select[name=usersCount]')).css('border','2px solid #61B452');
                     $($('input[name=password]')).css('border','2px solid #61B452');
                     $($('input[name=password2]')).css('border','2px solid #61B452');
+                    if(data.status != 'error') {
+                        localStorage.removeItem("UTMS");
+                    }
                     if (data.personId !== undefined) {
                         if (!isIE()) {
                             socialSuccess("facebook", messages.redirect);
@@ -1946,6 +1952,7 @@ function tariffFunc(tarif){
 $('#askQuestionSubmit').on('click',function(e){
     var res = $("#questionForm").serializeObject();
     var string = res.country;
+    res.utms = localStorage.getItem("UTMS");
     if(string == 'null' || string == null || string == undefined){
         res.country = 'Afghanistan';
     }else{
@@ -2443,6 +2450,7 @@ $('#askQuestionSubmit').on('click',function(e){
 $('#askQuestionSubmit2').on('click',function(e){
     console.log('on ask quest');
     var res = $("#questionForm-index").serializeObject();
+    res.utms = localStorage.getItem("UTMS");
     localStorage.removeItem('phone');
     var string = res.country;
     if(string == 'null' || string == null || string == undefined){
@@ -2904,7 +2912,7 @@ $('#askQuestionSubmit2').on('click',function(e){
               $('.error-phone').removeClass('hidden');
             }
         },
-        complete: function(){
+        complete: function(data){
             $($('.select2-selection--single')).css('border','2px solid #61B452');
             $("#need-demo-modal").modal('hide');
             $("#thanks-modal").modal('show');
@@ -2931,6 +2939,10 @@ $('#askQuestionSubmit2').on('click',function(e){
             } catch(err) {
                 console.error("Facebook Pixel" ,err);
             }
+            if(data.status != 'error') {
+                localStorage.removeItem('phone');
+                localStorage.removeItem('UTMS');
+            }
             //$('#contact').slideUp('slow');
             //$('.tyMessageQuestion').delay(800).fadeIn();
         },
@@ -2943,6 +2955,7 @@ $('#askQuestionSubmit2').on('click',function(e){
 $('#askQuestionSubmit3').on('click',function(e){
   var res = $("#questionForm-index").serializeObject();
     var string = res.country;
+    res.utms = localStorage.getItem("UTMS");
     if(string == 'null' || string == null || string == undefined){
         res.country = 'Afghanistan';
     }else{
@@ -3397,7 +3410,7 @@ $('#askQuestionSubmit3').on('click',function(e){
         });
       }
     },
-    complete: function(){
+    complete: function(data){
       $($('.select2-selection--single')).css('border','2px solid #61B452');
       $("#need-demo-modal").modal('hide');
       $("#thanks-modal").modal('show');
@@ -3424,6 +3437,10 @@ $('#askQuestionSubmit3').on('click',function(e){
             if (document.domain === 'cleverstaff.net') fbq('track', 'Schedule a demo');
         } catch(err) {
             console.error("Facebook Pixel" ,err);
+        }
+        if(data.status != 'error') {
+            localStorage.removeItem('phone');
+            localStorage.removeItem('UTMS');
         }
       //$('#contact').slideUp('slow');
       //$('.tyMessageQuestion').delay(800).fadeIn();
@@ -4724,8 +4741,10 @@ function signupForm() {
             }
             //window.location.replace("/finishreg");
             $("#signup").removeClass("loading");
-            if(data.status != 'error')
-            localStorage.removeItem('phone');
+            if(data.status != 'error') {
+                localStorage.removeItem('phone');
+                localStorage.removeItem("UTMS");
+            }
             if (data.personId !== undefined) {
                 sendGA('signup_success');
 //                signupSuccess(messages.signup_success.replace("${login}", res.login).replace("${orgName}", res.orgName));
