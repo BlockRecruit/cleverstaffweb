@@ -21301,9 +21301,9 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
             }
             $scope.candidate.files.push(resp);
         };
-        //$rootScope.closeModal = function(){
-        //    $scope.modalInstance.close();
-        //};
+        $rootScope.closeModal = function(){
+            $scope.modalInstance.close();
+        };
         $scope.deleteCandidate = function() {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
@@ -21488,6 +21488,27 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
 
                         if (resp.object.customFields) {
                             angular.forEach(resp.object.customFields, function(val, index) {
+                                setTimeout(function(){
+                                    //console.log($('.customFirstCandidate').find('.customFieldBtn' + index)[0].innerText);
+                                    //console.log($('.customSecondCandidate').find('.customFieldSecondBtn' + index)[0].innerText);
+                                    var innerTxt = $('.customFirstCandidate').find('.customFieldBtn' + index)[0].innerText;
+                                    var innerTxt2 = $('.customSecondCandidate').find('.customFieldSecondBtn' + index)[0].innerText;
+                                    //console.log($('.customFirstCandidate')[0].children(index));
+                                    console.log($('.customFirstCandidate')[0].classList.value.indexOf('ng-hide'));
+                                    console.log($('.customFirstCandidate')[0].classList.value.indexOf('ng-hide') == -1);
+                                    var ngHideFalse = $('.customFirstCandidate')[0].classList.value.indexOf('ng-hide') == -1;
+                                    var ngHideFalse2 = $('.customSecondCandidate')[0].classList.value.indexOf('ng-hide') == -1;
+                                    var valueBtn = $('.customFirstCandidate').find('.customFieldBtn' + index).val();
+                                    console.log(valueBtn);
+                                    var valueBtn2 = $('.customSecondCandidate').find('.customFieldSecondBtn' + index).val();
+                                    console.log(valueBtn2);
+                                    if(valueBtn == valueBtn2 && ngHideFalse == ngHideFalse2 && innerTxt == innerTxt2){
+                                        $('.customFirstCandidate').find('.customField' + index).addClass('hidden');
+                                        $('.customSecondCandidate').find('.customField2' + index).addClass('hidden');
+                                        console.log($('.customFirstCandidate').find('.customField' + index));
+                                        console.log($('.customSecondCandidate').find('.customField2' + index));
+                                    }
+                                }, 0);
                                 if(val.fieldValue != undefined){
                                     $scope.fieldValueFirstValue = true;
                                     if (angular.equals(val.type, "string")) {
@@ -22478,8 +22499,8 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 var minus = width - height;
                 if(width >= height && minus > 40 && minus <=100){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 300 && width <= 349 && width != height){
-                    $('#page-avatar').css({'width': '100%', 'height': '385px', 'margin': 'inherit'});
+                }else if((width >= 300 && width <= 349) || width == height){
+                    $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
                 }else if(width >= 266){
