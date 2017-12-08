@@ -169,12 +169,12 @@
                                 </a>
                             </div>
                             <div class="text-center employee" ng-show="!candidate.employeeId">
-                                <a ng-show="$root.me.personParams.enableEmployee == 'Y' && $root.me.orgParams.enableEmployee == 'Y'" type="button" href="#/company/employee/add/{{candidate.localId}}"
+                                <a ng-show="$root.me.personParams.enableEmployee == 'Y' || $root.me.orgParams.enableEmployee == 'Y'" type="button" href="#/company/employee/add/{{candidate.localId}}"
                                    class="btn btn-primary find-button hidden-sm hidden-xs">
                                     {{'This is our employee'|translate}}!
                                 </a>
                                 <a ng-show="$root.me.personParams.enableEmployee != 'Y' || $root.me.orgParams.enableEmployee != 'Y'" type="button" href="#/hr-module-info"
-                                   class="btn btn-primary find-button hidden-sm hidden-xs">
+                                   class="btn btn-primary find-button hidden-sm hidden-xs hidden">
                                     {{'This is our employee'|translate}}!
                                 </a>
                             </div>
