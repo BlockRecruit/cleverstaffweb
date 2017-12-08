@@ -713,15 +713,6 @@
 							width: 100%!important;
 						}
 					}
-					//.customSecondCandidate {
-					//	margin-top: 21px;
-					//div {
-					//	margin-bottom: 25px;
-					//	&:last-child {
-					//		margin-bottom: 0;
-					//	}
-					//}
-					//}
 					.education {
 						.btn-group {
 							display: block;
@@ -738,6 +729,23 @@
 							.btn:last-child {
 								margin-left: 4px;
 							}
+						}
+					}
+					.sex-add {
+						display: flow-root;
+						margin: 15px 0 15px 4px;
+						.btn {
+							@include button-switch-styling();
+						}
+						.active {
+							border: none!important;
+							background-color: $theme-light-green-hover;
+							&:hover {
+								background-color: $theme-light-green-hover;
+							}
+						}
+						:focus {
+							outline: none;
 						}
 					}
 					.select2-search-field {
