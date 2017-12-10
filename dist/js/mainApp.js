@@ -12762,10 +12762,7 @@ angular.module('services.vacancy', [
             {value: "open", name: "open"},
             {value: "expects", name: "wait"},
             {value: "inwork", name: "in work"},
-<<<<<<< HEAD
             {value: "replacement", name: "replacement"},
-=======
->>>>>>> fix stage longlist in modal add candidate in vacancy
             {value: "payment", name: "payment"},
             {value: "completed", name: "completed"},
             {value: "canceled", name: "canceled"},
@@ -34926,10 +34923,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.addCandidateInInterview.showSelect = showSelect;
             var value = $filter('filter')($scope.VacancyStatus, {used: true});
 
-<<<<<<< HEAD
-
-=======
->>>>>>> fix stage longlist in modal add candidate in vacancy
             $rootScope.addCandidateInInterview.statusObject = $scope.VacancyStatusFiltered;
 
             $scope.modalInstance = $uibModal.open({
@@ -34946,10 +34939,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.candnotify.send = false;
             $scope.modalInstance.opened.then(function() {
                 setTimeout(function(){
-<<<<<<< HEAD
-=======
                     $("#addCandidateInInterview").find("option").eq(0).remove();
->>>>>>> fix stage longlist in modal add candidate in vacancy
                     tinymce.init({
                         selector: '#modalMCECandidate',
                         mode: 'exact',
