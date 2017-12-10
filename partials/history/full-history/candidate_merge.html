@@ -9,10 +9,12 @@
 </div>
 <div class="col-lg-10">
     {{'history_info.merged with'|translate}}
-    <a href="#/candidates/{{history.candidate.localId}}" once-text="history.candidate.fullName"></a>
+    <a href="#/candidates/{{history.candidate.localId}}">
+        {{'first'|translate}}
+    </a>
     {{'history_info.merged_save'|translate}}
     <a href="#/candidates/{{history.descr}}">
-        <span>{{'candidate'|translate}}</span>
+        <span>{{'second'|translate}}</span>
     </a>
     {{'history_info.merged_delete'|translate}}
 </div>

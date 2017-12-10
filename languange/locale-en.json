@@ -458,9 +458,9 @@
     "To_vacancy": "Vacancy",
     "In__vacancy": "In vacancy",
     "added_candidate": "Candidate added",
-    "merged with": "Merged with",
-    "merged_save": "qwerty, ",
-    "merged_delete": "asdfg.",
+    "merged with": "Candidate profile merge: the",
+    "merged_save": "is updated and the",
+    "merged_delete": "is deleted",
     "added_candidate_from_superJob": "was added from SuperJob",
     "updated_candidate_from_superJob": "Candidate updated from SuperJob",
     "added_candidate_from_cvlv": "was added from cv.lv",
@@ -2237,7 +2237,16 @@
   "The 'rules' of profiles merge": "The 'rules' of profiles merge:",
   "Only fields with different values are available for selection": "Only fields with different values are available for selection.",
   "If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default": "If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default.",
+<<<<<<< HEAD
   "Tags in the merged profile will be saved from both original ones": "Tags in the merged profile will be saved from both original ones."
 >>>>>>> add-merge-dublicates
+<<<<<<< HEAD
 >>>>>>> add-merge-dublicates
+=======
+=======
+  "Tags in the merged profile will be saved from both original ones": "Tags in the merged profile will be saved from both original ones.",
+  "first": "first",
+  "second": "second"
+>>>>>>> history fix, change translate for history
+>>>>>>> history fix, change translate for history
 }
