@@ -515,8 +515,8 @@
     "In__vacancy": "в вакансию",
     "ADDed_in": "Добавлен в",
     "added_candidate": "Добавлен кандидат",
-    "merged with": "В результате объединения",
-    "merged_save": "оставлен, ",
+    "merged with": "Объединение профилей кандидатов:",
+    "merged_save": "обновлен, a ",
     "merged_delete": "удалён.",
     "added_candidate_from_superJob": "добавлен из SuperJob",
     "updated_candidate_from_superJob": "Кандидат обновлен из SuperJob",
@@ -2836,7 +2836,16 @@
   "The 'rules' of profiles merge": "При объединении профилей:",
   "Only fields with different values are available for selection": "Для выбора отображаются только поля с различными значениями.",
   "If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default": "Не отобразятся поле, которое \"пустое\" в одном из профилей и \"заполненное\" в другом: в объединённом профиле сохранится только \"заполненное\" значение по умолчанию.",
+<<<<<<< HEAD
   "Tags in the merged profile will be saved from both original ones": "Теги в объединённом профиле кандидата сохранятся из обоих оригинальных профилей."
 >>>>>>> add-merge-dublicates
+<<<<<<< HEAD
 >>>>>>> add-merge-dublicates
+=======
+=======
+  "Tags in the merged profile will be saved from both original ones": "Теги в объединённом профиле кандидата сохранятся из обоих оригинальных профилей.",
+  "first": "первый",
+  "second": "второй"
+>>>>>>> history fix, change translate for history
+>>>>>>> history fix, change translate for history
 }
