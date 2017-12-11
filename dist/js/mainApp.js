@@ -1156,12 +1156,8 @@ var directive = angular.module('RecruitingApp.directives', []).
                             var minus = width - height;
                             if(width >= height && minus > 30 && minus <=100){
                                 $('#photo-preview').css('width', '23%');
-                            }else if(width >= 300 && width <= 349 && width != height){
-                                $('#photo-preview').css('height', '385px');
-                            }else if(width >= 350 && width != height){
-                                $('#photo-preview').css('width', '33%');
-                            }else if(width >= 266 && width != height){
-                                $('#photo-preview').css('width', '33%');
+                            }else if((width >= 300 && width <= 349) || width != height || width == height){
+                                $('#photo-preview').css('object-fit', 'fill');
                             }else if(width == height){
                                 $('#photo-preview').css('width', '33%');
                             }else{
