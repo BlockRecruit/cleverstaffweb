@@ -32,11 +32,11 @@
                         <i class="fa fa-pencil"></i>
                     </div>
                     <div class="chooseStatusMenu">
-                                <span class="item">
-                                    <span>
-                                        {{'Select vacancy statuses' | translate}}:
-                                     </span>
-                                </span>
+                        <span class="item">
+                            <span>
+                                {{'Select vacancy statuses' | translate}}:
+                            </span>
+                        </span>
                         <a class="item choosingStages pull-left"
                            ng-repeat="status in vacancyStatuses track by $index"
                            ng-click="changeVacancyStatuses(status)">
@@ -44,24 +44,45 @@
                                 <i class="fa fa-check-square checkmark" ng-show="status.added == true"  ng-checked="true" aria-hidden="true" checked="checked"></i>
                             </button>
                             <span>
-                                    {{status.value|translate}}
-                                    <span>({{status.count}})</span>
-                                </span>
+                                {{status.value|translate}}
+                                <span>({{status.count}})</span>
+                            </span>
                         </a>
                     </div>
                 </div>
                 <div class="wrapper-for-padding-right col-lg-6 col-md-12">
                     <div class="col-lg-12 col-md-12 block-candidate-show">
                         <h4 class="candidate-show">
-                            <span style="margin-right: 3px;">{{"Show candidates in the report"|translate}}:</span>
-                            <!--<button type="button" class="ui icon button" ng-class="{'checkmark': (withCandidates == true)}" ng-click="withCandidates = !withCandidates; firstTimeLoading = 1; (build)? build = false: false">-->
-                                <!--<i class="fa fa-check-square" ng-class="{'checkmark': (withCandidates == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>-->
-                            <!--</button>-->
-                            <div class="switch ">
-                                <input  ng-click="withCandidates = !withCandidates; firstTimeLoading = 1; (build)? build = false: false" id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round upcomingScopeSwticher" type="checkbox">
-                                <label  class="" style="margin: 0px 0px 0px 8px;" for="cmn-toggle-9"></label>
-                            </div>
+                            <span style="margin-right: 3px;">{{"Show vacancies in the report"|translate}}:</span>
+                            <span class="switch">
+                                <input  id="cmn-toggle-10"
+                                        ng-click="showChoosingVacancyFields()"
+                                        ng-model="chooseListFieldsVacancies"
+                                        class="cmn-toggle cmn-toggle-round upcomingScopeSwticher"
+                                        type="checkbox">
+                                <label  class="" style="margin: 0px 0px 0px 8px;" for="cmn-toggle-10"></label>
+                            </span>
                         </h4>
+                        <div class="fields-list clearfix">
+                            <ul class="fields-list-row col-lg-6 clearfix">
+                                <li ng-repeat="vacancy in selectVacancy track by $index" class="col-md-15 col-xs-3 ">
+                                    <span>{{vacancy.position |translate}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="chooseListFieldsVacancies" style="display: none; padding: 16px;">
+                            <div class="enter-job-title">{{"enter job title"|translate}}</div>
+                            <div><input type="text" ng-model="query"></div>
+                            <ul class="fields-list-row clearfix col-lg-12">
+                                <li ng-repeat="field in fieldsVacancyList | filter:filterVacancy track by $index"  ng-click="selectedVacancy(field, $event)">
+                                    <button class="ui icon button">
+                                        <i class="fa fa-check-square" ng-class="{'checkmark': (field.visiable == true)}"> </i>
+                                    </button>
+                                    <span>{{field.position |translate}}</span>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -264,6 +285,23 @@
                     </div>
                 </div>
             </section>
+            <section class="row section-four">
+                <div class="wrapper-for-padding-left col-lg-6 col-md-12">
+                    <div class="col-lg-12 col-md-12 block-candidate-show">
+                        <h4 class="candidate-show">
+                            <span style="margin-right: 3px;">{{"Show candidates in the report"|translate}}:</span>
+                            <!--<button type="button" class="ui icon button" ng-class="{'checkmark': (withCandidates == true)}" ng-click="withCandidates = !withCandidates; firstTimeLoading = 1; (build)? build = false: false">-->
+                            <!--<i class="fa fa-check-square" ng-class="{'checkmark': (withCandidates == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>-->
+                            <!--</button>-->
+                            <div class="switch ">
+                                <input  ng-click="withCandidates = !withCandidates; firstTimeLoading = 1; (build)? build = false: false" id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round upcomingScopeSwticher" type="checkbox">
+                                <label  class="" style="margin: 0px 0px 0px 8px;" for="cmn-toggle-9"></label>
+                            </div>
+                        </h4>
+                    </div>
+                </div>
+            </section>
+
             <section class="row">
                 <div class="payButtonOuter" ng-show="!$root.loading">
                     <a type="button"   class="btn btn-primary create-or-reload-reports"

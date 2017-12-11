@@ -1,6 +1,6 @@
 angular.module('services.vacancy', [
     'ngResource'
-]).factory('Vacancy', ['$resource', 'serverAddress','$rootScope', function($resource, serverAddress, $rootScope) {
+]).factory('Vacancy', ['$resource', 'serverAddress','$rootScope','$q', function($resource, serverAddress, $rootScope, $q) {
     var options;
     var vacancy = $resource(serverAddress + '/vacancy/:param', {param: "@param"}, {
         all: {
@@ -781,6 +781,7 @@ angular.module('services.vacancy', [
         };
     };
     vacancy.init();
+    vacancy.getAllVacansies = (params) => $q((resolve, reject) =>vacancy.all(params, response => resolve(response), error => reject(error)));
     return vacancy;
 }
 ]);
