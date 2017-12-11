@@ -206,7 +206,6 @@
   "client_status_assoc": {
     "future": "Future",
     "in_work": "In Progress",
-    "on_hold": "On hold",
     "all_done": "All Done",
     "canceled": "Canceled",
     "deleted": "Deleted"
@@ -2268,5 +2267,7 @@
   "Export History": "Export History",
   "export":"Export",
   "close window":"Close window",
-  "replacement":"Replacement"
+  "replacement":"Replacement",
+  "The large quantity of results has been found.": "The large quantity of results has been found. <b>{{total_count}}</b> of them is shown. Please specify search criteria to get more accurate results",
+  "Show vacancies in the report": "Show vacancies in the report"
 }

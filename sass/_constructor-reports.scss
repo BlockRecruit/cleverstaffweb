@@ -388,6 +388,8 @@
 	}
 
 	.block-candidate-show {
+		position: relative;
+
 		box-sizing: border-box;
 		padding: 16px 8px;
 		padding-right: 0;
@@ -470,6 +472,80 @@
 
 				width: 17px;
 				height: 17px;
+				padding: 0;
+
+				border: none;
+				outline: none;
+			}
+			.checkmark {
+				display: inline;
+			}
+		}
+	}
+	.chooseListFieldsVacancies {
+		position: absolute;
+		z-index: 99;
+		top: 100%;
+		left: 0;
+
+		box-sizing: border-box;
+		width: 100%;
+		padding: 5px;
+
+		background-color: #fff;
+		box-shadow: 0 0 7px 4px rgba(0, 0, 0, 0.2);
+		input[type="text"] {
+			box-sizing: border-box;
+			width: 50%;
+			padding: 3.5px 7px;
+
+			border: 1px solid rgba(0, 0, 0, 0.33);
+			border-radius: 13px;
+			outline: none;
+		}
+		.enter-job-title {
+			font-size: 18px;
+
+			margin-bottom: 10px;
+
+			opacity: 0.9;
+		}
+		.fields-list-row {
+			font-size: 16px;
+			font-weight: normal;
+
+			overflow-y: scroll;
+			width: 100%;
+			max-height: 300px;
+			margin-top: 10px;
+			padding: 0;
+			li {
+				padding: 3px 5px;
+
+				list-style: none;
+				span {
+					color: #337ab7;
+				}
+				&:hover {
+					color: #23527c;
+				}
+			}
+
+			.fa {
+				font-size: 20px;
+
+				display: none;
+				margin: 0;
+
+				color: #00b549;
+				background-color: #fff;
+			}
+			button {
+				position: relative;
+
+				width: 17px;
+				height: 17px;
+				margin-right: 15px;
 				padding: 0;
 
 				border: none;
@@ -1023,13 +1099,14 @@
 		padding: 0 !important;
 	}
 	section:nth-child(even) {
-		@include flex(row,space-between);
+		@include flex(column);
 		.wrapper-for-padding-left {
-			width: 61%;
+			width: 100%;
 			margin-right: auto;
+			margin-bottom: 16px;
 		}
 		.wrapper-for-padding-right {
-			width: 38%;
+			width: 100%;
 			padding-right: 0;
 		}
 	}

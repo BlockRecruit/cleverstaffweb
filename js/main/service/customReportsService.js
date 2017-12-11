@@ -132,6 +132,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 "to": this.dataReport['dateTo'],
                 "types":null,
                 "vacancyId":null,
+                "vacancyIds":(this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"] : null,
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
                 "interviewStatuses": this.dataReport["interviewStatuses"],
                 "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
@@ -152,6 +153,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 "to": this.dataReport['dateTo'],
                 "types":null,
                 "vacancyId":null,
+                "vacancyIds":(this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:null,
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
                 "interviewStatuses": this.dataReport["interviewStatuses"],
                 "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
@@ -172,18 +174,22 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             localStorage.setItem('reportsData', JSON.stringify(data));
         };
 
-        reports.showChoosingMenu = function(selector){
+        reports.showChoosingMenu = function(selector, $scope){
             if($(selector).css('display') == 'none'){
                 $(selector).show('500');
-                $('body').mouseup(function(e) {
-                    if ($(selector).has(e.target).length === 0) {
-                        $(selector).hide("500");
-                        $(document).off('mouseup');
-                    }
+                $('body').mouseup((e) =>{
+                    $scope.$apply(() => {
+                        if ($(selector).has(e.target).length === 0) {
+                            $(selector).hide("500");
+                            $(document).off('mouseup');
+                            this.chooseListFieldsVacancies = false;
+                        }
+                    });
                 });
             }else{
                 $('body').unbind('mouseup');
                 $(selector).hide("500");
+                this.chooseListFieldsVacancies = false;
             }
         };
 
