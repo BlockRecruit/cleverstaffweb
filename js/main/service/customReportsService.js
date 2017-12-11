@@ -172,18 +172,22 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             localStorage.setItem('reportsData', JSON.stringify(data));
         };
 
-        reports.showChoosingMenu = function(selector){
+        reports.showChoosingMenu = function(selector, $scope){
             if($(selector).css('display') == 'none'){
                 $(selector).show('500');
-                $('body').mouseup(function(e) {
-                    if ($(selector).has(e.target).length === 0) {
-                        $(selector).hide("500");
-                        $(document).off('mouseup');
-                    }
+                $('body').mouseup((e) =>{
+                    $scope.$apply(() => {
+                        if ($(selector).has(e.target).length === 0) {
+                            $(selector).hide("500");
+                            $(document).off('mouseup');
+                            this.chooseListFieldsVacancies = false;
+                        }
+                    });
                 });
             }else{
                 $('body').unbind('mouseup');
                 $(selector).hide("500");
+                this.chooseListFieldsVacancies = false;
             }
         };
 

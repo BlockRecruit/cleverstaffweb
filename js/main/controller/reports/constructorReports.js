@@ -987,7 +987,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     vacancyID.visiable = true;
                     data.push(vacancyID);
                 }
-                console.log(data, 'data');
         };
     }
 

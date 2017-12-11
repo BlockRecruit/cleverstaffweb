@@ -1,4 +1,4 @@
-function CustomReportEditService($rootScope, Stat, $translate, Company, Person, vacancyStages, notificationService, CustomReportsService, $timeout, $uibModal, translateWords, $location, CustomField, $filter) {
+function CustomReportEditService($rootScope, Stat, $translate, Company, Person, vacancyStages, notificationService, CustomReportsService, $timeout, $uibModal, translateWords, $location, CustomField, $filter, Vacancy) {
     try{
         let vacancyStatuses, fieldsListStart,
             singleton = {
@@ -396,19 +396,22 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                         }),
                         vacancyStages.requestVacancyStages(),
                         Person.requestGetAllPersons(),
-                        CustomField.requestGetFieldsTitles()
+                        CustomField.requestGetFieldsTitles(),
                     ]).then(data => {
-                    data.forEach(item => {
-                        _dataProcessing.apply(this, [data, item]);
+                        data.forEach(item => {
+                            _dataProcessing.apply(this, [data, item]);
+                        });
+                        CustomReportsService.getDate.apply(this, [singleton.editReport, $scope]);
+                        this.fieldsList = checkPropertyFyelds(this.fieldsList, fieldsListStart);
+                        this.fieldsList = checkPropertyFyelds(this.data.сustomVacancyFields, this.fieldsList);
+                        return true;
+                     })
+                    .then(resp => Vacancy.getAllVacansies(Vacancy.searchOptions()))
+                    .then(resp => {
+                        this.fieldsVacancyList = resp.objects;
+                        $rootScope.loading = false;
+                        $scope.$apply();
                     });
-
-                    CustomReportsService.getDate.apply(this, [singleton.editReport, $scope]);
-                    this.fieldsList = checkPropertyFyelds(this.fieldsList, fieldsListStart);
-                    this.fieldsList = checkPropertyFyelds(this.data.сustomVacancyFields, this.fieldsList);
-                    $rootScope.loading = false;
-
-                    $scope.$apply();
-                });
         };
 
         singleton.selectValue = function (status) {
@@ -546,4 +549,4 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 }
 angular
     .module('services.CustomReportEditService',['ngResource', 'ngCookies','services.person'])
-    .factory('CustomReportEditService',["$rootScope","Stat", "$translate","Company","Person","vacancyStages", "notificationService", "CustomReportsService","$timeout","$uibModal","translateWords","$location","CustomField","$filter", CustomReportEditService]);
+    .factory('CustomReportEditService',["$rootScope","Stat", "$translate","Company","Person","vacancyStages", "notificationService", "CustomReportsService","$timeout","$uibModal","translateWords","$location","CustomField","$filter","Vacancy", CustomReportEditService]);
