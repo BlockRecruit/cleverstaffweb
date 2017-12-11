@@ -21,7 +21,10 @@ var app = angular.module('RecruitingAppStart', [
     'ngAnimate'
 ]).constant('serverAddress', '/hr').config(['$routeProvider', 'ngMetaProvider', '$locationProvider', function($routeProvider, ngMetaProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
-    //$locationProvider.hashPrefix('');
+    //$locationProvider.hashPrefix('/');
+    //inject(function($location) {
+    //    console.log($location);
+    //});
     $routeProvider
         .when('/confirmRegistration/finishReg/:personId/:key', {
             templateUrl: 'partials/start/finishreg.html',
@@ -112,11 +115,12 @@ var app = angular.module('RecruitingAppStart', [
     tmhDynamicLocaleProvider.localeLocationPattern('lib/angular/i18n/angular-locale_{{locale}}.js');
     tmhDynamicLocaleProvider.useCookieStorage();
     /************************************/
-}).run(['$location', '$rootScope', 'ngMeta', function($location, $rootScope, ngMeta) {
+}).run(['$location', '$rootScope', 'ngMeta', '$routeParams', function($location, $rootScope, ngMeta, $routeParams) {
     $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
         //$rootScope.title = current.$$route.title + " CleverStaff";
         $rootScope.activeController = current.$$route.controller;
     });
+    console.log($location);
     ngMeta.init();
 }]);
 

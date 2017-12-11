@@ -856,15 +856,16 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal" , "ngMeta",
       function($rootScope, $scope, $filter, $location, $routeParams, $sce , $translate, Service,
                notificationService, FileInit, serverAddress, $window, Company, $uibModal, ngMeta) {
-          window.onpopstate = function(event) {
-              console.log(event);
-              history.pushState("", "", $window.location.pathname);
-              alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
-          };
-          var ret = $window.location.href.replace('/i#/','');
-          console.log(ret);
+          //window.onpopstate = function(event) {
+          //    console.log(event);
+          //    history.pushState("", "", $window.location.pathname);
+          //    alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+          //};
+          //window.location($window.location.href);
+          //var ret = $window.location.href.replace('/i#/','');
+          //console.log(ret);
           //$window.location = ret;
-          console.log($window.location);
+          //console.log($window.location);
           ngMeta.setTag('og:description', 'DDDDDDDD');
           ngMeta.setDefaultTag('description', 'DDDDDDDM');
         $rootScope.closeModal = function(){

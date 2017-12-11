@@ -21,7 +21,10 @@ var app = angular.module('RecruitingAppStart', [
     'ngAnimate'
 ]).constant('serverAddress', '/hr').config(['$routeProvider', 'ngMetaProvider', '$locationProvider', function($routeProvider, ngMetaProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
-    //$locationProvider.hashPrefix('');
+    //$locationProvider.hashPrefix('/');
+    //inject(function($location) {
+    //    console.log($location);
+    //});
     $routeProvider
         .when('/confirmRegistration/finishReg/:personId/:key', {
             templateUrl: 'partials/start/finishreg.html',
@@ -112,11 +115,12 @@ var app = angular.module('RecruitingAppStart', [
     tmhDynamicLocaleProvider.localeLocationPattern('lib/angular/i18n/angular-locale_{{locale}}.js');
     tmhDynamicLocaleProvider.useCookieStorage();
     /************************************/
-}).run(['$location', '$rootScope', 'ngMeta', function($location, $rootScope, ngMeta) {
+}).run(['$location', '$rootScope', 'ngMeta', '$routeParams', function($location, $rootScope, ngMeta, $routeParams) {
     $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
         //$rootScope.title = current.$$route.title + " CleverStaff";
         $rootScope.activeController = current.$$route.controller;
     });
+    console.log($location);
     ngMeta.init();
 }]);
 
@@ -979,15 +983,16 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal" , "ngMeta",
       function($rootScope, $scope, $filter, $location, $routeParams, $sce , $translate, Service,
                notificationService, FileInit, serverAddress, $window, Company, $uibModal, ngMeta) {
-          window.onpopstate = function(event) {
-              console.log(event);
-              history.pushState("", "", $window.location.pathname);
-              alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
-          };
-          var ret = $window.location.href.replace('/i#/','');
-          console.log(ret);
+          //window.onpopstate = function(event) {
+          //    console.log(event);
+          //    history.pushState("", "", $window.location.pathname);
+          //    alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+          //};
+          //window.location($window.location.href);
+          //var ret = $window.location.href.replace('/i#/','');
+          //console.log(ret);
           //$window.location = ret;
-          console.log($window.location);
+          //console.log($window.location);
           ngMeta.setTag('og:description', 'DDDDDDDD');
           ngMeta.setDefaultTag('description', 'DDDDDDDM');
         $rootScope.closeModal = function(){
@@ -1859,8 +1864,8 @@ controller.controller('PublicCandidateController', ['$scope', 'Service', '$route
     }]
 );
 controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serverAddress', 'Service', 'Company',
-    'notificationService', '$routeParams', '$window',
-    function ($scope, $rootScope, serverAddress, Service, Company, notificationService, $routeParams, $window) {
+    'notificationService', '$routeParams', '$window', '$location',
+    function ($scope, $rootScope, serverAddress, Service, Company, notificationService, $routeParams, $window, $location) {
         $scope.loaded = false;
 
         $scope.getAllVacancyForCompany = function(){
@@ -1868,6 +1873,9 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             Company.getAllOpenVacancies(string)
                 .then((resp) => {
                     $scope.orgParams = resp;
+            console.log($routeParams);
+            console.log($scope.orgParams);
+                    $location.path($scope.orgParams.alias + ' ' + 'vacancies');
                     $window.document.title = $scope.orgParams.orgName + ' ' + 'vacancies';
                     $scope.logoLink = '/hr/getlogo?id=' + $scope.orgParams.companyLogo + '';
                     $scope.serverAddress = serverAddress;
@@ -1880,24 +1888,6 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
 
 
         $scope.getAllVacancyForCompany();
-        $rootScope.addNewHistory = function(localId){
-            console.log(localId);
-            console.log($window);
-            console.log($window.location);
-            console.log(history);
-            //$window.location.pathname = '/';
-            //$window.location.hash = '';
-            //console.log($window.location);
-            //history.pushState(null, null, "vacancy-" + localId);
-            //$window.location = $window.location.origin + "/" + "vacancy-" + localId
-        };
-        window.onpopstate = function(event) {
-            console.log(event);
-            window.setTimeout(function () {
-                history.pushState("", "", $window.location.pathname);
-            }, 3000);
-            alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
-        };
     }]
 );
 /*** Created by вик on 07.07.2016.*/
