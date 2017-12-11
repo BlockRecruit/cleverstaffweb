@@ -65,11 +65,10 @@
 			line-height: 10px;
 
 			display: inline-block;
-			width: 49%;
+			width: 45%;
 			max-height: 20px;
 			margin-bottom: 15px;
 
-			text-align: center;
 			white-space: nowrap;
 			& span {
 				padding: 5px 10px;
@@ -77,6 +76,9 @@
 				color: #a94442;
 				border-radius: 13px;
 				background-color: #f2dede;
+			}
+			&.margin-right {
+				margin-right: 9%;
 			}
 		}
 		input::-webkit-outer-spin-button,
