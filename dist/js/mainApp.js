@@ -37319,35 +37319,59 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         });
 
         function initSalesFunnel(dateFrom, dateTo) {
-            $scope.funnelMap = {};
+            $scope.funnelMap = [];
             $scope.hasFunnelChart = false;
 
             if ($scope.detailInterviewInfo) {
-                angular.forEach($scope.detailInterviewInfo, (stage) => {
-                    $scope.funnelMap[stage.key] = stage.value.length;
+                angular.forEach($scope.detailInterviewInfo, (stage,index) => {
+                    $scope.funnelMap[index] = { key: stage.key, value: stage.value.length };
 
                     angular.forEach($scope.declinedStages, (declinedStage) => {
                         if(declinedStage === stage.key) {
-                            delete $scope.funnelMap[stage.key];
+                            $scope.funnelMap.splice(index,1);
                         }
                     });
+
                 });
 
                 angular.forEach($scope.notDeclinedStages, (notDeclinedStage) => {
-                    if(!$scope.funnelMap[notDeclinedStage]) {
-                        $scope.funnelMap[notDeclinedStage] = 0;
-                    }
+                    let missingStage = true;
+
+                    angular.forEach($scope.funnelMap, (stage,index) => {
+                        // console.log($scope.funnelMap[index].key, notDeclinedStage);
+                        if(missingStage) {
+                            // console.log($scope.funnelMap[index].key, notDeclinedStage);
+                            if($scope.funnelMap[index].key === notDeclinedStage) {
+                                console.log('exist',notDeclinedStage);
+                                missingStage = false;
+                            } else {
+                                missingStage = true;
+                            }
+
+                            if(index === $scope.funnelMap.length - 1 && missingStage) {
+                                console.log("not-exist",notDeclinedStage);
+                                $scope.funnelMap[index+1] = { key: notDeclinedStage, value: 0 };
+                            }
+
+                        }
+                    });
+                    console.log('-------------------');
                 });
 
-                if($scope.funnelMap['longlist'] == 0) {
+
+                if(!$scope.funnelMap[0]) {
                     return;
                 }
             }
+            // $scope.funnelMap.map((item) => {
+            //     console.log(item);
+            // });
+            console.log($scope.funnelMap);
 
             var myChart = {};
             if ($scope.detailInterviewInfo) {
                 $scope.hasFunnelChart = true;
-                chartHeight = 30*Object.keys($scope.funnelMap).length;
+                chartHeight = 30*$scope.funnelMap.length;
                 var series = [];
                 var values = [];
                 var values2 = [];
@@ -37355,28 +37379,23 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 var values4 = [];
                 var lastCount = null;
 
-                angular.forEach($scope.funnelMap, function(i, s) {
-                    angular.forEach($scope.customStages, function(resp){
-                        if(s == resp.customInterviewStateId){
-                            s = resp.name;
-                        }
-                    });
+                angular.forEach($scope.funnelMap, function(stage) {
                     series.push({
-                        "values": [i]
+                        "values": [stage.value]
                     });
-                    values.push($filter('translate')(s));
-                    values2.push(i.toString());
+                    values.push($filter('translate')(stage.key));
+                    values2.push(stage.value.toString());
                     if (lastCount == null) {
                         values3.push('100%');
                     } else {
-                        values3.push((i != 0 ? Math.round(i / lastCount * 100) : 0) + '%');
+                        values3.push((stage.value != 0 ? Math.round(stage.value / lastCount * 100) : 0) + '%');
                     }
                     if(lastCount == null) {
                         values4.push('100%');
                     } else{
-                        values4.push((i != 0 ? Math.round(i / $scope.funnelMap['longlist'] * 100) : 0) + '%');
+                        values4.push((stage.value != 0 ? Math.round(stage.value / $scope.funnelMap['longlist'] * 100) : 0) + '%');
                     }
-                    lastCount = i;
+                    lastCount = stage.value;
                 });
 
                 myChart = {
