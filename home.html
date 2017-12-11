@@ -159,7 +159,7 @@
             <div class="" id="navbar-main">
                 <ul class="nav navbar-nav navigation navbar-collapse collapse">
                     <li class="dropdown">
-                        <a href="#/organizer" ng-class="{'active': $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar'}">
+                        <a href="#/organizer" ng-class="{'active': $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'}">
                             <i class="sprite sprite-calendar"></i>
                             <span>{{'activity'| translate}}</span>
                         </a>
@@ -171,7 +171,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#/candidates" ng-class="{'active': $root.activePage == 'Candidates' || $root.activePage == 'Candidate add' || $root.activePage == 'Candidates add from email' || $root.activePage == 'Zip' || $root.activePage == 'Excel History' || $root.activePage == 'Candidate edit' || $root.activePage == 'Tests and forms' || $root.activePage == 'Send test candidate to email' || $root.activePage == 'Test results' || $root.activePage == 'Test page'}">
+                        <a href="#/candidates" ng-class="{'active': $root.activePage == 'Candidates' || $root.activePage == 'Candidate add' || $root.activePage == 'Candidates add from email'
+                                                                    || $root.activePage == 'Zip' || $root.activePage == 'Excel History' || $root.activePage == 'Candidate edit' || $root.activePage == 'Tests and forms'
+                                                                    || $root.activePage == 'Send test candidate to email' || $root.activePage == 'Test results' || $root.activePage == 'Test page' || $root.activePage == 'Candidate'}">
                             <i class="sprite sprite-candidates"></i>
                             <span>{{'candidates'| translate}}</span>
                         </a>
