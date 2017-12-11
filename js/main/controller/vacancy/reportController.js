@@ -160,7 +160,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     if(lastCount == null) {
                         values4.push('100%');
                     } else{
-                        values4.push((stage.value != 0 ? Math.round(stage.value / $scope.funnelMap['longlist'] * 100) : 0) + '%');
+                        values4.push((stage.value != 0 ? Math.round(stage.value / $scope.funnelMap[0].value * 100) : 0) + '%');
                     }
                     lastCount = stage.value;
                 });
