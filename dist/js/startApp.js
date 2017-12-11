@@ -42,6 +42,7 @@ var app = angular.module('RecruitingAppStart', [
             title: "Vacancy |",
             templateUrl: 'partials/public/vacancy.html',
             controller: 'PublicVacancyController',
+            pageName: "Public vacancy",
             meta: {
                 description: 'Vacancy in CleverStaff Recruitment Software'
             }
@@ -978,7 +979,15 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal" , "ngMeta",
       function($rootScope, $scope, $filter, $location, $routeParams, $sce , $translate, Service,
                notificationService, FileInit, serverAddress, $window, Company, $uibModal, ngMeta) {
-
+          window.onpopstate = function(event) {
+              console.log(event);
+              history.pushState("", "", $window.location.pathname);
+              alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+          };
+          var ret = $window.location.href.replace('/i#/','');
+          console.log(ret);
+          //$window.location = ret;
+          console.log($window.location);
           ngMeta.setTag('og:description', 'DDDDDDDD');
           ngMeta.setDefaultTag('description', 'DDDDDDDM');
         $rootScope.closeModal = function(){
@@ -1871,6 +1880,24 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
 
 
         $scope.getAllVacancyForCompany();
+        $rootScope.addNewHistory = function(localId){
+            console.log(localId);
+            console.log($window);
+            console.log($window.location);
+            console.log(history);
+            //$window.location.pathname = '/';
+            //$window.location.hash = '';
+            //console.log($window.location);
+            //history.pushState(null, null, "vacancy-" + localId);
+            //$window.location = $window.location.origin + "/" + "vacancy-" + localId
+        };
+        window.onpopstate = function(event) {
+            console.log(event);
+            window.setTimeout(function () {
+                history.pushState("", "", $window.location.pathname);
+            }, 3000);
+            alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
+        };
     }]
 );
 /*** Created by вик on 07.07.2016.*/

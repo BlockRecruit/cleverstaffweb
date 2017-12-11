@@ -42,6 +42,7 @@ var app = angular.module('RecruitingAppStart', [
             title: "Vacancy |",
             templateUrl: 'partials/public/vacancy.html',
             controller: 'PublicVacancyController',
+            pageName: "Public vacancy",
             meta: {
                 description: 'Vacancy in CleverStaff Recruitment Software'
             }
