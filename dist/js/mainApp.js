@@ -11587,6 +11587,13 @@ angular.module('services.globalService', [
                 service: "public",
                 action: "getAllOpenVacancy"
             }
+        },
+        getCrawlerVacancy: {
+            method: "GET",
+            params: {
+                service: "public",
+                action: "getCrawlerVacancy"
+            }
         }
 
     });

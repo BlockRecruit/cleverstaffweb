@@ -20,7 +20,7 @@ var app = angular.module('RecruitingAppStart', [
     'ui.bootstrap',
     'ngAnimate'
 ]).constant('serverAddress', '/hr').config(['$routeProvider', 'ngMetaProvider', '$locationProvider', function($routeProvider, ngMetaProvider, $locationProvider) {
-    $locationProvider.html5Mode(true);
+    //$locationProvider.html5Mode(true);
     //$locationProvider.hashPrefix('/');
     //inject(function($location) {
     //    console.log($location);
@@ -54,7 +54,6 @@ var app = angular.module('RecruitingAppStart', [
             templateUrl: 'partials/public/company.html',
             controller: 'PublicCompanyController',
             title: "Company |",
-            pageName: "Public vacancy for candidate",
             meta: {
                 description: 'Vacancies in CleverStaff Recruitment Software'
             }
@@ -980,9 +979,10 @@ controller.controller('mainController' ,function($scope, $location, $window) {
         var lST = userLang.substring(0, 2);
     })
     .controller('PublicVacancyController', ["$rootScope", "$scope", "$filter", "$location", "$routeParams", "$sce" , "$translate", "Service",
-                "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal" , "ngMeta",
+                "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal" , "ngMeta", "$http",
       function($rootScope, $scope, $filter, $location, $routeParams, $sce , $translate, Service,
-               notificationService, FileInit, serverAddress, $window, Company, $uibModal, ngMeta) {
+               notificationService, FileInit, serverAddress, $window, Company, $uibModal, ngMeta, $http) {
+          //Service
           //window.onpopstate = function(event) {
           //    console.log(event);
           //    history.pushState("", "", $window.location.pathname);
@@ -1250,6 +1250,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             }
         }, function () {
         });
+
         $scope.to_trusted = function (html_code) {
             return $sce.trustAsHtml(html_code);
         };
@@ -1386,6 +1387,20 @@ controller.controller('mainController' ,function($scope, $location, $window) {
         //    }, 0)
         //};
         //$window.addEventListener("hashchange", myFunction)
+          setTimeout(function(){
+              $http.get('/public/getCrawlerVacancy/' + 'old.cleverstaff.net' + '/' + $scope.vacancy.localId).then(function (val) {
+                  console.log(val);
+                  if (angular.equals(val.data.status, "ok")) {
+                      notificationService.success($filter('translate')('You successfully merged candidates’ profiles'));
+
+                  } else {
+
+                  }
+              }, function (error) {
+                  notificationService.error(error.message);
+              });
+          }, 1000);
+
     }])
     .controller('PublicVacancyAddController', function($rootScope, $scope, $filter, $location, $translate, Service, notificationService) {
         $rootScope.hasJS = true;
@@ -1873,9 +1888,9 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             Company.getAllOpenVacancies(string)
                 .then((resp) => {
                     $scope.orgParams = resp;
-            console.log($routeParams);
-            console.log($scope.orgParams);
-                    $location.path($scope.orgParams.alias + ' ' + 'vacancies');
+            //console.log($routeParams);
+            //console.log($scope.orgParams);
+                    //$location.path($scope.orgParams.alias + ' ' + 'vacancies');
                     $window.document.title = $scope.orgParams.orgName + ' ' + 'vacancies';
                     $scope.logoLink = '/hr/getlogo?id=' + $scope.orgParams.companyLogo + '';
                     $scope.serverAddress = serverAddress;
@@ -4960,6 +4975,13 @@ angular.module('services.globalService', [
             params: {
                 service: "public",
                 action: "getAllOpenVacancy"
+            }
+        },
+        getCrawlerVacancy: {
+            method: "GET",
+            params: {
+                service: "public",
+                action: "getCrawlerVacancy"
             }
         }
 

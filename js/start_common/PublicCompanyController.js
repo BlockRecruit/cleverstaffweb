@@ -8,9 +8,9 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             Company.getAllOpenVacancies(string)
                 .then((resp) => {
                     $scope.orgParams = resp;
-            console.log($routeParams);
-            console.log($scope.orgParams);
-                    $location.path($scope.orgParams.alias + ' ' + 'vacancies');
+            //console.log($routeParams);
+            //console.log($scope.orgParams);
+                    //$location.path($scope.orgParams.alias + ' ' + 'vacancies');
                     $window.document.title = $scope.orgParams.orgName + ' ' + 'vacancies';
                     $scope.logoLink = '/hr/getlogo?id=' + $scope.orgParams.companyLogo + '';
                     $scope.serverAddress = serverAddress;
