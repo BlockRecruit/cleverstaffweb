@@ -600,10 +600,14 @@
                     <div class="col-lg-4" ng-show="$root.me.recrutRole != 'salesmanager'">
                         <a id="export_in_excel" class="hidden" href="">
                         </a>
-                        <a href="#/email/vacancy/{{vacancy.localId}}">
+                        <a ng-click="sendCandidatesToClient()">
                             {{'Send to the Client'|translate}}
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                         </a>
+                        <!--<a href="#/email/vacancy/{{vacancy.localId}}">-->
+                            <!--{{'Send to the Client'|translate}}-->
+                            <!--<i class="fa fa-envelope" aria-hidden="true"></i>-->
+                        <!--</a>-->
                     </div>
                 </div>
             </div>
