@@ -199,6 +199,7 @@
   },
   "future": "Future",
   "in_work": "In Progress",
+  "on_hold": "On hold",
   "all_done": "All Done",
   "deleted": "Deleted",
   "client_status_assoc": {

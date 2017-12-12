@@ -75,6 +75,7 @@
         return [
             {value: "future", name: "future"},
             {value: "in_work", name: "in work"},
+            {value: "on_hold", name: "on hold"},
             {value: "all_done", name: "all done"},
             {value: "canceled", name: "canceled"},
             {value: "deleted", name: "deleted"}

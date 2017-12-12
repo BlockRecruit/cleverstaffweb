@@ -226,6 +226,7 @@
   "candidate_4": "кандидата",
   "future": "Будущий",
   "in_work": "В работе",
+  "on_hold": "Приостановлен",
   "all_done": "Работа завершена",
   "deleted": "Удален",
   "client_status_assoc": {
