@@ -1151,8 +1151,6 @@ var directive = angular.module('RecruitingApp.directives', []).
                         img.onload = function() {
                             var width = this.width;
                             var height = this.height;
-                            console.log(width);
-                            console.log(height);
                             var minus = width - height;
                             if((width <= height && width < 200) || (width >= height && minus > 30 && minus <=100)){
                                 $('#photo-preview').css({'width': '23%', 'left': '35px'});
