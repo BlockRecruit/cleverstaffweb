@@ -36368,6 +36368,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             })
         };
 
+<<<<<<< HEAD
 
 
         $scope.sendCandidatesToClient = function() {
@@ -36380,6 +36381,18 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 }
             });
 
+=======
+        $scope.sendCandidatesToClient = function() {
+            // #/email/vacancy/{{vacancy.localId}}
+            if(!$scope.vacancy.interviews || $scope.vacancy.interviews.length == 0) {
+                notificationService.error($filter('translate')('Please add the candidates to this stage'));
+                return;
+            } else {
+                $location.path("/email/vacancy/" + $scope.vacancy.localId);
+            }
+            // console.log($scope.vacancy);
+            // console.log("#email/vacancy/" + $scope.vacancy.localId);
+>>>>>>> done, mooved in qa
         };
 
         $scope.showEditEmailTemplate = function(template){
