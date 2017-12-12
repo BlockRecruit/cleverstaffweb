@@ -185,7 +185,7 @@
   "inwork": "В работе",
   "replacement": "Замена",
   "completed": "Выполнена",
-  "canceled": "Отменена",
+  "canceled": "Отменен",
   "vacancy_status_assoc": {
     "open": "Открыта",
     "expects": "Ожидает",
@@ -232,6 +232,7 @@
   "client_status_assoc": {
     "future": "Будущий",
     "in_work": "В работе",
+    "on_hold": "Приостановлен",
     "all_done": "Работа завершена",
     "canceled": "Отменен",
     "deleted": "Удален"
