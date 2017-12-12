@@ -491,6 +491,19 @@ angular.module('services.vacancy', [
                         forAdd: false,
                         movable: false,
                         type: 'refuse'
+                    },
+                    {
+                        value: "offer_declined",
+                        forHistory: true,
+                        withDate: false,
+                        defaultS: false,
+                        added: false,
+                        single: true,
+                        isEnclosed: true,
+                        count: 0,
+                        forAdd: false,
+                        movable: false,
+                        type: 'refuse'
                     }
                 ]
             },

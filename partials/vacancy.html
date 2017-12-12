@@ -867,7 +867,7 @@
                          ng-repeat="status in VacancyStatus| vacancyStatusInCheckFilter:'simpleVacancy'"
                          ng-show="status.value == 'no_contacts' || status.value == 'notafit' || status.value == 'declinedoffer' ||
                          status.value == 'no_response' || status.value == 'accepted_counter_offer' || status.value == 'found_another_job'
-                         || status.value == 'is_not_looking_for_job'">
+                         || status.value == 'is_not_looking_for_job' || status.value == 'offer_declined'">
                         <label>
                             <input ng-checked="status.added" type="checkbox" ng-click="changeInterviewStatus(status, status.value, 'simpleVacancy')" name="{{status.value}}">
                             {{status.value|translate}}
