@@ -19,12 +19,12 @@
             <label ng-show="!$root.addCandidateInInterview.addedInVacancy">{{'interview_status'|translate}}</label>
             <select id="addCandidateInInterview" ng-model="$root.status2"
                      ng-change="$root.changeTemplateInAddCandidate($root.status2)">
-                <option value="{{$root.addCandidateInInterview.statusObject[0]}}" ng-selected="$root.status2 == false">{{$root.addCandidateInInterview.status.value|translate}}</option>
+                <!--<option value="{{$root.addCandidateInInterview.statusObject[0]}}" ng-selected="$root.status2 == false">{{$root.addCandidateInInterview.status.value|translate}}</option>-->
 
                 <option ng-repeat="status in $root.addCandidateInInterview.statusObject"
                         value="{{status}}"
-                        ng-hide="status.value == 'longlist'"
-                        ng-selected="$root.addCandidateInVacancy.status === status">
+                        ng-selected="$root.addCandidateInVacancy.status === status"
+                ng-init="$root.status2 == false">
                     {{status.value|translate}}
                 </option>
             </select>
