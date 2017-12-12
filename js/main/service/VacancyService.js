@@ -734,6 +734,7 @@ angular.module('services.vacancy', [
             {value: "open", name: "open"},
             {value: "expects", name: "wait"},
             {value: "inwork", name: "in work"},
+            {value: "replacement", name: "replacement"},
             {value: "payment", name: "payment"},
             {value: "completed", name: "completed"},
             {value: "canceled", name: "canceled"},
