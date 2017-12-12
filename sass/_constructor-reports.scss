@@ -1099,13 +1099,14 @@
 		padding: 0 !important;
 	}
 	section:nth-child(even) {
-		@include flex(row,space-between);
+		@include flex(column);
 		.wrapper-for-padding-left {
-			width: 61%;
+			width: 100%;
 			margin-right: auto;
+			margin-bottom: 16px;
 		}
 		.wrapper-for-padding-right {
-			width: 38%;
+			width: 100%;
 			padding-right: 0;
 		}
 	}

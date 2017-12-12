@@ -371,7 +371,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         resetDefaultData();
 
         singleton.showOrHideCandidates = function () {
-            console.log(this, 'this');
             this.data.withCandidates = !this.data.withCandidates;
             checkOnChange.call(this)
         };
@@ -406,7 +405,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                         this.fieldsList = checkPropertyFyelds(this.data.сustomVacancyFields, this.fieldsList);
                         return true;
                      })
-                    .then(resp => Vacancy.getAllVacansies(Vacancy.searchOptions()))
+                    .then(resp => Vacancy.getAllVacansies())
                     .then(resp => {
                         this.fieldsVacancyList = resp.objects;
                         $rootScope.loading = false;

@@ -72,7 +72,7 @@
                         </div>
                         <div class="chooseListFieldsVacancies" style="display: none; padding: 16px;">
                             <div class="enter-job-title">{{"enter job title"|translate}}</div>
-                            <div><input type="text" ng-model="query"></div>
+                            <div><input type="text"  ng-init="query=''" ng-model="query"></div>
                             <ul class="fields-list-row clearfix col-lg-12">
                                 <li ng-repeat="field in fieldsVacancyList | filter:filterVacancy track by $index"  ng-click="selectedVacancy(field, $event)">
                                     <button class="ui icon button">

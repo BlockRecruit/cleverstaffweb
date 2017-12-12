@@ -219,6 +219,12 @@ angular.module('services.vacancy', [
             params:{
                 param:'openHideState'
             }
+        },
+        getVacanciesForReport:{
+            method:"POST",
+            params:{
+                param:'getVacanciesForReport'
+            }
         }
     });
 
@@ -781,7 +787,7 @@ angular.module('services.vacancy', [
         };
     };
     vacancy.init();
-    vacancy.getAllVacansies = (params) => $q((resolve, reject) =>vacancy.all(params, response => resolve(response), error => reject(error)));
+    vacancy.getAllVacansies = (params) => $q((resolve, reject) =>vacancy.getVacanciesForReport(response => resolve(response), error => reject(error)));
     return vacancy;
 }
 ]);

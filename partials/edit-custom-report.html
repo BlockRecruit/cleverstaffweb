@@ -22,7 +22,7 @@
         <article ng-show="!emptyAccount">
             <section class="row section-one">
                 <div class="wrapper-for-padding-left col-lg-6">
-                    <div class="wrapper-background clearfix" ng-click="editReport.showChoosingMenu('.chooseStatusMenu')">
+                    <div class="wrapper-background clearfix" ng-click="editReport.showChoosingMenu('.chooseStatusMenu', this)">
                         <div class="col-lg-6 block-status">
                             <h4 style="margin-right: 3px;">{{'Statuses' | translate}}:</h4>
                         </div>
@@ -37,7 +37,7 @@
                         </div>
                         <i class="fa fa-pencil"></i>
                     </div>
-                    <div class="chooseStatusMenu">
+                    <div class="chooseStatusMenu" ng-init="editReport.selectVacancy = []">
                                 <span class="item">
                                     <span>
                                         {{'Select vacancy statuses' | translate}}:
@@ -71,16 +71,16 @@
                         </h4>
                         <div class="fields-list clearfix">
                             <ul class="fields-list-row col-lg-6 clearfix">
-                                <li ng-repeat="vacancy in selectVacancy track by $index" class="col-md-15 col-xs-3 ">
+                                <li ng-repeat="vacancy in editReport.selectVacancy track by $index" class="col-md-15 col-xs-3 ">
                                     <span>{{vacancy.position |translate}}</span>
                                 </li>
                             </ul>
                         </div>
                         <div class="chooseListFieldsVacancies" style="display: none; padding: 16px;">
                             <div class="enter-job-title">{{"enter job title"|translate}}</div>
-                            <div><input type="text" ng-model="query"></div>
+                            <div><input type="text" ng-init="editReport.query=''" ng-model="editReport.query"></div>
                             <ul class="fields-list-row clearfix col-lg-12">
-                                <li ng-repeat="field in editReport.fieldsVacancyList | filter:filterVacancy track by $index"  ng-click="selectedVacancy(field, $event)">
+                                <li ng-repeat="field in editReport.fieldsVacancyList | filter: editReport.filterVacancy track by $index"  ng-click="editReport.selectedVacancy(field, $event)">
                                     <button class="ui icon button">
                                         <i class="fa fa-check-square" ng-class="{'checkmark': (field.visiable == true)}"> </i>
                                     </button>
@@ -95,7 +95,7 @@
             </section>
             <section class="row section-two">
                 <div class="wrapper-for-padding-left col-lg-6" ng-if="editReport.data.withCandidates">
-                    <div class="block-stages col-lg-12" ng-click="editReport.showChoosingMenu('.chooseStagesMenu')">
+                    <div class="block-stages col-lg-12" ng-click="editReport.showChoosingMenu('.chooseStagesMenu', this)">
                         <h4>{{'Show candidates in stages' | translate}}: <i class="fa fa-pencil"></i></h4>
                         <div class="ccol-lg-12 stage clearfix">
                            <span class="col-md-15 col-xs-3" ng-show="status.added" ng-repeat="status in editReport.selectStages track by $index">
@@ -210,7 +210,7 @@
                     </div>
                 </div>
                 <div class="wrapper-for-padding-right col-lg-6 col-md-12" ng-style="(!editReport.data.withCandidates)? {'padding-left':'0px', 'padding-right':'15px'} : false">
-                    <div class='add-rem-fields col-lg-12' ng-click="editReport.showChoosingMenu('.chooseListFields')">
+                    <div class='add-rem-fields col-lg-12' ng-click="editReport.showChoosingMenu('.chooseListFields', this)">
                         <h4 style="margin-bottom: 8px;">{{"Add / Remove report fields"|translate}}</h4>
                         <div class="fields-list">
                             <ul class="fields-list-row col-lg-6">
@@ -240,7 +240,7 @@
             </section>
             <section class="row section-three">
                 <div class="wrapper-for-padding-left col-lg-6">
-                    <div class="pen-show clearfix" ng-click="editReport.showChoosingMenu('.choosePersonMenu')" style="background-color: #fff;padding: 16px 8px;border-radius: 5px;padding-right: 0px;">
+                    <div class="pen-show clearfix" ng-click="editReport.showChoosingMenu('.choosePersonMenu', this)" style="background-color: #fff;padding: 16px 8px;border-radius: 5px;padding-right: 0px;">
                         <div class="chooseUsers col-lg-12 clearfix"  style="background: none">
                             <span  class="item">
                                 <span ng-show="!leastChosen">

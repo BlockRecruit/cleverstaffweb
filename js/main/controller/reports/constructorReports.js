@@ -8,7 +8,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         $scope.regions = [];
         $scope.timeMaxZone = false;
         $scope.timeMaxZone2 = false;
-        $scope.query = '';
+
         $scope.updateReportBtn = false;
         $scope.firstTimeLoading = 0;
         $scope.vacancysStatusesParam =[];
@@ -195,6 +195,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     "to": $scope.endDate,
                     "types": null,
                     "vacancyId": null,
+                    "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null,
                     "vacancyStatuses": $scope.vacancysStatusesParam,
                     "interviewStatuses": $scope.inVacancysStatusesParam,
                     "interviewCreatorIds": $scope.choosenPersons,
@@ -328,29 +329,28 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 return;
             }
 
-                Stat.requestGetActualVacancyStatistic2({
-                    "from":$scope.startVacancyDate,
-                    "to":$scope.endDate,
-                    "types":null,
-                    "vacancyId":null,
-                    "vacancyStatuses": $scope.vacancysStatusesParam,
-                    "interviewStatuses":$scope.inVacancysStatusesParam,
-                    "interviewCreatorIds": $scope.choosenPersons,
-                    "vacancyFields": ["client","numberOfPositions","salary","location","status","dateFinish",
-                        "budget","candidatesAdded","candidatesApproved","daysInWork","responsibles","dc",
-                        "datePayment","employmentType","candidatesRefused","candidatesInWork"],
-                    "customVacancyFields":$scope.checkCustomListFields,
-                    "withCandidates": $scope.withCandidates,
-                    "vacancyId": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null
+            Stat.requestGetActualVacancyStatistic2({
+                "from":$scope.startVacancyDate,
+                "to":$scope.endDate,
+                "types":null,
+                "vacancyId":null,
+                "vacancyStatuses": $scope.vacancysStatusesParam,
+                "interviewStatuses":$scope.inVacancysStatusesParam,
+                "interviewCreatorIds": $scope.choosenPersons,
+                "vacancyFields": ["client","numberOfPositions","salary","location","status","dateFinish",
+                    "budget","candidatesAdded","candidatesApproved","daysInWork","responsibles","dc",
+                    "datePayment","employmentType","candidatesRefused","candidatesInWork"],
+                "customVacancyFields":$scope.checkCustomListFields,
+                "withCandidates": $scope.withCandidates,
+                "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null
 
-                }, ifCheck)
-                .then(response => {
-                        $scope.regions = response.object["regions"];
-                        $scope.vacancyData = response.object["entryList"].map(item => item["vacancy"]);
-                        ($scope.vacancyData.length)? $scope.build = true : $scope.build = false;
-
-                        restAngularContext();
-                    });
+            }, ifCheck)
+            .then(response => {
+                    $scope.regions = response.object["regions"];
+                    $scope.vacancyData = response.object["entryList"].map(item => item["vacancy"]);
+                    ($scope.vacancyData.length)? $scope.build = true : $scope.build = false;
+                    restAngularContext();
+                });
         };
 
         $scope.updateReport = function(event){
@@ -404,12 +404,11 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     return Promise.reject();
                 })
                 .then(resp => concatCastomOrStandartFields(resp['objects'], $scope.fieldsList),resp => true)
-                .then(resp => Vacancy.getAllVacansies(Vacancy.searchOptions()))
+                .then(resp => Vacancy.getAllVacansies())
                 .then(resp => $scope.fieldsVacancyList = resp.objects)
                 .then(resp => {
                     if($scope.startVacancyDate && $scope.endDate){
                         $scope.firstTimeLoading = $scope.firstTimeLoading + 1;
-                        console.log( $scope.firstTimeLoading, ' $scope.firstTimeLoading');
                         return Stat.requestGetCountVacancyForActualVacancyStatistic({
                             "from":$scope.startVacancyDate,
                             "to":$scope.endDate,
@@ -512,7 +511,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                                 "interviewCreatorIds": $scope.choosenPersons,
                                 "vacancyFields": $scope.checkListFields,
                                 "withCandidates": $scope.withCandidates,
-                                "vacancyId": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null
+                                "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null
                             }, false),
                             CustomField.requestGetFieldsTitles()
                         ])
@@ -587,13 +586,14 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     "from":$scope.startVacancyDate,
                     "to":$scope.endDate,
                     "types":null,
-                    "vacancyId":null,
                     "vacancyStatuses": $scope.vacancysStatusesParam,
                     "interviewStatuses":$scope.inVacancysStatusesParam,
                     "interviewCreatorIds": $scope.choosenPersons,
                     "vacancyFields":$scope.checkListFields,
                     "customVacancyFields":$scope.checkCustomListFields,
-                    "withCandidates": $scope.withCandidates
+                    "withCandidates": $scope.withCandidates,
+                    "vacancyId": null,
+                    "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null
                 }, function (resp) {
                     if (resp.status == 'ok') {
                         var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
@@ -955,12 +955,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             });
         };
         $scope.popup();
-
-        // Vacancy.all(Vacancy.searchOptions(), function(response) {
-        //     $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
-        // });
-
-
 
         $scope.getCompanyParams = function(){
             Company.getParams(function(resp){
