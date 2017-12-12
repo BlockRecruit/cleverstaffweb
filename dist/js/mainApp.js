@@ -36079,6 +36079,20 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $("#descr").html(resp.object.descr);
                     $scope.vacancy = resp.object;
                     $rootScope.vacancy = resp.object;
+                    if($scope.vacancy != undefined){
+                        $rootScope.promoLogo = $scope.vacancy.imageId;
+                        if($rootScope.promoLogo != undefined){
+                            $rootScope.promoLogoLink = $location.$$protocol + "://" + $location.$$host + $scope.serverAddress + "/getlogo?id=" + $rootScope.promoLogo + "&d=true";
+                            console.log($rootScope.promoLogoLink);
+                        }else{
+                            $rootScope.promoLogoLink = "https://cleverstaff.net/images/sprite/vacancy-new.jpg";
+                        }
+                        if($scope.vacancy.imageId != undefined){
+                            $('#owner_photo_wrap').css('width', '13%');
+                        }else{
+                            $('#owner_photo_wrap').css('width', '100%');
+                        }
+                    }
                     $scope.statusForChange = $scope.vacancy.status;
                     if($scope.urlTaskId) {
                         $scope.VacanciesInfCandidTaskHistClientFunc('task');
@@ -37305,7 +37319,19 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.statusAssoc = Vacancy.getStatusAssociated();
         $rootScope.statusInter = Vacancy.getInterviewStatus();
 
-
+        $scope.callbackAddPromoLogo = function(photo) {
+            if(photo != undefined){
+                $('#owner_photo_wrap').css('width', '13%');
+                $rootScope.promoLogo = photo;
+                if($rootScope.promoLogo != undefined){
+                    $rootScope.promoLogoLink = $location.$$protocol + "://" + $location.$$host + $scope.serverAddress + "/getlogo?id=" + $rootScope.promoLogo + "&d=true";
+                }else{
+                    $rootScope.promoLogoLink = "https://cleverstaff.net/images/sprite/vacancy-new.jpg";
+                }
+            }else{
+                $('#owner_photo_wrap').css('width', '100%');
+            }
+        };
         $scope.numberOfCandidatesInDifferentStates = function () {
             var totalCount = 0;
             Vacancy.getCounts({
