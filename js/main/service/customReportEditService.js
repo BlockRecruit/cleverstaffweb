@@ -323,6 +323,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             this.data.interviewStatuses   = filterSelectedItems(this.selectStages, 'interviewStatuses');
             this.data.vacancyFields       = filterSelectedItems(this.fieldsList, 'vacancyFields');
             this.data.сustomVacancyFields = filterSelectedItems(this.fieldsList, 'сustomVacancyFields');
+            this.data.vacancyIds          = this.fieldsVacancyList.filter(item => item.visible).map(item => item.vacancyId);
         }
 
         function filterSelectedItems(data, type) {
@@ -368,6 +369,19 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             this.change = change;
         }
 
+        function checkPropertiesListVacancies(fieldsVacancyList, responseData) {
+            let data, index;
+
+            responseData.forEach(item => {
+                index = fieldsVacancyList.indexOf(item.vacancyId);
+                if(index !== -1){
+                    item.visible = true;
+                }
+            });
+
+            return responseData;
+        }
+
         resetDefaultData();
 
         singleton.showOrHideCandidates = function () {
@@ -407,7 +421,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                      })
                     .then(resp => Vacancy.getAllVacansies())
                     .then(resp => {
-                        this.fieldsVacancyList = resp.objects;
+                        this.fieldsVacancyList = checkPropertiesListVacancies(this.data.vacancyIds, resp.objects)
                         $rootScope.loading = false;
                         $scope.$apply();
                     });
@@ -493,6 +507,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                 "to": this.data.dateTo,
                 "types": null,
                 "vacancyId": null,
+                "vacancyIds": this.data.vacancyIds,
                 "vacancyStatuses": this.data.vacancyStatuses,
                 "interviewStatuses": this.data.interviewStatuses,
                 "interviewCreatorIds": this.data.interviewCreatorIds,

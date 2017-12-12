@@ -70,8 +70,9 @@
                             </span>
                         </h4>
                         <div class="fields-list clearfix">
+                            <!--{{editReport.fieldsVacancyList }}-->
                             <ul class="fields-list-row col-lg-6 clearfix">
-                                <li ng-repeat="vacancy in editReport.selectVacancy track by $index" class="col-md-15 col-xs-3 ">
+                                <li ng-repeat="vacancy in editReport.fieldsVacancyList track by $index" ng-show="vacancy.visible" class="col-md-15 col-xs-3 ">
                                     <span>{{vacancy.position |translate}}</span>
                                 </li>
                             </ul>
@@ -80,9 +81,10 @@
                             <div class="enter-job-title">{{"enter job title"|translate}}</div>
                             <div><input type="text" ng-init="editReport.query=''" ng-model="editReport.query"></div>
                             <ul class="fields-list-row clearfix col-lg-12">
-                                <li ng-repeat="field in editReport.fieldsVacancyList | filter: editReport.filterVacancy track by $index"  ng-click="editReport.selectedVacancy(field, $event)">
+                                <li ng-repeat="field in editReport.fieldsVacancyList | filter: editReport.filterVacancy track by $index"
+                                    ng-click="editReport.selectValueVacancyFields(field, $event)">
                                     <button class="ui icon button">
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': (field.visiable == true)}"> </i>
+                                        <i class="fa fa-check-square" ng-class="{'checkmark': (field.visible == true)}"> </i>
                                     </button>
                                     <span>{{field.position |translate}}</span>
                                 </li>

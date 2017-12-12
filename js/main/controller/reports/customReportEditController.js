@@ -4,22 +4,11 @@
                        $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, CustomReportEditService, $uibModal) {
     try {
         let filterVacancy = (vacancy) => {
-            let statuses = this.data.vacancyStatuses, index = vacancy.position.toLocaleLowerCase().indexOf(this.query.toLocaleLowerCase());
+            let statuses = this.data.vacancyStatuses,
+                index = vacancy.position.toLocaleLowerCase().indexOf(this.query.toLocaleLowerCase());
 
             if(index !== -1 && statuses.some(item => item == vacancy.status)){
                 return vacancy;
-            }
-        };
-
-        let selectedVacancy = (vacancyID) => {
-            let data =  this.selectVacancy, index = data.indexOf(vacancyID);
-
-            if(index !== -1){
-                vacancyID.visiable = false;
-                data.splice(index, 1);
-            }else{
-                vacancyID.visiable = true;
-                data.push(vacancyID);
             }
         };
 
@@ -43,9 +32,6 @@
         this.saveCustomReport           = CustomReportEditService.saveCustomReport;
         this.showOrHideCandidates       = CustomReportEditService.showOrHideCandidates;
         this.filterVacancy              = filterVacancy;
-        this.selectedVacancy            = selectedVacancy;
-
-        console.log(this.data, 'editReport.data')
     }catch(error){
         console.log(error, 'error')
     }
