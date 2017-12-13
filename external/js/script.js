@@ -1041,6 +1041,7 @@ $(document).ready(function () {
         }
         return false;
     });
+
     var ua = navigator.userAgent;
     var msie = ua.indexOf("MSIE ");
     var edge = ua.indexOf("Edge");
