@@ -14,7 +14,6 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
         $scope.outHover = function(){
             $scope.showHover = false;
         };
-
         $scope.getTestFunc = function () {
             Test.openTest({
                 appointmentId: $routeParams.id
@@ -45,7 +44,12 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                     $rootScope.title = resp.object.testName;
                     $scope.companyName = resp.companyName;
                     $scope.getTestCandidate = resp.object;
+                    //setTimeout(function(){
+                    //
+                    //}, 270);
                     $scope.currentLang = $translate.use();
+                    console.log($scope.currentLang);
+                    console.log(navigator);
                     if($scope.getTestCandidate.timeLimit == '3600' || $scope.getTestCandidate.timeLimit == '7200' || $scope.getTestCandidate.timeLimit == '10800' || $scope.getTestCandidate.timeLimit == '14400' || $scope.getTestCandidate.timeLimit == '18000' || $scope.getTestCandidate.timeLimit == '21600' || $scope.getTestCandidate.timeLimit == '25200' || $scope.getTestCandidate.timeLimit == '28800'|| $scope.getTestCandidate.timeLimit == '32400' || $scope.getTestCandidate.timeLimit == '36000' || $scope.getTestCandidate.timeLimit == '39600' || $scope.getTestCandidate.timeLimit == '43200' || $scope.getTestCandidate.timeLimit == '46800' || $scope.getTestCandidate.timeLimit == '54000' || $scope.getTestCandidate.timeLimit == '57600' || $scope.getTestCandidate.timeLimit == '61200' || $scope.getTestCandidate.timeLimit == '64800' || $scope.getTestCandidate.timeLimit == '68400' || $scope.getTestCandidate.timeLimit == '72000' || $scope.getTestCandidate.timeLimit == '75600' || $scope.getTestCandidate.timeLimit == '79200' || $scope.getTestCandidate.timeLimit == '82800' || $scope.getTestCandidate.timeLimit == '86400'){
                         $('.min').hide();
                         $('.allTime').hide();
