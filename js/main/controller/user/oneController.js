@@ -203,7 +203,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                                 if($scope.newRole == resp.object.recrutRole) {
                                     $scope.user.recrutRole = $scope.newRole;
                                     var roleName = $scope.newRole == 'salesmanager' ? "Sales Manager" : $scope.newRole == 'admin' ? "Admin" : $scope.newRole == 'client' ? "Hiring Manager" : $scope.newRole == 'freelancer' ? "Freelancer" : "Recruiter";
-                                    var message = $filter('translate')("You has granted") + " " + roleName + " " + $filter('translate')('role to') + " " + $scope.user.firstName;
+                                    var message = $filter('translate')("You has granted role") + " " + roleName + " " + $filter('translate')('_for') + " " + $scope.user.firstName;
                                     $rootScope.updateMe();
                                     notificationService.success(message);
                                     $scope.getLastEvent();
