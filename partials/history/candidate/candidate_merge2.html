@@ -9,12 +9,17 @@
 </div>
 <div class="col-lg-10">
     {{'history_info.merged with'|translate}}
-    <a href="#/candidates/{{history.candidate.localId}}">
+    <a href="#/candidates/{{history.descr}}">
         {{'first'|translate}}
     </a>
     {{'history_info.merged_save'|translate}}
-    <a href="#/candidates/{{history.descr}}">
+    <a href="#/candidates/{{history.candidate.localId}}">
         <span>{{'second'|translate}}</span>
     </a>
     {{'history_info.merged_delete'|translate}}
+    <br>
+    {{'history_info.changed_the_status'|translate}}
+    <span class="status {{history.stateNew}}">
+        {{history.stateNew | translate}}
+    </span>
 </div>
