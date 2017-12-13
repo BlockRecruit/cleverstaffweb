@@ -21,7 +21,7 @@ var app = angular.module('RecruitingAppStart', [
     'ngAnimate'
 ]).constant('serverAddress', '/hr').config(['$routeProvider', 'ngMetaProvider', '$locationProvider', function($routeProvider, ngMetaProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
-    //$locationProvider.hashPrefix('/');
+    //$locationProvider.hashPrefix('i');
     //inject(function($location) {
     //    console.log($location);
     //});
@@ -119,7 +119,6 @@ var app = angular.module('RecruitingAppStart', [
         //$rootScope.title = current.$$route.title + " CleverStaff";
         $rootScope.activeController = current.$$route.controller;
     });
-    console.log($location);
     ngMeta.init();
 }]);
 

@@ -853,9 +853,34 @@ controller.controller('mainController' ,function($scope, $location, $window) {
         var lST = userLang.substring(0, 2);
     })
     .controller('PublicVacancyController', ["$rootScope", "$scope", "$filter", "$location", "$routeParams", "$sce" , "$translate", "Service",
-                "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal" , "ngMeta", "$http",
+                "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal", "$http",
       function($rootScope, $scope, $filter, $location, $routeParams, $sce , $translate, Service,
-               notificationService, FileInit, serverAddress, $window, Company, $uibModal, ngMeta, $http) {
+               notificationService, FileInit, serverAddress, $window, Company, $uibModal, $http) {
+          setTimeout(function(){
+              $http.get('hr/public/getCrawlerVacancy/' + $location.$$host + '/' + $scope.vacancy.localId).then(function (val) {
+                  //console.log(val);
+                  if (angular.equals(val.statusText, "OK")) {
+                      $('head').append(val.data);
+                      notificationService.success($filter('translate')('You successfully merged candidates’ profiles'));
+                  } else {
+
+                  }
+              }, function (error) {
+                  notificationService.error(error.message);
+              });
+          }, 1000);
+          console.log($location);
+          console.log($location.$$path);
+          console.log($window.location);
+          console.log($window.location.pathname);
+          //if (performance.navigation.type == 1) {
+          //    console.log('hellllllllllllllllllllllllllllllllll');
+              //setTimeout(function(){
+              //    $window.location = window.location.href;
+              //
+              //}, 500);
+              //history.pushState("", "", $window.location.href);
+          //}
           //Service
           //window.onpopstate = function(event) {
           //    console.log(event);
@@ -863,7 +888,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
           //    alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
           //};
           //window.location($window.location.href);
-          //var ret = $window.location.href.replace('/i#/','');
+          //var ret = $window.location.href.replace('/i#','');
           //console.log(ret);
           //$window.location = ret;
           //console.log($window.location);
@@ -871,12 +896,12 @@ controller.controller('mainController' ,function($scope, $location, $window) {
           $scope.modalInstance.close();
         };
 
-        if($location.$$absUrl.indexOf('/pv/') >= 0){
-            var string = $location.$$path;
-            string = string.replace("/pv/", "vacancy-");
-            console.log(string);
-            $window.location.replace('/i#/' + string);
-        }
+        //if($location.$$absUrl.indexOf('/pv/') >= 0){
+        //    var string = $location.$$path;
+        //    string = string.replace("/pv/", "vacancy-");
+        //    console.log(string);
+        //    $window.location.replace('/i#/' + string);
+        //}
         $("#signUpButtonDiv").hide();
         $("#signInButtonDiv").hide();
         $scope.message = 'def';
@@ -1259,21 +1284,6 @@ controller.controller('mainController' ,function($scope, $location, $window) {
         //    }, 0)
         //};
         //$window.addEventListener("hashchange", myFunction)
-          setTimeout(function(){
-              $http.get('hr/public/getCrawlerVacancy/' + 'mars.cleverstaff.net' + '/' + $scope.vacancy.localId).then(function (val) {
-                  console.log(val);
-                  if (angular.equals(val.statusText, "OK")) {
-                      $('head').append(val.data);
-                      //console.log(val.data);
-                      notificationService.success($filter('translate')('You successfully merged candidates’ profiles'));
-                  } else {
-
-                  }
-              }, function (error) {
-                  notificationService.error(error.message);
-              });
-          }, 1000);
-
     }])
     .controller('PublicVacancyAddController', function($rootScope, $scope, $filter, $location, $translate, Service, notificationService) {
         $rootScope.hasJS = true;
