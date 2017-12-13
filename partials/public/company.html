@@ -52,7 +52,7 @@
         <div class="col-xs-12">
             <div class="vacancies" ng-show="orgParams.size > 0">
                 <div class="vacancy" ng-repeat="publicVacancy in orgParams.objects">
-                    <a ng-href="{{$location.$$host}}/vacancy-{{publicVacancy.localId}}">
+                    <a ng-href="{{$location.$$host}}/i#/vacancy-{{publicVacancy.localId}}">
 
                         <div class="col-xs-12 col-sm-4 vacancy__name--wrap">
                             <span class="vacancy__name" ng-show="publicVacancy.position">{{publicVacancy.position}}</span>
