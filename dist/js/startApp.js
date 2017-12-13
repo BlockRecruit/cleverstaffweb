@@ -20,7 +20,7 @@ var app = angular.module('RecruitingAppStart', [
     'ui.bootstrap',
     'ngAnimate'
 ]).constant('serverAddress', '/hr').config(['$routeProvider', 'ngMetaProvider', '$locationProvider', function($routeProvider, ngMetaProvider, $locationProvider) {
-    //$locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(true);
     //$locationProvider.hashPrefix('/');
     //inject(function($location) {
     //    console.log($location);
@@ -1388,11 +1388,12 @@ controller.controller('mainController' ,function($scope, $location, $window) {
         //};
         //$window.addEventListener("hashchange", myFunction)
           setTimeout(function(){
-              $http.get('/public/getCrawlerVacancy/' + 'old.cleverstaff.net' + '/' + $scope.vacancy.localId).then(function (val) {
+              $http.get('hr/public/getCrawlerVacancy/' + 'mars.cleverstaff.net' + '/' + $scope.vacancy.localId).then(function (val) {
                   console.log(val);
-                  if (angular.equals(val.data.status, "ok")) {
+                  if (angular.equals(val.statusText, "OK")) {
+                      $('head').append(val.data);
+                      //console.log(val.data);
                       notificationService.success($filter('translate')('You successfully merged candidates’ profiles'));
-
                   } else {
 
                   }
