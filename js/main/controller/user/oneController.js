@@ -184,6 +184,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             Person.setLang({lang: key});
         };
         $scope.saveNewRole = function(val,confirmed) {
+            console.log($scope.user.recrutRole, '$scope.user.recrutRole')
             if ((val !== undefined && val !== $scope.user.recrutRole && val != 'client') || (val == 'client' && confirmed) || (val != 'client')) {
                     $rootScope.loading = true;
                     $scope.newRole = val;
