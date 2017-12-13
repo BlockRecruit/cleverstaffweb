@@ -202,7 +202,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                                 $rootScope.loading = false;
                                 if($scope.newRole == resp.object.recrutRole) {
                                     $scope.user.recrutRole = $scope.newRole;
-                                    var roleName = $scope.newRole == 'salesmanager' ? "Sales Manager" : $scope.newRole == 'admin' ? "Admin" : $scope.newRole == 'client' ? "Hiring Manager" : $scope.newRole == 'freelancer' ? "Freelancer" : "Recruiter";
+                                    var roleName = $scope.newRole == 'salesmanager' ? "Sales Manager" : $scope.newRole == 'admin' ? "Admin" : $scope.newRole == 'client' ? "Hiring Manager" : $scope.newRole == 'freelancer' ? "Freelancer" : $scope.newRole == 'recruter' ? 'Recruter' : $scope.newRole  == 'researcher'? 'Researcher': 'Researcher';
                                     var message = $filter('translate')("You has granted role") + " " + roleName + " " + $filter('translate')('_for') + " " + $scope.user.firstName;
                                     $rootScope.updateMe();
                                     notificationService.success(message);
