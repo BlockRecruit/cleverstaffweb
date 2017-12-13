@@ -190,8 +190,9 @@
 	.candidates-statuses {
 		@include bt-margins-from-side;
 		.statuses {
-			margin-top: 20px;
-			padding: 0 15px;
+			margin-top: 15px;
+			padding: 0;
+			padding-left: 15px;
 			& p.margin-top {
 				margin-top: 20px;
 			}
@@ -429,8 +430,9 @@
 			}
 		}
 		.candidates-search-table {
+			margin-top: 15px;
 			.breadcrumbs {
-				margin-top: 20px;
+				margin-top: 0;
 				& > .breadcrumb {
 					padding: 0;
 					& > li {
@@ -486,7 +488,7 @@
 			}
 			& > .criterionSearchCandidate {
 				margin-top: 15px;
-				padding-left: 6px;
+				padding-left: 0;
 				div {
 					@include bold();
 
@@ -520,6 +522,7 @@
 						display: inline-block;
 						margin-bottom: 5px;
 						padding: 2px 6px;
+						padding-left: 0;
 
 						background-color: #f5f5f5;
 						box-shadow: 0 0 1px 1px $theme-light-grey-hover;
@@ -622,6 +625,7 @@
 			}
 			.addCandidatesInVacancy {
 				margin-bottom: 15px;
+				padding-left: 4px;
 				.addTagsCandidateForMass {
 					max-width: 280px;
 					margin: -5px 0 0 0;

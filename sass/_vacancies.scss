@@ -1,5 +1,5 @@
 .block-vacancies {
-	margin-top: 20px;
+	margin-top: 15px;
 	#scrollup {
 		display: none;
 	}
@@ -174,6 +174,7 @@
 	}
 	.criterionSearchCandidate {
 		margin: 15px 0;
+		padding-left: 0;
 	}
 	.count {
 		font-weight: 500;
@@ -191,6 +192,9 @@
 	}
 	.vacancy-table {
 		margin-top: 15px;
+		& > .row {
+			padding: 0;
+		}
 		.col-lg-12 {
 			padding: 0;
 			table {
