@@ -415,7 +415,7 @@
                 <div class="clearfix"></div>
                 <div class="sortableOptions">
                     <div>
-                        <div ng-click="showRecalls(recallsStage[0])" class="status">
+                        <div ng-click="showRecalls(recallsStage[0])" ng-show="$root.me.recrutRole !== 'researcher'" class="status">
                             <a href="">{{'recalls'|translate}}</a>
                             <span class="counter">
                              <span ng-show="(recalls | filter:{'status':'reviewed'}).length > 0">{{(recalls|filter:{'status':'reviewed'}).length}}</span>
@@ -894,11 +894,11 @@
                 </a>
             </div>
         </div>
-        <div class="not-access pull-left col-lg-9 clearfix"  ng-if="noAccess && $root.me.recrutRole === 'client' && !visiable">
+        <div class="not-access pull-left col-lg-9 clearfix"   ng-show="noAccess && $root.me.recrutRole === 'client' && !visiable">
             {{"You have no access to candidate list on this stage. Please contact the user with an Admin role to access the candidate list."|translate}}
         </div>
 
-        <div class="not-access col-lg-9 clearfix" ng-if="visiable && $root.me.recrutRole === 'client'">
+        <div class="not-access col-lg-9 clearfix" ng-show="visiable && $root.me.recrutRole === 'client'">
             {{"You have no access to candidate list on this stage. Please contact the user with an Admin role to access the candidate list."|translate}}
         </div>
     </div>
