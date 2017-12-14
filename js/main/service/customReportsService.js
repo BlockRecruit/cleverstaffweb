@@ -122,6 +122,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
         }
 
         function requestWithOrWithoutCandidates($scope) {
+            console.log(this.dataReport, 'this.dataReport');
             let withCandidates = this.dataReport["withCandidates"];
             (withCandidates)? requestWithCandidates.call(this, $scope) : requestWithoutCandidates.call(this, $scope);
         }
@@ -132,14 +133,13 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 "to": this.dataReport['dateTo'],
                 "types":null,
                 "vacancyId":null,
-                "vacancyIds":(this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"] : null,
+                "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"] : null,
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
                 "interviewStatuses": this.dataReport["interviewStatuses"],
                 "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
                 "vacancyFields": this.dataReport["vacancyFields"],
                 "withCandidates":this.dataReport["withCandidates"]
             }, false)
-
                 .then((resp) => {
                     resetDefaultData();
                     _showReportWithCandidates.call(this, resp);
@@ -149,11 +149,11 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithoutCandidates($scope) {
             Promise.all([Stat.requestGetActualVacancyStatistic2({
-                "from": this.dataReport['dateFrom'],
-                "to": this.dataReport['dateTo'],
+                "from": (this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'],
+                "to": (this.endDate)? this.endDate : this.dataReport['dateTo'],
                 "types":null,
                 "vacancyId":null,
-                "vacancyIds":(this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:null,
+                "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:null,
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
                 "interviewStatuses": this.dataReport["interviewStatuses"],
                 "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
@@ -250,7 +250,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             var now = Date.now();
                 now += (2592000000 * 2);
 
-            $(".startDate").datetimepicker({
+            $("#startDate").datetimepicker({
                 format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
                 startView: 4,
                 minView: 2,
@@ -260,7 +260,6 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 endDate: new Date(now)
             }).on('changeDate', (data) => {
                 this.startVacancyDate = data.date.getTime();
-
                 if(this.startVacancyDate > new Date()){
                     this.timeMaxZone = true;
                 }else{ this.timeMaxZone = false;}
@@ -274,7 +273,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             })
               .on('hide', () => ($('.startDate').val() == "")? this.startVacancyDate = null : false);
 
-            $(".endDate").datetimepicker({
+            $("#endDate").datetimepicker({
                 format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
                 startView: 4,
                 minView: 2,
@@ -287,7 +286,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 if(this.endDate > new Date()){
                     this.timeMaxZone = true;
                 }else{ this.timeMaxZone = false;}
-
+                console.log(dataReport,'dataReport)');
                 (this.data)? this.data.dateTo = this.endDate : null;
 
                 setTimeout(() => {
@@ -315,6 +314,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                     "to": this.dataReport['dateTo'],
                     "types":null,
                     "vacancyId":null,
+                    "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:null,
                     "vacancyStatuses": this.dataReport["vacancyStatuses"],
                     "interviewStatuses": this.dataReport["interviewStatuses"],
                     "interviewCreatorIds": this.dataReport["interviewCreatorIds"],

@@ -12,7 +12,7 @@
                ng-click="editReport.remove(editReport.data.customVacancyReportId, this)"></a>
             <a class="btn save"
                ng-click="editReport.saveCustomReport(this)"
-               ng-show="!editReport.change"
+               ng-show="!editReport.change && !editReport.timeMaxZone && !editReport.timeMaxZone2"
                ng-bind="'save'|translate"></a>
         </div>
     </header>
@@ -289,20 +289,20 @@
                 </div>
                 <div class="wrapper-for-padding-right col-lg-6 col-md-12">
                     <div class="form">
-                        <div class="two fields">
+                        <div class="two fields" style="margin-bottom: 16px;">
                             <div class="field pull-left">
                                 <span class="pull-left">{{'Date' | translate}}:</span>
                                 <label class="pull-left">{{'from3'|translate}}</label>
-                                <input placeholder="{{'from3'|translate}}" class="startDate pull-left" type="text">
+                                <input placeholder="{{'from3'|translate}}" id="startDate" class="startDate pull-left" type="text">
                             </div>
                             <div class="field pull-left" style="margin-left: 8px;">
                                 <label class="pull-left">{{'to1'|translate}}</label>
-                                <input placeholder="{{'to1'|translate}}" class="endDate pull-left" type="text">
+                                <input placeholder="{{'to1'|translate}}" id="endDate" class="endDate pull-left" type="text">
                             </div>
                             <i class="fa fa-info-circle info" ng-mouseover="editReport.inHover($event)" ng-mouseleave="editReport.outHover($event)"></i>
                             <div class="info-content"><p>{{"This filter 'by date' in the report shows the last date when a candidate was moved to a new vacancy stage." | translate}}</p><p>{{"The filter is not applied for dates of vacancy creation and date when a candidate was added to a vacancy." | translate}}</p></div>
                         </div>
-                        <div class="alert alert-danger" ng-show="editReport.timeMaxZone || editReport.timeMaxZone2">{{"The selected date can not be more than the current date."|translate}}</div>
+                        <div class="alert alert-danger" style="margin: 0px;" ng-show="editReport.timeMaxZone || editReport.timeMaxZone2">{{"The selected date can not be more than the current date."|translate}}</div>
                     </div>
                 </div>
             </section>
@@ -332,7 +332,7 @@
                ng-bind="'Delete Report'|translate"></a>
             <a class="btn save"
                ng-click="editReport.saveCustomReport(this)"
-               ng-show="!editReport.change"
+               ng-show="!editReport.change && !editReport.timeMaxZone && !editReport.timeMaxZone2"
                ng-bind="'save'|translate"></a>
         </div>
     </footer>
