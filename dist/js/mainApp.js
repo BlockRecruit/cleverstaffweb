@@ -4800,12 +4800,12 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             }
         };
     }])
-    .filter('dateFormat6', ["$filter", "$translate", function ($filter, $translate) {
+    .filter('dateFormat6', ["$filter", "$translate",'$rootScope' , function ($filter, $translate, $rootScope) {
         return function (date, withHour) {
             var hour = "";
             var dateToday = new Date().getTime();
             var dateTomorrow = new Date().setDate(new Date().getDate() + 1);
-            var lang = $translate.use();
+            var lang = $translate.use() || $rootScope.currentLang || 'ru';
             var dateMD = "";
             var dateMDY = "";
             if (lang == 'ru' || lang == 'ua') {
@@ -4826,7 +4826,7 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                 if (angular.equals($filter('date')(dateToday, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
                     var res = $filter("translate")("today");
                     if (withHour) {
-                        res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour)
+                        res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour);
                     }
                     return res;
                 } else if (angular.equals($filter('date')(dateTomorrow, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
@@ -27946,7 +27946,7 @@ controller.controller('FeedbackController',["$localStorage", "serverAddress", "$
         });
     }]);
 
-function navBarController(Vacancy, serverAddress, notificationService, $scope, tmhDynamicLocale, $http, Person, $rootScope, Service,
+function navBarController($q, Vacancy, serverAddress, notificationService, $scope, tmhDynamicLocale, $http, Person, $rootScope, Service,
                           $route, $window, $location, $filter, $sce, $cookies, localStorageService, $localStorage, $timeout, CheckAccess,
                           frontMode, $translate, Client, ScopeService, googleService, Company, $uibModal, Notice, Pay, News, TooltipService, Account) {
     $scope.onlyMe = null;
@@ -28618,19 +28618,44 @@ function navBarController(Vacancy, serverAddress, notificationService, $scope, t
 
                 if($rootScope.modalInstance){
                     $rootScope.modalInstance.closed.then(function(){
-                        switchToBilling()
+                        switchToBilling().then((result) => {
+                            increasedPrice();
+                        })
                     });
                 }else{
-                    switchToBilling();
+                    switchToBilling().then((result) => {
+                        increasedPrice();
+                    });
                 }
 
                 function switchToBilling(){
-                    if (response["object"]["orgParams"]["switch2billing"] === "must" && response["object"]["recrutRole"] === "admin") {
+                    return $q((resolve, reject) => {
+                        if (response["object"]["orgParams"]["switch2billing"] === "must" && response["object"]["recrutRole"] === "admin") {
+                            $rootScope.modalInstance = $uibModal.open({
+                                animation: true,
+                                templateUrl: '../partials/modal/change-payment-model.html',
+                                controller: 'payWay4PayController',
+                                backdrop: 'static',
+                            });
+                            if($rootScope.modalInstance){
+                                $rootScope.modalInstance.closed.then(function(){
+                                    resolve('switchToBilling === must');
+                                });
+                            }
+                        } else {
+                            resolve('switchToBilling !== must');
+                        }
+                    });
+                }
+
+                function increasedPrice() {
+                    if(response["object"]["orgParams"]["increasePrices"] === "must") {
                         $rootScope.modalInstance = $uibModal.open({
                             animation: true,
-                            templateUrl: '../partials/modal/change-payment-model.html',
+                            templateUrl: '../partials/modal/price-change.html',
                             controller: 'payWay4PayController',
-                            backdrop: 'static',
+                            scope: $scope,
+                            backdrop: 'static'
                         });
                     }
                 }
@@ -29372,7 +29397,7 @@ function navBarController(Vacancy, serverAddress, notificationService, $scope, t
     //        //$scope.statustext = response.statustext;
     //    });
 }
-controller.controller('NavbarController', ["Vacancy", "serverAddress", "notificationService", "$scope", "tmhDynamicLocale", "$http", "Person", "$rootScope",
+controller.controller('NavbarController', ["$q", "Vacancy", "serverAddress", "notificationService", "$scope", "tmhDynamicLocale", "$http", "Person", "$rootScope",
     "Service", "$route", "$window", "$location", "$filter", "$sce", "$cookies", "localStorageService", "$localStorage", "$timeout", "CheckAccess", "frontMode",
     "$translate", "Client", 'ScopeService', 'googleService', 'Company', '$uibModal', 'Notice', 'Pay', 'News', 'TooltipService', 'Account', navBarController]);
 controller.controller('NotificationController',["$rootScope", "$scope", "$filter", "$uibModal", "Person", "notificationService", "Statistic",
@@ -31374,6 +31399,38 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
                     $rootScope.modalInstance = undefined;
                 }
             });
+
+        };
+
+
+        $scope.acceptChangesPrice = function (choice) {
+
+            if(choice) {
+                Company.setParam({
+                    name:"increasePrices",
+                    value:"Y"
+
+                }, function (resp) {
+
+                    if(resp.status == "ok"){
+                        $rootScope.closeModal();
+                        $rootScope.modalInstance = undefined;
+                    }
+                });
+            } else {
+                Company.setParam({
+                    name:"increasePrices",
+                    value:"Y"
+
+                }, function (resp) {
+
+                    if(resp.status == "ok"){
+                        $rootScope.closeModal();
+                        $rootScope.modalInstance = undefined;
+                        $location.path('/pay')
+                    }
+                });
+            }
 
         };
 
