@@ -795,7 +795,11 @@
 								margin-top: 10px;
 							}
 							.active {
+								border: none!important;
 								background-color: $theme-light-green-hover;
+								&:hover {
+									background-color: $theme-light-green-hover;
+								}
 							}
 							.error {
 								border: 1px solid $theme-red;
