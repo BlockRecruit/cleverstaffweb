@@ -28653,12 +28653,13 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         $rootScope.modalInstance = $uibModal.open({
                             animation: true,
                             templateUrl: '../partials/modal/price-change.html',
-                            controller: 'payWay4PayController',
                             scope: $scope,
                             backdrop: 'static'
                         });
                     }
                 }
+
+
 
                 $rootScope.differenceCreateOrgDate = differenceBetweenTwoDates(new Date(), $rootScope.me.org.dc);
                 $scope.scopeName = $filter('filter')($scope.orgs, $scope.orgId, "orgId")[0].orgName;
@@ -29307,6 +29308,38 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     };
     $scope.integrationEmailPromptHide = function(){
         $scope.showHoverEmailPrompt = false;
+    };
+
+
+    $scope.acceptChangesPrice = function (choice) {
+
+        if(choice) {
+            Company.setParam({
+                name:"increasePrices",
+                value:"Y"
+
+            }, function (resp) {
+
+                if(resp.status == "ok"){
+                    $rootScope.closeModal();
+                    $rootScope.modalInstance = undefined;
+                }
+            });
+        } else {
+            Company.setParam({
+                name:"increasePrices",
+                value:"Y"
+
+            }, function (resp) {
+
+                if(resp.status == "ok"){
+                    $rootScope.closeModal();
+                    $rootScope.modalInstance = undefined;
+                    $location.path('/pay')
+                }
+            });
+        }
+
     };
 
 
@@ -31399,38 +31432,6 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
                     $rootScope.modalInstance = undefined;
                 }
             });
-
-        };
-
-
-        $scope.acceptChangesPrice = function (choice) {
-
-            if(choice) {
-                Company.setParam({
-                    name:"increasePrices",
-                    value:"Y"
-
-                }, function (resp) {
-
-                    if(resp.status == "ok"){
-                        $rootScope.closeModal();
-                        $rootScope.modalInstance = undefined;
-                    }
-                });
-            } else {
-                Company.setParam({
-                    name:"increasePrices",
-                    value:"Y"
-
-                }, function (resp) {
-
-                    if(resp.status == "ok"){
-                        $rootScope.closeModal();
-                        $rootScope.modalInstance = undefined;
-                        $location.path('/pay')
-                    }
-                });
-            }
 
         };
 

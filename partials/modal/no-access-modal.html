@@ -6,7 +6,8 @@
             <input class="form-control" type="password" name="pass" ng-model="$root.loginForm.password" placeholder="{{'password' | translate}}">
             <p class="mistake text-center" ng-if="$root.errorSignin">{{::$root.errorSignin}}</p>
             <input type="submit" name="login" class="login loginmodal-submit" ng-click="$root.login()" value="{{'login' | translate}}">
-            <p class="socials">{{'Sign in via' | translate}} <span class="google-icon" ng-click="$root.loginSocial('google')"></span><span class="fb-icon" ng-click="$root.loginSocial('fb')"></span></p>
+            <p class="socials">{{'Sign in via' | translate}} </p>
+            <p class="socials"><span class="google-icon" ng-click="$root.loginSocial('google')">Google</span><span class="fb-icon" ng-click="$root.loginSocial('fb')"><i class="fa fa-facebook-official" aria-hidden="true"></i>Facebook</span></p>
         </form>
     </div>
 </div>
