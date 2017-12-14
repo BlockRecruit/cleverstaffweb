@@ -28,11 +28,11 @@
                    ng-model="request.phone"
                    id="phone" name="phone"
                    required>
-            <div class="recallForm__error margin-right text-left"
+            <div class="recallForm__error margin-right text-center"
                  ng-class="{'ru-text-width': localStorage.getItem('NG_TRANSLATE_LANG_KEY') == 'ru'}">
                 <span ng-show="recallForm.email2.$invalid && !recallForm.email2.$pristine || showErrorEmailMessage">{{'wrong_email'|translate}}</span>
             </div>
-            <div class="recallForm__error text-left"
+            <div class="recallForm__error text-center"
                  ng-class="{'margin-left': !recallForm.email2.$invalid && recallForm.email2.$pristine || !showErrorEmailMessage}">
                 <span ng-show="recallForm.phone.$invalid && !recallForm.phone.$pristine || showErrorPhoneMessage">{{'Incorrect phone number'|translate}}</span>
             </div>

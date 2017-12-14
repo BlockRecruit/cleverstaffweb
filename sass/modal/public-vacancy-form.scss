@@ -101,7 +101,7 @@
 	}
 }
 
-@media (max-width: 499px) {
+@media (max-width: 600px) {
 	.public-vacancy-form .recallForm input,
 	.public-vacancy-form .recallForm textarea {
 		min-width: 100%;
@@ -109,7 +109,7 @@
 	.public-vacancy-form .recallForm .recallForm__error {
 		width: 100%;
 
-		text-align: left;
+		text-align: center;
 	}
 	.btn-modern {
 		display: block;
