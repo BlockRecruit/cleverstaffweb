@@ -711,8 +711,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         $rootScope.modalInstance = $uibModal.open({
                             animation: true,
                             templateUrl: '../partials/modal/price-change.html',
+<<<<<<< HEAD
                             controller: 'payWay4PayController',
 >>>>>>> -> qa
+=======
+>>>>>>> login button added, fixes
                             scope: $scope,
                             backdrop: 'static'
                         });
