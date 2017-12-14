@@ -21,7 +21,7 @@ var app = angular.module('RecruitingAppStart', [
     'ngAnimate'
 ]).constant('serverAddress', '/hr').config(['$routeProvider', 'ngMetaProvider', '$locationProvider', function($routeProvider, ngMetaProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
-    //$locationProvider.hashPrefix('i');
+    //$locationProvider.hashPrefix('');
     //inject(function($location) {
     //    console.log($location);
     //});
@@ -54,6 +54,8 @@ var app = angular.module('RecruitingAppStart', [
             templateUrl: 'partials/public/company.html',
             controller: 'PublicCompanyController',
             title: "Company |",
+            reloadOnSearch: false,
+            controllerAs: 'Public Company',
             meta: {
                 description: 'Vacancies in CleverStaff Recruitment Software'
             }
@@ -997,7 +999,6 @@ controller.controller('mainController' ,function($scope, $location, $window) {
           console.log($location);
           console.log($location.$$path);
           console.log($window.location);
-          console.log($window.location.pathname);
           //if (performance.navigation.type == 1) {
           //    console.log('hellllllllllllllllllllllllllllllllll');
               //setTimeout(function(){
@@ -1013,9 +1014,10 @@ controller.controller('mainController' ,function($scope, $location, $window) {
           //    alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
           //};
           //window.location($window.location.href);
-          //var ret = $window.location.href.replace('/i#','');
+          //var ret = $window.location.hash.replace('#','');
           //console.log(ret);
-          //$window.location = ret;
+          //console.log($window.location.protocol + '//' + $window.location.host + $window.location.pathname + ret);
+          //$window.location = $window.location.protocol + '//' + $window.location.host + $window.location.pathname + ret;
           //console.log($window.location);
         $rootScope.closeModal = function(){
           $scope.modalInstance.close();

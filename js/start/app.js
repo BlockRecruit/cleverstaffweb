@@ -20,8 +20,8 @@ var app = angular.module('RecruitingAppStart', [
     'ui.bootstrap',
     'ngAnimate'
 ]).constant('serverAddress', '/hr').config(['$routeProvider', 'ngMetaProvider', '$locationProvider', function($routeProvider, ngMetaProvider, $locationProvider) {
-    //$locationProvider.html5Mode(true);
-    //$locationProvider.hashPrefix('i');
+    $locationProvider.html5Mode(true);
+    //$locationProvider.hashPrefix('');
     //inject(function($location) {
     //    console.log($location);
     //});
@@ -54,6 +54,8 @@ var app = angular.module('RecruitingAppStart', [
             templateUrl: 'partials/public/company.html',
             controller: 'PublicCompanyController',
             title: "Company |",
+            reloadOnSearch: false,
+            controllerAs: 'Public Company',
             meta: {
                 description: 'Vacancies in CleverStaff Recruitment Software'
             }
