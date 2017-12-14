@@ -27941,7 +27941,7 @@ controller.controller('FeedbackController',["$localStorage", "serverAddress", "$
         });
     }]);
 
-function navBarController(Vacancy, serverAddress, notificationService, $scope, tmhDynamicLocale, $http, Person, $rootScope, Service,
+function navBarController($q, Vacancy, serverAddress, notificationService, $scope, tmhDynamicLocale, $http, Person, $rootScope, Service,
                           $route, $window, $location, $filter, $sce, $cookies, localStorageService, $localStorage, $timeout, CheckAccess,
                           frontMode, $translate, Client, ScopeService, googleService, Company, $uibModal, Notice, Pay, News, TooltipService, Account) {
     $scope.onlyMe = null;
@@ -28613,22 +28613,48 @@ function navBarController(Vacancy, serverAddress, notificationService, $scope, t
 
                 if($rootScope.modalInstance){
                     $rootScope.modalInstance.closed.then(function(){
-                        switchToBilling()
+                        switchToBilling().then((result) => {
+                            increasedPrice();
+                        })
                     });
                 }else{
-                    switchToBilling();
+                    switchToBilling().then((result) => {
+                        increasedPrice();
+                    });
                 }
 
                 function switchToBilling(){
-                    if (response["object"]["orgParams"]["switch2billing"] === "must" && response["object"]["recrutRole"] === "admin") {
+                    return $q((resolve, reject) => {
+                        if (response["object"]["orgParams"]["switch2billing"] === "must" && response["object"]["recrutRole"] === "admin") {
+                            $rootScope.modalInstance = $uibModal.open({
+                                animation: true,
+                                templateUrl: '../partials/modal/change-payment-model.html',
+                                controller: 'payWay4PayController',
+                                backdrop: 'static',
+                            });
+                            if($rootScope.modalInstance){
+                                $rootScope.modalInstance.closed.then(function(){
+                                    resolve('switchToBilling === must');
+                                });
+                            }
+                        } else {
+                            resolve('switchToBilling !== must');
+                        }
+                    });
+                }
+
+                function increasedPrice() {
+                    if(response["object"]["orgParams"]["increasePrices"] === "must" && response["object"]["recrutRole"] === "admin") {
                         $rootScope.modalInstance = $uibModal.open({
                             animation: true,
-                            templateUrl: '../partials/modal/change-payment-model.html',
-                            controller: 'payWay4PayController',
-                            backdrop: 'static',
+                            templateUrl: '../partials/modal/price-change.html',
+                            scope: $scope,
+                            backdrop: 'static'
                         });
                     }
                 }
+
+
 
                 $rootScope.differenceCreateOrgDate = differenceBetweenTwoDates(new Date(), $rootScope.me.org.dc);
                 $scope.scopeName = $filter('filter')($scope.orgs, $scope.orgId, "orgId")[0].orgName;
@@ -29280,6 +29306,38 @@ function navBarController(Vacancy, serverAddress, notificationService, $scope, t
     };
 
 
+    $scope.acceptChangesPrice = function (choice) {
+
+        if(choice) {
+            Company.setParam({
+                name:"increasePrices",
+                value:"Y"
+
+            }, function (resp) {
+
+                if(resp.status == "ok"){
+                    $rootScope.closeModal();
+                    $rootScope.modalInstance = undefined;
+                }
+            });
+        } else {
+            Company.setParam({
+                name:"increasePrices",
+                value:"Y"
+
+            }, function (resp) {
+
+                if(resp.status == "ok"){
+                    $rootScope.closeModal();
+                    $rootScope.modalInstance = undefined;
+                    $location.path('/pay')
+                }
+            });
+        }
+
+    };
+
+
     TooltipService.createTooltips();
 
     if($rootScope.modalInstance){
@@ -29367,7 +29425,7 @@ function navBarController(Vacancy, serverAddress, notificationService, $scope, t
     //        //$scope.statustext = response.statustext;
     //    });
 }
-controller.controller('NavbarController', ["Vacancy", "serverAddress", "notificationService", "$scope", "tmhDynamicLocale", "$http", "Person", "$rootScope",
+controller.controller('NavbarController', ["$q", "Vacancy", "serverAddress", "notificationService", "$scope", "tmhDynamicLocale", "$http", "Person", "$rootScope",
     "Service", "$route", "$window", "$location", "$filter", "$sce", "$cookies", "localStorageService", "$localStorage", "$timeout", "CheckAccess", "frontMode",
     "$translate", "Client", 'ScopeService', 'googleService', 'Company', '$uibModal', 'Notice', 'Pay', 'News', 'TooltipService', 'Account', navBarController]);
 controller.controller('NotificationController',["$rootScope", "$scope", "$filter", "$uibModal", "Person", "notificationService", "Statistic",
