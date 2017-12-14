@@ -205,6 +205,21 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             });
         }
 
+        function checkCountStatuses(data, property) {
+            angular.forEach(data, function (status) {
+                let search = false;
+
+                property.forEach((item) => {
+                    if(item.value == status.item){
+                        item['count'] = status['count'];
+                        search = true;
+                        return;
+                    }
+                });
+                if(!search)property.push({value:status.item, count:status.count});
+            });
+        }
+
         function concatStages(data){
             let mass = inVacancyStatuses.concat(data);
             isType(mass);
@@ -243,10 +258,9 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             let respData = item.object, allStages = [],
                 requestCountStages = data.filter(item => item.request === "stagesOrCount");
 
-
             if (item.request === 'statusesOrCount') {
+                checkCountStatuses(respData, vacancyStatuses);
                 checkProperty(singleton.editReport.vacancyStatuses, vacancyStatuses);
-                checkCount(respData, vacancyStatuses);
                 this.vacancyStatuses = vacancyStatuses;
             } else if (item.request === 'stageFull') {
                 allStages = respData.interviewStates.filter(item => item.status !== 'D');
@@ -314,6 +328,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                     selectPerson.push(i)
                 }
             }
+            console.log(this.vacancyStatuses, 'this.vacancyStatuses')
 
             this.data.interviewCreatorIds = selectPerson;
             this.data.withCandidates      = this.data.withCandidates;

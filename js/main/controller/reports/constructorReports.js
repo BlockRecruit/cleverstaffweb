@@ -419,12 +419,16 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                         var array = [];
                         $scope.totalVacancyStatusesCount = resp.object;
 
-                        angular.forEach($scope.totalVacancyStatusesCount, function (r) {
-                            angular.forEach($scope.vacancyStatuses, function (res) {
-                                if (res.value == r.item) {
-                                    res.count = r.count;
+                        angular.forEach($scope.totalVacancyStatusesCount, function (status) {
+                            let search = false;
+                            $scope.vacancyStatuses.forEach((item, index) => {
+                                if(item.value == status.item){
+                                    item['count'] = status['count'];
+                                    search = true;
+                                    return;
                                 }
                             });
+                            if(!search)$scope.vacancyStatuses.push({value:status.item, count:status.count});
                         });
 
                         if ($scope.firstTimeLoading == 1) {

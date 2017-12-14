@@ -2230,6 +2230,7 @@
   "_Next": "Next",
   "_Show": "Show",
   "items on page": "items on page",
+<<<<<<< HEAD
   "The large quantity of results has been found.": "The large quantity of results has been found. <b>{{total_count}}</b> of them is shown. Please specify search criteria to get more accurate results",
   "Please add the candidates to this stage":"Please add the candidates to this stage",
   "Have you already seen our awesome vacancy":"Have you already seen our awesome vacancy",
@@ -2258,4 +2259,8 @@
   "Tag_name_saved":"Tag name saved",
   "Mark at least one test answer as correct": "Mark at least one test answer as correct",
   "Alphabetically": "Alphabetically"
+=======
+  "Go to initial page": "Go to initial page",
+  "replacement":"Replacement"
+>>>>>>> added new statuses on the custom reports
 }
