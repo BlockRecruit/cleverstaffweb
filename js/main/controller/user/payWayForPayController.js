@@ -161,38 +161,6 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
 
         };
 
-
-        $scope.acceptChangesPrice = function (choice) {
-
-            if(choice) {
-                Company.setParam({
-                    name:"increasePrices",
-                    value:"Y"
-
-                }, function (resp) {
-
-                    if(resp.status == "ok"){
-                        $rootScope.closeModal();
-                        $rootScope.modalInstance = undefined;
-                    }
-                });
-            } else {
-                Company.setParam({
-                    name:"increasePrices",
-                    value:"Y"
-
-                }, function (resp) {
-
-                    if(resp.status == "ok"){
-                        $rootScope.closeModal();
-                        $rootScope.modalInstance = undefined;
-                        $location.path('/pay')
-                    }
-                });
-            }
-
-        };
-
         $scope.updatePaymentsList();
         // $scope.getAllPersons = Person.getAllPersons(function (resp) {
         //     //allPersons = Object.keys(resp).length;

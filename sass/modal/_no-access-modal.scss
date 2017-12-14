@@ -32,35 +32,67 @@
 			color: #666;
 		}
 		.socials {
+			margin-top: 10px;
+
 			text-align: center;
 			.google-icon {
-				position: relative;
-				top: 10px;
-				left: 5px;
+				font-weight: 500;
 
 				display: inline-block;
-				width: 35px;
-				height: 35px;
+				width: 135px;
+				height: 34px;
 				margin-right: 10px;
+				margin-left: 5px;
+				padding-top: 6px;
+				padding-left: 10px;
 
 				cursor: pointer;
+				vertical-align: middle;
 
-				background: url(../../external/img/svg/ic_google.svg);
-				background-size: cover;
+				color: #646465;
+				border: 1px solid #ccc;
+				border-radius: 35px;
+				background: url(../../external/img/svg/btn_google.svg);
+				background-color: #fcfcfc;
+				background-repeat: no-repeat;
+				background-position: 8px 7px;
+				background-size: 18px 18px;
 			}
 			.fb-icon {
 				position: relative;
-				top: 10px;
-				left: 5px;
 
 				display: inline-block;
-				width: 35px;
-				height: 35px;
+				width: 135px;
+				height: 34px;
+				padding-top: 6px;
+				padding-left: 25px;
 
 				cursor: pointer;
+				vertical-align: middle;
 
-				background: url(../../external/img/svg/ic_fb.svg);
-				background-size: cover;
+				color: white;
+				border: 1px solid #ccc;
+				border-radius: 35px;
+				background-color: #4267b2;
+			}
+			.google-icon:hover {
+				transition: all 0.3s;
+
+				background-color: #f4f4f4;
+			}
+			.fb-icon:hover {
+				transition: all 0.3s;
+
+				background-color: #365899;
+			}
+			.fb-icon i {
+				font-size: 22px;
+
+				position: absolute;
+				top: 5px;
+				left: 14px;
+
+				color: white;
 			}
 		}
 	}
