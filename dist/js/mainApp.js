@@ -4800,12 +4800,12 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             }
         };
     }])
-    .filter('dateFormat6', ["$filter", "$translate", function ($filter, $translate) {
+    .filter('dateFormat6', ["$filter", "$translate",'$rootScope' , function ($filter, $translate, $rootScope) {
         return function (date, withHour) {
             var hour = "";
             var dateToday = new Date().getTime();
             var dateTomorrow = new Date().setDate(new Date().getDate() + 1);
-            var lang = $translate.use();
+            var lang = $translate.use() || $rootScope.currentLang || 'ru';
             var dateMD = "";
             var dateMDY = "";
             if (lang == 'ru' || lang == 'ua') {
@@ -4826,7 +4826,7 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                 if (angular.equals($filter('date')(dateToday, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
                     var res = $filter("translate")("today");
                     if (withHour) {
-                        res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour)
+                        res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour);
                     }
                     return res;
                 } else if (angular.equals($filter('date')(dateTomorrow, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {

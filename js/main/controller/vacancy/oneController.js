@@ -376,7 +376,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/vacancy-change-date-of-interview.html',
+                templateUrl: '../partials/modal/vacancy-change-date-of-interview.html?1',
                 size: '',
                 resolve: function(){
 
@@ -424,7 +424,9 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $scope.getLastEvent();
                 });
             } else {
-                notificationService.error($filter('translate')('Select the interview date'));
+                $('#change-date-in-vacancy').addClass('not-valid').on('click',(event) => {
+                    $(event.currentTarget).removeClass('not-valid');
+                });
             }
         };
         $rootScope.getTextToCopy = function () {
