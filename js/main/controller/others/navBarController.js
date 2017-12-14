@@ -701,10 +701,18 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 }
 
                 function increasedPrice() {
+<<<<<<< HEAD
                     if(response["object"]["orgParams"]["increasePrices"] === "must" && response["object"]["recrutRole"] === "admin") {
                         $rootScope.modalInstance = $uibModal.open({
                             animation: true,
                             templateUrl: '../partials/modal/price-change.html',
+=======
+                    if(response["object"]["orgParams"]["increasePrices"] === "must") {
+                        $rootScope.modalInstance = $uibModal.open({
+                            animation: true,
+                            templateUrl: '../partials/modal/price-change.html',
+                            controller: 'payWay4PayController',
+>>>>>>> -> qa
                             scope: $scope,
                             backdrop: 'static'
                         });
