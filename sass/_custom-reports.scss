@@ -1,7 +1,4 @@
 .block-custom-reports {
-	.error-message {
-	}
-
 	main {
 		padding: 0 15px;
 	}
@@ -328,6 +325,18 @@
 				background-color: #fff;
 				box-shadow: 0 0 5px 2px #b8b8b8;
 			}
+		}
+	}
+	.button-outer {
+		.btn-update {
+			font-weight: 600;
+
+			padding: 3px 12px;
+
+			color: #202021;
+			border: none;
+			border-radius: 5px;
+			background-color: #ffc100;
 		}
 	}
 }
