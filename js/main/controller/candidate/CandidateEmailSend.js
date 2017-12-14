@@ -45,8 +45,11 @@ function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, g
 
     Vacancy.one({localId: $routeParams.vacancyId}, function(resp) {
         if (!resp.object.interviews || resp.object.interviews.length == 0) {
+            console.log("returning!",resp.object);
             $location.path("/vacancies/" + $routeParams.vacancyId);
             return;
+        } else {
+            console.log(resp.object);
         }
         $scope.pageObject.mail.vacancyId = resp.object.vacancyId;
         $rootScope.title = $filter('translate')('Sending email to the customer') + " | CleverStaff";

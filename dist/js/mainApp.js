@@ -19765,8 +19765,11 @@ function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, g
 
     Vacancy.one({localId: $routeParams.vacancyId}, function(resp) {
         if (!resp.object.interviews || resp.object.interviews.length == 0) {
+            console.log("returning!",resp.object);
             $location.path("/vacancies/" + $routeParams.vacancyId);
             return;
+        } else {
+            console.log(resp.object);
         }
         $scope.pageObject.mail.vacancyId = resp.object.vacancyId;
         $rootScope.title = $filter('translate')('Sending email to the customer') + " | CleverStaff";
@@ -33322,6 +33325,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     object.interviewObject.dateInterview = newDate;
                     $rootScope.closeModal();
                     Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
+                        console.log("gggg");
                         $scope.vacancy = resp.object;
                         $rootScope.vacancy = resp.object;
                         $scope.tableParams.reload();
@@ -34275,6 +34279,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     //$rootScope.commentVacancyToCandidate.comment = null;
                     if (resp.status == 'ok') {
                         Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
+                            console.log("llggl");
                             $scope.vacancy = resp.object;
                             $rootScope.vacancy = resp.object;
                             $scope.tableParams.reload();
@@ -35121,6 +35126,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         }
                                     }
                                     Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
+                                        console.log("gooo");
                                         $scope.vacancy = resp.object;
                                         $rootScope.vacancy = resp.object;
                                         $scope.recalls = resp.object.recalls;
@@ -35524,6 +35530,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         $scope.countActivePersons = resp.message;
                         if ($scope.countActivePersons == 1 && ($scope.vacancy.responsiblesPerson == undefined || $scope.vacancy.responsiblesPerson.length == 0)) {
                             Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
+                                console.log("tru123e");
                                 $scope.vacancy.responsiblesPerson = resp.object.responsiblesPerson;
                             });
                         }
@@ -36350,16 +36357,18 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             })
         };
 
+
+
         $scope.sendCandidatesToClient = function() {
-            // #/email/vacancy/{{vacancy.localId}}
-            if(!$scope.vacancy.interviews || $scope.vacancy.interviews.length == 0) {
-                notificationService.error($filter('translate')('Please add the candidates to this stage'));
-                return;
-            } else {
-                $location.path("/email/vacancy/" + $scope.vacancy.localId);
-            }
-            // console.log($scope.vacancy);
-            // console.log("#email/vacancy/" + $scope.vacancy.localId);
+            Vacancy.one({localId: $routeParams.id}, function (resp) {
+                if(!resp.object.interviews || resp.object.interviews.length == 0) {
+                    notificationService.error($filter('translate')('Please add the candidates to this stage'));
+                    return;
+                } else {
+                    $location.path("/email/vacancy/" + $scope.vacancy.localId);
+                }
+            });
+
         };
 
         $scope.showEditEmailTemplate = function(template){
