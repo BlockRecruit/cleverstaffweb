@@ -28644,7 +28644,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 }
 
                 function increasedPrice() {
-                    if(response["object"]["orgParams"]["increasePrices"] === "must") {
+                    if(response["object"]["orgParams"]["increasePrices"] === "must" && response["object"]["recrutRole"] === "admin") {
                         $rootScope.modalInstance = $uibModal.open({
                             animation: true,
                             templateUrl: '../partials/modal/price-change.html',
