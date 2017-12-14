@@ -22546,38 +22546,33 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
             if($('.customFieldss')[0].classList.value.indexOf('ng-hide') == -1){
                 $scope.showCustomFields = false;
             }
-            console.log($scope.src.fullName != 0);
-            console.log($scope.src.salary != 0 || (!$scope.candidateBeforeMerge.salary || !$scope.candidate2.salary || ($scope.candidateBeforeMerge.salary == $scope.candidate2.salary)));
-            console.log($scope.src.education != 0 || (!$scope.candidateBeforeMerge.education || !$scope.candidate2.education || ($scope.candidateBeforeMerge.education != undefined || $scope.candidate2.education != undefined)));
-            console.log($scope.src.languages != 0 || (!$scope.candidateBeforeMerge.languages.length > 0 || !$scope.candidate2.languages.length > 0 || ($scope.candidateBeforeMerge.languages == $scope.candidate2.languages)));
-            console.log($scope.src.fieldValues != 0 || (($scope.candidateBeforeMerge.customFields.length > 0 || $scope.candidate2.customFields.length > 0) && ($scope.fieldValues.length > 0 || $scope.fieldValues.length > 0) && ($scope.fieldValueFirstValue || $scope.fieldValueSecondValue) || $scope.showCustomFields), 'custom');
-            console.log($scope.src.fieldValues != 0);
-            console.log($scope.candidate.fieldValues.length);
-            console.log($scope.candidateBeforeMerge.fieldValues.length);
-            //console.log($scope.fieldValues);
-            //console.log($scope.fieldValues.length);
-            //console.log(!$scope.fieldValues.length > 0);
-            //console.log($scope.candidateBeforeMerge.customFields.length > 0);
-            //console.log($scope.candidate2.customFields.length > 0);
-            console.log($scope.src.region != 0 || (!$scope.candidateBeforeMerge.region || !$scope.candidate2.region || ($scope.candidateBeforeMerge.region.displayFullName == $scope.candidate2.region.displayFullName)));
-            console.log($scope.src.position != 0 || (!($scope.candidateBeforeMerge.position && $scope.candidateBeforeMerge.position.length > 1) || !($scope.candidate2.position && $scope.candidate2.position.length > 1) || ($scope.candidateBeforeMerge.position == $scope.candidate2.position)));
-            console.log($scope.src.industry != 0 || (!$scope.candidateBeforeMerge.industry || !$scope.candidate2.industry || ($scope.candidateBeforeMerge.industry == $scope.candidate2.industry)));
-            console.log($scope.src.expirence != 0 || (!$scope.candidateBeforeMerge.expirence || !$scope.candidate2.expirence || ($scope.candidateBeforeMerge.expirence == $scope.candidate2.expirence)));
-            console.log($scope.src.employmentType != 0 || (!$scope.candidateBeforeMerge.employmentType || !$scope.candidate2.employmentType || ($scope.candidateBeforeMerge.employmentType == $scope.candidate2.employmentType)));
-            console.log($scope.src.currentWorkPlace != 0 || (!$scope.candidateBeforeMerge.currentWorkPlace || !$scope.candidate2.currentWorkPlace || ($scope.candidateBeforeMerge.currentWorkPlace == $scope.candidate2.currentWorkPlace)), 'currentWorkPlace');
-            console.log($scope.src.currentPosition != 0 || (!$scope.candidateBeforeMerge.currentPosition || !$scope.candidate2.currentPosition || ($scope.candidateBeforeMerge.currentPosition == $scope.candidate2.currentPosition)));
-            console.log($scope.src.origin != 0 || (!$scope.candidateBeforeMerge.origin || !$scope.candidate2.origin || ($scope.candidateBeforeMerge.origin == $scope.candidate2.origin)));
-            console.log($scope.src.mphone != 0 || (!$scope.contacts.mphone || !$scope.contacts2.mphone || ($scope.contacts.mphone == $scope.contacts2.mphone)));
-            console.log($scope.src.email != 0 || (!$scope.contacts.email || !$scope.contacts2.email || ($scope.contacts.email == $scope.contacts2.email)));
-            console.log($scope.src.skype != 0 || (!$scope.contacts.skype || !$scope.contacts2.skype || ($scope.contacts.skype == $scope.contacts2.skype)));
-            console.log($scope.src.linkedin != 0 || (!$scope.contacts.linkedin || !$scope.contacts2.linkedin || ($scope.contacts.linkedin == $scope.contacts2.linkedin)));
-            console.log($scope.src.facebook != 0 || (!$scope.contacts.facebook || !$scope.contacts2.facebook || ($scope.contacts.facebook == $scope.contacts2.facebook)));
-            console.log($scope.src.googleplus != 0 || (!$scope.contacts.googleplus || !$scope.contacts2.googleplus || ($scope.contacts.googleplus == $scope.contacts2.googleplus)));
-            console.log($scope.src.github != 0 || (!$scope.contacts.github || !$scope.contacts2.github || ($scope.contacts.github == $scope.contacts2.github)));
-            console.log($scope.src.homepage != 0 || (!$scope.contacts.homepage || !$scope.contacts2.homepage || ($scope.contacts.homepage == $scope.contacts2.homepage)));
-            console.log($scope.src.skills != 0 || (!($scope.candidateBeforeMerge.skills && $scope.candidateBeforeMerge.skills.length > 0) || !($scope.candidate2.skills && $scope.candidate2.skills.length > 0)));
-            console.log($scope.src.coreSkills != 0 || (!$scope.candidateBeforeMerge.coreSkills || !$scope.candidate2.coreSkills || ($scope.candidateBeforeMerge.coreSkills == $scope.candidate2.coreSkills)));
-            console.log($scope.src.descr != 0 || (!$scope.candidateBeforeMerge.descr || !$scope.candidate2.descr || ($scope.candidateBeforeMerge.descr == $scope.candidate2.descr)));
+            //console.log($scope.src.fullName != 0);
+            //console.log($scope.src.salary != 0 || (!$scope.candidateBeforeMerge.salary || !$scope.candidate2.salary || ($scope.candidateBeforeMerge.salary == $scope.candidate2.salary)));
+            //console.log($scope.src.education != 0 || (!$scope.candidateBeforeMerge.education || !$scope.candidate2.education || ($scope.candidateBeforeMerge.education != undefined || $scope.candidate2.education != undefined)));
+            //console.log($scope.src.languages != 0 || (!$scope.candidateBeforeMerge.languages.length > 0 || !$scope.candidate2.languages.length > 0 || ($scope.candidateBeforeMerge.languages == $scope.candidate2.languages)));
+            //console.log($scope.src.fieldValues != 0 || (($scope.candidateBeforeMerge.customFields.length > 0 || $scope.candidate2.customFields.length > 0) && ($scope.fieldValues.length > 0 || $scope.fieldValues.length > 0) && ($scope.fieldValueFirstValue || $scope.fieldValueSecondValue) || $scope.showCustomFields), 'custom');
+            //console.log($scope.src.fieldValues != 0);
+            //console.log($scope.candidate.fieldValues.length);
+            //console.log($scope.candidateBeforeMerge.fieldValues.length);
+            //console.log($scope.src.region != 0 || (!$scope.candidateBeforeMerge.region || !$scope.candidate2.region || ($scope.candidateBeforeMerge.region.displayFullName == $scope.candidate2.region.displayFullName)));
+            //console.log($scope.src.position != 0 || (!($scope.candidateBeforeMerge.position && $scope.candidateBeforeMerge.position.length > 1) || !($scope.candidate2.position && $scope.candidate2.position.length > 1) || ($scope.candidateBeforeMerge.position == $scope.candidate2.position)));
+            //console.log($scope.src.industry != 0 || (!$scope.candidateBeforeMerge.industry || !$scope.candidate2.industry || ($scope.candidateBeforeMerge.industry == $scope.candidate2.industry)));
+            //console.log($scope.src.expirence != 0 || (!$scope.candidateBeforeMerge.expirence || !$scope.candidate2.expirence || ($scope.candidateBeforeMerge.expirence == $scope.candidate2.expirence)));
+            //console.log($scope.src.employmentType != 0 || (!$scope.candidateBeforeMerge.employmentType || !$scope.candidate2.employmentType || ($scope.candidateBeforeMerge.employmentType == $scope.candidate2.employmentType)));
+            //console.log($scope.src.currentWorkPlace != 0 || (!$scope.candidateBeforeMerge.currentWorkPlace || !$scope.candidate2.currentWorkPlace || ($scope.candidateBeforeMerge.currentWorkPlace == $scope.candidate2.currentWorkPlace)), 'currentWorkPlace');
+            //console.log($scope.src.currentPosition != 0 || (!$scope.candidateBeforeMerge.currentPosition || !$scope.candidate2.currentPosition || ($scope.candidateBeforeMerge.currentPosition == $scope.candidate2.currentPosition)));
+            //console.log($scope.src.origin != 0 || (!$scope.candidateBeforeMerge.origin || !$scope.candidate2.origin || ($scope.candidateBeforeMerge.origin == $scope.candidate2.origin)));
+            //console.log($scope.src.mphone != 0 || (!$scope.contacts.mphone || !$scope.contacts2.mphone || ($scope.contacts.mphone == $scope.contacts2.mphone)));
+            //console.log($scope.src.email != 0 || (!$scope.contacts.email || !$scope.contacts2.email || ($scope.contacts.email == $scope.contacts2.email)));
+            //console.log($scope.src.skype != 0 || (!$scope.contacts.skype || !$scope.contacts2.skype || ($scope.contacts.skype == $scope.contacts2.skype)));
+            //console.log($scope.src.linkedin != 0 || (!$scope.contacts.linkedin || !$scope.contacts2.linkedin || ($scope.contacts.linkedin == $scope.contacts2.linkedin)));
+            //console.log($scope.src.facebook != 0 || (!$scope.contacts.facebook || !$scope.contacts2.facebook || ($scope.contacts.facebook == $scope.contacts2.facebook)));
+            //console.log($scope.src.googleplus != 0 || (!$scope.contacts.googleplus || !$scope.contacts2.googleplus || ($scope.contacts.googleplus == $scope.contacts2.googleplus)));
+            //console.log($scope.src.github != 0 || (!$scope.contacts.github || !$scope.contacts2.github || ($scope.contacts.github == $scope.contacts2.github)));
+            //console.log($scope.src.homepage != 0 || (!$scope.contacts.homepage || !$scope.contacts2.homepage || ($scope.contacts.homepage == $scope.contacts2.homepage)));
+            //console.log($scope.src.skills != 0 || (!($scope.candidateBeforeMerge.skills && $scope.candidateBeforeMerge.skills.length > 0) || !($scope.candidate2.skills && $scope.candidate2.skills.length > 0)));
+            //console.log($scope.src.coreSkills != 0 || (!$scope.candidateBeforeMerge.coreSkills || !$scope.candidate2.coreSkills || ($scope.candidateBeforeMerge.coreSkills == $scope.candidate2.coreSkills)));
+            //console.log($scope.src.descr != 0 || (!$scope.candidateBeforeMerge.descr || !$scope.candidate2.descr || ($scope.candidateBeforeMerge.descr == $scope.candidate2.descr)));
             if ($scope.src.fullName != 0 && ($scope.src.salary != 0 || (!$scope.candidateBeforeMerge.salary || !$scope.candidate2.salary || ($scope.candidateBeforeMerge.salary == $scope.candidate2.salary))) && ($scope.src.education != 0 || (!$scope.candidateBeforeMerge.education || !$scope.candidate2.education || ($scope.candidateBeforeMerge.education == $scope.candidate2.education))) && ($scope.src.languages != 0 || (!$scope.candidateBeforeMerge.languages.length > 0 || !$scope.candidate2.languages.length > 0 || ($scope.candidateBeforeMerge.languages == $scope.candidate2.languages))) && ($scope.src.fieldValues != 0 || (($scope.candidateBeforeMerge.customFields.length > 0 || $scope.candidate2.customFields.length > 0) && ($scope.fieldValues.length > 0 || $scope.fieldValues.length > 0)) && ($scope.fieldValueFirstValue || $scope.fieldValueSecondValue) || $scope.showCustomFields) && ($scope.src.region != 0 || (!$scope.candidateBeforeMerge.region || !$scope.candidate2.region || ($scope.candidateBeforeMerge.region.displayFullName == $scope.candidate2.region.displayFullName))) && ($scope.src.position != 0 || (!($scope.candidateBeforeMerge.position && $scope.candidateBeforeMerge.position.length > 1) || !($scope.candidate2.position && $scope.candidate2.position.length > 1) || ($scope.candidateBeforeMerge.position == $scope.candidate2.position))) && ($scope.src.industry != 0 || (!$scope.candidateBeforeMerge.industry || !$scope.candidate2.industry || ($scope.candidateBeforeMerge.industry == $scope.candidate2.industry))) && ($scope.src.expirence != 0 || (!$scope.candidateBeforeMerge.expirence || !$scope.candidate2.expirence || ($scope.candidateBeforeMerge.expirence == $scope.candidate2.expirence))) && ($scope.src.employmentType != 0 || (!$scope.candidateBeforeMerge.employmentType || !$scope.candidate2.employmentType || ($scope.candidateBeforeMerge.employmentType == $scope.candidate2.employmentType))) && ($scope.src.currentWorkPlace != 0 || (!$scope.candidateBeforeMerge.currentWorkPlace || !$scope.candidate2.currentWorkPlace || ($scope.candidateBeforeMerge.currentWorkPlace == $scope.candidate2.currentWorkPlace))) && ($scope.src.currentPosition != 0 || (!$scope.candidateBeforeMerge.currentPosition || !$scope.candidate2.currentPosition || ($scope.candidateBeforeMerge.currentPosition == $scope.candidate2.currentPosition))) && ($scope.src.origin != 0 || (!$scope.candidateBeforeMerge.origin || !$scope.candidate2.origin || ($scope.candidateBeforeMerge.origin == $scope.candidate2.origin))) && ($scope.src.mphone != 0 || (!$scope.contacts.mphone || !$scope.contacts2.mphone || ($scope.contacts.mphone == $scope.contacts2.mphone))) && ($scope.src.email != 0 || (!$scope.contacts.email || !$scope.contacts2.email || ($scope.contacts.email == $scope.contacts2.email))) && ($scope.src.skype != 0 || (!$scope.contacts.skype || !$scope.contacts2.skype || ($scope.contacts.skype == $scope.contacts2.skype))) && ($scope.src.linkedin != 0 || (!$scope.contacts.linkedin || !$scope.contacts2.linkedin || ($scope.contacts.linkedin == $scope.contacts2.linkedin))) && ($scope.src.facebook != 0 || (!$scope.contacts.facebook || !$scope.contacts2.facebook || ($scope.contacts.facebook == $scope.contacts2.facebook))) && ($scope.src.googleplus != 0 || (!$scope.contacts.googleplus || !$scope.contacts2.googleplus || ($scope.contacts.googleplus == $scope.contacts2.googleplus))) && ($scope.src.github != 0 || (!$scope.contacts.github || !$scope.contacts2.github || ($scope.contacts.github == $scope.contacts2.github))) && ($scope.src.homepage != 0 || (!$scope.contacts.homepage || !$scope.contacts2.homepage || ($scope.contacts.homepage == $scope.contacts2.homepage))) && ($scope.src.skills != 0 || !($scope.candidateBeforeMerge.skills && $scope.candidateBeforeMerge.skills.length > 0) || !($scope.candidate2.skills && $scope.candidate2.skills.length > 0)) && ($scope.src.coreSkills != 0 || (!$scope.candidateBeforeMerge.coreSkills || !$scope.candidate2.coreSkills || ($scope.candidateBeforeMerge.coreSkills == $scope.candidate2.coreSkills))) && ($scope.src.descr != 0 || (!$scope.candidateBeforeMerge.descr || !$scope.candidate2.descr || ($scope.candidateBeforeMerge.descr == $scope.candidate2.descr))) &&
                 $scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed) {
                 $scope.saveButtonIsPressed = true;
@@ -22589,19 +22584,21 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     candidate.files = $scope.candidate2.files;
                     candidate.files = candidate.files.concat($scope.candidateBeforeMerge.files);
                 }
+                candidate.languages = [];
                 if ($scope.candidateBeforeMerge.languages.length > 0 && !$scope.secondLanguages) {
-                    candidate.languages = $scope.candidateBeforeMerge.languages;
+                    angular.forEach($scope.candidateBeforeMerge.languages, function (val) {
+                        console.log(val);
+                        if(val.level != undefined && val.level != ''){
+                            candidate.languages.push({ name: val.name, level: val.level});
+                        }
+                    });
                 }else if ($scope.candidate2.languages.length > 0) {
-                    candidate.languages = $scope.candidate2.languages;
+                    angular.forEach($scope.candidate2.languages, function (val) {
+                        if(val.level != undefined && val.level != ''){
+                            candidate.languages.push({ name: val.name, level: val.level});
+                        }
+                    });
                 }
-                //candidate.fieldValues = candidate.fieldValues.concat($scope.arrayFieldValue);
-                //console.log(candidate.fieldValues);
-
-                //if ($scope.candidateBeforeMerge.fieldValues.length > 0 && !$scope.secondCustomFields && $scope.fieldValueFirstValue) {
-                //    candidate.fieldValues = $scope.candidateBeforeMerge.fieldValues;
-                //}else if ($scope.candidate2.fieldValues.length > 0 && $scope.candidate2.fieldValues && $scope.fieldValueSecondValue) {
-                //    candidate.fieldValues = $scope.candidate2.fieldValues;
-                //}
                 if ($scope.candidateBeforeMerge.employmentType != undefined && $scope.candidateBeforeMerge.employmentType.length > 0) {
                     candidate.employmentType = $scope.candidateBeforeMerge.employmentType;
                 }else if ($scope.candidate2.employmentType) {
