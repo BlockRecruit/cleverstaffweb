@@ -184,6 +184,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             Person.setLang({lang: key});
         };
         $scope.saveNewRole = function(val,confirmed) {
+            console.log($scope.user.recrutRole, '$scope.user.recrutRole')
             if ((val !== undefined && val !== $scope.user.recrutRole && val != 'client') || (val == 'client' && confirmed) || (val != 'client')) {
                     $rootScope.loading = true;
                     $scope.newRole = val;
@@ -202,8 +203,8 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                                 $rootScope.loading = false;
                                 if($scope.newRole == resp.object.recrutRole) {
                                     $scope.user.recrutRole = $scope.newRole;
-                                    var roleName = $scope.newRole == 'salesmanager' ? "Sales Manager" : $scope.newRole == 'admin' ? "Admin" : $scope.newRole == 'client' ? "Hiring Manager" : $scope.newRole == 'freelancer' ? "Freelancer" : "Recruiter";
-                                    var message = $filter('translate')("You has granted") + " " + roleName + " " + $filter('translate')('role to') + " " + $scope.user.firstName;
+                                    var roleName = $scope.newRole == 'salesmanager' ? "Sales Manager" : $scope.newRole == 'admin' ? "Admin" : $scope.newRole == 'client' ? "Hiring Manager" : $scope.newRole == 'freelancer' ? "Freelancer" : $scope.newRole == 'recruter' ? 'Recruter' : $scope.newRole  == 'researcher'? 'Researcher': 'Researcher';
+                                    var message = $filter('translate')("You has granted role") + " " + roleName + " " + $filter('translate')('_for') + " " + $scope.user.firstName;
                                     $rootScope.updateMe();
                                     notificationService.success(message);
                                     $scope.getLastEvent();

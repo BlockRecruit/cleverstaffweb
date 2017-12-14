@@ -183,12 +183,14 @@
   "open": "Открыта",
   "expects": "Ожидает",
   "inwork": "В работе",
+  "replacement": "Замена",
   "completed": "Выполнена",
-  "canceled": "Отменена",
+  "canceled": "Отменен",
   "vacancy_status_assoc": {
     "open": "Открыта",
     "expects": "Ожидает",
     "inwork": "В работе",
+    "replacement": "Замена",
     "payment": "Оплата",
     "completed": "Выполнена",
     "canceled": "Отменена",
@@ -224,11 +226,13 @@
   "candidate_4": "кандидата",
   "future": "Будущий",
   "in_work": "В работе",
+  "on_hold": "Приостановлен",
   "all_done": "Работа завершена",
   "deleted": "Удален",
   "client_status_assoc": {
     "future": "Будущий",
     "in_work": "В работе",
+    "on_hold": "Приостановлен",
     "all_done": "Работа завершена",
     "canceled": "Отменен",
     "deleted": "Удален"
@@ -2045,7 +2049,7 @@
   "Grow Your Database in Seconds": "Расширяйте базу за несколько минут",
   "First, let's import your database": "Первым делом, загрузите вашу базу кандидатов",
   "Upload thousands of CVs as an archive, import from email, or add them 1-by-1": "Загружайте тысячи резюме в виде архива, добавляйте с почты или по-одному",
-  "Also, you can find & add candidates via embedded search on LinkedIn": "Также, находите и добавляйте кандидатов через встроенный поиск на LinkedIn или местных сайтах поиска работы",
+  "Also, you can find & add candidates via embedded search on LinkedIn": "Сохраняйте профили кандидатов прямо из LinkedIn и сайтов поиска работы с помощью нашего плагина для Chrome",
   "I’ll do it later": "Сделаю это позже",
   "Add candidates": "Добавить кандидатов",
   "Woop Woop": "Ооотлично",
@@ -2802,5 +2806,12 @@
   "Candidate added in vacancy": "Кандидат добавлен в вакансию",
   "Candidates added in vacancy": "Кандидаты добавлены в вакансию",
   "Select the interview date": "Выберите дату собеседования",
-  "The large quantity of results has been found.": "Найдено большое количество результатов. Показано <b>{{total_count}}</b>. Уточните критерии, чтобы получить более точные результаты"
+  "The large quantity of results has been found.": "Найдено большое количество результатов. Показано <b>{{total_count}}</b>. Уточните критерии, чтобы получить более точные результаты",
+  "_Previous": "Предыдущая",
+  "_Next": "Следующая",
+  "_Show": "Отображать",
+  "items on page": "строк на одной странице",
+  "Go to initial page": "На исходную страницу",
+  "You has granted role": "Вы назначили роль",
+  "_for":"для"
 }

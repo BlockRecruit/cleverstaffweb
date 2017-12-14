@@ -1224,7 +1224,7 @@ angular.module('services.globalService', [
     };
 
     service.dynamicTableLoading = function (total, page, count, getDataFunction) {
-
+        let rocketElement = document.getElementById('scrollup');
         let pagesPerOneLoad = count,
             currentPage = page,
             pagesCount = Math.ceil(total/pagesPerOneLoad);
@@ -1236,16 +1236,18 @@ angular.module('services.globalService', [
 
         function updateData(pageNext) {
             if(getDataFunction) {
-                moveUpFunc();
+                if(rocketElement) {
+                    moveUpFunc();
+                }
                 getDataFunction(pageNext, pagesPerOneLoad);
             }
         }
         function moveUpFunc(){
-            let scrollUp = document.getElementById('scrollup'); // найти элемент
+            let scrollUp = rocketElement; // найти элемент
             scrollUp.style.display = 'block';
             scrollUp.style.position = 'fixed';
             scrollUp.style.bottom = '20px';
-            scrollUp.style.left = '10px';
+            scrollUp.style.left = '0px';
             scrollUp.onmouseover = function() { // добавить прозрачность
                 scrollUp.style.opacity=0.3;
                 scrollUp.style.filter  = 'alpha(opacity=30)';

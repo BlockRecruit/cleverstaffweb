@@ -9,7 +9,7 @@
         </div>
         <div class="item" ng-show="$root.addCandidateInVacancy.showSelect">
             <label ng-show="$root.VacancyStatusFiltered && (status.value != 'approved' && status.value != 'notafit')">{{'interview_status'|translate}}</label>
-            <div ng-show="$root.hover && $root.status2 === false" style="position: absolute">{{"Add a stage"|translate}}</div>
+            <div ng-show="$root.hover && $root.status2 === false" style="position: absolute">{{"longlist"|translate}}</div>
             <select  ng-model="$root.status2"
                      ng-change="$root.changeTemplateInAddCandidate($root.status2)"
                      ng-show="$root.VacancyStatusFiltered && (status.value != 'approved' && status.value != 'notafit')"

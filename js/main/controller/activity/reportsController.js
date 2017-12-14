@@ -212,6 +212,7 @@ controller.controller('reportsController',["$scope", "$rootScope", "$location", 
             }
         };
 
+        let currentPage = $scope.searchParam.pages.number;
         $scope.tableParams = new ngTableParams({
             page: 1,
             count: $scope.searchParam.pages.count
@@ -251,36 +252,65 @@ controller.controller('reportsController',["$scope", "$rootScope", "$location", 
                         Vacancy.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
                         Vacancy.setOptions("city", activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null);
                     }
-                    Vacancy.all(Vacancy.searchOptions(), function(response) {
-                        $rootScope.objectSize = response['objects'] != undefined ? response['total'] : undefined;
-                        params.total(response['total']);
-                        angular.forEach(response['objects'], function(val) {
-                            if (val.region) {
-                                if (val.region.city) {
-                                    val.regionShort = val.region.displayCity;
-                                } else if (val.region.country)
-                                    val.regionShort = val.region.displayCountry;
-                            }
-                        });
-                        $scope.vacancies = response['objects'];
-                        $scope.vacanciesFound = response['total'] >= 1;
-                        if (params.orderBy().length == 0) {
-                            $defer.resolve($filter('orderBy')(response['objects'], ['-dc']));
+
+                    function getVacancies(page, count) {
+                        if(page || count) {
+                            currentPage = page;
+                            Vacancy.setOptions("page", {number: page, count: count});
                         } else {
-                            $defer.resolve($filter('orderBy')(response['objects'], params.orderBy()));
+                            $scope.isShowMore = false;
+                            currentPage = Vacancy.searchOptions().page.number;
+                            if(document.getElementById('scrollup'))
+                                document.getElementById('scrollup').style.display = 'none';
+                            $timeout(function() {
+                                $anchorScroll('mainTable');
+                            });
                         }
-                        Vacancy.init();
-                        $scope.searchParam.personId = $scope.searchParam.personId == null ? 'null': $scope.searchParam.personId;
-                        $rootScope.loading = false;
-                    });
+                        Vacancy.all(Vacancy.searchOptions(), function(response) {
+                            $rootScope.objectSize = response['objects'] != undefined ? response['total'] : undefined;
+                            $scope.paginationParams = {
+                                currentPage: Vacancy.searchOptions().page.number,
+                                totalCount: $rootScope.objectSize
+                            };
+                            let pagesCount = Math.ceil(response['total']/Vacancy.searchOptions().page.count);
+                            if(pagesCount == Vacancy.searchOptions().page.number + 1) {
+                                $('#show_more').hide();
+                            } else {
+                                $('#show_more').show();
+                            }
+                            params.total(response['total']);
+                            angular.forEach(response['objects'], function(val) {
+                                if (val.region) {
+                                    if (val.region.city) {
+                                        val.regionShort = val.region.displayCity;
+                                    } else if (val.region.country)
+                                        val.regionShort = val.region.displayCountry;
+                                }
+                            });
+
+                            if(page) {
+                                $scope.vacancies = $scope.vacancies.concat(response['objects'])
+                            } else {
+                                $scope.vacancies = response['objects'];
+                            }
+                            $scope.vacanciesFound = response['total'] >= 1;
+                            $defer.resolve($scope.vacancies);
+                            Vacancy.init();
+                            $scope.searchParam.personId = $scope.searchParam.personId == null ? 'null': $scope.searchParam.personId;
+                            $rootScope.loading = false;
+
+                        });
+                    }
+                    getVacancies();
+                    $scope.showMore = function () {
+                        $scope.isShowMore = true;
+                        Service.dynamicTableLoading(params.total(), currentPage, $scope.tableParams.count(), getVacancies)
+                    };
                     $rootScope.searchParamInVacancies = $scope.searchParam;
                     $scope.a.searchNumber = $scope.tableParams.page();
                     $rootScope.previousSearchNumber = $scope.a.searchNumber;
                     $rootScope.allClientsVacancies = false;
                 }
-                $timeout(function() {
-                    $anchorScroll('mainTable');
-                });
             }
         });
         Client.init();

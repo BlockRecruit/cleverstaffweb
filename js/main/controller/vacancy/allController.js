@@ -7,6 +7,10 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
     $scope.onlyMe = $rootScope.onlyMe;
     $scope.salaryObject = Service.getSalary();
     $scope.previousFlag = true;
+    $scope.paginationParams = {
+      currentPage: 1,
+      totalCount: 0
+    };
     $scope.a = {};
     $scope.a.searchNumber = 1;
     let sortDirection = 'desc';
@@ -221,9 +225,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                     var activeParam = ScopeService.getActiveScopeObject();
                     $scope.activeScopeParam = activeParam;
                     Vacancy.setOptions("page", {number: (params.$params.page - 1), count: params.$params.count});
-                    if(params.$params.count == 30 || params.$params.count == 60 || params.$params.count == 120) {
-                        localStorage.countVacancy = params.$params.count;
-                    }
+                    localStorage.countVacancy = params.$params.count;
                     $scope.searchParam.pages.count = params.$params.count;
                     $scope.searchParam.personId = $scope.searchParam.personId == 'null' ? null: $scope.searchParam.personId;
                     Vacancy.setOptions("personId", $scope.searchParam.personId != undefined ? $scope.searchParam.personId : activeParam.name == 'onlyMy' ? $rootScope.userId : null);
@@ -261,6 +263,16 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                         }
                         Vacancy.all(Vacancy.searchOptions(), function(response) {
                             $rootScope.objectSize = response['objects'] != undefined ? response['total'] : undefined;
+                            $scope.paginationParams = {
+                                currentPage: Vacancy.searchOptions().page.number,
+                                totalCount: $rootScope.objectSize
+                            };
+                            let pagesCount = Math.ceil(response['total']/Vacancy.searchOptions().page.count);
+                            if(pagesCount == Vacancy.searchOptions().page.number + 1) {
+                                $('#show_more').hide();
+                            } else {
+                                $('#show_more').show();
+                            }
                             params.total(response['total']);
                             angular.forEach(response['objects'], function(val) {
                                 if (val.region) {
@@ -350,27 +362,31 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                 $scope.vacancy.region = $scope.region;
             }
             $scope.vacancy.numberOfPositions = 1;
-            Vacancy.add($scope.vacancy, function(resp) {
-                if(resp.status == 'ok'){
-                    notificationService.success($filter('translate')('vacancy_save_1') + $scope.vacancy.position + $filter('translate')('vacancy_save_2'));
-                    $scope.vacancy.position = '';
-                    $scope.vacancy.employmentType = '';
-                    $scope.regionInput = '';
-                    $("#clientToAddAutocompleater").select2('data').id =null;
-                    $("#clientToAddAutocompleater").select2('data').text ='';
-                    $("#clientToAddAutocompleater").select2('data').name ='';
-                    $("#select2-chosen-1").html($filter('translate')('Client'));
-                    $scope.shortAddVacancyForm.regionInput.$pristine = true;
-                    $scope.shortAddVacancyForm.position.$pristine = true;
-                    if(relocate){
-                        $location.path("vacancies/" + resp.object.localId);
+            if($scope.vacancy.clientId.clientId) {
+                Vacancy.add($scope.vacancy, function(resp) {
+                    if(resp.status == 'ok'){
+                        notificationService.success($filter('translate')('vacancy_save_1') + $scope.vacancy.position + $filter('translate')('vacancy_save_2'));
+                        $scope.vacancy.position = '';
+                        $scope.vacancy.employmentType = '';
+                        $scope.regionInput = '';
+                        $("#clientToAddAutocompleater").select2('data').id =null;
+                        $("#clientToAddAutocompleater").select2('data').text ='';
+                        $("#clientToAddAutocompleater").select2('data').name ='';
+                        $("#select2-chosen-1").html($filter('translate')('Client'));
+                        $scope.shortAddVacancyForm.regionInput.$pristine = true;
+                        $scope.shortAddVacancyForm.position.$pristine = true;
+                        if(relocate){
+                            $location.path("vacancies/" + resp.object.localId);
+                        }else{
+                            $scope.tableParams.reload();
+                        }
                     }else{
-                        $scope.tableParams.reload();
+                        notificationService.error(resp.message);
                     }
-                }else{
-                    notificationService.error(resp.message);
-                }
-            });
+                });
+            }else{
+                notificationService.error($filter('translate')('choose_client'));
+            }
         }else{
             $scope.shortAddVacancyForm.position.$pristine = false;
             notificationService.error($filter('translate')('Please fill in all fields'));
@@ -504,7 +520,12 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                         $rootScope.changeStateObject.comment = "";
                         //$rootScope.changeStateObject.status = null;
                         notificationService.success($filter('translate')('vacancy change status'));
-                        $scope.tableParams.reload();
+                        if(($rootScope.changeStateObject.status == 'canceled' || $rootScope.changeStateObject.status == 'completed') && ($scope.vacancies.length == 1 && $scope.a.searchNumber > 0) ) {
+                            $scope.tableParams.page($scope.a.searchNumber - 1);
+                            $scope.tableParams.reload();
+                        } else {
+                            $scope.tableParams.reload();
+                        }
                     } else if (resp.message) {
                         notificationService.error(resp.message);
                     }

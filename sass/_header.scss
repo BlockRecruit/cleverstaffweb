@@ -200,10 +200,11 @@ body {
 			color: $theme-white;
 			.logo {
 				display: inline-block;
-				width: 32px;
-				height: 32px;
+				width: 37px;
+				height: 40px;
+				margin-top: -5px;
 
-				background: url(/images/sprite/CS_logo_white_transparent.png) no-repeat;
+				background: url(/images/sprite/new_year.png) no-repeat;
 				background-size: cover;
 			}
 		}

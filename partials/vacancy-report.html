@@ -138,10 +138,10 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr ng-repeat="vacancy in $data"   highlights
+                                <tr ng-repeat="vacancy in vacancies"   highlights
                                     ng-click="toVacancyReport(vacancy.localId)"
                                     hgobject="vacancy" hgtablecollspan="7">
-                                    <td class="clickable" data-title="'№'">{{$index + 1}}</td>
+                                    <td class="clickable" data-title="'№'" ng-bind="(tableParams.page() - 1) * tableParams.count() + $index + 1"></td>
                                     <td data-title="'Vacancy'" sortable="position" class="vacancy-name clickable">
                                         <a href="#/reports/vacancy/{{::vacancy.localId}}" translate="{{::vacancy.position}}"></a>
                                     </td>

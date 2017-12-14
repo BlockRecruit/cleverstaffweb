@@ -2076,6 +2076,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                     element.select2({
                         placeholder: $filter('translate')('client'),
                         minimumInputLength: 0,
+                        allowClear: true,
                         ajax: {
                             url: serverAddress + "/client/autocompleteClients",
                             dataType: 'json',
@@ -2091,11 +2092,6 @@ var directive = angular.module('RecruitingApp.directives', []).
                                 var inVacancy = false;
                                 var status = "";
                                 var realName = "";
-                                results.push({
-                                    id: null,
-                                    text:  $filter('translate')('client'),
-                                    name:  $filter('translate')('client')
-                                });
                                 if (data['objects'] !== undefined) {
                                     console.log(data['objects']);
                                     angular.forEach(data['objects'], function(item) {
@@ -4095,6 +4091,272 @@ var directive = angular.module('RecruitingApp.directives', []).
             },
 
         };
+    }]).directive('customScrollbarPagination', function() {
+            return function(scope, element, attrs) {
+                $(element).mCustomScrollbar({
+                    theme: 'dark-3',
+                    scrollInertia:1000
+                });
+            }
+        }
+    ).directive("navPagination", ["$rootScope", function ($rootScope) {
+        return {
+            restrict: 'AE',
+            templateUrl: '../partials/pagination.html?1',
+            link: function (scope, element, attributes) {
+                let pagePickerButtons = element.find('.left-block .pager-round-button');
+                scope.$watch('paginationParams', function (newValue, oldValue) {
+                    if(newValue)
+                    scope.totalPagesCount = Math.ceil(newValue.totalCount/scope.params.count());
+                    if(pagePickerButtons) {
+                        if(scope.totalPagesCount > 999) {
+                            pagePickerButtons.width(42);
+                        } else {
+                            pagePickerButtons.width(37);
+                        }
+                    }
+                });
+            }
+        }
+    }]).directive("paginationSelect", ["$rootScope", function ($rootScope) {
+        return {
+            restrict: 'AE',
+            link: function (scope, element, attributes) {
+                let startPos = 1;
+                let lastPos = 1;
+                let expanded = false;
+                let heightDropList = 100;
+                let widthDropList = 37;
+                let drListElement = element.find('.pagination-droplist');
+                let elementWrapper = element.find('.pagination-droplist-2');
+                let totalPages;
+
+                scope.$watch('paginationParams', function (newValue, oldValue) {
+                    hideDropdown();
+                    if(newValue)
+                        totalPages = Math.ceil(newValue.totalCount/scope.params.count());
+                        if(totalPages > 5) {
+                            startPos = firstPageNumber(totalPages, scope.paginationParams.currentPage+1);
+                            lastPos = lastPageNumber(totalPages, scope.paginationParams.currentPage+1);
+                            formingElement(startPos, lastPos);
+                            bindListeners(heightDropList, widthDropList);
+                        }
+                });
+
+                function lastPageNumber(totalPages, currentPage) {
+                    if(totalPages == 6) {
+                        switch (true) {
+                            case (currentPage == 3):
+                                return 5;
+                            case (currentPage == 4):
+                                return 3;
+                            default:
+                                return 4
+                        }
+                    } else {
+                        switch (true) {
+                            case (currentPage < 3 || currentPage > totalPages - 2):
+                                return totalPages - 2;
+                            default:
+                                return (currentPage - 1)
+                        }
+                    }
+                }
+
+                function firstPageNumber(totalPages, currentPage) {
+                    if(totalPages == 6) {
+                        switch (currentPage) {
+                            case 3:
+                                return 4;
+                            case  4:
+                                return 2;
+                            default:
+                                return 3
+                        }
+                    } else {
+                        switch (true) {
+                            case (currentPage < 3):
+                                return 3;
+                            case (currentPage == 3):
+                                return 4;
+                            case (currentPage > 3 && currentPage < totalPages - 1):
+                                return 2;
+                            case (currentPage >= totalPages - 1):
+                                return 3;
+                        }
+                    }
+                }
+
+                function hideDropdown() {
+                    if(elementWrapper) {
+                        elementWrapper.css({
+                            "height": "0",
+                            "border": "none"
+                        });
+                        expanded = false;
+                    }
+                }
+
+                function bindListeners(height, width) {
+                    element.unbind().on('click',(event) => {
+                        if(expanded && hideIfNotScrollBar(event)) {
+                            hideDropdown();
+                        } else {
+                            expanded = true;
+
+                            elementWrapper.css({
+                                "height": height,
+                                "width": width,
+                                "border": "1px solid #aaa"
+                            });
+                        }
+                    });
+                    element.find('li').on('click',(event) => {
+                        scope.params.page(event.target.value);
+                        scope.$apply();
+                    });
+                    $('body').on('click', (event) => {
+                        if(hideIfNotScrollBar(event)) {
+                            if(!$(event.target).is(element)) {
+                                hideDropdown();
+                            }
+                        }
+                    })
+                }
+
+                function hideIfNotScrollBar(event) {
+                    let classListOfTarget = [];
+                    for(let i = event.target.classList.length - 1 ; i >= 0; i--) {
+                        classListOfTarget.push(event.target.classList[i]);
+                    }
+                    if(classListOfTarget && (classListOfTarget.indexOf('_mCS_2') != -1 || classListOfTarget.indexOf('mCSB_dragger_bar') != -1 || classListOfTarget.indexOf('mCSB_dragger') != -1)) {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+
+                function formingElement(startPage, lastPage) {
+                    let pagesList = '';
+                    let elementsCount = lastPage - startPage + 1;
+                    for(let i = startPage; i <= lastPage; i++){
+                        pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                    }
+                    drListElement.html(pagesList);
+                    if(elementsCount < 5) {
+                        heightDropList = 20*(elementsCount);
+                    } else {
+                        heightDropList = 100;
+                    }
+                    if(lastPage > 999) {
+                        widthDropList = 57;
+                    } else if(lastPage > 99) {
+                        widthDropList = 49;
+                    } else {
+                        widthDropList = 37;
+                    }
+                    return drListElement
+                }
+
+            }
+        }
+    }]).directive("paginationSecondSelect", ["$rootScope", function ($rootScope) {
+        return {
+            restrict: 'AE',
+            link: function (scope, element, attributes) {
+                let startPos = 1;
+                let lastPos = 1;
+                let expanded = false;
+                let heightDropList = 100;
+                let widthDropList = 37;
+                let drListElement = element.find('.pagination-droplist');
+                let elementWrapper = element.find('.pagination-droplist-2');
+                let totalPages;
+
+                scope.$watch('paginationParams', function (newValue, oldValue) {
+                    hideDropdown();
+                    if(newValue)
+                        totalPages = Math.ceil(newValue.totalCount/scope.params.count());
+                    if(totalPages > 5) {
+                        startPos = scope.paginationParams.currentPage + 2;
+                        lastPos = totalPages - 1;
+                        formingElement(startPos, lastPos);
+                        bindListeners(heightDropList, widthDropList);
+                    }
+                });
+
+                function hideDropdown() {
+                    if(elementWrapper) {
+                        elementWrapper.css({
+                            "height": "0",
+                            "border": "none"
+                        });
+                        expanded = false;
+                    }
+                }
+
+                function bindListeners(height, width) {
+                    element.unbind().on('click',(event) => {
+                        if(expanded && hideIfNotScrollBar(event)) {
+                            hideDropdown();
+                        } else {
+                            expanded = true;
+                            elementWrapper.css({
+                                "height": height,
+                                "width": width,
+                                "border": "1px solid #aaa"
+                            });
+                        }
+                    });
+                    element.find('li').on('click',(event) => {
+                        scope.params.page(event.target.value);
+                        scope.$apply();
+                    });
+                    $('body').on('click', (event) => {
+                        if(hideIfNotScrollBar(event)) {
+                            if(!$(event.target).is(element)) {
+                                hideDropdown();
+                            }
+                        }
+                    })
+                }
+
+                function hideIfNotScrollBar(event) {
+                    let classListOfTarget = [];
+                    for(let i = event.target.classList.length - 1 ; i >= 0; i--) {
+                        classListOfTarget.push(event.target.classList[i]);
+                    }
+                    if(classListOfTarget && (classListOfTarget.indexOf('_mCS_2') != -1 || classListOfTarget.indexOf('mCSB_dragger_bar') != -1 || classListOfTarget.indexOf('mCSB_dragger') != -1)) {
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+
+                function formingElement(startPage, lastPage) {
+                    let pagesList = '';
+                    let elementsCount = lastPage - startPage + 1;
+                    for(let i = startPage; i <= lastPage; i++){
+                        pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                    }
+                    drListElement.html(pagesList);
+                    if(elementsCount < 5) {
+                        heightDropList = 20*(elementsCount);
+                    } else {
+                        heightDropList = 100;
+                    }
+                    if(lastPage > 999) {
+                        widthDropList = 57;
+                    } else if(lastPage > 99) {
+                        widthDropList = 49;
+                    } else {
+                        widthDropList = 37;
+                    }
+                    return drListElement
+                }
+
+            }
+        }
     }]);
 function similar_text(first, second, percent) {
     if (first === null || second === null || typeof first === 'undefined' || typeof second === 'undefined') {

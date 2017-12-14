@@ -1006,7 +1006,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 var minus = width - height;
                 if(width >= height && minus > 40 && minus <=100){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 300 && width <= 349 && width != height){
+                }else if((width >= 300 && width <= 349) || width == height){
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
@@ -1432,14 +1432,6 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             }else{
                                 var id = resp.object.interviewId + changeObj.status.value;
                             }
-                            if(changeObj.date){
-                                if($rootScope.calendarShow){
-                                    googleCalendarCreateEvent(googleService, changeObj.date, changeObj.candidate.candidateId.fullName,
-                                        $rootScope.changeStatusOfInterviewInVacancy.position,
-                                        $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
-                                        changeObj.comment, id, $filter);
-                                }
-                            }
                             $scope.showChangeStatusValue = null;
                             //angular.forEach($scope.candidate.interviews, function (i) {
                             //    if (i.vacancyId.vacancyId == $rootScope.changeStatusOfInterviewInVacancy.vacancyId) {
@@ -1498,14 +1490,6 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                                 var id = resp.object.interviewId + changeObj.status.customInterviewStateId;
                             }else{
                                 var id = resp.object.interviewId + changeObj.status.value;
-                            }
-                            if(changeObj.date){
-                                if($rootScope.calendarShow){
-                                    googleCalendarCreateEvent(googleService, changeObj.date, changeObj.candidate.candidateId.fullName,
-                                        $rootScope.changeStatusOfInterviewInVacancy.position,
-                                        $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
-                                        changeObj.comment, id, $filter);
-                                }
                             }
                             $scope.showChangeStatusValue = null;
                             //angular.forEach($scope.candidate.interviews, function (i) {

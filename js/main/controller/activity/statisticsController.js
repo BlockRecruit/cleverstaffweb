@@ -283,6 +283,10 @@ controller.controller('ActivityStatisticsController', ["$scope", "$rootScope", "
                     $scope.tableParams.$params.total = $scope.persons.length;
                     params.total($scope.persons.length);
                     $rootScope.objectSize = $scope.persons.length;
+                    $scope.paginationParams = {
+                        currentPage: $scope.statisticParam.page.number,
+                        totalCount: $rootScope.objectSize
+                    };
                     $defer.resolve($filter('orderBy')(angular.copy($scope.persons), params.orderBy()));
                     $scope.countRowShow = true;
                     $scope.a.searchNumber = $scope.tableParams.page();

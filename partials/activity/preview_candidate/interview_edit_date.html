@@ -8,7 +8,7 @@
     <i class="fa fa-angle-right" aria-hidden="true"></i>
     <span> {{history.targetDate|dateFormat:true}}</span>
     <br>
-    <div class="fixed-comment-width">
+    <div ng-class="{'fixed-comment-width' : history.descr.length > 270}">
         <div>{{history.descr|textForNotice:false}}</div>
     </div>
 </div>

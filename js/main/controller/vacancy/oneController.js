@@ -16,6 +16,10 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.getMaxValue = '1';
         $scope.searchNumber = 1;
         $scope.historyType = {};
+        $scope.paginationParams = {
+            currentPage: 1,
+            totalCount: 0
+        };
         $scope.historyType.value = 'all_actions';
         $rootScope.responsiblePersonsEdit = [];
         $rootScope.showEmailTemplate = true;
@@ -164,12 +168,15 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 });
             },3);
             if($scope.currentTab == 'task'){
+                resetTemplate();
                 $scope.updateTasks(true)
             }
             if($scope.currentTab == 'settings'){
+                resetTemplate();
                 $scope.getEmailTemplates();
             }
             if($scope.currentTab == 'candidate'){
+                resetTemplate();
                 $scope.candidateInVacancy({value: "longlist"});
             }
         };
@@ -369,7 +376,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/vacancy-change-date-of-interview.html',
+                templateUrl: '../partials/modal/vacancy-change-date-of-interview.html?1',
                 size: '',
                 resolve: function(){
 
@@ -415,17 +422,11 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         $scope.tableParams.reload();
                     });
                     $scope.getLastEvent();
-                    if ($rootScope.selectedCalendar != undefined) {
-                        if ($rootScope.calendarShow) {
-                            googleCalendarUpdateEvent(googleService, new Date(newDate), resp.object.candidateId.fullName,
-                                $scope.vacancy.position, $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
-                                resp.object.comment, resp.object.interviewId + object.interviewObject.state, $filter);
-                        }
-
-                    }
                 });
             } else {
-                notificationService.error($filter('translate')('Select the interview date'));
+                $('#change-date-in-vacancy').addClass('not-valid').on('click',(event) => {
+                    $(event.currentTarget).removeClass('not-valid');
+                });
             }
         };
         $rootScope.getTextToCopy = function () {
@@ -639,23 +640,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     if ($scope.vacancy.status !== 'canceled' && $rootScope.me.recrutRole == 'admin' && ($scope.vacancy.responsiblesPerson == undefined || $scope.vacancy.responsiblesPerson.length == 0)) {
                         $scope.showResponsiblePopup = true;
                     }
-
-                    Person.getAllPersons(function (resp) {
-                        var personsCount = 0;
-                        $scope.associativePerson = resp.object;
-                        angular.forEach($scope.associativePerson, function (val, key) {
-                            if (angular.equals(resp.status, 'ok')) {
-                                personsCount++;
-                            }
-                        });
-                        if (personsCount > 1) {
-                            $scope.needAutoSetResponsible = false;
-                        } else if (personsCount == 1 && ($scope.vacancy.responsiblesPerson == undefined || $scope.vacancy.responsiblesPerson.length == 0)) {
-                            $scope.needAutoSetResponsible = true;
-                        } else {
-                            $scope.needAutoSetResponsible = false;
-                        }
-                    });
 
                     angular.forEach($scope.vacancy.publish, function (val) {
                         $scope.shareObj[val.type] = true;
@@ -1447,6 +1431,16 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             if (iUser) {
                 $scope.persons.unshift(iUser);
             }
+
+            var personsCount = $scope.associativePerson.length;
+
+            if (personsCount > 1) {
+                $scope.needAutoSetResponsible = false;
+            } else if (personsCount == 1 && ($scope.vacancy.responsiblesPerson == undefined || $scope.vacancy.responsiblesPerson.length == 0)) {
+                $scope.needAutoSetResponsible = true;
+            } else {
+                $scope.needAutoSetResponsible = false;
+            }
         });
 
         $scope.showAddResponsibleUser = function (person) {
@@ -1919,6 +1913,16 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                             });
                             params.total(resp['total']);
                             $rootScope.objectSize = resp['objects'] ? resp['total'] : 0;
+                            $scope.paginationParams = {
+                                currentPage: $scope.vacancySearchParams.page.number,
+                                totalCount: $rootScope.objectSize
+                            };
+                            let pagesCount = Math.ceil(resp['total']/$scope.vacancySearchParams.page.count);
+                            if(pagesCount == $scope.vacancySearchParams.page.number + 1) {
+                                $('#show_more').hide();
+                            } else {
+                                $('#show_more').show();
+                            }
                             $defer.resolve($filter('orderBy')(resp['objects'], ['-dc']));
                             if (cd && $scope.showTable !== 'recalls') {
                                 if ($scope.activeName === 'approved' && cd.length > 0) {
@@ -1927,6 +1931,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 } else if (cd.length > 0) {
                                     $scope.showTable = "table";
                                 } else {
+                                    if(!$rootScope.objectSize)
                                     $scope.showTable = "not available";
                                 }
                             }
@@ -1959,7 +1964,11 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                     }
                                 } else {
                                     $scope.dataForVacancy = cd;
+                                    $scope.dataForVacancy.map((item) => {
+                                        console.log(item.state,item.isInterview);
+                                    });
                                     $defer.resolve(cd);
+
                                 }
 
                             }
@@ -2204,22 +2213,20 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                             } else {
                                                 var id = resp.object.interviewId + changeObj.status.value;
                                             }
-                                            //if (changeObj.date) {
-                                            //    if ($rootScope.calendarShow) {
-                                            //        googleCalendarCreateEvent(googleService, changeObj.date, changeObj.candidate.candidateId.fullName,
-                                            //            $scope.vacancy.position,
-                                            //            $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
-                                            //            changeObj.comment, id, $filter);
-                                            //    }
-                                            //}
                                         }
                                     }
                                     Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
                                         $scope.vacancy = resp.object;
                                         $rootScope.vacancy = resp.object;
                                         $scope.recalls = resp.object.recalls;
-                                        if($scope.showTable !== 'recalls')
-                                            $scope.tableParams.reload();
+                                        if($scope.showTable !== 'recalls') {
+                                            if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 0) {
+                                                $scope.tableParams.page($scope.a.searchNumber - 1);
+                                                $scope.tableParams.reload();
+                                            } else {
+                                                $scope.tableParams.reload();
+                                            }
+                                        }
                                         $scope.numberOfCandidatesInDifferentStates();
                                     });
                                     changeObj.candidate.state = changeObj.status.value;
@@ -2279,20 +2286,20 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                             } else {
                                                 var id = resp.object.interviewId + changeObj.status.value;
                                             }
-                                            //if ($rootScope.calendarShow) {
-                                            //    googleCalendarCreateEvent(googleService, changeObj.date, changeObj.candidate.candidateId.fullName,
-                                            //        $scope.vacancy.position,
-                                            //        $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
-                                            //        changeObj.comment, id, $filter);
-                                            //}
                                         }
                                     }
                                     Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
                                         $scope.vacancy = resp.object;
                                         $rootScope.vacancy = resp.object;
                                         $scope.recalls = resp.object.recalls;
-                                        if($scope.showTable !== 'recalls')
-                                        $scope.tableParams.reload();
+                                        if($scope.showTable !== 'recalls') {
+                                            if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 0) {
+                                                $scope.tableParams.page($scope.a.searchNumber - 1);
+                                                $scope.tableParams.reload();
+                                            } else {
+                                                $scope.tableParams.reload();
+                                            }
+                                        }
                                         $scope.numberOfCandidatesInDifferentStates();
 
                                         //$scope.tableParams2.reload();
@@ -2422,7 +2429,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.addCandidateInInterview.showSelect = showSelect;
             var value = $filter('filter')($scope.VacancyStatus, {used: true});
 
-
             $rootScope.addCandidateInInterview.statusObject = $scope.VacancyStatusFiltered;
 
             $scope.modalInstance = $uibModal.open({
@@ -2439,6 +2445,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.candnotify.send = false;
             $scope.modalInstance.opened.then(function() {
                 setTimeout(function(){
+                    $("#addCandidateInInterview").find("option").eq(0).remove();
                     tinymce.init({
                         selector: '#modalMCECandidate',
                         mode: 'exact',
@@ -2808,17 +2815,16 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }, function (resp) {
                 if (resp.status === "ok") {
                     notificationService.success($filter('translate')('Candidate removed') + " " + $filter('translate')('from vacancy'));
-                    //$scope.vacancy.responsiblesPerson = resp.object.responsiblesPerson;
-                    //$scope.getLastEvent();
-                    angular.forEach($scope.vacancy.interviews, function (val) {
-                        if ($rootScope.candidateInterviewId == val.interviewId) {
-                            $scope.vacancy.interviews.splice($scope.vacancy.interviews.indexOf(val), 1);
-                        }
-                    });
                 }
                 $rootScope.closeModal();
                 $rootScope.deleteInterview.comment = "";
-                $scope.tableParams.reload();
+                console.log('length ', $scope.dataForVacancy.length,$scope.a.searchNumber)
+                if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 0) {
+                    $scope.tableParams.page($scope.a.searchNumber - 1);
+                    $scope.tableParams.reload();
+                } else {
+                    $scope.tableParams.reload();
+                }
                 $scope.numberOfCandidatesInDifferentStates();
                 $scope.getLastEvent();
             }, function (err) {
@@ -3748,7 +3754,12 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
                             });
                             ed.on('change', function(e) {
-                                $rootScope.emailTemplateInModal.text = tinyMCE.get('modalMCE').getContent();
+                                try{
+                                    $rootScope.emailTemplateInModal.text = tinymce.get('modalMCE').getContent();
+                                } catch (e) {
+                                    console.log('error in tinymce.get(\'modalMCE\').getContent(). It`s normal')
+                                }
+
                             });
                         }
                     });
@@ -3898,4 +3909,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             })
         }
         ////////////////////////////////////////////////////////End of edit page
+        function resetTemplate() {
+            $scope.activeTemplate = '';
+            $scope.showAddEmailTemplate = false;
+        }
     }]);

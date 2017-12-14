@@ -167,6 +167,7 @@
   "open": "New",
   "expects": "On Hold",
   "inwork": "In Progress",
+  "replacement": "Replacement",
   "payment": "Payment",
   "completed": "Completed",
   "canceled": "Canceled",
@@ -174,6 +175,7 @@
     "open": "New",
     "expects": "On Hold",
     "inwork": "In Progress",
+    "replacement": "Replacement",
     "payment": "Payment",
     "completed": "Completed",
     "canceled": "Canceled",
@@ -197,11 +199,13 @@
   },
   "future": "Future",
   "in_work": "In Progress",
+  "on_hold": "On hold",
   "all_done": "All Done",
   "deleted": "Deleted",
   "client_status_assoc": {
     "future": "Future",
     "in_work": "In Progress",
+    "on_hold": "On hold",
     "all_done": "All Done",
     "canceled": "Canceled",
     "deleted": "Deleted"
@@ -1516,7 +1520,7 @@
   "Grow Your Database in Seconds": "Grow Your Database in Seconds",
   "First, let's import your database": "First, let's import your database",
   "Upload thousands of CVs as an archive, import from email, or add them 1-by-1": "Upload thousands of CVs as an archive, import from email, or add them 1-by-1",
-  "Also, you can find & add candidates via embedded search on LinkedIn": "Also, you can find & add candidates via embedded search on LinkedIn",
+  "Also, you can find & add candidates via embedded search on LinkedIn": "Save candidate profiles directly from LinkedIn via CleverStaff extension for Chrome",
   "I’ll do it later": "I’ll do it later",
   "Woop Woop": "Woop Woop",
   "So great to see your candidates’ database grow": "So great to see your candidates’ database grow",
@@ -2207,5 +2211,12 @@
   "Recruiters shared no vacancies for you yet. Ask them to do that or add new vacancy by yourself. They will see it.":"Recruiters shared no vacancies for you yet. Ask them to do that.",
   "enter a comment": "Enter a comment",
   "Select the interview date": "Select the interview date",
-  "The large quantity of results has been found.": "The large quantity of results has been found. <b>{{total_count}}</b> of them is shown. Please specify search criteria to get more accurate results"
+  "You has granted role":"You has granted role",
+  "_for":"for",
+  "The large quantity of results has been found.": "The large quantity of results has been found. <b>{{total_count}}</b> of them is shown. Please specify search criteria to get more accurate results",
+  "_Previous": "Previous",
+  "_Next": "Next",
+  "_Show": "Show",
+  "items on page": "items on page",
+  "Go to initial page": "Go to initial page"
 }

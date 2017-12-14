@@ -19,27 +19,55 @@ header nav .loginBtn:hover {
     color: #fff;
 }
 .google-icon{
-    background: url(../img/svg/ic_google.svg);
-    height: 35px;
-    width: 35px;
-    background-size: cover;
+    background: url(../img/svg/btn_google.svg);
+    background-color: #fcfcfc;
+    height: 34px;
+    width: 135px;
+    font-weight: 500;
+    color: #646465;
+    border: 1px solid #ccc;
+    background-position: 8px 7px;
+    background-size: 18px 18px;
+    background-repeat: no-repeat;
     display: inline-block;
-    position: relative;
-    top: 10px;
-    left: 5px;
+    padding-top: 6px;
+    padding-left: 10px;
+    border-radius: 35px;
+    margin-bottom: 10px;
     margin-right: 10px;
     cursor: pointer;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+.google-icon:hover {
+    transition: all .3s;
+    background-color: #f4f4f4;
 }
 .fb-icon{
-    background: url(../img/svg/ic_fb.svg);
-    height: 35px;
-    width: 35px;
-    background-size: cover;
-    display: inline-block;
+    height: 34px;
+    width: 135px;
+    background-color: #4267b2;
     position: relative;
-    top: 10px;
-    left: 5px;
+    color: white;
+    border-radius: 35px;
+    padding-top: 6px;
+    padding-left: 25px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    display: inline-block;
     cursor: pointer;
+    vertical-align: middle;
+}
+.fb-icon:hover {
+    transition: all .3s;
+    background-color: #365899;
+}
+.fb-icon i {
+    position: absolute;
+    top: 5px;
+    left: 14px;
+    color: white;
+    font-size: 22px;
 }
 .manGo{
     background: url(../img/svg/im_run_man.svg);

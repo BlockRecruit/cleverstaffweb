@@ -1,0 +1,112 @@
+<div class="ui show-more-block" >
+    <button class="show-more" ng-show="params.total()>=15" id="show_more" ng-click="showMore()">
+        <span translate="Show more"></span>
+    </button>
+</div>
+<div class="pagination-elements">
+    <span ng-show="isShowMore">
+        <a ng-click="params.reload()" class="reset-button" translate="Go to initial page">
+            back to start page
+        </a>
+    </span>
+    <span ng-show="params.settings().total>params.count() && !isShowMore && totalPagesCount > 6" class="left-block">
+        <span ng-repeat="page in pages"
+              ng-if="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+            <a ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+               ng-switch-when="prev" ng-click="params.page(page.number)" class="icon item left-arrow">
+                <i class="fa  fa-chevron-left" aria-hidden="true"></i>
+                <span translate="_Previous"></span>
+            </a>
+        </span>
+        <a class="pager-round-button" ng-class="{'active': params.page()  == 1}" ng-click="params.page(1)">1</a>
+        <a class="pager-round-button" ng-show="(params.page()  <= 3 || params.page()  >= totalPagesCount-1)" ng-class="{'active': params.page()  == 2}" ng-click="params.page(2)">2</a>
+        <a class="pager-round-button" ng-show="(params.page()  == 3 )" ng-class="{'active': params.page()  == 3}" ng-click="params.page(3)">3</a>
+        <a class="pager-round-button" pagination-select ng-show="(params.page() != 3)">...<div class="pagination-droplist-2" custom-scrollbar-pagination><ul class="pagination-droplist"></ul></div></a>
+        <a class="pager-round-button active" ng-show="(params.page()  > 3 && params.page()  < totalPagesCount-1)" ng-bind="params.page()"></a>
+        <a class="pager-round-button" ng-show="(params.page()  >= 3 && params.page()  < totalPagesCount-2)" pagination-second-select>...<div class="pagination-droplist-2" custom-scrollbar-pagination><ul class="pagination-droplist"></ul></div></a>
+        <a class="pager-round-button" ng-show="(params.page()  <= 2 || params.page()  >= totalPagesCount-2)" ng-class="{'active': params.page()  == totalPagesCount-1}" ng-click="params.page(totalPagesCount-1)" ng-bind="totalPagesCount - 1"></a>
+        <a class="pager-round-button" ng-class="{'active': params.page()  == totalPagesCount}" ng-click="params.page(totalPagesCount)" ng-bind="totalPagesCount"></a>
+        <span ng-repeat="page in pages"
+              ng-if="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+            <a ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+               ng-switch-when="next" ng-click="params.page(page.number)" class="icon item right-arrow">
+                <span translate="_Next"></span>
+                <i class="fa  fa-chevron-right" aria-hidden="true"></i>
+            </a>
+        </span>
+    </span>
+    <span ng-show="params.settings().total>params.count() && !isShowMore && totalPagesCount == 6" class="left-block">
+        <span ng-repeat="page in pages"
+              ng-if="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+            <a ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+               ng-switch-when="prev" ng-click="params.page(page.number)" class="icon item left-arrow">
+                <i class="fa  fa-chevron-left" aria-hidden="true"></i>
+                <span translate="_Previous"></span>
+            </a>
+        </span>
+        <a class="pager-round-button" ng-class="{'active': params.page()  == 1}" ng-click="params.page(1)">1</a>
+        <a class="pager-round-button" ng-show="params.page() != 4"  ng-class="{'active': params.page()  == 2}" ng-click="params.page(2)">2</a>
+        <a class="pager-round-button" ng-show="params.page() != 3" pagination-select>...<div class="pagination-droplist-2" custom-scrollbar-pagination><ul class="pagination-droplist"></ul></div></a>
+        <a class="pager-round-button" ng-show="params.page() == 3"  ng-class="{'active': params.page()  == 3}" ng-click="params.page(3)">3</a>
+        <a class="pager-round-button" ng-show="params.page() == 3" pagination-select>...<div class="pagination-droplist-2" custom-scrollbar-pagination><ul class="pagination-droplist"></ul></div></a>
+        <a class="pager-round-button" ng-show="params.page()  == 4"  ng-class="{'active': params.page()  == 4}" ng-click="params.page(4)">4</a>
+        <a class="pager-round-button" ng-show="params.page() != 3" ng-class="{'active': params.page()  == 5}" ng-click="params.page(5)">5</a>
+        <a class="pager-round-button" ng-class="{'active': params.page()  == 6}" ng-click="params.page(6)">6</a>
+        <span ng-repeat="page in pages"
+              ng-if="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+            <a ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+               ng-switch-when="next" ng-click="params.page(page.number)" class="icon item right-arrow">
+                <span translate="_Next"></span>
+                <i class="fa  fa-chevron-right" aria-hidden="true"></i>
+            </a>
+        </span>
+    </span>
+    <span ng-show="params.settings().total>params.count() && !isShowMore && totalPagesCount <= 5" class="left-block">
+        <span ng-repeat="page in pages"
+              ng-if="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+            <a ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+               ng-switch-when="prev" ng-click="params.page(page.number)" class="icon item left-arrow">
+                <i class="fa  fa-chevron-left" aria-hidden="true"></i>
+                <span translate="_Previous"></span>
+            </a>
+        </span>
+        <a class="pager-round-button" ng-class="{'active': params.page()  == 1}" ng-click="params.page(1)">1</a>
+        <a class="pager-round-button" ng-if="totalPagesCount >= 2" ng-class="{'active': params.page()  == 2}" ng-click="params.page(2)">2</a>
+        <a class="pager-round-button" ng-if="totalPagesCount >= 3"  ng-class="{'active': params.page()  == 3}" ng-click="params.page(3)">3</a>
+        <a class="pager-round-button" ng-if="totalPagesCount >= 4"  ng-class="{'active': params.page()  == 4}" ng-click="params.page(4)">4</a>
+        <a class="pager-round-button" ng-if="totalPagesCount >= 5"  ng-class="{'active': params.page()  == 5}" ng-click="params.page(5)">5</a>
+        <span ng-repeat="page in pages"
+              ng-if="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+            <a ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+               ng-switch-when="next" ng-click="params.page(page.number)" class="icon item right-arrow">
+                <span translate="_Next"></span>
+                <i class="fa  fa-chevron-right" aria-hidden="true"></i>
+            </a>
+        </span>
+    </span>
+    <div class="hidden-xs hidden-sm pagination-right-block">
+        <span ng-show="params.settings().total >= params.count()">{{'_Show' | translate}}&nbsp;&nbsp;</span>
+        <div class="ui custom_small pagination menu">
+            <a class="item pager-round-button" ng-class="{'active':params.count() == 15}" ng-show="params.total()>15"
+               ng-click="params.count(15)">
+                15
+            </a>
+            <a class="item pager-round-button" ng-class="{'active':params.count() == 30}" ng-show="params.total()>=30"
+               ng-click="params.count(30)">
+                30
+            </a>
+            <a class="item pager-round-button" ng-class="{'active':params.count() == 60}" ng-show="params.total()>=60"
+               ng-click="params.count(60)">
+                60
+            </a>
+            <a class="item pager-round-button" ng-class="{'active':params.count() == 120}" ng-show="params.total()>=120"
+               ng-click="params.count(120)">
+                120
+            </a>
+        </div>
+        <span ng-show="params.settings().total >= params.count()">&nbsp;
+            <span translate="items" class="item-type-standard"></span>
+            <span translate="candidatesToCastomFild" class="item-type-candidates"></span>
+        </span>
+    </div>
+</div>

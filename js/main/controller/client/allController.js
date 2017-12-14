@@ -176,6 +176,16 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                         } else {
                             $scope.clients = response['objects'];
                         }
+                        $scope.paginationParams = {
+                            currentPage: Client.searchOptions().page.number,
+                            totalCount: $rootScope.objectSize
+                        };
+                        let pagesCount = Math.ceil(response['total']/Client.searchOptions().page.count);
+                        if(pagesCount == Client.searchOptions().page.number + 1) {
+                            $('#show_more').hide();
+                        } else {
+                            $('#show_more').show();
+                        }
                         $scope.clientsFound = response['total'] >= 1;
                         params.total(response['total']);
                         $defer.resolve($scope.clients);
