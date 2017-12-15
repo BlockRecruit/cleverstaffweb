@@ -18,10 +18,10 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <LINK REL="SHORTCUT ICON" HREF="images/sprite/favicon.png?b3">
-    <link rel="stylesheet" href="dist/css/styles.css?b217">
+    <link rel="stylesheet" href="dist/css/styles.css?b218">
     <link rel="stylesheet" type="text/css" media="print" href="dist/css/print.css" />
     <!--<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>-->
-    <script type="text/javascript" src="dist/js/mainLib.js?b161"></script>
+    <script type="text/javascript" src="dist/js/mainLib.js?b162"></script>
 
 
     <!--<link  href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">-->
@@ -226,10 +226,15 @@
                         <!--<a href="#/feedback-new-design">{{'Do you like the new CleverStaff design'|translate}}</a>-->
                     <!--</li>-->
                     <li class="payMoney hidden-xs hidden-sm" ng-show="$root.me.recrutRole == 'admin'">
-                        <a href="#/pay" class="payment">
+                        <a href="#/pay" class="payment" ng-class="{'low-low-balance': paidFor!==undefined && paidFor <= 4,'low-balance': paidFor!==undefined && paidFor <= 7}">
                             <i class="fa fa-usd"></i>
-                            <span ng-show="$root.companyParams.paidTillDate && $root.companyParams.billing !== 'Y'">{{'up to'|translate}}&nbsp;{{$root.companyParams.paidTillDate}}</span>
-                            <span ng-show="$root.paidTillDateBilling && $root.companyParams.billing == 'Y'">{{'up to'|translate}}&nbsp;{{$root.paidTillDateBilling}}</span>                        </a>
+                            <span ng-show="!$root.paidTillDateBilling && $root.companyParams.paidTillDate && paidFor > 7">{{'up to'|translate}}&nbsp;{{$root.companyParams.paidTillDate}}</span>
+                            <span ng-show="$root.paidTillDateBilling && paidFor > 7">{{'up to'|translate}}&nbsp;{{$root.paidTillDateBilling}}</span>
+                            <span ng-show="paidFor > 4 && paidFor <= 7" translate="Days left" translate-values="{days_left: paidFor}" ></span>
+                            <span ng-show="paidFor <= 4 && paidFor > 1" translate="Days left!" translate-values="{days_left: paidFor}" ></span>
+                            <span ng-show="paidFor == 1" translate="Day left!" translate-values="{days_left: paidFor}" ></span>
+                            <span ng-show="paidFor == 0" translate="No Day left!" translate-values="{days_left: paidFor}" ></span>
+                        </a>
                     </li>
                     <li class="showFeedbackMenu hidden-xs hidden-sm">
                         <div class="btn-group" uib-dropdown>
@@ -1228,7 +1233,7 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZul9dW5-r5WVV1479hAgVxM5Z75C-ykM&libraries=places"></script>
     <script type="text/javascript" src="lib/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b277"></script>
+    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b278"></script>
 
     <!--ЗPignation in TAble-->
     <script type="text/ng-template" id="custom/pager">
