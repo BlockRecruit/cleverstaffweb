@@ -4800,12 +4800,12 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             }
         };
     }])
-    .filter('dateFormat6', ["$filter", "$translate", function ($filter, $translate) {
+    .filter('dateFormat6', ["$filter", "$translate",'$rootScope' , function ($filter, $translate, $rootScope) {
         return function (date, withHour) {
             var hour = "";
             var dateToday = new Date().getTime();
             var dateTomorrow = new Date().setDate(new Date().getDate() + 1);
-            var lang = $translate.use();
+            var lang = $translate.use() || $rootScope.currentLang || 'ru';
             var dateMD = "";
             var dateMDY = "";
             if (lang == 'ru' || lang == 'ua') {
@@ -4826,7 +4826,7 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                 if (angular.equals($filter('date')(dateToday, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
                     var res = $filter("translate")("today");
                     if (withHour) {
-                        res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour)
+                        res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour);
                     }
                     return res;
                 } else if (angular.equals($filter('date')(dateTomorrow, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
@@ -19765,8 +19765,11 @@ function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, g
 
     Vacancy.one({localId: $routeParams.vacancyId}, function(resp) {
         if (!resp.object.interviews || resp.object.interviews.length == 0) {
+            console.log("returning!",resp.object);
             $location.path("/vacancies/" + $routeParams.vacancyId);
             return;
+        } else {
+            console.log(resp.object);
         }
         $scope.pageObject.mail.vacancyId = resp.object.vacancyId;
         $rootScope.title = $filter('translate')('Sending email to the customer') + " | CleverStaff";
@@ -27055,6 +27058,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                 });
                             }else if(emailDomen == 'gmail.com'){
                                 googleService.gmailAuth("modify",function(result) {
+                                    console.log('gmail add-1', result)
+                                    $rootScope.addedEmail.email = result.email;
                                     $rootScope.addedEmail.password = result.code;
                                     $rootScope.addedEmail.host = 'gmail';
                                     Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
@@ -27081,6 +27086,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                         $rootScope.itsGmail = resp.code;
                                         if(resp.code == 'gmail'){
                                             googleService.gmailAuth("modify",function(result) {
+                                                console.log('gmail add-2', result)
+                                                $rootScope.addedEmail.email = result.email;
                                                 $rootScope.addedEmail.password = result.code;
                                                 $rootScope.addedEmail.host = 'gmail';
                                                 Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
@@ -27154,6 +27161,7 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                 }else if(emailDomen == 'gmail.com' || emailDomen == 'gmail' || $rootScope.itsGmail == 'gmail' || $rootScope.itsGmailModal == 'gmail'){
                     googleService.gmailAuth("modify",function(result) {
                         $rootScope.editedEmail.password = result.code;
+                        $rootScope.addedEmail.email = result.email;
                         $rootScope.editedEmail.host = 'gmail';
                         Candidate.editEmailAccess($rootScope.editedEmail, function(resp){
                             if(resp.status == 'error'){
@@ -33317,6 +33325,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     object.interviewObject.dateInterview = newDate;
                     $rootScope.closeModal();
                     Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
+                        console.log("gggg");
                         $scope.vacancy = resp.object;
                         $rootScope.vacancy = resp.object;
                         $scope.tableParams.reload();
@@ -34270,6 +34279,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     //$rootScope.commentVacancyToCandidate.comment = null;
                     if (resp.status == 'ok') {
                         Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
+                            console.log("llggl");
                             $scope.vacancy = resp.object;
                             $rootScope.vacancy = resp.object;
                             $scope.tableParams.reload();
@@ -35189,6 +35199,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         }
                                     }
                                     Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
+                                        console.log("gooo");
                                         $scope.vacancy = resp.object;
                                         $rootScope.vacancy = resp.object;
                                         $scope.recalls = resp.object.recalls;
@@ -35519,6 +35530,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         $scope.countActivePersons = resp.message;
                         if ($scope.countActivePersons == 1 && ($scope.vacancy.responsiblesPerson == undefined || $scope.vacancy.responsiblesPerson.length == 0)) {
                             Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
+                                console.log("tru123e");
                                 $scope.vacancy.responsiblesPerson = resp.object.responsiblesPerson;
                             });
                         }
@@ -36344,6 +36356,21 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 }
             })
         };
+
+
+
+        $scope.sendCandidatesToClient = function() {
+            Vacancy.one({localId: $routeParams.id}, function (resp) {
+                if(!resp.object.interviews || resp.object.interviews.length == 0) {
+                    notificationService.error($filter('translate')('Please add the candidates to this stage'));
+                    return;
+                } else {
+                    $location.path("/email/vacancy/" + $scope.vacancy.localId);
+                }
+            });
+
+        };
+
         $scope.showEditEmailTemplate = function(template){
             $scope.activeTemplate = template.type;
             $scope.fileForSave = [];
