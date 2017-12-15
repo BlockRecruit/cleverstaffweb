@@ -710,9 +710,23 @@
 	border-radius: 5px;
 	background: #fff;
 	.fields {
+		@include flex(row, space-between, center);
+
 		position: relative;
 
 		width: 100%;
+		&-title {
+			@include flex(row, space-between, center);
+			&-select {
+				input {
+					@include input-styling();
+					@include border-radius();
+
+					border: 1px solid #e3e3e3;
+					outline: none;
+				}
+			}
+		}
 		.field {
 			input {
 				@include input-styling();
