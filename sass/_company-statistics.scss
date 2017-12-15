@@ -5,6 +5,10 @@
 	.row {
 		@include disabled-margins-for-row();
 	}
+	.no-padding {
+		padding-right: 0;
+		padding-left: 0;
+	}
 	.img-section {
 		padding: 15px;
 

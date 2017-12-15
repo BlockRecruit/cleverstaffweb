@@ -3944,16 +3944,12 @@ angular.module('services.candidate', [
                             //$scope.zipType = $('#zipType').val();
                             var fullPath = $('#zip').val();
                             if (fullPath) {
-                                if($scope.zipBrowser == 'Firefox'){
-                                    $scope.filename = fullPath;
-                                }
-                                else{
                                     var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
                                     var filename = fullPath.substring(startIndex);
                                     if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
                                         $scope.filename = filename.substring(1);
                                     }
-                                }
+
                             }
                             if($('#zipButton1').prop('checked')){
                                 $scope.zipType =$('#zipButton1').val()
