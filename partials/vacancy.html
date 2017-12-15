@@ -696,12 +696,12 @@
                         </span>
                         <i ng-show="activeName != 'approved'" title="{{'Edit comment' | translate}}" class="fa fa-pencil" aria-hidden="true"></i>
                         <a href="#/company/employee/add/{{::candidate.candidateId.localId}}" ng-click="$event.stopPropagation();"
-                           ng-show="activeName == 'approved' && $root.me.personParams.enableEmployee == 'Y' && $root.me.orgParams.enableEmployee == 'Y'"
+                           ng-show="activeName == 'approved' && ($root.me.personParams.enableEmployee == 'Y' || $root.me.orgParams.enableEmployee == 'Y')"
                            class="btn btn-success">
                             {{'our employee' | translate}}
                         </a>
-                        <a ng-show="activeName == 'approved' && $root.me.orgParams.enableEmployee != 'Y'" type="button" href="#/hr-module-info"
-                           class="btn btn-success">
+                        <a ng-show="activeName == 'approved' && ($root.me.personParams.enableEmployee != 'Y' || $root.me.orgParams.enableEmployee != 'Y')" type="button" href="#/hr-module-info"
+                           class="btn btn-success hidden">
                             {{'our employee'|translate}}!
                         </a>
                     </td>
