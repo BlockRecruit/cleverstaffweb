@@ -860,6 +860,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
 
         $rootScope.closeModal = function(){
           $scope.modalInstance.close();
+          $('body').removeClass('modal-open-public-vacancy-form');
         };
 
         if($location.$$absUrl.indexOf('/pv/') >= 0){
@@ -1164,6 +1165,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
 
         $scope.showRecallFromModal = function() {
             $scope.showErrorEmailMessage = false;
+            $('body').addClass('modal-open-public-vacancy-form');
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/public-vacancy-form.html?b=10',
@@ -1225,7 +1227,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                         $scope.recallForm.email2.$invalid = false;
                         $scope.recallForm.email2.$pristine = false;
                         $scope.showErrorEmailMessage = false;
-                        console.log("windowed!");
+                        $('body').removeClass('modal-open-public-vacancy-form');
                         $rootScope.closeModal();
                         $scope.showModalInfoAboutVacancy();
                     }

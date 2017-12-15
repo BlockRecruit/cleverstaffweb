@@ -1,9 +1,15 @@
+body.modal-open-public-vacancy-form {
+	.modal-content {
+		border-radius: 16px;
+	}
+}
+
 .public-vacancy-form {
 	position: relative;
 
 	padding: 30px 50px;
 
-	border-radius: 7px;
+	border-radius: 16px;
 	background-color: #e3f2dd;
 	span.form-name {
 		font-family: "Helvetica-Medium";
