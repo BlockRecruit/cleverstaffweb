@@ -20,6 +20,7 @@
             CustomReportsService.getAllPersons.call(this);
             CustomReportsService.getDate.call(this, this.dataReport, $scope);
             CustomReportsService.buildReport.call(this, $scope);
+
         }catch(erorr){
             console.log(erorr, 'erorr CustomReports')
         }

@@ -2220,5 +2220,6 @@
   "items on page": "items on page",
   "Go to initial page": "Go to initial page",
   "The large quantity of results has been found.": "The large quantity of results has been found. <b>{{total_count}}</b> of them is shown. Please specify search criteria to get more accurate results",
-  "Please add the candidates to this stage":"Please add the candidates to this stage"
+  "Please add the candidates to this stage":"Please add the candidates to this stage",
+  "Time range":"Time range"
 }
