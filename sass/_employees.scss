@@ -1,4 +1,8 @@
 .block-employees {
+	.no-padding-sm {
+		margin-top: 15px;
+		padding-right: 0;
+	}
 	::-webkit-input-placeholder {
 		color: $theme-grey;
 	}
