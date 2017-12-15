@@ -1151,17 +1151,11 @@ var directive = angular.module('RecruitingApp.directives', []).
                         img.onload = function() {
                             var width = this.width;
                             var height = this.height;
-                            console.log(width);
-                            console.log(height);
                             var minus = width - height;
-                            if(width >= height && minus > 30 && minus <=100){
-                                $('#photo-preview').css('width', '23%');
-                            }else if(width >= 300 && width <= 349 && width != height){
-                                $('#photo-preview').css('height', '385px');
-                            }else if(width >= 350 && width != height){
-                                $('#photo-preview').css('width', '33%');
-                            }else if(width >= 266 && width != height){
-                                $('#photo-preview').css('width', '33%');
+                            if((width <= height && width < 200) || (width >= height && minus > 30 && minus <=100)){
+                                $('#photo-preview').css({'width': '23%', 'left': '35px'});
+                            }else if((width >= 300 && width <= 349) || width != height || width == height){
+                                $('#photo-preview').css('object-fit', 'fill');
                             }else if(width == height){
                                 $('#photo-preview').css('width', '33%');
                             }else{
