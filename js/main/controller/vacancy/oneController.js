@@ -3449,9 +3449,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             })
         };
 
-<<<<<<< HEAD
-
-
         $scope.sendCandidatesToClient = function() {
             Vacancy.one({localId: $routeParams.id}, function (resp) {
                 if(!resp.object.interviews || resp.object.interviews.length == 0) {
@@ -3461,20 +3458,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $location.path("/email/vacancy/" + $scope.vacancy.localId);
                 }
             });
-
-=======
-        $scope.sendCandidatesToClient = function() {
-            // #/email/vacancy/{{vacancy.localId}}
-            if(!$scope.vacancy.interviews || $scope.vacancy.interviews.length == 0) {
-                notificationService.error($filter('translate')('Please add the candidates to this stage'));
-                return;
-            } else {
-                $location.path("/email/vacancy/" + $scope.vacancy.localId);
-            }
-            // console.log($scope.vacancy);
-            // console.log("#email/vacancy/" + $scope.vacancy.localId);
->>>>>>> done, mooved in qa
-        };
 
         $scope.showEditEmailTemplate = function(template){
             $scope.activeTemplate = template.type;

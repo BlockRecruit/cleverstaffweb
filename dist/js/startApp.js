@@ -1888,7 +1888,7 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
         $scope.outHover = function(){
             $scope.showHover = false;
         };
-        $timeout( function() {
+        $timeout(function() {
             $scope.getTestFunc();
         });
         $scope.getTestFunc = function () {
