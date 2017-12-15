@@ -1666,7 +1666,7 @@
   "Clear": "Clear",
   "Changing the date of interview": "Changing the date of interview",
   "Profile": "Profile",
-  "It look's like some problem with connection": "It look's like some problem with connection",
+  "It look's like some problem with connection": "It looks like some problem with connection",
   "Login to Your Account": "Login to Your Account",
   "If you want to log in, click the button  below:": "If you want to log in, click the button  below:",
   "Please enter your request": "Please enter your request",
@@ -2213,10 +2213,11 @@
   "Select the interview date": "Select the interview date",
   "You has granted role":"You has granted role",
   "_for":"for",
-  "The large quantity of results has been found.": "The large quantity of results has been found. <b>{{total_count}}</b> of them is shown. Please specify search criteria to get more accurate results",
   "_Previous": "Previous",
   "_Next": "Next",
   "_Show": "Show",
   "items on page": "items on page",
-  "Go to initial page": "Go to initial page"
+  "Go to initial page": "Go to initial page",
+  "The large quantity of results has been found.": "The large quantity of results has been found. <b>{{total_count}}</b> of them is shown. Please specify search criteria to get more accurate results",
+  "Please add the candidates to this stage":"Please add the candidates to this stage"
 }

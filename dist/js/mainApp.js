@@ -4800,12 +4800,12 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             }
         };
     }])
-    .filter('dateFormat6', ["$filter", "$translate", function ($filter, $translate) {
+    .filter('dateFormat6', ["$filter", "$translate",'$rootScope' , function ($filter, $translate, $rootScope) {
         return function (date, withHour) {
             var hour = "";
             var dateToday = new Date().getTime();
             var dateTomorrow = new Date().setDate(new Date().getDate() + 1);
-            var lang = $translate.use();
+            var lang = $translate.use() || $rootScope.currentLang || 'ru';
             var dateMD = "";
             var dateMDY = "";
             if (lang == 'ru' || lang == 'ua') {
@@ -4826,7 +4826,7 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                 if (angular.equals($filter('date')(dateToday, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
                     var res = $filter("translate")("today");
                     if (withHour) {
-                        res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour)
+                        res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour);
                     }
                     return res;
                 } else if (angular.equals($filter('date')(dateTomorrow, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
@@ -19765,8 +19765,11 @@ function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, g
 
     Vacancy.one({localId: $routeParams.vacancyId}, function(resp) {
         if (!resp.object.interviews || resp.object.interviews.length == 0) {
+            console.log("returning!",resp.object);
             $location.path("/vacancies/" + $routeParams.vacancyId);
             return;
+        } else {
+            console.log(resp.object);
         }
         $scope.pageObject.mail.vacancyId = resp.object.vacancyId;
         $rootScope.title = $filter('translate')('Sending email to the customer') + " | CleverStaff";
@@ -27055,6 +27058,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                 });
                             }else if(emailDomen == 'gmail.com'){
                                 googleService.gmailAuth("modify",function(result) {
+                                    console.log('gmail add-1', result)
+                                    $rootScope.addedEmail.email = result.email;
                                     $rootScope.addedEmail.password = result.code;
                                     $rootScope.addedEmail.host = 'gmail';
                                     Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
@@ -27081,6 +27086,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                         $rootScope.itsGmail = resp.code;
                                         if(resp.code == 'gmail'){
                                             googleService.gmailAuth("modify",function(result) {
+                                                console.log('gmail add-2', result)
+                                                $rootScope.addedEmail.email = result.email;
                                                 $rootScope.addedEmail.password = result.code;
                                                 $rootScope.addedEmail.host = 'gmail';
                                                 Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
@@ -27154,6 +27161,7 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                 }else if(emailDomen == 'gmail.com' || emailDomen == 'gmail' || $rootScope.itsGmail == 'gmail' || $rootScope.itsGmailModal == 'gmail'){
                     googleService.gmailAuth("modify",function(result) {
                         $rootScope.editedEmail.password = result.code;
+                        $rootScope.addedEmail.email = result.email;
                         $rootScope.editedEmail.host = 'gmail';
                         Candidate.editEmailAccess($rootScope.editedEmail, function(resp){
                             if(resp.status == 'error'){
@@ -27941,7 +27949,7 @@ controller.controller('FeedbackController',["$localStorage", "serverAddress", "$
         });
     }]);
 
-function navBarController(Vacancy, serverAddress, notificationService, $scope, tmhDynamicLocale, $http, Person, $rootScope, Service,
+function navBarController($q, Vacancy, serverAddress, notificationService, $scope, tmhDynamicLocale, $http, Person, $rootScope, Service,
                           $route, $window, $location, $filter, $sce, $cookies, localStorageService, $localStorage, $timeout, CheckAccess,
                           frontMode, $translate, Client, ScopeService, googleService, Company, $uibModal, Notice, Pay, News, TooltipService, Account) {
     $scope.onlyMe = null;
@@ -28613,22 +28621,48 @@ function navBarController(Vacancy, serverAddress, notificationService, $scope, t
 
                 if($rootScope.modalInstance){
                     $rootScope.modalInstance.closed.then(function(){
-                        switchToBilling()
+                        switchToBilling().then((result) => {
+                            increasedPrice();
+                        })
                     });
                 }else{
-                    switchToBilling();
+                    switchToBilling().then((result) => {
+                        increasedPrice();
+                    });
                 }
 
                 function switchToBilling(){
-                    if (response["object"]["orgParams"]["switch2billing"] === "must" && response["object"]["recrutRole"] === "admin") {
+                    return $q((resolve, reject) => {
+                        if (response["object"]["orgParams"]["switch2billing"] === "must" && response["object"]["recrutRole"] === "admin") {
+                            $rootScope.modalInstance = $uibModal.open({
+                                animation: true,
+                                templateUrl: '../partials/modal/change-payment-model.html',
+                                controller: 'payWay4PayController',
+                                backdrop: 'static',
+                            });
+                            if($rootScope.modalInstance){
+                                $rootScope.modalInstance.closed.then(function(){
+                                    resolve('switchToBilling === must');
+                                });
+                            }
+                        } else {
+                            resolve('switchToBilling !== must');
+                        }
+                    });
+                }
+
+                function increasedPrice() {
+                    if(response["object"]["orgParams"]["increasePrices"] === "must" && response["object"]["recrutRole"] === "admin") {
                         $rootScope.modalInstance = $uibModal.open({
                             animation: true,
-                            templateUrl: '../partials/modal/change-payment-model.html',
-                            controller: 'payWay4PayController',
-                            backdrop: 'static',
+                            templateUrl: '../partials/modal/price-change.html',
+                            scope: $scope,
+                            backdrop: 'static'
                         });
                     }
                 }
+
+
 
                 $rootScope.differenceCreateOrgDate = differenceBetweenTwoDates(new Date(), $rootScope.me.org.dc);
                 $scope.scopeName = $filter('filter')($scope.orgs, $scope.orgId, "orgId")[0].orgName;
@@ -29280,6 +29314,38 @@ function navBarController(Vacancy, serverAddress, notificationService, $scope, t
     };
 
 
+    $scope.acceptChangesPrice = function (choice) {
+
+        if(choice) {
+            Company.setParam({
+                name:"increasePrices",
+                value:"Y"
+
+            }, function (resp) {
+
+                if(resp.status == "ok"){
+                    $rootScope.closeModal();
+                    $rootScope.modalInstance = undefined;
+                }
+            });
+        } else {
+            Company.setParam({
+                name:"increasePrices",
+                value:"Y"
+
+            }, function (resp) {
+
+                if(resp.status == "ok"){
+                    $rootScope.closeModal();
+                    $rootScope.modalInstance = undefined;
+                    $location.path('/pay')
+                }
+            });
+        }
+
+    };
+
+
     TooltipService.createTooltips();
 
     if($rootScope.modalInstance){
@@ -29367,7 +29433,7 @@ function navBarController(Vacancy, serverAddress, notificationService, $scope, t
     //        //$scope.statustext = response.statustext;
     //    });
 }
-controller.controller('NavbarController', ["Vacancy", "serverAddress", "notificationService", "$scope", "tmhDynamicLocale", "$http", "Person", "$rootScope",
+controller.controller('NavbarController', ["$q", "Vacancy", "serverAddress", "notificationService", "$scope", "tmhDynamicLocale", "$http", "Person", "$rootScope",
     "Service", "$route", "$window", "$location", "$filter", "$sce", "$cookies", "localStorageService", "$localStorage", "$timeout", "CheckAccess", "frontMode",
     "$translate", "Client", 'ScopeService', 'googleService', 'Company', '$uibModal', 'Notice', 'Pay', 'News', 'TooltipService', 'Account', navBarController]);
 controller.controller('NotificationController',["$rootScope", "$scope", "$filter", "$uibModal", "Person", "notificationService", "Statistic",
@@ -33218,7 +33284,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/vacancy-change-date-of-interview.html',
+                templateUrl: '../partials/modal/vacancy-change-date-of-interview.html?1',
                 size: '',
                 resolve: function(){
 
@@ -33259,6 +33325,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     object.interviewObject.dateInterview = newDate;
                     $rootScope.closeModal();
                     Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
+                        console.log("gggg");
                         $scope.vacancy = resp.object;
                         $rootScope.vacancy = resp.object;
                         $scope.tableParams.reload();
@@ -33266,7 +33333,9 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $scope.getLastEvent();
                 });
             } else {
-                notificationService.error($filter('translate')('Select the interview date'));
+                $('#change-date-in-vacancy').addClass('not-valid').on('click',(event) => {
+                    $(event.currentTarget).removeClass('not-valid');
+                });
             }
         };
         $rootScope.getTextToCopy = function () {
@@ -34210,6 +34279,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     //$rootScope.commentVacancyToCandidate.comment = null;
                     if (resp.status == 'ok') {
                         Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
+                            console.log("llggl");
                             $scope.vacancy = resp.object;
                             $rootScope.vacancy = resp.object;
                             $scope.tableParams.reload();
@@ -35129,6 +35199,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         }
                                     }
                                     Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
+                                        console.log("gooo");
                                         $scope.vacancy = resp.object;
                                         $rootScope.vacancy = resp.object;
                                         $scope.recalls = resp.object.recalls;
@@ -35459,6 +35530,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         $scope.countActivePersons = resp.message;
                         if ($scope.countActivePersons == 1 && ($scope.vacancy.responsiblesPerson == undefined || $scope.vacancy.responsiblesPerson.length == 0)) {
                             Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
+                                console.log("tru123e");
                                 $scope.vacancy.responsiblesPerson = resp.object.responsiblesPerson;
                             });
                         }
@@ -36284,6 +36356,21 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 }
             })
         };
+
+
+
+        $scope.sendCandidatesToClient = function() {
+            Vacancy.one({localId: $routeParams.id}, function (resp) {
+                if(!resp.object.interviews || resp.object.interviews.length == 0) {
+                    notificationService.error($filter('translate')('Please add the candidates to this stage'));
+                    return;
+                } else {
+                    $location.path("/email/vacancy/" + $scope.vacancy.localId);
+                }
+            });
+
+        };
+
         $scope.showEditEmailTemplate = function(template){
             $scope.activeTemplate = template.type;
             $scope.fileForSave = [];
