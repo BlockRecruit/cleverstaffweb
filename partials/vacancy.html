@@ -998,7 +998,7 @@
 <div id="candidate_preview">
     <div class="arrow_preview" id="arrow_preview"></div>
     <div class="ui bottom attached segment red"
-         style="padding: 6px 6px 3px 6px;border-top: 0.2em solid #FFFFFF !important;"
+         style="padding: 15px;"
          ng-show="!candidatePreview.showDocument">
         <!--<div class="ui inverted dimmer"  style="background-color:rgba(255, 255, 255, 0)!important;"-->
         <!--ng-class="{'active':loadingPriview}">-->
@@ -1014,7 +1014,7 @@
                                 {{candidatePreview.fullName}}</a>
                             <span ng-show="candidatePreview.db">, {{candidatePreview.db|ageOfDate}}</span>
                         </div>
-                        <div>
+                        <div style="margin-bottom: 10px;">
                             {{candidatePreview.position}}
                             <span ng-show="candidatePreview != undefined && candidatePreview.salary">,
                                 <span ng-show="candidatePreview.salary != 0">{{candidatePreview.salary}} {{candidatePreview.currency}}</span>

@@ -2,7 +2,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
     "Service", "$rootScope", "Person", "serverAddress", "FileInit", "notificationService", "$filter", "Vacancy",
     "Action", "vacancyStages", "Task", "File", "$sce", "$window", "Mail", "$uibModal", "$timeout", "$route", "Test", "CandidateGroup",
     function (CacheCandidates, $localStorage, $scope, frontMode, $translate, googleService, $location, $routeParams, Candidate, Service, $rootScope, Person, serverAddress, FileInit,
-              notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup) {
+              notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup ) {
         $scope.serverAddress = serverAddress;
         $localStorage.remove("candidateForTest");
         if($location.$$absUrl.indexOf('&task=') != -1) {
@@ -68,7 +68,27 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.todayDate = new Date().getTime();
         $rootScope.clickedSaveStatusOfCandidate = false;
         $rootScope.clickedAddVacancyInCandidate = false;
+        $rootScope.stageUrl = JSON.parse(localStorage.getItem('stageUrl'));
+
+        function setPositionCandidates(dataCandidates, nextElementMethod){
+            var data, index, size;
+            if(dataCandidates){
+                data = dataCandidates;
+            }else if(localStorage.getItem('getAllCandidates')){
+                data = JSON.parse(localStorage.getItem('getAllCandidates'));
+            }else if(localStorage.getItem('candidatesInStagesVac')){
+                data = JSON.parse(localStorage.getItem('candidatesInStagesVac'));
+            }
+
+            data.forEach((item, index) => {
+               if(item == $routeParams.id){
+                   nextElementMethod.cacheCurrentIndex = index + 1;
+               }
+            });
+        }
+
         $('.showCommentSwitcher').prop("checked", !$scope.onlyComments);
+
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -1488,6 +1508,14 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             }else{
                                 var id = resp.object.interviewId + changeObj.status.value;
                             }
+                            if(changeObj.date){
+                                if($rootScope.calendarShow){
+                                    googleCalendarCreateEvent(googleService, changeObj.date, changeObj.candidate.candidateId.fullName,
+                                        $rootScope.changeStatusOfInterviewInVacancy.position,
+                                        $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
+                                        changeObj.comment, id, $filter);
+                                }
+                            }
                             $scope.showChangeStatusValue = null;
                             //angular.forEach($scope.candidate.interviews, function (i) {
                             //    if (i.vacancyId.vacancyId == $rootScope.changeStatusOfInterviewInVacancy.vacancyId) {
@@ -1546,6 +1574,14 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                                 var id = resp.object.interviewId + changeObj.status.customInterviewStateId;
                             }else{
                                 var id = resp.object.interviewId + changeObj.status.value;
+                            }
+                            if(changeObj.date){
+                                if($rootScope.calendarShow){
+                                    googleCalendarCreateEvent(googleService, changeObj.date, changeObj.candidate.candidateId.fullName,
+                                        $rootScope.changeStatusOfInterviewInVacancy.position,
+                                        $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
+                                        changeObj.comment, id, $filter);
+                                }
                             }
                             $scope.showChangeStatusValue = null;
                             //angular.forEach($scope.candidate.interviews, function (i) {

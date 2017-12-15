@@ -442,17 +442,16 @@
 			margin: 0;
 		}
 	}
+	@media (max-width: $screen-md-min) {
+		.fa {
+			display: none;
+		}
+	}
 }
 
 
 .block-vacancy-descr {
 	.short-info-bg {
 		background-color: rgba(227, 227, 227, 0.12) !important;
-	}
-}
-
-@media (max-width: $screen-md-min) {
-	.fa {
-		display: none;
 	}
 }

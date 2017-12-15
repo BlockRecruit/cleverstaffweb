@@ -24,25 +24,4 @@
         <i class="fa fa-arrow-right" aria-hidden="true" ng-if="history.oldTargetDate != undefined"></i>
         {{history.targetDate|dateFormat:true}}
     </span>
-    <a title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href=""
-       ng-click="changeCommentFlag(history)" class="editMessage pull-right">
-        <i class="fa fa-pencil" aria-hidden="true"></i>
-    </a>
-    <span ng-show="history.descr">
-        <br>
-        {{'history_info.message'|translate}}:
-        <br/>
-        <span ng-bind-html="history.descr|textForNotice:false"></span>
-    </span>
-    <div class="textField" ng-show="history.editCommentFlag">
-        <div class="field">
-            <textarea class="editCommentArea" ng-model="editComment"></textarea>
-        </div>
-        <div ng-click="history.editCommentFlag = false" class="btn btn-primary cancel">
-            {{'cancel'|translate}}
-        </div>
-        <div ng-click="changeComment(history, editComment)" class="btn btn-primary accept">
-            {{'save'|translate}}
-        </div>
-    </div>
 </div>

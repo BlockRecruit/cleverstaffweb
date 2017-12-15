@@ -1943,7 +1943,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 } else if (cd.length > 0) {
                                     $scope.showTable = "table";
                                 } else {
-                                    if(!$rootScope.objectSize)
                                     $scope.showTable = "not available";
                                 }
                             }
@@ -1980,7 +1979,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         console.log(item.state,item.isInterview);
                                     });
                                     $defer.resolve(cd);
-
                                 }
 
                             }
