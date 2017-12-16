@@ -479,6 +479,88 @@ angular.module('RecruitingAppStart.directives', [])
                 });
             }
         }
+    }]).directive('positionAutocompleter', ["$rootScope", "$filter", "$translate", "serverAddress", function($rootScope, $filter, $translate, serverAddress) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            link: function($scope, element, attrs) {
+                $scope.setPositionAutocompleterValue = function(val) { //переимновтаь
+                    if (val != undefined) {
+                        $(element[0]).select2("data", {id: val, text: val});
+                    }else {
+                        $(element[0]).select2("data", {id: '', text: ''});
+                    }
+                };
+                $scope.getPositionAutocompleterValue = function() {//.переимновтаь
+                    var object = $(element[0]).select2("data");
+                    return object != null ? object.text : null;
+                };
+                var inputText = "";
+                let translatedPositions = false;
+
+                $rootScope.$on('$translateChangeSuccess', function () {
+                    initSelect2();
+                });
+
+                if(!translatedPositions) {
+                    initSelect2();
+                }
+                console.log(serverAddress);
+
+                function initSelect2() {
+                    translatedPositions = true;
+                    $(element[0]).select2({
+                        placeholder: $translate.instant($scope.placeholder),
+                        minimumInputLength: 2,
+                        allowClear: true,
+                        formatInputTooShort: function () {
+                            return ""+ $filter('translate')('Please enter 2 characters') +"";
+                        },
+                        formatNoMatches: function(term) {
+                            return "<div class='select2-result-label' style='cursor: s-resize;'><span class='select2-match'></span>" + $filter('translate')('Enter a source of this candidate') + "</div>";
+                        },
+                        createSearchChoice: function(term, data) {
+                            if ($(data).filter(function() {
+                                    return this.text.localeCompare(term) === 0;
+                                }).length === 0) {
+                                inputText = term;
+                                return {id: term, text: term};
+                            }
+                        },
+                        ajax: {
+                            url: serverAddress + "/candidate/autocompletePosition",
+                            dataType: 'json',
+                            crossDomain: true,
+                            type: "POST",
+                            data: function(term, page) {
+                                return {
+                                    text: term.trim()
+                                };
+                            },
+                            results: function(data, page) {
+                                var result = [];
+                                angular.forEach(data['objects'], function(val) {
+                                    result.push({id: val, text: val})
+                                });
+                                return {
+                                    results: result
+                                };
+                            }
+                        },
+                        dropdownCssClass: "bigdrop"
+                    }).on("select2-close", function(e) {
+                        if (inputText.length > 0) {
+                            $(element[0]).select2("data", {id: inputText, text: inputText});
+                        }
+                    }).on("select2-selecting", function(e) {
+                        inputText = "";
+                    }).on("select2-open", function() {
+                        if($(element[0]).select2("data"))
+                            $('#select2-drop input').val($(element[0]).select2("data").text)
+                    });
+                }
+            }
+        }
     }]);
 
 function similar_text(first, second, percent) {

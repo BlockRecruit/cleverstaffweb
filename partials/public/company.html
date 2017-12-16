@@ -50,8 +50,46 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <div class="vacancies" ng-show="orgParams.size > 0">
-                <div class="vacancy" ng-repeat="publicVacancy in orgParams.objects">
+            <div class="vacancies-filter">
+
+                <div class="switch">
+                    <label ng-click="hideFilter()">Show All</label>
+                    <input id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round" type="checkbox" ng-model="showFilterSettings">
+                    <label class=""  for="cmn-toggle-9"></label>
+                    <label ng-click="showFilter()">Search</label>
+                </div>
+
+                <div class="positions-wrap" ng-show="showFilterSettings">
+                    <input class="vacancy-position" ng-class="{ 'error': errorHandler.vacanciesFilter.positionError }" ng-keyup="setAutoCompleteString($event)" placeholder="Search for this" type="text">
+                    <i class="fa fa-times" ng-click="resetPosition()" aria-hidden="true"></i>
+                    <ul class="list-group" ng-hide="hideSearchPositions">
+                        <li class="list-group-item auto-complete-position" ng-click="selectPosition(position)" ng-repeat="position in vacanciesPositionFiltered track by $index">
+                            {{position}}
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="locations-wrap" ng-show="showFilterSettings">
+                    <select class="vacancies-location">
+                        <option disabled selected value="">Location</option>
+                        <option class="accent" value="Any">Any</option>
+                        <option ng-repeat="location in vacanciesLocation track by $index">{{location}}</option>
+                    </select>
+                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                </div>
+
+                <div class="filter-button" ng-show="showFilterSettings">
+                    <button class="btn-modern apply" ng-click="showFilteredVacancies()">{{'Show' | translate}}</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="vacancies" ng-show="orgParams.size > 0 && (orgParams.objects | filter: filter).length > 0">
+                <div class="vacancy" ng-repeat="publicVacancy in orgParams.objects | filter: filter">
                     <a ng-href="{{$location.$$host}}/i#/vacancy-{{publicVacancy.localId}}">
 
                         <div class="col-xs-12 col-sm-4 vacancy__name--wrap">
@@ -78,6 +116,9 @@
                         <div class="clearfix"></div>
                     </a>
                 </div>
+            </div>
+            <div class="vacancies filter-error" ng-show="errorHandler.vacanciesFilter.error.show">
+                <span>{{ errorHandler.vacanciesFilter.error.msg }}</span>
             </div>
         </div>
     </div>

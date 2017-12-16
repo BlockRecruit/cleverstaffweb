@@ -139,6 +139,159 @@ body {
 			background-color: #f1f9ee;
 		}
 	}
+	& .vacancies-filter {
+		display: block;
+		max-width: 62%;
+		margin: 0 auto 26px;
+		.filter-settings {
+			display: inline-block;
+		}
+		.switch {
+			display: inline-block;
+			max-width: 215px;
+			margin-right: 45px;
+			padding: 8px 16px;
+
+			text-align: center;
+
+			border-radius: 25px;
+			background-color: #fff;
+			label {
+				margin: 0;
+				padding: 0;
+
+				vertical-align: middle;
+				&:hover {
+					cursor: pointer;
+				}
+			}
+			.cmn-toggle + label {
+				display: inline-block;
+				margin: 0 16px;
+			}
+		}
+		.positions-wrap {
+			position: relative;
+
+			display: inline-block;
+			width: 160px;
+			margin-right: 46px;
+			ul {
+				position: absolute;
+				z-index: 9999;
+				left: calc(50% - 80px);
+
+				overflow-x: hidden;
+				overflow-y: auto;
+				width: 160px;
+				max-height: 181px;
+				li {
+					overflow: hidden;
+					padding: 5px 16px;
+
+					text-align: left;
+					text-overflow: ellipsis;
+					&:hover {
+						cursor: pointer;
+
+						background-color: #caced1;
+					}
+				}
+			}
+			input {
+				overflow: hidden;
+				width: 160px;
+				height: 26px;
+				padding: 0 26px 0 16px;
+
+				text-overflow: ellipsis;
+
+				border: 1px solid black;
+				border-radius: 10px;
+				&:focus {
+					outline: none;
+				}
+				&::placeholder {
+					color: #000;
+				}
+				&.error {
+					color: #a94442;
+					border: 1px solid #a94442;
+					&::placeholder {
+						color: #a94442;
+					}
+				}
+			}
+			i.fa-times {
+				font-size: 12px;
+
+				position: absolute;
+				top: 7px;
+				right: 9px;
+
+				transition: 0.2s all ease;
+
+				color: #a6b3ba;
+				&:hover {
+					cursor: pointer;
+
+					color: #000;
+				}
+			}
+		}
+		.locations-wrap {
+			position: relative;
+
+			display: inline-block;
+			margin-right: 46px;
+			& select {
+				width: 160px;
+				height: 26px;
+				padding-left: 16px;
+
+				border: 1px solid black;
+				border-radius: 10px;
+
+				-webkit-appearance: none;
+				option {
+					&.accent {
+						font-weight: bold;
+					}
+				}
+				&:focus,
+				&:active,
+				&:hover {
+					outline: none;
+					i.fa-caret-down {
+						color: #00b63d;
+					}
+				}
+			}
+			i.fa-caret-down {
+				font-size: 20px;
+
+				position: absolute;
+				top: 3px;
+				right: 9px;
+
+				transition: 0.2s all ease;
+
+				color: #a6b3ba;
+			}
+		}
+		.filter-button {
+			display: inline-block;
+
+			vertical-align: middle;
+			.btn-modern {
+				font-size: 16px;
+
+				height: 26px;
+				margin-bottom: 0;
+				padding: 0 32px;
+			}
+		}
+	}
 	& .vacancies {
 		position: relative;
 		z-index: 999;
@@ -194,6 +347,12 @@ body {
 					margin-bottom: 0;
 				}
 			}
+		}
+		&.filter-error {
+			font-size: 15px;
+
+			color: #a94442;
+			border: 1px solid #a94442;
 		}
 	}
 	& .cleverstaff {
@@ -312,11 +471,15 @@ body {
 			opacity: 1;
 		}
 	}
-	#scrollup {
-		position: absolute;
-		z-index: 999;
-	}
 }
+
+//#select2-drop {
+//	border: 1px solid black;
+//	border-top: none;
+//}
+//.select2-search input {
+//	background: none;
+//}
 
 //.cloud-1.ng-enter,
 //.cloud-2.ng-enter,
@@ -340,11 +503,73 @@ body {
 //	opacity: 1;
 //}
 
+@media (max-width: 1347px) {
+	.block-company-public-vacancies .vacancies-filter .switch {
+		width: 33%;
+		max-width: none;
+		margin-right: 0;
+		padding: 8px 5px;
+
+		text-align: center;
+	}
+	.block-company-public-vacancies .vacancies-filter .positions-wrap {
+		width: 33%;
+		margin-right: 0;
+
+		text-align: center;
+	}
+	.block-company-public-vacancies .vacancies-filter .locations-wrap {
+		width: 32%;
+		margin-right: 0;
+
+		text-align: right;
+	}
+	.block-company-public-vacancies .vacancies-filter .filter-button {
+		display: block;
+		margin: 20px 0;
+
+		text-align: center;
+	}
+	.block-company-public-vacancies .vacancies-filter .positions-wrap i.fa-times {
+		right: 22%;
+	}
+}
+
 @media (max-width: 987px) {
 	.block-company-public-vacancies {
 		.vacancies {
 			max-width: 80%;
 		}
+	}
+	.block-company-public-vacancies .vacancies-filter {
+		max-width: 80%;
+	}
+}
+
+@media (max-width: 860px) {
+	.block-company-public-vacancies .vacancies-filter {
+		max-width: 100%;
+	}
+	.block-company-public-vacancies .vacancies-filter .switch {
+		display: block;
+		width: 215px;
+		margin: 0 auto 20px;
+
+		text-align: center;
+	}
+	.block-company-public-vacancies .vacancies-filter .positions-wrap {
+		display: block;
+		width: 100%;
+		margin-bottom: 20px;
+
+		text-align: center;
+	}
+	.block-company-public-vacancies .vacancies-filter .locations-wrap {
+		display: block;
+		width: 100%;
+		margin-bottom: 20px;
+
+		text-align: center;
 	}
 }
 
@@ -547,3 +772,65 @@ body {
 	}
 }
 // end of BI;
+
+
+// vacancies animate
+
+.vacancy.ng-enter,
+.vacancy.ng-leave {
+	position: relative;
+
+	display: block;
+
+	transition: 450ms cubic-bezier(0.250, 0.250, 0.750, 0.750) all;
+}
+
+
+.vacancy.ng-enter.ng-enter-active,
+.vacancy.ng-leave {
+	height: 30px;
+
+	transform: rotateX(0deg) translatez(30px);
+
+	opacity: 1;
+}
+
+.vacancy.ng-leave.ng-leave-active,
+.vacancy.ng-enter {
+	height: 0;
+
+	transform: rotateX(-180deg) translatez(30px);
+
+	opacity: 0;
+}
+
+// filter-settings animate
+.positions-wrap,
+.locations-wrap,
+.filter-button {
+	transition: 0.35s linear all;
+	transform: translateX(0);
+
+	opacity: 1;
+}
+
+
+.positions-wrap.ng-hide-remove,
+.positions-wrap.ng-hide-add,
+.positions-wrap.ng-hide,
+.locations-wrap.ng-hide-remove,
+.locations-wrap.ng-hide-add,
+.locations-wrap.ng-hide,
+.filter-button.ng-hide-remove,
+.filter-button.ng-hide-add,
+.filter-button.ng-hide {
+	display: block;
+}
+
+.positions-wrap.ng-hide,
+.filter-button.ng-hide,
+.locations-wrap.ng-hide {
+	transform: translateX(-50%);
+
+	opacity: 0;
+}

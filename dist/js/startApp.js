@@ -1849,28 +1849,143 @@ controller.controller('PublicCandidateController', ['$scope', 'Service', '$route
 controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serverAddress', 'Service', 'Company',
     'notificationService', '$routeParams', '$window',
     function ($scope, $rootScope, serverAddress, Service, Company, notificationService, $routeParams, $window) {
-        $scope.loaded = false;
 
-        $scope.getAllVacancyForCompany = function(){
-            var string = $routeParams.nameAlias.replace('-vacancies', '');
+        $scope.loaded = false;
+        $scope.hideSearchPositions = true;
+        $scope.showFilterSettings = false;
+
+        $scope.vacanciesLocation = null;
+        $scope.vacanciesPosition = null;
+        $scope.vacanciesPositionFiltered = null;
+
+        $scope.errorHandler = {
+          vacanciesFilter: {
+              positionError: false,
+              locationError: false,
+              error: {
+                  show: false,
+                  msg: "No vacancies found."
+              }
+          }
+        };
+
+        let filteredVacancies = [],
+            selectedPosition = null,
+            selectedLocation = null,
+            filterIsActive = false;
+
+        $('body').on(
+            {
+                mousedown: () => closeAutoCompletePositions(event)
+            }
+        );
+
+        $scope.hideFilter = function() {
+            $scope.showFilterSettings = false;
+        };
+
+        $scope.showFilter = function() {
+            $scope.showFilterSettings = true;
+        };
+
+        $scope.filter = function(vacancy) {
+            if(!filterIsActive && !$scope.hideSearchPositions) return true;
+
+            let criteria = {};
+
+            if(!selectedLocation || vacancy.region && vacancy.region.country.toLowerCase() === selectedLocation.toLowerCase() || selectedLocation === 'Any') criteria.location = true;
+            if(!selectedPosition || vacancy.position.toLowerCase() === selectedPosition.toLowerCase()) criteria.position = true;
+
+            if(criteria.position && criteria.location && filteredVacancies.indexOf(vacancy) === -1) filteredVacancies.push(vacancy);
+
+            if(filteredVacancies.length === 0) {
+                $scope.errorHandler.vacanciesFilter.error.show = true;
+            } else {
+                $scope.errorHandler.vacanciesFilter.error.show = false;
+            }
+
+            return criteria.position && criteria.location;
+        };
+
+        $scope.setAutoCompleteString = function(event) {
+            $scope.vacanciesPositionFiltered = Company.positionAutoCompleteResult(event.target.value);
+
+            if($scope.vacanciesPositionFiltered.length !== $scope.orgParams.objects.length) {
+                checkAutoCompletePosition();
+            } else {
+                $scope.hideSearchPositions = true;
+                $scope.errorHandler.vacanciesFilter.positionError = false;
+            }
+        };
+
+        $scope.selectPosition = function(position) {
+            $('input.vacancy-position').val(position);
+            $scope.vacanciesPositionFiltered = null;
+            $scope.errorHandler.vacanciesFilter.positionError = false;
+            $scope.hideSearchPositions = true;
+        };
+
+        $scope.showFilteredVacancies = function() {
+          filterIsActive = true;
+          filteredVacancies = [];
+          selectedLocation = $('.locations-wrap select option:checked').val();
+          selectedPosition = $('.positions-wrap input.vacancy-position').val();
+        };
+
+        $scope.resetPosition = function() {
+            $('.positions-wrap input.vacancy-position').val("");
+            $scope.hideSearchPositions = true;
+            $scope.errorHandler.vacanciesFilter.positionError = false;
+        };
+
+         function getAllVacancyForCompany(){
+            let string = $routeParams.nameAlias.replace('-vacancies', '');
             Company.getAllOpenVacancies(string)
                 .then((resp) => {
                     $scope.orgParams = resp;
+
                     $window.document.title = $scope.orgParams.orgName + ' ' + 'vacancies';
                     $scope.logoLink = '/hr/getlogo?id=' + $scope.orgParams.companyLogo + '';
                     $scope.serverAddress = serverAddress;
+
+                    $scope.vacanciesLocation = Company.getVacanciesLocation();
+                    $scope.vacanciesPosition = Company.getVacanciesPosition();
                     $scope.loaded = true;
                     $scope.$apply();
                 }, (err) => {
                     console.error(err);
                 });
-        };
+        }
 
+        function checkAutoCompletePosition() {
+            let inputPosition = $('.positions-wrap input.vacancy-position'),
+                checked = false;
 
-        $scope.getAllVacancyForCompany();
+            $scope.vacanciesPosition.forEach((position) => {
+                if(position.toLowerCase() === inputPosition.val().toLowerCase()) checked = true;
+            });
+
+            if(checked) {
+                // $scope.hideSearchPositions = true;
+                $scope.errorHandler.vacanciesFilter.positionError = false;
+            } else {
+                $scope.hideSearchPositions = false;
+                $scope.errorHandler.vacanciesFilter.positionError = true;
+                // $scope.errorHandler.vacanciesFilter.error.msg = "No vacancies found. Try to pick position from a suggested list."
+            }
+        }
+
+        function closeAutoCompletePositions(e) {
+            if(!$(e.target).hasClass('auto-complete-position') && !$scope.hideSearchPositions) {
+                checkAutoCompletePosition();
+                $scope.hideSearchPositions = true;
+                $scope.$apply();
+            }
+        }
+
+        getAllVacancyForCompany();
     }]
 );
-/*** Created by вик on 07.07.2016.*/
 
 controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAddress', 'Service', 'Company',
     'notificationService', '$routeParams', 'Test', "$interval", "$timeout", "$localStorage", "$location", "$filter", "$translate", "$window",
@@ -2837,6 +2952,88 @@ angular.module('RecruitingAppStart.directives', [])
                 ).on("change", function(e) {
 
                 });
+            }
+        }
+    }]).directive('positionAutocompleter', ["$rootScope", "$filter", "$translate", "serverAddress", function($rootScope, $filter, $translate, serverAddress) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            link: function($scope, element, attrs) {
+                $scope.setPositionAutocompleterValue = function(val) { //переимновтаь
+                    if (val != undefined) {
+                        $(element[0]).select2("data", {id: val, text: val});
+                    }else {
+                        $(element[0]).select2("data", {id: '', text: ''});
+                    }
+                };
+                $scope.getPositionAutocompleterValue = function() {//.переимновтаь
+                    var object = $(element[0]).select2("data");
+                    return object != null ? object.text : null;
+                };
+                var inputText = "";
+                let translatedPositions = false;
+
+                $rootScope.$on('$translateChangeSuccess', function () {
+                    initSelect2();
+                });
+
+                if(!translatedPositions) {
+                    initSelect2();
+                }
+                console.log(serverAddress);
+
+                function initSelect2() {
+                    translatedPositions = true;
+                    $(element[0]).select2({
+                        placeholder: $translate.instant($scope.placeholder),
+                        minimumInputLength: 2,
+                        allowClear: true,
+                        formatInputTooShort: function () {
+                            return ""+ $filter('translate')('Please enter 2 characters') +"";
+                        },
+                        formatNoMatches: function(term) {
+                            return "<div class='select2-result-label' style='cursor: s-resize;'><span class='select2-match'></span>" + $filter('translate')('Enter a source of this candidate') + "</div>";
+                        },
+                        createSearchChoice: function(term, data) {
+                            if ($(data).filter(function() {
+                                    return this.text.localeCompare(term) === 0;
+                                }).length === 0) {
+                                inputText = term;
+                                return {id: term, text: term};
+                            }
+                        },
+                        ajax: {
+                            url: serverAddress + "/candidate/autocompletePosition",
+                            dataType: 'json',
+                            crossDomain: true,
+                            type: "POST",
+                            data: function(term, page) {
+                                return {
+                                    text: term.trim()
+                                };
+                            },
+                            results: function(data, page) {
+                                var result = [];
+                                angular.forEach(data['objects'], function(val) {
+                                    result.push({id: val, text: val})
+                                });
+                                return {
+                                    results: result
+                                };
+                            }
+                        },
+                        dropdownCssClass: "bigdrop"
+                    }).on("select2-close", function(e) {
+                        if (inputText.length > 0) {
+                            $(element[0]).select2("data", {id: inputText, text: inputText});
+                        }
+                    }).on("select2-selecting", function(e) {
+                        inputText = "";
+                    }).on("select2-open", function() {
+                        if($(element[0]).select2("data"))
+                            $('#select2-drop input').val($(element[0]).select2("data").text)
+                    });
+                }
             }
         }
     }]);
