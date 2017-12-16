@@ -2240,5 +2240,13 @@
   "first": "first",
   "second": "second",
   "Merge with another profile": "Merge with another profile",
-  "Download as docx": "Download as docx"
+  "Download as docx": "Download as docx",
+  "Position":"Position",
+  "Show":"Show",
+  "Search":"Search",
+  "Vacancies & Applicants API": "Vacancies & Applicants API",
+  "No vacancies found": "No vacancies found",
+  "Pick the position from the search field": "Choose the position from the search field list",
+  "Any":"Any",
+  "telework_1":"Remote"
 }

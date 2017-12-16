@@ -127,7 +127,8 @@ module.exports = function () {
 				filename: 'startLib.js'
 				, files:  [
 					config.path.libDir + "jquery/jquery-2.0.3.min.js"
-					, config.path.libDir + "linkify.js"
+                    , config.path.libDir + "mCustomScrollbar.js"
+                    , config.path.libDir + "linkify.js"
 					, config.path.libDir + "semantic/form.min.js"
 					, config.path.libDir + "angular/angular.min.js"
 					, config.path.libDir + "pnotify.custom.min.js"
