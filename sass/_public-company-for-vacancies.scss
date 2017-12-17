@@ -172,6 +172,7 @@ body {
 		}
 		.positions-wrap {
 			position: relative;
+			z-index: 999;
 
 			display: inline-block;
 			width: 160px;
@@ -288,13 +289,13 @@ body {
 
 				height: 26px;
 				margin-bottom: 0;
-				padding: 0 32px;
+				padding: 0 23px;
 			}
 		}
 	}
 	& .vacancies {
 		position: relative;
-		z-index: 999;
+		z-index: 990;
 
 		max-width: 62%;
 		margin: 0 auto 80px;

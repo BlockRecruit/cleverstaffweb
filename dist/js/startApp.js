@@ -1847,8 +1847,8 @@ controller.controller('PublicCandidateController', ['$scope', 'Service', '$route
     }]
 );
 controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serverAddress', 'Service', 'Company',
-    'notificationService', '$routeParams', '$window',
-    function ($scope, $rootScope, serverAddress, Service, Company, notificationService, $routeParams, $window) {
+    'notificationService', '$routeParams', '$window','$filter',
+    function ($scope, $rootScope, serverAddress, Service, Company, notificationService, $routeParams, $window, $filter) {
 
         $scope.loaded = false;
         $scope.hideSearchPositions = true;
@@ -1880,8 +1880,18 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             }
         );
 
+        $scope.toggleFilter = function() {
+          console.log($scope.showFilterSettings);
+          if($scope.showFilterSettings) {
+              $scope.showFilter();
+          } else {
+              $scope.hideFilter();
+          }
+        };
+
         $scope.hideFilter = function() {
             $scope.showFilterSettings = false;
+            filterIsActive = false;
         };
 
         $scope.showFilter = function() {
@@ -1889,7 +1899,8 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
         };
 
         $scope.filter = function(vacancy) {
-            if(!filterIsActive && !$scope.hideSearchPositions) return true;
+            // if(!filterIsActive && !$scope.hideSearchPositions) return true;
+            if(!filterIsActive) return true;
 
             let criteria = {};
 
