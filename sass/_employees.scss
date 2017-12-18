@@ -111,6 +111,15 @@
 	}
 	.search {
 		background-color: $theme-white;
+		.search-with-pad {
+			.select {
+				select {
+					@include select-styling();
+
+					height: 34px;
+				}
+			}
+		}
 		.input-group {
 			width: 100%;
 			.input-group-addon {
