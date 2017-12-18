@@ -11,15 +11,14 @@
     <a class="pull-right editMessage" title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href="" ng-click="history.editCommentFlag = !history.editCommentFlag">
         <i class="fa fa-pencil" aria-hidden="true"></i>
     </a>
-    <span class="pull-left">{{'history_info.Changed the status of the client'|translate}}</span>
-    <br/>
-
+    <span class="pull-left">{{'history_info.Changed the status of the client'|translate}}</span>&nbsp;
     <span ng-switch="$root.me.personParams.clientAccessLevel">
-                <span ng-switch-when="hide">{{history.client.name}}</span>
-                <span ng-switch-default>
-                    <a href="#/clients/{{history.client.localId}}">{{history.client.name}}</a>
-                </span>
-            </span>
+        <span ng-switch-when="hide">{{history.client.name}}</span>
+        <span ng-switch-default>
+            <a href="#/clients/{{history.client.localId}}">{{history.client.name}}</a>
+        </span>
+    </span>
+    <br>
 
    <span class="status  passed {{history.stateOld}}">
         {{history.stateOld | translate}}

@@ -1,26 +1,26 @@
 <div class="col-lg-2">
-    <span>
+    <div class="time-comment">
         {{history.dm|dateFormat:true}}
-    </span>
-</div>
-<div class="col-lg-10">
-    <span>{{'history_info.Changed the status of the client'|translate}}</span>
-    <a href="#/users/{{history.person.userId}}" class="user">
+    </div>
+    <a href="#/users/{{history.person.userId}}" class="text-left user">
         <span once-text="history.person.firstName"></span>
         <span once-text="history.person.lastName"></span>
     </a>
+</div>
+<div class="col-lg-10">
+    <span>{{'history_info.Changed the status of the client'|translate}}</span>
     <a title="{{'Delete comment' | translate}}" ng-show="($root.me.fullName == history.person.fullName || $root.me.recrutRole === 'admin') && history.descr" href=""
        ng-click="showDeleteComment(history)" class="pull-right removeMessage">
         <i class="fa fa-times" aria-hidden="true"></i>
     </a>
     <a class="pull-right editMessage" title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href="" ng-click="history.editCommentFlag = !history.editCommentFlag"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-    <br>
     <span ng-switch="$root.me.personParams.clientAccessLevel">
         <span ng-switch-when="hide">{{history.client.name}}</span>
         <span ng-switch-default>
             <a href="#/clients/{{history.client.localId}}">{{history.client.name}}</a>
         </span>
     </span>
+    <br>
     <span class="status  passed {{history.stateOld}}">
         {{history.stateOld | translate}}
     </span>

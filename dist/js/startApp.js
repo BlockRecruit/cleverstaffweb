@@ -90,7 +90,7 @@ var app = angular.module('RecruitingAppStart', [
 }]).config(function($translateProvider,tmhDynamicLocaleProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=3'
+        suffix: '.json?b=4'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -1873,8 +1873,8 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
 /*** Created by вик on 07.07.2016.*/
 
 controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAddress', 'Service', 'Company',
-    'notificationService', '$routeParams', 'Test', "$interval", "$timeout", "$localStorage", "$location", "$filter", "$translate",
-    function ($scope, $rootScope, serverAddress, Service, Company, notificationService, $routeParams, Test, $interval, $timeout, $localStorage, $location, $filter, $translate) {
+    'notificationService', '$routeParams', 'Test', "$interval", "$timeout", "$localStorage", "$location", "$filter", "$translate", "$window",
+    function ($scope, $rootScope, serverAddress, Service, Company, notificationService, $routeParams, Test, $interval, $timeout, $localStorage, $location, $filter, $translate, $window) {
         $scope.showStartTest = true;
         $scope.showStartTest2 = true;
         $scope.showFirstTest = false;
@@ -1888,7 +1888,9 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
         $scope.outHover = function(){
             $scope.showHover = false;
         };
-
+        $timeout(function() {
+            $scope.getTestFunc();
+        });
         $scope.getTestFunc = function () {
             Test.openTest({
                 appointmentId: $routeParams.id
@@ -1920,6 +1922,9 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                     $scope.companyName = resp.companyName;
                     $scope.getTestCandidate = resp.object;
                     $scope.currentLang = $translate.use();
+                    if($scope.currentLang == undefined){
+                        $window.location.reload();
+                    }
                     if($scope.getTestCandidate.timeLimit == '3600' || $scope.getTestCandidate.timeLimit == '7200' || $scope.getTestCandidate.timeLimit == '10800' || $scope.getTestCandidate.timeLimit == '14400' || $scope.getTestCandidate.timeLimit == '18000' || $scope.getTestCandidate.timeLimit == '21600' || $scope.getTestCandidate.timeLimit == '25200' || $scope.getTestCandidate.timeLimit == '28800'|| $scope.getTestCandidate.timeLimit == '32400' || $scope.getTestCandidate.timeLimit == '36000' || $scope.getTestCandidate.timeLimit == '39600' || $scope.getTestCandidate.timeLimit == '43200' || $scope.getTestCandidate.timeLimit == '46800' || $scope.getTestCandidate.timeLimit == '54000' || $scope.getTestCandidate.timeLimit == '57600' || $scope.getTestCandidate.timeLimit == '61200' || $scope.getTestCandidate.timeLimit == '64800' || $scope.getTestCandidate.timeLimit == '68400' || $scope.getTestCandidate.timeLimit == '72000' || $scope.getTestCandidate.timeLimit == '75600' || $scope.getTestCandidate.timeLimit == '79200' || $scope.getTestCandidate.timeLimit == '82800' || $scope.getTestCandidate.timeLimit == '86400'){
                         $('.min').hide();
                         $('.allTime').hide();
@@ -1937,6 +1942,9 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                     $scope.companyName = resp.companyName;
                     $scope.getTestCandidate = resp.object;
                     $scope.currentLang = $translate.use();
+                    if($scope.currentLang == undefined){
+                        $window.location.reload();
+                    }
                     if($scope.getTestCandidate.timeLimit == '3600' || $scope.getTestCandidate.timeLimit == '7200' || $scope.getTestCandidate.timeLimit == '10800' || $scope.getTestCandidate.timeLimit == '14400' || $scope.getTestCandidate.timeLimit == '18000' || $scope.getTestCandidate.timeLimit == '21600' || $scope.getTestCandidate.timeLimit == '25200' || $scope.getTestCandidate.timeLimit == '28800'|| $scope.getTestCandidate.timeLimit == '32400' || $scope.getTestCandidate.timeLimit == '36000' || $scope.getTestCandidate.timeLimit == '39600' || $scope.getTestCandidate.timeLimit == '43200' || $scope.getTestCandidate.timeLimit == '46800' || $scope.getTestCandidate.timeLimit == '54000' || $scope.getTestCandidate.timeLimit == '57600' || $scope.getTestCandidate.timeLimit == '61200' || $scope.getTestCandidate.timeLimit == '64800' || $scope.getTestCandidate.timeLimit == '68400' || $scope.getTestCandidate.timeLimit == '72000' || $scope.getTestCandidate.timeLimit == '75600' || $scope.getTestCandidate.timeLimit == '79200' || $scope.getTestCandidate.timeLimit == '82800' || $scope.getTestCandidate.timeLimit == '86400'){
                         $('.min').hide();
                         $('.allTime').hide();
@@ -1953,7 +1961,6 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                 }
             })
         };
-        $scope.getTestFunc();
 
         var intervalId;
 
@@ -3951,16 +3958,12 @@ angular.module('services.candidate', [
                             //$scope.zipType = $('#zipType').val();
                             var fullPath = $('#zip').val();
                             if (fullPath) {
-                                if($scope.zipBrowser == 'Firefox'){
-                                    $scope.filename = fullPath;
-                                }
-                                else{
                                     var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
                                     var filename = fullPath.substring(startIndex);
                                     if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
                                         $scope.filename = filename.substring(1);
                                     }
-                                }
+
                             }
                             if($('#zipButton1').prop('checked')){
                                 $scope.zipType =$('#zipButton1').val()

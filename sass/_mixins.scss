@@ -304,6 +304,8 @@
 	}
 }
 @mixin table-styling {
+	margin-bottom: 15px;
+
 	background-color: $theme-white;
 	th {
 		background-color: $theme-subtitle-background;

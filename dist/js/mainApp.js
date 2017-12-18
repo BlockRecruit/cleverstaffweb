@@ -1151,17 +1151,11 @@ var directive = angular.module('RecruitingApp.directives', []).
                         img.onload = function() {
                             var width = this.width;
                             var height = this.height;
-                            console.log(width);
-                            console.log(height);
                             var minus = width - height;
-                            if(width >= height && minus > 30 && minus <=100){
-                                $('#photo-preview').css('width', '23%');
-                            }else if(width >= 300 && width <= 349 && width != height){
-                                $('#photo-preview').css('height', '385px');
-                            }else if(width >= 350 && width != height){
-                                $('#photo-preview').css('width', '33%');
-                            }else if(width >= 266 && width != height){
-                                $('#photo-preview').css('width', '33%');
+                            if((width <= height && width < 200) || (width >= height && minus > 30 && minus <=100)){
+                                $('#photo-preview').css({'width': '23%', 'left': '35px'});
+                            }else if((width >= 300 && width <= 349) || width != height || width == height){
+                                $('#photo-preview').css('object-fit', 'fill');
                             }else if(width == height){
                                 $('#photo-preview').css('width', '33%');
                             }else{
@@ -6740,16 +6734,12 @@ angular.module('services.candidate', [
                             //$scope.zipType = $('#zipType').val();
                             var fullPath = $('#zip').val();
                             if (fullPath) {
-                                if($scope.zipBrowser == 'Firefox'){
-                                    $scope.filename = fullPath;
-                                }
-                                else{
                                     var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
                                     var filename = fullPath.substring(startIndex);
                                     if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
                                         $scope.filename = filename.substring(1);
                                     }
-                                }
+
                             }
                             if($('#zipButton1').prop('checked')){
                                 $scope.zipType =$('#zipButton1').val()
@@ -13844,7 +13834,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=32'
+        suffix: '.json?b=33'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -20990,9 +20980,12 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         };
 
         $scope.confirmDeleteOrigin = function () {
-            $http.post(serverAddress + '/candidate/removeOriginAll?origin=' + $scope.removableSource).success(function (resp) {
-            });
-
+            Candidate.removeOriginAll({
+                origin: $scope.removableSource
+            },function (resp) {
+                console.log('done!')
+            })
+            $http({})
         };
 
 
@@ -28690,6 +28683,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         $rootScope.modalInstance = $uibModal.open({
                             animation: true,
                             templateUrl: '../partials/modal/price-change.html',
+                            controller: 'payWay4PayController',
                             scope: $scope,
                             backdrop: 'static'
                         });
@@ -36391,18 +36385,15 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             })
         };
 
-
-
         $scope.sendCandidatesToClient = function() {
             Vacancy.one({localId: $routeParams.id}, function (resp) {
-                if(!resp.object.interviews || resp.object.interviews.length == 0) {
+                if (!resp.object.interviews || resp.object.interviews.length == 0) {
                     notificationService.error($filter('translate')('Please add the candidates to this stage'));
                     return;
                 } else {
                     $location.path("/email/vacancy/" + $scope.vacancy.localId);
                 }
             });
-
         };
 
         $scope.showEditEmailTemplate = function(template){
@@ -39594,7 +39585,7 @@ function EmployeeAddFromCandidateControllerFunc($scope, $routeParams, $location,
 
 }
 controller.controller('EmployeeAddFromCandidateController', ['$scope', '$routeParams', '$location', 'Candidate', 'Employee', '$filter','notificationService', 'Service', EmployeeAddFromCandidateControllerFunc]);
-function EmployeeAddController($scope, Employee, $filter, ngTableParams, $location, Company, $rootScope) {
+function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filter, ngTableParams, $location, Company, Service, $rootScope) {
     $scope.searchButtonClicked = false;
     $scope.employeesFound = null;
     $scope.a = {};
@@ -39669,7 +39660,7 @@ function EmployeeAddController($scope, Employee, $filter, ngTableParams, $locati
         });
     });
 
-
+    let pageNumber = 0;
     $scope.tableParams = new ngTableParams({
         page: 1,
         count: $scope.searchParam.page.count
@@ -39688,40 +39679,80 @@ function EmployeeAddController($scope, Employee, $filter, ngTableParams, $locati
             }
             $scope.searchParam.page.number = (params.$params.page - 1);
             $scope.searchParam.page.count = params.$params.count;
-            Employee.all($scope.searchParam, function(response) {
-                if (response.status == 'error') {
-                    if (response.code = 'notEnabledEmployeeFunction') {
-                        $scope.employeesObj.messageCode = 1;
-                        $location.path('/organizer');
-                    }
-                }else{
-                    $rootScope.objectSize = response['objects'] != undefined ? response['total'] : undefined;
-                    params.total(response['total']);
-                    var data = $filter('orderBy')(response['objects'], params.orderBy());
-                    if (!data && !$scope.searchButtonClicked) {
-                        data = [];
-                        $scope.employeesObj.messageCode = 2;
-                    } else if (!data && $scope.searchButtonClicked) {
-                        data = [];
-                        $scope.employeesObj.messageCode = 3;
-                    }
-                    $defer.resolve(data);
-                    $scope.employeesObj.allDataSize = response['total'];
-                    if($scope.searchParam.state == null){
-                        $scope.searchParam.state = 'null';
-                    }
-                    if($scope.searchParam.position == null){
-                        $scope.searchParam.position = 'null';
-                    }
-                    if($scope.searchParam.departmentId == null){
-                        $scope.searchParam.departmentId = 'null';
-                    }
+
+            function getEmployees(page,count) {
+                if(page || count) {
+                    $scope.searchParam.page = {number: page, count: count};
+                    pageNumber = page;
+                } else {
+                    $scope.isShowMore = false;
+                    pageNumber = $scope.searchParam.page.number;
+                    if(document.getElementById('scrollup'))
+                        document.getElementById('scrollup').style.display = 'none';
+                    $timeout(function() {
+                        $anchorScroll('mainTable');
+                    });
                 }
-                $scope.employeesObj.dataIsLoad = false;
-                $scope.employeesFound = response['total'] >= 1;
-                $scope.searchParam.page.count = params.$params.count;
-                $scope.a.searchNumber = $scope.tableParams.page();
-            });
+                Employee.all($scope.searchParam, function(response) {
+                    if (response.status == 'error') {
+                        $rootScope.loading = false;
+                        if (response.code = 'notEnabledEmployeeFunction') {
+                            $scope.employeesObj.messageCode = 1;
+                            $location.path('/organizer');
+                        }
+                    }else{
+                        $rootScope.loading = false;
+                        $rootScope.objectSize = response['objects'] != undefined ? response['total'] : undefined;
+                        params.total(response['total']);
+                        if(page) {
+                            $scope.employees = $scope.employees.concat(response['objects'])
+                        } else {
+                            $scope.employees = response['objects'];
+                        }
+                        var data = $filter('orderBy')(response['objects'], params.orderBy());
+                        if (!data && !$scope.searchButtonClicked) {
+                            data = [];
+                            $scope.employeesObj.messageCode = 2;
+                        } else if (!data && $scope.searchButtonClicked) {
+                            data = [];
+                            $scope.employeesObj.messageCode = 3;
+                        }
+                        $scope.paginationParams = {
+                            currentPage: $scope.searchParam.page.number,
+                            totalCount: $rootScope.objectSize
+                        };
+                        let pagesCount = Math.ceil(response['total']/$scope.searchParam.page.count);
+                        if(pagesCount == $scope.searchParam.page.number + 1) {
+                            $('#show_more').hide();
+                        } else {
+                            $('#show_more').show();
+                        }
+                        $defer.resolve(data);
+                        $scope.employeesObj.allDataSize = response['total'];
+                        if($scope.searchParam.state == null){
+                            $scope.searchParam.state = 'null';
+                        }
+                        if($scope.searchParam.position == null){
+                            $scope.searchParam.position = 'null';
+                        }
+                        if($scope.searchParam.departmentId == null){
+                            $scope.searchParam.departmentId = 'null';
+                        }
+                    }
+                    $scope.employeesObj.dataIsLoad = false;
+                    $scope.employeesFound = response['total'] >= 1;
+                    $scope.searchParam.page.count = params.$params.count;
+                    $scope.a.searchNumber = $scope.tableParams.page();
+                });
+            }
+            getEmployees();
+            $scope.showMore = function () {
+                $scope.isShowMore = true;
+                Service.dynamicTableLoading(params.total(), pageNumber, params.$params.count, getEmployees)
+            };
+            $rootScope.searchParamInClients = $scope.searchParam;
+            $scope.a.searchNumber = $scope.tableParams.page();
+            $rootScope.previousSearchNumber = $scope.a.searchNumber;
             $scope.searchParam.isClicked = false;
 
         }
@@ -39761,7 +39792,7 @@ function EmployeeAddController($scope, Employee, $filter, ngTableParams, $locati
     });
 
 }
-controller.controller('EmployeesController', ['$scope', 'Employee', '$filter', 'ngTableParams', '$location', 'Company', '$rootScope', EmployeeAddController]);
+controller.controller('EmployeesController', ['$scope', '$timeout', '$anchorScroll', 'Employee', '$filter', 'ngTableParams', '$location', 'Company', 'Service', '$rootScope', EmployeeAddController]);
 controller.controller('DepartmentCatalogController', ["$scope", "$rootScope", "$routeParams", "Service", "Person",
     "Company", "notificationService", "$filter", "$translate","Vacancy","Employee", "$filter",
     function($scope, $rootScope, $routeParams, Service, Person, Company, notificationService, $translate,

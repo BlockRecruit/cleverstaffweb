@@ -14,12 +14,12 @@
                     <span class="bold">
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
                         {{'Time limit'|translate}}:</span>
-                    <span ng-show="currentLang == 'ru' || currentLang == 'ua'" class="allTime">{{getTestCandidate.timeLimit | secondsToDateTime|date : "H 'часов' m 'минут'" }}.</span>
-                    <span ng-show="currentLang == 'ru' || currentLang == 'ua'" class="hour">{{getTestCandidate.timeLimit | secondsToDateTime|date : "H 'часов'" }}.</span>
-                    <span ng-show="currentLang == 'ru' || currentLang == 'ua'" class="min">{{getTestCandidate.timeLimit | secondsToDateTime|date : "m 'минут'" }}.</span>
-                    <span ng-show="currentLang == 'en'" class="allTime">{{getTestCandidate.timeLimit | secondsToDateTime|date : "H 'hours' m 'minutes'" }}.</span>
-                    <span ng-show="currentLang == 'en'" class="hour">{{getTestCandidate.timeLimit | secondsToDateTime|date : "H 'hours'" }}.</span>
-                    <span ng-show="currentLang == 'en'" class="min">{{getTestCandidate.timeLimit | secondsToDateTime|date : "m 'minutes'" }}.</span>
+                    <span ng-show="currentLang == 'ru' || currentLang == 'ua' || currentLang == undefined" class="allTime">{{getTestCandidate.timeLimit | secondsToDateTime|date : "H 'часов' m 'минут'" }}.</span>
+                    <span ng-show="currentLang == 'ru' || currentLang == 'ua' || currentLang == undefined" class="hour">{{getTestCandidate.timeLimit | secondsToDateTime|date : "H 'часов'" }}.</span>
+                    <span ng-show="currentLang == 'ru' || currentLang == 'ua' || currentLang == undefined" class="min">{{getTestCandidate.timeLimit | secondsToDateTime|date : "m 'минут'" }}.</span>
+                    <span ng-show="currentLang == 'en' || currentLang == undefined" class="allTime">{{getTestCandidate.timeLimit | secondsToDateTime|date : "H 'hours' m 'minutes'" }}.</span>
+                    <span ng-show="currentLang == 'en' || currentLang == undefined" class="hour">{{getTestCandidate.timeLimit | secondsToDateTime|date : "H 'hours'" }}.</span>
+                    <span ng-show="currentLang == 'en' || currentLang == undefined" class="min">{{getTestCandidate.timeLimit | secondsToDateTime|date : "m 'minutes'" }}.</span>
                     <i class="fa fa-info-circle tooltip-icon" title="" ng-mouseover="inHover()" ng-mouseleave="outHover()" aria-hidden="true"></i>
                 </p>
                 <div class="showPrompt text-left" ng-show="showHover">
