@@ -2590,9 +2590,6 @@ var directive = angular.module('RecruitingApp.directives', []).
                     $('.select2-search-choice-edit-origin').off().on('click', function (e) {
                         $scope.editOriginName();
                     }).attr("title", $filter('translate')('Edit source for all candidates'));
-                    $('.select2-search-choice-delete-origin').off().on('click', function (e) {
-                        $scope.removeSource();
-                    }).attr("title", $filter('translate')('Delete source for all candidates'));
                 };
                 $scope.getOriginAutocompleterValue = function() {
                     var object = $(element[0]).select2("data");
@@ -20963,29 +20960,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
 
                 }
             });
-        };
-
-
-        $scope.removeSource = function () {
-            $scope.removableSource = $scope.getOriginAutocompleterValue();
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: '../partials/modal/origin-remove.html',
-                scope: $scope,
-                size: '',
-                resolve: {
-
-                }
-            });
-        };
-
-        $scope.confirmDeleteOrigin = function () {
-            Candidate.removeOriginAll({
-                origin: $scope.removableSource
-            },function (resp) {
-                console.log('done!')
-            })
-            $http({})
         };
 
 
