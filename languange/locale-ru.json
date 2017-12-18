@@ -2817,5 +2817,6 @@
   "Please add the candidates to this stage":"Добавьте кандидатов на этап",
   "Position":"Вакансия",
   "Search":"Поиск",
-  "Location":"Локация"
+  "Location":"Локация",
+  "Vacancies & Applicants API": "API Вакансий и Откликов"
 }

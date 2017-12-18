@@ -1891,6 +1891,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
 
         $scope.hideFilter = function() {
             $scope.showFilterSettings = false;
+            $scope.errorHandler.vacanciesFilter.error.show = false;
             filterIsActive = false;
         };
 

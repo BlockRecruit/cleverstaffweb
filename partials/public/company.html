@@ -1,6 +1,6 @@
 <div class="container-fluid block-company-public-vacancies">
     <div class="row">
-        <div class="col-xs-12 text-center cs-logo">
+        <div class="col-xs-12 text-center relative">
             <div class="company-info">
                 <div class="logo" ng-show="orgParams.companyLogo">
                     <img src="{{serverAddress}}/getlogo?id={{orgParams.companyLogo}}" alt="">
@@ -36,6 +36,9 @@
                     <i class="fa fa-facebook" aria-hidden="true"></i>
                 </a>
             </div>
+            <div class="api-link hidden-sm">
+                <a href="https://cleverstaff.net/api.html">{{'Vacancies & Applicants API' | translate}}</a>
+            </div>
         </div>
     </div>
 
@@ -53,7 +56,7 @@
             <div class="vacancies-filter">
 
                 <div class="switch">
-                    <label ng-click="hideFilter()">Show all</label>
+                    <label ng-click="hideFilter()">{{'Show all' | translate}}</label>
                     <input id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round" ng-change="toggleFilter()" type="checkbox" ng-model="showFilterSettings">
                     <label class=""  for="cmn-toggle-9"></label>
                     <label ng-click="showFilter()">{{'Search' | translate}}</label>
