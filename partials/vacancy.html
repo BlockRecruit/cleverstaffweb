@@ -1015,7 +1015,8 @@
                             <span ng-show="candidatePreview.db">, {{candidatePreview.db|ageOfDate}}</span>
                         </div>
                         <div>
-                            {{candidatePreview.position}}<span ng-show="candidatePreview != undefined && candidatePreview.salary">,
+                            {{candidatePreview.position}}<span ng-show="candidatePreview != undefined && candidatePreview.salary">
+                            <span ng-if="candidatePreview.position.length > 1">,</span>
                                 <span ng-show="candidatePreview.salary != 0">{{candidatePreview.salary}} {{candidatePreview.currency}}</span>
                             </span>
 
@@ -1044,7 +1045,7 @@
                         <tbody class="candidatePreview-info">
                         <tr ng-show="candidatePreview != undefined && candidatePreview.region.city">
                             <td class="content-header">{{'lives_in'|translate}}</td>
-                            <td class="item-in-table" style="padding: 0.5em 0.3em">
+                            <td class="item-in-tablez" style="padding: 0.5em 0.3em">
                                 {{candidatePreview.region.displayCity}}
                             </td>
                         </tr>

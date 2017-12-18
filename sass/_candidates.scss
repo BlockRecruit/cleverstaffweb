@@ -1755,6 +1755,9 @@
 		overflow-y: auto;
 		min-height: 160px;
 		max-height: 320px;
+		.candidatePreview-info {
+			font-size: 85%;
+		}
 	}
 	.divided-grid {
 		.candidate-img-wrap {

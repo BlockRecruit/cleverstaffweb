@@ -1735,7 +1735,8 @@
                         </div>
                         <div>
                             {{candidatePreview.position}}
-                            <span ng-show="candidatePreview != undefined && candidatePreview.salary">,
+                            <span ng-show="candidatePreview != undefined && candidatePreview.salary">
+                                <span ng-if="candidatePreview.position.length > 1">,</span>
                                 <span ng-show="candidatePreview.salary != 0">{{candidatePreview.salary}} {{candidatePreview.currency}}</span>
                             </span>
 
