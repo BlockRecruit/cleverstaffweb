@@ -39589,6 +39589,8 @@ function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filte
     };
 
     $scope.clickSearch = function() {
+        $scope.searchParam.page.number = 0;
+        $scope.tableParams.page(1);
         $scope.searchButtonClicked = true;
         if ($scope.searchParam.state != null ||
             $scope.searchParam.position != null ||
