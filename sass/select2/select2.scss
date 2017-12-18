@@ -104,10 +104,16 @@ Version: 3.4.8 Timestamp: Thu May  1 09:50:32 EDT 2014
 	border: 0;
 	outline: 0;
 	background: url("../../dist/css/select2.png") right top no-repeat;
+	&.select2-search-choice-delete-origin {
+		display: none;
+	}
 }
 
 .select2-container.select2-allowclear .select2-choice abbr {
 	display: inline-block;
+	&.select2-search-choice-delete-origin {
+		display: none;
+	}
 }
 .select2-container.select2-allowclear .select2-choice .select2-search-choice-edit {
 	display: none;

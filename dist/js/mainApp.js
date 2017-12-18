@@ -2596,6 +2596,9 @@ var directive = angular.module('RecruitingApp.directives', []).
                     $('.select2-search-choice-edit-origin').off().on('click', function (e) {
                         $scope.editOriginName();
                     }).attr("title", $filter('translate')('Edit source for all candidates'));
+                    $('.select2-search-choice-delete-origin').off().on('click', function (e) {
+                        $scope.removeSource();
+                    }).attr("title", $filter('translate')('Delete source for all candidates'));
                 };
                 $scope.getOriginAutocompleterValue = function() {
                     var object = $(element[0]).select2("data");
@@ -5995,6 +5998,13 @@ angular.module('services.candidate', [
                 headers: {'Content-type': 'application/json; charset=UTF-8'},
                 params: {
                     param: "editOriginAll"
+                }
+            },
+            removeOriginAll: {
+                method: "POST",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "removeOriginAll"
                 }
             },
             getCandidateProperties: {
@@ -20950,6 +20960,8 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 $scope.addLinkErrorShow = true;
             }
         };
+
+
         $scope.editOriginName = function () {
             $scope.originOldName = $scope.getOriginAutocompleterValue();
             $rootScope.originName = $scope.originOldName;
@@ -20962,6 +20974,28 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 }
             });
         };
+
+
+        $scope.removeSource = function () {
+            $scope.removableSource = $scope.getOriginAutocompleterValue();
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/origin-remove.html',
+                scope: $scope,
+                size: '',
+                resolve: {
+
+                }
+            });
+        };
+
+        $scope.confirmDeleteOrigin = function () {
+            $http.post(serverAddress + '/candidate/removeOriginAll?origin=' + $scope.removableSource).success(function (resp) {
+            });
+
+        };
+
+
         $rootScope.saveOriginName = function () {
             Candidate.editOriginAll({originOld: $scope.originOldName, originNew: $rootScope.originName}, function (resp) {
                 if(resp.status == "ok") {

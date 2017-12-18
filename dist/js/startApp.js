@@ -3211,6 +3211,13 @@ angular.module('services.candidate', [
                     param: "editOriginAll"
                 }
             },
+            removeOriginAll: {
+                method: "POST",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "removeOriginAll"
+                }
+            },
             getCandidateProperties: {
                 method: "GET",
                 headers: {'Content-type': 'application/json; charset=UTF-8'},

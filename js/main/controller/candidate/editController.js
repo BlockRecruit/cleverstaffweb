@@ -860,6 +860,8 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 $scope.addLinkErrorShow = true;
             }
         };
+
+
         $scope.editOriginName = function () {
             $scope.originOldName = $scope.getOriginAutocompleterValue();
             $rootScope.originName = $scope.originOldName;
@@ -872,6 +874,31 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 }
             });
         };
+
+
+        $scope.removeSource = function () {
+            $scope.removableSource = $scope.getOriginAutocompleterValue();
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/origin-remove.html',
+                scope: $scope,
+                size: '',
+                resolve: {
+
+                }
+            });
+        };
+
+        $scope.confirmDeleteOrigin = function () {
+            Candidate.removeOriginAll({
+                origin: $scope.removableSource
+            },function (resp) {
+                console.log('done!')
+            })
+            $http({})
+        };
+
+
         $rootScope.saveOriginName = function () {
             Candidate.editOriginAll({originOld: $scope.originOldName, originNew: $rootScope.originName}, function (resp) {
                 if(resp.status == "ok") {
