@@ -924,6 +924,28 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         };
 
 
+        $scope.removeSource = function () {
+            $scope.removableSource = $scope.getOriginAutocompleterValue();
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/origin-remove.html',
+                scope: $scope,
+                size: '',
+                resolve: {
+
+                }
+            });
+        };
+
+        $scope.confirmDeleteOrigin = function () {
+            Candidate.removeOriginAll({
+                origin: $scope.removableSource
+            },function (resp) {
+                console.log('done!')
+            });
+        };
+
+
         $rootScope.saveOriginName = function () {
             Candidate.editOriginAll({originOld: $scope.originOldName, originNew: $rootScope.originName}, function (resp) {
                 if(resp.status == "ok") {

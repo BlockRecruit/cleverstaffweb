@@ -2932,5 +2932,7 @@
   "Hide from all public vacancies list:":"Скрыть из публичного списка вакансий:",
   "Task deleted":"Задача удалена",
   "Сandidates in stages": "Кандидаты на этапах",
-  "Invite user with a role" :"Пригласить пользователя с ролью"
+  "Invite user with a role" :"Пригласить пользователя с ролью",
+  "Yes, remove everywhere": "Да, удалить везде",
+  "Are you sure you want to remove this source? It will also be removed from other candidate profiles": "Уверены, что хотите удалить источник {{source_name}}. Он также будет удален из профилей других кандидатов"
 }

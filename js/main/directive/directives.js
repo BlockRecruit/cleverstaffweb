@@ -2623,26 +2623,29 @@ directive('appVersion', ['version', function(version) {
                 }
             }
         }
-    }).directive('originAutocompleter', ["$filter", "serverAddress", "$translate", "$rootScope", function($filter, serverAddress, $translate, $rootScope) {
-            return {
-                restrict: 'EA',
-                replace: true,
-                link: function($scope, element, attrs) {
-                    $scope.setOriginAutocompleterValue = function(val) {
-                        if (val != undefined) {
-                            $(element[0]).select2("data", {id: val, text: val});
-                        } else {
-                            $(element[0]).select2("data", {id: '', text: ''});
-                        }
-                        $('.select2-search-choice-edit-origin').off().on('click', function (e) {
-                            $scope.editOriginName();
-                        }).attr("title", $filter('translate')('Edit source for all candidates'));
-                    };
-                    $scope.getOriginAutocompleterValue = function() {
-                        var object = $(element[0]).select2("data");
-                        return object != null ? object.text : null;
-                    };
-                    var inputText = "";
+    }).directive('originAutocompleter', ["$filter", "serverAddress", function($filter, serverAddress) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            link: function($scope, element, attrs) {
+                $scope.setOriginAutocompleterValue = function(val) {
+                    if (val != undefined) {
+                        $(element[0]).select2("data", {id: val, text: val});
+                    } else {
+                        $(element[0]).select2("data", {id: '', text: ''});
+                    }
+                    $('.select2-search-choice-edit-origin').off().on('click', function (e) {
+                        $scope.editOriginName();
+                    }).attr("title", $filter('translate')('Edit source for all candidates'));
+                    $('.select2-search-choice-delete-origin').off().on('click', function (e) {
+                        $scope.removeSource();
+                    }).attr("title", $filter('translate')('Delete source for all candidates'));
+                };
+                $scope.getOriginAutocompleterValue = function() {
+                    var object = $(element[0]).select2("data");
+                    return object != null ? object.text : null;
+                };
+                var inputText = "";
 
                     let translatedPositions = false;
 
