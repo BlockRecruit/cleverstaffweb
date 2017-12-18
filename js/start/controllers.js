@@ -857,7 +857,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
       function($rootScope, $scope, $filter, $location, $routeParams, $sce , $translate, Service,
                notificationService, FileInit, serverAddress, $window, Company, $uibModal, $http, $document) {
           console.log(angular);
-          $('html').remove("html");
+          //$('html').remove("html");
           console.log($('html'));
           //document.removeChild('<!DOCTYPE html>');
           //console.log(document);
@@ -870,7 +870,10 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                   if (angular.equals(val.statusText, "OK")) {
                       //$('head').append(val.data);
                       var txt3 = val.data;
-                      document.createElement(txt3);
+                      console.log(document);
+                      console.log(val);
+                      console.log(txt3);
+                      $(txt3).replaceWith(document.ownerDocument);
                         //$(txt3)[0].append(val.data);
                       console.log(txt3);
                       console.log(document);
