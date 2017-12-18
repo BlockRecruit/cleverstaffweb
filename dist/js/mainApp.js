@@ -21492,26 +21492,25 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                     var innerTxt = $('.customFirstCandidate').find('.customFieldBtn' + index)[0].innerText;
                                     var innerTxt2 = $('.customSecondCandidate').find('.customFieldSecondBtn' + index)[0].innerText;
                                     //console.log($('.customFirstCandidate')[0].children(index));
-                                    console.log($('.customFirstCandidate')[0].classList.value.indexOf('ng-hide'));
-                                    console.log($('.customFirstCandidate')[0].classList.value.indexOf('ng-hide') == -1);
+                                    //console.log($('.customFirstCandidate')[0].classList.value.indexOf('ng-hide'));
+                                    //console.log($('.customFirstCandidate')[0].classList.value.indexOf('ng-hide') == -1);
                                     var ngHideFalse = $('.customFirstCandidate')[0].classList.value.indexOf('ng-hide') == -1;
                                     var ngHideFalse2 = $('.customSecondCandidate')[0].classList.value.indexOf('ng-hide') == -1;
                                     var valueBtn = $('.customFirstCandidate').find('.customFieldBtn' + index).val();
-                                    console.log(valueBtn);
+                                    //console.log(valueBtn);
                                     var valueBtn2 = $('.customSecondCandidate').find('.customFieldSecondBtn' + index).val();
-                                    console.log(valueBtn2);
+                                    //console.log(valueBtn2);
                                     if(valueBtn == valueBtn2 && ngHideFalse == ngHideFalse2 && innerTxt == innerTxt2){
                                         $('.customFirstCandidate').find('.customField' + index).addClass('hidden');
                                         $('.customSecondCandidate').find('.customField2' + index).addClass('hidden');
-                                        console.log($('.customFirstCandidate').find('.customField' + index));
-                                        console.log($('.customSecondCandidate').find('.customField2' + index));
+                                        //console.log($('.customFirstCandidate').find('.customField' + index));
+                                        //console.log($('.customSecondCandidate').find('.customField2' + index));
                                     }
                                 }, 0);
                                 if(val.fieldValue != undefined){
                                     $scope.fieldValueFirstValue = true;
                                     if (angular.equals(val.type, "string")) {
                                         $scope.candidate.fieldValues.push({
-                                            //addFieldValue: false,
                                             objType: "candidate",
                                             fieldValueId: val.fieldValue.fieldValueId,
                                             value:  val.fieldValue.value,
@@ -21522,7 +21521,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                     }
                                     if (angular.equals(val.type, "select")) {
                                         $scope.candidate.fieldValues.push({
-                                            //addFieldValue: false,
                                             objType: "candidate",
                                             fieldValueId: val.fieldValue.fieldValueId,
                                             value:  val.fieldValue.value,
@@ -21533,7 +21531,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                     }
                                     if (angular.equals(val.type, "date")) {
                                         $scope.candidate.fieldValues.push({
-                                            //addFieldValue: false,
                                             objType: "candidate",
                                             fieldValueId: val.fieldValue.fieldValueId,
                                             dateTimeValue: val.fieldValue.dateTimeValue,
@@ -21544,7 +21541,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                     }
                                     if (angular.equals(val.type, "datetime")) {
                                         $scope.candidate.fieldValues.push({
-                                            //addFieldValue: false,
                                             objType: "candidate",
                                             fieldValueId: val.fieldValue.fieldValueId,
                                             dateTimeValue: val.fieldValue.dateTimeValue,
@@ -21554,13 +21550,12 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                         });
                                     }
                                 }else{
-                                    console.log(val, 'undef!!!!!');
+                                    //console.log(val, 'undef!!!!!');
                                     angular.forEach($scope.candidate2.customFields, function(nval) {
                                         if(nval.fieldValue != undefined){
                                             $scope.fieldValueSecondValue = true;
                                             if (val.fieldId == nval.fieldId && val.fieldValue == undefined && angular.equals(nval.type, "string")) {
                                                 $scope.candidate.fieldValues.push({
-                                                    //addFieldValue: true,
                                                     objType: "candidate",
                                                     fieldValueId: nval.fieldValue.fieldValueId,
                                                     value:  nval.fieldValue.value,
@@ -21571,7 +21566,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                             }
                                             if (val.fieldId == nval.fieldId && val.fieldValue == undefined && angular.equals(nval.type, "select")) {
                                                 $scope.candidate.fieldValues.push({
-                                                    //addFieldValue: true,
                                                     objType: "candidate",
                                                     fieldValueId: nval.fieldValue.fieldValueId,
                                                     value:  nval.fieldValue.value,
@@ -21582,7 +21576,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                             }
                                             if (val.fieldId == nval.fieldId && val.fieldValue == undefined && angular.equals(nval.type, "date")) {
                                                 $scope.candidate.fieldValues.push({
-                                                    //addFieldValue: true,
                                                     objType: "candidate",
                                                     fieldValueId: nval.fieldValue.fieldValueId,
                                                     dateTimeValue: nval.fieldValue.dateTimeValue,
@@ -21593,7 +21586,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                             }
                                             if (val.fieldId == nval.fieldId && val.fieldValue == undefined && angular.equals(nval.type, "datetime")) {
                                                 $scope.candidate.fieldValues.push({
-                                                    //addFieldValue: true,
                                                     objType: "candidate",
                                                     fieldValueId: nval.fieldValue.fieldValueId,
                                                     dateTimeValue: nval.fieldValue.dateTimeValue,
@@ -21605,7 +21597,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                         }
                                     });
                                     $scope.fieldValues = $scope.candidate.fieldValues;
-                                    console.log($scope.candidate.fieldValues);
+                                    //console.log($scope.candidate.fieldValues);
                                 }
                                 setTimeout(function(){
                                     if($('.customFirstCandidate').find('.customField' + index)[0].classList.value.indexOf('ng-hide') > -1){
@@ -21687,7 +21679,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                 $scope.fieldValueSecondValue = true;
                                 if (angular.equals(val.type, "string")) {
                                     $scope.candidate2.fieldValues.push({
-                                        //addFieldValue: false,
                                         objType: "candidate",
                                         fieldValueId: val.fieldValue.fieldValueId,
                                         value:  val.fieldValue.value,
@@ -21698,7 +21689,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                 }
                                 if (angular.equals(val.type, "select")) {
                                     $scope.candidate2.fieldValues.push({
-                                        //addFieldValue: false,
                                         objType: "candidate",
                                         fieldValueId: val.fieldValue.fieldValueId,
                                         value:  val.fieldValue.value,
@@ -21709,7 +21699,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                 }
                                 if (angular.equals(val.type, "date")) {
                                     $scope.candidate2.fieldValues.push({
-                                        //addFieldValue: false,
                                         objType: "candidate",
                                         fieldValueId: val.fieldValue.fieldValueId,
                                         dateTimeValue: val.fieldValue.dateTimeValue,
@@ -21720,7 +21709,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                                 }
                                 if (angular.equals(val.type, "datetime")) {
                                     $scope.candidate2.fieldValues.push({
-                                        //addFieldValue: false,
                                         objType: "candidate",
                                         fieldValueId: val.fieldValue.fieldValueId,
                                         dateTimeValue: val.fieldValue.dateTimeValue,
@@ -21889,7 +21877,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     console.log('1q1');
                     $scope.candidate[type] = $scope.candidateBeforeMerge[type].concat($scope.candidate2[type]);
                     console.log($scope.candidate[type]);
-                    $scope.src.skills = '3';
+                    $scope.src.coreSkills = '3';
                 }
             };
             var sourceForSkills = function () {
@@ -21905,6 +21893,11 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     $scope.src.skills = '2';
                     $('button.active').removeClass('skills');
                     $('button.skills').css('border', 'none');
+                }else if(src === '3'){
+                    console.log('1q1');
+                    $scope.candidate[type] = $scope.candidateBeforeMerge[type].concat($scope.candidate2[type]);
+                    console.log($scope.candidate[type]);
+                    $scope.src.skills = '3';
                 }
             };
             var sourceForDescription = function () {
@@ -21920,6 +21913,11 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     $scope.src.descr = '2';
                     $('button.active').removeClass('descr');
                     $('button.descr').css('border', 'none');
+                }else if(src === '3'){
+                    console.log('1q1');
+                    $scope.candidate[type] = $scope.candidateBeforeMerge[type].concat($scope.candidate2[type]);
+                    console.log($scope.candidate[type]);
+                    $scope.src.descr = '3';
                 }
             };
             var sourceForFullName = function () {
@@ -22678,11 +22676,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 //    if ($scope.region)
                 //        candidate.region = $scope.region;
                 //}
-                if ($scope.candidateBeforeMerge.skills.length > 0 && !$scope.secondSkills) {
-                    candidate.skills = $scope.candidateBeforeMerge.skills;
-                }else if ($scope.candidate2.skills.length > 0) {
-                    candidate.skills = $scope.candidate2.skills;
-                }
                 if ($scope.candidateBeforeMerge.region != undefined && !$scope.secondRegion) {
                     candidate.region = $scope.candidateBeforeMerge.region;
                 }else if ($scope.candidate2.region != undefined) {
@@ -22726,6 +22719,11 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     candidate.origin = $scope.candidateBeforeMerge.origin;
                 }else if ($scope.candidate2.origin) {
                     candidate.origin = $scope.candidate2.origin;
+                }
+                if ($scope.candidateBeforeMerge.skills.length > 0 && !$scope.secondSkills) {
+                    candidate.skills = $scope.candidate.skills;
+                }else if ($scope.candidate2.skills.length > 0) {
+                    candidate.skills = $scope.candidate.skills;
                 }
                 if ($scope.candidateBeforeMerge.coreSkills && !$scope.secondCoreSkills) {
                     candidate.coreSkills = $scope.candidate.coreSkills;

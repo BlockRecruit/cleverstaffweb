@@ -894,11 +894,18 @@
                                 </span>
                                     <div class="field floatLeft">
                                         <br>
-                                        <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.skills = '0'">
-                                            <button ng-show="candidateBeforeMerge.skills" type="button" class="btn btn-secondary" ng-class="{'active': src.skills == '1', 'skills' : src.skills == '0'}"
-                                                    ng-click="selectSource('1', null, null, false, 'skills')" title="{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}">{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</button>
-                                            <button ng-show="candidate2.skills" type="button" class="btn btn-secondary" ng-class="{'active': src.skills == '2', 'skills' : src.skills == '0'}"
-                                                    ng-click="selectSource('2', null, null, false, 'skills')" title="{{candidate2.fullName}}, {{candidate2.position}}">{{candidate2.fullName}}, {{candidate2.position}}</button>
+                                        <div class="skillsDisplay">
+                                            <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.skills = '0'">
+                                                <button ng-show="candidateBeforeMerge.skills" type="button" class="btn btn-secondary" ng-class="{'active': src.skills == '1', 'skills' : src.skills == '0'}"
+                                                        ng-click="selectSource('1', null, null, false, 'skills')" title="{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}">{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</button>
+                                                <button ng-show="candidate2.skills" type="button" class="btn btn-secondary" ng-class="{'active': src.skills == '2', 'skills' : src.skills == '0'}"
+                                                        ng-click="selectSource('2', null, null, false, 'skills')" title="{{candidate2.fullName}}, {{candidate2.position}}">{{candidate2.fullName}}, {{candidate2.position}}</button>
+                                            </div>
+                                            <div class="mergeBlock" ng-show="candidateBeforeMerge.skills && candidate2.skills">
+                                                <a href="" class="text-center" ng-click="selectSource('3', null, null, false, 'skills')">
+                                                    <span class="mergeIcon"></span>
+                                                </a>
+                                            </div>
                                         </div>
                                         <input skills-autocompleter class="hidden" name="skills" ng-maxlength="50" placeholder="" ng-model="skillInput" type="text">
                                         <div class="item-in-table">
@@ -940,34 +947,38 @@
                                 <div class="col-lg-6 SkillsAsText" ng-show="(candidateBeforeMerge.coreSkills && candidate2.coreSkills) && candidateBeforeMerge.coreSkills != candidate2.coreSkills">
                                     <div class="field skillsBlock floatRight">
                                         <label class="form-description">{{'Skills with text'|translate}}</label>
-                                        <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.coreSkills = '0'">
-                                            <button ng-show="candidateBeforeMerge.coreSkills" type="button" class="btn btn-secondary" ng-class="{'active': src.coreSkills == '1', 'coreSkills' : src.coreSkills == '0'}"
-                                                    ng-click="selectSource('1', null, null, false, 'coreSkills')" title="{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}">{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</button>
-                                            <button ng-show="candidate2.coreSkills" type="button" class="btn btn-secondary" ng-class="{'active': src.coreSkills == '2', 'coreSkills' : src.coreSkills == '0' && candidate2.coreSkills}"
-                                                    ng-click="selectSource('2', null, null, false, 'coreSkills')" title="{{candidate2.fullName}}, {{candidate2.position}}">{{candidate2.fullName}}, {{candidate2.position}}</button>
+                                        <div class="skillsDisplay">
+                                            <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.coreSkills = '0'">
+                                                <button ng-show="candidateBeforeMerge.coreSkills" type="button" class="btn btn-secondary" ng-class="{'active': src.coreSkills == '1', 'coreSkills' : src.coreSkills == '0'}"
+                                                        ng-click="selectSource('1', null, null, false, 'coreSkills')" title="{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}">{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</button>
+                                                <button ng-show="candidate2.coreSkills" type="button" class="btn btn-secondary" ng-class="{'active': src.coreSkills == '2', 'coreSkills' : src.coreSkills == '0' && candidate2.coreSkills}"
+                                                        ng-click="selectSource('2', null, null, false, 'coreSkills')" title="{{candidate2.fullName}}, {{candidate2.position}}">{{candidate2.fullName}}, {{candidate2.position}}</button>
+                                            </div>
+                                            <div class="mergeBlock" ng-show="candidateBeforeMerge.coreSkills && candidate2.coreSkills">
+                                                <a href="" class="text-center" ng-click="selectSource('3', null, null, false, 'coreSkills')">
+                                                    <span class="mergeIcon"></span>
+                                                </a>
+                                            </div>
                                         </div>
                                         <textarea id="tinymceTwo" ui-tinymce ng-model="candidate.coreSkills"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 SkillsAsText">
-                                    <div class="field skillsBlock floatRight">
-                                        <label class="form-description">{{'Skills with text'|translate}}</label>
-                                        <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.coreSkills = '0'">
-                                            <button ng-show="candidateBeforeMerge.coreSkills && candidate2.coreSkills" type="button" class="btn btn-secondary" ng-class="{'active': src.coreSkills == '3', 'coreSkills' : src.coreSkills == '0'}"
-                                                    ng-click="selectSource('3', null, null, false, 'coreSkills')" title="{{'Skills with text'|translate}}">{{'Skills with text'|translate}}</button>
-                                        </div>
-                                        <textarea id="tinymceThree" ui-tinymce ng-model="candidate.coreSkills"></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-12 description-add" ng-show="(candidateBeforeMerge.descr && candidate2.descr) && candidateBeforeMerge.descr != candidate2.descr">
                                 <div class="field big_tinymce">
                                     <label class="form-description">{{'description'|translate}}</label>
-                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.descr = '0'">
-                                        <button ng-show="candidateBeforeMerge.descr" type="button" class="btn btn-secondary" ng-class="{'active': src.descr == '1', 'descr' : src.descr == '0'}"
-                                                ng-click="selectSource('1', null, null, true, 'descr')" title="{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}">{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</button>
-                                        <button ng-show="candidateBeforeMerge.descr" type="button" class="btn btn-secondary" ng-class="{'active': src.descr == '2', 'descr' : src.descr == '0' && candidate2.descr}"
-                                                ng-click="selectSource('2', null, null, true, 'descr')" title="{{candidate2.fullName}}, {{candidate2.position}}">{{candidate2.fullName}}, {{candidate2.position}}</button>
+                                    <div class="skillsDisplay">
+                                        <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.descr = '0'">
+                                            <button ng-show="candidateBeforeMerge.descr" type="button" class="btn btn-secondary" ng-class="{'active': src.descr == '1', 'descr' : src.descr == '0'}"
+                                                    ng-click="selectSource('1', null, null, true, 'descr')" title="{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}">{{candidateBeforeMerge.fullName}}, {{candidateBeforeMerge.position}}</button>
+                                            <button ng-show="candidateBeforeMerge.descr" type="button" class="btn btn-secondary" ng-class="{'active': src.descr == '2', 'descr' : src.descr == '0' && candidate2.descr}"
+                                                    ng-click="selectSource('2', null, null, true, 'descr')" title="{{candidate2.fullName}}, {{candidate2.position}}">{{candidate2.fullName}}, {{candidate2.position}}</button>
+                                        </div>
+                                        <div class="mergeBlock" ng-show="candidateBeforeMerge.descr && candidate2.descr">
+                                            <a href="" class="text-center" ng-click="selectSource('3', null, null, false, 'descr')">
+                                                <span class="mergeIcon"></span>
+                                            </a>
+                                        </div>
                                     </div>
                                     <textarea id="tinymce" ui-tinymce ng-model="candidate.descr"></textarea>
                                 </div>

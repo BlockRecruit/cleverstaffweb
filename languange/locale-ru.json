@@ -2814,44 +2814,14 @@
   "Candidate added in vacancy": "Кандидат добавлен в вакансию",
   "Candidates added in vacancy": "Кандидаты добавлены в вакансию",
   "Select the interview date": "Выберите дату собеседования",
-<<<<<<< HEAD
-=======
-  "The large quantity of results has been found.": "Найдено большое количество результатов. Показано <b>{{total_count}}</b>. Уточните критерии, чтобы получить более точные результаты",
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> add-merge-dublicates
-=======
->>>>>>> translate
   "_Previous": "Предыдущая",
   "_Next": "Следующая",
   "_Show": "Отображать",
   "items on page": "строк на одной странице",
   "Go to initial page": "На исходную страницу",
   "You has granted role": "Вы назначили роль",
-<<<<<<< HEAD
-<<<<<<< HEAD
-  "_for":"для",
   "The large quantity of results has been found.": "Найдено большое количество результатов. Показано <b>{{total_count}}</b>. Уточните критерии, чтобы получить более точные результаты",
-  "Please add the candidates to this stage":"Добавьте кандидатов на этап"
-=======
-  "_for":"для"
-=======
-  "The 'rules' of profiles merge": "При объединении профилей:",
-  "Only fields with different values are available for selection": "Для выбора отображаются только поля с различными значениями.",
-  "If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default": "Не отобразятся поле, которое \"пустое\" в одном из профилей и \"заполненное\" в другом: в объединённом профиле сохранится только \"заполненное\" значение по умолчанию.",
-<<<<<<< HEAD
-  "Tags in the merged profile will be saved from both original ones": "Теги в объединённом профиле кандидата сохранятся из обоих оригинальных профилей."
->>>>>>> add-merge-dublicates
-<<<<<<< HEAD
->>>>>>> add-merge-dublicates
-=======
-=======
-  "Tags in the merged profile will be saved from both original ones": "Теги в объединённом профиле кандидата сохранятся из обоих оригинальных профилей.",
-  "first": "первый",
-  "second": "второй"
->>>>>>> history fix, change translate for history
->>>>>>> history fix, change translate for history
-=======
+  "Please add the candidates to this stage":"Добавьте кандидатов на этап",
   "_for":"для",
   "The 'rules' of profiles merge": "При объединении профилей:",
   "Only fields with different values are available for selection": "Для выбора отображаются только поля с различными значениями.",
@@ -2859,5 +2829,4 @@
   "Tags in the merged profile will be saved from both original ones": "Теги в объединённом профиле кандидата сохранятся из обоих оригинальных профилей.",
   "first": "первый",
   "second": "второй"
->>>>>>> translate
 }
