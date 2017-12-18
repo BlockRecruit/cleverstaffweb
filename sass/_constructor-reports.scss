@@ -4,6 +4,12 @@
 	padding: 15px;
 
 	background: none !important;
+	.active {
+		display: block !important;
+		max-height: 300px !important;
+
+		opacity: 1 !important;
+	}
 	header {
 		margin-bottom: 16px;
 		.description {
@@ -717,6 +723,21 @@
 		width: 100%;
 		&-title {
 			@include flex(row, space-between, center);
+			.select-content {
+				position: absolute;
+				top: 0;
+				left: 0;
+
+				overflow: auto;
+				width: 100%;
+				max-height: 0;
+
+				transition: all 1s ease-in;
+
+				opacity: 0;
+				background-color: #fff;
+				box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1);
+			}
 			&-select {
 				input {
 					@include input-styling();
@@ -724,6 +745,12 @@
 
 					border: 1px solid #e3e3e3;
 					outline: none;
+				}
+				li {
+					margin: 0;
+					padding: 0;
+
+					list-style: none;
 				}
 			}
 		}

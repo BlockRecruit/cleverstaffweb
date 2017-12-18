@@ -3,12 +3,11 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
     "$routeParams", "notificationService", "$filter","translateWords", "$translate", "vacancyStages","Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomField",
     function($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter,translateWords,
              $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomField, CustomReportsService) {
-
+        let activeBlocks = [];
         $rootScope.loading = true;
         $scope.regions = [];
         $scope.timeMaxZone = false;
         $scope.timeMaxZone2 = false;
-
         $scope.updateReportBtn = false;
         $scope.firstTimeLoading = 0;
         $scope.vacancysStatusesParam =[];
@@ -23,6 +22,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         $scope.withCandidates = false;
         $scope.checkListFields = ["client","salary","location","responsibles","status","dc", "daysInWork"];
         $scope.checkCustomListFields = [];
+        $scope.dateRange = ['currentWeek','previousWeek','currentMonth', 'previousMonth', 'currentYear', 'previousYear', 'customRange'];
         $scope.selectVacancy = [];
         $scope.vacancyStatuses =[
             {
@@ -442,7 +442,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                             });
 
                             $scope.vacancysStatusesParam = array;
-
                             return Stat.requestGetCountInterviewForActualVacancyStatistic({
                                 "from": $scope.startVacancyDate,
                                 "to": $scope.endDate,
@@ -930,7 +929,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         $scope.showChoosingVacancyFields = function () {
             if($('.chooseListFieldsVacancies').css('display') == 'none'){
                 $('.chooseListFieldsVacancies').show('500');
-
                 $('body').mouseup((e) => {
                     if ($('.chooseListFieldsVacancies').has(e.target).length === 0) {
                         $scope.$apply(() => {
@@ -962,6 +960,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 $rootScope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/" + $scope.companyParams.nameAlias + "-vacancies";
             });
         };
+
         $scope.getCompanyParams();
 
         $scope.filterVacancy = function (vacancy) {
@@ -982,6 +981,22 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     data.push(vacancyID);
                 }
         };
+
+        $scope.showBlocks = function (event) {
+            let targetDataID = event.target.dataset, blockShow;
+            console.log(targetDataID['show'], 'targetDataID');
+            if(targetDataID && targetDataID['show']){
+                blockShow = angular.element('#' + targetDataID['show'])[0];
+                _showBlocks(blockShow);
+                return;
+            }
+
+        };
+
+        function _showBlocks(blockShow){
+            activeBlocks.push(blockShow);
+            blockShow.classList.toggle('active');
+        }
     }
 
 ]);

@@ -1,4 +1,4 @@
-<div class="block-constructor-reports">
+<div class="block-constructor-reports" ng-click="showBlocks($event)">
     <header style="position: relative;">
         <h3 class="title">{{"Design custom report"| translate}}</h3>
         <p class="description">{{"Custom reports designer allows you build your own reports with appropriate parameters."|translate}}</p>
@@ -272,12 +272,10 @@
                             <div class="fields-title">
                                 <h4 class="pull-left" style="margin-right: 8px;">{{"Time range"|translate}}:</h4>
                                 <div class="fields-title-select" style="position: relative;">
-                                    <input type="text">
-                                    <div class="select-content" style="position: absolute; left: 0px;top: 0px;">
-                                        <ul>
-                                            <li></li>
-                                        </ul>
-                                    </div>
+                                    <input type="text" data-show="select-content">
+                                    <ul  class="select-content" id="select-content">
+                                        <li ng-repeat="date in dateRange track by $index" ng-bind="date|translate"></li>
+                                    </ul>
                                 </div>
                             </div>
                             <div>
