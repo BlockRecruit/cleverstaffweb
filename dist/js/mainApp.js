@@ -22743,18 +22743,18 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 var mergeData  = $scope.candidate2.candidateId;
                 console.log(candidate);
                 $http.put(
-                    //serverAddress + '/candidate/' + 'mergeCandidates?duplicateId=' + mergeData, candidate
+                    serverAddress + '/candidate/' + 'mergeCandidates?duplicateId=' + mergeData, candidate
                 ).then(function (val) {
                     console.log(val);
                     if (angular.equals(val.data.status, "ok")) {
                         notificationService.success($filter('translate')('You successfully merged candidates’ profiles'));
-                        //CacheCandidates.update(val.data.object);
+                        CacheCandidates.update(val.data.object);
                         if ($scope.linksForSave.length > 0) {
                             angular.forEach($scope.linksForSave, function(valI, i) {
                                 Candidate.addLink({
-                                    //"url": valI.url,
-                                    //"candidateId": val.data.object.candidateId,
-                                    //"name": valI.fileName
+                                    "url": valI.url,
+                                    "candidateId": val.data.object.candidateId,
+                                    "name": valI.fileName
                                 }, function(resp) {
                                 });
                                 if ($scope.linksForSave.length - 1 == i) {
