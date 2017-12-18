@@ -832,31 +832,61 @@
 
 							display: block;
 						}
+					}
+					.SkillsAsRating {
+						padding-right: 0;
 						& > .floatLeft {
-							& > .btn-group {
-								display: inline-flex;
-								margin: 0 0 5px 1px;
-								.btn {
-									@include button-switch-styling();
+							.skillsDisplay {
+								display: inline-block;
+								& > .btn-group {
+									display: inline-flex;
+									margin: 0 0 5px 1px;
+									.btn {
+										@include button-switch-styling();
 
-									overflow-x: hidden;
-									width: 200px;
+										overflow-x: hidden;
+										width: 200px;
 
-									text-overflow: ellipsis;
-									&:hover {
-										color: #202021;
-										background-color: #e3e3e3;
-									}
-									&:focus {
-										outline: none;
-									}
-									&:last-child {
-										margin-left: 5px;
-									}
-									&.active {
-										background-color: $theme-light-green-hover;
+										text-overflow: ellipsis;
 										&:hover {
+											color: #202021;
+											background-color: #e3e3e3;
+										}
+										&:focus {
+											outline: none;
+										}
+										&:last-child {
+											margin-left: 5px;
+										}
+										&.active {
 											background-color: $theme-light-green-hover;
+											&:hover {
+												background-color: $theme-light-green-hover;
+											}
+										}
+									}
+								}
+								.mergeBlock {
+									display: block;
+									margin-bottom: 30px;
+
+									border: 2px solid $theme-light-green-hover;
+									border-top: none;
+									& > a {
+										display: block;
+
+										cursor: auto;
+										.mergeIcon {
+											display: inline-block;
+											width: 40px;
+											height: 40px;
+											margin-bottom: -26px;
+
+											cursor: pointer;
+
+											background: url(/images/sprite/merge-icon.png) $theme-white no-repeat;
+											background-size: cover;
+											box-shadow: 0 0 0 10px $theme-white;
 										}
 									}
 								}
@@ -915,33 +945,61 @@
 						}
 					}
 					.skillsBlock {
+						display: inline-block;
 						label {
 							display: block;
 						}
-						.btn-group {
-							display: inline-flex;
-							margin: 15px 0 5px 1px;
-							.btn {
-								@include button-switch-styling();
+						.skillsDisplay {
+							display: inline-block;
+							.btn-group {
+								display: inline-flex;
+								margin: 15px 0 5px 1px;
+								.btn {
+									@include button-switch-styling();
 
-								overflow-x: hidden;
-								width: 200px;
+									overflow-x: hidden;
+									width: 200px;
 
-								text-overflow: ellipsis;
-								&:hover {
-									color: #202021;
-									background-color: #e3e3e3;
-								}
-								&:focus {
-									outline: none;
-								}
-								&:last-child {
-									margin-left: 5px;
-								}
-								&.active {
-									background-color: $theme-light-green-hover;
+									text-overflow: ellipsis;
 									&:hover {
+										color: #202021;
+										background-color: #e3e3e3;
+									}
+									&:focus {
+										outline: none;
+									}
+									&:last-child {
+										margin-left: 5px;
+									}
+									&.active {
 										background-color: $theme-light-green-hover;
+										&:hover {
+											background-color: $theme-light-green-hover;
+										}
+									}
+								}
+							}
+							.mergeBlock {
+								display: block;
+								margin-bottom: 30px;
+
+								border: 2px solid $theme-light-green-hover;
+								border-top: none;
+								& > a {
+									display: block;
+
+									cursor: auto;
+									.mergeIcon {
+										display: inline-block;
+										width: 40px;
+										height: 40px;
+										margin-bottom: -26px;
+
+										cursor: pointer;
+
+										background: url(/images/sprite/merge-icon.png) $theme-white no-repeat;
+										background-size: cover;
+										box-shadow: 0 0 0 10px $theme-white;
 									}
 								}
 							}
@@ -964,6 +1022,60 @@
 							@include button-styling-cancel();
 						}
 					}
+					.skillsDisplay {
+						display: inline-block;
+						.btn-group {
+							margin: 5px 0 5px 1px;
+							.btn {
+								@include button-switch-styling();
+
+								overflow-x: hidden;
+								width: 200px;
+
+								text-overflow: ellipsis;
+								&:hover {
+									color: #202021;
+									background-color: #e3e3e3;
+								}
+								&:focus {
+									outline: none;
+								}
+								&:last-child {
+									margin-left: 10px;
+								}
+								&.active {
+									background-color: $theme-light-green-hover;
+									&:hover {
+										background-color: $theme-light-green-hover;
+									}
+								}
+							}
+						}
+						.mergeBlock {
+							display: block;
+							margin-bottom: 30px;
+
+							border: 2px solid $theme-light-green-hover;
+							border-top: none;
+							& > a {
+								display: block;
+
+								cursor: auto;
+								.mergeIcon {
+									display: inline-block;
+									width: 40px;
+									height: 40px;
+									margin-bottom: -26px;
+
+									cursor: pointer;
+
+									background: url(/images/sprite/merge-icon.png) $theme-white no-repeat;
+									background-size: cover;
+									box-shadow: 0 0 0 10px $theme-white;
+								}
+							}
+						}
+					}
 					.tinyMCE-for-block {
 						height: 330px!important;
 
@@ -974,33 +1086,6 @@
 						display: block;
 
 						text-transform: capitalize;
-					}
-					.btn-group {
-						margin: 5px 0 5px 1px;
-						.btn {
-							@include button-switch-styling();
-
-							overflow-x: hidden;
-							width: 200px;
-
-							text-overflow: ellipsis;
-							&:hover {
-								color: #202021;
-								background-color: #e3e3e3;
-							}
-							&:focus {
-								outline: none;
-							}
-							&:last-child {
-								margin-left: 25px;
-							}
-							&.active {
-								background-color: $theme-light-green-hover;
-								&:hover {
-									background-color: $theme-light-green-hover;
-								}
-							}
-						}
 					}
 				}
 				& > .saveCancelBtn {

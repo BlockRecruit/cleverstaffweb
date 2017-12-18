@@ -2226,37 +2226,13 @@
   "_Next": "Next",
   "_Show": "Show",
   "items on page": "items on page",
-<<<<<<< HEAD
-<<<<<<< HEAD
-  "Go to initial page": "Go to initial page",
   "The large quantity of results has been found.": "The large quantity of results has been found. <b>{{total_count}}</b> of them is shown. Please specify search criteria to get more accurate results",
-  "Please add the candidates to this stage":"Please add the candidates to this stage"
-=======
-  "Go to initial page": "Go to initial page"
-=======
-  "The large quantity of results has been found.": "The large quantity of results has been found. <b>{{total_count}}</b> of them is shown. Please specify search criteria to get more accurate results",
+  "Please add the candidates to this stage":"Please add the candidates to this stage",
   "The 'rules' of profiles merge": "The 'rules' of profiles merge:",
   "Only fields with different values are available for selection": "Only fields with different values are available for selection.",
   "If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default": "If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default.",
-<<<<<<< HEAD
-  "Tags in the merged profile will be saved from both original ones": "Tags in the merged profile will be saved from both original ones."
->>>>>>> add-merge-dublicates
-<<<<<<< HEAD
->>>>>>> add-merge-dublicates
-=======
-=======
-  "Tags in the merged profile will be saved from both original ones": "Tags in the merged profile will be saved from both original ones.",
-  "first": "first",
-  "second": "second"
->>>>>>> history fix, change translate for history
->>>>>>> history fix, change translate for history
-=======
   "Go to initial page": "Go to initial page",
-  "The 'rules' of profiles merge": "The 'rules' of profiles merge:",
-  "Only fields with different values are available for selection": "Only fields with different values are available for selection.",
-  "If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default": "If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default.",
   "Tags in the merged profile will be saved from both original ones": "Tags in the merged profile will be saved from both original ones.",
   "first": "first",
   "second": "second"
->>>>>>> translate
 }
