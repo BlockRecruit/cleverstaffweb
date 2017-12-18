@@ -39642,19 +39642,20 @@ function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filte
         total: 0,
         getData: function($defer, params) {
             $scope.employeesObj.showMassage = false;
-            if($scope.searchParam.state == 'null'){
-                $scope.searchParam.state = null;
-            }
-            if($scope.searchParam.position == 'null'){
-                $scope.searchParam.position = null;
-            }
-            if($scope.searchParam.departmentId == 'null'){
-                $scope.searchParam.departmentId = null;
-            }
+
             $scope.searchParam.page.number = (params.$params.page - 1);
             $scope.searchParam.page.count = params.$params.count;
 
             function getEmployees(page,count) {
+                if($scope.searchParam.state == 'null'){
+                    $scope.searchParam.state = null;
+                }
+                if($scope.searchParam.position == 'null'){
+                    $scope.searchParam.position = null;
+                }
+                if($scope.searchParam.departmentId == 'null'){
+                    $scope.searchParam.departmentId = null;
+                }
                 if(page || count) {
                     $scope.searchParam.page = {number: page, count: count};
                     pageNumber = page;
