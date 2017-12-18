@@ -8,9 +8,17 @@
     </a>
 </div>
 <div class="col-lg-10">
-    {{'candidates'|translate}} {{'by_vacancy'|translate}} <a href="#/vacancies/{{history.vacancy.localId}}">{{history.vacancy.position}}</a>
-    <span class="comma"><span ng-repeat="candidate in history.candidates"><a href="#/candidates/{{candidate.localId}}">{{candidate.fullName}}</a>{{$last ? '' : ', '}}</span></span>
-    <span ng-show="candidatesLengts!=0">{{'and another'|translate}} {{candidatesLengts}}</span> {{'were sent to the Client'|translate}}
+    {{'candidates'|translate}}
+    <span class="comma">
+        <span ng-repeat="candidate in history.candidates">
+            <a href="#/candidates/{{candidate.localId}}">{{candidate.fullName}}</a>
+            <span ng-if="history.candidates.indexOf(candidate) < history.candidates.length - 1">,</span>
+            <!--{{$last ? '' : ', '}}-->
+        </span>
+    </span>
+    <span ng-show="candidatesLengts!=0">{{'and another'|translate}} {{candidatesLengts}}
+        {{'by_vacancy'|translate}} <a href="#/vacancies/{{history.vacancy.localId}}">{{history.vacancy.position}}</a>
+    </span> {{'were sent to the Client'|translate}}
 
             <span ng-switch="$root.me.personParams.clientAccessLevel">
                 <span ng-switch-when="hide">{{history.client.name}}</span>
