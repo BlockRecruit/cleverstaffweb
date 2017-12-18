@@ -206,6 +206,13 @@ body {
 						background-color: #caced1;
 					}
 				}
+				.mCSB_inside > .mCSB_container {
+					margin-right: 7px;
+					padding: 0;
+				}
+				.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+					background-color: #00b549!important;
+				}
 			}
 			input {
 				overflow: hidden;
@@ -253,7 +260,7 @@ body {
 
 			display: inline-block;
 			margin-right: 46px;
-			& select {
+			& .vacancies-location {
 				width: 160px;
 				height: 26px;
 				padding-left: 16px;

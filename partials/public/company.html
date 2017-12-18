@@ -65,7 +65,7 @@
                 <div class="positions-wrap" ng-show="showFilterSettings">
                     <input class="vacancy-position" ng-class="{ 'error': errorHandler.vacanciesFilter.positionError }" ng-keyup="setAutoCompleteString($event)" placeholder="{{'Position' | translate}}" type="text">
                     <i class="fa fa-times" ng-click="resetPosition()" aria-hidden="true"></i>
-                    <ul class="list-group" ng-hide="hideSearchPositions">
+                    <ul class="list-group" ng-hide="hideSearchPositions" custom-scrollbar>
                         <li class="list-group-item auto-complete-position" ng-click="selectPosition(position)" ng-repeat="position in vacanciesPositionFiltered track by $index">
                             {{position}}
                         </li>
@@ -78,6 +78,12 @@
                         <option class="accent" value="Any">Any</option>
                         <option ng-repeat="location in vacanciesLocation track by $index">{{location}}</option>
                     </select>
+                    <!--<div class="vacancies-location" custom-scrollbar>-->
+                        <!--<div value="">{{'Location' | translate}}</div>-->
+                        <!--<div class="accent" value="Any">Any</div>-->
+                        <!--<div  ng-repeat="location in vacanciesLocation track by $index">{{location}}</div>-->
+                    <!--</div>-->
+                    <!--<a href="" ng-click="$('.vacancies-location').height('160px')">TEST</a>-->
                     <i class="fa fa-caret-down" aria-hidden="true"></i>
                 </div>
 
