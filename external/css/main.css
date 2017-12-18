@@ -923,13 +923,13 @@ a:focus {
     background-size: contain;
     margin-right: 60px;
 }
-.goIt{
-    background: url("../img/customers/goIt.png");
-    height: 43px;
-    width: 148px;
+.recruit{
+    background: url("../img/customers/recruit.png");
+    height: 80px;
+    width: 160px;
     background-size: contain;
     margin-right: 60px;
-    margin-top: 43px;
+    margin-top: 15px;
 }
 .vertaMedia{
     background: url("../img/customers/vertaMedia.png");
@@ -953,8 +953,8 @@ a:focus {
     margin-right: 15px;
     clear: both;
 }
-.redFire{
-    background: url("../img/customers/redFire.png");
+.rsm{
+    background: url("../img/customers/rsm.png");
     height: 79px;
     width: 230px;
     background-size: contain;
@@ -968,9 +968,9 @@ a:focus {
     margin-top: 5px;
     margin-right: 25px;
 }
-.gordost{
-    background: url("../img/customers/gordost.png");
-    height: 30px;
+.avon{
+    background: url("../img/customers/avon.png");
+    height: 40px;
     width: 187px;
     background-size: contain;
     margin-top: 23px;
