@@ -39693,13 +39693,13 @@ function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filte
                         $defer.resolve(data);
                         $scope.employeesObj.allDataSize = response['total'];
                         if($scope.searchParam.state == null){
-                            $scope.searchParam.state = null;
+                            $scope.searchParam.state = 'null';
                         }
                         if($scope.searchParam.position == null){
-                            $scope.searchParam.position = null;
+                            $scope.searchParam.position = 'null';
                         }
                         if($scope.searchParam.departmentId == null){
-                            $scope.searchParam.departmentId = null;
+                            $scope.searchParam.departmentId = 'null';
                         }
                     }
                     $scope.employeesObj.dataIsLoad = false;
