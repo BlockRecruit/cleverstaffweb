@@ -1015,8 +1015,7 @@
                             <span ng-show="candidatePreview.db">, {{candidatePreview.db|ageOfDate}}</span>
                         </div>
                         <div>
-                            {{candidatePreview.position}}
-                            <span ng-show="candidatePreview != undefined && candidatePreview.salary">,
+                            {{candidatePreview.position}}<span ng-show="candidatePreview != undefined && candidatePreview.salary">,
                                 <span ng-show="candidatePreview.salary != 0">{{candidatePreview.salary}} {{candidatePreview.currency}}</span>
                             </span>
 
@@ -1031,13 +1030,15 @@
                 </div>
             </div>
             <div class="ui vertically divided-grid">
-                <img id="photo-preview" ng-if="candidatePreview.photo!=undefined"
-                     ng-src="{{$root.serverAddress}}/getapp?id={{candidatePreview.photo}}&d={{$root.me.personId}}"
-                     alt="" class="pull-left"/>
+                <div class="candidate-img-wrap">
+                    <img id="photo-preview" ng-if="candidatePreview.photo!=undefined"
+                         ng-src="{{$root.serverAddress}}/getapp?id={{candidatePreview.photo}}&d={{$root.me.personId}}"
+                         alt="" class="pull-left"/>
+                </div>
                 <!--<img ng-if="candidatePreview.photo==undefined" border="5" src="img/missing-image-640x360.png" alt=""-->
                 <!--style="margin:10px 10px 10px 3px;width: 172px;height: 115px; border-radius: 15%;border: 7.2em solid #E78409 !important;"/>-->
 
-                <div class="twelve-wide column pull-right">
+                <div class="twelve-wide column" ng-class="{'pull-right': candidatePreview.photo, 'pull-left': !candidatePreview.photo}">
 
                     <table class="ui basic without_tr_border table">
                         <tbody class="candidatePreview-info">

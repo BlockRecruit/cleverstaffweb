@@ -1757,18 +1757,20 @@
 		max-height: 320px;
 	}
 	.divided-grid {
-		img {
+		.candidate-img-wrap {
 			position: absolute;
 			top: 5px;
 			left: 10px;
 
 			width: 33%;
 			max-height: 190px;
-			margin: 0 auto;
+			margin: 0 2% 0 0;
+			img {
+				width: 100%;
+				height: auto;
 
-			border-radius: 15%;
-
-			object-fit: fill;
+				border-radius: 15%;
+			}
 		}
 		.twelve-wide {
 			float: right;
