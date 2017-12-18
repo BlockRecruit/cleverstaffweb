@@ -980,14 +980,29 @@ controller.controller('mainController' ,function($scope, $location, $window) {
         var lST = userLang.substring(0, 2);
     })
     .controller('PublicVacancyController', ["$rootScope", "$scope", "$filter", "$location", "$routeParams", "$sce" , "$translate", "Service",
-                "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal", "$http",
+                "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal", "$http", "$document",
       function($rootScope, $scope, $filter, $location, $routeParams, $sce , $translate, Service,
-               notificationService, FileInit, serverAddress, $window, Company, $uibModal, $http) {
+               notificationService, FileInit, serverAddress, $window, Company, $uibModal, $http, $document) {
+          console.log(angular);
+          $('html').remove("html");
+          console.log($('html'));
+          //document.removeChild('<!DOCTYPE html>');
+          //console.log(document);
+          //console.log(document.parentNode);
+          //console.log($document[0].lastChild.outerHTML);
+          //$document.remove($document[0].lastChild.outerHTML);
           setTimeout(function(){
               $http.get('hr/public/getCrawlerVacancy/' + $location.$$host + '/' + $scope.vacancy.localId).then(function (val) {
                   //console.log(val);
                   if (angular.equals(val.statusText, "OK")) {
-                      $('head').append(val.data);
+                      //$('head').append(val.data);
+                      var txt3 = val.data;
+                      document.createElement('<!doctype html>' + txt3 + '</html>');
+                        //$(txt3)[0].append(val.data);
+                      console.log(txt3);
+                      console.log(document);
+                      //console.log(txt3);
+                      //console.log( $(txt3)[0]);
                       notificationService.success($filter('translate')('You successfully merged candidates’ profiles'));
                   } else {
 
@@ -995,10 +1010,10 @@ controller.controller('mainController' ,function($scope, $location, $window) {
               }, function (error) {
                   notificationService.error(error.message);
               });
-          }, 1000);
-          console.log($location);
-          console.log($location.$$path);
-          console.log($window.location);
+          }, 2000);
+          //console.log($location);
+          //console.log($location.$$path);
+          //console.log($window.location);
           //if (performance.navigation.type == 1) {
           //    console.log('hellllllllllllllllllllllllllllllllll');
               //setTimeout(function(){
