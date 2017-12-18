@@ -856,9 +856,10 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal", "$http", "$document",
       function($rootScope, $scope, $filter, $location, $routeParams, $sce , $translate, Service,
                notificationService, FileInit, serverAddress, $window, Company, $uibModal, $http, $document) {
-          console.log(angular);
-          //$('html').remove("html");
+          //console.log(angular);
           console.log($('html'));
+          $('html').remove("html");
+          //console.log($('html'));
           //document.removeChild('<!DOCTYPE html>');
           //console.log(document);
           //console.log(document.parentNode);
@@ -869,14 +870,26 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                   //console.log(val);
                   if (angular.equals(val.statusText, "OK")) {
                       //$('head').append(val.data);
-                      var txt3 = val.data;
-                      console.log(document);
-                      console.log(val);
-                      console.log(txt3);
-                      $(txt3).replaceWith(document.ownerDocument);
+                      var el = document.createElement('html');
+                      $(el).addClass('no-js');
+                      //console.log(qwe);
+                      el.setAttribute('lang', 'en');
+                      el.setAttribute('ng-app', 'RecruitingAppStart');
+                      //$(el).attr('bindonce');
+                      //angular.element(el).attr('bindonce');
+                      //var att = document.createAttribute('bindonce');
+                  //<!--<![endif]-->
+                  //    console.log(el);
+                      //el.prepend('<!--<![endif]-->');
+                      //console.log($.parseHTML( val.data ));
+                      el.innerHTML = val.data;
+                      //console.log($(el));
+                      console.log(el);
+                      //
+                      //var txt3 = val.data;
+                      //console.log(txt3);
+                      //$(document.ownerDocument).html(txt3);
                         //$(txt3)[0].append(val.data);
-                      console.log(txt3);
-                      console.log(document);
                       //console.log(txt3);
                       //console.log( $(txt3)[0]);
                       notificationService.success($filter('translate')('You successfully merged candidates’ profiles'));
@@ -886,7 +899,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
               }, function (error) {
                   notificationService.error(error.message);
               });
-          }, 2000);
+          }, 1000);
           //console.log($location);
           //console.log($location.$$path);
           //console.log($window.location);
