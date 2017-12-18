@@ -1,5 +1,5 @@
 .block-clients {
-	margin-top: 20px;
+	margin-top: 15px;
 	#scrollup {
 		display: none;
 	}
@@ -73,6 +73,13 @@
 			select {
 				@include select-styling();
 			}
+		}
+	}
+	.search-block {
+		padding-right: 0;
+		.count {
+			display: inline-block;
+			margin-bottom: 15px;
 		}
 	}
 	.search {

@@ -20,9 +20,10 @@
 		@include bt-margins-from-side();
 
 		padding: 0 15px;
+		padding-right: 0;
 		& > .fullName-position {
 			float: none;
-			margin: 20px 0;
+			margin: 15px 0;
 			padding: 0;
 			& > span {
 				@include bold();
