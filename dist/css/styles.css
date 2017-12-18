@@ -16987,7 +16987,7 @@ input.cmn-toggle-round:checked + label:after {
           left: 28px; }
     .block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group {
       width: 100%;
-      margin-bottom: 10px; }
+      margin-bottom: 15px; }
       .block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 {
         padding: 0; }
         .block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .input-group-addon {
