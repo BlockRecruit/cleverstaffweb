@@ -1017,6 +1017,13 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $scope.clickedUser = null;
 
+    $('body').bind('click', function(event) {
+       if($scope.clickedUser && !$(event.target).hasClass('for-files')) {
+           $scope.clickedUser = null;
+           $scope.$apply();
+       }
+    });
+
     $scope.showUserFiles = function(user) {
         if($scope.clickedUser !== user) {
             var clickedUserIndex = $scope.tableParams.data.indexOf(user);
@@ -1024,7 +1031,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         } else {
             $scope.clickedUser = null;
         }
-        console.log($scope.tableParams.data[clickedUserIndex]);
     };
 
     $scope.closeSearchTags = function (param){

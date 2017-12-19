@@ -1333,7 +1333,7 @@
 										position: relative;
 
 										display: block;
-										margin-top: 2px;
+										margin-top: 4px;
 
 										text-align: center;
 
@@ -1343,14 +1343,14 @@
 
 											content: "▲";
 
-											color: #000;
+											color: #808080;
 										}
 										&.arrow-down::after {
 											font-size: 11px;
 
 											content: "▼";
 
-											color: #000;
+											color: #808080;
 										}
 									}
 									.file {
@@ -1366,9 +1366,13 @@
 									font-size: 11px;
 									line-height: 12px;
 
+									position: relative;
+									top: -1px;
+
 									display: inline-block;
 									width: 14px;
 									height: 14px;
+									margin-right: 4px;
 
 									border: 1px solid $theme-light-grey;
 									border-radius: 50%;
