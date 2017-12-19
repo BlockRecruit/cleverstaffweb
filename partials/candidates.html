@@ -54,6 +54,9 @@
                         <span class="clarification" ng-show="$root.me.recrutRole == 'admin'">
                             {{'Up to | 30 000 CVs For account Admins only'|translate}}
                         </span>
+                        <span class="clarification" ng-show="$root.me.recrutRole !== 'admin' && $root.me.personParams.enableDownloadToExcel == 'Y'">
+                            {{'Up to | 10 000 CVs'|translate}}
+                        </span>
                     </div>
                 </div>
                 <p class="margin-top" ng-show="me.orgParams.tarif === 'free'">
