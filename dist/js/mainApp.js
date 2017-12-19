@@ -30676,7 +30676,6 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             Candidate.setOptions("personId", $scope.user.userId);
             $location.path("/candidates");
         };
-        $rootScope.currentLang = $translate.use();
         $scope.changeLanguage = function(key) {
             $translate.use(key);
             tmhDynamicLocale.set(key);
