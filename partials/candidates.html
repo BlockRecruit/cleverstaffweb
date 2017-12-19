@@ -686,8 +686,6 @@
                                     </span>
                                 </span>
                                 <i ng-if="user.files.length > 1" ng-click="showUserFiles(user)" ng-class="{'arrow-up' : clickedUser === user, 'arrow-down':clickedUser !== user}" class="fa fa-paperclip user-files-toggle for-files"  aria-hidden="true"></i>
-                                <!--<i ng-if="user.files.length > 1 && clickedUser !== user" ng-click="showUserFiles(user)" class="fa fa-chevron-down user-files-toggle" aria-hidden="true"></i>-->
-                                <!--<i ng-if="user.files.length > 1 && clickedUser === user" ng-click="showUserFiles(user)" class="fa fa-chevron-up user-files-toggle" aria-hidden="true"></i>-->
                                 <div class="user-files toggle for-files" ng-show="clickedUser === user">
                                     <span ng-repeat="file in user.files| orderBy: 'showGDocs'" ng-class="{'half-width' : !file.showGDocs}" class="file for-files">
                                         <a ng-href="{{::serverAddress}}/getapp/{{::file.fileId}}/{{::file.fileName}}"
