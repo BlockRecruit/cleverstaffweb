@@ -250,7 +250,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             var now = Date.now();
                 now += (2592000000 * 2);
 
-            $("#startDate").datetimepicker({
+            $(".startDate").datetimepicker({
                 format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
                 startView: 4,
                 minView: 2,
@@ -273,7 +273,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             })
               .on('hide', () => ($('.startDate').val() == "")? this.startVacancyDate = null : false);
 
-            $("#endDate").datetimepicker({
+            $(".endDate").datetimepicker({
                 format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
                 startView: 4,
                 minView: 2,
