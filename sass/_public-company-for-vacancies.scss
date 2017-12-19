@@ -193,7 +193,7 @@ body {
 				overflow-x: hidden;
 				overflow-y: auto;
 				width: 160px;
-				max-height: 181px;
+				max-height: 179px;
 				li {
 					overflow: hidden;
 					padding: 5px 16px;
@@ -205,13 +205,6 @@ body {
 
 						background-color: #caced1;
 					}
-				}
-				.mCSB_inside > .mCSB_container {
-					margin-right: 7px;
-					padding: 0;
-				}
-				.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
-					background-color: #00b549!important;
 				}
 			}
 			input {
@@ -251,35 +244,66 @@ body {
 				&:hover {
 					cursor: pointer;
 
-					color: #000;
+					color: #00b549;
 				}
 			}
 		}
 		.locations-wrap {
 			position: relative;
+			z-index: 999;
 
 			display: inline-block;
 			margin-right: 46px;
-			& .vacancies-location {
+
+			vertical-align: middle;
+			.vacancies-location {
+				position: relative;
+
 				width: 160px;
 				height: 26px;
-				padding-left: 16px;
+				margin: 0 auto;
 
-				border: 1px solid black;
-				border-radius: 10px;
+				span {
+					line-height: 26px;
 
-				-webkit-appearance: none;
-				option {
-					&.accent {
-						font-weight: bold;
+					display: block;
+					overflow: hidden;
+					width: 160px;
+					height: 26px;
+					padding: 0 26px 0 16px;
+
+					vertical-align: bottom;
+					text-overflow: ellipsis;
+
+					border: 1px solid black;
+					border-radius: 10px;
+					background-color: #fff;
+					&:hover {
+						cursor: pointer;
 					}
 				}
-				&:focus,
-				&:active,
+				ul {
+					position: absolute;
+					z-index: 999;
+					top: 100%;
+
+					width: 100%;
+					height: 180px;
+					li {
+						padding: 5px 16px;
+						&:hover {
+							cursor: pointer;
+
+							background-color: #caced1;
+						}
+						&.accent {
+							font-weight: bold;
+						}
+					}
+				}
 				&:hover {
-					outline: none;
-					i.fa-caret-down {
-						color: #00b63d;
+					& .fa-caret-down {
+						color: #00b549;
 					}
 				}
 			}
@@ -306,6 +330,13 @@ body {
 				margin-bottom: 0;
 				padding: 0 23px;
 			}
+		}
+		.mCSB_inside > .mCSB_container {
+			margin-right: 7px;
+			padding: 0;
+		}
+		.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+			background-color: #00b549!important;
 		}
 	}
 	& .vacancies {

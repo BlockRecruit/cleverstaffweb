@@ -1852,6 +1852,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
 
         $scope.loaded = false;
         $scope.hideSearchPositions = true;
+        $scope.hideSearchLocations = true;
         $scope.showFilterSettings = false;
 
         $scope.vacanciesLocation = null;
@@ -1880,6 +1881,10 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             }
         );
 
+        $scope.toggleLocationSelect = function() {
+            $scope.hideSearchLocations =  !$scope.hideSearchLocations;
+        };
+
         $scope.toggleFilter = function() {
           console.log($scope.showFilterSettings);
           if($scope.showFilterSettings) {
@@ -1893,6 +1898,8 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             $scope.showFilterSettings = false;
             $scope.errorHandler.vacanciesFilter.error.show = false;
             filterIsActive = false;
+            $scope.resetPosition();
+            resetLocation();
         };
 
         $scope.showFilter = function() {
@@ -1900,7 +1907,6 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
         };
 
         $scope.filter = function(vacancy) {
-            // if(!filterIsActive && !$scope.hideSearchPositions) return true;
             if(!filterIsActive) return true;
 
             let criteria = {};
@@ -1937,17 +1943,24 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             $scope.hideSearchPositions = true;
         };
 
+        $scope.selectLocation = function(location) {
+          $('span.location').text(location);
+          $scope.hideSearchLocations = true;
+          console.log(location);
+        };
+
         $scope.showFilteredVacancies = function() {
           filterIsActive = true;
           filteredVacancies = [];
-          selectedLocation = $('.locations-wrap select option:checked').val();
+          selectedLocation = $('.locations-wrap span.location').text();
           selectedPosition = $('.positions-wrap input.vacancy-position').val();
+          console.log(selectedLocation);
         };
 
         $scope.resetPosition = function() {
-            $('.positions-wrap input.vacancy-position').val("");
             $scope.hideSearchPositions = true;
             $scope.errorHandler.vacanciesFilter.positionError = false;
+            $('.positions-wrap input.vacancy-position').val("");
         };
 
          function getAllVacancyForCompany(){
@@ -1978,21 +1991,31 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             });
 
             if(checked) {
-                // $scope.hideSearchPositions = true;
                 $scope.errorHandler.vacanciesFilter.positionError = false;
             } else {
                 $scope.hideSearchPositions = false;
                 $scope.errorHandler.vacanciesFilter.positionError = true;
-                // $scope.errorHandler.vacanciesFilter.error.msg = "No vacancies found. Try to pick position from a suggested list."
             }
         }
 
         function closeAutoCompletePositions(e) {
-            if(!$(e.target).hasClass('auto-complete-position') && !$scope.hideSearchPositions) {
-                checkAutoCompletePosition();
-                $scope.hideSearchPositions = true;
-                $scope.$apply();
+            if(!$(e.target).hasClass('auto-complete-position') && !$(e.target).hasClass('location-search')) {
+
+                if(!$scope.hideSearchPositions) {
+                    checkAutoCompletePosition();
+                    $scope.hideSearchPositions = true;
+                    $scope.$apply();
+                } else if(!$scope.hideSearchLocations){
+                    $scope.hideSearchLocations = true;
+                    $scope.$apply();
+                }
+
             }
+        }
+
+        function resetLocation() {
+            $('.locations-wrap span.location').text("Any");
+            $scope.errorHandler.vacanciesFilter.locationError = false;
         }
 
         getAllVacancyForCompany();

@@ -73,18 +73,21 @@
                 </div>
 
                 <div class="locations-wrap" ng-show="showFilterSettings">
-                    <select class="vacancies-location">
-                        <option disabled selected value="">{{'Location' | translate}}</option>
-                        <option class="accent" value="Any">Any</option>
-                        <option ng-repeat="location in vacanciesLocation track by $index">{{location}}</option>
-                    </select>
-                    <!--<div class="vacancies-location" custom-scrollbar>-->
-                        <!--<div value="">{{'Location' | translate}}</div>-->
-                        <!--<div class="accent" value="Any">Any</div>-->
-                        <!--<div  ng-repeat="location in vacanciesLocation track by $index">{{location}}</div>-->
-                    <!--</div>-->
-                    <!--<a href="" ng-click="$('.vacancies-location').height('160px')">TEST</a>-->
-                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    <!--<select class="vacancies-location">-->
+                        <!--<option disabled selected value="">{{'Location' | translate}}</option>-->
+                        <!--<option class="accent" value="Any">Any</option>-->
+                        <!--<option ng-repeat="location in vacanciesLocation track by $index">{{location}}</option>-->
+                    <!--</select>-->
+                    <!--<i class="fa fa-caret-down" aria-hidden="true"></i>-->
+                    <div class="vacancies-location">
+                        <span ng-click="toggleLocationSelect()" class="list-group-item toggle-locations location">Location
+                        </span>
+                        <ul class="list-group" ng-hide="hideSearchLocations" custom-scrollbar>
+                            <li ng-click="selectLocation('Any')" class="accent location-search list-group-item">Any</li>
+                            <li ng-click="selectLocation(location)" class="list-group-item location-search" ng-repeat="location in vacanciesLocation track by $index">{{location}}</li>
+                        </ul>
+                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    </div>
                 </div>
 
                 <div class="filter-button" ng-show="showFilterSettings">
