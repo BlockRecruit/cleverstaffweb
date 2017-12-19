@@ -2840,5 +2840,6 @@
   "No vacancies found":"Вакансии не были найдены",
   "Pick the position from the search field":"Выберите вакансию из списка предложенных в поле",
   "Any":"Любая",
-  "telework_1":"Удаленно"
+  "telework_1":"Удаленно",
+  "Mark at least one test answer as correct": "Выберите хотя бы один правильный вариант ответа"
 }

@@ -151,6 +151,11 @@
                             </a>
                         </div>
                     </div>
+                    <div class="row" ng-show="noCorrectAnswerInQuestion && $index === noAnswerIndex">
+                        <div class="col-lg-9 error-required">
+                            <span class="">{{'Mark at least one test answer as correct' | translate}}</span>
+                        </div>
+                    </div>
                     <div class="row add-buttons">
                         <div class="col-lg-9 add-answer" ng-if="newTestParam.questions[questIndex].variantsArray.length < 10">
                             <button class="btn-link" ng-click="answerAdd(questIndex)" ng-show="!newTestParam.questions[questIndex].answerType">{{'Add a new answer'|translate}}</button>

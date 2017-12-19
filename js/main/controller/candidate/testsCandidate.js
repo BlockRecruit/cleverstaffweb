@@ -172,18 +172,34 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
         };
         $scope.saveTest = function () {
             var emptyQuestion = false;
+            $scope.noAnswerIndex = null;
             $scope.fieldCheck = false;
-            angular.forEach($scope.newTestParam.questions, function (question) {
+            $scope.noCorrectAnswerInQuestion = false;
+
+            angular.forEach($scope.newTestParam.questions, function (question, index) {
                 if((question.text === '' || question.text === null || question.points === null || question.points === '') && !question.answerType){
                     emptyQuestion = true;
                 }
+
+                let checkForCorrectAnswer = question.variantsArray.every(function (variant) {
+                    if(!variant.isCorrect) {
+                        $scope.noCorrectAnswerInQuestion = true;
+                        return true;
+                    }
+                });
+
+                if(checkForCorrectAnswer) {
+                    $scope.noCorrectAnswerInQuestion = true;
+                    $scope.noAnswerIndex = index;
+                }
+
                 angular.forEach(question.variantsArray,function (variant) {
                     if((variant.value == '' || variant.value == null)){
                         emptyQuestion = true;
                     }
                 });
             });
-            if($scope.newTestParam.testName !== null && $scope.newTestParam.testName !== '' && !emptyQuestion) {
+            if($scope.newTestParam.testName !== null && $scope.newTestParam.testName !== '' && !emptyQuestion && !$scope.noCorrectAnswerInQuestion) {
                 var testForSend = {};
                 angular.copy($scope.newTestParam, testForSend);
                 angular.forEach($scope.newTestParam.questions, function (quest, key) {
