@@ -1743,6 +1743,9 @@
 	border: 1px solid $theme-grey;
 	background: $theme-white;
 	box-shadow: 0 0 13px 2px rgb(0, 0, 0);
+	&.less-width {
+		width: 320px;
+	}
 	.vertically-divided {
 		a {
 			@include link-styling();
@@ -1795,6 +1798,12 @@
 				&:first-child {
 					border-top-style: hidden;
 				}
+			}
+			&.left-side {
+				float: left;
+				width: 100%;
+
+				text-align: left;
 			}
 		}
 	}
