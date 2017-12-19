@@ -14,6 +14,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         $scope.inVacancysStatusesParam =[];
         $scope.emptyAccount = true;
         $scope.build = false;
+        $scope.disabled = false;
         $scope.choosenPersons = [];
         $scope.leastChosen = false;
         $scope.customStagesActive =[];
@@ -983,11 +984,41 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         };
 
         $scope.selectDateRange = function (event, dateRange) {
-            if(dateRange === 'currentWeek'){
+            let currentDate = new Date(),
+                currentDateStart = new Date(),
+                currentDateFinish = new Date();
+                $scope.disabled = true;
+                $scope.selectRange = dateRange;
 
+            if(dateRange == 'currentWeek'){
+                currentDateStart.setDate(currentDate.getDate() - (currentDate.getDay() - 1));
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousWeek'){
+                currentDateStart.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 7);
+                currentDateFinish.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 1);
+            }else if(dateRange == 'currentMonth'){
+                currentDateStart.setDate(1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousMonth'){
+                currentDateStart.setMonth(currentDate.getMonth() - 1, 1);
+                currentDateFinish.setMonth(currentDate.getMonth(),  0);
+            }else if(dateRange == 'currentYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear(),0,1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear() - 1,0,1);
+                currentDateFinish.setFullYear(currentDate.getFullYear(), 0, 0);
+            }else if(dateRange == 'customRange'){
+                $scope.disabled = false;
             }
-          event.stopPropagation();
+
+            $scope.startVacancyDate =  +new Date(currentDateStart);
+            $scope.endDate =  +new Date(currentDateFinish);
+            $(".startDate").datetimepicker("setDate", new Date(currentDateStart));
+            $(".endDate").datetimepicker("setDate", new Date(currentDateFinish));
         };
+
+        $scope.selectDateRange(null ,'previousWeek');
 
         $scope.showBlocks = function (event) {
             let targetDataID = event.target.dataset, blockShow;

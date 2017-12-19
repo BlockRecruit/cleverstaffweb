@@ -272,20 +272,26 @@
                             <div class="fields-title">
                                 <h4 class="pull-left" style="margin-right: 8px;">{{"Time range"|translate}}:</h4>
                                 <div class="fields-title-select" style="position: relative;">
-                                    <input type="text" data-show="select-content">
+                                    <input type="text"
+                                           class="one"
+                                           data-show="select-content"
+                                           disabled
+                                           style="cursor: pointer;"
+                                           ng-init="selectRange = 'previousWeek'"
+                                           ng-value="selectRange | translate">
                                     <ul  class="select-content" id="select-content">
-                                        <li ng-repeat="date in dateRange track by $index" ng-click="selectTimeRange($event, date)" ng-bind="date|translate"></li>
+                                        <li ng-repeat="date in dateRange track by $index" ng-click="selectDateRange($event, date)" ng-bind="date|translate"></li>
                                     </ul>
                                 </div>
                             </div>
                             <div>
                                 <div class="field pull-left" style="margin-right: 10px;">
                                     <label class="pull-left">{{'from3'|translate}}</label>
-                                    <input placeholder="{{'from3'|translate}}" class="startDate pull-left" style="margin-left: 8px;" type="text">
+                                    <input placeholder="{{'from3'|translate}}" class="startDate pull-left" style="margin-left: 8px;"  ng-disabled="disabled" type="text">
                                 </div>
                                 <div class="field pull-left">
                                     <label class="pull-left">{{'to1'|translate}}</label>
-                                    <input placeholder="{{'to1'|translate}}" class="endDate pull-left" type="text">
+                                    <input placeholder="{{'to1'|translate}}" class="endDate pull-left" ng-disabled="disabled" type="text">
                                 </div>
                                 <i class="fa fa-info-circle info" ng-mouseover="inHover()" ng-mouseleave="outHover()"></i>
                                 <div class="info-content">

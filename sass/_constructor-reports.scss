@@ -6,9 +6,10 @@
 	background: none !important;
 	.active {
 		display: block !important;
+		visibility: visible !important;
 		max-height: 200px !important;
-
-		opacity: 1 !important;
+		padding-top: 16px !important;
+		padding-bottom: 16px !important;
 	}
 	header {
 		margin-bottom: 16px;
@@ -729,15 +730,16 @@
 				top: 110%;
 				left: 0;
 
-				overflow-y: auto;
+				visibility: hidden;
+				overflow: hidden;
 				width: 100%;
 				max-height: 0;
 				margin: 0;
-				padding: 16px 8px;
+				padding: 0 8px;
 
 				transition: all 0.5s ease-in;
 
-				opacity: 0;
+				border-radius: 5px;
 				background-color: #fff;
 				box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1);
 			}
@@ -752,6 +754,7 @@
 				li {
 					margin: 0;
 					padding: 0;
+					padding-bottom: 3px;
 
 					list-style: none;
 
