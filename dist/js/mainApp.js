@@ -13831,7 +13831,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=34'
+        suffix: '.json?b=35'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -30676,7 +30676,6 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             Candidate.setOptions("personId", $scope.user.userId);
             $location.path("/candidates");
         };
-        $rootScope.currentLang = $translate.use();
         $scope.changeLanguage = function(key) {
             $translate.use(key);
             tmhDynamicLocale.set(key);
@@ -31073,7 +31072,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 }, function() {
                     //notificationService.error($filter('translate')('service temporarily unvailable'));
                 });
-            }else if(confirmed && user.status == 'N'){
+            }else if(user.status == 'N'){
                 Person.enableUser({personId: $scope.user.personId, userId: $scope.user.userId}, function(resp) {
                     if (resp.status && angular.equals(resp.status, "error")) {
                         notificationService.error(resp.message);
