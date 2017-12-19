@@ -31073,7 +31073,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 }, function() {
                     //notificationService.error($filter('translate')('service temporarily unvailable'));
                 });
-            }else if(confirmed && user.status == 'N'){
+            }else if(user.status == 'N'){
                 Person.enableUser({personId: $scope.user.personId, userId: $scope.user.userId}, function(resp) {
                     if (resp.status && angular.equals(resp.status, "error")) {
                         notificationService.error(resp.message);
