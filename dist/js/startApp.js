@@ -20,11 +20,8 @@ var app = angular.module('RecruitingAppStart', [
     'ui.bootstrap',
     'ngAnimate'
 ]).constant('serverAddress', '/hr').config(['$routeProvider', 'ngMetaProvider', '$locationProvider', function($routeProvider, ngMetaProvider, $locationProvider) {
-    $locationProvider.html5Mode(true);
+    //$locationProvider.html5Mode(false);
     //$locationProvider.hashPrefix('');
-    //inject(function($location) {
-    //    console.log($location);
-    //});
     $routeProvider
         .when('/confirmRegistration/finishReg/:personId/:key', {
             templateUrl: 'partials/start/finishreg.html',
@@ -984,73 +981,28 @@ controller.controller('mainController' ,function($scope, $location, $window) {
       function($rootScope, $scope, $filter, $location, $routeParams, $sce , $translate, Service,
                notificationService, FileInit, serverAddress, $window, Company, $uibModal, $http, $document) {
           //console.log(angular);
-          console.log($('html'));
-          console.time();
-          $('html').remove("html");
           //console.log($('html'));
-          //document.removeChild('<!DOCTYPE html>');
-          //console.log(document);
-          //console.log(document.parentNode);
-          //console.log($document[0].lastChild.outerHTML);
-          //$document.remove($document[0].lastChild.outerHTML);
-          setTimeout(function(){
-              $http.get('hr/public/getCrawlerVacancy/' + $location.$$host + '/' + $scope.vacancy.localId).then(function (val) {
-                  //console.log(val);
-                  if (angular.equals(val.statusText, "OK")) {
-                      //$('head').append(val.data);
-                      var el = document.createElement('html');
-                      $(el).addClass('no-js');
-                      //console.log(qwe);
-                      el.setAttribute('lang', 'en');
-                      el.setAttribute('ng-app', 'RecruitingAppStart');
-                      //$(el).attr('bindonce');
-                      //angular.element(el).attr('bindonce');
-                      //var att = document.createAttribute('bindonce');
-                  //<!--<![endif]-->
-                  //    console.log(el);
-                      //el.prepend('<!--<![endif]-->');
-                      //console.log($.parseHTML( val.data ));
-                      el.innerHTML = val.data;
-                      //console.log($(el));
-                      console.log(el);
-                      //
-                      //var txt3 = val.data;
-                      //console.log(txt3);
-                      //$(document.ownerDocument).html(txt3);
-                        //$(txt3)[0].append(val.data);
-                      //console.log(txt3);
-                      //console.log( $(txt3)[0]);
-                      notificationService.success($filter('translate')('You successfully merged candidates’ profiles'));
-                  } else {
-
-                  }
-              }, function (error) {
-                  notificationService.error(error.message);
-              });
-          }, 1000);
-          //console.log($location);
-          //console.log($location.$$path);
-          //console.log($window.location);
-          //if (performance.navigation.type == 1) {
-          //    console.log('hellllllllllllllllllllllllllllllllll');
-              //setTimeout(function(){
-              //    $window.location = window.location.href;
-              //
-              //}, 500);
-              //history.pushState("", "", $window.location.href);
-          //}
-          //Service
-          //window.onpopstate = function(event) {
-          //    console.log(event);
-          //    history.pushState("", "", $window.location.pathname);
-          //    alert("location: " + document.location + ", state: " + JSON.stringify(event.state));
-          //};
-          //window.location($window.location.href);
-          //var ret = $window.location.hash.replace('#','');
-          //console.log(ret);
-          //console.log($window.location.protocol + '//' + $window.location.host + $window.location.pathname + ret);
-          //$window.location = $window.location.protocol + '//' + $window.location.host + $window.location.pathname + ret;
-          //console.log($window.location);
+          //$('html').remove("html");
+          //setTimeout(function(){
+          //    $http.get('hr/public/getCrawlerVacancy/' + $location.$$host + '/' + $scope.vacancy.localId).then(function (val) {
+          //        console.log(val);
+          //        if (angular.equals(val.statusText, "OK")) {
+          //            //$('head').append(val.data);
+          //            var el = document.createElement('html');
+          //            $(el).addClass('no-js');
+          //            console.log(qwe);
+          //            el.setAttribute('lang', 'en');
+          //            el.setAttribute('ng-app', 'RecruitingAppStart');
+          //            el.innerHTML = val.data;
+          //            console.log(el);
+          //            notificationService.success($filter('translate')('You successfully merged candidates’ profiles'));
+          //        } else {
+          //
+          //        }
+          //    }, function (error) {
+          //        notificationService.error(error.message);
+          //    });
+          //}, 1000);
         $rootScope.closeModal = function(){
           $scope.modalInstance.close();
         };
