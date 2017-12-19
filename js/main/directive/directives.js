@@ -4093,7 +4093,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                 });
             }
         }
-    ).directive("navPagination", ["$rootScope", function ($rootScope) {
+    ).directive("navPagination", [ function () {
         return {
             restrict: 'AE',
             templateUrl: '../partials/pagination.html?1',
@@ -4103,16 +4103,18 @@ var directive = angular.module('RecruitingApp.directives', []).
                     if(newValue)
                     scope.totalPagesCount = Math.ceil(newValue.totalCount/scope.params.count());
                     if(pagePickerButtons) {
-                        if(scope.totalPagesCount > 999) {
-                            pagePickerButtons.width(42);
+                        if(scope.totalPagesCount > 9999) {
+                            pagePickerButtons.css({"min-width": "55px"});
+                        } else if(scope.totalPagesCount > 999) {
+                            pagePickerButtons.css({"min-width": "46px"});
                         } else {
-                            pagePickerButtons.width(37);
+                            pagePickerButtons.css({"min-width": "37px"});
                         }
                     }
                 });
             }
         }
-    }]).directive("paginationSelect", ["$rootScope", function ($rootScope) {
+    }]).directive("paginationSelect", [function () {
         return {
             restrict: 'AE',
             link: function (scope, element, attributes) {
@@ -4192,7 +4194,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                 }
 
                 function bindListeners(height, width) {
-                    element.unbind().on('click',(event) => {
+                    element.unbind().on('mousedown',(event) => {
                         if(expanded && hideIfNotScrollBar(event)) {
                             hideDropdown();
                         } else {
@@ -4205,11 +4207,11 @@ var directive = angular.module('RecruitingApp.directives', []).
                             });
                         }
                     });
-                    element.find('li').on('click',(event) => {
+                    element.find('li').on('mousedown',(event) => {
                         scope.params.page(event.target.value);
                         scope.$apply();
                     });
-                    $('body').on('click', (event) => {
+                    $('body').on('mousedown', (event) => {
                         if(hideIfNotScrollBar(event)) {
                             if(!$(event.target).is(element)) {
                                 hideDropdown();
@@ -4254,7 +4256,7 @@ var directive = angular.module('RecruitingApp.directives', []).
 
             }
         }
-    }]).directive("paginationSecondSelect", ["$rootScope", function ($rootScope) {
+    }]).directive("paginationSecondSelect", [ function () {
         return {
             restrict: 'AE',
             link: function (scope, element, attributes) {
@@ -4290,7 +4292,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                 }
 
                 function bindListeners(height, width) {
-                    element.unbind().on('click',(event) => {
+                    element.unbind().on('mousedown',(event) => {
                         if(expanded && hideIfNotScrollBar(event)) {
                             hideDropdown();
                         } else {
@@ -4302,11 +4304,11 @@ var directive = angular.module('RecruitingApp.directives', []).
                             });
                         }
                     });
-                    element.find('li').on('click',(event) => {
+                    element.find('li').on('mousedown',(event) => {
                         scope.params.page(event.target.value);
                         scope.$apply();
                     });
-                    $('body').on('click', (event) => {
+                    $('body').on('mousedown', (event) => {
                         if(hideIfNotScrollBar(event)) {
                             if(!$(event.target).is(element)) {
                                 hideDropdown();
