@@ -686,20 +686,20 @@
                                            aria-hidden="true"></i>
                                     </span>
                                 </span>
-                                <i ng-if="user.files.length > 1" ng-click="showUserFiles(user)" ng-class="{'arrow-up' : clickedUser === user, 'arrow-down':clickedUser !== user}" class="fa fa-paperclip user-files-toggle"  aria-hidden="true"></i>
+                                <i ng-if="user.files.length > 1" ng-click="showUserFiles(user)" ng-class="{'arrow-up' : clickedUser === user, 'arrow-down':clickedUser !== user}" class="fa fa-paperclip user-files-toggle for-files"  aria-hidden="true"></i>
                                 <!--<i ng-if="user.files.length > 1 && clickedUser !== user" ng-click="showUserFiles(user)" class="fa fa-chevron-down user-files-toggle" aria-hidden="true"></i>-->
                                 <!--<i ng-if="user.files.length > 1 && clickedUser === user" ng-click="showUserFiles(user)" class="fa fa-chevron-up user-files-toggle" aria-hidden="true"></i>-->
-                                <div class="user-files toggle" ng-show="clickedUser === user">
-                                    <span ng-repeat="file in user.files| orderBy: 'showGDocs'" ng-class="{'half-width' : !file.showGDocs}" class="file">
+                                <div class="user-files toggle for-files" ng-show="clickedUser === user">
+                                    <span ng-repeat="file in user.files| orderBy: 'showGDocs'" ng-class="{'half-width' : !file.showGDocs}" class="file for-files">
                                         <a ng-href="{{::serverAddress}}/getapp/{{::file.fileId}}/{{::file.fileName}}"
                                            ng-show="file.fileId"
                                            ng-show="user.files"
                                            title="{{'Download file'|translate}}{{file.fileName| fileNameCut:0:25}}">
-                                            <i class="fa fa-paperclip" aria-hidden="true"></i>
+                                            <i class="fa fa-paperclip for-files" aria-hidden="true"></i>
                                         </a>
                                         <span data-title="'PREVIEW'" ng-show="file.showGDocs" priview
-                                              pageid="candidate_pages" candidate="user" class="preview-docs">
-                                            <i show-preview-candidate candidate="user" class="fa fa-eye text_change"
+                                              pageid="candidate_pages" candidate="user" class="preview-docs for-files">
+                                            <i show-preview-candidate candidate="user" class="fa fa-eye text_change for-files"
                                                aria-hidden="true"></i>
                                         </span>
                                     </span>
