@@ -982,20 +982,36 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 }
         };
 
+        $scope.selectDateRange = function (event, dateRange) {
+            if(dateRange === 'currentWeek'){
+
+            }
+          event.stopPropagation();
+        };
+
         $scope.showBlocks = function (event) {
             let targetDataID = event.target.dataset, blockShow;
-            console.log(targetDataID['show'], 'targetDataID');
+
             if(targetDataID && targetDataID['show']){
                 blockShow = angular.element('#' + targetDataID['show'])[0];
                 _showBlocks(blockShow);
                 return;
             }
 
+            _hiddenBlocks();
         };
 
         function _showBlocks(blockShow){
             activeBlocks.push(blockShow);
             blockShow.classList.toggle('active');
+        }
+
+        function _hiddenBlocks() {
+          for(let i = 0; i < activeBlocks.length; i++){
+              activeBlocks[i].classList.remove('active');
+              activeBlocks.splice(i,1);
+              i -= 1;
+          }
         }
     }
 
