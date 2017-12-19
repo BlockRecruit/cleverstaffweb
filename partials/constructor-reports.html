@@ -274,7 +274,7 @@
                                 <div class="fields-title-select" style="position: relative;">
                                     <input type="text" data-show="select-content">
                                     <ul  class="select-content" id="select-content">
-                                        <li ng-repeat="date in dateRange track by $index" ng-bind="date|translate"></li>
+                                        <li ng-repeat="date in dateRange track by $index" ng-click="selectTimeRange($event, date)" ng-bind="date|translate"></li>
                                     </ul>
                                 </div>
                             </div>
