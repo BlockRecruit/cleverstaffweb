@@ -2818,5 +2818,9 @@
   "Position":"Вакансия",
   "Search":"Поиск",
   "Location":"Локация",
-  "Vacancies & Applicants API": "API Вакансий и Откликов"
+  "Vacancies & Applicants API": "API Вакансий и Откликов",
+  "No vacancies found":"Вакансии не были найдены",
+  "Pick the position from the search field":"Выберите вакансию из списка предложенных в поле",
+  "Any_1":"Любая",
+  "telework_1":"Удаленно"
 }

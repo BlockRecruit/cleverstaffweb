@@ -486,7 +486,59 @@ angular.module('RecruitingAppStart.directives', [])
                     scrollInertia:1000
                 });
             }
-    });
+    }).directive('customTooltip', ['$filter',function($filter) {
+       return {
+           restrict: 'A',
+           scope: {
+               tooltipText: "=",
+               tooltipClass: "=",
+               tooltipHover: "=",
+               tooltipShow: "="
+           },
+           link: function(scope, element) {
+               let tooltip = $('<span></span>');
+
+               console.log(scope);
+
+               console.log(scope.tooltipShow);
+
+               $(element).css('position','relative');
+               $(element).append(tooltip);
+
+               tooltip.text(scope.tooltipText);
+               tooltip.addClass(scope.tooltipClass);
+               tooltip.addClass('custom-tooltip');
+               tooltip.css('top', -(tooltip.height()*1.5)+ "px");
+
+               console.log(scope.$parent.errorHandler.vacanciesFilter.error.show);
+
+               scope.$watch(scope.$parent.errorHandler.vacanciesFilter.error.show, function() {
+                  if(scope.$parent.errorHandler.vacanciesFilter.error.show) {
+                      tooltip.addClass('visible')
+                  } else {
+                      tooltip.removeClass('visible')
+                  }
+               },true);
+
+               if(!scope.tooltipShow) {
+                   tooltip.addClass('visible');
+               }
+
+               element.on({
+                   mouseover: () => showToolTip(),
+                   mouseleave: () => tooltip.removeClass('visible')
+               });
+
+
+               function showToolTip() {
+                   if(scope.tooltipHover === 'true') {
+                       tooltip.addClass('visible')
+                   }
+               }
+               console.log(tooltip);
+           }
+       }
+    }]);
 
 function similar_text(first, second, percent) {
     if (first === null || second === null || typeof first === 'undefined' || typeof second === 'undefined') {

@@ -17,7 +17,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
               locationError: false,
               error: {
                   show: false,
-                  msg: "No vacancies found."
+                  msg: "No vacancies found"
               }
           }
         };
@@ -63,8 +63,24 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
 
             let criteria = {};
 
-            if(!selectedLocation || vacancy.region && vacancy.region.country.toLowerCase() === selectedLocation.toLowerCase() || selectedLocation === 'Any') criteria.location = true;
-            if(!selectedPosition || vacancy.position.toLowerCase() === selectedPosition.toLowerCase()) criteria.position = true;
+            if(!selectedLocation || vacancy.region && vacancy.region.country.toLowerCase() === selectedLocation.toLowerCase()
+                || $filter('translate')(selectedLocation) === $filter('translate')('Location')
+                || $filter('translate')(selectedLocation) === $filter('translate')('Any_1')
+                || (vacancy.employmentType === 'telework' && selectedLocation === $filter('translate')('telework_1')))  {
+                criteria.location = true;
+            }
+            console.log(vacancy.employmentType, 'telework');
+
+            // if(!selectedLocation || vacancy.region && vacancy.region.country.toLowerCase() === selectedLocation.toLowerCase()
+            //     || $filter('translate')(selectedLocation) === $filter('translate')('Location')
+            //     || $filter('translate')(selectedLocation) === $filter('translate')('Any')
+            //     || vacancy.employmentType === $filter('translate')('telework'))  {
+            //     criteria.location = true;
+            // }
+
+            if(!selectedPosition || vacancy.position.toLowerCase() === selectedPosition.toLowerCase()) {
+                criteria.position = true;
+            }
 
             if(criteria.position && criteria.location && filteredVacancies.indexOf(vacancy) === -1) filteredVacancies.push(vacancy);
 
@@ -96,9 +112,8 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
         };
 
         $scope.selectLocation = function(location) {
-          $('span.location').text(location);
+          $('span.location').text(($filter)('translate')(location));
           $scope.hideSearchLocations = true;
-          console.log(location);
         };
 
         $scope.showFilteredVacancies = function() {
@@ -166,7 +181,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
         }
 
         function resetLocation() {
-            $('.locations-wrap span.location').text("Any");
+            $('.locations-wrap span.location').text($filter('translate')('Location'));
             $scope.errorHandler.vacanciesFilter.locationError = false;
         }
 

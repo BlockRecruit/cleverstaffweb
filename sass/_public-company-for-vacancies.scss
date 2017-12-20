@@ -398,6 +398,8 @@ body {
 		&.filter-error {
 			font-size: 15px;
 
+			text-align: center;
+
 			color: #a94442;
 			border: 1px solid #a94442;
 		}
@@ -520,35 +522,38 @@ body {
 	}
 }
 
-//#select2-drop {
-//	border: 1px solid black;
-//	border-top: none;
-//}
-//.select2-search input {
-//	background: none;
-//}
+span.custom-tooltip {
+	position: absolute;
+	bottom: 135%;
+	left: 0;
 
-//.cloud-1.ng-enter,
-//.cloud-2.ng-enter,
-//.calendar-2.ng-enter,
-//.plane.ng-enter,
-//.person-1.ng-enter,
-//.ball.ng-enter {
-//	transition: 0.5s linear all;
-//	transform: translateX(-300%);
-//
-//	opacity: 0;
-//}
-//.cloud-1.ng-enter.ng-enter-active,
-//.ball.ng-enter.ng-enter-active,
-//.calendar-2.ng-enter.ng-enter-active,
-//.plane.ng-enter.ng-enter-active,
-//.person-1.ng-enter.ng-enter-active,
-//.cloud-2.ng-enter.ng-enter-active {
-//	transform: translateY(0);
-//
-//	opacity: 1;
-//}
+	width: 180px;
+	padding: 5px 10px;
+
+	border-radius: 13px;
+	&:after {
+		position: absolute;
+		bottom: 0;
+		left: 50%;
+
+		width: 0;
+		height: 0;
+		margin-bottom: -9px;
+		margin-left: -9px;
+
+		content: "";
+
+		border: 9px solid transparent;
+		border-bottom: 0;
+	}
+	&.error {
+		color: #a94442;
+		background-color: #f2dede;
+		&:after {
+			border-top-color: #f2dede;
+		}
+	}
+}
 
 @media (max-width: 1347px) {
 	.block-company-public-vacancies .vacancies-filter .switch {
