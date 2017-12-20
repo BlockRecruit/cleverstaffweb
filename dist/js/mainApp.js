@@ -6122,6 +6122,12 @@ angular.module('services.candidate', [
                 params: {
                     param: "setPreferableContact"
                 }
+            },
+            createBackUpCandidates: {
+                method: "POST",
+                params: {
+                    param: "createBackUpCandidates"
+                }
             }
         });
 
@@ -12459,9 +12465,13 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "toolTipForTestResults": $sce.trustAsHtml($filter('translate')('Percentile shows the percent of candidates, who received fewer points for passing the test, than a specific candidate with the percentile value')),
                     "mailingInternal": $sce.trustAsHtml('Mailing name for your internal usage. Visible only for you.'),
                     "profilesMerge": $sce.trustAsHtml($filter("translate")("The 'rules' of profiles merge") + '<ul>' + '<li>' + $filter("translate")("Only fields with different values are available for selection") + '</li>' + '<li>' + $filter("translate")("If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default") + '</li>' + '<li>' + $filter("translate")("Tags in the merged profile will be saved from both original ones") + '</li>' + '</ul>'),
+<<<<<<< HEAD
                     "helpWindowZip1":  $sce.trustAsHtml($filter('translate')('You can just upload all resumes in one big folder and pack') + '</br></br>' + '<img src="../images/sprite/ZipArchive2.png" alt=""/>'),
                     "helpWindowZip2":  $sce.trustAsHtml($filter('translate')('If your resumes folders like in the picture:') + '</br></br>' + '<img src="../images/sprite/ZipArchive1.png" alt=""/>' + '</br></br>' + $filter('translate')('simply pack the root folder in the ZIP-archive. This is a good option')),
                     "helpWindowZip3":  $sce.trustAsHtml($filter('translate')('If you have any candidates in the program E-Staff, they can be exported in two steps') + '</br></br>' + '<div>1.' + $filter('translate')('Create a script export (Menu -> Tools -> Administration -> Other -> Scripts exports). Uploaded types of objects - the candidate. Specify the name of the script and save')+'.' + '</br></br>2.' + $filter('translate')('Upload (Menu -> Tools -> Export -> Your script that you received from p.1. You will receive a folder with files of the candidate-0x0A1234E567C890A0.xml. All you need to pack a folder in the ZIP-archive and send it here. So the candidates of the E-Staff will take a CleverStaff.'))
+=======
+                    "exportResumeArchive": $sce.trustAsHtml($filter('translate')("Download the candidates’ resume archive according to filters you choose.") + '</br>' + $filter('translate')("Archive preparation takes some time (~3 min./1000 candidates). Then you could download it on ‘Export log’ page (via grey button here).") + '</br>' + $filter('translate')("Full export log available on ‘Export log’ page where you will be able to download 3 last resume archives you requested.") + '</br>' + $filter('translate')("You cannot request more than 3 resume archive exports per week.") + '</br>' + $filter('translate')("This is a paid feature") + '' + $filter('translate')("($500 / year), but you can get the archive with first 100 resumes for free to see how it works."))
+>>>>>>> start task
                 };
                 $rootScope.tooltips = options;
             });
@@ -19211,8 +19221,31 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             });
         }
     };
+    $scope.exportResumeArchive = function () {
+        $rootScope.loading = true;
+        if($scope.loadingExcel == false){
+            $scope.loadingExcel = true;
+            if($scope.criteriaForExcel.words == null) {
+                $scope.criteriaForExcel.searchFullTextType = null;
+            }
+            console.log($scope.criteriaForExcel);
+            Candidate.createBackUpCandidates({}, function (resp) {
+                console.log(resp);
+                if (resp.status == 'ok') {
+                    var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
+                    $('#export_resume_archive')[0].href = sr + 'getapp?id=' + resp.object;
+                    $('#export_resume_archive')[0].click();
+                }
+                if (resp.code == 'emptyExportExcel') {
+                    notificationService.error($filter('translate')('No candidates for export according to criteria'));
+                    $scope.loadingExcel = false;
+                }
+                $scope.loadingExcel = false;
+                $rootScope.loading = false;
 
-
+            });
+        }
+    };
     $scope.toExcelHistory = function () {
         $scope.modalInstance = $uibModal.open({
             animation: true,

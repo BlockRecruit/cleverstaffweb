@@ -300,6 +300,12 @@ angular.module('services.candidate', [
                 params: {
                     param: "setPreferableContact"
                 }
+            },
+            createBackUpCandidates: {
+                method: "POST",
+                params: {
+                    param: "createBackUpCandidates"
+                }
             }
         });
 

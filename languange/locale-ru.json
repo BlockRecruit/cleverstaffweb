@@ -2865,13 +2865,19 @@
   "previousYear":"Прошлый год",
   "customRange":" Настраиваемый период",
   "Select vacancies in the report":"Выбрать вакансии в отчете",
-  "replacement":"Замена",
-  "Comments only": "Только комментарии",
   "Comment changed":"Комментарий изменен",
   "ready_to_relocate2": "Готов к переезду",
   "Being a Free Plan user, you have free access to this feature for the first 7 days of your Trial": "Так как вы пользователь бесплатного аккаунта, у вас есть бесплатный доступ к этой функции в течение  7 дней пробного периода",
   "The account name changed to": "Название аккаунта было изменено на",
   "Your company has no active vacancies in this account": "В Вашем аккаунте ещё нет вакансий",
   "yes_1":"Удалить",
-  "Enter more data for search":"Введите больше символов для поиска"
+  "Enter more data for search":"Введите больше символов для поиска",
+  "Export resume archive": "Экспорт архива резюме",
+  "Import resume archive": "Импорт архива резюме",
+  "Download the candidates’ resume archive according to filters you choose.": "Скачивайте архив с резюме ваших кандидатов согласно сделанной вами выборке.",
+  "Archive preparation takes some time (~3 min./1000 candidates). Then you could download it on ‘Export log’ page (via grey button here).": "На формирование архива потребуется некоторое время (~3 мин./1000 кандидатов), после чего вы сможете его скачать в “Истории” (серая кнопка здесь же).",
+  "Full export log available on ‘Export log’ page where you will be able to download 3 last resume archives you requested.": "Там же будет доступна история всех скачиваний, где вы сможете повторно загрузить 3 последние запрошенные архива резюме.",
+  "You cannot request more than 3 resume archive exports per week.": "Вы можете скачивать не более трёх архивов резюме в неделю.",
+  "This is a paid feature": "Это платная функция",
+  "($500 / year), but you can get the archive with first 100 resumes for free to see how it works.": "($500 / год), но вы можете загрузить архив из первых 100 резюме бесплатно, чтобы понимать, как он работает."
 }

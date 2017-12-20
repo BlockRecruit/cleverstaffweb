@@ -2272,9 +2272,6 @@
   "export":"Export",
   "close window":"Close window",
   "_Invited user":"Invited users",
-  "Comments only": "Comments only",
-  "replacement":"Replacement",
-  "Select the interview date": "Select the interview date",
   "Changes saved": "Changes saved",
   "Select vacancies in the report":"Select vacancies in the report",
   "Comment changed":"Comment changed",
@@ -2282,5 +2279,13 @@
   "The account name changed to": "The account name changed to",
   "Your company has no active vacancies in this account": "Your company has no active vacancies in this account",
   "yes_1":"Yes",
-  "Enter more data for search":"Enter more data for search"
+  "Enter more data for search":"Enter more data for search",
+  "Export resume archive": "Export resume archive",
+  "Import resume archive": "Import resume archive",
+  "Download the candidates’ resume archive according to filters you choose.": "Download the candidates’ resume archive according to filters you choose.",
+  "Archive preparation takes some time (~3 min./1000 candidates). Then you could download it on ‘Export log’ page (via grey button here).": "Archive preparation takes some time (~3 min./1000 candidates). Then you could download it on ‘Export log’ page (via grey button here).",
+  "Full export log available on ‘Export log’ page where you will be able to download 3 last resume archives you requested.": "Full export log available on ‘Export log’ page where you will be able to download 3 last resume archives you requested.",
+  "You cannot request more than 3 resume archive exports per week.": "You cannot request more than 3 resume archive exports per week.",
+  "This is a paid feature": "This is a paid feature",
+  "($500 / year), but you can get the archive with first 100 resumes for free to see how it works.": "($500 / year), but you can get the archive with first 100 resumes for free to see how it works."
 }
