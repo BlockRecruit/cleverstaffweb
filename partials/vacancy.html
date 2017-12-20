@@ -719,7 +719,7 @@
                         <span translate="Remove from this vacancy" class="remove-from-vacancy" ng-click="showDeleteInterview(candidate);$event.stopPropagation();">
                         </span>
                     </td>
-                    <td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}" style="width: 4%;">
+                    <td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}" style="width: 6%;">
                         <i ng-show="activeName != 'approved'" ng-click="showModalAddCommentToCandidate(candidate);$event.stopPropagation();" title="{{'Edit comment' | translate}}" class="fa fa-pencil" aria-hidden="true"></i>
                         <i class="fa fa-times delete" aria-hidden="true"  title="{{'Remove Candidate' | translate}} {{'from vacancy' | translate}}" ng-click="showDeleteInterview(candidate);$event.stopPropagation();"></i>
                     </td>
