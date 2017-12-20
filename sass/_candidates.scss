@@ -1782,6 +1782,9 @@
 			float: right;
 			width: 63%;
 			padding-left: 0;
+			table.table {
+				margin-bottom: 10px;
+			}
 			tbody {
 				tr {
 					word-break: break-word;
@@ -1815,6 +1818,8 @@
 				padding-bottom: 10px;
 				.status {
 					@include history-label-styling();
+
+					padding: 2px 4px;
 					&.shortlist {
 						color: #0289e2;
 						background-color: #99d1fc;

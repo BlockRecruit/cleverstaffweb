@@ -1746,8 +1746,8 @@
                     </span>
                 </div>
             </div>
-            <div class="ui vertically divided-grid" ng-if="candidatePreview.photo!=undefined">
-                <div class="candidate-img-wrap">
+            <div class="ui vertically divided-grid">
+                <div class="candidate-img-wrap" ng-if="candidatePreview.photo!=undefined">
                     <img id="photo-preview" ng-if="candidatePreview.photo!=undefined"
                          ng-src="{{$root.serverAddress}}/getapp?id={{candidatePreview.photo}}&d={{$root.me.personId}}"
                          alt="" class="pull-left"/>
