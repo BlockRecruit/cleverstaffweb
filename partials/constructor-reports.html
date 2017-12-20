@@ -273,7 +273,6 @@
                                 <h4 class="pull-left" style="margin-right: 8px;">{{"Time range"|translate}}:</h4>
                                 <div class="fields-title-select" style="position: relative;">
                                     <input type="text"
-                                           class="one"
                                            data-show="select-content"
                                            disabled
                                            style="cursor: pointer;"
@@ -287,11 +286,18 @@
                             <div class="wrap-datepicker">
                                 <div class="field pull-left" style="margin-right: 10px;">
                                     <label class="pull-left">{{'from3'|translate}}</label>
-                                    <input placeholder="{{'from3'|translate}}" class="startDate pull-left" style="margin-left: 8px;"  ng-disabled="disabled" type="text">
+                                    <input placeholder="{{'from3'|translate}}"
+                                           class="startDate pull-left" style="margin-left: 8px;"
+                                           ng-style="disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
+                                           ng-disabled="disabled" type="text">
                                 </div>
                                 <div class="field pull-left">
                                     <label class="pull-left">{{'to1'|translate}}</label>
-                                    <input placeholder="{{'to1'|translate}}" class="endDate pull-left" ng-disabled="disabled" type="text">
+                                    <input placeholder="{{'to1'|translate}}"
+                                           class="endDate pull-left"
+                                           ng-style="disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
+                                           ng-disabled="disabled"
+                                           type="text">
                                 </div>
                                 <i class="fa fa-info-circle info" ng-mouseover="inHover()" ng-mouseleave="outHover()"></i>
                                 <div class="info-content">

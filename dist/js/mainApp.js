@@ -7304,9 +7304,11 @@ angular.module('services.customField', [
 
     return customField;
 }]);
-function CustomReportEditService($rootScope, Stat, $translate, Company, Person, vacancyStages, notificationService, CustomReportsService, $timeout, $uibModal, translateWords, $location, CustomField, $filter) {
+function CustomReportEditService($rootScope, Stat, $translate, Company, Person, vacancyStages, notificationService, CustomReportsService, $timeout, $uibModal, translateWords, $location, CustomField, $filter, Vacancy) {
     try{
-        let vacancyStatuses, fieldsListStart,
+        let vacancyStatuses,
+            fieldsListStart,
+            activeBlocks = [],
             singleton = {
                 editReport: {}
             };
@@ -7452,9 +7454,12 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                     count: 0,
                     type: "refuse"
                 }
-            ];
+            ],
                 singleton.editReport = angular.copy(CustomReportsService.data);
+                singleton.dateRange = ['currentWeek','previousWeek','currentMonth', 'previousMonth', 'currentYear', 'previousYear', 'customRange'];
+
         }
+
         function concatCastomOrStandartFields(custom, standart) {
             console.log(custom, standart, 'custom, standart');
             custom.forEach(item => {
@@ -7629,6 +7634,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             this.data.interviewStatuses   = filterSelectedItems(this.selectStages, 'interviewStatuses');
             this.data.vacancyFields       = filterSelectedItems(this.fieldsList, 'vacancyFields');
             this.data.сustomVacancyFields = filterSelectedItems(this.fieldsList, 'сustomVacancyFields');
+            this.data.vacancyIds          = this.fieldsVacancyList.filter(item => item.visible).map(item => item.vacancyId);
         }
 
         function filterSelectedItems(data, type) {
@@ -7674,10 +7680,35 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             this.change = change;
         }
 
+        function checkPropertiesListVacancies(fieldsVacancyList, responseData) {
+            let data, index;
+
+            responseData.forEach(item => {
+                index = fieldsVacancyList.indexOf(item.vacancyId);
+                if(index !== -1){
+                    item.visible = true;
+                }
+            });
+
+            return responseData;
+        }
+
+        function _showBlocks(blockShow){
+            activeBlocks.push(blockShow);
+            blockShow.classList.toggle('active');
+        }
+
+        function _hiddenBlocks() {
+            for(let i = 0; i < activeBlocks.length; i++){
+                activeBlocks[i].classList.remove('active');
+                activeBlocks.splice(i,1);
+                i -= 1;
+            }
+        }
+
         resetDefaultData();
 
         singleton.showOrHideCandidates = function () {
-            console.log(this, 'this');
             this.data.withCandidates = !this.data.withCandidates;
             checkOnChange.call(this)
         };
@@ -7702,19 +7733,22 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                         }),
                         vacancyStages.requestVacancyStages(),
                         Person.requestGetAllPersons(),
-                        CustomField.requestGetFieldsTitles()
+                        CustomField.requestGetFieldsTitles(),
                     ]).then(data => {
-                    data.forEach(item => {
-                        _dataProcessing.apply(this, [data, item]);
+                        data.forEach(item => {
+                            _dataProcessing.apply(this, [data, item]);
+                        });
+                        CustomReportsService.getDate.apply(this, [singleton.editReport, $scope]);
+                        this.fieldsList = checkPropertyFyelds(this.fieldsList, fieldsListStart);
+                        this.fieldsList = checkPropertyFyelds(this.data.сustomVacancyFields, this.fieldsList);
+                        return true;
+                     })
+                    .then(resp => Vacancy.getAllVacansies())
+                    .then(resp => {
+                        this.fieldsVacancyList = checkPropertiesListVacancies(this.data.vacancyIds, resp.objects)
+                        $rootScope.loading = false;
+                        $scope.$apply();
                     });
-
-                    CustomReportsService.getDate.apply(this, [singleton.editReport, $scope]);
-                    this.fieldsList = checkPropertyFyelds(this.fieldsList, fieldsListStart);
-                    this.fieldsList = checkPropertyFyelds(this.data.сustomVacancyFields, this.fieldsList);
-                    $rootScope.loading = false;
-
-                    $scope.$apply();
-                });
         };
 
         singleton.selectValue = function (status) {
@@ -7797,6 +7831,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                 "to": this.data.dateTo,
                 "types": null,
                 "vacancyId": null,
+                "vacancyIds": this.data.vacancyIds,
                 "vacancyStatuses": this.data.vacancyStatuses,
                 "interviewStatuses": this.data.interviewStatuses,
                 "interviewCreatorIds": this.data.interviewCreatorIds,
@@ -7845,6 +7880,45 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             checkOnChange.call(this)
         };
 
+        singleton.selectDateRange = function (event, dateRange) {
+            let currentDate = new Date(),
+                currentDateStart = new Date(),
+                currentDateFinish = new Date();
+            this.disabled = true;
+            this.selectRange = dateRange;
+
+            if(dateRange == 'currentWeek'){
+                currentDateStart.setDate(currentDate.getDate() - (currentDate.getDay() - 1));
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousWeek'){
+                currentDateStart.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 7);
+                currentDateFinish.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 1);
+            }else if(dateRange == 'currentMonth'){
+                currentDateStart.setDate(1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousMonth'){
+                currentDateStart.setMonth(currentDate.getMonth() - 1, 1);
+                currentDateFinish.setMonth(currentDate.getMonth(),  0);
+            }else if(dateRange == 'currentYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear(),0,1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear() - 1,0,1);
+                currentDateFinish.setFullYear(currentDate.getFullYear(), 0, 0);
+            }else if(dateRange == 'customRange'){
+                this.disabled = false;
+            }
+
+            this.startVacancyDate =  +new Date(currentDateStart);
+            this.endDate =  +new Date(currentDateFinish);
+            $(".startDate").datetimepicker("setDate", new Date(currentDateStart));
+            $(".endDate").datetimepicker("setDate", new Date(currentDateFinish));
+            checkOnChange.call(this)
+        };
+
+        singleton.hiddenBlocks = _hiddenBlocks;
+        singleton.showBlocks = _showBlocks;
+
         return singleton;
     }catch(error){
         console.log(error, 'error CustomReportEditService');
@@ -7852,7 +7926,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 }
 angular
     .module('services.CustomReportEditService',['ngResource', 'ngCookies','services.person'])
-    .factory('CustomReportEditService',["$rootScope","Stat", "$translate","Company","Person","vacancyStages", "notificationService", "CustomReportsService","$timeout","$uibModal","translateWords","$location","CustomField","$filter", CustomReportEditService]);
+    .factory('CustomReportEditService',["$rootScope","Stat", "$translate","Company","Person","vacancyStages", "notificationService", "CustomReportsService","$timeout","$uibModal","translateWords","$location","CustomField","$filter","Vacancy", CustomReportEditService]);
 function CustomReportsService($rootScope, Stat, $translate, Company, Person, vacancyStages, notificationService, $location, $uibModal,$timeout, CustomField) {
     try{
         var reports = {},
@@ -7977,6 +8051,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
         }
 
         function requestWithOrWithoutCandidates($scope) {
+            console.log(this.dataReport, 'this.dataReport');
             let withCandidates = this.dataReport["withCandidates"];
             (withCandidates)? requestWithCandidates.call(this, $scope) : requestWithoutCandidates.call(this, $scope);
         }
@@ -7987,13 +8062,13 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 "to": this.dataReport['dateTo'],
                 "types":null,
                 "vacancyId":null,
+                "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"] : null,
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
                 "interviewStatuses": this.dataReport["interviewStatuses"],
                 "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
                 "vacancyFields": this.dataReport["vacancyFields"],
                 "withCandidates":this.dataReport["withCandidates"]
             }, false)
-
                 .then((resp) => {
                     resetDefaultData();
                     _showReportWithCandidates.call(this, resp);
@@ -8003,10 +8078,11 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithoutCandidates($scope) {
             Promise.all([Stat.requestGetActualVacancyStatistic2({
-                "from": this.dataReport['dateFrom'],
-                "to": this.dataReport['dateTo'],
+                "from": (this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'],
+                "to": (this.endDate)? this.endDate : this.dataReport['dateTo'],
                 "types":null,
                 "vacancyId":null,
+                "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:null,
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
                 "interviewStatuses": this.dataReport["interviewStatuses"],
                 "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
@@ -8027,18 +8103,22 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             localStorage.setItem('reportsData', JSON.stringify(data));
         };
 
-        reports.showChoosingMenu = function(selector){
+        reports.showChoosingMenu = function(selector, $scope){
             if($(selector).css('display') == 'none'){
                 $(selector).show('500');
-                $('body').mouseup(function(e) {
-                    if ($(selector).has(e.target).length === 0) {
-                        $(selector).hide("500");
-                        $(document).off('mouseup');
-                    }
+                $('body').mouseup((e) =>{
+                    $scope.$apply(() => {
+                        if ($(selector).has(e.target).length === 0) {
+                            $(selector).hide("500");
+                            $(document).off('mouseup');
+                            this.chooseListFieldsVacancies = false;
+                        }
+                    });
                 });
             }else{
                 $('body').unbind('mouseup');
                 $(selector).hide("500");
+                this.chooseListFieldsVacancies = false;
             }
         };
 
@@ -8109,7 +8189,6 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 endDate: new Date(now)
             }).on('changeDate', (data) => {
                 this.startVacancyDate = data.date.getTime();
-
                 if(this.startVacancyDate > new Date()){
                     this.timeMaxZone = true;
                 }else{ this.timeMaxZone = false;}
@@ -8136,7 +8215,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 if(this.endDate > new Date()){
                     this.timeMaxZone = true;
                 }else{ this.timeMaxZone = false;}
-
+                console.log(dataReport,'dataReport)');
                 (this.data)? this.data.dateTo = this.endDate : null;
 
                 setTimeout(() => {
@@ -8164,6 +8243,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                     "to": this.dataReport['dateTo'],
                     "types":null,
                     "vacancyId":null,
+                    "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:null,
                     "vacancyStatuses": this.dataReport["vacancyStatuses"],
                     "interviewStatuses": this.dataReport["interviewStatuses"],
                     "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
@@ -8224,6 +8304,41 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             });
 
             return (location)? location : "-";
+        };
+
+        reports.selectDateRange = function (event, dateRange) {
+            let currentDate = new Date(),
+                currentDateStart = new Date(),
+                currentDateFinish = new Date();
+            this.disabled = true;
+            this.selectRange = dateRange;
+
+            if(dateRange == 'currentWeek'){
+                currentDateStart.setDate(currentDate.getDate() - (currentDate.getDay() - 1));
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousWeek'){
+                currentDateStart.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 7);
+                currentDateFinish.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 1);
+            }else if(dateRange == 'currentMonth'){
+                currentDateStart.setDate(1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousMonth'){
+                currentDateStart.setMonth(currentDate.getMonth() - 1, 1);
+                currentDateFinish.setMonth(currentDate.getMonth(),  0);
+            }else if(dateRange == 'currentYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear(),0,1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear() - 1,0,1);
+                currentDateFinish.setFullYear(currentDate.getFullYear(), 0, 0);
+            }else if(dateRange == 'customRange'){
+                this.disabled = false;
+            }
+
+            this.startVacancyDate =  +new Date(currentDateStart);
+            this.endDate =  +new Date(currentDateFinish);
+            $(".startDate").datetimepicker("setDate", new Date(currentDateStart));
+            $(".endDate").datetimepicker("setDate", new Date(currentDateFinish));
         };
 
         if(!reports.data) {
@@ -12294,7 +12409,7 @@ angular.module('services.company', [
 
 angular.module('services.vacancy', [
     'ngResource'
-]).factory('Vacancy', ['$resource', 'serverAddress','$rootScope', function($resource, serverAddress, $rootScope) {
+]).factory('Vacancy', ['$resource', 'serverAddress','$rootScope','$q', function($resource, serverAddress, $rootScope, $q) {
     var options;
     var vacancy = $resource(serverAddress + '/vacancy/:param', {param: "@param"}, {
         all: {
@@ -12512,6 +12627,12 @@ angular.module('services.vacancy', [
             method:"GET",
             params:{
                 param:'openHideState'
+            }
+        },
+        getVacanciesForReport:{
+            method:"POST",
+            params:{
+                param:'getVacanciesForReport'
             }
         }
     });
@@ -13075,6 +13196,7 @@ angular.module('services.vacancy', [
         };
     };
     vacancy.init();
+    vacancy.getAllVacansies = (params) => $q((resolve, reject) =>vacancy.getVacanciesForReport(response => resolve(response), error => reject(error)));
     return vacancy;
 }
 ]);
@@ -40796,8 +40918,8 @@ controller.controller('EmployeeOneController', ['$scope', 'Employee', '$routePar
 controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", "Service", "$location",
     "$routeParams", "notificationService", "$filter","translateWords", "$translate", "vacancyStages","Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomField",
     function($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter,translateWords,
-             $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomField) {
-
+             $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomField, CustomReportsService) {
+        let activeBlocks = [];
         $rootScope.loading = true;
         $scope.regions = [];
         $scope.timeMaxZone = false;
@@ -40808,6 +40930,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         $scope.inVacancysStatusesParam =[];
         $scope.emptyAccount = true;
         $scope.build = false;
+        $scope.disabled = false;
         $scope.choosenPersons = [];
         $scope.leastChosen = false;
         $scope.customStagesActive =[];
@@ -40816,6 +40939,8 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         $scope.withCandidates = false;
         $scope.checkListFields = ["client","salary","location","responsibles","status","dc", "daysInWork"];
         $scope.checkCustomListFields = [];
+        $scope.dateRange = ['currentWeek','previousWeek','currentMonth', 'previousMonth', 'currentYear', 'previousYear', 'customRange'];
+        $scope.selectVacancy = [];
         $scope.vacancyStatuses =[
             {
                 value: "open",
@@ -40987,6 +41112,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     "to": $scope.endDate,
                     "types": null,
                     "vacancyId": null,
+                    "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null,
                     "vacancyStatuses": $scope.vacancysStatusesParam,
                     "interviewStatuses": $scope.inVacancysStatusesParam,
                     "interviewCreatorIds": $scope.choosenPersons,
@@ -41120,28 +41246,28 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 return;
             }
 
-                Stat.requestGetActualVacancyStatistic2({
-                    "from":$scope.startVacancyDate,
-                    "to":$scope.endDate,
-                    "types":null,
-                    "vacancyId":null,
-                    "vacancyStatuses": $scope.vacancysStatusesParam,
-                    "interviewStatuses":$scope.inVacancysStatusesParam,
-                    "interviewCreatorIds": $scope.choosenPersons,
-                    "vacancyFields": ["client","numberOfPositions","salary","location","status","dateFinish",
-                        "budget","candidatesAdded","candidatesApproved","daysInWork","responsibles","dc",
-                        "datePayment","employmentType","candidatesRefused","candidatesInWork"],
-                    "customVacancyFields":$scope.checkCustomListFields,
-                    "withCandidates": $scope.withCandidates
+            Stat.requestGetActualVacancyStatistic2({
+                "from":$scope.startVacancyDate,
+                "to":$scope.endDate,
+                "types":null,
+                "vacancyId":null,
+                "vacancyStatuses": $scope.vacancysStatusesParam,
+                "interviewStatuses":$scope.inVacancysStatusesParam,
+                "interviewCreatorIds": $scope.choosenPersons,
+                "vacancyFields": ["client","numberOfPositions","salary","location","status","dateFinish",
+                    "budget","candidatesAdded","candidatesApproved","daysInWork","responsibles","dc",
+                    "datePayment","employmentType","candidatesRefused","candidatesInWork"],
+                "customVacancyFields":$scope.checkCustomListFields,
+                "withCandidates": $scope.withCandidates,
+                "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null
 
-                }, ifCheck)
-                .then(response => {
-                        $scope.regions = response.object["regions"];
-                        $scope.vacancyData = response.object["entryList"].map(item => item["vacancy"]);
-                        ($scope.vacancyData.length)? $scope.build = true : $scope.build = false;
-
-                        restAngularContext();
-                    });
+            }, ifCheck)
+            .then(response => {
+                    $scope.regions = response.object["regions"];
+                    $scope.vacancyData = response.object["entryList"].map(item => item["vacancy"]);
+                    ($scope.vacancyData.length)? $scope.build = true : $scope.build = false;
+                    restAngularContext();
+                });
         };
 
         $scope.updateReport = function(event){
@@ -41195,10 +41321,11 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     return Promise.reject();
                 })
                 .then(resp => concatCastomOrStandartFields(resp['objects'], $scope.fieldsList),resp => true)
+                .then(resp => Vacancy.getAllVacansies())
+                .then(resp => $scope.fieldsVacancyList = resp.objects)
                 .then(resp => {
                     if($scope.startVacancyDate && $scope.endDate){
                         $scope.firstTimeLoading = $scope.firstTimeLoading + 1;
-                        console.log( $scope.firstTimeLoading, ' $scope.firstTimeLoading');
                         return Stat.requestGetCountVacancyForActualVacancyStatistic({
                             "from":$scope.startVacancyDate,
                             "to":$scope.endDate,
@@ -41232,7 +41359,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                             });
 
                             $scope.vacancysStatusesParam = array;
-
                             return Stat.requestGetCountInterviewForActualVacancyStatistic({
                                 "from": $scope.startVacancyDate,
                                 "to": $scope.endDate,
@@ -41282,6 +41408,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
                 })
                 .then(resp => {
+                    console.log($scope.selectVacancy, '$scope.selectVacancy')
                     if($scope.firstTimeLoading != 1 && $scope.startVacancyDate && $scope.endDate){
                         Promise.all([
                             Stat.requestGetCountInterviewForActualVacancyStatistic({
@@ -41299,15 +41426,17 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                                 "interviewStatuses":$scope.inVacancysStatusesParam,
                                 "interviewCreatorIds": $scope.choosenPersons,
                                 "vacancyFields": $scope.checkListFields,
-                                "withCandidates": $scope.withCandidates
+                                "withCandidates": $scope.withCandidates,
+                                "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null
                             }, false),
                             CustomField.requestGetFieldsTitles()
                         ])
-                            .then(resp => {
+                        .then(resp => {
+                            $scope.$apply(() => {
                                 responseSetInView(resp);
-                                $rootScope.loading  = false;
-                                $scope.$apply();
+                                $rootScope.loading = false;
                             });
+                        });
                     }else{
                         $rootScope.loading  = false;
                         $scope.$apply();
@@ -41318,7 +41447,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
         };
         $scope.updateReport();
-
         function responseSetInView(data) {
             data.forEach(item => {
                 if(item['request'] == 'stagesOrCount'){
@@ -41374,13 +41502,14 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     "from":$scope.startVacancyDate,
                     "to":$scope.endDate,
                     "types":null,
-                    "vacancyId":null,
                     "vacancyStatuses": $scope.vacancysStatusesParam,
                     "interviewStatuses":$scope.inVacancysStatusesParam,
                     "interviewCreatorIds": $scope.choosenPersons,
                     "vacancyFields":$scope.checkListFields,
                     "customVacancyFields":$scope.checkCustomListFields,
-                    "withCandidates": $scope.withCandidates
+                    "withCandidates": $scope.withCandidates,
+                    "vacancyId": null,
+                    "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null
                 }, function (resp) {
                     if (resp.status == 'ok') {
                         var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
@@ -41714,24 +41843,126 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             }
         };
 
+        $scope.showChoosingVacancyFields = function () {
+            if($('.chooseListFieldsVacancies').css('display') == 'none'){
+                $('.chooseListFieldsVacancies').show('500');
+                $('body').mouseup((e) => {
+                    if ($('.chooseListFieldsVacancies').has(e.target).length === 0) {
+                        $scope.$apply(() => {
+                            $('.chooseListFieldsVacancies').hide("500");
+                            $(this).off('mouseup');
+                            $scope.chooseListFieldsVacancies = false;
+                            $scope.query = '';
+                        });
+                    }
+                });
+            }else{
+                $('body').unbind('mouseup');
+                $('.chooseListFieldsVacancies').hide("500");
+                $scope.chooseListFieldsVacancies = false;
+                $scope.query = '';
+            }
+        };
+
         $scope.popup = function(){
             $('.commentBlog').popup({
                 position : 'right center'
             });
         };
+
         $scope.popup();
 
-        Vacancy.all(Vacancy.searchOptions(), function(response) {
-            $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
-        });
         $scope.getCompanyParams = function(){
             Company.getParams(function(resp){
                 $scope.companyParams = resp.object;
                 $rootScope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/" + $scope.companyParams.nameAlias + "-vacancies";
             });
         };
+
         $scope.getCompanyParams();
+
+        $scope.filterVacancy = function (vacancy) {
+            let statuses = $scope.vacancysStatusesParam;
+            if(vacancy.position.toLocaleLowerCase().indexOf($scope.query.toLocaleLowerCase()) !== -1 && statuses.some(item => item == vacancy.status)){
+                return vacancy;
+            }
+        };
+
+        $scope.selectedVacancy = function (vacancyID) {
+            let data =  $scope.selectVacancy, index = data.indexOf(vacancyID);
+
+                if(index !== -1){
+                    vacancyID.visiable = false;
+                    data.splice(index, 1);
+                }else{
+                    vacancyID.visiable = true;
+                    data.push(vacancyID);
+                }
+        };
+
+        $scope.selectDateRange = function (event, dateRange) {
+            let currentDate = new Date(),
+                currentDateStart = new Date(),
+                currentDateFinish = new Date();
+                $scope.disabled = true;
+                $scope.selectRange = dateRange;
+
+            if(dateRange == 'currentWeek'){
+                currentDateStart.setDate(currentDate.getDate() - (currentDate.getDay() - 1));
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousWeek'){
+                currentDateStart.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 7);
+                currentDateFinish.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 1);
+            }else if(dateRange == 'currentMonth'){
+                currentDateStart.setDate(1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousMonth'){
+                currentDateStart.setMonth(currentDate.getMonth() - 1, 1);
+                currentDateFinish.setMonth(currentDate.getMonth(),  0);
+            }else if(dateRange == 'currentYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear(),0,1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear() - 1,0,1);
+                currentDateFinish.setFullYear(currentDate.getFullYear(), 0, 0);
+            }else if(dateRange == 'customRange'){
+                $scope.disabled = false;
+            }
+
+            $scope.startVacancyDate =  +new Date(currentDateStart);
+            $scope.endDate =  +new Date(currentDateFinish);
+            $(".startDate").datetimepicker("setDate", new Date(currentDateStart));
+            $(".endDate").datetimepicker("setDate", new Date(currentDateFinish));
+        };
+
+        $scope.selectDateRange(null ,'previousWeek');
+
+        $scope.showBlocks = function (event) {
+            let targetDataID = event.target.dataset, blockShow;
+
+            if(targetDataID && targetDataID['show']){
+                blockShow = angular.element('#' + targetDataID['show'])[0];
+                _showBlocks(blockShow);
+                return;
+            }
+
+            _hiddenBlocks();
+        };
+
+        function _showBlocks(blockShow){
+            activeBlocks.push(blockShow);
+            blockShow.classList.toggle('active');
+        }
+
+        function _hiddenBlocks() {
+          for(let i = 0; i < activeBlocks.length; i++){
+              activeBlocks[i].classList.remove('active');
+              activeBlocks.splice(i,1);
+              i -= 1;
+          }
+        }
     }
+
 ]);
 
 
@@ -41741,8 +41972,27 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
  function CustomReportEditCtrl($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter, translateWords,
                        $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, CustomReportEditService, $uibModal) {
     try {
-        CustomReportEditService.buildReport.call(this, $scope);
+        let filterVacancy = (vacancy) => {
+            let statuses = this.data.vacancyStatuses,
+                index = vacancy.position.toLocaleLowerCase().indexOf(this.query.toLocaleLowerCase());
 
+            if(index !== -1 && statuses.some(item => item == vacancy.status)){
+                return vacancy;
+            }
+        };
+
+        let showBlocks =  (event) => {
+            let targetDataID = event.target.dataset, blockShow;
+
+            if(targetDataID && targetDataID['show']){
+                blockShow = angular.element('#' + targetDataID['show'])[0];
+                CustomReportEditService.showBlocks(blockShow);
+                return;
+            }
+            CustomReportEditService.hiddenBlocks();
+        };
+
+        CustomReportEditService.buildReport.call(this, $scope);
         this.showChoosingMenu           = CustomReportsService.showChoosingMenu;
         this.removeReport               = CustomReportsService.removeReport;
         this.remove                     = CustomReportsService.remove;
@@ -41751,6 +42001,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         this.outHover                   = CustomReportsService.outHover;
         this.data                       = CustomReportEditService.editReport;
         this.fieldsList                 = CustomReportEditService.editReport.vacancyFields;
+        this.dateRange                  = CustomReportEditService.dateRange;
         this.selectValue                = CustomReportEditService.selectValue;
         this.selectValueStages          = CustomReportEditService.selectValueStages;
         this.selectAllStages            = CustomReportEditService.selectAllStages;
@@ -41761,6 +42012,9 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         this.saveNameOrDescr            = CustomReportEditService.saveNameOrDescr;
         this.saveCustomReport           = CustomReportEditService.saveCustomReport;
         this.showOrHideCandidates       = CustomReportEditService.showOrHideCandidates;
+        this.selectDateRange            = CustomReportEditService.selectDateRange;
+        this.filterVacancy              = filterVacancy;
+        this.showBlocks                 = showBlocks;
     }catch(error){
         console.log(error, 'error')
     }
@@ -41774,22 +42028,38 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
 
     function customReports($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter, translateWords,
-                           $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService) {
+                           $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, CustomReportEditService) {
         try {
+            let updateReport = () => CustomReportsService.buildReport.call(this, $scope);
+            let showBlocks =  (event) => {
+                let targetDataID = event.target.dataset, blockShow;
+
+                if(targetDataID && targetDataID['show']){
+                    blockShow = angular.element('#' + targetDataID['show'])[0];
+                    CustomReportEditService.showBlocks(blockShow);
+                    return;
+                }
+                CustomReportEditService.hiddenBlocks();
+            };
+
             this.dataReport        = CustomReportsService.data;
             this.inHover           = CustomReportsService.inHover;
             this.outHover          = CustomReportsService.outHover;
             this.downloadReport    = CustomReportsService.downloadReport;
             this.getPersonFullName = CustomReportsService.getPersonFullName;
             this.regionIdToName    = CustomReportsService.regionIdToName;
+            this.selectDateRange   = CustomReportsService.selectDateRange;
             this.remove            = CustomReportsService.remove;
             this.removeReport      = CustomReportsService.removeReport;
             this.closeModal        = CustomReportsService.closeModal;
             this.timeMaxZone       = CustomReportsService.timeMaxZone;
             this.timeMaxZone2      = CustomReportsService.timeMaxZone2;
+            this.dateRange         = CustomReportEditService.dateRange;
+            this.updateReport      = updateReport;
+            this.showBlocks        = showBlocks;
             CustomReportsService.vacancyStages.call(this);
             CustomReportsService.getAllPersons.call(this);
-            CustomReportsService.getDate.call(this, this.dataReport);
+            CustomReportsService.getDate.call(this, this.dataReport, $scope);
             CustomReportsService.buildReport.call(this, $scope);
 
         }catch(erorr){
@@ -41799,7 +42069,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
     controller
         .controller("CustomReports", ["$rootScope", "$scope", "Vacancy", "Service", "$location",
             "$routeParams", "notificationService", "$filter", "translateWords", "$translate",
-            "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService", customReports]);
+            "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService","CustomReportEditService", customReports]);
 
 
 
