@@ -54,6 +54,14 @@
 
 						color: $theme-grey;
 					}
+					.select2-container {
+						width: 70%;
+					}
+					.link {
+						text-decoration: none;
+
+						color: $theme-link-color;
+					}
 				}
 			}
 			& > .form-inline-position {

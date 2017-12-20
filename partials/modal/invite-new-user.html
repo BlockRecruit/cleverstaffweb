@@ -52,6 +52,10 @@
                         <span ng-show='role.value == "client"' class='grey'>
                             <span>- {{"Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number"|translate}}.</span>
                         </span>
+                        <div ng-show='$root.inviteUser.role == "client" && role.value == "client"'>
+                            <input type="hidden" client-autocompleter id="clientToAddAutocompleaterModal">
+                            <a class="link pull-right" href="#/client/add">{{'Add client' | translate}}</a>
+                        </div>
                         <span ng-show='role.value == "freelancer"' class='grey'>
                             <span>
                                 - {{"Cannot see the full database. Able to manage only clients, vacancies, and candidates he/she is responsible for"|translate}}. {{"Paid user" | translate}}.

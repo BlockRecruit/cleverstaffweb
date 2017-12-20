@@ -2104,7 +2104,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                         },
                         dropdownCssClass: "bigdrop"
                     }).on("change", function(e) {
-
+                        $rootScope.clientToAddAutocompleaterId = e.val;
                     })
                 }
             }

@@ -2221,14 +2221,12 @@
   "Show more": "Show more",
   "Only account administrator is able to make a payment":"Only account administrator is able to make a payment",
   "Recruiters shared no vacancies for you yet. Ask them to do that or add new vacancy by yourself. They will see it.":"Recruiters shared no vacancies for you yet. Ask them to do that.",
-  "Share vacancy via Facebook": "Share vacancy via Facebook",
   "Preferable contact method":"Preferable contact method",
   "Mark as preferrable contact method":"Mark as preferable contact method",
   "Unmark as preferable contact method":"Unmark as preferable contact method",
   "Show vacancies in the report": "Show vacancies in the report",
   "enter a comment": "Enter a comment",
   "Select the interview date": "Select the interview date",
-  "Show vacancies in the report": "Show vacancies in the report",
   "You has granted role":"You has granted role",
   "_for":"for",
   "_Previous": "Previous",
@@ -2268,5 +2266,5 @@
   "Export History": "Export History",
   "export":"Export",
   "close window":"Close window",
-  "replacement":"Replacement"
+  "Select the specific Client for the Hiring manager": "Select the specific Client for the Hiring manager"
 }

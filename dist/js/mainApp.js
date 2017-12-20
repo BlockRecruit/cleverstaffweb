@@ -2104,7 +2104,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                         },
                         dropdownCssClass: "bigdrop"
                     }).on("change", function(e) {
-
+                        $rootScope.clientToAddAutocompleaterId = e.val;
                     })
                 }
             }
@@ -29554,7 +29554,8 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     };
     $rootScope.inviteUser = {
         role: null,
-        email: null
+        email: null,
+        clientId: null
     };
 
     var isBlock = function (callback) {
@@ -29574,13 +29575,15 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             callback(false)
         })
     };
-
     $rootScope.addInvite = function () {
         if ($rootScope.frontMode === 'war') {
+            $rootScope.inviteUser.clientId = $rootScope.clientToAddAutocompleaterId;
             if ($rootScope.inviteUser.role == null) {
                 notificationService.error($filter('translate')('need role'));
             } else if ($rootScope.inviteUser.email == null) {
                 notificationService.error($filter('translate')('wrong_email'));
+            } else if($rootScope.inviteUser.role == 'client' && ($rootScope.inviteUser.clientId == null || $rootScope.inviteUser.clientId == '')){
+                notificationService.error($filter('translate')('Select the specific Client for the Hiring manager'));
             } else {
                 isBlock(function (resp) {
                     if (resp && resp.status == 'N') {
@@ -29589,25 +29592,30 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         $location.path("/users/" + resp.userId);
                         // $rootScope.closeNavModal();
                         $rootScope.inviteUser.email = "";
+                        $rootScope.inviteUser.clientId = '';
                     } else if (resp && resp.status == 'A') {
                         notificationService.error("<a href='#/users/" + resp.userId + "'>" + resp.fullName + "</a> (" + resp.login + ") " + $filter("translate")("has already working in your account"));
                         $rootScope.closeNavModal();
                         $rootScope.inviteUser.email = "";
+                        $rootScope.inviteUser.clientId = '';
                     } else {
+                        console.log($rootScope.inviteUser);
                         Person.inviteUser({
                             email: $rootScope.inviteUser.email,
                             role: $rootScope.inviteUser.role,
-                            //clientId: $rootScope.inviteUser.clientId,
+                            clientId: $rootScope.inviteUser.clientId,
                             lang: $translate.use()
                         }, function (resp) {
                             if (resp.status && angular.equals(resp.status, "error")) {
                                 notificationService.error(resp.message);
                                 //$('.addUserInvite.modal').modal('hide');
                                 //$rootScope.inviteUser.email = "";
+                                $rootScope.inviteUser.clientId = '';
                             } else {
                                 notificationService.success($filter('translate')('user_was_invite_1') + $rootScope.inviteUser.email + $filter('translate')('user_was_invite_2'));
                                 $rootScope.closeNavModal();
                                 $rootScope.inviteUser.email = "";
+                                $rootScope.inviteUser.clientId = '';
                                 if ($location.path() == '/company/users') {
                                     $route.reload();
                                 }
@@ -30610,6 +30618,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             $rootScope.modalInstance.closed.then(function() {
                 $rootScope.inviteUser.role = null;
                 $rootScope.inviteUser.email = null;
+                $rootScope.inviteUser.clientId = null;
             });
         }else{
             $rootScope.modalInstance = $uibModal.open({
