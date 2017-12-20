@@ -29014,7 +29014,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.inviteHiringManager = function(){
         $rootScope.modalInstance = $uibModal.open({
             animation: true,
-            templateUrl: 'partials/modal/invite-new-user.html?b4',
+            templateUrl: 'partials/modal/invite-new-user.html?b5',
             size: '',
             resolve: function(){
 
