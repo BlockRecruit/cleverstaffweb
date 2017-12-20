@@ -243,7 +243,7 @@
             <section class="row section-three">
                 <div class="wrapper-for-padding-left col-lg-6">
                     <div class="pen-show clearfix" ng-click="editReport.showChoosingMenu('.choosePersonMenu', this)" style="background-color: #fff;padding: 16px 8px;border-radius: 5px;padding-right: 0px;">
-                        <div class="chooseUsers col-lg-12 clearfix"  style="background: none">
+                        <h4 class="chooseUsers col-lg-12 clearfix"  style="background: none">
                             <span  class="item">
                                 <span ng-show="!leastChosen">
                                     {{'By all users' | translate}}
@@ -262,7 +262,7 @@
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-                        </div>
+                        </h4>
                         <i class="fa fa-pencil"></i>
                     </div>
                     <div class="choosePersonMenu clearfix">
@@ -306,7 +306,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div>
+                            <div class="wrap-datepicker">
                                 <div class="field pull-left"
                                      ng-init="editReport.disabled = false;"
                                      style="margin-right: 10px;">
