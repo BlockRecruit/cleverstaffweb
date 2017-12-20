@@ -801,8 +801,31 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             });
         }
     };
+    $scope.exportResumeArchive = function () {
+        $rootScope.loading = true;
+        if($scope.loadingExcel == false){
+            $scope.loadingExcel = true;
+            if($scope.criteriaForExcel.words == null) {
+                $scope.criteriaForExcel.searchFullTextType = null;
+            }
+            console.log($scope.criteriaForExcel);
+            Candidate.createBackUpCandidates({}, function (resp) {
+                console.log(resp);
+                if (resp.status == 'ok') {
+                    var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
+                    $('#export_resume_archive')[0].href = sr + 'getapp?id=' + resp.object;
+                    $('#export_resume_archive')[0].click();
+                }
+                if (resp.code == 'emptyExportExcel') {
+                    notificationService.error($filter('translate')('No candidates for export according to criteria'));
+                    $scope.loadingExcel = false;
+                }
+                $scope.loadingExcel = false;
+                $rootScope.loading = false;
 
-
+            });
+        }
+    };
     $scope.toExcelHistory = function () {
         $scope.modalInstance = $uibModal.open({
             animation: true,

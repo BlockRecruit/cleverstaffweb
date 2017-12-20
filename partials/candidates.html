@@ -34,7 +34,16 @@
                     </div>
                     <div class="operation">
                         <i class="fa fa-file-archive-o" aria-hidden="true"></i>
-                        <a href="" ng-click="toZip()">{{'Upload resume archive' | translate}}</a>
+                        <a href="" ng-click="toZip()">{{'Import resume archive' | translate}}</a>
+                    </div>
+                    <div class="operation">
+                        <i class="fa fa-file-archive-o" aria-hidden="true"></i>
+                        <a href="" ng-click="exportResumeArchive()">
+                            {{'Export resume archive' | translate}}
+                            <span class="new-label">New</span>
+                        </a>
+                        <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="top-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.exportResumeArchive" aria-hidden="true"></i>
+                        <a href="#/ExportLog" ng-click="toExcelHistory()" class="no-margin-left-example">{{'history_1'|translate}}</a>
                     </div>
                     <div class="operation">
                         <i class="fa fa-file-excel-o" aria-hidden="true"></i>
@@ -1685,6 +1694,9 @@
                 <div class="breadcrumbs" ng-show="searchParam.searchCs">
                     <ol class="breadcrumb">
                         <a id="export_in_excel" style="color: #000000" href=""></a>
+                    </ol>
+                    <ol class="breadcrumb">
+                        <a id="export_resume_archive" style="color: #000000" href=""></a>
                     </ol>
                 </div>
             </div>
