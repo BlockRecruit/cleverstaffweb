@@ -280,7 +280,9 @@
                                         </blockquote>
                                         <span class="saysArrow"></span>
                                         <div class="person-card">
-                                            <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-4.png" alt="Клиент">
+                                            <a href="https://www.facebook.com/profile.php?id=100007642774010" class="pull-left" target="_blank">
+                                                <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-4.png" alt="Клиент">
+                                            </a>
                                             <div class="person-descr pull-left text-left">
                                                 <span class="person-name pull-left">МАРИНА МАЗУРЕНКО</span><br>
                                                 <span class="person-work text-muted pull-left">HR МЕНЕДЖЕР В NCUBE</span><br>
@@ -300,7 +302,9 @@
                                         </blockquote>
                                         <span class="saysArrow"></span>
                                         <div class="person-card">
-                                            <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-3.png" alt="Клиент">
+                                            <a href="https://www.facebook.com/NadezdaShtepa" target="_blank">
+                                                <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-3.png" alt="Клиент">
+                                            </a>
                                             <div class="person-descr pull-left text-left">
                                                 <span class="person-name pull-left">НАДЕЖДА ШТЕПА</span><br>
                                                 <span class="person-work text-muted pull-left">УПРАВЛЯЮЩИЙ ПАРТНЕР В BUSINESS PERSONAL</span><br>
@@ -320,7 +324,9 @@
                                         </blockquote>
                                         <span class="saysArrow"></span>
                                         <div class="person-card">
-                                            <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-1.png" alt="Клиент">
+                                            <a href="https://www.facebook.com/daria.borysenko"  target="_blank">
+                                                <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-1.png" alt="Клиент">
+                                            </a>
                                             <div class="person-descr pull-left text-left">
                                                 <span class="person-name pull-left">ДАРЬЯ БОРИСЕНКО</span><br>
                                                 <span class="person-work text-muted pull-left">HR ДИРЕКТОР В INTERSOG</span><br>
@@ -340,7 +346,9 @@
                                         </blockquote>
                                         <span class="saysArrow"></span>
                                         <div class="person-card">
-                                            <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-2.png" alt="Клиент">
+                                            <a href="https://www.facebook.com/taisiia.mliuzan" target="_blank">
+                                                <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-2.png" alt="Клиент">
+                                            </a>
                                             <div class="person-descr pull-left text-left">
                                                 <span class="person-name pull-left">ТАИСИЯ МЛЮЗАН</span><br>
                                                 <span class="person-work text-muted pull-left">РУКОВОДИТЕЛЬ ГРУППЫ РЕКРУТЕРОВ</span><br>
@@ -605,14 +613,18 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 <script type="text/javascript">
     $(function () {
-        $(".auto .carousel").jCarouselLite({
-//                auto: 800,
-//                speed: 1000,
-            animation: 'fast',
+        var config = {
+            auto: 1500,
+            speed: 650,
             btnNext: ".auto .next",
             btnPrev: ".auto .prev",
-            visible: 1
-        });
+            visible: 1,
+            pauseOnMouseOver: true,
+            circular: true
+        };
+
+        $(".auto .carousel").jCarouselLite(config);
+
     });
     if (document.domain === 'cleverstaff.net') {
 
