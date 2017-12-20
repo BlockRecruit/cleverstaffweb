@@ -44,16 +44,21 @@
                                  style="margin-right: 10px;">
                                 <label class="pull-left">{{'from3'|translate}}</label>
                                 <input placeholder="{{'from3'|translate}}"
-                                       id="startDate" class="startDate pull-left"
+                                       id="startDate"
+                                       class="startDate pull-left"
                                        style="margin-left: 8px;"
-                                       ng-disabled="ctrlReport.disabled" type="text">
+                                       ng-disabled="ctrlReport.disabled"
+                                       ng-style="ctrlReport.disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
+                                       type="text">
                             </div>
                             <div class="field pull-left">
                                 <label class="pull-left">{{'to1'|translate}}</label>
                                 <input placeholder="{{'to1'|translate}}"
                                        id="endDate"
                                        class="endDate pull-left"
-                                       ng-disabled="ctrlReport.disabled" type="text">
+                                       ng-disabled="ctrlReport.disabled"
+                                       ng-style="ctrlReport.disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
+                                       type="text">
                             </div>
                             <i class="fa fa-info-circle info"
                                ng-mouseover="ctrlReport.inHover($event)"

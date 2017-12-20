@@ -312,7 +312,9 @@
                                      style="margin-right: 10px;">
                                     <label class="pull-left">{{'from3'|translate}}</label>
                                     <input placeholder="{{'from3'|translate}}"
-                                           id="startDate" class="startDate pull-left"
+                                           id="startDate"
+                                           class="startDate pull-left"
+                                           ng-style="editReport.disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
                                            style="margin-left: 8px;"
                                            ng-disabled="editReport.disabled" type="text">
                                 </div>
@@ -321,7 +323,9 @@
                                     <input placeholder="{{'to1'|translate}}"
                                            id="endDate"
                                            class="endDate pull-left"
-                                           ng-disabled="editReport.disabled" type="text">
+                                           ng-style="editReport.disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
+                                           ng-disabled="editReport.disabled"
+                                           type="text">
                                 </div>
                                 <i class="fa fa-info-circle info"
                                    ng-mouseover="editReport.inHover($event)"
