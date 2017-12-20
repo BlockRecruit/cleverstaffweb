@@ -29,12 +29,15 @@
                 </li>
             </ul>
         </div>
-        <p>
+        <p ng-show="$root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'Thanks' || $root.activePage == 'Pipeline' || $root.activePage == 'News'">
             {{"Enter_new_users_email"|translate}}
+        </p>
+        <p ng-show="$root.activePage == 'Reports'">
+            {{"Enter_new_users_email_1"|translate}}
         </p>
         <input type="text" ng-model="$root.inviteUser.email" required class="form-control" placeholder="{{'email_invitation_user'|translate}}">
         <!--<input type="radio" ng-model="$root.inviteUser.role" value="client">-->
-        <div class="roleInviteUser" ng-show="$root.activePage == 'Company users' || $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'Thanks' || $root.activePage == 'Pipeline' || $root.activePage == 'News' || $root.activePage == 'Reports'">
+        <div class="roleInviteUser" ng-show="$root.activePage == 'Company users' || $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'Thanks' || $root.activePage == 'Pipeline' || $root.activePage == 'News'">
             <span>{{'role'|translate}}</span>
             <div class="checkboxes">
                 <div class="checkbox-outer" ng-repeat="role in $root.userRole">
@@ -72,7 +75,7 @@
     <div class="modal-footer" ng-hide="$root.inviteUserBlock">
         <div class="text-center button">
             <a type="button" class="btn btn-primary cancel" ng-show="$root.activePage == 'Company users' || $root.activePage == 'Report all'" ng-click="$root.closeModal()">{{'cancel' | translate}}</a>
-            <a type="button" class="btn btn-primary cancel" ng-show="$root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'Thanks'|| $root.activePage == 'Pipeline' || $root.activePage == 'News' || $root.activePage == 'Reports'" ng-click="$root.closeNavModal()">{{'cancel' | translate}}</a>
+            <a type="button" class="btn btn-primary cancel" ng-show="$root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'Thanks'|| $root.activePage == 'Pipeline' || $root.activePage == 'News'" ng-click="$root.closeNavModal()">{{'cancel' | translate}}</a>
             <a type="button" class="btn btn-primary accept"
                ng-disabled="!(!inviteForm.email.$error.email && !inviteForm.email.$error.required)"
                ng-click="$root.addInvite()" ng-show="$root.inviteUser.role == 'admin' || $root.inviteUser.role == 'recruter'
