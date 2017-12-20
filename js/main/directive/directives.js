@@ -3282,12 +3282,13 @@ var directive = angular.module('RecruitingApp.directives', []).
                         dropdownCssClass: "bigdrop"
                     }).on("select2-close", function(e) {
                         if (inputText.length > 0) {
-                            $(element[0]).select2("data", {id: inputText, text: inputText});
+                            $(element[0]).select2("data", {id: inputText, text: removeExtraSpaces(inputText)});
                         }
                         if($(element[0]).select2("data")) {
                             $(element[0]).select2("data", {id: inputText, text: removeExtraSpaces($(element[0]).select2("data").text)});
                             $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
                         }
+                        $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
                     }).on("select2-selecting", function(e) {
                         inputText = "";
                     }).on("select2-open", function() {
@@ -3297,14 +3298,15 @@ var directive = angular.module('RecruitingApp.directives', []).
                 }
                 function removeExtraSpaces(string) {
                     let str = string.split('');
-                    console.log(str);
+                    // console.log(str);
                     for( let i = 0; i < str.length; i++) {
-                        if( str[i] === " " && str[i+1] === " " && i !== 0 && i !== str.length - 1 ) {
-                            console.log(str[i],str[i+1],"spliced");
+                        if( str[i] === " " && str[i+1] === " " && i !== 0 && i !== str.length - 1  || (str[i] === " " && i === str.length - 1)) {
+                            // console.log(str[i],str[i+1],"spliced");
                             str.splice(i,1);
                             i--;
                         }
                     }
+                    // console.log(str);
                     return str.join('');
                 }
             }
