@@ -37712,10 +37712,16 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 $("#dateTo").datetimepicker("setDate", d);
             }
 
-            let stagesString = $scope.vacancy['interviewStatus'].split(',');
+            let stagesString = [];
 
-            $scope.declinedStages = stagesString.slice(stagesString.indexOf('approved') + 1, stagesString.length);
+            if($scope.vacancy && $scope.vacancy['interviewStatus']) {
+                stagesString = $scope.vacancy['interviewStatus'].split(',');
+            } else {
+                stagesString = ['longlist','shortlist','interview','approved','notafit','declinedoffer','no_response'];
+            }
+
             $scope.notDeclinedStages = stagesString.slice(stagesString[0], stagesString.indexOf('approved') + 1);
+            $scope.declinedStages = stagesString.slice(stagesString.indexOf('approved') + 1, stagesString.length);
 
 
             Statistic.getVacancyInterviewDetalInfo(
@@ -37811,7 +37817,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             var myChart = {};
             if ($scope.detailInterviewInfo) {
                 $scope.hasFunnelChart = true;
-                chartHeight = 30*$scope.funnelMap.length;
+                chartHeight = 30*($scope.funnelMap.length + 1);
                 var series = [];
                 var values = [];
                 var values2 = [];
@@ -37820,6 +37826,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 var lastCount = null;
 
                 angular.forEach($scope.funnelMap, function(stage) {
+                    console.log(stage.value,stage.key);
                     series.push({
                         "values": [stage.value]
                     });
