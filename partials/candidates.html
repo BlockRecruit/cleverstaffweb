@@ -71,62 +71,88 @@
                 <form ng-show="searchParam.searchCs" name="searchCandidates" class="form-inline-search-candidates">
                     <div class="input-group">
                         <div class="col-lg-12">
-                            <div class="input-group-addon pull-left hidden-xs">
+                            <div class="input-group-addon pull-left hidden-xs hidden-sm">
                                 <i class="fa fa-search"></i>
                             </div>
-                            <input type="text" name="searchParamWord" class="form-control fixed-text-width pull-left" ng-enter-search ng-focus="true"
+                            <div class="text-search pull-left">
+                                <input type="text" class="form-control fixed-text-width pull-left" ng-enter-search ng-focus="true"
                                        ng-model="searchParam.words" placeholder="{{'Search by text and contacts'|translate}}">
+                            </div>
                             <div class="setCriteriaWord pull-left input-group-addon" ng-show="searchParam.searchCs">
                                 <div class="notice_info_search_can hidden-xs"
                                      ng-click="changeTextSearchType('AllWords')"
                                      ng-class="{'notice_info_search_can_click': searchParam.searchFullTextType == 'and',  'no-sides-padding':$root.currentLang === 'pt'}">
-                            <span class="dot"
-                                  ng-class="{'black-dot': searchParam.searchFullTextType == 'and'}">
-                                {{'All words'|translate}}
-                            </span>
+                                    <span class="dot"
+                                          ng-class="{'black-dot': searchParam.searchFullTextType == 'and'}">
+                                        {{'All'|translate}}
+                                    </span>
                                 </div>
                                 <div class="notice_info_search_can hidden-xs" ng-click="changeTextSearchType('any')"
                                      ng-class="{'notice_info_search_can_click': searchParam.searchFullTextType == 'or', 'no-sides-padding':$root.currentLang === 'pt'}">
-                            <span class="dot"
-                                  ng-class="{'black-dot': searchParam.searchFullTextType == 'or'}">
-                                {{'Any of the words'|translate}}
-                            </span>
+                                    <span class="dot"
+                                          ng-class="{'black-dot': searchParam.searchFullTextType == 'or'}">
+                                        {{'Any'|translate}}
+                                    </span>
                                 </div>
                                 <div class="notice_info_search_can hidden-xs"
                                      ng-class="{'notice_info_search_can_click': searchParam.searchFullTextType == 'full_match', 'no-sides-padding':$root.currentLang === 'pt'}"
                                      ng-click="changeTextSearchType('whole')">
-                            <span class="dot">
-                               <span value="{{type.value.whole}}" type="text"
-                                     ng-class="{'black-dot': searchParam.searchFullTextType == 'full_match'}">
-                                   {{'exact match'|translate}}
-                               </span>
-                            </span>
+                                    <span class="dot">
+                                       <span type="text"
+                                             ng-class="{'black-dot': searchParam.searchFullTextType == 'full_match'}">
+                                           {{'exact'|translate}}
+                                       </span>
+                                    </span>
+                                </div>
+                                <div class="notice_info_search_can hidden-xs"
+                                     ng-class="{'notice_info_search_can_click': searchParam.searchFullTextType == 'booleanSearch', 'no-sides-padding':$root.currentLang === 'pt'}"
+                                     ng-click="changeTextSearchType('booleanSearch')">
+                                    <span class="dot">
+                                       <span type="text"
+                                             ng-class="{'black-dot': searchParam.searchFullTextType == 'booleanSearch'}">
+                                           boolean search
+                                           <span class="new-label">New</span>
+                                       </span>
+                                    </span>
                                 </div>
 
                                 <div class="notice_info_search_can hidden-lg hidden-md hidden-sm"
                                      ng-click="changeTextSearchType('AllWords')"
-                                     ng-class="{'notice_info_search_can_click': !searchParam.searchFullTextType}" title="{{'All words'|translate}}">
-                            <span class="dot"
-                                  ng-class="{'black-dot': !searchParam.searchFullTextType}">
-                                {{'All'|translate}}
-                            </span>
+                                     ng-class="{'notice_info_search_can_click': searchParam.searchFullTextType == 'and'}" title="{{'All words'|translate}}">
+                                    <span class="dot"
+                                          ng-class="{'black-dot': !searchParam.searchFullTextType}">
+                                        {{'All'|translate}}
+                                    </span>
                                 </div>
                                 <div class="notice_info_search_can hidden-lg hidden-md hidden-sm" ng-click="changeTextSearchType('any')"
                                      ng-class="{'notice_info_search_can_click': searchParam.searchFullTextType == 'or'}" title="{{'Any of the words'|translate}}">
-                            <span class="dot"
-                                  ng-class="{'black-dot': searchParam.searchFullTextType == 'or'}">
-                                {{'Any'|translate}}
-                            </span>
+                                    <span class="dot"
+                                          ng-class="{'black-dot': searchParam.searchFullTextType == 'or'}">
+                                        {{'Any'|translate}}
+                                    </span>
                                 </div>
                                 <div class="notice_info_search_can hidden-lg hidden-md hidden-sm"
                                      ng-class="{'notice_info_search_can_click': searchParam.searchFullTextType == 'full_match'}"
                                      ng-click="changeTextSearchType('whole')" title="{{'exact match'|translate}}">
-                            <span class="dot">
-                               <span value="{{type.value.whole}}" type="text"
-                                     ng-class="{'black-dot': searchParam.searchFullTextType == 'full_match'}">
-                                   {{'exact'|translate}}
-                               </span>
-                            </span>
+                                    <span class="dot">
+                                       <span type="text"
+                                             ng-class="{'black-dot': searchParam.searchFullTextType == 'full_match'}">
+                                           {{'exact'|translate}}
+                                       </span>
+                                    </span>
+                                </div>
+                                <div class="notice_info_search_can hidden-lg hidden-md hidden-sm"
+                                     ng-class="{'notice_info_search_can_click': searchParam.searchFullTextType == 'booleanSearch'}"
+                                     ng-click="changeTextSearchType('booleanSearch')" title="boolean search">
+                                    <span class="dot">
+                                       <span type="text"
+                                             ng-class="{'black-dot': searchParam.searchFullTextType == 'booleanSearch'}">
+                                           boolean
+                                       </span>
+                                    </span>
+                                </div>
+                                <div class=" boolSearch-info hidden-xs hidden-sm">
+                                    <i class="fa  boolSearch-info fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.boolSearchInfo" aria-hidden="true"></i>
                                 </div>
                             </div>
                             <div class="input-group-addon pull-left forMobile" ng-show="!showAdvancedSearchCandidate"
@@ -368,14 +394,14 @@
                                         <option class="greyColor" value="null">{{'responsible'|translate}}</option>
                                         <option class="othersColor" ng-selected="responsible == searchParam.responsibleId"
                                                 ng-repeat="responsible in persons| orderBy:['status','cutFullName']"
-                                                ng-if="responsible.cutFullName.length > 0 && responsible.cutFullName == $root.me.cutFullName"
+                                                ng-if="responsible.cutFullName.length > 0 && responsible.userId == $root.me.userId"
                                                 ng-class="{disable: (responsible.status != 'A')}"
                                                 value="{{responsible.userId}}">
                                             ({{'Me' | translate}}) {{responsible.cutFullName}}
                                         </option>
                                         <option class="othersColor" ng-selected="responsible == searchParam.responsibleId"
                                                 ng-repeat="responsible in persons| orderBy:['status','cutFullName']"
-                                                ng-if="responsible.cutFullName.length > 0 && responsible.cutFullName != $root.me.cutFullName"
+                                                ng-if="responsible.cutFullName.length > 0 && responsible.userId != $root.me.userId"
                                                 ng-class="{disable: (responsible.status != 'A')}"
                                                 value="{{responsible.userId}}">
                                             {{responsible.cutFullName}}

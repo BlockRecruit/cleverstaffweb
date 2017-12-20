@@ -36,13 +36,13 @@
                              ng-repeat="person in $root.persons | orderBy:'cutFullName'"
                              ng-show="person.status != 'N' &&  !person.notShown && (person.recrutRole == 'admin' || person.recrutRole == 'recruter' || person.recrutRole == 'freelancer' || person.recrutRole == 'salesmanager' || person.recrutRole == 'researcher')"
                              ng-click="$root.addResponsible(person)">
-                            <span ng-if="person.cutFullName == $root.me.cutFullName">({{'Me' | translate}}) {{$root.me.cutFullName}}</span>
+                            <span ng-if="person.userId == $root.me.userId">({{'Me' | translate}}) {{$root.me.cutFullName}}</span>
                         </div>
                         <div class="clever-window-element"
                              ng-repeat="person in $root.persons | orderBy:'cutFullName'"
                              ng-show="person.status != 'N' &&  !person.notShown"
                              ng-click="$root.addResponsible(person)">
-                            <span ng-hide="person.cutFullName == $root.me.cutFullName">{{person.cutFullName}}</span>
+                            <span ng-hide="person.userId == $root.me.userId">{{person.cutFullName}}</span>
                         </div>
                     </div>
                 </i>
