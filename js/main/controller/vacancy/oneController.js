@@ -1,9 +1,9 @@
 controller.controller('vacancyController', ["localStorageService", "CacheCandidates", "$localStorage", "$scope", "Vacancy",
     "Service", "$translate", "$routeParams", "$filter", "ngTableParams", "Person", "$location", "$rootScope", "FileInit",
-    "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route",
+    "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route", "$timeout",
     function (localStorageService, CacheCandidates, $localStorage, $scope, Vacancy, Service, $translate, $routeParams,
               $filter, ngTableParams, Person, $location, $rootScope, FileInit,
-              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route) {
+              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route, $timeout) {
         $scope.langs = Service.lang();
         $scope.serverAddress = serverAddress;
         $scope.loadingCandidates = true;
@@ -262,6 +262,9 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 $scope.extraStatusObj.show = true;
                 $scope.extraStatusObj.messageText = 'deleteStatus';
             }
+            $timeout(function(){
+                $scope.extraStatusObjSucces.show = false;
+            }, 2000);
             $scope.movableStages = _.filter($scope.VacancyStatusFiltered, 'movable');
         };
 
@@ -280,6 +283,9 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $scope.extraStatusObj.messageText = 'deleteStatus';
                 }
             }
+            $timeout(function(){
+                $scope.extraStatusObjSucces.show = false;
+            }, 2000);
             $scope.movableStages = _.filter($scope.VacancyStatusFiltered, 'movable');
         };
 
