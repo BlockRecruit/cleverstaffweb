@@ -713,17 +713,36 @@
 
 .form {
 	padding: 16px 8px;
+	padding-bottom: 0;
 
 	border-radius: 5px;
 	background: #fff;
+	h4 {
+		flex-grow: 0;
+	}
 	.fields {
 		@include flex(row, space-between, center);
 
 		position: relative;
 
 		width: 100%;
+
+		flex-wrap: wrap;
+		.wrap-datepicker {
+			margin-bottom: 10px;
+			padding-left: 13px;
+
+			flex-grow: 1;
+		}
+		.fields-title-select {
+			flex-grow: 1;
+		}
 		&-title {
 			@include flex(row, space-between, center);
+
+			margin-bottom: 10px;
+
+			flex-grow: 0.1;
 			.select-content {
 				position: absolute;
 				z-index: 999;
@@ -748,6 +767,9 @@
 					@include input-styling();
 					@include border-radius();
 
+					width: 100%;
+					padding: 1px;
+
 					border: 1px solid #e3e3e3;
 					outline: none;
 				}
@@ -771,10 +793,10 @@
 				@include border-radius();
 
 				width: 100px;
-				margin-left: 15px;
-				padding-left: 10px;
+				padding: 3px 1px;
 
 				cursor: pointer;
+				text-align: center;
 				&:focus {
 					outline: none;
 				}
@@ -786,10 +808,16 @@
 			}
 			label {
 				font-weight: normal;
+
+				position: relative;
+				top: 4px;
 			}
 		}
 		i {
 			font-size: 12px;
+
+			position: relative;
+			top: 3px;
 
 			margin-left: 15px;
 
@@ -798,7 +826,7 @@
 		.info-content {
 			position: absolute;
 			z-index: 10;
-			top: 28px;
+			top: 115%;
 			left: 0;
 
 			display: none;
@@ -1143,7 +1171,10 @@
 	}
 }
 
-@media (min-width: $screen-md) and (max-width: $screen-lg - 1) {
+@media (max-width: $screen-lg - 1) {
+	.wrapper-for-padding-left {
+		margin-bottom: 16px;
+	}
 	.wrapper-for-padding-left,
 	.wrapper-for-padding-right {
 		position: relative;

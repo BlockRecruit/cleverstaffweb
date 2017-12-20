@@ -953,6 +953,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 position : 'right center'
             });
         };
+
         $scope.popup();
 
         $scope.getCompanyParams = function(){
