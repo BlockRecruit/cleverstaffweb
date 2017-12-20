@@ -695,7 +695,6 @@
                             {{candidate.comment | limitTo:80}}
                             <span class="comment" ng-show="candidate.comment.length > 53 && activeName != 'approved'">...</span>
                         </span>
-                        <i ng-show="activeName != 'approved'" ng-click="showModalAddCommentToCandidate(candidate);$event.stopPropagation();" title="{{'Edit comment' | translate}}" class="fa fa-pencil" aria-hidden="true"></i>
                         <a href="#/company/employee/add/{{::candidate.candidateId.localId}}" ng-click="$event.stopPropagation();"
                            ng-show="activeName == 'approved' && ($root.me.personParams.enableEmployee == 'Y' || $root.me.orgParams.enableEmployee == 'Y')"
                            class="btn btn-success">
@@ -705,7 +704,6 @@
                            class="btn btn-success hidden">
                             {{'our employee'|translate}}!
                         </a>
-                        <i class="fa fa-times delete" aria-hidden="true"  title="{{'Remove Candidate' | translate}} {{'from vacancy' | translate}}" ng-click="showDeleteInterview(candidate);$event.stopPropagation();"></i>
                     </td>
                     <!--<td></td>-->
                     <!--<td class="add-comment-text text-right hidden-xs delete" ng-if="candidate.candidateId.status != 'archived'" title="{{'Remove Candidate' | translate}} {{'from vacancy' | translate}}" ng-click="showDeleteInterview(candidate);$event.stopPropagation();">-->
@@ -720,6 +718,10 @@
                     <td ng-if="candidate.candidateId.status == 'archived'" colspan="2" class="text-left hidden-xs">
                         <span translate="Remove from this vacancy" class="remove-from-vacancy" ng-click="showDeleteInterview(candidate);$event.stopPropagation();">
                         </span>
+                    </td>
+                    <td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}" style="width: 4%;">
+                        <i ng-show="activeName != 'approved'" ng-click="showModalAddCommentToCandidate(candidate);$event.stopPropagation();" title="{{'Edit comment' | translate}}" class="fa fa-pencil" aria-hidden="true"></i>
+                        <i class="fa fa-times delete" aria-hidden="true"  title="{{'Remove Candidate' | translate}} {{'from vacancy' | translate}}" ng-click="showDeleteInterview(candidate);$event.stopPropagation();"></i>
                     </td>
                 </tr>
                 </tbody>
