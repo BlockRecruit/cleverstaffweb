@@ -248,13 +248,22 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                     notificationService.error(err.message);
                 });
             } else {
+                let emptyFilesError = $scope.newTestParam.testName === null || $scope.newTestParam.testName === '' || emptyQuestion;
+
 
                 $(".obligatory").each(function () {
                     if($(this)[0].value == '' || $(this)[0].value === null) {
                         $(this).addClass("empty")
                     }
                 });
-                notificationService.error($filter('translate')('You should fill all obligatory fields.'))
+                if(emptyFilesError) {
+                    notificationService.error($filter('translate')('You should fill all obligatory fields.'))
+                } else if(!emptyFilesError && $scope.noCorrectAnswerInQuestion){
+                    let element = $('#question-' + $scope.noAnswerIndex);
+                    console.log($('#question-' + $scope.noAnswerIndex).position().top);
+                    $("html, body").animate({scrollTop: element.position().top + element.height()}, "slow");
+                    return;
+                }
             }
         };
 

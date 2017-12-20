@@ -97,7 +97,7 @@
         </form>
         <form class="col-lg-12 create-test-fields">
             <div class="col-lg-12 no-padding">
-                <div class="col-lg-12 create-block paddingForQuestions questions" id="question-1" ng-repeat="(questIndex, question) in newTestParam.questions track by $index">
+                <div class="col-lg-12 create-block paddingForQuestions questions" id="question-{{$index}}" ng-repeat="(questIndex, question) in newTestParam.questions track by $index">
                     <div class="col-lg-10 col-lg-offset-1 item question-foto text-center" ng-class="['owner_photo_wrap' + $index]" id="owner_photo_wrap">
                         <input id="the-file-input" accept="image/*" type="file" style="display: none" multiple/>
                         <img ng-show="$root.testQuestionLogo != undefined || $root.testQuestionLogo != null" ng-class="['img_wrap' + $index]" ng-src="{{serverAddress}}/getapp?id={{$root.testQuestionLogo[$index]}}&d=" alt=""/>
