@@ -4225,7 +4225,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                     for(let i = event.target.classList.length - 1 ; i >= 0; i--) {
                         classListOfTarget.push(event.target.classList[i]);
                     }
-                    if(classListOfTarget && (classListOfTarget.indexOf('_mCS_2') != -1 || classListOfTarget.indexOf('mCSB_dragger_bar') != -1 || classListOfTarget.indexOf('mCSB_dragger') != -1)) {
+                    if(classListOfTarget && (classListOfTarget.indexOf('_mCS_2') != -1 || classListOfTarget.indexOf('mCSB_dragger_bar') != -1 || classListOfTarget.indexOf('mCSB_dragger') != -1 || classListOfTarget.indexOf('mCSB_draggerRail') != -1)) {
                         return false
                     } else {
                         return true
@@ -4322,7 +4322,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                     for(let i = event.target.classList.length - 1 ; i >= 0; i--) {
                         classListOfTarget.push(event.target.classList[i]);
                     }
-                    if(classListOfTarget && (classListOfTarget.indexOf('_mCS_2') != -1 || classListOfTarget.indexOf('mCSB_dragger_bar') != -1 || classListOfTarget.indexOf('mCSB_dragger') != -1)) {
+                    if(classListOfTarget && (classListOfTarget.indexOf('_mCS_2') != -1 || classListOfTarget.indexOf('mCSB_dragger_bar') != -1 || classListOfTarget.indexOf('mCSB_dragger') != -1 || classListOfTarget.indexOf('mCSB_draggerRail') != -1)) {
                         return false
                     } else {
                         return true
