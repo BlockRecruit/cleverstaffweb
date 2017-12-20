@@ -90,7 +90,7 @@ var app = angular.module('RecruitingAppStart', [
 }]).config(function($translateProvider,tmhDynamicLocaleProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=4'
+        suffix: '.json?b=5'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -980,6 +980,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
 
         $rootScope.closeModal = function(){
           $scope.modalInstance.close();
+          $('body').removeClass('modal-open-public-vacancy-form');
         };
 
         if($location.$$absUrl.indexOf('/pv/') >= 0){
@@ -1025,6 +1026,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
               }
       });
 
+          let timeout;
           $scope.companyInfoHoverIn = function() {
               let logo = $('.logo:eq( 1 )'),
                   companyInfo = $('.comp-abs'),
@@ -1034,18 +1036,21 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                   site = $('.info--site:eq(2) a'),
                   fb = $('.info--site:eq(3) a');
 
+              clearTimeout(timeout);
+
               if(infoSite.width() - site.width() <= 44.64 || infoSite.width() - fb.width() <= 44.64 || nameWrap.width() <= name.width()) {
                   $scope.adaptiveImgWidth = logo.height();
                   logo.height($scope.adaptiveImgWidth);
-                  nameWrap.css('white-space', 'normal');
+                  timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
                   companyInfo.addClass('hovered');
               }
           };
 
           $scope.companyInfoHoverOut = function() {
-              var nameWrap = $('.name_wrap');
+              let nameWrap = $('.name_wrap');
               nameWrap.css('white-space', 'nowrap');
               $('.comp-abs').removeClass('hovered');
+              clearTimeout(timeout);
           };
 
         $scope.share = function (sourse) {
@@ -1280,9 +1285,10 @@ controller.controller('mainController' ,function($scope, $location, $window) {
 
         $scope.showRecallFromModal = function() {
             $scope.showErrorEmailMessage = false;
+            $('body').addClass('modal-open-public-vacancy-form');
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/public-vacancy-form.html?b=9',
+                templateUrl: '../partials/modal/public-vacancy-form.html?b=10',
                 size: '',
                 scope: $scope,
                 resolve: {
@@ -1341,7 +1347,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                         $scope.recallForm.email2.$invalid = false;
                         $scope.recallForm.email2.$pristine = false;
                         $scope.showErrorEmailMessage = false;
-                        console.log("windowed!");
+                        $('body').removeClass('modal-open-public-vacancy-form');
                         $rootScope.closeModal();
                         $scope.showModalInfoAboutVacancy();
                     }

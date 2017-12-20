@@ -1,9 +1,15 @@
+body.modal-open-public-vacancy-form {
+	.modal-content {
+		border-radius: 16px;
+	}
+}
+
 .public-vacancy-form {
 	position: relative;
 
 	padding: 30px 50px;
 
-	border-radius: 7px;
+	border-radius: 16px;
 	background-color: #e3f2dd;
 	span.form-name {
 		font-family: "Helvetica-Medium";
@@ -65,11 +71,10 @@
 			line-height: 10px;
 
 			display: inline-block;
-			width: 49%;
+			width: 45%;
 			max-height: 20px;
 			margin-bottom: 15px;
 
-			text-align: center;
 			white-space: nowrap;
 			& span {
 				padding: 5px 10px;
@@ -77,6 +82,9 @@
 				color: #a94442;
 				border-radius: 13px;
 				background-color: #f2dede;
+			}
+			&.margin-right {
+				margin-right: 9%;
 			}
 		}
 		input::-webkit-outer-spin-button,
@@ -99,7 +107,7 @@
 	}
 }
 
-@media (max-width: 499px) {
+@media (max-width: 600px) {
 	.public-vacancy-form .recallForm input,
 	.public-vacancy-form .recallForm textarea {
 		min-width: 100%;
@@ -107,7 +115,7 @@
 	.public-vacancy-form .recallForm .recallForm__error {
 		width: 100%;
 
-		text-align: left;
+		text-align: center;
 	}
 	.btn-modern {
 		display: block;
