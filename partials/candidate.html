@@ -76,7 +76,7 @@
                                 <div class="select">
                                     <select class="form-control" ng-model="candidate.responsible.userId" ng-change="showAddResponsibleUser(candidate.responsible.userId)">
                                         <option ng-repeat="person in persons| orderBy:['status','cutFullName']" value="{{person.userId}}" ng-if="person.cutFullName.length > 0 && person.cutFullName == $root.me.cutFullName">
-                                            ({{'Me' | translate}}){{person.cutFullName}}
+                                            ({{'Me' | translate}}) {{person.cutFullName}}
                                         </option>
                                         <option ng-class="{disable: (person.status != 'A')}" ng-hide="person.recrutRole == 'client'" ng-repeat="person in persons| orderBy:['status','cutFullName']" value="{{person.userId}}" ng-if="person.cutFullName.length > 0 && person.cutFullName != $root.me.cutFullName">
                                             {{person.cutFullName}}

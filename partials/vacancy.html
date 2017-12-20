@@ -164,7 +164,7 @@
                                                      && state.value != vacancy.status"
                                                     ng-if="person.cutFullName == $root.me.cutFullName"
                                                     value="{{person.userId}}">
-                                                ({{'Me' | translate}}){{person.cutFullName}}
+                                                ({{'Me' | translate}}) {{person.cutFullName}}
                                             </option>
                                             <option ng-repeat="person in persons | orderBy:['status', 'cutFullName'] | responsibleWithout:vacancy.responsiblesPerson"
                                                     ng-show="state.value != 'deleted'
