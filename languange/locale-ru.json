@@ -2815,5 +2815,6 @@
   "You has granted role": "Вы назначили роль",
   "_for":"для",
   "The large quantity of results has been found.": "Найдено большое количество результатов. Показано <b>{{total_count}}</b>. Уточните критерии, чтобы получить более точные результаты",
-  "Please add the candidates to this stage":"Добавьте кандидатов на этап"
+  "Please add the candidates to this stage":"Добавьте кандидатов на этап",
+  "This vacanсy doesn't contain candidates now":"На этой вакансии пока нет кандидатов"
 }
