@@ -396,12 +396,14 @@ body {
 			}
 		}
 		&.filter-error {
-			font-size: 15px;
+			font-family: "Helvetica-Regular";
+			font-size: 17px;
 
 			text-align: center;
+			text-transform: uppercase;
 
 			color: #a94442;
-			border: 1px solid #a94442;
+			border: none;
 		}
 	}
 	& .cleverstaff {

@@ -29,12 +29,13 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
 
         $('body').on(
             {
-                mousedown: () => closeAutoCompletePositions(event)
+                mousedown: () => closeVacanciesFilterLists(event)
             }
         );
 
         $scope.toggleLocationSelect = function() {
-            $scope.hideSearchLocations =  !$scope.hideSearchLocations;
+            console.log($scope.hideSearchLocations);
+            $scope.hideSearchLocations = !$scope.hideSearchLocations;
         };
 
         $scope.toggleFilter = function() {
@@ -69,16 +70,9 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
                 || (vacancy.employmentType === 'telework' && selectedLocation === $filter('translate')('telework_1')))  {
                 criteria.location = true;
             }
-            console.log(vacancy.employmentType, 'telework');
 
-            // if(!selectedLocation || vacancy.region && vacancy.region.country.toLowerCase() === selectedLocation.toLowerCase()
-            //     || $filter('translate')(selectedLocation) === $filter('translate')('Location')
-            //     || $filter('translate')(selectedLocation) === $filter('translate')('Any')
-            //     || vacancy.employmentType === $filter('translate')('telework'))  {
-            //     criteria.location = true;
-            // }
-
-            if(!selectedPosition || vacancy.position.toLowerCase() === selectedPosition.toLowerCase()) {
+            if(!selectedPosition || vacancy.position.toLowerCase() === selectedPosition.toLowerCase()
+                || vacancy.position.toLowerCase().indexOf(selectedPosition.toLowerCase()) !== -1) {
                 criteria.position = true;
             }
 
@@ -97,8 +91,10 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             $scope.vacanciesPositionFiltered = Company.positionAutoCompleteResult(event.target.value);
 
             if($scope.vacanciesPositionFiltered.length !== $scope.orgParams.objects.length) {
+                console.log('show');
                 checkAutoCompletePosition();
             } else {
+                console.log('hide');
                 $scope.hideSearchPositions = true;
                 $scope.errorHandler.vacanciesFilter.positionError = false;
             }
@@ -154,10 +150,13 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
                 checked = false;
 
             $scope.vacanciesPosition.forEach((position) => {
-                if(position.toLowerCase() === inputPosition.val().toLowerCase()) checked = true;
+                if(position.toLowerCase() === inputPosition.val().toLowerCase() || position.toLowerCase().indexOf(inputPosition.val().toLowerCase()) !== -1 ) {
+                    checked = true;
+                }
             });
 
             if(checked) {
+                $scope.hideSearchPositions = false;
                 $scope.errorHandler.vacanciesFilter.positionError = false;
             } else {
                 $scope.hideSearchPositions = false;
@@ -165,14 +164,14 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             }
         }
 
-        function closeAutoCompletePositions(e) {
+        function closeVacanciesFilterLists(e) {
             if(!$(e.target).hasClass('auto-complete-position') && !$(e.target).hasClass('location-search')) {
-
                 if(!$scope.hideSearchPositions) {
                     checkAutoCompletePosition();
                     $scope.hideSearchPositions = true;
                     $scope.$apply();
                 } else if(!$scope.hideSearchLocations){
+                    console.log("now");
                     $scope.hideSearchLocations = true;
                     $scope.$apply();
                 }

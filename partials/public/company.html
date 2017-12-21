@@ -71,12 +71,12 @@
                             {{position}}
                         </li>
                     </ul>
-                    <span ng-show="errorHandler.vacanciesFilter.error.show && errorHandler.vacanciesFilter.positionError" class="custom-tooltip error">{{ 'Pick the position from the search field' |translate}}</span>
+                    <!--<span ng-show="errorHandler.vacanciesFilter.error.show && errorHandler.vacanciesFilter.positionError" class="custom-tooltip error">{{ 'Pick the position from the search field' |translate}}</span>-->
                 </div>
 
                 <div class="locations-wrap" ng-show="showFilterSettings">
                     <div class="vacancies-location">
-                        <span ng-click="toggleLocationSelect()" class="list-group-item toggle-locations location">{{'Location' | translate}}
+                        <span ng-click="toggleLocationSelect()" class="list-group-item toggle-locations location location-search">{{'Location' | translate}}
                         </span>
                         <ul class="list-group" ng-hide="hideSearchLocations" custom-scrollbar>
                             <li ng-click="selectLocation('Any_1')" class="accent location-search list-group-item">{{'Any_1' | translate}}</li>
