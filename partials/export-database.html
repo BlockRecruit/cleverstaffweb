@@ -1,0 +1,80 @@
+<div class="controller-view">
+    <div class="block-candidates-excel-history">
+        <div class="row candidates-statuses">
+            <div class="col-lg-12 candidates-search-table">
+                <div class="breadcrumbs">
+                    <ol class="breadcrumb">
+                        <li><a href="#">{{'activity'|translate}}</a></li>
+                        <li><i class="fa fa-chevron-right" aria-hidden="true"></i></li>
+                        <li class="active">{{'candidates'|translate}}</li>
+                        <!--<ol class="breadcrumb pull-right">-->
+                        <!--<li ng-click="exportToExcel()">{{'Export to Excel'|translate}}<i class="fa fa-file-excel-o" title="{{'Export to Excel'|translate}}" aria-hidden="true"></i></li>-->
+                        <!--<li class="active"><a ng-click="toExcelHistory()">{{'history'|translate}}</a></li>-->
+                        <!--</ol>-->
+                        <!--<a id="export_in_excel" style="color: #000000" href=""></a>-->
+                    </ol>
+                </div>
+                <h3 class="text-center">{{'History exports to excel' | translate}}</h3>
+                <div class="col-lg-6 col-lg-offset-3 blockCheckoutTable">
+                    <div ng-repeat="history in history" class="checkoutTable" style="line-height: 1.5em; padding: 0px;background-color: rgba(245, 222, 179, 0);box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0);">
+                        <div>
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                            <a href="#/users/{{history.creator.userId}}">
+                                <span once-text="history.creator.firstName"></span>
+                                <span once-text="history.creator.lastName"></span>
+                            </a>
+                            &nbsp;<span class="date">{{history.dc|dateFormat:true}}</span>
+                        </div>
+                        <div>
+                            <span ng-if="history.words || history.country || history.city || history.ageFrom || history.ageTo ||
+                            history.employmentType || history.group || history.industry || history.sex || history.salary ||
+                            history.status || history.sex || history.position || history.name || history.experience ||
+                            history.lang || history.candidateGroupList || history.origin || history.skillList ||
+                            history.withPersonalContacts == true || history.responsibleContent">
+                                {{'Search criteria'|translate}}:
+                            </span>
+                            <span ng-if="!history.words && !history.country && !history.city && !history.ageFrom && !history.ageTo &&
+                            !history.employmentType && !history.group && !history.industry && !history.sex && !history.salary &&
+                            !history.status && !history.sex && !history.position && !history.name && !history.experience &&
+                            !history.lang && !history.candidateGroupList && !history.origin && !history.skillList &&
+                            !history.withPersonalContacts && !history.responsibleContent">
+                                <span style="color: #999999">{{'All the default search criteria'|translate}}</span>
+                                <br/>
+                            </span>
+                            <div class="criterionOuter">
+                                <span class="criterionValue" ng-if='history.words'><span class="criterion">{{'full_text'|translate}}:</span> {{history.words}}</span>
+                                <span class="criterionValue" ng-if='history.country'><span class="criterion">{{'country'|translate}}:</span> {{history.country}}</span>
+                                <span class="criterionValue" ng-if='history.name'><span class="criterion">{{'name'|translate}}:</span> {{history.name}}</span>
+                                <span class="criterionValue" ng-if='history.position'><span class="criterion">{{'position'|translate}}:</span> {{history.position}}</span>
+                                <span class="criterionValue" ng-if='history.experience'><span class="criterion">{{'experience'|translate}}:</span> {{'experience_assoc.' + history.experience|translate}}</span>
+                                <span class="criterionValue" ng-if='history.city'><span class="criterion">{{'city'|translate}}:</span> {{history.city}}</span>
+                                <span class="criterionValue" ng-if='history.ageFrom'><span class="criterion">{{'From(Age)'|translate}}:</span> {{history.ageFrom}}</span>
+                                <span class="criterionValue" ng-if='history.ageTo'><span class="criterion">{{'To(Age)'|translate}}:</span> {{history.ageTo}}</span>
+                                <span class="criterionValue" ng-if='history.employmentType'><span class="criterion">{{'employment_type'|translate}}:</span> {{'employment_type_assoc.' + history.employmentType|translate}}</span>
+                                <span class="criterionValue" ng-if='history.group'><span class="criterion">{{'Reserve'|translate}}:</span> {{history.group.name}}</span>
+                                <span class="criterionValue" ng-if='history.industry'><span class="criterion">{{'industry'|translate}}:</span> {{'industries_assoc.' + history.industry|translate}}</span>
+                                <span class="criterionValue" ng-if='history.sex == true'><span class="criterion">{{'sex'|translate}}:</span> {{'male' | translate}}</span>
+                                <span class="criterionValue" ng-if='history.sex == false'><span class="criterion">{{'sex'|translate}}:</span> {{'female' | translate}}</span>
+                                <span class="criterionValue" ng-if='history.salary'><span class="criterion">{{'salary_before'|translate}}:</span> {{history.salary}}</span>
+                                <span class="criterionValue" ng-if='history.status'><span class="criterion">{{'status'|translate}}:</span> {{'candidate_status_assoc.' +history.status|translate}}</span>
+                                <span class="criterionValue" ng-if='history.lang'><span class="criterion">{{'languages'|translate}}:</span> {{history.lang}}</span>
+                                <span class="criterionValue" ng-if='history.origin'><span class="criterion">{{'source'|translate}}:</span> {{history.origin}}</span>
+                                <span class="criterionValue" ng-if='history.skillList'><span class="criterion">{{'Skill with rating'|translate}}:</span> <span ng-repeat="skillList in history.skillList">{{skillList.name}} ({{'skills_rating_assoc.' + skillList.type|translate}})</span></span>
+                                <span class="criterionValue" ng-if='history.candidateGroupList'><span class="criterion">{{'Tag'|translate}}:</span><span ng-repeat="groupList in history.candidateGroupList"> {{groupList.name}}{{$last ? '' : ', '}}</span></span>
+                                <span class="criterionValue" ng-if='history.responsibleContent'><span class="criterion">{{'responsible'|translate}}:</span> {{history.responsibleContent.fullName}}</span>
+                                <span class="criterionValue" ng-if='history.withPersonalContacts == true'><span class="criterion">{{'Personal contacts'|translate}}:</span> {{'Available Email and/or Skype'|translate}}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <a ng-href="{{serverAddress}}/getapp?id={{history.fileId}}" style="color: #00BAFF;">
+                                Excel {{'file'|translate}}
+                            </a>
+                            &nbsp;
+                            ({{'candidates__2'|translate}}: {{history.foundCount}})
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

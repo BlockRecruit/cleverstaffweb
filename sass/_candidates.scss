@@ -224,6 +224,9 @@
 					}
 					a {
 						margin-left: 8px;
+						&:focus {
+							outline: none;
+						}
 					}
 					#disabledBtn {
 						@include disabled-button();

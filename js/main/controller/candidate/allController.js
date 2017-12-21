@@ -801,7 +801,19 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             });
         }
     };
-    $scope.exportResumeArchive = function () {
+    $scope.exportResumeArchiveModal = function () {
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/export-database-modal.html',
+            size: '',
+            backdrop: 'static',
+            keyboard: false,
+            resolve: function(){
+
+            }
+        });
+    };
+    $rootScope.exportResumeArchive = function () {
         $rootScope.loading = true;
         if($scope.loadingExcel == false){
             $scope.loadingExcel = true;

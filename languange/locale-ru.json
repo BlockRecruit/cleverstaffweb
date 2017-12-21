@@ -2880,5 +2880,11 @@
   "Full export log available on ‘Export log’ page where you will be able to download 3 last resume archives you requested.": "Там же будет доступна история всех скачиваний, где вы сможете повторно загрузить 3 последние запрошенные архива резюме.",
   "You cannot request more than 3 resume archive exports per week.": "Вы можете скачивать не более трёх архивов резюме в неделю.",
   "This is a paid feature": "Это платная функция",
-  "($500 / year), but you can get the archive with first 100 resumes for free to see how it works.": "($500 / год), но вы можете загрузить архив из первых 100 резюме бесплатно, чтобы понимать, как он работает."
+  "($500 / year), but you can get the archive with first 100 resumes for free to see how it works.": "($500 / год), но вы можете загрузить архив из первых 100 резюме бесплатно, чтобы понимать, как он работает.",
+  "The archive preparation takes ~ 3 min/1000 candidates.": "Формирование архива занимает ~ 3 мин/1000 кандидатов.”",
+  "You can track its status and download it at “Export log”": "Отслеживать статус и скачать его вы можете в “Истории экспорта",
+  "CVs archive export": "Экспорт архива резюме",
+  "Export log": "История экспорта",
+  "Export": "Ваш запрос обрабатывается. Статус можно посмотреть на странице истории экспорта",
+  "Your request is processing. You can track its status and download it on the export log page.": "Экспортировать"
 }
