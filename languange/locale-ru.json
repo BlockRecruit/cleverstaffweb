@@ -2879,6 +2879,7 @@
   "The Exchange server URL": "URL-адрес сервера Exchange должен выглядеть так: https://***/EWS/exchange.asmx",
   "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email.",
   "Export resume archive": "Экспорт архива резюме",
+  "Export candidate database": "Экспорт базы кандидатов",
   "Import resume archive": "Импорт архива резюме",
   "Download the candidates’ resume archive according to filters you choose.": "Скачивайте архив с резюме ваших кандидатов согласно сделанной вами выборке.",
   "Archive preparation takes some time (~3 min./1000 candidates). Then you could download it on ‘Export log’ page (via grey button here).": "На формирование архива потребуется некоторое время (~3 мин./1000 кандидатов), после чего вы сможете его скачать в “Истории” (серая кнопка здесь же).",

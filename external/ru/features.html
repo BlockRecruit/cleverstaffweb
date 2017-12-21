@@ -1,18 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
-    <script>
-        if (document.domain === 'cleverstaff.net') {
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'UA-52127049-1');
-        }
-    </script>
-    <!-- end of gtag -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
     <title>Возможности | CleverStaff | Единая система для рекрутинга</title>
@@ -32,6 +20,11 @@
     <script>
         localStorage.setItem("NG_TRANSLATE_LANG_KEY", "ru");
     </script>
+    <!-- Facebook Pixel Code -->
+    <noscript><img height="1" width="1" style="display:none"
+                   src="https://www.facebook.com/tr?id=980245322007471&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Facebook Pixel Code -->
 </head>
 <body>
 <div class="wrapper">
@@ -42,7 +35,7 @@
             </div>
         </div>
         <div class="corner-ribbon-info">
-            <img src="../external/img/responsive-design.png" alt="Адаптивный интерфейс">
+            <img src="../external/img/responsive-design.png">
             <p><strong>Адаптивный интерфейс</strong></p>
             <p>Внутренние страницы системы с ключевыми функциями адаптируются под  мобильные устройства: телефоны, планшеты, экраны всех размеров.</p>
             <p>Это значит, что вы сможете работать в системе с любого удобного вам устройства ;)</p>
@@ -241,8 +234,8 @@
                 </div>
                 <div class="col-md-6 col-sm-6 wow fadeInUp" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60">
                     <div class="save-database"></div>
-                    <p class="tittle">Сохранение резервных копий базы</p>
-                    <p class="widthForP widthForFeatures">Потеряли данные или удалили кандидата? Мы восстановим вашу базу до нужной вам версии.</p>
+                    <p class="tittle">Скачивание базы кандидатов и резюме архивом</p>
+                    <p class="widthForP widthForFeatures">Скачайте базу ваших кандидатов и архив резюме в любой момент.</p>
                 </div>
                 <div class="clearfix"></div>
                 <br>
@@ -457,9 +450,9 @@
                         <li class="active-link menu"><a href="#home">Возможности</a></li>
                         <li><a href="price.html">Цены</a></li>
                         <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
-                        <li><a href="../api.html" target="_blank">API</a></li>
-                        <li><a href="../privacy.html" target="_blank">Privacy Policy</a></li>
-                        <li><a href="terms.html" target="_blank">Public Agreement</a></li>
+                        <li><a href="../api.html" target="_blank" target="_blank">API</a></li>
+                        <li><a href="../privacy.html" target="_blank" target="_blank">Privacy Policy</a></li>
+                        <li><a href="terms.html" target="_blank" target="_blank">Public Agreement</a></li>
                     </ul>
                 </div>
                 <div class="col-xs-8 col-sm-4 col-md-4">
@@ -479,7 +472,7 @@
                     <a href="https://plus.google.com/u/1/b/103298552184404196991/103298552184404196991" target="_blank" class="pull-left"><span class="gplus"></span></a>
                     <div class="clearfix"></div>
                     <br/>
-                    <a href='http://www.capterra.com/applicant-tracking-software/reviews/137247/CleverStaff/CleverStaff?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge' target="_blank"> <img src='../external/img/62e9b8dfc9d563272407e48ee5216da2.png' alt="image"/></a>
+                    <a href='http://www.capterra.com/applicant-tracking-software/reviews/137247/CleverStaff/CleverStaff?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge' target="_blank"> <img border='0' src='../external/img/62e9b8dfc9d563272407e48ee5216da2.png' /></a>
                 </div>
                 <div class="clearfix"></div>
                 <footer>
@@ -495,7 +488,7 @@
             <h3 class="modal-title text-center">
                 Проведите мне презентацию
             </h3>
-            <form class="question-form" action="#" name="questionForm" id="questionForm">
+            <form class="question-form" action="" method="" name="" id="questionForm">
                 <div class="form-gr">
                     <div class="firstName">
                         <label for="ex1_firstName" class="nameForm pull-left">Имя *</label>
@@ -599,8 +592,8 @@
             <h4 class="modal-title">
                 Internet Explorer не подходит для работы в CleverStaff, перейдите в Chrome или Firefox
             </h4>
-            <img src="../external/img/chrome.png" width="50" height="50" class="imgBrower" alt="Chrome"/>
-            <img src="../external/img/firefox.png" width="50" height="50" class="imgBrower" alt="Firefox"/>
+            <img src="../external/img/chrome.png" width="50" height="50" class="imgBrower" alt=""/>
+            <img src="../external/img/firefox.png" width="50" height="50" class="imgBrower" alt=""/>
             <span class="close" data-dismiss="modal"></span>
         </div>
     </div>
@@ -630,28 +623,7 @@
 
     });
     if (document.domain === 'cleverstaff.net') {
-        // google corporate data + logo
-        var LDJson = document.createElement('script');
-        LDJson.type = 'application/ld+json';
-        LDJson.text = JSON.stringify(
-            {
-                "@context": "http://schema.org",
-                "@type": "Organization",
-                "url": "https://cleverstaff.net/ru/features.html",
-                "logo": "https://cdn-images-1.medium.com/fit/c/200/200/1*9hCuwXW2-5kCyJWV8EMKsw.png",
-                "contactPoint": [{
-                    "@type": "ContactPoint",
-                    "telephone": "+38-044-22-11-063",
-                    "contactType": "customer support",
-                    "availableLanguage": [
-                        "English",
-                        "Russian",
-                        "Ukrainian" ]
-                }]
-            });
-        document.head.appendChild(LDJson);
-        console.log(document.head);
-        // end of google corporate data + logo
+
         <!-- Facebook Pixel Code -->
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -676,14 +648,11 @@
             a.src = g;
             m.parentNode.insertBefore(a, m)
         })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-52127049-1', {
+        ga('create', 'UA-52127049-4', {
             'cookieDomain': document.domain
         });
         ga('send', 'pageview');
     }
 </script>
-<!-- Facebook Pixel Code -->
-<noscript><img height="1" width="1" style="display:none" alt="FB" src="https://www.facebook.com/tr?id=980245322007471&ev=PageView&noscript=1"/></noscript>
-<!-- End Facebook Pixel Code -->
 </body>
 </html>

@@ -2290,6 +2290,7 @@
   "Exchange version": "Exchange version",
   "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Domain/user name is the required field <b>only</b> for those cases when logging into an account for exchange via Domain/user name, rather than an email address",
   "Export resume archive": "Export resume archive",
+  "Export candidate database": "Export candidate database",
   "Import resume archive": "Import resume archive",
   "Download the candidates’ resume archive according to filters you choose.": "Download the candidates’ resume archive according to filters you choose.",
   "Archive preparation takes some time (~3 min./1000 candidates). Then you could download it on ‘Export log’ page (via grey button here).": "Archive preparation takes some time (~3 min./1000 candidates). Then you could download it on ‘Export log’ page (via grey button here).",
