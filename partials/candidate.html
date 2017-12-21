@@ -488,11 +488,11 @@
                                 </div>
                             </a>
                             <div class="email" ng-show="(candidate.contacts|filter:type = 'email').length > 0">
-                                <span ng-repeat="contact in emails track by $index" title="{{contact}}">
+                                <div ng-repeat="contact in emails track by $index" title="{{contact}}" class="">
                                     <a href="mailto:{{contact}}">
                                         <i class="fa fa-envelope" aria-hidden="true"></i> {{contact}}
                                     </a>
-                                </span>
+                                </div>
                             </div>
                             <a class="skype" ng-show="(candidate.contacts|filter:type = 'skype').length > 0">
                                 <div ng-repeat=" contact in candidate.contacts|filter:type = 'Skype'" title="{{contact.value}}">
