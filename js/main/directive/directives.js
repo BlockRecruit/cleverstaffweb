@@ -2887,7 +2887,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                             tags: groupNameList,
                             tokenSeparators: [","]
                         }
-                    ).on("change", function(e) {
+                    ).unbind().on("change", function(e) {
                             if (e.removed) {
                                 var newGroupList = $scope.getSelect2Group().split(",");
                                 var isExists = false;
