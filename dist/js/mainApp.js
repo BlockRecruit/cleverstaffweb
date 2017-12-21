@@ -34416,6 +34416,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.changeResponsibleInVacancy.text = $filter('translate')('Do you want to remove the responsible')
                 + " " + firstName + " " + lastName + " " + $filter('translate')("from vacancy") + " " + $scope.vacancy.position;
         };
+
         $scope.showChangeStatusOfVacancy = function (status) {
             $scope.changeStateObject.status = status;
             $scope.changeStateObject.status_old = $scope.vacancy.status;
