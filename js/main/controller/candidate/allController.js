@@ -925,8 +925,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         $scope.limitReached = response['limitReached'];
                         if(page) {
                             $scope.candidates = $scope.candidates.concat(response['objects'])
+                            console.log($scope.candidates);
                         } else {
                             $scope.candidates = response['objects'];
+                            console.log($scope.candidates);
                         }
                         $defer.resolve($scope.candidates);
 
