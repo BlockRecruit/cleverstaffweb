@@ -3287,6 +3287,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                         if($(element[0]).select2("data")) {
                             $(element[0]).select2("data", {id: inputText, text: removeExtraSpaces($(element[0]).select2("data").text)});
                             $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
+                            $scope.setPositionAutocompleterValue($scope.searchParam.position);
                         }
                         $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
                     }).on("select2-selecting", function(e) {
