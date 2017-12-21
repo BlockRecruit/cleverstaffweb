@@ -1,0 +1,11 @@
+<div class="export-database-modal">
+    <div class="closeModal" ng-click="$root.closeModal()">x</div>
+    <div class="form">
+        <span class="form-name">{{'CVs archive export' | translate}}</span>
+        <p>{{'The archive preparation takes ~ 3 min/1000 candidates.'|translate}}</p>
+        <p>{{'You can track its status and download it at “Export log”'|translate}}</p>
+        <a href="#/ExportLog" class="no-margin-left-example">{{'Export log'|translate}}</a>
+        <button class="btn-modern apply" ng-click="$root.exportResumeArchive();">{{'Apply now'|translate}}</button>
+        <div class="clearfix"></div>
+    </div>
+</div>

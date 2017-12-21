@@ -351,6 +351,11 @@ angular.module('RecruitingApp', [
             templateUrl: "partials/excel-history.html",
             controller: "excelHistoryController",
             pageName: "Excel History"
+        }).when('/ExportLog', {
+            title: "Export candidate database",
+            templateUrl: "partials/export-database.html",
+            controller: "excelHistoryController",
+            pageName: "Export database"
         }).when('/company/employees', {
             title: "employees",
             templateUrl: "partials/employees.html",
