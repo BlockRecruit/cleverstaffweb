@@ -79,7 +79,7 @@
                         <span ng-click="toggleLocationSelect()" class="list-group-item toggle-locations location location-search">{{'Location' | translate}}
                         </span>
                         <ul class="list-group" ng-hide="hideSearchLocations" custom-scrollbar>
-                            <li ng-click="selectLocation('Any_1')" class="accent location-search list-group-item">{{'Any_1' | translate}}</li>
+                            <li ng-click="selectLocation('Any')" class="accent location-search list-group-item">{{'Any' | translate}}</li>
                             <li ng-click="selectLocation('telework_1')" class="accent location-search list-group-item">{{'telework_1' | translate}}</li>
                             <li ng-click="selectLocation(location)" class="list-group-item location-search" ng-repeat="location in vacanciesLocation track by $index">{{location}}</li>
                         </ul>

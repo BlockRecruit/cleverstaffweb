@@ -63,10 +63,10 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             if(!filterIsActive) return true;
 
             let criteria = {};
-
+            // console.log($filter('translate')(selectedLocation),$filter('translate')('Any'),selectedLocation === $filter('translate')('any'));
             if(!selectedLocation || vacancy.region && vacancy.region.country.toLowerCase() === selectedLocation.toLowerCase()
                 || $filter('translate')(selectedLocation) === $filter('translate')('Location')
-                || $filter('translate')(selectedLocation) === $filter('translate')('Any_1')
+                || $filter('translate')(selectedLocation) === $filter('translate')('Any')
                 || (vacancy.employmentType === 'telework' && selectedLocation === $filter('translate')('telework_1')))  {
                 criteria.location = true;
             }

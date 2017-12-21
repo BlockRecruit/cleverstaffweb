@@ -1911,10 +1911,10 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             if(!filterIsActive) return true;
 
             let criteria = {};
-
+            // console.log($filter('translate')(selectedLocation),$filter('translate')('Any'),selectedLocation === $filter('translate')('any'));
             if(!selectedLocation || vacancy.region && vacancy.region.country.toLowerCase() === selectedLocation.toLowerCase()
                 || $filter('translate')(selectedLocation) === $filter('translate')('Location')
-                || $filter('translate')(selectedLocation) === $filter('translate')('Any_1')
+                || $filter('translate')(selectedLocation) === $filter('translate')('Any')
                 || (vacancy.employmentType === 'telework' && selectedLocation === $filter('translate')('telework_1')))  {
                 criteria.location = true;
             }
@@ -1998,10 +1998,6 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
                 checked = false;
 
             $scope.vacanciesPosition.forEach((position) => {
-                // if(position.toLowerCase() === inputPosition.val().toLowerCase() || position.toLowerCase().indexOf(inputPosition.val().toLowerCase()) !== -1) {
-                //     checked = true;
-                // }
-                console.log(position.toLowerCase() === inputPosition.val().toLowerCase(),position.toLowerCase().indexOf(inputPosition.val().toLowerCase()) !== -1);
                 if(position.toLowerCase() === inputPosition.val().toLowerCase() || position.toLowerCase().indexOf(inputPosition.val().toLowerCase()) !== -1 ) {
                     checked = true;
                 }
