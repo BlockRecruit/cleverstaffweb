@@ -76,6 +76,19 @@
 					}
 				}
 			}
+			.historyBtn {
+				margin-top: 10px;
+				padding: 0;
+				.more-history {
+					@include button-styling();
+
+					display: block;
+					width: 100%;
+					&:focus {
+						outline: none;
+					}
+				}
+			}
 		}
 	}
 }
