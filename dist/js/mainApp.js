@@ -18821,7 +18821,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         }
     };
     $scope.toExcelHistory = function () {
-        $location.path("excelHistory");
+        // $location.path("excelHistory");
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/candidate-excel-history.html',
+            size: ''
+        });
     };
     $scope.externalData = [];
 
