@@ -472,46 +472,46 @@
                             <div class="col-lg-4 col-md-4 contactCandidate">
                                 <div class="item">
                                     <label>{{'phone'|translate}}</label>
-                                    <input placeholder="" ng-model="contacts.mphone" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone.length > 0}">
+                                    <input placeholder="" ng-model="contacts.mphone" type="text" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone.length > 0}">
                                     <!--<input placeholder="" ng-model="contacts.mphone" type="text" ng-blur="progressUpdate();checkDuplicatesByPhone()" ng-class="{'error':duplicatesByPhone.length > 0}">-->
                                     <i class="phone icon"></i>
                                 </div>
                                 <div class="item">
                                     <label>Email</label>
-                                    <input placeholder="" ng-model="contacts.email" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeEmail && contacts.email.length > 0}">
+                                    <input placeholder="" ng-model="contacts.email" ng-model-options="{debounce: 500}" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeEmail && contacts.email.length > 0}">
                                     <!--<input placeholder="" ng-model="contacts.email" type="text" ng-blur="progressUpdate();checkDuplicatesByEmail()" ng-class="{'error':duplicatesByEmail.length > 0}">-->
                                     <i class="mail icon"></i>
                                 </div>
                                 <div class="item" >
                                     <label>Skype</label>
-                                    <input placeholder="" ng-model="contacts.skype" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()"  ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeSkype && contacts.skype.length > 0}">
+                                    <input placeholder="" ng-model="contacts.skype" ng-model-options="{debounce: 500}" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()"  ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeSkype && contacts.skype.length > 0}">
                                     <!--<input placeholder="" ng-model="contacts.skype" type="text" ng-blur="progressUpdate();checkDuplicatesBySkype()"  ng-class="{'error':duplicatesBySkype.length > 0}">-->
                                     <i class="skype icon"></i>
                                 </div>
                                 <div class="item">
                                     <label>Linkedin</label>
-                                    <input placeholder="" ng-model="contacts.linkedin" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeLinkedin && contacts.linkedin.length > 0}">
+                                    <input placeholder="" ng-model="contacts.linkedin" ng-model-options="{debounce: 500}" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeLinkedin && contacts.linkedin.length > 0}">
                                     <!--<input placeholder="" ng-model="contacts.linkedin" type="text" ng-blur="progressUpdate();checkDuplicatesByLinkedin()" ng-class="{'error':duplicatesByLinkedin.length > 0}">-->
                                     <i class="linkedin icon"></i>
                                 </div>
                                 <div class="item">
                                     <label>Facebook</label>
-                                    <input placeholder="" ng-model="contacts.facebook" type="text" ng-change="progressUpdate()" >
+                                    <input placeholder="" ng-model="contacts.facebook" ng-model-options="{debounce: 500}" type="text" ng-change="progressUpdate()" >
                                     <i class="facebook icon"></i>
                                 </div>
                                 <div class="item">
                                     <label>Google+</label>
-                                    <input placeholder="" ng-model="contacts.googleplus" type="text" ng-change="progressUpdate()">
+                                    <input placeholder="" ng-model="contacts.googleplus" ng-model-options="{debounce: 500}" type="text" ng-change="progressUpdate()">
                                     <i class="google plus icon"></i>
                                 </div>
                                 <div class="item">
                                     <label>Git</label>
-                                    <input placeholder="" ng-model="contacts.github" type="text" ng-change="progressUpdate()">
+                                    <input placeholder="" ng-model="contacts.github" ng-model-options="{debounce: 500}" type="text" ng-change="progressUpdate()">
                                     <i class="github icon"></i>
                                 </div>
                                 <div class="item">
                                     <label>{{'home_page'|translate}}</label>
-                                    <input placeholder="" ng-model="contacts.homepage" type="text" ng-change="progressUpdate()">
+                                    <input placeholder="" ng-model="contacts.homepage" ng-model-options="{debounce: 500}" type="text" ng-change="progressUpdate()">
                                     <i class="home icon"></i>
                                 </div>
                             </div>

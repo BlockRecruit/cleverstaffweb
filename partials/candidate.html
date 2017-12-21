@@ -470,7 +470,7 @@
                                 </div>
                             </a>
                             <div class="email" ng-show="(candidate.contacts|filter:type = 'email').length > 0">
-                                <div ng-repeat="contact in emails track by $index" title="{{contact}}" class="">
+                                <div ng-repeat="contact in multipleContacts['email'] track by $index" title="{{contact}}" class="">
                                     <a href="mailto:{{contact}}">
                                         <i class="fa fa-envelope" aria-hidden="true"></i> {{contact}}
                                     </a>
@@ -482,61 +482,59 @@
                                 </div>
                             </a>
                             <div ng-show="(candidate.contacts|filter:type = 'linkedin').length > 0">
-                                <span ng-repeat="contact in candidate.contacts|filter:type = 'linkedin'" title="{{contact.value}}">
-                                    <a ng-if="contact.type == 'linkedin'" target="_blank" class="not-for-print" href="{{contact.value| makeLink}}">
+                                <span ng-repeat="contact in ::multipleContacts['linkedin'] track by $index" title="{{contact}}">
+                                    <a target="_blank" class="not-for-print" href="{{::contact| makeLink}}">
                                         <i class="fa fa-linkedin" aria-hidden="true"></i>
-                                        {{::contact.value | limitTo: 30}}<span ng-show="contact.value.length > 30">...</span>
+                                        {{::contact | limitTo: 30}}<span ng-show="::contact.length > 30">...</span>
                                     </a>
-                                     <a ng-if="contact.type == 'linkedin'" class="hidden show-for-print" target="_blank" href="{{contact.value| makeLink}}">
-                                         <i class="fa fa-linkedin" aria-hidden="true"></i>
-                                         {{::contact.value}}
-                                     </a>
+                                    <a class="hidden show-for-print" target="_blank" href="{{::contact| makeLink}}">
+                                        <i class="fa fa-linkedin" aria-hidden="true"></i>
+                                        {{::contact}}
+                                    </a>
                                 </span>
                             </div>
-                            <div>
-                                <span ng-repeat="contact in candidate.contacts"  ng-if="contact.type == 'facebook'" title="{{contact.value}}">
-                                    <a  ng-if="contact.type == 'facebook'" target="_blank" class="not-for-print" href="{{contact.value| makeLink}}">
+                            <div ng-show="(candidate.contacts|filter:type = 'facebook').length > 0">
+                                <span ng-repeat="contact in ::multipleContacts['facebook'] track by $index" title="{{contact}}">
+                                    <a target="_blank" class="not-for-print" href="{{::contact| makeLink}}">
                                         <i class="fa fa-facebook" aria-hidden="true"></i>
-                                        <span>
-                                            {{::contact.value|cutName:true:30}}
-                                        </span>
+                                        {{::contact | limitTo: 30}}<span ng-show="::contact.length > 30">...</span>
                                     </a>
-                                     <a ng-if="contact.type == 'facebook'" target="_blank" class="hidden show-for-print" href="{{contact.value| makeLink}}">
-                                         <i class="fa fa-facebook" aria-hidden="true"></i>
-                                            {{::contact.value}}
-                                     </a>
+                                    <a class="hidden show-for-print" target="_blank" href="{{::contact| makeLink}}">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        {{::contact}}
+                                    </a>
                                 </span>
                             </div>
                             <div ng-show="(candidate.contacts|filter:type = 'googleplus').length > 0">
-                                <span ng-repeat="contact in candidate.contacts|filter:type = 'googleplus'" title="{{contact.value}}">
-                                    <a class="not-for-print" target="_blank" href="{{contact.value| makeLink}}">
+                                <span ng-repeat="contact in ::multipleContacts['googleplus'] track by $index" title="{{::contact}}">
+                                    <a class="not-for-print" target="_blank" href="{{::contact| makeLink}}">
                                         <i class="fa fa-google-plus" aria-hidden="true"></i>
                                        <span>
-                                           {{::contact.value|cutName:true:30}}
+                                           {{::contact|cutName:true:30}}
                                        </span>
                                     </a>
-                                     <a target="_blank" class="hidden show-for-print" href="{{contact.value| makeLink}}">
+                                     <a target="_blank" class="hidden show-for-print" href="{{contact| makeLink}}">
                                          <i class="fa fa-google-plus" aria-hidden="true"></i>
-                                         {{::contact.value}}
+                                         {{::contact}}
                                      </a>
                                 </span>
                             </div>
                             <div ng-show="(candidate.contacts|filter:type = 'github').length > 0">
-                                <span ng-repeat="contact in candidate.contacts|filter:type = 'github'" title="{{contact.value}}">
-                                    <a class="not-for-print" target="_blank" href="{{contact.value| makeLink}}">
+                                <span ng-repeat="contact in ::multipleContacts['github'] track by $index" title="{{::contact}}">
+                                    <a class="not-for-print" target="_blank" href="{{::contact| makeLink}}">
                                         <i class="fa fa-github" aria-hidden="true"></i>
                                        <span>
-                                           {{::contact.value|cutName:true:30}}
+                                           {{::contact|cutName:true:30}}
                                        </span>
                                     </a>
-                                     <a class="hidden show-for-print" target="_blank" href="{{contact.value| makeLink}}">
+                                     <a class="hidden show-for-print" target="_blank" href="{{::contact| makeLink}}">
                                          <i class="fa fa-github" aria-hidden="true"></i>
-                                         {{::contact.value|cutName:true:30}}
+                                         {{::contact|cutName:true:30}}
                                      </a>
                                 </span>
                             </div>
                             <div >
-                                <span ng-repeat="contact in homepages track by $index"  title="{{contact}}">
+                                <span ng-repeat="contact in multipleContacts['homepage'] track by $index"  title="{{contact}}">
                                     <a  class="not-for-print" target="_blank" href="{{contact}}">
                                         <i class="fa fa-home" aria-hidden="true"></i>
                                        <span>
