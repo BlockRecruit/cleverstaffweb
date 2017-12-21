@@ -2281,6 +2281,7 @@
   "yes_1":"Yes",
   "Enter more data for search":"Enter more data for search",
   "Export resume archive": "Export resume archive",
+  "Export candidate database": "Export candidate database",
   "Import resume archive": "Import resume archive",
   "Download the candidates’ resume archive according to filters you choose.": "Download the candidates’ resume archive according to filters you choose.",
   "Archive preparation takes some time (~3 min./1000 candidates). Then you could download it on ‘Export log’ page (via grey button here).": "Archive preparation takes some time (~3 min./1000 candidates). Then you could download it on ‘Export log’ page (via grey button here).",
