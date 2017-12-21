@@ -9,9 +9,9 @@
         </div>
         <div class="col-lg-12 firstTable" ng-show="!showAddEmail && !editEmail">
             <div class="row bodies">
-                <table class="table">
+                <table class="table" ng-show="emails.length">
                     <tbody>
-                    <tr ng-click="showEditeTemplateModal(email)" ng-repeat="email in emails">
+                    <tr ng-click="showEditeTemplateModal(email)" ng-repeat="email in emails track by $index">
                         <td class="mailAndData">
                             <a>{{email.email}}</a><span>, {{email.dc|dateFormat:false}}</span>
                         </td>
@@ -69,7 +69,7 @@
                    <button type="button" class="btn btn-secondary" ng-class="{'active': $root.addedEmail.smtp.secure == 'TLS'}" ng-click="$root.addedEmail.smtp.secure = 'TLS'">TLS</button>
                </div>
                <div class="buttons text-center">
-                   <button class="btn btn-lg btn-default" ng-click="showAddEmail = false;">{{'Back' | translate}}</button>
+                   <button class="btn btn-lg btn-default" ng-click="hideAddEmail()">{{'Back' | translate}}</button>
                    <button class="btn btn-lg btn-primary" ng-click="addEmail()" ng-if="($root.addedEmail.password && $root.addedEmail.smtp.host && $root.addedEmail.smtp.port) || !showPassword">
                        <span ng-show="!showPassword && !$root.showAdvancedFields">{{'Next' | translate}}</span>
                        <span ng-show="showPassword" >{{'Add Email' | translate}}</span>
