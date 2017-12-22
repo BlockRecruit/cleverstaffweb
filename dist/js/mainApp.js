@@ -27017,6 +27017,7 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                         $scope.emails = resp.objects;
                         $scope.showAddEmail = false;
                     }else{
+                        $scope.emails = [];
                         $scope.showAddEmail = true;
                     }
                 }else{
@@ -27260,6 +27261,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
             $scope.showAdvancedFields = false;
             $rootScope.showAdvancedFields = false;
             $scope.showPassword = false;
+        };
+        $scope.hideAddEmail = function() {
+            $scope.showAddEmail = false;
         };
         $scope.showRemoveEmail = function(emailForDelete){
             $rootScope.emailForDelete = emailForDelete;
