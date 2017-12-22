@@ -13833,7 +13833,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=35'
+        suffix: '.json?b=36'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -28454,11 +28454,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         if(resp.status != 'error'){
                             if(resp.object && resp.object.tillDate) {
                                 $scope.tarif = resp.object.tarif;
-                                $scope.paidFor = resp.object.dayCount;
                                 $('#bilEnabledText').removeClass('hidden');
                                 $rootScope.paidTillDateBilling = resp.object.tillDate.year + '-' + resp.object.tillDate.monthValue + '-' + resp.object.tillDate.dayOfMonth;
                             } else {
-                                $scope.paidFor = difBetweenDates(new Date($rootScope.companyParams.paidTillDate), new Date());
                                 $('#bilDisabledText').removeClass('hidden');
                             }
                             if(resp.object && resp.object.monthRate && resp.object.dailyRate) {
@@ -29350,13 +29348,6 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         }
 
     };
-
-
-    function difBetweenDates(firstDate,secondDate){
-        var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
-
-        return Math.ceil((new Date(firstDate) - secondDate)/(oneDay));
-    }
 
 
     TooltipService.createTooltips();
@@ -32926,7 +32917,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
               googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route) {
         $scope.langs = Service.lang();
         $scope.serverAddress = serverAddress;
-        $scope.noCandidatesInThisVacancy = false;
         $scope.loadingCandidates = true;
         $scope.facebookAppId = facebookAppId;
         $scope.showSearchCandidate = false;
@@ -33065,7 +33055,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             type: 'Task'
         };
         $scope.VacanciesInfCandidTaskHistClientFunc = function (panel) {
-            $scope.noCandidatesInThisVacancy = false;
             $location.$$absUrl = $location.$$absUrl.split("&")[0];
             $scope.showSearchCandidate = false;
             $scope.currentTab = panel;
@@ -33673,7 +33662,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         };
                         localStorage.setItem('stage', JSON.stringify($location.$$absUrl.split('stage=')));
                         return function (status) {
-                            $scope.noCandidatesInThisVacancy = false;
                             $scope.visiable = status.hidden;
                             if(!$scope.visiable) $scope.noAccess = false;
                             $scope.loadingCandidates = true;
@@ -36269,8 +36257,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $location.$$absUrl = $location.$$absUrl.split("&")[0];
             $location.$$absUrl = $location.$$absUrl + '&page=' + $scope.a.searchNumber + '&search=' + $scope.searchCandidateName;
         };
-        $scope.showSearchCandidateFunc = function(type){
-            $scope.noCandidatesInThisVacancy = true;
+        $scope.showSearchCandidateFunc = function(){
             $scope.visiable = false;
             $scope.noAccess = false;
             $scope.vacancySearchParams.state = null;
