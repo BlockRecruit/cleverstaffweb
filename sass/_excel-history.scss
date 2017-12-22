@@ -76,6 +76,20 @@
 					}
 				}
 			}
+			.historyBtn {
+				margin-top: 10px;
+				padding: 0;
+				.more-history {
+					@include button-green-styling();
+
+					display: block;
+					width: 100%;
+					padding: 6px 12px;
+					&:focus {
+						outline: none;
+					}
+				}
+			}
 		}
 	}
 }

@@ -727,8 +727,12 @@
                 </tbody>
             </table>
             <h4 class="text-center"
-                ng-show="showTable === 'not available' || showTable === undefined && $scope.loadingCandidates == false">
+                ng-show="(showTable === 'not available' || showTable === undefined && $scope.loadingCandidates == false) && !noCandidatesInThisVacancy">
                 {{'No such candidates yet'|translate}}
+            </h4>
+            <h4 class="text-center"
+                ng-show="noCandidatesInThisVacancy && !dataForVacancy.length">
+                {{"This vacanсy doesn't contain candidates now"|translate}}
             </h4>
         </div>
         <div id="recallsTable" class="col-lg-7 status-info no-padding-sm" ng-class="{'col-lg-12' : showSearchCandidate}"

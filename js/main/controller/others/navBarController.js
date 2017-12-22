@@ -500,9 +500,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         if(resp.status != 'error'){
                             if(resp.object && resp.object.tillDate) {
                                 $scope.tarif = resp.object.tarif;
+                                $scope.paidFor = resp.object.dayCount;
                                 $('#bilEnabledText').removeClass('hidden');
                                 $rootScope.paidTillDateBilling = resp.object.tillDate.year + '-' + resp.object.tillDate.monthValue + '-' + resp.object.tillDate.dayOfMonth;
                             } else {
+                                $scope.paidFor = difBetweenDates(new Date($rootScope.companyParams.paidTillDate), new Date());
                                 $('#bilDisabledText').removeClass('hidden');
                             }
                             if(resp.object && resp.object.monthRate && resp.object.dailyRate) {
@@ -1394,6 +1396,13 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         }
 
     };
+
+
+    function difBetweenDates(firstDate,secondDate){
+        var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+
+        return Math.ceil((new Date(firstDate) - secondDate)/(oneDay));
+    }
 
 
     TooltipService.createTooltips();

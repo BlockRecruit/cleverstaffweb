@@ -520,9 +520,8 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                         $rootScope.changeStateObject.comment = "";
                         //$rootScope.changeStateObject.status = null;
                         notificationService.success($filter('translate')('vacancy change status'));
-                        if(($rootScope.changeStateObject.status == 'canceled' || $rootScope.changeStateObject.status == 'completed') && ($scope.vacancies.length == 1 && $scope.a.searchNumber > 0) ) {
+                        if(($rootScope.changeStateObject.status == 'canceled' || $rootScope.changeStateObject.status == 'completed') && ($scope.vacancies.length == 1 && $scope.a.searchNumber > 1) ) {
                             $scope.tableParams.page($scope.a.searchNumber - 1);
-                            $scope.tableParams.reload();
                         } else {
                             $scope.tableParams.reload();
                         }
