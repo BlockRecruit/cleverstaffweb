@@ -1,9 +1,9 @@
 controller.controller('vacancyController', ["localStorageService", "CacheCandidates", "$localStorage", "$scope", "Vacancy",
     "Service", "$translate", "$routeParams", "$filter", "ngTableParams", "Person", "$location", "$rootScope", "FileInit",
-    "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route",
+    "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route", "$timeout",
     function (localStorageService, CacheCandidates, $localStorage, $scope, Vacancy, Service, $translate, $routeParams,
               $filter, ngTableParams, Person, $location, $rootScope, FileInit,
-              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route) {
+              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route, $timeout) {
         $scope.langs = Service.lang();
         $scope.serverAddress = serverAddress;
         $scope.noCandidatesInThisVacancy = false;
@@ -264,6 +264,9 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 $scope.extraStatusObj.show = true;
                 $scope.extraStatusObj.messageText = 'deleteStatus';
             }
+            $timeout(function(){
+                $scope.extraStatusObjSucces.show = false;
+            }, 2000);
             $scope.movableStages = _.filter($scope.VacancyStatusFiltered, 'movable');
         };
 
@@ -282,6 +285,9 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $scope.extraStatusObj.messageText = 'deleteStatus';
                 }
             }
+            $timeout(function(){
+                $scope.extraStatusObjSucces.show = false;
+            }, 2000);
             $scope.movableStages = _.filter($scope.VacancyStatusFiltered, 'movable');
         };
 
@@ -1502,6 +1508,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.changeResponsibleInVacancy.text = $filter('translate')('Do you want to remove the responsible')
                 + " " + firstName + " " + lastName + " " + $filter('translate')("from vacancy") + " " + $scope.vacancy.position;
         };
+
         $scope.showChangeStatusOfVacancy = function (status) {
             $scope.changeStateObject.status = status;
             $scope.changeStateObject.status_old = $scope.vacancy.status;
