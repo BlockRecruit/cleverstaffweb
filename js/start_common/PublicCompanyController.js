@@ -91,10 +91,8 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             $scope.vacanciesPositionFiltered = Company.positionAutoCompleteResult(event.target.value);
 
             if($scope.vacanciesPositionFiltered.length !== $scope.orgParams.objects.length) {
-                console.log('show');
                 checkAutoCompletePosition();
             } else {
-                console.log('hide');
                 $scope.hideSearchPositions = true;
                 $scope.errorHandler.vacanciesFilter.positionError = false;
             }
