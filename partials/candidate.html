@@ -389,10 +389,17 @@
                                 </a>
                             </li>
                             <li class="last-child" ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter'">
-                                <a title="{{'Merge with another profile'|translate}}" ng-click="merge()">
+                                <a title="{{'Merge with another profile'|translate}}" ng-click="toMergeModal()">
                                     <img src="../images/sprite/merge.png" alt="{{'Add to vacancy'|translate}}">
                                 </a>
                             </li>
+                            <!--<li ng-show="$root.me.recrutRole != 'client' && $root.me.recrutRole != 'salesmanager' && $root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer'">-->
+                                <!--<a href="" ng-click="toMergeModal()">-->
+                                    <!--<i class="fa fa-users" aria-hidden="true"></i>-->
+                                    <!--{{'Merge Duplicates'|translate}}-->
+                                <!--</a>-->
+                                <!--<i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.candidateMerge" aria-hidden="true"></i>-->
+                            <!--</li>-->
                             <input type="file" oi-file="optionsForTemplate" id="fileTemplate" class="hidden"/>
                             <a style="display: none;" id="downloadDoc"></a>
                             <li ng-if="!$root.hideTariff">
@@ -708,6 +715,12 @@
                             </div>
                             <div class="col-lg-12 not-for-print" ng-switch-when="candidate_edit">
                                 <ng-include src="'partials/history/candidate/candidate_edit.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_merge">
+                                <ng-include src="'partials/history/candidate/candidate_merge.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 not-for-print" ng-switch-when="candidate_merge2">
+                                <ng-include src="'partials/history/candidate/candidate_merge2.html'"></ng-include>
                             </div>
                             <div class="col-lg-12 not-for-print" ng-switch-when="candidate_add_file">
                                 <ng-include src="'partials/history/client/candidate_add_file.html'"></ng-include>
