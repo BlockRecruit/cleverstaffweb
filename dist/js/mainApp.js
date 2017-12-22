@@ -32926,6 +32926,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
               googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route) {
         $scope.langs = Service.lang();
         $scope.serverAddress = serverAddress;
+        $scope.noCandidatesInThisVacancy = false;
         $scope.loadingCandidates = true;
         $scope.facebookAppId = facebookAppId;
         $scope.showSearchCandidate = false;
@@ -33064,6 +33065,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             type: 'Task'
         };
         $scope.VacanciesInfCandidTaskHistClientFunc = function (panel) {
+            $scope.noCandidatesInThisVacancy = false;
             $location.$$absUrl = $location.$$absUrl.split("&")[0];
             $scope.showSearchCandidate = false;
             $scope.currentTab = panel;
@@ -33671,6 +33673,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         };
                         localStorage.setItem('stage', JSON.stringify($location.$$absUrl.split('stage=')));
                         return function (status) {
+                            $scope.noCandidatesInThisVacancy = false;
                             $scope.visiable = status.hidden;
                             if(!$scope.visiable) $scope.noAccess = false;
                             $scope.loadingCandidates = true;
@@ -36266,7 +36269,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $location.$$absUrl = $location.$$absUrl.split("&")[0];
             $location.$$absUrl = $location.$$absUrl + '&page=' + $scope.a.searchNumber + '&search=' + $scope.searchCandidateName;
         };
-        $scope.showSearchCandidateFunc = function(){
+        $scope.showSearchCandidateFunc = function(type){
+            $scope.noCandidatesInThisVacancy = true;
             $scope.visiable = false;
             $scope.noAccess = false;
             $scope.vacancySearchParams.state = null;

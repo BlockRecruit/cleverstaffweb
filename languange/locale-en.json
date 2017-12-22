@@ -2224,5 +2224,7 @@
   "Days left": "{{days_left}} days left",
   "Days left!": "{{days_left}} days left!",
   "Day left!": "{{days_left}} day left!",
-  "No Day left!": "{{days_left}} days left!"
+  "No Day left!": "{{days_left}} days left!",
+  "Please add the candidates to this stage":"Please add the candidates to this stage",
+  "This vacanсy doesn't contain candidates now":"This vacanсy doesn't contain candidates now"
 }
