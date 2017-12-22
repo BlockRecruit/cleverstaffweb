@@ -19224,9 +19224,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 if (resp.status == "ok") {
                     $rootScope.changeStateInCandidate.candidate.status = resp.object.status;
                     notificationService.success($filter('translate')('candidate') + " " + $rootScope.changeStateInCandidate.candidate.fullName + " " + $filter('translate')('was_deleted'));
-                    if($scope.candidates.length == 1 && $scope.a.searchNumber > 0) {
+                    if($scope.candidates.length == 1 && $scope.a.searchNumber > 1) {
                         $scope.tableParams.page($scope.a.searchNumber - 1);
-                        $scope.tableParams.reload();
                     } else {
                         $scope.tableParams.reload();
                     }
@@ -33424,9 +33423,8 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                         $rootScope.changeStateObject.comment = "";
                         //$rootScope.changeStateObject.status = null;
                         notificationService.success($filter('translate')('vacancy change status'));
-                        if(($rootScope.changeStateObject.status == 'canceled' || $rootScope.changeStateObject.status == 'completed') && ($scope.vacancies.length == 1 && $scope.a.searchNumber > 0) ) {
+                        if(($rootScope.changeStateObject.status == 'canceled' || $rootScope.changeStateObject.status == 'completed') && ($scope.vacancies.length == 1 && $scope.a.searchNumber > 1) ) {
                             $scope.tableParams.page($scope.a.searchNumber - 1);
-                            $scope.tableParams.reload();
                         } else {
                             $scope.tableParams.reload();
                         }
@@ -36180,7 +36178,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         $rootScope.vacancy = resp.object;
                                         $scope.recalls = resp.object.recalls;
                                         if($scope.showTable !== 'recalls') {
-                                            if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 0) {
+                                            if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 1) {
                                                 $scope.tableParams.page($scope.a.searchNumber - 1);
                                                 $scope.tableParams.reload();
                                             } else {
@@ -36254,7 +36252,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         $rootScope.vacancy = resp.object;
                                         $scope.recalls = resp.object.recalls;
                                         if($scope.showTable !== 'recalls') {
-                                            if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 0) {
+                                            if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 1) {
                                                 $scope.tableParams.page($scope.a.searchNumber - 1);
                                                 $scope.tableParams.reload();
                                             } else {
@@ -36781,7 +36779,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 $rootScope.closeModal();
                 $rootScope.deleteInterview.comment = "";
                 console.log('length ', $scope.dataForVacancy.length,$scope.a.searchNumber)
-                if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 0) {
+                if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 1) {
                     $scope.tableParams.page($scope.a.searchNumber - 1);
                     $scope.tableParams.reload();
                 } else {

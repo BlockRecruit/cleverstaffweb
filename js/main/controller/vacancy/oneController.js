@@ -2232,7 +2232,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         $rootScope.vacancy = resp.object;
                                         $scope.recalls = resp.object.recalls;
                                         if($scope.showTable !== 'recalls') {
-                                            if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 0) {
+                                            if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 1) {
                                                 $scope.tableParams.page($scope.a.searchNumber - 1);
                                                 $scope.tableParams.reload();
                                             } else {
@@ -2306,7 +2306,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         $rootScope.vacancy = resp.object;
                                         $scope.recalls = resp.object.recalls;
                                         if($scope.showTable !== 'recalls') {
-                                            if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 0) {
+                                            if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 1) {
                                                 $scope.tableParams.page($scope.a.searchNumber - 1);
                                                 $scope.tableParams.reload();
                                             } else {
@@ -2833,7 +2833,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 $rootScope.closeModal();
                 $rootScope.deleteInterview.comment = "";
                 console.log('length ', $scope.dataForVacancy.length,$scope.a.searchNumber)
-                if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 0) {
+                if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 1) {
                     $scope.tableParams.page($scope.a.searchNumber - 1);
                     $scope.tableParams.reload();
                 } else {
