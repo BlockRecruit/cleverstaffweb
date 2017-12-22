@@ -400,15 +400,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         }
     };
 
-    $scope.getTrialTime = function (getMe) {
-        console.log(getMe, 'getMe');
-        var dc = getMe["org"]["dc"],
-            maxDayTrial = 14 * (86400*1000), // перевод в милисек максимальное триал время
-            nowDay = Date.now(),
-            difference = nowDay - dc,
-            result =  Math.ceil((maxDayTrial - difference)/(86400*1000)) ;
-        console.log(new Date(dc));
-
+    function getTrialTime(getMe) {
+        var trialEndDate = getMe["orgParams"]["trialEndDate"],
+            result =  difBetweenDates(new Date(trialEndDate), new Date()) ;
         $scope.digit = " " + result + " ";
         $scope.getMeObj = getMe;
     };
@@ -601,6 +595,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                             }else if($rootScope.companyParams.tarif == 'free' && $rootScope.otherDate >= $rootScope.nowDate) {
                                 $rootScope.hideTariff = true;
                             }else if ($rootScope.otherDate < $rootScope.nowDate){
+                                $scope.trialOver = true;
                                 $rootScope.hideTariff = false;
                                 setTimeout(function(){
                                     if($rootScope.me.recrutRole == 'client'){
@@ -742,7 +737,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 var time = new Date($rootScope.me.hireDate);
 
 
-                $scope.getTrialTime(response['object']);
+                getTrialTime(response['object']);
                 //window.Intercom("boot", {
                 //    app_id: appId,
                 //    name: $rootScope.me.fullName, // Full name
