@@ -730,8 +730,6 @@
 							&.phone {
 								line-height: 19px;
 
-								margin-bottom: 14px;
-
 								color: $theme-dark;
 								.newLang {
 									width: 60%;
@@ -777,7 +775,6 @@
 						}
 						div {
 							&:not(:first-child) {
-								line-height: 35px;
 								&.newLang {
 									line-height: 19px;
 								}
@@ -882,7 +879,6 @@
 							line-height: 23px;
 						}
 						.email {
-							line-height: 28px;
 							a {
 								display: inline-block;
 							}

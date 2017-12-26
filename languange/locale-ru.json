@@ -600,7 +600,8 @@
     "Candidate test passed": "закончил(а) прохождение теста",
     "test": "",
     "The candidate": "Профиль кандидата",
-    "profile was edited by": "был отредактирован пользователем"
+    "profile was edited by": "был отредактирован пользователем",
+    "profile_unlinked": "Привязка удалена"
   },
   "Remove Skill": "Удалить навык",
   "information": "Описание вакансии",

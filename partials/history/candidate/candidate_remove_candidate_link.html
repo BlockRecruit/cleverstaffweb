@@ -1,0 +1,12 @@
+<div class="col-lg-2" title="{{history.dm|dateFormat:true}}">
+    <div class="time-comment">
+        {{history.dm|dateFormat:false}}
+    </div>
+    <a href="#/users/{{history.person.userId}}" class="text-left user">
+        <span once-text="history.person.firstName"></span>
+        <span once-text="history.person.lastName"></span>
+    </a>
+</div>
+<div class="col-lg-10">
+    {{'history_info.profile_unlinked'|translate}} <span  style="color:#DAA10F">{{history.descr| fileNameCut:0:50}}</span>
+</div>
