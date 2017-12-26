@@ -699,7 +699,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 }
             };
             var sourceForCoreSkills = function () {
-                console.log(src);
                 if(src === '1') {
                     $scope.secondCoreSkills  = false;
                     $scope.candidate[type] = $scope.candidateBeforeMerge[type];
@@ -713,9 +712,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     $('button.active').removeClass('coreSkills');
                     $('button.coreSkills').css('border', 'none');
                 }else if(src === '3'){
-                    console.log('1q1');
                     $scope.candidate[type] = $scope.candidateBeforeMerge[type].concat($scope.candidate2[type]);
-                    console.log($scope.candidate[type]);
                     $scope.src.coreSkills = '3';
                 }
             };
@@ -733,9 +730,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     $('button.active').removeClass('skills');
                     $('button.skills').css('border', 'none');
                 }else if(src === '3'){
-                    console.log('1q1');
                     $scope.candidate[type] = $scope.candidateBeforeMerge[type].concat($scope.candidate2[type]);
-                    console.log($scope.candidate[type]);
                     $scope.src.skills = '3';
                 }
             };
@@ -753,9 +748,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     $('button.active').removeClass('descr');
                     $('button.descr').css('border', 'none');
                 }else if(src === '3'){
-                    console.log('1q1');
                     $scope.candidate[type] = $scope.candidateBeforeMerge[type].concat($scope.candidate2[type]);
-                    console.log($scope.candidate[type]);
                     $scope.src.descr = '3';
                 }
             };
@@ -1384,10 +1377,10 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     candidate.files = $scope.candidate2.files;
                     candidate.files = candidate.files.concat($scope.candidateBeforeMerge.files);
                 }
+                console.log($scope.candidate);
                 candidate.languages = [];
                 if ($scope.candidateBeforeMerge.languages.length > 0 && !$scope.secondLanguages) {
                     angular.forEach($scope.candidateBeforeMerge.languages, function (val) {
-                        console.log(val);
                         if(val.level != undefined && val.level != ''){
                             candidate.languages.push({ name: val.name, level: val.level});
                         }
@@ -1518,10 +1511,21 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 }else if ($scope.candidate2.origin) {
                     candidate.origin = $scope.candidate2.origin;
                 }
+                $scope.skillsTwoCandidates = [];
                 if ($scope.candidateBeforeMerge.skills.length > 0 && !$scope.secondSkills) {
-                    candidate.skills = $scope.candidate.skills;
+                    angular.forEach(candidate.skills, function (val) {
+                        if(val.level != undefined && val.level != ''){
+                            $scope.skillsTwoCandidates.push({ name: val.name, level: val.level});
+                            candidate.skills = $scope.skillsTwoCandidates;
+                        }
+                    });
                 }else if ($scope.candidate2.skills.length > 0) {
-                    candidate.skills = $scope.candidate.skills;
+                    angular.forEach(candidate.skills, function (val) {
+                        if(val.level != undefined && val.level != ''){
+                            $scope.skillsTwoCandidates.push({ name: val.name, level: val.level});
+                            candidate.skills = $scope.skillsTwoCandidates;
+                        }
+                    });
                 }
                 if ($scope.candidateBeforeMerge.coreSkills && !$scope.secondCoreSkills) {
                     candidate.coreSkills = $scope.candidate.coreSkills;
@@ -1538,9 +1542,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 }
                 var mergeData  = $scope.candidate2.candidateId;
                 console.log(candidate);
-                $http.put(
-                    serverAddress + '/candidate/' + 'mergeCandidates?duplicateId=' + mergeData, candidate
-                ).then(function (val) {
+                $http.put(serverAddress + '/candidate/' + 'mergeCandidates?duplicateId=' + mergeData, candidate).then(function (val) {
                     console.log(val);
                     if (angular.equals(val.data.status, "ok")) {
                         notificationService.success($filter('translate')('You successfully merged candidates’ profiles'));
