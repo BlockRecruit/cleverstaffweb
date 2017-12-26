@@ -208,7 +208,7 @@
                     </li>
                 </ul>
                 <span class="active-page">{{$root.notFormatedTitle}}</span>
-                <div class="trial" ng-if="((getMeObj['orgParams']['tarif']==='free' || tarif=='free') && getMeObj['org']['dc']) && (digit > 0 && digit <= 14)">
+                <div class="trial" ng-if="(getMeObj['org']['dc']) && (digit > 0 && digit <= 14)">
                     <span>{{"Only"|translate}}</span><span ng-bind="digit" class="digit"></span><span>{{(digit >= 5 && digit <= 14)? "days_1Trial" : (digit < 5 && digit > 1)? "daysTrial" : (digit === 0)? "dayTrial": "dayTrial" | translate}}</span>
                     <i class="fa fa-info-circle tooltip-icon"  ng-mouseover="HoverBlockTrialShow()"  ng-mouseleave="HoverBlockTrialHidden()" aria-hidden="true">
                         <div class="hoverExtension" ng-show="hoverBlockTrial">
