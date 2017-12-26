@@ -43,14 +43,14 @@
                     </div>
                     <div class="operation" ng-show="($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y'">
                         <i class="fa fa-file-excel-o" aria-hidden="true"></i>
-                        <a href="" ng-click="exportToExcel()" ng-show="$root.hideTariff">{{'Export to Excel'|translate}}</a>
+                        <a href="" ng-click="toExcelHistory()" ng-show="$root.hideTariff">{{'Export to Excel'|translate}}</a>
                         <button id="disabledBtn" ng-click="$root.disabledBtnFunc();" ng-show="!$root.hideTariff"
                                 type="button" class="btn btn-default disabled">
                             {{'Export to Excel'|translate}}
                         </button>
-                        &nbsp;
+                        &nbsp
 
-                        <a ng-click="toExcelHistory()" class="no-margin-left">{{'history_1'|translate}}</a>
+                        <!--<a ng-click="toExcelHistory()" class="no-margin-left">{{'history_1'|translate}}</a>-->
                         <!--<span class="clarification" ng-show="$root.me.recrutRole == 'admin'">-->
                             <!--{{'Up to | 30 000 CVs For account Admins only'|translate}}-->
                         <!--</span>-->

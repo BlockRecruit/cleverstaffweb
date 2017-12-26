@@ -1,0 +1,47 @@
+.btn-new {
+	font-family: "Helvetica-Regular";
+	font-size: 16px;
+
+	margin-bottom: 15px;
+	padding: 8px 20px;
+
+	transition: all 0.3s;
+	text-align: center;
+
+	color: #fff;
+	border: 1px solid #00b549;
+	border-radius: 25px;
+	background-color: #00b549;
+	&:hover {
+		color: #00b549;
+		border: 1px solid #00b549;
+		background-color: #fff;
+	}
+	&:focus {
+		border: none;
+		outline: none;
+	}
+	&.apply-via {
+		font-size: 14px;
+
+		padding: 10px 20px;
+		.fa-linkedin {
+			font-size: 13px;
+
+			padding: 1px 3px 2px 2px;
+
+			color: #fff;
+			border: 1px solid #fff;
+			background-color: #3590c2;
+		}
+		&.linkedin {
+			border: 1px solid #0274b3;
+			background-color: #0274b3;
+			&:hover {
+				color: #0274b3;
+				border: 1px solid #0274b3;
+				background-color: #fff;
+			}
+		}
+	}
+}

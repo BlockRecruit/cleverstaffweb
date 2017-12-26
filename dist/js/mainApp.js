@@ -18795,9 +18795,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     };
     $scope.initSearchParam();
 
-
+    $rootScope.excelExportType = 'candidates';
     $scope.loadingExcel = false;
     $scope.exportToExcel = function () {
+        $scope.criteriaForExcel.withCommentsAndHistory = $rootScope.excelExportType === 'all';
         $rootScope.loading = true;
         if($scope.loadingExcel == false){
             $scope.loadingExcel = true;
@@ -18820,14 +18821,23 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             });
         }
     };
+
+
     $scope.toExcelHistory = function () {
-        // $location.path("excelHistory");
         $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: '../partials/modal/candidate-excel-history.html',
-            size: ''
+            scope: $scope,
+            resolve: {},
+            size: ""
         });
     };
+
+    $scope.viewExcelHistory = function() {
+        $rootScope.closeModal();
+        $location.path("excelHistory");
+    };
+
     $scope.externalData = [];
 
 
