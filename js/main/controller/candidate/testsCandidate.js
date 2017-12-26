@@ -170,8 +170,14 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                 }
             });
         };
+
+        $scope.selectCorrectAnswer = function(question,answers) {
+            console.log(answers);
+            if(answers.isCorrect) question.noCorrectAnswerInQuestion = false;
+        };
         $scope.saveTest = function () {
             var emptyQuestion = false;
+            var firstNoAnswerIndex = null;
             $scope.noAnswerIndex = null;
             $scope.fieldCheck = false;
             $scope.noCorrectAnswerInQuestion = false;
@@ -182,15 +188,19 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                 }
 
                 let checkForCorrectAnswer = question.variantsArray.every(function (variant) {
-                    if(!variant.isCorrect) {
-                        $scope.noCorrectAnswerInQuestion = true;
-                        return true;
-                    }
+                    return variant.isCorrect;
                 });
 
-                if(checkForCorrectAnswer) {
+                if(!checkForCorrectAnswer) {
+                    question.noCorrectAnswerInQuestion = true;
                     $scope.noCorrectAnswerInQuestion = true;
                     $scope.noAnswerIndex = index;
+                } else {
+                    question.noCorrectAnswerInQuestion = false;
+                }
+
+                if(question.noCorrectAnswerInQuestion && firstNoAnswerIndex === null) {
+                    firstNoAnswerIndex = index;
                 }
 
                 angular.forEach(question.variantsArray,function (variant) {
@@ -199,6 +209,7 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                     }
                 });
             });
+
             if($scope.newTestParam.testName !== null && $scope.newTestParam.testName !== '' && !emptyQuestion && !$scope.noCorrectAnswerInQuestion) {
                 var testForSend = {};
                 angular.copy($scope.newTestParam, testForSend);
@@ -259,8 +270,7 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                 if(emptyFilesError) {
                     notificationService.error($filter('translate')('You should fill all obligatory fields.'))
                 } else if(!emptyFilesError && $scope.noCorrectAnswerInQuestion){
-                    let element = $('#question-' + $scope.noAnswerIndex);
-                    console.log($('#question-' + $scope.noAnswerIndex).position().top);
+                    let element = $('#question-' + firstNoAnswerIndex);
                     $("html, body").animate({scrollTop: element.position().top + element.height()}, "slow");
                     return;
                 }
