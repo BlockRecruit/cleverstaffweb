@@ -5,12 +5,12 @@
         <h4 class="modal-title" ng-show="$root.activePage == 'Reports' || $root.activePage == 'Pipeline' || $root.activePage == 'Vacancy report' || $root.activePage == 'Statistics client' || $root.activePage == 'Reports constructor'">{{'Invite a Hiring manager'|translate}}</h4>
     </div>
     <div class="modal-body" ng-hide="$root.inviteUserBlock">
-        <p ng-show="($root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'Thanks' || $root.activePage == 'News') && otherDate >= nowDate">
+        <p ng-show="($root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'Company users' || $root.activePage == 'News') && otherDate >= nowDate">
             <b>{{'Invite colleagues'|translate}}</b>{{'so they could help you test the software and open all CleverStaff features'|translate}}
             <br>
             <b>{{'Invite Hiring managers'|translate}}</b> {{'and let them see & track their vacancies and candidates'|translate}}
         </p>
-        <p ng-show="($root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'Thanks' || $root.activePage == 'News') && otherDate < nowDate">
+        <p ng-show="($root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'Company users' || $root.activePage == 'News') && otherDate < nowDate">
             <b>{{'Invite colleagues'|translate}} {{'$25/mo per user'|translate}}</b>{{'so they could help you hire better & faster'|translate}}
             <br>
             <b>{{'Invite Hiring managers'|translate}} {{'free user, unlimited number'|translate}}</b> {{'and let them see & track their vacancies and candidates'|translate}}
@@ -29,7 +29,7 @@
                 </li>
             </ul>
         </div>
-        <p ng-show="$root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'">
+        <p ng-show="$root.activePage == 'Activity' || $root.activePage == 'Company users' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'">
             {{"Enter_new_users_email"|translate}}
         </p>
         <p ng-show="$root.activePage == 'Reports' || $root.activePage == 'Pipeline' || $root.activePage == 'Vacancy report' || $root.activePage == 'Statistics client' || $root.activePage == 'Reports constructor'">
