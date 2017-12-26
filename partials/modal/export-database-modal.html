@@ -1,13 +1,20 @@
 <div class="export-database-modal">
-    <div class="closeModal" ng-click="$root.closeModal()">x</div>
-    <div class="form">
-        <span class="form-name">{{'CVs archive export' | translate}}</span>
-        <img src="../../images/sprite/icon-folder.svg"/>
-        <p>{{'The archive preparation takes ~ 3 min/1000 candidates.'|translate}}</p>
-        <p>{{'You can track its status and download it at “Export log”'|translate}}</p>
-        <img src="../../images/sprite/icon-history.svg"/>
-        <a href="#/ExportLog" class="no-margin-left-example">{{'Export log'|translate}}</a>
-        <button class="btn-modern apply" ng-click="$root.exportResumeArchive();">{{'Apply now'|translate}}</button>
+    <i class="fa fa-times closeModal pull-right" ng-click="$root.closeModal()"></i>
+    <span class="form-name">{{'CVs archive export' | translate}}</span>
+    <img src="../../images/sprite/icon-folder.svg" width="120" height="100"/>
+    <div class="form pull-right">
+        <div class="pull-left">
+            <p>{{'The archive preparation takes ~ 3 min/1000 candidates.'|translate}}</p>
+            <p>{{'You can track its status and download it at “Export log”'|translate}}</p>
+        </div>
+        <div class="pull-right history">
+            <img src="../../images/sprite/icon-history.svg" width="60" height="60"/>
+            <a ng-click="$root.toArchiveHistory('archive');$root.closeModal()" href="" class="no-margin-left-example">{{'Export log'|translate}}</a>
+        </div>
         <div class="clearfix"></div>
+    </div>
+    <div class="applyOrClose text-center">
+        <button class="btn-modern apply" ng-click="$root.toArchiveHistory('null');$root.closeModal()">{{'Export'|translate}}</button>
+        <a href=""  ng-click="$root.closeModal()">{{'Cancel_2'|translate}}</a>
     </div>
 </div>

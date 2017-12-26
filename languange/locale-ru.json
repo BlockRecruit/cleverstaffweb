@@ -2885,6 +2885,7 @@
   "You can track its status and download it at “Export log”": "Отслеживать статус и скачать его вы можете в “Истории экспорта",
   "CVs archive export": "Экспорт архива резюме",
   "Export log": "История экспорта",
-  "Export": "Ваш запрос обрабатывается. Статус можно посмотреть на странице истории экспорта",
-  "Your request is processing. You can track its status and download it on the export log page.": "Экспортировать"
+  "Export": "Экспортировать",
+  "Your request is processing. You can track its status and download it on the export log page.": "Ваш запрос обрабатывается. Статус можно посмотреть на странице истории экспорта",
+  "Cancel_2": "Закрыть окно"
 }

@@ -1,20 +1,42 @@
 .export-database-modal {
 	position: relative;
 
-	padding: 30px 50px;
+	padding: 20px 30px 5px 30px;
 
 	border-radius: 7px;
 	background-color: #e3f2dd;
+	span.form-name {
+		font-family: "Helvetica-Medium";
+		font-size: 20px;
+
+		display: block;
+		margin-bottom: 30px;
+
+		text-align: center;
+	}
 	& > .form {
-		span.form-name {
-			font-family: "Helvetica-Medium";
-			font-size: 20px;
+		width: 81%;
 
-			display: block;
-			margin-bottom: 30px;
+		background-color: rgba(241, 249, 238, 0.6);
+		p {
+			@include bold();
 
-			text-align: center;
+			color: $theme-dark;
 		}
+		.history {
+			margin-right: -45px;
+			a {
+				position: relative;
+				top: 8px;
+				left: 3px;
+
+				display: inline-block;
+				width: 36%;
+			}
+		}
+	}
+	& > .applyOrClose {
+		margin-top: 15px;
 		.btn-modern {
 			font-family: "Helvetica-Regular";
 			font-size: 18px;
@@ -39,16 +61,18 @@
 				outline: none;
 			}
 		}
+		a {
+			margin-left: 10px;
+
+			color: $theme-dark;
+		}
 	}
 	.closeModal {
 		font-size: 15px;
-		font-weight: 600;
 
 		position: absolute;
-		top: 0;
-		right: 8px;
-
-		color: #000;
+		top: 3px;
+		right: 5px;
 		&:hover {
 			cursor: pointer;
 		}

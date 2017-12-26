@@ -2289,10 +2289,11 @@
   "Export candidate database": "Export candidate database",
   "Import resume archive": "Import resume archive",
   "Download the candidates’ resume archive according to filters you choose.": "Download the candidates’ resume archive according to filters you choose.",
-  "Archive preparation takes some time (~3 min./1000 candidates).": "Archive preparation takes some time (~3 min./1000 candidates).",
-  "Then you could download it on ‘Export log’ page (via grey button here).": "Then you could download it on ‘Export log’ page (via grey button here).",
+  "The archive preparation takes ~ 3 min/1000 candidates.": "The archive preparation takes ~ 3 min/1000 candidates.",
+  "You can track its status and download it at “Export log”": "You can track its status and download it at “Export log”",
   "CVs archive export": "CVs archive export",
   "Export log": "Export log",
   "Export": "Export",
-  "Your request is processing. You can track its status and download it on the export log page.": "Your request is processing. You can track its status and download it on the export log page."
+  "Your request is processing. You can track its status and download it on the export log page.": "Your request is processing. You can track its status and download it on the export log page.",
+  "Cancel_2": "Cancel"
 }

@@ -805,7 +805,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: '../partials/modal/export-database-modal.html',
-            size: '',
+            size: 'lg',
             backdrop: 'static',
             keyboard: false,
             resolve: function(){
@@ -813,30 +813,9 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
         });
     };
-    $rootScope.exportResumeArchive = function () {
-        $rootScope.loading = true;
-        if($scope.loadingExcel == false){
-            $scope.loadingExcel = true;
-            if($scope.criteriaForExcel.words == null) {
-                $scope.criteriaForExcel.searchFullTextType = null;
-            }
-            console.log($scope.criteriaForExcel);
-            Candidate.createBackUpCandidates({}, function (resp) {
-                console.log(resp);
-                if (resp.status == 'ok') {
-                    var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
-                    $('#export_resume_archive')[0].href = sr + 'getapp?id=' + resp.object;
-                    $('#export_resume_archive')[0].click();
-                }
-                if (resp.code == 'emptyExportExcel') {
-                    notificationService.error($filter('translate')('No candidates for export according to criteria'));
-                    $scope.loadingExcel = false;
-                }
-                $scope.loadingExcel = false;
-                $rootScope.loading = false;
-
-            });
-        }
+    $rootScope.toArchiveHistory = function (archive) {
+        $localStorage.set("archive_excel", archive);
+        $location.path("ExportLog");
     };
     $scope.toExcelHistory = function () {
         $scope.modalInstance = $uibModal.open({

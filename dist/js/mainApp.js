@@ -19230,7 +19230,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: '../partials/modal/export-database-modal.html',
-            size: '',
+            size: 'lg',
             backdrop: 'static',
             keyboard: false,
             resolve: function(){
@@ -19238,30 +19238,9 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
         });
     };
-    $rootScope.exportResumeArchive = function () {
-        $rootScope.loading = true;
-        if($scope.loadingExcel == false){
-            $scope.loadingExcel = true;
-            if($scope.criteriaForExcel.words == null) {
-                $scope.criteriaForExcel.searchFullTextType = null;
-            }
-            console.log($scope.criteriaForExcel);
-            Candidate.createBackUpCandidates({}, function (resp) {
-                console.log(resp);
-                if (resp.status == 'ok') {
-                    var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
-                    $('#export_resume_archive')[0].href = sr + 'getapp?id=' + resp.object;
-                    $('#export_resume_archive')[0].click();
-                }
-                if (resp.code == 'emptyExportExcel') {
-                    notificationService.error($filter('translate')('No candidates for export according to criteria'));
-                    $scope.loadingExcel = false;
-                }
-                $scope.loadingExcel = false;
-                $rootScope.loading = false;
-
-            });
-        }
+    $rootScope.toArchiveHistory = function (archive) {
+        $localStorage.set("archive_excel", archive);
+        $location.path("ExportLog");
     };
     $scope.toExcelHistory = function () {
         $scope.modalInstance = $uibModal.open({
@@ -29692,6 +29671,57 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
                 }
             });
         };
+        console.log($localStorage.get("archive_excel"));
+        console.log($localStorage.get("archive_excel") == 'null');
+        if($localStorage.get("archive_excel") == 'archive'){
+            $location.path("ExportLog");
+            Candidate.getSearchHistoryAdmin({types: ["cleverstaff_excel", "backup"]}, function (resp) {
+                if (angular.equals(resp.status, "ok")) {
+                    console.log(resp);
+                    $scope.history = resp.objects;
+                }
+            });
+        }else if($localStorage.get("archive_excel") == 'excel'){
+            $location.path("excelHistory");
+            Candidate.getSearchHistoryAdmin({type: 'cleverstaff_excel'}, function (resp) {
+                if (angular.equals(resp.status, "ok")) {
+                    $scope.history = resp.objects;
+                }
+            });
+        }else if($localStorage.get("archive_excel") == 'null'){
+            Candidate.getSearchHistory({types: ["cleverstaff_excel"]}, function (resp) {
+                console.log(resp);
+                if (resp.status == 'ok') {
+
+                }
+            });
+            //$rootScope.exportResumeArchive();
+        }
+        //$rootScope.exportResumeArchive = function () {
+        //    $rootScope.loading = true;
+        //    if($scope.loadingExcel == false){
+        //        $scope.loadingExcel = true;
+        //        if($scope.criteriaForExcel.words == null) {
+        //            $scope.criteriaForExcel.searchFullTextType = null;
+        //        }
+        //        console.log($scope.criteriaForExcel);
+        //        Candidate.createBackUpCandidates({}, function (resp) {
+        //            console.log(resp);
+        //            if (resp.status == 'ok') {
+        //                var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
+        //                $('#export_resume_archive')[0].href = sr + 'getapp?id=' + resp.object;
+        //                $('#export_resume_archive')[0].click();
+        //            }
+        //            if (resp.code == 'emptyExportExcel') {
+        //                notificationService.error($filter('translate')('No candidates for export according to criteria'));
+        //                $scope.loadingExcel = false;
+        //            }
+        //            $scope.loadingExcel = false;
+        //            $rootScope.loading = false;
+        //
+        //        });
+        //    }
+        //};
     }]);
 
 controller.controller('FeedbackController',["$localStorage", "serverAddress", "$rootScope", "$scope", "Person", "notificationService", "$location", "$filter",
