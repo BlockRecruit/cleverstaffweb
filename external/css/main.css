@@ -1553,9 +1553,11 @@ footer{
 .teamWork .discount, .corporate .discount {
     font-size: 13px;
     color: #00B549;
-    /*color: #ED7D3B;*/
-    /*margin-top: -17px;*/
-    /*margin-bottom: -20px;*/
+}
+.teamWork .discount {
+    color: #ED7D3B;
+    margin-top: -17px;
+    margin-bottom: -20px;
 }
 .discount span {
     display: block;
