@@ -883,8 +883,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("lang", isNotBlank($scope.searchParam['lang']) ? $scope.searchParam['lang'] : null);
                 Candidate.setOptions("searchFullTextType", isNotBlank($scope.searchParam['searchFullTextType']) ? $scope.searchParam['searchFullTextType'] : null);
                 Candidate.setOptions("sort", isNotBlank($scope.filterForChange) ? $scope.filterForChange : null);
+                Candidate.setOptions("sortOrder", $scope.filterForChange == 'alphabetically' ? 'ASC' : 'DESC');
                 Candidate.setOptions("withPersonalContacts", $scope.searchParam['withPersonalContacts'] == 'null' ? null: $scope.searchParam['withPersonalContacts'] == "true");
-                //Candidate.setOptions("skills", isNotBlank($scope.searchParam.skills.name) ? $scope.searchParam.skills.name : null);
                 Candidate.setOptions("skills",$scope.searchParam.skills.name ? [{name: $scope.getSkillAutocompleterValueForSearch(),type: $scope.searchParam.skills.type}] : null);
                 Candidate.setOptions("origin", isNotBlank($scope.searchParam['origin']) ? $scope.searchParam['origin'] : null);
                 $scope.criteriaForExcel = angular.copy(Candidate.searchOptions());
@@ -955,9 +955,15 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         if($scope.searchParam.words == null && sort == 'relevance'){
             notificationService.error($filter('translate')('Sort by relevance impossible until you enter a value in the Text Search'));
         }else{
-            Candidate.setOptions("sort", sort);
-            Candidate.setOptions("sortOrder", 'DESC');
-            $scope.filterForChange = sort;
+            if(sort == 'alphabetically'){
+                Candidate.setOptions("sort", sort);
+                Candidate.setOptions("sortOrder", 'ASC');
+                $scope.filterForChange = sort;
+            }else{
+                Candidate.setOptions("sort", sort);
+                Candidate.setOptions("sortOrder", 'DESC');
+                $scope.filterForChange = sort;
+            }
             if(!$scope.clickBtnSort){
                 $scope.tableParams.reload();
             }
