@@ -2155,6 +2155,7 @@
   "Able to manage clients, vacancies and candidates": "Управление заказчиками, вакансиями и кандидатами",
   "Cannot see the full database and other users. Able to see only vacancies he/she responsible for and candidates he/she added": "Не имеет доступ к базе компании и не видит других пользователей. Видит только вакансии, за которые ответственен и только кандидатов, которых сам добавил",
   "Enter_new_users_email": "Введите email нового пользователя и выберите его роль. Приглашённый пользователь получит письмо для входа в аккаунт вашей компании",
+  "Enter_new_users_email_1": "Введите email нового пользователя . Приглашённый пользователь получит письмо для входа в аккаунт вашей компании. Его роль буде Hiring Manager.",
   "CleverStaff News Feed": "Новостная лента CleverStaff",
   "CleverStaff News Feed shares posts from the CleverStaff Users facebook page. We created the news feed to": "Новостная лента CleverStaff транслируется из facebook-страницы, в которой состоят наши пользователи. Мы создали ленту для того, чтобы",
   "Share important news, updates and improvements which happen at CleverStaff": "Делиться важными новостями, обновлениями, изменениями, которые происходят в cleverstaff",
