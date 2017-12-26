@@ -18063,6 +18063,9 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     }, {
         name: $filter('translate')('Date of last activity'),
         values : 'dm'
+    },{
+        name: $filter('translate')('Alphabetically'),
+        values : 'alphabetically'
     }, {
         name: $filter('translate')('Date of last comment'),
         values : 'lastCommentDate'

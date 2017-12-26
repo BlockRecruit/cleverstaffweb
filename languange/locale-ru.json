@@ -2832,6 +2832,7 @@
   "second": "второй",
   "Merge with another profile": "Объединить с другим профилем",
   "Download as docx": "Скачать как docx",
+<<<<<<< HEAD
   "Please add the candidates to this stage":"Добавьте кандидатов на этап",
   "Position":"Вакансия",
   "Search":"Поиск",
@@ -2841,4 +2842,7 @@
   "Pick the position from the search field":"Выберите вакансию из списка предложенных в поле",
   "Any":"Любая",
   "telework_1":"Удаленно"
+=======
+  "Alphabetically": "Алфавиту"
+>>>>>>> add alphabetically sort to candidates
 }

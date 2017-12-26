@@ -2243,6 +2243,7 @@
   "second": "second",
   "Merge with another profile": "Merge with another profile",
   "Download as docx": "Download as docx",
+<<<<<<< HEAD
   "Position":"Position",
   "Show":"Show",
   "Search":"Search",
@@ -2253,4 +2254,7 @@
   "telework_1":"Remote",
   "Download as docx": "Download as docx",
   "Tag_name_saved":"Tag name saved"
+=======
+  "Alphabetically": "Alphabetically"
+>>>>>>> add alphabetically sort to candidates
 }
