@@ -703,7 +703,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         case 'googleplus':
                         case 'github':
                         case 'email':
-                            multipleContacts[contacts.type] = contacts.value.split(/[\s,"/", ";"]+/);
+                            multipleContacts[contacts.type] = contacts.value.split(/[\s,";"]+/);
                             break;
                     }
                     if(contacts.type == 'email'){
