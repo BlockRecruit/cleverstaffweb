@@ -12279,7 +12279,7 @@ angular.module('services.company', [
         };
     };
 
-        company.openVacancies = {};
+        let openVacancies = {};
 
         company.uploadCompanyLogo = function(fileUp){
             var FD  = new FormData();
@@ -12309,21 +12309,50 @@ angular.module('services.company', [
 
         company.getAllOpenVacancies = function(string) {
             return new Promise((resolve,reject) => {
-                if(angular.equals(this.openVacancies, {})){
+                if(angular.equals(openVacancies, {})){
                     Service.getAllOpenVacancy({
                         alias: string
                     },(resp) => {
                         if(resp.status == 'ok'){
-                            this.openVacancies = resp;
+                            openVacancies = resp;
                             resolve(resp);
                         } else {
                             reject(resp.messsage);
                         }
                     });
                 } else {
-                    resolve(this.openVacancies)
+                    resolve(openVacancies)
                 }
             });
+        };
+
+
+        company.getVacanciesLocation = function() {
+            let locations = [];
+            openVacancies.objects.map((vacancy) => {
+                if(vacancy.region && vacancy.region.country) {
+                    if(locations.indexOf(vacancy.region.country) === -1) {
+                        locations.push(vacancy.region.country);
+                    }
+                }
+            });
+            return locations;
+        };
+
+        company.getVacanciesPosition = function() {
+            return openVacancies.objects.map((vacancy) => {
+                return vacancy.position;
+            });
+        };
+
+        company.positionAutoCompleteResult = function(string = "") {
+            let data = [];
+                openVacancies.objects.map((vacancy) => {
+                    if(vacancy.position.toLowerCase().indexOf(string.toLowerCase()) !== -1) {
+                        data.push(vacancy.position);
+                    }
+                });
+            return data;
         };
 
     company.init();

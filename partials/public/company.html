@@ -1,6 +1,6 @@
 <div class="container-fluid block-company-public-vacancies">
     <div class="row">
-        <div class="col-xs-12 text-center cs-logo">
+        <div class="col-xs-12 text-center relative">
             <div class="company-info">
                 <div class="logo" ng-show="orgParams.companyLogo">
                     <img src="{{serverAddress}}/getlogo?id={{orgParams.companyLogo}}" alt="">
@@ -36,6 +36,9 @@
                     <i class="fa fa-facebook" aria-hidden="true"></i>
                 </a>
             </div>
+            <div class="api-link hidden-sm hidden-xs">
+                <a href="https://cleverstaff.net/api.html">{{'Vacancies & Applicants API' | translate}}</a>
+            </div>
         </div>
     </div>
 
@@ -50,8 +53,52 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <div class="vacancies" ng-show="orgParams.size > 0">
-                <div class="vacancy" ng-repeat="publicVacancy in orgParams.objects">
+            <div class="vacancies-filter">
+
+                <div class="switch">
+                    <label ng-click="hideFilter()">{{'Show all' | translate}}</label>
+                    <input id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round" ng-change="toggleFilter()" type="checkbox" ng-model="showFilterSettings">
+                    <label class=""  for="cmn-toggle-9"></label>
+                    <label ng-click="showFilter()">{{'Search' | translate}}</label>
+                </div>
+
+                <div class="positions-wrap" ng-class="{'no-scroll-margin' : vacanciesPositionFiltered.length <= 6}" ng-show="showFilterSettings">
+                    <input class="vacancy-position auto-complete-position" ng-class="{ 'error': errorHandler.vacanciesFilter.positionError }" ng-keyup="setAutoCompleteString($event)"
+                           placeholder="{{'Position' | translate}}" type="text">
+                    <i class="fa fa-times" ng-click="resetPosition()" aria-hidden="true"></i>
+                    <ul class="list-group" id="positions-list" ng-hide="hideSearchPositions" custom-scrollbar pass-through-list on-select="'selectPosition'">
+                        <li class="list-group-item auto-complete-position" ng-click="selectPosition(position)" ng-repeat="position in vacanciesPositionFiltered track by $index">
+                            {{position}}
+                        </li>
+                    </ul>
+                    <!--<span ng-show="errorHandler.vacanciesFilter.error.show && errorHandler.vacanciesFilter.positionError" class="custom-tooltip error">{{ 'Pick the position from the search field' |translate}}</span>-->
+                </div>
+
+                <div class="locations-wrap" ng-show="showFilterSettings">
+                    <div class="vacancies-location">
+                        <span ng-click="toggleLocationSelect()" class="list-group-item toggle-locations location location-search">{{'Location' | translate}}
+                        </span>
+                        <ul class="list-group" id="locations-list" ng-hide="hideSearchLocations" custom-scrollbar pass-through-list on-select="'selectLocation'">
+                            <li ng-click="selectLocation('Any')" class="accent location-search list-group-item">{{'Any' | translate}}</li>
+                            <li ng-click="selectLocation('telework_1')" class="accent location-search list-group-item">{{'telework_1' | translate}}</li>
+                            <li ng-click="selectLocation(location)" class="list-group-item location-search" ng-repeat="location in vacanciesLocation track by $index">{{location}}</li>
+                        </ul>
+                        <i ng-click="toggleLocationSelect();$event.preventDefault();" class="fa fa-caret-down location-search" aria-hidden="true"></i>
+                    </div>
+                </div>
+
+                <div class="filter-button" ng-show="showFilterSettings">
+                    <button class="btn-modern apply" ng-click="showFilteredVacancies()">{{'Show' | translate}}</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="vacancies" ng-show="orgParams.size > 0 && (orgParams.objects | filter: filter).length > 0">
+                <div class="vacancy" ng-repeat="publicVacancy in orgParams.objects | filter: filter">
                     <a ng-href="{{$location.$$host}}/i#/vacancy-{{publicVacancy.localId}}">
 
                         <div class="col-xs-12 col-sm-4 vacancy__name--wrap">
@@ -78,6 +125,9 @@
                         <div class="clearfix"></div>
                     </a>
                 </div>
+            </div>
+            <div class="vacancies filter-error" ng-show="errorHandler.vacanciesFilter.error.show">
+                <span>{{ errorHandler.vacanciesFilter.error.msg | translate}}</span>
             </div>
         </div>
     </div>
