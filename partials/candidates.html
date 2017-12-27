@@ -673,7 +673,7 @@
                                 </span>
                             </td>
                             <td class="name" data-title="'Name'" ng-context-menu="menuOptions" sortable="fullName">
-                                <a ng-if="user.fullName" ng-click="tofullinformation($event,user)"
+                                <a ng-if="user.fullName" ng-href="#/candidates/{{user.localId}}" ng-click="tofullinformation($event,user)"
                                    bo-html="::user.fullName"></a>
                                 <span ng-repeat="file in user.files| orderBy:'-url'" class="hidden-xs">
                                     <a ng-href="{{::serverAddress}}/getapp/{{::file.fileId}}/{{::file.fileName}}"
