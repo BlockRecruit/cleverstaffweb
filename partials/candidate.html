@@ -388,7 +388,7 @@
                                     <img src="../images/sprite/download.png" alt="{{'Add to vacancy'|translate}}">
                                 </a>
                             </li>
-                            <li class="last-child" ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter'">
+                            <li ng-class="{'last-child' : $root.hideTariff}" ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter'">
                                 <a title="{{'Merge with another profile'|translate}}" ng-click="toMergeModal()">
                                     <img src="../images/sprite/merge.png" alt="{{'Add to vacancy'|translate}}">
                                 </a>
@@ -403,10 +403,9 @@
                             <input type="file" oi-file="optionsForTemplate" id="fileTemplate" class="hidden"/>
                             <a style="display: none;" id="downloadDoc"></a>
                             <li ng-if="!$root.hideTariff">
-                                <button id="disabledBtn" ng-click="$root.disabledBtnFunc();"
-                                        type="button" class="btn btn-default disabled">
-                                    {{'download_docx'|translate}}
-                                </button>
+                                <a title="{{'Download as docx'|translate}}" ng-click="$root.disabledBtnFunc();">
+                                    <img src="../images/sprite/download.png" alt="{{'download_docx'|translate}}">
+                                </a>
                             </li>
                         </ul>
                         <!--<img ng-click="toAddVacancyForm(null, true, false);"-->
