@@ -625,13 +625,27 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 }
                 $scope.candidate = resp.object;
                 $rootScope.candidate = resp.object;
+                $rootScope.localIdOfMerged = $scope.candidate.localId;
                 $localStorage.set('candidateForTest', $rootScope.candidate);
                 $scope.locationBeforeCustomFields = $location.$$path.replace('/candidates/' + $scope.candidate.localId, 'candidates');
                 $localStorage.set('previousHistoryCustomFields', $scope.locationBeforeCustomFields);
                 $scope.changeStatus = $scope.candidate.status;
                 cascadeStages();
 
-                $scope.imgWidthFunc();
+                var img = new Image();
+                img.onload = function() {
+                    var width = this.width;
+                    if(width >= 290){
+                        $('.photoWidth').css({'width': '100%', 'height': 'auto'});
+                    }else{
+                        $('.photoWidth').css({'width': 'inherit', 'display': 'block', 'margin': '0 auto'});
+                    }
+                };
+                if($location.$$host == '127.0.0.1'){
+                    img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
+                }else{
+                    img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
+                }
                 $rootScope.newTask.candidateId = $scope.candidate.candidateId;
                 angular.forEach($scope.candidate.interviews, function(value){
                     value.vacancyId.interviewStatusNotTouchable = value.vacancyId.interviewStatus;
@@ -671,32 +685,46 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     $scope.showAddedLinks = false;
                     $scope.showAddedFiles = false;
                 }
-                var homepages = [],
-                    emails;
+
+                var multipleContacts = {
+                    homepage: [],
+                    facebook: [],
+                    linkedin: [],
+                    googleplus: [],
+                    github: [],
+                    email: []
+                };
                 $scope.countEmail = 0;
                 angular.forEach($scope.candidate.contacts, function (contacts) {
-                    if(contacts.type == 'homepage') {
-                        homepages = contacts.value.split(/,/);
-                    }else if(contacts.type == 'email'){
-                        emails = contacts.value.split(/[\s,"/", ";"]+/);
+                    switch (contacts.type){
+                        case 'homepage':
+                        case 'linkedin':
+                        case 'facebook':
+                        case 'googleplus':
+                        case 'github':
+                        case 'email':
+                            multipleContacts[contacts.type] = contacts.value.split(/[\s, ";"]+/);
+                            break;
                     }
                     if(contacts.type == 'email'){
                         $scope.countEmail = 1;
                     }
                 });
 
-                $scope.homepages = [],
-                $scope.emails = [];
+                $scope.multipleContacts = {
+                    homepage: [],
+                    facebook: [],
+                    linkedin: [],
+                    googleplus: [],
+                    github: [],
+                    email: []
+                };
 
-                angular.forEach(homepages, function (item) {
-                   $scope.homepages.push(item.trim());
-                });
-
-                angular.forEach(emails, function (item) {
-
-                    $scope.emails.push(item.trim());
-
-                });
+                for(key in multipleContacts) {
+                    multipleContacts[key].forEach((currentVal) => {
+                        $scope.multipleContacts[key].push(currentVal.trim());
+                    });
+                }
                 //getcandidateproperties start
                 Candidate.getCandidateProperties({candidateId: $scope.candidate.candidateId}, function (res) {
                     if(res.status == 'ok' && res.object) {
@@ -722,15 +750,15 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         //setGroups end
                         //testAppointments start
                         if($rootScope.me.recrutRole == 'admin' || $rootScope.me.recrutRole == 'recruter') {
-                                if($scope.candidateProperties.testAppointmentContents !== undefined) {
-                                    $scope.totalTestsCount = $scope.candidateProperties.testTestTotaElementsl;
-                                    $scope.tests = [];
-                                    for(var iter = 0; iter < 3 && iter < $scope.candidateProperties.testAppointmentContents.length; iter++ ) {
-                                        $scope.tests[iter] = $scope.candidateProperties.testAppointmentContents[iter];
-                                    }
-                                }else if (angular.equals(resp.status, "error")){
-                                    notificationService.error(resp.message);
+                            if($scope.candidateProperties.testAppointmentContents !== undefined) {
+                                $scope.totalTestsCount = $scope.candidateProperties.testTestTotaElementsl;
+                                $scope.tests = [];
+                                for(var iter = 0; iter < 3 && iter < $scope.candidateProperties.testAppointmentContents.length; iter++ ) {
+                                    $scope.tests[iter] = $scope.candidateProperties.testAppointmentContents[iter];
                                 }
+                            }else if (angular.equals(resp.status, "error")){
+                                notificationService.error(resp.message);
+                            }
                         }
                         //testAppointments end
                         //updateCand links start
@@ -763,36 +791,36 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         //updateCand links end
 
                         //updateTasks start
-                                $scope.candidateTasks = $scope.candidateProperties.taskContents;
-                                if($scope.urlTaskId){
-                                    $rootScope.responsiblePersonsEdit = [];
-                                    angular.forEach($scope.candidateTasks, function(resp){
-                                        if(resp.taskId == $scope.urlTaskId){
-                                            $rootScope.editableTask = resp;
-                                            $scope.showModalEditTaskToCandidate($rootScope.editableTask);
-                                            $location.$$absUrl = $location.$$absUrl.split("&")[0];
+                        $scope.candidateTasks = $scope.candidateProperties.taskContents;
+                        if($scope.urlTaskId){
+                            $rootScope.responsiblePersonsEdit = [];
+                            angular.forEach($scope.candidateTasks, function(resp){
+                                if(resp.taskId == $scope.urlTaskId){
+                                    $rootScope.editableTask = resp;
+                                    $scope.showModalEditTaskToCandidate($rootScope.editableTask);
+                                    $location.$$absUrl = $location.$$absUrl.split("&")[0];
+                                }
+                            });
+                            if($rootScope.editableTask && $location.$$absUrl.indexOf('&task=') == -1){
+                                $location.$$absUrl = $location.$$absUrl + '&task=' + $scope.urlTaskId;
+                                angular.forEach($rootScope.editableTask.responsiblesPerson,function(resp){
+                                    angular.forEach($rootScope.persons,function(res){
+                                        if(resp.responsible.userId == res.userId){
+                                            $rootScope.responsiblePersonsEdit.push(res);
+                                            res.notShown = true;
+                                            //$rootScope.persons.splice($rootScope.persons.indexOf(res), 1);
                                         }
                                     });
-                                    if($rootScope.editableTask && $location.$$absUrl.indexOf('&task=') == -1){
-                                        $location.$$absUrl = $location.$$absUrl + '&task=' + $scope.urlTaskId;
-                                        angular.forEach($rootScope.editableTask.responsiblesPerson,function(resp){
-                                            angular.forEach($rootScope.persons,function(res){
-                                                if(resp.responsible.userId == res.userId){
-                                                    $rootScope.responsiblePersonsEdit.push(res);
-                                                    res.notShown = true;
-                                                    //$rootScope.persons.splice($rootScope.persons.indexOf(res), 1);
-                                                }
-                                            });
-                                        });
-                                        $('.editTaskInCandidate').modal('setting',{
-                                            onHide: function(){
-                                                $scope.urlTaskId = null;
-                                                $location.$$absUrl = $location.$$absUrl.split("&")[0];
-                                                $scope.$apply();
-                                            }
-                                        }).modal('show');
+                                });
+                                $('.editTaskInCandidate').modal('setting',{
+                                    onHide: function(){
+                                        $scope.urlTaskId = null;
+                                        $location.$$absUrl = $location.$$absUrl.split("&")[0];
+                                        $scope.$apply();
                                     }
-                                }
+                                }).modal('show');
+                            }
+                        }
                         //updateTasks end
                     }
                     //setGroups start
@@ -997,7 +1025,6 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             });
             //$rootScope.persons = $scope.persons;
         });
-
         $scope.imgWidthFunc = function(){
             var img = new Image();
             img.onload = function() {
@@ -1140,13 +1167,13 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         };
         $scope.showChangeStatusOfCandidate = function (status) {
             //$('.changeStatusOfCandidate.modal').modal('show');
-             $scope.modalInstance = $uibModal.open({
+            $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/candidate-change-status-in-candidate.html',
-                 size: '',
-                 resolve: function(){
+                size: '',
+                resolve: function(){
 
-                 }
+                }
             });
 
             $rootScope.changeStateInCandidate.status = status;
@@ -1185,6 +1212,35 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             }
         };
 
+        $scope.toMergeModal = function (id){
+            $rootScope.candidateForMerge = undefined;
+            if($rootScope.me.recrutRole != 'client' && $rootScope.me.recrutRole != 'salesmanager'){
+                $scope.modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '../partials/modal/candidate-merge-modal.html',
+                    resolve: {
+                        items: function () {
+                            return $scope.items;
+                        }
+                    }
+                });
+            }else{
+                notificationService.error($filter('translate')('Only recruiters, admins and freelancers can adding candidates in vacancy'));
+            }
+        };
+        $rootScope.mergedCandidate = $routeParams.id;
+        $rootScope.toMerge = function (id) {
+            $rootScope.closeModal();
+            if($rootScope.me.recrutRole != 'client'){
+                if($scope.candidate.status != 'archived'){
+                    Service.toMergeCandidate(id);
+                }else{
+                    notificationService.error($filter('translate')('Remote candidates can not be edited.'));
+                }
+            }else{
+                notificationService.error($filter('translate')('Only recruiters, admins and freelancers can editing candidates'));
+            }
+        };
         $scope.toEdit = function (id) {
             if($rootScope.me.recrutRole != 'client'){
                 if($scope.candidate.status != 'archived'){
@@ -1400,7 +1456,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 notificationService.error($filter('translate')("enter_email_candidate"));
                 return;
             }
-                if (!$rootScope.clickedSaveStatusInterviewInVacancy) {
+            if (!$rootScope.clickedSaveStatusInterviewInVacancy) {
                 $rootScope.clickedSaveStatusInterviewInVacancy = true;
                 $rootScope.changeStatusOfInterviewInVacancy.errorMessage = false;
                 var changeObj = $rootScope.changeStatusOfInterviewInVacancy;
@@ -1659,7 +1715,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             } else{
                 $scope.addLinkErrorShow = true;
                 if(!$scope.addLinkToCandidate.name)
-                notificationService.error($filter('translate')('Enter a URL name'));
+                    notificationService.error($filter('translate')('Enter a URL name'));
             }
         };
         $scope.showCommentsFirstTime = function(){
@@ -1780,17 +1836,17 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.toggleDescriptionFunc = function (param) {
             var elem = $('div.content-description');
             var titleElem = $('.candidate-profile-rezume .centerBar .description h4');
-                if($scope.toggleDescription || param == 'expand') {
-                    elem.css({'max-height': 'none'});
-                    elem.toggleClass('showAfter');
-                    $scope.toggleDescription = false;
-                    titleElem.prop('title', $filter('translate')('Hide full description'));
-                } else {
-                    elem.css({'max-height': '100px'});
-                    elem.toggleClass('showAfter');
-                    $scope.toggleDescription = true;
-                    titleElem.prop('title', $filter('translate')('Show full description'));
-                }
+            if($scope.toggleDescription || param == 'expand') {
+                elem.css({'max-height': 'none'});
+                elem.toggleClass('showAfter');
+                $scope.toggleDescription = false;
+                titleElem.prop('title', $filter('translate')('Hide full description'));
+            } else {
+                elem.css({'max-height': '100px'});
+                elem.toggleClass('showAfter');
+                $scope.toggleDescription = true;
+                titleElem.prop('title', $filter('translate')('Show full description'));
+            }
         };
 
 
@@ -1808,159 +1864,159 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             return date;
         };
         setTimeout(function(){
-        $(".withoutTimeTask").datetimepicker({
-            format: "dd/mm/yyyy HH:00",
-            startView: 2,
-            minView: 1,
-            autoclose: true,
-            weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
-            language: $translate.use(),
-            initialDate: new Date(),
-            startDate: new Date()
-        }).on('changeDate', function (data) {
-            $rootScope.editableTask.targetDate = $('.withoutTimeTask').datetimepicker('getDate');
-            $scope.roundMinutes($rootScope.editableTask.targetDate);
-            Task.changeTargetDate({
-                "taskId": $rootScope.editableTask.taskId,
-                "date":$rootScope.editableTask.targetDate
-            }, function(resp){
-                $scope.updateTasks();
-                $scope.getLastEvent();
-            })
-        }).on('hide', function () {
-            if ($('.withoutTimeTask').val() == "") {
-                $rootScope.editableTask.date = "";
-            }
-            $('.withoutTimeTask').blur();
-        });
+            $(".withoutTimeTask").datetimepicker({
+                format: "dd/mm/yyyy HH:00",
+                startView: 2,
+                minView: 1,
+                autoclose: true,
+                weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                language: $translate.use(),
+                initialDate: new Date(),
+                startDate: new Date()
+            }).on('changeDate', function (data) {
+                $rootScope.editableTask.targetDate = $('.withoutTimeTask').datetimepicker('getDate');
+                $scope.roundMinutes($rootScope.editableTask.targetDate);
+                Task.changeTargetDate({
+                    "taskId": $rootScope.editableTask.taskId,
+                    "date":$rootScope.editableTask.targetDate
+                }, function(resp){
+                    $scope.updateTasks();
+                    $scope.getLastEvent();
+                })
+            }).on('hide', function () {
+                if ($('.withoutTimeTask').val() == "") {
+                    $rootScope.editableTask.date = "";
+                }
+                $('.withoutTimeTask').blur();
+            });
 
-        //$scope.showModalAddTaskToCandidate = function () {
-        //    $rootScope.responsiblePersons = [];
-        //    $('.addTaskInCandidate').modal('show');
-        //};
-        $scope.showModalAddTaskToCandidate = function (size) {
-            $rootScope.responsiblePersons = [];
-            angular.forEach($rootScope.persons,function(res){
+            //$scope.showModalAddTaskToCandidate = function () {
+            //    $rootScope.responsiblePersons = [];
+            //    $('.addTaskInCandidate').modal('show');
+            //};
+            $scope.showModalAddTaskToCandidate = function (size) {
+                $rootScope.responsiblePersons = [];
+                angular.forEach($rootScope.persons,function(res){
                     res.notShown = false;
-            });
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: '../partials/modal/adding-task.html',
-                size: size,
-                resolve: {
-                    items: function () {
-                        return $scope.items;
+                });
+                $scope.modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '../partials/modal/adding-task.html',
+                    size: size,
+                    resolve: {
+                        items: function () {
+                            return $scope.items;
+                        }
                     }
+                });
+                $scope.modalInstance.opened.then(function() {
+                    setTimeout(function(){
+                        $(".changeDateNewTask").datetimepicker({
+                            format: "dd/mm/yyyy hh:ii",
+                            startView: 2,
+                            minView: 0,
+                            autoclose: true,
+                            weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                            language: $translate.use(),
+                            initialDate: new Date(),
+                            startDate: new Date()
+                        }).on('changeDate', function (data) {
+                            $rootScope.newTask.targetDate = $('.changeDateNewTask').datetimepicker('getDate');
+                            function roundMinutes(date) {
+
+                                date.setHours(date.getHours() + Math.round(date.getMinutes()/60));
+                                date.setMinutes(0);
+
+                                return date;
+                            }
+                            // $scope.roundMinutes($rootScope.newTask.targetDate)
+                        }).on('hide', function () {
+                            if ($('.changeDateNewTask').val() == "") {
+                                $rootScope.newTask.date = "";
+                            }
+                            $('.changeDateNewTask').blur();
+                        });
+                    },1)
+                });
+            };
+            $scope.showModalConfirmationResumeUpdate = function(){
+                $('.confirmationResumeUpdate.modal').modal('show');
+            };
+            $scope.showModalConfirmationResumeEdit = function(file){
+                $scope.modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '../partials/modal/candidate-replace-with-resume.html',
+                    size: ''
+                });
+                $rootScope.editResumeFile = file;
+            };
+            $rootScope.changeCandidateFromExistingResume = function(){
+                Candidate.updateFromFile({
+                    candidateId: $rootScope.candidateForUpdateResume.candidateId,
+                    fileId: $rootScope.editResumeFile.fileId
+                },function(resp){
+                    if(resp.status == 'ok'){
+                        $scope.updateCandidate();
+                        $rootScope.closeModal();
+                    }else{
+                        notificationService.error(resp.message);
+                    }
+                })
+            };
+            $scope.showModalResume = function(file){
+                showModalResume(file,$scope,$rootScope,$location,$sce,$uibModal);
+            };
+            $rootScope.closeModalResume = function(){
+                $rootScope.closeModal();
+            };
+            $scope.downloadDoc = function(){
+                $scope.loading = true;
+                Candidate.getCV({"localId": $scope.candidate.localId},function(resp){
+                    if(resp.status == 'ok'){
+                        $scope.loading = false;
+                        pdfId = resp.object;
+                        $('#downloadDoc')[0].href = '/hr/' + 'getapp?id=' + pdfId;
+                        $('#downloadDoc')[0].click();
+                    }else{
+                        notificationService.error(resp.message);
+                    }
+                });
+            };
+            $rootScope.changeSearchType = function(param){
+                $window.location.replace('/!#/candidates');
+                $rootScope.changeSearchTypeNotFromCandidates = param;
+            };
+
+            $rootScope.changeTabOnTask = function(val){
+                if (val == "Task") {
+                    $rootScope.editableTask.type = 'Task';
+                } else if (val == "Call") {
+                    $rootScope.editableTask.type = 'Call';
+                } else if (val == "Meeting") {
+                    $rootScope.editableTask.type = 'Meeting';
                 }
-            });
-            $scope.modalInstance.opened.then(function() {
-                setTimeout(function(){
-                    $(".changeDateNewTask").datetimepicker({
-                        format: "dd/mm/yyyy hh:ii",
-                        startView: 2,
-                        minView: 0,
-                        autoclose: true,
-                        weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
-                        language: $translate.use(),
-                        initialDate: new Date(),
-                        startDate: new Date()
-                    }).on('changeDate', function (data) {
-                        $rootScope.newTask.targetDate = $('.changeDateNewTask').datetimepicker('getDate');
-                        function roundMinutes(date) {
-
-                            date.setHours(date.getHours() + Math.round(date.getMinutes()/60));
-                            date.setMinutes(0);
-
-                            return date;
-                        }
-                        // $scope.roundMinutes($rootScope.newTask.targetDate)
-                    }).on('hide', function () {
-                        if ($('.changeDateNewTask').val() == "") {
-                            $rootScope.newTask.date = "";
-                        }
-                        $('.changeDateNewTask').blur();
-                    });
-                },1)
-            });
-        };
-        $scope.showModalConfirmationResumeUpdate = function(){
-            $('.confirmationResumeUpdate.modal').modal('show');
-        };
-        $scope.showModalConfirmationResumeEdit = function(file){
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: '../partials/modal/candidate-replace-with-resume.html',
-                size: ''
-            });
-            $rootScope.editResumeFile = file;
-        };
-        $rootScope.changeCandidateFromExistingResume = function(){
-            Candidate.updateFromFile({
-                candidateId: $rootScope.candidateForUpdateResume.candidateId,
-                fileId: $rootScope.editResumeFile.fileId
-            },function(resp){
-                if(resp.status == 'ok'){
-                    $scope.updateCandidate();
-                    $rootScope.closeModal();
-                }else{
-                    notificationService.error(resp.message);
+                $rootScope.editNameTask(true);
+                $scope.updateTasks();
+            };
+            $rootScope.changeTabOnTaskForNewTask = function(val){
+                if (val == "Task") {
+                    $rootScope.newTask.type = 'Task';
+                } else if (val == "Call") {
+                    $rootScope.newTask.type = 'Call';
+                } else if (val == "Meeting") {
+                    $rootScope.newTask.type = 'Meeting';
                 }
-            })
-        };
-        $scope.showModalResume = function(file){
-            showModalResume(file,$scope,$rootScope,$location,$sce,$uibModal);
-        };
-        $rootScope.closeModalResume = function(){
-            $rootScope.closeModal();
-        };
-        $scope.downloadDoc = function(){
-            $scope.loading = true;
-            Candidate.getCV({"localId": $scope.candidate.localId},function(resp){
-                if(resp.status == 'ok'){
-                    $scope.loading = false;
-                    pdfId = resp.object;
-                    $('#downloadDoc')[0].href = '/hr/' + 'getapp?id=' + pdfId;
-                    $('#downloadDoc')[0].click();
-                }else{
-                    notificationService.error(resp.message);
-                }
-            });
-        };
-        $rootScope.changeSearchType = function(param){
-            $window.location.replace('/!#/candidates');
-            $rootScope.changeSearchTypeNotFromCandidates = param;
-        };
+                $scope.updateTasks();
+            };
 
-        $rootScope.changeTabOnTask = function(val){
-            if (val == "Task") {
-                $rootScope.editableTask.type = 'Task';
-            } else if (val == "Call") {
-                $rootScope.editableTask.type = 'Call';
-            } else if (val == "Meeting") {
-                $rootScope.editableTask.type = 'Meeting';
-            }
-            $rootScope.editNameTask(true);
-            $scope.updateTasks();
-        };
-        $rootScope.changeTabOnTaskForNewTask = function(val){
-            if (val == "Task") {
-                $rootScope.newTask.type = 'Task';
-            } else if (val == "Call") {
-                $rootScope.newTask.type = 'Call';
-            } else if (val == "Meeting") {
-                $rootScope.newTask.type = 'Meeting';
-            }
-            $scope.updateTasks();
-        };
-
-        //$scope.deleteComment = function(action){
-        //    Action.removeMessageAction({"actionId": action.actionId}, function(resp){
-        //        if (resp.status && angular.equals(resp.status, "error")) {
-        //            notificationService.error(resp.message);
-        //        }
-        //    });
-        //};
-    });
+            //$scope.deleteComment = function(action){
+            //    Action.removeMessageAction({"actionId": action.actionId}, function(resp){
+            //        if (resp.status && angular.equals(resp.status, "error")) {
+            //            notificationService.error(resp.message);
+            //        }
+            //    });
+            //};
+        });
         $scope.getFirstLetters = function(str){
             return firstLetters(str)
         };

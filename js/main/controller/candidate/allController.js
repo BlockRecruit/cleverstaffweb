@@ -1287,9 +1287,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 if (resp.status == "ok") {
                     $rootScope.changeStateInCandidate.candidate.status = resp.object.status;
                     notificationService.success($filter('translate')('candidate') + " " + $rootScope.changeStateInCandidate.candidate.fullName + " " + $filter('translate')('was_deleted'));
-                    if($scope.candidates.length == 1 && $scope.a.searchNumber > 0) {
+                    if($scope.candidates.length == 1 && $scope.a.searchNumber > 1) {
                         $scope.tableParams.page($scope.a.searchNumber - 1);
-                        $scope.tableParams.reload();
                     } else {
                         $scope.tableParams.reload();
                     }

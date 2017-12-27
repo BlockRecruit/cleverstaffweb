@@ -438,6 +438,23 @@ body {
 
 					border-radius: 20px;
 					background-color: $theme-light-green-hover;
+					&.low-balance {
+						span {
+							font-size: 13px;
+						}
+					}
+					&.low-low-balance {
+						margin-top: 13px;
+
+						border: 1px solid $theme-red;
+						background-color: rgb(229, 228, 228);
+						.fa-usd {
+							color: #d9534f;
+						}
+						span {
+							color: #d9534f;
+						}
+					}
 					span {
 						margin-right: 11px;
 						margin-left: 5px;

@@ -7,7 +7,7 @@
                 <span class="migration-help-tablet" ng-show="me.orgParams.tarif === 'free'">{{'Need help with the database migration from other ATS/recruitment software?'|translate}}
                   <a href="mailto:contact@cleverstaff.net?subject={{'Help with data migration'|translate}}">{{'Let us help!'|translate}}</a>
                 </span>
-           </div>
+            </div>
             <span class="migration-help-lg" ng-show="me.orgParams.tarif === 'free'">{{'Need help with the database migration from other ATS/recruitment software?'|translate}}
                   <a href="mailto:contact@cleverstaff.net?subject={{'Help with data migration'|translate}}">{{'Let us help!'|translate}}</a>
             </span>
@@ -26,24 +26,6 @@
                     <a ng-href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>
                 </label>
             </div>
-            <!--<div ng-show="duplicatesByName.length > 0 || duplicatesByPhone.length > 0 || duplicatesByEmail.length > 0 || duplicatesBySkype.length > 0 || duplicatesByLinkedin.length > 0" class="alert col-lg-9 alert-danger duplicate-alert pull-right">-->
-                <!--<span>{{'Maybe, you have similar candidates in your database' | translate}}:</span>-->
-                <!--<label ng-repeat="duplicate in duplicatesByName">-->
-                    <!--<a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>-->
-                <!--</label>-->
-                <!--<label ng-repeat="duplicate in duplicatesByPhone">-->
-                    <!--<a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>-->
-                <!--</label>-->
-                <!--<label ng-repeat="duplicate in duplicatesByEmail">-->
-                    <!--<a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>-->
-                <!--</label>-->
-                <!--<label ng-repeat="duplicate in duplicatesBySkype">-->
-                    <!--<a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>-->
-                <!--</label>-->
-                <!--<label ng-repeat="duplicate in duplicatesByLinkedin">-->
-                    <!--<a href="!#/candidates/{{duplicate.localId}}" target="_blank" class="">{{duplicate.fullName}}</a><br/>-->
-                <!--</label>-->
-            <!--</div>-->
             <div class="row candidate-add-profile-rezume">
                 <div class="col-lg-3 col-md-3 leftBar">
                     <!--<h5 ng-if="$root.activePage == 'Candidate add' && !$root.file && addedFromResume">{{'Quickly_add_candidate'|translate}}</h5>-->
@@ -74,17 +56,17 @@
                         </div>
                     </div>
                     <div class="col-lg-12 fastCandSiteForSite" ng-show="fastCandSite && $root.activePage == 'Candidate add'">
-                                <input type="url" placeholder=" {{'Insert a link to resume online'|translate}}" ng-model="fastCandResumeLinkSite" id="fastCandResumeLinkSite"/>
-                                <div class="text-center">
-                                    <a type="button" ng-show="fastCandResumeLinkSite.indexOf('work.ua') > -1 || fastCandResumeLinkSite.indexOf('hh') > -1 || fastCandResumeLinkSite.indexOf('linkedin') > -1"  ng-click="showResumeError()" class="btn btn-primary">
-                                        {{'Process'|translate}}
-                                    </a>
-                                </div>
-                                <div class="text-center">
-                                    <a type="button" ng-show="!(fastCandResumeLinkSite.indexOf('work.ua') > -1 || fastCandResumeLinkSite.indexOf('hh') > -1 || fastCandResumeLinkSite.indexOf('linkedin') > -1)"  ng-click="fromLinkSite()" class="btn btn-primary">
-                                        {{'Process'|translate}}
-                                    </a>
-                                </div>
+                        <input type="url" placeholder=" {{'Insert a link to resume online'|translate}}" ng-model="fastCandResumeLinkSite" id="fastCandResumeLinkSite"/>
+                        <div class="text-center">
+                            <a type="button" ng-show="fastCandResumeLinkSite.indexOf('work.ua') > -1 || fastCandResumeLinkSite.indexOf('hh') > -1 || fastCandResumeLinkSite.indexOf('linkedin') > -1"  ng-click="showResumeError()" class="btn btn-primary">
+                                {{'Process'|translate}}
+                            </a>
+                        </div>
+                        <div class="text-center">
+                            <a type="button" ng-show="!(fastCandResumeLinkSite.indexOf('work.ua') > -1 || fastCandResumeLinkSite.indexOf('hh') > -1 || fastCandResumeLinkSite.indexOf('linkedin') > -1)"  ng-click="fromLinkSite()" class="btn btn-primary">
+                                {{'Process'|translate}}
+                            </a>
+                        </div>
                         <div ng-show="(fastCandResumeLinkSite.indexOf('work.ua') > -1 || fastCandResumeLinkSite.indexOf('hh') > -1 || fastCandResumeLinkSite.indexOf('linkedin') > -1) && !$root.extensionHas && showResumeFromLinkSiteErrorFlag" class="ui red pointing above ui label" style="width: 450px">
                         <span>
                             {{'Candidates from'|translate}}
@@ -211,10 +193,10 @@
                             </div>
                         </div>
                         <!--<div class="mergeCandidate text-center" ng-show="candidate != undefined && candidate.status != 'archived'">-->
-                            <!--<a type="button" ng-click="toMergeModal()" class="btn btn-primary text-center merge-button">-->
-                                <!--{{'Merge profiles'|translate}}-->
-                            <!--</a>-->
-                            <!--<i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.candidateMerge" aria-hidden="true"></i>-->
+                        <!--<a type="button" ng-click="toMergeModal()" class="btn btn-primary text-center merge-button">-->
+                        <!--{{'Merge profiles'|translate}}-->
+                        <!--</a>-->
+                        <!--<i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.candidateMerge" aria-hidden="true"></i>-->
                         <!--</div>-->
                         <div class="deleteCandidate text-center" ng-show="type == 'edit' && candidate != undefined && candidate.status != 'archived'">
                             <a type="button" ng-click="deleteCandidate()" class="btn btn-primary text-center">
@@ -244,7 +226,7 @@
                                     <input placeholder=""  readonly class="datepickerOfBirth" type="text" style="background-image: url('images/sprite/calendar.png');background-position: right center;background-repeat: no-repeat;">
                                     <i class="fa fa-close" ng-click="resetBirthDate()"></i>
                                 </div>
-                                <div class="btn-group" role="group" aria-label="Basic example" ng-init="candidate.sex = true">
+                                <div class="btn-group sex-add" role="group" aria-label="Basic example" ng-init="candidate.sex = true">
                                     <button type="button" class="btn btn-secondary pull-left" ng-class="{'active': candidate.sex == true}"
                                             ng-click="candidate.sex = true">{{'male'|translate}}</button>
                                     <button type="button" class="btn btn-secondary pull-right" ng-class="{'active': candidate.sex == false}"
@@ -338,7 +320,7 @@
                                 <div class="item" ng-if="customField.state == 'A' && $root.activePage == 'Candidate add'" ng-repeat="customField in allObjCustomField track by customField.fieldId">
                                     <div ng-show="customField.type == 'string'" >
                                         <label>{{customField.title}}</label>
-                                        <textarea placeholder="" ng-model-options="{updateOn: 'blur'}" maxlength="250" ng-change="editCustomField(fieldValues.value[$index], customField.fieldId)" ng-model="fieldValues.value[$index]" name="{{customField.fieldValue.dateTimeValue}}"></textarea>
+                                        <textarea placeholder="" ng-model-options="{updateOn: 'blur'}" maxlength="250" ng-change="addCustomFieldParams(fieldValues.value[$index], customField.fieldId)" ng-model="fieldValues.value[$index]" name="{{customField.fieldValue.dateTimeValue}}"></textarea>
                                     </div>
                                     <div ng-show="customField.type == 'select'">
                                         <label>{{customField.title}}</label>
@@ -417,7 +399,7 @@
                                 <div class="item industry">
                                     <label class="label-top">{{'industry'|translate}}</label>
                                     <span industry-autocomplete
-                                           class="select2-container form-control input-lg select2 select14 widthSelectInput1" style="width: 100%;">
+                                          class="select2-container form-control input-lg select2 select14 widthSelectInput1" style="width: 100%;">
                                     </span>
                                 </div>
                                 <div class="item">
@@ -472,46 +454,46 @@
                             <div class="col-lg-4 col-md-4 contactCandidate">
                                 <div class="item">
                                     <label>{{'phone'|translate}}</label>
-                                    <input placeholder="" ng-model="contacts.mphone" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone.length > 0}">
+                                    <input placeholder="" ng-model="contacts.mphone" type="text" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone.length > 0}">
                                     <!--<input placeholder="" ng-model="contacts.mphone" type="text" ng-blur="progressUpdate();checkDuplicatesByPhone()" ng-class="{'error':duplicatesByPhone.length > 0}">-->
                                     <i class="phone icon"></i>
                                 </div>
                                 <div class="item">
                                     <label>Email</label>
-                                    <input placeholder="" ng-model="contacts.email" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeEmail && contacts.email.length > 0}">
+                                    <input placeholder="" ng-model="contacts.email" ng-model-options="{debounce: 500}" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeEmail && contacts.email.length > 0}">
                                     <!--<input placeholder="" ng-model="contacts.email" type="text" ng-blur="progressUpdate();checkDuplicatesByEmail()" ng-class="{'error':duplicatesByEmail.length > 0}">-->
                                     <i class="mail icon"></i>
                                 </div>
                                 <div class="item" >
                                     <label>Skype</label>
-                                    <input placeholder="" ng-model="contacts.skype" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()"  ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeSkype && contacts.skype.length > 0}">
+                                    <input placeholder="" ng-model="contacts.skype" ng-model-options="{debounce: 500}" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()"  ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeSkype && contacts.skype.length > 0}">
                                     <!--<input placeholder="" ng-model="contacts.skype" type="text" ng-blur="progressUpdate();checkDuplicatesBySkype()"  ng-class="{'error':duplicatesBySkype.length > 0}">-->
                                     <i class="skype icon"></i>
                                 </div>
                                 <div class="item">
                                     <label>Linkedin</label>
-                                    <input placeholder="" ng-model="contacts.linkedin" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeLinkedin && contacts.linkedin.length > 0}">
+                                    <input placeholder="" ng-model="contacts.linkedin" ng-model-options="{debounce: 500}" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeLinkedin && contacts.linkedin.length > 0}">
                                     <!--<input placeholder="" ng-model="contacts.linkedin" type="text" ng-blur="progressUpdate();checkDuplicatesByLinkedin()" ng-class="{'error':duplicatesByLinkedin.length > 0}">-->
                                     <i class="linkedin icon"></i>
                                 </div>
                                 <div class="item">
                                     <label>Facebook</label>
-                                    <input placeholder="" ng-model="contacts.facebook" type="text" ng-change="progressUpdate()" >
+                                    <input placeholder="" ng-model="contacts.facebook" ng-model-options="{debounce: 500}" type="text" ng-change="progressUpdate()" >
                                     <i class="facebook icon"></i>
                                 </div>
                                 <div class="item">
                                     <label>Google+</label>
-                                    <input placeholder="" ng-model="contacts.googleplus" type="text" ng-change="progressUpdate()">
+                                    <input placeholder="" ng-model="contacts.googleplus" ng-model-options="{debounce: 500}" type="text" ng-change="progressUpdate()">
                                     <i class="google plus icon"></i>
                                 </div>
                                 <div class="item">
                                     <label>Git</label>
-                                    <input placeholder="" ng-model="contacts.github" type="text" ng-change="progressUpdate()">
+                                    <input placeholder="" ng-model="contacts.github" ng-model-options="{debounce: 500}" type="text" ng-change="progressUpdate()">
                                     <i class="github icon"></i>
                                 </div>
                                 <div class="item">
                                     <label>{{'home_page'|translate}}</label>
-                                    <input placeholder="" ng-model="contacts.homepage" type="text" ng-change="progressUpdate()">
+                                    <input placeholder="" ng-model="contacts.homepage" ng-model-options="{debounce: 500}" type="text" ng-change="progressUpdate()">
                                     <i class="home icon"></i>
                                 </div>
                             </div>
