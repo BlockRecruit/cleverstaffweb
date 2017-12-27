@@ -50,7 +50,7 @@
             </div>
             <div class="col-lg-9" ng-class="{'col-lg-12' : !clients.length && !searchParam.words && !$root.objectSize && $root.me.recrutRole === 'client' ||   !clients.length && searchParam.words && !$root.objectSize && $root.me.recrutRole === 'client'}">
                 <div class="search" ng-click="$event.stopPropagation()">
-                    <div class="row">
+                    <div class="row input-group-wrapper">
                         <div class="input-group">
                             <div class="input-group-addon">
                                 <i class="fa fa-search"></i>
