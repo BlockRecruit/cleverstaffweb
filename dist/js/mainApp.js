@@ -13833,7 +13833,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=36'
+        suffix: '.json?b=37'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -23515,32 +23515,46 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     $scope.showAddedLinks = false;
                     $scope.showAddedFiles = false;
                 }
-                var homepages = [],
-                    emails;
+
+                var multipleContacts = {
+                    homepage: [],
+                    facebook: [],
+                    linkedin: [],
+                    googleplus: [],
+                    github: [],
+                    email: []
+                };
                 $scope.countEmail = 0;
                 angular.forEach($scope.candidate.contacts, function (contacts) {
-                    if(contacts.type == 'homepage') {
-                        homepages = contacts.value.split(/,/);
-                    }else if(contacts.type == 'email'){
-                        emails = contacts.value.split(/[\s,"/", ";"]+/);
+                    switch (contacts.type){
+                        case 'homepage':
+                        case 'linkedin':
+                        case 'facebook':
+                        case 'googleplus':
+                        case 'github':
+                        case 'email':
+                            multipleContacts[contacts.type] = contacts.value.split(/[\s,"/", ";"]+/);
+                            break;
                     }
                     if(contacts.type == 'email'){
                         $scope.countEmail = 1;
                     }
                 });
 
-                $scope.homepages = [],
-                    $scope.emails = [];
+                $scope.multipleContacts = {
+                    homepage: [],
+                    facebook: [],
+                    linkedin: [],
+                    googleplus: [],
+                    github: [],
+                    email: []
+                };
 
-                angular.forEach(homepages, function (item) {
-                    $scope.homepages.push(item.trim());
-                });
-
-                angular.forEach(emails, function (item) {
-
-                    $scope.emails.push(item.trim());
-
-                });
+                for(key in multipleContacts) {
+                    multipleContacts[key].forEach((currentVal) => {
+                        $scope.multipleContacts[key].push(currentVal.trim());
+                    });
+                }
                 //getcandidateproperties start
                 Candidate.getCandidateProperties({candidateId: $scope.candidate.candidateId}, function (res) {
                     if(res.status == 'ok' && res.object) {
