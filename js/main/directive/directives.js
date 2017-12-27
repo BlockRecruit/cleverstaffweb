@@ -3225,6 +3225,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                 };
                 $scope.getPositionAutocompleterValue = function() {//.переимновтаь
                     var object = $(element[0]).select2("data");
+                    console.log(object);
                     return object != null ? object.text : null;
                 };
                 var inputText = "";
@@ -3281,14 +3282,33 @@ var directive = angular.module('RecruitingApp.directives', []).
                         dropdownCssClass: "bigdrop"
                     }).on("select2-close", function(e) {
                         if (inputText.length > 0) {
-                            $(element[0]).select2("data", {id: inputText, text: inputText});
+                            $(element[0]).select2("data", {id: inputText, text: removeExtraSpaces(inputText)});
                         }
+                        if($(element[0]).select2("data")) {
+                            $(element[0]).select2("data", {id: inputText, text: removeExtraSpaces($(element[0]).select2("data").text)});
+                            $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
+                            $scope.setPositionAutocompleterValue($scope.searchParam.position);
+                        }
+                        $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
                     }).on("select2-selecting", function(e) {
                         inputText = "";
                     }).on("select2-open", function() {
                         if($(element[0]).select2("data"))
                             $('#select2-drop input').val($(element[0]).select2("data").text)
                     });
+                }
+                function removeExtraSpaces(string) {
+                    let str = string.split('');
+                    // console.log(str);
+                    for( let i = 0; i < str.length; i++) {
+                        if( str[i] === " " && str[i+1] === " " && i !== 0 && i !== str.length - 1  || (str[i] === " " && i === str.length - 1)) {
+                            // console.log(str[i],str[i+1],"spliced");
+                            str.splice(i,1);
+                            i--;
+                        }
+                    }
+                    // console.log(str);
+                    return str.join('');
                 }
             }
         }
@@ -3533,8 +3553,9 @@ var directive = angular.module('RecruitingApp.directives', []).
                                 });
                             } else {
                                 var groupsIds = [];
-                                var newGroupList = $scope.getSelect2Group().split(",");
+                                var newGroupList = removeExtraSpaces($scope.getSelect2Group()).split(",");
                                 var isExists = false;
+                                console.log(newGroupList);
                                 angular.forEach(newGroupList, function(nval, key) {
                                     isExists = false;
                                     angular.forEach(candidateGroups, function(val, nkey) {
@@ -3544,6 +3565,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                                     });
                                     if (!isExists) {
                                         angular.forEach(groupList, function(val, nkey) {
+                                            console.log(nval);
                                             if (nval == val.name) {
                                                 groupsIds.push(val.candidateGroupId);
                                                 var alreadyAdded = false;
@@ -3553,10 +3575,12 @@ var directive = angular.module('RecruitingApp.directives', []).
                                                     }
                                                 });
                                                 if(!alreadyAdded) {
-                                                    $scope.groupsForEdit.push({name: val.name, candidateGroupId: val.candidateGroupId})
+                                                    console.log("here2");
+                                                    $scope.groupsForEdit.push({name: val.name + "123", candidateGroupId: val.candidateGroupId})
                                                 }
                                             }else if(val.candidateGroupId == nval){
-                                                groupsIds.push(val.candidateGroupId)
+                                                console.log("here");
+                                                groupsIds.push(val.candidateGroupId);
                                             }
                                         });
                                         //CandidateGroup.add({name : nval, candidateIds : candidates},function(res){
@@ -3582,6 +3606,18 @@ var directive = angular.module('RecruitingApp.directives', []).
                             $(element[0]).select2('val', val);
                         }
                     };
+                    function removeExtraSpaces(string) {
+                        let str = string.split('');
+                        console.log(str);
+                        for( let i = 0; i < str.length; i++) {
+                            if( str[i] === " " && str[i+1] === " " && i !== 0 && i !== str.length - 1 ) {
+                                console.log(str[i],str[i+1],"spliced");
+                                str.splice(i,1);
+                                i--;
+                            }
+                        }
+                        return str.join('');
+                    }
                 }
             }
         }]
