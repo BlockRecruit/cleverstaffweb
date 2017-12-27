@@ -188,10 +188,12 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                 }
 
                 let checkForCorrectAnswer = question.variantsArray.every(function (variant) {
-                    return variant.isCorrect;
+                    return !variant.isCorrect;
                 });
 
-                if(!checkForCorrectAnswer) {
+                console.log(checkForCorrectAnswer);
+
+                if(checkForCorrectAnswer) {
                     question.noCorrectAnswerInQuestion = true;
                     $scope.noCorrectAnswerInQuestion = true;
                     $scope.noAnswerIndex = index;
