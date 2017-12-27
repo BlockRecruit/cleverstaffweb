@@ -116,7 +116,7 @@ $(document).ready(function(){
                 $('hide-block').css("height", "50px");
             }
 
-            if (scroll >= 2959) {
+            if (scroll >= 3120) {
                 sticky.removeClass('fixed-plans');
             }
             if(scroll){
@@ -130,7 +130,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 3520) {
+                if (scroll >= 3860) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -142,7 +142,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 4733) {
+                if (scroll >= 5255) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -154,7 +154,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block').css('height', '50px');
                 }
 
-                if (scroll >= 5666) {
+                if (scroll >= 6136) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -167,7 +167,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 5660) {
+                if (scroll >= 6250) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -179,7 +179,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 5825) {
+                if (scroll >= 6445) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -191,7 +191,7 @@ $(document).ready(function(){
                 sticky.addClass('hide-block');
             }
 
-            if (scroll >= 2943) {
+            if (scroll >= 3110) {
                 sticky.removeClass('fixed-plans');
             }
             if(scroll){
@@ -205,7 +205,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 3235) {
+                if (scroll >= 3535) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -217,7 +217,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 4672) {
+                if (scroll >= 5142) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -229,7 +229,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 5557) {
+                if (scroll >= 6057) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -241,7 +241,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 5536) {
+                if (scroll >= 6136) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -253,7 +253,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 5670) {
+                if (scroll >= 6370) {
                     sticky.removeClass('fixed-plans');
                 }
             }
