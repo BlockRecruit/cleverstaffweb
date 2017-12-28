@@ -244,7 +244,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.addEmailForParsing.value == 'true'"
                                          ng-class="{'selected':source == 'linkMail'}">
-                                        <div class="content"'" uib-popover-html="htmlPopover"  ng-mouseover="popoverPosition($event, 379)">
+                                        <div class="content"  ng-mouseover="popoverPosition($event, 379)">
                                             <span class="doneAchieve">{{'Connect Mail to add candidates' |translate}}</span>
                                             <i popover-placement="top"   popover-trigger="'mouseenter'" uib-popover-html="htmlPopover" id="htmlPopover" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right" aria-hidden="true"></i>
@@ -256,7 +256,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.addEmailForParsing.value == 'false'"
                                          ng-class="{'selected':source == 'linkMail'}">
-                                        <div class="contentr'" uib-popover-html="htmlPopover" ng-mouseover="popoverPosition($event, 379)">
+                                        <div class="contentr" ng-mouseover="popoverPosition($event, 379)">
                                             {{'Connect Mail to add candidates' |translate}}
                                             [<a href="#/email-integration" target="_blank">{{'link'|translate}}</a>]
                                             <i popover-placement="top"   popover-trigger="'mouseenter'" uib-popover-html="htmlPopover" id="htmlPopover" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
@@ -268,9 +268,9 @@
 
                                     <div class="achieveContainer" ng-if="achieves.addUsers.value == 'true'"
                                          ng-class="{'selected':source == 'addUsers'}">
-                                        <div class="content"  uib-popover-html="htmlPopover2"  ng-mouseover="popoverPosition($event, 418)">
+                                        <div class="content"   ng-mouseover="popoverPosition($event, 418)">
                                             <span class="doneAchieve">{{'Add other users' |translate}}</span>
-                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover2" id="htmlPopover2" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i popover-placement="top"  popover-trigger="mouseenter" uib-popover-html="htmlPopover2" id="htmlPopover2" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right" aria-hidden="true"></i>
                                              <span class="date pull-right">
                                                 {{achieves.addUsers.achieveDate |dateFormat2}}
@@ -279,9 +279,9 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.addUsers.value == 'false'"
                                          ng-class="{'selected':source == 'addUsers'}">
-                                        <div class="content"  uib-popover-html="htmlPopover2"  ng-mouseover="popoverPosition($event, 418)">
+                                        <div class="content"  ng-mouseover="popoverPosition($event, 418)">
                                             <span class="notDoneAchieve">{{'Add other users' |translate}}</span>
-                                            <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover2" id="htmlPopover2" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
+                                            <i popover-placement="top"  popover-trigger="mouseenter" uib-popover-html="htmlPopover2" id="htmlPopover2" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i title="{{'Not done' |translate}}" class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true"></i>
                                         </div>
                                     </div>
@@ -290,7 +290,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.browser.value == 'true'"
                                          ng-class="{'selected':source == 'browser'}">
-                                        <div class="content"  uib-popover-html="htmlPopover3"  ng-mouseover="popoverPosition($event, 206)">
+                                        <div class="content"  ng-mouseover="popoverPosition($event, 206)">
                                             <span class="doneAchieve">{{'Switch to another browser' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover3" id="htmlPopover3" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
@@ -301,7 +301,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.browser.value == 'false'"
                                          ng-class="{'selected':source == 'browser'}">
-                                        <div class="content"  uib-popover-html="htmlPopover3"  ng-mouseover="popoverPosition($event, 206)">
+                                        <div class="content"  ng-mouseover="popoverPosition($event, 206)">
                                             <span class="notDoneAchieve">{{'Switch to another browser' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover3" id="htmlPopover3" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
@@ -312,7 +312,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.plugin.value == 'true'"
                                          ng-class="{'selected':source == 'plugin'}">
-                                        <div class="content"  uib-popover-html="htmlPopover4"  ng-mouseover="popoverPosition($event, 282)">
+                                        <div class="content"   ng-mouseover="popoverPosition($event, 282)">
                                             <span class="doneAchieve">{{'Install the extension for' |translate}}
                                                 <span ng-if="publicBrowser == 'chrome'">Chrome</span>
                                                 <span ng-if="publicBrowser == 'firefox'">Firefox</span>
@@ -327,7 +327,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.plugin.value == 'false'"
                                          ng-class="{'selected':source == 'plugin'}">
-                                        <div class="content"  uib-popover-html="htmlPopover4"  ng-mouseover="popoverPosition($event, 282)">
+                                        <div class="content"    ng-mouseover="popoverPosition($event, 282)">
                                             <span class="notDoneAchieve">
                                                 {{'Install the extension for' |translate}}
                                                 <span ng-if="publicBrowser == 'chrome'">Chrome</span>
@@ -344,7 +344,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.addCandidateFromLink.value == 'true'"
                                          ng-class="{'selected':source == 'addCandidateFromLink'}">
-                                        <div class="content"  uib-popover-html="htmlPopover5"  ng-mouseover="popoverPosition($event, 262)">
+                                        <div class="content"   ng-mouseover="popoverPosition($event, 262)">
                                             <span class="doneAchieve">{{'Save 2 candidates from LinkedIn' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover5" id="htmlPopover5" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
@@ -355,7 +355,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.addCandidateFromLink.value == 'false'"
                                          ng-class="{'selected':source == 'addCandidateFromLink'}">
-                                        <div class="content"  uib-popover-html="htmlPopover5"  ng-mouseover="popoverPosition($event, 262)">
+                                        <div class="content"   ng-mouseover="popoverPosition($event, 262)">
                                             <span class="notDoneAchieve">{{'Save 2 candidates from LinkedIn' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover5" id="htmlPopover5" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
@@ -366,7 +366,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.addCandidateFromCV.value == 'true'"
                                          ng-class="{'selected':source == 'addCandidateFromCV'}">
-                                        <div class="content"  uib-popover-html="htmlPopover6"  ng-mouseover="popoverPosition($event, 363)">
+                                        <div class="content"   ng-mouseover="popoverPosition($event, 363)">
                                             <span class="doneAchieve">{{'Add 3 candidates from CV files' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover6" id="htmlPopover6" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
@@ -377,7 +377,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.addCandidateFromCV.value == 'false'"
                                          ng-class="{'selected':source == 'addCandidateFromCV'}">
-                                        <div class="content"  uib-popover-html="htmlPopover6"  ng-mouseover="popoverPosition($event, 363)">
+                                        <div class="content"    ng-mouseover="popoverPosition($event, 363)">
                                             <span class="notDoneAchieve">{{'Add 3 candidates from CV files' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover6" id="htmlPopover6" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
@@ -388,7 +388,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.addClient.value == 'true'"
                                          ng-class="{'selected':source == 'addClient'}">
-                                        <div class="content"  uib-popover-html="htmlPopover7"  ng-mouseover="popoverPosition($event, 222)">
+                                        <div class="content"    ng-mouseover="popoverPosition($event, 222)">
                                             <span class="doneAchieve">{{'Add 2 clients' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover7" id="htmlPopover7" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
@@ -399,7 +399,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.addClient.value == 'false'"
                                          ng-class="{'selected':source == 'addClient'}">
-                                        <div class="content"  uib-popover-html="htmlPopover7"  ng-mouseover="popoverPosition($event, 222)">
+                                        <div class="content"    ng-mouseover="popoverPosition($event, 222)">
                                             {{'Add 2 clients' |translate}}
                                             [<a href="#/client/add" target='_blank'>{{'link'|translate}}</a>]
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover7" id="htmlPopover7" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
@@ -411,7 +411,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.addContactClient.value == 'true'"
                                          ng-class="{'selected':source == 'addContactClient'}">
-                                        <div class="content"  uib-popover-html="htmlPopover8"  ng-mouseover="popoverPosition($event, 424)">
+                                        <div class="content"    ng-mouseover="popoverPosition($event, 424)">
                                             <span class="doneAchieve">{{'Add a contact person for the client' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover8" id="htmlPopover8" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
@@ -422,7 +422,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.addContactClient.value == 'false'"
                                          ng-class="{'selected':source == 'addContactClient'}">
-                                        <div class="content"  uib-popover-html="htmlPopover8"  ng-mouseover="popoverPosition($event, 424)">
+                                        <div class="content"    ng-mouseover="popoverPosition($event, 424)">
                                             <span class="notDoneAchieve">{{'Add a contact person for the client' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover8" id="htmlPopover8" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
@@ -433,7 +433,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.addVacancy.value == 'true'"
                                          ng-class="{'selected':source == 'addVacancy'}">
-                                        <div class="content"  uib-popover-html="htmlPopover9"  ng-mouseover="popoverPosition($event, 386)">
+                                        <div class="content"    ng-mouseover="popoverPosition($event, 386)">
                                             <span class="doneAchieve">{{'Add vacancy' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover9" id="htmlPopover9" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
@@ -444,7 +444,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.addVacancy.value == 'false'"
                                          ng-class="{'selected':source == 'addVacancy'}">
-                                        <div class="content"  uib-popover-html="htmlPopover9"  ng-mouseover="popoverPosition($event, 386)">
+                                        <div class="content"   ng-mouseover="popoverPosition($event, 386)">
                                             {{'Add vacancy' |translate}}
                                             [<a href="#/vacancy/add" target="_blank">{{'link'|translate}}</a>]
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover9" id="htmlPopover9" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
@@ -456,7 +456,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.uploadArchive.value == 'true'"
                                          ng-class="{'selected':source == 'uploadArchive'}">
-                                        <div class="content"   uib-popover-html="htmlPopover10"  ng-mouseover="popoverPosition($event, 391)">
+                                        <div class="content"    ng-mouseover="popoverPosition($event, 391)">
                                             <span class="doneAchieve">{{'Add archive' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover10" id="htmlPopover10" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
@@ -467,7 +467,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.uploadArchive.value == 'false'"
                                          ng-class="{'selected':source == 'uploadArchive'}">
-                                        <div class="content"   uib-popover-html="htmlPopover10"  ng-mouseover="popoverPosition($event, 391)">
+                                        <div class="content"     ng-mouseover="popoverPosition($event, 391)">
                                             {{'Add archive' |translate}}
                                             [<a href="#/candidate/add/zip" target="_blank">{{'link'|translate}}</a>]
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover10" id="htmlPopover10" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
@@ -479,7 +479,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.changeInterviewState.value == 'true'"
                                          ng-class="{'selected':source == 'changeInterviewState'}">
-                                        <div class="content"   uib-popover-html="htmlPopover11"  ng-mouseover="popoverPosition($event, 658)">
+                                        <div class="content"     ng-mouseover="popoverPosition($event, 658)">
                                             <span class="doneAchieve">{{'Change candidates stages for vacancy' |translate}}</span>
                                             <i  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover11" id="htmlPopover11" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i popover-placement="top" class="fa fa-check achieveIconDone pull-right"></i>
@@ -490,7 +490,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.changeInterviewState.value == 'false'"
                                          ng-class="{'selected':source == 'changeInterviewState'}">
-                                        <div class="content"   uib-popover-html="htmlPopover11"  ng-mouseover="popoverPosition($event, 658)">
+                                        <div class="content"     ng-mouseover="popoverPosition($event, 658)">
                                             <span class="notDoneAchieve">{{'Change candidates stages for vacancy' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover11" id="htmlPopover11" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
@@ -501,7 +501,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.orgLogo.value == 'true'"
                                          ng-class="{'selected':source == 'orgLogo'}">
-                                        <div class="content"   uib-popover-html="htmlPopover12"  ng-mouseover="popoverPosition($event, 165)">
+                                        <div class="content"    ng-mouseover="popoverPosition($event, 165)">
                                             <span class="doneAchieve">{{'Set logo' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover12" id="htmlPopover12" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
@@ -512,7 +512,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.orgLogo.value == 'false'"
                                          ng-class="{'selected':source == 'orgLogo'}">
-                                        <div class="content"   uib-popover-html="htmlPopover12"  ng-mouseover="popoverPosition($event, 165)">
+                                        <div class="content"    ng-mouseover="popoverPosition($event, 165)">
                                             {{'Set logo' |translate}}
                                             [<a href="#/company/settings" target="_blank">{{'link'|translate}}</a>]
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover12" id="htmlPopover12" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
@@ -524,7 +524,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.publishVacancy.value == 'true'"
                                          ng-class="{'selected':source == 'publishVacancy'}">
-                                        <div class="content"   uib-popover-html="htmlPopover13"  ng-mouseover="popoverPosition($event, 282)">
+                                        <div class="content"   ng-mouseover="popoverPosition($event, 282)">
                                             <span class="doneAchieve">{{'Publish vacancy in social networks' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover13" id="htmlPopover13" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
@@ -535,7 +535,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.publishVacancy.value == 'false'"
                                          ng-class="{'selected':source == 'publishVacancy'}">
-                                        <div class="content"   uib-popover-html="htmlPopover13"  ng-mouseover="popoverPosition($event, 282)">
+                                        <div class="content"    ng-mouseover="popoverPosition($event, 282)">
                                             <span class="notDoneAchieve">{{'Publish vacancy in social networks' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover13" id="htmlPopover13" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
@@ -546,7 +546,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.candidateToVacancy.value == 'true'"
                                          ng-class="{'selected':source == 'candidateToVacancy'}">
-                                        <div class="content"   uib-popover-html="htmlPopover14"  ng-mouseover="popoverPosition($event, 205)">
+                                        <div class="content"   ng-mouseover="popoverPosition($event, 205)">
                                             <span class="doneAchieve">{{'Find 2 candidates for the vacancy' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover14" id="htmlPopover14" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
@@ -557,7 +557,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.candidateToVacancy.value == 'false'"
                                          ng-class="{'selected':source == 'candidateToVacancy'}">
-                                        <div class="content"   uib-popover-html="htmlPopover14"  ng-mouseover="popoverPosition($event, 205)">
+                                        <div class="content"    ng-mouseover="popoverPosition($event, 205)">
                                             <span class="notDoneAchieve">{{'Find 2 candidates for the vacancy' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover14" id="htmlPopover14" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
@@ -568,7 +568,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.sendCandidatesToClient.value == 'true'"
                                          ng-class="{'selected':source == 'sendCandidatesToClient'}">
-                                        <div class="content"   uib-popover-html="htmlPopover15"  ng-mouseover="popoverPosition($event, 242)">
+                                        <div class="content"    ng-mouseover="popoverPosition($event, 242)">
                                             <span class="doneAchieve">{{'Send candidates to the client by e-mail' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover15" id="htmlPopover15" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
@@ -579,7 +579,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.sendCandidatesToClient.value == 'false'"
                                          ng-class="{'selected':source == 'sendCandidatesToClient'}">
-                                        <div class="content"   uib-popover-html="htmlPopover15"  ng-mouseover="popoverPosition($event, 242)">
+                                        <div class="content"    ng-mouseover="popoverPosition($event, 242)">
                                             <span class="notDoneAchieve">{{'Send candidates to the client by e-mail' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover15" id="htmlPopover15" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
@@ -591,7 +591,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.addInterview.value == 'true'"
                                          ng-class="{'selected':source == 'addInterview'}">
-                                        <div class="content"   uib-popover-html="htmlPopover16"  ng-mouseover="popoverPosition($event, 189)">
+                                        <div class="content"   ng-mouseover="popoverPosition($event, 189)">
                                             <span class="doneAchieve">{{'Assign interview' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover16" id="htmlPopover16" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
@@ -602,7 +602,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.addInterview.value == 'false'"
                                          ng-class="{'selected':source == 'addInterview'}">
-                                        <div class="content"   uib-popover-html="htmlPopover16"  ng-mouseover="popoverPosition($event, 189)">
+                                        <div class="content"     ng-mouseover="popoverPosition($event, 189)">
                                             <span class="notDoneAchieve">{{'Assign interview' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover16" id="htmlPopover16" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
@@ -613,7 +613,7 @@
 
                                     <div class="achieveContainer" ng-if="achieves.closeVacancy.value == 'true'"
                                          ng-class="{'selected':source == 'closeVacancy'}">
-                                        <div class="content"   uib-popover-html="htmlPopover17"  ng-mouseover="popoverPosition($event, 330)">
+                                        <div class="content"     ng-mouseover="popoverPosition($event, 330)">
                                             <span class="doneAchieve">{{'Close vacancy' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover17" id="htmlPopover17" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
@@ -624,7 +624,7 @@
                                     </div>
                                     <div class="achieveContainer" ng-if="achieves.closeVacancy.value == 'false'"
                                          ng-class="{'selected':source == 'closeVacancy'}">
-                                        <div class="content"   uib-popover-html="htmlPopover17"  ng-mouseover="popoverPosition($event, 330)">
+                                        <div class="content"    ng-mouseover="popoverPosition($event, 330)">
                                             <span class="notDoneAchieve">{{'Close vacancy' |translate}}</span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover17" id="htmlPopover17" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-times achieveIconNotDone pull-right" aria-hidden="true" title="{{'Not done' |translate}}"></i>
