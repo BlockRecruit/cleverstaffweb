@@ -7259,7 +7259,7 @@ app.provider('googleService', function () {
                 }
             },
             setAnalytics: function(getMe) {
-                if (document.domain !== 'cleverstaff.net') {
+                if (document.domain === 'cleverstaff.net') {
                     (function (i, s, o, g, r, a, m) {
                         i['GoogleAnalyticsObject'] = r;
                         i[r] = i[r] || function () {
