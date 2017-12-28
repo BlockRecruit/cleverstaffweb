@@ -29152,7 +29152,7 @@ controller.controller('FeedbackController',["$localStorage", "serverAddress", "$
 
 function navBarController($q, Vacancy, serverAddress, notificationService, $scope, tmhDynamicLocale, $http, Person, $rootScope, Service,
                           $route, $window, $location, $filter, $sce, $cookies, localStorageService, $localStorage, $timeout, CheckAccess,
-                          frontMode, $translate, Client, ScopeService, googleService, Company, $uibModal, Notice, Pay, News, TooltipService, Account) {
+                          frontMode, $translate, Client, ScopeService, googleService, Company, $uibModal, Notice, Pay, News, TooltipService, Account,googleService) {
     $scope.onlyMe = null;
     $scope.orgCheck = true;
     $scope.onlyMeCheck = false;
@@ -29557,6 +29557,13 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             result =  difBetweenDates(new Date(trialEndDate), new Date()) ;
         $scope.digit = " " + result + " ";
         $scope.getMeObj = getMe;
+        return new Promise((resolve,reject) => {
+            if(getMe) {
+                resolve(getMe);
+            } else {
+                reject('error');
+            }
+        })
     };
 
     $scope.HoverBlockTrialShow = function () {
@@ -30641,7 +30648,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 }
 controller.controller('NavbarController', ["$q", "Vacancy", "serverAddress", "notificationService", "$scope", "tmhDynamicLocale", "$http", "Person", "$rootScope",
     "Service", "$route", "$window", "$location", "$filter", "$sce", "$cookies", "localStorageService", "$localStorage", "$timeout", "CheckAccess", "frontMode",
-    "$translate", "Client", 'ScopeService', 'googleService', 'Company', '$uibModal', 'Notice', 'Pay', 'News', 'TooltipService', 'Account', navBarController]);
+    "$translate", "Client", 'ScopeService', 'googleService', 'Company', '$uibModal', 'Notice', 'Pay', 'News', 'TooltipService', 'Account', 'googleService',navBarController]);
 controller.controller('NotificationController',["$rootScope", "$scope", "$filter", "$uibModal", "Person", "notificationService", "Statistic",
     function($rootScope, $scope, $filter, $uibModal, Person, notificationService, Statistic) {
         $scope.sendNotificationObj = [
