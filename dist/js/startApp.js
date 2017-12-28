@@ -90,7 +90,7 @@ var app = angular.module('RecruitingAppStart', [
 }]).config(function($translateProvider,tmhDynamicLocaleProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=6'
+        suffix: '.json?b=7'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -1853,30 +1853,183 @@ controller.controller('PublicCandidateController', ['$scope', 'Service', '$route
     }]
 );
 controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serverAddress', 'Service', 'Company',
-    'notificationService', '$routeParams', '$window',
-    function ($scope, $rootScope, serverAddress, Service, Company, notificationService, $routeParams, $window) {
-        $scope.loaded = false;
+    'notificationService', '$routeParams', '$window','$filter',
+    function ($scope, $rootScope, serverAddress, Service, Company, notificationService, $routeParams, $window, $filter) {
 
-        $scope.getAllVacancyForCompany = function(){
-            var string = $routeParams.nameAlias.replace('-vacancies', '');
+        $scope.loaded = false;
+        $scope.hideSearchPositions = true;
+        $scope.hideSearchLocations = true;
+        $scope.showFilterSettings = false;
+
+        $scope.vacanciesLocation = null;
+        $scope.vacanciesPosition = null;
+        $scope.vacanciesPositionFiltered = null;
+
+        $scope.errorHandler = {
+          vacanciesFilter: {
+              positionError: false,
+              locationError: false,
+              error: {
+                  show: false,
+                  msg: "No vacancies found"
+              }
+          }
+        };
+
+        let filteredVacancies = [],
+            selectedPosition = null,
+            selectedLocation = null;
+
+        $('body').on(
+            {
+                mousedown: () => closeVacanciesFilterLists(event)
+            }
+        );
+
+        $scope.toggleLocationSelect = function() {
+            $scope.hideSearchLocations = !$scope.hideSearchLocations;
+        };
+
+        $scope.toggleFilter = function() {
+          if($scope.showFilterSettings) {
+              $scope.showFilter();
+          } else {
+              $scope.hideFilter();
+          }
+        };
+
+        $scope.hideFilter = function() {
+            $scope.showFilterSettings = false;
+            $scope.errorHandler.vacanciesFilter.error.show = false;
+            $scope.resetPosition();
+            resetLocation();
+        };
+
+        $scope.showFilter = function() {
+            $scope.showFilterSettings = true;
+        };
+
+        $scope.filter = function(vacancy) {
+            let criteria = {};
+
+            if(!selectedLocation || vacancy.region && vacancy.region.country.toLowerCase() === selectedLocation.toLowerCase()
+                || $filter('translate')(selectedLocation) === $filter('translate')('Location')
+                || $filter('translate')(selectedLocation) === $filter('translate')('Any')
+                || (vacancy.employmentType === 'telework' && selectedLocation === $filter('translate')('telework_1')))  {
+                criteria.location = true;
+            }
+
+            if(!selectedPosition || vacancy.position.toLowerCase() === selectedPosition.toLowerCase()
+                || vacancy.position.toLowerCase().indexOf(selectedPosition.toLowerCase()) !== -1) {
+                criteria.position = true;
+            }
+
+            if(criteria.position && criteria.location && filteredVacancies.indexOf(vacancy) === -1) filteredVacancies.push(vacancy);
+
+            if(filteredVacancies.length === 0) {
+                $scope.errorHandler.vacanciesFilter.error.show = true;
+            } else {
+                $scope.errorHandler.vacanciesFilter.error.show = false;
+            }
+
+            return criteria.position && criteria.location;
+        };
+
+        $scope.setAutoCompleteString = function(event) {
+            if(event.keyCode === 13) return;
+            $scope.vacanciesPositionFiltered = Company.positionAutoCompleteResult(event.target.value);
+
+            if($scope.vacanciesPositionFiltered.length !== $scope.orgParams.objects.length) {
+                checkAutoCompletePosition();
+            } else {
+                $scope.vacanciesPositionFiltered = [];
+                $scope.hideSearchPositions = true;
+                $scope.errorHandler.vacanciesFilter.positionError = false;
+            }
+        };
+
+        $scope.selectPosition = function(position) {
+            $('input.vacancy-position').val(position);
+            $scope.vacanciesPositionFiltered = null;
+            $scope.errorHandler.vacanciesFilter.positionError = false;
+            $scope.hideSearchPositions = true;
+        };
+
+        $scope.selectLocation = function(location) {
+          $('span.location').text(($filter)('translate')(location));
+          $scope.hideSearchLocations = true;
+        };
+
+        $scope.showFilteredVacancies = function() {
+          filteredVacancies = [];
+          selectedLocation = $('.locations-wrap span.location').text();
+          selectedPosition = $('.positions-wrap input.vacancy-position').val();
+        };
+
+        $scope.resetPosition = function() {
+            $scope.hideSearchPositions = true;
+            $scope.errorHandler.vacanciesFilter.positionError = false;
+            $('.positions-wrap input.vacancy-position').val("");
+        };
+
+         function getAllVacancyForCompany(){
+            let string = $routeParams.nameAlias.replace('-vacancies', '');
             Company.getAllOpenVacancies(string)
                 .then((resp) => {
                     $scope.orgParams = resp;
+
                     $window.document.title = $scope.orgParams.orgName + ' ' + 'vacancies';
                     $scope.logoLink = '/hr/getlogo?id=' + $scope.orgParams.companyLogo + '';
                     $scope.serverAddress = serverAddress;
+
+                    $scope.vacanciesLocation = Company.getVacanciesLocation();
+                    $scope.vacanciesPosition = Company.getVacanciesPosition();
                     $scope.loaded = true;
                     $scope.$apply();
                 }, (err) => {
                     console.error(err);
                 });
-        };
+        }
 
+        function checkAutoCompletePosition() {
+            let inputPosition = $('.positions-wrap input.vacancy-position'),
+                checked = false;
 
-        $scope.getAllVacancyForCompany();
+            $scope.vacanciesPosition.forEach((position) => {
+                if(position.toLowerCase() === inputPosition.val().toLowerCase() || position.toLowerCase().indexOf(inputPosition.val().toLowerCase()) !== -1 ) {
+                    checked = true;
+                }
+            });
+
+            if(checked) {
+                $scope.hideSearchPositions = false;
+                $scope.errorHandler.vacanciesFilter.positionError = false;
+            } else {
+                $scope.hideSearchPositions = false;
+                $scope.errorHandler.vacanciesFilter.positionError = true;
+            }
+        }
+
+        function closeVacanciesFilterLists(e) {
+            if(!$scope.hideSearchPositions && !$(e.target).hasClass('auto-complete-position')) {
+                checkAutoCompletePosition();
+                $scope.hideSearchPositions = true;
+                $scope.vacanciesPositionFiltered = [];
+                $scope.$apply();
+            } else if(!$scope.hideSearchLocations && !$(e.target).hasClass('location-search')){
+                $scope.hideSearchLocations = true;
+                $scope.$apply();
+            }
+        }
+
+        function resetLocation() {
+            $('.locations-wrap span.location').text($filter('translate')('Location'));
+            $scope.errorHandler.vacanciesFilter.locationError = false;
+        }
+
+        getAllVacancyForCompany();
     }]
 );
-/*** Created by вик on 07.07.2016.*/
 
 controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAddress', 'Service', 'Company',
     'notificationService', '$routeParams', 'Test', "$interval", "$timeout", "$localStorage", "$location", "$filter", "$translate", "$window",
@@ -2358,7 +2511,7 @@ angular.module('RecruitingAppStart.filters', []).
     }]).filter('parseFacebookUrl' , [function() {
         return function(url) {
             let start = url.indexOf('.com/') + 4;
-            return result = url.substr(start, url.length);
+            return url.substr(start, url.length);
         }
     }]);
 
@@ -2843,6 +2996,143 @@ angular.module('RecruitingAppStart.directives', [])
                 ).on("change", function(e) {
 
                 });
+            }
+        }
+    }]).directive('customScrollbar',function() {
+            return function(scope, element, attrs) {
+                $(element).mCustomScrollbar({
+                    theme: 'dark',
+                    scrollInertia:600
+                });
+            }
+    }).directive('customTooltip', ['$filter',function($filter) {
+       return {
+           restrict: 'A',
+           scope: {
+               tooltipText: "=",
+               tooltipClass: "=",
+               tooltipHover: "=",
+               tooltipShow: "="
+           },
+           link: function(scope, element) {
+               let tooltip = $('<span></span>');
+
+               console.log(scope);
+
+               console.log(scope.tooltipShow);
+
+               $(element).css('position','relative');
+               $(element).append(tooltip);
+
+               tooltip.text(scope.tooltipText);
+               tooltip.addClass(scope.tooltipClass);
+               tooltip.addClass('custom-tooltip');
+               tooltip.css('top', -(tooltip.height()*1.5)+ "px");
+
+               console.log(scope.$parent.errorHandler.vacanciesFilter.error.show);
+
+               scope.$watch(scope.$parent.errorHandler.vacanciesFilter.error.show, function() {
+                  if(scope.$parent.errorHandler.vacanciesFilter.error.show) {
+                      tooltip.addClass('visible')
+                  } else {
+                      tooltip.removeClass('visible')
+                  }
+               },true);
+
+               if(!scope.tooltipShow) {
+                   tooltip.addClass('visible');
+               }
+
+               element.on({
+                   mouseover: () => showToolTip(),
+                   mouseleave: () => tooltip.removeClass('visible')
+               });
+
+
+               function showToolTip() {
+                   if(scope.tooltipHover === 'true') {
+                       tooltip.addClass('visible')
+                   }
+               }
+               console.log(tooltip);
+           }
+       }
+    }]).directive('passThroughList', [function() {
+        return {
+            restrict: "A",
+            scope: {
+              onSelect: "="
+            },
+            link: function(scope,element,attrs) {
+                let list = document.getElementById(attrs.id).getElementsByTagName('li'),
+                    selectedItemIndex = -1;
+
+                $(element).parent().on(
+                    {
+                        keydown: () => checkForArrows(event),
+                        blur: () => reset(),
+                        click: function(event) {
+                            if(event.target.tagName.toLowerCase() === 'input') {
+                                $(event.target).focus();
+                                $(event.target).unbind('blur').on('blur', reset());
+                            } else {
+                                $(this).attr('tabindex','0');
+                                $(this).focus();
+                            }
+                        }
+                    }
+                );
+
+                function checkForArrows(e) {
+                    if(e.target.tagName.toLowerCase() !== 'input') e.preventDefault();
+                    if(e.keyCode === 38) {
+                        goUp();
+                        scrollElement();
+                    } else if(e.keyCode === 40){
+                        goDown();
+                        scrollElement();
+                    } else if(e.keyCode === 13) {
+                        selectItem();
+                    }
+                }
+
+                function goUp() {
+                    selectedItemIndex = list[selectedItemIndex - 1] ? --selectedItemIndex : selectedItemIndex;
+
+                    $(list[selectedItemIndex]).addClass('selected');
+                    $(list[selectedItemIndex + 1]).removeClass('selected');
+                }
+
+                function goDown() {
+                    selectedItemIndex = list[selectedItemIndex + 1] ? ++selectedItemIndex : selectedItemIndex;
+
+                    $(list[selectedItemIndex]).addClass('selected');
+                    $(list[selectedItemIndex - 1]).removeClass('selected');
+                }
+
+                function selectItem() {
+                    if($(list[selectedItemIndex]).text().trim()) {
+                        scope.$parent[scope.onSelect]($(list[selectedItemIndex]).text().trim());
+                        scope.$apply();
+                    }
+                }
+
+                function scrollElement() {
+                    let parentHeight = $(element).height(),
+                        currentItemHeight = $(list[selectedItemIndex]).outerHeight(),
+                        currentItemPosition = $(list[selectedItemIndex]).position().top,
+                        relativePosition = ((currentItemPosition + 1) % parentHeight),
+                        scrollPosition = $('#' + attrs.id + ' .mCSB_container').position().top;
+
+
+                    if(parentHeight - relativePosition - currentItemHeight < currentItemHeight / 3 || Math.abs(+(scrollPosition)) > currentItemPosition) {
+                        $(element).mCustomScrollbar("scrollTo", $(list[selectedItemIndex]));
+                    }
+                }
+
+                function reset() {
+                    selectedItemIndex = -1;
+                }
             }
         }
     }]);

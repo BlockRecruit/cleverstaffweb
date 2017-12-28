@@ -479,6 +479,143 @@ angular.module('RecruitingAppStart.directives', [])
                 });
             }
         }
+    }]).directive('customScrollbar',function() {
+            return function(scope, element, attrs) {
+                $(element).mCustomScrollbar({
+                    theme: 'dark',
+                    scrollInertia:600
+                });
+            }
+    }).directive('customTooltip', ['$filter',function($filter) {
+       return {
+           restrict: 'A',
+           scope: {
+               tooltipText: "=",
+               tooltipClass: "=",
+               tooltipHover: "=",
+               tooltipShow: "="
+           },
+           link: function(scope, element) {
+               let tooltip = $('<span></span>');
+
+               console.log(scope);
+
+               console.log(scope.tooltipShow);
+
+               $(element).css('position','relative');
+               $(element).append(tooltip);
+
+               tooltip.text(scope.tooltipText);
+               tooltip.addClass(scope.tooltipClass);
+               tooltip.addClass('custom-tooltip');
+               tooltip.css('top', -(tooltip.height()*1.5)+ "px");
+
+               console.log(scope.$parent.errorHandler.vacanciesFilter.error.show);
+
+               scope.$watch(scope.$parent.errorHandler.vacanciesFilter.error.show, function() {
+                  if(scope.$parent.errorHandler.vacanciesFilter.error.show) {
+                      tooltip.addClass('visible')
+                  } else {
+                      tooltip.removeClass('visible')
+                  }
+               },true);
+
+               if(!scope.tooltipShow) {
+                   tooltip.addClass('visible');
+               }
+
+               element.on({
+                   mouseover: () => showToolTip(),
+                   mouseleave: () => tooltip.removeClass('visible')
+               });
+
+
+               function showToolTip() {
+                   if(scope.tooltipHover === 'true') {
+                       tooltip.addClass('visible')
+                   }
+               }
+               console.log(tooltip);
+           }
+       }
+    }]).directive('passThroughList', [function() {
+        return {
+            restrict: "A",
+            scope: {
+              onSelect: "="
+            },
+            link: function(scope,element,attrs) {
+                let list = document.getElementById(attrs.id).getElementsByTagName('li'),
+                    selectedItemIndex = -1;
+
+                $(element).parent().on(
+                    {
+                        keydown: () => checkForArrows(event),
+                        blur: () => reset(),
+                        click: function(event) {
+                            if(event.target.tagName.toLowerCase() === 'input') {
+                                $(event.target).focus();
+                                $(event.target).unbind('blur').on('blur', reset());
+                            } else {
+                                $(this).attr('tabindex','0');
+                                $(this).focus();
+                            }
+                        }
+                    }
+                );
+
+                function checkForArrows(e) {
+                    if(e.target.tagName.toLowerCase() !== 'input') e.preventDefault();
+                    if(e.keyCode === 38) {
+                        goUp();
+                        scrollElement();
+                    } else if(e.keyCode === 40){
+                        goDown();
+                        scrollElement();
+                    } else if(e.keyCode === 13) {
+                        selectItem();
+                    }
+                }
+
+                function goUp() {
+                    selectedItemIndex = list[selectedItemIndex - 1] ? --selectedItemIndex : selectedItemIndex;
+
+                    $(list[selectedItemIndex]).addClass('selected');
+                    $(list[selectedItemIndex + 1]).removeClass('selected');
+                }
+
+                function goDown() {
+                    selectedItemIndex = list[selectedItemIndex + 1] ? ++selectedItemIndex : selectedItemIndex;
+
+                    $(list[selectedItemIndex]).addClass('selected');
+                    $(list[selectedItemIndex - 1]).removeClass('selected');
+                }
+
+                function selectItem() {
+                    if($(list[selectedItemIndex]).text().trim()) {
+                        scope.$parent[scope.onSelect]($(list[selectedItemIndex]).text().trim());
+                        scope.$apply();
+                    }
+                }
+
+                function scrollElement() {
+                    let parentHeight = $(element).height(),
+                        currentItemHeight = $(list[selectedItemIndex]).outerHeight(),
+                        currentItemPosition = $(list[selectedItemIndex]).position().top,
+                        relativePosition = ((currentItemPosition + 1) % parentHeight),
+                        scrollPosition = $('#' + attrs.id + ' .mCSB_container').position().top;
+
+
+                    if(parentHeight - relativePosition - currentItemHeight < currentItemHeight / 3 || Math.abs(+(scrollPosition)) > currentItemPosition) {
+                        $(element).mCustomScrollbar("scrollTo", $(list[selectedItemIndex]));
+                    }
+                }
+
+                function reset() {
+                    selectedItemIndex = -1;
+                }
+            }
+        }
     }]);
 
 function similar_text(first, second, percent) {

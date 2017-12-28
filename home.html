@@ -18,10 +18,10 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <LINK REL="SHORTCUT ICON" HREF="images/sprite/favicon.png?b3">
-    <link rel="stylesheet" href="dist/css/styles.css?b218">
+    <link rel="stylesheet" href="dist/css/styles.css?b220">
     <link rel="stylesheet" type="text/css" media="print" href="dist/css/print.css" />
     <!--<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>-->
-    <script type="text/javascript" src="dist/js/mainLib.js?b162"></script>
+    <script type="text/javascript" src="dist/js/mainLib.js?b163"></script>
 
 
     <!--<link  href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">-->
@@ -208,7 +208,7 @@
                     </li>
                 </ul>
                 <span class="active-page">{{$root.notFormatedTitle}}</span>
-                <div class="trial" ng-if="((getMeObj['orgParams']['tarif']==='free' || tarif=='free') && getMeObj['org']['dc']) && (digit > 0 && digit <= 14)">
+                <div class="trial" ng-if="(digit > 0 && digit <= 14)">
                     <span>{{"Only"|translate}}</span><span ng-bind="digit" class="digit"></span><span>{{(digit >= 5 && digit <= 14)? "days_1Trial" : (digit < 5 && digit > 1)? "daysTrial" : (digit === 0)? "dayTrial": "dayTrial" | translate}}</span>
                     <i class="fa fa-info-circle tooltip-icon"  ng-mouseover="HoverBlockTrialShow()"  ng-mouseleave="HoverBlockTrialHidden()" aria-hidden="true">
                         <div class="hoverExtension" ng-show="hoverBlockTrial">
@@ -226,14 +226,14 @@
                         <!--<a href="#/feedback-new-design">{{'Do you like the new CleverStaff design'|translate}}</a>-->
                     <!--</li>-->
                     <li class="payMoney hidden-xs hidden-sm" ng-show="$root.me.recrutRole == 'admin'">
-                        <a href="#/pay" class="payment" ng-class="{'low-low-balance': paidFor!==undefined && paidFor <= 4 && !(digit > 0 && digit <= 14),'low-balance': paidFor!==undefined && paidFor <= 7}">
+                        <a href="#/pay" class="payment" ng-class="{'low-low-balance': paidFor!==undefined && paidFor <= 4 && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free'),'low-balance': paidFor!==undefined && paidFor <= 7}">
                             <i class="fa fa-usd"></i>
                             <span ng-show="!$root.paidTillDateBilling && $root.companyParams.paidTillDate && paidFor > 7">{{'up to'|translate}}&nbsp;{{$root.companyParams.paidTillDate}}</span>
-                            <span ng-show="$root.paidTillDateBilling && paidFor > 7">{{'up to'|translate}}&nbsp;{{$root.paidTillDateBilling}}</span>
-                            <span ng-show="paidFor > 4 && paidFor <= 7 && !(digit > 0 && digit <= 14)" translate="Days left" translate-values="{days_left: paidFor}" ></span>
-                            <span ng-show="paidFor <= 4 && paidFor > 1 && !(digit > 0 && digit <= 14)" translate="Days left!" translate-values="{days_left: paidFor}" ></span>
-                            <span ng-show="paidFor == 1 && !(digit > 0 && digit <= 14)" translate="Day left!" translate-values="{days_left: paidFor}" ></span>
-                            <span ng-show="paidFor == 0 && !(digit > 0 && digit <= 14)" translate="No Day left!" translate-values="{days_left: paidFor}" ></span>
+                            <span ng-show="$root.paidTillDateBilling && paidFor > 7 && !(digit > 0 && digit <= 14)">{{'up to'|translate}}&nbsp;{{$root.paidTillDateBilling}}</span>
+                            <span ng-show="paidFor > 4 && paidFor <= 7 && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free')" translate="Days left" translate-values="{days_left: paidFor}" ></span>
+                            <span ng-show="paidFor <= 4 && paidFor > 1 && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free')" translate="Days left!" translate-values="{days_left: paidFor}" ></span>
+                            <span ng-show="paidFor == 1 && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free')" translate="Day left!" translate-values="{days_left: paidFor}" ></span>
+                            <span ng-show="paidFor == 0 && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free')" translate="No Day left!" translate-values="{days_left: paidFor}" ></span>
                         </a>
                     </li>
                     <li class="showFeedbackMenu hidden-xs hidden-sm">
@@ -1233,7 +1233,7 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZul9dW5-r5WVV1479hAgVxM5Z75C-ykM&libraries=places"></script>
     <script type="text/javascript" src="lib/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b279"></script>
+    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b282"></script>
 
     <!--ЗPignation in TAble-->
     <script type="text/ng-template" id="custom/pager">

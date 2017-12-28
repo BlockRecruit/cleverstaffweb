@@ -2887,7 +2887,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                             tags: groupNameList,
                             tokenSeparators: [","]
                         }
-                    ).on("change", function(e) {
+                    ).unbind().on("change", function(e) {
                             if (e.removed) {
                                 var newGroupList = $scope.getSelect2Group().split(",");
                                 var isExists = false;
@@ -3225,6 +3225,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                 };
                 $scope.getPositionAutocompleterValue = function() {//.переимновтаь
                     var object = $(element[0]).select2("data");
+                    console.log(object);
                     return object != null ? object.text : null;
                 };
                 var inputText = "";
@@ -3281,14 +3282,33 @@ var directive = angular.module('RecruitingApp.directives', []).
                         dropdownCssClass: "bigdrop"
                     }).on("select2-close", function(e) {
                         if (inputText.length > 0) {
-                            $(element[0]).select2("data", {id: inputText, text: inputText});
+                            $(element[0]).select2("data", {id: inputText, text: removeExtraSpaces(inputText)});
                         }
+                        if($(element[0]).select2("data")) {
+                            $(element[0]).select2("data", {id: inputText, text: removeExtraSpaces($(element[0]).select2("data").text)});
+                            $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
+                            $scope.setPositionAutocompleterValue($scope.searchParam.position);
+                        }
+                        $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
                     }).on("select2-selecting", function(e) {
                         inputText = "";
                     }).on("select2-open", function() {
                         if($(element[0]).select2("data"))
                             $('#select2-drop input').val($(element[0]).select2("data").text)
                     });
+                }
+                function removeExtraSpaces(string) {
+                    let str = string.split('');
+                    // console.log(str);
+                    for( let i = 0; i < str.length; i++) {
+                        if( str[i] === " " && str[i+1] === " " && i !== 0 && i !== str.length - 1  || (str[i] === " " && i === str.length - 1)) {
+                            // console.log(str[i],str[i+1],"spliced");
+                            str.splice(i,1);
+                            i--;
+                        }
+                    }
+                    // console.log(str);
+                    return str.join('');
                 }
             }
         }
@@ -3533,8 +3553,9 @@ var directive = angular.module('RecruitingApp.directives', []).
                                 });
                             } else {
                                 var groupsIds = [];
-                                var newGroupList = $scope.getSelect2Group().split(",");
+                                var newGroupList = removeExtraSpaces($scope.getSelect2Group()).split(",");
                                 var isExists = false;
+                                console.log(newGroupList);
                                 angular.forEach(newGroupList, function(nval, key) {
                                     isExists = false;
                                     angular.forEach(candidateGroups, function(val, nkey) {
@@ -3544,6 +3565,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                                     });
                                     if (!isExists) {
                                         angular.forEach(groupList, function(val, nkey) {
+                                            console.log(nval);
                                             if (nval == val.name) {
                                                 groupsIds.push(val.candidateGroupId);
                                                 var alreadyAdded = false;
@@ -3553,10 +3575,12 @@ var directive = angular.module('RecruitingApp.directives', []).
                                                     }
                                                 });
                                                 if(!alreadyAdded) {
-                                                    $scope.groupsForEdit.push({name: val.name, candidateGroupId: val.candidateGroupId})
+                                                    console.log("here2");
+                                                    $scope.groupsForEdit.push({name: val.name + "123", candidateGroupId: val.candidateGroupId})
                                                 }
                                             }else if(val.candidateGroupId == nval){
-                                                groupsIds.push(val.candidateGroupId)
+                                                console.log("here");
+                                                groupsIds.push(val.candidateGroupId);
                                             }
                                         });
                                         //CandidateGroup.add({name : nval, candidateIds : candidates},function(res){
@@ -3582,6 +3606,18 @@ var directive = angular.module('RecruitingApp.directives', []).
                             $(element[0]).select2('val', val);
                         }
                     };
+                    function removeExtraSpaces(string) {
+                        let str = string.split('');
+                        console.log(str);
+                        for( let i = 0; i < str.length; i++) {
+                            if( str[i] === " " && str[i+1] === " " && i !== 0 && i !== str.length - 1 ) {
+                                console.log(str[i],str[i+1],"spliced");
+                                str.splice(i,1);
+                                i--;
+                            }
+                        }
+                        return str.join('');
+                    }
                 }
             }
         }]
@@ -12243,7 +12279,7 @@ angular.module('services.company', [
         };
     };
 
-        company.openVacancies = {};
+        let openVacancies = {};
 
         company.uploadCompanyLogo = function(fileUp){
             var FD  = new FormData();
@@ -12273,21 +12309,50 @@ angular.module('services.company', [
 
         company.getAllOpenVacancies = function(string) {
             return new Promise((resolve,reject) => {
-                if(angular.equals(this.openVacancies, {})){
+                if(angular.equals(openVacancies, {})){
                     Service.getAllOpenVacancy({
                         alias: string
                     },(resp) => {
                         if(resp.status == 'ok'){
-                            this.openVacancies = resp;
+                            openVacancies = resp;
                             resolve(resp);
                         } else {
                             reject(resp.messsage);
                         }
                     });
                 } else {
-                    resolve(this.openVacancies)
+                    resolve(openVacancies)
                 }
             });
+        };
+
+
+        company.getVacanciesLocation = function() {
+            let locations = [];
+            openVacancies.objects.map((vacancy) => {
+                if(vacancy.region && vacancy.region.country) {
+                    if(locations.indexOf(vacancy.region.country) === -1) {
+                        locations.push(vacancy.region.country);
+                    }
+                }
+            });
+            return locations;
+        };
+
+        company.getVacanciesPosition = function() {
+            return openVacancies.objects.map((vacancy) => {
+                return vacancy.position;
+            });
+        };
+
+        company.positionAutoCompleteResult = function(string = "") {
+            let data = [];
+                openVacancies.objects.map((vacancy) => {
+                    if(vacancy.position.toLowerCase().indexOf(string.toLowerCase()) !== -1) {
+                        data.push(vacancy.position);
+                    }
+                });
+            return data;
         };
 
     company.init();
@@ -13833,7 +13898,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=36'
+        suffix: '.json?b=37'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -23515,32 +23580,46 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     $scope.showAddedLinks = false;
                     $scope.showAddedFiles = false;
                 }
-                var homepages = [],
-                    emails;
+
+                var multipleContacts = {
+                    homepage: [],
+                    facebook: [],
+                    linkedin: [],
+                    googleplus: [],
+                    github: [],
+                    email: []
+                };
                 $scope.countEmail = 0;
                 angular.forEach($scope.candidate.contacts, function (contacts) {
-                    if(contacts.type == 'homepage') {
-                        homepages = contacts.value.split(/,/);
-                    }else if(contacts.type == 'email'){
-                        emails = contacts.value.split(/[\s,"/", ";"]+/);
+                    switch (contacts.type){
+                        case 'homepage':
+                        case 'linkedin':
+                        case 'facebook':
+                        case 'googleplus':
+                        case 'github':
+                        case 'email':
+                            multipleContacts[contacts.type] = contacts.value.split(/[\s,";"]+/);
+                            break;
                     }
                     if(contacts.type == 'email'){
                         $scope.countEmail = 1;
                     }
                 });
 
-                $scope.homepages = [],
-                    $scope.emails = [];
+                $scope.multipleContacts = {
+                    homepage: [],
+                    facebook: [],
+                    linkedin: [],
+                    googleplus: [],
+                    github: [],
+                    email: []
+                };
 
-                angular.forEach(homepages, function (item) {
-                    $scope.homepages.push(item.trim());
-                });
-
-                angular.forEach(emails, function (item) {
-
-                    $scope.emails.push(item.trim());
-
-                });
+                for(key in multipleContacts) {
+                    multipleContacts[key].forEach((currentVal) => {
+                        $scope.multipleContacts[key].push(currentVal.trim());
+                    });
+                }
                 //getcandidateproperties start
                 Candidate.getCandidateProperties({candidateId: $scope.candidate.candidateId}, function (res) {
                     if(res.status == 'ok' && res.object) {
@@ -29014,7 +29093,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.inviteHiringManager = function(){
         $rootScope.modalInstance = $uibModal.open({
             animation: true,
-            templateUrl: 'partials/modal/invite-new-user.html?b4',
+            templateUrl: 'partials/modal/invite-new-user.html?b5',
             size: '',
             resolve: function(){
 
