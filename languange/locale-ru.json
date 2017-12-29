@@ -1140,6 +1140,7 @@
   },
   "incorrect_password_integration": "Ошибка интеграции почты. Обновите пароль.",
   "Only": "Осталось",
+  "Only_1": "Остался",
   "Add a stage": "Добавьте этап",
   "Activate": "Активировать",
   "Connect to google mail is not available yet": "Подключение к почте Google пока недоступно",
