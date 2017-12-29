@@ -3712,6 +3712,17 @@ var directive = angular.module('RecruitingApp.directives', []).
                 }
             });
         };
+    }).directive('clickOnEnter', function () {
+        return function (scope, element, attrs) {
+            console.log('here', attrs.clickOnEnter);
+            element.bind("keydown keypress", function (event) {
+                if(event.which === 13) {
+                    $(attrs.clickOnEnter).click();
+
+                    event.preventDefault();
+                }
+            });
+        };
     }).directive('filterList', function($timeout) {
         return {
             link: function(scope, element, attrs) {
