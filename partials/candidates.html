@@ -610,7 +610,7 @@
                              </label>
                         </span>
                         <span class="col-lg-7 col-md-7 col-sm-6 no-padding pull-left">
-                            <select  ng-class="{'full-width': !candidatesAddToVacancyIds.length}" ng-model="filterForChange" ng-options="item.values as item.name for item in filterSort" ng-selected="filterForChange == searchParam.sort" ng-class="{'greyColor': filterForChange == 'relevance'}"></select>
+                            <select  ng-class="{'full-width': !candidatesAddToVacancyIds.length}" ng-model="filterForChange" ng-options="item.values as item.name | translate for item in filterSort" ng-selected="filterForChange == searchParam.sort" ng-class="{'greyColor': filterForChange == 'relevance'}"></select>
                         </span>
                     </span>
                     </div>

@@ -56,7 +56,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         name: $filter('translate')('Relevancy'),
         values : 'relevance'
     }, {
-        name: $filter('translate')('date added to database'),
+        name: $filter('translate')('Date added to database'),
         values : 'dc'
     }, {
         name: $filter('translate')('Date of last activity'),
