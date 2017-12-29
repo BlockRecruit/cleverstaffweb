@@ -26652,7 +26652,7 @@ controller.controller('ClientEditController', ["$rootScope", "serverAddress", "F
                 $rootScope.changeStatusInClient.header = $filter('translate')("Are you sure want delete client") + " " + $scope.client.name + "?";
                 $rootScope.changeStatusInClient.placeholder = $filter('translate')('Write a comment why you want remove this candidate');
             }else{
-                notificationService.info($filter('translate')("This client has active vacancy"));
+                notificationService.success($filter('translate')("This client has active vacancy"));
             }
         };
         $rootScope.saveClientStatus = function() {

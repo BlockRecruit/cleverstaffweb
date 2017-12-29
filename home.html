@@ -209,7 +209,7 @@
                 </ul>
                 <span class="active-page">{{$root.notFormatedTitle}}</span>
                 <div class="trial" ng-if="(digit > 0 && digit <= 14)">
-                    <span>{{"Only"|translate}}</span><span ng-bind="digit" class="digit"></span><span>{{(digit >= 5 && digit <= 14)? "days_1Trial" : (digit < 5 && digit > 1)? "daysTrial" : (digit === 0)? "dayTrial": "dayTrial" | translate}}</span>
+                    <span ng-show="digit != 1">{{"Only"|translate}}</span><span ng-show="digit == 1">{{"Only_1"|translate}}</span><span ng-bind="digit" class="digit"></span><span>{{(digit >= 5 && digit <= 14)? "days_1Trial" : (digit < 5 && digit > 1)? "daysTrial" : (digit === 0)? "dayTrial": "dayTrial" | translate}}</span>
                     <i class="fa fa-info-circle tooltip-icon"  ng-mouseover="HoverBlockTrialShow()"  ng-mouseleave="HoverBlockTrialHidden()" aria-hidden="true">
                         <div class="hoverExtension" ng-show="hoverBlockTrial">
                             <p>{{"All features are unlimited within your trial. You could invite unlimited number of users to test the system."|translate}}</p>
@@ -785,7 +785,6 @@
                                     <span>
                                         {{'only_me1'|translate}}
                                     </span>
-                                    &nbsp;
                                     <span>
                                         {{'only_me2'|translate}}
                                     </span>
@@ -902,7 +901,6 @@
                                     <span>
                                         {{'only_me1'|translate}}
                                     </span>
-                                    &nbsp;
                                     <span>
                                         {{'only_me2'|translate}}
                                     </span>
@@ -1031,7 +1029,6 @@
                                     <span>
                                         {{'only_me1'|translate}}
                                     </span>
-                                    &nbsp;
                                     <span>
                                         {{'only_me2'|translate}}
                                     </span>
