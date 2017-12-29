@@ -4860,6 +4860,13 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                     if (withHour) {
                         res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour);
                     }
+
+                    if(res.indexOf('до полудня') !== -1){
+                        return res.split(' ').slice(0,2).join(' ') + ' AM';
+                    }else if(res.indexOf('после полудня') !== -1){
+                        return res.split(' ').slice(0,2).join(' ') + ' PM';
+                    }
+
                     return res;
                 } else if (angular.equals($filter('date')(dateTomorrow, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
                     var res = $filter("translate")("tomorrow");
@@ -35494,7 +35501,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             var text = [
                 "Use this template to send the interviw invitation & details when you move candidates to job stages with an interview.",
                 "Use this template to describe candidates that thay do not meet the vacancy criteria.",
-                "Use this template to sent a job offer & details to your candidates when you move them to the 'Hired' stage."
+                "Use this template to send your candidates the letter with the vacancy proposal"
             ];
 
             if(flag === 'one' ){
