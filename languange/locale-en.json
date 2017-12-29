@@ -2228,11 +2228,13 @@
   "_Show": "Show",
   "items on page": "items on page",
   "The large quantity of results has been found.": "The large quantity of results has been found. <b>{{total_count}}</b> of them is shown. Please specify search criteria to get more accurate results",
+  "Please add the candidates to this stage":"Please add the candidates to this stage",
+  "Have you already seen our awesome vacancy":"Have you already seen our awesome vacancy",
+  "Check it out!":"Check it out!",
   "Days left": "{{days_left}} days left",
   "Days left!": "{{days_left}} days left!",
   "Day left!": "{{days_left}} day left!",
   "No Day left!": "{{days_left}} days left!",
-  "Please add the candidates to this stage":"Please add the candidates to this stage",
   "This vacanсy doesn't contain candidates now":"This vacanсy doesn't contain candidates now",
   "The 'rules' of profiles merge": "The 'rules' of profiles merge:",
   "Only fields with different values are available for selection": "Only fields with different values are available for selection.",
@@ -2249,8 +2251,6 @@
   "Vacancies & Applicants API": "Vacancies & Applicants API",
   "No vacancies found": "No vacancies found",
   "Pick the position from the search field": "Choose the position from the search field list",
-  "Any":"Any",
   "telework_1":"Remote",
-  "Download as docx": "Download as docx",
   "Tag_name_saved":"Tag name saved"
 }
