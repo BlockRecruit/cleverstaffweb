@@ -707,14 +707,14 @@
 							@include link-styling();
 							@include text-ellipsis();
 
-							line-height: 35px;
+							line-height: 19px;
 
 							display: block;
 							.preferable-contact-starts {
 								position: relative;
 							}
 							&:not(:first-child) {
-								line-height: 35px;
+								line-height: 19px;
 								&.custom-field {
 									line-height: 19px;
 								}
@@ -727,11 +727,10 @@
 							i ~ span {
 								font-weight: 500;
 							}
-							&.noneNowrap {
-								white-space: inherit;
-							}
 							&.phone {
 								line-height: 19px;
+
+								margin-bottom: 6px;
 
 								color: $theme-dark;
 								.newLang {
@@ -747,6 +746,11 @@
 										color: inherit;
 									}
 								}
+							}
+							&.noneNowrap {
+								margin-bottom: 0;
+
+								white-space: inherit;
 							}
 							&.find-button {
 								line-height: 2;
@@ -891,7 +895,7 @@
 							}
 						}
 						& > a {
-							line-height: 23px;
+							line-height: 19px;
 						}
 						.email {
 							a {
@@ -900,6 +904,7 @@
 						}
 						.skype {
 							display: block;
+							margin-bottom: 6px;
 
 							cursor: default;
 							span {
@@ -909,9 +914,20 @@
 							}
 						}
 						.phone {
-							line-height: 35px;
+							line-height: 19px;
 
 							display: block;
+						}
+						.homepage,
+						.github,
+						.googleplus,
+						.facebook,
+						.linkedin {
+							margin-bottom: -1px;
+							& > span {
+								display: block;
+								margin-bottom: 7px;
+							}
 						}
 						.source-for-contact {
 							display: block;

@@ -415,7 +415,7 @@
                     </div>
                     <div class="main-info col-lg-12">
                         <div class="col-lg-6">
-                            <a ng-click="showRegion2Map = !showRegion2Map" ng-show="candidate.region.displayFullName">
+                            <a ng-click="showRegion2Map = !showRegion2Map" class="phone" ng-show="candidate.region.displayFullName">
                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
                                 {{candidate.region.displayFullName}}
                             </a>
@@ -511,8 +511,13 @@
                                     </span>
                                 </span>
                             </div>
-                            <div ng-show="(candidate.contacts|filter:type = 'linkedin').length > 0">
-                                <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['linkedin'] track by $index"  title="{{contact}}">
+                            <a class="skype" ng-show="(candidate.contacts|filter:type = 'skype').length > 0">
+                                <div ng-repeat=" contact in candidate.contacts|filter:type = 'Skype'" title="{{contact.value}}">
+                                    <i class="fa fa-skype" aria-hidden="true"></i> <span>{{contact.value}}</span>
+                                </div>
+                            </a>
+                            <div class="linkedin" ng-show="(candidate.contacts|filter:type = 'linkedin').length > 0">
+                                <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['linkedin'] track by $index" title="{{contact}}">
                                     <a target="_blank" class="not-for-print" href="{{::contact| makeLink}}">
                                         <i class="fa fa-linkedin" style="margin-right: 3px;" aria-hidden="true"></i>
                                         <span class="preferable-contact-starts">
@@ -528,23 +533,20 @@
                                      </a>
                                 </span>
                             </div>
-                            <div ng-show="(candidate.contacts|filter:type = 'facebook').length > 0">
-                                <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['facebook'] track by $index"  title="{{contact}}">
-                                    <a  target="_blank" class="not-for-print" href="{{::contact| makeLink}}">
-                                        <i class="fa fa-facebook" style="margin-right: 7px;" aria-hidden="true"></i>
-                                        <span style="position: relative;">
-                                            {{::contact|cutName:true:30}}
-                                            <i class="fa fa-star" style="bottom: 0px;top: 2px;" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'facebook'"></i>
-                                        </span>
+                            <div class="facebook" ng-show="(candidate.contacts|filter:type = 'facebook').length > 0">
+                                <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['facebook'] track by $index" title="{{contact}}">
+                                    <a target="_blank" class="not-for-print" href="{{::contact| makeLink}}">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        {{::contact | limitTo: 30}}<span ng-show="::contact.length > 30">...</span>
                                     </a>
-                                     <a  target="_blank" class="hidden show-for-print" href="{{::contact| makeLink}}">
-                                         <i class="fa fa-facebook" aria-hidden="true"></i>
-                                            {{::contact}}
-                                     </a>
+                                    <a class="hidden show-for-print" target="_blank" href="{{::contact| makeLink}}">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        {{::contact}}
+                                    </a>
                                 </span>
                             </div>
-                            <div ng-show="(candidate.contacts|filter:type = 'googleplus').length > 0">
-                                <span class="preferable-contact"  ng-repeat="contact in ::multipleContacts['googleplus'] track by $index"  title="{{::contact}}">
+                            <div class="googleplus" ng-show="(candidate.contacts|filter:type = 'googleplus').length > 0">
+                                <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['googleplus'] track by $index" title="{{::contact}}">
                                     <a class="not-for-print" target="_blank" href="{{::contact| makeLink}}">
                                         <i class="fa fa-google-plus" aria-hidden="true" style="margin-right: -3px!important;"></i>
                                        <span style="position: relative;">
@@ -558,8 +560,8 @@
                                      </a>
                                 </span>
                             </div>
-                            <div ng-show="(candidate.contacts|filter:type = 'github').length > 0">
-                                <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['github'] track by $index"  title="{{::contact}}">
+                            <div class="github" ng-show="(candidate.contacts|filter:type = 'github').length > 0">
+                                <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['github'] track by $index" title="{{::contact}}">
                                     <a class="not-for-print" target="_blank" href="{{::contact| makeLink}}">
                                         <i class="fa fa-github" style="margin-right: 3px;" aria-hidden="true"></i>
                                        <span style="position: relative;">
@@ -573,8 +575,8 @@
                                      </a>
                                 </span>
                             </div>
-                            <div >
-                                <span  class="preferable-contact" ng-repeat="contact in multipleContacts['homepage'] track by $index"  title="{{contact}}">
+                            <div class="homepage">
+                                <span class="preferable-contact" ng-repeat="contact in multipleContacts['homepage'] track by $index"  title="{{contact}}">
                                     <a  class="not-for-print" target="_blank" href="{{contact}}">
                                         <i class="fa fa-home" style="margin-right: 2px" aria-hidden="true"></i>
                                        <span style="position: relative;">
