@@ -234,8 +234,8 @@
                                 </div>
                                 <div class="item">
                                     <label>{{'desired_salary'|translate}}</label>
-                                    <input class="pull-left" placeholder="" name="salary" ng-model="candidate.salary" type="number"
-                                           ng-change="progressUpdate()" min="0" max="99999999">
+                                    <input class="pull-left" placeholder="" name="salary" ng-model="candidate.salary" type="text"
+                                           ng-change="progressUpdate()" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                                     <select class="select2-container form-control input-lg select2  select14 widthSelectInput"
                                             ng-model="candidate.currency" ng-init="candidate.currency = 'USD'"
                                             ng-options="currency.value as currency.value for currency in currency">
