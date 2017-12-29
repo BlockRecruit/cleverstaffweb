@@ -1,4 +1,4 @@
-<div class="block-custom-reports">
+<div class="block-custom-reports" ng-click="ctrlReport.showBlocks($event)">
     <div class="container-fluid">
         <header>
             <h3>
@@ -20,22 +20,62 @@
         <main class="container-fluid" >
             <p ng-bind="::ctrlReport.dataReport['descr']" ng-if="ctrlReport.dataReport['descr']"></p>
             <section class="row">
-                <div class="form" style="display: inline-block">
-                    <div class="two fields" style="width: 100%;">
-                        <div class="field pull-left">
-                            <span class="pull-left">{{'Date' | translate}}:</span>
-                            <label class="pull-left">{{'from3'|translate}}</label>
-                            <input placeholder="{{'from3'|translate}}" style="cursor: not-allowed" class="startDate pull-left"  disabled type="text">
+                <div class="form col-lg-6">
+                    <div class="two fields">
+                        <div class="fields-title">
+                            <h4 class="pull-left" style="margin-right: 8px;">{{"Time range"|translate}}:</h4>
+                            <div class="fields-title-select" style="position: relative;">
+                                <input type="text"
+                                       data-show="select-content"
+                                       disabled
+                                       style="cursor: pointer;"
+                                       ng-init="ctrlReport.selectRange = 'customRange'"
+                                       ng-value="ctrlReport.selectRange | translate">
+                                <ul  class="select-content" id="select-content">
+                                    <li ng-repeat="date in ctrlReport.dateRange track by $index"
+                                        ng-click="ctrlReport.selectDateRange($event, date)"
+                                        ng-bind="date|translate"></li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="field pull-left" style="margin-left: 8px;">
-                            <label class="pull-left">{{'to1'|translate}}</label>
-                            <input style="cursor: not-allowed" placeholder="{{'to1'|translate}}" class="endDate pull-left"  disabled type="text">
+                        <div class="wrap-datepicker">
+                            <div class="field pull-left"
+                                 ng-init="ctrlReport.disabled = false;"
+                                 style="margin-right: 10px;">
+                                <label class="pull-left">{{'from3'|translate}}</label>
+                                <input placeholder="{{'from3'|translate}}"
+                                       id="startDate"
+                                       class="startDate pull-left"
+                                       style="margin-left: 8px;"
+                                       ng-disabled="ctrlReport.disabled"
+                                       ng-style="ctrlReport.disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
+                                       type="text">
+                            </div>
+                            <div class="field pull-left">
+                                <label class="pull-left">{{'to1'|translate}}</label>
+                                <input placeholder="{{'to1'|translate}}"
+                                       id="endDate"
+                                       class="endDate pull-left"
+                                       ng-disabled="ctrlReport.disabled"
+                                       ng-style="ctrlReport.disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
+                                       type="text">
+                            </div>
+                            <i class="fa fa-info-circle info"
+                               ng-mouseover="ctrlReport.inHover($event)"
+                               ng-mouseleave="ctrlReport.outHover($event)"></i>
+                            <div class="info-content">
+                                <p>{{"This filter 'by date' in the report shows the last date when a candidate was moved to a new vacancy stage." | translate}}</p>
+                                <p>{{"The filter is not applied for dates of vacancy creation and date when a candidate was added to a vacancy." | translate}}</p>
+                            </div>
                         </div>
-                        <i class="fa fa-info-circle info" ng-mouseover="ctrlReport.inHover($event)" ng-mouseleave="ctrlReport.outHover($event)"></i>
-                        <div class="info-content"><p>{{"This filter 'by date' in the report shows the last date when a candidate was moved to a new vacancy stage." | translate}}</p><p>{{"The filter is not applied for dates of vacancy creation and date when a candidate was added to a vacancy." | translate}}</p></div>
-                        <div class="clearfix"></div>
                     </div>
+                    <div  style="display: inline-block" class="alert alert-danger" ng-show="timeMaxZone || timeMaxZone2">{{"The selected date can not be more than the current date."|translate}}</div>
                 </div>
+            </section>
+            <section class="row button-outer">
+                <a class="btn btn-update"
+                   ng-bind='"Update report"|translate'
+                   ng-click="ctrlReport.updateReport(this)"></a>
             </section>
             <section ng-style="(ctrlReport.dataReport.vacancyFields.length > 8)? {'overflow-x':'scroll'} : false" ng-show="!ctrlReport.dataReport.withCandidates && ctrlReport.build">
                 <table class="table custom-report" style="margin-bottom: 0px;"

@@ -1,6 +1,8 @@
-function CustomReportEditService($rootScope, Stat, $translate, Company, Person, vacancyStages, notificationService, CustomReportsService, $timeout, $uibModal, translateWords, $location, CustomField, $filter) {
+function CustomReportEditService($rootScope, Stat, $translate, Company, Person, vacancyStages, notificationService, CustomReportsService, $timeout, $uibModal, translateWords, $location, CustomField, $filter, Vacancy) {
     try{
-        let vacancyStatuses, fieldsListStart,
+        let vacancyStatuses,
+            fieldsListStart,
+            activeBlocks = [],
             singleton = {
                 editReport: {}
             };
@@ -146,9 +148,12 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                     count: 0,
                     type: "refuse"
                 }
-            ];
+            ],
                 singleton.editReport = angular.copy(CustomReportsService.data);
+                singleton.dateRange = ['currentWeek','previousWeek','currentMonth', 'previousMonth', 'currentYear', 'previousYear', 'customRange'];
+
         }
+
         function concatCastomOrStandartFields(custom, standart) {
             console.log(custom, standart, 'custom, standart');
             custom.forEach(item => {
@@ -323,6 +328,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             this.data.interviewStatuses   = filterSelectedItems(this.selectStages, 'interviewStatuses');
             this.data.vacancyFields       = filterSelectedItems(this.fieldsList, 'vacancyFields');
             this.data.сustomVacancyFields = filterSelectedItems(this.fieldsList, 'сustomVacancyFields');
+            this.data.vacancyIds          = this.fieldsVacancyList.filter(item => item.visible).map(item => item.vacancyId);
         }
 
         function filterSelectedItems(data, type) {
@@ -368,10 +374,35 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             this.change = change;
         }
 
+        function checkPropertiesListVacancies(fieldsVacancyList, responseData) {
+            let data, index;
+
+            responseData.forEach(item => {
+                index = fieldsVacancyList.indexOf(item.vacancyId);
+                if(index !== -1){
+                    item.visible = true;
+                }
+            });
+
+            return responseData;
+        }
+
+        function _showBlocks(blockShow){
+            activeBlocks.push(blockShow);
+            blockShow.classList.toggle('active');
+        }
+
+        function _hiddenBlocks() {
+            for(let i = 0; i < activeBlocks.length; i++){
+                activeBlocks[i].classList.remove('active');
+                activeBlocks.splice(i,1);
+                i -= 1;
+            }
+        }
+
         resetDefaultData();
 
         singleton.showOrHideCandidates = function () {
-            console.log(this, 'this');
             this.data.withCandidates = !this.data.withCandidates;
             checkOnChange.call(this)
         };
@@ -396,19 +427,22 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                         }),
                         vacancyStages.requestVacancyStages(),
                         Person.requestGetAllPersons(),
-                        CustomField.requestGetFieldsTitles()
+                        CustomField.requestGetFieldsTitles(),
                     ]).then(data => {
-                    data.forEach(item => {
-                        _dataProcessing.apply(this, [data, item]);
+                        data.forEach(item => {
+                            _dataProcessing.apply(this, [data, item]);
+                        });
+                        CustomReportsService.getDate.apply(this, [singleton.editReport, $scope]);
+                        this.fieldsList = checkPropertyFyelds(this.fieldsList, fieldsListStart);
+                        this.fieldsList = checkPropertyFyelds(this.data.сustomVacancyFields, this.fieldsList);
+                        return true;
+                     })
+                    .then(resp => Vacancy.getAllVacansies())
+                    .then(resp => {
+                        this.fieldsVacancyList = checkPropertiesListVacancies(this.data.vacancyIds, resp.objects)
+                        $rootScope.loading = false;
+                        $scope.$apply();
                     });
-
-                    CustomReportsService.getDate.apply(this, [singleton.editReport, $scope]);
-                    this.fieldsList = checkPropertyFyelds(this.fieldsList, fieldsListStart);
-                    this.fieldsList = checkPropertyFyelds(this.data.сustomVacancyFields, this.fieldsList);
-                    $rootScope.loading = false;
-
-                    $scope.$apply();
-                });
         };
 
         singleton.selectValue = function (status) {
@@ -491,6 +525,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                 "to": this.data.dateTo,
                 "types": null,
                 "vacancyId": null,
+                "vacancyIds": this.data.vacancyIds,
                 "vacancyStatuses": this.data.vacancyStatuses,
                 "interviewStatuses": this.data.interviewStatuses,
                 "interviewCreatorIds": this.data.interviewCreatorIds,
@@ -539,6 +574,45 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             checkOnChange.call(this)
         };
 
+        singleton.selectDateRange = function (event, dateRange) {
+            let currentDate = new Date(),
+                currentDateStart = new Date(),
+                currentDateFinish = new Date();
+            this.disabled = true;
+            this.selectRange = dateRange;
+
+            if(dateRange == 'currentWeek'){
+                currentDateStart.setDate(currentDate.getDate() - (currentDate.getDay() - 1));
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousWeek'){
+                currentDateStart.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 7);
+                currentDateFinish.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 1);
+            }else if(dateRange == 'currentMonth'){
+                currentDateStart.setDate(1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousMonth'){
+                currentDateStart.setMonth(currentDate.getMonth() - 1, 1);
+                currentDateFinish.setMonth(currentDate.getMonth(),  0);
+            }else if(dateRange == 'currentYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear(),0,1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear() - 1,0,1);
+                currentDateFinish.setFullYear(currentDate.getFullYear(), 0, 0);
+            }else if(dateRange == 'customRange'){
+                this.disabled = false;
+            }
+
+            this.startVacancyDate =  +new Date(currentDateStart);
+            this.endDate =  +new Date(currentDateFinish);
+            $(".startDate").datetimepicker("setDate", new Date(currentDateStart));
+            $(".endDate").datetimepicker("setDate", new Date(currentDateFinish));
+            checkOnChange.call(this)
+        };
+
+        singleton.hiddenBlocks = _hiddenBlocks;
+        singleton.showBlocks = _showBlocks;
+
         return singleton;
     }catch(error){
         console.log(error, 'error CustomReportEditService');
@@ -546,4 +620,4 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 }
 angular
     .module('services.CustomReportEditService',['ngResource', 'ngCookies','services.person'])
-    .factory('CustomReportEditService',["$rootScope","Stat", "$translate","Company","Person","vacancyStages", "notificationService", "CustomReportsService","$timeout","$uibModal","translateWords","$location","CustomField","$filter", CustomReportEditService]);
+    .factory('CustomReportEditService',["$rootScope","Stat", "$translate","Company","Person","vacancyStages", "notificationService", "CustomReportsService","$timeout","$uibModal","translateWords","$location","CustomField","$filter","Vacancy", CustomReportEditService]);

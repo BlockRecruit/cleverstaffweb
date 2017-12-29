@@ -122,6 +122,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
         }
 
         function requestWithOrWithoutCandidates($scope) {
+            console.log(this.dataReport, 'this.dataReport');
             let withCandidates = this.dataReport["withCandidates"];
             (withCandidates)? requestWithCandidates.call(this, $scope) : requestWithoutCandidates.call(this, $scope);
         }
@@ -132,13 +133,13 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 "to": this.dataReport['dateTo'],
                 "types":null,
                 "vacancyId":null,
+                "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"] : null,
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
                 "interviewStatuses": this.dataReport["interviewStatuses"],
                 "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
                 "vacancyFields": this.dataReport["vacancyFields"],
                 "withCandidates":this.dataReport["withCandidates"]
             }, false)
-
                 .then((resp) => {
                     resetDefaultData();
                     _showReportWithCandidates.call(this, resp);
@@ -148,10 +149,11 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithoutCandidates($scope) {
             Promise.all([Stat.requestGetActualVacancyStatistic2({
-                "from": this.dataReport['dateFrom'],
-                "to": this.dataReport['dateTo'],
+                "from": (this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'],
+                "to": (this.endDate)? this.endDate : this.dataReport['dateTo'],
                 "types":null,
                 "vacancyId":null,
+                "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:null,
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
                 "interviewStatuses": this.dataReport["interviewStatuses"],
                 "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
@@ -172,18 +174,22 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             localStorage.setItem('reportsData', JSON.stringify(data));
         };
 
-        reports.showChoosingMenu = function(selector){
+        reports.showChoosingMenu = function(selector, $scope){
             if($(selector).css('display') == 'none'){
                 $(selector).show('500');
-                $('body').mouseup(function(e) {
-                    if ($(selector).has(e.target).length === 0) {
-                        $(selector).hide("500");
-                        $(document).off('mouseup');
-                    }
+                $('body').mouseup((e) =>{
+                    $scope.$apply(() => {
+                        if ($(selector).has(e.target).length === 0) {
+                            $(selector).hide("500");
+                            $(document).off('mouseup');
+                            this.chooseListFieldsVacancies = false;
+                        }
+                    });
                 });
             }else{
                 $('body').unbind('mouseup');
                 $(selector).hide("500");
+                this.chooseListFieldsVacancies = false;
             }
         };
 
@@ -254,7 +260,6 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 endDate: new Date(now)
             }).on('changeDate', (data) => {
                 this.startVacancyDate = data.date.getTime();
-
                 if(this.startVacancyDate > new Date()){
                     this.timeMaxZone = true;
                 }else{ this.timeMaxZone = false;}
@@ -281,7 +286,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 if(this.endDate > new Date()){
                     this.timeMaxZone = true;
                 }else{ this.timeMaxZone = false;}
-
+                console.log(dataReport,'dataReport)');
                 (this.data)? this.data.dateTo = this.endDate : null;
 
                 setTimeout(() => {
@@ -309,6 +314,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                     "to": this.dataReport['dateTo'],
                     "types":null,
                     "vacancyId":null,
+                    "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:null,
                     "vacancyStatuses": this.dataReport["vacancyStatuses"],
                     "interviewStatuses": this.dataReport["interviewStatuses"],
                     "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
@@ -369,6 +375,41 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             });
 
             return (location)? location : "-";
+        };
+
+        reports.selectDateRange = function (event, dateRange) {
+            let currentDate = new Date(),
+                currentDateStart = new Date(),
+                currentDateFinish = new Date();
+            this.disabled = true;
+            this.selectRange = dateRange;
+
+            if(dateRange == 'currentWeek'){
+                currentDateStart.setDate(currentDate.getDate() - (currentDate.getDay() - 1));
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousWeek'){
+                currentDateStart.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 7);
+                currentDateFinish.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 1);
+            }else if(dateRange == 'currentMonth'){
+                currentDateStart.setDate(1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousMonth'){
+                currentDateStart.setMonth(currentDate.getMonth() - 1, 1);
+                currentDateFinish.setMonth(currentDate.getMonth(),  0);
+            }else if(dateRange == 'currentYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear(),0,1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear() - 1,0,1);
+                currentDateFinish.setFullYear(currentDate.getFullYear(), 0, 0);
+            }else if(dateRange == 'customRange'){
+                this.disabled = false;
+            }
+
+            this.startVacancyDate =  +new Date(currentDateStart);
+            this.endDate =  +new Date(currentDateFinish);
+            $(".startDate").datetimepicker("setDate", new Date(currentDateStart));
+            $(".endDate").datetimepicker("setDate", new Date(currentDateFinish));
         };
 
         if(!reports.data) {
