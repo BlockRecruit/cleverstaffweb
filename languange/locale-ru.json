@@ -2835,10 +2835,9 @@
   "Please add the candidates to this stage":"Добавьте кандидатов на этап",
   "Position":"Вакансия",
   "Search":"Поиск",
-  "Location":"Локация",
   "Vacancies & Applicants API": "API Вакансий и Откликов",
   "No vacancies found":"Вакансии не были найдены",
   "Pick the position from the search field":"Выберите вакансию из списка предложенных в поле",
-  "Any":"Любая",
-  "telework_1":"Удаленно"
+  "telework_1":"Удаленно",
+  "Show vacancies in the report":"Показать вакансии в отчете"
 }
