@@ -18,10 +18,10 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <LINK REL="SHORTCUT ICON" HREF="images/sprite/favicon.png?b3">
-    <link rel="stylesheet" href="dist/css/styles.css?b220">
+    <link rel="stylesheet" href="dist/css/styles.css?b221">
     <link rel="stylesheet" type="text/css" media="print" href="dist/css/print.css" />
     <!--<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>-->
-    <script type="text/javascript" src="dist/js/mainLib.js?b163"></script>
+    <script type="text/javascript" src="dist/js/mainLib.js?b164"></script>
 
 
     <!--<link  href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">-->
@@ -209,7 +209,7 @@
                 </ul>
                 <span class="active-page">{{$root.notFormatedTitle}}</span>
                 <div class="trial" ng-if="(digit > 0 && digit <= 14)">
-                    <span>{{"Only"|translate}}</span><span ng-bind="digit" class="digit"></span><span>{{(digit >= 5 && digit <= 14)? "days_1Trial" : (digit < 5 && digit > 1)? "daysTrial" : (digit === 0)? "dayTrial": "dayTrial" | translate}}</span>
+                    <span ng-show="digit != 1">{{"Only"|translate}}</span><span ng-show="digit == 1">{{"Only_1"|translate}}</span><span ng-bind="digit" class="digit"></span><span>{{(digit >= 5 && digit <= 14)? "days_1Trial" : (digit < 5 && digit > 1)? "daysTrial" : (digit === 0)? "dayTrial": "dayTrial" | translate}}</span>
                     <i class="fa fa-info-circle tooltip-icon"  ng-mouseover="HoverBlockTrialShow()"  ng-mouseleave="HoverBlockTrialHidden()" aria-hidden="true">
                         <div class="hoverExtension" ng-show="hoverBlockTrial">
                             <p>{{"All features are unlimited within your trial. You could invite unlimited number of users to test the system."|translate}}</p>
@@ -785,7 +785,6 @@
                                     <span>
                                         {{'only_me1'|translate}}
                                     </span>
-                                    &nbsp;
                                     <span>
                                         {{'only_me2'|translate}}
                                     </span>
@@ -902,7 +901,6 @@
                                     <span>
                                         {{'only_me1'|translate}}
                                     </span>
-                                    &nbsp;
                                     <span>
                                         {{'only_me2'|translate}}
                                     </span>
@@ -1031,7 +1029,6 @@
                                     <span>
                                         {{'only_me1'|translate}}
                                     </span>
-                                    &nbsp;
                                     <span>
                                         {{'only_me2'|translate}}
                                     </span>
@@ -1233,7 +1230,7 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZul9dW5-r5WVV1479hAgVxM5Z75C-ykM&libraries=places"></script>
     <script type="text/javascript" src="lib/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b282"></script>
+    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b283"></script>
 
     <!--ЗPignation in TAble-->
     <script type="text/ng-template" id="custom/pager">

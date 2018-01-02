@@ -56,67 +56,29 @@
         <div class="container add-email">
            <form class="form-signin" ng-show="showAddEmail || editEmail" ng-init="obj={checkFields: false}">
                <h5 ng-show="showPassword">{{addedEmail.email}}</h5>
-               <input class="form-control" ng-class="{'wrong-email': wrongEmail}" ng-click="wrongEmail = false" ng-show="!showPassword && !$root.showAdvancedFields" type="text" name="email" ng-model="addedEmail.email" my-enter="addEmail()" placeholder="E-mail address">
+               <input class="form-control" ng-class="{'wrong-email': wrongEmail}" ng-click="wrongEmail = false" ng-show="!showPassword && !$root.showAdvancedFields" type="text" name="email" ng-model="addedEmail.email" click-on-enter="#addEmailButton .next-step" placeholder="E-mail address">
                <div class="text-center wrong-email-notification" ng-show="wrongEmail">{{'wrong_email' | translate}}</div>
-               <input class="form-control" ng-if="showPassword" autocomplete="off" ng-class="{'wrong-email': (obj.checkFields && !$root.addedEmail.password)}" type="password" ng-model="addedEmail.password" name="password" placeholder="Password" ng-focus="obj.checkFields = false">
+               <input class="form-control" ng-if="showPassword" autocomplete="off" ng-class="{'wrong-email': (obj.checkFields && !$root.addedEmail.password)}" type="password" ng-model="addedEmail.password" click-on-enter="#addEmailButton .next-step" name="password" placeholder="Password" ng-focus="obj.checkFields = false">
                <div class="text-center wrong-email-notification" ng-show="!$root.addedEmail.password && obj.checkFields && showPassword">{{'Please enter your password' | translate}}</div>
-               <input class="form-control" ng-if="$root.showAdvancedFields" ng-class="{'wrong-email': (obj.checkFields && !$root.addedEmail.smtp.host)}" type="text" ng-model="$root.addedEmail.smtp.host" name="smtpHost" placeholder="smtp Host" ng-focus="obj.checkFields = false">
+               <input class="form-control" ng-if="$root.showAdvancedFields" ng-class="{'wrong-email': (obj.checkFields && !$root.addedEmail.smtp.host)}" type="text" ng-model="$root.addedEmail.smtp.host" name="smtpHost" click-on-enter="#addEmailButton .next-step" placeholder="smtp Host" ng-focus="obj.checkFields = false">
                <div class="text-center wrong-email-notification" ng-show="!$root.addedEmail.smtp.host && obj.checkFields && showPassword">{{'Please fill in this field' | translate}}</div>
-               <input class="form-control" ng-if="$root.showAdvancedFields" ng-class="{'wrong-email': (obj.checkFields && !$root.addedEmail.smtp.port)}" type="number" ng-model="$root.addedEmail.smtp.port" name="smtpPort" placeholder="smtp Port" ng-focus="obj.checkFields = false">
+               <input class="form-control" ng-if="$root.showAdvancedFields" ng-class="{'wrong-email': (obj.checkFields && !$root.addedEmail.smtp.port)}" type="number" ng-model="$root.addedEmail.smtp.port" name="smtpPort" click-on-enter="#addEmailButton .next-step" placeholder="smtp Port" ng-focus="obj.checkFields = false">
                <div class="text-center wrong-email-notification" ng-show="!$root.addedEmail.smtp.port && obj.checkFields && showPassword">{{'Please fill in this field' | translate}}</div>
                <div class="buttons" ng-show="$root.showAdvancedFields">
                    <button type="button" class="btn btn-secondary" ng-class="{'active': $root.addedEmail.smtp.secure == 'SSL'}" ng-click="$root.addedEmail.smtp.secure = 'SSL'">SSL</button>
                    <button type="button" class="btn btn-secondary" ng-class="{'active': $root.addedEmail.smtp.secure == 'TLS'}" ng-click="$root.addedEmail.smtp.secure = 'TLS'">TLS</button>
                </div>
-               <div class="buttons text-center">
-                   <button class="btn btn-lg btn-default" ng-click="hideAddEmail()">{{'Back' | translate}}</button>
-                   <button class="btn btn-lg btn-primary" ng-click="addEmail()" ng-if="($root.addedEmail.password && $root.addedEmail.smtp.host && $root.addedEmail.smtp.port) || !showPassword">
+               <div class="buttons text-center" id="addEmailButton">
+                   <button class="btn btn-lg btn-default" ng-click="showAddEmail = false;">{{'Back' | translate}}</button>
+                   <button class="btn btn-lg btn-primary next-step" ng-click="addEmail()" ng-if="($root.addedEmail.password && $root.addedEmail.smtp.host && $root.addedEmail.smtp.port) || !showPassword">
                        <span ng-show="!showPassword && !$root.showAdvancedFields">{{'Next' | translate}}</span>
                        <span ng-show="showPassword" >{{'Add Email' | translate}}</span>
                    </button>
-                   <button class="btn btn-lg btn-primary" ng-if="(!$root.addedEmail.password || !$root.addedEmail.smtp.host || !$root.addedEmail.smtp.port) && showPassword" ng-click="obj.checkFields = true">
+                   <button class="btn btn-lg btn-primary next-step" ng-if="(!$root.addedEmail.password || !$root.addedEmail.smtp.host || !$root.addedEmail.smtp.port) && showPassword" ng-click="obj.checkFields = true">
                        <span >{{'Add Email' | translate}}</span>
                    </button>
                </div>
            </form>
         </div>
-        <!--<div class="col-lg-12 secondTable">-->
-            <!--<div class="row header">-->
-                <!--<div class="col-lg-10">-->
-                    <!--<h4>Кандидаты, полученные из почты</h4>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="row bodies">-->
-                <!--<table class="table">-->
-                    <!--<tbody>-->
-                    <!--<tr>-->
-                        <!--<td class="mailAndData">-->
-                            <!--<span>danilovatamara48@gmail.com</span><span>, 12 июля</span>-->
-                        <!--</td>-->
-                        <!--<td class="UsersFromMail">-->
-                            <!--<a href="">Danilova Masha</a>,-->
-                            <!--<a href="">Danilova Masha</a>,-->
-                            <!--<a href="">Danilova Masha</a>,-->
-                            <!--<a href="">Danilova Masha</a>,-->
-                            <!--<a href="">Danilova Masha</a>,-->
-                            <!--<a href="">Danilova Masha</a>,-->
-                            <!--<a href="">Danilova Masha</a>,-->
-                            <!--<a href="">Danilova Masha</a>,-->
-                            <!--<a href="">Danilova Masha</a>,-->
-                            <!--<a href="">Danilova Masha</a>,-->
-                            <!--<a href="">Danilova Masha</a>,-->
-                            <!--<a href="">Danilova Masha</a>,-->
-                            <!--<a href="">Danilova Masha</a>,-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                    <!--</tbody>-->
-                <!--</table>-->
-            <!--</div>-->
-            <!--<div class="showMoreEarly">-->
-                <!--<div class="text-center button">-->
-                    <!--<a type="button" class="btn btn-primary">Показать более ранние</a>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
     </div>
 </div>

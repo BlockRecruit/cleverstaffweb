@@ -56,11 +56,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         name: $filter('translate')('Relevancy'),
         values : 'relevance'
     }, {
-        name: $filter('translate')('date added to database'),
+        name: $filter('translate')('Date added to database'),
         values : 'dc'
     }, {
         name: $filter('translate')('Date of last activity'),
         values : 'dm'
+    },{
+        name: $filter('translate')('Alphabetically'),
+        values : 'alphabetically'
     }, {
         name: $filter('translate')('Date of last comment'),
         values : 'lastCommentDate'
@@ -880,8 +883,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("lang", isNotBlank($scope.searchParam['lang']) ? $scope.searchParam['lang'] : null);
                 Candidate.setOptions("searchFullTextType", isNotBlank($scope.searchParam['searchFullTextType']) ? $scope.searchParam['searchFullTextType'] : null);
                 Candidate.setOptions("sort", isNotBlank($scope.filterForChange) ? $scope.filterForChange : null);
+                Candidate.setOptions("sortOrder", $scope.filterForChange == 'alphabetically' ? 'ASC' : 'DESC');
                 Candidate.setOptions("withPersonalContacts", $scope.searchParam['withPersonalContacts'] == 'null' ? null: $scope.searchParam['withPersonalContacts'] == "true");
-                //Candidate.setOptions("skills", isNotBlank($scope.searchParam.skills.name) ? $scope.searchParam.skills.name : null);
                 Candidate.setOptions("skills",$scope.searchParam.skills.name ? [{name: $scope.getSkillAutocompleterValueForSearch(),type: $scope.searchParam.skills.type}] : null);
                 Candidate.setOptions("origin", isNotBlank($scope.searchParam['origin']) ? $scope.searchParam['origin'] : null);
                 $scope.criteriaForExcel = angular.copy(Candidate.searchOptions());
@@ -925,8 +928,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         $scope.limitReached = response['limitReached'];
                         if(page) {
                             $scope.candidates = $scope.candidates.concat(response['objects'])
+                            console.log($scope.candidates);
                         } else {
                             $scope.candidates = response['objects'];
+                            console.log($scope.candidates);
                         }
                         $defer.resolve($scope.candidates);
 
@@ -952,9 +957,15 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         if($scope.searchParam.words == null && sort == 'relevance'){
             notificationService.error($filter('translate')('Sort by relevance impossible until you enter a value in the Text Search'));
         }else{
-            Candidate.setOptions("sort", sort);
-            Candidate.setOptions("sortOrder", 'DESC');
-            $scope.filterForChange = sort;
+            if(sort == 'alphabetically'){
+                Candidate.setOptions("sort", sort);
+                Candidate.setOptions("sortOrder", 'ASC');
+                $scope.filterForChange = sort;
+            }else{
+                Candidate.setOptions("sort", sort);
+                Candidate.setOptions("sortOrder", 'DESC');
+                $scope.filterForChange = sort;
+            }
             if(!$scope.clickBtnSort){
                 $scope.tableParams.reload();
             }
@@ -1014,6 +1025,25 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $(".AdvancedSearchCandidate,.sortBy").click(function (e){
         e.stopPropagation();
     });
+
+    $scope.clickedUser = null;
+
+    $('body').bind('click', function(event) {
+       if($scope.clickedUser && !$(event.target).hasClass('for-files')) {
+           $scope.clickedUser = null;
+           $scope.$apply();
+       }
+    });
+
+    $scope.showUserFiles = function(user) {
+        if($scope.clickedUser !== user) {
+            var clickedUserIndex = $scope.tableParams.data.indexOf(user);
+            $scope.clickedUser = $scope.tableParams.data[clickedUserIndex];
+        } else {
+            $scope.clickedUser = null;
+        }
+    };
+
     $scope.closeSearchTags = function (param){
         if(param == 'industry'){
             $scope.staticSearchParam[0].industry = 'null';

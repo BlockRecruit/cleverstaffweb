@@ -10,6 +10,9 @@
 	.modal-body {
 		padding: 15px 15px 10px 15px;
 		& > .taskText {
+			.mce-tinymce.mce-container.mce-panel .mce-edit-area.mce-container.mce-panel.mce-stack-layout-item.mce-last {
+				margin-left: 0;
+			}
 			& > .form-control {
 				height: 200px;
 				max-height: 380px;
