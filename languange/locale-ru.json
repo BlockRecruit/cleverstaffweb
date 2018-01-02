@@ -2842,6 +2842,7 @@
   "Pick the position from the search field":"Выберите вакансию из списка предложенных в поле",
   "Any":"Любая",
   "telework_1":"Удаленно",
+  "Mark at least one test answer as correct": "Выберите хотя бы один правильный вариант ответа",
   "Alphabetically": "Алфавиту",
   "Show vacancies in the report":"Показать вакансии в отчете"
 }
