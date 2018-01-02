@@ -4860,6 +4860,13 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                     if (withHour) {
                         res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour);
                     }
+
+                    if(res.indexOf('до полудня') !== -1){
+                        return res.split(' ').slice(0,2).join(' ') + ' AM';
+                    }else if(res.indexOf('после полудня') !== -1){
+                        return res.split(' ').slice(0,2).join(' ') + ' PM';
+                    }
+
                     return res;
                 } else if (angular.equals($filter('date')(dateTomorrow, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
                     var res = $filter("translate")("tomorrow");
