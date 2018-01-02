@@ -4,13 +4,6 @@
 	padding: 15px;
 
 	background: none !important;
-	.active {
-		display: block !important;
-		visibility: visible !important;
-		max-height: 200px !important;
-		padding-top: 16px !important;
-		padding-bottom: 16px !important;
-	}
 	header {
 		margin-bottom: 16px;
 		.description {
@@ -395,8 +388,6 @@
 	}
 
 	.block-candidate-show {
-		position: relative;
-
 		box-sizing: border-box;
 		padding: 16px 8px;
 		padding-right: 0;
@@ -479,80 +470,6 @@
 
 				width: 17px;
 				height: 17px;
-				padding: 0;
-
-				border: none;
-				outline: none;
-			}
-			.checkmark {
-				display: inline;
-			}
-		}
-	}
-	.chooseListFieldsVacancies {
-		position: absolute;
-		z-index: 99;
-		top: 100%;
-		left: 0;
-
-		box-sizing: border-box;
-		width: 100%;
-		padding: 5px;
-
-		background-color: #fff;
-		box-shadow: 0 0 7px 4px rgba(0, 0, 0, 0.2);
-		input[type="text"] {
-			box-sizing: border-box;
-			width: 50%;
-			padding: 3.5px 7px;
-
-			border: 1px solid rgba(0, 0, 0, 0.33);
-			border-radius: 13px;
-			outline: none;
-		}
-		.enter-job-title {
-			font-size: 18px;
-
-			margin-bottom: 10px;
-
-			opacity: 0.9;
-		}
-		.fields-list-row {
-			font-size: 16px;
-			font-weight: normal;
-
-			overflow-y: scroll;
-			width: 100%;
-			max-height: 300px;
-			margin-top: 10px;
-			padding: 0;
-			li {
-				padding: 3px 5px;
-
-				list-style: none;
-				span {
-					color: #337ab7;
-				}
-				&:hover {
-					color: #23527c;
-				}
-			}
-
-			.fa {
-				font-size: 20px;
-
-				display: none;
-				margin: 0;
-
-				color: #00b549;
-				background-color: #fff;
-			}
-			button {
-				position: relative;
-
-				width: 17px;
-				height: 17px;
-				margin-right: 15px;
 				padding: 0;
 
 				border: none;
@@ -713,90 +630,23 @@
 
 .form {
 	padding: 16px 8px;
-	padding-bottom: 0;
 
 	border-radius: 5px;
 	background: #fff;
-	h4 {
-		flex-grow: 0;
-	}
 	.fields {
-		@include flex(row, space-between, center);
-
 		position: relative;
 
 		width: 100%;
-
-		flex-wrap: wrap;
-		.wrap-datepicker {
-			margin-bottom: 10px;
-			padding-left: 13px;
-
-			flex-grow: 1;
-		}
-		.fields-title-select {
-			flex-grow: 1;
-		}
-		&-title {
-			@include flex(row, space-between, center);
-
-			margin-bottom: 10px;
-
-			flex-grow: 0.1;
-			.select-content {
-				position: absolute;
-				z-index: 999;
-				top: 110%;
-				left: 0;
-
-				visibility: hidden;
-				overflow: hidden;
-				width: 100%;
-				max-height: 0;
-				margin: 0;
-				padding: 0 8px;
-
-				transition: all 0.5s ease-in;
-
-				border-radius: 5px;
-				background-color: #fff;
-				box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1);
-			}
-			&-select {
-				input {
-					@include input-styling();
-					@include border-radius();
-
-					width: 100%;
-					padding: 1px;
-
-					border: 1px solid #e3e3e3;
-					outline: none;
-				}
-				li {
-					margin: 0;
-					padding: 0;
-					padding-bottom: 3px;
-
-					list-style: none;
-
-					cursor: pointer;
-					&:hover {
-						color: #f0ad4e;
-					}
-				}
-			}
-		}
 		.field {
 			input {
 				@include input-styling();
 				@include border-radius();
 
 				width: 100px;
-				padding: 3px 1px;
+				margin-left: 15px;
+				padding-left: 10px;
 
 				cursor: pointer;
-				text-align: center;
 				&:focus {
 					outline: none;
 				}
@@ -808,16 +658,10 @@
 			}
 			label {
 				font-weight: normal;
-
-				position: relative;
-				top: 4px;
 			}
 		}
 		i {
 			font-size: 12px;
-
-			position: relative;
-			top: 3px;
 
 			margin-left: 15px;
 
@@ -826,7 +670,7 @@
 		.info-content {
 			position: absolute;
 			z-index: 10;
-			top: 115%;
+			top: 28px;
 			left: 0;
 
 			display: none;
@@ -1171,10 +1015,7 @@
 	}
 }
 
-@media (max-width: $screen-lg - 1) {
-	.wrapper-for-padding-left {
-		margin-bottom: 16px;
-	}
+@media (min-width: $screen-md) and (max-width: $screen-lg - 1) {
 	.wrapper-for-padding-left,
 	.wrapper-for-padding-right {
 		position: relative;
@@ -1182,14 +1023,13 @@
 		padding: 0 !important;
 	}
 	section:nth-child(even) {
-		@include flex(column);
+		@include flex(row,space-between);
 		.wrapper-for-padding-left {
-			width: 100%;
+			width: 61%;
 			margin-right: auto;
-			margin-bottom: 16px;
 		}
 		.wrapper-for-padding-right {
-			width: 100%;
+			width: 38%;
 			padding-right: 0;
 		}
 	}

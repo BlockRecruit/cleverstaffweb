@@ -3,27 +3,8 @@
  function CustomReportEditCtrl($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter, translateWords,
                        $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, CustomReportEditService, $uibModal) {
     try {
-        let filterVacancy = (vacancy) => {
-            let statuses = this.data.vacancyStatuses,
-                index = vacancy.position.toLocaleLowerCase().indexOf(this.query.toLocaleLowerCase());
-
-            if(index !== -1 && statuses.some(item => item == vacancy.status)){
-                return vacancy;
-            }
-        };
-
-        let showBlocks =  (event) => {
-            let targetDataID = event.target.dataset, blockShow;
-
-            if(targetDataID && targetDataID['show']){
-                blockShow = angular.element('#' + targetDataID['show'])[0];
-                CustomReportEditService.showBlocks(blockShow);
-                return;
-            }
-            CustomReportEditService.hiddenBlocks();
-        };
-
         CustomReportEditService.buildReport.call(this, $scope);
+
         this.showChoosingMenu           = CustomReportsService.showChoosingMenu;
         this.removeReport               = CustomReportsService.removeReport;
         this.remove                     = CustomReportsService.remove;
@@ -32,7 +13,6 @@
         this.outHover                   = CustomReportsService.outHover;
         this.data                       = CustomReportEditService.editReport;
         this.fieldsList                 = CustomReportEditService.editReport.vacancyFields;
-        this.dateRange                  = CustomReportEditService.dateRange;
         this.selectValue                = CustomReportEditService.selectValue;
         this.selectValueStages          = CustomReportEditService.selectValueStages;
         this.selectAllStages            = CustomReportEditService.selectAllStages;
@@ -43,9 +23,6 @@
         this.saveNameOrDescr            = CustomReportEditService.saveNameOrDescr;
         this.saveCustomReport           = CustomReportEditService.saveCustomReport;
         this.showOrHideCandidates       = CustomReportEditService.showOrHideCandidates;
-        this.selectDateRange            = CustomReportEditService.selectDateRange;
-        this.filterVacancy              = filterVacancy;
-        this.showBlocks                 = showBlocks;
     }catch(error){
         console.log(error, 'error')
     }
