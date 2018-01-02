@@ -13898,7 +13898,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=37'
+        suffix: '.json?b=38'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -25448,20 +25448,49 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                 }
             });
         };
+
+        $scope.selectCorrectAnswer = function(question,answers) {
+            console.log(answers);
+            if(answers.isCorrect) question.noCorrectAnswerInQuestion = false;
+        };
         $scope.saveTest = function () {
             var emptyQuestion = false;
+            var firstNoAnswerIndex = null;
+            $scope.noAnswerIndex = null;
             $scope.fieldCheck = false;
-            angular.forEach($scope.newTestParam.questions, function (question) {
+            $scope.noCorrectAnswerInQuestion = false;
+
+            angular.forEach($scope.newTestParam.questions, function (question, index) {
                 if((question.text === '' || question.text === null || question.points === null || question.points === '') && !question.answerType){
                     emptyQuestion = true;
                 }
+
+                let checkForCorrectAnswer = question.variantsArray.every(function (variant) {
+                    return !variant.isCorrect;
+                });
+
+                console.log(checkForCorrectAnswer);
+
+                if(checkForCorrectAnswer) {
+                    question.noCorrectAnswerInQuestion = true;
+                    $scope.noCorrectAnswerInQuestion = true;
+                    $scope.noAnswerIndex = index;
+                } else {
+                    question.noCorrectAnswerInQuestion = false;
+                }
+
+                if(question.noCorrectAnswerInQuestion && firstNoAnswerIndex === null) {
+                    firstNoAnswerIndex = index;
+                }
+
                 angular.forEach(question.variantsArray,function (variant) {
                     if((variant.value == '' || variant.value == null)){
                         emptyQuestion = true;
                     }
                 });
             });
-            if($scope.newTestParam.testName !== null && $scope.newTestParam.testName !== '' && !emptyQuestion) {
+
+            if($scope.newTestParam.testName !== null && $scope.newTestParam.testName !== '' && !emptyQuestion && !$scope.noCorrectAnswerInQuestion) {
                 var testForSend = {};
                 angular.copy($scope.newTestParam, testForSend);
                 angular.forEach($scope.newTestParam.questions, function (quest, key) {
@@ -25510,13 +25539,21 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                     notificationService.error(err.message);
                 });
             } else {
+                let emptyFilesError = $scope.newTestParam.testName === null || $scope.newTestParam.testName === '' || emptyQuestion;
+
 
                 $(".obligatory").each(function () {
                     if($(this)[0].value == '' || $(this)[0].value === null) {
                         $(this).addClass("empty")
                     }
                 });
-                notificationService.error($filter('translate')('You should fill all obligatory fields.'))
+                if(emptyFilesError) {
+                    notificationService.error($filter('translate')('You should fill all obligatory fields.'))
+                } else if(!emptyFilesError && $scope.noCorrectAnswerInQuestion){
+                    let element = $('#question-' + firstNoAnswerIndex);
+                    $("html, body").animate({scrollTop: element.position().top + element.height()}, "slow");
+                    return;
+                }
             }
         };
 
