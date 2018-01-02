@@ -90,7 +90,7 @@ var app = angular.module('RecruitingAppStart', [
 }]).config(function($translateProvider,tmhDynamicLocaleProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=7'
+        suffix: '.json?b=8'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
