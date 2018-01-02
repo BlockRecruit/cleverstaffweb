@@ -928,8 +928,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         $scope.limitReached = response['limitReached'];
                         if(page) {
                             $scope.candidates = $scope.candidates.concat(response['objects'])
+                            console.log($scope.candidates);
                         } else {
                             $scope.candidates = response['objects'];
+                            console.log($scope.candidates);
                         }
                         $defer.resolve($scope.candidates);
 
@@ -1023,6 +1025,25 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $(".AdvancedSearchCandidate,.sortBy").click(function (e){
         e.stopPropagation();
     });
+
+    $scope.clickedUser = null;
+
+    $('body').bind('click', function(event) {
+       if($scope.clickedUser && !$(event.target).hasClass('for-files')) {
+           $scope.clickedUser = null;
+           $scope.$apply();
+       }
+    });
+
+    $scope.showUserFiles = function(user) {
+        if($scope.clickedUser !== user) {
+            var clickedUserIndex = $scope.tableParams.data.indexOf(user);
+            $scope.clickedUser = $scope.tableParams.data[clickedUserIndex];
+        } else {
+            $scope.clickedUser = null;
+        }
+    };
+
     $scope.closeSearchTags = function (param){
         if(param == 'industry'){
             $scope.staticSearchParam[0].industry = 'null';
