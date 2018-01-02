@@ -97,7 +97,7 @@
         </form>
         <form class="col-lg-12 create-test-fields">
             <div class="col-lg-12 no-padding">
-                <div class="col-lg-12 create-block paddingForQuestions questions" id="question-1" ng-repeat="(questIndex, question) in newTestParam.questions track by $index">
+                <div class="col-lg-12 create-block paddingForQuestions questions" id="question-{{$index}}" ng-repeat="(questIndex, question) in newTestParam.questions track by $index">
                     <div class="col-lg-10 col-lg-offset-1 item question-foto text-center" ng-class="['owner_photo_wrap' + $index]" id="owner_photo_wrap">
                         <input id="the-file-input" accept="image/*" type="file" style="display: none" multiple/>
                         <img ng-show="$root.testQuestionLogo != undefined || $root.testQuestionLogo != null" ng-class="['img_wrap' + $index]" ng-src="{{serverAddress}}/getapp?id={{$root.testQuestionLogo[$index]}}&d=" alt=""/>
@@ -144,11 +144,16 @@
                     <div class="col-lg-12 answers" ng-show="!newTestParam.questions[questIndex].answerType" id="answer-1" ng-repeat="answers in question.variantsArray track by $index">
                         <div class="col-lg-8 item">
                             <input type="text" placeholder="{{'Answer'|translate}} {{$index+1}} *" ng-model="answers.value" ng-focus="removeObligatory()" class="obligatory">
-                            <input type="checkbox" name="correctAnsw{{questIndex}}{{$index}}" id="correctAnsw{{questIndex}}{{$index}}" ng-model="answers.isCorrect">
+                            <input type="checkbox" name="correctAnsw{{questIndex}}{{$index}}" id="correctAnsw{{questIndex}}{{$index}}" ng-click="selectCorrectAnswer(question, answers, $index);" ng-model="answers.isCorrect">
                             <label for="correctAnsw{{questIndex}}{{$index}}">{{'This is the correct answer'| translate}}</label>
                             <a title="Delete" href="" ng-show="$index > 0 " ng-click="deleteAnswer(questIndex, $index);" class="pull-right ng-scope">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
+                        </div>
+                    </div>
+                    <div class="row" ng-show="noCorrectAnswerInQuestion && question.noCorrectAnswerInQuestion">
+                        <div class="col-lg-9 error-required">
+                            <span class="">{{'Mark at least one test answer as correct' | translate}}</span>
                         </div>
                     </div>
                     <div class="row add-buttons">
