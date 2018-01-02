@@ -1124,7 +1124,6 @@
   "No upcoming events of company": "Сейчас в аккаунте Вашей компании нет предстоящих событий.<br>Здесь будут собеседования, задачи и сроки по вакансиям.",
   "All Users Actions History": "История действий всех пользователей",
   "Any of the words": "любое из слов",
-  "Any": "любое",
   "All words": "все слова",
   "All": "все",
   "Advanced Search": "Расширенный поиск",
@@ -2841,8 +2840,7 @@
   "No vacancies found":"Вакансии не были найдены",
   "Pick the position from the search field":"Выберите вакансию из списка предложенных в поле",
   "Any":"Любая",
-  "telework_1":"Удаленно",
-  "Mark at least one test answer as correct": "Выберите хотя бы один правильный вариант ответа"
+  "Mark at least one test answer as correct": "Выберите хотя бы один правильный вариант ответа",
   "telework_1":"Удаленно",
   "Alphabetically": "Алфавиту",
   "Show vacancies in the report":"Показать вакансии в отчете"
