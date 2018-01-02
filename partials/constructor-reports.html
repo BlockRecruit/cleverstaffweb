@@ -106,7 +106,7 @@
                                ng-repeat="status in inVacancyStatuses track by $index"
                                ng-click="changeInVacancyStatuses(status)"
                                ng-hide="status.value == 'no_contacts' || status.value == 'notafit' || status.value == 'declinedoffer'
-                             || status.value == 'no_response'">
+                             || status.value == 'no_response' || status.value == 'offer_declined'">
                                 <button type="button" class="ui icon button" ng-class="{'checkmark': (status.added == true)}">
                                     <i class="fa fa-check-square" ng-class="{'checkmark': (status.added == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
                                 </button>
@@ -162,7 +162,7 @@
                                    ng-repeat="status in inVacancyStatuses track by $index"
                                    ng-click="changeInVacancyStatuses(status)"
                                    ng-show="status.value == 'no_contacts' || status.value == 'notafit' || status.value == 'declinedoffer'
-                             || status.value == 'no_response'">
+                             || status.value == 'no_response' || status.value == 'offer_declined'">
                                     <button type="button" class="ui icon button" ng-class="{'checkmark': (status.added == true)}">
                                         <i class="fa fa-check-square checkmark" ng-class="{'checkmark': (status.added == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>
                                     </button>
