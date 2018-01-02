@@ -3833,7 +3833,7 @@ $('#ex1_firstName, #ex1_number, #ex1_mail, #ex1_skype, #ex1_orgName, #ex1_passwo
             $('.softForm').css('display', 'none');
         }
         if(window.location.pathname != '/signup.html' && window.location.pathname != '/ru/signup.html'){
-            if(value8.length > 0){
+            if(value8 && value8.length > 0){
                 $('.numberVacancyForm').css('display', 'block');
             }else{
                 $('.numberVacancyForm').css('display', 'none');
