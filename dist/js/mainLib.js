@@ -6191,7 +6191,7 @@ angular.module('ui.tinymce', [])
                             rendered = rendered.replace(/\[\[recruiter's name\]\]/g, $rootScope.staticEmailTemplate.recruiterName);
                             rendered = rendered.replace(/\[\[recruiterEmail\]\]/g, $rootScope.staticEmailTemplate.recruiterEmail);
                             rendered = rendered.replace(/\[\[recruiter's phone\]\]/g, $rootScope.me.phoneWork ? $rootScope.me.phoneWork : $rootScope.me.phone);
-                            rendered = rendered.replace(/\[\[recruiter's Skype\]\]/g, $rootScope.staticEmailTemplate.skype ? $rootScope.staticEmailTemplate.skype : '<span id="removedSpan"></span>');
+                            rendered = rendered.replace(/Skype: \[\[recruiter's Skype\]\]/g, $rootScope.staticEmailTemplate.skype ? "Skype: " + $rootScope.staticEmailTemplate.skype : '<span id="removedSpan"></span>');
                             if($rootScope.staticEmailTemplate.facebook){
                                 rendered = rendered.replace(/\[\[recruiter's Facebook\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $rootScope.staticEmailTemplate.facebook+ '">' + $rootScope.staticEmailTemplate.facebook + '</a>');
                             }else{

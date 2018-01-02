@@ -4860,6 +4860,13 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                     if (withHour) {
                         res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour);
                     }
+
+                    if(res.indexOf('до полудня') !== -1){
+                        return res.split(' ').slice(0,2).join(' ') + ' AM';
+                    }else if(res.indexOf('после полудня') !== -1){
+                        return res.split(' ').slice(0,2).join(' ') + ' PM';
+                    }
+
                     return res;
                 } else if (angular.equals($filter('date')(dateTomorrow, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
                     var res = $filter("translate")("tomorrow");
@@ -19052,10 +19059,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         $scope.limitReached = response['limitReached'];
                         if(page) {
                             $scope.candidates = $scope.candidates.concat(response['objects'])
-                            console.log($scope.candidates);
                         } else {
                             $scope.candidates = response['objects'];
-                            console.log($scope.candidates);
                         }
                         $defer.resolve($scope.candidates);
 
@@ -19149,25 +19154,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $(".AdvancedSearchCandidate,.sortBy").click(function (e){
         e.stopPropagation();
     });
-
-    $scope.clickedUser = null;
-
-    $('body').bind('click', function(event) {
-       if($scope.clickedUser && !$(event.target).hasClass('for-files')) {
-           $scope.clickedUser = null;
-           $scope.$apply();
-       }
-    });
-
-    $scope.showUserFiles = function(user) {
-        if($scope.clickedUser !== user) {
-            var clickedUserIndex = $scope.tableParams.data.indexOf(user);
-            $scope.clickedUser = $scope.tableParams.data[clickedUserIndex];
-        } else {
-            $scope.clickedUser = null;
-        }
-    };
-
     $scope.closeSearchTags = function (param){
         if(param == 'industry'){
             $scope.staticSearchParam[0].industry = 'null';
@@ -25600,49 +25586,20 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                 }
             });
         };
-
-        $scope.selectCorrectAnswer = function(question,answers) {
-            console.log(answers);
-            if(answers.isCorrect) question.noCorrectAnswerInQuestion = false;
-        };
         $scope.saveTest = function () {
             var emptyQuestion = false;
-            var firstNoAnswerIndex = null;
-            $scope.noAnswerIndex = null;
             $scope.fieldCheck = false;
-            $scope.noCorrectAnswerInQuestion = false;
-
-            angular.forEach($scope.newTestParam.questions, function (question, index) {
+            angular.forEach($scope.newTestParam.questions, function (question) {
                 if((question.text === '' || question.text === null || question.points === null || question.points === '') && !question.answerType){
                     emptyQuestion = true;
                 }
-
-                let checkForCorrectAnswer = question.variantsArray.every(function (variant) {
-                    return !variant.isCorrect;
-                });
-
-                console.log(checkForCorrectAnswer);
-
-                if(checkForCorrectAnswer) {
-                    question.noCorrectAnswerInQuestion = true;
-                    $scope.noCorrectAnswerInQuestion = true;
-                    $scope.noAnswerIndex = index;
-                } else {
-                    question.noCorrectAnswerInQuestion = false;
-                }
-
-                if(question.noCorrectAnswerInQuestion && firstNoAnswerIndex === null) {
-                    firstNoAnswerIndex = index;
-                }
-
                 angular.forEach(question.variantsArray,function (variant) {
                     if((variant.value == '' || variant.value == null)){
                         emptyQuestion = true;
                     }
                 });
             });
-
-            if($scope.newTestParam.testName !== null && $scope.newTestParam.testName !== '' && !emptyQuestion && !$scope.noCorrectAnswerInQuestion) {
+            if($scope.newTestParam.testName !== null && $scope.newTestParam.testName !== '' && !emptyQuestion) {
                 var testForSend = {};
                 angular.copy($scope.newTestParam, testForSend);
                 angular.forEach($scope.newTestParam.questions, function (quest, key) {
@@ -25691,21 +25648,13 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                     notificationService.error(err.message);
                 });
             } else {
-                let emptyFilesError = $scope.newTestParam.testName === null || $scope.newTestParam.testName === '' || emptyQuestion;
-
 
                 $(".obligatory").each(function () {
                     if($(this)[0].value == '' || $(this)[0].value === null) {
                         $(this).addClass("empty")
                     }
                 });
-                if(emptyFilesError) {
-                    notificationService.error($filter('translate')('You should fill all obligatory fields.'))
-                } else if(!emptyFilesError && $scope.noCorrectAnswerInQuestion){
-                    let element = $('#question-' + firstNoAnswerIndex);
-                    $("html, body").animate({scrollTop: element.position().top + element.height()}, "slow");
-                    return;
-                }
+                notificationService.error($filter('translate')('You should fill all obligatory fields.'))
             }
         };
 
@@ -35683,7 +35632,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             var text = [
                 "Use this template to send the interviw invitation & details when you move candidates to job stages with an interview.",
                 "Use this template to describe candidates that thay do not meet the vacancy criteria.",
-                "Use this template to sent a job offer & details to your candidates when you move them to the 'Hired' stage."
+                "Use this template to send your candidates the letter with the vacancy proposal"
             ];
 
             if(flag === 'one' ){

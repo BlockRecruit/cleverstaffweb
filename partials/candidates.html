@@ -1723,10 +1723,6 @@
     <div class="ui bottom attached segment red"
          style="padding: 6px 6px 3px 6px;border-top: 0.2em solid #FFFFFF !important;"
          ng-show="!candidatePreview.showDocument">
-        <!--<div class="ui inverted dimmer"  style="background-color:rgba(255, 255, 255, 0)!important;"-->
-        <!--ng-class="{'active':loadingPriview}">-->
-        <!--<div class="ui large text loader">{{'Loading'|translate}}...</div>-->
-        <!--</div>-->
         <div ng-show="!loadingPriview" class="ui vertically divided grid">
             <div class="ui vertically-divided grid">
                 <div class="sixteen wide column"
@@ -1744,10 +1740,8 @@
                             </span>
 
                             <span ng-switch="candidatePreview.sex">
-                                <span ng-switch-when="true"><i title="{{'male'|translate}}" class="male large icon"
-                                                               style="color: #808080;margin-bottom: 7px;"></i></span>
-                                <span ng-switch-when="false"><i title="{{'female'|translate}}" class="female large icon"
-                                                                style="color: #808080;margin-bottom: 7px;"></i></span>
+                                <span ng-switch-when="true"><i title="{{'male'|translate}}" class="male large icon"                                                               style="color: #808080;margin-bottom: 7px;"></i></span>
+                                <span ng-switch-when="false"><i title="{{'female'|translate}}" class="female large icon" style="color: #808080;margin-bottom: 7px;"></i></span>
                             </span>
                         </div>
                     </span>

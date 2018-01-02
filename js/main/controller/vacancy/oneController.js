@@ -1474,7 +1474,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             var text = [
                 "Use this template to send the interviw invitation & details when you move candidates to job stages with an interview.",
                 "Use this template to describe candidates that thay do not meet the vacancy criteria.",
-                "Use this template to sent a job offer & details to your candidates when you move them to the 'Hired' stage."
+                "Use this template to send your candidates the letter with the vacancy proposal"
             ];
 
             if(flag === 'one' ){
