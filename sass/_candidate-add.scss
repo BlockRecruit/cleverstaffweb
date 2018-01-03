@@ -434,6 +434,7 @@
 
 							display: block;
 							width: 100%;
+							padding-right: 17px;
 							padding-left: 9px;
 
 							border: none;
@@ -760,7 +761,18 @@
 				}
 				& > .contactCandidate {
 					& > .item {
+						position: relative;
+
 						margin: 5px 0 7px 0;
+						.absolute-right {
+							font-size: 16px;
+
+							position: absolute;
+							right: 4px;
+							bottom: 3px;
+
+							color: #ffc100;
+						}
 					}
 					.with-border {
 						display: inline-block;

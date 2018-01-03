@@ -65,6 +65,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
               $scope.getMyVacancy = function(){
                   Vacancy.setOptions("personId", $scope.user.userId);
                   Vacancy.all(Vacancy.searchOptions(), function(response) {
+                      console.log(response);
                       $scope.allVacancyInUser = response.objects;
                   });
               };
@@ -200,6 +201,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                         } else {
                             Person.getPerson({userId: $routeParams.id}, function(resp) {
                                 $rootScope.loading = false;
+                                console.log('resp.recrutRole',resp.object.recrutRole,$scope.newRole);
                                 if($scope.newRole == resp.object.recrutRole) {
                                     $scope.user.recrutRole = $scope.newRole;
                                     var roleName = $scope.newRole == 'salesmanager' ? "Sales Manager" : $scope.newRole == 'admin' ? "Admin" : $scope.newRole == 'client' ? "Hiring Manager" : $scope.newRole == 'freelancer' ? "Freelancer" : $scope.newRole == 'recruter' ? 'Recruter' : $scope.newRole  == 'researcher'? 'Researcher': 'Researcher';
@@ -229,6 +231,9 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         $rootScope.saveNewRole = $scope.saveNewRole;
         $scope.inputValue = '';
         $scope.saveNewRegion = function() {
+            // console.log($scope.region)
+            // console.log("REGION ID")
+            // console.log( $scope.user.personId)
             if ($scope.region !== undefined && $scope.regionInput != '') {
                 Person.changeRegion({
                     personId: $scope.user.personId,
@@ -277,6 +282,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 if ($rootScope.g_info && $rootScope.g_info.email && $rootScope.g_info.email !== $scope.user.googleMail) {
                     Person.setSocial({email: $rootScope.g_info.email, social: "google"}, function(resp) {
                         if (resp.status && angular.equals(resp.status, "error")) {
+                            console.log(resp);
                             if(resp.code == 'busyGoogle'){
                                 notificationService.error($filter('translate')("This gmail is already connected to another user"));
                             }else{
@@ -432,6 +438,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 notificationService.error($filter('translate')('not_match'));
             }
         };
+
         $scope.updateContacts = function() {
             var contacts = [];
             if ($scope.contacts.phoneMob) {
@@ -444,16 +451,10 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 contacts.push({contactType: "skype", value: $scope.contacts.skype});
             }
             if ($scope.contacts.linkedin) {
-                updateContactsLocal('linkedin',$scope.contacts.linkedin);
                 contacts.push({contactType: "linkedin", value: $scope.contacts.linkedin});
-            } else {
-                updateContactsLocal('linkedin',$scope.contacts.linkedin);
             }
             if ($scope.contacts.facebook) {
-                updateContactsLocal('facebook',$scope.contacts.facebook);
                 contacts.push({contactType: "facebook", value: $scope.contacts.facebook});
-            } else {
-                updateContactsLocal('facebook',$scope.contacts.facebook);
             }
             if ($scope.contacts.googleplus) {
                 contacts.push({contactType: "googleplus", value: $scope.contacts.googleplus});
@@ -477,28 +478,6 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 notificationService.error($filter('translate')('Incorrect phone number'));
             }
         };
-
-
-        function updateContactsLocal(contactType, contactValue) {
-            let existContact = false;
-            existContact = $rootScope.me.contacts.some(function (contact) {
-                if(contact.contactType == contactType) {
-                    contact.value = contactValue;
-                    return true
-                } else {
-                    return false
-                }
-            });
-
-            if(!existContact) {
-                $rootScope.me.contacts.push({
-                    contactType: contactType,
-                    value: contactValue,
-                    personId: $rootScope.me.personId
-                });
-            }
-        }
-
 
         $scope.cancelUpdateContacts = function() {
             $scope.contacts = angular.copy(oldContacts);

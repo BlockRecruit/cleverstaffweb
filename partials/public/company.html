@@ -5,26 +5,18 @@
                 <div class="logo" ng-show="orgParams.companyLogo">
                     <img src="{{serverAddress}}/getlogo?id={{orgParams.companyLogo}}" alt="">
                 </div>
-
                 <div class="info" ng-class="{'full-width': !orgParams.companyLogo}">
-                    <h2 ng-class="{'margin-bot': !orgParams.companyLogo && (orgParams.linkToCompanySite || orgParams.linkToCompanyFaceBookPage)}"
-                        uib-tooltip="{{orgParams.orgName}}" tooltip-class="phones-only">
-                        {{orgParams.orgName}}
-                    </h2>
-
+                    <h2 ng-class="{'margin-bot': !orgParams.companyLogo && (orgParams.linkToCompanySite || orgParams.linkToCompanyFaceBookPage)}">{{orgParams.orgName}}</h2>
                     <div class="info--site" ng-class="{'text-center' : !orgParams.companyLogo}" ng-show="orgParams.linkToCompanySite">
                         <img src="/images/sprite/company-site.png" alt="">
                         <a class="site" href="{{orgParams.linkToCompanySite}}" target="_blank">{{orgParams.linkToCompanySite| limitTo: 20}}{{orgParams.linkToCompanySite.length > 20 ? '...' :''}}</a>
                     </div>
-
                     <div class="info--site" ng-class="{'text-center' : !orgParams.companyLogo}" ng-show="orgParams.linkToCompanyFaceBookPage">
                         <img src="/images/sprite/company-fb.png" alt="">
                         <a href="{{orgParams.linkToCompanyFaceBookPage}}" target="_blank">{{orgParams.linkToCompanyFaceBookPage| limitTo: 20}}{{orgParams.linkToCompanyFaceBookPage.length > 20 ? '...' :''}}</a>
                     </div>
                 </div>
-
             </div>
-
             <div class="social-icons">
                 <!--<a class="linked" href="#">-->
                     <!--<i class="fa fa-linkedin" aria-hidden="true"></i>-->
@@ -41,7 +33,6 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-xs-12">
             <div class="vacancies-intro">
@@ -50,7 +41,6 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-xs-12">
             <div class="vacancies-filter">
@@ -100,28 +90,23 @@
             <div class="vacancies" ng-show="orgParams.size > 0 && (orgParams.objects | filter: filter).length > 0">
                 <div class="vacancy" ng-repeat="publicVacancy in orgParams.objects | filter: filter">
                     <a ng-href="{{$location.$$host}}/i#/vacancy-{{publicVacancy.localId}}">
-
                         <div class="col-xs-12 col-sm-4 vacancy__name--wrap">
                             <span class="vacancy__name" ng-show="publicVacancy.position">{{publicVacancy.position}}</span>
                         </div>
-
                         <div class="col-xs-12 col-sm-4 vacancy__location--wrap">
                             <span class="vacancy__location" ng-show="publicVacancy.region.fullName">{{publicVacancy.region.fullName}}</span>
                         </div>
-
                         <div class="col-xs-12 col-sm-4 text-right vacancy__salary--wrap">
                             <div class="emp-salary" ng-show="publicVacancy.employmentType || publicVacancy.salaryFrom && publicVacancy.salaryTo">
                                 <span class="vacancy__salary" ng-show="publicVacancy.salaryFrom && publicVacancy.salaryTo">
                                     {{publicVacancy.salaryFrom}}-{{publicVacancy.salaryTo}} {{publicVacancy.currency}}
                                     <span ng-if="publicVacancy.employmentType">,</span>
                                 </span>
-
                                 <span class="vacancy__employment" uib-tooltip="{{publicVacancy.employmentType | translate}}" ng-show="publicVacancy.employmentType">
                                     {{'employment_type_assoc.' + publicVacancy.employmentType|translate | employmentType}}
                                 </span>
                             </div>
                         </div>
-
                         <div class="clearfix"></div>
                     </a>
                 </div>

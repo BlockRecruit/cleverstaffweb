@@ -75,8 +75,6 @@
 						}
 						& > .checkoutInner {
 							& > .paySelectOuter {
-								position: relative;
-
 								width: 25%;
 								padding-left: 10px;
 								& > select {
@@ -86,31 +84,7 @@
 									clear: both;
 
 									border-bottom: 1px solid $theme-dark;
-									background-color: #fff5e6;
-									& option {
-										height: 22px;
-										&:hover {
-											color: #fff;
-											background-color: #1f9be5;
-										}
-										&[disabled] {
-											display: none;
-										}
-									}
-									&.paySelect.active {
-										position: absolute;
-										z-index: 999;
-
-										overflow-y: auto;
-										width: 94%;
-										height: auto;
-										padding-left: 0;
-
-										border-right: 1px solid black;
-										& option {
-											padding-left: 15px;
-										}
-									}
+									background-color: $theme-light-orange;
 									&:focus {
 										outline: none;
 									}

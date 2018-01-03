@@ -6060,8 +6060,58 @@ angular.module('services.candidate', [
                 params: {
                     param: "getCandidateProperties"
                 }
+            },
+            setPreferableContact: {
+                method: "GET",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "setPreferableContact"
+                }
             }
         });
+
+    function unCheckFavoriteContact(checkElement, $scope){
+        checkElement.classList.remove('fa-star');
+        checkElement.classList.add('fa-star-o');
+        $scope.contactType = null;
+        $scope.candidate.preferableContact = '';
+    }
+
+    function checkFavoriteContact(contacts, checkElement, $scope, type){
+        $scope.contactType = type;
+        contacts.forEach(elem => {
+            if(elem.classList.contains('fa-star')){
+                elem.classList.remove('fa-star');
+                elem.classList.add('fa-star-o');
+            }
+        });
+
+        checkElement.classList.add('fa-star');
+        checkElement.classList.remove('fa-star-o');
+    }
+
+    function restAngularContext($scope){
+        if($rootScope.loading){
+            $rootScope.loading = false;
+        }
+        $scope.$apply();
+    }
+
+    function selectFavoriteContact(checkElement, $scope, type){
+        let contacts = document.querySelectorAll('.contactCandidate .fa');
+
+        if(checkElement.classList.contains('fa-star')){
+            unCheckFavoriteContact(checkElement, $scope);
+        }else{
+            checkFavoriteContact(contacts, checkElement, $scope, type);
+        }
+    }
+
+    candidate.setSelectFavoriteContacts = function($scope, type, event){
+        $scope.candidate.preferableContact = type;
+        selectFavoriteContact(event.target, $scope, type);
+    };
+
     candidate.getSearchHistoryUniqueLink = function(callback) {
         candidate.getSearchHistory({type: 'linkedin'}, function(resp) {
             var history = [];
@@ -6113,7 +6163,6 @@ angular.module('services.candidate', [
         options[name] = value;
     };
     candidate.init = function() {
-
         options = {
             "state": null,
             "id": null,
@@ -6183,7 +6232,7 @@ angular.module('services.candidate', [
                     $scope.fastCandLoading = false;
                     $rootScope.loading = false;
                     setTimeout(function(){
-                        $scope.imgWidthFunc(file.object.photo);
+                        $scope.imgWidthFunc();
                     }, 3000);
                     if(data.data.status != 'error' ){
                         $location.path("candidate/add");
@@ -6213,9 +6262,8 @@ angular.module('services.candidate', [
                 });
                 file.$upload(serverAddress + '/candidate/addPhoto', file).then(function(data) {
                     $scope.callbackAddPhoto(data.data.objects[0]);
-                    console.log(data)
                     setTimeout(function(){
-                        $scope.imgWidthFunc(file.objects[0]);
+                        $scope.imgWidthFunc();
                     }, 2000);
                 });
             },
@@ -6384,7 +6432,7 @@ angular.module('services.candidate', [
     //    }
     //};
     //
-    //var duplicatesByNameGO = false;
+    //var duplicatesByNameGO = false;C
     //var fullNamePattern = "/^[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+(\s+[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+)+(\s+[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+)*$/";
     //candidate.checkDuplicatesByName = function($scope) {
     //    console.log(duplicatesByNameGO);
@@ -6735,19 +6783,6 @@ angular.module('services.candidate', [
             }
             $(".datepickerOfBirth").val('');
             if (object.db != undefined) {
-                // $('.datepickerOfBirth').datetimepicker({
-                //     format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
-                //     startView: 4,
-                //     minView: 2,
-                //     autoclose: true,
-                //     language: $translate.use(),
-                //     weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
-                //     initialDate:  new Date(1167609600000),
-                //     startDate: new Date(-1262304000000),
-                //     endDate: new Date(1199134800000)
-                // });
-
-
                 $(".datepickerOfBirth").datetimepicker("setDate", new Date(object.db));
             }
             $scope.photoLink = $scope.serverAddress + "/getapp?id=" + $scope.candidate.photo + "&d=true";
@@ -6787,12 +6822,16 @@ angular.module('services.candidate', [
                             //$scope.zipType = $('#zipType').val();
                             var fullPath = $('#zip').val();
                             if (fullPath) {
+                                if($scope.zipBrowser == 'Firefox'){
+                                    $scope.filename = fullPath;
+                                }
+                                else{
                                     var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
                                     var filename = fullPath.substring(startIndex);
                                     if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
                                         $scope.filename = filename.substring(1);
                                     }
-
+                                }
                             }
                             if($('#zipButton1').prop('checked')){
                                 $scope.zipType =$('#zipButton1').val()
@@ -7022,6 +7061,26 @@ angular.module('services.candidate', [
     };
 
     candidate.init();
+
+    candidate.getAllCandidates = function (params) {
+        console.log(params, 'params');
+        candidate.candidateLastRequestParams = params;
+        localStorage.setItem('candidateLastRequestParams', JSON.stringify(params));
+        return new Promise((resolve, reject) => {
+            let data;
+            $rootScope.loading = true;
+            candidate.all(params, (response) => {
+                candidate.getCandidate = response.objects.map(item => item.localId);
+                data = candidate.getCandidate;
+                localStorage.setItem('getAllCandidates', JSON.stringify(data));
+                $rootScope.flag = true;
+                resolve(response, params);
+            },() =>{
+                reject();
+            });
+        });
+    };
+
     return candidate;
 }]);
 
@@ -11127,7 +11186,7 @@ angular.module('services.scope', []).factory('ScopeService', ['$rootScope', 'loc
 angular.module('services.reportAll', [
     'ngResource',
     'ngCookies'
-]).factory('Stat', ['$resource', 'serverAddress', '$filter', '$localStorage','$rootScope', 'notificationService', function($resource, serverAddress, $filter, $localStorage, $rootScope, notificationService) {
+]).factory('Stat', ['$resource', 'serverAddress', '$filter', '$localStorage','$rootScope', function($resource, serverAddress, $filter, $localStorage, $rootScope) {
 
     var stat = $resource(serverAddress + '/stat/:param', {param: "@param"}
         , {
@@ -11242,17 +11301,12 @@ angular.module('services.reportAll', [
             return new Promise((resolve, reject) => {
                 if(update && data) return resolve(data);
                 stat.getActualVacancyStatistic2(params, resp => {
-                    if(resp.status == 'error'){
-                        notificationService.error(resp.message);
-                        $rootScope.loading = false;
+                    if(resp.object.entryList && resp.object.entryList.length > 0){
+                        data = resp;
+                        resolve(resp, resp['request'] = 'Statistic2');
                     }else{
-                        if(resp.object.entryList && resp.object.entryList.length > 0){
-                            data = resp;
-                            resolve(resp, resp['request'] = 'Statistic2');
-                        }else{
-                            resp.object.entryList = [];
-                            resolve(resp, resp['request'] = 'Statistic2');
-                        }
+                        resp.object.entryList = [];
+                        resolve(resp, resp['request'] = 'Statistic2');
                     }
                 },error => reject(error));
             });
@@ -12379,7 +12433,7 @@ angular.module('services.company', [
 
 angular.module('services.vacancy', [
     'ngResource'
-]).factory('Vacancy', ['$resource', 'serverAddress','$rootScope','$q', function($resource, serverAddress, $rootScope, $q) {
+]).factory('Vacancy', ['$resource', 'serverAddress','$rootScope', function($resource, serverAddress, $rootScope) {
     var options;
     var vacancy = $resource(serverAddress + '/vacancy/:param', {param: "@param"}, {
         all: {
@@ -12597,12 +12651,6 @@ angular.module('services.vacancy', [
             method:"GET",
             params:{
                 param:'openHideState'
-            }
-        },
-        getVacanciesForReport:{
-            method:"POST",
-            params:{
-                param:'getVacanciesForReport'
             }
         }
     });
@@ -13166,7 +13214,6 @@ angular.module('services.vacancy', [
         };
     };
     vacancy.init();
-    vacancy.getAllVacansies = (params) => $q((resolve, reject) =>vacancy.getVacanciesForReport(response => resolve(response), error => reject(error)));
     return vacancy;
 }
 ]);
@@ -15356,47 +15403,43 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
         var object = $rootScope.vacancyChangeInterviewDate;
         var newDate = $('.changeVacancyInterviewDatePicker').datetimepicker('getDate') != null ?
             $('.changeVacancyInterviewDatePicker').datetimepicker('getDate').getTime() : null;
-        if(newDate) {
-            Vacancy.changeInterviewDate({
-                interviewId: object.interviewObject.interviewId,
-                date: newDate,
-                comment: object.comment != null ? object.comment : "",
-                lang: $translate.use()
-            }, function(resp) {
-                $scope.tableParams.reload();
-                object.interviewObject.dateInterview = newDate;
-               $rootScope.closeModal();
-                if ($rootScope.selectedCalendar != undefined) {
-                    googleCalendarUpdateEvent(googleService, new Date(newDate), resp.object.candidateId.fullName,
-                        $scope.vacancy.position, $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
-                        resp.object.comment, resp.object.interviewId + object.interviewObject.state, $filter);
+        Vacancy.changeInterviewDate({
+            interviewId: object.interviewObject.interviewId,
+            date: newDate,
+            comment: object.comment != null ? object.comment : "",
+            lang: $translate.use()
+        }, function(resp) {
+            $scope.tableParams.reload();
+            object.interviewObject.dateInterview = newDate;
+           $rootScope.closeModal();
+            if ($rootScope.selectedCalendar != undefined) {
+                googleCalendarUpdateEvent(googleService, new Date(newDate), resp.object.candidateId.fullName,
+                    $scope.vacancy.position, $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
+                    resp.object.comment, resp.object.interviewId + object.interviewObject.state, $filter);
 
-                }
-                var activeParam = ScopeService.getActiveScopeObject();
-                $scope.activeScopeParam = activeParam;
-                var requestQuery = {
-                    personId: activeParam.name == 'onlyMy' ? $rootScope.userId : null
-                };
-                requestQuery.country = activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null;
-                requestQuery.city = activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null;
-                Vacancy.getEvents(requestQuery, function(resp) {
-                    $scope.events = $filter('getorders')(resp.objects);
-                    if (activeParam.name == 'region' || activeParam.name == 'onlyMy') {
-                        $scope.showEvents = true
-                    } else {
+            }
+            var activeParam = ScopeService.getActiveScopeObject();
+            $scope.activeScopeParam = activeParam;
+            var requestQuery = {
+                personId: activeParam.name == 'onlyMy' ? $rootScope.userId : null
+            };
+            requestQuery.country = activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null;
+            requestQuery.city = activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null;
+            Vacancy.getEvents(requestQuery, function(resp) {
+                $scope.events = $filter('getorders')(resp.objects);
+                if (activeParam.name == 'region' || activeParam.name == 'onlyMy') {
+                    $scope.showEvents = true
+                } else {
 
-                        if($rootScope.me.recrutRole!='admin'){
-                            $scope.showEvents=true
-                        }else{
-                            $scope.showEvents = resp.objects != undefined && resp.objects.length > 0;
-                        }
+                    if($rootScope.me.recrutRole!='admin'){
+                        $scope.showEvents=true
+                    }else{
+                        $scope.showEvents = resp.objects != undefined && resp.objects.length > 0;
                     }
-                    $rootScope.loading = false;
-                });
+                }
+                $rootScope.loading = false;
             });
-        } else {
-            notificationService.error($filter('translate')('Select the interview date'));
-        }
+        });
     };
         if($rootScope.me.recrutRole != 'client'){
             $timeout(function(){
@@ -15456,9 +15499,6 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
                     value: 'N'
                 }, function (resp) {
                     if (resp.status == "ok") {
-                        $('html, body').animate({
-                            scrollTop: $("#accordion").offset().top
-                        }, 1000);
                         $rootScope.updateQuestStatus();
                     }else{
                         notificationService.error(resp.message);
@@ -17241,6 +17281,7 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
     FileInit.initCandFileOption($scope, "", "", false);
     $scope.callbackFile = function(resp, names) {
         $scope.fileForSave.push({"attId": resp, "fileName": names});
+        $scope.progressUpdate();
     };
 
     $scope.removeFile = function(id) {
@@ -20914,9 +20955,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 $scope.errorMessage.message = $filter("translate")("desired_salary_should_contains_only_numbers");
                 salaryBol = false;
             }
-            console.log($scope.candidateForm.$valid);
-            console.log($scope.candidateForm);
-            console.log($scope.saveButtonIsPressed);
+
             if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed) {
                 $scope.saveButtonIsPressed = true;
                 var candidate = $scope.candidate;
@@ -20978,7 +21017,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 candidate.origin = $scope.getOriginAutocompleterValue();
 
                 deleteUnnecessaryFields(candidate);
-                console.log(candidate, 'candidate');
+
                 Candidate.edit(candidate, function(val) {
                     if (angular.equals(val.status, "ok")) {
                         notificationService.success($filter('translate')('Candidate saved'));
@@ -21111,6 +21150,11 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             $window.location.replace('/!#/candidates');
             $rootScope.changeSearchTypeNotFromCandidates = param;
         };
+
+        $scope.selectFavoriteContacts = function ($scope, type, event) {
+            Candidate.setSelectFavoriteContacts($scope, type, event );
+        };
+
     }]);
 
 controller.controller('CandidateLINKController',["$localStorage", "$translate", "Service", "$scope", "ngTableParams", "Candidate", "$location", "$rootScope", "$filter", "$cookies", "serverAddress",
@@ -22952,7 +22996,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
     "Service", "$rootScope", "Person", "serverAddress", "FileInit", "notificationService", "$filter", "Vacancy",
     "Action", "vacancyStages", "Task", "File", "$sce", "$window", "Mail", "$uibModal", "$timeout", "$route", "Test", "CandidateGroup",
     function (CacheCandidates, $localStorage, $scope, frontMode, $translate, googleService, $location, $routeParams, Candidate, Service, $rootScope, Person, serverAddress, FileInit,
-              notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup) {
+              notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup ) {
         $scope.serverAddress = serverAddress;
         $localStorage.remove("candidateForTest");
         if($location.$$absUrl.indexOf('&task=') != -1) {
@@ -23018,7 +23062,27 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.todayDate = new Date().getTime();
         $rootScope.clickedSaveStatusOfCandidate = false;
         $rootScope.clickedAddVacancyInCandidate = false;
+        $rootScope.stageUrl = JSON.parse(localStorage.getItem('stageUrl'));
+
+        function setPositionCandidates(dataCandidates, nextElementMethod){
+            var data, index, size;
+            if(dataCandidates){
+                data = dataCandidates;
+            }else if(localStorage.getItem('getAllCandidates')){
+                data = JSON.parse(localStorage.getItem('getAllCandidates'));
+            }else if(localStorage.getItem('candidatesInStagesVac')){
+                data = JSON.parse(localStorage.getItem('candidatesInStagesVac'));
+            }
+
+            data.forEach((item, index) => {
+               if(item == $routeParams.id){
+                   nextElementMethod.cacheCurrentIndex = index + 1;
+               }
+            });
+        }
+
         $('.showCommentSwitcher').prop("checked", !$scope.onlyComments);
+
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -24438,6 +24502,14 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             }else{
                                 var id = resp.object.interviewId + changeObj.status.value;
                             }
+                            if(changeObj.date){
+                                if($rootScope.calendarShow){
+                                    googleCalendarCreateEvent(googleService, changeObj.date, changeObj.candidate.candidateId.fullName,
+                                        $rootScope.changeStatusOfInterviewInVacancy.position,
+                                        $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
+                                        changeObj.comment, id, $filter);
+                                }
+                            }
                             $scope.showChangeStatusValue = null;
                             //angular.forEach($scope.candidate.interviews, function (i) {
                             //    if (i.vacancyId.vacancyId == $rootScope.changeStatusOfInterviewInVacancy.vacancyId) {
@@ -24496,6 +24568,14 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                                 var id = resp.object.interviewId + changeObj.status.customInterviewStateId;
                             }else{
                                 var id = resp.object.interviewId + changeObj.status.value;
+                            }
+                            if(changeObj.date){
+                                if($rootScope.calendarShow){
+                                    googleCalendarCreateEvent(googleService, changeObj.date, changeObj.candidate.candidateId.fullName,
+                                        $rootScope.changeStatusOfInterviewInVacancy.position,
+                                        $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
+                                        changeObj.comment, id, $filter);
+                                }
                             }
                             $scope.showChangeStatusValue = null;
                             //angular.forEach($scope.candidate.interviews, function (i) {
@@ -29688,8 +29768,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                     }
 
                                     $('#price').html($scope.price + " USD");
-                                    $('.checkoutInner select').on('change', function () {
-                                        console.log("changed");
+                                    $('.checkoutInner select').unbind().on('change', function () {
                                         $scope.countMonth = $('#countMonth').val();
                                         $scope.countPeople = $('#countPeople').val();
                                         if(!$scope.monthRate) {
@@ -31768,6 +31847,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
               $scope.getMyVacancy = function(){
                   Vacancy.setOptions("personId", $scope.user.userId);
                   Vacancy.all(Vacancy.searchOptions(), function(response) {
+                      console.log(response);
                       $scope.allVacancyInUser = response.objects;
                   });
               };
@@ -31903,6 +31983,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                         } else {
                             Person.getPerson({userId: $routeParams.id}, function(resp) {
                                 $rootScope.loading = false;
+                                console.log('resp.recrutRole',resp.object.recrutRole,$scope.newRole);
                                 if($scope.newRole == resp.object.recrutRole) {
                                     $scope.user.recrutRole = $scope.newRole;
                                     var roleName = $scope.newRole == 'salesmanager' ? "Sales Manager" : $scope.newRole == 'admin' ? "Admin" : $scope.newRole == 'client' ? "Hiring Manager" : $scope.newRole == 'freelancer' ? "Freelancer" : $scope.newRole == 'recruter' ? 'Recruter' : $scope.newRole  == 'researcher'? 'Researcher': 'Researcher';
@@ -31932,6 +32013,9 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         $rootScope.saveNewRole = $scope.saveNewRole;
         $scope.inputValue = '';
         $scope.saveNewRegion = function() {
+            // console.log($scope.region)
+            // console.log("REGION ID")
+            // console.log( $scope.user.personId)
             if ($scope.region !== undefined && $scope.regionInput != '') {
                 Person.changeRegion({
                     personId: $scope.user.personId,
@@ -31980,6 +32064,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 if ($rootScope.g_info && $rootScope.g_info.email && $rootScope.g_info.email !== $scope.user.googleMail) {
                     Person.setSocial({email: $rootScope.g_info.email, social: "google"}, function(resp) {
                         if (resp.status && angular.equals(resp.status, "error")) {
+                            console.log(resp);
                             if(resp.code == 'busyGoogle'){
                                 notificationService.error($filter('translate')("This gmail is already connected to another user"));
                             }else{
@@ -32135,6 +32220,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 notificationService.error($filter('translate')('not_match'));
             }
         };
+
         $scope.updateContacts = function() {
             var contacts = [];
             if ($scope.contacts.phoneMob) {
@@ -32147,16 +32233,10 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 contacts.push({contactType: "skype", value: $scope.contacts.skype});
             }
             if ($scope.contacts.linkedin) {
-                updateContactsLocal('linkedin',$scope.contacts.linkedin);
                 contacts.push({contactType: "linkedin", value: $scope.contacts.linkedin});
-            } else {
-                updateContactsLocal('linkedin',$scope.contacts.linkedin);
             }
             if ($scope.contacts.facebook) {
-                updateContactsLocal('facebook',$scope.contacts.facebook);
                 contacts.push({contactType: "facebook", value: $scope.contacts.facebook});
-            } else {
-                updateContactsLocal('facebook',$scope.contacts.facebook);
             }
             if ($scope.contacts.googleplus) {
                 contacts.push({contactType: "googleplus", value: $scope.contacts.googleplus});
@@ -32180,28 +32260,6 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 notificationService.error($filter('translate')('Incorrect phone number'));
             }
         };
-
-
-        function updateContactsLocal(contactType, contactValue) {
-            let existContact = false;
-            existContact = $rootScope.me.contacts.some(function (contact) {
-                if(contact.contactType == contactType) {
-                    contact.value = contactValue;
-                    return true
-                } else {
-                    return false
-                }
-            });
-
-            if(!existContact) {
-                $rootScope.me.contacts.push({
-                    contactType: contactType,
-                    value: contactValue,
-                    personId: $rootScope.me.personId
-                });
-            }
-        }
-
 
         $scope.cancelUpdateContacts = function() {
             $scope.contacts = angular.copy(oldContacts);
@@ -32552,6 +32610,7 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         $('.checkoutInner select').on('change', function () {
             $scope.countMonth = $('#countMonth').val();
             $scope.countPeople = $('#countPeople').val();
+            console.log('in change wp');
             if(!$scope.monthRate) {
                 if ($scope.countMonth >= 12) {
                     $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
@@ -32584,7 +32643,6 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             $('#price').html($scope.price + " USD");
             $scope.$apply();
         });
-
         $scope.payClick = function () {
             Pay.createPaymentUsage({
                 months: $scope.countMonth,
@@ -32619,7 +32677,6 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
                 //notificationService.error($filter('translate')('service temporarily unvailable'));
             });
         };
-
 
         $scope.updatePaymentsList = function () {
             Pay.getPayments(function (resp) {
@@ -36055,7 +36112,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 } else if (cd.length > 0) {
                                     $scope.showTable = "table";
                                 } else {
-                                    if(!$rootScope.objectSize)
                                     $scope.showTable = "not available";
                                 }
                             }
@@ -36092,7 +36148,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         console.log(item.state,item.isInterview);
                                     });
                                     $defer.resolve(cd);
-
                                 }
 
                             }
@@ -39343,6 +39398,9 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             });
         };
         $scope.getCompanyParams();
+        $scope.toBottom = function () {
+            $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+        }
     }
 
 ]);

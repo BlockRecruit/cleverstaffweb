@@ -293,8 +293,58 @@ angular.module('services.candidate', [
                 params: {
                     param: "getCandidateProperties"
                 }
+            },
+            setPreferableContact: {
+                method: "GET",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "setPreferableContact"
+                }
             }
         });
+
+    function unCheckFavoriteContact(checkElement, $scope){
+        checkElement.classList.remove('fa-star');
+        checkElement.classList.add('fa-star-o');
+        $scope.contactType = null;
+        $scope.candidate.preferableContact = '';
+    }
+
+    function checkFavoriteContact(contacts, checkElement, $scope, type){
+        $scope.contactType = type;
+        contacts.forEach(elem => {
+            if(elem.classList.contains('fa-star')){
+                elem.classList.remove('fa-star');
+                elem.classList.add('fa-star-o');
+            }
+        });
+
+        checkElement.classList.add('fa-star');
+        checkElement.classList.remove('fa-star-o');
+    }
+
+    function restAngularContext($scope){
+        if($rootScope.loading){
+            $rootScope.loading = false;
+        }
+        $scope.$apply();
+    }
+
+    function selectFavoriteContact(checkElement, $scope, type){
+        let contacts = document.querySelectorAll('.contactCandidate .fa');
+
+        if(checkElement.classList.contains('fa-star')){
+            unCheckFavoriteContact(checkElement, $scope);
+        }else{
+            checkFavoriteContact(contacts, checkElement, $scope, type);
+        }
+    }
+
+    candidate.setSelectFavoriteContacts = function($scope, type, event){
+        $scope.candidate.preferableContact = type;
+        selectFavoriteContact(event.target, $scope, type);
+    };
+
     candidate.getSearchHistoryUniqueLink = function(callback) {
         candidate.getSearchHistory({type: 'linkedin'}, function(resp) {
             var history = [];
@@ -346,7 +396,6 @@ angular.module('services.candidate', [
         options[name] = value;
     };
     candidate.init = function() {
-
         options = {
             "state": null,
             "id": null,
@@ -416,7 +465,7 @@ angular.module('services.candidate', [
                     $scope.fastCandLoading = false;
                     $rootScope.loading = false;
                     setTimeout(function(){
-                        $scope.imgWidthFunc(file.object.photo);
+                        $scope.imgWidthFunc();
                     }, 3000);
                     if(data.data.status != 'error' ){
                         $location.path("candidate/add");
@@ -446,9 +495,8 @@ angular.module('services.candidate', [
                 });
                 file.$upload(serverAddress + '/candidate/addPhoto', file).then(function(data) {
                     $scope.callbackAddPhoto(data.data.objects[0]);
-                    console.log(data)
                     setTimeout(function(){
-                        $scope.imgWidthFunc(file.objects[0]);
+                        $scope.imgWidthFunc();
                     }, 2000);
                 });
             },
@@ -617,7 +665,7 @@ angular.module('services.candidate', [
     //    }
     //};
     //
-    //var duplicatesByNameGO = false;
+    //var duplicatesByNameGO = false;C
     //var fullNamePattern = "/^[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+(\s+[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+)+(\s+[A-Za-zА-Яа-яёЁІіЇїЄєҐґ’'`\-]+)*$/";
     //candidate.checkDuplicatesByName = function($scope) {
     //    console.log(duplicatesByNameGO);
@@ -968,19 +1016,6 @@ angular.module('services.candidate', [
             }
             $(".datepickerOfBirth").val('');
             if (object.db != undefined) {
-                // $('.datepickerOfBirth').datetimepicker({
-                //     format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
-                //     startView: 4,
-                //     minView: 2,
-                //     autoclose: true,
-                //     language: $translate.use(),
-                //     weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
-                //     initialDate:  new Date(1167609600000),
-                //     startDate: new Date(-1262304000000),
-                //     endDate: new Date(1199134800000)
-                // });
-
-
                 $(".datepickerOfBirth").datetimepicker("setDate", new Date(object.db));
             }
             $scope.photoLink = $scope.serverAddress + "/getapp?id=" + $scope.candidate.photo + "&d=true";
@@ -1020,12 +1055,16 @@ angular.module('services.candidate', [
                             //$scope.zipType = $('#zipType').val();
                             var fullPath = $('#zip').val();
                             if (fullPath) {
+                                if($scope.zipBrowser == 'Firefox'){
+                                    $scope.filename = fullPath;
+                                }
+                                else{
                                     var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
                                     var filename = fullPath.substring(startIndex);
                                     if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
                                         $scope.filename = filename.substring(1);
                                     }
-
+                                }
                             }
                             if($('#zipButton1').prop('checked')){
                                 $scope.zipType =$('#zipButton1').val()
@@ -1255,5 +1294,25 @@ angular.module('services.candidate', [
     };
 
     candidate.init();
+
+    candidate.getAllCandidates = function (params) {
+        console.log(params, 'params');
+        candidate.candidateLastRequestParams = params;
+        localStorage.setItem('candidateLastRequestParams', JSON.stringify(params));
+        return new Promise((resolve, reject) => {
+            let data;
+            $rootScope.loading = true;
+            candidate.all(params, (response) => {
+                candidate.getCandidate = response.objects.map(item => item.localId);
+                data = candidate.getCandidate;
+                localStorage.setItem('getAllCandidates', JSON.stringify(data));
+                $rootScope.flag = true;
+                resolve(response, params);
+            },() =>{
+                reject();
+            });
+        });
+    };
+
     return candidate;
 }]);
