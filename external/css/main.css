@@ -1461,6 +1461,21 @@ footer{
 
 
 /*block_2*/
+.block .flex-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.block a.tarif-link,
+.block a.tarif-link:hover,
+.block a.tarif-link:active,
+.block a.tarif-link:focus {
+    color: inherit;
+    text-decoration: none;
+}
+
 .tarif{
     width: 100%;
     height: 375px;
