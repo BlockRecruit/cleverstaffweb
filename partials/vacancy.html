@@ -995,7 +995,7 @@
     <div ng-show="currentTab == 'history'" ng-include="'partials/vacancy-history.html'"></div>
 </div>
 
-<div id="candidate_preview" ng-class="{'less-width': !candidatePreview.photo}">
+<div id="candidate_preview" ng-class="{'less-width': !candidatePreview.photo || !candidatePreviewAdditional}">
     <div class="arrow_preview" id="arrow_preview"></div>
     <div class="ui bottom attached segment red"
          style="padding: 6px 6px 3px 6px;border-top: 0.2em solid #FFFFFF !important;"
