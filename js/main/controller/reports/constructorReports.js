@@ -723,6 +723,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                         $scope.addAll = false;
                     }
                 });
+
                 angular.forEach($scope.customStages, function(resp){
                     $scope.addAll = true;
                     if(!resp.added && resp.type == 'refuse' && add){
