@@ -18802,6 +18802,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $rootScope.loading = true;
         if($scope.loadingExcel == false){
             $scope.loadingExcel = true;
+            $rootScope.closeModal();
             if($scope.criteriaForExcel.words == null) {
                 $scope.criteriaForExcel.searchFullTextType = null;
             }
