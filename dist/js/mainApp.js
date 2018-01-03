@@ -4423,6 +4423,8 @@ function createSpanForInterviewStatusHistory(arrname, status, $filter, short) {
             return span + "#b5d6a8'>" + $filter('translate')("interview_status_assoc_full.approved") + "</span>";
         case "declinedoffer":
             return span + "#d9a9bf'>" + $filter('translate')("interview_status_assoc_full.declinedoffer") + "</span>";
+        case "declinedoffer":
+            return span + "#d9a9bf'>" + $filter('translate')("interview_status_assoc_full.offer_declined") + "</span>";
         case "completed":
             return span + "#f1f1f1'>" + $filter('translate')("interview_status_assoc.completed") + "</span>";
 
@@ -7438,6 +7440,12 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                 },
                 {
                     value: "declinedoffer",
+                    added: false,
+                    count: 0,
+                    type: "refuse"
+                },
+                {
+                    value: "offer_declined",
                     added: false,
                     count: 0,
                     type: "refuse"
@@ -24867,7 +24875,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     var popWithstages = 'changeStatePop' + interview.vacancyId.vacancyId;
                     $('#' + popWithstages).children().each(function (index) {
                         var stageName = $(this).attr('id');
-                        var isStandartStageRefuse = (stageName == 'notafit' || stageName == 'declinedoffer' || stageName == 'is_not_looking_for_job' || stageName == 'no_response' || stageName == 'no_contacts' || stageName == 'accepted_counter_offer' || stageName == 'found_another_job');
+                        var isStandartStageRefuse = (stageName == 'notafit' || stageName == 'declinedoffer' || stageName == 'is_not_looking_for_job' || stageName == 'no_response' || stageName == 'no_contacts' || stageName == 'accepted_counter_offer' || stageName == 'found_another_job' || stageName == 'offer_declined');
                         if(isStandartStageRefuse) {
                             $(this).addClass('refusal')
                         } else {
@@ -38087,6 +38095,11 @@ controller.controller('reportAllController', ["$rootScope", "$scope", "Vacancy",
                 count: 0
             },
             {
+                value: "offer_declined",
+                added: true,
+                count: 0
+            },
+            {
                 value: "no_response",
                 added: true,
                 count: 0
@@ -39909,6 +39922,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                 $rootScope.addCandidateInVacancy.status.value == 'shortlist' ||
                 $rootScope.addCandidateInVacancy.status.value == 'notafit' ||
                 $rootScope.addCandidateInVacancy.status.value == 'declinedoffer' ||
+                $rootScope.addCandidateInVacancy.status.value == 'offer_declined' ||
                 $rootScope.addCandidateInVacancy.status.value == 'no_response' ||
                 $rootScope.addCandidateInVacancy.status.value == 'no_contacts' ||
                 $rootScope.addCandidateInVacancy.status.type == 'interview' ||
@@ -39916,6 +39930,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                 var templateType = 'candidateCreateInterviewNotification';
                 if($rootScope.addCandidateInVacancy.status.value == 'notafit' ||
                     $rootScope.addCandidateInVacancy.status.value == 'declinedoffer' ||
+                    $rootScope.addCandidateInVacancy.status.value == 'offer_declined' ||
                     $rootScope.addCandidateInVacancy.status.value == 'no_response' ||
                     $rootScope.addCandidateInVacancy.status.value == 'no_contacts' ||
                     $rootScope.addCandidateInVacancy.status.type == 'refuse'){
@@ -39972,6 +39987,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                 $rootScope.changeStatusOfInterviewInVacancy.status.value == 'shortlist' ||
                 $rootScope.changeStatusOfInterviewInVacancy.status.value == 'notafit' ||
                 $rootScope.changeStatusOfInterviewInVacancy.status.value == 'declinedoffer' ||
+                $rootScope.changeStatusOfInterviewInVacancy.status.value == 'offer_declined' ||
                 $rootScope.changeStatusOfInterviewInVacancy.status.value == 'no_response' ||
                 $rootScope.changeStatusOfInterviewInVacancy.status.value == 'no_contacts' ||
                 $rootScope.changeStatusOfInterviewInVacancy.status.type == 'interview' ||
@@ -39979,6 +39995,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                 var templateType = 'candidateCreateInterviewNotification';
                 if($rootScope.changeStatusOfInterviewInVacancy.status.value == 'notafit' ||
                     $rootScope.changeStatusOfInterviewInVacancy.status.value == 'declinedoffer' ||
+                    $rootScope.changeStatusOfInterviewInVacancy.status.value == 'offer_declined' ||
                     $rootScope.changeStatusOfInterviewInVacancy.status.value == 'no_response' ||
                     $rootScope.changeStatusOfInterviewInVacancy.status.value == 'no_contacts' ||
                     $rootScope.changeStatusOfInterviewInVacancy.status.type == 'refuse'){
@@ -42515,7 +42532,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         $scope.getVacancyStages = function(){
             angular.forEach($scope.inVacancyStatuses, function(resp){
                 if(resp.value != 'no_contacts' && resp.value != 'notafit' && resp.value != 'declinedoffer'
-                    && resp.value != 'no_response'){
+                    && resp.value != 'no_response' && resp.value != 'offer_declined'){
                     $scope.vacancyStandardStages.push(resp);
                 }
                 else {
@@ -42572,10 +42589,10 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 angular.forEach($scope.inVacancyStatuses,function(resp){
                     $scope.addAll = true;
                     if(!resp.added && resp.value != 'no_contacts' && resp.value != 'notafit' && resp.value != 'declinedoffer'
-                        && resp.value != 'no_response' && add){
+                        && resp.value != 'no_response' && resp.value != 'offer_declined' && add){
                         $scope.changeInVacancyStatuses(resp);
                     } else if(resp.added && resp.value != 'no_contacts' && resp.value != 'notafit' && resp.value != 'declinedoffer'
-                        && resp.value != 'no_response' && !add){
+                        && resp.value != 'no_response' && resp.value != 'offer_declined' && !add){
                         $scope.changeInVacancyStatuses(resp);
                     } else {
                         $scope.addAll = false;
@@ -42585,9 +42602,9 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             } else if(nameBlockStatuses == 'reasons'){
                 angular.forEach($scope.inVacancyStatuses,function(resp){
                     $scope.addAll = true;
-                    if((!resp.added && add) && (resp.value == 'no_contacts' || resp.value == 'notafit' || resp.value == 'declinedoffer' || resp.value == 'no_response')){
+                    if((!resp.added && add) && (resp.value == 'no_contacts' || resp.value == 'notafit' || resp.value == 'declinedoffer' || resp.value == 'no_response' || resp.value == 'offer_declined')){
                         $scope.changeInVacancyStatuses(resp);
-                    } else if((resp.added && !add) && (resp.value == 'no_contacts' || resp.value == 'notafit' || resp.value == 'declinedoffer' || resp.value == 'no_response')){
+                    } else if((resp.added && !add) && (resp.value == 'no_contacts' || resp.value == 'notafit' || resp.value == 'declinedoffer' || resp.value == 'no_response' || resp.value == 'offer_declined')){
                         $scope.changeInVacancyStatuses(resp);
                     } else {
                         $scope.addAll = false;

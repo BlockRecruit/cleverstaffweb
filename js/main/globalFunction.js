@@ -719,6 +719,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                 $rootScope.addCandidateInVacancy.status.value == 'shortlist' ||
                 $rootScope.addCandidateInVacancy.status.value == 'notafit' ||
                 $rootScope.addCandidateInVacancy.status.value == 'declinedoffer' ||
+                $rootScope.addCandidateInVacancy.status.value == 'offer_declined' ||
                 $rootScope.addCandidateInVacancy.status.value == 'no_response' ||
                 $rootScope.addCandidateInVacancy.status.value == 'no_contacts' ||
                 $rootScope.addCandidateInVacancy.status.type == 'interview' ||
@@ -726,6 +727,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                 var templateType = 'candidateCreateInterviewNotification';
                 if($rootScope.addCandidateInVacancy.status.value == 'notafit' ||
                     $rootScope.addCandidateInVacancy.status.value == 'declinedoffer' ||
+                    $rootScope.addCandidateInVacancy.status.value == 'offer_declined' ||
                     $rootScope.addCandidateInVacancy.status.value == 'no_response' ||
                     $rootScope.addCandidateInVacancy.status.value == 'no_contacts' ||
                     $rootScope.addCandidateInVacancy.status.type == 'refuse'){
@@ -782,6 +784,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                 $rootScope.changeStatusOfInterviewInVacancy.status.value == 'shortlist' ||
                 $rootScope.changeStatusOfInterviewInVacancy.status.value == 'notafit' ||
                 $rootScope.changeStatusOfInterviewInVacancy.status.value == 'declinedoffer' ||
+                $rootScope.changeStatusOfInterviewInVacancy.status.value == 'offer_declined' ||
                 $rootScope.changeStatusOfInterviewInVacancy.status.value == 'no_response' ||
                 $rootScope.changeStatusOfInterviewInVacancy.status.value == 'no_contacts' ||
                 $rootScope.changeStatusOfInterviewInVacancy.status.type == 'interview' ||
@@ -789,6 +792,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                 var templateType = 'candidateCreateInterviewNotification';
                 if($rootScope.changeStatusOfInterviewInVacancy.status.value == 'notafit' ||
                     $rootScope.changeStatusOfInterviewInVacancy.status.value == 'declinedoffer' ||
+                    $rootScope.changeStatusOfInterviewInVacancy.status.value == 'offer_declined' ||
                     $rootScope.changeStatusOfInterviewInVacancy.status.value == 'no_response' ||
                     $rootScope.changeStatusOfInterviewInVacancy.status.value == 'no_contacts' ||
                     $rootScope.changeStatusOfInterviewInVacancy.status.type == 'refuse'){

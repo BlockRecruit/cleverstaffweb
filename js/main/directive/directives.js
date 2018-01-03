@@ -4423,6 +4423,8 @@ function createSpanForInterviewStatusHistory(arrname, status, $filter, short) {
             return span + "#b5d6a8'>" + $filter('translate')("interview_status_assoc_full.approved") + "</span>";
         case "declinedoffer":
             return span + "#d9a9bf'>" + $filter('translate')("interview_status_assoc_full.declinedoffer") + "</span>";
+        case "declinedoffer":
+            return span + "#d9a9bf'>" + $filter('translate')("interview_status_assoc_full.offer_declined") + "</span>";
         case "completed":
             return span + "#f1f1f1'>" + $filter('translate')("interview_status_assoc.completed") + "</span>";
 

@@ -121,6 +121,11 @@ controller.controller('reportAllController', ["$rootScope", "$scope", "Vacancy",
                 count: 0
             },
             {
+                value: "offer_declined",
+                added: true,
+                count: 0
+            },
+            {
                 value: "no_response",
                 added: true,
                 count: 0

@@ -2024,7 +2024,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     var popWithstages = 'changeStatePop' + interview.vacancyId.vacancyId;
                     $('#' + popWithstages).children().each(function (index) {
                         var stageName = $(this).attr('id');
-                        var isStandartStageRefuse = (stageName == 'notafit' || stageName == 'declinedoffer' || stageName == 'is_not_looking_for_job' || stageName == 'no_response' || stageName == 'no_contacts' || stageName == 'accepted_counter_offer' || stageName == 'found_another_job');
+                        var isStandartStageRefuse = (stageName == 'notafit' || stageName == 'declinedoffer' || stageName == 'is_not_looking_for_job' || stageName == 'no_response' || stageName == 'no_contacts' || stageName == 'accepted_counter_offer' || stageName == 'found_another_job' || stageName == 'offer_declined');
                         if(isStandartStageRefuse) {
                             $(this).addClass('refusal')
                         } else {

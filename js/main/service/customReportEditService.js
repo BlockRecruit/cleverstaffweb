@@ -135,6 +135,12 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                     type: "refuse"
                 },
                 {
+                    value: "offer_declined",
+                    added: false,
+                    count: 0,
+                    type: "refuse"
+                },
+                {
                     value: "no_response",
                     added: false,
                     count: 0,

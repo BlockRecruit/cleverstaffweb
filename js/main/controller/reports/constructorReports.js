@@ -650,7 +650,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         $scope.getVacancyStages = function(){
             angular.forEach($scope.inVacancyStatuses, function(resp){
                 if(resp.value != 'no_contacts' && resp.value != 'notafit' && resp.value != 'declinedoffer'
-                    && resp.value != 'no_response'){
+                    && resp.value != 'no_response' && resp.value != 'offer_declined'){
                     $scope.vacancyStandardStages.push(resp);
                 }
                 else {
@@ -707,10 +707,10 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 angular.forEach($scope.inVacancyStatuses,function(resp){
                     $scope.addAll = true;
                     if(!resp.added && resp.value != 'no_contacts' && resp.value != 'notafit' && resp.value != 'declinedoffer'
-                        && resp.value != 'no_response' && add){
+                        && resp.value != 'no_response' && resp.value != 'offer_declined' && add){
                         $scope.changeInVacancyStatuses(resp);
                     } else if(resp.added && resp.value != 'no_contacts' && resp.value != 'notafit' && resp.value != 'declinedoffer'
-                        && resp.value != 'no_response' && !add){
+                        && resp.value != 'no_response' && resp.value != 'offer_declined' && !add){
                         $scope.changeInVacancyStatuses(resp);
                     } else {
                         $scope.addAll = false;
@@ -720,9 +720,9 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             } else if(nameBlockStatuses == 'reasons'){
                 angular.forEach($scope.inVacancyStatuses,function(resp){
                     $scope.addAll = true;
-                    if((!resp.added && add) && (resp.value == 'no_contacts' || resp.value == 'notafit' || resp.value == 'declinedoffer' || resp.value == 'no_response')){
+                    if((!resp.added && add) && (resp.value == 'no_contacts' || resp.value == 'notafit' || resp.value == 'declinedoffer' || resp.value == 'no_response' || resp.value == 'offer_declined')){
                         $scope.changeInVacancyStatuses(resp);
-                    } else if((resp.added && !add) && (resp.value == 'no_contacts' || resp.value == 'notafit' || resp.value == 'declinedoffer' || resp.value == 'no_response')){
+                    } else if((resp.added && !add) && (resp.value == 'no_contacts' || resp.value == 'notafit' || resp.value == 'declinedoffer' || resp.value == 'no_response' || resp.value == 'offer_declined')){
                         $scope.changeInVacancyStatuses(resp);
                     } else {
                         $scope.addAll = false;
