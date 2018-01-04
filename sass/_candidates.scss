@@ -1730,7 +1730,7 @@
 		a {
 			@include link-styling();
 
-			font-size: 20px;
+			font-size: 15px;
 			font-weight: bold;
 		}
 	}
@@ -1773,6 +1773,8 @@
 					word-break: break-word;
 					.item-in-table {
 						position: relative;
+
+						vertical-align: middle;
 						.absolute-right {
 							font-size: 16px;
 
@@ -1782,14 +1784,21 @@
 
 							color: #b8b8b8;
 						}
+						.employment-type {
+							display: block;
+						}
 					}
 					.content-header {
 						width: 21%;
 
 						text-align: center;
 						vertical-align: middle;
+						img {
+							width: 50%;
+							height: auto;
+						}
 						i {
-							font-size: 31px;
+							font-size: 22px;
 
 							color: $theme-dark-green;
 						}
