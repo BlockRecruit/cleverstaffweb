@@ -164,3 +164,21 @@
 		width: 180% !important;
 	}
 }
+
+
+@media (max-width: 440px) {
+	.block-custom-fields .second-navbar .nav {
+		display: flex;
+		flex-direction: row;
+	}
+	.block-custom-fields .second-navbar a {
+		margin-left: 15px;
+		padding: 0;
+	}
+	.block-custom-fields .bothBlocks .customBlock {
+		width: 100% !important;
+	}
+	.block-custom-fields .bothBlocks.margin-bot {
+		margin-bottom: 30px;
+	}
+}
