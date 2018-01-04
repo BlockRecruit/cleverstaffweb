@@ -1796,11 +1796,17 @@
 						img {
 							width: 50%;
 							height: auto;
+							&.exp {
+								width: 57%;
+							}
 						}
 						i {
 							font-size: 22px;
 
 							color: $theme-dark-green;
+							&.fa-phone {
+								font-size: 23px;
+							}
 						}
 					}
 					a {
