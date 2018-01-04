@@ -29760,7 +29760,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     });
                 }
 
-                if($rootScope.me.recrutRole == 'admin') {
+                // if($rootScope.me.recrutRole == 'admin') {
                     Account.getAccountInfo(function(resp){
                         if(resp.status != 'error'){
                             if(resp.object && resp.object.tillDate) {
@@ -29933,7 +29933,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         }
                         //////////////
                     });
-                }
+                // }
 
                 if($rootScope.modalInstance){
                     $rootScope.modalInstance.closed.then(function(){
