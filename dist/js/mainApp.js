@@ -17463,7 +17463,7 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             }
 
 
-            candidate.db = $('.datepickerOfBirth').datetimepicker('getDate') != null ? $('.datepickerOfBirth').datetimepicker('getDate').getTime() : null;
+            candidate.db = $('.datepickerOfBirth').datetimepicker('getDate') != null ? $('.datepickerOfBirth').datetimepicker('getDate').getTime() + 43200000 : null;
             candidate.relatedRegions = $scope.regionToRelocate;
             candidate.origin = $scope.getOriginAutocompleterValue();
             deleteUnnecessaryFields(candidate);
@@ -21023,7 +21023,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     if ($scope.region)
                         candidate.region = $scope.region;
                 }
-                candidate.db = $('.datepickerOfBirth').datetimepicker('getDate') != null ? $('.datepickerOfBirth').datetimepicker('getDate').getTime() : null;
+                candidate.db = $('.datepickerOfBirth').datetimepicker('getDate') != null ? $('.datepickerOfBirth').datetimepicker('getDate').getTime() + 43200000 : null;
                 if ($scope.fieldValues.dateTimeValue != undefined) {
                     $(".datepickerOfCustom").datetimepicker("setDate", new Date($scope.editCustomValueDate));
                 }
