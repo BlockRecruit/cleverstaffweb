@@ -140,26 +140,30 @@
 				color: #000;
 				background-repeat: no-repeat;
 				background-position: center left;
+				background-size: 22px;
 				&.employmentType {
 					padding-left: 37px;
 
-					background-image: url("/images/sprite/public-vacancy/vacancy-empType.png");
+					background-image: url("/images/sprite/public-vacancy/vacancy-empType.svg");
+					background-size: 26px;
 				}
 				&.location {
 					min-height: 25px;
 
 					text-align: right;
 
-					background-image: url("/images/sprite/public-vacancy/vacancy-location.png");
+					background-image: url("/images/sprite/public-vacancy/vacancy-location.svg");
 					background-position-y: 0;
 					&.no-margin {
 						margin-bottom: 0;
 					}
 				}
 				&.salary {
+					padding-left: 30px;
+
 					text-align: center;
 
-					background-image: url("/images/sprite/public-vacancy/vacancy-salary.png");
+					background-image: url("/images/sprite/public-vacancy/vacancy-salary.svg");
 				}
 			}
 		}
@@ -174,6 +178,7 @@
 
 				background-repeat: no-repeat;
 				background-position: center left;
+				background-size: 26px;
 				&.manage {
 					margin-right: 6px;
 					margin-bottom: 20px;
@@ -183,7 +188,7 @@
 				&.languages {
 					text-align: left;
 
-					background-image: url("/images/sprite/public-vacancy/vacancy-speaking.png");
+					background-image: url("/images/sprite/public-vacancy/languages.svg");
 					.lang {
 						font-family: "Helvetica-Regular";
 
