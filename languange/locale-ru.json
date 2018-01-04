@@ -2810,7 +2810,6 @@
   "Show more": "Показать ещё",
   "Only account administrator is able to make a payment":"Только администратор аккаунта может произвести оплату",
   "Preferable contact method": "Предпочтительный метод связи",
-  "Share vacancy via Facebook": "Опубликовать в Facebook",
   "Mark as preferrable contact method":"Отметить как предпочтительный метод связи",
   "Unmark as preferable contact method":"Снять отметку предпочтительного метода связи",
   "Candidate added in vacancy": "Кандидат добавлен в вакансию",
@@ -2828,7 +2827,6 @@
   "Days left!": "Осталось {{days_left}} дня!",
   "Day left!": " Остался {{days_left}} день!",
   "No Day left!": "Осталось {{days_left}} дней!",
-  "_for":"для",
   "The 'rules' of profiles merge": "При объединении профилей:",
   "Only fields with different values are available for selection": "Для выбора отображаются только поля с различными значениями.",
   "If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default": "Не отобразятся поле, которое \"пустое\" в одном из профилей и \"заполненное\" в другом: в объединённом профиле сохранится только \"заполненное\" значение по умолчанию.",
@@ -2843,15 +2841,18 @@
   "Vacancies & Applicants API": "API Вакансий и Откликов",
   "No vacancies found":"Вакансии не были найдены",
   "Pick the position from the search field":"Выберите вакансию из списка предложенных в поле",
-  "telework_1":"Удаленно",
   "Show vacancies in the report":"Показать вакансии в отчете",
   "Any":"Любая",
   "Mark at least one test answer as correct": "Выберите хотя бы один правильный вариант ответа",
+  "telework_1":"Удаленно",
   "Alphabetically": "Алфавиту",
   "up to 30 000 profiles": "до 30 000 профилей",
   "Please choose the candidate database export option": "Выберите вариант экспорта базы кандидатов:",
   "Candidates + comments + history":"Кандидаты + комментарии + история действий",
   "Export History": "История экспорта",
   "export":"Экспортировать",
-  "close window":"Закрыть окно"
+  "close window":"Закрыть окно",
+  "_for":"для",
+  "replacement":"Замена"
+
 }
