@@ -2844,9 +2844,8 @@
   "Mark at least one test answer as correct": "Выберите хотя бы один правильный вариант ответа",
   "telework_1":"Удаленно",
   "Alphabetically": "Алфавиту",
-  "Show vacancies in the report":"Показать вакансии в отчете"
-=======
+  "Show vacancies in the report":"Показать вакансии в отчете",
   "_for":"для",
   "replacement":"Замена"
->>>>>>> added new statuses on the custom reports
+
 }
