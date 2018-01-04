@@ -52,20 +52,26 @@
       </div>
     </div>
     <div class="col-lg-2 col-md-3 hidden-sm hidden-xs width-for-absolute"></div>
+
     <div class="col-lg-8 col-md-9 col-xs-12 vacancy-info-wrap">
       <div class="vacancy-info">
             <div class="info--main">
 
-              <div class="col-xs-12 col-sm-4 text-left">
+              <div class="col-xs-12 col-sm-4 text-left" ng-if="vacancy.employmentType">
                 <span class="employmentType">{{vacancy.employmentType | translate}}</span>
               </div>
 
-              <div class="col-xs-12 col-sm-4 text-center fixed-text-width" ng-if="vacancy.salaryFrom || vacancy.salaryTo">
+              <div class="col-xs-12 col-sm-4 fixed-text-width"
+                   ng-if="vacancy.salaryFrom || vacancy.salaryTo"
+                   ng-class="{'text-left':!vacancy.employmentType, 'text-center': vacancy.employmentType}">
                 <span class="salary">{{vacancy.salaryFrom|salaryFormat:vacancy.salaryTo}} {{vacancy.currency}}</span>
               </div>
 
-              <div class="col-xs-12 col-sm-4 text-right fixed-text-width"
-                   ng-class="{'text-left': !vacancy.employmentType,'text-center': !vacancy.salaryFrom || !vacancy.salaryTo || (!vacancy.salaryFrom && !vacancy.salaryTo && !vacancy.employmentType), 'text-left': !vacancy.employmentType}" ng-if="vacancy.region.displayFullName">
+              <div class="col-xs-12 col-sm-4 fixed-text-width"
+                   ng-class="{'text-center': !vacancy.employmentType || !vacancy.salaryFrom || !vacancy.salaryTo,
+                              'text-left': !vacancy.employmentType && !vacancy.salaryFrom && !vacancy.salaryTo,
+                              'text-right': vacancy.employmentType && (vacancy.salaryFrom || vacancy.salaryTo)}"
+                   ng-if="vacancy.region.displayFullName">
                   <span ng-class="{'no-margin': !vacancy.languages.length}" class="location">{{vacancy.region.displayFullName}}</span>
               </div>
 
