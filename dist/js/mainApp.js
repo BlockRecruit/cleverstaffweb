@@ -30007,7 +30007,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 var time = new Date($rootScope.me.hireDate);
 
 
-                $scope.getTrialTime(response['object']);
+                getTrialTime(response['object']);
                 //window.Intercom("boot", {
                 //    app_id: appId,
                 //    name: $rootScope.me.fullName, // Full name
