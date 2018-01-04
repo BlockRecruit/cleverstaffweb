@@ -13970,7 +13970,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=38'
+        suffix: '.json?b=39'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -18836,12 +18836,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     };
     $scope.initSearchParam();
 
-
+    $rootScope.excelExportType = 'candidates';
     $scope.loadingExcel = false;
     $scope.exportToExcel = function () {
+        $scope.criteriaForExcel.withCommentsAndHistory = $rootScope.excelExportType === 'all';
         $rootScope.loading = true;
         if($scope.loadingExcel == false){
             $scope.loadingExcel = true;
+            $rootScope.closeModal();
             if($scope.criteriaForExcel.words == null) {
                 $scope.criteriaForExcel.searchFullTextType = null;
             }
@@ -18861,9 +18863,23 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             });
         }
     };
+
+
     $scope.toExcelHistory = function () {
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/candidate-excel-history.html',
+            scope: $scope,
+            resolve: {},
+            size: ""
+        });
+    };
+
+    $scope.viewExcelHistory = function() {
+        $rootScope.closeModal();
         $location.path("excelHistory");
     };
+
     $scope.externalData = [];
 
 
@@ -42808,6 +42824,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                         $scope.addAll = false;
                     }
                 });
+
                 angular.forEach($scope.customStages, function(resp){
                     $scope.addAll = true;
                     if(!resp.added && resp.type == 'refuse' && add){

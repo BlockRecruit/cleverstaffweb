@@ -2260,5 +2260,11 @@
   "telework_1":"Remote",
   "Tag_name_saved":"Tag name saved",
   "Mark at least one test answer as correct": "Mark at least one test answer as correct",
-  "Alphabetically": "Alphabetically"
+  "Alphabetically": "Alphabetically",
+  "up to 30 000 profiles": "up to 30 000 profiles",
+  "Please choose the candidate database export option": "Please choose the candidate database export option:",
+  "Candidates + comments + history":"Candidates + comments + history",
+  "Export History": "Export History",
+  "export":"Export",
+  "close window":"Close window"
 }

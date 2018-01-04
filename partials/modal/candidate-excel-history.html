@@ -1,0 +1,30 @@
+<div class="excel-history">
+    <div class="intro">
+        <h2>{{'Export to Excel' | translate }}</h2>
+        <span ng-if="$root.me.recrutRole == 'admin'">({{'up to 30 000 profiles' | translate}})</span>
+        <span ng-if="$root.me.recrutRole == 'recruter'">({{'up to 10 000 profiles' | translate}})</span>
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+    </div>
+    <div class="export">
+        <div class="export-image">
+            <img src="/images/sprite/excel-history.png" alt="{{'Export to Excel' | translate }}">
+        </div>
+        <div class="export-type" ng-init="excelExportType = 'candidates'">
+            <h5>{{'Please choose the candidate database export option' | translate}}</h5>
+            <div class="type">
+                <input ng-checked="$root.excelExportType === 'candidates'" ng-value="'candidates'" name="excel-export-type" ng-model="$root.excelExportType" type="radio" id="history-candidates">
+                <label for="history-candidates">{{'Candidates' | translate}}</label>
+            </div>
+            <div class="type">
+                <input ng-value="'all'" name="excel-export-type" ng-model="$root.excelExportType" type="radio" id="history-all">
+                <label for="history-all">{{'Candidates + comments + history' | translate}}</label>
+            </div>
+        </div>
+        <div class="export-history">
+            <a ng-click="viewExcelHistory()" href="#/excelHistory" >{{'Export History' | translate}}</a>
+        </div>
+    </div>
+    <div class="buttons-wrap">
+        <button class="btn-new" ng-click="exportToExcel()">{{'export' | translate}}</button>
+    </div>
+</div>

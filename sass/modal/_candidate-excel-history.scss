@@ -1,0 +1,91 @@
+.excel-history {
+	font-family: "Helvetica-Regular";
+
+	position: relative;
+
+	width: 700px;
+	margin-left: -50px;
+	padding: 20px 30px 20px 35px;
+
+	border-radius: 9px;
+	background-color: #e3f2dd;
+	.intro {
+		margin: 0 auto 25px;
+
+		text-align: center;
+		h2 {
+			font-family: "Helvetica-Bold";
+			font-size: 26px;
+
+			margin: 0 0 5px 0;
+		}
+		i.fa-times {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+		}
+	}
+	.export {
+		display: flex;
+
+		align-items: center;
+		.export-image {
+			width: 20%;
+			height: 100%;
+			padding: 0;
+			padding-right: 37px;
+
+			text-align: center;
+		}
+		.export-type {
+			width: 60%;
+			padding: 15px 22px;
+
+			border-radius: 10px;
+			background-color: #eff7ee;
+			h5 {
+				font-family: "Helvetica-Bold";
+
+				margin: 0 0 20px 0;
+			}
+			.type {
+				display: flex;
+				width: 100%;
+				input {
+					display: inline-block;
+					margin-right: 9px;
+				}
+				label {
+					display: inline-block;
+				}
+			}
+		}
+		.export-history {
+			width: 20%;
+			height: 100%;
+			padding-left: 4%;
+
+			text-align: center;
+			& a {
+				font-size: 15px;
+
+				text-decoration: underline;
+			}
+		}
+	}
+	.buttons-wrap {
+		display: flex;
+		flex-direction: column;
+		margin-top: 20px;
+
+		align-items: center;
+		.btn-new.no-border {
+			margin-left: 5px;
+			padding: 8px 15px;
+
+			color: #3f3d3d;
+			border: none;
+			background: none;
+		}
+	}
+}
