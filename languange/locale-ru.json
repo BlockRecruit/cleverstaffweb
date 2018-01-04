@@ -2818,7 +2818,6 @@
   "items on page": "строк на одной странице",
   "Go to initial page": "На исходную страницу",
   "You has granted role": "Вы назначили роль",
-<<<<<<< HEAD
   "The large quantity of results has been found.": "Найдено большое количество результатов. Показано <b>{{total_count}}</b>. Уточните критерии, чтобы получить более точные результаты",
   "This vacanсy doesn't contain candidates now":"На этой вакансии пока нет кандидатов",
   "Days left": "Осталось {{days_left}} дней",
