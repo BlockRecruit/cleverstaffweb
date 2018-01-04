@@ -1144,6 +1144,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                     });
 
                     $rootScope.candidatePreview = resp;
+                    $rootScope.candidatePreviewAdditional = !!(resp.contacts.length || resp.education || resp.languages.length || resp.employmentType || resp.readyRelocate);
                     $rootScope.previewHistory = resp.actions.objects ? resp.actions.objects : null;
                     $rootScope.lastCandidatePreview = resp.candidateId;
                     $rootScope.imgWidthPreviewFunc = function(){
