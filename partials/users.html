@@ -131,13 +131,10 @@
                         </tbody>
                     </table>
                 </div>
-                <h4 class="pointer"
-                    style="margin-top: 25px;"
-                    ng-click="toggleInvitedUsersFunc()"
-                    ng-show="usersFoundInv">
+                <h4 class="pointer" style="padding-left: 8px;" ng-click="toggleInvitedUsersFunc(); rotateTringle($event)" ng-show="usersFoundInv">
                     {{'invites'|translate}}
-                    <i class="fa fa-sort-desc" aria-hidden="true" ng-show="toggleInvitedUsers"></i>
-                    <i class="fa fa-sort-asc" aria-hidden="true" ng-show="!toggleInvitedUsers"></i>
+                    <i class="fa fa-sort-desc fa-sort-desc-rotate"
+                       aria-hidden="true"></i>
                 </h4>
                 <div class="company-users invitedUsers content-invited-users"
                      style="margin-bottom: 25px;"
@@ -183,15 +180,17 @@
                         </tbody>
                     </table>
                 </div>
-                <h4 class="pointer"
-                    ng-click="toggleDisabledUsersFunc()"
-                    ng-style="(toggleDisabledUsers)? {'margin-bottom': '100px'}: {'margin-bottom': '25px'}"
+                <h4 class="pointer" style="padding-left: 8px;" ng-click="toggleDisabledUsersFunc(); rotateTringle($event)"
+                    ng-style="toggleDisabledUsers? {'margin-bottom' : '100px'} : {'margin-bottom' : '25px'}"
                     ng-show="usersFoundDisable">
                     {{'Blocked'|translate}}
-                    <i class="fa fa-sort-desc" aria-hidden="true" ng-show="toggleDisabledUsers"></i>
-                    <i class="fa fa-sort-asc" aria-hidden="true" ng-show="!toggleDisabledUsers"></i>
+                    <i class="fa fa-sort-desc fa-sort-desc-rotate"
+                       aria-hidden="true"
+                       ng-click="rotateTringle($event)"></i>
                 </h4>
-                <div class="company-users disabledUsers content-disabled-users" style="margin-bottom: 100px" ng-show="usersFoundDisable">
+                <div class="company-users disabledUsers content-disabled-users"
+                     ng-style="!toggleDisabledUsers? {'margin-bottom' : '100px'} : {'margin-bottom' : '25px'}"
+                     ng-show="usersFoundDisable">
                     <table class="table" ng-table="tableParamsDisable"
                            template-pagination="custom/pager">
                         <thead>

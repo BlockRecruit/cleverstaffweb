@@ -31511,6 +31511,11 @@ controller.controller('usersController', ["$localStorage", "$translate", "$scope
             $location.path("/organizer/history");
         };
 
+        $scope.rotateTringle = function (event){
+           let element = event.delegateTarget.children[0];
+            $(element).toggleClass('fa-sort-desc-rotate');
+        };
+
         if (window.location.hash.indexOf("invite") != -1) {
             $('.addUserInvite.modal').modal('show');
         }
