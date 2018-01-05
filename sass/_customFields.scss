@@ -170,6 +170,8 @@
 	.block-custom-fields .second-navbar .nav {
 		display: flex;
 		flex-direction: row;
+
+		justify-content: space-between;
 	}
 	.block-custom-fields .second-navbar a {
 		margin-left: 15px;
