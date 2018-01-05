@@ -894,6 +894,7 @@
 							line-height: 23px;
 						}
 						.email {
+							@include flex(column, flex-start, flex-start);
 							a {
 								display: inline-block;
 							}
