@@ -706,9 +706,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 $scope.errorMessage.message = $filter("translate")("desired_salary_should_contains_only_numbers");
                 salaryBol = false;
             }
-            console.log($scope.candidateForm.$valid);
-            console.log($scope.candidateForm);
-            console.log($scope.saveButtonIsPressed);
+
             if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed) {
                 $scope.saveButtonIsPressed = true;
                 var candidate = $scope.candidate;
@@ -759,7 +757,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     if ($scope.region)
                         candidate.region = $scope.region;
                 }
-                candidate.db = $('.datepickerOfBirth').datetimepicker('getDate') != null ? $('.datepickerOfBirth').datetimepicker('getDate').getTime() : null;
+                candidate.db = $('.datepickerOfBirth').datetimepicker('getDate') != null ? $('.datepickerOfBirth').datetimepicker('getDate').getTime() + 43200000 : null;
                 if ($scope.fieldValues.dateTimeValue != undefined) {
                     $(".datepickerOfCustom").datetimepicker("setDate", new Date($scope.editCustomValueDate));
                 }
@@ -770,7 +768,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 candidate.origin = $scope.getOriginAutocompleterValue();
 
                 deleteUnnecessaryFields(candidate);
-                console.log(candidate, 'candidate');
+
                 Candidate.edit(candidate, function(val) {
                     if (angular.equals(val.status, "ok")) {
                         notificationService.success($filter('translate')('Candidate saved'));
@@ -903,4 +901,9 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             $window.location.replace('/!#/candidates');
             $rootScope.changeSearchTypeNotFromCandidates = param;
         };
+
+        $scope.selectFavoriteContacts = function ($scope, type, event) {
+            Candidate.setSelectFavoriteContacts($scope, type, event );
+        };
+
     }]);

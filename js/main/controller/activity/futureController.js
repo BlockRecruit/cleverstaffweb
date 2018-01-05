@@ -686,47 +686,43 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
         var object = $rootScope.vacancyChangeInterviewDate;
         var newDate = $('.changeVacancyInterviewDatePicker').datetimepicker('getDate') != null ?
             $('.changeVacancyInterviewDatePicker').datetimepicker('getDate').getTime() : null;
-        if(newDate) {
-            Vacancy.changeInterviewDate({
-                interviewId: object.interviewObject.interviewId,
-                date: newDate,
-                comment: object.comment != null ? object.comment : "",
-                lang: $translate.use()
-            }, function(resp) {
-                $scope.tableParams.reload();
-                object.interviewObject.dateInterview = newDate;
-               $rootScope.closeModal();
-                if ($rootScope.selectedCalendar != undefined) {
-                    googleCalendarUpdateEvent(googleService, new Date(newDate), resp.object.candidateId.fullName,
-                        $scope.vacancy.position, $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
-                        resp.object.comment, resp.object.interviewId + object.interviewObject.state, $filter);
+        Vacancy.changeInterviewDate({
+            interviewId: object.interviewObject.interviewId,
+            date: newDate,
+            comment: object.comment != null ? object.comment : "",
+            lang: $translate.use()
+        }, function(resp) {
+            $scope.tableParams.reload();
+            object.interviewObject.dateInterview = newDate;
+           $rootScope.closeModal();
+            if ($rootScope.selectedCalendar != undefined) {
+                googleCalendarUpdateEvent(googleService, new Date(newDate), resp.object.candidateId.fullName,
+                    $scope.vacancy.position, $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null,
+                    resp.object.comment, resp.object.interviewId + object.interviewObject.state, $filter);
 
-                }
-                var activeParam = ScopeService.getActiveScopeObject();
-                $scope.activeScopeParam = activeParam;
-                var requestQuery = {
-                    personId: activeParam.name == 'onlyMy' ? $rootScope.userId : null
-                };
-                requestQuery.country = activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null;
-                requestQuery.city = activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null;
-                Vacancy.getEvents(requestQuery, function(resp) {
-                    $scope.events = $filter('getorders')(resp.objects);
-                    if (activeParam.name == 'region' || activeParam.name == 'onlyMy') {
-                        $scope.showEvents = true
-                    } else {
+            }
+            var activeParam = ScopeService.getActiveScopeObject();
+            $scope.activeScopeParam = activeParam;
+            var requestQuery = {
+                personId: activeParam.name == 'onlyMy' ? $rootScope.userId : null
+            };
+            requestQuery.country = activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null;
+            requestQuery.city = activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null;
+            Vacancy.getEvents(requestQuery, function(resp) {
+                $scope.events = $filter('getorders')(resp.objects);
+                if (activeParam.name == 'region' || activeParam.name == 'onlyMy') {
+                    $scope.showEvents = true
+                } else {
 
-                        if($rootScope.me.recrutRole!='admin'){
-                            $scope.showEvents=true
-                        }else{
-                            $scope.showEvents = resp.objects != undefined && resp.objects.length > 0;
-                        }
+                    if($rootScope.me.recrutRole!='admin'){
+                        $scope.showEvents=true
+                    }else{
+                        $scope.showEvents = resp.objects != undefined && resp.objects.length > 0;
                     }
-                    $rootScope.loading = false;
-                });
+                }
+                $rootScope.loading = false;
             });
-        } else {
-            notificationService.error($filter('translate')('Select the interview date'));
-        }
+        });
     };
         if($rootScope.me.recrutRole != 'client'){
             $timeout(function(){
@@ -786,9 +782,6 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
                     value: 'N'
                 }, function (resp) {
                     if (resp.status == "ok") {
-                        $('html, body').animate({
-                            scrollTop: $("#accordion").offset().top
-                        }, 1000);
                         $rootScope.updateQuestStatus();
                     }else{
                         notificationService.error(resp.message);

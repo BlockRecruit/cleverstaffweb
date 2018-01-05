@@ -43,20 +43,20 @@
                     </div>
                     <div class="operation" ng-show="($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y'">
                         <i class="fa fa-file-excel-o" aria-hidden="true"></i>
-                        <a href="" ng-click="exportToExcel()" ng-show="$root.hideTariff">{{'Export to Excel'|translate}}</a>
+                        <a href="" ng-click="toExcelHistory()" ng-show="$root.hideTariff">{{'Export to Excel'|translate}}</a>
                         <button id="disabledBtn" ng-click="$root.disabledBtnFunc();" ng-show="!$root.hideTariff"
                                 type="button" class="btn btn-default disabled">
                             {{'Export to Excel'|translate}}
                         </button>
-                        &nbsp;
+                        &nbsp
 
-                        <a href="#/excelHistory" ng-click="toExcelHistory()" class="no-margin-left">{{'history_1'|translate}}</a>
-                        <span class="clarification" ng-show="$root.me.recrutRole == 'admin'">
-                            {{'Up to | 30 000 CVs For account Admins only'|translate}}
-                        </span>
-                        <span class="clarification" ng-show="$root.me.recrutRole !== 'admin' && $root.me.personParams.enableDownloadToExcel == 'Y'">
-                            {{'Up to | 10 000 CVs'|translate}}
-                        </span>
+                        <!--<a ng-click="toExcelHistory()" class="no-margin-left">{{'history_1'|translate}}</a>-->
+                        <!--<span class="clarification" ng-show="$root.me.recrutRole == 'admin'">-->
+                            <!--{{'Up to | 30 000 CVs For account Admins only'|translate}}-->
+                        <!--</span>-->
+                        <!--<span class="clarification" ng-show="$root.me.recrutRole !== 'admin' && $root.me.personParams.enableDownloadToExcel == 'Y'">-->
+                            <!--{{'Up to | 10 000 CVs'|translate}}-->
+                        <!--</span>-->
                     </div>
                 </div>
                 <p class="margin-top" ng-show="me.orgParams.tarif === 'free'">
@@ -1718,10 +1718,10 @@
     </div>
     <div id="scrollup"><img alt="Прокрутить вверх" src="/images/sprite/up_racket.png"></div>
 </div>
-<div id="candidate_preview">
+<div id="candidate_preview" ng-class="{'less-width': !candidatePreview.photo || !candidatePreviewAdditional}">
     <div class="arrow_preview" id="arrow_preview"></div>
     <div class="ui bottom attached segment red"
-         style="padding: 6px 6px 3px 6px;border-top: 0.2em solid #FFFFFF !important;"
+         style="padding: 6px 6px 3px 6px;"
          ng-show="!candidatePreview.showDocument">
         <div ng-show="!loadingPriview" class="ui vertically divided grid">
             <div class="ui vertically-divided grid">
@@ -1733,7 +1733,7 @@
                                 {{candidatePreview.fullName}}</a>
                             <span ng-show="candidatePreview.db">, {{candidatePreview.db|ageOfDate}}</span>
                         </div>
-                        <div>
+                        <div style="margin-bottom: 10px;">
                             {{candidatePreview.position}}
                             <span ng-show="candidatePreview != undefined && candidatePreview.salary">,
                                 <span ng-show="candidatePreview.salary != 0">{{candidatePreview.salary}} {{candidatePreview.currency}}</span>
@@ -1748,41 +1748,54 @@
                 </div>
             </div>
             <div class="ui vertically divided-grid">
-                <img id="photo-preview" ng-if="candidatePreview.photo!=undefined"
-                     ng-src="{{$root.serverAddress}}/getapp?id={{candidatePreview.photo}}&d={{$root.me.personId}}"
-                     alt="" class="pull-left"/>
+                <div class="candidate-img-wrap" ng-if="candidatePreview.photo!=undefined">
+                    <img id="photo-preview" ng-if="candidatePreview.photo!=undefined"
+                         ng-src="{{$root.serverAddress}}/getapp?id={{candidatePreview.photo}}&d={{$root.me.personId}}"
+                         alt="" class="pull-left"/>
+                </div>
                 <!--<img ng-if="candidatePreview.photo==undefined" border="5" src="img/missing-image-640x360.png" alt=""-->
                 <!--style="margin:10px 10px 10px 3px;width: 172px;height: 115px; border-radius: 15%;border: 7.2em solid #E78409 !important;"/>-->
 
-                <div class="twelve-wide column pull-right">
+                <div class="twelve-wide column" ng-class="{'pull-right': candidatePreview.photo, 'left-side': !candidatePreview.photo}">
 
                     <table class="ui basic without_tr_border table">
                         <tbody class="candidatePreview-info">
                         <tr ng-show="candidatePreview != undefined && candidatePreview.region.city">
-                            <td class="content-header">{{'lives_in'|translate}}</td>
+                            <td class="content-header">
+                                <img src="/images/sprite/location-g.svg" alt="">
+                                <!--{{'lives_in'|translate}}-->
+                            </td>
                             <td class="item-in-table" style="padding: 0.5em 0.3em">
                                 {{candidatePreview.region.displayCity}}
                             </td>
                         </tr>
 
                         <tr ng-show="candidatePreview != undefined && candidatePreview.expirence">
-                            <td class="content-header">{{'experience'|translate}}</td>
+                            <td class="content-header">
+                                <img class="exp" src="/images/sprite/exp-g.svg" alt="">
+                                <!--{{'experience'|translate}}-->
+                            </td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
                                 {{'experience_assoc.'+candidatePreview.expirence|translate}}
                             </td>
                         </tr>
 
                         <tr ng-show="candidatePreview != undefined && candidatePreview.languages.length > 0">
-                            <td class="content-header">{{'languages'|translate}}</td>
-                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                            <td class="content-header">
+                                <img ng-class="{'lang-long': candidatePreview.languages.length > 4}" class="lang" src="/images/sprite/lang-g.svg" alt="">
+                            </td>
+                            <td class="item-in-table langs" style=" padding: 0.5em 0.3em">
                                 <span class="inlineLang" ng-repeat="lang in candidatePreview.languages">{{lang.name}}: <span translate="{{lang.level}}"></span><br/></span>
                             </td>
                         </tr>
                         <tr ng-show="candidatePreview != undefined && candidatePreview.employmentType">
-                            <td class="content-header">{{'employment_type'|translate}}</td>
+                            <td class="content-header">
+                                <!--{{'employment_type'|translate}}-->
+                                <img src="/images/sprite/employment-g.svg" alt="">
+                            </td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em;word-break: break-all;"
                                 ng-show="candidatePreview.employmentType">
-                                    <span ng-repeat="emplType in candidatePreview.employmentType.split(',')">
+                                    <span class="employment-type" ng-repeat="emplType in candidatePreview.employmentType.split(',')">
                                         {{emplType|translate}}
                                         <!--{{$index}}{{emplType}}-->
                                     </span>
@@ -1801,16 +1814,21 @@
                                 <div ng-repeat=" contact in candidatePreview.contacts|filter:type = 'mphone'">
                                     {{contact.value}}
                                 </div>
+                                <i style="color: #ffc100" class="fa fa-star absolute-right"
+                                   ng-show="candidatePreview.preferableContact === 'phone'"></i>
                             </td>
                         </tr>
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'email').length > 0">
                             <td class="content-header"><i class="fa fa-envelope" aria-hidden="true"></i></td>
-                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em; position: relative;">
                                 <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'email'">
-                                    <a href="mailto:{{contact.value}}">
-                                        {{contact.value}}
+                                    <a href="mailto:{{contact.value}}" style="display: flex; flex-direction: column;">
+                                        <span ng-repeat="email in ::contact.value.split(',') track by $index" >
+                                            {{::email}}
+                                        </span>
                                     </a>
                                 </div>
+                                <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact == 'mail'"></i>
                             </td>
                         </tr>
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'skype').length > 0">
@@ -1819,14 +1837,16 @@
                                 <div ng-repeat=" contact in candidatePreview.contacts|filter:type = 'Skype'">
                                     {{contact.value}}
                                 </div>
+                                <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='skype'"></i>
                             </td>
                         </tr>
-                        <tr ng-show="(candidatePreview.contacts|filter:type = 'linkedin').length > 0">
-                            <td class="content-header"><i class="fa fa-linkedin" aria-hidden="true"></i></td>
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'linkedin').length > 0" style="padding: 0.5em 0.3em">
+                            <td class="content-header" style="padding: 0.5em 0.3em"><i class="fa fa-linkedin" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
                                 <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'linkedin'">
                                     <a target="_blank" href="{{contact.value}}">{{contact.value|cut:true:30}}</a>
                                 </div>
+                                <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='linkedin'"></i>
                             </td>
                         </tr>
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'facebook').length > 0">
@@ -1835,6 +1855,7 @@
                                 <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'facebook'">
                                     <a target="_blank" href="{{contact.value}}">{{contact.value|cut:true:30}}</a>
                                 </div>
+                                <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='facebook'"></i>
                             </td>
                         </tr>
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'googleplus').length > 0">
@@ -1843,6 +1864,7 @@
                                 <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'googleplus'">
                                     <a target="_blank" href="{{contact.value}}">{{contact.value|cut:true:30}}</a>
                                 </div>
+                                <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='google'"></i>
                             </td>
                         </tr>
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'homepage').length > 0">
@@ -1850,6 +1872,7 @@
                             <td class="item-in-table" style=" padding: 0.5em 0.3em;word-break: break-word;">
                                 <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'homepage'">
                                     <a target="_blank" href="{{contact.value}}">{{contact.value|cut:true:30}}</a>
+                                    <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='home'"></i>
                                 </div>
                             </td>
                         </tr>
@@ -1875,7 +1898,7 @@
         </div>
     </div>
     <div class="ui bottom attached segment red"
-         style="padding: 6px 6px 3px 6px;border-top: 0.2em solid #FFFFFF !important;"
+         style="padding: 6px 6px 3px 6px;"
          ng-show="candidatePreview.showDocument">
         <div ng-show="$index == currentDocPreviewPage" ng-repeat="file in candidatePreview.files" style="position: relative;">
             <i ng-show="currentDocPreviewPage > 0" class="fa fa-angle-left prevDoc" aria-hidden="true" ng-click="prevDoc()"></i>

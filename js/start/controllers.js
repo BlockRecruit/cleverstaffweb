@@ -75,12 +75,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 timeZoneOffset: new Date().getTimezoneOffset()
             }, function(resp) {
                 if (resp.personId) {
-                    localStorage.setItem("link_redirect", window.location.hash);
-                    if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'ru'){
-                        $window.location.replace('/ru/signin.html');
-                    }else{
-                        $window.location.replace('/signin.html');
-                    }
+                    $window.location.replace('/!#/organizer');
                 } else {
                     $window.location.replace('/');
                 }

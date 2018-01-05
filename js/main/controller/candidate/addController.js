@@ -302,6 +302,7 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
     FileInit.initCandFileOption($scope, "", "", false);
     $scope.callbackFile = function(resp, names) {
         $scope.fileForSave.push({"attId": resp, "fileName": names});
+        $scope.progressUpdate();
     };
 
     $scope.removeFile = function(id) {
@@ -482,7 +483,7 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             }
 
 
-            candidate.db = $('.datepickerOfBirth').datetimepicker('getDate') != null ? $('.datepickerOfBirth').datetimepicker('getDate').getTime() : null;
+            candidate.db = $('.datepickerOfBirth').datetimepicker('getDate') != null ? $('.datepickerOfBirth').datetimepicker('getDate').getTime() + 43200000 : null;
             candidate.relatedRegions = $scope.regionToRelocate;
             candidate.origin = $scope.getOriginAutocompleterValue();
             deleteUnnecessaryFields(candidate);

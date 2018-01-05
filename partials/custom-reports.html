@@ -53,7 +53,7 @@
                     <tbody>
                     <tr ng-repeat="vacancyField in ctrlReport.vacancyData track by $index">
                         <td ng-bind="vacancyField['position']"></td>
-                        <td ng-if="field.visiable" ng-repeat="field in ctrlReport.fieldsList track by $index">{{{value:vacancyField[field.value],type: field,vacancy:vacancyField}|filterDataForReport:this}}</td>
+                        <td ng-if="field.visiable" ng-repeat="field in ctrlReport.fieldsList track by $index">{{{value:vacancyField[field.value],type: field,vacancy:vacancyField}|filterDataForReport:this|translate}}</td>
                     </tr>
                     </tbody>
                 </table>

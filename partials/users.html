@@ -131,12 +131,67 @@
                         </tbody>
                     </table>
                 </div>
-                <h4 class="pointer" ng-click="toggleDisabledUsersFunc()" ng-show="usersFoundDisable">
+                <h4 class="pointer"
+                    style="margin-top: 25px;"
+                    ng-click="toggleInvitedUsersFunc()"
+                    ng-show="usersFoundInv">
+                    {{'invites'|translate}}
+                    <i class="fa fa-sort-desc" aria-hidden="true" ng-show="toggleInvitedUsers"></i>
+                    <i class="fa fa-sort-asc" aria-hidden="true" ng-show="!toggleInvitedUsers"></i>
+                </h4>
+                <div class="company-users invitedUsers content-invited-users"
+                     style="margin-bottom: 25px;"
+                     ng-show="usersFoundInv">
+                    <table class="table" ng-table="tableParamsInv" template-pagination="custom/pager">
+                        <thead>
+                        <tr>
+                            <th>
+                                №
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th ng-click="sortReverseInvited = !sortReverseInvited; sortTypeInvited = 'email'">
+                                Email
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th class="hidden-xs" ng-click="sortReverseInvited = !sortReverseInvited; sortTypeInvited = 'role'">
+                                {{'role'|translate}}
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th class="hidden-xs" ng-click="sortReverseInvited = !sortReverseInvited; sortTypeInvited = 'dc'">
+                                {{'Date invitations'|translate}}
+                                <i class="fa fa-sort" aria-hidden="true"></i>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody class="showAfter">
+                        <tr ng-repeat="invite in invAll | orderBy : ['!!'+sortTypeInvited, sortTypeInvited] : !sortReverseInvited" ng-click="openInviteUserModal(invite)">
+                            <td class="clickable">{{(tableParamsInv.page() - 1) * tableParamsInv.count() + $index + 1}}</td>
+                            <td class="responsible clickable">
+                                {{::invite.email}}
+                            </td>
+                            <td class="vacancy-name clickable hidden-xs">
+                                {{::invite.role | spellcheck}}
+                                <span ng-show="invite.client">
+                                    {{'in'|translate}}
+                                    <a href="#/clients/{{::invite.client.localId}}">{{::invite.client.name}}</a>
+                                </span>
+                            </td>
+                            <td class="clickable hidden-xs">
+                                {{::invite.dc | dateFormat}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h4 class="pointer"
+                    ng-click="toggleDisabledUsersFunc()"
+                    ng-style="(toggleDisabledUsers)? {'margin-bottom': '100px'}: {'margin-bottom': '25px'}"
+                    ng-show="usersFoundDisable">
                     {{'Blocked'|translate}}
                     <i class="fa fa-sort-desc" aria-hidden="true" ng-show="toggleDisabledUsers"></i>
                     <i class="fa fa-sort-asc" aria-hidden="true" ng-show="!toggleDisabledUsers"></i>
                 </h4>
-                <div class="company-users disabledUsers content-disabled-users" ng-show="usersFoundDisable">
+                <div class="company-users disabledUsers content-disabled-users" style="margin-bottom: 100px" ng-show="usersFoundDisable">
                     <table class="table" ng-table="tableParamsDisable"
                            template-pagination="custom/pager">
                         <thead>
@@ -188,53 +243,6 @@
                             </td>
                             <td class="clickable hidden-xs">
                                 {{::user.hireDate | dateFormat}}
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <h4 class="pointer" ng-click="toggleInvitedUsersFunc()" ng-show="usersFoundInv">
-                    {{'invites'|translate}}
-                    <i class="fa fa-sort-desc" aria-hidden="true" ng-show="toggleInvitedUsers"></i>
-                    <i class="fa fa-sort-asc" aria-hidden="true" ng-show="!toggleInvitedUsers"></i>
-                </h4>
-                <div class="company-users invitedUsers content-invited-users" ng-show="usersFoundInv">
-                    <table class="table" ng-table="tableParamsInv" template-pagination="custom/pager">
-                        <thead>
-                        <tr>
-                            <th>
-                                №
-                                <i class="fa fa-sort" aria-hidden="true"></i>
-                            </th>
-                            <th ng-click="sortReverseInvited = !sortReverseInvited; sortTypeInvited = 'email'">
-                               Email
-                                <i class="fa fa-sort" aria-hidden="true"></i>
-                            </th>
-                            <th class="hidden-xs" ng-click="sortReverseInvited = !sortReverseInvited; sortTypeInvited = 'role'">
-                                {{'role'|translate}}
-                                <i class="fa fa-sort" aria-hidden="true"></i>
-                            </th>
-                            <th class="hidden-xs" ng-click="sortReverseInvited = !sortReverseInvited; sortTypeInvited = 'dc'">
-                                {{'Date invitations'|translate}}
-                                <i class="fa fa-sort" aria-hidden="true"></i>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody class="showAfter">
-                        <tr ng-repeat="invite in invAll | orderBy : ['!!'+sortTypeInvited, sortTypeInvited] : !sortReverseInvited" ng-click="openInviteUserModal(invite)">
-                            <td class="clickable">{{(tableParamsInv.page() - 1) * tableParamsInv.count() + $index + 1}}</td>
-                            <td class="responsible clickable">
-                                {{::invite.email}}
-                            </td>
-                            <td class="vacancy-name clickable hidden-xs">
-                                {{::invite.role | spellcheck}}
-                                <span ng-show="invite.client">
-                                    {{'in'|translate}}
-                                    <a href="#/clients/{{::invite.client.localId}}">{{::invite.client.name}}</a>
-                                </span>
-                            </td>
-                            <td class="clickable hidden-xs">
-                                {{::invite.dc | dateFormat}}
                             </td>
                         </tr>
                         </tbody>

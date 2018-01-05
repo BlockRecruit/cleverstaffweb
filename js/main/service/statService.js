@@ -1,7 +1,7 @@
 angular.module('services.reportAll', [
     'ngResource',
     'ngCookies'
-]).factory('Stat', ['$resource', 'serverAddress', '$filter', '$localStorage','$rootScope', 'notificationService', function($resource, serverAddress, $filter, $localStorage, $rootScope, notificationService) {
+]).factory('Stat', ['$resource', 'serverAddress', '$filter', '$localStorage','$rootScope', function($resource, serverAddress, $filter, $localStorage, $rootScope) {
 
     var stat = $resource(serverAddress + '/stat/:param', {param: "@param"}
         , {
@@ -116,17 +116,12 @@ angular.module('services.reportAll', [
             return new Promise((resolve, reject) => {
                 if(update && data) return resolve(data);
                 stat.getActualVacancyStatistic2(params, resp => {
-                    if(resp.status == 'error'){
-                        notificationService.error(resp.message);
-                        $rootScope.loading = false;
+                    if(resp.object.entryList && resp.object.entryList.length > 0){
+                        data = resp;
+                        resolve(resp, resp['request'] = 'Statistic2');
                     }else{
-                        if(resp.object.entryList && resp.object.entryList.length > 0){
-                            data = resp;
-                            resolve(resp, resp['request'] = 'Statistic2');
-                        }else{
-                            resp.object.entryList = [];
-                            resolve(resp, resp['request'] = 'Statistic2');
-                        }
+                        resp.object.entryList = [];
+                        resolve(resp, resp['request'] = 'Statistic2');
                     }
                 },error => reject(error));
             });
