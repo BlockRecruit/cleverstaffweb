@@ -912,6 +912,9 @@
 							line-height: 35px;
 
 							display: block;
+							.preferable-contact {
+								@include flex(column, flex-start, flex-start);
+							}
 						}
 						.source-for-contact {
 							display: block;
