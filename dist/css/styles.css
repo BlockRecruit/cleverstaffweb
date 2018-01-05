@@ -17869,7 +17869,7 @@ input.cmn-toggle-round:checked + label:after {
   z-index: 10;
   display: none;
   width: 500px;
-  min-height: 255px;
+  min-height: 280px;
   border: 1px solid #666666;
   background: #fff;
   box-shadow: 0 0 13px 2px black; }

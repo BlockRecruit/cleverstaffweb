@@ -1802,7 +1802,9 @@
                             </td>
                         </tr>
                         <tr ng-show="candidatePreview != undefined && candidatePreview.readyRelocate && candidatePreview.relatedRegions!=undefined">
-                            <td class="content-header" translate="ready_to_relocate"></td>
+                            <td class="content-header">
+                                <img src="/images/sprite/relocate-g.svg" alt="">
+                            </td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
                                 <span ng-repeat="region in candidatePreview.relatedRegions">{{region.fullName}}&nbsp;</span>
                             </td>
@@ -1840,7 +1842,7 @@
                                 <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='skype'"></i>
                             </td>
                         </tr>
-                        <tr ng-show="(candidatePreview.contacts|filter:type = 'linkedin').length > 0" style="padding: 0.5em 0.3em">
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'linkedin').length > 0">
                             <td class="content-header" style="padding: 0.5em 0.3em"><i class="fa fa-linkedin" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
                                 <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'linkedin'">
