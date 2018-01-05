@@ -1809,8 +1809,10 @@
                             <td class="content-header"><i class="fa fa-envelope"  style="font-size: 28px;" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em; position: relative;">
                                 <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'email'">
-                                    <a href="mailto:{{contact.value}}">
-                                        {{contact.value}}
+                                    <a href="mailto:{{contact.value}}" style="display: flex; flex-direction: column;">
+                                        <span ng-repeat="email in ::contact.value.split(',') track by $index" >
+                                            {{::email}}
+                                        </span>
                                     </a>
                                 </div>
                                 <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact == 'mail'"></i>
