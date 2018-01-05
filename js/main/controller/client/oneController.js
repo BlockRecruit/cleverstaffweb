@@ -438,6 +438,11 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
             $rootScope.clickedSaveClientStatus = true;
             $scope.client.state = $rootScope.changeStatusInClient.status;
 
+            if($scope.client.activeVacanciesNumber !== 0 && $rootScope.changeStatusInClient.status === 'deleted') {
+                notificationService.error($filter('translate')("This client has active vacancy"));            $rootScope.clickedSaveClientStatus = true;
+                $rootScope.clickedSaveClientStatus = false;
+                return;
+            }
             Client.changeState({
                 clientId: $scope.client.clientId,
                 comment: $rootScope.changeStatusInClient.comment,
