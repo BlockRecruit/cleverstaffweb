@@ -2869,5 +2869,7 @@
   "previousYear":"Прошлый год",
   "customRange":" Настраиваемый период",
   "replacement":"Замена",
-  "Select vacancies in the report":"Выбрать вакансии в отчете"
+  "Select vacancies in the report":"Выбрать вакансии в отчете",
+  "replacement":"Замена",
+  "ready_to_relocate2": "Готов к переезду"
 }

@@ -1719,7 +1719,7 @@
 
 	display: none;
 	width: 500px;
-	min-height: 255px;
+	min-height: 280px;
 
 	border: 1px solid $theme-grey;
 	background: $theme-white;
@@ -1740,7 +1740,7 @@
 
 		overflow-x: hidden;
 		overflow-y: auto;
-		min-height: 160px;
+		min-height: 175px;
 		max-height: 320px;
 		.candidatePreview-info {
 			font-size: 85%;
@@ -1791,6 +1791,65 @@
 						&.langs {
 							display: flex;
 							flex-direction: column;
+						}
+						.relocated {
+							& img.relocate {
+								position: absolute;
+								top: calc(50% - 9.5px);
+								right: 10px;
+
+								width: 8%;
+							}
+							& .regions {
+								position: absolute;
+								z-index: 999;
+								top: 3px;
+								right: 12%;
+
+								display: none;
+								padding: 5px;
+
+								border-radius: 5px;
+								background-color: #fff;
+								box-shadow: 0 0 5px 2px #b8b8b8;
+								&.inline {
+									position: static;
+
+									display: block;
+									padding: 0;
+
+									background-color: #fff;
+									box-shadow: none;
+									& .region {
+										margin-left: 0;
+									}
+								}
+								&.flex {
+									display: flex;
+								}
+								& .region {
+									display: block;
+									margin-left: 60px;
+									&.first {
+										display: inline-block;
+										margin-left: 6px;
+									}
+									&.last {
+										display: inline-block;
+									}
+								}
+								& .dots {
+									display: inline-block;
+								}
+							}
+							&:hover {
+								.regions {
+									display: block;
+								}
+								.regions.flex {
+									display: flex;
+								}
+							}
 						}
 					}
 					.content-header {

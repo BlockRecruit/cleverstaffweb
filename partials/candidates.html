@@ -1763,17 +1763,35 @@
                         <tr ng-show="candidatePreview != undefined && candidatePreview.region.city">
                             <td class="content-header">
                                 <img src="/images/sprite/location-g.svg" alt="">
-                                <!--{{'lives_in'|translate}}-->
                             </td>
                             <td class="item-in-table" style="padding: 0.5em 0.3em">
-                                {{candidatePreview.region.displayCity}}
+                                <div>
+                                    <span>{{candidatePreview.region.displayCity}}</span>
+                                    <div class="relocated" ng-show="candidatePreview != undefined && candidatePreview.readyRelocate && candidatePreview.relatedRegions!=undefined">
+                                        <img class="relocate" src="/images/sprite/relocate-g.svg">
+                                        <span class="regions">
+                                            <span ng-if="candidatePreview.relatedRegions.length">{{'Relocate' | translate}}:</span>
+                                            <span ng-if="!candidatePreview.relatedRegions.length">{{'ready_to_relocate2' | translate}}</span>
+                                            <span ng-class="{'first' : candidatePreview.relatedRegions.indexOf(region) === 0,
+                                                             'last' : candidatePreview.relatedRegions.indexOf(region) === 1}"
+                                                  class="region"
+                                                  ng-repeat="region in candidatePreview.relatedRegions | limitTo: 2">
+                                                <span>
+                                                    {{region.fullName}}{{$last ? '' : ','}}
+                                                </span>
+                                            </span>
+                                            <span class="dots">{{candidatePreview.relatedRegions.length > 2 ? '...' : ''}}</span>
+                                        </span>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
+
+
 
                         <tr ng-show="candidatePreview != undefined && candidatePreview.expirence">
                             <td class="content-header">
                                 <img class="exp" src="/images/sprite/exp-g.svg" alt="">
-                                <!--{{'experience'|translate}}-->
                             </td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
                                 {{'experience_assoc.'+candidatePreview.expirence|translate}}
@@ -1788,23 +1806,41 @@
                                 <span class="inlineLang" ng-repeat="lang in candidatePreview.languages">{{lang.name}}: <span translate="{{lang.level}}"></span><br/></span>
                             </td>
                         </tr>
+
                         <tr ng-show="candidatePreview != undefined && candidatePreview.employmentType">
                             <td class="content-header">
-                                <!--{{'employment_type'|translate}}-->
                                 <img src="/images/sprite/employment-g.svg" alt="">
                             </td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em;word-break: break-all;"
                                 ng-show="candidatePreview.employmentType">
                                     <span class="employment-type" ng-repeat="emplType in candidatePreview.employmentType.split(',')">
                                         {{emplType|translate}}
-                                        <!--{{$index}}{{emplType}}-->
                                     </span>
                             </td>
                         </tr>
-                        <tr ng-show="candidatePreview != undefined && candidatePreview.readyRelocate && candidatePreview.relatedRegions!=undefined">
-                            <td class="content-header" translate="ready_to_relocate"></td>
+
+                        <tr ng-show="!candidatePreview.region.city && candidatePreview != undefined && candidatePreview.readyRelocate && candidatePreview.relatedRegions!=undefined">
+                            <td class="content-header" ng-if="candidatePreview.relatedRegions.length > 0">
+                                <img tooltip-class="customClass" uib-tooltip="{{'ready_to_relocate2' | translate}}" src="/images/sprite/relocate-g.svg" alt="">
+                            </td>
+                            <td class="content-header" ng-if="candidatePreview.relatedRegions.length === 0">
+                                <img tooltip-class="customClass" uib-tooltip="{{'ready_to_relocate2' | translate}}" src="/images/sprite/relocate-g.svg" alt="">
+                            </td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
-                                <span ng-repeat="region in candidatePreview.relatedRegions">{{region.fullName}}&nbsp;</span>
+                                <div class="relocated">
+                                    <span class="regions inline" ng-class="{'flex' : candidatePreview.relatedRegions.length <= 1}">
+                                        <span class="region"
+                                              ng-class="{'last' : candidatePreview.relatedRegions.indexOf(region) === 1}"
+                                              ng-repeat="region in candidatePreview.relatedRegions | limitTo: 2">
+                                            <span>
+                                                {{region.fullName}}{{$last ? '' : ','}}
+                                            </span>
+                                        </span>
+                                        <span class="dots">{{candidatePreview.relatedRegions.length > 2 ? '...' : ''}}</span>
+                                        <span ng-if="candidatePreview.relatedRegions.length === 0">{{'ready_to_relocate2' | translate}}</span>
+                                    </span>
+                                </div>
+
                             </td>
                         </tr>
 
@@ -1818,6 +1854,7 @@
                                    ng-show="candidatePreview.preferableContact === 'phone'"></i>
                             </td>
                         </tr>
+
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'email').length > 0">
                             <td class="content-header"><i class="fa fa-envelope" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em; position: relative;">
@@ -1831,6 +1868,7 @@
                                 <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact == 'mail'"></i>
                             </td>
                         </tr>
+
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'skype').length > 0">
                             <td class="content-header"><i class="fa fa-skype" aria-hidden="true"></i> </td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
@@ -1840,7 +1878,8 @@
                                 <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='skype'"></i>
                             </td>
                         </tr>
-                        <tr ng-show="(candidatePreview.contacts|filter:type = 'linkedin').length > 0" style="padding: 0.5em 0.3em">
+
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'linkedin').length > 0">
                             <td class="content-header" style="padding: 0.5em 0.3em"><i class="fa fa-linkedin" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
                                 <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'linkedin'">
@@ -1849,6 +1888,7 @@
                                 <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='linkedin'"></i>
                             </td>
                         </tr>
+
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'facebook').length > 0">
                             <td class="content-header"><i class="fa fa-facebook" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
@@ -1858,6 +1898,7 @@
                                 <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='facebook'"></i>
                             </td>
                         </tr>
+
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'googleplus').length > 0">
                             <td class="content-header"><i class="fa fa-google-plus" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
@@ -1867,6 +1908,7 @@
                                 <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='google'"></i>
                             </td>
                         </tr>
+
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'homepage').length > 0">
                             <td class="content-header"><i class="fa fa-home" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em;word-break: break-word;">
