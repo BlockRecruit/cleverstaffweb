@@ -575,14 +575,14 @@
                                     <a  class="not-for-print" target="_blank" href="{{contact}}">
                                         <i class="fa fa-home" style="margin-right: 2px" aria-hidden="true"></i>
                                        <span style="position: relative;">
-                                           {{contact}}
+                                           {{::contact|cutName:true:30}}
                                             <i class="fa fa-star" title='{{"Preferable contact method |  Предпочтительный метод контакта"}}'  ng-show="candidate.preferableContact == 'home'"></i>
                                        </span>
                                     </a>
                                      <a  class="hidden show-for-print" target="_blank" href="{{contact}}">
                                          <i class="fa fa-home" aria-hidden="true"></i>
                                          <span style="position: relative;">
-                                             {{contact}}
+                                             {{::contact|cutName:true:30}}
                                              <i class="fa fa-star " title='{{"Preferable contact method |  Предпочтительный метод контакта"}}'  ng-show="candidate.preferableContact == 'home'"></i>
                                          </span>
                                      </a>
