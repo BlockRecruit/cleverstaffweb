@@ -1044,30 +1044,38 @@
                     <table class="ui basic without_tr_border table">
                         <tbody class="candidatePreview-info">
                         <tr ng-show="candidatePreview != undefined && candidatePreview.region.city">
-                            <td class="content-header">{{'lives_in'|translate}}</td>
+                            <td class="content-header">
+                                <img src="/images/sprite/location-g.svg" alt="">
+                            </td>
                             <td class="item-in-tablez" style="padding: 0.5em 0.3em">
                                 {{candidatePreview.region.displayCity}}
                             </td>
                         </tr>
 
                         <tr ng-show="candidatePreview != undefined && candidatePreview.expirence">
-                            <td class="content-header">{{'experience'|translate}}</td>
+                            <td class="content-header">
+                                <img class="exp" src="/images/sprite/exp-g.svg" alt="">
+                            </td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
                                 {{'experience_assoc.'+candidatePreview.expirence|translate}}
                             </td>
                         </tr>
 
                         <tr ng-show="candidatePreview != undefined && candidatePreview.languages.length > 0">
-                            <td class="content-header">{{'languages'|translate}}</td>
+                            <td class="content-header">
+                                <img src="/images/sprite/lang-g.svg" alt="">
+                            </td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
                                 <span class="inlineLang" ng-repeat="lang in candidatePreview.languages">{{lang.name}}: <span translate="{{lang.level}}"></span><br/></span>
                             </td>
                         </tr>
                         <tr ng-show="candidatePreview != undefined && candidatePreview.employmentType">
-                            <td class="content-header">{{'employment_type'|translate}}</td>
+                            <td class="content-header">
+                                <img src="/images/sprite/employment-g.svg" alt="">
+                            </td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em;word-break: break-all;"
                                 ng-show="candidatePreview.employmentType">
-                                    <span ng-repeat="emplType in candidatePreview.employmentType.split(',')">
+                                    <span class="employment-type" ng-repeat="emplType in candidatePreview.employmentType.split(',')">
                                         {{emplType|translate}}
                                         <!--{{$index}}{{emplType}}-->
                                     </span>

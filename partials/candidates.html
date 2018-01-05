@@ -1782,9 +1782,9 @@
 
                         <tr ng-show="candidatePreview != undefined && candidatePreview.languages.length > 0">
                             <td class="content-header">
-                                <img src="/images/sprite/lang-g.svg" alt="">
+                                <img ng-class="{'lang-long': candidatePreview.languages.length > 4}" class="lang" src="/images/sprite/lang-g.svg" alt="">
                             </td>
-                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                            <td class="item-in-table langs" style=" padding: 0.5em 0.3em">
                                 <span class="inlineLang" ng-repeat="lang in candidatePreview.languages">{{lang.name}}: <span translate="{{lang.level}}"></span><br/></span>
                             </td>
                         </tr>
@@ -1838,8 +1838,8 @@
                                 <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='skype'"></i>
                             </td>
                         </tr>
-                        <tr ng-show="(candidatePreview.contacts|filter:type = 'linkedin').length > 0">
-                            <td class="content-header"><i class="fa fa-linkedin" aria-hidden="true"></i></td>
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'linkedin').length > 0" style="padding: 0.5em 0.3em">
+                            <td class="content-header" style="padding: 0.5em 0.3em"><i class="fa fa-linkedin" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
                                 <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'linkedin'">
                                     <a target="_blank" href="{{contact.value}}">{{contact.value|cut:true:30}}</a>
