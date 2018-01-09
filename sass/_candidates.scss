@@ -1791,6 +1791,33 @@
 							display: flex;
 							flex-direction: column;
 						}
+						.relocated {
+							& img.relocate {
+								position: absolute;
+								top: calc(50% - 9.5px);
+								right: 10px;
+
+								width: 8%;
+							}
+							& .regions {
+								position: absolute;
+								z-index: 999;
+								top: 3px;
+								right: 12%;
+
+								display: none;
+								padding: 5px;
+
+								border-radius: 5px;
+								background-color: #fff;
+								box-shadow: 0 0 5px 2px #b8b8b8;
+							}
+							&:hover {
+								.regions {
+									display: block;
+								}
+							}
+						}
 					}
 					.content-header {
 						width: 21%;

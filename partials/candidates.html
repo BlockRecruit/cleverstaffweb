@@ -1763,12 +1763,24 @@
                         <tr ng-show="candidatePreview != undefined && candidatePreview.region.city">
                             <td class="content-header">
                                 <img src="/images/sprite/location-g.svg" alt="">
-                                <!--{{'lives_in'|translate}}-->
                             </td>
                             <td class="item-in-table" style="padding: 0.5em 0.3em">
-                                {{candidatePreview.region.displayCity}}
+                                <div>
+                                    <span>{{candidatePreview.region.displayCity}}</span>
+                                    <div class="relocated" ng-show="candidatePreview != undefined && candidatePreview.readyRelocate && candidatePreview.relatedRegions!=undefined">
+                                        <img class="relocate" src="/images/sprite/relocate-g.svg">
+                                        <span class="regions">{{'Relocate' | translate}}:
+                                            <span ng-repeat="region in candidatePreview.relatedRegions">
+                                                {{region.fullName}}&nbsp;
+                                                <span ng-if="candidatePreview.relatedRegions.indexOf(region) !== candidatePreview.relatedRegions.length - 1">,</span>
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
+
+
 
                         <tr ng-show="candidatePreview != undefined && candidatePreview.expirence">
                             <td class="content-header">
@@ -1801,14 +1813,14 @@
                                     </span>
                             </td>
                         </tr>
-                        <tr ng-show="candidatePreview != undefined && candidatePreview.readyRelocate && candidatePreview.relatedRegions!=undefined">
-                            <td class="content-header">
-                                <img src="/images/sprite/relocate-g.svg" alt="">
-                            </td>
-                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
-                                <span ng-repeat="region in candidatePreview.relatedRegions">{{region.fullName}}&nbsp;</span>
-                            </td>
-                        </tr>
+                        <!--<tr ng-show="candidatePreview != undefined && candidatePreview.readyRelocate && candidatePreview.relatedRegions!=undefined">-->
+                            <!--<td class="content-header">-->
+                                <!--<img src="/images/sprite/relocate-g.svg" alt="">-->
+                            <!--</td>-->
+                            <!--<td class="item-in-table" style=" padding: 0.5em 0.3em">-->
+                                <!--<span ng-repeat="region in candidatePreview.relatedRegions">{{region.fullName}}&nbsp;</span>-->
+                            <!--</td>-->
+                        <!--</tr>-->
 
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'mphone').length > 0">
                             <td class="content-header"><i class="fa fa-phone" aria-hidden="true"></i></td>
