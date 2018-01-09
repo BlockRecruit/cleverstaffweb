@@ -918,6 +918,7 @@
 							line-height: 19px;
 						}
 						.email {
+							@include flex(column, flex-start, flex-start);
 							a {
 								display: inline-block;
 							}
@@ -937,6 +938,9 @@
 							line-height: 19px;
 
 							display: block;
+							.preferable-contact {
+								@include flex(column, flex-start, flex-start);
+							}
 						}
 						.homepage,
 						.github,
