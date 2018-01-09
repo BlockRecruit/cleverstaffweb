@@ -1770,10 +1770,13 @@
                                     <div class="relocated" ng-show="candidatePreview != undefined && candidatePreview.readyRelocate && candidatePreview.relatedRegions!=undefined">
                                         <img class="relocate" src="/images/sprite/relocate-g.svg">
                                         <span class="regions">{{'Relocate' | translate}}:
-                                            <span ng-repeat="region in candidatePreview.relatedRegions">
+                                            <span ng-repeat="region in candidatePreview.relatedRegions | limitTo: 2">
                                                 {{region.fullName}}&nbsp;
-                                                <span ng-if="candidatePreview.relatedRegions.indexOf(region) !== candidatePreview.relatedRegions.length - 1">,</span>
+                                                <span>
+                                                    {{$last ? '' : ','}}
+                                                </span>
                                             </span>
+                                            {{candidatePreview.relatedRegions.length > 2 ? '...' : ''}}
                                         </span>
                                     </div>
                                 </div>
