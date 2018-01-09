@@ -2815,6 +2815,8 @@
   "Candidate added in vacancy": "Кандидат добавлен в вакансию",
   "Candidates added in vacancy": "Кандидаты добавлены в вакансию",
   "Select the interview date": "Выберите дату собеседования",
+  "The large quantity of results has been found.": "Найдено большое количество результатов. Показано <b>{{total_count}}</b>. Уточните критерии, чтобы получить более точные результаты",
+  "Show vacancies in the report":"Показать вакансии в отчете",
   "_Previous": "Предыдущая",
   "_Next": "Следующая",
   "_Show": "Отображать",

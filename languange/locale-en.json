@@ -206,7 +206,6 @@
   "client_status_assoc": {
     "future": "Future",
     "in_work": "In Progress",
-    "on_hold": "On hold",
     "all_done": "All Done",
     "canceled": "Canceled",
     "deleted": "Deleted"
@@ -2268,6 +2267,5 @@
   "Export History": "Export History",
   "export":"Export",
   "close window":"Close window",
-  "replacement":"Replacement",
   "_Invited user":"Invited users"
 }

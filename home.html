@@ -18,10 +18,10 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <LINK REL="SHORTCUT ICON" HREF="images/sprite/favicon.png?b3">
-    <link rel="stylesheet" href="dist/css/styles.css?b226">
+    <link rel="stylesheet" href="dist/css/styles.css?b230">
     <link rel="stylesheet" type="text/css" media="print" href="dist/css/print.css" />
     <!--<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>-->
-    <script type="text/javascript" src="dist/js/mainLib.js?b167"></script>
+    <script type="text/javascript" src="dist/js/mainLib.js?b170"></script>
 
 
     <!--<link  href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">-->
@@ -210,7 +210,7 @@
                     <!--<li class="text-center newDesignPage" ng-hide="$root.me.personParams.sendDesignFeedback == 'Y'">-->
                         <!--<a href="#/feedback-new-design">{{'Do you like the new CleverStaff design'|translate}}</a>-->
                     <!--</li>-->
-                    <li class="payMoney hidden-xs hidden-sm">
+                    <li class="payMoney hidden-xs hidden-sm" ng-show="$root.me.recrutRole == 'admin'">
                         <a href="#/pay" class="payment" ng-class="{'low-low-balance': paidFor!==undefined && paidFor <= 4 && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free'),'low-balance': paidFor!==undefined && paidFor <= 7}">
                             <i class="fa fa-usd"></i>
                             <span ng-show="!$root.paidTillDateBilling && $root.companyParams.paidTillDate && paidFor > 7">{{'up to'|translate}}&nbsp;{{$root.companyParams.paidTillDate}}</span>
@@ -1113,10 +1113,8 @@
                     <!--</p>-->
                     <!--<i class="fa fa-times" aria-hidden="true"></i>-->
                     <!--</div>-->
-                    <!--ng-show="!dailyRate || !monthRate"-->
-                    <!--ng-show="dailyRate && monthRate">-->
                     <div class="col-lg-12 payForMonth">
-                        <div id="bilDisabledText"  class="hidden">
+                        <div id="bilDisabledText" class="hidden">
                             <p>{{'CleverStaff is paid for'|translate}} 25 {{'USD per month for each active user'| translate}}</p>
                             <p>{{'Pay1 discount'| translate}}</p>
                         </div>
@@ -1188,9 +1186,9 @@
                             </div>
                         </div>
                         <div class="creditCards">
-                            <!--<div class="text-center important-text">-->
-                                <!--<span>{{'Only account administrator is able to make a payment' | translate}}</span>-->
-                            <!--</div>-->
+                            <div class="text-center important-text">
+                                <span>{{'Only account administrator is able to make a payment' | translate}}</span>
+                            </div>
                             <img class="pull-left" src="../images/sprite/visa-mastercard.png" alt="">
                             <div class="text-center pull-right">
                                 <p id="bonuce" class="hidden">
@@ -1216,7 +1214,7 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZul9dW5-r5WVV1479hAgVxM5Z75C-ykM&libraries=places"></script>
     <script type="text/javascript" src="lib/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b288"></script>
+    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b290"></script>
 
     <!--ЗPignation in TAble-->
     <script type="text/ng-template" id="custom/pager">
