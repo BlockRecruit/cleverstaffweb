@@ -437,10 +437,10 @@
                                 <span>{{'experience'|translate}}:</span>
                                 <span ng-show="candidate.expirence">{{'experience_assoc.' + candidate.expirence|translate}}</span>
                             </a>
-                            <a ng-show="candidate.readyRelocate && candidate.relatedRegions" class="phone">
+                            <a ng-show="candidate.readyRelocate && candidate.relatedRegions" class="phone relocate">
                                 <span>{{'ready_to_relocate'|translate}}:</span>
                                 <div class="clearfix" ng-if="candidate.relatedRegions.length > 1"></div>
-                                <span ng-repeat="region in candidate.relatedRegions"><i class="fa fa-map-marker" aria-hidden="true"></i>{{region.displayFullName}}&nbsp;<br/></span>
+                                <span class="relocateRegions" ng-repeat="region in candidate.relatedRegions"><i class="fa fa-map-marker" aria-hidden="true"></i>{{region.displayFullName}}&nbsp;<br/></span>
                             </a>
                             <a ng-show="candidate.languages.length > 0" class="phone noneNowrap">
                                 <span class="pull-left">{{'languages'|translate}}:</span>
