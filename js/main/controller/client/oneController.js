@@ -139,6 +139,8 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
             if (angular.equals(resp.status, "ok")) {
                 $scope.client = resp.object;
                 $rootScope.client = $scope.client;
+                $scope.selectedStatus = $scope.client.state;
+                console.log($scope.selectedStatus, $scope.client.state);
                 $scope.locationBeforeCustomFields = $location.$$path.replace('/clients/' + $scope.client.localId, 'clients');
                 $localStorage.set('previousHistoryCustomFields', $scope.locationBeforeCustomFields);
                 $rootScope.newTask.clientId = $rootScope.client.clientId;
@@ -427,6 +429,13 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
 
     $scope.showChangeStatusOfClient = function(status) {
         //$('.changeStatusInClient.modal').modal('show');
+        console.log($scope.client);
+        if($scope.client.activeVacanciesNumber !== 0 && status === 'deleted') {
+            notificationService.success($filter('translate')("This client has active vacancy"));
+            $rootScope.clickedSaveClientStatus = false;
+            $scope.selectedStatus = $scope.client.state;
+            return;
+        }
         $rootScope.changeStatusInClient.status = status;
         $rootScope.changeStatusInClient.status_old = $scope.client.state;
         $rootScope.changeStatusInClient.header = $filter('translate')('change_client_status');
