@@ -1041,6 +1041,20 @@ $(document).ready(function () {
         }
         return false;
     });
+    
+    function isLanguageTextErrorForEmail() {
+        var str = '';
+
+        if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'en'){
+            str = 'Please enter valid email';
+        }else if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'ru'){
+            str = 'Пожалуйста, введите корректный email';
+        } else {
+            str = 'Пожалуйста, введите корректный email';
+        }
+
+        return str;
+    }
 
     var ua = navigator.userAgent;
     var msie = ua.indexOf("MSIE ");
@@ -1063,11 +1077,14 @@ $(document).ready(function () {
             res.login = res.login.toLowerCase();
             res.timeZoneOffset = userTimeZoneOffset;
             res.lang = localStorage.getItem("NG_TRANSLATE_LANG_KEY");
-            console.log(res.lang);
+
             //if(!localStorage.getItem("NG_TRANSLATE_LANG_KEY")){
             //    res.lang = 'en';
             //}
             if(res.login === ''){
+                $($('input[name=login]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
+                $($('input[name=login]')).focus();
+            }else if(!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,15})+$/.test(res.login)){
                 $($('input[name=login]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
                 $($('input[name=login]')).focus();
             }
@@ -1091,11 +1108,18 @@ $(document).ready(function () {
                     }
                     if (!mailPattern.test(res.login)) {
                         xhr.abort();
-                        $('.wrong_mail').fadeIn();
+                        $("#error").removeClass('hidden');
+                        $("#error").html(isLanguageTextErrorForEmail());
                         enter_loading = false;
                         clearInterval(timer);
                         return false;
+                    }else{
+                        $("#error").html('');
+                        $("#error").addClass('hidden');
+                        $("input[type='email']").removeAttr('style');
+                        $($('input[name=login]')).css('border','2px solid #61B452');
                     }
+
                     if (res.password === '') {
                         xhr.abort();
                         $('.pass_need').fadeIn();
@@ -1129,7 +1153,7 @@ $(document).ready(function () {
                         $($('input[name=password], #txthdnPassword')).focus();
                         $('#enter_server_message').text(data.message).css('color', 'red');
                     }
-                    console.log(data);
+
                     localStorage.otherSessionsRemoves = data.object ? data.object.otherSessionsRemoves : false;
                   if (data.object && data.object.personId !== undefined) {
                         if (!isIE()) {

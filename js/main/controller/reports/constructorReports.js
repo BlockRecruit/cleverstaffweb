@@ -404,7 +404,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 .then(resp => {
                     if($scope.startVacancyDate && $scope.endDate){
                         $scope.firstTimeLoading = $scope.firstTimeLoading + 1;
-                        console.log( $scope.firstTimeLoading, ' $scope.firstTimeLoading');
                         return Stat.requestGetCountVacancyForActualVacancyStatistic({
                             "from":$scope.startVacancyDate,
                             "to":$scope.endDate,
