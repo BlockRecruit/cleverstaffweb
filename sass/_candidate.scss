@@ -599,20 +599,11 @@
 							position: relative;
 
 							display: inline-block;
-							//<<<<<<< HEAD
 							margin-right: 20px;
 							padding: 12px 0 8px;
 							&.last-child {
 								margin-right: 0;
 							}
-							//							&:last-child {
-							//								margin-right: 0;
-							//							}
-							//=======
-							//							padding: 4px 20px 0 0;
-							//
-							//							vertical-align: top;
-							//>>>>>>> 3034-merge-duplicates
 							#disabledBtn {
 								cursor: pointer;
 
@@ -664,6 +655,12 @@
 											cursor: pointer;
 										}
 									}
+								}
+								&.addVac {
+									width: auto;
+									height: 31px;
+
+									background-image: url("/images/sprite/addVacancy.svg");
 								}
 							}
 							.new-label {
