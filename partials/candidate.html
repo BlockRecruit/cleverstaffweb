@@ -482,10 +482,12 @@
                         </div>
                         <div class="col-lg-6 right-column">
                             <div class="phone"ng-show="(candidate.contacts|filter:type = 'mphone').length > 0">
-                                <span class="preferable-contact" ng-repeat=" contact in candidate.contacts|filter:type = 'mphone'" title="{{contact.value}}">
-                                    <i class="fa fa-phone" style="margin-right: 6px; color: #00B549" aria-hidden="true"></i> {{contact.value | limitTo: 16}}
-                                    <span ng-show="contact.value.length > 16">...</span>
-                                    <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact === 'phone'"></i>
+                                <span class="preferable-contact" ng-repeat=" contact in candidate.contacts|filter:type = 'mphone'" title="{{::contact.value}}">
+                                    <span ng-repeat="phone in ::contact.value.split(',')">
+                                        <i class="fa fa-phone" style="margin-right: 6px; color: #00B549" aria-hidden="true"></i>
+                                            {{::phone}}
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact === 'phone'"></i>
+                                    </span>
                                 </span>
                             </div>
                             <div class="email"
