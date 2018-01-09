@@ -1,6 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
+    <script>
+        if (document.domain === 'cleverstaff.net') {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-52127049-1');
+        }
+    </script>
+    <!-- end of gtag -->
     <meta charset="utf-8">
     <title>Sign Up - CleverStaff</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -68,7 +80,7 @@
                 a.src = g;
                 m.parentNode.insertBefore(a, m)
             })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-            ga('create', 'UA-52127049-4', {
+            ga('create', 'UA-52127049-1', {
                 'cookieDomain': document.domain,
             });
             ga('send', 'pageview');
