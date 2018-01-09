@@ -92,9 +92,9 @@
                                  alt="{{'Add to vacancy'|translate}}"
                                  ng-click="toAddVacancyForm(null, true, false);">
                             <!--<img ng-click="toEdit(candidate.localId)"-->
-                                 <!--class="action-button"-->
-                                 <!--src="../images/sprite/edit.png"-->
-                                 <!--alt="{{'edit_profile'|translate}}">-->
+                            <!--class="action-button"-->
+                            <!--src="../images/sprite/edit.png"-->
+                            <!--alt="{{'edit_profile'|translate}}">-->
                             <img ng-click="showModalAddCommentToCandidate('md');"
                                  ng-show="$root.me.recrutRole != 'client'"
                                  class="action-button"
@@ -344,14 +344,14 @@
                                     {{test.maxPoints}}
                                     {{'Points'|translate}}
                                 </span>
+                                </div>
                             </div>
                         </div>
+                        <div class="col-lg-12 results text-center" ng-show="$root.me.recrutRole != 'salesmanager'">
+                            <a class="send-test" ng-show="candidate.testIds.length > 0" ng-click="$root.sendCandidateToTest($root.candidate, countEmail)" href="">{{'Send test to the candidate'| translate}}</a>
+                            <a class="send-test" ng-show="candidate.testIds.length == 0" href="#/candidate/tests">{{'Create new test'| translate}}</a>
+                        </div>
                     </div>
-                    <div class="col-lg-12 results text-center" ng-show="$root.me.recrutRole != 'salesmanager'">
-                        <a class="send-test" ng-show="candidate.testIds.length > 0" ng-click="$root.sendCandidateToTest($root.candidate, countEmail)" href="">{{'Send test to the candidate'| translate}}</a>
-                        <a class="send-test" ng-show="candidate.testIds.length == 0" href="#/candidate/tests">{{'Create new test'| translate}}</a>
-                    </div>
-                </div>
                 </div>
                 <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12 centerBar">
                     <div class="col-lg-12 profile-menu not-for-print">
@@ -394,11 +394,11 @@
                                 </a>
                             </li>
                             <!--<li ng-show="$root.me.recrutRole != 'client' && $root.me.recrutRole != 'salesmanager' && $root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer'">-->
-                                <!--<a href="" ng-click="toMergeModal()">-->
-                                    <!--<i class="fa fa-users" aria-hidden="true"></i>-->
-                                    <!--{{'Merge Duplicates'|translate}}-->
-                                <!--</a>-->
-                                <!--<i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.candidateMerge" aria-hidden="true"></i>-->
+                            <!--<a href="" ng-click="toMergeModal()">-->
+                            <!--<i class="fa fa-users" aria-hidden="true"></i>-->
+                            <!--{{'Merge Duplicates'|translate}}-->
+                            <!--</a>-->
+                            <!--<i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.candidateMerge" aria-hidden="true"></i>-->
                             <!--</li>-->
                             <input type="file" oi-file="optionsForTemplate" id="fileTemplate" class="hidden"/>
                             <a style="display: none;" id="downloadDoc"></a>
@@ -409,8 +409,8 @@
                             </li>
                         </ul>
                         <!--<img ng-click="toAddVacancyForm(null, true, false);"-->
-                             <!--src="../images/sprite/addVacancy.png" alt="{{'Add to vacancy'|translate}}"-->
-                             <!--class="addVacancy-icon-tablet">-->
+                        <!--src="../images/sprite/addVacancy.png" alt="{{'Add to vacancy'|translate}}"-->
+                        <!--class="addVacancy-icon-tablet">-->
                         <!--<a href="" ng-click="showModalAddCommentToCandidate('md');" class="pull-right move-bot"><i class="fa fa-pencil" aria-hidden="true"></i>{{'add_comment'|translate}}</a>-->
                     </div>
                     <div class="main-info col-lg-12">
@@ -477,7 +477,7 @@
                                 <span ng-show="fieldValue.type == 'datetime' && fieldValue.state == 'A'">{{fieldValue.fieldValue.dateTimeValue|dateFormat2:true}}</span>
                             </a>
                             <!--<a href="#/company/custom-fields" class="find-button"  ng-show="$root.me.recrutRole == 'admin'">-->
-                                <!--{{'Add/Edit custom field'|translate}}-->
+                            <!--{{'Add/Edit custom field'|translate}}-->
                             <!--</a>-->
                         </div>
                         <div class="col-lg-6 right-column">
@@ -493,7 +493,7 @@
                             <div class="email"
                                  style="margin-bottom: 7px" ng-show="(candidate.contacts|filter:type = 'email').length > 0">
                                 <span class="preferable-contact"
-                                      style="line-height: 0px; display: flex; flex-direction: column; margin-bottom: 15px"
+                                      style="line-height: 0px; display: inline-flex; flex-direction: column; margin-bottom: 15px"
                                       ng-repeat="contact in multipleContacts['email'] track by $index"
                                       title="{{contact}}">
                                     <a  style="line-height: 0px"  href="mailto:{{contact}}">
@@ -672,7 +672,7 @@
                         </div>
                         <div class="row event last-action">
                             <div ng-show="candidateTasks.length > 0"
-                                  ng-repeat="task in candidateTasks" ng-click="showModalEditTaskToCandidate(task)"
+                                 ng-repeat="task in candidateTasks" ng-click="showModalEditTaskToCandidate(task)"
                                  title="{{'View more'| translate}}" id="{{task.taskId}}"
                                  ng-class="{'finishedTask':task.targetDate < todayDate && task.status != 'completed'}"
                                  class="col-lg-12 col-md-12 pull-left">
