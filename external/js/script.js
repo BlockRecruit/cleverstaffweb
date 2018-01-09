@@ -1134,19 +1134,19 @@ $(document).ready(function () {
                     if(data.message == 'unknownEmail'){
                         $($('input[name=login]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
                         $($('input[name=login]')).focus();
-                        $('#enter_server_message').css('display', 'none');
-                        $("#error").css('display', 'block');
-                        if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'en'){
-                            $("#error").html('Seems like you entered the incorrect information. Please enter the correct one.');
-                        }else if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'ru'){
-                            $("#error").html('Кажется, вы ввели неверные данные. Пожалуйста, попробуйте ещё раз.');
-                        } else {
-                          $("#error").html('Seems like you entered the incorrect information. Please enter the correct one.');
-                        }
-                        $("#error").removeClass("hidden");
-                        setTimeout(function(){
-                            $("#error").hide();
-                        },5000);
+                        // $('#enter_server_message').css('display', 'none');
+                        // $("#error").css('display', 'block');
+                        // if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'en'){
+                        //     $("#error").html('Seems like you entered the incorrect information. Please enter the correct one.');
+                        // }else if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'ru'){
+                        //     $("#error").html('Кажется, вы ввели неверные данные. Пожалуйста, попробуйте ещё раз.');
+                        // } else {
+                        //   $("#error").html('Seems like you entered the incorrect information. Please enter the correct one.');
+                        // }
+                        // $("#error").removeClass("hidden");
+                        // setTimeout(function(){
+                        //     $("#error").hide();
+                        // },5000);
                     }else{
                         $($('input[name=login]')).css('border','2px solid #61B452');
                         $($('input[name=password], #txthdnPassword')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
