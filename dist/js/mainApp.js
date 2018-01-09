@@ -8058,8 +8058,8 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithCandidates($scope) {
             Stat.requestGetActualVacancyStatistic2({
-                "from": this.dataReport['dateFrom'],
-                "to": this.dataReport['dateTo'],
+                "from": (this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'],
+                "to": (this.endDate)? this.endDate : this.dataReport['dateTo'],
                 "types":null,
                 "vacancyId":null,
                 "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"] : null,
