@@ -1822,6 +1822,14 @@
 					a {
 						@include link-styling();
 					}
+					.non-hover {
+						&:hover {
+							color: #0096f5;
+						}
+						& > .email-hover:hover {
+							color: gold;
+						}
+					}
 				}
 				&:first-child {
 					border-top-style: hidden;
