@@ -1811,6 +1811,20 @@
 								border-radius: 5px;
 								background-color: #fff;
 								box-shadow: 0 0 5px 2px #b8b8b8;
+								& .region {
+									display: block;
+									margin-left: 60px;
+									&.first {
+										display: inline-block;
+										margin-left: 6px;
+									}
+									&.last {
+										display: inline-block;
+									}
+								}
+								& .dots {
+									display: inline-block;
+								}
 							}
 							&:hover {
 								.regions {
