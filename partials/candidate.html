@@ -488,18 +488,14 @@
                                     <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact === 'phone'"></i>
                                 </span>
                             </div>
-                            <div class="email"
-                                 style="margin-bottom: 7px" ng-show="(candidate.contacts|filter:type = 'email').length > 0">
-                                <span class="preferable-contact"
-                                      style="line-height: 0px; display: flex; flex-direction: column; margin-bottom: 15px"
-                                      ng-repeat="contact in multipleContacts['email'] track by $index"
-                                      title="{{contact}}">
-                                    <a  style="line-height: 0px"  href="mailto:{{contact}}">
+                            <div class="email" ng-show="(candidate.contacts|filter:type = 'email').length > 0">
+                                <span class="preferable-contact" ng-repeat="contact in multipleContacts['email'] track by $index" title="{{contact}}">
+                                    <a style="line-height: 0px"  href="mailto:{{contact}}">
                                         <i class="fa fa-envelope" style="margin-right: 1px" aria-hidden="true"></i>
                                         {{contact| limitTo: 30}}
                                         <span ng-show="contact.length > 30">...</span>
                                     </a>
-                                    <i class="fa fa-star"  style="top: 0x !important" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'mail'"></i>
+                                    <i class="fa fa-star"  style="top: 0 !important" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'mail'"></i>
                                 </span>
                             </div>
                             <div class="skype" ng-show="(candidate.contacts|filter:type = 'skype').length > 0">
@@ -511,11 +507,6 @@
                                     </span>
                                 </span>
                             </div>
-                            <a class="skype" ng-show="(candidate.contacts|filter:type = 'skype').length > 0">
-                                <div ng-repeat=" contact in candidate.contacts|filter:type = 'Skype'" title="{{contact.value}}">
-                                    <i class="fa fa-skype" aria-hidden="true"></i> <span>{{contact.value}}</span>
-                                </div>
-                            </a>
                             <div class="linkedin" ng-show="(candidate.contacts|filter:type = 'linkedin').length > 0">
                                 <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['linkedin'] track by $index" title="{{contact}}">
                                     <a target="_blank" class="not-for-print" href="{{::contact| makeLink}}">
@@ -598,7 +589,8 @@
                                 {{candidate.origin}}
                             </a>
                             <div class="linkedProfiles" ng-show="linkedCandidate.length > 0">
-                                <i class="fa fa-link" aria-hidden="true"></i>
+                                <span>
+                                     <i class="fa fa-link" aria-hidden="true"></i>
                                 {{'Linked profiles'|translate}}
                                 <div ng-repeat="linkedOneCandidate in linkedCandidate">
                                     <a ng-href="{{linkedOneCandidate.url}}" title="{{'Show profile'|translate}}">
@@ -606,6 +598,7 @@
                                     </a><i class="fa fa-times unbind" ng-click="removeLinkedinConnect(linkedOneCandidate.resourseType)" title="{{'Unlink profile'|translate}}"></i><span>{{$last ? '' : ', '}}</span>
                                 </div>
                                 <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.unlinkProfile" aria-hidden="true"></i>
+                                </span>
                             </div>
                         </div>
                         <div class=" col-lg-12 coreSkills" ng-show="candidate.skills.length > 0">
