@@ -656,12 +656,6 @@
 										}
 									}
 								}
-								&.addVac {
-									width: auto;
-									height: 31px;
-
-									background-image: url("/images/sprite/addVacancy.svg");
-								}
 							}
 							.new-label {
 								position: absolute;
@@ -1606,6 +1600,8 @@
 						display: block;
 						& > img.action-button {
 							display: block;
+							width: 31px;
+							height: 31px;
 							margin: 18px auto;
 							&:hover {
 								cursor: pointer;
