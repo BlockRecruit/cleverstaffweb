@@ -22056,6 +22056,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 }
             };
             var sourceForCoreSkills = function () {
+                console.log(src);
                 if(src === '1') {
                     $scope.secondCoreSkills  = false;
                     $scope.candidate[type] = $scope.candidateBeforeMerge[type];
@@ -22069,7 +22070,9 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     $('button.active').removeClass('coreSkills');
                     $('button.coreSkills').css('border', 'none');
                 }else if(src === '3'){
+                    console.log('1q1');
                     $scope.candidate[type] = $scope.candidateBeforeMerge[type].concat($scope.candidate2[type]);
+                    console.log($scope.candidate[type]);
                     $scope.src.coreSkills = '3';
                 }
             };
@@ -22087,7 +22090,9 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     $('button.active').removeClass('skills');
                     $('button.skills').css('border', 'none');
                 }else if(src === '3'){
+                    console.log('1q1');
                     $scope.candidate[type] = $scope.candidateBeforeMerge[type].concat($scope.candidate2[type]);
+                    console.log($scope.candidate[type]);
                     $scope.src.skills = '3';
                 }
             };
@@ -22105,7 +22110,9 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     $('button.active').removeClass('descr');
                     $('button.descr').css('border', 'none');
                 }else if(src === '3'){
+                    console.log('1q1');
                     $scope.candidate[type] = $scope.candidateBeforeMerge[type].concat($scope.candidate2[type]);
+                    console.log($scope.candidate[type]);
                     $scope.src.descr = '3';
                 }
             };
@@ -22734,10 +22741,10 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     candidate.files = $scope.candidate2.files;
                     candidate.files = candidate.files.concat($scope.candidateBeforeMerge.files);
                 }
-                console.log($scope.candidate);
                 candidate.languages = [];
                 if ($scope.candidateBeforeMerge.languages.length > 0 && !$scope.secondLanguages) {
                     angular.forEach($scope.candidateBeforeMerge.languages, function (val) {
+                        console.log(val);
                         if(val.level != undefined && val.level != ''){
                             candidate.languages.push({ name: val.name, level: val.level});
                         }
@@ -22868,21 +22875,10 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 }else if ($scope.candidate2.origin) {
                     candidate.origin = $scope.candidate2.origin;
                 }
-                $scope.skillsTwoCandidates = [];
                 if ($scope.candidateBeforeMerge.skills.length > 0 && !$scope.secondSkills) {
-                    angular.forEach(candidate.skills, function (val) {
-                        if(val.level != undefined && val.level != ''){
-                            $scope.skillsTwoCandidates.push({ name: val.name, level: val.level});
-                            candidate.skills = $scope.skillsTwoCandidates;
-                        }
-                    });
+                    candidate.skills = $scope.candidate.skills;
                 }else if ($scope.candidate2.skills.length > 0) {
-                    angular.forEach(candidate.skills, function (val) {
-                        if(val.level != undefined && val.level != ''){
-                            $scope.skillsTwoCandidates.push({ name: val.name, level: val.level});
-                            candidate.skills = $scope.skillsTwoCandidates;
-                        }
-                    });
+                    candidate.skills = $scope.candidate.skills;
                 }
                 if ($scope.candidateBeforeMerge.coreSkills && !$scope.secondCoreSkills) {
                     candidate.coreSkills = $scope.candidate.coreSkills;
@@ -22899,7 +22895,9 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 }
                 var mergeData  = $scope.candidate2.candidateId;
                 console.log(candidate);
-                $http.put(serverAddress + '/candidate/' + 'mergeCandidates?duplicateId=' + mergeData, candidate).then(function (val) {
+                $http.put(
+                    serverAddress + '/candidate/' + 'mergeCandidates?duplicateId=' + mergeData, candidate
+                ).then(function (val) {
                     console.log(val);
                     if (angular.equals(val.data.status, "ok")) {
                         notificationService.success($filter('translate')('You successfully merged candidates’ profiles'));
@@ -27043,8 +27041,6 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
             if (angular.equals(resp.status, "ok")) {
                 $scope.client = resp.object;
                 $rootScope.client = $scope.client;
-                $scope.selectedStatus = $scope.client.state;
-                console.log($scope.selectedStatus, $scope.client.state);
                 $scope.locationBeforeCustomFields = $location.$$path.replace('/clients/' + $scope.client.localId, 'clients');
                 $localStorage.set('previousHistoryCustomFields', $scope.locationBeforeCustomFields);
                 $rootScope.newTask.clientId = $rootScope.client.clientId;
@@ -27333,13 +27329,6 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
 
     $scope.showChangeStatusOfClient = function(status) {
         //$('.changeStatusInClient.modal').modal('show');
-        console.log($scope.client);
-        if($scope.client.activeVacanciesNumber !== 0 && status === 'deleted') {
-            notificationService.success($filter('translate')("This client has active vacancy"));
-            $rootScope.clickedSaveClientStatus = false;
-            $scope.selectedStatus = $scope.client.state;
-            return;
-        }
         $rootScope.changeStatusInClient.status = status;
         $rootScope.changeStatusInClient.status_old = $scope.client.state;
         $rootScope.changeStatusInClient.header = $filter('translate')('change_client_status');
@@ -29771,7 +29760,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     });
                 }
 
-                // if($rootScope.me.recrutRole == 'admin') {
+                if($rootScope.me.recrutRole == 'admin') {
                     Account.getAccountInfo(function(resp){
                         if(resp.status != 'error'){
                             if(resp.object && resp.object.tillDate) {
@@ -29944,7 +29933,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         }
                         //////////////
                     });
-                // }
+                }
 
                 if($rootScope.modalInstance){
                     $rootScope.modalInstance.closed.then(function(){
@@ -31520,6 +31509,11 @@ controller.controller('usersController', ["$localStorage", "$translate", "$scope
 
         $scope.toHistory = function () {
             $location.path("/organizer/history");
+        };
+
+        $scope.rotateTringle = function (event){
+           let element = event.delegateTarget.children[0];
+            $(element).toggleClass('fa-sort-desc-rotate');
         };
 
         if (window.location.hash.indexOf("invite") != -1) {
@@ -42539,6 +42533,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 .then(resp => {
                     if($scope.startVacancyDate && $scope.endDate){
                         $scope.firstTimeLoading = $scope.firstTimeLoading + 1;
+                        console.log( $scope.firstTimeLoading, ' $scope.firstTimeLoading');
                         return Stat.requestGetCountVacancyForActualVacancyStatistic({
                             "from":$scope.startVacancyDate,
                             "to":$scope.endDate,
