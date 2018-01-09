@@ -405,7 +405,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     return Promise.reject();
                 })
                 .then(resp => concatCastomOrStandartFields(resp['objects'], $scope.fieldsList),resp => true)
-                .then(resp => Vacancy.getAllVacansies())
+                .then(resp => Vacancy.getAllVacansies({from:$scope.startVacancyDate,to:$scope.endDate}))
                 .then(resp => $scope.fieldsVacancyList = resp.objects)
                 .then(resp => {
                     if($scope.startVacancyDate && $scope.endDate){

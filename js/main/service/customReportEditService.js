@@ -437,7 +437,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                         this.fieldsList = checkPropertyFyelds(this.data.сustomVacancyFields, this.fieldsList);
                         return true;
                      })
-                    .then(resp => Vacancy.getAllVacansies())
+                    .then(resp => Vacancy.getAllVacansies({from:singleton.editReport.dateFrom,to:singleton.editReport.dateTo}))
                     .then(resp => {
                         this.fieldsVacancyList = checkPropertiesListVacancies(this.data.vacancyIds, resp.objects)
                         $rootScope.loading = false;

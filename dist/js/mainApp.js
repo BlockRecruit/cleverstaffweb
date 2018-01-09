@@ -7743,7 +7743,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                         this.fieldsList = checkPropertyFyelds(this.data.сustomVacancyFields, this.fieldsList);
                         return true;
                      })
-                    .then(resp => Vacancy.getAllVacansies())
+                    .then(resp => Vacancy.getAllVacansies({from:singleton.editReport.dateFrom,to:singleton.editReport.dateTo}))
                     .then(resp => {
                         this.fieldsVacancyList = checkPropertiesListVacancies(this.data.vacancyIds, resp.objects)
                         $rootScope.loading = false;
@@ -13196,7 +13196,7 @@ angular.module('services.vacancy', [
         };
     };
     vacancy.init();
-    vacancy.getAllVacansies = (params) => $q((resolve, reject) =>vacancy.getVacanciesForReport(response => resolve(response), error => reject(error)));
+    vacancy.getAllVacansies = (params) => $q((resolve, reject) =>vacancy.getVacanciesForReport(params, response => resolve(response), error => reject(error)));
     return vacancy;
 }
 ]);
@@ -41321,7 +41321,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     return Promise.reject();
                 })
                 .then(resp => concatCastomOrStandartFields(resp['objects'], $scope.fieldsList),resp => true)
-                .then(resp => Vacancy.getAllVacansies())
+                .then(resp => Vacancy.getAllVacansies({from:$scope.startVacancyDate,to:$scope.endDate}))
                 .then(resp => $scope.fieldsVacancyList = resp.objects)
                 .then(resp => {
                     if($scope.startVacancyDate && $scope.endDate){
