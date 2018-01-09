@@ -490,11 +490,6 @@
                                     </span>
                                 </span>
                             </div>
-<<<<<<< HEAD
-                            <div class="email" ng-show="(candidate.contacts|filter:type = 'email').length > 0">
-                                <span class="preferable-contact" ng-repeat="contact in multipleContacts['email'] track by $index" title="{{contact}}">
-                                    <a style="line-height: 0px"  href="mailto:{{contact}}">
-=======
                             <div class="email"
                                  style="margin-bottom: 7px" ng-show="(candidate.contacts|filter:type = 'email').length > 0">
                                 <span class="preferable-contact"
@@ -502,7 +497,6 @@
                                       ng-repeat="contact in multipleContacts['email'] track by $index"
                                       title="{{contact}}">
                                     <a  style="line-height: 0px"  href="mailto:{{contact}}">
->>>>>>> d16e2f23b28c5262750021c112aea3593bc658d2
                                         <i class="fa fa-envelope" style="margin-right: 1px" aria-hidden="true"></i>
                                         {{contact| limitTo: 30}}
                                         <span ng-show="contact.length > 30">...</span>
