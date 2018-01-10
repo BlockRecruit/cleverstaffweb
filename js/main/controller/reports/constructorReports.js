@@ -9,6 +9,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         $scope.timeMaxZone = false;
         $scope.timeMaxZone2 = false;
         $scope.updateReportBtn = false;
+        $scope.fieldsVacancyList = [];
         $scope.firstTimeLoading = 0;
         $scope.vacancysStatusesParam =[];
         $scope.inVacancysStatusesParam =[];
@@ -324,6 +325,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         }
 
         $scope.createReport = function(ifCheck){
+
             if($scope.checkListFields.length == 0 && $scope.checkCustomListFields.length == 0){
                 $scope.checkListFieldsLength = true;
                 return;
@@ -403,8 +405,13 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     return Promise.reject();
                 })
                 .then(resp => concatCastomOrStandartFields(resp['objects'], $scope.fieldsList),resp => true)
-                .then(resp => Vacancy.getAllVacansies({from:$scope.startVacancyDate,to:$scope.endDate}))
-                .then(resp => $scope.fieldsVacancyList = resp.objects)
+                .then(resp => {
+                    let data = $scope.fieldsVacancyList;
+                    if(data && !data.length){
+                       return Vacancy.getAllVacansies({from:$scope.startVacancyDate,to:$scope.endDate})
+                    }else {return Promise.reject()}
+                })
+                .then(resp => $scope.fieldsVacancyList = resp.objects, resp => true)
                 .then(resp => {
                     if($scope.startVacancyDate && $scope.endDate){
                         $scope.firstTimeLoading = $scope.firstTimeLoading + 1;
