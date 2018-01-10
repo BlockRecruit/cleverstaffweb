@@ -1790,7 +1790,6 @@
                         <tr ng-show="candidatePreview != undefined && candidatePreview.expirence">
                             <td class="content-header">
                                 <img class="exp" src="/images/sprite/exp-g.svg" alt="">
-                                <!--{{'experience'|translate}}-->
                             </td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
                                 {{'experience_assoc.'+candidatePreview.expirence|translate}}
@@ -1805,6 +1804,7 @@
                                 <span class="inlineLang" ng-repeat="lang in candidatePreview.languages">{{lang.name}}: <span translate="{{lang.level}}"></span><br/></span>
                             </td>
                         </tr>
+
                         <tr ng-show="candidatePreview != undefined && candidatePreview.employmentType">
                             <td class="content-header">
                                 <!--{{'employment_type'|translate}}-->
@@ -1818,14 +1818,15 @@
                                     </span>
                             </td>
                         </tr>
-                        <!--<tr ng-show="candidatePreview != undefined && candidatePreview.readyRelocate && candidatePreview.relatedRegions!=undefined">-->
-                            <!--<td class="content-header">-->
-                                <!--<img src="/images/sprite/relocate-g.svg" alt="">-->
-                            <!--</td>-->
-                            <!--<td class="item-in-table" style=" padding: 0.5em 0.3em">-->
-                                <!--<span ng-repeat="region in candidatePreview.relatedRegions">{{region.fullName}}&nbsp;</span>-->
-                            <!--</td>-->
-                        <!--</tr>-->
+
+                        <tr ng-show="!candidatePreview.region.city && candidatePreview != undefined && candidatePreview.readyRelocate && candidatePreview.relatedRegions!=undefined">
+                            <td class="content-header">
+                                <img tooltip-class="customClass" uib-tooltip="{{'ready_to_relocate' | translate}}" src="/images/sprite/relocate-g.svg" alt="">
+                            </td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em">
+                                <span ng-repeat="region in candidatePreview.relatedRegions">{{region.fullName}}&nbsp;</span>
+                            </td>
+                        </tr>
 
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'mphone').length > 0">
                             <td class="content-header"><i class="fa fa-phone" aria-hidden="true"></i></td>
@@ -1837,6 +1838,7 @@
                                    ng-show="candidatePreview.preferableContact === 'phone'"></i>
                             </td>
                         </tr>
+
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'email').length > 0">
                             <td class="content-header"><i class="fa fa-envelope" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em; position: relative;">
@@ -1850,6 +1852,7 @@
                                 <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact == 'mail'"></i>
                             </td>
                         </tr>
+
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'skype').length > 0">
                             <td class="content-header"><i class="fa fa-skype" aria-hidden="true"></i> </td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
@@ -1859,6 +1862,7 @@
                                 <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='skype'"></i>
                             </td>
                         </tr>
+
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'linkedin').length > 0">
                             <td class="content-header" style="padding: 0.5em 0.3em"><i class="fa fa-linkedin" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
@@ -1868,6 +1872,7 @@
                                 <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='linkedin'"></i>
                             </td>
                         </tr>
+
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'facebook').length > 0">
                             <td class="content-header"><i class="fa fa-facebook" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
@@ -1877,6 +1882,7 @@
                                 <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='facebook'"></i>
                             </td>
                         </tr>
+
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'googleplus').length > 0">
                             <td class="content-header"><i class="fa fa-google-plus" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
@@ -1886,6 +1892,7 @@
                                 <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='google'"></i>
                             </td>
                         </tr>
+
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'homepage').length > 0">
                             <td class="content-header"><i class="fa fa-home" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em;word-break: break-word;">

@@ -17887,7 +17887,7 @@ input.cmn-toggle-round:checked + label:after {
     position: relative;
     overflow-x: hidden;
     overflow-y: auto;
-    min-height: 160px;
+    min-height: 175px;
     max-height: 320px; }
     #candidate_preview .ui.vertically.divided-grid .candidatePreview-info {
       font-size: 85%; }
