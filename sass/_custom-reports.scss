@@ -1,7 +1,20 @@
 .block-custom-reports {
-	.error-message {
-	}
+	h4 {
+		font-size: 16px;
+		font-weight: 600;
 
+		margin: 0;
+		padding: 0;
+
+		background: none !important;
+	}
+	.active {
+		display: block !important;
+		visibility: visible !important;
+		max-height: 200px !important;
+		padding-top: 16px !important;
+		padding-bottom: 16px !important;
+	}
 	main {
 		padding: 0 15px;
 	}
@@ -280,10 +293,60 @@
 	}
 
 	.form {
+		padding: 8px 8px;
+		padding-bottom: 0;
+
+		border-radius: 5px;
+		background: #fff;
 		.fields {
+			@include flex(row, space-between, center);
+
 			position: relative;
 
-			width: 50%;
+			width: 100%;
+			&-title {
+				@include flex(row, space-between, center);
+				.select-content {
+					position: absolute;
+					z-index: 999;
+					top: 110%;
+					left: 0;
+
+					visibility: hidden;
+					overflow: hidden;
+					width: 100%;
+					max-height: 0;
+					margin: 0;
+					padding: 0 8px;
+
+					transition: all 0.5s ease-in;
+
+					border-radius: 5px;
+					background-color: #fff;
+					box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1);
+				}
+				&-select {
+					input {
+						@include input-styling();
+						@include border-radius();
+
+						border: 1px solid #e3e3e3;
+						outline: none;
+					}
+					li {
+						margin: 0;
+						padding: 0;
+						padding-bottom: 3px;
+
+						list-style: none;
+
+						cursor: pointer;
+						&:hover {
+							color: #f0ad4e;
+						}
+					}
+				}
+			}
 			.field {
 				input {
 					@include input-styling();
@@ -292,6 +355,8 @@
 					width: 100px;
 					margin-left: 15px;
 					padding-left: 10px;
+
+					cursor: pointer;
 					&:focus {
 						outline: none;
 					}
@@ -315,8 +380,8 @@
 			.info-content {
 				position: absolute;
 				z-index: 10;
-				top: -50px;
-				left: 433px;
+				top: 115%;
+				left: 0;
 
 				display: none;
 				width: 480px;
@@ -328,6 +393,18 @@
 				background-color: #fff;
 				box-shadow: 0 0 5px 2px #b8b8b8;
 			}
+		}
+	}
+	.button-outer {
+		.btn-update {
+			font-weight: 600;
+
+			padding: 3px 12px;
+
+			color: #202021;
+			border: none;
+			border-radius: 5px;
+			background-color: #ffc100;
 		}
 	}
 }

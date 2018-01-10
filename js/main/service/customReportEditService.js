@@ -1,6 +1,8 @@
 function CustomReportEditService($rootScope, Stat, $translate, Company, Person, vacancyStages, notificationService, CustomReportsService, $timeout, $uibModal, translateWords, $location, CustomField, $filter, Vacancy) {
     try{
-        let vacancyStatuses, fieldsListStart,
+        let vacancyStatuses,
+            fieldsListStart,
+            activeBlocks = [],
             singleton = {
                 editReport: {}
             };
@@ -146,9 +148,12 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                     count: 0,
                     type: "refuse"
                 }
-            ];
+            ],
                 singleton.editReport = angular.copy(CustomReportsService.data);
+                singleton.dateRange = ['currentWeek','previousWeek','currentMonth', 'previousMonth', 'currentYear', 'previousYear', 'customRange'];
+
         }
+
         function concatCastomOrStandartFields(custom, standart) {
             console.log(custom, standart, 'custom, standart');
             custom.forEach(item => {
@@ -328,7 +333,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                     selectPerson.push(i)
                 }
             }
-            console.log(this.vacancyStatuses, 'this.vacancyStatuses')
 
             this.data.interviewCreatorIds = selectPerson;
             this.data.withCandidates      = this.data.withCandidates;
@@ -395,6 +399,19 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             });
 
             return responseData;
+        }
+
+        function _showBlocks(blockShow){
+            activeBlocks.push(blockShow);
+            blockShow.classList.toggle('active');
+        }
+
+        function _hiddenBlocks() {
+            for(let i = 0; i < activeBlocks.length; i++){
+                activeBlocks[i].classList.remove('active');
+                activeBlocks.splice(i,1);
+                i -= 1;
+            }
         }
 
         resetDefaultData();
@@ -521,7 +538,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                 "from": this.data.dateFrom,
                 "to": this.data.dateTo,
                 "types": null,
-                "vacancyId": null,
                 "vacancyIds": this.data.vacancyIds,
                 "vacancyStatuses": this.data.vacancyStatuses,
                 "interviewStatuses": this.data.interviewStatuses,
@@ -570,6 +586,45 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             showSelectStages.apply(this,[data, data['select']]);
             checkOnChange.call(this)
         };
+
+        singleton.selectDateRange = function (event, dateRange) {
+            let currentDate = new Date(),
+                currentDateStart = new Date(),
+                currentDateFinish = new Date();
+            this.disabled = true;
+            this.selectRange = dateRange;
+
+            if(dateRange == 'currentWeek'){
+                currentDateStart.setDate(currentDate.getDate() - (currentDate.getDay() - 1));
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousWeek'){
+                currentDateStart.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 7);
+                currentDateFinish.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 1);
+            }else if(dateRange == 'currentMonth'){
+                currentDateStart.setDate(1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousMonth'){
+                currentDateStart.setMonth(currentDate.getMonth() - 1, 1);
+                currentDateFinish.setMonth(currentDate.getMonth(),  0);
+            }else if(dateRange == 'currentYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear(),0,1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear() - 1,0,1);
+                currentDateFinish.setFullYear(currentDate.getFullYear(), 0, 0);
+            }else if(dateRange == 'customRange'){
+                this.disabled = false;
+            }
+
+            this.startVacancyDate =  +new Date(currentDateStart);
+            this.endDate =  +new Date(currentDateFinish);
+            $(".startDate").datetimepicker("setDate", new Date(currentDateStart));
+            $(".endDate").datetimepicker("setDate", new Date(currentDateFinish));
+            checkOnChange.call(this)
+        };
+
+        singleton.hiddenBlocks = _hiddenBlocks;
+        singleton.showBlocks = _showBlocks;
 
         return singleton;
     }catch(error){

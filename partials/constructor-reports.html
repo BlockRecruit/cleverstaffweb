@@ -1,4 +1,4 @@
-<div class="block-constructor-reports">
+<div class="block-constructor-reports" ng-click="showBlocks($event)">
     <header style="position: relative;">
         <h3 class="title">{{"Design custom report"| translate}}</h3>
         <p class="description">{{"Custom reports designer allows you build your own reports with appropriate parameters."|translate}}</p>
@@ -269,17 +269,42 @@
                 <div class="wrapper-for-padding-right col-lg-6">
                     <div class="form">
                         <div class="two fields">
-                            <div class="field pull-left" style="margin-right: 10px;">
-                                <h4 class="pull-left" style="margin-right: 8px;">{{'Date' | translate}}:</h4>
-                                <label class="pull-left">{{'from3'|translate}}</label>
-                                <input placeholder="{{'from3'|translate}}" class="startDate pull-left" style="margin-left: 8px;" type="text">
+                            <div class="fields-title">
+                                <h4 class="pull-left" style="margin-right: 8px;">{{"Time range"|translate}}:</h4>
+                                <div class="fields-title-select" style="position: relative;">
+                                    <input type="text"
+                                           data-show="select-content"
+                                           disabled
+                                           style="cursor: pointer;"
+                                           ng-init="selectRange = 'previousWeek'"
+                                           ng-value="selectRange | translate">
+                                    <ul  class="select-content" id="select-content">
+                                        <li ng-repeat="date in dateRange track by $index" ng-click="selectDateRange($event, date)" ng-bind="date|translate"></li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="field pull-left">
-                                <label class="pull-left">{{'to1'|translate}}</label>
-                                <input placeholder="{{'to1'|translate}}" class="endDate pull-left" type="text">
+                            <div class="wrap-datepicker">
+                                <div class="field pull-left" style="margin-right: 10px;">
+                                    <label class="pull-left">{{'from3'|translate}}</label>
+                                    <input placeholder="{{'from3'|translate}}"
+                                           class="startDate pull-left" style="margin-left: 8px;"
+                                           ng-style="disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
+                                           ng-disabled="disabled" type="text">
+                                </div>
+                                <div class="field pull-left">
+                                    <label class="pull-left">{{'to1'|translate}}</label>
+                                    <input placeholder="{{'to1'|translate}}"
+                                           class="endDate pull-left"
+                                           ng-style="disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
+                                           ng-disabled="disabled"
+                                           type="text">
+                                </div>
+                                <i class="fa fa-info-circle info" ng-mouseover="inHover()" ng-mouseleave="outHover()"></i>
+                                <div class="info-content">
+                                    <p>{{"This filter 'by date' in the report shows the last date when a candidate was moved to a new vacancy stage." | translate}}</p>
+                                    <p>{{"The filter is not applied for dates of vacancy creation and date when a candidate was added to a vacancy." | translate}}</p>
+                                </div>
                             </div>
-                            <i class="fa fa-info-circle info" ng-mouseover="inHover()" ng-mouseleave="outHover()"></i>
-                            <div class="info-content"><p>{{"This filter 'by date' in the report shows the last date when a candidate was moved to a new vacancy stage." | translate}}</p><p>{{"The filter is not applied for dates of vacancy creation and date when a candidate was added to a vacancy." | translate}}</p></div>
                         </div>
                         <div  style="display: inline-block" class="alert alert-danger" ng-show="timeMaxZone || timeMaxZone2">{{"The selected date can not be more than the current date."|translate}}</div>
                     </div>

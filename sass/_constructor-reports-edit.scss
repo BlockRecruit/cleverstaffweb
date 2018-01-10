@@ -4,6 +4,13 @@
 	padding: 15px;
 
 	background: none !important;
+	.active {
+		display: block !important;
+		visibility: visible !important;
+		max-height: 200px !important;
+		padding-top: 8px !important;
+		padding-bottom: 8px !important;
+	}
 	.header {
 		@include flex();
 	}
@@ -27,7 +34,7 @@
 		}
 	}
 	footer {
-		margin-left: 15px;
+		margin-left: 7px;
 	}
 	header {
 		margin-bottom: 16px;
@@ -531,6 +538,8 @@
 
 	.candidate-show {
 		display: flex;
+
+		align-items: center;
 		button {
 			position: relative;
 
@@ -644,6 +653,7 @@
 
 	.chooseUsers {
 		position: relative;
+		top: 5px;
 
 		padding-left: 8px;
 
@@ -763,23 +773,91 @@
 
 	.form {
 		padding: 16px 8px;
+		padding-bottom: 0;
 
 		border-radius: 5px;
 		background: #fff;
 		.fields {
+			@include flex(row, flex-start, center);
+
 			position: relative;
 
 			width: 100%;
+
+			flex-wrap: wrap;
+			&-title {
+				@include flex(row, space-between, center);
+
+				margin-bottom: 10px;
+
+				flex-grow: 0.1;
+				.fields-title-select {
+					position: relative;
+
+					flex-grow: 1;
+				}
+				.select-content {
+					position: absolute;
+					z-index: 999;
+					top: 110%;
+					left: 0;
+
+					visibility: hidden;
+					overflow: hidden;
+					width: 100%;
+					max-height: 0;
+					margin: 0;
+					padding: 0 8px;
+
+					transition: all 0.5s ease-in;
+
+					border-radius: 5px;
+					background-color: #fff;
+					box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.1);
+				}
+				&-select {
+					input {
+						@include input-styling();
+						@include border-radius();
+
+						width: 100%;
+						padding: 1px;
+
+						cursor: pointer;
+
+						border: 1px solid #e3e3e3;
+						outline: none;
+					}
+					li {
+						margin: 0;
+						padding: 0;
+						padding-bottom: 3px;
+
+						list-style: none;
+
+						cursor: pointer;
+						&:hover {
+							color: #f0ad4e;
+						}
+					}
+				}
+			}
+			.wrap-datepicker {
+				margin-bottom: 10px;
+				padding-left: 13px;
+
+				flex-grow: 1;
+			}
 			.field {
 				input {
 					@include input-styling();
 					@include border-radius();
 
 					width: 100px;
-					margin-left: 15px;
-					padding-left: 10px;
+					padding: 3px 1px;
 
 					cursor: pointer;
+					text-align: center;
 					&:focus {
 						outline: none;
 					}
@@ -791,10 +869,16 @@
 				}
 				label {
 					font-weight: normal;
+
+					position: relative;
+					top: 4px;
 				}
 			}
 			i {
 				font-size: 12px;
+
+				position: relative;
+				top: 3px;
 
 				margin-left: 15px;
 
@@ -803,7 +887,7 @@
 			.info-content {
 				position: absolute;
 				z-index: 10;
-				top: 28px;
+				top: 115%;
 				left: 0;
 
 				display: none;
@@ -816,6 +900,11 @@
 				background-color: #fff;
 				box-shadow: 0 0 5px 2px #b8b8b8;
 			}
+		}
+		h4 {
+			margin-right: 8px;
+
+			flex-grow: 0;
 		}
 	}
 	.payButtonOuter {
@@ -1127,7 +1216,10 @@
 		}
 	}
 
-	@media (min-width: $screen-md) and (max-width: $screen-lg - 1) {
+	@media (max-width: $screen-lg - 1) {
+		.wrapper-for-padding-left {
+			margin-bottom: 16px;
+		}
 		.wrapper-for-padding-left,
 		.wrapper-for-padding-right {
 			position: relative;
@@ -1136,13 +1228,13 @@
 		}
 		article {
 			section:nth-child(odd) {
-				@include flex(row, space-between);
+				@include flex(column, space-between);
 				.wrapper-for-padding-left {
-					width: 61%;
+					width: 100%;
 					margin-right: auto;
 				}
 				.wrapper-for-padding-right {
-					width: 38%;
+					width: 100%;
 					padding-right: 0;
 				}
 			}

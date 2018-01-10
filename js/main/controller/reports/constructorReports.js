@@ -3,18 +3,18 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
     "$routeParams", "notificationService", "$filter","translateWords", "$translate", "vacancyStages","Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomField",
     function($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter,translateWords,
              $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomField, CustomReportsService) {
-
+        let activeBlocks = [];
         $rootScope.loading = true;
         $scope.regions = [];
         $scope.timeMaxZone = false;
         $scope.timeMaxZone2 = false;
-
         $scope.updateReportBtn = false;
         $scope.firstTimeLoading = 0;
         $scope.vacancysStatusesParam =[];
         $scope.inVacancysStatusesParam =[];
         $scope.emptyAccount = true;
         $scope.build = false;
+        $scope.disabled = false;
         $scope.choosenPersons = [];
         $scope.leastChosen = false;
         $scope.customStagesActive =[];
@@ -23,6 +23,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         $scope.withCandidates = false;
         $scope.checkListFields = ["client","salary","location","responsibles","status","dc", "daysInWork"];
         $scope.checkCustomListFields = [];
+        $scope.dateRange = ['currentWeek','previousWeek','currentMonth', 'previousMonth', 'currentYear', 'previousYear', 'customRange'];
         $scope.selectVacancy = [];
         $scope.vacancyStatuses =[
             {
@@ -194,7 +195,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     "from": $scope.startVacancyDate,
                     "to": $scope.endDate,
                     "types": null,
-                    "vacancyId": null,
                     "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null,
                     "vacancyStatuses": $scope.vacancysStatusesParam,
                     "interviewStatuses": $scope.inVacancysStatusesParam,
@@ -494,7 +494,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
                 })
                 .then(resp => {
-                    console.log($scope.selectVacancy, '$scope.selectVacancy')
                     if($scope.firstTimeLoading != 1 && $scope.startVacancyDate && $scope.endDate){
                         Promise.all([
                             Stat.requestGetCountInterviewForActualVacancyStatistic({
@@ -593,7 +592,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     "vacancyFields":$scope.checkListFields,
                     "customVacancyFields":$scope.checkCustomListFields,
                     "withCandidates": $scope.withCandidates,
-                    "vacancyId": null,
                     "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null
                 }, function (resp) {
                     if (resp.status == 'ok') {
@@ -731,7 +729,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                         $scope.addAll = false;
                     }
                 });
-
                 angular.forEach($scope.customStages, function(resp){
                     $scope.addAll = true;
                     if(!resp.added && resp.type == 'refuse' && add){
@@ -984,8 +981,69 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     data.push(vacancyID);
                 }
         };
-    }
 
+        $scope.selectDateRange = function (event, dateRange) {
+            let currentDate = new Date(),
+                currentDateStart = new Date(),
+                currentDateFinish = new Date();
+                $scope.disabled = true;
+                $scope.selectRange = dateRange;
+
+            if(dateRange == 'currentWeek'){
+                currentDateStart.setDate(currentDate.getDate() - (currentDate.getDay() - 1));
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousWeek'){
+                currentDateStart.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 7);
+                currentDateFinish.setDate((currentDate.getDate() - (currentDate.getDay() - 1)) - 1);
+            }else if(dateRange == 'currentMonth'){
+                currentDateStart.setDate(1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousMonth'){
+                currentDateStart.setMonth(currentDate.getMonth() - 1, 1);
+                currentDateFinish.setMonth(currentDate.getMonth(),  0);
+            }else if(dateRange == 'currentYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear(),0,1);
+                currentDateFinish.setDate(currentDate.getDate());
+            }else if(dateRange == 'previousYear'){
+                currentDateStart.setFullYear(currentDate.getFullYear() - 1,0,1);
+                currentDateFinish.setFullYear(currentDate.getFullYear(), 0, 0);
+            }else if(dateRange == 'customRange'){
+                $scope.disabled = false;
+            }
+
+            $scope.startVacancyDate =  +new Date(currentDateStart);
+            $scope.endDate =  +new Date(currentDateFinish);
+            $(".startDate").datetimepicker("setDate", new Date(currentDateStart));
+            $(".endDate").datetimepicker("setDate", new Date(currentDateFinish));
+        };
+
+        $scope.selectDateRange(null ,'previousWeek');
+
+        $scope.showBlocks = function (event) {
+            let targetDataID = event.target.dataset, blockShow;
+
+            if(targetDataID && targetDataID['show']){
+                blockShow = angular.element('#' + targetDataID['show'])[0];
+                _showBlocks(blockShow);
+                return;
+            }
+
+            _hiddenBlocks();
+        };
+
+        function _showBlocks(blockShow){
+            activeBlocks.push(blockShow);
+            blockShow.classList.toggle('active');
+        }
+
+        function _hiddenBlocks() {
+          for(let i = 0; i < activeBlocks.length; i++){
+              activeBlocks[i].classList.remove('active');
+              activeBlocks.splice(i,1);
+              i -= 1;
+          }
+        }
+    }
 ]);
 
 

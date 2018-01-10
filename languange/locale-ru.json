@@ -2856,6 +2856,17 @@
   "export":"Экспортировать",
   "close window":"Закрыть окно",
   "_for":"для",
+  "The large quantity of results has been found.": "Найдено большое количество результатов. Показано <b>{{total_count}}</b>. Уточните критерии, чтобы получить более точные результаты",
+  "Please add the candidates to this stage":"Добавьте кандидатов на этап",
+  "Show vacancies in the report":"Показать вакансии в отчете",
+  "Time range":"Временной интервал",
+  "currentWeek":"Эта неделя",
+  "previousWeek":"Прошлая неделя",
+  "currentMonth":"Текущий месяц",
+  "previousMonth":"Прошлый месяц",
+  "currentYear":"Текущий год",
+  "previousYear":"Прошлый год",
+  "customRange":" Настраиваемый период",
   "replacement":"Замена"
 
 }
