@@ -969,8 +969,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 url = $location.$$absUrl.split('stage=')[1];
 
             if ($rootScope.me.recrutRole !== 'admin' || !$scope.showMoveble) return;
-
-            if(target.className === 'fa fa-unlock'){
+            if($(target).hasClass('fa-unlock')){
                 Vacancy.requestHideState({
                     stateId: id
                 })
