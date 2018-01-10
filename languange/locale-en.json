@@ -2304,5 +2304,8 @@
   "Export log": "Export log",
   "Export": "Export",
   "Your request is processing. You can track its status and download it on the export log page.": "Your request is processing. You can track its status and download it on the export log page.",
-  "Cancel_2": "Cancel"
+  "Cancel_2": "Cancel",
+  "Database export log": "Database export log",
+  "Resume archive": "Resume archive",
+  "Candidate database archive is processing and will be available soon": "Candidate database archive is processing and will be available soon (~3 min/1000 candidates)."
 }

@@ -814,8 +814,19 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         });
     };
     $rootScope.toArchiveHistory = function (archive) {
+        $rootScope.loading = true;
         $localStorage.set("archive_excel", archive);
-        $location.path("ExportLog");
+        if(archive == 'null'){
+            $location.path("ExportLog");
+            $rootScope.loading = false;
+        }else{
+            Candidate.createBackUpCandidates({}, function (resp) {
+                if (resp.status == 'ok') {
+                    $rootScope.loading = false;
+                    $location.path("ExportLog");
+                }
+            });
+        }
     };
     $scope.toExcelHistory = function () {
         $scope.modalInstance = $uibModal.open({

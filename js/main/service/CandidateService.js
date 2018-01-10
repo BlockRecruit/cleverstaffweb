@@ -306,6 +306,12 @@ angular.module('services.candidate', [
                 params: {
                     param: "createBackUpCandidates"
                 }
+            },
+            downloadBackUpCandidates: {
+                method: "GET",
+                params: {
+                    param: "downloadBackUpCandidates"
+                }
             }
         });
 

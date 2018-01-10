@@ -58,6 +58,7 @@
 
 				background-color: $theme-white;
 				& > .checkoutTable {
+					line-height: 1.5em;
 					&:not(:first-child) {
 						margin-top: 15px;
 					}
