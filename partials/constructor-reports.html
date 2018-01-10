@@ -1,4 +1,4 @@
-<div class="block-constructor-reports">
+<div class="block-constructor-reports" ng-click="showBlocks($event)">
     <header style="position: relative;">
         <h3 class="title">{{"Design custom report"| translate}}</h3>
         <p class="description">{{"Custom reports designer allows you build your own reports with appropriate parameters."|translate}}</p>
@@ -32,11 +32,11 @@
                         <i class="fa fa-pencil"></i>
                     </div>
                     <div class="chooseStatusMenu">
-                                <span class="item">
-                                    <span>
-                                        {{'Select vacancy statuses' | translate}}:
-                                     </span>
-                                </span>
+                        <span class="item">
+                            <span>
+                                {{'Select vacancy statuses' | translate}}:
+                            </span>
+                        </span>
                         <a class="item choosingStages pull-left"
                            ng-repeat="status in vacancyStatuses track by $index"
                            ng-click="changeVacancyStatuses(status)">
@@ -44,24 +44,45 @@
                                 <i class="fa fa-check-square checkmark" ng-show="status.added == true"  ng-checked="true" aria-hidden="true" checked="checked"></i>
                             </button>
                             <span>
-                                    {{status.value|translate}}
-                                    <span>({{status.count}})</span>
-                                </span>
+                                {{status.value|translate}}
+                                <span>({{status.count}})</span>
+                            </span>
                         </a>
                     </div>
                 </div>
                 <div class="wrapper-for-padding-right col-lg-6 col-md-12">
                     <div class="col-lg-12 col-md-12 block-candidate-show">
                         <h4 class="candidate-show">
-                            <span style="margin-right: 3px;">{{"Show candidates in the report"|translate}}:</span>
-                            <!--<button type="button" class="ui icon button" ng-class="{'checkmark': (withCandidates == true)}" ng-click="withCandidates = !withCandidates; firstTimeLoading = 1; (build)? build = false: false">-->
-                                <!--<i class="fa fa-check-square" ng-class="{'checkmark': (withCandidates == true)}" ng-checked="false" aria-hidden="true" checked="checked"></i>-->
-                            <!--</button>-->
-                            <div class="switch ">
-                                <input  ng-click="withCandidates = !withCandidates; firstTimeLoading = 1; (build)? build = false: false" id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round upcomingScopeSwticher" type="checkbox">
-                                <label  class="" style="margin: 0px 0px 0px 8px;" for="cmn-toggle-9"></label>
-                            </div>
+                            <span style="margin-right: 3px;">{{"Show vacancies in the report"|translate}}:</span>
+                            <span class="switch">
+                                <input  id="cmn-toggle-10"
+                                        ng-click="showChoosingVacancyFields()"
+                                        ng-model="chooseListFieldsVacancies"
+                                        class="cmn-toggle cmn-toggle-round upcomingScopeSwticher"
+                                        type="checkbox">
+                                <label  class="" style="margin: 0px 0px 0px 8px;" for="cmn-toggle-10"></label>
+                            </span>
                         </h4>
+                        <div class="fields-list clearfix">
+                            <ul class="fields-list-row col-lg-6 clearfix">
+                                <li ng-repeat="vacancy in selectVacancy track by $index" class="col-md-15 col-xs-3 ">
+                                    <span>{{vacancy.position |translate}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="chooseListFieldsVacancies" style="display: none; padding: 16px;">
+                            <div class="enter-job-title">{{"enter job title"|translate}}</div>
+                            <div><input type="text"  ng-init="query=''" ng-model="query"></div>
+                            <ul class="fields-list-row clearfix col-lg-12">
+                                <li ng-repeat="field in fieldsVacancyList | filter:filterVacancy track by $index"  ng-click="selectedVacancy(field, $event)">
+                                    <button class="ui icon button">
+                                        <i class="fa fa-check-square" ng-class="{'checkmark': (field.visiable == true)}"> </i>
+                                    </button>
+                                    <span>{{field.position |translate}}</span>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -248,22 +269,61 @@
                 <div class="wrapper-for-padding-right col-lg-6">
                     <div class="form">
                         <div class="two fields">
-                            <div class="field pull-left" style="margin-right: 10px;">
-                                <h4 class="pull-left" style="margin-right: 8px;">{{'Date' | translate}}:</h4>
-                                <label class="pull-left">{{'from3'|translate}}</label>
-                                <input placeholder="{{'from3'|translate}}" class="startDate pull-left" style="margin-left: 8px;" type="text">
+                            <div class="fields-title">
+                                <h4 class="pull-left" style="margin-right: 8px;">{{"Time range"|translate}}:</h4>
+                                <div class="fields-title-select" style="position: relative;">
+                                    <input type="text"
+                                           data-show="select-content"
+                                           disabled
+                                           style="cursor: pointer;"
+                                           ng-init="selectRange = 'previousWeek'"
+                                           ng-value="selectRange | translate">
+                                    <ul  class="select-content" id="select-content">
+                                        <li ng-repeat="date in dateRange track by $index" ng-click="selectDateRange($event, date)" ng-bind="date|translate"></li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="field pull-left">
-                                <label class="pull-left">{{'to1'|translate}}</label>
-                                <input placeholder="{{'to1'|translate}}" class="endDate pull-left" type="text">
+                            <div class="wrap-datepicker">
+                                <div class="field pull-left" style="margin-right: 10px;">
+                                    <label class="pull-left">{{'from3'|translate}}</label>
+                                    <input placeholder="{{'from3'|translate}}"
+                                           class="startDate pull-left" style="margin-left: 8px;"
+                                           ng-style="disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
+                                           ng-disabled="disabled" type="text">
+                                </div>
+                                <div class="field pull-left">
+                                    <label class="pull-left">{{'to1'|translate}}</label>
+                                    <input placeholder="{{'to1'|translate}}"
+                                           class="endDate pull-left"
+                                           ng-style="disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
+                                           ng-disabled="disabled"
+                                           type="text">
+                                </div>
+                                <i class="fa fa-info-circle info" ng-mouseover="inHover()" ng-mouseleave="outHover()"></i>
+                                <div class="info-content">
+                                    <p>{{"This filter 'by date' in the report shows the last date when a candidate was moved to a new vacancy stage." | translate}}</p>
+                                    <p>{{"The filter is not applied for dates of vacancy creation and date when a candidate was added to a vacancy." | translate}}</p>
+                                </div>
                             </div>
-                            <i class="fa fa-info-circle info" ng-mouseover="inHover()" ng-mouseleave="outHover()"></i>
-                            <div class="info-content"><p>{{"This filter 'by date' in the report shows the last date when a candidate was moved to a new vacancy stage." | translate}}</p><p>{{"The filter is not applied for dates of vacancy creation and date when a candidate was added to a vacancy." | translate}}</p></div>
                         </div>
                         <div  style="display: inline-block" class="alert alert-danger" ng-show="timeMaxZone || timeMaxZone2">{{"The selected date can not be more than the current date."|translate}}</div>
                     </div>
                 </div>
             </section>
+            <section class="row section-four">
+                <div class="wrapper-for-padding-left col-lg-6 col-md-12">
+                    <div class="col-lg-12 col-md-12 block-candidate-show">
+                        <h4 class="candidate-show">
+                            <span style="margin-right: 3px;">{{"Show candidates in the report"|translate}}:</span>
+                            <div class="switch ">
+                                <input  ng-click="withCandidates = !withCandidates; firstTimeLoading = 1; (build)? build = false: false" id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round upcomingScopeSwticher" type="checkbox">
+                                <label  class="" style="margin: 0px 0px 0px 8px;" for="cmn-toggle-9"></label>
+                            </div>
+                        </h4>
+                    </div>
+                </div>
+            </section>
+
             <section class="row">
                 <div class="payButtonOuter" ng-show="!$root.loading">
                     <a type="button"   class="btn btn-primary create-or-reload-reports"

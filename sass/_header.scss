@@ -1013,3 +1013,11 @@ ul.nav.navbar-nav {
 		background-position: 57% 87%;
 	}
 }
+
+@media (max-width: 500px) {
+	.trial .fa .hoverExtension {
+		left: -150px;
+
+		width: 300px;
+	}
+}

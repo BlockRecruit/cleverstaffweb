@@ -707,14 +707,14 @@
 							@include link-styling();
 							@include text-ellipsis();
 
-							line-height: 35px;
+							line-height: 19px;
 
 							display: block;
 							.preferable-contact-starts {
 								position: relative;
 							}
 							&:not(:first-child) {
-								line-height: 35px;
+								line-height: 19px;
 								&.custom-field {
 									line-height: 19px;
 								}
@@ -727,11 +727,10 @@
 							i ~ span {
 								font-weight: 500;
 							}
-							&.noneNowrap {
-								white-space: inherit;
-							}
 							&.phone {
 								line-height: 19px;
+
+								margin-bottom: 6px;
 
 								color: $theme-dark;
 								.newLang {
@@ -747,6 +746,11 @@
 										color: inherit;
 									}
 								}
+							}
+							&.noneNowrap {
+								margin-bottom: 0;
+
+								white-space: inherit;
 							}
 							&.find-button {
 								line-height: 2;
@@ -775,6 +779,15 @@
 
 								white-space: normal;
 							}
+							&.relocate {
+								.relocateRegions {
+									display: inherit;
+									margin: 9px 0;
+									&:last-child {
+										margin-bottom: 0;
+									}
+								}
+							}
 						}
 						div {
 							&:not(:first-child) {
@@ -796,55 +809,59 @@
 						}
 						.linkedProfiles {
 							position: relative;
-							i {
-								margin-right: 10px;
+							& > span {
+								display: block;
+								margin-top: 8px;
+								i {
+									margin-right: 10px;
 
-								color: $theme-dark-green;
-							}
-							.unbind {
-								display: none;
-								margin-right: 0;
+									color: $theme-dark-green;
+								}
+								.unbind {
+									display: none;
+									margin-right: 0;
 
-								cursor: pointer;
+									cursor: pointer;
 
-								color: #d9534f;
-							}
-							.tooltip-icon {
-								margin-left: 15px;
+									color: #d9534f;
+								}
+								.tooltip-icon {
+									margin-left: 15px;
 
-								color: #0096f5;
-							}
-							div {
-								display: inline;
-								a {
+									color: #0096f5;
+								}
+								div {
 									display: inline;
-									span {
-										color: $theme-dark;
+									a {
+										display: inline;
+										span {
+											color: $theme-dark;
+										}
 									}
 								}
-							}
-							&:hover .unbind {
-								display: inline-block;
-							}
-							.tooltip {
-								line-height: 18px;
+								&:hover .unbind {
+									display: inline-block;
+								}
+								.tooltip {
+									line-height: 18px;
 
-								background-color: white;
-							}
-							.tooltip-arrow {
-								display: none;
-							}
-							.tooltip-outer .tooltip-inner {
-								line-height: 18px;
+									background-color: white;
+								}
+								.tooltip-arrow {
+									display: none;
+								}
+								.tooltip-outer .tooltip-inner {
+									line-height: 18px;
 
-								display: block;
-								max-width: 100%;
-								padding: 3px 8px;
+									display: block;
+									max-width: 100%;
+									padding: 3px 8px;
 
-								text-align: left;
+									text-align: left;
 
-								color: #202021;
-								background-color: #fff;
+									color: #202021;
+									background-color: #fff;
+								}
 							}
 						}
 						.menuLinkedProfiles {
@@ -879,27 +896,37 @@
 					}
 					& > .right-column {
 						.preferable-contact {
-							position: relative;
+							line-height: 24px;
+
+							display: block;
+							//@include flex(column, flex-start, flex-start);
+							//position: relative;
+							//
+							//display: flex;
+							//flex-direction: column;
+							//margin-bottom: 12px;
 							.fa-star {
 								font-size: 16px;
 
-								position: absolute;
-								top: 1px;
-								left: 104%;
+								position: initial;
+								//top: 1px;
+								//left: 104%;
 
 								color: #ffc100 !important;
 							}
 						}
 						& > a {
-							line-height: 23px;
+							line-height: 19px;
 						}
 						.email {
+							//@include flex(column, flex-start, flex-start);
 							a {
 								display: inline-block;
 							}
 						}
 						.skype {
 							display: block;
+							margin-bottom: 6px;
 
 							cursor: default;
 							span {
@@ -909,9 +936,23 @@
 							}
 						}
 						.phone {
-							line-height: 35px;
+							line-height: 19px;
 
 							display: block;
+							//.preferable-contact {
+							//	@include flex(column, flex-start, flex-start);
+							//}
+						}
+						.homepage,
+						.github,
+						.googleplus,
+						.facebook,
+						.linkedin {
+							margin-bottom: -1px;
+							& > span {
+								display: block;
+								margin-bottom: 8px;
+							}
 						}
 						.source-for-contact {
 							display: block;

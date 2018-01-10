@@ -206,7 +206,6 @@
   "client_status_assoc": {
     "future": "Future",
     "in_work": "In Progress",
-    "on_hold": "On hold",
     "all_done": "All Done",
     "canceled": "Canceled",
     "deleted": "Deleted"
@@ -1135,7 +1134,7 @@
   "Job_poste_on_the_page_in_Facebook": "Vacancy on the facebook page of a company:",
   "Remove_Jobs_tab_in_the_settings": "You sure you want to remove integration with Fb?",
   "can_only_Facebook_a_application": " Remove CleverStaff for Facebook application can only Facebook application settings",
-  "This client has active vacancy": "This client has active vacancy",
+  "This client has active vacancy": "This client has active vacancies",
   "You_sure_you_want_to_remove_the_position_of_your_tabs_Jobs_on_Facebook": "You sure you want to remove the position of your tabs Jobs on Facebook",
   "Here will be search results": "Here will be search results",
   "Last actions on my vacancies": "Last actions on my vacancies",
@@ -2237,6 +2236,15 @@
   "items on page": "items on page",
   "The large quantity of results has been found.": "The large quantity of results has been found. <b>{{total_count}}</b> of them is shown. Please specify search criteria to get more accurate results",
   "Please add the candidates to this stage":"Please add the candidates to this stage",
+  "Time range":"Time range",
+  "currentWeek":"Current week",
+  "previousWeek":"Previous week",
+  "currentMonth":"Current month",
+  "previousMonth":"Previous month",
+  "currentYear":"Current year",
+  "previousYear":"Previous year",
+  "customRange":"Custom range",
+  "Please add the candidates to this stage":"Please add the candidates to this stage",
   "Have you already seen our awesome vacancy":"Have you already seen our awesome vacancy",
   "Check it out!":"Check it out!",
   "Days left": "{{days_left}} days left",
@@ -2268,5 +2276,5 @@
   "Export History": "Export History",
   "export":"Export",
   "close window":"Close window",
-  "replacement":"Replacement"
+  "_Invited user":"Invited users"
 }

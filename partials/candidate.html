@@ -92,9 +92,9 @@
                                  alt="{{'Add to vacancy'|translate}}"
                                  ng-click="toAddVacancyForm(null, true, false);">
                             <!--<img ng-click="toEdit(candidate.localId)"-->
-                                 <!--class="action-button"-->
-                                 <!--src="../images/sprite/edit.png"-->
-                                 <!--alt="{{'edit_profile'|translate}}">-->
+                            <!--class="action-button"-->
+                            <!--src="../images/sprite/edit.png"-->
+                            <!--alt="{{'edit_profile'|translate}}">-->
                             <img ng-click="showModalAddCommentToCandidate('md');"
                                  ng-show="$root.me.recrutRole != 'client'"
                                  class="action-button"
@@ -344,14 +344,14 @@
                                     {{test.maxPoints}}
                                     {{'Points'|translate}}
                                 </span>
+                                </div>
                             </div>
                         </div>
+                        <div class="col-lg-12 results text-center" ng-show="$root.me.recrutRole != 'salesmanager'">
+                            <a class="send-test" ng-show="candidate.testIds.length > 0" ng-click="$root.sendCandidateToTest($root.candidate, countEmail)" href="">{{'Send test to the candidate'| translate}}</a>
+                            <a class="send-test" ng-show="candidate.testIds.length == 0" href="#/candidate/tests">{{'Create new test'| translate}}</a>
+                        </div>
                     </div>
-                    <div class="col-lg-12 results text-center" ng-show="$root.me.recrutRole != 'salesmanager'">
-                        <a class="send-test" ng-show="candidate.testIds.length > 0" ng-click="$root.sendCandidateToTest($root.candidate, countEmail)" href="">{{'Send test to the candidate'| translate}}</a>
-                        <a class="send-test" ng-show="candidate.testIds.length == 0" href="#/candidate/tests">{{'Create new test'| translate}}</a>
-                    </div>
-                </div>
                 </div>
                 <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12 centerBar">
                     <div class="col-lg-12 profile-menu not-for-print">
@@ -394,11 +394,11 @@
                                 </a>
                             </li>
                             <!--<li ng-show="$root.me.recrutRole != 'client' && $root.me.recrutRole != 'salesmanager' && $root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer'">-->
-                                <!--<a href="" ng-click="toMergeModal()">-->
-                                    <!--<i class="fa fa-users" aria-hidden="true"></i>-->
-                                    <!--{{'Merge Duplicates'|translate}}-->
-                                <!--</a>-->
-                                <!--<i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.candidateMerge" aria-hidden="true"></i>-->
+                            <!--<a href="" ng-click="toMergeModal()">-->
+                            <!--<i class="fa fa-users" aria-hidden="true"></i>-->
+                            <!--{{'Merge Duplicates'|translate}}-->
+                            <!--</a>-->
+                            <!--<i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.candidateMerge" aria-hidden="true"></i>-->
                             <!--</li>-->
                             <input type="file" oi-file="optionsForTemplate" id="fileTemplate" class="hidden"/>
                             <a style="display: none;" id="downloadDoc"></a>
@@ -409,13 +409,13 @@
                             </li>
                         </ul>
                         <!--<img ng-click="toAddVacancyForm(null, true, false);"-->
-                             <!--src="../images/sprite/addVacancy.png" alt="{{'Add to vacancy'|translate}}"-->
-                             <!--class="addVacancy-icon-tablet">-->
+                        <!--src="../images/sprite/addVacancy.png" alt="{{'Add to vacancy'|translate}}"-->
+                        <!--class="addVacancy-icon-tablet">-->
                         <!--<a href="" ng-click="showModalAddCommentToCandidate('md');" class="pull-right move-bot"><i class="fa fa-pencil" aria-hidden="true"></i>{{'add_comment'|translate}}</a>-->
                     </div>
                     <div class="main-info col-lg-12">
                         <div class="col-lg-6">
-                            <a ng-click="showRegion2Map = !showRegion2Map" ng-show="candidate.region.displayFullName">
+                            <a ng-click="showRegion2Map = !showRegion2Map" class="phone" ng-show="candidate.region.displayFullName">
                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
                                 {{candidate.region.displayFullName}}
                             </a>
@@ -437,10 +437,10 @@
                                 <span>{{'experience'|translate}}:</span>
                                 <span ng-show="candidate.expirence">{{'experience_assoc.' + candidate.expirence|translate}}</span>
                             </a>
-                            <a ng-show="candidate.readyRelocate && candidate.relatedRegions" class="phone">
+                            <a ng-show="candidate.readyRelocate && candidate.relatedRegions" class="phone relocate">
                                 <span>{{'ready_to_relocate'|translate}}:</span>
                                 <div class="clearfix" ng-if="candidate.relatedRegions.length > 1"></div>
-                                <span ng-repeat="region in candidate.relatedRegions"><i class="fa fa-map-marker" aria-hidden="true"></i>{{region.displayFullName}}&nbsp;<br/></span>
+                                <span class="relocateRegions" ng-repeat="region in candidate.relatedRegions"><i class="fa fa-map-marker" aria-hidden="true"></i>{{region.displayFullName}}&nbsp;<br/></span>
                             </a>
                             <a ng-show="candidate.languages.length > 0" class="phone noneNowrap">
                                 <span class="pull-left">{{'languages'|translate}}:</span>
@@ -477,29 +477,29 @@
                                 <span ng-show="fieldValue.type == 'datetime' && fieldValue.state == 'A'">{{fieldValue.fieldValue.dateTimeValue|dateFormat2:true}}</span>
                             </a>
                             <!--<a href="#/company/custom-fields" class="find-button"  ng-show="$root.me.recrutRole == 'admin'">-->
-                                <!--{{'Add/Edit custom field'|translate}}-->
+                            <!--{{'Add/Edit custom field'|translate}}-->
                             <!--</a>-->
                         </div>
                         <div class="col-lg-6 right-column">
                             <div class="phone"ng-show="(candidate.contacts|filter:type = 'mphone').length > 0">
-                                <span class="preferable-contact" ng-repeat=" contact in candidate.contacts|filter:type = 'mphone'" title="{{contact.value}}">
-                                    <i class="fa fa-phone" style="margin-right: 6px; color: #00B549" aria-hidden="true"></i> {{contact.value | limitTo: 16}}
-                                    <span ng-show="contact.value.length > 16">...</span>
-                                    <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact === 'phone'"></i>
+                                <span ng-repeat=" contact in candidate.contacts|filter:type = 'mphone'" title="{{::contact.value}}">
+                                    <span class="preferable-contact" ng-repeat="phone in ::contact.value.split(',')">
+                                        <i class="fa fa-phone" style="margin-right: 6px; color: #00B549" aria-hidden="true"></i>
+                                            {{::phone}}
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact === 'phone'"></i>
+                                    </span>
                                 </span>
                             </div>
-                            <div class="email"
-                                 style="margin-bottom: 7px" ng-show="(candidate.contacts|filter:type = 'email').length > 0">
+                            <div class="email" ng-show="(candidate.contacts|filter:type = 'email').length > 0">
                                 <span class="preferable-contact"
-                                      style="line-height: 0px; display: flex; flex-direction: column; margin-bottom: 15px"
                                       ng-repeat="contact in multipleContacts['email'] track by $index"
                                       title="{{contact}}">
-                                    <a  style="line-height: 0px"  href="mailto:{{contact}}">
+                                    <a href="mailto:{{contact}}">
                                         <i class="fa fa-envelope" style="margin-right: 1px" aria-hidden="true"></i>
                                         {{contact| limitTo: 30}}
                                         <span ng-show="contact.length > 30">...</span>
                                     </a>
-                                    <i class="fa fa-star"  style="top: 0x !important" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'mail'"></i>
+                                    <i class="fa fa-star"  style="position: relative;top: -4px;" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'mail'"></i>
                                 </span>
                             </div>
                             <div class="skype" ng-show="(candidate.contacts|filter:type = 'skype').length > 0">
@@ -511,8 +511,8 @@
                                     </span>
                                 </span>
                             </div>
-                            <div ng-show="(candidate.contacts|filter:type = 'linkedin').length > 0">
-                                <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['linkedin'] track by $index"  title="{{contact}}">
+                            <div class="linkedin" ng-show="(candidate.contacts|filter:type = 'linkedin').length > 0">
+                                <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['linkedin'] track by $index" title="{{contact}}">
                                     <a target="_blank" class="not-for-print" href="{{::contact| makeLink}}">
                                         <i class="fa fa-linkedin" style="margin-right: 3px;" aria-hidden="true"></i>
                                         <span class="preferable-contact-starts">
@@ -528,23 +528,21 @@
                                      </a>
                                 </span>
                             </div>
-                            <div ng-show="(candidate.contacts|filter:type = 'facebook').length > 0">
-                                <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['facebook'] track by $index"  title="{{contact}}">
-                                    <a  target="_blank" class="not-for-print" href="{{::contact| makeLink}}">
-                                        <i class="fa fa-facebook" style="margin-right: 7px;" aria-hidden="true"></i>
-                                        <span style="position: relative;">
-                                            {{::contact|cutName:true:30}}
-                                            <i class="fa fa-star" style="bottom: 0px;top: 2px;" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'facebook'"></i>
-                                        </span>
+                            <div class="facebook" ng-show="(candidate.contacts|filter:type = 'facebook').length > 0">
+                                <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['facebook'] track by $index" title="{{contact}}">
+                                    <a target="_blank" class="not-for-print" href="{{::contact| makeLink}}">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        {{::contact | limitTo: 30}}<span ng-show="::contact.length > 30">...</span>
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'facebook'"></i>
                                     </a>
-                                     <a  target="_blank" class="hidden show-for-print" href="{{::contact| makeLink}}">
-                                         <i class="fa fa-facebook" aria-hidden="true"></i>
-                                            {{::contact}}
-                                     </a>
+                                    <a class="hidden show-for-print" target="_blank" href="{{::contact| makeLink}}">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        {{::contact}}
+                                    </a>
                                 </span>
                             </div>
-                            <div ng-show="(candidate.contacts|filter:type = 'googleplus').length > 0">
-                                <span class="preferable-contact"  ng-repeat="contact in ::multipleContacts['googleplus'] track by $index"  title="{{::contact}}">
+                            <div class="googleplus" ng-show="(candidate.contacts|filter:type = 'googleplus').length > 0">
+                                <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['googleplus'] track by $index" title="{{::contact}}">
                                     <a class="not-for-print" target="_blank" href="{{::contact| makeLink}}">
                                         <i class="fa fa-google-plus" aria-hidden="true" style="margin-right: -3px!important;"></i>
                                        <span style="position: relative;">
@@ -558,8 +556,8 @@
                                      </a>
                                 </span>
                             </div>
-                            <div ng-show="(candidate.contacts|filter:type = 'github').length > 0">
-                                <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['github'] track by $index"  title="{{::contact}}">
+                            <div class="github" ng-show="(candidate.contacts|filter:type = 'github').length > 0">
+                                <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['github'] track by $index" title="{{::contact}}">
                                     <a class="not-for-print" target="_blank" href="{{::contact| makeLink}}">
                                         <i class="fa fa-github" style="margin-right: 3px;" aria-hidden="true"></i>
                                        <span style="position: relative;">
@@ -573,8 +571,8 @@
                                      </a>
                                 </span>
                             </div>
-                            <div >
-                                <span  class="preferable-contact" ng-repeat="contact in multipleContacts['homepage'] track by $index"  title="{{contact}}">
+                            <div class="homepage">
+                                <span class="preferable-contact" ng-repeat="contact in multipleContacts['homepage'] track by $index"  title="{{contact}}">
                                     <a  class="not-for-print" target="_blank" href="{{contact}}">
                                         <i class="fa fa-home" style="margin-right: 2px" aria-hidden="true"></i>
                                        <span style="position: relative;">
@@ -596,7 +594,8 @@
                                 {{candidate.origin}}
                             </a>
                             <div class="linkedProfiles" ng-show="linkedCandidate.length > 0">
-                                <i class="fa fa-link" aria-hidden="true"></i>
+                                <span>
+                                     <i class="fa fa-link" aria-hidden="true"></i>
                                 {{'Linked profiles'|translate}}
                                 <div ng-repeat="linkedOneCandidate in linkedCandidate">
                                     <a ng-href="{{linkedOneCandidate.url}}" title="{{'Show profile'|translate}}">
@@ -604,6 +603,7 @@
                                     </a><i class="fa fa-times unbind" ng-click="removeLinkedinConnect(linkedOneCandidate.resourseType)" title="{{'Unlink profile'|translate}}"></i><span>{{$last ? '' : ', '}}</span>
                                 </div>
                                 <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.unlinkProfile" aria-hidden="true"></i>
+                                </span>
                             </div>
                         </div>
                         <div class=" col-lg-12 coreSkills" ng-show="candidate.skills.length > 0">
@@ -670,7 +670,7 @@
                         </div>
                         <div class="row event last-action">
                             <div ng-show="candidateTasks.length > 0"
-                                  ng-repeat="task in candidateTasks" ng-click="showModalEditTaskToCandidate(task)"
+                                 ng-repeat="task in candidateTasks" ng-click="showModalEditTaskToCandidate(task)"
                                  title="{{'View more'| translate}}" id="{{task.taskId}}"
                                  ng-class="{'finishedTask':task.targetDate < todayDate && task.status != 'completed'}"
                                  class="col-lg-12 col-md-12 pull-left">

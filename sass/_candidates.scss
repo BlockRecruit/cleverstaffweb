@@ -47,6 +47,7 @@
 
 								border: none;
 								outline: none;
+								background-color: rgba(32, 31, 31, 0.2);
 								& > i {
 									font-size: 27px;
 
@@ -1821,6 +1822,14 @@
 					}
 					a {
 						@include link-styling();
+					}
+					.non-hover {
+						&:hover {
+							color: #0096f5;
+						}
+						& > .email-hover:hover {
+							color: gold;
+						}
 					}
 				}
 				&:first-child {

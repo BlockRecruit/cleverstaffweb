@@ -52,7 +52,7 @@ body.modal-open-public-vacancy-form {
 			min-height: 100px;
 			margin: 0;
 
-			resize: none;
+			resize: vertical;
 		}
 		.attachFile {
 			margin: 20px 0 0 10px;
@@ -97,8 +97,8 @@ body.modal-open-public-vacancy-form {
 		font-weight: 600;
 
 		position: absolute;
-		top: 0;
-		right: 8px;
+		top: 7px;
+		right: 15px;
 
 		color: #000;
 		&:hover {
