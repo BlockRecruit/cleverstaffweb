@@ -151,7 +151,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             ],
                 singleton.editReport = angular.copy(CustomReportsService.data);
                 singleton.dateRange = ['currentWeek','previousWeek','currentMonth', 'previousMonth', 'currentYear', 'previousYear', 'customRange'];
-
         }
 
         function concatCastomOrStandartFields(custom, standart) {
@@ -388,6 +387,12 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             this.change = change;
         }
 
+        function createCorrectDate(date) {
+            var currentDate = new Date(date),
+                correctDate = +new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23,59,59);
+            return correctDate;
+        }
+
         function checkPropertiesListVacancies(fieldsVacancyList, responseData) {
             let data, index;
 
@@ -535,8 +540,8 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
             translateWords.getTranslete("Report saved", $scope, 'reportSaved');
             let params = {
-                "from": this.data.dateFrom,
-                "to": this.data.dateTo,
+                "from": createCorrectDate(this.data.dateFrom),
+                "to": createCorrectDate(this.data.dateTo),
                 "types": null,
                 "vacancyIds": this.data.vacancyIds,
                 "vacancyStatuses": this.data.vacancyStatuses,
