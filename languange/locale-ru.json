@@ -2887,5 +2887,8 @@
   "Export log": "История экспорта",
   "Export": "Экспортировать",
   "Your request is processing. You can track its status and download it on the export log page.": "Ваш запрос обрабатывается. Статус можно посмотреть на странице истории экспорта",
-  "Cancel_2": "Закрыть окно"
+  "Cancel_2": "Закрыть окно",
+  "Database export log": "История экспорта базы",
+  "Resume archive": "Архив резюме",
+  "Candidate database archive is processing and will be available soon": "Архив базы кандидатов формируется и скоро будет готов к скачиванию через (~3 мин/1000 кандидатов)."
 }

@@ -4,19 +4,14 @@
             <div class="col-lg-12 candidates-search-table">
                 <div class="breadcrumbs">
                     <ol class="breadcrumb">
-                        <li><a href="#">{{'activity'|translate}}</a></li>
+                        <li><a href="#/organizer">{{'activity'|translate}}</a></li>
                         <li><i class="fa fa-chevron-right" aria-hidden="true"></i></li>
                         <li class="active">{{'candidates'|translate}}</li>
-                        <!--<ol class="breadcrumb pull-right">-->
-                            <!--<li ng-click="exportToExcel()">{{'Export to Excel'|translate}}<i class="fa fa-file-excel-o" title="{{'Export to Excel'|translate}}" aria-hidden="true"></i></li>-->
-                            <!--<li class="active"><a ng-click="toExcelHistory()">{{'history'|translate}}</a></li>-->
-                        <!--</ol>-->
-                        <!--<a id="export_in_excel" style="color: #000000" href=""></a>-->
                     </ol>
                 </div>
                 <h3 class="text-center">{{'History exports to excel' | translate}}</h3>
                 <div class="col-lg-6 col-lg-offset-3 blockCheckoutTable">
-                    <div ng-repeat="history in history" class="checkoutTable" style="line-height: 1.5em; padding: 0px;background-color: rgba(245, 222, 179, 0);box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0);">
+                    <div ng-show="history.type == 'cleverstaff_excel'" ng-repeat="history in history" class="checkoutTable">
                         <div>
                             <i class="fa fa-download" aria-hidden="true"></i>
                             <a href="#/users/{{history.creator.userId}}">

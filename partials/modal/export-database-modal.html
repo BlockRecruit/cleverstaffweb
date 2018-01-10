@@ -9,12 +9,12 @@
         </div>
         <div class="pull-right history">
             <img src="../../images/sprite/icon-history.svg" width="60" height="60"/>
-            <a ng-click="$root.toArchiveHistory('archive');$root.closeModal()" href="" class="no-margin-left-example">{{'Export log'|translate}}</a>
+            <a ng-click="$root.toArchiveHistory('null');$root.closeModal()" href="" class="no-margin-left-example">{{'Export log'|translate}}</a>
         </div>
         <div class="clearfix"></div>
     </div>
     <div class="applyOrClose text-center">
-        <button class="btn-modern apply" ng-click="$root.toArchiveHistory('null');$root.closeModal()">{{'Export'|translate}}</button>
+        <button class="btn-modern apply" ng-click="$root.toArchiveHistory('archive');$root.closeModal()">{{'Export'|translate}}</button>
         <a href=""  ng-click="$root.closeModal()">{{'Cancel_2'|translate}}</a>
     </div>
 </div>
