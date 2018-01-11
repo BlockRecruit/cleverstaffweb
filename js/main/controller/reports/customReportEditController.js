@@ -23,6 +23,11 @@
             CustomReportEditService.hiddenBlocks();
         };
 
+        let _parentClick = event => {
+            showBlocks(event,$scope);
+            CustomReportEditService.moveCircleForVacancies.call(this);
+        };
+
         CustomReportEditService.buildReport.call(this, $scope);
         this.showChoosingMenu           = CustomReportsService.showChoosingMenu;
         this.removeReport               = CustomReportsService.removeReport;
@@ -46,6 +51,7 @@
         this.selectDateRange            = CustomReportEditService.selectDateRange;
         this.filterVacancy              = filterVacancy;
         this.showBlocks                 = showBlocks;
+        this.parentClick                = _parentClick;
     }catch(error){
         console.log(error, 'error')
     }
