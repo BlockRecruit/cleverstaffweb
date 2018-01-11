@@ -282,7 +282,11 @@
 		}
 	}
 }
-
+.select2-results {
+	.English {
+		@include bold();
+	}
+}
 .edit {
 	position: relative;
 	top: 1px;

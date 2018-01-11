@@ -2754,7 +2754,8 @@ var directive = angular.module('RecruitingApp.directives', []).
                             }
                         },
                         formatSelection: format,
-                        formatResult: format
+                        formatResult: format,
+                        formatResultCssClass: function (data, container) { return data.text; }
                         }
                     ).on("change", function(e) {
                         if(e.added != undefined){
