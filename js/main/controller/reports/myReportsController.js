@@ -10,6 +10,15 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
                 $scope.$apply();
             });
 
+        this.changeLocation = (path,report, event) => {
+            console.log(report, event)
+            this.getReport(event, report);
+            $location.path(path);
+        };
+
+        this.changeLocationAllVacancies = (path) => {
+            $location.path(path);
+        };
         this.getReport    = CustomReportsService.getReport;
         this.remove       = CustomReportsService.remove;
         this.removeReport = CustomReportsService.removeReport;

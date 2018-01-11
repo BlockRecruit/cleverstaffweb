@@ -166,9 +166,10 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 });
         }
 
-        reports.getReport = data => {
+        reports.getReport = (event, data) => {
             reports.data = data;
             localStorage.setItem('reportsData', JSON.stringify(data));
+            event.stopPropagation();
         };
 
         reports.showChoosingMenu = function(selector, $scope){
@@ -207,7 +208,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 .catch(error => console.log(error, 'removeReport Method'))
         };
 
-        reports.remove = function (id, scope) {
+        reports.remove = function (id, scope, event) {
             scope.id = id;
             $rootScope.modalInstance = $uibModal.open({
                 animation: true,
@@ -216,6 +217,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 backdrop: 'static',
                 scope: scope,
             });
+            event.stopPropagation();
         };
 
         reports.closeModal = function () {
