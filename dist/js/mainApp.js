@@ -19295,7 +19295,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         });
     };
 
-    $scope.viewExcelHistory = function() {
+    $scope.viewExcelHistory = function(excel) {
+        $localStorage.set("archive_excel", excel);
         $rootScope.closeModal();
         $location.path("excelHistory");
     };
@@ -29745,6 +29746,20 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
                 }
             });
         };
+        $scope.getMoreHistoryArchive = function() {
+            Candidate.getSearchHistoryAdmin({
+                types: ["cleverstaff_excel", "backup"],
+                page: {number: 0, count: $scope.historyLimitExcel + 30}
+            }, function(res) {
+                if(res.status == 'ok'){
+                    $scope.history = res.objects;
+                    $scope.historyLimitExcel = res.size;
+                    $scope.historyTotalExcel = res.total;
+                } else{
+                    notificationService.error(res.message);
+                }
+            });
+        };
         console.log($localStorage.get("archive_excel"));
         console.log($localStorage.get("archive_excel") == 'null');
         if($localStorage.get("archive_excel") == 'archive'){
@@ -29753,6 +29768,8 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
                 if (angular.equals(resp.status, "ok")) {
                     console.log(resp);
                     $scope.history = resp.objects;
+                    $scope.historyLimitExcel = resp.size;
+                    $scope.historyTotalExcel = resp.total;
                 }
             });
         }else if($localStorage.get("archive_excel") == 'excel'){
@@ -29760,6 +29777,8 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
             Candidate.getSearchHistoryAdmin({type: 'cleverstaff_excel'}, function (resp) {
                 if (angular.equals(resp.status, "ok")) {
                     $scope.history = resp.objects;
+                    $scope.historyLimitExcel = resp.size;
+                    $scope.historyTotalExcel = resp.total;
                 }
             });
         }else if($localStorage.get("archive_excel") == 'null'){
@@ -29767,6 +29786,8 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
                 if (angular.equals(resp.status, "ok")) {
                     console.log(resp);
                     $scope.history = resp.objects;
+                    $scope.historyLimitExcel = resp.size;
+                    $scope.historyTotalExcel = resp.total;
                 }
             });
         }

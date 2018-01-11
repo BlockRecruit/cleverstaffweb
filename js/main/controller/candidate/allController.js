@@ -838,7 +838,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         });
     };
 
-    $scope.viewExcelHistory = function() {
+    $scope.viewExcelHistory = function(excel) {
+        $localStorage.set("archive_excel", excel);
         $rootScope.closeModal();
         $location.path("excelHistory");
     };
