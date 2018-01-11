@@ -2881,8 +2881,8 @@
   "You cannot request more than 3 resume archive exports per week.": "Вы можете скачивать не более трёх архивов резюме в неделю.",
   "This is a paid feature": "Это платная функция",
   "($500 / year), but you can get the archive with first 100 resumes for free to see how it works.": "($500 / год), но вы можете загрузить архив из первых 100 резюме бесплатно, чтобы понимать, как он работает.",
-  "The archive preparation takes ~ 3 min/1000 candidates.": "Формирование архива занимает ~ 3 мин/1000 кандидатов.”",
-  "You can track its status and download it at “Export log”": "Отслеживать статус и скачать его вы можете в “Истории экспорта",
+  "The archive preparation takes ~ 3 min/1000 candidates.": "Формирование архива занимает ~ 3 мин/1000 кандидатов.",
+  "You can track its status and download it at “Export log”": "Отслеживать статус и скачать его вы можете в “Истории экспорта”",
   "CVs archive export": "Экспорт архива резюме",
   "Export log": "История экспорта",
   "Export": "Экспортировать",
@@ -2890,5 +2890,13 @@
   "Cancel_2": "Закрыть окно",
   "Database export log": "История экспорта базы",
   "Resume archive": "Архив резюме",
-  "Candidate database archive is processing and will be available soon": "Архив базы кандидатов формируется и скоро будет готов к скачиванию через (~3 мин/1000 кандидатов)."
+  "Candidate database archive is processing and will be available soon": "Архив базы кандидатов формируется и скоро будет готов к скачиванию через (~3 мин/1000 кандидатов).",
+  "Your request is processing. You can track its status and download it on the export log page": "Ваш запрос обрабатывается. Статус можно посмотреть на странице истории экспорта",
+  "Export candidate database (limited)": "Экспорт базы кандидатов (ограничено)",
+  "This feature is limited for your account": "Эта функция ограничена для вашего аккаунта",
+  "This feature (resume archive download & database backup) is paid": "Функция экспорта архива резюме (сохранение резервных копий базы) является платной.",
+  "You can download archive with first 100 candidates for free to understand how it works": "Вы можете скачать архив из первых 100 кандидатов бесплатно, чтобы понимать, как работает эта функция.",
+  "To download more candidates please pay for this feature: $500 / year": "Скачивание большего количества кандидатов возможно после оплаты функции: $500 / год",
+  "Download 100 candidates": "Скачать 100 кандидатов",
+  "Go to pay for function": "Перейти к оплате функции"
 }

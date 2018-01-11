@@ -2298,5 +2298,13 @@
   "Cancel_2": "Cancel",
   "Database export log": "Database export log",
   "Resume archive": "Resume archive",
-  "Candidate database archive is processing and will be available soon": "Candidate database archive is processing and will be available soon (~3 min/1000 candidates)."
+  "Candidate database archive is processing and will be available soon": "Candidate database archive is processing and will be available soon (~3 min/1000 candidates).",
+  "Your request is processing. You can track its status and download it on the export log page": "Your request is processing. You can track its status and download it on the export log page",
+  "Export candidate database (limited)": "Export candidate database (limited)",
+  "This feature is limited for your account": "This feature is limited for your account",
+  "This feature (resume archive download & database backup) is paid": "This feature (resume archive download & database backup) is paid.",
+  "You can download archive with first 100 candidates for free to understand how it works": "You can download archive with first 100 candidates for free to understand how it works.",
+  "To download more candidates please pay for this feature: $500 / year": "To download more candidates please pay for this feature: $500 / year",
+  "Download 100 candidates": "Download 100 candidates",
+  "Go to pay for function": "Go to payment service"
 }
