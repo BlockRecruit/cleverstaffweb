@@ -1811,6 +1811,18 @@
 								border-radius: 5px;
 								background-color: #fff;
 								box-shadow: 0 0 5px 2px #b8b8b8;
+								&.inline {
+									position: static;
+
+									display: flex;
+									padding: 0;
+
+									background-color: #fff;
+									box-shadow: none;
+									& .region {
+										margin-left: 0;
+									}
+								}
 								& .region {
 									display: block;
 									margin-left: 60px;
@@ -1829,6 +1841,9 @@
 							&:hover {
 								.regions {
 									display: block;
+								}
+								.regions.inline {
+									display: flex;
 								}
 							}
 						}
