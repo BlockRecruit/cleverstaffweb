@@ -822,6 +822,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         }else{
             Candidate.createBackUpCandidates({}, function (resp) {
                 if (resp.status == 'ok') {
+                    notificationService.success($filter('translate')('Your request is processing. You can track its status and download it on the export log page'));
                     $rootScope.loading = false;
                     $location.path("ExportLog");
                 }
