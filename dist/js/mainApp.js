@@ -8224,9 +8224,10 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 });
         }
 
-        reports.getReport = data => {
+        reports.getReport = (event, data) => {
             reports.data = data;
             localStorage.setItem('reportsData', JSON.stringify(data));
+            event.stopPropagation();
         };
 
         reports.showChoosingMenu = function(selector, $scope){
@@ -8265,7 +8266,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 .catch(error => console.log(error, 'removeReport Method'))
         };
 
-        reports.remove = function (id, scope) {
+        reports.remove = function (id, scope, event) {
             scope.id = id;
             $rootScope.modalInstance = $uibModal.open({
                 animation: true,
@@ -8274,6 +8275,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 backdrop: 'static',
                 scope: scope,
             });
+            event.stopPropagation();
         };
 
         reports.closeModal = function () {
@@ -42788,12 +42790,10 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                         .then(resp => {
                             $scope.$apply(() => {
                                 responseSetInView(resp);
-                                console.log($scope.fieldsVacancyList  , 'fieldsVacancyList ')
                                 $rootScope.loading = false;
                             });
                         });
                     }else{
-                        console.log($scope.fieldsVacancyList  , 'fieldsVacancyList ')
                         $rootScope.loading  = false;
                         $scope.$apply();
                     }
@@ -43438,6 +43438,15 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
                 $scope.$apply();
             });
 
+        this.changeLocation = (path,report, event) => {
+            console.log(report, event)
+            this.getReport(event, report);
+            $location.path(path);
+        };
+
+        this.changeLocationAllVacancies = (path) => {
+            $location.path(path);
+        };
         this.getReport    = CustomReportsService.getReport;
         this.remove       = CustomReportsService.remove;
         this.removeReport = CustomReportsService.removeReport;
