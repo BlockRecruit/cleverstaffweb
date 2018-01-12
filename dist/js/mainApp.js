@@ -8251,7 +8251,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 "from":createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom']),
                 "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo']),
                 "types":null,
-                "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"] : null,
+                "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"] : [],
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
                 "interviewStatuses": this.dataReport["interviewStatuses"],
                 "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
@@ -8270,7 +8270,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom']),
                 "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo']),
                 "types":null,
-                "vacancyIds":(this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:null,
+                "vacancyIds":(this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:[],
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
                 "interviewStatuses": this.dataReport["interviewStatuses"],
                 "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
@@ -8443,7 +8443,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                     "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom']),
                     "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo']),
                     "types":null,
-                    "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:null,
+                    "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:[],
                     "vacancyStatuses": this.dataReport["vacancyStatuses"],
                     "interviewStatuses": this.dataReport["interviewStatuses"],
                     "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
@@ -42637,7 +42637,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     "from": createCorrectDate($scope.startVacancyDate),
                     "to": createCorrectDate($scope.endDate),
                     "types": null,
-                    "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null,
+                    "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : [],
                     "vacancyStatuses": $scope.vacancysStatusesParam,
                     "interviewStatuses": $scope.inVacancysStatusesParam,
                     "interviewCreatorIds": $scope.choosenPersons,
@@ -42783,7 +42783,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     "datePayment","employmentType","candidatesRefused","candidatesInWork"],
                 "customVacancyFields":$scope.checkCustomListFields,
                 "withCandidates": $scope.withCandidates,
-                "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null
+                "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : []
 
             }, ifCheck)
             .then(response => {
@@ -42957,7 +42957,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                                 "interviewCreatorIds": $scope.choosenPersons,
                                 "vacancyFields": $scope.checkListFields,
                                 "withCandidates": $scope.withCandidates,
-                                "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null
+                                "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : []
                             }, false),
                             CustomField.requestGetFieldsTitles()
                         ])
@@ -43040,7 +43040,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     "vacancyFields":$scope.checkListFields,
                     "customVacancyFields":$scope.checkCustomListFields,
                     "withCandidates": $scope.withCandidates,
-                    "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null
+                    "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : []
                 }, function (resp) {
                     if (resp.status == 'ok') {
                         var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
