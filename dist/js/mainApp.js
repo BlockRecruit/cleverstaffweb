@@ -14111,7 +14111,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=40'
+        suffix: '.json?b=41'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -34497,6 +34497,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $scope.noCandidatesInThisVacancy = false;
             $location.$$absUrl = $location.$$absUrl.split("&")[0];
             $scope.showSearchCandidate = false;
+            $scope.showMoveble = false;
             $scope.currentTab = panel;
             setTimeout(function(){
                 $(".changeDateNewTask").datetimepicker({
@@ -34619,10 +34620,14 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $scope.movableStages = _.filter($scope.VacancyStatusFiltered, 'movable');
         };
 
-        $scope.changeInterviewStatus = function (statusObj, val, name) {
+        $scope.changeInterviewStatus = function (statusObj, val, name, event) {
+            $scope.extraStatusObj.show = false;
             $scope.extraStatusObjSucces.show = false;
+
+
             if (!statusObj.added) {
                 $scope.addExtraStatus(val, name);
+                statusObj.added = true;
             } else {
                 if (statusObj.count == 0) {
                     statusObj.added = false;
@@ -35003,7 +35008,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         $scope.shareObj[val.type] = true;
                     });
 
-                    $scope.VacancyStatus = Vacancy.interviewStatusNew();
+                    updateDefaultStages();
 
                     function isLockCheckStages(data,stages) {
                         let index, hiddenStages = data.map(item => item.objId);
@@ -35101,14 +35106,15 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
                     $scope.candidateInVacancy = (function(){
                         let showLongList = false;
+
                         $rootScope.stageUrl = {
                             url:$location.$$absUrl.split('#')[1],
                             name: $scope.vacancy.position,
                             stage: $scope.activeName
                         };
                         localStorage.setItem('stage', JSON.stringify($location.$$absUrl.split('stage=')));
-                        return function (status) {
-                            $scope.noCandidatesInThisVacancy = false;
+                        return function (status,event) {
+
                             $scope.visiable = status.hidden;
                             if(!$scope.visiable) $scope.noAccess = false;
                             $scope.loadingCandidates = true;
@@ -35125,7 +35131,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 }
                             }
 
-                            if (status.customInterviewStateId) {
+                            if (status.customInterviewStateId && !$scope.showMoveble) {
                                 $scope.activeCustomStageName = status.name;
                                 $scope.activeName = status.customInterviewStateId;
                                 $rootScope.activeName = status.customInterviewStateId;
@@ -35136,18 +35142,29 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                     $scope.isInterview = false;
                                 }
                             } else if (status == 'extra_status') {
-                                if(!showLongList){
+                                if(!showLongList && event && event.target.id === 'openSettings'){
+
+                                    updateDefaultStages();
+                                    updateCustomStages();
                                     $scope.activeName = 'extra_status';
                                     $scope.activeCustomStageName = "";
                                     showLongList = true;
                                 }else{
+                                    if(event && event.target.id === 'openSettings') return;
                                     showLongList = false;
                                     showLongLists($scope.VacancyStatusFiltered[0]);
-                                    $scope.updateVacancy();
+                                    updateDefaultStages();
+                                    updateCustomStages();
+                                    notificationService.success($filter('translate')('Changes saved'));
                                 }
                             } else {
-                                showLongLists(status);
+                                if(!$scope.showMoveble) {
+                                    showLongLists(status);
+                                } else {
+                                    return;
+                                }
                             }
+
 
                             if ($scope.activeName == 'extra_status') {
                                 $scope.showMoveble = true;
@@ -35161,7 +35178,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                     $scope.$apply();
                                 },100)
                             }
-
                             if(!$scope.visiable){
                                 setTimeout(() => {
                                     $scope.tableParams.reload();
@@ -35301,9 +35317,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             let target = event.target, id = status.customInterviewStateId || status.value,
                 url = $location.$$absUrl.split('stage=')[1];
 
-            if($rootScope.me.recrutRole !== 'admin') return;
-
-            if(target.className === 'fa fa-unlock'){
+            if ($rootScope.me.recrutRole !== 'admin' || !$scope.showMoveble) return;
+            if($(target).hasClass('fa-unlock')){
                 Vacancy.requestHideState({
                     stateId: id
                 })
@@ -35334,29 +35349,43 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             event.stopPropagation();
         };
 
+        function setActiveStatus(status) {
+            console.log('go');
+            $scope.activeName = status || "longlist";
+            $rootScope.activeName = "longlist";
+            // $scope.paramForExcell.interviewState = "longlist";
+            $scope.activeCustomStageName = "";
+            $scope.isInterview = false;
+        }
 
-        vacancyStages.requestVacancyStages().
+        function updateDefaultStages() {
+            $scope.VacancyStatus = Vacancy.interviewStatusNew();
+        }
+
+        function updateCustomStages() {
+            vacancyStages.requestVacancyStages().
             then((resp)=>{
-            var array = [];
+                var array = [];
 
-            $scope.customStages = resp.object.interviewStates;
-            $scope.hiddenStages = resp.object.hiddenLimitRoles;
+                $scope.customStages = resp.object.interviewStates;
+                $scope.hiddenStages = resp.object.hiddenLimitRoles;
 
-            angular.forEach($scope.customStages, function (res) {
-                res.value = res.name;
-                res.movable = true;
-                res.added = false;
-                res.count = 0;
-                if (res.status == "A")
-                    array.push(res);
+                angular.forEach($scope.customStages, function (res) {
+                    res.value = res.name;
+                    res.movable = true;
+                    res.added = false;
+                    res.count = 0;
+                    if (res.status == "A")
+                        array.push(res);
+                });
+                $scope.customStages = array;
+                $rootScope.customStages = array;
+                $scope.customStagesFull = resp.object;
+                $scope.$apply();
+                $scope.updateVacancy();
             });
-            $scope.customStages = array;
-            $rootScope.customStages = array;
-            $scope.customStagesFull = resp.object;
-            $scope.updateVacancy();
-
-        });
-
+        }
+        updateCustomStages();
 
         if(google){
             $scope.map = {
@@ -36726,6 +36755,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         $scope.showRecalls = function (status) {
+            if ($scope.showMoveble) return;
+            console.log("as");
             $scope.visiable2 = status.hidden;
             $scope.visiable = false;
 
@@ -37475,13 +37506,49 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
 
         };
+        // $scope.deleteCustomStageFromCompany = function (status) {
+        //     console.log(status);
+        //     if (status.added == false) {
+        //         vacancyStages.edit({
+        //             customInterviewStateId: status.customInterviewStateId,
+        //             name: status.name,
+        //             status: "D",
+        //             type: status.type
+        //         }, function (val) {
+        //             if (val.status == "ok") {
+        //                 var index = $scope.customStages.indexOf(status);
+        //                 $scope.customStages.splice(index, 1);
+        //                 if (status.added) {
+        //                     var index = $scope.VacancyStatusFiltered.indexOf(status);
+        //                     $scope.VacancyStatusFiltered.splice(index, 1);
+        //                 }
+        //                 $scope.saveStatusInServer();
+        //             } else if (val.code == 'existsInOtherVacancy') {
+        //                 $scope.extraStatusObj.show = true;
+        //                 $scope.extraStatusObj.messageText = 'existsInOtherVacancy';
+        //                 $scope.existInVacancyErrorVacancy = val.object
+        //             } else {
+        //                 notificationService.error(val.message);
+        //             }
+        //         });
+        //     } else {
+        //         $scope.extraStatusObj.show = true;
+        //         if(status.type == 'refuse'){
+        //             $scope.extraStatusObj.messageText = 'deleteRefuse';
+        //         }else{
+        //             $scope.extraStatusObj.messageText = 'deleteStatus';
+        //         }
+        //     }
+        // };
+
         $scope.deleteCustomStageFromCompany = function (status) {
-            if (status.added == false) {
+            if (status.count === 0) {
                 vacancyStages.edit({
                     customInterviewStateId: status.customInterviewStateId,
                     name: status.name,
                     status: "D",
-                    type: status.type
+                    type: status.type,
+                    requestVacancy : $scope.vacancy.vacancyId
                 }, function (val) {
                     if (val.status == "ok") {
                         var index = $scope.customStages.indexOf(status);
@@ -38281,6 +38348,9 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     notificationService.error(resp.message)
                 }
             })
+        }
+        if($scope.activeName === 'extra_status') {
+            setActiveStatus();
         }
         ////////////////////////////////////////////////////////End of edit page
         function resetTemplate() {

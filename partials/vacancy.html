@@ -404,9 +404,8 @@
                     <i class="fa fa-align-right" aria-hidden="true"></i>
                     {{'Stages' | translate }}
                 </h4>
-                <div class="pull-left settings" ng-show="$root.me.recrutRole != 'client'">
-                    <a ng-click="candidateInVacancy('extra_status')" title="{{'Setting the stage' | translate}}">
-                        <i class="fa fa-cog"></i>
+                <div class="pull-right settings">
+                    <a ng-click="candidateInVacancy('extra_status',$event)" title="{{'Setting the stage' | translate}}" id="openSettings">
                     </a>
                 </div>
                 <div class="show-list hidden-xs hidden-sm">
@@ -433,7 +432,7 @@
                             <div class="clearfix"></div>
                         </div>
                     </div>
-                    <div ng-repeat="status in VacancyStatusFiltered"
+                    <div ng-repeat="status in VacancyStatusFiltered track by $index"
                          ng-if="status.value == 'longlist'"
                          ng-class="{'moveble' : status.movable == true && showMoveble == true,
                         'active': activeName == status.value || activeCustomStageName == status.name}"
@@ -450,7 +449,7 @@
                               class="pull-right unlock"
                               ng-click="settingAccess($event, status)">
                             <i class="fa"
-                               ng-class="{'fa-lock': status.hidden, 'fa-unlock': !status.hidden}"
+                               ng-class="{'fa-lock': status.hidden, 'fa-unlock': !status.hidden, 'visible': showMoveble}"
                                aria-hidden="true"
                                style="color: #ffc100"
                                title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"
@@ -458,23 +457,24 @@
                         </span>
                         <div class="clearfix"></div>
                     </div>
-                    <div ng-sortable="sortableOptions" >
-                        <div ng-repeat="status in movableStages"
-                             ng-class="{'active': activeName == status.value || activeCustomStageName == status.name}"
+                    <div ng-sortable="sortableOptions">
+                        <div ng-repeat="status in movableStages track by $index"
+                             ng-class="{'active': activeName == status.value || activeCustomStageName == status.name,
+                                        'moveble' : showMoveble}"
                              ng-click="candidateInVacancy(status)"
-                             class="status moveble">
+                             class="status">
                             <i ng-show="status.movable == true && showMoveble == true" class="fa fa-arrows-v"
                                aria-hidden="true"></i>
                             <a href="">{{status.value|translate}}</a>
                             <span class="counter">
                            {{status.count}}
-                       </span>
+                            </span>
                             <span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"
                                   ng-class="{'admin':$root.me.recrutRole == 'admin', 'client':$root.me.recrutRole === 'client'}"
                                   class="pull-right unlock"
                                   ng-click="settingAccess($event, status)">
                             <i class="fa"
-                               ng-class="{'fa-lock': status.hidden, 'fa-unlock': !status.hidden}"
+                               ng-class="{'fa-lock': status.hidden, 'fa-unlock': !status.hidden, 'visible': showMoveble}"
                                aria-hidden="true"
                                style="color: #ffc100"
                                title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"
@@ -483,7 +483,7 @@
                             <div class="clearfix"></div>
                         </div>
                     </div>
-                    <div ng-repeat="status in VacancyStatusFiltered"
+                    <div ng-repeat="status in VacancyStatusFiltered track by $index"
                          ng-if="status.type != 'refuse' && status.value == 'approved'"
                          ng-class="{'active': activeName == status.value || activeCustomStageName == status.name}"
                          ng-click="candidateInVacancy(status)"
@@ -499,7 +499,7 @@
                               class="pull-right unlock"
                               ng-click="settingAccess($event, status)">
                             <i class="fa"
-                               ng-class="{'fa-lock': status.hidden, 'fa-unlock': !status.hidden}"
+                               ng-class="{'fa-lock': status.hidden, 'fa-unlock': !status.hidden, 'visible': showMoveble}"
                                aria-hidden="true"
                                style="color: #ffc100"
                                title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"
@@ -510,7 +510,7 @@
                 </div>
             </div>
             <div class="declines">
-                <div ng-repeat="status in VacancyStatusFiltered"
+                <div ng-repeat="status in VacancyStatusFiltered track by $index"
                      ng-click="candidateInVacancy(status)"
                      ng-class="{'moveble' : status.movable == true && showMoveble == true,
                      'active': activeName == status.value || activeCustomStageName == status.name}"
@@ -524,7 +524,7 @@
                           class="pull-right unlock"
                           ng-click="settingAccess($event, status)">
                             <i class="fa"
-                               ng-class="{'fa-lock': status.hidden, 'fa-unlock': !status.hidden}"
+                               ng-class="{'fa-lock': status.hidden, 'fa-unlock': !status.hidden, 'visible': showMoveble}"
                                aria-hidden="true"
                                style="color: #ffc100"
                                title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"></i>
@@ -532,20 +532,23 @@
                     <div class="clearfix"></div>
                 </div>
             </div>
-            <div class="text-center hidden-xs hidden-sm" ng-show="$root.me.recrutRole != 'client'">
+            <div class="text-center hidden-xs hidden-sm" ng-show="$root.me.recrutRole != 'client' && showMoveble">
                 <a type="button" ng-click="candidateInVacancy('extra_status')" class="btn btn-primary">
-                    {{'Setting the stage' | translate}}
+                    {{'save' | translate}}
                 </a>
-                <span class="clarification" ng-show="$root.me.recrutRole == 'admin'">
-                    {{'For account Admins only'|translate}}
-                </span>
+                <!--<a type="button" ng-click="candidateInVacancy('extra_status')" class="btn btn-primary">-->
+                    <!--{{'Setting the stage' | translate}}-->
+                <!--</a>-->
+                <!--<span class="clarification" ng-show="$root.me.recrutRole == 'admin'">-->
+                    <!--{{'For account Admins only'|translate}}-->
+                <!--</span>-->
             </div>
-            <div class="text-center" ng-show="activeName == 'extra_status' && $root.me.recrutRole == 'admin'">
+            <div class="text-center" ng-show="activeName == 'extra_status' && $root.me.recrutRole == 'admin' && showMoveble">
                 <a type="button" ng-click="saveStagesForAllVacancies()" title="{{'Make the current set of stages as default for new vacancies' | translate}}" class="btn btn-primary default">
                     {{'Make default' | translate}}
                 </a>
                 <br/>
-                <span class="thin">*{{'This feature is only available to administratorzs' | translate}}</span>
+                <!--<span class="thin">*{{'This feature is only available to administratorzs' | translate}}</span>-->
             </div>
         </div>
         <div class="col-lg-9 status-info no-padding-sm" ng-class="{'col-lg-12' : showSearchCandidate}"
@@ -809,22 +812,22 @@
 
                 <div class="stages">
                     <div class="stage unlock clearfix clearfix"
-                         ng-repeat="status in VacancyStatus| vacancyStatusInCheckFilter:'simpleVacancy'"
+                         ng-repeat="status in VacancyStatus | vacancyStatusInCheckFilter:'simpleVacancy' track by $index"
                          ng-show="status.value != 'no_contacts' && status.value != 'notafit' && status.value != 'declinedoffer' &&
                          status.value != 'no_response' && status.value != 'accepted_counter_offer' && status.value != 'found_another_job'
                          && status.value != 'is_not_looking_for_job'">
                         <label>
-                            <input ng-checked="status.added" type="checkbox" ng-click="changeInterviewStatus(status, status.value, 'simpleVacancy')" name="{{status.value}}">
+                            <input ng-checked="status.added" type="checkbox" ng-click="changeInterviewStatus(status, status.value, 'simpleVacancy', $event)" name="{{status.value}}">
                             {{'interview_status_assoc.' + status.value|translate}}
                         </label>
-                        <span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"
-                              class="pull-right unlock">
-                                <i class="fa" aria-hidden="true" style="color: #ffc100"
-                                   ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"
-                                   ng-click="settingAccess($event, status)"
-                                   title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"
-                                ></i>
-                        </span>
+                        <!--<span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"-->
+                              <!--class="pull-right unlock">-->
+                                <!--<i class="fa" aria-hidden="true" style="color: #ffc100"-->
+                                   <!--ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"-->
+                                   <!--ng-click="settingAccess($event, status)"-->
+                                   <!--title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"-->
+                                <!--&gt;</i>-->
+                        <!--</span>-->
                     </div>
                 </div>
             </div>
@@ -835,7 +838,7 @@
                     <div class="stage unlock clearfix"
                          ng-repeat="status in customStages track by $index"
                          ng-show="status.type != 'refuse'">
-                        <input ng-checked="status.added" type="checkbox" ng-click="changeCustomInterviewStatus(status, status.value, 'simpleVacancy')" name="{{status.value}}">
+                        <input ng-checked="status.added" type="checkbox" ng-click="changeCustomInterviewStatus(status, status.value, 'simpleVacancy', $event)" name="{{status.value}}">
                         <i class="fa fa-comments-o" aria-hidden="true" ng-show="status.type == 'interview'"></i>
                         {{status.value|translate}}
                         <i class="fa fa-pencil" aria-hidden="true" title="{{'Edit candidate' | translate}}"
@@ -844,13 +847,13 @@
                         <i class="fa fa-times" aria-hidden="true" title="{{'Delete' | translate}}"
                            ng-show="$root.me.recrutRole == 'admin'"
                            ng-click="deleteCustomStageFromCompany(status);$event.stopPropagation()"></i>
-                        <span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"
-                              class="pull-right unlock">
-                                <i class="fa" aria-hidden="true" style="color: #ffc100"
-                                   ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"
-                                   ng-click="settingAccess($event, status)"
-                                   title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"></i>
-                        </span>
+                        <!--<span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"-->
+                              <!--class="pull-right unlock">-->
+                                <!--<i class="fa" aria-hidden="true" style="color: #ffc100"-->
+                                   <!--ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"-->
+                                   <!--ng-click="settingAccess($event, status)"-->
+                                   <!--title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"></i>-->
+                        <!--</span>-->
                     </div>
                 </div>
                 <a href=""
@@ -864,7 +867,7 @@
 
                 <div class="stages">
                     <div class="stage unlock clearfix"
-                         ng-repeat="status in VacancyStatus| vacancyStatusInCheckFilter:'simpleVacancy'"
+                         ng-repeat="status in VacancyStatus| vacancyStatusInCheckFilter:'simpleVacancy' track by $index"
                          ng-show="status.value == 'no_contacts' || status.value == 'notafit' || status.value == 'declinedoffer' ||
                          status.value == 'no_response' || status.value == 'accepted_counter_offer' || status.value == 'found_another_job'
                          || status.value == 'is_not_looking_for_job'">
@@ -872,13 +875,13 @@
                             <input ng-checked="status.added" type="checkbox" ng-click="changeInterviewStatus(status, status.value, 'simpleVacancy')" name="{{status.value}}">
                             {{status.value|translate}}
                         </label>
-                        <span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"
-                              class="pull-right unlock">
-                                <i class="fa" aria-hidden="true" style="color: #ffc100"
-                                   ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"
-                                   ng-click="settingAccess($event, status)"
-                                   title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"></i>
-                        </span>
+                        <!--<span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"-->
+                              <!--class="pull-right unlock">-->
+                                <!--<i class="fa" aria-hidden="true" style="color: #ffc100"-->
+                                   <!--ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"-->
+                                   <!--ng-click="settingAccess($event, status)"-->
+                                   <!--title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"></i>-->
+                        <!--</span>-->
                     </div>
                     <div class="stage unlock clearfix"
                          ng-repeat="status in customStages track by $index"
@@ -891,13 +894,13 @@
                         <i class="fa fa-times" aria-hidden="true" title="{{'Delete' | translate}}"
                            ng-show="$root.me.recrutRole == 'admin'"
                            ng-click="deleteCustomStageFromCompany(status);$event.stopPropagation()"></i>
-                        <span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"
-                              class="pull-right unlock">
-                                <i class="fa" aria-hidden="true" style="color: #ffc100"
-                                   ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"
-                                   ng-click="settingAccess($event, status)"
-                                   title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"></i>
-                        </span>
+                        <!--<span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"-->
+                              <!--class="pull-right unlock">-->
+                                <!--<i class="fa" aria-hidden="true" style="color: #ffc100"-->
+                                   <!--ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"-->
+                                   <!--ng-click="settingAccess($event, status)"-->
+                                   <!--title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"></i>-->
+                        <!--</span>-->
                     </div>
                 </div>
                 <a href=""
