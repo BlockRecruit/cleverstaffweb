@@ -1,0 +1,31 @@
+.export-database-block-modal {
+	padding: 5px 10px 5px 10px;
+
+	border-radius: 7px;
+	i {
+		@include close-item();
+	}
+	.modal-header {
+		border-bottom: none;
+		& > h4 {
+			@include bold();
+		}
+	}
+	.modal-body {
+		padding-top: 0;
+		padding-right: 0;
+		padding-bottom: 0;
+	}
+	.modal-footer {
+		border-top: none;
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			@include button-styling();
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+	}
+}

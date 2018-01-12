@@ -1,0 +1,19 @@
+<div class="export-database-block-modal">
+    <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+    <div class="modal-header">
+        <h4 class="modal-title text-center">
+            {{'This feature is limited for your account'|translate}}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <p>{{'This feature (resume archive download & database backup) is paid'|translate}}</p>
+        <p>{{'You can download archive with first 100 candidates for free to understand how it works'|translate}}</p>
+        <p>{{'To download more candidates please pay for this feature: $500 / year'|translate}}</p>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.toArchiveHistory('archive');$root.closeModal()">{{'Download 100 candidates'|translate}}</a>
+            <a type="button" class="btn btn-primary accept" ng-click="$root.payForExportDatabase();">{{'Go to pay for function'|translate}}</a>
+        </div>
+    </div>
+</div>
