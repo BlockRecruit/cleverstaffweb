@@ -1769,7 +1769,7 @@
                                     <span>{{candidatePreview.region.displayCity}}</span>
                                     <div class="relocated" ng-show="candidatePreview != undefined && candidatePreview.readyRelocate && candidatePreview.relatedRegions!=undefined">
                                         <img class="relocate" src="/images/sprite/relocate-g.svg">
-                                        <span class="regions">{{'Relocate' | translate}}:
+                                        <span class="regions">{{'ready_to_relocate2' | translate}}:
                                             <span ng-class="{'first' : candidatePreview.relatedRegions.indexOf(region) === 0,
                                                              'last' : candidatePreview.relatedRegions.indexOf(region) === 1}"
                                                   class="region"
@@ -1828,7 +1828,7 @@
                             </td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
                                 <div class="relocated">
-                                    <span class="regions inline">
+                                    <span class="regions inline" ng-class="{'flex' : candidatePreview.relatedRegions.length === 1}">
                                         <span class="region"
                                               ng-class="{'last' : candidatePreview.relatedRegions.indexOf(region) === 1}"
                                               ng-repeat="region in candidatePreview.relatedRegions | limitTo: 2">

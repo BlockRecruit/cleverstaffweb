@@ -1814,7 +1814,7 @@
 								&.inline {
 									position: static;
 
-									display: flex;
+									display: block;
 									padding: 0;
 
 									background-color: #fff;
@@ -1822,6 +1822,9 @@
 									& .region {
 										margin-left: 0;
 									}
+								}
+								&.flex {
+									display: flex;
 								}
 								& .region {
 									display: block;
@@ -1842,7 +1845,7 @@
 								.regions {
 									display: block;
 								}
-								.regions.inline {
+								.regions.flex {
 									display: flex;
 								}
 							}
