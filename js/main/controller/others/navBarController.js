@@ -492,7 +492,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 console.log($scope.exportCandidateNowDate);
                 $scope.exportCandidateOtherDate = new Date($rootScope.companyParams.exportCandidate).getTime();
                 console.log($scope.exportCandidateOtherDate);
-                if($scope.exportCandidateNowDate >= $scope.exportCandidateOtherDate){
+                if($scope.exportCandidateNowDate  >= $scope.exportCandidateOtherDate){
                     $rootScope.exportCandidate = false;
                 }
                 $scope.nameUser = (response.object.firstName ? response.object.firstName : " ") + " " + (response.object.lastName ? response.object.lastName : " ");

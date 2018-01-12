@@ -38,14 +38,15 @@
                     </div>
                     <div class="operation">
                         <i class="fa fa-file-archive-o" aria-hidden="true"></i>
-                        <a href="" ng-if="!$root.exportCandidate" ng-click="exportResumeArchiveModal()">
+                        <a href="" ng-if="$root.exportCandidate" ng-click="exportResumeArchiveModal()">
                             {{'Export candidate database' | translate}}
                             <span class="new-label">New</span>
                         </a>
-                        <a href="" ng-if="$root.exportCandidate">
+                        <button ng-if="!$root.exportCandidate" ng-click="exportResumeArchiveBlock()"
+                                type="button" class="btn btn-default disabled blockExportArchive">
                             {{'Export candidate database' | translate}}
                             <span class="new-label">New</span>
-                        </a>
+                        </button>
                     </div>
                     <div class="operation">
                         <i class="fa fa-file-excel-o" aria-hidden="true"></i>
