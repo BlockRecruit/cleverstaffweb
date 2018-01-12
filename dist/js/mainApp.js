@@ -7573,7 +7573,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             ],
                 singleton.editReport = angular.copy(CustomReportsService.data);
                 singleton.dateRange = ['currentWeek','previousWeek','currentMonth', 'previousMonth', 'currentYear', 'previousYear', 'customRange'];
-
         }
 
         function concatCastomOrStandartFields(custom, standart) {
@@ -7810,6 +7809,12 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             this.change = change;
         }
 
+        function createCorrectDate(date) {
+            var currentDate = new Date(date),
+                correctDate = +new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23,59,59);
+            return correctDate;
+        }
+
         function checkPropertiesListVacancies(fieldsVacancyList, responseData) {
             let data, index;
 
@@ -7957,8 +7962,8 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
             translateWords.getTranslete("Report saved", $scope, 'reportSaved');
             let params = {
-                "from": this.data.dateFrom,
-                "to": this.data.dateTo,
+                "from": createCorrectDate(this.data.dateFrom),
+                "to": createCorrectDate(this.data.dateTo),
                 "types": null,
                 "vacancyIds": this.data.vacancyIds,
                 "vacancyStatuses": this.data.vacancyStatuses,
@@ -8186,8 +8191,8 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithCandidates($scope) {
             Stat.requestGetActualVacancyStatistic2({
-                "from": (this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'],
-                "to": (this.endDate)? this.endDate : this.dataReport['dateTo'],
+                "from":createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom']),
+                "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo']),
                 "types":null,
                 "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"] : null,
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
@@ -8205,8 +8210,8 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithoutCandidates($scope) {
             Promise.all([Stat.requestGetActualVacancyStatistic2({
-                "from": (this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'],
-                "to": (this.endDate)? this.endDate : this.dataReport['dateTo'],
+                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom']),
+                "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo']),
                 "types":null,
                 "vacancyIds":(this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:null,
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
@@ -8223,6 +8228,12 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                     resetNoAngularContext($scope);
                 });
         }
+        function createCorrectDate(date) {
+            var currentDate = new Date(date),
+                correctDate = +new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23,59,59);
+            return correctDate;
+        }
+
 
         reports.getReport = data => {
             reports.data = data;
@@ -8365,8 +8376,8 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             if(loadingExcel == false){
                 loadingExcel = true;
                 Stat.createVacancyStatisticExcel({
-                    "from": this.dataReport['dateFrom'],
-                    "to": this.dataReport['dateTo'],
+                    "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom']),
+                    "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo']),
                     "types":null,
                     "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:null,
                     "vacancyStatuses": this.dataReport["vacancyStatuses"],
@@ -42456,8 +42467,8 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             if(formSaveCustomReport.$valid) {
                 translateWords.getTranslete("Report saved", $scope, 'reportSaved');
                 var params = {
-                    "from": $scope.startVacancyDate,
-                    "to": $scope.endDate,
+                    "from": createCorrectDate($scope.startVacancyDate),
+                    "to": createCorrectDate($scope.endDate),
                     "types": null,
                     "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : null,
                     "vacancyStatuses": $scope.vacancysStatusesParam,
@@ -42588,15 +42599,14 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         }
 
         $scope.createReport = function(ifCheck){
-
             if($scope.checkListFields.length == 0 && $scope.checkCustomListFields.length == 0){
                 $scope.checkListFieldsLength = true;
                 return;
             }
 
             Stat.requestGetActualVacancyStatistic2({
-                "from":$scope.startVacancyDate,
-                "to":$scope.endDate,
+                "from":createCorrectDate($scope.startVacancyDate),
+                "to":createCorrectDate($scope.endDate),
                 "types":null,
                 "vacancyStatuses": $scope.vacancysStatusesParam,
                 "interviewStatuses":$scope.inVacancysStatusesParam,
@@ -42773,8 +42783,8 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                                 "interviewCreatorIds": $scope.choosenPersons
                             }),
                             Stat.requestGetActualVacancyStatistic2({
-                                "from":$scope.startVacancyDate,
-                                "to":$scope.endDate,
+                                "from":createCorrectDate($scope.startVacancyDate),
+                                "to":createCorrectDate($scope.endDate),
                                 "types":null,
                                 "vacancyStatuses": $scope.vacancysStatusesParam,
                                 "interviewStatuses":$scope.inVacancysStatusesParam,
@@ -42788,12 +42798,10 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                         .then(resp => {
                             $scope.$apply(() => {
                                 responseSetInView(resp);
-                                console.log($scope.fieldsVacancyList  , 'fieldsVacancyList ')
                                 $rootScope.loading = false;
                             });
                         });
                     }else{
-                        console.log($scope.fieldsVacancyList  , 'fieldsVacancyList ')
                         $rootScope.loading  = false;
                         $scope.$apply();
                     }
@@ -42802,7 +42810,9 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
 
         };
+
         $scope.updateReport();
+
         function responseSetInView(data) {
             data.forEach(item => {
                 if(item['request'] == 'stagesOrCount'){
@@ -43001,6 +43011,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                         $scope.addAll = false;
                     }
                 });
+
                 angular.forEach($scope.customStages, function(resp){
                     $scope.addAll = true;
                     if(!resp.added && resp.type == 'refuse' && add){
@@ -43130,7 +43141,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             if($scope.endDate > new Date()){
                 $scope.timeMaxZone2 = true;
             }else{ $scope.timeMaxZone2 = false;}
-
             $scope.$apply();
         }).on('hide', function() {
             if ($('.endDate').val() == "") {
@@ -43234,6 +43244,12 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             });
         };
         $scope.getCompanyParams();
+
+        function createCorrectDate(date) {
+            var currentDate = new Date(date),
+                correctDate = +new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23,59,59);
+            return correctDate;
+        }
 
         $scope.filterVacancy = function (vacancy) {
             let statuses = $scope.vacancysStatusesParam;
