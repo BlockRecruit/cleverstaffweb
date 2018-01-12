@@ -1842,7 +1842,7 @@
   "Make the current set of stages as default for new vacancies": "Сделать текущий набор этапов по умолчанию для новых вакансий",
   "This feature is only available to administratorzs": "Доступно только администраторам",
   "Stages for vacancies by default saved": "Статусы для вакансий по умолчанию сохранены",
-  "Default stages for vacancies has been saved": "Статусы для вакансий по умолчанию были сохранены",
+  "Default stages for vacancies has been saved": "Этапы для вакансий по умолчанию были сохранены",
   "Make default": "Сделать по умолчанию",
   "default": "Умолчанию",
   "Date added to database": "Дате добавления в базу",
@@ -2808,6 +2808,7 @@
   "Choose fields for Merge": "Выберите поля для обьединения",
   "candidate_": "кандидатом",
   "Show more": "Показать ещё",
+  "Changes saved":"Изменения сохранены",
   "Only account administrator is able to make a payment":"Только администратор аккаунта может произвести оплату",
   "Preferable contact method": "Предпочтительный метод связи",
   "Mark as preferrable contact method":"Отметить как предпочтительный метод связи",
@@ -2867,6 +2868,6 @@
   "currentYear":"Текущий год",
   "previousYear":"Прошлый год",
   "customRange":" Настраиваемый период",
-  "replacement":"Замена"
-
+  "replacement":"Замена",
+  "Select vacancies in the report":"Выбрать вакансии в отчете"
 }

@@ -18,10 +18,10 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <LINK REL="SHORTCUT ICON" HREF="images/sprite/favicon.png?b3">
-    <link rel="stylesheet" href="dist/css/styles.css?b230">
+    <link rel="stylesheet" href="dist/css/styles.css?b232">
     <link rel="stylesheet" type="text/css" media="print" href="dist/css/print.css" />
     <!--<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>-->
-    <script type="text/javascript" src="dist/js/mainLib.js?b170"></script>
+    <script type="text/javascript" src="dist/js/mainLib.js?b171"></script>
 
 
     <!--<link  href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">-->
@@ -1086,8 +1086,8 @@
         <div class="ui vertically devided grid" style="margin-top: 2%;">
             <div class="three wide column"></div>
             <div class="ten wide column" style="padding: 0px;">
-                <div class="ui bottom attached segment clever-item"
-                     style="padding: 1.6em;width: 650px;margin: 0px auto;border: 3px solid red!important;box-shadow: none!important;">
+                <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 clever-item"
+                     style="padding: 1.6em;border: 3px solid red!important;box-shadow: none!important;">
                     <div class="padding:1em;line-height: 1.4em;">
                         <!--<div class="ui small header" style="font-size: 20px;">Поздравляем, Вы создали аккаунт компании-->
                         <!--<span id="reg_company_name"></span> в CleverStaff!-->
@@ -1095,6 +1095,7 @@
                         <div style="font-size: 16px;" id="blockMessgae"></div>
                     </div>
                 </div>
+                <div class="clearfix"></div>
             </div>
             <div class="two wide column"></div>
         </div>
@@ -1183,13 +1184,15 @@
                                     <span id="priceWOrd" class="payPrice">{{'Amount'| translate}}:</span>
                                     <span id="price" class="payPrice">{{price}} USD</span>
                                 </div>
+                                <div class="clearfix"></div>
                             </div>
                         </div>
                         <div class="creditCards">
                             <!--<div class="text-center important-text">-->
                                 <!--<span>{{'Only account administrator is able to make a payment' | translate}}</span>-->
                             <!--</div>-->
-                            <img class="pull-left" src="../images/sprite/visa-mastercard.png" alt="">
+                            <!--<img class="pull-left" src="../images/sprite/visa-mastercard.png"  alt="">-->
+                            <img class="pull-left" src="../images/sprite/visa-mastercard.png" width="140" height="40" alt="">
                             <div class="text-center pull-right">
                                 <p id="bonuce" class="hidden">
                                     {{"The balance of your company account is"|translate}}
@@ -1203,6 +1206,7 @@
                                 </a>
                             </div>
                         </div>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </div>
@@ -1214,7 +1218,7 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZul9dW5-r5WVV1479hAgVxM5Z75C-ykM&libraries=places"></script>
     <script type="text/javascript" src="lib/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b290"></script>
+    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b292"></script>
 
     <!--ЗPignation in TAble-->
     <script type="text/ng-template" id="custom/pager">

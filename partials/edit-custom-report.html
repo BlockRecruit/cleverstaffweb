@@ -1,4 +1,4 @@
-<div class="block-custom-report-edit" ng-click="editReport.showBlocks($event)">
+<div class="block-custom-report-edit" ng-click="editReport.parentClick($event)">
     <header class="header">
         <h3 class="title">
             <span ng-bind="'Edit report title and description'|translate"></span>
@@ -22,44 +22,61 @@
         <article ng-show="!emptyAccount">
             <section class="row section-one">
                 <div class="wrapper-for-padding-left col-lg-6">
-                    <div class="wrapper-background clearfix" ng-click="editReport.showChoosingMenu('.chooseStatusMenu', this)">
-                        <div class="col-lg-6 block-status">
-                            <h4 style="margin-right: 3px;">{{'Statuses' | translate}}:</h4>
+                    <div class="form">
+                        <div class="two fields">
+                            <div class="fields-title">
+                                <h4 class="pull-left" style="margin-right: 8px;">{{"Time range"|translate}}:</h4>
+                                <div class="fields-title-select" style="position: relative;">
+                                    <input type="text"
+                                           data-show="select-content"
+                                           disabled
+                                           style="cursor: pointer;"
+                                           ng-init="editReport.selectRange = 'customRange'"
+                                           ng-value="editReport.selectRange | translate">
+                                    <ul  class="select-content" id="select-content">
+                                        <li ng-repeat="date in editReport.dateRange track by $index"
+                                            ng-click="editReport.selectDateRange($event, date, true)"
+                                            ng-bind="date|translate"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="wrap-datepicker">
+                                <div class="field pull-left"
+                                     ng-init="editReport.disabled = false;"
+                                     style="margin-right: 10px;">
+                                    <label class="pull-left">{{'from3'|translate}}</label>
+                                    <input placeholder="{{'from3'|translate}}"
+                                           id="startDate"
+                                           class="startDate pull-left"
+                                           ng-style="editReport.disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
+                                           style="margin-left: 8px;"
+                                           ng-disabled="editReport.disabled" type="text">
+                                </div>
+                                <div class="field pull-left">
+                                    <label class="pull-left">{{'to1'|translate}}</label>
+                                    <input placeholder="{{'to1'|translate}}"
+                                           id="endDate"
+                                           class="endDate pull-left"
+                                           ng-style="editReport.disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
+                                           ng-disabled="editReport.disabled"
+                                           type="text">
+                                </div>
+                                <i class="fa fa-info-circle info"
+                                   ng-mouseover="editReport.inHover($event)"
+                                   ng-mouseleave="editReport.outHover($event)"></i>
+                                <div class="info-content">
+                                    <p>{{"This filter 'by date' in the report shows the last date when a candidate was moved to a new vacancy stage." | translate}}</p>
+                                    <p>{{"The filter is not applied for dates of vacancy creation and date when a candidate was added to a vacancy." | translate}}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="vacancy-statuses col-lg-12">
-                               <span class="status" ng-repeat="status in editReport.vacancyStatuses track by $index"
-                                     ng-if="status.added">
-                                   {{status.value|translate}}
-                                   <span class="counter">
-                                      ({{status.count}})
-                                   </span><span>,&nbsp;</span>
-                               </span>
-                        </div>
-                        <i class="fa fa-pencil"></i>
-                    </div>
-                    <div class="chooseStatusMenu" ng-init="editReport.selectVacancy = []">
-                                <span class="item">
-                                    <span>
-                                        {{'Select vacancy statuses' | translate}}:
-                                    </span>
-                                </span>
-                        <a class="item choosingStages pull-left"
-                           ng-repeat="status in editReport.vacancyStatuses track by $index"
-                           ng-click="editReport.selectValue(status)">
-                            <button class="ui icon button" ng-class="{'checkmark': (status.added == true)}">
-                                <i class="fa fa-check-square checkmark" ng-show="status.added == true"  ng-checked="true" aria-hidden="true" checked="checked"></i>
-                            </button>
-                            <span>
-                                {{status.value|translate}}
-                                <span>({{status.count}})</span>
-                            </span>
-                        </a>
+                        <div  style="display: inline-block" class="alert alert-danger" ng-show="timeMaxZone || timeMaxZone2">{{"The selected date can not be more than the current date."|translate}}</div>
                     </div>
                 </div>
                 <div class="wrapper-for-padding-right col-lg-6 col-md-12">
                     <div class="col-lg-12 col-md-12 block-candidate-show">
                         <h4 class="candidate-show">
-                            <span style="margin-right: 3px;">{{"Show vacancies in the report"|translate}}:</span>
+                            <span style="margin-right: 3px;">{{"Select vacancies in the report"|translate}}:</span>
                             <span class="switch">
                                 <input  id="cmn-toggle-10"
                                         ng-click="editReport.showChoosingMenu('.chooseListFieldsVacancies', this)"
@@ -288,60 +305,6 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="wrapper-for-padding-right col-lg-6 col-md-12">
-                    <div class="form">
-                        <div class="two fields">
-                            <div class="fields-title">
-                                <h4 class="pull-left" style="margin-right: 8px;">{{"Time range"|translate}}:</h4>
-                                <div class="fields-title-select" style="position: relative;">
-                                    <input type="text"
-                                           data-show="select-content"
-                                           disabled
-                                           style="cursor: pointer;"
-                                           ng-init="editReport.selectRange = 'customRange'"
-                                           ng-value="editReport.selectRange | translate">
-                                    <ul  class="select-content" id="select-content">
-                                        <li ng-repeat="date in editReport.dateRange track by $index"
-                                            ng-click="editReport.selectDateRange($event, date)"
-                                            ng-bind="date|translate"></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="wrap-datepicker">
-                                <div class="field pull-left"
-                                     ng-init="editReport.disabled = false;"
-                                     style="margin-right: 10px;">
-                                    <label class="pull-left">{{'from3'|translate}}</label>
-                                    <input placeholder="{{'from3'|translate}}"
-                                           id="startDate"
-                                           class="startDate pull-left"
-                                           ng-style="editReport.disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
-                                           style="margin-left: 8px;"
-                                           ng-disabled="editReport.disabled" type="text">
-                                </div>
-                                <div class="field pull-left">
-                                    <label class="pull-left">{{'to1'|translate}}</label>
-                                    <input placeholder="{{'to1'|translate}}"
-                                           id="endDate"
-                                           class="endDate pull-left"
-                                           ng-style="editReport.disabled ? {'background-color':'rgba(19, 16, 16, 0.18)'}:{'background-color':'#fff'}"
-                                           ng-disabled="editReport.disabled"
-                                           type="text">
-                                </div>
-                                <i class="fa fa-info-circle info"
-                                   ng-mouseover="editReport.inHover($event)"
-                                   ng-mouseleave="editReport.outHover($event)"></i>
-                                <div class="info-content">
-                                    <p>{{"This filter 'by date' in the report shows the last date when a candidate was moved to a new vacancy stage." | translate}}</p>
-                                    <p>{{"The filter is not applied for dates of vacancy creation and date when a candidate was added to a vacancy." | translate}}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div  style="display: inline-block" class="alert alert-danger" ng-show="timeMaxZone || timeMaxZone2">{{"The selected date can not be more than the current date."|translate}}</div>
-                    </div>
-                </div>
-            </section>
-            <section class="row section-four">
-                <div class="wrapper-for-padding-left col-lg-6">
                     <div class="col-lg-12 col-md-12 block-candidate-show">
                         <h4 class="candidate-show">
                             <span style="margin-right: 3px;">{{"Show candidates in the report"|translate}}:</span>
@@ -353,6 +316,43 @@
                                         style="margin: 0px 0px 0px 8px;" for="cmn-toggle-9"></label>
                             </div>
                         </h4>
+                    </div>
+                </div>
+            </section>
+            <section class="row section-four">
+                <div class="wrapper-for-padding-left col-lg-6">
+                    <div class="wrapper-background clearfix" ng-click="editReport.showChoosingMenu('.chooseStatusMenu', this)">
+                        <div class="col-lg-6 block-status">
+                            <h4 style="margin-right: 3px;">{{'Statuses' | translate}}:</h4>
+                        </div>
+                        <div class="vacancy-statuses col-lg-12">
+                               <span class="status" ng-repeat="status in editReport.vacancyStatuses track by $index"
+                                     ng-if="status.added">
+                                   {{status.value|translate}}
+                                   <span class="counter">
+                                      ({{status.count}})
+                                   </span><span>,&nbsp;</span>
+                               </span>
+                        </div>
+                        <i class="fa fa-pencil"></i>
+                    </div>
+                    <div class="chooseStatusMenu" ng-init="editReport.selectVacancy = []">
+                                <span class="item">
+                                    <span>
+                                        {{'Select vacancy statuses' | translate}}:
+                                    </span>
+                                </span>
+                        <a class="item choosingStages pull-left"
+                           ng-repeat="status in editReport.vacancyStatuses track by $index"
+                           ng-click="editReport.selectValue(status)">
+                            <button class="ui icon button" ng-class="{'checkmark': (status.added == true)}">
+                                <i class="fa fa-check-square checkmark" ng-show="status.added == true"  ng-checked="true" aria-hidden="true" checked="checked"></i>
+                            </button>
+                            <span>
+                                {{status.value|translate}}
+                                <span>({{status.count}})</span>
+                            </span>
+                        </a>
                     </div>
                 </div>
             </section>
