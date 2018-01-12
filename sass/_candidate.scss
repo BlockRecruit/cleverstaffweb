@@ -599,20 +599,11 @@
 							position: relative;
 
 							display: inline-block;
-							//<<<<<<< HEAD
 							margin-right: 20px;
 							padding: 12px 0 8px;
 							&.last-child {
 								margin-right: 0;
 							}
-							//							&:last-child {
-							//								margin-right: 0;
-							//							}
-							//=======
-							//							padding: 4px 20px 0 0;
-							//
-							//							vertical-align: top;
-							//>>>>>>> 3034-merge-duplicates
 							#disabledBtn {
 								cursor: pointer;
 
@@ -1609,6 +1600,8 @@
 						display: block;
 						& > img.action-button {
 							display: block;
+							width: 31px;
+							height: 31px;
 							margin: 18px auto;
 							&:hover {
 								cursor: pointer;
