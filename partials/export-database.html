@@ -12,16 +12,24 @@
                 <h3 class="text-center">{{'Database export log' | translate}}</h3>
                 <div class="col-lg-6 col-lg-offset-3 blockCheckoutTable">
                     <div ng-show="history.type == 'backup'" ng-repeat="history in history" class="checkoutTable">
-                        <div class="col-lg-12 status" ng-show="history.status == 'New' || history.status == 'Processing' || history.status == 'Error' || history.status == 'Deleted'">
-                            <span ng-show="history.status == 'New'" class="new">Newwwwwwwwwwwwwwwwwwwwwww !!!!!!!!!!!!!!!!!</span>
+                        <div class="col-lg-12 status" ng-show="history.status == 'Processing' || history.status == 'Error' || history.status == 'Deleted'">
                             <span ng-show="history.status == 'Processing'" class="processing">{{'Candidate database archive is processing and will be available soon'|translate}}</span>
-                            <span ng-show="history.status == 'Error'" class="error">Errorrrrrrrrrrrrrrrrr !!!!!!!!!!!!!!!!!</span>
-                            <span ng-show="history.status == 'Deleted'" class="deleted">Deletedddddddddddddddddd !!!!!!!!!!!!!!!!!</span>
+                            <div class="col-lg-6 text-left time" ng-show="history.status == 'Deleted' || history.status == 'Error'">
+                                <span class="date">{{history.dc|dateFormat:true}}</span>
+                            </div>
+                            <div class="col-lg-6 text-right file deleted" ng-show="history.status == 'Deleted'">
+                                <span class="deleteArchive">{{'Resume archive'|translate}}</span>
+                                {{'archived'|translate}}
+                            </div>
+                            <div class="col-lg-6 text-right file deleted" ng-show="history.status == 'Error'">
+                                <span class="errorArchive">{{'error. try again'|translate}}</span>
+                            </div>
+                            <!--<span ng-show="history.status == 'Error'" class="error">Errorrrrrrrrrrrrrrrrr !!!!!!!!!!!!!!!!!</span>-->
+                            <!--<span ng-show="history.status == 'Deleted'" class="deleted">Deletedddddddddddddddddd !!!!!!!!!!!!!!!!!</span>-->
                         </div>
                         <div class="col-lg-12 timeFile" ng-show="history.status == 'Finished'">
                             <div class="col-lg-6 text-left time">
                                 <span class="date">{{history.dc|dateFormat:true}}</span>
-                                <!--<br>-->
                             </div>
                             <div class="col-lg-6 text-right file">
                                 <a ng-click="downloadArchive(history.fileId)" href="">

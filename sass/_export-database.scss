@@ -69,6 +69,18 @@
 
 							color: #f90;
 						}
+						.time,
+						.file {
+							padding: 0;
+							a {
+								@include link-styling();
+							}
+						}
+						.deleted {
+							.deleteArchive {
+								text-decoration: line-through;
+							}
+						}
 					}
 					.timeFile {
 						padding: 0;
