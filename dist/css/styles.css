@@ -35066,7 +35066,7 @@ body.modal-open-public-vacancy-form .modal-content {
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap; }
     .form .fields .wrap-datepicker {
-      margin-bottom: 10px;
+      margin-bottom: 11px;
       padding-left: 13px;
       -webkit-flex-grow: 1;
       flex-grow: 1; }
@@ -35082,7 +35082,7 @@ body.modal-open-public-vacancy-form .modal-content {
       justify-content: space-between;
       -webkit-align-items: center;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 11px;
       -webkit-flex-grow: 0.1;
       flex-grow: 0.1; }
       .form .fields-title .select-content {
