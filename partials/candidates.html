@@ -38,7 +38,11 @@
                     </div>
                     <div class="operation">
                         <i class="fa fa-file-archive-o" aria-hidden="true"></i>
-                        <a href="" ng-click="exportResumeArchiveModal()">
+                        <a href="" ng-if="!$root.exportCandidate" ng-click="exportResumeArchiveModal()">
+                            {{'Export candidate database' | translate}}
+                            <span class="new-label">New</span>
+                        </a>
+                        <a href="" ng-if="$root.exportCandidate">
                             {{'Export candidate database' | translate}}
                             <span class="new-label">New</span>
                         </a>
