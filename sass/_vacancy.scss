@@ -637,6 +637,9 @@
 		margin-top: 30px;
 		a {
 			@include link-styling();
+			span.default {
+				color: #000;
+			}
 		}
 		.event {
 			@include flex-centered-verticaly();

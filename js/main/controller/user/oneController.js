@@ -94,6 +94,8 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
               //     $scope.clients = response['objects'];
               // });
 
+
+
               $scope.showHistory = true;
               $scope.refreshHistory = function(){
                   Service.history({

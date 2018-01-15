@@ -15364,6 +15364,8 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
                 "page": {"number": 0, "count": $scope.historyLimit ? $scope.historyLimit : 20}
             }, function(res) {
                 $scope.history = res.objects;
+                console.log('history');
+                setHistoryCandidatesLimit();
                 angular.forEach($scope.history, function(value){
                     if(value.stateNew && value.type == "set_interview_status"){
                         array = value.stateNew.split(",");
@@ -15403,6 +15405,7 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
             personId: $rootScope.onlyMe ? $rootScope.userId : null,
             "page": {"number": 0, "count": $scope.historyLimit *= 2}
         }, function(res) {
+            console.log('hist-2');
             $scope.history = res.objects;
             $scope.loading = false;
 
@@ -15455,6 +15458,14 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
             console.log('deleteFunc');
         };
 
+        $scope.toggleHistoryCandidatesLimit = function(hist) {
+            if(!$scope.history[0].candidatesToShow) {
+                setHistoryCandidatesLimit();
+            }
+            console.log('asdas');
+            $scope.history[$scope.history.indexOf(hist)].candidatesToShow = $scope.history[$scope.history.indexOf(hist)].candidatesToShow === 5 ? hist.candidates.length : 5;
+        };
+
         $rootScope.deleteComment = function() {
             Action.removeMessageAction({
                 actionId: $rootScope.commentRemoveId
@@ -15470,6 +15481,15 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
                 $scope.closeModal();
             })
         };
+        function setHistoryCandidatesLimit() {
+            if($scope.history) {
+                $scope.history.forEach((action) => {
+                    action.candidatesToShow = 5;
+                });
+            } else {
+                setTimeout(() => setHistoryCandidatesLimit(), 2000);
+            }
+        }
 }]);
 
 controller.controller('hrModuleInfoController',["$scope","$rootScope", "$filter", "Pay", "notificationService",
@@ -25779,6 +25799,27 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
             //$("html, body").animate({ scrollTop: $(document).height() }, "slow");
         });
     };
+
+    function setHistoryCandidatesLimit() {
+        if($scope.history) {
+            $scope.history.forEach((action) => {
+                action.candidatesToShow = 5;
+            });
+            $scope.$apply();
+        } else {
+            setTimeout(() => setHistoryCandidatesLimit(), 2000);
+        }
+    }
+
+    setHistoryCandidatesLimit();
+    $scope.toggleHistoryCandidatesLimit = function(hist) {
+        if(!$scope.history[0].candidatesToShow) {
+            setHistoryCandidatesLimit();
+        }
+
+        $scope.history[$scope.history.indexOf(hist)].candidatesToShow = $scope.history[$scope.history.indexOf(hist)].candidatesToShow === 5 ? hist.candidates.length : 5;
+    };
+
     $scope.showDetails = function(){
         //$scope.onlyComments = !$scope.onlyComments;
         Service.history({
@@ -30142,6 +30183,8 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
               //     $scope.clients = response['objects'];
               // });
 
+
+
               $scope.showHistory = true;
               $scope.refreshHistory = function(){
                   Service.history({
@@ -32459,6 +32502,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.sortValue = 'addInVacancyDate';
         $scope.sortOrder = 'ASC';
         $scope.visiable = false;
+        $scope.historyCandidatesLimit = 5;
         $localStorage.remove("vacancyForTest");
         $localStorage.remove("activeCustomStageName");
         $localStorage.remove("activeCustomStageId");
@@ -33557,7 +33601,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         data.object.text = data.object.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $scope.vacancy.position + '</a>');
                         data.object.text = data.object.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName);
                         data.object.title = data.object.title.replace(/\[\[vacancy name\]\]/g, $scope.vacancy.position);
-                        console.log('data.object.text,$scope.publicLink',data.object.text,$scope.publicLink)
                         $rootScope.sendEmailTemplate.template = data.object;
                         $rootScope.sendEmailTemplate.template.text = $rootScope.sendEmailTemplate.template.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName ? $rootScope.candnotify.fullName : "");
                         $rootScope.sendEmailTemplate.template.text = $rootScope.sendEmailTemplate.template.text.replace(/\[\[recruiter's phone\]\]/g, $rootScope.me.phone ? $rootScope.me.phone : "");
@@ -33583,7 +33626,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         if($rootScope.sendEmailTemplate.template.fileId && $rootScope.sendEmailTemplate.template.fileName){
                             $rootScope.fileForSave.push({"fileId": $rootScope.sendEmailTemplate.template.fileId, "fileName": $rootScope.sendEmailTemplate.template.fileName});
                         }
-                        console.log('$rootScope.sendEmailTemplate',$rootScope.sendEmailTemplate)
                     });
                 },0);
             });
@@ -35317,6 +35359,25 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 $scope.historyLimit = res.objects !== undefined ? res.size : null;
                 $scope.historyTotal = res.objects !== undefined ? res.total : null;
             });
+        };
+
+        function setHistoryCandidatesLimit() {
+            if($scope.history) {
+                $scope.history.forEach((action) => {
+                    action.candidatesToShow = 5;
+                });
+                $scope.$apply();
+            } else {
+                setTimeout(() => setHistoryCandidatesLimit(), 2000);
+            }
+        }
+        setHistoryCandidatesLimit();
+        $scope.toggleHistoryCandidatesLimit = function(hist) {
+            if(!$scope.history[0].candidatesToShow) {
+                setHistoryCandidatesLimit();
+            }
+            $scope.history[$scope.history.indexOf(hist)].candidatesToShow = $scope.history[$scope.history.indexOf(hist)].candidatesToShow === 5 ? hist.candidates.length : 5;
+
         };
 
         $scope.changeHistoryType = function () {
@@ -37680,6 +37741,7 @@ function historyButton($scope, resp, Service, CacheCandidates) {
         }, function(res) {
             if(res.status == 'ok'){
                 $scope.history = res.objects;
+                console.log('123');
             } else{
                 notificationService.error(res.message);
             }

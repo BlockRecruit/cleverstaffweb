@@ -27,6 +27,8 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
                 "page": {"number": 0, "count": $scope.historyLimit ? $scope.historyLimit : 20}
             }, function(res) {
                 $scope.history = res.objects;
+                console.log('history');
+                setHistoryCandidatesLimit();
                 angular.forEach($scope.history, function(value){
                     if(value.stateNew && value.type == "set_interview_status"){
                         array = value.stateNew.split(",");
@@ -66,6 +68,7 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
             personId: $rootScope.onlyMe ? $rootScope.userId : null,
             "page": {"number": 0, "count": $scope.historyLimit *= 2}
         }, function(res) {
+            console.log('hist-2');
             $scope.history = res.objects;
             $scope.loading = false;
 
@@ -118,6 +121,14 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
             console.log('deleteFunc');
         };
 
+        $scope.toggleHistoryCandidatesLimit = function(hist) {
+            if(!$scope.history[0].candidatesToShow) {
+                setHistoryCandidatesLimit();
+            }
+            console.log('asdas');
+            $scope.history[$scope.history.indexOf(hist)].candidatesToShow = $scope.history[$scope.history.indexOf(hist)].candidatesToShow === 5 ? hist.candidates.length : 5;
+        };
+
         $rootScope.deleteComment = function() {
             Action.removeMessageAction({
                 actionId: $rootScope.commentRemoveId
@@ -133,4 +144,13 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
                 $scope.closeModal();
             })
         };
+        function setHistoryCandidatesLimit() {
+            if($scope.history) {
+                $scope.history.forEach((action) => {
+                    action.candidatesToShow = 5;
+                });
+            } else {
+                setTimeout(() => setHistoryCandidatesLimit(), 2000);
+            }
+        }
 }]);

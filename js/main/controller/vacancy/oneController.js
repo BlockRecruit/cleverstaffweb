@@ -22,6 +22,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.sortValue = 'addInVacancyDate';
         $scope.sortOrder = 'ASC';
         $scope.visiable = false;
+        $scope.historyCandidatesLimit = 5;
         $localStorage.remove("vacancyForTest");
         $localStorage.remove("activeCustomStageName");
         $localStorage.remove("activeCustomStageId");
@@ -2878,6 +2879,25 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 $scope.historyLimit = res.objects !== undefined ? res.size : null;
                 $scope.historyTotal = res.objects !== undefined ? res.total : null;
             });
+        };
+
+        function setHistoryCandidatesLimit() {
+            if($scope.history) {
+                $scope.history.forEach((action) => {
+                    action.candidatesToShow = 5;
+                });
+                $scope.$apply();
+            } else {
+                setTimeout(() => setHistoryCandidatesLimit(), 2000);
+            }
+        }
+        setHistoryCandidatesLimit();
+        $scope.toggleHistoryCandidatesLimit = function(hist) {
+            if(!$scope.history[0].candidatesToShow) {
+                setHistoryCandidatesLimit();
+            }
+            $scope.history[$scope.history.indexOf(hist)].candidatesToShow = $scope.history[$scope.history.indexOf(hist)].candidatesToShow === 5 ? hist.candidates.length : 5;
+
         };
 
         $scope.changeHistoryType = function () {

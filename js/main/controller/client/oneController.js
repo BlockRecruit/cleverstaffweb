@@ -556,6 +556,27 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
             //$("html, body").animate({ scrollTop: $(document).height() }, "slow");
         });
     };
+
+    function setHistoryCandidatesLimit() {
+        if($scope.history) {
+            $scope.history.forEach((action) => {
+                action.candidatesToShow = 5;
+            });
+            $scope.$apply();
+        } else {
+            setTimeout(() => setHistoryCandidatesLimit(), 2000);
+        }
+    }
+
+    setHistoryCandidatesLimit();
+    $scope.toggleHistoryCandidatesLimit = function(hist) {
+        if(!$scope.history[0].candidatesToShow) {
+            setHistoryCandidatesLimit();
+        }
+
+        $scope.history[$scope.history.indexOf(hist)].candidatesToShow = $scope.history[$scope.history.indexOf(hist)].candidatesToShow === 5 ? hist.candidates.length : 5;
+    };
+
     $scope.showDetails = function(){
         //$scope.onlyComments = !$scope.onlyComments;
         Service.history({

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/gitProject.iml" filepath="$PROJECT_DIR$/.idea/gitProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/cleverstaffweb.iml" filepath="$PROJECT_DIR$/.idea/cleverstaffweb.iml" />
     </modules>
   </component>
 </project>

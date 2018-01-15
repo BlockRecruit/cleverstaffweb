@@ -10,15 +10,18 @@
 <div class="col-lg-10">
     {{'candidates'|translate}}
     <span class="comma">
-        <span ng-repeat="candidate in history.candidates">
+        <span ng-repeat="candidate in history.candidates | limitTo: history.candidatesToShow">
             <a href="#/candidates/{{candidate.localId}}">{{candidate.fullName}}</a>
-            <span ng-if="history.candidates.indexOf(candidate) < history.candidates.length - 1">,</span>
-            <!--{{$last ? '' : ', '}}-->
+            <span ng-if="history.candidates.indexOf(candidate) < history.candidatesToShow - 1">,</span>
         </span>
     </span>
-    <span ng-show="candidatesLengts!=0">{{'and another'|translate}} {{candidatesLengts}}
-        {{'by_vacancy'|translate}} <a href="#/vacancies/{{history.vacancy.localId}}">{{history.vacancy.position}}</a>
-    </span> {{'were sent to the Client'|translate}}
+    <span ng-show="history.candidates.length !== 0">
+        <a class="show-more-candidates"
+           ng-show="history.candidates.length > 5">
+            <span ng-click="toggleHistoryCandidatesLimit(history)" ng-show="history.candidatesToShow <= 5"><span class="default">{{'and' | translate}}&nbsp</span>{{'another'|translate}} ({{history.candidates.length - 5}})</span>
+            <span ng-click="toggleHistoryCandidatesLimit(history)" ng-show="history.candidatesToShow > 5">&nbsp({{'Hide_1'|translate}})</span>
+        </a> {{'were sent to the Email'|translate}}
+    </span>
 
             <span ng-switch="$root.me.personParams.clientAccessLevel">
                 <span ng-switch-when="hide">{{history.client.name}}</span>

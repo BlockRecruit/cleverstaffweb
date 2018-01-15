@@ -2382,7 +2382,6 @@
   "Please add candidates’ email first": "Сначала добавьте email кандидата",
   "Please add clients’ email first": "Сначала добавьте email клиента",
   "Sign in via":"Войти с помощью",
-  "Hide_1": "Спрятать",
   "this comment for Hiring managers": "этот комментарий для Заказчиков",
   "Comment hidden for Hiring Managers": "Комментарий скрыт для Заказчика",
   "Comment visible for Hiring Managers": "Комментарий видимый для Заказчика",
@@ -2797,5 +2796,7 @@
   "Share vacancy via Facebook": "Опубликовать в Facebook",
   "Show more": "Показать ещё",
   "Only account administrator is able to make a payment":"Только администратор аккаунта может произвести оплату",
-  "for vacancy": "по вакансии"
+  "for vacancy": "по вакансии",
+  "Hide_1": "Скрыть",
+  "another": "другие"
 }

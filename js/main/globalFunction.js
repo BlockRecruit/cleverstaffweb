@@ -124,6 +124,7 @@ function historyButton($scope, resp, Service, CacheCandidates) {
         }, function(res) {
             if(res.status == 'ok'){
                 $scope.history = res.objects;
+                console.log('123');
             } else{
                 notificationService.error(res.message);
             }
