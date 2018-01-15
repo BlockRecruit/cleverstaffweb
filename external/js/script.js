@@ -4857,6 +4857,7 @@ $('#signup-button').click(function(){
     function saveEmail() {
         var email = $('#login').val();
         $('#phone_number4').val(email);
+        console.log(email);
     }
 
     $('#forgot-pass').click(function(){

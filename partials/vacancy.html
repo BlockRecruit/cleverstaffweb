@@ -64,7 +64,7 @@
                 </li>
                 <li class="pull-left">
                     <button id="disabledBtn-2" ng-click="$root.disabledBtnFunc();" ng-show="!$root.hideTariff && $root.me.recrutRole != 'client'"
-                            type="button" class="btn btn-default disabled">
+                            type="button" class="btn btn-default margin-left disabled">
                         {{'Email templates vacancy' | translate}}
                     </button>
                 </li>
@@ -154,7 +154,7 @@
                                             </div>
                                          </i>
                                     </h5>
-                                    <span class="title no-left-margin pull-right"> {{'Responsible types'|translate}}<span class="new-label">New</span></span>
+                                    <span class="title no-left-margin pull-right"> {{'Responsible types'|translate}}</span>
                                     <span class="responsibleSelect" ng-switch="vacancy.responsiblesPerson.length > 0">
 
                                         <select class="form-control pull-left" ng-show="$root.me.recrutRole != 'client'" hide-onclick-anywhere-but-here="" ng-model="person.userId" ng-change="showAddResponsibleUser(person)">

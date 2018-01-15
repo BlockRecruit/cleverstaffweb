@@ -58,7 +58,7 @@ controller.controller('pipelineController', ["$rootScope", "$scope", "notificati
         $scope.showPipelineDescr = function(){
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/pipeline-descr.html',
+                templateUrl: '../partials/modal/pipeline-descr.html?b=1',
                 size: '',
                 resolve: function(){
 

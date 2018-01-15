@@ -122,6 +122,9 @@
 		}
 		select {
 			@include select-styling();
+			&.margin-top {
+				margin-top: 10px;
+			}
 			.disable {
 				color: $theme-light-grey;
 			}

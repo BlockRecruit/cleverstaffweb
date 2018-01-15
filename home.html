@@ -1039,7 +1039,7 @@
                     <li class="hidden-sm hidden-xs">
                         <a href="#/reports/vacancy" id="showVacancies" ng-class="{'selected': $root.activePage == 'Vacancy report'}" ng-show="$root.hideTariff && ($root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'client'|| $root.me.recrutRole == 'freelancer') ">{{'Vacancy report & recruitment funnel'|translate}}</a>
                         <button id="disabledBtn-2" ng-click="$root.disabledBtnFunc();" ng-show="!$root.hideTariff"
-                                type="button" class="btn btn-default disabled">
+                                type="button" class="btn btn-default disabled less-margin">
                             {{'Vacancy report'|translate}}
                         </button>
                     </li>
@@ -1051,7 +1051,7 @@
                         </button>
                     </li>
                     <li class="hidden-sm hidden-xs"  ng-if='$root.me.recrutRole==="admin" && !$root.blockUser'>
-                        <a href class="btn btn-primary inviteUserClient" ng-click="inviteHiringManager();">{{'Invite Hiring manager'|translate}}</a>
+                        <a href class="btn btn-primary inviteUserClient" ng-class="{'blocked-user' : !$root.hideTariff}" ng-click="inviteHiringManager();">{{'Invite Hiring manager'|translate}}</a>
                     </li>
 
                 </ul>
