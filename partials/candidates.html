@@ -1769,7 +1769,9 @@
                                     <span>{{candidatePreview.region.displayCity}}</span>
                                     <div class="relocated" ng-show="candidatePreview != undefined && candidatePreview.readyRelocate && candidatePreview.relatedRegions!=undefined">
                                         <img class="relocate" src="/images/sprite/relocate-g.svg">
-                                        <span class="regions">{{'Relocate' | translate}}:
+                                        <span class="regions">
+                                            <span ng-if="candidatePreview.relatedRegions.length">{{'Relocate' | translate}}:</span>
+                                            <span ng-if="!candidatePreview.relatedRegions.length">{{'ready_to_relocate2' | translate}}</span>
                                             <span ng-class="{'first' : candidatePreview.relatedRegions.indexOf(region) === 0,
                                                              'last' : candidatePreview.relatedRegions.indexOf(region) === 1}"
                                                   class="region"
@@ -1807,14 +1809,12 @@
 
                         <tr ng-show="candidatePreview != undefined && candidatePreview.employmentType">
                             <td class="content-header">
-                                <!--{{'employment_type'|translate}}-->
                                 <img src="/images/sprite/employment-g.svg" alt="">
                             </td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em;word-break: break-all;"
                                 ng-show="candidatePreview.employmentType">
                                     <span class="employment-type" ng-repeat="emplType in candidatePreview.employmentType.split(',')">
                                         {{emplType|translate}}
-                                        <!--{{$index}}{{emplType}}-->
                                     </span>
                             </td>
                         </tr>
@@ -1828,7 +1828,7 @@
                             </td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
                                 <div class="relocated">
-                                    <span class="regions inline" ng-class="{'flex' : candidatePreview.relatedRegions.length === 1}">
+                                    <span class="regions inline" ng-class="{'flex' : candidatePreview.relatedRegions.length <= 1}">
                                         <span class="region"
                                               ng-class="{'last' : candidatePreview.relatedRegions.indexOf(region) === 1}"
                                               ng-repeat="region in candidatePreview.relatedRegions | limitTo: 2">
@@ -1837,10 +1837,10 @@
                                             </span>
                                         </span>
                                         <span class="dots">{{candidatePreview.relatedRegions.length > 2 ? '...' : ''}}</span>
+                                        <span ng-if="candidatePreview.relatedRegions.length === 0">{{'ready_to_relocate2' | translate}}</span>
                                     </span>
                                 </div>
 
-                                <span ng-if="candidatePreview.relatedRegions.length === 0">{{'ready_to_relocate2' | translate}}</span>
                             </td>
                         </tr>
 
