@@ -15,6 +15,10 @@
             <span ng-if="history.candidates.indexOf(candidate) < history.candidatesToShow - 1">,</span>
         </span>
     </span>
+
+    <span ng-show="$root.currentLang =='ru' || $root.currentLang =='ua'">{{'by_vacancy'|translate}}</span>
+    <span ng-show="$root.currentLang =='en'">{{'for vacancy'|translate}}</span> <a href="#/vacancies/{{history.vacancy.localId}}">{{history.vacancy.position}}</a>
+
     <span ng-show="history.candidates.length !== 0">
         <a class="show-more-candidates"
            ng-show="history.candidates.length > 5">

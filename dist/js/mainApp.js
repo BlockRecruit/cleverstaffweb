@@ -15462,7 +15462,6 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
             if(!$scope.history[0].candidatesToShow) {
                 setHistoryCandidatesLimit();
             }
-            console.log('asdas');
             $scope.history[$scope.history.indexOf(hist)].candidatesToShow = $scope.history[$scope.history.indexOf(hist)].candidatesToShow === 5 ? hist.candidates.length : 5;
         };
 
