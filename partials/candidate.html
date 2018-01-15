@@ -88,7 +88,7 @@
                         </div>
                         <div class="col-xs-6 wrap-action-buttons not-for-print">
                             <img class="action-button"
-                                 src="../images/sprite/addVacancy.png"
+                                 src="../images/sprite/addVacancy.svg"
                                  alt="{{'Add to vacancy'|translate}}"
                                  ng-click="toAddVacancyForm(null, true, false);">
                             <!--<img ng-click="toEdit(candidate.localId)"-->
@@ -98,7 +98,7 @@
                             <img ng-click="showModalAddCommentToCandidate('md');"
                                  ng-show="$root.me.recrutRole != 'client'"
                                  class="action-button"
-                                 src="../images/sprite/addMessage.png"
+                                 src="../images/sprite/addMessage.svg"
                                  alt="{{'add_comment'|translate}}">
                         </div>
                         <div class="clearfix"></div>
@@ -358,39 +358,39 @@
                         <ul class=" hidden-xs">
                             <li>
                                 <a href="" title="{{'Add to vacancy'|translate}}" ng-click="toAddVacancyForm(null, true, false);">
-                                    <img src="../images/sprite/addVacancy.png" alt="{{'Add to vacancy'|translate}}">
+                                    <img src="../images/sprite/addVacancy.svg" alt="{{'Add to vacancy'|translate}}">
                                 </a>
                             </li>
                             <li ng-show="$root.me.recrutRole != 'salesmanager' && $root.me.recrutRole != 'client'">
-                                <a href="" title="{{'edit_profile'|translate}}" ng-click="toEdit(candidate.localId)">
-                                    <img src="../images/sprite/edit.png" alt="{{'edit_profile'|translate}}">
+                                <a href=""  title="{{'edit_profile'|translate}}" ng-click="toEdit(candidate.localId)">
+                                    <img src="../images/sprite/edit.svg" alt="{{'edit_profile'|translate}}">
                                 </a>
                             </li>
                             <li>
                                 <a title="{{'add_comment'|translate}}" ng-click="showModalAddCommentToCandidate('md');">
-                                    <img src="../images/sprite/addMessage.png" alt="{{'Add to vacancy'|translate}}">
+                                    <img src="../images/sprite/addMessage.svg" alt="{{'add_comment'|translate}}">
                                 </a>
                             </li>
                             <li ng-show="$root.me.recrutRole != 'client'">
                                 <a title="{{'Send email'|translate}}" ng-click="showCandidateSentEmail()">
-                                    <img class="lessSize" src="../images/sprite/sendEmail.png" alt="{{'Send email'|translate}}">
+                                    <img class="lessSize" src="../images/sprite/sendEmail.svg" alt="{{'Send email'|translate}}">
                                 </a>
                             </li>
                         </ul>
                         <ul class=" hidden-xs right-side">
                             <li>
                                 <a href="javaScript:window.print(); " title="{{'print'|translate}}" ng-click="toggleDescriptionFunc('expand')">
-                                    <img src="../images/sprite/Print.png" alt="{{'Add to vacancy'|translate}}">
+                                    <img src="../images/sprite/Print.svg" alt="{{'Add to vacancy'|translate}}">
                                 </a>
                             </li>
                             <li ng-show="$root.hideTariff">
                                 <a title="{{'Download as docx'|translate}}" ng-click="downloadDoc()">
-                                    <img src="../images/sprite/download.png" alt="{{'Add to vacancy'|translate}}">
+                                    <img src="../images/sprite/download.svg" alt="{{'Download as docx'|translate}}">
                                 </a>
                             </li>
                             <li ng-class="{'last-child' : $root.hideTariff}" ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter'">
                                 <a title="{{'Merge with another profile'|translate}}" ng-click="toMergeModal()">
-                                    <img src="../images/sprite/merge.png" alt="{{'Add to vacancy'|translate}}">
+                                    <img src="../images/sprite/merge.svg" alt="{{'Merge with another profile'|translate}}">
                                 </a>
                             </li>
                             <!--<li ng-show="$root.me.recrutRole != 'client' && $root.me.recrutRole != 'salesmanager' && $root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer'">-->
@@ -404,7 +404,7 @@
                             <a style="display: none;" id="downloadDoc"></a>
                             <li ng-if="!$root.hideTariff">
                                 <a title="{{'Download as docx'|translate}}" ng-click="$root.disabledBtnFunc();">
-                                    <img src="../images/sprite/download.png" alt="{{'download_docx'|translate}}">
+                                    <img src="../images/sprite/download.svg" alt="{{'download_docx'|translate}}">
                                 </a>
                             </li>
                         </ul>

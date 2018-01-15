@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
+    <script>
+        if (document.domain === 'cleverstaff.net') {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-52127049-1');
+        }
+    </script>
+    <!-- end of gtag -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
     <title>Вход | CleverStaff | Единая система для профессионального подбора персонала</title>
@@ -209,15 +221,15 @@
         unknownEmail: "Пользователь с таким email не зарегистрирован в CleverStaff",
         registrationIsNotConfirmed: "Вы не подтвердили регистрацию",
         confirmMessage: "Инструкция отправлена на Ваш email",
-        timeout: "Мы проводим обновление версии системы, через несколько минут все будет работать."
+        timeout: "Мы проводим обновление версии системы, через несколько минут все будет работать.",
+        disabledUser: "Вы заблокированы администратором вашей компании."
     };
 </script>
 <link rel="stylesheet" href="../external/css/signin.css?b23">
 
 <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/ApiKey.js?b1"></script>
-<script src="../external/js/script.min.js?b10"></script>
-<script src="../../dist/js/bootstrap.js"></script>
+<script src="../external/js/script.min.js?b12"></script>
 <script src="../external/js/masked.js"></script>
 <script type="text/javascript" src="../external/js/jquery-dateFormat.min.js"></script>
 <script type="text/javascript" src="../external/js/signInScript.min.js"></script>
@@ -227,6 +239,28 @@
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     if (document.domain === 'cleverstaff.net') {
+        // google corporate data + logo
+        var LDJson = document.createElement('script');
+        LDJson.type = 'application/ld+json';
+        LDJson.text = JSON.stringify(
+            {
+                "@context": "http://schema.org",
+                "@type": "Organization",
+                "url": "https://cleverstaff.net/ru/signin.html",
+                "logo": "https://cdn-images-1.medium.com/fit/c/200/200/1*9hCuwXW2-5kCyJWV8EMKsw.png",
+                "contactPoint": [{
+                    "@type": "ContactPoint",
+                    "telephone": "+38-044-22-11-063",
+                    "contactType": "customer support",
+                    "availableLanguage": [
+                        "English",
+                        "Russian",
+                        "Ukrainian" ]
+                }]
+            });
+        document.head.appendChild(LDJson);
+        console.log(document.head);
+        // end of google corporate data + logo
         (function (d, w, c) {
             (w[c] = w[c] || []).push(function() {
                 try {
@@ -268,7 +302,7 @@
             a.src = g;
             m.parentNode.insertBefore(a, m)
         })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-52127049-4', {
+        ga('create', 'UA-52127049-1', {
             'cookieDomain': document.domain
         });
         ga('send', 'pageview');

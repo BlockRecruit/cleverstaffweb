@@ -1,4 +1,4 @@
-function CustomReportsService($rootScope, Stat, $translate, Company, Person, vacancyStages, notificationService, $location, $uibModal,$timeout, CustomField) {
+function CustomReportsService($rootScope, Stat, $translate, Company, Person, vacancyStages, notificationService, $location, $uibModal,$timeout, CustomField, Vacancy) {
     try{
         var reports = {},
             loadingExcel = false;
@@ -128,10 +128,10 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithCandidates($scope) {
             Stat.requestGetActualVacancyStatistic2({
-                "from": (this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'],
-                "to": (this.endDate)? this.endDate : this.dataReport['dateTo'],
+                "from":createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom']),
+                "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo']),
                 "types":null,
-                "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"] : null,
+                "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"] : [],
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
                 "interviewStatuses": this.dataReport["interviewStatuses"],
                 "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
@@ -147,10 +147,10 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithoutCandidates($scope) {
             Promise.all([Stat.requestGetActualVacancyStatistic2({
-                "from": (this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'],
-                "to": (this.endDate)? this.endDate : this.dataReport['dateTo'],
+                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom']),
+                "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo']),
                 "types":null,
-                "vacancyIds":(this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:null,
+                "vacancyIds":(this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:[],
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
                 "interviewStatuses": this.dataReport["interviewStatuses"],
                 "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
@@ -165,10 +165,17 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                     resetNoAngularContext($scope);
                 });
         }
+        function createCorrectDate(date) {
+            var currentDate = new Date(date),
+                correctDate = +new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23,59,59);
+            return correctDate;
+        }
 
-        reports.getReport = data => {
+
+        reports.getReport = (event, data) => {
             reports.data = data;
             localStorage.setItem('reportsData', JSON.stringify(data));
+            event.stopPropagation();
         };
 
         reports.showChoosingMenu = function(selector, $scope){
@@ -179,14 +186,12 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                         if ($(selector).has(e.target).length === 0) {
                             $(selector).hide("500");
                             $(document).off('mouseup');
-                            this.chooseListFieldsVacancies = false;
                         }
                     });
                 });
             }else{
                 $('body').unbind('mouseup');
                 $(selector).hide("500");
-                this.chooseListFieldsVacancies = false;
             }
         };
 
@@ -207,7 +212,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 .catch(error => console.log(error, 'removeReport Method'))
         };
 
-        reports.remove = function (id, scope) {
+        reports.remove = function (id, scope, event) {
             scope.id = id;
             $rootScope.modalInstance = $uibModal.open({
                 animation: true,
@@ -216,6 +221,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 backdrop: 'static',
                 scope: scope,
             });
+            event.stopPropagation();
         };
 
         reports.closeModal = function () {
@@ -243,7 +249,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             return fullName;
         };
 
-        reports.getDate = function (dataReport, scope) {
+        reports.getDate = function (dataReport, scope, isUpdateVacanciesList) {
             var now = Date.now();
                 now += (2592000000 * 2);
 
@@ -261,12 +267,15 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                     this.timeMaxZone = true;
                 }else{ this.timeMaxZone = false;}
 
-                (this.data)? this.data.dateFrom = this.startVacancyDate : null;
-
-                setTimeout(() => {
-                    this.change = false;
-                    scope.$apply();
-                }, 100)
+                updateListVacansies.apply(this, [this.startVacancyDate,  this.endDate, isUpdateVacanciesList])
+                    .then(setListVacancies.bind(this),() => Promise.resolve())
+                    .then(() => {
+                        (this.data)? this.data.dateFrom = this.startVacancyDate : null;
+                        setTimeout(() => {
+                            this.change = false;
+                            scope.$apply();
+                        }, 100)
+                    });
             })
               .on('hide', () => ($('.startDate').val() == "")? this.startVacancyDate = null : false);
 
@@ -284,12 +293,16 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                     this.timeMaxZone = true;
                 }else{ this.timeMaxZone = false;}
 
-                (this.data)? this.data.dateTo = this.endDate : null;
+                updateListVacansies.apply(this, [this.startVacancyDate,  this.endDate, isUpdateVacanciesList])
+                    .then(setListVacancies.bind(this), () => Promise.resolve())
+                    .then(() => {
+                        (this.data)? this.data.dateTo = this.endDate : null;
 
-                setTimeout(() => {
-                    this.change = false;
-                    scope.$apply();
-                }, 100)
+                        setTimeout(() => {
+                            this.change = false;
+                            scope.$apply();
+                        }, 100)
+                    })
             })
               .on('hide', () => ($('.endDate').val() == "")? this.endDate = null : false);
 
@@ -307,10 +320,10 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             if(loadingExcel == false){
                 loadingExcel = true;
                 Stat.createVacancyStatisticExcel({
-                    "from": this.dataReport['dateFrom'],
-                    "to": this.dataReport['dateTo'],
+                    "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom']),
+                    "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo']),
                     "types":null,
-                    "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:null,
+                    "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:[],
                     "vacancyStatuses": this.dataReport["vacancyStatuses"],
                     "interviewStatuses": this.dataReport["interviewStatuses"],
                     "interviewCreatorIds": this.dataReport["interviewCreatorIds"],
@@ -408,6 +421,37 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             $(".endDate").datetimepicker("setDate", new Date(currentDateFinish));
         };
 
+        function updateListVacansies(startDate,endDate, isUpdateReports) {
+            if(isUpdateReports){
+                return Vacancy.getAllVacansies({from:startDate,to:endDate});
+            }
+            return Promise.reject();
+        }
+
+        function setListVacancies(resp) {
+            let responseData, listVacancies = this.fieldsVacancyList;
+
+            if(!resp.objects){
+                $rootScope.loading = false;
+                return;
+            }
+
+            responseData = resp.objects;
+
+            responseData.forEach(i => {
+                listVacancies.forEach(j =>{
+                    let i2 = i;
+                    if(i2.vacancyId  === j.vacancyId && j.visible){
+                        i2.visible = true;
+                    }
+                });
+            });
+
+            listVacancies  = null;
+            this.fieldsVacancyList = responseData;
+            $rootScope.loading = false;
+        }
+
         if(!reports.data) {
             if (!localStorage.getItem('reportsData') || localStorage.getItem('reportsData') == '') {
                 $location.path('/reports')
@@ -415,6 +459,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                 reports.data = JSON.parse(localStorage.getItem('reportsData'));
             }
         }
+
         return reports;
     }catch(error){
         console.log(error, 'error CustomReportsService');
@@ -423,4 +468,4 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
 angular
     .module('services.CustomReportsService',['ngResource', 'ngCookies'])
-    .factory('CustomReportsService',["$rootScope","Stat", "$translate","Company","Person","vacancyStages", "notificationService","$location","$uibModal","$timeout","CustomField", CustomReportsService]);
+    .factory('CustomReportsService',["$rootScope","Stat", "$translate","Company","Person","vacancyStages", "notificationService","$location","$uibModal","$timeout","CustomField","Vacancy", CustomReportsService]);

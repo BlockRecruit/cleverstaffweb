@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
+    <script>
+        if (document.domain === 'cleverstaff.net') {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-52127049-1');
+        }
+    </script>
+    <!-- end of gtag -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
     <title>Pricing | CleverStaff | ATS & Recruitment Software</title>
@@ -20,11 +32,6 @@
     <script>
         localStorage.setItem("NG_TRANSLATE_LANG_KEY", "en");
     </script>
-    <!-- Facebook Pixel Code -->
-    <noscript><img height="1" width="1" style="display:none"
-                   src="https://www.facebook.com/tr?id=980245322007471&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Facebook Pixel Code -->
 </head>
 <body>
 <div class="wrapper">
@@ -35,7 +42,7 @@
             </div>
         </div>
         <div class="corner-ribbon-info">
-            <img src="/external/img/responsive-design.png">
+            <img src="/external/img/responsive-design.png" alt="Adaptive interface">
             <p><strong>Adaptive interface</strong></p>
             <p>All internal pages with key features adapted for your mobile devices: smartphones, tablets, and screens of all sizes.</p>
             <p>Try CleverStaff now on any device you like ;)</p>
@@ -163,7 +170,7 @@
                     <div class="tarif enterPrize">
                         <h4 class="text-center">Enterprise</h4>
                         <div class="howMuchMoney">
-                            <h5 class="text-center">Get an </br>Offer</h5>
+                            <h5 class="text-center">Get an <br> Offer</h5>
                         </div>
                         <p class="text-center lstChild">Your autonomous license on your own server.</p>
                         <a href="#need-demo-modal"
@@ -569,7 +576,7 @@
                 <div class="text-center no-border mobBtn">
                     <a class="orangeBtn price-btn-small pull-left">Start Now</a>
                     <a class="orangeBtn price-btn-small">Start 7 day trial</a>
-                    <a href="mailto:roman@cleverstaff.net?subject=Request for Premium offer&body=(Please write here about your company and contacts)" class="orangeBtn pull-right">Get an offer</a>
+                    <a href="mailto:roman@cleverstaff.net?subject=Request%20for%20Premium%20offer&body=(Please%20write%20here%20about%20your%20company%20and%20contacts)" class="orangeBtn pull-right">Get an offer</a>
                 </div>
                 <div class="clearfix"></div>
                 <span class="greyLine"></span>
@@ -586,9 +593,9 @@
                         <li><a href="features.html">Features</a></li>
                         <li class="menu"><a href="#home" class="active-link">Pricing</a></li>
                         <li><a href="https://cleverstaff.net/news/" target="_blank">Blog</a></li>
-                        <li><a href="api.html" target="_blank" target="_blank">API</a></li>
-                        <li><a href="privacy.html" target="_blank" target="_blank">Privacy Policy</a></li>
-                        <li><a href="terms.html" target="_blank" target="_blank">Public Agreement</a></li>
+                        <li><a href="api.html" target="_blank">API</a></li>
+                        <li><a href="privacy.html" target="_blank">Privacy Policy</a></li>
+                        <li><a href="terms.html" target="_blank">Public Agreement</a></li>
                     </ul>
                 </div>
                 <div class="col-xs-8 col-sm-4 col-md-4">
@@ -608,7 +615,7 @@
                     <a href="https://plus.google.com/u/1/b/103298552184404196991/103298552184404196991" target="_blank" class="pull-left"><span class="gplus"></span></a>
                     <div class="clearfix"></div>
                     <br/>
-                    <a href='http://www.capterra.com/applicant-tracking-software/reviews/137247/CleverStaff/CleverStaff?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge' target="_blank"> <img border='0' src='external/img/62e9b8dfc9d563272407e48ee5216da2.png' /></a>
+                    <a href='http://www.capterra.com/applicant-tracking-software/reviews/137247/CleverStaff/CleverStaff?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge' target="_blank"> <img alt="image" src='external/img/62e9b8dfc9d563272407e48ee5216da2.png' /></a>
                 </div>
                 <div class="clearfix"></div>
                 <footer>
@@ -627,7 +634,7 @@
             <h2 class="modal-title text-center showTariffPrice showTariffPriceEn" style="display: none">
                 Request pricing quote
             </h2>
-            <form class="questionForm-index" action="" method="" name="" id="questionForm-index">
+            <form class="questionForm-index" action="#" name="qeustionForm" id="questionForm-index">
                 <div class="form-gr">
                     <div class="firstName">
                         <label for="ex1_firstName" class="nameForm pull-left">First name *</label>
@@ -732,8 +739,8 @@
             <h4 class="modal-title">
                 Internet Explorer is not suitable for working in CleverStaff, use  Chrome or Firefox
             </h4>
-            <img src="external/img/chrome.png" width="50" height="50" class="imgBrower" alt=""/>
-            <img src="external/img/firefox.png" width="50" height="50" class="imgBrower" alt=""/>
+            <img src="external/img/chrome.png" width="50" height="50" class="imgBrower" alt="Chrome"/>
+            <img src="external/img/firefox.png" width="50" height="50" class="imgBrower" alt="Firefox"/>
             <span class="close" data-dismiss="modal"></span>
         </div>
     </div>
@@ -749,7 +756,28 @@
 
 <script type="text/javascript">
     if (document.domain === 'cleverstaff.net') {
-
+        // google corporate data + logo
+        var LDJson = document.createElement('script');
+        LDJson.type = 'application/ld+json';
+        LDJson.text = JSON.stringify(
+            {
+                "@context": "http://schema.org",
+                "@type": "Organization",
+                "url": "https://cleverstaff.net/price.html",
+                "logo": "https://cdn-images-1.medium.com/fit/c/200/200/1*9hCuwXW2-5kCyJWV8EMKsw.png",
+                "contactPoint": [{
+                    "@type": "ContactPoint",
+                    "telephone": "+38-044-22-11-063",
+                    "contactType": "customer support",
+                    "availableLanguage": [
+                        "English",
+                        "Russian",
+                        "Ukrainian" ]
+                }]
+            });
+        document.head.appendChild(LDJson);
+        console.log(document.head);
+        // end of google corporate data + logo
         <!-- Facebook Pixel Code -->
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -774,11 +802,15 @@
             a.src = g;
             m.parentNode.insertBefore(a, m)
         })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-52127049-4', {
+        ga('create', 'UA-52127049-1', {
             'cookieDomain': document.domain
         });
         ga('send', 'pageview');
     }
 </script>
+<!-- Facebook Pixel Code -->
+<noscript><img height="1" width="1" style="display:none" alt="image" src="https://www.facebook.com/tr?id=980245322007471&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
 </body>
 </html>

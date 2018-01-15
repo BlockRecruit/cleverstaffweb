@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
+    <script>
+        if (document.domain === 'cleverstaff.net') {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-52127049-1');
+        }
+    </script>
+    <!-- end of gtag -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
     <title>Features | CleverStaff | All-in-One ATS & Recruiting Software</title>
@@ -20,11 +32,6 @@
     <script>
         localStorage.setItem("NG_TRANSLATE_LANG_KEY", "en");
     </script>
-    <!-- Facebook Pixel Code -->
-    <noscript><img height="1" width="1" style="display:none"
-                   src="https://www.facebook.com/tr?id=980245322007471&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Facebook Pixel Code -->
 </head>
 <body>
 <div class="wrapper">
@@ -35,7 +42,7 @@
             </div>
         </div>
         <div class="corner-ribbon-info">
-            <img src="/external/img/responsive-design.png">
+            <img src="/external/img/responsive-design.png" alt="Adaptive interface">
             <p><strong>Adaptive interface</strong></p>
             <p>All internal pages with key features adapted for your mobile devices: smartphones, tablets, and screens of all sizes.</p>
             <p>Try CleverStaff now on any device you like ;)</p>
@@ -480,9 +487,9 @@
                         <li class="menu"><a href="#home" class="active-link">Features</a></li>
                         <li><a href="price.html">Pricing</a></li>
                         <li><a href="https://cleverstaff.net/news/" target="_blank">Blog</a></li>
-                        <li><a href="api.html" target="_blank" target="_blank">API</a></li>
-                        <li><a href="privacy.html" target="_blank" target="_blank">Privacy Policy</a></li>
-                        <li><a href="terms.html" target="_blank" target="_blank">Public Agreement</a></li>
+                        <li><a href="api.html" target="_blank">API</a></li>
+                        <li><a href="privacy.html" target="_blank">Privacy Policy</a></li>
+                        <li><a href="terms.html" target="_blank">Public Agreement</a></li>
                     </ul>
                 </div>
                 <div class="col-xs-8 col-sm-4 col-md-4">
@@ -502,7 +509,7 @@
                     <a href="https://plus.google.com/u/1/b/103298552184404196991/103298552184404196991" target="_blank" class="pull-left"><span class="gplus"></span></a>
                     <div class="clearfix"></div>
                     <br/>
-                    <a href='http://www.capterra.com/applicant-tracking-software/reviews/137247/CleverStaff/CleverStaff?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge' target="_blank"> <img border='0' src='external/img/62e9b8dfc9d563272407e48ee5216da2.png' /></a>
+                    <a href='http://www.capterra.com/applicant-tracking-software/reviews/137247/CleverStaff/CleverStaff?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge' target="_blank"> <img alt="image" src='external/img/62e9b8dfc9d563272407e48ee5216da2.png' /></a>
                 </div>
                 <div class="clearfix"></div>
                 <footer>
@@ -518,7 +525,7 @@
             <h3 class="modal-title text-center">
                 I Need a Demo
             </h3>
-            <form class="question-form" action="" method="" name="" id="questionForm">
+            <form class="question-form" action="#"  name="questionForm" id="questionForm">
                 <div class="form-gr">
                     <div class="firstName">
                         <label for="ex1_firstName" class="nameForm pull-left">First name *</label>
@@ -622,8 +629,8 @@
             <h4 class="modal-title">
                 Internet Explorer is not suitable for working in CleverStaff, use  Chrome or Firefox
             </h4>
-            <img src="external/img/chrome.png" width="50" height="50" class="imgBrower" alt=""/>
-            <img src="external/img/firefox.png" width="50" height="50" class="imgBrower" alt=""/>
+            <img src="external/img/chrome.png" width="50" height="50" class="imgBrower" alt="Chrome"/>
+            <img src="external/img/firefox.png" width="50" height="50" class="imgBrower" alt="Firefox"/>
             <span class="close" data-dismiss="modal"></span>
         </div>
     </div>
@@ -653,7 +660,28 @@
 
     });
     if (document.domain === 'cleverstaff.net') {
-
+        // google corporate data + logo
+        var LDJson = document.createElement('script');
+        LDJson.type = 'application/ld+json';
+        LDJson.text = JSON.stringify(
+            {
+                "@context": "http://schema.org",
+                "@type": "Organization",
+                "url": "https://cleverstaff.net/features.html",
+                "logo": "https://cdn-images-1.medium.com/fit/c/200/200/1*9hCuwXW2-5kCyJWV8EMKsw.png",
+                "contactPoint": [{
+                    "@type": "ContactPoint",
+                    "telephone": "+38-044-22-11-063",
+                    "contactType": "customer support",
+                    "availableLanguage": [
+                        "English",
+                        "Russian",
+                        "Ukrainian" ]
+                }]
+            });
+        document.head.appendChild(LDJson);
+        console.log(document.head);
+        // end of google corporate data + logo
         <!-- Facebook Pixel Code -->
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -667,22 +695,24 @@
         fbq('track', 'PageView');
         <!-- End Facebook Pixel Code -->
 
+        // GA
         (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
             i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
             a = s.createElement(o),
                 m = s.getElementsByTagName(o)[0];
             a.async = 1;
             a.src = g;
             m.parentNode.insertBefore(a, m)
         })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-52127049-4', {
+        ga('create', 'UA-52127049-1', {
             'cookieDomain': document.domain
         });
         ga('send', 'pageview');
     }
 </script>
+<noscript><img height="1" width="1" style="display:none" alt="FB" src="https://www.facebook.com/tr?id=980245322007471&ev=PageView&noscript=1" /></noscript>
 </body>
 </html>

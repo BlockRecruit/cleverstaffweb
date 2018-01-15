@@ -42,18 +42,18 @@
                     </div>
                 </div>
                 <div class="wrapper-for-padding-right col-lg-6 col-md-12">
-                    <div class="form">
-                        <div class="two fields">
-                            <div class="field pull-left" style="margin-right: 10px;">
+                    <div class="form" style="padding: 8px 8px;">
+                        <div class="two fields" style="justify-content: flex-start;">
+                            <div class="field pull-left" style="margin-right: 10px; display: flex;justify-content: center;align-items: center;">
                                 <h4 class="pull-left" style="margin-right: 8px;">{{'Date' | translate}}:</h4>
-                                <label class="pull-left">{{'from3'|translate}}</label>
+                                <label class="pull-left" style="top: 0px; margin: 0px;">{{'from3'|translate}}</label>
                                 <input placeholder="{{'from3'|translate}}" class="startDate pull-left" style="margin-left: 8px;" type="text">
                             </div>
-                            <div class="field pull-left">
-                                <label class="pull-left">{{'to1'|translate}}</label>
+                            <div class="field pull-left" style="display: flex;justify-content: center;align-items: center;">
+                                <label class="pull-left" style="top: 0;margin: 0px;">{{'to1'|translate}}</label>
                                 <input placeholder="{{'to1'|translate}}" class="endDate pull-left" type="text">
                             </div>
-                            <i class="fa fa-info-circle info" ng-mouseover="inHover()" ng-mouseleave="outHover()"></i>
+                            <i class="fa fa-info-circle info" style="top: 0px;" ng-mouseover="inHover()" ng-mouseleave="outHover()"></i>
                             <div class="info-content"><p>{{"This filter 'by date' in the report shows the last date when a candidate was moved to a new vacancy stage." | translate}}</p><p>{{"The filter is not applied for dates of vacancy creation and date when a candidate was added to a vacancy." | translate}}</p></div>
                         </div>
                         <div  style="display: inline-block" class="alert alert-danger" ng-show="timeMaxZone || timeMaxZone2">{{"The selected date can not be more than the current date."|translate}}</div>

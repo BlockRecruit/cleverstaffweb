@@ -29,7 +29,7 @@
                             <div class="checkoutInner">
                                 <h4 class="payFor floatLeft">{{"Pay for"|translate}}</h4>
                             </div>
-                            <div class="checkoutInner word floatRight">
+                            <div class="checkoutInner word floatRight clearfix">
                                 <div class="paySelectOuter pull-left">
                                     <span class="ammount floatLeft">{{'Users2'| translate}}</span>
                                     <br/>
@@ -74,7 +74,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="creditCards">
+                    <div class="creditCards" style="clear: both">
                         <div class="text-center important-text" ng-if="$root.me.recrutRole != 'admin'">
                             <span>{{'Only account administrator is able to make a payment' | translate}}</span>
                         </div>

@@ -1587,6 +1587,9 @@ $(document).ready(function () {
                             $("#error-password").html('Seems like email you entered is incorrect. Please enter the correct one.');
                             $(".order_call_win_under.order_call_error").text(messages.unknownEmail).show();
                             email.css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
+                        } else if(data.code == 'disabledUser') {
+                            $(".order_call_win_under.order_call_error").text(messages[data.code]).show();
+                            email.css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
                         } else {
                             $(".order_call_win_under.order_call_error").text(messages[data.message]).show();
                             email.css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
