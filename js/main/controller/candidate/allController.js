@@ -481,6 +481,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         $rootScope.closeModal();
                         $('.changeStatusOfInterviewInVacancyPick').val("");
                         $scope.getLastEvent();
+                        notificationService.success($filter('translate')('candidate was added to the stage'));
                     } else if (resp.status == "error") {
                         $rootScope.clickedSaveStatusInterviewInVacancy = false;
                         notificationService.error(resp.message);
@@ -502,6 +503,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     "lang": $translate.use()
                 }, function (resp) {
                     if (resp.status == "ok") {
+                        console.log('ok');
                         var changeObj = $rootScope.changeStatusOfInterviewInVacancy;
                         if(changeObj.status.customInterviewStateId){
                             var id = resp.object.interviewId + changeObj.status.customInterviewStateId;
@@ -561,6 +563,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         $rootScope.addCandidateInInterviewbuttonClicked = false;
                         $rootScope.closeModal();
                         $('.changeStatusOfInterviewInVacancyPick').val("");
+                        notificationService.success($filter('translate')('candidate was added to the stage'));
                     } else if (resp.status == "error") {
                         $rootScope.clickedSaveStatusInterviewInVacancy = false;
                         notificationService.error(resp.message);

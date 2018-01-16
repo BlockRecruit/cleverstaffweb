@@ -2869,5 +2869,8 @@
   "previousYear":"Прошлый год",
   "customRange":" Настраиваемый период",
   "replacement":"Замена",
-  "Select vacancies in the report":"Выбрать вакансии в отчете"
+  "Select vacancies in the report":"Выбрать вакансии в отчете",
+  "replacement":"Замена",
+  "Comments only": "Только комментарии",
+  "Comment changed":"Комментарий изменен"
 }

@@ -18795,6 +18795,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         $rootScope.closeModal();
                         $('.changeStatusOfInterviewInVacancyPick').val("");
                         $scope.getLastEvent();
+                        notificationService.success($filter('translate')('candidate was added to the stage'));
                     } else if (resp.status == "error") {
                         $rootScope.clickedSaveStatusInterviewInVacancy = false;
                         notificationService.error(resp.message);
@@ -18816,6 +18817,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     "lang": $translate.use()
                 }, function (resp) {
                     if (resp.status == "ok") {
+                        console.log('ok');
                         var changeObj = $rootScope.changeStatusOfInterviewInVacancy;
                         if(changeObj.status.customInterviewStateId){
                             var id = resp.object.interviewId + changeObj.status.customInterviewStateId;
@@ -18875,6 +18877,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         $rootScope.addCandidateInInterviewbuttonClicked = false;
                         $rootScope.closeModal();
                         $('.changeStatusOfInterviewInVacancyPick').val("");
+                        notificationService.success($filter('translate')('candidate was added to the stage'));
                     } else if (resp.status == "error") {
                         $rootScope.clickedSaveStatusInterviewInVacancy = false;
                         notificationService.error(resp.message);
@@ -24395,6 +24398,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     if (resp.status == 'ok') {
                         $scope.getLastEvent();
                     }
+                    notificationService.success($filter('translate')('Comment added'));
                 }, function (error) {
                     $rootScope.commentCandidate.loading = false;
                     notificationService.error(error.message);
@@ -24615,7 +24619,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $rootScope.changeStatusOfInterviewInVacancy.approvedCount = $scope.approvedCount;
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/candidate-change-status-in-vacancy.html',
+                templateUrl: '../partials/modal/candidate-change-status-in-vacancy.html?b=2',
                 resolve: {
                     items: function () {
                         return $scope.items;
@@ -24744,7 +24748,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     //return;
                 }
                 if ($rootScope.showEmployedFields) {
-                    changeObj.date = $('.changeStatusOfInterviewEmployed').datetimepicker('getDate') != null ? $('.changeStatusOfInterviewEmployed').datetimepicker('getDate') : customDate != undefined ? customDate : null;
+                    changeObj.date = $('.changeStatusOfInterviewEmployed').datetimepicker('getDeate') != null ? $('.changeStatusOfInterviewEmployed').datetimepicker('getDate') : customDate != undefined ? customDate : null;
                 } else {
                     changeObj.date = $('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate') != null ? $('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate') : customDate != undefined ? customDate : null;
                 }
@@ -24806,6 +24810,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             $('.changeStatusOfInterviewInVacancyPick').val("");
                             $scope.updateCandidate();
                             $scope.getLastEvent();
+                            notificationService.success($filter('translate')('candidate was added to the stage'));
                         } else if (resp.status == "error") {
                             $rootScope.clickedSaveStatusInterviewInVacancy = false;
                             notificationService.error(resp.message);
@@ -24887,6 +24892,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             $('.changeStatusOfInterviewInVacancyPick').val("");
                             $scope.updateCandidate();
                             $scope.getLastEvent();
+                            notificationService.success($filter('translate')('candidate was added to the stage'));
                         } else if (resp.status == "error") {
                             $rootScope.clickedSaveStatusInterviewInVacancy = false;
                             notificationService.error(resp.message);
@@ -24935,6 +24941,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         action.descr = resp.object.descr;
                         action.new_komment = '';
                         action.dateEdit = resp.object.dateEdit;
+                        notificationService.success($filter('translate')('Comment changed'));
                     }
                 });
             } else {
@@ -40089,6 +40096,7 @@ function vacancyAddInterview(Vacancy, vacancyId, position, candidateId, comment,
                 //        });
                 //}
                 callback(resp);
+                notificationService.success($filter('translate')('added_candidate'));
             } else {
                 notificationService.error($filter('translate')('Candidate has been added to this position'));
                 errorBack(resp);

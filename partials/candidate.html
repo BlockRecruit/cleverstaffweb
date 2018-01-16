@@ -167,7 +167,7 @@
                             </span>
                             </div>
                         </div>
-                        <div class="col-lg-12 attachments not-for-print" uib-dropdown is-open="status.isopen">
+                        <div class="col-lg-12 attachments not-for-print"  uib-dropdown is-open="status.isopen">
                             <div class="text-center employee" ng-show="candidate.employeeId">
                                 <a href="#/company/employees/{{candidate.employeeId}}">
                                     {{'candidate_status_assoc.' + 'work'|translate}}
@@ -183,7 +183,7 @@
                                     {{'This is our employee'|translate}}!
                                 </a>
                             </div>
-                            <h5 style="margin-top: 30px;" ng-hide="$root.me.recrutRole == 'client'">{{'Attachments'|translate}}</h5>
+                            <h5 style="margin-top: 30px;" ng-hide="$root.me.recrutRole == 'client' || !candidate.files.length">{{'Attachments'|translate}}</h5>
                             <div class="addedFileCandidate" ng-repeat="file in candidate.files| orderBy:'-url'" ng-show="candidate.files">
                             <span class="item">
                                 <div class="editFileName" ng-show="file.showEditFileName">
@@ -347,7 +347,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12 results text-center" ng-show="$root.me.recrutRole != 'salesmanager'">
+                        <div class="col-lg-12 results text-center hidden-xs" ng-show="$root.me.recrutRole != 'salesmanager'">
                             <a class="send-test" ng-show="candidate.testIds.length > 0" ng-click="$root.sendCandidateToTest($root.candidate, countEmail)" href="">{{'Send test to the candidate'| translate}}</a>
                             <a class="send-test" ng-show="candidate.testIds.length == 0" href="#/candidate/tests">{{'Create new test'| translate}}</a>
                         </div>
@@ -483,7 +483,7 @@
                         <div class="col-lg-6 right-column">
                             <div class="phone"ng-show="(candidate.contacts|filter:type = 'mphone').length > 0">
                                 <span ng-repeat=" contact in candidate.contacts|filter:type = 'mphone'" title="{{::contact.value}}">
-                                    <span class="preferable-contact" ng-repeat="phone in ::contact.value.split(',')">
+                                    <span class="preferable-contact" ng-repeat="phone in ::contact.value.split(',') track by $index">
                                         <i class="fa fa-phone" style="margin-right: 6px; color: #00B549" aria-hidden="true"></i>
                                             {{::phone}}
                                         <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact === 'phone'"></i>
@@ -602,7 +602,7 @@
                                         {{linkedOneCandidate.resourseType}}
                                     </a><i class="fa fa-times unbind" ng-click="removeLinkedinConnect(linkedOneCandidate.resourseType)" title="{{'Unlink profile'|translate}}"></i><span>{{$last ? '' : ', '}}</span>
                                 </div>
-                                <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.unlinkProfile" aria-hidden="true"></i>
+                                <i class="fa fa-info-circle tooltip-icon mobile-pos" title="" tooltip-placement="left" tooltip-class="tooltip-outer mobile-move-left" uib-tooltip-html="$root.tooltips.unlinkProfile" aria-hidden="true"></i>
                                 </span>
                             </div>
                         </div>
@@ -723,6 +723,7 @@
                                 <a href="" ng-click="showModalAddCommentToCandidate('md');" class="add_comment pull-right not-for-print">
                                     <i class="fa fa-pencil" aria-hidden="true"></i>
                                     {{'add_comment'|translate}}
+                                    <!--<img src="/images/sprite/addMessage.svg" alt="{{'add_comment'|translate}}">-->
                                 </a>
                             </div>
                         </div>
@@ -789,7 +790,7 @@
                                 <ng-include src="'partials/history/candidate/candidate_change_state.html'"></ng-include>
                             </div>
                             <div class="col-lg-12" ng-switch-when="candidate_message">
-                                <ng-include src="'partials/history/candidate/candidate_message.html'"></ng-include>
+                                <ng-include src="'partials/history/candidate/candidate_message.html?b=1'"></ng-include>
                             </div>
                             <div class="col-lg-12 not-for-print" ng-switch-when="task_create">
                                 <ng-include src="'partials/history/client/task_create.html'"></ng-include>
@@ -927,11 +928,11 @@
             </div>
         </div>
         <div ng-show="currentTab == 'task'" class="row candidate-information hidden-lg hidden-md">
-            <div class="row candidate-profile-rezume">
+            <div class="row candidate-profile-rezume mobile">
                 <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 centerBar">
                     <div class="col-lg-12 taskForCandidate show-for-print">
                         <div class="row last-actions-header">
-                            <div class="col-lg-12">
+                            <div class="col-lg-12 items-beetwen">
                                 <span class="title-header">
                                    {{'Tasks'|translate}}
                                 </span>
@@ -943,26 +944,27 @@
                                  ng-repeat="task in candidateTasks" ng-click="showModalEditTaskToCandidate(task)"
                                  title="{{'View more'| translate}}" id="{{task.taskId}}"
                                  ng-class="{'finishedTask':task.targetDate < todayDate && task.status != 'completed'}"
-                                 class="col-sm-12 col-xs-12 pull-left">
-                                <div class="dateTasks padding-zero pull-left col-sm-2 col-xs-2" bo-html="task.targetDate| dateFormat6:true"></div>
-                                <div class="fullNameResponsibleOfTasks pull-left col-sm-2 hidden-xs">
-                                    <span></span>
-                                    <a href="#/users/{{responsible.responsible.userId}}" ng-click="$event.stopPropagation()" ng-repeat="responsible in task.responsiblesPerson">
-                                        <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
+                                 class="col-sm-12 col-xs-12 pull-left task-block">
+                                <div class="block">
+                                    <div class="titleOfTasks pull-left col-sm-5 col-xs-6">
+                                        <span class="pull-left task" ng-show="task.type == 'Meeting'">{{'Meeting'|translate}}</span>
+                                        <span class="pull-left task" ng-show="task.type == 'Call'">{{'Call'|translate}}</span>
+                                        <span class="pull-left task" ng-show="task.type == 'Task'">{{'Task'|translate}}</span>
+                                        <span class="pull-left">"{{task.title}}"</span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="fullNameResponsibleOfTasks pull-left col-sm-2 hidden-xs">
+                                        <span></span>
+                                        <a href="#/users/{{responsible.responsible.userId}}" ng-click="$event.stopPropagation()" ng-repeat="responsible in task.responsiblesPerson">
+                                            <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
 
-                                        <span>{{getFirstLetters(responsible.responsible.fullName)}}</span>
-                                    </a>
+                                            <span>{{getFirstLetters(responsible.responsible.fullName)}}</span>
+                                        </a>
 
-                                </div>
-                                <div class="titleOfTasks pull-left col-sm-5 col-xs-5">
-                                    <span class="pull-left task" ng-show="task.type == 'Meeting'">{{'Meeting'|translate}}</span>
-                                    <span class="pull-left task" ng-show="task.type == 'Call'">{{'Call'|translate}}</span>
-                                    <span class="pull-left task" ng-show="task.type == 'Task'">{{'Task'|translate}}</span>
-                                    <span class="pull-left">"{{task.title}}"</span>
-                                    <div class="clearfix"></div>
-                                    <span class="taskText">{{task.text | limitTo: 150}}{{task.text.length > 150 ? '...' :''}}</span>
-                                </div>
-                                <div class="col-sm-2 col-xs-4 statuses">
+                                    </div>
+                                    <div class="col-sm-2 col-xs-6 date-width-statuses">
+                                        <div class="dateTasks padding-zero" bo-html="task.targetDate| dateFormat2:true"></div>
+                                        <div class="statuses">
                                     <span>
                                         <label for="taskStatus"></label>
                                         <select class="form-control not-finished" id="taskStatus"
@@ -974,6 +976,14 @@
                                             <option value="Cancelled">{{'Cancelled'|translate}}</option>
                                         </select>
                                     </span>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="block">
+                                    <div class="col-xs-12">
+                                        <span class="taskText">{{task.text | limitTo: 150}}{{task.text.length > 150 ? '...' :''}}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -986,20 +996,25 @@
                 <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 centerBar">
                     <div class="col-lg-12 history-outer show-for-print">
                         <div class="row last-actions-header">
-                            <div class="col-lg-12">
-                                <span class="title-header pull-left">
+                            <div class="col-lg-12 comments-wrap">
+                                <div class="comment-type-toggle">
+                                    <span class="title-header pull-left">
                                    {{'Activity_Log'|translate}}
-                                </span>
-                                <a class="show-comments pull-lefts" href="" ng-show="!onlyComments" ng-click="showComments(true)">
-                                    {{'Show comments only'|translate}}
-                                </a>
-                                <a class="show-comments pull-left" href="" ng-show="onlyComments" ng-click="showDetails(false)">
-                                    {{'Show details'|translate}}
-                                </a>
-                                <a href="" ng-click="showModalAddCommentToCandidate('md');" class="add_comment pull-right">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                                    {{'add_comment'|translate}}
-                                </a>
+                                    </span>
+                                    <a class="show-comments pull-left" href="" ng-show="!onlyComments" ng-click="showComments(true)">
+                                        <span class="hidden-sm hidden-xs">{{'Show comments only'|translate}}</span>
+                                        <span class="hidden-lg hidden-md">{{'Comments only'|translate}}</span>
+                                    </a>
+                                    <a class="show-comments pull-left" href="" ng-show="onlyComments" ng-click="showDetails(false)">
+                                        <span>{{'Show details'|translate}}</span>
+                                    </a>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="add_comment mobile pull-right">
+                                    <img ng-click="showModalAddCommentToCandidate('md');" src="/images/sprite/addMessage.svg" alt="{{'add_comment'|translate}}">
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
                         </div>
                         <div class="row event last-action"
@@ -1052,7 +1067,7 @@
                                 <ng-include src="'partials/history/candidate/candidate_change_state.html'"></ng-include>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="candidate_message">
-                                <ng-include src="'partials/history/candidate/candidate_message.html'"></ng-include>
+                                <ng-include src="'partials/history/candidate/candidate_message.html?b=1'"></ng-include>
                             </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="task_create">
                                 <ng-include src="'partials/history/client/task_create.html'"></ng-include>

@@ -1137,6 +1137,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     if (resp.status == 'ok') {
                         $scope.getLastEvent();
                     }
+                    notificationService.success($filter('translate')('Comment added'));
                 }, function (error) {
                     $rootScope.commentCandidate.loading = false;
                     notificationService.error(error.message);
@@ -1357,7 +1358,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $rootScope.changeStatusOfInterviewInVacancy.approvedCount = $scope.approvedCount;
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/candidate-change-status-in-vacancy.html',
+                templateUrl: '../partials/modal/candidate-change-status-in-vacancy.html?b=2',
                 resolve: {
                     items: function () {
                         return $scope.items;
@@ -1486,7 +1487,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     //return;
                 }
                 if ($rootScope.showEmployedFields) {
-                    changeObj.date = $('.changeStatusOfInterviewEmployed').datetimepicker('getDate') != null ? $('.changeStatusOfInterviewEmployed').datetimepicker('getDate') : customDate != undefined ? customDate : null;
+                    changeObj.date = $('.changeStatusOfInterviewEmployed').datetimepicker('getDeate') != null ? $('.changeStatusOfInterviewEmployed').datetimepicker('getDate') : customDate != undefined ? customDate : null;
                 } else {
                     changeObj.date = $('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate') != null ? $('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate') : customDate != undefined ? customDate : null;
                 }
@@ -1548,6 +1549,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             $('.changeStatusOfInterviewInVacancyPick').val("");
                             $scope.updateCandidate();
                             $scope.getLastEvent();
+                            notificationService.success($filter('translate')('candidate was added to the stage'));
                         } else if (resp.status == "error") {
                             $rootScope.clickedSaveStatusInterviewInVacancy = false;
                             notificationService.error(resp.message);
@@ -1629,6 +1631,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             $('.changeStatusOfInterviewInVacancyPick').val("");
                             $scope.updateCandidate();
                             $scope.getLastEvent();
+                            notificationService.success($filter('translate')('candidate was added to the stage'));
                         } else if (resp.status == "error") {
                             $rootScope.clickedSaveStatusInterviewInVacancy = false;
                             notificationService.error(resp.message);
@@ -1677,6 +1680,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         action.descr = resp.object.descr;
                         action.new_komment = '';
                         action.dateEdit = resp.object.dateEdit;
+                        notificationService.success($filter('translate')('Comment changed'));
                     }
                 });
             } else {

@@ -26,11 +26,13 @@
         <div class="field">
             <textarea class="editCommentArea" ng-model="editComment"></textarea>
         </div>
-        <div class="btn cancel" ng-click="history.editCommentFlag = false">
-            {{'cancel'|translate}}
-        </div>
-        <div class="btn accept" ng-click="changeComment(history, editComment)">
-            {{'save'|translate}}
+        <div class="buttons flex-position">
+            <div class="btn cancel" ng-click="history.editCommentFlag = false">
+                {{'cancel'|translate}}
+            </div>
+            <div class="btn accept" ng-click="changeComment(history, editComment)">
+                {{'save'|translate}}
+            </div>
         </div>
     </div>
 </div>
