@@ -19284,34 +19284,34 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     };
     $rootScope.payForExportDatabase = function(){
         Pay.createPaymentUsage({
-            amount: 500,
-            currency: 'USD',
+            months: 12,
+            users: 1,
+            additionalService: 'exportCandidate',
             type: 'way4pay'
         }, function (resp) {
             if (resp.status && angular.equals(resp.status, "error")) {
                 notificationService.error(resp.message);
             } else {
-                console.log(resp);
-                //var form = '<form id="payForm" action="https://secure.wayforpay.com/pay" method="post">' +
-                //    '<input type="hidden" name="amount" value="' + resp.wayForPayParams.amount + '" />' +
-                //    '<input type="hidden" name="currency" value="' + resp.wayForPayParams.currency + '" />' +
-                //    '<input type="hidden" name="merchantAccount" value="' + resp.wayForPayParams.merchantAccount + '" />' +
-                //    '<input type="hidden" name="merchantDomainName" value="' + resp.wayForPayParams.merchantDomainName + '" />' +
-                //    '<input type="hidden" name="merchantSignature" value="' + resp.wayForPayParams.merchantSignature + '" />' +
-                //    '<input type="hidden" name="merchantTransactionSecureType" value="' + resp.wayForPayParams.merchantTransactionSecureType + '" />' +
-                //    '<input type="hidden" name="merchantTransactionType" value="' + resp.wayForPayParams.merchantTransactionType + '" />' +
-                //    '<input type="hidden" name="orderDate" value="' + resp.wayForPayParams.orderDate + '" />' +
-                //    '<input type="hidden" name="orderReference" value="' + resp.wayForPayParams.orderReference + '" />' +
-                //    '<input type="hidden" name="paymentSystems" value="' + resp.wayForPayParams.paymentSystems + '" />' +
-                //    '<input type="hidden" name="productCount[]" value="' + resp.wayForPayParams.productCount + '" />' +
-                //    '<input type="hidden" name="productName[]" value="' + resp.wayForPayParams.productName + '" />' +
-                //    '<input type="hidden" name="productPrice[]" value="' + resp.wayForPayParams.productPrice + '" />' +
-                //    '<input type="hidden" name="returnUrl" value="' + resp.wayForPayParams.returnUrl + '" />' +
-                //    '<input type="hidden" name="serviceUrl" value="' + resp.wayForPayParams.serviceUrl + '" />' +
-                //    '</form>';
-                //$('body').append(form);
-                //$('#payForm').submit();
-                //$('#payForm').remove();
+                var form = '<form id="payForm" action="https://secure.wayforpay.com/pay" method="post">' +
+                    '<input type="hidden" name="amount" value="' + resp.wayForPayParams.amount + '" />' +
+                    '<input type="hidden" name="currency" value="' + resp.wayForPayParams.currency + '" />' +
+                    '<input type="hidden" name="merchantAccount" value="' + resp.wayForPayParams.merchantAccount + '" />' +
+                    '<input type="hidden" name="merchantDomainName" value="' + resp.wayForPayParams.merchantDomainName + '" />' +
+                    '<input type="hidden" name="merchantSignature" value="' + resp.wayForPayParams.merchantSignature + '" />' +
+                    '<input type="hidden" name="merchantTransactionSecureType" value="' + resp.wayForPayParams.merchantTransactionSecureType + '" />' +
+                    '<input type="hidden" name="merchantTransactionType" value="' + resp.wayForPayParams.merchantTransactionType + '" />' +
+                    '<input type="hidden" name="orderDate" value="' + resp.wayForPayParams.orderDate + '" />' +
+                    '<input type="hidden" name="orderReference" value="' + resp.wayForPayParams.orderReference + '" />' +
+                    '<input type="hidden" name="paymentSystems" value="' + resp.wayForPayParams.paymentSystems + '" />' +
+                    '<input type="hidden" name="productCount[]" value="' + resp.wayForPayParams.productCount + '" />' +
+                    '<input type="hidden" name="productName[]" value="' + resp.wayForPayParams.productName + '" />' +
+                    '<input type="hidden" name="productPrice[]" value="' + resp.wayForPayParams.productPrice + '" />' +
+                    '<input type="hidden" name="returnUrl" value="' + resp.wayForPayParams.returnUrl + '" />' +
+                    '<input type="hidden" name="serviceUrl" value="' + resp.wayForPayParams.serviceUrl + '" />' +
+                    '</form>';
+                $('body').append(form);
+                $('#payForm').submit();
+                $('#payForm').remove();
             }
         }, function () {
             //notificationService.error($filter('translate')('service temporarily unvailable'));
@@ -29841,47 +29841,54 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
         }
         $scope.downloadArchive = function(fileId){
             console.log(fileId);
-            $rootScope.loading = true;
+            //var FD  = new FormData();
+            //var blobBin = atob(fileId.split(',')[1]);
+            //var array = [];
+            //for(var i = 0; i < blobBin.length; i++) {
+            //    array.push(blobBin.charCodeAt(i));
+            //}
+            //var file=new Blob([new Uint8Array(array)], {type: 'application/zip'});
+            //FD.append('application', file);
+            //return $http({
+            //    url: serverAddress + "/candidate/downloadBackUpCandidates?filename=" + fileId,
+            //    method: 'GET',
+            //    data: FD,
+            //    withCredentials: true,
+            //    headers: { 'Content-Type': undefined},
+            //    transformRequest: angular.identity
+            //});
+            //$rootScope.loading = true;
             $http({
                 url: serverAddress + '/candidate/downloadBackUpCandidates?filename=' + fileId,
-                method: "GET"
+                method: "GET",
+                //data: 'application/zip',
+                //data: 'application/zip;base64',
+                responseType: "blob"
+                //headers: {
+                //    'Accept': 'application/zip',
+                //    'Content-Encoding': 'gzip'
+                //}
             }).success(function(data) {
-                if (data.status == "ok") {
-                    $rootScope.loading = false;
-                    console.log(data);
-                    console.log('here');
-                    callback(data.object);
-                } else if (data.status == "error") {
-                    $rootScope.loading = false;
-                    $scope.showErrorAddPhotoMessage = true;
-                }
+                console.log(data);
+                var blob = data;
+                //var contentType = data.headers("content-type");
+                var fileURL = URL.createObjectURL(blob);
+                window.open(fileURL);
+                //var FileSaver = require('file-saver');
+                //var blob = new Blob(["Hello, world!"], {type: "application/zip"});
+                //FileSaver.saveAs(blob, "hello world.txt");
+                console.log(data);
+                //if (data.status == "ok") {
+                //    $rootScope.loading = false;
+                //    console.log('here');
+                //    callback(data.object);
+                //} else if (data.status == "error") {
+                //    $rootScope.loading = false;
+                //    notificationService.error(data.message);
+                //    $scope.showErrorAddPhotoMessage = true;
+                //}
             });
         };
-        //$rootScope.exportResumeArchive = function () {
-        //    $rootScope.loading = true;
-        //    if($scope.loadingExcel == false){
-        //        $scope.loadingExcel = true;
-        //        if($scope.criteriaForExcel.words == null) {
-        //            $scope.criteriaForExcel.searchFullTextType = null;
-        //        }
-        //        console.log($scope.criteriaForExcel);
-        //        Candidate.createBackUpCandidates({}, function (resp) {
-        //            console.log(resp);
-        //            if (resp.status == 'ok') {
-        //                var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
-        //                $('#export_resume_archive')[0].href = sr + 'getapp?id=' + resp.object;
-        //                $('#export_resume_archive')[0].click();
-        //            }
-        //            if (resp.code == 'emptyExportExcel') {
-        //                notificationService.error($filter('translate')('No candidates for export according to criteria'));
-        //                $scope.loadingExcel = false;
-        //            }
-        //            $scope.loadingExcel = false;
-        //            $rootScope.loading = false;
-        //
-        //        });
-        //    }
-        //};
     }]);
 
 controller.controller('FeedbackController',["$localStorage", "serverAddress", "$rootScope", "$scope", "Person", "notificationService", "$location", "$filter",
@@ -30418,11 +30425,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 $rootScope.orgs = response.object.orgs;
                 $scope.orgId = response.object.orgId;
                 $rootScope.exportCandidate = true;
-                console.log($rootScope.companyParams);
+                //console.log($rootScope.companyParams);
                 $scope.exportCandidateNowDate = new Date().getTime();
-                console.log($scope.exportCandidateNowDate);
+                //console.log($scope.exportCandidateNowDate);
                 $scope.exportCandidateOtherDate = new Date($rootScope.companyParams.exportCandidate).getTime();
-                console.log($scope.exportCandidateOtherDate);
+                //console.log($scope.exportCandidateOtherDate);
                 if($scope.exportCandidateNowDate  >= $scope.exportCandidateOtherDate){
                     $rootScope.exportCandidate = false;
                 }

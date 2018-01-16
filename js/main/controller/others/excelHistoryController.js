@@ -75,45 +75,52 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
         }
         $scope.downloadArchive = function(fileId){
             console.log(fileId);
-            $rootScope.loading = true;
+            //var FD  = new FormData();
+            //var blobBin = atob(fileId.split(',')[1]);
+            //var array = [];
+            //for(var i = 0; i < blobBin.length; i++) {
+            //    array.push(blobBin.charCodeAt(i));
+            //}
+            //var file=new Blob([new Uint8Array(array)], {type: 'application/zip'});
+            //FD.append('application', file);
+            //return $http({
+            //    url: serverAddress + "/candidate/downloadBackUpCandidates?filename=" + fileId,
+            //    method: 'GET',
+            //    data: FD,
+            //    withCredentials: true,
+            //    headers: { 'Content-Type': undefined},
+            //    transformRequest: angular.identity
+            //});
+            //$rootScope.loading = true;
             $http({
                 url: serverAddress + '/candidate/downloadBackUpCandidates?filename=' + fileId,
-                method: "GET"
+                method: "GET",
+                //data: 'application/zip',
+                //data: 'application/zip;base64',
+                responseType: "blob"
+                //headers: {
+                //    'Accept': 'application/zip',
+                //    'Content-Encoding': 'gzip'
+                //}
             }).success(function(data) {
-                if (data.status == "ok") {
-                    $rootScope.loading = false;
-                    console.log(data);
-                    console.log('here');
-                    callback(data.object);
-                } else if (data.status == "error") {
-                    $rootScope.loading = false;
-                    $scope.showErrorAddPhotoMessage = true;
-                }
+                console.log(data);
+                var blob = data;
+                //var contentType = data.headers("content-type");
+                var fileURL = URL.createObjectURL(blob);
+                window.open(fileURL);
+                //var FileSaver = require('file-saver');
+                //var blob = new Blob(["Hello, world!"], {type: "application/zip"});
+                //FileSaver.saveAs(blob, "hello world.txt");
+                console.log(data);
+                //if (data.status == "ok") {
+                //    $rootScope.loading = false;
+                //    console.log('here');
+                //    callback(data.object);
+                //} else if (data.status == "error") {
+                //    $rootScope.loading = false;
+                //    notificationService.error(data.message);
+                //    $scope.showErrorAddPhotoMessage = true;
+                //}
             });
         };
-        //$rootScope.exportResumeArchive = function () {
-        //    $rootScope.loading = true;
-        //    if($scope.loadingExcel == false){
-        //        $scope.loadingExcel = true;
-        //        if($scope.criteriaForExcel.words == null) {
-        //            $scope.criteriaForExcel.searchFullTextType = null;
-        //        }
-        //        console.log($scope.criteriaForExcel);
-        //        Candidate.createBackUpCandidates({}, function (resp) {
-        //            console.log(resp);
-        //            if (resp.status == 'ok') {
-        //                var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
-        //                $('#export_resume_archive')[0].href = sr + 'getapp?id=' + resp.object;
-        //                $('#export_resume_archive')[0].click();
-        //            }
-        //            if (resp.code == 'emptyExportExcel') {
-        //                notificationService.error($filter('translate')('No candidates for export according to criteria'));
-        //                $scope.loadingExcel = false;
-        //            }
-        //            $scope.loadingExcel = false;
-        //            $rootScope.loading = false;
-        //
-        //        });
-        //    }
-        //};
     }]);
