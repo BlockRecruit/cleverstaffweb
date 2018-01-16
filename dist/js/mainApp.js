@@ -38527,11 +38527,12 @@ controller.controller('reportAllController', ["$rootScope", "$scope", "Vacancy",
                                 }
                             });
 
-                            angular.forEach($scope.customStagesFull.interviewStates, function (customStatus) {
+                            angular.forEach($scope.customStagesFull, function (customStatus) {
                                 if (res.action.stateOld == customStatus.customInterviewStateId || res.action.stateNew === customStatus.customInterviewStateId) {
                                     res.interview.state = customStatus.name;
                                 }
                             });
+
 
                         });
                     });
@@ -38554,7 +38555,8 @@ controller.controller('reportAllController', ["$rootScope", "$scope", "Vacancy",
         });
         vacancyStages.get(function(resp){
             var array = [];
-            $scope.customStages =resp.object.interviewStates;
+            console.log(resp, 'resp')
+            $scope.customStages =resp.object;
             angular.forEach($scope.customStages, function(res){
                 res.added = false;
                 res.count = 0;
@@ -38563,7 +38565,7 @@ controller.controller('reportAllController', ["$rootScope", "$scope", "Vacancy",
                 }
             });
             $scope.customStages = array;
-            $scope.customStagesFull =resp.object.interviewStates;
+            $scope.customStagesFull = resp.object.interviewStates;
             $scope.getVacancyStages();
         });
 
@@ -42788,12 +42790,10 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                         .then(resp => {
                             $scope.$apply(() => {
                                 responseSetInView(resp);
-                                console.log($scope.fieldsVacancyList  , 'fieldsVacancyList ')
                                 $rootScope.loading = false;
                             });
                         });
                     }else{
-                        console.log($scope.fieldsVacancyList  , 'fieldsVacancyList ')
                         $rootScope.loading  = false;
                         $scope.$apply();
                     }
