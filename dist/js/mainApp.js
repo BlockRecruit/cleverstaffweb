@@ -7809,9 +7809,13 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             this.change = change;
         }
 
-        function createCorrectDate(date) {
+
+        function createCorrectDate(date, time) {
             var currentDate = new Date(date),
-                correctDate = +new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23,59,59);
+                hour = time[0],
+                minutes = time[1],
+                seconds = time[2],
+                correctDate = +new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hour, minutes, seconds);
             return correctDate;
         }
 
@@ -7991,8 +7995,8 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
             translateWords.getTranslete("Report saved", $scope, 'reportSaved');
             let params = {
-                "from": createCorrectDate(this.data.dateFrom),
-                "to": createCorrectDate(this.data.dateTo),
+                "from": createCorrectDate(this.data.dateFrom, ['00','30','00']),
+                "to": createCorrectDate(this.data.dateTo, ['23','59','59']),
                 "types": null,
                 "vacancyIds": this.data.vacancyIds,
                 "vacancyStatuses": this.data.vacancyStatuses,
@@ -8248,8 +8252,8 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithCandidates($scope) {
             Stat.requestGetActualVacancyStatistic2({
-                "from":createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom']),
-                "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo']),
+                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','30','00']),
+                "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo'], ['23','59','00']),
                 "types":null,
                 "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"] : [],
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
@@ -8267,8 +8271,8 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithoutCandidates($scope) {
             Promise.all([Stat.requestGetActualVacancyStatistic2({
-                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom']),
-                "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo']),
+                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','30','00']),
+                "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo'], ['23','59','00']),
                 "types":null,
                 "vacancyIds":(this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:[],
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
@@ -8285,12 +8289,15 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                     resetNoAngularContext($scope);
                 });
         }
-        function createCorrectDate(date) {
+
+        function createCorrectDate(date, time) {
             var currentDate = new Date(date),
-                correctDate = +new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23,59,59);
+                hour = time[0],
+                minutes = time[1],
+                seconds = time[2],
+                correctDate = +new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hour, minutes, seconds);
             return correctDate;
         }
-
 
         reports.getReport = (event, data) => {
             reports.data = data;
@@ -8440,8 +8447,8 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             if(loadingExcel == false){
                 loadingExcel = true;
                 Stat.createVacancyStatisticExcel({
-                    "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom']),
-                    "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo']),
+                    "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','30','00']),
+                    "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo'], ['23','59','00']),
                     "types":null,
                     "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:[],
                     "vacancyStatuses": this.dataReport["vacancyStatuses"],
@@ -42634,8 +42641,8 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             if(formSaveCustomReport.$valid) {
                 translateWords.getTranslete("Report saved", $scope, 'reportSaved');
                 var params = {
-                    "from": createCorrectDate($scope.startVacancyDate),
-                    "to": createCorrectDate($scope.endDate),
+                    "from": createCorrectDate($scope.startVacancyDate, ['00','30','00']),
+                    "to": createCorrectDate($scope.endDate,['23','59','59']),
                     "types": null,
                     "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : [],
                     "vacancyStatuses": $scope.vacancysStatusesParam,
@@ -42772,8 +42779,8 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             }
 
             Stat.requestGetActualVacancyStatistic2({
-                "from":createCorrectDate($scope.startVacancyDate),
-                "to":createCorrectDate($scope.endDate),
+                "from": createCorrectDate($scope.startVacancyDate, ['00','30','00']),
+                "to": createCorrectDate($scope.endDate,['23','59','59']),
                 "types":null,
                 "vacancyStatuses": $scope.vacancysStatusesParam,
                 "interviewStatuses":$scope.inVacancysStatusesParam,
@@ -42949,8 +42956,8 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                                 "interviewCreatorIds": $scope.choosenPersons
                             }),
                             Stat.requestGetActualVacancyStatistic2({
-                                "from":createCorrectDate($scope.startVacancyDate),
-                                "to":createCorrectDate($scope.endDate),
+                                "from": createCorrectDate($scope.startVacancyDate, ['00','30','00']),
+                                "to": createCorrectDate($scope.endDate,['23','59','59']),
                                 "types":null,
                                 "vacancyStatuses": $scope.vacancysStatusesParam,
                                 "interviewStatuses":$scope.inVacancysStatusesParam,
@@ -43411,9 +43418,12 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         };
         $scope.getCompanyParams();
 
-        function createCorrectDate(date) {
+        function createCorrectDate(date, time) {
             var currentDate = new Date(date),
-                correctDate = +new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23,59,59);
+                hour = time[0],
+                minutes = time[1],
+                seconds = time[2],
+                correctDate = +new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hour, minutes, seconds);
             return correctDate;
         }
 
