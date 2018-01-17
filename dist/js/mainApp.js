@@ -29803,36 +29803,33 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
             //$rootScope.loading = true;
             $http({
                 url: serverAddress + '/candidate/downloadBackUpCandidates?filename=' + fileId,
-                method: "GET",
-                responseType: "blob",
-                headers: {
-                    'Content-Type': 'application/zip; charset=utf-8',
-                    'Accept': 'application/zip',
-                    'Content-Encoding': 'gzip'
-                }
+                method: "GET"
+                //responseType: "blob",
+                //headers: {
+                //    'Content-Type': 'application/zip; charset=utf-8',
+                //    'Accept': 'application/zip',
+                //    'Content-Encoding': 'gzip'
+                //}
             }).success(function(data) {
                 console.log(data);
-                var blob = data;
+                //var blob = data;
                 //var contentType = blob.type("application/zip");
                 //console.log(contentType);
-                console.log(window);
-                console.log(window.URL);
-                console.log(URL);
-                var fileURL = window.URL.createObjectURL(blob);
-                window.open(fileURL);
+                //var fileURL = URL.createObjectURL(blob);
+                //window.open(fileURL);
                 //var FileSaver = require('file-saver');
                 //var blob = new Blob(["Hello, world!"], {type: "application/zip"});
                 //FileSaver.saveAs(blob, "hello world.txt");
-                console.log(data);
-                //if (data.status == "ok") {
-                //    $rootScope.loading = false;
-                //    console.log('here');
-                //    callback(data.object);
-                //} else if (data.status == "error") {
-                //    $rootScope.loading = false;
-                //    notificationService.error(data.message);
-                //    $scope.showErrorAddPhotoMessage = true;
-                //}
+                //console.log(data);
+                if (data.status == "ok") {
+                    $rootScope.loading = false;
+                    console.log('here');
+                    callback(data.object);
+                } else if (data.status == "error") {
+                    $rootScope.loading = false;
+                    notificationService.error(data.message);
+                    $scope.showErrorAddPhotoMessage = true;
+                }
             });
         };
     }]);
