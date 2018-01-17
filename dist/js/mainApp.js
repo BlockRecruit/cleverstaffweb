@@ -29861,18 +29861,21 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
             $http({
                 url: serverAddress + '/candidate/downloadBackUpCandidates?filename=' + fileId,
                 method: "GET",
-                //data: 'application/zip',
-                //data: 'application/zip;base64',
-                responseType: "blob"
-                //headers: {
-                //    'Accept': 'application/zip',
-                //    'Content-Encoding': 'gzip'
-                //}
+                responseType: "blob",
+                headers: {
+                    'Content-Type': 'application/zip; charset=utf-8',
+                    'Accept': 'application/zip',
+                    'Content-Encoding': 'gzip'
+                }
             }).success(function(data) {
                 console.log(data);
                 var blob = data;
-                //var contentType = data.headers("content-type");
-                var fileURL = URL.createObjectURL(blob);
+                //var contentType = blob.type("application/zip");
+                //console.log(contentType);
+                console.log(window);
+                console.log(window.URL);
+                console.log(URL);
+                var fileURL = window.URL.createObjectURL(blob);
                 window.open(fileURL);
                 //var FileSaver = require('file-saver');
                 //var blob = new Blob(["Hello, world!"], {type: "application/zip"});
