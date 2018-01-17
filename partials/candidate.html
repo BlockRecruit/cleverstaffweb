@@ -641,10 +641,6 @@
                                     <span title="{{skill.name}}" class="pull-left">{{ skill.name | limitTo: 55 }}{{skill.name.length > 55 ? '...' : ''}}</span>
                                 </div>
                             </div>
-                            <div ng-show="(candidate.expirence || candidate.region || candidate.languages || candidate.industry || candidate.employmentType || candidate.relatedRegions || candidate.education) && candidate.coreSkills">
-                                <div class="content-header-description" style="border: 0px;padding:12px 0px 3px 0px!important;">{{'Skills with text'|translate}}</div>
-                                <span class="content-description candidateCoreSkills"></span>
-                            </div>
                         </div>
                     </div>
                     <div class="col-lg-12 ">
