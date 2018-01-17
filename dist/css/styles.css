@@ -18868,7 +18868,7 @@ input.cmn-toggle-round:checked + label:after {
               .block-candidate .candidate-information .candidate-profile-rezume .centerBar .main-info > div .menuLinkedProfiles li a:focus {
                 background-color: inherit; }
           .block-candidate .candidate-information .candidate-profile-rezume .centerBar .main-info > .right-column .preferable-contact {
-            line-height: 24px;
+            line-height: 25px;
             display: block; }
             .block-candidate .candidate-information .candidate-profile-rezume .centerBar .main-info > .right-column .preferable-contact .fa-star {
               font-size: 16px;
