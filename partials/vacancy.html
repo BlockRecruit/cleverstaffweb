@@ -574,6 +574,7 @@
             </div>
             <div class="row header" ng-show="!showSearchCandidate">
                 <div class="col-lg-4">
+                    <input ng-click="pushAllCandidatesToVacancy()" ng-checked="checkAllCandidates == true" type="checkbox"/>
                     <h4 ng-show="!activeCustomStageName">{{activeName | translate}}</h4>
                     <h4 ng-show="activeCustomStageName">
                         {{activeCustomStageName}}
@@ -622,12 +623,17 @@
                         <i class="fa fa-sort pull-right" aria-hidden="true"></i>
                     </th>
                     <th>
+                    </th>
+                    <th>
                         {{'vacancy_save_1'|translate}}
                         <i class="fa fa-sort pull-right" aria-hidden="true"></i>
                     </th>
                     <th>
                         {{'region'|translate}}
                         <i class="fa fa-sort pull-right" aria-hidden="true"></i>
+                    </th>
+                    <th>
+
                     </th>
                     <th ng-show="!showSearchCandidate">
                         {{'stage'|translate}}
@@ -646,6 +652,9 @@
                 <tbody>
                 <tr ng-repeat="candidate in dataForVacancy" ng-class="{'archived': candidate.candidateId.status == 'archived'}">
                     <td class="number" data-title="'№'" once-text="(tableParams.page() - 1) * tableParams.count() + $index + 1"></td>
+                    <td class="checklist">
+                        <input ng-click="pushCandidateToVacancy(candidate)" type="checkbox" ng-model="candidate.added"/>
+                    </td>
                     <td class="preview text-center width-for-table-eye hidden-xs" priview="" pageid="candidate" candidate="candidate.candidateId">
                         <div>
                             <i class="fa fa-address-card-o text_change" title="{{'CV preview'|translate}}" aria-hidden="true"></i>
@@ -672,9 +681,11 @@
                               ng-click="openChangeVacancyInterviewDate(candidate);$event.stopPropagation();"
                               class="set-interview">{{'Set interview time' | translate}} <i class="fa fa-calendar" aria-hidden="true"></i></span>
                     </td>
-                    <td class="button-outer" ng-if="candidate.candidateId.status != 'archived'" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidate);" ng-class="{'hidden-xs': showSearchCandidate ||candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview'
+                    <td class="button-outer" ng-if="candidate.candidateId.status != 'archived' && candidatesAddToVacancyIds.length > 0" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidate);" ng-class="{'hidden-xs': showSearchCandidate ||candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview'
                     || candidate.state == 'hr_interview' || candidate.state == 'interview_with_the_boss' || candidate.state == 'interview_with_the_client')}">
-                        <a href="" class="btn btn-success no-hover-sm">{{'change_status' | translate}}</a>
+                        <a href="" class="btn btn-success no-hover-sm">
+                            {{'change_status' | translate}} ({{candidatesAddToVacancyIds.length}})
+                        </a>
                     </td>
                     <td class="responsible hidden-xs" ng-if="candidate.candidateId.status != 'archived'" ng-click="$event.stopPropagation()">
                         <a ng-repeat="responsible in persons" href="#/users/{{::responsible.userId}}"

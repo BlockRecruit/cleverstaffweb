@@ -295,8 +295,14 @@
 				@include disabled-margins-for-row;
 
 				background-color: $theme-subtitle-background;
+				input {
+					display: inline-block;
+					margin-left: 25px;
+				}
 				h4 {
-					font-weight: 600;
+					@include bold();
+
+					display: inline-block;
 				}
 				.links {
 					margin-top: 10px;
@@ -416,6 +422,9 @@
 					padding-left: 8px;
 				}
 				.number {
+					width: 20px;
+				}
+				.checklist {
 					width: 20px;
 				}
 				.preview {

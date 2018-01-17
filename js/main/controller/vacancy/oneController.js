@@ -338,7 +338,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             show: false
         };
         $scope.saveStatusInServer = function (statusValue) {
-
             var checkValue = [];
             $scope.extraStatusObj.show = false;
             angular.forEach($scope.VacancyStatusFiltered, function (val) {
@@ -908,6 +907,38 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 //notificationService.error($filter('translate')('service temporarily unvailable'));
             });
         };
+        $scope.pushCandidateToVacancy = function(candidate){
+            if(candidate.added){
+                var candidateAdded = false;
+                for(var key in $scope.candidatesAddToVacancyIds){
+                    if(candidate.candidateId == $scope.candidatesAddToVacancyIds[key])
+                        candidateAdded = true;
+                }
+                if(!candidateAdded){
+                    $scope.candidatesAddToVacancyIds.push(candidate.candidateId.candidateId)
+                    $scope.addCandidateChangeStage.push(candidate.candidateId)
+                }
+            }else{
+                $scope.candidatesAddToVacancyIds.splice($scope.candidatesAddToVacancyIds.indexOf(candidate.candidateId.candidateId), 1);
+                $scope.addCandidateChangeStage.splice($scope.addCandidateChangeStage.indexOf(candidate.candidateId), 1);
+            }
+            console.log($scope.candidatesAddToVacancyIds);
+            console.log($scope.addCandidateChangeStage);
+        };
+        $scope.pushAllCandidatesToVacancy = function () {
+            $scope.checkAllCandidates = !$scope.checkAllCandidates;
+            angular.forEach($scope.dataForVacancy, function(resp){
+                if($scope.checkAllCandidates){
+                    resp.added = true
+                }else{
+                    resp.added = false;
+                }
+                if(!$scope.checkAllCandidates){
+                    $scope.candidatesAddToVacancyIds.splice(0, $scope.candidatesAddToVacancyIds.length-1);
+                }
+                $scope.pushCandidateToVacancy(resp);
+            });
+        };
 
         $scope.updateTasks = function (needReload) {
             Task.get({
@@ -970,7 +1001,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 }
             })
         };
-
 
         $scope.settingAccess = function(event, status){
             let target = event.target, id = status.customInterviewStateId || status.value,
@@ -1924,6 +1954,10 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 if($scope.vacancy){
                     $rootScope.loading = true;
                     $scope.finalCandidate = null;
+                    $scope.candidatesAddToVacancyIds = [];
+                    $scope.addCandidateChangeStage = [];
+                    $rootScope.candidatesAddToVacancyIds = $scope.candidatesAddToVacancyIds;
+                    $rootScope.addCandidateChangeStage = $scope.addCandidateChangeStage;
                     $scope.vacancySearchParams = {
                         state: $scope.activeName,
                         page: {number:(params.$params.page - 1),count:params.$params.count},
