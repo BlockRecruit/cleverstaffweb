@@ -85,6 +85,7 @@
 		a {
 			@include bold();
 
+			display: inline-block;
 			margin-left: 30px;
 			padding: 5px;
 

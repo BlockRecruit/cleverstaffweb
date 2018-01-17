@@ -62,7 +62,6 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.responsiblePersonsEdit =[];
         $scope.showMenuEdDelFile = false;
         $rootScope.showEmployedFields  = false;
-        $rootScope.saveFromAdviceClicked = false;
         $scope.todayDate = new Date().getTime();
         $scope.onlyComments = false;
         $rootScope.showEditNameTask = false;

@@ -42,6 +42,13 @@
                     </a>
                 </li>
                 <li class="pull-left">
+                    <a ng-click="VacanciesInfCandidTaskHistClientFunc('suggestions')"
+                       ng-class="{'selected' : currentTab == 'suggestions'}">
+                        {{'Suggested candidates' | translate}}
+                    </a>
+                    <i tooltip-class="tooltip-outer" uib-tooltip="{{'Here will be displayed candidates suitable for this vacancy. CleverStaff chooses the most suitable candidates for the desired position, place of residence and salary' | translate}}" class="fa fa-info-circle tooltip-icon" aria-hidden="true"></i>
+                </li>
+                <li class="pull-left">
                     <a ng-click="VacanciesInfCandidTaskHistClientFunc('task') "
                        ng-class="{'selected' : currentTab == 'task'}">
                         {{'Tasks'|translate}}
@@ -960,6 +967,75 @@
 
         <div class="not-access col-lg-9 clearfix" ng-show="visiable && $root.me.recrutRole === 'client'">
             {{"You have no access to candidate list on this stage. Please contact the user with an Admin role to access the candidate list."|translate}}
+        </div>
+    </div>
+    <div ng-show="currentTab == 'suggestions'" class="suggested-candidates">
+        <div class="container margin">
+            <div class="row" ng-show="!suggestedCandidates.length && !$root.loading">
+                <div class="col-md-12">
+                    <div class="header">
+                        <!--<h4 ng-show="suggestedCandidates.length">{{'Candidates' | translate}}</h4>-->
+                        <h4>{{'Suggested candidates not found' | translate}}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table" ng-show="suggestedCandidates.length">
+                        <tbody>
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th></th>
+                                <th>{{'Candidates' | translate}}</th>
+                                <th ng-click="sortCandidatesBy('salary')" class="salary">
+                                    <div class="flex-inline">
+                                        <span>{{'desired_salary' | translate}}</span>
+                                        <i ng-if="'salary' === SuggestionsSortCriteria" ng-class="{'fa-caret-up': reverseSort, 'fa-caret-down': !reverseSort}" class="fa" aria-hidden="true"></i>
+                                    </div>
+                                </th>
+                                <th></th>
+                                <th>{{'desired position' | translate}}</th>
+                                <th ng-click="sortCandidatesBy('scorePersent')">
+                                    <img tooltip-class="customClass" uib-tooltip="{{'Relevancy of the candidate' | translate}}" src="/images/sprite/matching.svg" alt="">
+                                    <i ng-if="'scorePersent' === SuggestionsSortCriteria" ng-class="{'fa-caret-up': reverseSort, 'fa-caret-down': !reverseSort}" class="fa" aria-hidden="true"></i>
+                                </th>
+                            </tr>
+                         </thead>
+                        <!--| orderBy: SuggestionsSortCriteria: reverseSort-->
+                        <!--suggestedCandidates-->
+                        <tr ng-repeat="candidate in suggestedCandidates | orderBy: SuggestionsSortCriteria: reverseSort track by $index" ng-class="{'disabled' : candidate.adviceType === 'has'}">
+                            <td class="number" data-title="'№'">{{$index + 1}}</td>
+                            <!--<td class="number" data-title="'№'">{{suggestedCandidates.indexOf(candidate) + 1}}</td>-->
+                            <td class="preview text-center width-for-table-eye hidden-xs" priview="" pageid="candidate" candidate="candidate">
+                                <div>
+                                    <i class="fa fa-address-card-o text_change" title="{{'CV preview'|translate}}" aria-hidden="true"></i>
+                                </div>
+                            </td>
+                            <td class="name" data-title="'Name'">
+                                <a href="#/candidates/{{::candidate.localId}}" ng-click="$event.stopPropagation();">{{::candidate.fullName}}
+                                    <span ng-if="candidate.db">, {{candidate.db | ageOfDate}}</span>
+                                </a>
+                            </td>
+                            <td class="salary">
+                                <span ng-if="candidate.salary">{{candidate.salary}} {{candidate.currency}}</span>
+                            </td>
+                            <td class="button-outer">
+                                <a ng-show="candidate.adviceType !== 'has'" ng-click="saveCandidateFromSuggestions(candidate)" class="btn btn-success no-hover-sm">{{'add_to_vacancy' | translate}}</a>
+                                <a ng-show="candidate.adviceType === 'has'" class="btn disabled no-hover-sm">{{'Already added to this vacancy' | translate}}</a>
+                            </td>
+                            <td class="position">
+                                <span>{{candidate.position}}</span>
+                            </td>
+                            <td class="scorePersent">
+                                <span>{{candidate.scorePersent}}%</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
         </div>
     </div>
     <div ng-if="currentTab == 'settings'">

@@ -2919,4 +2919,11 @@
   "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email.",
   "Please attach your CV file": "Прикрепите файл резюме",
   "Hide from all public vacancies list:":"Скрыть вакансию из публичного доступа:"
+  "Enter more data for search":"Введите больше символов для поиска",
+  "Select vacancies in the report":"Выбрать вакансии в отчете",
+  "Suggested candidates":"Предлагаемые кандидаты",
+  "Suggested candidates not found":"Предлагаемые кандидаты не найдены",
+  "Already added to this vacancy":"Уже добавлен в эту вакансию",
+  "Here will be displayed candidates suitable for this vacancy. CleverStaff chooses the most suitable candidates for the desired position, place of residence and salary":"Здесь будут отображатся кандидаты подходящие для данной вакансии. CleverStaff выбирает наиболее походящих кандидатов по желаемой должности, месту проживания, жалаемой зарплате",
+  "Relevancy of the candidate":"Релевантность кандидата"
 }

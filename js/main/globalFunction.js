@@ -336,52 +336,6 @@ function vacancyAddInterview(Vacancy, vacancyId, position, candidateId, comment,
             //notificationService.error($filter('translate')('service temporarily unvailable'));
         });
 }
-function vacancyAddInterviewFromAdvice(Vacancy, vacancyId, position, candidateId, comment, interviewState, date, callback, errorBack, frontMode, notificationService, googleService, selectedCalendarId, $filter, lang, $rootScope) {
-    console.log(interviewState);
-    Vacancy.addInterview({
-            "vacancyId": vacancyId,
-            "candidateId": candidateId,
-            "comment": comment,
-            "interviewState": interviewState,
-            "lang": lang,
-            "date": date != null ? date.getTime() : null,
-            interviewSource: 'advice'
-        },
-        function(resp) {
-            if (angular.equals(resp.status, "ok")) {
-                if (frontMode === 'war' && date !== null) {
-                    if (position == null) {
-                        Vacancy.one({"id": vacancyId}, function(res) {
-                            if (resp.status == "ok") {
-                                googleCalendarCreateEvent(googleService, date, resp.object.candidateId.fullName, res.object.position, selectedCalendarId, comment, resp.object.interviewId+interviewState, $filter);
-                            }
-                        });
-                    } else {
-                        googleCalendarCreateEvent(googleService, date, resp.object.candidateId.fullName, position, selectedCalendarId, comment, resp.object.interviewId+interviewState, $filter);
-                    }
-                }
-                if (date && $rootScope.candnotify.send && $rootScope.candnotify.sendMail) {
-                    var candnotify = $rootScope.candnotify;
-                    Vacancy.sendInterviewCreateMail({
-                            "email": candnotify.sendMail,
-                            "vacancyId": vacancyId,
-                            "candidateId": candidateId,
-                            "fullName": candnotify.fullName,
-                            "date": date,
-                            "lang": lang
-                        },
-                        function(resp) {
-                        });
-                }
-                callback(resp);
-            } else {
-                errorBack(resp);
-            }
-        }, function(err) {
-            //notificationService.error($filter('translate')('service temporarily unvailable'));
-        });
-}
-
 
 $('.plussHover').hover(function() {
     var block = $(this).next('.plussBlock');

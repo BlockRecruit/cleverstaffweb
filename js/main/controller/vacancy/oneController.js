@@ -1,9 +1,9 @@
 controller.controller('vacancyController', ["localStorageService", "CacheCandidates", "$localStorage", "$scope", "Vacancy",
     "Service", "$translate", "$routeParams", "$filter", "ngTableParams", "Person", "$location", "$rootScope", "FileInit",
-    "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route", "$timeout","$window",
+    "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "vacancySuggestions", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route", "$timeout","$window",
     function (localStorageService, CacheCandidates, $localStorage, $scope, Vacancy, Service, $translate, $routeParams,
               $filter, ngTableParams, Person, $location, $rootScope, FileInit,
-              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route,$timeout,$window) {
+              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, vacancySuggestions, Company, Task, File, $sce, Mail, $uibModal, Client, $route,$timeout,$window) {
         $rootScope.currentElementPos = true;
         $rootScope.setCurrent = true;
         localStorage.setItem('setCurrent', true);
@@ -38,6 +38,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.sortValue = 'addInVacancyDate';
         $scope.sortOrder = 'ASC';
         $scope.visiable = false;
+        $scope.SuggestionsSortCriteria = 'scorePersent';
+        $scope.reverseSort = true;
         $localStorage.remove("vacancyForTest");
         $localStorage.remove("activeCustomStageName");
         $localStorage.remove("activeCustomStageId");
@@ -109,7 +111,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.advicesLimit = 5;
         $scope.activeCustomStageName = '';
         $scope.displayResponsibleName = false;
-        $rootScope.saveFromAdviceClicked = false;
         $rootScope.searchAdvies = false;
         $rootScope.vacancy = undefined;
         $scope.todayDate = new Date().getTime();
@@ -198,6 +199,10 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             if($scope.currentTab == 'candidate'){
                 resetTemplate();
                 $scope.candidateInVacancy({value: "longlist"});
+            }
+            if($scope.currentTab == 'suggestions'){
+                resetTemplate();
+                $scope.reloadSuggestions();
             }
         };
         $scope.changeVacancyType = function (typeName, saveInServer, changeAnimation) {
@@ -1058,7 +1063,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         function setActiveStatus(status) {
-            console.log('go');
             $scope.activeName = status || "longlist";
             $rootScope.activeName = "longlist";
             // $scope.paramForExcell.interviewState = "longlist";
@@ -1251,18 +1255,43 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         if (frontMode === 'war') {
             googleService.checkAuthTimeout();
         }
-        //$scope.reloadAdvice = function () {
-        //    Candidate.getAdvices({"vacancyId": $scope.vacancy.vacancyId}, function (response) {
-        //        $scope.advices = response['objects'];
-        //        angular.forEach($scope.customStages, function (resp) {
-        //            angular.forEach($scope.advices, function (res) {
-        //                if (res.stateInVacancy == resp.customInterviewStateId) {
-        //                    res.stateInVacancy = resp.name;
-        //                }
-        //            });
-        //        });
-        //    });
-        //};
+        $scope.reloadSuggestions = function () {
+            $rootScope.loading = true;
+            vacancySuggestions.getSuggestions({"vacancyId": $scope.vacancy.vacancyId})
+                .then(resp => {
+                    $scope.suggestedCandidates = resp['objects'];
+                    $rootScope.loading = false;
+                    $scope.$apply();
+                });
+        };
+
+        $scope.saveCandidateFromSuggestions = function(candidate) {
+            vacancySuggestions.addCandidateToVacancy({
+                vacancyId: $scope.vacancy.vacancyId,
+                position: $scope.vacancy.position,
+                candidateId: candidate.candidateId,
+                comment: "",
+                interviewState: "longlist",
+                date: null,
+            }).then(resp => {
+                    $scope.suggestedCandidates[$scope.suggestedCandidates.indexOf(candidate)].adviceType = 'has';
+                    $scope.$apply();
+                    notificationService.success($filter('translate')('added_candidate'));
+                }, error => {
+                    notificationService.error(error.message);
+                });
+        };
+
+        $scope.sortCandidatesBy = function(head) {
+            if(head !== $scope.SuggestionsSortCriteria) {
+                $scope.SuggestionsSortCriteria = head;
+                $scope.reverseSort = true;
+            } else {
+                $scope.reverseSort = !$scope.reverseSort;
+            }
+            console.log($scope.SuggestionsSortCriteria);
+        };
+
         $rootScope.errorMessageForAddCandidate = {show: false, text: ""};
         $rootScope.select2Options = {allowClear: true};
         $rootScope.recallToInterview = {recall: "", status: "", date: "", comment: "", status_old: null};
@@ -3008,42 +3037,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             //} else {
             //    $rootScope.candnotify.send = true;
             //}
-        };
-
-        $rootScope.saveFromAdvice = function () {
-            $rootScope.saveFromAdviceClicked = true;
-            var candidateId = $rootScope.addFromAdvice.candidateId;
-            if ($rootScope.addFromAdvice.status.customInterviewStateId) {
-                $rootScope.addFromAdvice.status.value = $rootScope.addFromAdvice.status.customInterviewStateId;
-            }
-            $rootScope.errorAddFromAdvice.show = false;
-            $rootScope.addFromAdvice.date = $('.addFromAdvicePicker').datetimepicker('getDate') != null ? $('.addFromAdvicePicker').datetimepicker('getDate') : null;
-            if ($rootScope.saveFromAdviceClicked) {
-                vacancyAddInterviewFromAdvice(Vacancy, $scope.vacancy.vacancyId, $scope.vacancy.position,
-                    candidateId,
-                    $rootScope.addFromAdvice.comment,
-                    $rootScope.addFromAdvice.status.value,
-                    $rootScope.addFromAdvice.date, function (resp) {
-                        $rootScope.saveFromAdviceClicked = false;
-                        $('.addFromAdvice').modal('hide');
-                        if (!$scope.vacancy.interviews) {
-                            $scope.vacancy.interviews = [];
-                        }
-                        $scope.vacancy.interviews.push(resp.object);
-                        $scope.tableParams.reload();
-                        //$scope.tableParams2.reload();
-                        $scope.numberOfCandidatesInDifferentStates();
-                        $rootScope.addFromAdvice.comment = "";
-                        $rootScope.addFromAdvice.id = null;
-                        $rootScope.addFromAdvice.status = null;
-                        $rootScope.addFromAdvice.date = null;
-                        //$scope.reloadAdvice();
-                        $scope.getLastEvent();
-                    }, function (resp) {
-                        $rootScope.errorAddFromAdvice.show = true;
-                        $rootScope.errorAddFromAdvice.text = resp.message;
-                    }, frontMode, notificationService, googleService, $scope.selectedCalendar != undefined ? $scope.selectedCalendar.id : null, $filter, $translate.use(), $rootScope);
-            }
         };
 
         $scope.goToReportPage = function () {

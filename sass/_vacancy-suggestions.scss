@@ -1,0 +1,126 @@
+.suggested-candidates {
+	overflow-x: hidden;
+	.container.margin {
+		width: 95%;
+		margin: 30px 0 0 36px;
+	}
+	.header {
+		@include disabled-margins-for-row;
+
+		margin-bottom: 10px;
+		padding: 10px 0 10px 15px;
+
+		border-radius: 5px 5px 0 0;
+		background-color: $theme-subtitle-background;
+		h4 {
+			font-weight: 600;
+
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+	}
+	table {
+		@include table-styling();
+		tr {
+			th {
+				position: relative;
+
+				text-align: left;
+				vertical-align: middle;
+				&.salary {
+					text-align: center;
+				}
+				.flex-inline {
+					display: flex;
+					flex-direction: row;
+
+					justify-content: center;
+					align-content: center;
+					span {
+						min-width: 100px;
+					}
+					i {
+						display: flex;
+						margin-left: 10px;
+
+						align-items: center;
+					}
+				}
+				img {
+					position: relative;
+					left: -5px;
+
+					width: 35px;
+				}
+			}
+			td {
+				a.btn {
+					@include button-green-styling();
+
+					transition: 0.5s;
+
+					opacity: 0;
+					&.disabled {
+						opacity: 1;
+						color: #000;
+						background-color: #ffc100;
+					}
+				}
+				&.number {
+					width: 20px;
+				}
+				&.preview {
+					width: 25px;
+					.fa-address-card-o {
+						cursor: pointer;
+
+						color: #74b832;
+					}
+				}
+				&.name {
+					width: 26%;
+					a {
+						font-weight: 600;
+					}
+				}
+				&.salary {
+					font-weight: 600;
+
+					width: 65px;
+
+					text-align: center;
+				}
+				&.position {
+					width: 27%;
+					span {
+						font-weight: 600;
+					}
+				}
+				&.button-outer {
+					width: 180px;
+
+					text-align: center;
+				}
+				&.scorePersent {
+					width: 25px;
+
+					span {
+						font-weight: 600;
+
+						color: #74b832;
+					}
+				}
+			}
+			&:hover {
+				.button-outer {
+					a {
+						opacity: 1;
+					}
+				}
+			}
+			&.disabled {
+				background-color: #e1e1e1;
+			}
+		}
+	}
+}
