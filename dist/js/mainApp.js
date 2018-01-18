@@ -33694,11 +33694,17 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                                 }
                             });
 
+
+                            response['objects'] = sortVacanciesByUserID(response['objects']);
+                            console.log( response['objects'] , ' response[\'objects\'] ')
                             if(page) {
                                 $scope.vacancies = $scope.vacancies.concat(response['objects'])
                             } else {
                                 $scope.vacancies = response['objects'];
                             }
+
+
+
                             $scope.vacanciesFound = response['total'] >= 1;
                             $defer.resolve($scope.vacancies);
                             Vacancy.init();
@@ -34005,6 +34011,35 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                 sortDirection = 'asc';
             }
         };
+
+        function sortVacanciesByUserID(data){
+            let userID = $rootScope.userId, newData = [], i = 0;
+
+            for(; i < data.length; i++){
+                let currentVacancy = data[i];
+
+                if(!currentVacancy['responsibles'])continue;
+
+                currentVacancy['responsibles'].forEach(j => {
+                    if(userID == j.personId){
+                        data.splice(i, 1);
+                        newData.push(currentVacancy);
+                        i--;
+                    }
+                });
+            }
+
+            // data.forEach((item,index) => {
+            //     item['responsibles'].forEach(j => {
+            //         if(userID == j.personId){
+            //             data.splice(index, 1);
+            //             newData.push(item)
+            //         }
+            //     });
+            // });
+            console.log(newData, 'newData')
+           return newData.concat(data);
+        }
 
     }]);
 
