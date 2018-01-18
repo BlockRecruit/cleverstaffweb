@@ -574,7 +574,7 @@
             </div>
             <div class="row header" ng-show="!showSearchCandidate">
                 <div class="col-lg-4">
-                    <input ng-click="pushAllCandidatesToVacancy()" ng-checked="checkAllCandidates == true" type="checkbox"/>
+                    <input ng-click="pushAllCandidatesToVacancy()" ng-hide="(showTable === 'not available' || showTable === undefined && $scope.loadingCandidates == false) && !noCandidatesInThisVacancy" ng-checked="checkAllCandidates == true" type="checkbox"/>
                     <h4 ng-show="!activeCustomStageName">{{activeName | translate}}</h4>
                     <h4 ng-show="activeCustomStageName">
                         {{activeCustomStageName}}
