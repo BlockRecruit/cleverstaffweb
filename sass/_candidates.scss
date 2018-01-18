@@ -961,6 +961,9 @@
 							margin-top: -2px;
 						}
 					}
+					.greyColor {
+						color: #999;
+					}
 				}
 				a {
 					&.find-button {
@@ -1222,6 +1225,11 @@
 						padding-left: 16px;
 
 						color: #202021;
+					}
+					.salary::-webkit-outer-spin-button,
+					.salary::-webkit-inner-spin-button {
+						-webkit-appearance: none;
+						-moz-appearance: none;
 					}
 				}
 				& > .text-center {

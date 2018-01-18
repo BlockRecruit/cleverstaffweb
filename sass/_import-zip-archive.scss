@@ -86,7 +86,10 @@
 					i {
 						position: relative;
 
-						color: $theme-dark-green;
+						color: $theme-link-color;
+					}
+					.tooltip-icon {
+						@include tooltip-icon-styling();
 					}
 				}
 				& > i {

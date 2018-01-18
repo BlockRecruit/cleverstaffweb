@@ -2577,7 +2577,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                 }
             }
         }
-    }).directive('originAutocompleter', ["$filter", "serverAddress", function($filter, serverAddress) {
+    }).directive('originAutocompleter', ["$filter", "serverAddress", "$translate", "$rootScope", function($filter, serverAddress, $translate, $rootScope) {
         return {
             restrict: 'EA',
             replace: true,
@@ -2598,53 +2598,65 @@ var directive = angular.module('RecruitingApp.directives', []).
                 };
                 var inputText = "";
 
-                $(element[0]).select2({
-                    placeholder: $filter('translate')('source'),
-                    minimumInputLength: 0,
-                    formatNoMatches: function(term) {
-                        return "<div class='select2-result-label' style='cursor: s-resize;'><span class='select2-match'></span>" + $filter('translate')('Enter a source of this candidate') + "</div>";
-                    },
-                    createSearchChoice: function(term, data) {
-                        if ($(data).filter(function() {
-                                return this.text.localeCompare(term) === 0;
-                            }).length === 0) {
-                            inputText = term;
-                            return {id: term, text: term};
-                        }
-                    },
-                    ajax: {
-                        url: serverAddress + "/candidate/autocompleteOrigin",
-                        dataType: 'json',
-                        crossDomain: true,
-                        type: "POST",
-                        data: function(term, page) {
-                            return {
-                                text: term.trim()
-                            };
-                        },
-                        results: function(data, page) {
-                            var result = [];
-                            angular.forEach(data['objects'], function(val) {
-                                result.push({id: val, text: val})
-                            });
-                            return {
-                                results: result
-                            };
-                        }
-                    },
-                    dropdownCssClass: "bigdrop"
-                }).on('change',function () {
-                    $('.select2-search-choice-edit-origin').off().on('click', function (e) {
-                        $scope.editOriginName();
-                    }).attr("title", $filter('translate')('Edit source for all candidates'));
-                }).on("select2-close", function(e) {
-                    console.log("CLOSE!");
-                    if (inputText.length > 0) {
-                        $(element[0]).select2("data", {id: inputText, text: inputText});
-                    }
-                }).on("select2-selecting", function(e) {
-                    inputText = "";
+                let translatedPositions = false;
+
+                $rootScope.$on('$translateChangeSuccess', function () {
+                    initSelect2();
                 });
+
+                if(!translatedPositions) {
+                    initSelect2();
+                }
+                function initSelect2() {
+                    translatedPositions = true;
+                    $(element[0]).select2({
+                        placeholder: $translate.instant('source'),
+                        minimumInputLength: 0,
+                        formatNoMatches: function(term) {
+                            return "<div class='select2-result-label' style='cursor: s-resize;'><span class='select2-match'></span>" + $filter('translate')('Enter a source of this candidate') + "</div>";
+                        },
+                        createSearchChoice: function(term, data) {
+                            if ($(data).filter(function() {
+                                    return this.text.localeCompare(term) === 0;
+                                }).length === 0) {
+                                inputText = term;
+                                return {id: term, text: term};
+                            }
+                        },
+                        ajax: {
+                            url: serverAddress + "/candidate/autocompleteOrigin",
+                            dataType: 'json',
+                            crossDomain: true,
+                            type: "POST",
+                            data: function(term, page) {
+                                return {
+                                    text: term.trim()
+                                };
+                            },
+                            results: function(data, page) {
+                                var result = [];
+                                angular.forEach(data['objects'], function(val) {
+                                    result.push({id: val, text: val})
+                                });
+                                return {
+                                    results: result
+                                };
+                            }
+                        },
+                        dropdownCssClass: "bigdrop"
+                    }).on('change',function () {
+                        $('.select2-search-choice-edit-origin').off().on('click', function (e) {
+                            $scope.editOriginName();
+                        }).attr("title", $filter('translate')('Edit source for all candidates'));
+                    }).on("select2-close", function(e) {
+                        console.log("CLOSE!");
+                        if (inputText.length > 0) {
+                            $(element[0]).select2("data", {id: inputText, text: inputText});
+                        }
+                    }).on("select2-selecting", function(e) {
+                        inputText = "";
+                    });
+                }
             }
         }
     }]
@@ -2688,10 +2700,6 @@ var directive = angular.module('RecruitingApp.directives', []).
                     return item.text;
                 }
                 $scope.setLangs=function(langs) {
-                    setTimeout(function(){
-                        console.log($('#select2-drop'));
-                        console.log($('.selectLang'));
-                    }, 550);
                     $scope.addedLang = [];
                     var results = [];
                     var newarr = [];
@@ -3423,7 +3431,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                 }
             }
         }]
-).directive('skillsAutocompleterForSearch', ["$filter", "serverAddress","notificationService", function($filter, serverAddress, notificationService) {
+).directive('skillsAutocompleterForSearch', ["$filter", "serverAddress","notificationService", "$translate", "$rootScope", function($filter, serverAddress, notificationService, $translate, $rootScope) {
             return {
                 restrict: 'EA',
                 replace: true,
@@ -3439,73 +3447,85 @@ var directive = angular.module('RecruitingApp.directives', []).
                     };
                     var inputText = "";
 
-                    $(element[0]).select2({
-                        placeholder: $filter('translate')('Skill with rating'),
-                        minimumInputLength: 2,
-                        formatInputTooShort: function () {
-                            return ""+ $filter('translate')('Please enter 2 characters') +"";
-                        },
-                        formatNoMatches: function(term) {
-                            return "<div class='select2-result-label' style='cursor: s-resize;'><span class='select2-match'></span>" + $filter('translate')('Enter a source of this candidate') + "</div>";
-                        },
-                        createSearchChoice: function(term, data) {
-                            if ($(data).filter(function() {
-                                    return this.text.localeCompare(term) === 0;
-                                }).length === 0) {
-                                inputText = term;
-                                return {id: term, text: term};
-                            }
-                        },
-                        ajax: {
-                            url: serverAddress + "/candidate/autocompleteSkill",
-                            dataType: 'json',
-                            crossDomain: true,
-                            type: "POST",
-                            data: function(term, page) {
-                                return {
-                                    text: term.trim()
-                                };
-                            },
-                            results: function(data, page) {
-                                var result = [];
-                                angular.forEach(data['objects'], function(val) {
-                                    result.push({id: val, text: val})
-                                });
-                                console.log(result);
-                                return {
-                                    results: result
-                                };
-                            }
-                        },
-                        dropdownCssClass: "bigdrop"
-                    }).on("select2-close", function(e) {
-                        console.log("CLOSE!");
-                        function addSkillName(first) {
-                            this.name = first;
-                        }
-                        if($scope.getSkillAutocompleterValueForSearch().length > 1){
-                            $scope.candidate = {};
-                            var i = 0;
-                            angular.forEach($scope.candidate.skills, function(resp){
-                                if(resp.name == $scope.getSkillAutocompleterValueForSearch()){
-                                    notificationService.error($filter('translate')('Skill is already added'));
-                                }else{
-                                    if(i == 0){
-                                        $scope.candidate.skills.push({name : $scope.getSkillAutocompleterValueForSearch(),level: '_0'});
-                                        i++;
-                                    }
-                                }
-                            });
+                    let translatedPositions = false;
 
-                        }
-                        $scope.getSkillAutocompleterValueForSearch('');
-                        $scope.$apply();
-                        if (inputText.length > 0) {
-                            $(element[0]).select2("data", {id: inputText, text: inputText});
-                        }
-                    }).on("select2-selecting", function(e) {
-                        inputText = "";
+                    $rootScope.$on('$translateChangeSuccess', function () {
+                        initSelect2();
                     });
+
+                    if(!translatedPositions) {
+                        initSelect2();
+                    }
+                    function initSelect2() {
+                        translatedPositions = true;
+                        $(element[0]).select2({
+                            placeholder: $translate.instant('Skill with rating'),
+                            minimumInputLength: 2,
+                            formatInputTooShort: function () {
+                                return ""+ $filter('translate')('Please enter 2 characters') +"";
+                            },
+                            formatNoMatches: function(term) {
+                                return "<div class='select2-result-label' style='cursor: s-resize;'><span class='select2-match'></span>" + $filter('translate')('Enter a source of this candidate') + "</div>";
+                            },
+                            createSearchChoice: function(term, data) {
+                                if ($(data).filter(function() {
+                                        return this.text.localeCompare(term) === 0;
+                                    }).length === 0) {
+                                    inputText = term;
+                                    return {id: term, text: term};
+                                }
+                            },
+                            ajax: {
+                                url: serverAddress + "/candidate/autocompleteSkill",
+                                dataType: 'json',
+                                crossDomain: true,
+                                type: "POST",
+                                data: function(term, page) {
+                                    return {
+                                        text: term.trim()
+                                    };
+                                },
+                                results: function(data, page) {
+                                    var result = [];
+                                    angular.forEach(data['objects'], function(val) {
+                                        result.push({id: val, text: val})
+                                    });
+                                    console.log(result);
+                                    return {
+                                        results: result
+                                    };
+                                }
+                            },
+                            dropdownCssClass: "bigdrop"
+                        }).on("select2-close", function(e) {
+                            console.log("CLOSE!");
+                            function addSkillName(first) {
+                                this.name = first;
+                            }
+                            if($scope.getSkillAutocompleterValueForSearch().length > 1){
+                                $scope.candidate = {};
+                                var i = 0;
+                                angular.forEach($scope.candidate.skills, function(resp){
+                                    if(resp.name == $scope.getSkillAutocompleterValueForSearch()){
+                                        notificationService.error($filter('translate')('Skill is already added'));
+                                    }else{
+                                        if(i == 0){
+                                            $scope.candidate.skills.push({name : $scope.getSkillAutocompleterValueForSearch(),level: '_0'});
+                                            i++;
+                                        }
+                                    }
+                                });
+
+                            }
+                            $scope.getSkillAutocompleterValueForSearch('');
+                            $scope.$apply();
+                            if (inputText.length > 0) {
+                                $(element[0]).select2("data", {id: inputText, text: inputText});
+                            }
+                        }).on("select2-selecting", function(e) {
+                            inputText = "";
+                        });
+                    }
                 }
             }
         }]
@@ -12412,7 +12432,10 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "mailingTopic": $sce.trustAsHtml('Your letter topic, receiver will read in his Inbox'),
                     "toolTipForTestResults": $sce.trustAsHtml($filter('translate')('Percentile shows the percent of candidates, who received fewer points for passing the test, than a specific candidate with the percentile value')),
                     "mailingInternal": $sce.trustAsHtml('Mailing name for your internal usage. Visible only for you.'),
-                    "profilesMerge": $sce.trustAsHtml($filter("translate")("The 'rules' of profiles merge") + '<ul>' + '<li>' + $filter("translate")("Only fields with different values are available for selection") + '</li>' + '<li>' + $filter("translate")("If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default") + '</li>' + '<li>' + $filter("translate")("Tags in the merged profile will be saved from both original ones") + '</li>' + '</ul>')
+                    "profilesMerge": $sce.trustAsHtml($filter("translate")("The 'rules' of profiles merge") + '<ul>' + '<li>' + $filter("translate")("Only fields with different values are available for selection") + '</li>' + '<li>' + $filter("translate")("If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default") + '</li>' + '<li>' + $filter("translate")("Tags in the merged profile will be saved from both original ones") + '</li>' + '</ul>'),
+                    "helpWindowZip1":  $sce.trustAsHtml($filter('translate')('You can just upload all resumes in one big folder and pack') + '</br></br>' + '<img src="../images/sprite/ZipArchive2.png" alt=""/>'),
+                    "helpWindowZip2":  $sce.trustAsHtml($filter('translate')('If your resumes folders like in the picture:') + '</br></br>' + '<img src="../images/sprite/ZipArchive1.png" alt=""/>' + '</br></br>' + $filter('translate')('simply pack the root folder in the ZIP-archive. This is a good option')),
+                    "helpWindowZip3":  $sce.trustAsHtml($filter('translate')('If you have any candidates in the program E-Staff, they can be exported in two steps') + '</br></br>' + '<div>1.' + $filter('translate')('Create a script export (Menu -> Tools -> Administration -> Other -> Scripts exports). Uploaded types of objects - the candidate. Specify the name of the script and save')+'.' + '</br></br>2.' + $filter('translate')('Upload (Menu -> Tools -> Export -> Your script that you received from p.1. You will receive a folder with files of the candidate-0x0A1234E567C890A0.xml. All you need to pack a folder in the ZIP-archive and send it here. So the candidates of the E-Staff will take a CleverStaff.'))
                 };
                 $rootScope.tooltips = options;
             });
@@ -14766,7 +14789,7 @@ controller.controller('ActivityCompanySettingsController', ["$scope", "$rootScop
             if (resp.status && angular.equals(resp.status, "error")) {
                 notificationService.error(resp.message);
             } else {
-                //notificationService.success($filter('translate')('You changed company name'));
+                notificationService.success($filter('translate')('The account name changed to') + ' ' + $scope.newOrgName);
                 $rootScope.me.orgName = $scope.newOrgName;
                 $scope.showChangeOrgName = false;
                 angular.forEach($rootScope.me.orgs, function(org) {
@@ -14965,11 +14988,17 @@ controller.controller('ActivityCompanySettingsController', ["$scope", "$rootScop
             notificationService.error($filter('translate')("enter the link http"));
         }
     };
-    $scope.showInputForChangeWebSite = function(){
-        $scope.showCompanyWebSite = false;
+    $scope.showInputForChangeWebSite = function(falseTrue){
+        $scope.showCompanyWebSite = falseTrue;
+        if(falseTrue == true){
+            $scope.changeWebSite = null;
+        }
     };
-    $scope.showInputForChangeFacebookPage = function(){
-        $scope.showCompanyFacebookPage = false;
+    $scope.showInputForChangeFacebookPage = function(falseTrue){
+        $scope.showCompanyFacebookPage = falseTrue;
+        if(falseTrue == true){
+            $scope.changeFacebookPage = null;
+        }
     };
 }]);
 
@@ -18223,64 +18252,64 @@ controller.controller('CandidateAddFromZipController', ["Notice", "$localStorage
         //};
         //$scope.limitStrict();
 
-        $scope.openHelpZip1 = function(event) {
-            console.log(event);
-            var helpZip1 = $("#helpZip1");
-            if (helpZip1.css('display') == 'none') {
-                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0.11)"});
-                helpZip1.show('slide', {direction: 'left'}, 400);
-                $(document).mouseup(function(e) {
-                    var noticesElement = $("#agreedQuestionOuter");
-                    if ($("#agreedQuestionOuter").has(e.target).length === 0) {
-                        helpZip1.hide();
-                        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
-                        $(document).off('mouseup');
-                    }
-                });
-            } else {
-                helpZip1.hide();
-                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
-                $(document).off('mouseup')
-            }
-        };
-        $scope.openHelpZip2 = function() {
-            var helpZip2 = $("#helpZip2");
-            if (helpZip2.css('display') == 'none') {
-                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0.11)"});
-                helpZip2.show('slide', {direction: 'left'}, 400);
-                $(document).mouseup(function(e) {
-                    var noticesElement = $("#agreedQuestionOuter");
-                    if ($("#agreedQuestionOuter").has(e.target).length === 0) {
-                        helpZip2.hide();
-                        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
-                        $(document).off('mouseup');
-                    }
-                });
-            } else {
-                helpZip2.hide();
-                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
-                $(document).off('mouseup')
-            }
-        };
-        $scope.openHelpZip3 = function() {
-            var helpZip3 = $("#helpZip3");
-            if (helpZip3.css('display') == 'none') {
-                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0.11)"});
-                helpZip3.show('slide', {direction: 'left'}, 400);
-                $(document).mouseup(function(e) {
-                    var noticesElement = $("#agreedQuestionOuter");
-                    if ($("#agreedQuestionOuter").has(e.target).length === 0) {
-                        helpZip3.hide();
-                        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
-                        $(document).off('mouseup');
-                    }
-                });
-            } else {
-                helpZip3.hide();
-                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
-                $(document).off('mouseup')
-            }
-        };
+        //$scope.openHelpZip1 = function(event) {
+        //    console.log(event);
+        //    var helpZip1 = $("#helpZip1");
+        //    if (helpZip1.css('display') == 'none') {
+        //        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0.11)"});
+        //        helpZip1.show('slide', {direction: 'left'}, 400);
+        //        $(document).mouseup(function(e) {
+        //            var noticesElement = $("#agreedQuestionOuter");
+        //            if ($("#agreedQuestionOuter").has(e.target).length === 0) {
+        //                helpZip1.hide();
+        //                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
+        //                $(document).off('mouseup');
+        //            }
+        //        });
+        //    } else {
+        //        helpZip1.hide();
+        //        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
+        //        $(document).off('mouseup')
+        //    }
+        //};
+        //$scope.openHelpZip2 = function() {
+        //    var helpZip2 = $("#helpZip2");
+        //    if (helpZip2.css('display') == 'none') {
+        //        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0.11)"});
+        //        helpZip2.show('slide', {direction: 'left'}, 400);
+        //        $(document).mouseup(function(e) {
+        //            var noticesElement = $("#agreedQuestionOuter");
+        //            if ($("#agreedQuestionOuter").has(e.target).length === 0) {
+        //                helpZip2.hide();
+        //                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
+        //                $(document).off('mouseup');
+        //            }
+        //        });
+        //    } else {
+        //        helpZip2.hide();
+        //        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
+        //        $(document).off('mouseup')
+        //    }
+        //};
+        //$scope.openHelpZip3 = function() {
+        //    var helpZip3 = $("#helpZip3");
+        //    if (helpZip3.css('display') == 'none') {
+        //        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0.11)"});
+        //        helpZip3.show('slide', {direction: 'left'}, 400);
+        //        $(document).mouseup(function(e) {
+        //            var noticesElement = $("#agreedQuestionOuter");
+        //            if ($("#agreedQuestionOuter").has(e.target).length === 0) {
+        //                helpZip3.hide();
+        //                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
+        //                $(document).off('mouseup');
+        //            }
+        //        });
+        //    } else {
+        //        helpZip3.hide();
+        //        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
+        //        $(document).off('mouseup')
+        //    }
+        //};
         $scope.checkValidZip = function() {
            if(!$scope.radioType){
                $('.mainFormZip').css('box-shadow','rgb(245, 19, 19) 0px 0px 10px');
@@ -18914,19 +18943,22 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.employmentType = Service.employmentType();
     $scope.experience = Service.experience();
     $scope.extensionHas = false;
-    Service.getRegions2(function (countries,cities) {
+    //$scope.cities = [];
+    Service.getRegions2(function (countries, cities) {
+        console.log(countries);
+        //console.log(cities);
         $scope.countries = countries;
         $scope.cities = cities;
-        var optionsHtml = '<option value="null" style="color:#999">'+$filter('translate')('region')+'</option>';
-        var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
-        angular.forEach($scope.countries, function (value) {
-            optionsHtml += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-        });
-        angular.forEach($scope.cities, function (value) {
-            optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-        });
-        $('#cs-region-filter-select, #cs-region-filter-select-for-linkedin').html(optionsHtml);
-        $('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
+        //var optionsHtml = '<option value="null" style="color:#999">'+$filter('translate')('region')+'</option>';
+        //var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
+        //angular.forEach($scope.countries, function (value) {
+        //    optionsHtml += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
+        //});
+        //angular.forEach($scope.cities, function (value) {
+        //    optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
+        //});
+        //$('#cs-region-filter-select, #cs-region-filter-select-for-linkedin').html(optionsHtml);
+        //$('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
     });
     Service.getGroups(function (resp) {
         $scope.candidateGroups = resp.objects;
@@ -19191,13 +19223,9 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 }
                 if ($scope.searchParam['regionId']) {
                     if($scope.searchParam['regionIdCity']){
-                        var json = JSON.parse($scope.searchParam['regionIdCity']);
-                        if (json && json.type) {
-                            Candidate.setOptions("city", json.value);
-                        }
+                        Candidate.setOptions("city", $scope.searchParam['regionIdCity']);
                     }else{
-                        var json = JSON.parse($scope.searchParam['regionId']);
-                        Candidate.setOptions("country", json.value);
+                        Candidate.setOptions("country", $scope.searchParam['regionId']);
                     }
                 } else {
                     Candidate.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
@@ -19816,21 +19844,32 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         }
     };
     $scope.setSearchedRegion = function(){
+        $scope.city = [];
+        //$scope.searchParam.regionId = null;
         $scope.searchParam.regionIdCity = null;
-        var obj = JSON.parse($scope.searchParam.regionId);
-        if(obj.type == 'country'){
-            $scope.searchedRegion = JSON.parse($scope.searchParam.regionId);
-            $('#cs-region-filter-select-cities').find('option').remove();
-            var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
-            angular.forEach($scope.cities, function (value) {
-                if(value.type == 'city' && value.country == $scope.searchedRegion.country){
-                    optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-                }
-            });
-            $('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
-        }else{
-            $scope.searchedRegionCity = JSON.parse($scope.searchParam.regionIdCity);
-        }
+        angular.forEach($scope.cities, function (nval) {
+            if(nval.type == 'city' && (nval.country == $scope.searchParam.regionId || nval.countryRu == $scope.searchParam.regionId)){
+                $scope.city.push(nval);
+            }
+        });
+        var uniqueArray = removeDuplicates($scope.city, "id");
+        $scope.city = uniqueArray;
+        console.log($scope.city);
+        //$scope.searchParam.regionIdCity = null;
+        //var obj = JSON.parse($scope.searchParam.regionId);
+        //if(obj.type == 'country'){
+        //    $scope.searchedRegion = JSON.parse($scope.searchParam.regionId);
+        //    $('#cs-region-filter-select-cities').find('option').remove();
+        //    var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
+        //    angular.forEach($scope.cities, function (value) {
+        //        if(value.type == 'city' && value.country == $scope.searchedRegion.country){
+        //            optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
+        //        }
+        //    });
+        //    $('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
+        //}else{
+        //    $scope.searchedRegionCity = JSON.parse($scope.searchParam.regionIdCity);
+        //}
     };
     if($rootScope.changeSearchTypeNotFromCandidates){
         $scope.changeSearchType($rootScope.changeSearchTypeNotFromCandidates);

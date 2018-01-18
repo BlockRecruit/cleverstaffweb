@@ -157,20 +157,39 @@
                              class="clever-window">
                             {{'Regions only where you have vacancies, candidates or users added to your database.'|translate}}
                         </div>
-                        <select id="cs-region-filter-select" ng-model="searchParam.regionId"
-                                class="select2-container form-control input-lg select2 select14_2 search-select2"
-                                ng-change="setSearchedRegion()"
-                                ng-selected="searchParam.regionId == 'null'"
-                                ng-init="searchParam.regionId = 'null'">
+                        <select ng-class="{'greyColor': searchParam.regionId == 'null'}" class="form-control"
+                                ng-model="searchParam.regionId"
+                                ng-init="searchParam.regionId = 'null'"
+                                ng-change="setSearchedRegion()">
+                            <option class="greyColor" value="">{{'region'|translate}}</option>
+                            <option class="othersColor" ng-selected="country.value == searchParam.regionId"
+                                    ng-repeat="country in countries" value="{{country.id}}">
+                                {{country.name}}
+                            </option>
                         </select>
+                        <!--<select id="cs-region-filter-select" ng-model="searchParam.regionId"-->
+                                <!--class="select2-container form-control input-lg select2 select14_2 search-select2"-->
+                                <!--ng-change="setSearchedRegion()"-->
+                                <!--ng-selected="searchParam.regionId == 'null'"-->
+                                <!--ng-init="searchParam.regionId = 'null'">-->
+                        <!--</select>-->
                         <i class="fa fa-info-circle extension" ng-click="$event.stopPropagation()" ng-mouseover="inHover()" ng-mouseleave="outHover()"></i>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 item pull-left" ng-show="searchParam.regionId && searchParam.regionId != 'null'">
-                        <select id="cs-region-filter-select-cities" ng-model="searchParam.regionIdCity"
-                                class="select2-container form-control input-lg select2 select14_2 search-select2"
-                                ng-selected="searchParam.regionIdCity == 'null'"
+                        <select ng-class="{'greyColor': searchParam.regionIdCity == 'null'}" class="form-control"
+                                ng-model="searchParam.regionIdCity"
                                 ng-init="searchParam.regionIdCity = 'null'">
+                            <option class="greyColor" value="">{{'city'|translate}}</option>
+                            <option class="othersColor" ng-selected="cities.value == searchParam.regionIdCity"
+                                    ng-repeat="cities in city track by $index" value="{{cities.value}}">
+                                {{cities.name}}
+                            </option>
                         </select>
+                        <!--<select id="cs-region-filter-select-cities" ng-model="searchParam.regionIdCity"-->
+                                <!--class="select2-container form-control input-lg select2 select14_2 search-select2"-->
+                                <!--ng-selected="searchParam.regionIdCity == 'null'"-->
+                                <!--ng-init="searchParam.regionIdCity = 'null'">-->
+                        <!--</select>-->
                     </div>
                     <div class="clearfix"></div>
                     <div ng-show="!showAdvancedSearchCandidate" class="item">
@@ -388,8 +407,7 @@
 
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right">
                             <form class="form-inline-position pull-left move-left skills">
-                                <input skills-autocompleter-for-search name="skills" ng-maxlength="50" placeholder=""
-                                       ng-model="searchParam.skills.name" type="text">
+                                <input skills-autocompleter-for-search name="skills" ng-maxlength="50" ng-model="searchParam.skills.name" type="text">
                             </form>
                             <form class="form-inline-position pull-left" ng-show="searchParam.skills.name">
                                 <div class="select">
@@ -422,7 +440,6 @@
                                         </option>
                                         <option value="false">{{'Unavailable Email and/or Skype'|translate}}</option>
                                     </select>
-                                    <span class="new-label">New</span>
                                 </div>
                             </form>
                         </div>
@@ -437,7 +454,7 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="col-lg-12 criterionSearchCandidate" ng-class="{'limited': limitReached === true}" ng-show="searchParam.searchCs">
-                    <div ng-show="(staticSearchParam[0].words || (staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
+                    <div ng-show="(staticSearchParam[0].words || (staticSearchParam[0].regionId == searchParam.regionId && staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
                             (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType != null) ||
                             (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts != 'null') && !limitReached">
@@ -474,13 +491,16 @@
                             <i ng-click="closeSearchTags('position');clickSearch();" class="fa fa-times"
                                aria-hidden="true"></i>
                         </li>
-                        <li ng-show="staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0"
-                            class="pivot">
-                            <span ng-show="searchedRegion.showName && !parJson(searchParam.regionIdCity).name">{{'country'|translate}}: {{searchedRegion.showName}}</span>
-                            <span ng-show="parJson(searchParam.regionIdCity).name && $root.currentLang == 'ru'">{{'region'|translate}}: {{parJson(searchParam.regionIdCity).name}}, {{parJson(searchParam.regionIdCity).countryRu}}</span>
-                            <span ng-show="parJson(searchParam.regionIdCity).name && $root.currentLang == 'en'">{{'region'|translate}}: {{parJson(searchParam.regionIdCity).nameEn}}, {{parJson(searchParam.regionIdCity).country}}</span>
-                            <i ng-click="closeSearchTags('regionId');clickSearch();" class="fa fa-times"
-                               aria-hidden="true"></i>
+                        <li ng-show="staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0" class="pivot">
+                            <span ng-show="staticSearchParam[0].regionId != 'null' && country.id == searchParam.regionId && staticSearchParam[0].regionIdCity == null" ng-repeat="country in countries">
+                                <span ng-show="$root.currentLang == 'en' && searchParam.regionId == country.id">{{'country'|translate}}: {{country.nameEn}}</span>
+                                <span ng-show="$root.currentLang == 'ru' && searchParam.regionId == country.id">{{'country'|translate}}: {{country.nameRu}}</span>
+                            </span>
+                            <span ng-show="staticSearchParam[0].regionIdCity != null && cities.value == staticSearchParam[0].regionIdCity" ng-repeat="cities in city">
+                                <span ng-show="$root.currentLang == 'en'">{{'region'|translate}}: {{cities.nameEn}}, {{cities.country}}</span>
+                                <span ng-show="$root.currentLang == 'ru'">{{'region'|translate}}: {{cities.nameRu}}, {{cities.countryRu}}</span>
+                            </span>
+                            <i ng-show="staticSearchParam[0].regionId == searchParam.regionId" ng-click="closeSearchTags('regionId');clickSearch();" class="fa fa-times" aria-hidden="true"></i>
                         </li>
                         <!--end main criterials-->
                         <!--start additional criterials-->
@@ -586,14 +606,14 @@
                         <li ng-show="$root.scopeActiveObject.name == 'region'" class="pivot"
                             style="background-color: #0AA5DF;color: #fff;">{{'scope'|translate}}: {{'only'|translate}}
                             <span>{{activeScopeParam.value.name}}</span></li>
-                        <li ng-show="staticSearchParam[0].words || (staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
+                        <li ng-show="staticSearchParam[0].words || (staticSearchParam[0].regionId == searchParam.regionId && staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
                             (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType) ||
                             (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts != 'null'|| staticSearchParam[0].origin != null">
                             <span id="btnCl12" class="button_add ui item icon teal button" ng-click="cleanTags();">
                             <i class="fa fa-trash" aria-hidden="true"></i></span>
                         </li>
-                        <li class="too-match" ng-show="limitReached === true && (staticSearchParam[0].words || (staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
+                        <li class="too-match" ng-show="limitReached === true && (staticSearchParam[0].words || (staticSearchParam[0].regionId == searchParam.regionId && staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
                             (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null') ||
                             (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts != 'null')">

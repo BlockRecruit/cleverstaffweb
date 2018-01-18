@@ -40,18 +40,24 @@
 		}
 		.cancel {
 			@include button-styling-cancel();
-		}
-		.cancel-text {
+
 			margin-left: 15px;
-
-			cursor: pointer;
-
-			color: $theme-light-grey;
 			&:hover {
+				cursor: pointer;
 				text-decoration: none;
-
-				color: $theme-grey;
 			}
 		}
+		//.cancel-text {
+		//	margin-left: 15px;
+		//
+		//	cursor: pointer;
+		//
+		//	color: $theme-light-grey;
+		//	&:hover {
+		//		text-decoration: none;
+		//
+		//		color: $theme-grey;
+		//	}
+		//}
 	}
 }
