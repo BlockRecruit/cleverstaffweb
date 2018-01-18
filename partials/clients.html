@@ -96,9 +96,9 @@
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 item pull-left" ng-show="searchParam.regionId && searchParam.regionId != 'null'">
                                 <select id="cs-region-filter-select-cities" ng-model="searchParam.regionIdCity"
-                                        class="select2-container form-control select2 select14_2 search-select2"
-                                        ng-selected="searchParam.regionIdCity == 'null'"
-                                        ng-init="searchParam.regionIdCity = 'null'">
+                                        class="select2-container form-control select2 select14_2 search-select2 margin-top"
+                                        ng-selected="searchParam.regionIdCity == null"
+                                        ng-init="searchParam.regionIdCity = null">
                                 </select>
                             </div>
                         </div>

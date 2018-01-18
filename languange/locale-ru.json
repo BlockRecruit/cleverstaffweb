@@ -2859,7 +2859,6 @@
   "_for":"для",
   "The large quantity of results has been found.": "Найдено большое количество результатов. Показано <b>{{total_count}}</b>. Уточните критерии, чтобы получить более точные результаты",
   "Please add the candidates to this stage":"Добавьте кандидатов на этап",
-  "Show vacancies in the report":"Показать вакансии в отчете",
   "Time range":"Временной интервал",
   "currentWeek":"Эта неделя",
   "previousWeek":"Прошлая неделя",
@@ -2869,5 +2868,6 @@
   "previousYear":"Прошлый год",
   "customRange":" Настраиваемый период",
   "replacement":"Замена",
-  "Select vacancies in the report":"Выбрать вакансии в отчете"
+  "Select vacancies in the report":"Выбрать вакансии в отчете",
+  "Being a Free Plan user, you have free access to this feature for the first 7 days of your Trial": "Так как вы пользователь бесплатного аккаунта, у вас есть бесплатный доступ к этой функции в течение  7 дней пробного периода"
 }

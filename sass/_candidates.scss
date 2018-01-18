@@ -279,6 +279,8 @@
 								color: $theme-dark-green;
 							}
 							a {
+								@include link-styling();
+
 								margin-left: 10px;
 							}
 							&:first-child a {
@@ -290,6 +292,8 @@
 								color: $theme-dark-green;
 							}
 							& > a {
+								@include link-styling();
+
 								margin-left: 10px;
 
 								cursor: pointer;
@@ -403,6 +407,9 @@
 						@include link-styling();
 
 						font-weight: 400;
+					}
+					a {
+						@include link-styling();
 					}
 					a,
 					label {
