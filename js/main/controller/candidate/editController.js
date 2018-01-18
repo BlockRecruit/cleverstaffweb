@@ -731,7 +731,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     candidate.contacts.push({type: "email", value: $scope.contacts.email});
                 }
                 if ($scope.contacts.mphone) {
-                    candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone});
+                    candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.split(/[\,+" "]/).join(",")});
                 }
                 if ($scope.contacts.skype) {
                     candidate.contacts.push({type: "skype", value: $scope.contacts.skype});
