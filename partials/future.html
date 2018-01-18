@@ -215,7 +215,7 @@
                                             <span class="doneAchieve">{{'Create an account' |translate}}</span>
                                             <i class="achieveIconDone pull-right checkmark icon"></i>
                                             <span class="date pull-right">
-                                                {{achieves.createOrg.achieveDate |dateFormat2}}
+                                                {{::achieves.createOrg.achieveDate |dateFormat2}}
                                             </span>
                                         </div>
                                     </div>
@@ -237,7 +237,7 @@
                                             <i popover-placement="top"   popover-trigger="'mouseenter'" uib-popover-html="htmlPopover" id="htmlPopover" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right" aria-hidden="true"></i>
                                             <span class="date pull-right">
-                                                {{achieves.addEmailForParsing.achieveDate |dateFormat2}}
+                                                {{::achieves.addEmailForParsing.achieveDate |dateFormat2}}
                                             </span>
                                         </div>
 
@@ -261,7 +261,7 @@
                                             <i popover-placement="top"  popover-trigger="mouseenter" uib-popover-html="htmlPopover2" id="htmlPopover2" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right" aria-hidden="true"></i>
                                              <span class="date pull-right">
-                                                {{achieves.addUsers.achieveDate |dateFormat2}}
+                                                {{::achieves.addUsers.achieveDate |dateFormat2}}
                                              </span>
                                         </div>
                                     </div>
@@ -283,7 +283,7 @@
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover3" id="htmlPopover3" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                              <span class="date pull-right">
-                                                {{achieves.browser.achieveDate |dateFormat2}}
+                                                {{::achieves.browser.achieveDate |dateFormat2}}
                                              </span>
                                         </div>
                                     </div>
@@ -302,9 +302,9 @@
                                          ng-class="{'selected':source == 'plugin'}">
                                         <div class="content"   ng-mouseover="popoverPosition($event, 282)">
                                             <span class="doneAchieve">{{'Install the extension for' |translate}}
-                                                <span ng-if="publicBrowser == 'chrome'">Chrome</span>
-                                                <span ng-if="publicBrowser == 'firefox'">Firefox</span>
-                                                <span ng-if="publicBrowser != 'firefox' && publicBrowser != 'chrome'">Firefox или Chrome</span>
+                                                <!--<span ng-if="publicBrowser == 'chrome'">Chrome</span>-->
+                                                <!--<span ng-if="publicBrowser == 'firefox'">Firefox</span>-->
+                                                <!--<span ng-if="publicBrowser != 'firefox' && publicBrowser != 'chrome'">Firefox или Chrome</span>-->
                                             </span>
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover4" id="htmlPopover4" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
@@ -337,7 +337,7 @@
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover5" id="htmlPopover5" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                              <span class="date pull-right">
-                                                {{achieves.addCandidateFromLink.achieveDate |dateFormat2}}
+                                                {{::achieves.addCandidateFromLink.achieveDate |dateFormat2}}
                                              </span>
                                         </div>
                                     </div>
@@ -359,7 +359,7 @@
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover6" id="htmlPopover6" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                              <span class="date pull-right">
-                                                {{achieves.addCandidateFromCV.achieveDate |dateFormat2}}
+                                                {{::achieves.addCandidateFromCV.achieveDate |dateFormat2}}
                                              </span>
                                         </div>
                                     </div>
@@ -381,7 +381,7 @@
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover7" id="htmlPopover7" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                              <span class="date pull-right">
-                                                {{achieves.addClient.achieveDate |dateFormat2}}
+                                                {{::achieves.addClient.achieveDate |dateFormat2}}
                                              </span>
                                         </div>
                                     </div>
@@ -404,7 +404,7 @@
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover8" id="htmlPopover8" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                             <span class="date pull-right">
-                                                {{achieves.addContactClient.achieveDate |dateFormat2}}
+                                                {{::achieves.addContactClient.achieveDate |dateFormat2}}
                                             </span>
                                         </div>
                                     </div>
@@ -426,7 +426,7 @@
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover9" id="htmlPopover9" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                             <span class="date pull-right">
-                                                {{achieves.addVacancy.achieveDate |dateFormat2}}
+                                                {{::achieves.addVacancy.achieveDate |dateFormat2}}
                                             </span>
                                         </div>
                                     </div>
@@ -449,7 +449,7 @@
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover10" id="htmlPopover10" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                             <span class="date pull-right">
-                                                {{achieves.uploadArchive.achieveDate |dateFormat2}}
+                                                {{::achieves.uploadArchive.achieveDate |dateFormat2}}
                                             </span>
                                         </div>
                                     </div>
@@ -472,7 +472,7 @@
                                             <i  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover11" id="htmlPopover11" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i popover-placement="top" class="fa fa-check achieveIconDone pull-right"></i>
                                             <span class="date pull-right">
-                                                {{achieves.changeInterviewState.achieveDate |dateFormat2}}
+                                                {{::achieves.changeInterviewState.achieveDate |dateFormat2}}
                                             </span>
                                         </div>
                                     </div>
@@ -494,7 +494,7 @@
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover12" id="htmlPopover12" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                              <span class="date pull-right">
-                                                {{achieves.orgLogo.achieveDate |dateFormat2}}
+                                                {{::achieves.orgLogo.achieveDate |dateFormat2}}
                                              </span>
                                         </div>
                                     </div>
@@ -517,7 +517,7 @@
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover13" id="htmlPopover13" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                              <span class="date pull-right">
-                                                {{achieves.publishVacancy.achieveDate |dateFormat2}}
+                                                {{::achieves.publishVacancy.achieveDate |dateFormat2}}
                                              </span>
                                         </div>
                                     </div>
@@ -539,7 +539,7 @@
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover14" id="htmlPopover14" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                             <span class="date pull-right">
-                                                {{achieves.candidateToVacancy.achieveDate |dateFormat2}}
+                                                {{::achieves.candidateToVacancy.achieveDate |dateFormat2}}
                                             </span>
                                         </div>
                                     </div>
@@ -561,7 +561,7 @@
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover15" id="htmlPopover15" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                            <span class="date pull-right">
-                                                {{achieves.sendCandidatesToClient.achieveDate |dateFormat2}}
+                                                {{::achieves.sendCandidatesToClient.achieveDate |dateFormat2}}
                                            </span>
                                         </div>
                                     </div>
@@ -584,7 +584,7 @@
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover16" id="htmlPopover16" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                             <span class="date pull-right">
-                                                {{achieves.addInterview.achieveDate |dateFormat2}}
+                                                {{::achieves.addInterview.achieveDate |dateFormat2}}
                                             </span>
                                         </div>
                                     </div>
@@ -606,7 +606,7 @@
                                             <i popover-placement="top"  popover-trigger="'mouseenter'" uib-popover-html="htmlPopover17" id="htmlPopover17" class="fa fa-info-circle helpIcon" aria-hidden="true"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                             <span class="date pull-right">
-                                                {{achieves.closeVacancy.achieveDate |dateFormat2}}
+                                                {{::achieves.closeVacancy.achieveDate |dateFormat2}}
                                             </span>
                                         </div>
                                     </div>
@@ -628,25 +628,21 @@
                                         </div>
                                     </div>
                                     <div class="col-xs-6 show-more-achievements" ng-show="achievePercent < 100">
-                                        <!--<i class="fa fa-minus pull-right" aria-hidden="true"></i>-->
                                         <i class="indicator fa fa-lock pull-right" aria-hidden="true"></i>
                                     </div>
                                     <div class="col-xs-6 show-more-achievements" ng-show="achievePercent >= 100">
-                                        <!--<i class="fa fa-minus pull-right" aria-hidden="true"></i>-->
                                         <i class="indicator fa fa-minus pull-right" aria-hidden="true"></i>
                                     </div>
                                 </div>
                                 <div class="events_c" id="achieve2" ng-class="{'achievesOuter2':achievePercent < 100}">
-
                                     <!--1-->
-
                                     <div class="achieveContainer" ng-show="achieves2.addCandidateFromLink400.value == 'true'"
                                          ng-click="achieveClicked('addCandidateFromLink400')" ng-class="{'selected':source == 'addCandidateFromLink400'}">
                                         <div class="content" style="display: inherit;">
                                             <span class="doneAchieve">{{'Add 400 candidates from LinkedIn' |translate}}</span>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                             <span class="date pull-right">
-                                                {{achieves2.addCandidateFromLink400.achieveDate |dateFormat2}}
+                                                {{::achieves2.addCandidateFromLink400.achieveDate |dateFormat2}}
                                             </span>
                                         </div>
                                     </div>
@@ -666,7 +662,7 @@
                                             <span class="doneAchieve">{{'Close 3 vacancys personally or 6 vacancys by all users' |translate}}</span>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                             <span class="date pull-right">
-                                                {{achieves2.closeVacancyUser3OrOrg6.achieveDate |dateFormat2}}
+                                                {{::achieves2.closeVacancyUser3OrOrg6.achieveDate |dateFormat2}}
                                             </span>
                                         </div>
                                     </div>
@@ -686,7 +682,7 @@
                                             <span class="doneAchieve">{{'Download 300 resumes from email or from the archive' |translate}}</span>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                             <span class="date pull-right">
-                                                {{achieves2.upload300resumeFromArchiveOrEmail.achieveDate |dateFormat2}}
+                                                {{::achieves2.upload300resumeFromArchiveOrEmail.achieveDate |dateFormat2}}
                                             </span>
                                         </div>
                                     </div>
@@ -707,7 +703,7 @@
                                             <i data-html="<div class='popupOuter'><a href='#/pay' target='_blank'><img src='/images/sprite/achievesImg/payImage.png' alt='' width='100%' class='achieveImg'/><i class='forward mail icon'></i></a></div>" class="helpIcon help icon"></i>
                                             <i class="fa fa-check achieveIconDone pull-right"></i>
                                             <span class="date pull-right">
-                                                {{achieves2.makePay.achieveDate |dateFormat2}}
+                                                {{::achieves2.makePay.achieveDate |dateFormat2}}
                                             </span>
                                         </div>
                                     </div>
