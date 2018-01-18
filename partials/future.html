@@ -6,7 +6,7 @@
                             <span class="title-header">
                                 {{'Interviews and tasks' | translate}}
                             </span>
-                    <div class="switch pull-right ">
+                    <div class="switch pull-right">
                         <label ng-show="activeScopeParam.name != 'onlyMy'" ng-click="upcomingEventsUpdate('allUsers')" ng-class="{grey: $root.upcomingEventsScope}" class="floatLeft">{{'Of all users'|translate}}</label>
                         <input ng-show="activeScopeParam.name != 'onlyMy'" id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round upcomingScopeSwticher" type="checkbox">
                         <label ng-show="activeScopeParam.name != 'onlyMy'" class="" ng-click="upcomingEventsUpdate('switch')" for="cmn-toggle-9"></label>
@@ -30,30 +30,27 @@
             <div class="scroll-bar" custom-scrollbar>
                 <div ng-show="events.length < 1" class="text-center extra-text">{{"Here will be the information about your interviews and tasks" | translate}}</div>
                 <div class="row event"
-                     ng-repeat="event in events"
+                     ng-repeat="event in events track by $index"
                      ng-switch="event.type"
                      ng-class="{'passed':event.task.targetDate < todayDate || event.type == 'finish_vacancy' && event.date <= todayDate}"
-                     ng-click="event.type != 'task'|| showModalEditTask(event);(event.type != 'interview' && event.type != 'hr_interview' && event.type != 'tech_interview' && event.type != 'interview_with_the_client' && event.type != 'interview_with_the_boss')|| showChangeInterviewTime(event)">
+                     ng-click="event.type != 'task'|| showModalEditTask(event, $event);(event.type != 'interview' && event.type != 'hr_interview' && event.type != 'tech_interview' && event.type != 'interview_with_the_client' && event.type != 'interview_with_the_boss')|| showChangeInterviewTime(event, $event)">
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-4 padding-time">
                         <span>
                             <span class="time" bo-html="event.date|dateFormat6:true"></span>
                         </span>
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 eventResponsible" ng-show="event.task">
-                    <span ng-repeat="responsible in event.task.responsiblesPerson" class="name">
+                    <span ng-repeat="responsible in event.task.responsiblesPerson track by $index" class="name">
                         <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
-                         <a class="responsible-initials" title="{{::responsible.responsible.fullName}}" ng-click="$event.stopPropagation();" href="#/users/{{event.task.creator.userId}}">
-                             <span>{{getFirstLetters(responsible.responsible.fullName)}}</span>
+                         <a class="responsible-initials" title="{{::responsible.responsible.fullName}}" href="#/users/{{::event.task.creator.userId}}">
+                             <span>{{::getFirstLetters(responsible.responsible.fullName)}}</span>
                          </a>
                          <!--<span ng-show="!$last">, </span>-->
                     </span>
                     </div>
                     <div class="col-lg-3 col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-switch-default>
-                        <!--<a class="responsible-initials" ng-if="event.candidate" title="{{event.candidate.fullName}}" ng-click="$event.stopPropagation();" href="#/candidates/{{event.candidate.localId}}">-->
-                            <!--<span>{{getFirstLetters(event.candidate.fullName)}}</span>-->
-                        <!--</a>-->
-                        <span class="name" ng-click="$event.stopPropagation();">
-                            <a href="#/candidates/{{::event.candidate.localId}}">
+                        <span class="name">
+                            <a class="nonBubling" href="#/candidates/{{::event.candidate.localId}}">
                                 {{::event.candidate.fullName}}
                             </a>
                         </span>
@@ -67,17 +64,17 @@
                         </span>
                         <br/>
                         <span ng-show="event.vacancy">{{'by_vacancy' | translate}}
-                            <a ng-click="$event.stopPropagation();" href="#/vacancies/{{::event.vacancy.localId}}">
+                            <a class="nonBubling"  href="#/vacancies/{{::event.vacancy.localId}}">
                                 {{::event.vacancy.position}}
                             </a>
                         </span>
                         <span ng-show="event.candidate">{{'by candidate' | translate}}
-                            <a ng-click="$event.stopPropagation();" href="#/candidates/{{::event.candidate.localId}}">
+                            <a class="nonBubling" href="#/candidates/{{::event.candidate.localId}}">
                                 {{::event.candidate.fullName}}
                             </a>
                         </span>
                         <span ng-show="event.client">{{'by client' | translate}}
-                            <a ng-click="$event.stopPropagation();" href="#/clients/{{::event.client.localId}}">
+                            <a class="nonBubling" href="#/clients/{{::event.client.localId}}">
                                 {{::event.client.name}}
                             </a>
                         </span>

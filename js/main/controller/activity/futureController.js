@@ -988,7 +988,13 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
             }
         };
 
-        $scope.showChangeInterviewTime = function(interviewObject){
+        $scope.showChangeInterviewTime = function(interviewObject, event){
+            let target = event.target;
+
+            if(target.parentNode.className == "responsible-initials" || [].some.call(target.classList, item => item == "nonBubling")){
+                return;
+            }
+
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/organizer-change-interview-time.html',

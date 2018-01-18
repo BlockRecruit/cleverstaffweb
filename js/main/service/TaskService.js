@@ -439,7 +439,13 @@ angular.module('services.task', [
                     $location.$$absUrl = $location.$$absUrl.split("&")[0];
                 });
             };
-            $scope.showModalEditTask = function (event) {
+            $scope.showModalEditTask = function (event, $event) {
+                let target = $event.target;
+
+                if(target.parentNode.className == "responsible-initials" || [].some.call(target.classList, item => item == "nonBubling")){
+                    return;
+                }
+
                 if(event){
                     angular.forEach($rootScope.persons,function(res){
                         res.notShown = false;
