@@ -2,8 +2,8 @@
     <div class="modal-header">
         <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
         <h4 class="modal-title">
-            <span ng-show="candidatesAddToVacancyIds.length == 1">
-                {{$root.changeStatusOfInterviewInVacancy.candidate.candidateId.fullName}}
+            <span ng-show="candidatesAddToVacancyIds.length == 1" ng-repeat="candidate in $root.addCandidateChangeStage">
+                {{candidate.fullName}}
             </span>
             <span ng-show="candidatesAddToVacancyIds.length == 2" ng-repeat="candidate in $root.addCandidateChangeStage">
                 {{candidate.fullName}} <span ng-show="$root.currentLang == 'en'">{{$last ? '' : ' and'}}</span><span ng-show="$root.currentLang == 'ru'">{{$last ? '' : ' и'}}</span>
@@ -15,7 +15,7 @@
     <div class="modal-body">
         <div class="item">
             <select class="form-control" ng-model="$root.changeStatus"
-                    ng-change="$root.toChangeStatusInterview($root.changeStatus, $root.changeStatusOfInterviewInVacancy.candidate)">
+                    ng-change="$root.toChangeStatusInterview($root.changeStatus, $root.addCandidateChangeStage)">
                 <option value="" selected style="display: none">{{'choose_stage'|translate}}</option>
                 <option ng-repeat="status in $root.VacancyStatusFiltered"
                         class="{{status.active_color}}"

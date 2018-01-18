@@ -553,7 +553,7 @@
         </div>
         <div class="col-lg-9 status-info no-padding-sm" ng-class="{'col-lg-12' : showSearchCandidate}"
              ng-show="(!visiable || $root.me.recrutRole !== 'client') && (activeName != 'extra_status' && activeName != 'recalls')">
-            <div class="sorting" ng-show="tableParams.data.length > 1">
+            <div class="sorting pull-left" ng-show="tableParams.data.length > 1">
                 <label>
                     {{'Sort by'|translate}}:
                 </label>
@@ -572,6 +572,13 @@
                     </option>
                 </select>
             </div>
+            <div class="changeStatusBtn pull-right" ng-show="candidatesAddToVacancyIds.length > 0" ng-class="{'hidden-xs': showSearchCandidate || candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview' || candidate.state == 'hr_interview' || candidate.state == 'interview_with_the_boss' || candidate.state == 'interview_with_the_client')}">
+                <a href="" class="btn btn-success no-hover-sm" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(addCandidateChangeStage);">
+                    {{'change_status' | translate}} ({{candidatesAddToVacancyIds.length}})
+                    {{activeName}}
+                </a>
+            </div>
+            <div class="clearfix"></div>
             <div class="row header" ng-show="!showSearchCandidate">
                 <div class="col-lg-4">
                     <input ng-click="pushAllCandidatesToVacancy()" ng-hide="(showTable === 'not available' || showTable === undefined && $scope.loadingCandidates == false) && !noCandidatesInThisVacancy" ng-checked="checkAllCandidates == true" type="checkbox"/>
@@ -621,8 +628,6 @@
                     <th>
                         №
                         <i class="fa fa-sort pull-right" aria-hidden="true"></i>
-                    </th>
-                    <th>
                     </th>
                     <th>
                         {{'vacancy_save_1'|translate}}
@@ -681,12 +686,12 @@
                               ng-click="openChangeVacancyInterviewDate(candidate);$event.stopPropagation();"
                               class="set-interview">{{'Set interview time' | translate}} <i class="fa fa-calendar" aria-hidden="true"></i></span>
                     </td>
-                    <td class="button-outer" ng-if="candidate.candidateId.status != 'archived' && lastItemInStageCandidate == candidate.candidateId.candidateId" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidate);" ng-class="{'hidden-xs': showSearchCandidate ||candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview'
-                    || candidate.state == 'hr_interview' || candidate.state == 'interview_with_the_boss' || candidate.state == 'interview_with_the_client')}">
-                        <a href="" class="btn btn-success no-hover-sm">
-                            {{'change_status' | translate}} ({{candidatesAddToVacancyIds.length}})
-                        </a>
-                    </td>
+                    <!--<td class="button-outer" ng-if="candidate.candidateId.status != 'archived' && lastItemInStageCandidate == candidate.candidateId.candidateId" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidate);" ng-class="{'hidden-xs': showSearchCandidate ||candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview'-->
+                    <!--|| candidate.state == 'hr_interview' || candidate.state == 'interview_with_the_boss' || candidate.state == 'interview_with_the_client')}">-->
+                        <!--<a href="" class="btn btn-success no-hover-sm">-->
+                            <!--{{'change_status' | translate}} ({{candidatesAddToVacancyIds.length}})-->
+                        <!--</a>-->
+                    <!--</td>-->
                     <td class="responsible hidden-xs" ng-if="candidate.candidateId.status != 'archived'" ng-click="$event.stopPropagation()">
                         <a ng-repeat="responsible in persons" href="#/users/{{::responsible.userId}}"
                            ng-show="responsible.userId && (responsible.userId == candidate.creatorId)">

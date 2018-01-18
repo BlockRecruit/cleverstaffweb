@@ -330,6 +330,13 @@
 					}
 				}
 			}
+			.changeStatusBtn {
+				a {
+					@include button-green-styling();
+
+					transition: 0.5s;
+				}
+			}
 			.sorting {
 				margin-bottom: 15px;
 				label {
@@ -453,13 +460,13 @@
 					&.padding-right {
 						padding-right: 35px;
 					}
-					a {
-						@include button-green-styling();
-
-						transition: 0.5s;
-
-						opacity: 0;
-					}
+					//a {
+					//	@include button-green-styling();
+					//
+					//	transition: 0.5s;
+					//
+					//	opacity: 0;
+					//}
 				}
 				.set-interview {
 					transition: 0.5s;

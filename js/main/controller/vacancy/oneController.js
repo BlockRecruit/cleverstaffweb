@@ -2120,6 +2120,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         $rootScope.toChangeStatusInterview = function (status, candidate, withChooseStatus) {
+            console.log(candidate);
             if (status == undefined) {
                 $rootScope.changeStatusOfInterviewInVacancy.status =null;
                 //$rootScope.changeStatusOfInterviewInVacancy.status = {
@@ -2272,6 +2273,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 }
             }
             var neededRequest = 'editInterview';
+            console.log($rootScope.changeStatusOfInterviewInVacancy);
             if($rootScope.changeStatusOfInterviewInVacancy && $rootScope.changeStatusOfInterviewInVacancy.candidate && $rootScope.changeStatusOfInterviewInVacancy.candidate.recallId){
                 neededRequest = 'addInterview';
             }
@@ -3864,6 +3866,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         $scope.openVacancyCandidateChangeStatus = function (candidate) {
+            console.log(candidate);
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.status = '';
             $rootScope.changeStatusOfInterviewInVacancy.comment = candidate.comment;

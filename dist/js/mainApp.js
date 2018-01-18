@@ -35733,12 +35733,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             console.log($scope.candidatesAddToVacancyIds);
             var temp = $scope.candidatesAddToVacancyIds;
             var { [Object.keys(temp).pop()]: lastItem } = temp;
-            //console.info(lastItem, 'carrot');
-            $scope.lastItemInStageCandidate = lastItem
-            //var myObj = $scope.candidatesAddToVacancyIds, lastProperty;
-            //for (lastProperty in myObj);
-            //lastProperty;
-            //console.log(lastProperty);
+            $scope.lastItemInStageCandidate = lastItem;
             console.log($scope.addCandidateChangeStage);
             //angular.forEach($scope.dataForVacancy, function(val){
             //    if(!$scope.checkAllCandidates){
@@ -36933,6 +36928,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         $rootScope.toChangeStatusInterview = function (status, candidate, withChooseStatus) {
+            console.log(candidate);
             if (status == undefined) {
                 $rootScope.changeStatusOfInterviewInVacancy.status =null;
                 //$rootScope.changeStatusOfInterviewInVacancy.status = {
@@ -37085,6 +37081,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 }
             }
             var neededRequest = 'editInterview';
+            console.log($rootScope.changeStatusOfInterviewInVacancy);
             if($rootScope.changeStatusOfInterviewInVacancy && $rootScope.changeStatusOfInterviewInVacancy.candidate && $rootScope.changeStatusOfInterviewInVacancy.candidate.recallId){
                 neededRequest = 'addInterview';
             }
@@ -38677,6 +38674,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         $scope.openVacancyCandidateChangeStatus = function (candidate) {
+            console.log(candidate);
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.status = '';
             $rootScope.changeStatusOfInterviewInVacancy.comment = candidate.comment;
