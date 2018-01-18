@@ -2688,6 +2688,10 @@ var directive = angular.module('RecruitingApp.directives', []).
                     return item.text;
                 }
                 $scope.setLangs=function(langs) {
+                    setTimeout(function(){
+                        console.log($('#select2-drop'));
+                        console.log($('.selectLang'));
+                    }, 550);
                     $scope.addedLang = [];
                     var results = [];
                     var newarr = [];
@@ -2754,7 +2758,8 @@ var directive = angular.module('RecruitingApp.directives', []).
                             }
                         },
                         formatSelection: format,
-                        formatResult: format
+                        formatResult: format,
+                        formatResultCssClass: function (data, container) { return data.text; }
                         }
                     ).on("change", function(e) {
                         if(e.added != undefined){
