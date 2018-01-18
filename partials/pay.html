@@ -16,10 +16,6 @@
                     <!--<i class="fa fa-times" aria-hidden="true"></i>-->
                 <!--</div>-->
                 <div class="col-lg-12 payForMonth">
-                    <div ng-show="balance.amount === undefined">
-                        <p>{{'CleverStaff is paid for'|translate}} 25 {{'USD per month for each active user'| translate}}</p>
-                        <p>{{'Pay1 discount'| translate}}</p>
-                    </div>
                     <div ng-show="balance.amount !== undefined">
                         <p>{{'CleverStaff is paid for-2'|translate}} {{dailyRate}} {{'USD per day'|translate}} {{monthRate}} {{'USD per month for each active user-2'| translate}}</p>
                         <p>{{'Pay2 discount'| translate}}</p>
