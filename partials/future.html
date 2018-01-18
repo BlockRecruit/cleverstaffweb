@@ -41,11 +41,9 @@
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 eventResponsible" ng-show="event.task">
                     <span ng-repeat="responsible in event.task.responsiblesPerson track by $index" class="name">
-                        <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
                          <a class="responsible-initials" title="{{::responsible.responsible.fullName}}" href="#/users/{{::event.task.creator.userId}}">
                              <span>{{::getFirstLetters(responsible.responsible.fullName)}}</span>
                          </a>
-                         <!--<span ng-show="!$last">, </span>-->
                     </span>
                     </div>
                     <div class="col-lg-3 col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-switch-default>
@@ -56,12 +54,8 @@
                         </span>
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7" ng-switch-when="task">
-                        <span class="task" ng-show="event.task.type == 'Task'">{{'Task' | translate}}</span>
-                        <span class="task" ng-show="event.task.type == 'Call'">{{'Call' | translate}}</span>
-                        <span class="task" ng-show="event.task.type == 'Meeting'">{{'Meeting' | translate}}</span>
-                        <span>
-                            "{{::event.task.title | limitTo : 40}}"
-                        </span>
+                        <span class="task" ng-show="event.task.type == 'Task' || 'Meeting' || 'Call'">{{event.task.type === "Meeting"? "Meeting" : event.task.type === "Call"? "Call" : "Task" |translate}}</span>
+                        <span>{{::event.task.title | limitTo : 40}} </span>
                         <br/>
                         <span ng-show="event.vacancy">{{'by_vacancy' | translate}}
                             <a class="nonBubling"  href="#/vacancies/{{::event.vacancy.localId}}">
