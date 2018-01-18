@@ -14216,7 +14216,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=41'
+        suffix: '.json?b=42'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -26631,6 +26631,8 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                         optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
                     }
                 });
+                // $('#cs-region-filter-select-cities').find('option').remove();
+                console.log($('#cs-region-filter-select-cities option'));
                 $('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
             }else{
                 $scope.searchedRegionCity = JSON.parse($scope.searchParam.regionIdCity);
@@ -38524,7 +38526,7 @@ controller.controller('pipelineController', ["$rootScope", "$scope", "notificati
         $scope.showPipelineDescr = function(){
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/pipeline-descr.html',
+                templateUrl: '../partials/modal/pipeline-descr.html?b=1',
                 size: '',
                 resolve: function(){
 
