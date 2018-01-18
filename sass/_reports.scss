@@ -7,6 +7,21 @@
 		}
 		.search {
 			margin-top: 0;
+			.input-group {
+				width: 100%;
+				margin-bottom: 20px;
+				.input-group-addon {
+					@include input-group-addon-styling();
+					.grey {
+						color: $theme-light-grey;
+					}
+					&:hover {
+						cursor: pointer;
+
+						color: $theme-link-hover-color;
+					}
+				}
+			}
 		}
 	}
 }

@@ -193,6 +193,7 @@
 									}
 								}
 								.text-center {
+									margin: 10px 0;
 									.btn {
 										@include button-styling();
 									}
@@ -205,9 +206,10 @@
 										@include button-styling-cancel();
 									}
 								}
-								&:last-child {
-									margin: 15px 0;
-								}
+							}
+							.newPass,
+							.enterNewPass {
+								padding-top: 10px;
 							}
 						}
 					}

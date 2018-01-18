@@ -347,7 +347,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12 results text-center" ng-show="$root.me.recrutRole != 'salesmanager'">
+                        <div class="col-lg-12 results text-center" ng-show="$root.me.recrutRole != 'salesmanager' && $root.me.recrutRole != 'client'">
                             <a class="send-test" ng-show="candidate.testIds.length > 0" ng-click="$root.sendCandidateToTest($root.candidate, countEmail)" href="">{{'Send test to the candidate'| translate}}</a>
                             <a class="send-test" ng-show="candidate.testIds.length == 0" href="#/candidate/tests">{{'Create new test'| translate}}</a>
                         </div>
@@ -640,10 +640,6 @@
                                     </div>
                                     <span title="{{skill.name}}" class="pull-left">{{ skill.name | limitTo: 55 }}{{skill.name.length > 55 ? '...' : ''}}</span>
                                 </div>
-                            </div>
-                            <div ng-show="(candidate.expirence || candidate.region || candidate.languages || candidate.industry || candidate.employmentType || candidate.relatedRegions || candidate.education) && candidate.coreSkills">
-                                <div class="content-header-description" style="border: 0px;padding:12px 0px 3px 0px!important;">{{'Skills with text'|translate}}</div>
-                                <span class="content-description candidateCoreSkills"></span>
                             </div>
                         </div>
                     </div>

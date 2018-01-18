@@ -729,6 +729,9 @@ body {
 			margin: 3px 0 0 10px;
 
 			border: none;
+			&.blocked-user {
+				margin-left: 30px;
+			}
 			&:hover {
 				border: none;
 			}
@@ -739,6 +742,9 @@ body {
 			@include disabled-button();
 
 			margin-left: 30px;
+		}
+		#disabledBtn-2.less-margin {
+			margin-left: 25px;
 		}
 	}
 }

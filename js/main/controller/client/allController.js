@@ -101,6 +101,8 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                         optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
                     }
                 });
+                // $('#cs-region-filter-select-cities').find('option').remove();
+                console.log($('#cs-region-filter-select-cities option'));
                 $('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
             }else{
                 $scope.searchedRegionCity = JSON.parse($scope.searchParam.regionIdCity);
