@@ -923,7 +923,15 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 $scope.addCandidateChangeStage.splice($scope.addCandidateChangeStage.indexOf(candidate.candidateId), 1);
             }
             console.log($scope.candidatesAddToVacancyIds);
+            var temp = $scope.candidatesAddToVacancyIds;
+            var { [Object.keys(temp).pop()]: lastItem } = temp;
+            $scope.lastItemInStageCandidate = lastItem;
             console.log($scope.addCandidateChangeStage);
+            //angular.forEach($scope.dataForVacancy, function(val){
+            //    if(!$scope.checkAllCandidates){
+            //        $scope.candidatesAddToVacancyIds.splice(0, $scope.candidatesAddToVacancyIds.length-1);
+            //    }
+            //});
         };
         $scope.pushAllCandidatesToVacancy = function () {
             $scope.checkAllCandidates = !$scope.checkAllCandidates;

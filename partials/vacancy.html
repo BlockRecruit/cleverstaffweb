@@ -681,7 +681,7 @@
                               ng-click="openChangeVacancyInterviewDate(candidate);$event.stopPropagation();"
                               class="set-interview">{{'Set interview time' | translate}} <i class="fa fa-calendar" aria-hidden="true"></i></span>
                     </td>
-                    <td class="button-outer" ng-if="candidate.candidateId.status != 'archived' && candidatesAddToVacancyIds.length > 0" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidate);" ng-class="{'hidden-xs': showSearchCandidate ||candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview'
+                    <td class="button-outer" ng-if="candidate.candidateId.status != 'archived' && lastItemInStageCandidate == candidate.candidateId.candidateId" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidate);" ng-class="{'hidden-xs': showSearchCandidate ||candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview'
                     || candidate.state == 'hr_interview' || candidate.state == 'interview_with_the_boss' || candidate.state == 'interview_with_the_client')}">
                         <a href="" class="btn btn-success no-hover-sm">
                             {{'change_status' | translate}} ({{candidatesAddToVacancyIds.length}})
