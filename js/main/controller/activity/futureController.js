@@ -988,6 +988,7 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
             }
         };
 
+        $scope.limitToMethod = (str, limit) => str.slice(0,limit);
 
         $scope.showChangeInterviewTime = function(interviewObject, event){
             let target = event.target;

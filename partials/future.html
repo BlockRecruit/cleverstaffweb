@@ -55,7 +55,7 @@
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-7" ng-switch-when="task">
                         <span class="task" ng-show="event.task.type == 'Task' || 'Meeting' || 'Call'">{{event.task.type === "Meeting"? "Meeting" : event.task.type === "Call"? "Call" : "Task" |translate}}</span>
-                        <span>{{::event.task.title | limitTo : 40}} </span>
+                        <span>{{::limitToMethod(event.task.title, 40)}} </span>
                         <br/>
                         <span ng-show="event.vacancy">{{'by_vacancy' | translate}}
                             <a class="nonBubling"  href="#/vacancies/{{::event.vacancy.localId}}">
@@ -73,9 +73,9 @@
                             </a>
                         </span>
                         <br/>
-                        <span class="comment" title="{{::event.task.text}}">
-                            {{::event.task.text | limitTo : 20}}
-                            <span ng-show="event.task.text.length > 20">...</span>
+                        <span class="comment"  title="{{::event.task.text}}">
+                            {{::limitToMethod(event.task.text, 20)}}
+                            <span ng-if="event.task.text.length > 20">...</span>
                         </span>
                     </div>
                     <div class="col-lg-7 col-lg-7 col-md-7 col-sm-7 col-xs-5" ng-switch-default>
@@ -83,7 +83,7 @@
                         <br/>
                         <p class="text-ellipsis">
                             <span translate="for_the_vacancy"></span>
-                            <a ng-click="$event.stopPropagation();" href="#/vacancies/{{event.vacancy.localId}}">
+                            <a class="nonBubling" href="#/vacancies/{{::event.vacancy.localId}}">
                                 {{::event.vacancy.position}}
                             </a>
                         </p>
@@ -96,20 +96,18 @@
                     <div class="col-lg-12">
                         <div class="row achievement-header">
                             <div class="col-lg-11">
-                            <span class="title-header">
-                                {{'Interactive quest for CleverStaff' | translate}}
-                            </span>
+                                <span class="title-header">{{'Interactive quest for CleverStaff' | translate}}</span>
                             </div>
                         </div>
                         <div class="row achievement-info">
                             <div class="col-lg-10 interactivQuest">
                                 <div ng-show="achievePercent2 < 100 || achievePercent < 100" class="achieveText">
                                     <p>
-                            <span>
-                                {{'We all like to play. Working and training in the form of a game goes with a fun, with a good mood, and the efficiency is increased by several times.'|translate}}
-                                <br/>
-                                <br/>
-                            </span>
+                                        <span>
+                                            {{'We all like to play. Working and training in the form of a game goes with a fun, with a good mood, and the efficiency is increased by several times.'|translate}}
+                                            <br/>
+                                            <br/>
+                                        </span>
                                         {{'We suggest you do this interactive quest, which includes key CleverStaff features. The Quest is based on 2 levels system.'|translate}}
                                         <br/>
                                         <br/>
@@ -151,18 +149,18 @@
                                 </div>
                                 <div ng-show="achievePercent2 >= 100 && achievePercent >= 100" class="achieveText">
                                     <p>
-                                        {{'Congratulations'|translate}}, {{$root.me.cutFullName}}!
+                                        {{'Congratulations'|translate}}, {{::$root.me.cutFullName}}!
                                         <br/>
                                         <span translate="You have completed serious quest in CleverStaff software and got the title CleverStaff Guru"></span>
-                                        <br/>
-                                        {{'It will always be seen on'|translate}}
-                                        <a href="#/personInfo/{{$root.me.userId}}">{{'your profile'|translate}}</a> {{'page1'|translate}}
-                                        <a href="#/company/users">{{'company users'|translate}}</a>{{'page2'|translate}}.
-                            <span ng-show="$root.me.personId == $root.me.org.creatorId">
-                                <br/>
-                                {{'And also from the system CleverStaff you get a reward - free use of this account one month for two people. This is the equivalent of 40 USD. In the'|translate}}
-                                <a href="#/pay">{{'payments table'|translate}}</a> {{'you have payed this amount'|translate}}.
-                            </span>
+                                            <br/>
+                                            {{'It will always be seen on'|translate}}
+                                            <a href="#/personInfo/{{::$root.me.userId}}">{{'your profile'|translate}}</a> {{'page1'|translate}}
+                                            <a href="#/company/users">{{'company users'|translate}}</a>{{'page2'|translate}}.
+                                             <span ng-show="$root.me.personId == $root.me.org.creatorId">
+                                             <br/>
+                                            {{'And also from the system CleverStaff you get a reward - free use of this account one month for two people. This is the equivalent of 40 USD. In the'|translate}}
+                                            <a href="#/pay">{{'payments table'|translate}}</a> {{'you have payed this amount'|translate}}.
+                                         </span>
                                         <br/>
                                         {{'Share your achievements with friends in social networks'|translate}}!
                                     </p>
@@ -170,11 +168,11 @@
                                         <a class="share_linkedin" style="cursor: pointer;text-decoration: blink;color: #414141;" id="shareButton1" ng-click="share('linkedin')"><i class="linkedin big sign icon"></i></a>
                                         <a class="share_facebook" style="cursor: pointer;text-decoration: blink;color: #414141;" id="shareButton2" ng-click="share('facebook')"><i class="facebook big sign icon"></i></a>
                                         <a class="share_twitter" target="_blank" style="cursor: pointer;text-decoration: blink;color: #414141;"
-                                           ng-href="http://twitter.com/intent/tweet?url=https://cleverstaff.net;text={{'Congratulations'|translate}}, {{$root.me.cutFullName}}! {{'Text for social achieves' | translate}};hashtags=CleverStaff&amp">
+                                            ng-href="http://twitter.com/intent/tweet?url=https://cleverstaff.net;text={{'Congratulations'|translate}}, {{::$root.me.cutFullName}}! {{'Text for social achieves' | translate}};hashtags=CleverStaff&amp">
                                             <i class="twitter big icon"></i></a>
                                         <a class="share_vk" style="cursor: pointer;text-decoration: blink; color: #414141;" target="_blank"
                                            ng-click="addPublish('vk')"
-                                           ng-href="http://vk.com/share.php?url={{publicLink| escape}}&image=http://dev.cleverstaff.net/img/congratAchieves.jpg&title={{'Congratulations'|translate}}, CleverStaff Guru {{$root.me.cutFullName}}!&noparse=false&description={{'Text for social achieves' | translate}}">
+                                           ng-href="http://vk.com/share.php?url={{publicLink| escape}}&image=http://dev.cleverstaff.net/img/congratAchieves.jpg&title={{'Congratulations'|translate}}, CleverStaff Guru {{::$root.me.cutFullName}}!&noparse=false&description={{'Text for social achieves' | translate}}">
                                             <i class="vk big icon"></i>
                                         </a>
                                     </div>
@@ -211,7 +209,6 @@
                                 </div>
                                 <div class="events_c achievesOuter" popover-close exclude-class="exclude" id="achieve1" ng-class="{'achievesOuter3':achievePercent >= 100}">
                                     <!--1-->
-
                                     <div class="achieveContainer" ng-show="achieves.createOrg.value == 'true'"
                                          ng-click="closeImgForAchieves()" ng-class="{'selected':source == 'createAcc'}">
                                         <div class="content" style="display: inherit;">
