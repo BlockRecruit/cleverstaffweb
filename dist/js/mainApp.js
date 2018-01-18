@@ -42641,7 +42641,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             if(formSaveCustomReport.$valid) {
                 translateWords.getTranslete("Report saved", $scope, 'reportSaved');
                 var params = {
-                    "from": createCorrectDate($scope.startVacancyDate, ['00','30','00']),
+                    "from": createCorrectDate($scope.startVacancyDate, ['00','00','00']),
                     "to": createCorrectDate($scope.endDate,['23','59','59']),
                     "types": null,
                     "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : [],
@@ -42779,7 +42779,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             }
 
             Stat.requestGetActualVacancyStatistic2({
-                "from": createCorrectDate($scope.startVacancyDate, ['00','30','00']),
+                "from": createCorrectDate($scope.startVacancyDate, ['00','00','00']),
                 "to": createCorrectDate($scope.endDate,['23','59','59']),
                 "types":null,
                 "vacancyStatuses": $scope.vacancysStatusesParam,
@@ -42956,7 +42956,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                                 "interviewCreatorIds": $scope.choosenPersons
                             }),
                             Stat.requestGetActualVacancyStatistic2({
-                                "from": createCorrectDate($scope.startVacancyDate, ['00','30','00']),
+                                "from": createCorrectDate($scope.startVacancyDate, ['00','00','00']),
                                 "to": createCorrectDate($scope.endDate,['23','59','59']),
                                 "types":null,
                                 "vacancyStatuses": $scope.vacancysStatusesParam,
@@ -43038,8 +43038,8 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             if($scope.loadingExcel == false){
                 $scope.loadingExcel = true;
                 Stat.createVacancyStatisticExcel({
-                    "from":$scope.startVacancyDate,
-                    "to":$scope.endDate,
+                    "from": createCorrectDate($scope.startVacancyDate, ['00','00','00']),
+                    "to": createCorrectDate($scope.endDate,['23','59','59']),
                     "types":null,
                     "vacancyStatuses": $scope.vacancysStatusesParam,
                     "interviewStatuses":$scope.inVacancysStatusesParam,
