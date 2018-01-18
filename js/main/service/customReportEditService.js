@@ -387,9 +387,13 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             this.change = change;
         }
 
-        function createCorrectDate(date) {
+
+        function createCorrectDate(date, time) {
             var currentDate = new Date(date),
-                correctDate = +new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23,59,59);
+                hour = time[0],
+                minutes = time[1],
+                seconds = time[2],
+                correctDate = +new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hour, minutes, seconds);
             return correctDate;
         }
 
@@ -569,8 +573,8 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
             translateWords.getTranslete("Report saved", $scope, 'reportSaved');
             let params = {
-                "from": createCorrectDate(this.data.dateFrom),
-                "to": createCorrectDate(this.data.dateTo),
+                "from": createCorrectDate(this.data.dateFrom, ['00','30','00']),
+                "to": createCorrectDate(this.data.dateTo, ['23','59','59']),
                 "types": null,
                 "vacancyIds": this.data.vacancyIds,
                 "vacancyStatuses": this.data.vacancyStatuses,
