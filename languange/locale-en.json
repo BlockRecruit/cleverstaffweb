@@ -2276,5 +2276,10 @@
   "Export History": "Export History",
   "export":"Export",
   "close window":"Close window",
-  "_Invited user":"Invited users"
+  "_Invited user":"Invited users",
+  "Hiring date":"Hiring date",
+  "Probation period: 1 month":"Probation period: 1 month",
+  "Probation period: 2 month":"Probation period: 2 month",
+  "Probation period: 3 month":"Probation period: 3 month",
+  "Probation period: 2 weeks":"Probation period: 2 weeks"
 }

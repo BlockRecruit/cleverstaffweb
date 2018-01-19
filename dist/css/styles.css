@@ -27827,7 +27827,7 @@ input.cmn-toggle-round:checked + label:after {
       .block-vacancy-reports > .row > .tableUpdate > .table tr .description-row {
         padding-top: 0;
         border-top: none; }
-        .block-vacancy-reports > .row > .tableUpdate > .table tr .description-row span {
+        .block-vacancy-reports > .row > .tableUpdate > .table tr .description-row span.arrow {
           font-size: 22px;
           display: inline-block;
           margin-right: 10px;

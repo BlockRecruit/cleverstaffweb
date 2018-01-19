@@ -109,7 +109,16 @@
                         <td>{{candidate.dm | dateFormat2:true}}</td>
                     </tr>
                     <tr ng-show="candidate.descr">
-                        <td colspan="4" class="description-row"><span>↵</span>{{candidate.descr}}</td>
+                        <td colspan="4" class="description-row"><span class="arrow">↵</span>
+                            <div>
+                                <span ng-if="candidate.approvedCandidateDescr.comment">{{candidate.approvedCandidateDescr.comment}}
+                                    <span ng-if="candidate.approvedCandidateDescr.probationPeriod || candidate.approvedCandidateDescr.dateEmployee">,</span>
+                                </span>
+                                <span ng-if="candidate.approvedCandidateDescr.dateEmployee">{{'Hiring date' | translate }}: {{candidate.approvedCandidateDescr.dateEmployee}},</span>
+                                <span ng-if="candidate.approvedCandidateDescr.probationPeriod">{{candidate.approvedCandidateDescr.probationPeriod | translate}}</span>
+                            </div>
+                            <span ng-if="!candidate.approvedCandidateDescr.dateEmployee && !candidate.approvedCandidateDescr.probationPeriod">{{candidate.descr | translate}}</span>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
