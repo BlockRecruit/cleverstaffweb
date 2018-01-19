@@ -62,8 +62,11 @@
 	}
 }
 
-@media (max-width: 345px) {
+@media (max-width: 465px) {
 	.margin-mobile {
 		margin-top: 10px;
+	}
+	.modal-footer {
+		padding: 15px 35px;
 	}
 }
