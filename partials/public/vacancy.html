@@ -7,12 +7,12 @@
         <h2 class="cutElementTextWidth">{{companyPublicInfo.orgName}}</h2>
 
         <div class="info--site cutElementTextWidth" ng-show="companyPublicInfo.companyWebSite">
-          <img src="/images/sprite/company-site.png" alt="">
+          <img src="/images/sprite/public-vacancy/website.svg" alt="">
           <a href="{{companyPublicInfo.companyWebSite}}" target="_blank">{{companyPublicInfo.companyWebSite}}</a>
         </div>
 
         <div class="info--site cutElementTextWidth" ng-show="companyPublicInfo.fb">
-          <img src="/images/sprite/company-fb.png" alt="">
+          <img src="/images/sprite/public-vacancy/facebook.svg" alt="">
           <a href="{{companyPublicInfo.fb}}" target="_blank">{{companyPublicInfo.fb | parseFacebookUrl}}</a>
         </div>
 
@@ -38,12 +38,12 @@
             <h2 class="" ng-class="{'no-margin-bottom' : !companyPublicInfo.companyWebSite && !companyPublicInfo.fb}">{{companyPublicInfo.orgName}}</h2>
           </div>
           <div class="info--site cutElementTextWidth" ng-show="companyPublicInfo.companyWebSite">
-            <img src="/images/sprite/company-site.png" alt="">
+            <img src="/images/sprite/public-vacancy/website.svg" alt="">
             <a href="{{companyPublicInfo.companyWebSite}}" target="_blank">{{companyPublicInfo.companyWebSite}}</a>
           </div>
 
           <div class="info--site cutElementTextWidth" ng-show="companyPublicInfo.fb">
-            <img src="/images/sprite/company-fb.png" alt="">
+            <img src="/images/sprite/public-vacancy/facebook.svg" alt="">
             <a class="fb-link" href="{{companyPublicInfo.fb}}" target="_blank">{{companyPublicInfo.fb | parseFacebookUrl}}</a>
           </div>
 
