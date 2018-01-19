@@ -42,6 +42,13 @@ angular.module('services.vacancy', [
                 param: "changeInterview"
             }
         },
+        editInterviews: {
+            method: "POST",
+            headers: {'Content-type': 'application/json; charset=UTF-8'},
+            params: {
+                param: "changeInterviews"
+            }
+        },
         addInterview: {
             method: "POST",
             headers: {'Content-type': 'application/json; charset=UTF-8'},
