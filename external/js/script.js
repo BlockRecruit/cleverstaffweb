@@ -12,7 +12,18 @@ var linkedin_url = "https://www.linkedin.com/uas/oauth2/authorization" +
     "&scope=r_fullprofile%20r_contactinfo%20r_emailaddress" +
     "&state=STATUS123asd33342" +
     "&redirect_uri=" + location.protocol + "//" + document.domain + "/white.html";
+
+function sentAnalyticEvents(page, type) {
+    try {
+        if (document.domain !== 'cleverstaff.net') fbq('track', type);
+        if (document.domain !== 'cleverstaff.net') ga('send', 'event', type, page);
+    } catch(error) {
+        console.error('Analytic Events', error);
+    }
+}
+
 $(document).ready(function () {
+
     (function(){
         var buttonsParamsTariff = document.querySelectorAll(".orange-btn, .signupBtn, .tryItfreeTwo, .featureStartTrial, .tryCsfree, .startNowOnerecrut, .teamWorkStartTrial, .corporateEnStart, .enterprizeGetOfferOne, .startNowOneRecrutTwo, .teamWorkStartTrialTwo, .corporateEnStartTwo, .enterprizeGetOfferTwo, .demoParams, .presentation"),
             i = 0,
@@ -26,7 +37,6 @@ $(document).ready(function () {
         }
     })();
 
-    console.log(history);
 
     var q = getUrlParameter("q");
     if (q === "demo") {
@@ -62,6 +72,7 @@ $(document).ready(function () {
     var passPattern2 = /.*[a-zA-Z].*/;
     var passPattern3 = /.*\d.*/;
     //buttons
+
 
     $(window).scroll(function () {
         var top = $(document).scrollTop();
@@ -2468,6 +2479,7 @@ $('#askQuestionSubmit').on('click',function(e){
             $('.keyRequirementsForm').css('display', 'none');
             //$('#contact').slideUp('slow');
             //$('.tyMessageQuestion').delay(800).fadeIn();
+            sentAnalyticEvents('Features', 'Presentation');
         },
         error: function (data) {
             localStorage.removeItem('phone');
@@ -2962,11 +2974,9 @@ $('#askQuestionSubmit2').on('click',function(e){
             $('.softForm').css('display', 'none');
             $('.numberVacancyForm').css('display', 'none');
             $('.keyRequirementsForm').css('display', 'none');
-            try {
-                if (document.domain === 'cleverstaff.net') fbq('track', 'Schedule a demo');
-            } catch(err) {
-                console.error("Facebook Pixel" ,err);
-            }
+
+            sentAnalyticEvents('Price', 'Presentation');
+
             if(data.status != 'error') {
                 localStorage.removeItem('phone');
                 localStorage.removeItem('UTMS');
@@ -3461,11 +3471,9 @@ $('#askQuestionSubmit3').on('click',function(e){
       $('.softForm').css('display', 'none');
       $('.numberVacancyForm').css('display', 'none');
       $('.keyRequirementsForm').css('display', 'none');
-        try {
-            if (document.domain === 'cleverstaff.net') fbq('track', 'Schedule a demo');
-        } catch(err) {
-            console.error("Facebook Pixel" ,err);
-        }
+
+        sentAnalyticEvents('Index', 'Presentation');
+
         if(data.status != 'error') {
             localStorage.removeItem('phone');
             localStorage.removeItem('UTMS');
