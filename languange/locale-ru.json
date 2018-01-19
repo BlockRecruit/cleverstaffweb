@@ -2883,7 +2883,6 @@
   "The Exchange server URL": "URL-адрес сервера Exchange должен выглядеть так: https://***/EWS/exchange.asmx",
   "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email.",
   "The vacancy":"Вакансия",
-  "_edited":"изменена",
   "Enter more data for search":"Введите больше символов для поиска",
   "Too much Desired Salary salary value": "Слишком большое значение поля \"Желаемая зарплата\"",
   "Please attach your CV file": "Прикрепите файл резюме",
@@ -2891,7 +2890,7 @@
   "Please enter your Name": "Введите Ваше имя",
   "Please enter your Last Name": "Введите Вашу фамилию",
   "Enter phone number": "Введите номер телефона",
-  "replacement":"Замена",
   "_undefined":"Уровень",
-  "Language with this level is already selected":"Язык с таким уровнем уже выбран"
+  "Language with this level is already selected":"Язык с таким уровнем уже выбран",
+  "The candidates have been successfully moved to the stage": "Кандидаты были успешно переведены на этап"
 }

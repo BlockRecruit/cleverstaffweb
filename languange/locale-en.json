@@ -2280,9 +2280,6 @@
   "export":"Export",
   "close window":"Close window",
   "_Invited user":"Invited users",
-  "Comments only": "Comments only",
-  "replacement":"Replacement",
-  "Select the interview date": "Select the interview date",
   "Changes saved": "Changes saved",
   "Select vacancies in the report":"Select vacancies in the report",
   "Comment changed":"Comment changed",
@@ -2306,7 +2303,7 @@
   "Please enter your Name": "Please enter your Name",
   "Please enter your Last Name": "Please enter your Last Name",
   "Enter phone number": "Please enter phone number",
-  "_Invited user":"Invited users",
   "_undefined":"Level",
-  "Language with this level is already selected":"Language with this level is already selected"
+  "Language with this level is already selected":"Language with this level is already selected",
+  "The candidates have been successfully moved to the stage": "The candidates have been successfully moved to the stage"
 }
