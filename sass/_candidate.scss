@@ -1779,9 +1779,15 @@
 
 		justify-content: center;
 		align-items: center;
+		& .cancel {
+			margin-right: 10px;
+		}
 	}
 	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .history-outer .last-actions-header .comments-wrap {
 		padding: 0 10px;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .leftBar > .results .send-test {
+		display: none;
 	}
 }
 
@@ -1790,6 +1796,8 @@
 		margin-top: 0;
 	}
 }
+
+
 
 html body#tinymce.mce-content-body {
 	margin: 8px 0;
