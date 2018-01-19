@@ -385,7 +385,7 @@
   "write_a_comment_why_do_you_change_candidate_status": "Ваш комментарий по изменению статуса кандидата (не обязательно)",
   "Write_a_comment_why_do_you_change_vacancy_status": "Напишите комментарий по изменению статуса вакансии (не обязательно)",
   "Write_a_comment_why_do_you_change_employee_status": "Напишите комментарий по изменению статуса сотрудника (не обязательно)",
-  "yes": "Удалить",
+  "yes": "Да",
   "no": "Нет",
   "no2": "нету",
   "empty_vacancies": "В Вашем аккаунте ещё нет вакансий",
@@ -2870,5 +2870,6 @@
   "ready_to_relocate2": "Готов к переезду",
   "Being a Free Plan user, you have free access to this feature for the first 7 days of your Trial": "Так как вы пользователь бесплатного аккаунта, у вас есть бесплатный доступ к этой функции в течение  7 дней пробного периода",
   "The account name changed to": "Название аккаунта было изменено на",
-  "Your company has no active vacancies in this account": "В Вашем аккаунте ещё нет вакансий"
+  "Your company has no active vacancies in this account": "В Вашем аккаунте ещё нет вакансий",
+  "yes_1":"Удалить"
 }
