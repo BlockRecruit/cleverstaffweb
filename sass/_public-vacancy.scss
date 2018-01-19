@@ -208,6 +208,12 @@
 				font-family: "Helvetica-Regular";
 				font-size: 13px;
 			}
+			[class^="col"],
+			[class^="row"],
+			[class^="container"] {
+				margin: 0;
+				padding: 0;
+			}
 		}
 		.share {
 			margin: 10px 0 0 0;

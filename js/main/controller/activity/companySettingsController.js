@@ -31,7 +31,7 @@ controller.controller('ActivityCompanySettingsController', ["$scope", "$rootScop
             if (resp.status && angular.equals(resp.status, "error")) {
                 notificationService.error(resp.message);
             } else {
-                //notificationService.success($filter('translate')('You changed company name'));
+                notificationService.success($filter('translate')('The account name changed to') + ' ' + $scope.newOrgName);
                 $rootScope.me.orgName = $scope.newOrgName;
                 $scope.showChangeOrgName = false;
                 angular.forEach($rootScope.me.orgs, function(org) {
@@ -230,10 +230,16 @@ controller.controller('ActivityCompanySettingsController', ["$scope", "$rootScop
             notificationService.error($filter('translate')("enter the link http"));
         }
     };
-    $scope.showInputForChangeWebSite = function(){
-        $scope.showCompanyWebSite = false;
+    $scope.showInputForChangeWebSite = function(falseTrue){
+        $scope.showCompanyWebSite = falseTrue;
+        if(falseTrue == true){
+            $scope.changeWebSite = null;
+        }
     };
-    $scope.showInputForChangeFacebookPage = function(){
-        $scope.showCompanyFacebookPage = false;
+    $scope.showInputForChangeFacebookPage = function(falseTrue){
+        $scope.showCompanyFacebookPage = falseTrue;
+        if(falseTrue == true){
+            $scope.changeFacebookPage = null;
+        }
     };
 }]);

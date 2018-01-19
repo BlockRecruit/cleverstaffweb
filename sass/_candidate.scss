@@ -659,8 +659,8 @@
 							}
 							.new-label {
 								position: absolute;
-								top: -5px;
-								right: -4px;
+								top: -13px;
+								right: -10px;
 							}
 						}
 					}
@@ -1272,6 +1272,13 @@
 
 							margin-left: 15px;
 						}
+						.comments-wrap {
+							display: flex;
+							flex-direction: row;
+
+							justify-content: space-between;
+							align-items: center;
+						}
 					}
 				}
 				.history-outer {
@@ -1404,6 +1411,16 @@
 						}
 						.add_comment {
 							text-decoration: none;
+							&.mobile {
+								background: none;
+								&:hover {
+									background: none;
+								}
+								img {
+									width: auto;
+									height: 31px;
+								}
+							}
 						}
 						.switch {
 							float: left;
@@ -1428,6 +1445,13 @@
 									margin-left: 5px;
 								}
 							}
+						}
+						.comments-wrap {
+							display: flex;
+							flex-direction: row;
+
+							justify-content: space-between;
+							align-items: center;
 						}
 					}
 				}
@@ -1526,7 +1550,7 @@
 		margin: 0 auto;
 	}
 	.right-column {
-		div {
+		div:not(.tooltip-inner) {
 			position: relative;
 			.fa-star {
 				position: relative;
@@ -1666,4 +1690,111 @@
 		display: inline-block;
 		margin: 18px 10px;
 	}
+	.block-candidate .nav-candidate .nav {
+		display: flex;
+		flex-direction: row;
+		margin-right: 0;
+		margin-left: 0;
+
+		justify-content: space-between;
+		& li {
+			width: auto;
+			padding: 0;
+		}
+	}
+
+	.block-candidate .candidate-information .candidate-profile-rezume .leftBar > .candidate-control .form-inline-position .select select {
+		width: 100%;
+	}
+	.adding-task .modal-body > .item > .form-inline > .input-group > .changeDateNewTask {
+		width: 93%!important;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .taskForCandidate .event > .pull-left {
+		padding: 15px 0;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume {
+		padding: 0;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .taskForCandidate .event > .pull-left .titleOfTasks {
+		display: flex;
+		flex-direction: column;
+		min-height: 72px;
+
+		justify-content: space-around;
+	}
+	.date-width-statuses {
+		display: flex;
+		flex-direction: column;
+		padding-right: 5px;
+
+		justify-content: space-around;
+	}
+	.block {
+		display: flex;
+	}
+	.task-block {
+		display: flex;
+		flex-direction: column;
+
+		justify-content: space-between;
+	}
+	.items-beetwen {
+		display: flex;
+		flex-direction: row;
+		margin: 10px 0;
+
+		justify-content: space-between;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .taskForCandidate .event > .pull-left .statuses select {
+		margin-top: -15px;
+	}
+	body .edit-task .modal-body > .performers .clever-window {
+		left: -50px !important;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .history-outer .event .textField > .field > textarea {
+		max-width: 265px;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .history-outer .last-actions-header .show-comments {
+		margin-left: 0;
+		padding: 0 13px;
+	}
+	.mobile-move-left {
+		position: absolute!important;
+		left: 0 !important;
+
+		max-width: 250px;
+	}
+	.mobile-pos {
+		position: absolute;
+		top: calc(50% - 7px);
+		right: -30px;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .history-outer .event .textField:last-child {
+		margin-left: 0;
+	}
+	.flex-position {
+		display: flex;
+		flex-direction: row;
+		margin-top: 5px;
+
+		justify-content: center;
+		align-items: center;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .history-outer .last-actions-header .comments-wrap {
+		padding: 0 10px;
+	}
+}
+
+@media (min-width: 354px) {
+	.block-candidate .candidate-information .candidate-profile-rezume.mobile .centerBar .taskForCandidate .event > .pull-left .statuses .not-finished {
+		margin-top: 0;
+	}
+}
+
+html body#tinymce.mce-content-body {
+	margin: 8px 0;
+	padding: 0 10px;
+
+	border-right: 1px solid rgb(169, 169, 169);
+	border-left: 1px solid rgb(169, 169, 169);
 }

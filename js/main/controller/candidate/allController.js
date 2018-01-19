@@ -481,6 +481,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         $rootScope.closeModal();
                         $('.changeStatusOfInterviewInVacancyPick').val("");
                         $scope.getLastEvent();
+                        notificationService.success($filter('translate')('candidate was added to the stage'));
                     } else if (resp.status == "error") {
                         $rootScope.clickedSaveStatusInterviewInVacancy = false;
                         notificationService.error(resp.message);
@@ -502,6 +503,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     "lang": $translate.use()
                 }, function (resp) {
                     if (resp.status == "ok") {
+                        console.log('ok');
                         var changeObj = $rootScope.changeStatusOfInterviewInVacancy;
                         if(changeObj.status.customInterviewStateId){
                             var id = resp.object.interviewId + changeObj.status.customInterviewStateId;
@@ -561,6 +563,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         $rootScope.addCandidateInInterviewbuttonClicked = false;
                         $rootScope.closeModal();
                         $('.changeStatusOfInterviewInVacancyPick').val("");
+                        notificationService.success($filter('translate')('candidate was added to the stage'));
                     } else if (resp.status == "error") {
                         $rootScope.clickedSaveStatusInterviewInVacancy = false;
                         notificationService.error(resp.message);
@@ -588,19 +591,22 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.employmentType = Service.employmentType();
     $scope.experience = Service.experience();
     $scope.extensionHas = false;
-    Service.getRegions2(function (countries,cities) {
+    //$scope.cities = [];
+    Service.getRegions2(function (countries, cities) {
+        console.log(countries);
+        //console.log(cities);
         $scope.countries = countries;
         $scope.cities = cities;
-        var optionsHtml = '<option value="null" style="color:#999">'+$filter('translate')('region')+'</option>';
-        var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
-        angular.forEach($scope.countries, function (value) {
-            optionsHtml += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-        });
-        angular.forEach($scope.cities, function (value) {
-            optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-        });
-        $('#cs-region-filter-select, #cs-region-filter-select-for-linkedin').html(optionsHtml);
-        $('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
+        //var optionsHtml = '<option value="null" style="color:#999">'+$filter('translate')('region')+'</option>';
+        //var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
+        //angular.forEach($scope.countries, function (value) {
+        //    optionsHtml += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
+        //});
+        //angular.forEach($scope.cities, function (value) {
+        //    optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
+        //});
+        //$('#cs-region-filter-select, #cs-region-filter-select-for-linkedin').html(optionsHtml);
+        //$('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
     });
     Service.getGroups(function (resp) {
         $scope.candidateGroups = resp.objects;
@@ -865,13 +871,9 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 }
                 if ($scope.searchParam['regionId']) {
                     if($scope.searchParam['regionIdCity']){
-                        var json = JSON.parse($scope.searchParam['regionIdCity']);
-                        if (json && json.type) {
-                            Candidate.setOptions("city", json.value);
-                        }
+                        Candidate.setOptions("city", $scope.searchParam['regionIdCity']);
                     }else{
-                        var json = JSON.parse($scope.searchParam['regionId']);
-                        Candidate.setOptions("country", json.value);
+                        Candidate.setOptions("country", $scope.searchParam['regionId']);
                     }
                 } else {
                     Candidate.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
@@ -1490,21 +1492,32 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         }
     };
     $scope.setSearchedRegion = function(){
+        $scope.city = [];
+        //$scope.searchParam.regionId = null;
         $scope.searchParam.regionIdCity = null;
-        var obj = JSON.parse($scope.searchParam.regionId);
-        if(obj.type == 'country'){
-            $scope.searchedRegion = JSON.parse($scope.searchParam.regionId);
-            $('#cs-region-filter-select-cities').find('option').remove();
-            var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
-            angular.forEach($scope.cities, function (value) {
-                if(value.type == 'city' && value.country == $scope.searchedRegion.country){
-                    optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-                }
-            });
-            $('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
-        }else{
-            $scope.searchedRegionCity = JSON.parse($scope.searchParam.regionIdCity);
-        }
+        angular.forEach($scope.cities, function (nval) {
+            if(nval.type == 'city' && (nval.country == $scope.searchParam.regionId || nval.countryRu == $scope.searchParam.regionId)){
+                $scope.city.push(nval);
+            }
+        });
+        var uniqueArray = removeDuplicates($scope.city, "id");
+        $scope.city = uniqueArray;
+        console.log($scope.city);
+        //$scope.searchParam.regionIdCity = null;
+        //var obj = JSON.parse($scope.searchParam.regionId);
+        //if(obj.type == 'country'){
+        //    $scope.searchedRegion = JSON.parse($scope.searchParam.regionId);
+        //    $('#cs-region-filter-select-cities').find('option').remove();
+        //    var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
+        //    angular.forEach($scope.cities, function (value) {
+        //        if(value.type == 'city' && value.country == $scope.searchedRegion.country){
+        //            optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
+        //        }
+        //    });
+        //    $('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
+        //}else{
+        //    $scope.searchedRegionCity = JSON.parse($scope.searchParam.regionIdCity);
+        //}
     };
     if($rootScope.changeSearchTypeNotFromCandidates){
         $scope.changeSearchType($rootScope.changeSearchTypeNotFromCandidates);
