@@ -454,6 +454,16 @@
 						.col-lg-10 {
 							padding-left: 0;
 						}
+						.interviewEdit {
+							.manyCandidates {
+								& > .boldTxt {
+									@include bold();
+								}
+							}
+							.menuCandidate {
+								display: block;
+							}
+						}
 					}
 					#commentAdd {
 						& > .field {
@@ -493,6 +503,8 @@
 						//display: block;
 						&:not(.btn) {
 							@include link-styling();
+
+							display: inline-block;
 						}
 						&.accept-button {
 							@include button-styling();

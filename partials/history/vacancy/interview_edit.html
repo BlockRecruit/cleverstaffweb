@@ -8,10 +8,28 @@
     </a>
 </div>
 <div class="col-lg-10 margin-top">
-    <a ng-href="#/candidates/{{history.candidate.localId}}">
-        {{history.candidate.fullName}}
-    </a>
-    {{'history_info.was moved from'|translate}}
+    <span>
+        <span ng-if="history.candidate">
+            {{'history_info.candidate'|translate}}
+             <a ng-href="#/candidates/{{history.candidate.localId}}">
+                 {{history.candidate.fullName}}
+             </a>
+        </span>
+        <span ng-if="history.candidates.length == 2">
+            {{'history_info.candidates'|translate}} "<a ng-href="#/candidates/{{history.candidates[0].localId}}">
+                {{history.candidates[0].fullName}}
+            </a>" {{'and'|translate}} "<a ng-href="#/candidates/{{history.candidates[1].localId}}">
+                {{history.candidates[1].fullName}}
+            </a>"
+        </span>
+        <span class="manyCandidates" ng-if="history.candidates.length > 2">
+            <span class="boldTxt" ng-click="openMenuWithCandidates(history)">{{history.candidates.length}} {{'history_info.candidates_1'|translate}}</span>
+        </span>
+        {{'history_info.on_vacancy'|translate}}
+        <a href="#/vacancies/{{ history.vacancy.localId}}">
+            {{history.vacancy.position}}
+        </a>
+    </span>
     <span class="status  passed {{history.stateOldName}}" ng-if="history.stateOldName">
         {{history.stateOldName | translate}}
     </span>
@@ -50,4 +68,13 @@
             {{'save'|translate}}
         </div>
     </div>
+    <span class="manyCandidates" ng-if="history.candidates.length > 2">
+        <div ng-show="showAllCandidates">
+            <span ng-repeat="candidate in history.candidates" class="menuCandidate">
+                <a ng-href="#/candidates/{{candidate.localId}}" title="{{candidate.fullName}}">
+                    {{candidate.fullName}}
+                </a>
+            </span>
+        </div>
+    </span>
 </div>
