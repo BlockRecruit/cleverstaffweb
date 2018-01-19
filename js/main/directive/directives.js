@@ -2577,7 +2577,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                 }
             }
         }
-    }).directive('originAutocompleter', ["$filter", "serverAddress", function($filter, serverAddress) {
+    }).directive('originAutocompleter', ["$filter", "serverAddress", "$translate", "$rootScope", function($filter, serverAddress, $translate, $rootScope) {
         return {
             restrict: 'EA',
             replace: true,
@@ -2598,53 +2598,65 @@ var directive = angular.module('RecruitingApp.directives', []).
                 };
                 var inputText = "";
 
-                $(element[0]).select2({
-                    placeholder: $filter('translate')('source'),
-                    minimumInputLength: 0,
-                    formatNoMatches: function(term) {
-                        return "<div class='select2-result-label' style='cursor: s-resize;'><span class='select2-match'></span>" + $filter('translate')('Enter a source of this candidate') + "</div>";
-                    },
-                    createSearchChoice: function(term, data) {
-                        if ($(data).filter(function() {
-                                return this.text.localeCompare(term) === 0;
-                            }).length === 0) {
-                            inputText = term;
-                            return {id: term, text: term};
-                        }
-                    },
-                    ajax: {
-                        url: serverAddress + "/candidate/autocompleteOrigin",
-                        dataType: 'json',
-                        crossDomain: true,
-                        type: "POST",
-                        data: function(term, page) {
-                            return {
-                                text: term.trim()
-                            };
-                        },
-                        results: function(data, page) {
-                            var result = [];
-                            angular.forEach(data['objects'], function(val) {
-                                result.push({id: val, text: val})
-                            });
-                            return {
-                                results: result
-                            };
-                        }
-                    },
-                    dropdownCssClass: "bigdrop"
-                }).on('change',function () {
-                    $('.select2-search-choice-edit-origin').off().on('click', function (e) {
-                        $scope.editOriginName();
-                    }).attr("title", $filter('translate')('Edit source for all candidates'));
-                }).on("select2-close", function(e) {
-                    console.log("CLOSE!");
-                    if (inputText.length > 0) {
-                        $(element[0]).select2("data", {id: inputText, text: inputText});
-                    }
-                }).on("select2-selecting", function(e) {
-                    inputText = "";
+                let translatedPositions = false;
+
+                $rootScope.$on('$translateChangeSuccess', function () {
+                    initSelect2();
                 });
+
+                if(!translatedPositions) {
+                    initSelect2();
+                }
+                function initSelect2() {
+                    translatedPositions = true;
+                    $(element[0]).select2({
+                        placeholder: $translate.instant('source'),
+                        minimumInputLength: 0,
+                        formatNoMatches: function(term) {
+                            return "<div class='select2-result-label' style='cursor: s-resize;'><span class='select2-match'></span>" + $filter('translate')('Enter a source of this candidate') + "</div>";
+                        },
+                        createSearchChoice: function(term, data) {
+                            if ($(data).filter(function() {
+                                    return this.text.localeCompare(term) === 0;
+                                }).length === 0) {
+                                inputText = term;
+                                return {id: term, text: term};
+                            }
+                        },
+                        ajax: {
+                            url: serverAddress + "/candidate/autocompleteOrigin",
+                            dataType: 'json',
+                            crossDomain: true,
+                            type: "POST",
+                            data: function(term, page) {
+                                return {
+                                    text: term.trim()
+                                };
+                            },
+                            results: function(data, page) {
+                                var result = [];
+                                angular.forEach(data['objects'], function(val) {
+                                    result.push({id: val, text: val})
+                                });
+                                return {
+                                    results: result
+                                };
+                            }
+                        },
+                        dropdownCssClass: "bigdrop"
+                    }).on('change',function () {
+                        $('.select2-search-choice-edit-origin').off().on('click', function (e) {
+                            $scope.editOriginName();
+                        }).attr("title", $filter('translate')('Edit source for all candidates'));
+                    }).on("select2-close", function(e) {
+                        console.log("CLOSE!");
+                        if (inputText.length > 0) {
+                            $(element[0]).select2("data", {id: inputText, text: inputText});
+                        }
+                    }).on("select2-selecting", function(e) {
+                        inputText = "";
+                    });
+                }
             }
         }
     }]
@@ -2754,7 +2766,8 @@ var directive = angular.module('RecruitingApp.directives', []).
                             }
                         },
                         formatSelection: format,
-                        formatResult: format
+                        formatResult: format,
+                        formatResultCssClass: function (data, container) { return data.text; }
                         }
                     ).on("change", function(e) {
                         if(e.added != undefined){
@@ -3418,7 +3431,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                 }
             }
         }]
-).directive('skillsAutocompleterForSearch', ["$filter", "serverAddress","notificationService", function($filter, serverAddress, notificationService) {
+).directive('skillsAutocompleterForSearch', ["$filter", "serverAddress","notificationService", "$translate", "$rootScope", function($filter, serverAddress, notificationService, $translate, $rootScope) {
             return {
                 restrict: 'EA',
                 replace: true,
@@ -3434,73 +3447,85 @@ var directive = angular.module('RecruitingApp.directives', []).
                     };
                     var inputText = "";
 
-                    $(element[0]).select2({
-                        placeholder: $filter('translate')('Skill with rating'),
-                        minimumInputLength: 2,
-                        formatInputTooShort: function () {
-                            return ""+ $filter('translate')('Please enter 2 characters') +"";
-                        },
-                        formatNoMatches: function(term) {
-                            return "<div class='select2-result-label' style='cursor: s-resize;'><span class='select2-match'></span>" + $filter('translate')('Enter a source of this candidate') + "</div>";
-                        },
-                        createSearchChoice: function(term, data) {
-                            if ($(data).filter(function() {
-                                    return this.text.localeCompare(term) === 0;
-                                }).length === 0) {
-                                inputText = term;
-                                return {id: term, text: term};
-                            }
-                        },
-                        ajax: {
-                            url: serverAddress + "/candidate/autocompleteSkill",
-                            dataType: 'json',
-                            crossDomain: true,
-                            type: "POST",
-                            data: function(term, page) {
-                                return {
-                                    text: term.trim()
-                                };
-                            },
-                            results: function(data, page) {
-                                var result = [];
-                                angular.forEach(data['objects'], function(val) {
-                                    result.push({id: val, text: val})
-                                });
-                                console.log(result);
-                                return {
-                                    results: result
-                                };
-                            }
-                        },
-                        dropdownCssClass: "bigdrop"
-                    }).on("select2-close", function(e) {
-                        console.log("CLOSE!");
-                        function addSkillName(first) {
-                            this.name = first;
-                        }
-                        if($scope.getSkillAutocompleterValueForSearch().length > 1){
-                            $scope.candidate = {};
-                            var i = 0;
-                            angular.forEach($scope.candidate.skills, function(resp){
-                                if(resp.name == $scope.getSkillAutocompleterValueForSearch()){
-                                    notificationService.error($filter('translate')('Skill is already added'));
-                                }else{
-                                    if(i == 0){
-                                        $scope.candidate.skills.push({name : $scope.getSkillAutocompleterValueForSearch(),level: '_0'});
-                                        i++;
-                                    }
-                                }
-                            });
+                    let translatedPositions = false;
 
-                        }
-                        $scope.getSkillAutocompleterValueForSearch('');
-                        $scope.$apply();
-                        if (inputText.length > 0) {
-                            $(element[0]).select2("data", {id: inputText, text: inputText});
-                        }
-                    }).on("select2-selecting", function(e) {
-                        inputText = "";
+                    $rootScope.$on('$translateChangeSuccess', function () {
+                        initSelect2();
                     });
+
+                    if(!translatedPositions) {
+                        initSelect2();
+                    }
+                    function initSelect2() {
+                        translatedPositions = true;
+                        $(element[0]).select2({
+                            placeholder: $translate.instant('Skill with rating'),
+                            minimumInputLength: 2,
+                            formatInputTooShort: function () {
+                                return ""+ $filter('translate')('Please enter 2 characters') +"";
+                            },
+                            formatNoMatches: function(term) {
+                                return "<div class='select2-result-label' style='cursor: s-resize;'><span class='select2-match'></span>" + $filter('translate')('Enter a source of this candidate') + "</div>";
+                            },
+                            createSearchChoice: function(term, data) {
+                                if ($(data).filter(function() {
+                                        return this.text.localeCompare(term) === 0;
+                                    }).length === 0) {
+                                    inputText = term;
+                                    return {id: term, text: term};
+                                }
+                            },
+                            ajax: {
+                                url: serverAddress + "/candidate/autocompleteSkill",
+                                dataType: 'json',
+                                crossDomain: true,
+                                type: "POST",
+                                data: function(term, page) {
+                                    return {
+                                        text: term.trim()
+                                    };
+                                },
+                                results: function(data, page) {
+                                    var result = [];
+                                    angular.forEach(data['objects'], function(val) {
+                                        result.push({id: val, text: val})
+                                    });
+                                    console.log(result);
+                                    return {
+                                        results: result
+                                    };
+                                }
+                            },
+                            dropdownCssClass: "bigdrop"
+                        }).on("select2-close", function(e) {
+                            console.log("CLOSE!");
+                            function addSkillName(first) {
+                                this.name = first;
+                            }
+                            if($scope.getSkillAutocompleterValueForSearch().length > 1){
+                                $scope.candidate = {};
+                                var i = 0;
+                                angular.forEach($scope.candidate.skills, function(resp){
+                                    if(resp.name == $scope.getSkillAutocompleterValueForSearch()){
+                                        notificationService.error($filter('translate')('Skill is already added'));
+                                    }else{
+                                        if(i == 0){
+                                            $scope.candidate.skills.push({name : $scope.getSkillAutocompleterValueForSearch(),level: '_0'});
+                                            i++;
+                                        }
+                                    }
+                                });
+
+                            }
+                            $scope.getSkillAutocompleterValueForSearch('');
+                            $scope.$apply();
+                            if (inputText.length > 0) {
+                                $(element[0]).select2("data", {id: inputText, text: inputText});
+                            }
+                        }).on("select2-selecting", function(e) {
+                            inputText = "";
+                        });
+                    }
                 }
             }
         }]

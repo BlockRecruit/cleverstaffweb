@@ -204,7 +204,14 @@
 	}
 
 	main {
-		padding: 0 8px;
+		.add-vacancy {
+			display: table-cell;
+			a {
+				@include button-styling();
+
+				margin-left: 8px;
+			}
+		}
 		.wrapper-background {
 			position: relative;
 
@@ -819,12 +826,14 @@
 			}
 		}
 		i {
-			font-size: 12px;
+			font-size: 14px;
 
 			position: relative;
 			top: 3px;
 
 			margin-left: 15px;
+
+			cursor: pointer;
 
 			color: #45aaec;
 		}

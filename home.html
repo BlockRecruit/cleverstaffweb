@@ -18,7 +18,7 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <LINK REL="SHORTCUT ICON" HREF="images/sprite/favicon.png?b3">
-    <link rel="stylesheet" href="dist/css/styles.css?b232">
+    <link rel="stylesheet" href="dist/css/styles.css?b233">
     <link rel="stylesheet" type="text/css" media="print" href="dist/css/print.css" />
     <!--<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>-->
     <script type="text/javascript" src="dist/js/mainLib.js?b171"></script>
@@ -921,7 +921,6 @@
                     <li ng-show="$root.me.recrutRole == 'admin'">
                         <a href="#/company/custom-fields" ng-class="{'selected': $root.activePage == 'Custom fields'}">
                             {{'Custom fields' | translate}}
-                            <span class="new-label">New</span>
                         </a>
                     </li>
                 </ul>
@@ -1039,7 +1038,7 @@
                     <li class="hidden-sm hidden-xs">
                         <a href="#/reports/vacancy" id="showVacancies" ng-class="{'selected': $root.activePage == 'Vacancy report'}" ng-show="$root.hideTariff && ($root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'client'|| $root.me.recrutRole == 'freelancer') ">{{'Vacancy report & recruitment funnel'|translate}}</a>
                         <button id="disabledBtn-2" ng-click="$root.disabledBtnFunc();" ng-show="!$root.hideTariff"
-                                type="button" class="btn btn-default disabled">
+                                type="button" class="btn btn-default disabled less-margin">
                             {{'Vacancy report'|translate}}
                         </button>
                     </li>
@@ -1051,7 +1050,7 @@
                         </button>
                     </li>
                     <li class="hidden-sm hidden-xs"  ng-if='$root.me.recrutRole==="admin" && !$root.blockUser'>
-                        <a href class="btn btn-primary inviteUserClient" ng-click="inviteHiringManager();">{{'Invite Hiring manager'|translate}}</a>
+                        <a href class="btn btn-primary inviteUserClient" ng-class="{'blocked-user' : !$root.hideTariff}" ng-click="inviteHiringManager();">{{'Invite Hiring manager'|translate}}</a>
                     </li>
 
                 </ul>
@@ -1218,7 +1217,7 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZul9dW5-r5WVV1479hAgVxM5Z75C-ykM&libraries=places"></script>
     <script type="text/javascript" src="lib/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b292"></script>
+    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b293"></script>
 
     <!--ЗPignation in TAble-->
     <script type="text/ng-template" id="custom/pager">

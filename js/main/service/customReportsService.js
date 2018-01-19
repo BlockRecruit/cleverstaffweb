@@ -128,8 +128,8 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithCandidates($scope) {
             Stat.requestGetActualVacancyStatistic2({
-                "from":createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom']),
-                "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo']),
+                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','30','00']),
+                "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo'], ['23','59','00']),
                 "types":null,
                 "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"] : [],
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
@@ -147,8 +147,8 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithoutCandidates($scope) {
             Promise.all([Stat.requestGetActualVacancyStatistic2({
-                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom']),
-                "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo']),
+                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','30','00']),
+                "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo'], ['23','59','00']),
                 "types":null,
                 "vacancyIds":(this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:[],
                 "vacancyStatuses": this.dataReport["vacancyStatuses"],
@@ -165,12 +165,15 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
                     resetNoAngularContext($scope);
                 });
         }
-        function createCorrectDate(date) {
+
+        function createCorrectDate(date, time) {
             var currentDate = new Date(date),
-                correctDate = +new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), 23,59,59);
+                hour = time[0],
+                minutes = time[1],
+                seconds = time[2],
+                correctDate = +new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), hour, minutes, seconds);
             return correctDate;
         }
-
 
         reports.getReport = (event, data) => {
             reports.data = data;
@@ -320,8 +323,8 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             if(loadingExcel == false){
                 loadingExcel = true;
                 Stat.createVacancyStatisticExcel({
-                    "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom']),
-                    "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo']),
+                    "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','30','00']),
+                    "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo'], ['23','59','00']),
                     "types":null,
                     "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:[],
                     "vacancyStatuses": this.dataReport["vacancyStatuses"],

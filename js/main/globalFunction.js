@@ -324,6 +324,7 @@ function vacancyAddInterview(Vacancy, vacancyId, position, candidateId, comment,
                 //        });
                 //}
                 callback(resp);
+                notificationService.success($filter('translate')('added_candidate'));
             } else {
                 notificationService.error($filter('translate')('Candidate has been added to this position'));
                 errorBack(resp);

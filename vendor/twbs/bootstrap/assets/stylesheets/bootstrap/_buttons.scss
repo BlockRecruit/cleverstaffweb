@@ -20,6 +20,23 @@
   @include button-size($padding-base-vertical, $padding-base-horizontal, $font-size-base, $line-height-base, $btn-border-radius-base);
   @include user-select(none);
 
+
+  &.accept {
+    font-weight: 600;
+    padding: 3px 12px;
+    color: #202021;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffc100;
+  }
+  &.cancel {
+    font-weight: 600;
+    padding: 3px 12px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    background-color: #b8b8b8;
+  }
   &,
   &:active,
   &.active {
@@ -166,3 +183,5 @@ input[type="button"] {
     width: 100%;
   }
 }
+
+

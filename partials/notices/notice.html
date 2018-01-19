@@ -4,7 +4,7 @@
         <div class="header-block">
             <div>
                 <div class="clearfix">
-                    <div class="text-center">{{'Notifications'|translate}} ({{noticeObj.notices.length}})</div>
+                    <div class="text-center">{{'Notifications'|translate}} <span ng-show="noticeObj.notices.length > 0">(</span>{{noticeObj.notices.length}}<span ng-show="noticeObj.notices.length > 0">)</span></div>
                     <!--<span class="ui header">-->
                         <!--<span ng-show="noticeObj.notices != undefined">-->
                             <!--<span ng-show="$root.newNoticeCount > 0">{{'total'|translate}} {{noticeObj.notices.length}}, {{'unread'|translate}} {{$root.newNoticeCount}}</span>-->
