@@ -24,8 +24,6 @@
                             <div class="col-lg-6 text-right file deleted" ng-show="history.status == 'Error'">
                                 <span class="errorArchive">{{'error. try again'|translate}}</span>
                             </div>
-                            <!--<span ng-show="history.status == 'Error'" class="error">Errorrrrrrrrrrrrrrrrr !!!!!!!!!!!!!!!!!</span>-->
-                            <!--<span ng-show="history.status == 'Deleted'" class="deleted">Deletedddddddddddddddddd !!!!!!!!!!!!!!!!!</span>-->
                         </div>
                         <div class="col-lg-12 timeFile" ng-show="history.status == 'Finished'">
                             <div class="col-lg-6 text-left time">
@@ -45,7 +43,6 @@
                                     <span once-text="history.creator.firstName"></span>
                                     <span once-text="history.creator.lastName"></span>
                                 </a>
-                                <!--<br>-->
                             </div>
                             <div class="col-lg-6 text-right criteria">
                                 {{'All the default search criteria'|translate}}
@@ -93,11 +90,11 @@
                         <!--</div>-->
                     </div>
                 </div>
-                <div class="col-lg-6 col-lg-offset-3 historyBtn hidden">
-                    <button class="btn more-history" ng-click="getMoreHistoryArchive()" ng-show="historyTotalExcel > historyLimitExcel">
-                        {{'Show more'|translate}} <i class="fa fa-caret-down" aria-hidden="true"></i>
-                    </button>
-                </div>
+                <!--<div class="col-lg-6 col-lg-offset-3 historyBtn hidden">-->
+                    <!--<button class="btn more-history" ng-click="getMoreHistoryArchive()" ng-show="historyTotalExcel > historyLimitExcel">-->
+                        <!--{{'Show more'|translate}} <i class="fa fa-caret-down" aria-hidden="true"></i>-->
+                    <!--</button>-->
+                <!--</div>-->
             </div>
         </div>
     </div>
