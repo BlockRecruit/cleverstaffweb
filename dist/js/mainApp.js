@@ -16905,8 +16905,10 @@ controller.controller('ActivityStatisticsController', ["$scope", "$rootScope", "
                 $(".dateOptionsYearMonthWeek").datetimepicker('hide');
                 $scope.selectedDate = dateTex.date;
                 $scope.selectedDateTo = new Date($scope.selectedDate);
-                $scope.selectedDateTo.setDate(parseInt($filter('date')($scope.selectedDate, 'dd')) + 7 - $scope.selectedDate.getDay());
+                $scope.selectedDateTo.setHours(0,0,0,0);
+                $scope.selectedDateTo.setDate(parseInt($filter('date')($scope.selectedDate, 'dd')) + 8 - $scope.selectedDate.getDay());
                 $scope.selectedDateFrom = new Date($scope.selectedDate);
+                $scope.selectedDateFrom.setHours(0,0,0,0);
                 $scope.selectedDateFrom.setDate(parseInt($filter('date')($scope.selectedDate, 'dd')) - $scope.selectedDate.getDay() + 1);
                 if ($filter('date')($scope.selectedDateFrom, 'MM') != $filter('date')($scope.selectedDateTo, 'MM')) {
                     $("#searchText").html($filter('date')($scope.selectedDateFrom, 'dd MMMM') + " - " + $filter('date')($scope.selectedDateTo, 'dd MMMM yyyy'));
@@ -17194,7 +17196,6 @@ controller.controller('ActivityStatisticsController', ["$scope", "$rootScope", "
     getStatFirstTime();
 
     $scope.search = function() {
-        console.log('without', $scope.candWithoutContacts, $scope.activeSearchName, $scope.selectedDateFrom, $scope.selectedDateTo);
         if ($scope.activeSearchName === 'Forever') {
             $rootScope.loading = true;
             $scope.selectedDate = null;
