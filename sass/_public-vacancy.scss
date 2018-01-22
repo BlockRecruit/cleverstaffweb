@@ -1,4 +1,4 @@
-.block-company-public-vacancy {
+.block-public {
 	position: relative;
 
 	overflow-x: hidden;
@@ -90,7 +90,7 @@
 			}
 		}
 	}
-	& .vacancies-intro {
+	& .block-intro {
 		display: block;
 		margin: 50px auto 20px;
 
@@ -123,7 +123,7 @@
 			}
 		}
 	}
-	& .vacancy-info {
+	& .block-info {
 		position: relative;
 		z-index: 100;
 
@@ -152,7 +152,7 @@
 					padding-left: 37px;
 
 					background-image: url("/images/sprite/public-vacancy/vacancy-empType.svg");
-					background-size: 26px;
+					background-size: 23px;
 				}
 				&.location {
 					min-height: 25px;
@@ -204,7 +204,7 @@
 				}
 			}
 		}
-		.vacancy-description {
+		.block-accent {
 			padding: 25px 20px;
 
 			word-break: break-word;
@@ -445,6 +445,8 @@
 		.cloud-4.ng-enter,
 		.cloud-3.ng-enter,
 		.plane-2.ng-enter,
+		.finger-up.ng-enter,
+		.plane-2.ng-enter,
 		.person-3.ng-enter,
 		.person-2.ng-enter {
 			transition: 0.65s linear all;
@@ -455,12 +457,15 @@
 		.cloud-1.ng-enter.ng-enter-active,
 		.calendar-2.ng-enter.ng-enter-active,
 		.plane.ng-enter.ng-enter-active,
+		.plane-2.ng-enter.ng-enter-active,
 		.person-1.ng-enter.ng-enter-active,
 		.cloud-2.ng-enter.ng-enter-active,
 		.cloud-4.ng-enter.ng-enter-active,
 		.cloud-3.ng-enter.ng-enter-active,
 		.calendar.ng-enter.ng-enter-active,
 		.spiral-line.ng-enter.ng-enter-active,
+		.flower.ng-enter.ng-enter-active,
+		.finger-up.ng-enter.ng-enter-active,
 		.person-3.ng-enter.ng-enter-active,
 		.person-2.ng-enter.ng-enter-active {
 			transform: translateY(0);
@@ -573,24 +578,24 @@
 		padding: 15px 50px 30px 50px;
 	}
 	.block-company-public-vacancy .fa {
-		display: inline-block; // fix for vacancy-information.scss
+		display: inline-block; // fix for block-information.scss
 	}
 }
 
 @media (max-width: $screen-sm) {
-	.block-company-public-vacancy .vacancy-info .info--main span {
+	.block-company-public-vacancy .block-info .info--main span {
 		text-align: center;
 		&.location {
 			text-align: center;
 		}
 	}
-	.block-company-public-vacancy .vacancy-info .info--main span.salary,
-	.block-company-public-vacancy .vacancy-info .info--main span.location {
+	.block-company-public-vacancy .block-info .info--main span.salary,
+	.block-company-public-vacancy .block-info .info--main span.location {
 		display: block;
 
 		text-align: left;
 	}
-	.block-company-public-vacancy .vacancy-info .info-additional > span.languages .lang {
+	.block-company-public-vacancy .block-info .info-additional > span.languages .lang {
 		display: block;
 		margin-left: 0;
 	}
@@ -600,10 +605,10 @@
 	.block-company-public-vacancy .wrapper-social-icons .social-icons {
 		display: none;
 	}
-	.block-company-public-vacancy .vacancy-info {
+	.block-company-public-vacancy .block-info {
 		padding: 16px 0 30px 0;
 	}
-	.block-company-public-vacancy .vacancy-info .vacancy-description {
+	.block-company-public-vacancy .block-info .block-accent {
 		padding: 25px 8px;
 	}
 }

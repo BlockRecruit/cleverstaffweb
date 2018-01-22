@@ -1,4 +1,4 @@
-<div class="container-fluid block-company-public-vacancy">
+<div class="container-fluid block-company-public-vacancy block-public">
   <div class="hidden-lg hidden-md companyInfo" ng-if="vacancy.status != 'payment' && vacancy.status != 'completed' && vacancy.status != 'deleted' && vacancy.status != 'canceled' && vacancy.descr.length > 30">
     <div ng-if="companyLogo || companyPublicInfo.companyWebSite || companyPublicInfo.fb || companyPublicInfo.orgName">
 
@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <div class="vacancies-intro" ng-if="vacancy.status != 'payment' && vacancy.status != 'completed' && vacancy.status != 'deleted' && vacancy.status != 'canceled' && vacancy.descr.length > 30">
+  <div class="block-intro" ng-if="vacancy.status != 'payment' && vacancy.status != 'completed' && vacancy.status != 'deleted' && vacancy.status != 'canceled' && vacancy.descr.length > 30">
     <div class="text-center intro-text">
       <span class="vacancy">{{'Vacancy' | translate}}</span>
       <h2>{{vacancy.position}}</h2>
@@ -54,7 +54,7 @@
     <div class="col-lg-2 col-md-3 hidden-sm hidden-xs width-for-absolute"></div>
 
     <div class="col-lg-8 col-md-9 col-xs-12 vacancy-info-wrap">
-      <div class="vacancy-info">
+      <div class="block-info">
             <div class="info--main">
 
               <div class="col-xs-12 col-sm-4 text-left" ng-if="vacancy.employmentType">
@@ -90,7 +90,7 @@
 
             <div class="clearfix"></div>
 
-            <div class="vacancy-description" ng-if="vacancy.descr">
+            <div class="block-accent" ng-if="vacancy.descr">
               <span class="content-description" id="descr" description-treatment description="vacancy.descr"></span>
             </div>
 
