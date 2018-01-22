@@ -86,7 +86,7 @@
                     </div>
                     <div class="col-lg-12 candidate-add-foto">
                         <div ng-show="candidate.photo">
-                            <img id="page-avatar" class="photoWidth" ng-src="{{serverAddress}}/getapp?id={{candidate.photo}}&d={{$root.me.personId}}" alt="" ng-if="candidate.photo"/>
+                            <img id="page-avatar" class="photoWidth" ng-src="{{serverAddress}}/getapp?id={{candidate.photo}}&d={{$root.me.personId}}"  style="width: 100%; height: auto" alt="" ng-if="candidate.photo"/>
                             <div id="photo-edit" class="text-center">
                                 <div class="photo-hover" ng-click="showModalAddPhoto('Change photos')">
                                     <span>{{'change_photo'|translate}}</span>
