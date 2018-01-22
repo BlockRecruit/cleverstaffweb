@@ -317,6 +317,7 @@ a:focus {
     color: white;
     text-decoration: none;
     border-radius: 35px;
+    border:1px solid #fff;
     padding: 10px 20px;
     margin-top: 8px;
     background-color: #ED7D3B;

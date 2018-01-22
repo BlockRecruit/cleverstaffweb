@@ -51,7 +51,7 @@
                 <div class="changeWebSiteOrFb">
                     <div class="ourSite">
                         <span class="nameTittle">{{'Website'|translate}}</span>
-                        <a href="" ng-click="showInputForChangeWebSite();">
+                        <a href="" ng-click="showInputForChangeWebSite(false);">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                         </a>
                         <div ng-show="showCompanyWebSite && changeWebSite.length > 0">
@@ -62,7 +62,7 @@
                         <div ng-show="showCompanyWebSite==false">
                             <input type="text" name="changeWebSite" ng-model="changeWebSite" ng-readonly="$root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'salesmanager'"/>
                             <div class="text-center">
-                                <a type="button" ng-click="showCompanyWebSite = true" class="btn btn-primary cancel">
+                                <a type="button" ng-click="showInputForChangeWebSite(true);" class="btn btn-primary cancel">
                                     {{'cancel'|translate}}
                                 </a>
                                 <a type="button" ng-click="setChangeCompanyWebSite('companyWebSite');" class="btn btn-primary accept">
@@ -73,7 +73,7 @@
                     </div>
                     <div class="fbPage">
                         <span class="nameTittle">{{'Facebook page'|translate}}</span>
-                        <a href="" ng-click="showInputForChangeFacebookPage();">
+                        <a href="" ng-click="showInputForChangeFacebookPage(false);">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                         </a>
                         <div ng-show="showCompanyFacebookPage && changeFacebookPage.length > 0">
@@ -84,7 +84,7 @@
                         <div ng-show="showCompanyFacebookPage==false">
                             <input type="text" name="changeFacebookPage" ng-model="changeFacebookPage" ng-readonly="$root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'salesmanager'"/>
                             <div class="text-center">
-                                <a type="button" ng-click="showCompanyFacebookPage = true" class="btn btn-primary cancel">
+                                <a type="button" ng-click="showInputForChangeFacebookPage(true);" class="btn btn-primary cancel">
                                     {{'cancel'|translate}}
                                 </a>
                                 <a type="button" ng-click="setChangeUserWebSite('companyFacebookPage');" class="btn btn-primary accept">

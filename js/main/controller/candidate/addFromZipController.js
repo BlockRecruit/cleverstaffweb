@@ -40,64 +40,64 @@ controller.controller('CandidateAddFromZipController', ["Notice", "$localStorage
         //};
         //$scope.limitStrict();
 
-        $scope.openHelpZip1 = function(event) {
-            console.log(event);
-            var helpZip1 = $("#helpZip1");
-            if (helpZip1.css('display') == 'none') {
-                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0.11)"});
-                helpZip1.show('slide', {direction: 'left'}, 400);
-                $(document).mouseup(function(e) {
-                    var noticesElement = $("#agreedQuestionOuter");
-                    if ($("#agreedQuestionOuter").has(e.target).length === 0) {
-                        helpZip1.hide();
-                        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
-                        $(document).off('mouseup');
-                    }
-                });
-            } else {
-                helpZip1.hide();
-                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
-                $(document).off('mouseup')
-            }
-        };
-        $scope.openHelpZip2 = function() {
-            var helpZip2 = $("#helpZip2");
-            if (helpZip2.css('display') == 'none') {
-                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0.11)"});
-                helpZip2.show('slide', {direction: 'left'}, 400);
-                $(document).mouseup(function(e) {
-                    var noticesElement = $("#agreedQuestionOuter");
-                    if ($("#agreedQuestionOuter").has(e.target).length === 0) {
-                        helpZip2.hide();
-                        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
-                        $(document).off('mouseup');
-                    }
-                });
-            } else {
-                helpZip2.hide();
-                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
-                $(document).off('mouseup')
-            }
-        };
-        $scope.openHelpZip3 = function() {
-            var helpZip3 = $("#helpZip3");
-            if (helpZip3.css('display') == 'none') {
-                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0.11)"});
-                helpZip3.show('slide', {direction: 'left'}, 400);
-                $(document).mouseup(function(e) {
-                    var noticesElement = $("#agreedQuestionOuter");
-                    if ($("#agreedQuestionOuter").has(e.target).length === 0) {
-                        helpZip3.hide();
-                        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
-                        $(document).off('mouseup');
-                    }
-                });
-            } else {
-                helpZip3.hide();
-                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
-                $(document).off('mouseup')
-            }
-        };
+        //$scope.openHelpZip1 = function(event) {
+        //    console.log(event);
+        //    var helpZip1 = $("#helpZip1");
+        //    if (helpZip1.css('display') == 'none') {
+        //        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0.11)"});
+        //        helpZip1.show('slide', {direction: 'left'}, 400);
+        //        $(document).mouseup(function(e) {
+        //            var noticesElement = $("#agreedQuestionOuter");
+        //            if ($("#agreedQuestionOuter").has(e.target).length === 0) {
+        //                helpZip1.hide();
+        //                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
+        //                $(document).off('mouseup');
+        //            }
+        //        });
+        //    } else {
+        //        helpZip1.hide();
+        //        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
+        //        $(document).off('mouseup')
+        //    }
+        //};
+        //$scope.openHelpZip2 = function() {
+        //    var helpZip2 = $("#helpZip2");
+        //    if (helpZip2.css('display') == 'none') {
+        //        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0.11)"});
+        //        helpZip2.show('slide', {direction: 'left'}, 400);
+        //        $(document).mouseup(function(e) {
+        //            var noticesElement = $("#agreedQuestionOuter");
+        //            if ($("#agreedQuestionOuter").has(e.target).length === 0) {
+        //                helpZip2.hide();
+        //                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
+        //                $(document).off('mouseup');
+        //            }
+        //        });
+        //    } else {
+        //        helpZip2.hide();
+        //        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
+        //        $(document).off('mouseup')
+        //    }
+        //};
+        //$scope.openHelpZip3 = function() {
+        //    var helpZip3 = $("#helpZip3");
+        //    if (helpZip3.css('display') == 'none') {
+        //        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0.11)"});
+        //        helpZip3.show('slide', {direction: 'left'}, 400);
+        //        $(document).mouseup(function(e) {
+        //            var noticesElement = $("#agreedQuestionOuter");
+        //            if ($("#agreedQuestionOuter").has(e.target).length === 0) {
+        //                helpZip3.hide();
+        //                $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
+        //                $(document).off('mouseup');
+        //            }
+        //        });
+        //    } else {
+        //        helpZip3.hide();
+        //        $("#agreedQuestion").css({"background-color": "rgba(0, 0, 0, 0)"});
+        //        $(document).off('mouseup')
+        //    }
+        //};
         $scope.checkValidZip = function() {
            if(!$scope.radioType){
                $('.mainFormZip').css('box-shadow','rgb(245, 19, 19) 0px 0px 10px');

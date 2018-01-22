@@ -191,3 +191,9 @@
 		width: 46%;
 	}
 }
+
+@media (max-width: $screen-xs) {
+	.adding-task .modal-body > .performers > span > i > .clever-window {
+		left: -115px!important;
+	}
+}

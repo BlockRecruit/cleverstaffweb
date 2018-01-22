@@ -216,12 +216,12 @@
             </section>
             <section class="row">
                 <div class="payButtonOuter">
-                    <a type="button"   class="btn btn-primary create-or-reload-reports"
-                       ng-click="updateReport()">
+                    <a type="button" class="btn btn-primary create-or-reload-reports"
+                       ng-click="updateReport()" ng-show="firstTimeLoading != 0">
                         <span ng-show="firstTimeLoading == 1">{{'Make a report'|translate}}<i class="fa fa-caret-right" aria-hidden="true"></i></span>
                         <span ng-show="firstTimeLoading > 1">{{'Update report'|translate}}<i class="fa fa-caret-right" aria-hidden="true"></i></span>
                     </a>
-
+                    <h3 class="title" ng-show="firstTimeLoading == 0">{{'Your company has no active vacancies in this account'| translate}}</h3>
                     <button type="button" ng-show="firstTimeLoading > 1 && $root['me']['recrutRole'] == 'admin' && !$root.loading" class="btn btn-primary accept downloadReport"
                             ng-click="downloadReport()">
                         <span>{{'Download report as Excel'|translate}}</span>
