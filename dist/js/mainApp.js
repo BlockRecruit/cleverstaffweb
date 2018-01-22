@@ -29843,7 +29843,6 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
                 $rootScope.loading = false;
                 var blob = data;
                 var fileURL = URL.createObjectURL(blob);
-                console.log(fileURL);
                 if(data.type == 'application/json'){
                     notificationService.error($filter('translate')('You cannot download more than three resume archives per week in your account'));
                 }else{
@@ -29854,9 +29853,6 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
                 } else if (data.status == "error") {
                     notificationService.error(data.message);
                 }
-            }).error(function(data, status){
-                console.log(data);
-                console.log(status);
             });
         };
     }]);
