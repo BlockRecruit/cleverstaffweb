@@ -2479,7 +2479,7 @@ $('#askQuestionSubmit').on('click',function(e){
             $('.keyRequirementsForm').css('display', 'none');
             //$('#contact').slideUp('slow');
             //$('.tyMessageQuestion').delay(800).fadeIn();
-            sentAnalyticEvents('Features', 'Presentation');
+            sentAnalyticEvents('Features', 'Personal_present');
         },
         error: function (data) {
             localStorage.removeItem('phone');
@@ -2975,7 +2975,7 @@ $('#askQuestionSubmit2').on('click',function(e){
             $('.numberVacancyForm').css('display', 'none');
             $('.keyRequirementsForm').css('display', 'none');
 
-            sentAnalyticEvents('Price', 'Presentation');
+            sentAnalyticEvents('Price', 'Personal_present');
 
             if(data.status != 'error') {
                 localStorage.removeItem('phone');
@@ -3472,7 +3472,7 @@ $('#askQuestionSubmit3').on('click',function(e){
       $('.numberVacancyForm').css('display', 'none');
       $('.keyRequirementsForm').css('display', 'none');
 
-        sentAnalyticEvents('Index', 'Presentation');
+        sentAnalyticEvents('Index', 'Personal_present');
 
         if(data.status != 'error') {
             localStorage.removeItem('phone');
