@@ -706,9 +706,9 @@
 							}
 							&:not(:first-child) {
 								line-height: 19px;
-								&.custom-field {
-									line-height: 19px;
-								}
+								//&.custom-field {
+								//	line-height: 19px;
+								//}
 							}
 							i {
 								margin-right: 10px;
@@ -719,8 +719,10 @@
 								font-weight: 500;
 							}
 							&.phone {
-								line-height: 19px;
+								line-height: 1.2;
+								//line-height: 19px;
 
+								display: inline-flex;
 								margin-bottom: 6px;
 
 								color: $theme-dark;
@@ -732,14 +734,14 @@
 
 										display: inline-table;
 										width: 100%;
-										margin-bottom: 6px;
+										margin-bottom: 4px;
 
 										color: inherit;
 									}
 								}
 							}
 							&.noneNowrap {
-								margin-bottom: 0;
+								margin-bottom: 4px;
 
 								white-space: inherit;
 							}
@@ -778,6 +780,9 @@
 										margin-bottom: 0;
 									}
 								}
+							}
+							&.custom-field {
+								display: block;
 							}
 						}
 						div {
@@ -912,12 +917,15 @@
 						.email {
 							//@include flex(column, flex-start, flex-start);
 							a {
-								display: inline-block;
+								line-height: 1.2;
+								//display: inline-block;
+
+								display: inline-flex;
 							}
 						}
 						.skype {
 							display: block;
-							margin-bottom: 6px;
+							margin-bottom: 3px;
 
 							cursor: default;
 							span {
