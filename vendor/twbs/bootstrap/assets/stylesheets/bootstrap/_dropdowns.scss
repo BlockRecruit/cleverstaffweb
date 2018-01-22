@@ -77,6 +77,7 @@
 .dropdown-menu > li > a {
   &:hover,
   &:focus {
+    cursor: pointer;
     text-decoration: none;
     color: $dropdown-link-hover-color;
     background-color: $dropdown-link-hover-bg;
