@@ -18,6 +18,17 @@
 	.row {
 		@include disabled-margins-for-row();
 	}
+	.count {
+		font-weight: 500;
+
+		margin: 15px 0;
+		padding: 0 4px;
+
+		text-transform: capitalize;
+
+		border-radius: 5px;
+		background-color: #e3f2dd;
+	}
 	.add-client {
 		background-color: $theme-white;
 		h4 {

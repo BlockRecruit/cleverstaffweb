@@ -288,6 +288,8 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                             } else {
                                 $scope.vacancies = response['objects'];
                             }
+                            //$scope.limitReached = response['limitReached'];
+                            $scope.limitReached = response['limitReached'];
                             $scope.vacanciesFound = response['total'] >= 1;
                             $defer.resolve($scope.vacancies);
                             Vacancy.init();

@@ -186,6 +186,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                         } else {
                             $('#show_more').show();
                         }
+                        $scope.limitReached = response['limitReached'];
                         $scope.clientsFound = response['total'] >= 1;
                         params.total(response['total']);
                         $defer.resolve($scope.clients);

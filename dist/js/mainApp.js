@@ -19257,11 +19257,9 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         };
                         $scope.limitReached = response['limitReached'];
                         if(page) {
-                            $scope.candidates = $scope.candidates.concat(response['objects'])
-                            console.log($scope.candidates);
+                            $scope.candidates = $scope.candidates.concat(response['objects']);
                         } else {
                             $scope.candidates = response['objects'];
-                            console.log($scope.candidates);
                         }
                         $defer.resolve($scope.candidates);
 
@@ -26716,6 +26714,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                         } else {
                             $('#show_more').show();
                         }
+                        $scope.limitReached = response['limitReached'];
                         $scope.clientsFound = response['total'] >= 1;
                         params.total(response['total']);
                         $defer.resolve($scope.clients);
@@ -33699,6 +33698,8 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                             } else {
                                 $scope.vacancies = response['objects'];
                             }
+                            //$scope.limitReached = response['limitReached'];
+                            $scope.limitReached = response['limitReached'];
                             $scope.vacanciesFound = response['total'] >= 1;
                             $defer.resolve($scope.vacancies);
                             Vacancy.init();
