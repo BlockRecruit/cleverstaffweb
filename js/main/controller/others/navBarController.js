@@ -487,12 +487,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 $rootScope.orgs = response.object.orgs;
                 $scope.orgId = response.object.orgId;
                 $rootScope.exportCandidate = true;
-                //console.log($rootScope.companyParams);
                 $scope.exportCandidateNowDate = new Date().getTime();
-                //console.log($scope.exportCandidateNowDate);
                 $scope.exportCandidateOtherDate = new Date($rootScope.companyParams.exportCandidate).getTime();
-                //console.log($scope.exportCandidateOtherDate);
-                if($scope.exportCandidateNowDate  >= $scope.exportCandidateOtherDate){
+                if($scope.exportCandidateNowDate  >= $scope.exportCandidateOtherDate || $rootScope.companyParams.exportCandidate == undefined){
                     $rootScope.exportCandidate = false;
                 }
                 $scope.nameUser = (response.object.firstName ? response.object.firstName : " ") + " " + (response.object.lastName ? response.object.lastName : " ");
