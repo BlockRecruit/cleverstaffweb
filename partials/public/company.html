@@ -12,7 +12,7 @@
                         <a class="site" href="{{orgParams.linkToCompanySite}}" target="_blank">{{orgParams.linkToCompanySite| limitTo: 20}}{{orgParams.linkToCompanySite.length > 20 ? '...' :''}}</a>
                     </div>
                     <div class="info--site" ng-class="{'text-center' : !orgParams.companyLogo}" ng-show="orgParams.linkToCompanyFaceBookPage">
-                        <img src="/images/sprite/public-vacancy/facebook.svg" alt="">
+                        <img class="fb" src="/images/sprite/public-vacancy/facebook.svg" alt="">
                         <a href="{{orgParams.linkToCompanyFaceBookPage}}" target="_blank">{{orgParams.linkToCompanyFaceBookPage| limitTo: 20}}{{orgParams.linkToCompanyFaceBookPage.length > 20 ? '...' :''}}</a>
                     </div>
                 </div>

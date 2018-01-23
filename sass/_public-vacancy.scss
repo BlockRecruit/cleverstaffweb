@@ -39,13 +39,17 @@
 			}
 		}
 		& .info--site {
+			font-family: "Helvetica-Medium";
+
 			margin-bottom: 8px;
 
 			text-align: left!important;
-
 			& img {
-				width: 31px;
+				width: 27px;
 				margin-right: 5px;
+				&.fb {
+					width: 25px;
+				}
 			}
 			& .fb-link {
 				line-height: 28px;
