@@ -18002,11 +18002,17 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
     $rootScope.closeModal = function(){
         $scope.modalInstance.close();
     };
+
     $rootScope.changeSearchType = function(param){
         $window.location.replace('/!#/candidates');
         $rootScope.changeSearchTypeNotFromCandidates = param;
     }
-}]);
+
+    $scope.selectFavoriteContacts = function ($scope, type, event) {
+        Candidate.setSelectFavoriteContacts($scope, type, event );
+    };
+
+    }]);
 
 controller.controller('CandidateAddFromEmailController', ["Notice", "$localStorage", "$translate", "Service", "$scope", "ngTableParams", "Candidate", "$location", "$rootScope", "$filter", "$cookies", "serverAddress", "notificationService", "googleService", "$window",
     function (Notice, $localStorage, $translate, Service, $scope, ngTableParams, Candidate, $location, $rootScope, $filter, $cookies, serverAddress, notificationService, googleService, $window) {
@@ -19175,15 +19181,16 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $scope.externalData = [];
 
-
     $scope.deleteSearchByUser = function () {
         $scope.searchParam.personId = null;
         $scope.searchParam.personNameWhoSearching = null;
         $scope.tableParams.reload();
     };
+
     $scope.hideDetailElement = function () {
         $scope.showMessageAboutChangeTypeOfOtherSiteSearch = false;
     };
+
     $scope.showDetail = function () {
         $scope.showMessageAboutChangeTypeOfOtherSiteSearch = true;
         $scope.showMessageAboutChangeTypeOfOtherSiteSearchmouseover = true
