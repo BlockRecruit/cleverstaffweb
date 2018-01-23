@@ -191,6 +191,8 @@
 	.candidates-statuses {
 		@include bt-margins-from-side;
 		.statuses {
+			position: relative;
+
 			margin-top: 15px;
 			padding: 0;
 			padding-left: 15px;
@@ -220,13 +222,6 @@
 					}
 					a {
 						margin-left: 8px;
-					}
-					label {
-						position: relative;
-						.new-label {
-							top: -6px;
-							right: -20px;
-						}
 					}
 					#disabledBtn {
 						@include disabled-button();
@@ -434,6 +429,20 @@
 
 						color: $theme-light-grey;
 					}
+				}
+			}
+			.disable-click {
+				position: absolute;
+
+				padding: 0;
+			}
+			&.overModal {
+				z-index: 9998;
+				& > .disable-click {
+					width: 400px;
+					height: 500px;
+
+					opacity: 0;
 				}
 			}
 		}

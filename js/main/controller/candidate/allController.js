@@ -44,7 +44,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.modalInstance.close();
     };
     $rootScope.closeModalAfterActivity = function(){
-        $rootScope.modalInstance.close();
+        $rootScope.modalInstance?$rootScope.modalInstance.close():null;
     };
     Company.getParam({name: 'enableExcelUploadAll'}, function (resp) {
         if (angular.equals(resp.status, "ok")) {
