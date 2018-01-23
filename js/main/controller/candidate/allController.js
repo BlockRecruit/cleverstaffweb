@@ -93,7 +93,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     };
     setTimeout(function(){
         if($rootScope.me.recrutRole != 'client'){
-            if ($rootScope.questStatus.growYourDatabasePopup == 'N'){
+            if ($rootScope.questStatus.growYourDatabasePopup == 'Y'){
                 $scope.modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '../partials/modal/HelloQuest/helloQuestCandidatesStart.html',
