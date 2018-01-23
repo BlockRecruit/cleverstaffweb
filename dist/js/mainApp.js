@@ -18358,7 +18358,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.modalInstance.close();
     };
     $rootScope.closeModalAfterActivity = function(){
-        $rootScope.modalInstance.close();
+        $rootScope.modalInstance?$rootScope.modalInstance.close():null;
     };
     Company.getParam({name: 'enableExcelUploadAll'}, function (resp) {
         if (angular.equals(resp.status, "ok")) {
@@ -18407,7 +18407,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     };
     setTimeout(function(){
         if($rootScope.me.recrutRole != 'client'){
-            if ($rootScope.questStatus.growYourDatabasePopup == 'Y'){
+            if ($rootScope.questStatus.growYourDatabasePopup == 'N'){
                 $scope.modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '../partials/modal/HelloQuest/helloQuestCandidatesStart.html',

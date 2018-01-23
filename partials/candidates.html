@@ -3,6 +3,7 @@
         <div class="row">
             <div class="col-lg-3 statuses hidden-xs hidden-sm" ng-show="$root.me.recrutRole != 'client' && !$root.searchParam.searchIn && !$root.searchParam.searchExternal && !$root.searchParam.searchSocial"
                  ng-class="{'overModal': $root.questStatus.growYourDatabasePopup == 'Y'}">
+                <div class="disable-click"></div>
                 <div class="text-left">
                     <h4>
                         <i class="fa fa-user-plus" aria-hidden="true"></i><span>{{'new'|translate}} {{'candidate'|translate}}</span>
