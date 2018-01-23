@@ -128,7 +128,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithCandidates($scope) {
             Stat.requestGetActualVacancyStatistic2({
-                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','30','00']),
+                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','00','00']),
                 "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo'], ['23','59','00']),
                 "types":null,
                 "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"] : [],
@@ -147,7 +147,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithoutCandidates($scope) {
             Promise.all([Stat.requestGetActualVacancyStatistic2({
-                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','30','00']),
+                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','00','00']),
                 "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo'], ['23','59','00']),
                 "types":null,
                 "vacancyIds":(this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:[],
@@ -323,7 +323,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             if(loadingExcel == false){
                 loadingExcel = true;
                 Stat.createVacancyStatisticExcel({
-                    "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','30','00']),
+                    "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','00','00']),
                     "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo'], ['23','59','00']),
                     "types":null,
                     "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:[],
