@@ -63,9 +63,14 @@ controller.controller('ContactEditController', ["$scope", "$rootScope", "$locati
     });
     $scope.save = function() {
         $scope.buttonClicked = true;
-        if ($scope.contactForm.$valid && ($scope.contacts.mphone || $scope.contacts.email || $scope.contacts.skype || $scope.contacts.linkedin || $scope.contacts.facebook || $scope.contacts.googleplus || $scope.contacts.homepage)) {
+
+        if($scope.contacts.mphone || ($scope.contacts.email || $scope.contactForm.email.$invalid)|| $scope.contacts.skype || $scope.contacts.linkedin || $scope.contacts.facebook || $scope.contacts.googleplus || $scope.contacts.homepage){
             $scope.buttonClicked = false;
+        }
+
+        if ($scope.contactForm.$valid && !$scope.buttonClicked) {
             var contacts = [];
+
             if ($scope.contacts.mphone) {
                 contacts.push({type: "mphone", value: $scope.contacts.mphone});
             }

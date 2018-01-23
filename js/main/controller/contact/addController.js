@@ -1,7 +1,8 @@
 controller.controller('ContactAddController',["$scope", "$location", "$routeParams", "$cookies", "Contacts", "Client", "$rootScope", "notificationService", "$filter", "$localStorage", "$window", function($scope, $location, $routeParams, $cookies, Contacts, Client, $rootScope, notificationService, $filter, $localStorage, $window) {
     $scope.showAddClient = true;
     $scope.pageType = "add";
-
+    $scope.errorMessage ={};
+    $scope.errorMessage.show = false;
     $scope.contacts = {
         skype: null,
         email: null,
@@ -74,9 +75,14 @@ controller.controller('ContactAddController',["$scope", "$location", "$routePara
     $scope.contact = null;
     $scope.save = function() {
         $scope.buttonClicked = true;
-        if ($scope.contactForm.$valid && ($scope.contacts.mphone || $scope.contacts.email || $scope.contacts.skype || $scope.contacts.linkedin || $scope.contacts.facebook || $scope.contacts.googleplus || $scope.contacts.homepage)) {
+
+        if($scope.contacts.mphone || ($scope.contacts.email || $scope.contactForm.email.$invalid)|| $scope.contacts.skype || $scope.contacts.linkedin || $scope.contacts.facebook || $scope.contacts.googleplus || $scope.contacts.homepage){
             $scope.buttonClicked = false;
+        }
+
+        if ($scope.contactForm.$valid && !$scope.buttonClicked) {
             var contacts = [];
+
             if ($scope.contacts.email) {
                 contacts.push({type: "email", value: $scope.contacts.email});
             }
