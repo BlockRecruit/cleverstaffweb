@@ -1370,44 +1370,61 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 tinyMCE.remove()
             });
             $scope.modalInstance.opened.then(function(){
-                setTimeout(function(){
-                    createEmailTemplateFunc($scope,$rootScope,'changeStatusCandidateInVacancyMCE', Mail, $location);
-                    $rootScope.changeTemplateInChangeStatusCandidate($rootScope.changeStatusOfInterviewInVacancy.status);
-                    $(".changeStatusOfInterviewInVacancyPick").datetimepicker({
-                        format: "dd/mm/yyyy hh:ii",
-                        startView: 2,
-                        minView: 0,
-                        weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
-                        autoclose: true,
-                        language: $translate.use()
-                    }).on('changeDate', function (data) {
-                        $rootScope.changeStatusOfInterviewInVacancy.date = data.date;
-                    }).on('hide', function () {
-                        if ($('.changeStatusOfInterviewInVacancyPick').val() == "") {
-                            $rootScope.changeStatusOfInterviewInVacancy.date = null;
-                        }else{
-                            $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[interview date and time\]\]/g, $filter('dateFormat2')($('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate').getTime(), true));
-                            $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[interview date and time\]\]/g, $filter('dateFormat2')($('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate').getTime(), true));
-                            tinyMCE.get('changeStatusCandidateInVacancyMCE').setContent($rootScope.emailTemplateInModal.text);
-                        }
-                        $('.changeStatusOfInterviewInVacancyPick').blur();
+
+                createEmailTemplateFunc($scope,$rootScope,'changeStatusCandidateInVacancyMCE', Mail, $location);
+                $rootScope.changeTemplateInChangeStatusCandidate($rootScope.changeStatusOfInterviewInVacancy.status);
+
+                new Promise((resolve, reject) =>{
+                   let interval = setInterval(() => {
+                       let changeStatusOfInterviewInVacancyPick = $(".changeStatusOfInterviewInVacancyPick"),
+                           changeStatusOfInterviewEmployed = $('.changeStatusOfInterviewEmployed');
+
+                       if(changeStatusOfInterviewInVacancyPick.length && changeStatusOfInterviewEmployed.length){
+                           clearInterval(interval);
+                           resolve({changeStatusOfInterviewInVacancyPick, changeStatusOfInterviewEmployed});
+                       }
+                   },0);
+                })
+                    .then((elements) =>{
+                        console.log(elements);
+
+                        elements['changeStatusOfInterviewInVacancyPick'].datetimepicker({
+                            format: "dd/mm/yyyy hh:ii",
+                            startView: 2,
+                            minView: 0,
+                            weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                            autoclose: true,
+                            language: $translate.use()
+                        }).on('changeDate', function (data) {
+                            $rootScope.changeStatusOfInterviewInVacancy.date = data.date;
+                        }).on('hide', function () {
+                            if ($('.changeStatusOfInterviewInVacancyPick').val() == "") {
+                                $rootScope.changeStatusOfInterviewInVacancy.date = null;
+                            }else{
+                                $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[interview date and time\]\]/g, $filter('dateFormat2')($('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate').getTime(), true));
+                                $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[interview date and time\]\]/g, $filter('dateFormat2')($('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate').getTime(), true));
+                                tinyMCE.get('changeStatusCandidateInVacancyMCE').setContent($rootScope.emailTemplateInModal.text);
+                            }
+                            $('.changeStatusOfInterviewInVacancyPick').blur();
+                        });
+
+                        elements["changeStatusOfInterviewEmployed"].datetimepicker({
+                            format: "dd/mm/yyyy",
+                            startView: 2,
+                            minView: 2,
+                            autoclose: true,
+                            weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                            language: $translate.use()
+                        }).on('changeDate', function (data) {
+                            $rootScope.changeStatusOfInterviewEmployed.date = data.date;
+                        }).on('hide', function () {
+                            if ($('.changeStatusOfInterviewEmployed').val() == "") {
+                                $rootScope.changeStatusOfInterviewEmployed.date = null;
+                            }
+                            $('.changeStatusOfInterviewEmployed').blur();
+                        });
+                        $scope.$apply();
                     });
-                    $(".changeStatusOfInterviewEmployed").datetimepicker({
-                        format: "dd/mm/yyyy",
-                        startView: 2,
-                        minView: 2,
-                        autoclose: true,
-                        weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
-                        language: $translate.use()
-                    }).on('changeDate', function (data) {
-                        $rootScope.changeStatusOfInterviewEmployed.date = data.date;
-                    }).on('hide', function () {
-                        if ($('.changeStatusOfInterviewEmployed').val() == "") {
-                            $rootScope.changeStatusOfInterviewEmployed.date = null;
-                        }
-                        $('.changeStatusOfInterviewEmployed').blur();
-                    });
-                },0);
             });
 
             $scope.showChangeStatusValue = null;
