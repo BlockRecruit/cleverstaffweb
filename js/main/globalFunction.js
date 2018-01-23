@@ -133,6 +133,9 @@ function historyButton($scope, resp, Service, CacheCandidates) {
         if (!count) {
             count = 1;
         }
+        let commentSwitch = $('.showCommentSwitcher');
+        if(commentSwitch && commentSwitch.length > 0)
+        commentSwitch.prop("checked", true);
         Service.history({
             "vacancyId": ($scope.vacancy !== undefined && $scope.vacancy !== null) ? $scope.vacancy.vacancyId : null,
             "page": {"number": 0, "count": count},

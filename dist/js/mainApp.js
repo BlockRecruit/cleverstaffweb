@@ -2956,7 +2956,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                                                 afterAdd.push(res.object.name);
                                                 $scope.setSelect2Group(afterAdd);
                                                 candidateGroups.push(res.object);
-                                                notificationService.success($filter('translate')('Tags added'));
+                                                notificationService.success($filter('translate')('Tag added'));
                                             }
                                             $('a.select2-search-choice-edit').attr("title", $filter('translate')('Edit tag for all candidates'));
                                             $('a.select2-search-choice-edit').off().on('click',function (e) {
@@ -9355,23 +9355,20 @@ angular.module('services.employee', [
                 }
             };
         },
-        addPhotoByReference: function($scope, $rootScope, callback) {
-            $rootScope.addPhotoByReference = function() {
-                $scope.loader = false;
-                $http({
-                    url: serverAddress + '/addPhotoByReference',
-                    method: "GET",
-                    params: {reference: $rootScope.photoUrl}
-                }).success(function(data) {
-                    $scope.loader = true;
-                    if (data.status == "ok") {
-                        console.log('here');
-                        callback(data.object);
-                    } else if (data.status == "error") {
-                        $scope.showErrorAddPhotoMessage = true;
-                    }
-                });
-            };
+        addPhotoByReference: function(url, callback) {
+            console.log('in serv', url)
+            $http({
+                url: serverAddress + '/addPhotoByReference',
+                method: "GET",
+                params: {reference: url}
+            }).success(function(data) {
+                if (data.status == "ok") {
+                    callback(data.object);
+                } else if (data.status == "error") {
+                    callback('error')
+                    notificationService.error(data.message)
+                }
+            });
         }
     };
      var FileInit = $resource(serverAddress + '/action/:param', {param: "@param"}, {
@@ -14251,7 +14248,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=42'
+        suffix: '.json?b=43'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -17506,13 +17503,17 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             }
         };
     $scope.callbackAddPhoto = function(photo) {
+        $rootScope.loading = false;
         $scope.candidate.photo = photo;
         $scope.photoLink = $scope.serverAddress + "/getapp?id=" + photo + "&d=true";
         $scope.imgWidthFunc();
         Candidate.progressUpdate($scope, true);
         $rootScope.closeModal();
     };
-    FileInit.addPhotoByReference($scope, $rootScope, $scope.callbackAddPhoto);
+    $scope.addPhotoByReference = function (photoUrl) {
+        $rootScope.loading = true;
+        FileInit.addPhotoByReference(photoUrl, $scope.callbackAddPhoto);
+    };
     if ($rootScope.candidateExternalLink) {
         $scope.fromLinkSite($rootScope.candidateExternalLink);
         $rootScope.candidateExternalLink = null;
@@ -20600,6 +20601,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.addLinkErrorShow = false;
         $scope.showAddedLinks = false;
         $scope.showAddedFiles = false;
+        $scope.photoUrl = '';
         $scope.showAddLink = false;
         $scope.objType = 'candidate';
         $scope.currency = Service.currency();
@@ -20656,6 +20658,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 animation: true,
                 templateUrl: '../partials/modal/add-photo-candidate.html',
                 size: '',
+                scope: $scope,
                 resolve: {
                     items: function () {
                         return $scope.items;
@@ -20996,14 +20999,22 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             }
         };
         $scope.callbackAddPhoto = function(photo) {
-            $scope.candidate.photo = photo;
-            $scope.photoLink = $scope.serverAddress + "/getapp?id=" + $scope.candidate.photo + "&d=true";
-            $scope.imgWidthFunc();
-            //$scope.hideModalAddPhoto();
-            $rootScope.closeModal();
-            Candidate.progressUpdate($scope, true);
+            $rootScope.loading = false;
+            if(photo != 'error') {
+                $scope.candidate.photo = photo;
+                $scope.photoLink = $scope.serverAddress + "/getapp?id=" + $scope.candidate.photo + "&d=true";
+                $scope.imgWidthFunc();
+                //$scope.hideModalAddPhoto();
+                $rootScope.closeModal();
+                Candidate.progressUpdate($scope, true);
+            }
         };
-        FileInit.addPhotoByReference($scope, $scope.callbackAddPhoto);
+
+
+        $scope.addPhotoByReference = function (photoUrl) {
+            $rootScope.loading = true;
+            FileInit.addPhotoByReference(photoUrl, $scope.callbackAddPhoto);
+        };
 
         $scope.callbackErr = function(err) {
             notificationService.error(err);
@@ -22977,13 +22988,17 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
             }
         };
         $scope.callbackAddPhoto = function(photo) {
+            $rootScope.loading = false;
             $scope.candidate.photo = photo;
             $scope.photoLink = $scope.serverAddress + "/getapp?id=" + $scope.candidate.photo + "&d=true";
             $scope.imgWidthFunc();
             //$scope.hideModalAddPhoto();
             $rootScope.closeModal();
         };
-        FileInit.addPhotoByReference($scope, $scope.callbackAddPhoto);
+        $scope.addPhotoByReference = function (photoUrl) {
+            $rootScope.loading = true;
+            FileInit.addPhotoByReference(photoUrl, $scope.callbackAddPhoto);
+        };
 
         $scope.callbackErr = function(err) {
             notificationService.error(err);
@@ -23342,6 +23357,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
     "Action", "vacancyStages", "Task", "File", "$sce", "$window", "Mail", "$uibModal", "$timeout", "$route", "Test", "CandidateGroup",
     function (CacheCandidates, $localStorage, $scope, frontMode, $translate, googleService, $location, $routeParams, Candidate, Service, $rootScope, Person, serverAddress, FileInit,
               notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup ) {
+        delete $rootScope.client;
         $scope.serverAddress = serverAddress;
         $localStorage.remove("candidateForTest");
         if($location.$$absUrl.indexOf('&task=') != -1) {
@@ -26504,11 +26520,14 @@ controller.controller('ClientAddController', ["FileInit", "$scope", "Service", "
         };
         FileInit.initFileOption($scope, "client");
         $scope.callbackFile = function(resp, names) {
+            $rootScope.loading = false;
             $scope.client.logoId = resp;
             $scope.hideModalAddPhoto();
         };
-        FileInit.addPhotoByReference($scope, $scope.callbackFile);
-        $scope.removePhoto = function() {
+        $scope.addPhotoByReference = function (photoUrl) {
+            $rootScope.loading = true;
+            FileInit.addPhotoByReference(photoUrl, $scope.callbackFile);
+        };        $scope.removePhoto = function() {
             $scope.client.logoId = undefined;
             $scope.progressUpdate();
         };
@@ -27109,11 +27128,14 @@ controller.controller('ClientEditController', ["$rootScope", "serverAddress", "F
         };
         FileInit.initFileOption($scope, "client");
         $scope.callbackFile = function(resp, names) {
+            $rootScope.loading = false;
             $scope.client.logoId = resp;
             $scope.hideModalAddPhoto();
         };
-        FileInit.addPhotoByReference($scope, $scope.callbackFile);
-
+        $scope.addPhotoByReference = function (photoUrl) {
+            $rootScope.loading = true;
+            FileInit.addPhotoByReference(photoUrl, $scope.callbackFile);
+        };
 
         $scope.removePhoto = function() {
             $scope.client.logoId = undefined;
@@ -27246,6 +27268,7 @@ controller.controller('ClientEditController', ["$rootScope", "serverAddress", "F
 
 function ClientOneController(serverAddress, $scope, $routeParams, $location, Client, Service, Contacts, Vacancy, $rootScope, notificationService,
                              $filter, ngTableParams,Person, Action, Task, CacheCandidates, File, FileInit, $translate, $uibModal, $route, Mail, $localStorage) {
+    delete $rootScope.candidate;
     $scope.status = Client.getState();
     $scope.contactLimit = 3;
     $scope.vacancyCounter = 0;
@@ -40062,6 +40085,9 @@ function historyButton($scope, resp, Service, CacheCandidates) {
         if (!count) {
             count = 1;
         }
+        let commentSwitch = $('.showCommentSwitcher');
+        if(commentSwitch && commentSwitch.length > 0)
+        commentSwitch.prop("checked", true);
         Service.history({
             "vacancyId": ($scope.vacancy !== undefined && $scope.vacancy !== null) ? $scope.vacancy.vacancyId : null,
             "page": {"number": 0, "count": count},
@@ -40869,13 +40895,17 @@ function EmployeeAddControllerFunc($rootScope, $http, $scope, $translate, FileIn
 
 
     $scope.callbackAddPhoto = function(photo) {
+        $rootScope.loading = false;
         $scope.pageObject.employee.candidateId.photo = photo;
         $scope.photoLink = $scope.serverAddress + "/getapp?id=" + photo + "&d=true";
         $rootScope.photoUrl = "";
         $rootScope.closeModal();
     };
 
-    FileInit.addPhotoByReference($scope, $rootScope, $scope.callbackAddPhoto);
+    $scope.addPhotoByReference = function (photoUrl) {
+        $rootScope.loading = true;
+        FileInit.addPhotoByReference(photoUrl, $scope.callbackAddPhoto);
+    };
     FileInit.initCandFileOption($scope, "", "", false);
 
     $scope.progressUpdate = function() {
@@ -41773,12 +41803,16 @@ function EmployeeEditControllerFunc($rootScope, $http, $scope, $translate, FileI
     };
 
     $scope.callbackAddPhoto = function(photo) {
+        $rootScope.loading = false;
         $scope.pageObject.employee.candidateId.photo = photo;
         $scope.photoLink = $scope.serverAddress + "/getapp?id=" + photo + "&d=true";
         $rootScope.photoUrl = "";
         $rootScope.closeModal();
     };
-    FileInit.addPhotoByReference($scope, $rootScope, $scope.callbackAddPhoto);
+    $scope.addPhotoByReference = function (photoUrl) {
+        $rootScope.loading = true;
+        FileInit.addPhotoByReference(photoUrl, $scope.callbackAddPhoto);
+    };
     FileInit.initCandFileOption($scope, "candidate", "", false);
 
     $scope.updateErrorForPosition = function() {
