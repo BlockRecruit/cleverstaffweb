@@ -923,10 +923,14 @@ highlight {
 .tooltip.customClass .tooltip-inner {
 	width: 200px;
 
-	opacity: 1;
+	opacity: 1!important;
 	color: $theme-dark;
+	border: 1px solid #00b549;
 	background-color: $theme-white;
-	box-shadow: 0 0 5px 0 rgba(0,0,0,0.175);
+	box-shadow: none;
+}
+.tooltip.in {
+	opacity: 1!important;
 }
 .pagination-block {
 	i:hover {
@@ -942,8 +946,11 @@ highlight {
 	width: 335px;
 	padding: 10px;
 
+	opacity: 1;
+	border: 1px solid #00b549;
 	border-radius: 5px;
-	box-shadow: 0 0 5px 2px #b8b8b8;
+	background: #fff;
+	box-shadow: none;
 	.tooltip-arrow {
 		display: none;
 	}
@@ -952,6 +959,7 @@ highlight {
 
 		text-align: left;
 
+		opacity: 1!important;
 		color: $theme-dark;
 		background-color: $theme-white;
 		img {
@@ -972,6 +980,11 @@ ul.nav.navbar-nav {
 	}
 }
 
+.navbar .nav.information .dropdown-menu li .hoverExtension {
+	border: 1px solid green;
+	background: #fff;
+	box-shadow: none;
+}
 //@media(max-width: 605px) {
 //	.modal-open-news .modal {
 //		top: 0;

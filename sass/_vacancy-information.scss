@@ -433,10 +433,12 @@
 
 		text-align: left;
 
+		opacity: 1!important;
 		color: $theme-dark;
+		border: 1px solid #00b549;
 		border-radius: 5px;
 		background-color: $theme-white;
-		box-shadow: 0 0 5px 2px #b8b8b8;
+		box-shadow: none;
 
 		p {
 			margin: 0;

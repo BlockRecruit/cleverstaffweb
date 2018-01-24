@@ -819,8 +819,9 @@
 
 						cursor: default;
 
-						border: 1px solid $theme-light-grey;
+						border: 1px solid #00b549;
 						background-color: $theme-grey;
+						box-shadow: none;
 					}
 				}
 				.inputLastChild {
@@ -940,16 +941,16 @@
 						right: -210px;
 
 						width: 225px;
-						padding: 4px 5px;
 						padding: 10px;
 
 						cursor: default;
 
+						opacity: 1!important;
 						color: #202021;
-						border: 1px solid rgba(227, 227, 227, 0.5);
+						border: 1px solid #00b549;
 						border-radius: 5px;
 						background-color: #fff;
-						box-shadow: 0 0 5px 2px #b8b8b8;
+						box-shadow: none;
 					}
 					&:nth-child(3) {
 						margin-right: 0;

@@ -282,10 +282,11 @@
 			.tooltip.customClass .tooltip-inner {
 				width: 200px;
 
-				opacity: 1;
+				opacity: 1!important;
 				color: $theme-dark;
+				border: 1px solid #00b549;
 				background-color: $theme-white;
-				box-shadow: 0 0 5px 0 rgba(0,0,0,0.175);
+				box-shadow: none;
 			}
 			.tooltip.customClass .tooltip-arrow {
 				color: $theme-white;
