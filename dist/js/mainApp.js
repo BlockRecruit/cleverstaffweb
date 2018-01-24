@@ -19197,10 +19197,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         getData: function ($defer, params) {
             $rootScope.loading = true;
             if ($rootScope.previousLocation == '/candidates/:id') {
-                if ($rootScope.searchParamInCandidate != undefined) {
-                    $scope.searchParam = $rootScope.searchParamInCandidate;
-                    $rootScope.searchParamInCandidate = null;
-                }
+                // if ($rootScope.searchParamInCandidate != undefined) {
+                //     $scope.searchParam = $rootScope.searchParamInCandidate;
+                //     console.log( $rootScope.searchParamInCandidate, ' $rootScope.searchParamInCandidate')
+                //     $rootScope.searchParamInCandidate = null;
+                // }
+
                 if($scope.previousFlag){
                     $scope.tableParams.page($rootScope.previousSearchNumber);
                     $scope.previousFlag = !$scope.previousFlag;
@@ -19234,6 +19236,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     Candidate.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
                     Candidate.setOptions("city", activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null);
                 }
+
                 Candidate.setOptions("allContainsWords", $scope.searchParam.allContainsWords);
                 Candidate.setOptions("name", $scope.searchParam.name);
                 Candidate.setOptions("position", $scope.searchParam.position);
