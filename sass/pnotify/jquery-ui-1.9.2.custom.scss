@@ -887,8 +887,10 @@ button.ui-button::-moz-focus-inner {
 	max-width: 300px;
 	padding: 8px;
 
-	-webkit-box-shadow: 0 0 5px #aaa;
-	box-shadow: 0 0 5px #aaa;
+	opacity: 1;
+	border: 1px solid #00b549;
+	background: #fff;
+	box-shadow: none;
 }
 /* Fades and background-images don't work well together in IE6, drop the image */
 * html .ui-tooltip {
