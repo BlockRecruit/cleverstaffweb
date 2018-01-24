@@ -820,15 +820,16 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $scope.externalData = [];
 
-
     $scope.deleteSearchByUser = function () {
         $scope.searchParam.personId = null;
         $scope.searchParam.personNameWhoSearching = null;
         $scope.tableParams.reload();
     };
+
     $scope.hideDetailElement = function () {
         $scope.showMessageAboutChangeTypeOfOtherSiteSearch = false;
     };
+
     $scope.showDetail = function () {
         $scope.showMessageAboutChangeTypeOfOtherSiteSearch = true;
         $scope.showMessageAboutChangeTypeOfOtherSiteSearchmouseover = true
