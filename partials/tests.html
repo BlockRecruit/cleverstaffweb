@@ -151,7 +151,8 @@
                             </a>
                         </div>
                     </div>
-                    <div class="row" ng-show="noCorrectAnswerInQuestion && question.noCorrectAnswerInQuestion">
+                    <div class="row" ng-show="noCorrectAnswerInQuestion && question.noCorrectAnswerInQuestion
+                                              && !newTestParam.questions[newTestParam.questions.indexOf(question)].answerType">
                         <div class="col-lg-9 error-required">
                             <span class="">{{'Mark at least one test answer as correct' | translate}}</span>
                         </div>
