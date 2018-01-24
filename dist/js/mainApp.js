@@ -14991,15 +14991,25 @@ controller.controller('ActivityCompanySettingsController', ["$scope", "$rootScop
     $scope.showInputForChangeWebSite = function(falseTrue){
         $scope.showCompanyWebSite = falseTrue;
         if(falseTrue == true){
-            $scope.changeWebSite = null;
+            $scope.changeWebSite = $scope.oldValWebSite;
         }
     };
     $scope.showInputForChangeFacebookPage = function(falseTrue){
         $scope.showCompanyFacebookPage = falseTrue;
         if(falseTrue == true){
-            $scope.changeFacebookPage = null;
+            $scope.changeFacebookPage = $scope.oldValFacebookPage;
         }
     };
+    $scope.$watch('changeWebSite',function(newVal, oldVal){
+        if(oldVal == undefined){
+            $scope.oldValWebSite = newVal;
+        }
+    });
+    $scope.$watch('changeFacebookPage',function(newVal, oldVal){
+        if(oldVal == undefined){
+            $scope.oldValFacebookPage = newVal;
+        }
+    });
 }]);
 
 controller.controller('ActivityFutureController', ["$scope", "$translate", "$rootScope", "Vacancy", "frontMode", "$filter", "Sticker",
