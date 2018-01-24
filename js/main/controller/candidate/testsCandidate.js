@@ -172,7 +172,6 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
         };
 
         $scope.selectCorrectAnswer = function(question,answers) {
-            console.log(answers);
             if(answers.isCorrect) question.noCorrectAnswerInQuestion = false;
         };
         $scope.saveTest = function () {
@@ -191,9 +190,11 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                     return !variant.isCorrect;
                 });
 
-                console.log(checkForCorrectAnswer);
+                console.log($scope.newTestParam.questions[$scope.newTestParam.questions.indexOf(question)].answerType);
 
-                if(checkForCorrectAnswer) {
+
+                if(checkForCorrectAnswer && !$scope.newTestParam.questions[$scope.newTestParam.questions.indexOf(question)].answerType
+                    || $scope.newTestParam.questions[$scope.newTestParam.questions.indexOf(question)].answerType && !question.text) {
                     question.noCorrectAnswerInQuestion = true;
                     $scope.noCorrectAnswerInQuestion = true;
                     $scope.noAnswerIndex = index;
