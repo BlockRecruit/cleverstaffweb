@@ -37,14 +37,14 @@
           <div class="name_wrap cutElementTextWidth">
             <h2 class="" ng-class="{'no-margin-bottom' : !companyPublicInfo.companyWebSite && !companyPublicInfo.fb}">{{companyPublicInfo.orgName}}</h2>
           </div>
-          <div class="info--site cutElementTextWidth" ng-show="companyPublicInfo.companyWebSite">
+          <div class="info--site" ng-show="companyPublicInfo.companyWebSite">
             <img src="/images/sprite/public-vacancy/website.svg" alt="">
-            <a href="{{companyPublicInfo.companyWebSite}}" target="_blank">{{companyPublicInfo.companyWebSite}}</a>
+            <a class="cutElementTextWidth" href="{{companyPublicInfo.companyWebSite}}" target="_blank">{{companyPublicInfo.companyWebSite}}</a>
           </div>
 
-          <div class="info--site cutElementTextWidth" ng-show="companyPublicInfo.fb">
+          <div class="info--site" ng-show="companyPublicInfo.fb">
             <img class="fb" src="/images/sprite/public-vacancy/facebook.svg" alt="">
-            <a class="fb-link" href="{{companyPublicInfo.fb}}" target="_blank">{{companyPublicInfo.fb | parseFacebookUrl}}</a>
+            <a class="fb-link cutElementTextWidth" href="{{companyPublicInfo.fb}}" target="_blank">{{companyPublicInfo.fb | parseFacebookUrl}}</a>
           </div>
 
         </div>
