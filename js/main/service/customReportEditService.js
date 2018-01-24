@@ -573,7 +573,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
             translateWords.getTranslete("Report saved", $scope, 'reportSaved');
             let params = {
-                "from": createCorrectDate(this.data.dateFrom, ['00','30','00']),
+                "from": createCorrectDate(this.data.dateFrom, ['00','00','00']),
                 "to": createCorrectDate(this.data.dateTo, ['23','59','59']),
                 "types": null,
                 "vacancyIds": this.data.vacancyIds,
