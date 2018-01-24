@@ -8020,7 +8020,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
             translateWords.getTranslete("Report saved", $scope, 'reportSaved');
             let params = {
-                "from": createCorrectDate(this.data.dateFrom, ['00','30','00']),
+                "from": createCorrectDate(this.data.dateFrom, ['00','00','00']),
                 "to": createCorrectDate(this.data.dateTo, ['23','59','59']),
                 "types": null,
                 "vacancyIds": this.data.vacancyIds,
@@ -8277,7 +8277,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithCandidates($scope) {
             Stat.requestGetActualVacancyStatistic2({
-                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','30','00']),
+                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','00','00']),
                 "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo'], ['23','59','00']),
                 "types":null,
                 "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"] : [],
@@ -8296,7 +8296,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
 
         function requestWithoutCandidates($scope) {
             Promise.all([Stat.requestGetActualVacancyStatistic2({
-                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','30','00']),
+                "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','00','00']),
                 "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo'], ['23','59','00']),
                 "types":null,
                 "vacancyIds":(this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:[],
@@ -8472,7 +8472,7 @@ function CustomReportsService($rootScope, Stat, $translate, Company, Person, vac
             if(loadingExcel == false){
                 loadingExcel = true;
                 Stat.createVacancyStatisticExcel({
-                    "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','30','00']),
+                    "from": createCorrectDate((this.startVacancyDate)? this.startVacancyDate : this.dataReport['dateFrom'], ['00','00','00']),
                     "to": createCorrectDate((this.endDate)? this.endDate : this.dataReport['dateTo'], ['23','59','00']),
                     "types":null,
                     "vacancyIds":(this.dataReport["vacancyIds"] && this.dataReport["vacancyIds"].length > 0)? this.dataReport["vacancyIds"]:[],
@@ -14991,15 +14991,25 @@ controller.controller('ActivityCompanySettingsController', ["$scope", "$rootScop
     $scope.showInputForChangeWebSite = function(falseTrue){
         $scope.showCompanyWebSite = falseTrue;
         if(falseTrue == true){
-            $scope.changeWebSite = null;
+            $scope.changeWebSite = $scope.oldValWebSite;
         }
     };
     $scope.showInputForChangeFacebookPage = function(falseTrue){
         $scope.showCompanyFacebookPage = falseTrue;
         if(falseTrue == true){
-            $scope.changeFacebookPage = null;
+            $scope.changeFacebookPage = $scope.oldValFacebookPage;
         }
     };
+    $scope.$watch('changeWebSite',function(newVal, oldVal){
+        if(oldVal == undefined){
+            $scope.oldValWebSite = newVal;
+        }
+    });
+    $scope.$watch('changeFacebookPage',function(newVal, oldVal){
+        if(oldVal == undefined){
+            $scope.oldValFacebookPage = newVal;
+        }
+    });
 }]);
 
 controller.controller('ActivityFutureController', ["$scope", "$translate", "$rootScope", "Vacancy", "frontMode", "$filter", "Sticker",
@@ -16905,8 +16915,10 @@ controller.controller('ActivityStatisticsController', ["$scope", "$rootScope", "
                 $(".dateOptionsYearMonthWeek").datetimepicker('hide');
                 $scope.selectedDate = dateTex.date;
                 $scope.selectedDateTo = new Date($scope.selectedDate);
-                $scope.selectedDateTo.setDate(parseInt($filter('date')($scope.selectedDate, 'dd')) + 7 - $scope.selectedDate.getDay());
+                $scope.selectedDateTo.setHours(0,0,0,0);
+                $scope.selectedDateTo.setDate(parseInt($filter('date')($scope.selectedDate, 'dd')) + 8 - $scope.selectedDate.getDay());
                 $scope.selectedDateFrom = new Date($scope.selectedDate);
+                $scope.selectedDateFrom.setHours(0,0,0,0);
                 $scope.selectedDateFrom.setDate(parseInt($filter('date')($scope.selectedDate, 'dd')) - $scope.selectedDate.getDay() + 1);
                 if ($filter('date')($scope.selectedDateFrom, 'MM') != $filter('date')($scope.selectedDateTo, 'MM')) {
                     $("#searchText").html($filter('date')($scope.selectedDateFrom, 'dd MMMM') + " - " + $filter('date')($scope.selectedDateTo, 'dd MMMM yyyy'));
@@ -17194,7 +17206,6 @@ controller.controller('ActivityStatisticsController', ["$scope", "$rootScope", "
     getStatFirstTime();
 
     $scope.search = function() {
-        console.log('without', $scope.candWithoutContacts, $scope.activeSearchName, $scope.selectedDateFrom, $scope.selectedDateTo);
         if ($scope.activeSearchName === 'Forever') {
             $rootScope.loading = true;
             $scope.selectedDate = null;
@@ -18002,11 +18013,17 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
     $rootScope.closeModal = function(){
         $scope.modalInstance.close();
     };
+
     $rootScope.changeSearchType = function(param){
         $window.location.replace('/!#/candidates');
         $rootScope.changeSearchTypeNotFromCandidates = param;
     }
-}]);
+
+    $scope.selectFavoriteContacts = function ($scope, type, event) {
+        Candidate.setSelectFavoriteContacts($scope, type, event );
+    };
+
+    }]);
 
 controller.controller('CandidateAddFromEmailController', ["Notice", "$localStorage", "$translate", "Service", "$scope", "ngTableParams", "Candidate", "$location", "$rootScope", "$filter", "$cookies", "serverAddress", "notificationService", "googleService", "$window",
     function (Notice, $localStorage, $translate, Service, $scope, ngTableParams, Candidate, $location, $rootScope, $filter, $cookies, serverAddress, notificationService, googleService, $window) {
@@ -18399,7 +18416,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.modalInstance.close();
     };
     $rootScope.closeModalAfterActivity = function(){
-        $rootScope.modalInstance.close();
+        $rootScope.modalInstance?$rootScope.modalInstance.close():null;
     };
     Company.getParam({name: 'enableExcelUploadAll'}, function (resp) {
         if (angular.equals(resp.status, "ok")) {
@@ -19175,15 +19192,16 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $scope.externalData = [];
 
-
     $scope.deleteSearchByUser = function () {
         $scope.searchParam.personId = null;
         $scope.searchParam.personNameWhoSearching = null;
         $scope.tableParams.reload();
     };
+
     $scope.hideDetailElement = function () {
         $scope.showMessageAboutChangeTypeOfOtherSiteSearch = false;
     };
+
     $scope.showDetail = function () {
         $scope.showMessageAboutChangeTypeOfOtherSiteSearch = true;
         $scope.showMessageAboutChangeTypeOfOtherSiteSearchmouseover = true
@@ -19197,10 +19215,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         getData: function ($defer, params) {
             $rootScope.loading = true;
             if ($rootScope.previousLocation == '/candidates/:id') {
-                if ($rootScope.searchParamInCandidate != undefined) {
-                    $scope.searchParam = $rootScope.searchParamInCandidate;
-                    $rootScope.searchParamInCandidate = null;
-                }
+                // if ($rootScope.searchParamInCandidate != undefined) {
+                //     $scope.searchParam = $rootScope.searchParamInCandidate;
+                //     console.log( $rootScope.searchParamInCandidate, ' $rootScope.searchParamInCandidate')
+                //     $rootScope.searchParamInCandidate = null;
+                // }
+
                 if($scope.previousFlag){
                     $scope.tableParams.page($rootScope.previousSearchNumber);
                     $scope.previousFlag = !$scope.previousFlag;
@@ -19234,6 +19254,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     Candidate.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
                     Candidate.setOptions("city", activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null);
                 }
+
                 Candidate.setOptions("allContainsWords", $scope.searchParam.allContainsWords);
                 Candidate.setOptions("name", $scope.searchParam.name);
                 Candidate.setOptions("position", $scope.searchParam.position);
@@ -25907,7 +25928,6 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
         };
 
         $scope.selectCorrectAnswer = function(question,answers) {
-            console.log(answers);
             if(answers.isCorrect) question.noCorrectAnswerInQuestion = false;
         };
         $scope.saveTest = function () {
@@ -25926,9 +25946,11 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                     return !variant.isCorrect;
                 });
 
-                console.log(checkForCorrectAnswer);
+                console.log($scope.newTestParam.questions[$scope.newTestParam.questions.indexOf(question)].answerType);
 
-                if(checkForCorrectAnswer) {
+
+                if(checkForCorrectAnswer && !$scope.newTestParam.questions[$scope.newTestParam.questions.indexOf(question)].answerType
+                    || $scope.newTestParam.questions[$scope.newTestParam.questions.indexOf(question)].answerType && !question.text) {
                     question.noCorrectAnswerInQuestion = true;
                     $scope.noCorrectAnswerInQuestion = true;
                     $scope.noAnswerIndex = index;

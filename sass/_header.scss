@@ -200,11 +200,10 @@ body {
 			color: $theme-white;
 			.logo {
 				display: inline-block;
-				width: 37px;
-				height: 40px;
-				margin-top: -5px;
+				width: 32px;
+				height: 32px;
 
-				background: url(/images/sprite/new_year.png) no-repeat;
+				background: url(/images/sprite/CS_logo_white_transparent.png) no-repeat;
 				background-size: cover;
 			}
 		}
@@ -645,9 +644,7 @@ body {
 		background-color: $theme-white;
 		.nav {
 			float: left;
-			margin: 0;
-			margin-top: 5px;
-			margin-bottom: 5px;
+			margin: 9px 0;
 			li {
 				float: left;
 				a {

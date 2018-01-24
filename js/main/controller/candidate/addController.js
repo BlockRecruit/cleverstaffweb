@@ -736,8 +736,14 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
     $rootScope.closeModal = function(){
         $scope.modalInstance.close();
     };
+
     $rootScope.changeSearchType = function(param){
         $window.location.replace('/!#/candidates');
         $rootScope.changeSearchTypeNotFromCandidates = param;
     }
-}]);
+
+    $scope.selectFavoriteContacts = function ($scope, type, event) {
+        Candidate.setSelectFavoriteContacts($scope, type, event );
+    };
+
+    }]);

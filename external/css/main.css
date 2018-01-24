@@ -116,21 +116,20 @@ header {
     font-size: 13px;
 }
 .logo{
-    background: url("../img/CS-NewYearBigLogo.png") no-repeat;
+    background: url("../img/svg/logo-choozen.svg") no-repeat;
     width: 250px;
-    height: 75px;
+    height: 50px;
     background-size: cover;
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
     transition: all 0.3s;
-    margin-top: -20px;
 }
 .logo:hover{
     text-decoration: none;
     color: #444446;
 }
 .logo2{
-    background: url("../img/CS-NewYearBigCutLogo.png") no-repeat;
+    background: url("../img/svg/people.svg") no-repeat;
     width: 50px;
     height: 50px;
     background-size: cover;
