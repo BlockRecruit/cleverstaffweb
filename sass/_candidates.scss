@@ -641,8 +641,9 @@
 
 						display: initial;
 						width: 207px;
-						padding: 0;
+						padding: 0 0 0 5px;
 
+						color: $theme-grey;
 						background-color: inherit;
 						&:focus {
 							outline: none;
