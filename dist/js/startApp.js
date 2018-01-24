@@ -1890,6 +1890,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
               $scope.showFilter();
           } else {
               $scope.hideFilter();
+              console.log(selectedPosition,selectedLocation);
           }
         };
 
@@ -1964,6 +1965,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
         $scope.resetPosition = function() {
             $scope.hideSearchPositions = true;
             $scope.errorHandler.vacanciesFilter.positionError = false;
+            selectedPosition = null;
             $('.positions-wrap input.vacancy-position').val("");
         };
 
@@ -2019,7 +2021,8 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
 
         function resetLocation() {
             $('.locations-wrap span.location').text($filter('translate')('Location'));
-            $scope.errorHandler.vacanciesFilter.locationError = false;
+            $scope.errorHandler.vacanciesFilter.locationError = false
+            selectedLocation = null;
         }
 
         getAllVacancyForCompany();
