@@ -416,106 +416,130 @@
                     </div>
                     <div class="main-info col-lg-12">
                         <div class="col-lg-6">
-                            <a ng-click="showRegion2Map = !showRegion2Map" class="phone" ng-show="candidate.region.displayFullName">
-                                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                                {{candidate.region.displayFullName}}
-                            </a>
+                            <div class="leftBlock">
+                                <a ng-click="showRegion2Map = !showRegion2Map" class="phone" ng-show="candidate.region.displayFullName">
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                    {{candidate.region.displayFullName}}
+                                </a>
+                            </div>
                             <div ng-if="showRegion2Map" class="clever-window" style="width: 471px;left:inherit">
                                 <ui-gmap-google-map center="map.center" draggable='true' zoom="map.zoom" options="map.options">
                                     <ui-gmap-marker coords="marker.coords" idkey="marker.id">
                                     </ui-gmap-marker>
                                 </ui-gmap-google-map>
                             </div>
-                            <a ng-show="candidate != undefined && candidate.db" title="{{'date_of_birth'|translate}}" class="phone">
-                                <i class="fa fa-calendar" aria-hidden="true"></i>
-                                {{candidate.db|ageOfDate}} ({{(candidate.db|dateFormat).trim()}})
-                            </a>
-                            <a ng-show="candidate != undefined && candidate.salary" title="{{'desired_salary'|translate}}" class="phone">
-                                <i class="fa fa-usd" aria-hidden="true"></i>
-                                {{candidate.salary| numberSpacing}} {{candidate.currency}}
-                            </a>
-                            <a ng-show="candidate.expirence" class="phone">
-                                <span>{{'experience'|translate}}:</span>
-                                <span ng-show="candidate.expirence">{{'experience_assoc.' + candidate.expirence|translate}}</span>
-                            </a>
-                            <a ng-show="candidate.readyRelocate && candidate.relatedRegions" class="phone relocate">
-                                <span>{{'ready_to_relocate'|translate}}:</span>
-                                <div class="clearfix" ng-if="candidate.relatedRegions.length > 1"></div>
-                                <span class="relocateRegions" ng-repeat="region in candidate.relatedRegions"><i class="fa fa-map-marker" aria-hidden="true"></i>{{region.displayFullName}}&nbsp;<br/></span>
-                            </a>
-                            <a ng-show="candidate.languages.length > 0" class="phone noneNowrap">
-                                <span class="pull-left">{{'languages'|translate}}:</span>
-                                <div class="pull-left newLang">
-                                    <span class="inlineLang" ng-repeat="lang in candidate.languages">{{lang.name}} <span translate="{{lang.level}}"></span></span>
-                                </div>
-                            </a>
-                            <a ng-show="candidate.industry" class="phone">
-                                <span>{{'industry'|translate}}:</span>
-                                <span>{{'industries_assoc.' + candidate.industry|translate}}</span>
-                            </a>
-                            <a ng-show="candidate.employmentType" class="phone">
-                                <span>{{'employment_type'|translate}}:</span>
+                            <div class="leftBlock">
+                                <a ng-show="candidate != undefined && candidate.db" title="{{'date_of_birth'|translate}}" class="phone">
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                    {{candidate.db|ageOfDate}} ({{(candidate.db|dateFormat).trim()}})
+                                </a>
+                            </div>
+                            <div class="leftBlock">
+                                <a ng-show="candidate != undefined && candidate.salary" title="{{'desired_salary'|translate}}" class="phone">
+                                    <i class="fa fa-usd" aria-hidden="true"></i>
+                                    {{candidate.salary| numberSpacing}} {{candidate.currency}}
+                                </a>
+                            </div>
+                            <div class="leftBlock">
+                                <a ng-show="candidate.expirence" class="phone">
+                                    <span>{{'experience'|translate}}:</span>
+                                    <span ng-show="candidate.expirence">{{'experience_assoc.' + candidate.expirence|translate}}</span>
+                                </a>
+                            </div>
+                            <div class="leftBlock">
+                                <a ng-show="candidate.readyRelocate && candidate.relatedRegions" class="phone relocate">
+                                    <span>{{'ready_to_relocate'|translate}}:</span>
+                                    <div class="clearfix" ng-if="candidate.relatedRegions.length > 1"></div>
+                                    <span class="relocateRegions" ng-repeat="region in candidate.relatedRegions"><i class="fa fa-map-marker" aria-hidden="true"></i>{{region.displayFullName}}&nbsp;<br/></span>
+                                </a>
+                            </div>
+                            <div class="leftBlock">
+                                <a ng-show="candidate.languages.length > 0" class="phone noneNowrap">
+                                    <span class="pull-left">{{'languages'|translate}}:</span>
+                                    <div class="pull-left newLang">
+                                        <span class="inlineLang" ng-repeat="lang in candidate.languages">{{lang.name}} <span translate="{{lang.level}}"></span></span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="leftBlock">
+                                <a ng-show="candidate.industry" class="phone">
+                                    <span>{{'industry'|translate}}:</span>
+                                    <span>{{'industries_assoc.' + candidate.industry|translate}}</span>
+                                </a>
+                            </div>
+                            <div class="leftBlock">
+                                <a ng-show="candidate.employmentType" class="phone">
+                                    <span>{{'employment_type'|translate}}:</span>
                                 <span ng-repeat="emplType in candidate.employmentType.split(',') track by $index">
                                     {{emplType.trim() | translate}}
                                 </span>
-                            </a>
-                            <a ng-show="candidate.education" class="phone">
-                                <span>{{'education'|translate}}:</span>
-                                <span id="candidateEducation"></span>
-                            </a>
-                            <a ng-show="candidate.currentWorkPlace" class="phone">
-                                <span>{{'Current company'|translate}}:</span>
-                                <span>{{candidate.currentWorkPlace}}</span>
-                            </a>
-                            <a ng-show="candidate.currentPosition" class="phone">
-                                <span>{{'Current position'|translate}}:</span>
-                                <span>{{candidate.currentPosition}}</span>
-                            </a>
-                            <a ng-show="fieldValue.fieldValue != undefined" ng-repeat="fieldValue in candidate.customFields" class="phone custom-field">
-                                <span ng-show="fieldValue.state == 'A'">{{fieldValue.title}}:</span>
-                                <span ng-show="(fieldValue.type == 'string' || fieldValue.type == 'select') && fieldValue.state == 'A'">{{fieldValue.fieldValue.value}}</span>
-                                <span ng-show="fieldValue.type == 'date' && fieldValue.state == 'A'">{{fieldValue.fieldValue.dateTimeValue|dateFormat}}</span>
-                                <span ng-show="fieldValue.type == 'datetime' && fieldValue.state == 'A'">{{fieldValue.fieldValue.dateTimeValue|dateFormat2:true}}</span>
-                            </a>
+                                </a>
+                            </div>
+                            <div class="leftBlock">
+                                <a ng-show="candidate.education" class="phone">
+                                    <span>{{'education'|translate}}:</span>
+                                    <span id="candidateEducation"></span>
+                                </a>
+                            </div>
+                            <div class="leftBlock">
+                                <a ng-show="candidate.currentWorkPlace" class="phone">
+                                    <span>{{'Current company'|translate}}:</span>
+                                    <span>{{candidate.currentWorkPlace}}</span>
+                                </a>
+                            </div>
+                            <div class="leftBlock">
+                                <a ng-show="candidate.currentPosition" class="phone">
+                                    <span>{{'Current position'|translate}}:</span>
+                                    <span>{{candidate.currentPosition}}</span>
+                                </a>
+                            </div>
+                            <div class="customFields">
+                                <a ng-show="fieldValue.fieldValue != undefined" ng-repeat="fieldValue in candidate.customFields" class="phone custom-field">
+                                    <span ng-show="fieldValue.state == 'A'">{{fieldValue.title}}:</span>
+                                    <span ng-show="(fieldValue.type == 'string' || fieldValue.type == 'select') && fieldValue.state == 'A'">{{fieldValue.fieldValue.value}}</span>
+                                    <span ng-show="fieldValue.type == 'date' && fieldValue.state == 'A'">{{fieldValue.fieldValue.dateTimeValue|dateFormat}}</span>
+                                    <span ng-show="fieldValue.type == 'datetime' && fieldValue.state == 'A'">{{fieldValue.fieldValue.dateTimeValue|dateFormat2:true}}</span>
+                                </a>
+                            </div>
                             <!--<a href="#/company/custom-fields" class="find-button"  ng-show="$root.me.recrutRole == 'admin'">-->
                             <!--{{'Add/Edit custom field'|translate}}-->
                             <!--</a>-->
                         </div>
                         <div class="col-lg-6 right-column">
-                            <div class="phone"ng-show="(candidate.contacts|filter:type = 'mphone').length > 0">
+                            <div class="phone leftBlock"ng-show="(candidate.contacts|filter:type = 'mphone').length > 0">
                                 <span ng-repeat=" contact in candidate.contacts|filter:type = 'mphone'" title="{{::contact.value}}">
                                     <span class="preferable-contact" ng-repeat="phone in ::contact.value.split(',') track by $index">
-                                        <i class="fa fa-phone" style="margin-right: 6px; color: #00B549" aria-hidden="true"></i>
+                                        <i class="fa fa-phone" aria-hidden="true"></i>
                                             {{::phone}}
                                         <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact === 'phone'"></i>
                                     </span>
                                 </span>
                             </div>
-                            <div class="email" ng-show="(candidate.contacts|filter:type = 'email').length > 0">
+                            <div class="email leftBlock" ng-show="(candidate.contacts|filter:type = 'email').length > 0">
                                 <span class="preferable-contact"
                                       ng-repeat="contact in multipleContacts['email'] track by $index"
                                       title="{{contact}}">
                                     <a href="mailto:{{contact}}">
-                                        <i class="fa fa-envelope" style="margin-right: 1px" aria-hidden="true"></i>
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
                                         {{contact| limitTo: 30}}
                                         <span ng-show="contact.length > 30">...</span>
                                     </a>
                                     <i class="fa fa-star"  style="position: relative;top: -4px;" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'mail'"></i>
                                 </span>
                             </div>
-                            <div class="skype" ng-show="(candidate.contacts|filter:type = 'skype').length > 0">
+                            <div class="skype leftBlock" ng-show="(candidate.contacts|filter:type = 'skype').length > 0">
                                 <span class="preferable-contact" style="position: relative;" ng-repeat=" contact in candidate.contacts|filter:type = 'Skype'" title="{{contact.value}}">
-                                    <i class="fa fa-skype"  style="margin-right: 4px; color: #00B549;" aria-hidden="true" style="color: #00B549"></i>
+                                    <i class="fa fa-skype"  aria-hidden="true"></i>
                                     <span>{{contact.value | limitTo: 30}}
                                          <span ng-show="contact.value.length > 30">...</span>
                                         <i class="fa fa-star" style="top: 3px !important;"  title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'skype'"></i>
                                     </span>
                                 </span>
                             </div>
-                            <div class="linkedin" ng-show="(candidate.contacts|filter:type = 'linkedin').length > 0">
+                            <div class="linkedin leftBlock" ng-show="(candidate.contacts|filter:type = 'linkedin').length > 0">
                                 <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['linkedin'] track by $index" title="{{contact}}">
                                     <a target="_blank" class="not-for-print" href="{{::contact| makeLink}}">
-                                        <i class="fa fa-linkedin" style="margin-right: 3px;" aria-hidden="true"></i>
+                                        <i class="fa fa-linkedin" aria-hidden="true"></i>
                                         <span class="preferable-contact-starts">
                                             {{::contact | limitTo: 30}}
                                             <span ng-show="contact.length > 30">...</span>
@@ -529,7 +553,7 @@
                                      </a>
                                 </span>
                             </div>
-                            <div class="facebook" ng-show="(candidate.contacts|filter:type = 'facebook').length > 0">
+                            <div class="facebook leftBlock" ng-show="(candidate.contacts|filter:type = 'facebook').length > 0">
                                 <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['facebook'] track by $index" title="{{contact}}">
                                     <a target="_blank" class="not-for-print" href="{{::contact| makeLink}}">
                                         <i class="fa fa-facebook" aria-hidden="true"></i>
@@ -542,10 +566,10 @@
                                     </a>
                                 </span>
                             </div>
-                            <div class="googleplus" ng-show="(candidate.contacts|filter:type = 'googleplus').length > 0">
+                            <div class="googleplus leftBlock" ng-show="(candidate.contacts|filter:type = 'googleplus').length > 0">
                                 <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['googleplus'] track by $index" title="{{::contact}}">
                                     <a class="not-for-print" target="_blank" href="{{::contact| makeLink}}">
-                                        <i class="fa fa-google-plus" aria-hidden="true" style="margin-right: -3px!important;"></i>
+                                        <i class="fa fa-google-plus" aria-hidden="true"></i>
                                        <span style="position: relative;">
                                            {{::contact|cutName:true:30}}
                                            <i class="fa fa-star"  style="bottom: 0px;top: 2px;" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'google'"></i>
@@ -557,10 +581,10 @@
                                      </a>
                                 </span>
                             </div>
-                            <div class="github" ng-show="(candidate.contacts|filter:type = 'github').length > 0">
+                            <div class="github leftBlock" ng-show="(candidate.contacts|filter:type = 'github').length > 0">
                                 <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['github'] track by $index" title="{{::contact}}">
                                     <a class="not-for-print" target="_blank" href="{{::contact| makeLink}}">
-                                        <i class="fa fa-github" style="margin-right: 3px;" aria-hidden="true"></i>
+                                        <i class="fa fa-github"  aria-hidden="true"></i>
                                        <span style="position: relative;">
                                            {{::contact|cutName:true:30}}
                                            <i class="fa fa-star"  style="bottom: 0px;top: 2px;" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'github'"></i>
@@ -572,10 +596,10 @@
                                      </a>
                                 </span>
                             </div>
-                            <div class="homepage">
+                            <div class="homepage leftBlock">
                                 <span class="preferable-contact" ng-repeat="contact in multipleContacts['homepage'] track by $index"  title="{{contact}}">
                                     <a  class="not-for-print" target="_blank" href="{{contact}}">
-                                        <i class="fa fa-home" style="margin-right: 2px" aria-hidden="true"></i>
+                                        <i class="fa fa-home" aria-hidden="true"></i>
                                        <span style="position: relative;">
                                            {{::contact|cutName:true:30}}
                                             <i class="fa fa-star" title='{{"Preferable contact method |  Предпочтительный метод контакта"}}'  ng-show="candidate.preferableContact == 'home'"></i>
@@ -590,11 +614,13 @@
                                      </a>
                                 </span>
                             </div>
-                            <a class="source-for-contact" ng-show="candidate.origin">
-                                <span>{{'source'|translate}}:</span>
-                                {{candidate.origin}}
-                            </a>
-                            <div class="linkedProfiles" ng-show="linkedCandidate.length > 0">
+                            <div class="leftBlock">
+                                <a class="source-for-contact" ng-show="candidate.origin">
+                                    <span>{{'source'|translate}}:</span>
+                                    {{candidate.origin}}
+                                </a>
+                            </div>
+                            <div class="linkedProfiles leftBlock" ng-show="linkedCandidate.length > 0">
                                 <span>
                                      <i class="fa fa-link" aria-hidden="true"></i>
                                 {{'Linked profiles'|translate}}
