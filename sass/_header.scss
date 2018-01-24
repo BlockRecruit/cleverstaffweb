@@ -86,11 +86,11 @@ body {
 			width: 480px;
 			padding: 10px;
 
-			opacity: 0.9;
+			opacity: 1;
 			color: $theme-dark;
-			border: 1px solid $theme-light-grey-hover;
+			border: 1px solid #00b549;
 			background-color: $theme-white;
-			box-shadow: 0 0 5px 2px $theme-light-grey;
+			box-shadow: none;
 			ul {
 				margin: 0;
 				padding-left: 17px;
@@ -611,9 +611,9 @@ body {
 						padding: 10px;
 
 						color: $theme-dark;
-						border: 1px solid $theme-light-grey-hover;
+						border: 1px solid #00b549;
 						background-color: $theme-white;
-						box-shadow: 0 0 5px 2px $theme-light-grey;
+						box-shadow: none;
 						a {
 							display: inline-block;
 							padding: 0;
@@ -925,7 +925,6 @@ highlight {
 
 	opacity: 1!important;
 	color: $theme-dark;
-	border: 1px solid #00b549;
 	background-color: $theme-white;
 	box-shadow: none;
 }
