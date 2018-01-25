@@ -217,23 +217,32 @@
 			.settings {
 				margin-top: 8px;
 				margin-left: 10px;
-				a {
-					display: block;
-					width: 23px;
-					height: 23px;
+				.fa-cog {
+					font-size: 25px;
 
-					background-image: url("/images/sprite/settings-icon.svg");
-					background-repeat: no-repeat;
-					background-position: 0 0;
-					background-size: 45px;
-					&:hover,
-					&:active,
-					&:focus {
+					color: #ffc100;
+					&:hover {
 						cursor: pointer;
-
-						background-position: -22px 0;
+						color: #fdd14a;
 					}
 				}
+				//a {
+				//	display: block;
+				//	width: 23px;
+				//	height: 23px;
+				//
+				//	background-image: url("/images/sprite/settings-icon.svg");
+				//	background-repeat: no-repeat;
+				//	background-position: 0 0;
+				//	background-size: 45px;
+				//	&:hover,
+				//	&:active,
+				//	&:focus {
+				//		cursor: pointer;
+				//
+				//		background-position: -22px 0;
+				//	}
+				//}
 			}
 			a {
 				text-decoration: none;
