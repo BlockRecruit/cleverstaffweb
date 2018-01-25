@@ -1153,10 +1153,14 @@ var directive = angular.module('RecruitingApp.directives', []).
                             var width = this.width;
                             var height = this.height;
                             var minus = width - height;
-                            if((width <= height && width < 200) || (width >= height && minus > 30 && minus <=100)){
-                                $('#photo-preview').css({'width': '23%', 'left': '35px'});
+                            if(minus < -200){
+                                $('#photo-preview').css({'width': '60%', 'left': '0', 'right': '0', 'margin': '0px auto', 'position': 'absolute'});
+                            }else if(width == height && (width < 700 && height < 700)){
+                                $('#photo-preview').css({'left': '0', 'right': '0', 'margin': '0px auto', 'position': 'absolute'});
+                            }else if((width <= height && width < 200) || (width >= height && minus > 30 && minus <=100)){
+                                $('#photo-preview').css({'width': '76%', 'left': '0', 'right': '0', 'margin': '0px auto', 'position': 'absolute'});
                             }else if((width >= 300 && width <= 349) || width != height || width == height){
-                                $('#photo-preview').css('object-fit', 'fill');
+                                $('#photo-preview').css({'object-fit': 'fill', 'width': '76%', 'left': '0', 'right': '0', 'margin': '0px auto', 'position': 'absolute'});
                             }else if(width == height){
                                 $('#photo-preview').css('width', '33%');
                             }else{
