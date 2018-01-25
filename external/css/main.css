@@ -1813,6 +1813,9 @@ footer{
     color: #F2D479;
     border-radius: 0 12px 0 0;
 }
+.titleTable td:first-child{
+    width: 420px;
+}
 .table td:not(:first-child){
     width: 180px;
 }
@@ -1823,6 +1826,16 @@ footer{
 .fa-check{
     color: #62B452;
     font-size: 20px;
+}
+.titleTable, .titleTable2{
+    border: none;
+    margin: 0;
+}
+.titleTable td{
+    border: none!important;
+}
+.titleTable2 td{
+    border: none!important;
 }
 .styleHeaderTable{
     border-bottom: 2px solid #B1EBB4;
@@ -2542,9 +2555,14 @@ footer{
     .little-padding-btn{
         padding: 10px 7px;
     }
-    .fixed-plans{
-        width: initial;
-        margin-left: 216px;
+    .table td:first-child{
+        width: 190px;
+    }
+    .titleTable td:first-child{
+        width: 197px!important;
+    }
+    .titleTable td:not(:first-child){
+        width: 186px;
     }
     .hide-block{
         height: 50px!important;
@@ -2772,11 +2790,19 @@ footer{
         right: -60px;
     }
     .tablePrise .plans{
-        width: 157px;
+        width: 132px;
     }
-    .fixed-plans{
-        margin-left: 88px;
-        width: initial;
+    .titleTable2 td:first-child{
+        width: 168px;
+    }
+    .titleTable2 td:not(:first-child){
+        width: 132px;
+    }
+    .titleTable td:first-child{
+        width: 168px!important;
+    }
+    .titleTable td:not(:first-child){
+        width: 132px;
     }
     .no-border a {
         padding: 10px;
@@ -3059,12 +3085,31 @@ footer{
         padding: 0!important;
     }
     .tablePrise .plans{
-        width: 137px;
+        width: 135px;
     }
-    .fixed-plans{
-        margin-left: -30px;
-        width: 100%;
+    .titleTable td:first-child{
+        width: 169px;
     }
+    .titleTable td:not(:first-child){
+        width: 135px;
+    }
+    .titleTable td:nth-child(4){
+        width: 150px;
+    }
+    .titleTable2 td:first-child{
+        width: 168px;
+    }
+    .titleTable2 td:not(:first-child){
+        width: 134px;
+    }
+    .titleTable2 td:nth-child(4){
+        width: 150px;
+    }
+
+    /*.fixed-plans{*/
+        /*margin-left: -30px;*/
+        /*width: 100%;*/
+    /*}*/
     /*price end*/
 
     /*Why*/
@@ -3506,7 +3551,7 @@ footer{
         height: 60px!important;
     }
     .plans-for-ru{
-        width: 71px!important;
+        width: 63px!important;
     }
     .no-border a {
         border: none;
