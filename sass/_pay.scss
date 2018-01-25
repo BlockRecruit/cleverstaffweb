@@ -205,6 +205,9 @@
 
 					color: #0c13e8;
 				}
+				.tooltip-outer {
+					max-width: 220px;
+				}
 			}
 			& > .table {
 				@include border-radius();
