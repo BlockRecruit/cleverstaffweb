@@ -136,7 +136,7 @@
                     <div>
                         <span ng-show="!objectSize && !searchParam.words && $root.me.recrutRole === 'client'" ng-class="{'text-center' : !$root.objectSize}">{{'Recruiters shared no vacancies for you yet. Ask them to do that or add new vacancy by yourself. They will see it.'|translate}}</span>
                         <span ng-hide="($root.me.recrutRole === 'client' && !objectSize) || limitReached === true" class="count">{{'found'|translate}}: <span>{{objectSize}}</span></span>
-                        <span class="count" ng-show="limitReached === true" translate="The large quantity of results has been found." translate-values="{total_count: objectSize}"></span>
+                        <span class="count limit" ng-show="limitReached === true" translate="The large quantity of results has been found." translate-values="{total_count: objectSize}"></span>
                     </div>
                 </div>
                 <div class="vacancy-table">

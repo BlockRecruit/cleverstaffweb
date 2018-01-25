@@ -112,7 +112,7 @@
                         <div class="col-lg-12 outer-block" ng-class="{'text-center' : !$root.objectSize && searchParam.word === '' && $root.me.recrutRole === 'client'}">
                             <span ng-show="!$root.objectSize && !searchParam.word && $root.me.recrutRole === 'client'">{{'You will see clients when recruiters share vacancies to you.'|translate}}</span>
                             <span ng-hide="($root.me.recrutRole === 'client' && !objectSize) || limitReached === true" class="count">{{'found'|translate}}: <span>{{objectSize}}</span></span>
-                            <span class="count" ng-show="limitReached === true" translate="The large quantity of results has been found." translate-values="{total_count: objectSize}"></span>
+                            <span class="count limit" ng-show="limitReached === true" translate="The large quantity of results has been found." translate-values="{total_count: objectSize}"></span>
                             <table class="table" ng-show="$root.objectSize" id="mainTable" ng-table="tableParams" template-pagination="custom/pager">
                                 <thead>
                                 <tr>

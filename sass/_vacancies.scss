@@ -193,6 +193,9 @@
 		span {
 			font-weight: 600;
 		}
+		&.limit {
+			text-transform: none;
+		}
 	}
 	.vacancy-table {
 		margin-top: 15px;
