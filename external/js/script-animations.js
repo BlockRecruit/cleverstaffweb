@@ -102,15 +102,18 @@ $(document).ready(function(){
     $(window).scroll(function(){
         var sticky = $('.prices-block'),
             scroll = $(window).scrollTop();
+        console.log(scroll);
         var pc = 1200;
         var big_tablet = 991;
         var tablet = 768;
         var phone = 440;
         var mini_phone = 320;
         if(window.location.pathname == '/ru/price.html'){
-            if (scroll >= 1278){
+            if (scroll >= 1293){
                 sticky.addClass('fixed-plans');
+                sticky.removeClass('hidden');
             } else{
+                $('.titleTable').css('display', 'block');
                 sticky.removeClass('fixed-plans');
                 sticky.addClass('hide-block');
                 $('hide-block').css("height", "50px");
@@ -123,7 +126,7 @@ $(document).ready(function(){
                 $('.plans').css('visibility', 'visible');
             }
             if(pc >= $( window ).width()){
-                if (scroll >= 1402){
+                if (scroll >= 1502){
                     sticky.addClass('fixed-plans');
                 } else{
                     sticky.removeClass('fixed-plans');
@@ -135,7 +138,7 @@ $(document).ready(function(){
                 }
             }
             if(big_tablet >= $( window ).width()){
-                if (scroll >= 1785){
+                if (scroll >= 1811){
                     sticky.addClass('fixed-plans');
                 } else{
                     sticky.removeClass('fixed-plans');
@@ -147,7 +150,7 @@ $(document).ready(function(){
                 }
             }
             if(tablet >= $( window ).width()){
-                if (scroll >= 2671){
+                if (scroll >= 2698){
                     sticky.addClass('fixed-plans');
                 } else{
                     sticky.removeClass('fixed-plans');
