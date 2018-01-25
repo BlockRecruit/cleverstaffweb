@@ -1024,3 +1024,9 @@ ul.nav.navbar-nav {
 		width: 300px;
 	}
 }
+
+@media (max-width: $screen-xs) {
+	.trial {
+		padding: 5px 7px;
+	}
+}
