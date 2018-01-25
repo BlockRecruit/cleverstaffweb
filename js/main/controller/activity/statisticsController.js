@@ -310,11 +310,14 @@ controller.controller('ActivityStatisticsController', ["$scope", "$rootScope", "
     };
 
     var getStatFirstTime = function () {
+        $scope.selectedDateTo = new Date();
+        $scope.selectedDateTo.setHours(23, 59, 59, 0);
+        $scope.selectedDateTo = Date.parse($scope.selectedDateTo);
         Statistic.getOrgInfoWithParams({
-            from: 1288323623006,
-            to: 1588323623006,
+            from: $rootScope.me.org.dc,
+            to: $scope.selectedDateTo,
             personId: $rootScope.onlyMe ? $rootScope.userId : null,
-            types: $scope.candWithoutContacts ? statWithoutCandCont : statWithCandCont,
+            types: $scope.candWithoutContacts ? statWithoutCandCont : statWithCandCont
         }, function(resp) {
             $rootScope.loading = false;
             $scope.pageInfo(resp, true);
@@ -354,10 +357,10 @@ controller.controller('ActivityStatisticsController', ["$scope", "$rootScope", "
         } else {
             $rootScope.loading = true;
             Statistic.getOrgInfoWithParams({
-                from: 1288323623006,
-                to: 1588323623006,
+                from: $rootScope.me.org.dc,
+                to: $scope.selectedDateTo,
                 personId: $rootScope.onlyMe ? $rootScope.userId : null,
-                types: $scope.candWithoutContacts ? statWithoutCandCont : statWithCandCont,
+                types: $scope.candWithoutContacts ? statWithoutCandCont : statWithCandCont
             }, function(resp) {
                 $rootScope.loading = false;
                 $scope.candWithoutContacts = 'loaded';
