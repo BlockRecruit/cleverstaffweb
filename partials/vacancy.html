@@ -807,7 +807,7 @@
                 <!--<div class="alert alert-success" ng-show="extraStatusObjSucces.show">-->
                 <!--{{'settings applied'|translate}}-->
                 <!--</div>-->
-                <div class="col-lg-4 resize" style="padding: 0px; width: 30%;">
+                <div class="col-lg-4 resize" style="padding: 0 0 15px 0; width: 30%;">
                     <h4>{{'Additional stages'|translate}}</h4>
 
                     <div class="stages">
@@ -857,7 +857,6 @@
                         </div>
                     </div>
                     <a href=""
-                       ng-class="{'margin' : !customStages}"
                        ng-show="$root.me.recrutRole == 'admin'"
                        ng-click="showAddStage()">
                         {{'Add new custom stage' | translate}}
@@ -905,7 +904,6 @@
                         </div>
                     </div>
                     <a href=""
-                       ng-class="{'margin' : !customStages}"
                        ng-show="$root.me.recrutRole == 'admin'"
                        ng-click="showAddRefuseStage()">
                         {{'Add the cause of refuse' | translate}}
