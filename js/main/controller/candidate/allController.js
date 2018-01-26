@@ -1213,6 +1213,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $scope.showExternalMenu = false;
             $scope.clickBtnSort = true;
             $scope.searchParam.candidateGroupIds = $scope.groupIdsForSearch;
+
             if($scope.searchParam.words){
                 Candidate.setOptions("sort", 'relevance');
                 $scope.filterForChange = 'relevance';
@@ -1223,6 +1224,11 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             if($scope.getSelect2Group().length > 0 && $rootScope.searchParamInCandidate && $rootScope.searchParamInCandidate.candidateGroupIds && $rootScope.searchParamInCandidate.candidateGroupIds.length == 0){
                 notificationService.error($filter('translate')('This tag is not added to any candidate'));
             }
+
+            if($scope.searchCandidates.searchParamWord.$invalid){
+                notificationService.error($filter('translate')('Enter more data for search'));
+            }
+
             var array = [];
             array.push({
                 searchType: '',
