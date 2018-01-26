@@ -42,8 +42,19 @@
 		}
 	}
 	.modal-footer {
+		.flex-position {
+			display: flex;
+			flex-direction: row;
+
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+		}
 		.btn {
 			@include button-styling();
+			&.margin-mobile {
+				margin-left: 10px;
+			}
 		}
 		.accept {
 			color: $theme-white;
@@ -62,11 +73,14 @@
 	}
 }
 
-@media (max-width: 465px) {
+@media (max-width: 475px) {
 	.margin-mobile {
 		margin-top: 10px;
 	}
 	.modal-footer {
 		padding: 15px 35px;
+	}
+	.candidate-change-status-in-vacancy .modal-footer .flex-position {
+		flex-direction: column;
 	}
 }

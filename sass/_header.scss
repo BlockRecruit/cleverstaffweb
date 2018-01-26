@@ -86,11 +86,11 @@ body {
 			width: 480px;
 			padding: 10px;
 
-			opacity: 0.9;
+			opacity: 1;
 			color: $theme-dark;
-			border: 1px solid $theme-light-grey-hover;
+			border: 1px solid #00b549;
 			background-color: $theme-white;
-			box-shadow: 0 0 5px 2px $theme-light-grey;
+			box-shadow: none;
 			ul {
 				margin: 0;
 				padding-left: 17px;
@@ -611,9 +611,9 @@ body {
 						padding: 10px;
 
 						color: $theme-dark;
-						border: 1px solid $theme-light-grey-hover;
+						border: 1px solid #00b549;
 						background-color: $theme-white;
-						box-shadow: 0 0 5px 2px $theme-light-grey;
+						box-shadow: none;
 						a {
 							display: inline-block;
 							padding: 0;
@@ -923,10 +923,13 @@ highlight {
 .tooltip.customClass .tooltip-inner {
 	width: 200px;
 
-	opacity: 1;
+	opacity: 1!important;
 	color: $theme-dark;
 	background-color: $theme-white;
-	box-shadow: 0 0 5px 0 rgba(0,0,0,0.175);
+	box-shadow: none;
+}
+.tooltip.in {
+	opacity: 1!important;
 }
 .pagination-block {
 	i:hover {
@@ -942,8 +945,11 @@ highlight {
 	width: 335px;
 	padding: 10px;
 
+	opacity: 1;
+	border: 1px solid #00b549;
 	border-radius: 5px;
-	box-shadow: 0 0 5px 2px #b8b8b8;
+	background: #fff;
+	box-shadow: none;
 	.tooltip-arrow {
 		display: none;
 	}
@@ -952,6 +958,7 @@ highlight {
 
 		text-align: left;
 
+		opacity: 1!important;
 		color: $theme-dark;
 		background-color: $theme-white;
 		img {
@@ -972,6 +979,11 @@ ul.nav.navbar-nav {
 	}
 }
 
+.navbar .nav.information .dropdown-menu li .hoverExtension {
+	border: 1px solid green;
+	background: #fff;
+	box-shadow: none;
+}
 //@media(max-width: 605px) {
 //	.modal-open-news .modal {
 //		top: 0;
@@ -1022,5 +1034,11 @@ ul.nav.navbar-nav {
 		left: -150px;
 
 		width: 300px;
+	}
+}
+
+@media (max-width: $screen-xs) {
+	.trial {
+		padding: 5px 7px;
 	}
 }

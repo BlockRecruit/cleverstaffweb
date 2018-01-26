@@ -839,8 +839,10 @@
 
 									text-align: left;
 
+									opacity: 1!important;
 									color: #202021;
 									background-color: #fff;
+									box-shadow: none;
 								}
 							}
 						}
@@ -1721,6 +1723,9 @@
 	}
 	body .edit-task .modal-body > .performers .clever-window {
 		left: -50px !important;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .history-outer .event .textField > .field {
+		text-align: center;
 	}
 	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .history-outer .event .textField > .field > textarea {
 		max-width: 265px;
