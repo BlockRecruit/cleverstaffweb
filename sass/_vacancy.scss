@@ -223,6 +223,7 @@
 					color: #ffc100;
 					&:hover {
 						cursor: pointer;
+
 						color: #fdd14a;
 					}
 				}
@@ -537,9 +538,11 @@
 			}
 		}
 		.stages-option {
-			padding: 15px;
+			.stages {
+				padding: 15px;
 
-			background-color: $theme-white;
+				background-color: $theme-white;
+			}
 			.unlock {
 				.fa-unlock {
 					visibility: visible;
@@ -677,6 +680,57 @@
 		}
 		#recallsTable {
 			display: none;
+		}
+		.active-buttons {
+			margin: 20px auto;
+
+			text-align: center;
+			.img-wrap {
+				display: inline-block;
+				padding: 5px 0 5px 5px;
+
+				border-radius: 5px;
+				background-color: #ffc100;
+				&.set-to-default {
+					margin-right: 30px;
+
+					background-color: #b8b8b8;
+				}
+				img {
+					display: inline-block;
+					margin-left: 5px;
+				}
+				span {
+					font-weight: 600;
+
+					padding: 3px 12px 3px 2px;
+
+					color: #202021;
+				}
+				&:hover {
+					cursor: pointer;
+
+					background-color: #fdd14a;
+					span {
+						color: #202021;
+					}
+					&.set-to-default {
+						background-color: #e3e3e3;
+						span {
+							color: #000;
+						}
+					}
+				}
+			}
+			.btn {
+				@include button-styling();
+				&.cancel {
+					@include button-styling-cancel();
+				}
+			}
+			img {
+				width: 20px;
+			}
 		}
 	}
 	.history-outer {
