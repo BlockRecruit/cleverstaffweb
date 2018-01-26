@@ -24805,7 +24805,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         };
         $scope.initDirective = {};
 
-        $rootScope.saveStatusInterviewInVacancy = function (customDate, flag) {
+        $rootScope.saveStatusInterviewInVacancy = function (customDate, flag, sendEmail) {
             if(!$rootScope.candnotify.sendMail && flag){
                 notificationService.error($filter('translate')("enter_email_candidate"));
                 return;
@@ -24925,7 +24925,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             //    }
                             //});
                             $rootScope.clickedSaveStatusInterviewInVacancy = false;
-                            if ($rootScope.candnotify.send && $rootScope.candnotify.sendMail.length > 1) {
+                            if ($rootScope.candnotify.send && $rootScope.candnotify.sendMail.length > 1 && sendEmail) {
+                                console.log('sent');
                                 var candnotify = $rootScope.candnotify;
                                 var changeObj = $rootScope.changeStatusOfInterviewInVacancy;
                                 Mail.sendMailByTemplateVerified({
