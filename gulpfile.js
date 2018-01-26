@@ -9,13 +9,13 @@ var gulp = require('gulp-help')(require('gulp')),
 
 gulp.task('js', function() {
     gulp.src([
+            './external/js/wow.min.js',
             './external/js/script-animations.js',
             './external/js/script.js',
             './external/js/main.js',
             './external/js/g.js',
             './external/js/bootstrap.js',
-            './external/js/style_func.js',
-            './external/js/wow.min.js'
+            './external/js/style_func.js'
         ])
         .pipe(concat('script.min.js'))
         .pipe(uglify())
