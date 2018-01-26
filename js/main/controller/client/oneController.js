@@ -474,12 +474,14 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
         $rootScope.contactClientAddId = $scope.client.localId;
         $location.path("contact/add/" + $scope.client.localId);
     };
+
     $scope.toAllVacancy = function(id) {
         $rootScope.searchedClientId = id;
         Vacancy.setOptions("clientId", id);
         $rootScope.searchClientId = id;
         $location.path("/vacancies");
     };
+
     $scope.toAddVacancy = function(id) {
         $rootScope.addVacancyClientId = id;
         $location.path("/vacancy/add/");

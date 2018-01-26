@@ -24703,44 +24703,61 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 tinyMCE.remove()
             });
             $scope.modalInstance.opened.then(function(){
-                setTimeout(function(){
-                    createEmailTemplateFunc($scope,$rootScope,'changeStatusCandidateInVacancyMCE', Mail, $location);
-                    $rootScope.changeTemplateInChangeStatusCandidate($rootScope.changeStatusOfInterviewInVacancy.status);
-                    $(".changeStatusOfInterviewInVacancyPick").datetimepicker({
-                        format: "dd/mm/yyyy hh:ii",
-                        startView: 2,
-                        minView: 0,
-                        weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
-                        autoclose: true,
-                        language: $translate.use()
-                    }).on('changeDate', function (data) {
-                        $rootScope.changeStatusOfInterviewInVacancy.date = data.date;
-                    }).on('hide', function () {
-                        if ($('.changeStatusOfInterviewInVacancyPick').val() == "") {
-                            $rootScope.changeStatusOfInterviewInVacancy.date = null;
-                        }else{
-                            $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[interview date and time\]\]/g, $filter('dateFormat2')($('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate').getTime(), true));
-                            $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[interview date and time\]\]/g, $filter('dateFormat2')($('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate').getTime(), true));
-                            tinyMCE.get('changeStatusCandidateInVacancyMCE').setContent($rootScope.emailTemplateInModal.text);
-                        }
-                        $('.changeStatusOfInterviewInVacancyPick').blur();
+
+                createEmailTemplateFunc($scope,$rootScope,'changeStatusCandidateInVacancyMCE', Mail, $location);
+                $rootScope.changeTemplateInChangeStatusCandidate($rootScope.changeStatusOfInterviewInVacancy.status);
+
+                new Promise((resolve, reject) =>{
+                   let interval = setInterval(() => {
+                       let changeStatusOfInterviewInVacancyPick = $(".changeStatusOfInterviewInVacancyPick"),
+                           changeStatusOfInterviewEmployed = $('.changeStatusOfInterviewEmployed');
+
+                       if(changeStatusOfInterviewInVacancyPick.length && changeStatusOfInterviewEmployed.length){
+                           clearInterval(interval);
+                           resolve({changeStatusOfInterviewInVacancyPick, changeStatusOfInterviewEmployed});
+                       }
+                   },0);
+                })
+                    .then((elements) =>{
+                        console.log(elements);
+
+                        elements['changeStatusOfInterviewInVacancyPick'].datetimepicker({
+                            format: "dd/mm/yyyy hh:ii",
+                            startView: 2,
+                            minView: 0,
+                            weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                            autoclose: true,
+                            language: $translate.use()
+                        }).on('changeDate', function (data) {
+                            $rootScope.changeStatusOfInterviewInVacancy.date = data.date;
+                        }).on('hide', function () {
+                            if ($('.changeStatusOfInterviewInVacancyPick').val() == "") {
+                                $rootScope.changeStatusOfInterviewInVacancy.date = null;
+                            }else{
+                                $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[interview date and time\]\]/g, $filter('dateFormat2')($('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate').getTime(), true));
+                                $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[interview date and time\]\]/g, $filter('dateFormat2')($('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate').getTime(), true));
+                                tinyMCE.get('changeStatusCandidateInVacancyMCE').setContent($rootScope.emailTemplateInModal.text);
+                            }
+                            $('.changeStatusOfInterviewInVacancyPick').blur();
+                        });
+
+                        elements["changeStatusOfInterviewEmployed"].datetimepicker({
+                            format: "dd/mm/yyyy",
+                            startView: 2,
+                            minView: 2,
+                            autoclose: true,
+                            weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                            language: $translate.use()
+                        }).on('changeDate', function (data) {
+                            $rootScope.changeStatusOfInterviewEmployed.date = data.date;
+                        }).on('hide', function () {
+                            if ($('.changeStatusOfInterviewEmployed').val() == "") {
+                                $rootScope.changeStatusOfInterviewEmployed.date = null;
+                            }
+                            $('.changeStatusOfInterviewEmployed').blur();
+                        });
+                        $scope.$apply();
                     });
-                    $(".changeStatusOfInterviewEmployed").datetimepicker({
-                        format: "dd/mm/yyyy",
-                        startView: 2,
-                        minView: 2,
-                        autoclose: true,
-                        weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
-                        language: $translate.use()
-                    }).on('changeDate', function (data) {
-                        $rootScope.changeStatusOfInterviewEmployed.date = data.date;
-                    }).on('hide', function () {
-                        if ($('.changeStatusOfInterviewEmployed').val() == "") {
-                            $rootScope.changeStatusOfInterviewEmployed.date = null;
-                        }
-                        $('.changeStatusOfInterviewEmployed').blur();
-                    });
-                },0);
             });
 
             $scope.showChangeStatusValue = null;
@@ -24805,7 +24822,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         };
         $scope.initDirective = {};
 
-        $rootScope.saveStatusInterviewInVacancy = function (customDate, flag, sendEmail) {
+        $rootScope.saveStatusInterviewInVacancy = function (customDate, flag) {
             if(!$rootScope.candnotify.sendMail && flag){
                 notificationService.error($filter('translate')("enter_email_candidate"));
                 return;
@@ -24925,8 +24942,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             //    }
                             //});
                             $rootScope.clickedSaveStatusInterviewInVacancy = false;
-                            if ($rootScope.candnotify.send && $rootScope.candnotify.sendMail.length > 1 && sendEmail) {
-                                console.log('sent');
+                            if ($rootScope.candnotify.send && $rootScope.candnotify.sendMail.length > 1) {
                                 var candnotify = $rootScope.candnotify;
                                 var changeObj = $rootScope.changeStatusOfInterviewInVacancy;
                                 Mail.sendMailByTemplateVerified({
@@ -27691,12 +27707,14 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
         $rootScope.contactClientAddId = $scope.client.localId;
         $location.path("contact/add/" + $scope.client.localId);
     };
+
     $scope.toAllVacancy = function(id) {
         $rootScope.searchedClientId = id;
         Vacancy.setOptions("clientId", id);
         $rootScope.searchClientId = id;
         $location.path("/vacancies");
     };
+
     $scope.toAddVacancy = function(id) {
         $rootScope.addVacancyClientId = id;
         $location.path("/vacancy/add/");
@@ -40012,7 +40030,7 @@ function historyButton($scope, resp, Service, CacheCandidates) {
             }
         });
     };
-    $scope.getLastEvent = function(count) {z
+    $scope.getLastEvent = function(count) {
         if (!count) {
             count = 1;
         }
@@ -40526,12 +40544,17 @@ function setDatePickerForOnce($rootScope, $translate, Task){
     }
 }
 function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
+    let dataContacts = {};
+
+    $rootScope.me.contacts.forEach(item =>  dataContacts[item["contactType"].toLowerCase()] = item['value'] || ' ');
+    console.log(dataContacts, 'dataContacts')
     $rootScope.staticEmailTemplate = {
         candidateName: "John Dou",
         date: 1463749200000,
         recruiterName: $rootScope.me.fullName,
         recruiterEmail: $rootScope.me.emails.length > 0 ? $rootScope.me.emails[0].email : $rootScope.me.login
     };
+
    setTimeout(function(){
        tinymce.init({
            selector: '#' + id,
@@ -40564,7 +40587,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                });
            }
        });
-   },10);
+   },0);
     $rootScope.hover = false;
 
     $rootScope.Hover = function () {
@@ -40579,17 +40602,11 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
 
     if(id == "addCandidateInVacancyMCE"){
         $rootScope.changeTemplateInAddCandidate = function(status){
-
-
             if($rootScope.status2 == undefined ){
                 $rootScope.hover = false;
-
             }else{
                 $rootScope.hover = true;
             }
-
-
-
 
             if(status['googleCalendarPrefix'] !== ""){ // Отличить два объекта чтоб разпарсить второй
                 status = JSON.parse(status);            // первый при выборе вакансии он имеет свойство status['googleCalendarPrefix'] не обязатнльго ""// второй при выборе этапа -в нем такого свойства нет он нам для парсинга нужен
@@ -40659,7 +40676,6 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
         };
     }else{
         $rootScope.changeTemplateInChangeStatusCandidate = function(status){
-            console.log($rootScope.changeStatusOfInterviewInVacancy);
             if($rootScope.changeStatusOfInterviewInVacancy.status.value == 'interview' ||
                 $rootScope.changeStatusOfInterviewInVacancy.status.withDate ||
                 $rootScope.changeStatusOfInterviewInVacancy.status.value == 'longlist' ||
@@ -40681,6 +40697,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                     $rootScope.changeStatusOfInterviewInVacancy.status.value == 'shortlist'){
                     templateType = 'seeVacancy'
                 }
+                console.log('123')
                 Mail.getTemplateVacancy({vacancyId: $rootScope.changedStatusVacancy.vacancyId,type:templateType},function(data){
                     $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-"  + $rootScope.changedStatusVacancy.localId;
                     $rootScope.fileForSave = [];
@@ -40690,30 +40707,32 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                     $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName);
                     $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $rootScope.changedStatusVacancy.position + '</a>');
                     $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[vacancy name\]\]/g, $rootScope.changedStatusVacancy.position);
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's phone\]\]/g, $rootScope.me.phone ? $rootScope.me.phone : "");
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Skype\]\]/g, $rootScope.staticEmailTemplate.skype ? $rootScope.staticEmailTemplate.skype : "");
-                    if($rootScope.staticEmailTemplate.facebook){
-                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Facebook\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $rootScope.staticEmailTemplate.facebook+ '">' + $rootScope.staticEmailTemplate.facebook + '</a>');
-                    }else{
-                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Facebook\]\]/g, '');
-                    }
-                    if($rootScope.staticEmailTemplate.linkedin){
-                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's LinkedIn\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $rootScope.staticEmailTemplate.linkedin+ '">' + $rootScope.staticEmailTemplate.linkedin + '</a>');
-                    }else{
-                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's LinkedIn\]\]/g, '');
-                    }
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's phone\]\]/g, dataContacts["phonework"]);
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Skype\]\]/g, dataContacts['skype']);
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Facebook\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + dataContacts["facebook"] + '">' +  dataContacts["facebook"] + '</a>');
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's LinkedIn\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + dataContacts["linkedin"] + '">' + dataContacts["linkedin"] + '</a>');
                     if($rootScope.me.emails.length == 1){
                         $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiterEmail\]\]/g, $rootScope.me.emails[0].email);
                     }
-                    setTimeout(function(){
-                        tinyMCE.get(id).setContent($rootScope.emailTemplateInModal.text);
-                        if(localStorage.emailThatAlreadyUsed){
-                            $scope.addEmailFromLocalStorage(localStorage.emailThatAlreadyUsed);
-                        }
-                    },0);
-                    if($rootScope.emailTemplateInModal.fileId && $rootScope.emailTemplateInModal.fileName){
-                        $rootScope.fileForSave.push({"fileId": $rootScope.emailTemplateInModal.fileId, "fileName": $rootScope.emailTemplateInModal.fileName});
-                    }
+
+                    new Promise((resolve, reject) => {
+                        let interval = setInterval(()=>{
+                            if(tinyMCE.editors.length > 0){
+                                clearInterval(interval);
+                                resolve(tinyMCE.editors);
+                            }
+                        },0);
+                    })
+                        .then(resp => tinyMCE.editors[id].setContent($rootScope.emailTemplateInModal.text))
+                        .then(resp => {
+                            if(localStorage.emailThatAlreadyUsed){
+                                $scope.addEmailFromLocalStorage(localStorage.emailThatAlreadyUsed);
+                            }
+                            if($rootScope.emailTemplateInModal.fileId && $rootScope.emailTemplateInModal.fileName){
+                                $rootScope.fileForSave.push({"fileId": $rootScope.emailTemplateInModal.fileId, "fileName": $rootScope.emailTemplateInModal.fileName});
+                            }
+                        });
+
                 })
             }
         };
