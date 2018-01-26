@@ -531,24 +531,24 @@
                     <div class="clearfix"></div>
                 </div>
             </div>
-            <div class="text-center hidden-xs hidden-sm" ng-show="$root.me.recrutRole != 'client' && showMoveble">
-                <a type="button" ng-click="candidateInVacancy('extra_status')" class="btn btn-primary">
-                    {{'save' | translate}}
-                </a>
+            <!--<div class="text-center hidden-xs hidden-sm" ng-show="$root.me.recrutRole != 'client' && showMoveble">-->
                 <!--<a type="button" ng-click="candidateInVacancy('extra_status')" class="btn btn-primary">-->
-                    <!--{{'Setting the stage' | translate}}-->
+                    <!--{{'save' | translate}}-->
                 <!--</a>-->
-                <!--<span class="clarification" ng-show="$root.me.recrutRole == 'admin'">-->
-                    <!--{{'For account Admins only'|translate}}-->
-                <!--</span>-->
-            </div>
-            <div class="text-center" ng-show="activeName == 'extra_status' && $root.me.recrutRole == 'admin' && showMoveble">
-                <a type="button" ng-click="saveStagesForAllVacancies()" title="{{'Make the current set of stages as default for new vacancies' | translate}}" class="btn btn-primary default">
-                    {{'Make default' | translate}}
-                </a>
-                <br/>
-                <!--<span class="thin">*{{'This feature is only available to administratorzs' | translate}}</span>-->
-            </div>
+                <!--&lt;!&ndash;<a type="button" ng-click="candidateInVacancy('extra_status')" class="btn btn-primary">&ndash;&gt;-->
+                    <!--&lt;!&ndash;{{'Setting the stage' | translate}}&ndash;&gt;-->
+                <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<span class="clarification" ng-show="$root.me.recrutRole == 'admin'">&ndash;&gt;-->
+                    <!--&lt;!&ndash;{{'For account Admins only'|translate}}&ndash;&gt;-->
+                <!--&lt;!&ndash;</span>&ndash;&gt;-->
+            <!--</div>-->
+            <!--<div class="text-center" ng-show="activeName == 'extra_status' && $root.me.recrutRole == 'admin' && showMoveble">-->
+                <!--<a type="button" ng-click="saveStagesForAllVacancies()" title="{{'Make the current set of stages as default for new vacancies' | translate}}" class="btn btn-primary default">-->
+                    <!--{{'Make default' | translate}}-->
+                <!--</a>-->
+                <!--<br/>-->
+                <!--&lt;!&ndash;<span class="thin">*{{'This feature is only available to administratorzs' | translate}}</span>&ndash;&gt;-->
+            <!--</div>-->
         </div>
         <div class="col-lg-9 status-info no-padding-sm" ng-class="{'col-lg-12' : showSearchCandidate}"
              ng-show="(!visiable || $root.me.recrutRole !== 'client') && (activeName != 'extra_status' && activeName != 'recalls')">
@@ -857,6 +857,7 @@
                         </div>
                     </div>
                     <a href=""
+                       ng-class="{'margin' : !customStages}"
                        ng-show="$root.me.recrutRole == 'admin'"
                        ng-click="showAddStage()">
                         {{'Add new custom stage' | translate}}
@@ -904,6 +905,7 @@
                         </div>
                     </div>
                     <a href=""
+                       ng-class="{'margin' : !customStages}"
                        ng-show="$root.me.recrutRole == 'admin'"
                        ng-click="showAddRefuseStage()">
                         {{'Add the cause of refuse' | translate}}
@@ -921,7 +923,7 @@
                 </span>
                 </div>
                 <div class="save img-wrap">
-                    <img src="/images/sprite/save.svg" alt="">
+                    <img class="save" src="/images/sprite/save.svg" alt="">
                     <span type="button" ng-click="candidateInVacancy('extra_status')">{{'save' | translate}}</span>
                 </div>
             </div>

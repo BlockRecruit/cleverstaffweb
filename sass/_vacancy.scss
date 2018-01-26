@@ -220,11 +220,12 @@
 				.fa-cog {
 					font-size: 25px;
 
-					color: #ffc100;
+					color: #00b549;
+
 					&:hover {
 						cursor: pointer;
 
-						color: #fdd14a;
+						color: #a3e8a7;
 					}
 				}
 				//a {
@@ -619,6 +620,10 @@
 			}
 			a {
 				@include link-styling();
+				&.margin {
+					display: inline-block;
+					margin-top: 16px;
+				}
 			}
 		}
 		.block-recommendations {
@@ -687,7 +692,7 @@
 			text-align: center;
 			.img-wrap {
 				display: inline-block;
-				padding: 5px 0 5px 5px;
+				padding: 5px 0 5px 3.5px;
 
 				border-radius: 5px;
 				background-color: #ffc100;
@@ -698,12 +703,18 @@
 				}
 				img {
 					display: inline-block;
+					width: 20px;
+					height: auto;
 					margin-left: 5px;
+					&.save {
+						width: 16px;
+						height: 20px;
+					}
 				}
 				span {
 					font-weight: 600;
 
-					padding: 3px 12px 3px 2px;
+					padding: 3px 10.5px 3px 2px;
 
 					color: #202021;
 				}
@@ -727,9 +738,6 @@
 				&.cancel {
 					@include button-styling-cancel();
 				}
-			}
-			img {
-				width: 20px;
 			}
 		}
 	}
