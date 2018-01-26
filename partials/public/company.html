@@ -8,11 +8,11 @@
                 <div class="info" ng-class="{'full-width': !orgParams.companyLogo}">
                     <h2 ng-class="{'margin-bot': !orgParams.companyLogo && (orgParams.linkToCompanySite || orgParams.linkToCompanyFaceBookPage)}">{{orgParams.orgName}}</h2>
                     <div class="info--site" ng-class="{'text-center' : !orgParams.companyLogo}" ng-show="orgParams.linkToCompanySite">
-                        <img src="/images/sprite/company-site.png" alt="">
+                        <img src="/images/sprite/public-vacancy/website.svg" alt="">
                         <a class="site" href="{{orgParams.linkToCompanySite}}" target="_blank">{{orgParams.linkToCompanySite| limitTo: 20}}{{orgParams.linkToCompanySite.length > 20 ? '...' :''}}</a>
                     </div>
                     <div class="info--site" ng-class="{'text-center' : !orgParams.companyLogo}" ng-show="orgParams.linkToCompanyFaceBookPage">
-                        <img src="/images/sprite/company-fb.png" alt="">
+                        <img class="fb" src="/images/sprite/public-vacancy/facebook.svg" alt="">
                         <a href="{{orgParams.linkToCompanyFaceBookPage}}" target="_blank">{{orgParams.linkToCompanyFaceBookPage| limitTo: 20}}{{orgParams.linkToCompanyFaceBookPage.length > 20 ? '...' :''}}</a>
                     </div>
                 </div>

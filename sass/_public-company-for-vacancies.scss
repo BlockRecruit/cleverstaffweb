@@ -104,13 +104,21 @@ body {
 				}
 			}
 			& .info--site {
-				display: block;
+				display: flex;
+				flex-direction: row;
 				margin-bottom: 8px;
 
 				text-align: center;
+
+				justify-content: center;
+				align-items: center;
 				& img {
 					display: inline-block;
+					width: 27px;
 					margin-right: 10px;
+					&.fb {
+						width: 25px;
+					}
 				}
 				& a {
 					font-family: "Helvetica-Medium";
