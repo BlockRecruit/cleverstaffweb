@@ -40011,7 +40011,7 @@ function historyButton($scope, resp, Service, CacheCandidates) {
             }
         });
     };
-    $scope.getLastEvent = function(count) {
+    $scope.getLastEvent = function(count) {z
         if (!count) {
             count = 1;
         }
