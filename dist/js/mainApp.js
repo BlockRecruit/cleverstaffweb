@@ -19585,6 +19585,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $scope.showExternalMenu = false;
             $scope.clickBtnSort = true;
             $scope.searchParam.candidateGroupIds = $scope.groupIdsForSearch;
+
             if($scope.searchParam.words){
                 Candidate.setOptions("sort", 'relevance');
                 $scope.filterForChange = 'relevance';
@@ -19595,6 +19596,11 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             if($scope.getSelect2Group().length > 0 && $rootScope.searchParamInCandidate && $rootScope.searchParamInCandidate.candidateGroupIds && $rootScope.searchParamInCandidate.candidateGroupIds.length == 0){
                 notificationService.error($filter('translate')('This tag is not added to any candidate'));
             }
+
+            if($scope.searchCandidates.searchParamWord.$invalid){
+                notificationService.error($filter('translate')('Enter more data for search'));
+            }
+
             var array = [];
             array.push({
                 searchType: '',
@@ -26687,6 +26693,12 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
         });
     $scope.clickSearch = function() {
         $scope.tableParams.$params.page = 1;
+
+        if($scope.searchClients.searchParamWord.$invalid){
+            notificationService.error($filter('translate')('Enter more data for search'));
+            return;
+        }
+
         if($scope.searchParam.state.length == 0 && $scope.searchParam.words.length == 0 &&
             $scope.searchParam.name == null && $scope.searchParam.responsible == 'null' &&
             $scope.searchParam.industry == 'null' && $scope.searchParam.regionIdCity == 'null'){
@@ -33692,6 +33704,10 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
             $scope.updateSearchStatuses();
         };
         $scope.clickSearch = function() {
+        if($scope.searchVacancies.searchParamWord.$invalid){
+            notificationService.error($filter('translate')('Enter more data for search'));
+            return;
+        }
         if($scope.searchParam['salaryName'] == null && $scope.searchParam.states == null &&
             $scope.searchParam.state == null && $("#clientAutocompleater").select2('data') == null &&
             $scope.searchParam.words.length == 0 && $scope.searchParam.name == null &&
