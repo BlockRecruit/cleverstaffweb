@@ -129,7 +129,7 @@ function historyButton($scope, resp, Service, CacheCandidates) {
             }
         });
     };
-    $scope.getLastEvent = function(count) {z
+    $scope.getLastEvent = function(count) {
         if (!count) {
             count = 1;
         }
