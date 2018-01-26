@@ -53,10 +53,10 @@
 
                         <!--<a ng-click="toExcelHistory()" class="no-margin-left">{{'history_1'|translate}}</a>-->
                         <!--<span class="clarification" ng-show="$root.me.recrutRole == 'admin'">-->
-                            <!--{{'Up to | 30 000 CVs For account Admins only'|translate}}-->
+                        <!--{{'Up to | 30 000 CVs For account Admins only'|translate}}-->
                         <!--</span>-->
                         <!--<span class="clarification" ng-show="$root.me.recrutRole !== 'admin' && $root.me.personParams.enableDownloadToExcel == 'Y'">-->
-                            <!--{{'Up to | 10 000 CVs'|translate}}-->
+                        <!--{{'Up to | 10 000 CVs'|translate}}-->
                         <!--</span>-->
                     </div>
                 </div>
@@ -169,10 +169,10 @@
                             </option>
                         </select>
                         <!--<select id="cs-region-filter-select" ng-model="searchParam.regionId"-->
-                                <!--class="select2-container form-control input-lg select2 select14_2 search-select2"-->
-                                <!--ng-change="setSearchedRegion()"-->
-                                <!--ng-selected="searchParam.regionId == 'null'"-->
-                                <!--ng-init="searchParam.regionId = 'null'">-->
+                        <!--class="select2-container form-control input-lg select2 select14_2 search-select2"-->
+                        <!--ng-change="setSearchedRegion()"-->
+                        <!--ng-selected="searchParam.regionId == 'null'"-->
+                        <!--ng-init="searchParam.regionId = 'null'">-->
                         <!--</select>-->
                         <i class="fa fa-info-circle extension" ng-click="$event.stopPropagation()" ng-mouseover="inHover()" ng-mouseleave="outHover()"></i>
                     </div>
@@ -187,9 +187,9 @@
                             </option>
                         </select>
                         <!--<select id="cs-region-filter-select-cities" ng-model="searchParam.regionIdCity"-->
-                                <!--class="select2-container form-control input-lg select2 select14_2 search-select2"-->
-                                <!--ng-selected="searchParam.regionIdCity == 'null'"-->
-                                <!--ng-init="searchParam.regionIdCity = 'null'">-->
+                        <!--class="select2-container form-control input-lg select2 select14_2 search-select2"-->
+                        <!--ng-selected="searchParam.regionIdCity == 'null'"-->
+                        <!--ng-init="searchParam.regionIdCity = 'null'">-->
                         <!--</select>-->
                     </div>
                     <div class="clearfix"></div>
@@ -702,7 +702,7 @@
                                     </a>
                                     <span data-title="'PREVIEW'" ng-show="file.showGDocs" priview
                                           pageid="candidate_pages" candidate="user" class="preview-docs">
-                                        <i show-preview-candidate candidate="user" class="fa fa-eye text_change"
+                                        <i show-preview-candidate candidate="user" file-to-preview="{{file.fileId}}" class="fa fa-eye text_change"
                                            aria-hidden="true"></i>
                                     </span>
                                 </span>
@@ -717,7 +717,7 @@
                                         </a>
                                         <span data-title="'PREVIEW'" ng-show="file.showGDocs" priview
                                               pageid="candidate_pages" candidate="user" class="preview-docs for-files">
-                                            <i show-preview-candidate candidate="user" class="fa fa-eye text_change for-files"
+                                            <i show-preview-candidate candidate="user" file-to-preview="{{file.fileId}}" class="fa fa-eye text_change for-files"
                                                aria-hidden="true"></i>
                                         </span>
                                     </span>
