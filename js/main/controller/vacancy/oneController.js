@@ -810,6 +810,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                     showLongLists($scope.VacancyStatusFiltered[0]);
                                     updateDefaultStages();
                                     updateCustomStages();
+                                    $("html, body").animate({scrollTop: 0}, "slow");
                                     notificationService.success($filter('translate')('Changes saved'));
                                 }
                             } else {
