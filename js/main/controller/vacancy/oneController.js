@@ -2116,7 +2116,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         $rootScope.toChangeStatusInterview = function (status, candidate, withChooseStatus) {
-            console.log(candidate);
             if (status == undefined) {
                 $rootScope.changeStatusOfInterviewInVacancy.status =null;
                 //$rootScope.changeStatusOfInterviewInVacancy.status = {
@@ -2285,7 +2284,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $rootScope.clickedSaveStatusInterviewInVacancy = true;
                     $rootScope.changeStatusOfInterviewInVacancy.errorMessage = false;
                     var changeObj = $rootScope.changeStatusOfInterviewInVacancy;
-                    console.log(changeObj);
                     if (changeObj.status == 'declinedoffer' && changeObj.comment == '') {
                         $rootScope.changeStatusOfInterviewInVacancy.errorMessage = true;
                         return;
@@ -2372,7 +2370,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 $rootScope.addCandidateInInterviewbuttonClicked = false;
                             });
                         } else if(!$rootScope.showEmployedFields && $rootScope.candidatesAddToVacancyIds.length == 1 ) {
-                            alert('2');
                             Vacancy[neededRequest]({
                                 "personId": $scope.personId,
                                 "recallId": neededRequest == 'addInterview'?$rootScope.changeStatusOfInterviewInVacancy.candidate.recallId:null,
@@ -2462,7 +2459,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 $rootScope.addCandidateInInterviewbuttonClicked = false;
                             });
                         }else if(!$rootScope.showEmployedFields && $rootScope.candidatesAddToVacancyIds.length > 1 ) {
-                            alert('3');
                             Vacancy.editInterviews({
                                 "personId": $scope.personId,
                                 "recallId": neededRequest == 'addInterview'?$rootScope.changeStatusOfInterviewInVacancy.candidate.recallId:null,
@@ -2475,6 +2471,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                             }, function (resp) {
                                 if (resp.status == "ok") {
                                     $rootScope.clickedSaveStatusInterviewInVacancy = false;
+                                    $scope.checkAllCandidates = false;
                                     notificationService.success($filter('translate')('The candidates have been successfully moved to the stage') + ' ' + '"' + $filter('translate')(changeObj.status.value) + '"');
                                     if ($scope.selectedCalendar != undefined) {
                                         if ((changeObj.status.withDate || changeObj.status.type == 'interview') && changeObj != undefined && changeObj.date != null) {
