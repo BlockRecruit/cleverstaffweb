@@ -579,7 +579,7 @@
             </div>
             <div class="clearfix"></div>
             <div class="row header" ng-show="!showSearchCandidate">
-                <div class="col-lg-4">
+                <div class="col-lg-4 blockStage">
                     <input ng-click="pushAllCandidatesToVacancy()" ng-hide="(showTable === 'not available' || showTable === undefined && $scope.loadingCandidates == false) && !noCandidatesInThisVacancy" ng-checked="checkAllCandidates == true" type="checkbox"/>
                     <h4 ng-show="!activeCustomStageName">{{activeName | translate}}</h4>
                     <h4 ng-show="activeCustomStageName">
@@ -656,7 +656,8 @@
                 <tbody>
                 <tr ng-repeat="candidate in dataForVacancy" ng-class="{'archived': candidate.candidateId.status == 'archived'}">
                     <td class="number" data-title="'№'" once-text="(tableParams.page() - 1) * tableParams.count() + $index + 1"></td>
-                    <td class="checklist">
+                    <td class="checklist" ng-if="candidate.candidateId.status == 'archived'"></td>
+                    <td class="checklist" ng-if="candidate.candidateId.status != 'archived'">
                         <input ng-click="pushCandidateToVacancy(candidate)" type="checkbox" ng-model="candidate.added"/>
                     </td>
                     <td class="preview text-center width-for-table-eye hidden-xs" priview="" pageid="candidate" candidate="candidate.candidateId">
@@ -673,7 +674,7 @@
                     <td class="name" data-title="'Name'">
                         <a href="#/candidates/{{::candidate.candidateId.localId}}" ng-click="$event.stopPropagation();">{{::candidate.candidateId.fullName}}</a>
                     </td>
-
+                    <td ng-if="candidate.candidateId.status == 'archived'"></td>
                     <td class="date" ng-if="candidate.candidateId.status != 'archived'">
                         <span ng-click="openChangeVacancyInterviewDate(candidate);$event.stopPropagation();">
                             {{::candidate.dateInterview|dateFormat:true}}
@@ -685,12 +686,13 @@
                               ng-click="openChangeVacancyInterviewDate(candidate);$event.stopPropagation();"
                               class="set-interview">{{'Set interview time' | translate}} <i class="fa fa-calendar" aria-hidden="true"></i></span>
                     </td>
-                    <!--<td class="button-outer" ng-if="candidate.candidateId.status != 'archived' && lastItemInStageCandidate == candidate.candidateId.candidateId" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidate);" ng-class="{'hidden-xs': showSearchCandidate ||candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview'-->
-                    <!--|| candidate.state == 'hr_interview' || candidate.state == 'interview_with_the_boss' || candidate.state == 'interview_with_the_client')}">-->
-                        <!--<a href="" class="btn btn-success no-hover-sm">-->
-                            <!--{{'change_status' | translate}} ({{candidatesAddToVacancyIds.length}})-->
-                        <!--</a>-->
-                    <!--</td>-->
+                    <td class="checklist" ng-if="candidate.candidateId.status != 'archived' && candidatesAddToVacancyIds.length > 0"></td>
+                    <td class="button-outer" ng-if="candidate.candidateId.status != 'archived' && candidatesAddToVacancyIds.length == 0" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidate);" ng-class="{'hidden-xs': showSearchCandidate ||candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview'
+                    || candidate.state == 'hr_interview' || candidate.state == 'interview_with_the_boss' || candidate.state == 'interview_with_the_client')}">
+                        <a href="" class="btn btn-success no-hover-sm">
+                            {{'change_status' | translate}}
+                        </a>
+                    </td>
                     <td class="responsible hidden-xs" ng-if="candidate.candidateId.status != 'archived'" ng-click="$event.stopPropagation()">
                         <a ng-repeat="responsible in persons" href="#/users/{{::responsible.userId}}"
                            ng-show="responsible.userId && (responsible.userId == candidate.creatorId)">
@@ -733,11 +735,11 @@
                         <button class="restore-candidate" translate="Restore" ng-click="restoreCandidate(candidate.candidateId.candidateId, candidate.candidateId.localId, candidate.candidateId.fullName)">
                         </button>
                     </td>
-                    <td ng-if="candidate.candidateId.status == 'archived'" colspan="2" class="text-left hidden-xs">
+                    <td ng-if="candidate.candidateId.status == 'archived'" class="text-left hidden-xs">
                         <span translate="Remove from this vacancy" class="remove-from-vacancy" ng-click="showDeleteInterview(candidate);$event.stopPropagation();">
                         </span>
                     </td>
-                    <td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}" style="width: 6%;">
+                    <td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}" class="text-right" style="width: 6%;">
                         <i ng-show="activeName != 'approved'" ng-click="showModalAddCommentToCandidate(candidate);$event.stopPropagation();" title="{{'Edit comment' | translate}}" class="fa fa-pencil" aria-hidden="true"></i>
                         <i class="fa fa-times delete" aria-hidden="true"  title="{{'Remove Candidate' | translate}} {{'from vacancy' | translate}}" ng-click="showDeleteInterview(candidate);$event.stopPropagation();"></i>
                     </td>

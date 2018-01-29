@@ -37103,6 +37103,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $rootScope.clickedSaveStatusInterviewInVacancy = true;
                     $rootScope.changeStatusOfInterviewInVacancy.errorMessage = false;
                     var changeObj = $rootScope.changeStatusOfInterviewInVacancy;
+                    console.log(changeObj);
                     if (changeObj.status == 'declinedoffer' && changeObj.comment == '') {
                         $rootScope.changeStatusOfInterviewInVacancy.errorMessage = true;
                         return;
@@ -37189,6 +37190,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 $rootScope.addCandidateInInterviewbuttonClicked = false;
                             });
                         } else if(!$rootScope.showEmployedFields && $rootScope.candidatesAddToVacancyIds.length == 1 ) {
+                            alert('2');
                             Vacancy[neededRequest]({
                                 "personId": $scope.personId,
                                 "recallId": neededRequest == 'addInterview'?$rootScope.changeStatusOfInterviewInVacancy.candidate.recallId:null,
@@ -37278,6 +37280,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 $rootScope.addCandidateInInterviewbuttonClicked = false;
                             });
                         }else if(!$rootScope.showEmployedFields && $rootScope.candidatesAddToVacancyIds.length > 1 ) {
+                            alert('3');
                             Vacancy.editInterviews({
                                 "personId": $scope.personId,
                                 "recallId": neededRequest == 'addInterview'?$rootScope.changeStatusOfInterviewInVacancy.candidate.recallId:null,
@@ -37307,6 +37310,96 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         $scope.recalls = resp.object.recalls;
                                         if($scope.showTable !== 'recalls') {
                                             if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 1) {
+                                                $scope.tableParams.page($scope.a.searchNumber - 1);
+                                                $scope.tableParams.reload();
+                                            } else {
+                                                $scope.tableParams.reload();
+                                            }
+                                        }
+                                        $scope.numberOfCandidatesInDifferentStates();
+
+                                        //$scope.tableParams2.reload();
+                                    });
+                                    changeObj.candidate.state = changeObj.status.value;
+                                    changeObj.candidate.dateInterview = changeObj.date;
+                                    if ($rootScope.candnotify.send && $rootScope.candnotify.sendMail.length > 1 && sendTemplate) {
+                                        if ($rootScope.candnotify.sendMail.length > 1) {
+                                            var candnotify = $rootScope.candnotify;
+                                            Mail.sendMailByTemplateVerified({
+                                                    toEmails: candnotify.sendMail,
+                                                    vacancyId: $scope.vacancy.vacancyId,
+                                                    candidateId: changeObj.candidate.candidateId.candidateId,
+                                                    fullName: candnotify.fullName,
+                                                    email: $rootScope.emailTemplateInModal.email,
+                                                    date: changeObj.date,
+                                                    lang: $scope.lang,
+                                                    template: {
+                                                        type: $rootScope.emailTemplateInModal.type,
+                                                        title: $rootScope.emailTemplateInModal.title,
+                                                        text: $rootScope.emailTemplateInModal.text,
+                                                        fileId: $rootScope.fileForSave.length > 0 ? $rootScope.fileForSave[0].fileId : null,
+                                                        fileName: $rootScope.fileForSave.length > 0 ? $rootScope.fileForSave[0].fileName : null
+                                                    }
+                                                },
+                                                function (resp) {
+                                                    if(resp.status != 'ok'){
+                                                        notificationService.error($filter('translate')('Error connecting integrate with email. Connect it again'));
+                                                    }
+                                                });
+                                        }else{
+                                            $rootScope.emailError = true;
+                                        }
+                                    }
+                                    $rootScope.changeStatusOfInterviewInVacancy = {
+                                        candidate: "",
+                                        comment: "",
+                                        status: "",
+                                        date: null,
+                                        exportgoogle: false
+                                    };
+                                    $rootScope.addCandidateInInterviewbuttonClicked = false;
+                                    $rootScope.closeModal();
+                                    $('.changeStatusOfInterviewInVacancyPick1').val("");
+                                    $scope.getLastEvent();
+                                } else if (resp.status == "error") {
+                                    $rootScope.clickedSaveStatusInterviewInVacancy = false;
+                                    notificationService.error(resp.message);
+                                }
+                            }, function (err) {
+                                $rootScope.clickedSaveStatusInterviewInVacancy = false;
+                                //notificationService.error($filter('translate')('service temporarily unvailable'));
+                                $rootScope.addCandidateInInterviewbuttonClicked = false;
+                            });
+                        }else {
+                            console.log(changeObj);
+                            Vacancy[neededRequest]({
+                                "personId": $scope.personId,
+                                "recallId": neededRequest == 'addInterview'?$rootScope.changeStatusOfInterviewInVacancy.candidate.recallId:null,
+                                "vacancyId": $scope.vacancy.vacancyId,
+                                "candidateId": changeObj.candidate.candidateId.candidateId ? changeObj.candidate.candidateId.candidateId : changeObj.candidate.candidateId,
+                                "interviewState": changeObj.status.customInterviewStateId ? changeObj.status.customInterviewStateId : changeObj.status.value,
+                                "comment": changeObj.comment,
+                                "date": changeObj.date !== null ? changeObj.date.getTime() : null,
+                                "lang": $translate.use()
+                            }, function (resp) {
+                                if (resp.status == "ok") {
+                                    $rootScope.clickedSaveStatusInterviewInVacancy = false;
+                                    if ($scope.selectedCalendar != undefined) {
+                                        if ((changeObj.status.withDate || changeObj.status.type == 'interview') && changeObj != undefined && changeObj.date != null) {
+                                            if (changeObj.status.customInterviewStateId) {
+                                                var id = resp.object.interviewId + changeObj.status.customInterviewStateId;
+                                            } else {
+                                                var id = resp.object.interviewId + changeObj.status.value;
+                                            }
+                                        }
+                                    }
+                                    Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
+                                        console.log("gooo");
+                                        $scope.vacancy = resp.object;
+                                        $rootScope.vacancy = resp.object;
+                                        $scope.recalls = resp.object.recalls;
+                                        if($scope.showTable !== 'recalls') {
+                                            if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 0) {
                                                 $scope.tableParams.page($scope.a.searchNumber - 1);
                                                 $scope.tableParams.reload();
                                             } else {
@@ -38777,6 +38870,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
         $scope.openVacancyCandidateChangeStatus = function (candidate) {
             console.log(candidate);
+            $rootScope.changeStatusOfInterviewInVacancy.candidate = false;
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.status = '';
             $rootScope.changeStatusOfInterviewInVacancy.comment = candidate.comment;

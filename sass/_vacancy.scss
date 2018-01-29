@@ -367,6 +367,9 @@
 					padding-left: 15px;
 				}
 			}
+			.blockStage {
+				padding-left: 10px;
+			}
 			table {
 				background-color: $theme-white;
 				thead:not(.recalls-header) {
@@ -396,7 +399,7 @@
 
 					vertical-align: middle;
 					&.candidate-deleted {
-						width: 22%;
+						width: 27%;
 					}
 					.restore-candidate {
 						@include button-styling();
@@ -408,7 +411,6 @@
 					}
 					.remove-from-vacancy {
 						margin-top: 3px;
-						margin-right: 15%;
 
 						cursor: pointer;
 
@@ -433,6 +435,7 @@
 				}
 				.checklist {
 					width: 20px;
+					padding-left: 3px;
 				}
 				.preview {
 					width: 25px;
@@ -461,13 +464,13 @@
 					&.padding-right {
 						padding-right: 35px;
 					}
-					//a {
-					//	@include button-green-styling();
-					//
-					//	transition: 0.5s;
-					//
-					//	opacity: 0;
-					//}
+					a {
+						@include button-green-styling();
+
+						transition: 0.5s;
+
+						opacity: 0;
+					}
 				}
 				.set-interview {
 					transition: 0.5s;
@@ -552,7 +555,13 @@
 							opacity: 0.5;
 						}
 						&:nth-child(7) {
-							width: 24%;
+							width: 27%;
+						}
+						&:nth-child(8) {
+							width: 19%;
+						}
+						&:nth-child(9) {
+							width: 22%;
 						}
 					}
 				}
