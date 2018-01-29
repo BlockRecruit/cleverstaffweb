@@ -172,7 +172,7 @@
 			justify-content: space-between;
 			align-items: center;
 			.funnel-type {
-				min-width: 45%;
+				min-width: 48%;
 				margin: 0 0 10px auto;
 				padding: 5px;
 
@@ -185,6 +185,9 @@
 				}
 				&:last-child {
 					margin: 0 0 10px auto;
+				}
+				&:nth-child(5) {
+					margin: 0 auto 10px;
 				}
 				h5 {
 					font-family: "Helvetica-Bold";
