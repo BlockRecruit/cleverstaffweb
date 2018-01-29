@@ -1142,33 +1142,58 @@ directive('appVersion', ['version', function(version) {
                                 $(document).unbind("click")
                             }
                         });
-
-                        $rootScope.candidatePreview = resp;
-                        $rootScope.candidatePreviewAdditional = !!(resp.contacts.length || resp.education || resp.languages.length || resp.employmentType || resp.readyRelocate);
-                        $rootScope.previewHistory = resp.actions.objects ? resp.actions.objects : null;
-                        $rootScope.lastCandidatePreview = resp.candidateId;
-                        $rootScope.imgWidthPreviewFunc = function(){
-                            var img = new Image();
-                            img.onload = function() {
-                                var width = this.width;
-                                var height = this.height;
-                                var minus = width - height;
-                                if((width <= height && width < 200) || (width >= height && minus > 30 && minus <=100)){
-                                    $('#photo-preview').css({'width': '23%', 'left': '35px'});
-                                }else if((width >= 300 && width <= 349) || width != height || width == height){
-                                    $('#photo-preview').css('object-fit', 'fill');
-                                }else if(width == height){
-                                    $('#photo-preview').css('width', '33%');
-                                }else{
-                                    $('#photo-preview').css('width', 'inherit');
-                                }
-                            };
-                            if($location.$$host == '127.0.0.1'){
-                                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
-                            }else{
-                                img.src = $location.$$protocol + '://' + $location.$$host + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
+                    $rootScope.candidatePreview = resp;
+                    $rootScope.candidatePreviewAdditional = !!(resp.contacts.length || resp.education || resp.languages.length || resp.employmentType || resp.readyRelocate);
+                    $rootScope.previewHistory = resp.actions.objects ? resp.actions.objects : null;
+                    $rootScope.lastCandidatePreview = resp.candidateId;
+                    $rootScope.imgWidthPreviewFunc = function() {
+                        var img = new Image();
+                        img.onload = function () {
+                            var width = this.width;
+                            var height = this.height;
+                            var minus = width - height;
+                            if (minus < -200) {
+                                $('#photo-preview').css({
+                                    'width': '60%',
+                                    'left': '0',
+                                    'right': '0',
+                                    'margin': '0px auto',
+                                    'position': 'absolute'
+                                });
+                            } else if (width == height && (width < 700 && height < 700)) {
+                                $('#photo-preview').css({
+                                    'left': '0',
+                                    'right': '0',
+                                    'margin': '0px auto',
+                                    'position': 'absolute'
+                                });
+                            } else if ((width <= height && width < 200) || (width >= height && minus > 30 && minus <= 100)) {
+                                $('#photo-preview').css({
+                                    'width': '76%',
+                                    'left': '0',
+                                    'right': '0',
+                                    'margin': '0px auto',
+                                    'position': 'absolute'
+                                });
+                            } else if ((width >= 300 && width <= 349) || width != height || width == height) {
+                                $('#photo-preview').css({
+                                    'object-fit': 'fill',
+                                    'width': '76%',
+                                    'left': '0',
+                                    'right': '0',
+                                    'margin': '0px auto',
+                                    'position': 'absolute'
+                                });
+                            } else if (width == height) {
+                                $('#photo-preview').css('width', '33%');
                             }
                         };
+                        if ($location.$$host == '127.0.0.1') {
+                            img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
+                        } else {
+                            img.src = $location.$$protocol + '://' + $location.$$host + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
+                        }
+                    };
                         $rootScope.imgWidthPreviewFunc();
                         if (!$rootScope.candidatePreview.db && !$rootScope.candidatePreview.expirence && !$rootScope.candidatePreview.languages && !$rootScope.candidatePreview.employmentType && !$rootScope.candidatePreview.salary && !$rootScope.candidatePreview.contacts) {
                             $rootScope.previewInfoIsMissing = true;
@@ -1176,7 +1201,7 @@ directive('appVersion', ['version', function(version) {
                         if (!$rootScope.$$phase) {
                             $rootScope.$apply();
                         }
-                    }
+                    };
 
                     //$rootScope.hideCandidatePreviewModal = function() {
                     //    $('#candidate_preview').hide();
