@@ -19597,8 +19597,9 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 notificationService.error($filter('translate')('This tag is not added to any candidate'));
             }
 
-            if($scope.searchCandidates.searchParamWord.$invalid){
+            if($scope.searchParam.words && $scope.searchParam.words.length == 1){
                 notificationService.error($filter('translate')('Enter more data for search'));
+                return
             }
 
             var array = [];
@@ -26694,7 +26695,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
     $scope.clickSearch = function() {
         $scope.tableParams.$params.page = 1;
 
-        if($scope.searchClients.searchParamWord.$invalid){
+        if($scope.searchParam.words && $scope.searchParam.words.length == 1){
             notificationService.error($filter('translate')('Enter more data for search'));
             return;
         }
@@ -33704,7 +33705,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
             $scope.updateSearchStatuses();
         };
         $scope.clickSearch = function() {
-        if($scope.searchVacancies.searchParamWord.$invalid){
+        if($scope.searchParam.words && $scope.searchParam.words.length == 1){
             notificationService.error($filter('translate')('Enter more data for search'));
             return;
         }

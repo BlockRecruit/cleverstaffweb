@@ -168,7 +168,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
             $scope.updateSearchStatuses();
         };
         $scope.clickSearch = function() {
-        if($scope.searchVacancies.searchParamWord.$invalid){
+        if($scope.searchParam.words && $scope.searchParam.words.length == 1){
             notificationService.error($filter('translate')('Enter more data for search'));
             return;
         }

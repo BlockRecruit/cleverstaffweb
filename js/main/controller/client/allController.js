@@ -60,7 +60,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
     $scope.clickSearch = function() {
         $scope.tableParams.$params.page = 1;
 
-        if($scope.searchClients.searchParamWord.$invalid){
+        if($scope.searchParam.words && $scope.searchParam.words.length == 1){
             notificationService.error($filter('translate')('Enter more data for search'));
             return;
         }
