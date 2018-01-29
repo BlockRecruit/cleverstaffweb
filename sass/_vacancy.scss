@@ -217,23 +217,34 @@
 			.settings {
 				margin-top: 8px;
 				margin-left: 10px;
-				a {
-					display: block;
-					width: 23px;
-					height: 23px;
+				.fa-cog {
+					font-size: 25px;
 
-					background-image: url("/images/sprite/settings-icon.svg");
-					background-repeat: no-repeat;
-					background-position: 0 0;
-					background-size: 45px;
-					&:hover,
-					&:active,
-					&:focus {
+					color: #00b549;
+
+					&:hover {
 						cursor: pointer;
 
-						background-position: -22px 0;
+						color: #a3e8a7;
 					}
 				}
+				//a {
+				//	display: block;
+				//	width: 23px;
+				//	height: 23px;
+				//
+				//	background-image: url("/images/sprite/settings-icon.svg");
+				//	background-repeat: no-repeat;
+				//	background-position: 0 0;
+				//	background-size: 45px;
+				//	&:hover,
+				//	&:active,
+				//	&:focus {
+				//		cursor: pointer;
+				//
+				//		background-position: -22px 0;
+				//	}
+				//}
 			}
 			a {
 				text-decoration: none;
@@ -528,9 +539,11 @@
 			}
 		}
 		.stages-option {
-			padding: 15px;
+			.stages {
+				padding: 15px 15px 0 15px;
 
-			background-color: $theme-white;
+				background-color: $theme-white;
+			}
 			.unlock {
 				.fa-unlock {
 					visibility: visible;
@@ -607,6 +620,10 @@
 			}
 			a {
 				@include link-styling();
+				&.margin {
+					display: inline-block;
+					margin-top: 16px;
+				}
 			}
 		}
 		.block-recommendations {
@@ -668,6 +685,60 @@
 		}
 		#recallsTable {
 			display: none;
+		}
+		.active-buttons {
+			margin: 20px auto;
+
+			text-align: center;
+			.img-wrap {
+				display: inline-block;
+				padding: 2px 0 2px 3.5px;
+
+				border-radius: 5px;
+				background-color: #ffc100;
+				&.set-to-default {
+					margin-right: 30px;
+
+					background-color: #b8b8b8;
+				}
+				img {
+					display: inline-block;
+					width: 20px;
+					height: auto;
+					margin-left: 5px;
+					&.save {
+						width: 16px;
+						height: 20px;
+					}
+				}
+				span {
+					font-weight: 600;
+
+					padding: 3px 10.5px 3px 2px;
+
+					color: #202021;
+				}
+				&:hover {
+					cursor: pointer;
+
+					background-color: #fdd14a;
+					span {
+						color: #202021;
+					}
+					&.set-to-default {
+						background-color: #e3e3e3;
+						span {
+							color: #000;
+						}
+					}
+				}
+			}
+			.btn {
+				@include button-styling();
+				&.cancel {
+					@include button-styling-cancel();
+				}
+			}
 		}
 	}
 	.history-outer {

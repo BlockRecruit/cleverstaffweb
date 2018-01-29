@@ -35437,17 +35437,22 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                             } else if (status == 'extra_status') {
                                 if(!showLongList && event && event.target.id === 'openSettings'){
 
-                                    updateDefaultStages();
-                                    updateCustomStages();
+                                    // updateDefaultStages();
+                                    // updateCustomStages();
                                     $scope.activeName = 'extra_status';
                                     $scope.activeCustomStageName = "";
                                     showLongList = true;
+                                    $("html, body").animate({scrollTop: $('#openSettings').offset().top - $('#openSettings').height()}, "fast");
                                 }else{
-                                    if(event && event.target.id === 'openSettings') return;
+                                    if(event && event.target.id === 'openSettings') {
+                                        $("html, body").animate({scrollTop: $('#openSettings').offset().top - $('#openSettings').height()}, "fast");
+                                        return;
+                                    }
                                     showLongList = false;
                                     showLongLists($scope.VacancyStatusFiltered[0]);
                                     updateDefaultStages();
                                     updateCustomStages();
+                                    $("html, body").animate({scrollTop: 0}, "slow");
                                     notificationService.success($filter('translate')('Changes saved'));
                                 }
                             } else {
