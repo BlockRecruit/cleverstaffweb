@@ -27,6 +27,7 @@
 						padding: 0 15px;
 					}
 					& > p {
+						margin-top: 5px;
 						padding: 0 15px;
 					}
 					& > .scope_background_color {
@@ -560,6 +561,11 @@
 							cursor: pointer;
 							vertical-align: inherit;
 						}
+						&.too-match {
+							& > .count {
+								text-transform: none;
+							}
+						}
 					}
 				}
 				.btn {
@@ -778,6 +784,9 @@
 							height: 39px;
 							padding-right: 0;
 							padding-left: 0;
+
+							border-top-right-radius: 5px;
+							border-bottom-right-radius: 5px;
 							i {
 								vertical-align: middle;
 							}

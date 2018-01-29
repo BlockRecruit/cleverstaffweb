@@ -1069,6 +1069,8 @@
 						padding: 0;
 
 						border-bottom: 1px solid $theme-border-color-base;
+						border-bottom-right-radius: 5px;
+						border-bottom-left-radius: 5px;
 						background-color: $theme-white;
 
 						& > .pull-left {
@@ -1232,6 +1234,8 @@
 						margin-left: 0;
 						padding: 8px;
 
+						border-top-left-radius: 5px;
+						border-top-right-radius: 5px;
 						background-color: $theme-subtitle-background;
 						.title-header {
 							@include bold();
@@ -1255,7 +1259,7 @@
 					}
 				}
 				.history-outer {
-					margin-top: 16px;
+					margin: 16px 0;
 					padding: 0;
 					.event {
 						@include flex-centered-verticaly();

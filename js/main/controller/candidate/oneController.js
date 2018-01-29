@@ -3,6 +3,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
     "Action", "vacancyStages", "Task", "File", "$sce", "$window", "Mail", "$uibModal", "$timeout", "$route", "Test", "CandidateGroup",
     function (CacheCandidates, $localStorage, $scope, frontMode, $translate, googleService, $location, $routeParams, Candidate, Service, $rootScope, Person, serverAddress, FileInit,
               notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup ) {
+        delete $rootScope.client;
         $scope.serverAddress = serverAddress;
         $localStorage.remove("candidateForTest");
         if($location.$$absUrl.indexOf('&task=') != -1) {

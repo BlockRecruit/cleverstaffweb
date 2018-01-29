@@ -2956,7 +2956,7 @@ var directive = angular.module('RecruitingApp.directives', []).
                                                 afterAdd.push(res.object.name);
                                                 $scope.setSelect2Group(afterAdd);
                                                 candidateGroups.push(res.object);
-                                                notificationService.success($filter('translate')('Tags added'));
+                                                notificationService.success($filter('translate')('Tag added'));
                                             }
                                             $('a.select2-search-choice-edit').attr("title", $filter('translate')('Edit tag for all candidates'));
                                             $('a.select2-search-choice-edit').off().on('click',function (e) {

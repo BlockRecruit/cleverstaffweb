@@ -32,11 +32,14 @@ controller.controller('ClientAddController', ["FileInit", "$scope", "Service", "
         };
         FileInit.initFileOption($scope, "client");
         $scope.callbackFile = function(resp, names) {
+            $rootScope.loading = false;
             $scope.client.logoId = resp;
             $scope.hideModalAddPhoto();
         };
-        FileInit.addPhotoByReference($scope, $scope.callbackFile);
-        $scope.removePhoto = function() {
+        $scope.addPhotoByReference = function (photoUrl) {
+            $rootScope.loading = true;
+            FileInit.addPhotoByReference(photoUrl, $scope.callbackFile);
+        };        $scope.removePhoto = function() {
             $scope.client.logoId = undefined;
             $scope.progressUpdate();
         };
