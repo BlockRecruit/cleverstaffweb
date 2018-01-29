@@ -33786,12 +33786,14 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                 $scope.searchParam['responsibleId'] ||
                 $scope.searchParam['personId'] ||
                 $scope.searchParam['words']) {
-                if ($scope.searchParam['salaryName']) {
+                if ($scope.searchParam['salaryName'] && $scope.searchParam['salaryName']!='null') {
                     angular.forEach($scope.salaryObject, function(resp){
                         if(resp.name == $scope.searchParam.salaryName){
                             $scope.searchParam['salary'] = resp;
                         }
                     });
+                } else {
+                    $scope.searchParam['salary'] = null;
                 }
                 if ($("#clientAutocompleater").select2('data') !== null) {
                     $scope.searchParam['clientId'] =$("#clientAutocompleater").select2('data').id;
