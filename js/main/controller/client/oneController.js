@@ -1,5 +1,6 @@
 function ClientOneController(serverAddress, $scope, $routeParams, $location, Client, Service, Contacts, Vacancy, $rootScope, notificationService,
                              $filter, ngTableParams,Person, Action, Task, CacheCandidates, File, FileInit, $translate, $uibModal, $route, Mail, $localStorage) {
+    delete $rootScope.candidate;
     $scope.status = Client.getState();
     $scope.contactLimit = 3;
     $scope.vacancyCounter = 0;

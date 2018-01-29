@@ -3527,6 +3527,9 @@ $('#askQuestionSubmit4').on('click',function(e){
 
         },
         complete: function(){
+            $("#nameQuestion").val('');
+            $("#emailQuestion").val('');
+            $("#textQuestion").val('');
             $("#need-demo-modal").modal('hide');
             $("#thanks-modal").modal('show');
             $("#ex1_firstName").val('');

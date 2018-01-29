@@ -26,6 +26,7 @@
 	.add-vacancy {
 		padding-bottom: 20px;
 
+		border-radius: 5px;
 		background-color: $theme-white;
 		h4 {
 			@include bold();
@@ -79,6 +80,7 @@
 		}
 	}
 	.search {
+		border-radius: 5px;
 		background-color: $theme-white;
 		.chosenStatus {
 			width: 95%;

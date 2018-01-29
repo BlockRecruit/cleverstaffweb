@@ -14,15 +14,12 @@
         </div>
         <div class="item">
             <h5>{{'Or provide a link to photos on the internet' | translate}}</h5>
-            <input ng-model="$root.photoUrl" ng-model="photoUrl" ng-focus="showErrorAddPhotoMessage=false"  type="text">
+            <input ng-model="photoUrl" type="text">
 
-            <label ng-show="photoUrl.length>0" class="btn btn-primary accept" ng-click="$root.addPhotoByReference()">
+            <label ng-show="photoUrl.length>0" class="btn btn-primary accept" ng-click="addPhotoByReference(photoUrl)">
                 <span>{{'save'|translate}}</span>
             </label>
             <div class="formats">{{'Supported formats' | translate}}: JPG, PNG</div>
         </div>
-    </div>
-    <div class="modal-footer" ng-show="showErrorAddPhotoMessage">
-        <p translate="This link is not an image!"></p>
     </div>
 </div>

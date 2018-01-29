@@ -52,13 +52,17 @@ function EmployeeAddControllerFunc($rootScope, $http, $scope, $translate, FileIn
 
 
     $scope.callbackAddPhoto = function(photo) {
+        $rootScope.loading = false;
         $scope.pageObject.employee.candidateId.photo = photo;
         $scope.photoLink = $scope.serverAddress + "/getapp?id=" + photo + "&d=true";
         $rootScope.photoUrl = "";
         $rootScope.closeModal();
     };
 
-    FileInit.addPhotoByReference($scope, $rootScope, $scope.callbackAddPhoto);
+    $scope.addPhotoByReference = function (photoUrl) {
+        $rootScope.loading = true;
+        FileInit.addPhotoByReference(photoUrl, $scope.callbackAddPhoto);
+    };
     FileInit.initCandFileOption($scope, "", "", false);
 
     $scope.progressUpdate = function() {

@@ -1,6 +1,6 @@
 <div class="users-invite">
     <div class="modal-header">
-        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <i class="fa fa-times pull-right" ng-click="modalInstance.close()"></i>
         <h4 class="modal-title">
             {{'Invited user' | translate}}
         </h4>
@@ -21,10 +21,7 @@
     </div>
     <div class="modal-footer">
         <div class="text-center button">
-            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">
-                <span>{{'cancel'|translate}}</span>
-            </a>
-            <a type="button" class="btn btn-primary delete"  ng-click="$root.deleteUserMail()">
+            <a type="button" class="btn btn-primary cancel"  ng-click="$root.deleteUserMail()">
                 <span>{{'Delete'|translate}}</span>
             </a>
             <a type="button" class="btn btn-primary accept"  ng-click="$root.sendUserMail()">

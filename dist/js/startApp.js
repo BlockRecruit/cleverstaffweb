@@ -90,7 +90,7 @@ var app = angular.module('RecruitingAppStart', [
 }]).config(function($translateProvider,tmhDynamicLocaleProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=8'
+        suffix: '.json?b=9'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -1965,6 +1965,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             $scope.hideSearchPositions = true;
             $scope.errorHandler.vacanciesFilter.positionError = false;
             $('.positions-wrap input.vacancy-position').val("");
+            selectedPosition = null;
         };
 
          function getAllVacancyForCompany(){
@@ -2020,6 +2021,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
         function resetLocation() {
             $('.locations-wrap span.location').text($filter('translate')('Location'));
             $scope.errorHandler.vacanciesFilter.locationError = false;
+            selectedLocation = null;
         }
 
         getAllVacancyForCompany();
@@ -5117,23 +5119,20 @@ angular.module('services.candidate', [
                 }
             };
         },
-        addPhotoByReference: function($scope, $rootScope, callback) {
-            $rootScope.addPhotoByReference = function() {
-                $scope.loader = false;
-                $http({
-                    url: serverAddress + '/addPhotoByReference',
-                    method: "GET",
-                    params: {reference: $rootScope.photoUrl}
-                }).success(function(data) {
-                    $scope.loader = true;
-                    if (data.status == "ok") {
-                        console.log('here');
-                        callback(data.object);
-                    } else if (data.status == "error") {
-                        $scope.showErrorAddPhotoMessage = true;
-                    }
-                });
-            };
+        addPhotoByReference: function(url, callback) {
+            console.log('in serv', url)
+            $http({
+                url: serverAddress + '/addPhotoByReference',
+                method: "GET",
+                params: {reference: url}
+            }).success(function(data) {
+                if (data.status == "ok") {
+                    callback(data.object);
+                } else if (data.status == "error") {
+                    callback('error')
+                    notificationService.error(data.message)
+                }
+            });
         }
     };
      var FileInit = $resource(serverAddress + '/action/:param', {param: "@param"}, {

@@ -8,6 +8,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.addLinkErrorShow = false;
         $scope.showAddedLinks = false;
         $scope.showAddedFiles = false;
+        $scope.photoUrl = '';
         $scope.showAddLink = false;
         $scope.objType = 'candidate';
         $scope.currency = Service.currency();
@@ -64,6 +65,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 animation: true,
                 templateUrl: '../partials/modal/add-photo-candidate.html',
                 size: '',
+                scope: $scope,
                 resolve: {
                     items: function () {
                         return $scope.items;
@@ -404,14 +406,22 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             }
         };
         $scope.callbackAddPhoto = function(photo) {
-            $scope.candidate.photo = photo;
-            $scope.photoLink = $scope.serverAddress + "/getapp?id=" + $scope.candidate.photo + "&d=true";
-            $scope.imgWidthFunc();
-            //$scope.hideModalAddPhoto();
-            $rootScope.closeModal();
-            Candidate.progressUpdate($scope, true);
+            $rootScope.loading = false;
+            if(photo != 'error') {
+                $scope.candidate.photo = photo;
+                $scope.photoLink = $scope.serverAddress + "/getapp?id=" + $scope.candidate.photo + "&d=true";
+                $scope.imgWidthFunc();
+                //$scope.hideModalAddPhoto();
+                $rootScope.closeModal();
+                Candidate.progressUpdate($scope, true);
+            }
         };
-        FileInit.addPhotoByReference($scope, $scope.callbackAddPhoto);
+
+
+        $scope.addPhotoByReference = function (photoUrl) {
+            $rootScope.loading = true;
+            FileInit.addPhotoByReference(photoUrl, $scope.callbackAddPhoto);
+        };
 
         $scope.callbackErr = function(err) {
             notificationService.error(err);
