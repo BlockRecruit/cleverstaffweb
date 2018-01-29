@@ -2209,11 +2209,13 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             image_advtab: true,
                             toolbar_items_size: 'small',
                             relative_urls: false,
+                            link_assume_external_targets: true,
                             setup: function (ed) {
                                 ed.on('SetContent', function (e) {
 
                                 });
                                 ed.on('change', function(e) {
+                                    console.log('changed');
                                     $rootScope.emailTemplateInModal.text = tinyMCE.get('modalMCE').getContent();
                                 });
                             }
