@@ -574,13 +574,13 @@
             </div>
             <div class="changeStatusBtn pull-right" ng-show="candidatesAddToVacancyIds.length > 0" ng-class="{'hidden-xs': showSearchCandidate || candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview' || candidate.state == 'hr_interview' || candidate.state == 'interview_with_the_boss' || candidate.state == 'interview_with_the_client')}">
                 <a href="" class="btn btn-success no-hover-sm" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidatesAddToVacancyIds);">
-                    {{'change_status' | translate}} ({{candidatesAddToVacancyIds.length}})
+                    {{'change_status_1' | translate}} ({{candidatesAddToVacancyIds.length}})
                 </a>
             </div>
             <div class="clearfix"></div>
             <div class="row header" ng-show="!showSearchCandidate">
                 <div class="col-lg-4 blockStage">
-                    <input ng-click="pushAllCandidatesToVacancy()" ng-hide="(showTable === 'not available' || showTable === undefined && $scope.loadingCandidates == false) && !noCandidatesInThisVacancy" ng-checked="checkAllCandidates == true" type="checkbox"/>
+                    <input ng-click="pushAllCandidatesToVacancy()" ng-hide="((showTable === 'not available' || showTable === undefined && $scope.loadingCandidates == false) && !noCandidatesInThisVacancy) || dataForVacancy.length < 2" ng-checked="checkAllCandidates == true" type="checkbox"/>
                     <h4 ng-show="!activeCustomStageName">{{activeName | translate}}</h4>
                     <h4 ng-show="activeCustomStageName">
                         {{activeCustomStageName}}
@@ -657,7 +657,7 @@
                 <tr ng-repeat="candidate in dataForVacancy" ng-class="{'archived': candidate.candidateId.status == 'archived'}">
                     <td class="number" data-title="'№'" once-text="(tableParams.page() - 1) * tableParams.count() + $index + 1"></td>
                     <td class="checklist" ng-if="candidate.candidateId.status == 'archived'"></td>
-                    <td class="checklist" ng-if="candidate.candidateId.status != 'archived'">
+                    <td class="checklist" ng-if="candidate.candidateId.status != 'archived' && dataForVacancy.length > 1">
                         <input ng-click="pushCandidateToVacancy(candidate)" type="checkbox" ng-model="candidate.added"/>
                     </td>
                     <td class="preview text-center width-for-table-eye hidden-xs" priview="" pageid="candidate" candidate="candidate.candidateId">
