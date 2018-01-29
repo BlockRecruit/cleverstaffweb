@@ -1773,8 +1773,8 @@
 	.ui.vertically.divided-grid {
 		position: relative;
 		//overflow-x: hidden;
-		//overflow-y: auto;
 
+		overflow-y: auto;
 		min-height: 175px;
 		max-height: 320px;
 		.candidatePreview-info {
