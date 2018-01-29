@@ -18,6 +18,20 @@
 		@include bt-margins-from-side();
 
 		padding: 15px;
+		.responsible {
+			h4 {
+				font-family: "Helvetica-Bold";
+
+				display: inline-block;
+				margin-right: 20px;
+			}
+			.resp-preson {
+				display: inline-block;
+				a {
+					font-family: "Helvetica-Bold";
+				}
+			}
+		}
 		& > .col-lg-12 {
 			padding: 15px;
 
@@ -30,7 +44,15 @@
 				text-align: center;
 			}
 			&.report-info {
+				display: flex;
+				flex-direction: row;
 				margin-bottom: 15px;
+				padding: 0;
+
+				background: none;
+
+				align-items: center;
+				justify-content: space-between;
 				h4 {
 					font-size: 14px;
 					font-weight: 600;
@@ -48,7 +70,21 @@
 				}
 			}
 
-			& > .pull-left {
+			.update,
+			.filter,
+			.dateFrom {
+				display: flex;
+				flex-direction: row;
+				min-height: 66px;
+				padding: 10px;
+
+				background-color: #fff;
+
+				justify-content: center;
+				align-items: center;
+			}
+			.update {
+				margin-left: auto;
 				& > a {
 					display: block;
 				}
@@ -57,9 +93,10 @@
 				}
 			}
 			& > .dateFrom {
-				margin-top: 5px;
+				margin-right: auto;
 
 				cursor: pointer;
+
 				& > .field {
 					& > label {
 					}
@@ -81,9 +118,82 @@
 						margin-right: 15px;
 					}
 				}
-				& > .pull-left:last-child {
-					margin-top: 21px;
-					margin-left: 15px;
+			}
+			& > .filter {
+				position: relative;
+
+				min-width: 31%;
+				margin: 0 auto;
+				padding: 10px 10px 10px 20px;
+
+				justify-content: flex-start;
+				span {
+					font-family: "Helvetica-Bold";
+					font-size: 16px;
+
+					margin-right: 15px;
+				}
+				label {
+					margin-bottom: 0;
+				}
+				.responsible-list {
+					position: absolute;
+					z-index: 100;
+					top: 100%;
+					left: 0;
+
+					width: 100%;
+					padding: 10px 16px;
+
+					background-color: #fff;
+					box-shadow: 0 0 7px 4px rgba(0, 0, 0, 0.2);
+					.responsible {
+						display: inline-block;
+
+						animation: zoom;
+						animation-duration: 0.3s;
+					}
+					@keyframes zoom {
+						from {
+							transform: scale(0);
+						}
+						to {
+							transform: scale(1);
+						}
+					}
+				}
+			}
+		}
+		.funnel-types {
+			display: flex;
+			flex-direction: row;
+
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-items: center;
+			.funnel-type {
+				min-width: 45%;
+				margin: 0 0 10px auto;
+				padding: 5px;
+
+				transition: 0.2s all ease;
+				text-align: center;
+
+				background-color: #fff;
+				&:nth-child(odd) {
+					margin: 0 auto 10px 0;
+				}
+				&:last-child {
+					margin: 0 0 10px auto;
+				}
+				h5 {
+					font-family: "Helvetica-Bold";
+					font-size: 14px;
+				}
+				&:hover {
+					cursor: pointer;
+
+					background-color: #dbd8d8;
 				}
 			}
 		}
@@ -154,5 +264,8 @@
 				}
 			}
 		}
+	}
+	.no-padding {
+		padding: 0;
 	}
 }
