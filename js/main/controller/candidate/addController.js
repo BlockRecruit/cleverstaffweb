@@ -722,6 +722,7 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             animation: true,
             templateUrl: '../partials/modal/add-photo-candidate.html',
             size: '',
+            scope: $scope,
             resolve: function(){
 
             }

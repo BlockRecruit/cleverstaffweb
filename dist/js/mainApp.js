@@ -1201,7 +1201,7 @@ directive('appVersion', ['version', function(version) {
                         if (!$rootScope.$$phase) {
                             $rootScope.$apply();
                         }
-                    };
+                    }
 
                     //$rootScope.hideCandidatePreviewModal = function() {
                     //    $('#candidate_preview').hide();
@@ -18032,6 +18032,7 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             animation: true,
             templateUrl: '../partials/modal/add-photo-candidate.html',
             size: '',
+            scope: $scope,
             resolve: function(){
 
             }
