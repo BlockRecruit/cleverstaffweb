@@ -100,6 +100,11 @@
                                  class="action-button"
                                  src="../images/sprite/addMessage.svg"
                                  alt="{{'add_comment'|translate}}">
+                            <img ng-click="showCandidateSentEmail('md');"
+                                 ng-show="$root.me.recrutRole != 'client'"
+                                 class="action-button sendEmail"
+                                 src="../images/sprite/sendEmail.svg"
+                                 alt="{{'Send email'|translate}}">
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-lg-12 participate-in-job not-for-print">

@@ -1608,6 +1608,10 @@
 								cursor: pointer;
 							}
 						}
+						& > img.sendEmail {
+							width: 45px;
+							height: 25px;
+						}
 						& .find-button {
 							padding: 5px 15px 10px;
 						}
