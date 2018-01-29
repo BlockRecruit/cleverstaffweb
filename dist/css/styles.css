@@ -21541,7 +21541,7 @@ html body#tinymce.mce-content-body {
       -webkit-align-items: center;
       align-items: center; }
       .block-company-public-vacancy .companyInfo .info--site img {
-        width: 27px;
+        width: 26px;
         margin-right: 5px; }
         .block-company-public-vacancy .companyInfo .info--site img.fb {
           width: 25px;
@@ -29946,7 +29946,7 @@ body {
         align-items: center; }
         .block-company-public-vacancies .company-info .info .info--site img {
           display: inline-block;
-          width: 27px;
+          width: 26px;
           margin-right: 10px; }
           .block-company-public-vacancies .company-info .info .info--site img.fb {
             width: 25px; }
