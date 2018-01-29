@@ -88,7 +88,8 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 });
                 ed.on('change', function(e) {
                     console.log('changed');
-                    // $rootScope.emailTemplateInModal.text = tinyMCE.get('modalMCE').getContent();
+
+                    $scope.candidate.descr = tinyMCE.get('tinymce').getContent();
                 });
             }
         });
