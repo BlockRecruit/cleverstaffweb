@@ -2874,6 +2874,9 @@
   "Your company has no active vacancies in this account": "В Вашем аккаунте ещё нет вакансий",
   "yes_1":"Удалить",
   "Enter more data for search":"Введите больше символов для поиска",
-  "The Exchange server URL should look like https://***/EWS/exchange.asmx": "URL-адрес сервера Exchange (Exchange Host) должен выглядеть так: https: ///EWS/exchange.asmx",
-  "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Domain/user name поле нужно для тех случаев, когда вход в аккаунт осуществляется через Domain/user name, а не email."
+  "The server URL": "URL-адрес сервера",
+  "Domain/user name": "Домен/имя пользователя",
+  "Exchange version": "Версия Exchange",
+  "The Exchange server URL": "URL-адрес сервера Exchange должен выглядеть так: https: ///EWS/exchange.asmx",
+  "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email."
 }
