@@ -2873,5 +2873,7 @@
   "The account name changed to": "Название аккаунта было изменено на",
   "Your company has no active vacancies in this account": "В Вашем аккаунте ещё нет вакансий",
   "yes_1":"Удалить",
-  "Enter more data for search":"Введите больше символов для поиска"
+  "Enter more data for search":"Введите больше символов для поиска",
+  "The Exchange server URL should look like https://***/EWS/exchange.asmx": "URL-адрес сервера Exchange (Exchange Host) должен выглядеть так: https: ///EWS/exchange.asmx",
+  "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Domain/user name поле нужно для тех случаев, когда вход в аккаунт осуществляется через Domain/user name, а не email."
 }
