@@ -1309,13 +1309,17 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
             }
         };
         $scope.callbackAddPhoto = function(photo) {
+            $rootScope.loading = false;
             $scope.candidate.photo = photo;
             $scope.photoLink = $scope.serverAddress + "/getapp?id=" + $scope.candidate.photo + "&d=true";
             $scope.imgWidthFunc();
             //$scope.hideModalAddPhoto();
             $rootScope.closeModal();
         };
-        FileInit.addPhotoByReference($scope, $scope.callbackAddPhoto);
+        $scope.addPhotoByReference = function (photoUrl) {
+            $rootScope.loading = true;
+            FileInit.addPhotoByReference(photoUrl, $scope.callbackAddPhoto);
+        };
 
         $scope.callbackErr = function(err) {
             notificationService.error(err);

@@ -229,13 +229,17 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             }
         };
     $scope.callbackAddPhoto = function(photo) {
+        $rootScope.loading = false;
         $scope.candidate.photo = photo;
         $scope.photoLink = $scope.serverAddress + "/getapp?id=" + photo + "&d=true";
         $scope.imgWidthFunc();
         Candidate.progressUpdate($scope, true);
         $rootScope.closeModal();
     };
-    FileInit.addPhotoByReference($scope, $rootScope, $scope.callbackAddPhoto);
+    $scope.addPhotoByReference = function (photoUrl) {
+        $rootScope.loading = true;
+        FileInit.addPhotoByReference(photoUrl, $scope.callbackAddPhoto);
+    };
     if ($rootScope.candidateExternalLink) {
         $scope.fromLinkSite($rootScope.candidateExternalLink);
         $rootScope.candidateExternalLink = null;
@@ -718,6 +722,7 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             animation: true,
             templateUrl: '../partials/modal/add-photo-candidate.html',
             size: '',
+            scope: $scope,
             resolve: function(){
 
             }

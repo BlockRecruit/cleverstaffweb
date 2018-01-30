@@ -116,6 +116,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             $scope.hideSearchPositions = true;
             $scope.errorHandler.vacanciesFilter.positionError = false;
             $('.positions-wrap input.vacancy-position').val("");
+            selectedPosition = null;
         };
 
          function getAllVacancyForCompany(){
@@ -171,6 +172,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
         function resetLocation() {
             $('.locations-wrap span.location').text($filter('translate')('Location'));
             $scope.errorHandler.vacanciesFilter.locationError = false;
+            selectedLocation = null;
         }
 
         getAllVacancyForCompany();

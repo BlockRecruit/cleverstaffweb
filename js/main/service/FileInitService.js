@@ -569,23 +569,20 @@
                 }
             };
         },
-        addPhotoByReference: function($scope, $rootScope, callback) {
-            $rootScope.addPhotoByReference = function() {
-                $scope.loader = false;
-                $http({
-                    url: serverAddress + '/addPhotoByReference',
-                    method: "GET",
-                    params: {reference: $rootScope.photoUrl}
-                }).success(function(data) {
-                    $scope.loader = true;
-                    if (data.status == "ok") {
-                        console.log('here');
-                        callback(data.object);
-                    } else if (data.status == "error") {
-                        $scope.showErrorAddPhotoMessage = true;
-                    }
-                });
-            };
+        addPhotoByReference: function(url, callback) {
+            console.log('in serv', url)
+            $http({
+                url: serverAddress + '/addPhotoByReference',
+                method: "GET",
+                params: {reference: url}
+            }).success(function(data) {
+                if (data.status == "ok") {
+                    callback(data.object);
+                } else if (data.status == "error") {
+                    callback('error')
+                    notificationService.error(data.message)
+                }
+            });
         }
     };
      var FileInit = $resource(serverAddress + '/action/:param', {param: "@param"}, {

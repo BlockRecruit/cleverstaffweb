@@ -1225,8 +1225,9 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 notificationService.error($filter('translate')('This tag is not added to any candidate'));
             }
 
-            if($scope.searchCandidates.searchParamWord.$invalid){
+            if($scope.searchParam.words && $scope.searchParam.words.length == 1){
                 notificationService.error($filter('translate')('Enter more data for search'));
+                return
             }
 
             var array = [];

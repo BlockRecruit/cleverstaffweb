@@ -31,12 +31,13 @@ controller.controller('ActivityStatisticsController', ["$scope", "$rootScope", "
                 $scope.activeSearchName = "week";
                 $(".dateOptionsYearMonthWeek").datetimepicker('hide');
                 $scope.selectedDate = dateTex.date;
-                $scope.selectedDateTo = new Date($scope.selectedDate);
-                $scope.selectedDateTo.setHours(0,0,0,0);
-                $scope.selectedDateTo.setDate(parseInt($filter('date')($scope.selectedDate, 'dd')) + 8 - $scope.selectedDate.getDay());
-                $scope.selectedDateFrom = new Date($scope.selectedDate);
-                $scope.selectedDateFrom.setHours(0,0,0,0);
-                $scope.selectedDateFrom.setDate(parseInt($filter('date')($scope.selectedDate, 'dd')) - $scope.selectedDate.getDay() + 1);
+                var day = $scope.selectedDate.getDate();
+                var month = $scope.selectedDate.getMonth();
+                var year = $scope.selectedDate.getFullYear();
+                $scope.selectedDateTo = new Date(year, month, day + 7, 23, 59, 59);
+                //$scope.selectedDateTo.setDate(parseInt($filter('date')($scope.selectedDate, 'dd')) + 7 - $scope.selectedDate.getDay());
+                $scope.selectedDateFrom = new Date(year, month, day);
+                //$scope.selectedDateFrom.setDate(parseInt($filter('date')($scope.selectedDate, 'dd')) - $scope.selectedDate.getDay() + 1);
                 if ($filter('date')($scope.selectedDateFrom, 'MM') != $filter('date')($scope.selectedDateTo, 'MM')) {
                     $("#searchText").html($filter('date')($scope.selectedDateFrom, 'dd MMMM') + " - " + $filter('date')($scope.selectedDateTo, 'dd MMMM yyyy'));
                 } else {
@@ -69,7 +70,7 @@ controller.controller('ActivityStatisticsController', ["$scope", "$rootScope", "
                     $scope.selectedDate = new Date(year, month, 1);
                     $scope.searchDate = null;
                     $scope.selectedDateFrom = new Date(year, month, 1);
-                    $scope.selectedDateTo = new Date(year, parseInt(month) + 1, 0);
+                    $scope.selectedDateTo = new Date(year, parseInt(month) + 1, 0, 23, 59, 59);
                     $("#searchText").html($filter('date')($scope.selectedDateFrom, 'dd') + " - " + $filter('date')($scope.selectedDateTo, 'dd') + " " + $filter('date')($scope.selectedDateTo, 'MMMM yyyy'));
                     $scope.search();
                 }
@@ -86,7 +87,7 @@ controller.controller('ActivityStatisticsController', ["$scope", "$rootScope", "
         }
         if (year !== null) {
             $scope.selectedDateFrom = new Date(year, 0, 1);
-            $scope.selectedDateTo = new Date(year, 12, 0);
+            $scope.selectedDateTo = new Date(year, 12, 0, 23, 59, 59);
             $("#searchText").html($filter('date')($scope.selectedDateFrom, 'dd MMMM') + " - " + $filter('date')($scope.selectedDateTo, 'dd MMMM') + " " + $filter('date')($scope.selectedDateTo, 'yyyy'));
             $scope.search();
         }
@@ -309,11 +310,14 @@ controller.controller('ActivityStatisticsController', ["$scope", "$rootScope", "
     };
 
     var getStatFirstTime = function () {
+        $scope.selectedDateTo = new Date();
+        $scope.selectedDateTo.setHours(23, 59, 59, 0);
+        $scope.selectedDateTo = Date.parse($scope.selectedDateTo);
         Statistic.getOrgInfoWithParams({
-            from: 1288323623006,
-            to: 1588323623006,
+            from: $rootScope.me.org.dc,
+            to: $scope.selectedDateTo,
             personId: $rootScope.onlyMe ? $rootScope.userId : null,
-            types: $scope.candWithoutContacts ? statWithoutCandCont : statWithCandCont,
+            types: $scope.candWithoutContacts ? statWithoutCandCont : statWithCandCont
         }, function(resp) {
             $rootScope.loading = false;
             $scope.pageInfo(resp, true);
@@ -324,13 +328,16 @@ controller.controller('ActivityStatisticsController', ["$scope", "$rootScope", "
 
     $scope.search = function() {
         if ($scope.activeSearchName === 'Forever') {
+            $scope.selectedDateTo = new Date();
+            $scope.selectedDateTo.setHours(23, 59, 59, 0);
+            $scope.selectedDateTo = Date.parse($scope.selectedDateTo);
             $rootScope.loading = true;
             $scope.selectedDate = null;
             Statistic.getOrgInfoWithParams({
-                from: 1288323623006,
-                to: 1588323623006,
+                from: $rootScope.me.org.dc,
+                to: $scope.selectedDateTo,
                 personId: $rootScope.onlyMe ? $rootScope.userId : null,
-                types: $scope.candWithoutContacts ? statWithoutCandCont : statWithCandCont,
+                types: $scope.candWithoutContacts ? statWithoutCandCont : statWithCandCont
             }, function(resp) {
                 $rootScope.loading = false;
                 $scope.pageInfo(resp, true);
@@ -350,10 +357,10 @@ controller.controller('ActivityStatisticsController', ["$scope", "$rootScope", "
         } else {
             $rootScope.loading = true;
             Statistic.getOrgInfoWithParams({
-                from: 1288323623006,
-                to: 1588323623006,
+                from: $rootScope.me.org.dc,
+                to: $scope.selectedDateTo,
                 personId: $rootScope.onlyMe ? $rootScope.userId : null,
-                types: $scope.candWithoutContacts ? statWithoutCandCont : statWithCandCont,
+                types: $scope.candWithoutContacts ? statWithoutCandCont : statWithCandCont
             }, function(resp) {
                 $rootScope.loading = false;
                 $scope.candWithoutContacts = 'loaded';
