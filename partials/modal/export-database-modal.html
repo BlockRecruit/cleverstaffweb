@@ -3,7 +3,7 @@
     <span class="form-name">{{'CVs archive export' | translate}}</span>
     <img src="../../images/sprite/icon-folder.svg" width="120" height="100"/>
     <div class="form pull-right">
-        <div class="pull-left">
+        <div class="pull-left paragraphWidth">
             <p>{{'The archive preparation takes ~ 3 min/1000 candidates.'|translate}}</p>
             <p>{{'You can track its status and download it at “Export log”'|translate}}</p>
         </div>
@@ -14,7 +14,7 @@
         <div class="clearfix"></div>
     </div>
     <div class="applyOrClose text-center">
-        <button class="btn-modern apply" ng-click="$root.toArchiveHistory('archive');$root.closeModal()">{{'Export'|translate}}</button>
+        <button class="btn-new apply" ng-click="$root.toArchiveHistory('archive');$root.closeModal()">{{'Export'|translate}}</button>
         <a href=""  ng-click="$root.closeModal()">{{'Cancel_2'|translate}}</a>
     </div>
 </div>
