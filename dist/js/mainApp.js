@@ -19262,7 +19262,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: '../partials/modal/export-database-modal.html',
-            size: 'lg',
+            size: '',
             backdrop: 'static',
             keyboard: false,
             resolve: function(){

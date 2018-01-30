@@ -1,6 +1,8 @@
 .export-database-modal {
 	position: relative;
 
+	width: 700px;
+	margin-left: -50px;
 	padding: 20px 30px 5px 30px;
 
 	border-radius: 7px;
@@ -16,14 +18,19 @@
 	}
 	& > .form {
 		width: 81%;
+		margin-bottom: 20px;
 
 		background-color: rgba(241, 249, 238, 0.6);
-		p {
-			@include bold();
+		.paragraphWidth {
+			width: 52%;
+			p {
+				@include bold();
 
-			color: $theme-dark;
+				color: $theme-dark;
+			}
 		}
 		.history {
+			margin-top: 15px;
 			margin-right: -45px;
 			a {
 				position: relative;
@@ -36,12 +43,10 @@
 		}
 	}
 	& > .applyOrClose {
-		margin-top: 15px;
 		.btn-modern {
 			font-family: "Helvetica-Regular";
 			font-size: 18px;
 
-			margin-bottom: 15px;
 			padding: 10px 37px;
 
 			transition: all 0.3s;
