@@ -30332,6 +30332,12 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     Person.getMe(function (resp) {
                         $rootScope.me = resp.object;
                         $rootScope.userId = resp.object.userId;
+                        $rootScope.exportCandidate = true;
+                        $scope.exportCandidateNowDate = new Date().getTime();
+                        $scope.exportCandidateOtherDate = new Date(resp.object.exportCandidate).getTime();
+                        if($scope.exportCandidateNowDate  >= $scope.exportCandidateOtherDate || resp.object.orgParams.exportCandidate == undefined){
+                            $rootScope.exportCandidate = false;
+                        }
                         $rootScope.differenceCreateOrgDate = differenceBetweenTwoDates(new Date(), $rootScope.me.org.dc);
                         //if($rootScope.me.recrutRole == "freelancer"){
                         //    $scope.changeScope('onlyMy');
@@ -30392,8 +30398,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 $scope.orgId = response.object.orgId;
                 $rootScope.exportCandidate = true;
                 $scope.exportCandidateNowDate = new Date().getTime();
-                $scope.exportCandidateOtherDate = new Date($rootScope.companyParams.exportCandidate).getTime();
-                if($scope.exportCandidateNowDate  >= $scope.exportCandidateOtherDate || $rootScope.companyParams.exportCandidate == undefined){
+                $scope.exportCandidateOtherDate = new Date(response.object.orgParams.exportCandidate).getTime();
+                //console.log($scope.exportCandidateNowDate);
+                //console.log($scope.exportCandidateOtherDate);
+                //console.log($scope.exportCandidateNowDate  >= $scope.exportCandidateOtherDate || response.object.orgParams.exportCandidate == undefined);
+                if($scope.exportCandidateNowDate  >= $scope.exportCandidateOtherDate || response.object.orgParams.exportCandidate == undefined){
                     $rootScope.exportCandidate = false;
                 }
                 $scope.nameUser = (response.object.firstName ? response.object.firstName : " ") + " " + (response.object.lastName ? response.object.lastName : " ");
