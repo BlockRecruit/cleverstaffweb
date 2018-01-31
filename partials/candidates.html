@@ -36,7 +36,7 @@
                         <i class="fa fa-file-archive-o" aria-hidden="true"></i>
                         <a href="" ng-click="toZip()">{{'Import resume archive' | translate}}</a>
                     </div>
-                    <div class="operation">
+                    <div class="operation" ng-show="$root.me.recrutRole == 'admin'">
                         <i class="fa fa-file-archive-o" aria-hidden="true"></i>
                         <a href="" ng-if="$root.exportCandidate" ng-click="exportResumeArchiveModal()">
                             {{'Export candidate database' | translate}}
