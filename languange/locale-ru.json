@@ -2579,7 +2579,7 @@
   "Save and finish the test": "Сохранить ответы и закончить тест",
   "Date of passing": "Дата прохождения",
   "Result": "Результаты",
-  "Enter your answer first": "Сперва введите ваш ответ.",
+  "Enter your answer first": "Сперва выберите ваш ответ.",
   "Change email": "Изменить email",
   "This test is already passed. If you want to pass it one more time, please contact the recruiter who sent you the test link": "Этот тест уже пройден. Если вы хотите пройти его ещё раз, обратитесь к рекрутеру, который отправил вам этот тест.",
   "Time is over": "время вышло",
@@ -2873,5 +2873,6 @@
   "The account name changed to": "Название аккаунта было изменено на",
   "Your company has no active vacancies in this account": "В Вашем аккаунте ещё нет вакансий",
   "yes_1":"Удалить",
-  "Enter more data for search":"Введите больше символов для поиска"
+  "Enter more data for search":"Введите больше символов для поиска",
+  "Enter your answer first text":"Введите сначала ваш ответ"
 }
