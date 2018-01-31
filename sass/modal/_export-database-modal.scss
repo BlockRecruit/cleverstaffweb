@@ -17,12 +17,12 @@
 		text-align: center;
 	}
 	& > .form {
-		width: 81%;
+		width: 77%;
 		margin-bottom: 20px;
 
 		background-color: rgba(241, 249, 238, 0.6);
 		.paragraphWidth {
-			width: 52%;
+			width: 55%;
 			p {
 				@include bold();
 
@@ -30,8 +30,9 @@
 			}
 		}
 		.history {
+			//margin-right: -45px;
+			width: 26%;
 			margin-top: 15px;
-			margin-right: -45px;
 			a {
 				position: relative;
 				top: 8px;
