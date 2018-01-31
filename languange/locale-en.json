@@ -207,7 +207,8 @@
     "in_work": "In Progress",
     "all_done": "All Done",
     "canceled": "Canceled",
-    "deleted": "Deleted"
+    "deleted": "Deleted",
+    "on_hold": "On hold"
   },
   "Vacancy stages have been changed": "Vacancy stages changed",
   "interview_status_assoc": {
@@ -2282,5 +2283,6 @@
   "The account name changed to": "The account name changed to",
   "Your company has no active vacancies in this account": "Your company has no active vacancies in this account",
   "yes_1":"Yes",
-  "Enter more data for search":"Enter more data for search"
+  "Enter more data for search":"Enter more data for search",
+  "delete_responsible_2":"Do you really want to remove the responsible"
 }

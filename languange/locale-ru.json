@@ -2873,5 +2873,6 @@
   "The account name changed to": "Название аккаунта было изменено на",
   "Your company has no active vacancies in this account": "В Вашем аккаунте ещё нет вакансий",
   "yes_1":"Удалить",
-  "Enter more data for search":"Введите больше символов для поиска"
+  "Enter more data for search":"Введите больше символов для поиска",
+  "delete_responsible_2":"Вы действительно хотите убрать ответственного"
 }
