@@ -580,7 +580,7 @@
             <div class="clearfix"></div>
             <div class="row header" ng-show="!showSearchCandidate">
                 <div class="col-lg-4 blockStage">
-                    <input ng-click="pushAllCandidatesToVacancy()" ng-hide="((showTable === 'not available' || showTable === undefined && $scope.loadingCandidates == false) && !noCandidatesInThisVacancy) || dataForVacancy.length < 2" ng-checked="checkAllCandidates == true" type="checkbox"/>
+                    <input ng-click="pushAllCandidatesToVacancy()" ng-hide="((showTable === 'not available' || showTable === undefined && $scope.loadingCandidates == false) && !noCandidatesInThisVacancy) || activeName == 'approved' || dataForVacancy.length < 2" ng-checked="checkAllCandidates == true" type="checkbox"/>
                     <h4 ng-show="!activeCustomStageName">{{activeName | translate}}</h4>
                     <h4 ng-show="activeCustomStageName">
                         {{activeCustomStageName}}
@@ -654,12 +654,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="candidate in dataForVacancy" ng-class="{'archived': candidate.candidateId.status == 'archived'}">
-                    <td class="number" data-title="'№'" once-text="(tableParams.page() - 1) * tableParams.count() + $index + 1"></td>
-                    <td class="checklist" ng-if="candidate.candidateId.status == 'archived'"></td>
-                    <td class="checklist" ng-if="candidate.candidateId.status != 'archived' && dataForVacancy.length > 1">
+                <tr ng-repeat="candidate in dataForVacancy" ng-class="{'archived': candidate.candidateId.status == 'archived', 'add_color': candidate.added == true}">
+                    <td class="checklist" ng-if="candidate.state != 'approved' && candidate.candidateId.status != 'archived' && dataForVacancy.length > 1">
                         <input ng-click="pushCandidateToVacancy(candidate)" type="checkbox" ng-model="candidate.added"/>
                     </td>
+                    <td class="checklist" ng-if="candidate.candidateId.status == 'archived'"></td>
+                    <td class="number" data-title="'№'" once-text="(tableParams.page() - 1) * tableParams.count() + $index + 1"></td>
                     <td class="preview text-center width-for-table-eye hidden-xs" priview="" pageid="candidate" candidate="candidate.candidateId">
                         <div>
                             <i class="fa fa-address-card-o text_change" title="{{'CV preview'|translate}}" aria-hidden="true"></i>

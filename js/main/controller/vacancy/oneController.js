@@ -928,11 +928,12 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             angular.forEach($scope.dataForVacancy, function(resp){
                 angular.forEach($scope.candidatesAddToVacancyIds, function(ids){
                     if(resp.candidate == ids){
+                        console.log(resp);
                         $scope.candidatesAddToVacancyIds.splice($scope.candidatesAddToVacancyIds.indexOf(resp.candidateId.candidateId), 1);
                         $scope.addCandidateChangeStage.splice($scope.addCandidateChangeStage.indexOf(resp.candidateId.candidateId), 1);
                     }
                 });
-                if($scope.checkAllCandidates){
+                if($scope.checkAllCandidates && resp.candidateId.status != 'archived'){
                     resp.added = true
                 }else{
                     resp.added = false;
@@ -2037,11 +2038,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
                                     if(elem == urlStage && (!$scope.VacancyStatusFiltered[index]['hidden']) || $rootScope.me.recrutRole !== 'client' ){
                                         $scope.dataForVacancy = cd;
-                                        if($scope.dataForVacancy.length > 9){
-                                            $('.vacancy-statuses > .status-info').find('.header').css('padding-left', '25px');
-                                        }else{
-                                            $('.vacancy-statuses > .status-info').find('.header').css('padding-left', '17px');
-                                        }
                                         $defer.resolve(cd);
                                         $scope.noAccess = false;
                                     }else if(elem  == urlStage && $scope.VacancyStatusFiltered[index]['hidden']){
@@ -2049,11 +2045,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         $scope.noAccess = true;
                                     }else if(!$scope.visiable){
                                         $scope.dataForVacancy = cd;
-                                        if($scope.dataForVacancy.length > 9){
-                                            $('.vacancy-statuses > .status-info').find('.header').css('padding-left', '25px');
-                                        }else{
-                                            $('.vacancy-statuses > .status-info').find('.header').css('padding-left', '17px');
-                                        }
                                         $scope.noAccess = false;
                                         $defer.resolve(cd);
                                     }else{
@@ -2061,11 +2052,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                     }
                                 } else {
                                     $scope.dataForVacancy = cd;
-                                    if($scope.dataForVacancy.length > 9){
-                                        $('.vacancy-statuses > .status-info').find('.header').css('padding-left', '25px');
-                                    }else{
-                                        $('.vacancy-statuses > .status-info').find('.header').css('padding-left', '17px');
-                                    }
                                     $scope.dataForVacancy.map((item) => {
                                         console.log(item.state,item.isInterview);
                                     });

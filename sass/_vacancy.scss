@@ -297,6 +297,7 @@
 				background-color: $theme-subtitle-background;
 				input {
 					display: inline-block;
+					margin-right: 10px;
 				}
 				h4 {
 					@include bold();
@@ -368,7 +369,7 @@
 				}
 			}
 			.blockStage {
-				padding-left: 10px;
+				padding-left: 15px;
 			}
 			table {
 				background-color: $theme-white;
@@ -435,10 +436,11 @@
 				}
 				.checklist {
 					width: 20px;
-					padding-left: 3px;
+					padding-left: 15px;
 				}
 				.preview {
 					width: 25px;
+					padding-left: 3px;
 				}
 				.date {
 					width: 145px;
@@ -564,6 +566,9 @@
 							width: 22%;
 						}
 					}
+				}
+				.add_color {
+					background-color: #f0fff0;
 				}
 			}
 		}
