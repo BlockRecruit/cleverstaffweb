@@ -2,7 +2,8 @@
     <div class="modal-header">
         <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
         <h4 class="modal-title">
-            {{'delete_responsible_2'|translate}}&nbsp{{$root.changeResponsibleInClient.name}}?
+            <span>{{'delete_responsible_2'|translate}}</span>
+            <span>{{$root.changeResponsibleInClient.name}}?</span>
         </h4>
     </div>
     <div class="modal-body">
