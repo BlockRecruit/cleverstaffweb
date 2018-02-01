@@ -15,8 +15,9 @@ var linkedin_url = "https://www.linkedin.com/uas/oauth2/authorization" +
 
 function sentAnalyticEvents(page, type) {
     try {
-        if (document.domain !== 'cleverstaff.net') fbq('track', type);
+        console.log('send','event',page,type);
         if (document.domain !== 'cleverstaff.net') ga('send', 'event', type, page);
+        if (document.domain !== 'cleverstaff.net') fbq('track', type);
     } catch(error) {
         console.error('Analytic Events', error);
     }
