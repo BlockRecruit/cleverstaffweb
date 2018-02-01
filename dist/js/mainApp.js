@@ -33350,7 +33350,6 @@ controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", 
                 datePayment: "",
                 accessType: 'public',
                 dateFinish: "",
-                sex:true,
                 clientId: {
                     clientId: $rootScope.addVacancyClientId
                 }
@@ -34418,9 +34417,9 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
                         });
                     }
                 }
-                if (resp.object.sex === undefined) {
-                    $scope.vacancy.sex = null;
-                }
+                // if (resp.object.sex === undefined) {
+                //     $scope.vacancy.sex = null;
+                // }
                 if (resp.object.accessType === undefined) {
                     $scope.vacancy.accessType = 'private';
                 }
@@ -34530,16 +34529,16 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
             $location.path("/vacancies/" + $routeParams.id);
         };
 
-        $scope.sexObject = [
-            {name: "Male", value: true},
-            {name: "Female", value: false},
-            {name: "Doesn't matter", value: null}
-        ];
-        $scope.sexObjectRU = [
-            {name: "Мужчина", value: true},
-            {name: "Женщина", value: false},
-            {name: "Не имеет значения", value: null}
-        ];
+        // $scope.sexObject = [
+        //     {name: "Male", value: true},
+        //     {name: "Female", value: false},
+        //     {name: "Doesn't matter", value: null}
+        // ];
+        // $scope.sexObjectRU = [
+        //     {name: "Мужчина", value: true},
+        //     {name: "Женщина", value: false},
+        //     {name: "Не имеет значения", value: null}
+        // ];
 
         $scope.toAddClient = function() {
             var params = "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes";
