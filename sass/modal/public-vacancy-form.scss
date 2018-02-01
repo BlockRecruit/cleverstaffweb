@@ -39,9 +39,9 @@ body.modal-open-public-vacancy-form {
 			border: 1px solid #c2bcbc;
 			border-radius: 13px;
 			outline: none;
-			&.margin-right {
-				margin-right: 9%;
-			}
+			//&.margin-right {
+			//	margin-right: 9%;
+			//}
 			&.error {
 				border: 1px solid #dd514c;
 			}
@@ -90,6 +90,14 @@ body.modal-open-public-vacancy-form {
 		input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
 			-webkit-appearance: none;
+		}
+		.star-left {
+			margin-right: 4%;
+
+			vertical-align: top;
+		}
+		.star-right {
+			vertical-align: top;
 		}
 	}
 	.closeModal {

@@ -9,25 +9,30 @@
                    required
                    ng-model="request.name"
                    placeholder="{{'name' | translate}}">
+            <span class="star-left">*</span>
             <input type="text" class="form-control"
                    placeholder="{{'last_name' | translate}}"
                    required
                    ng-class="{'error': recallForm.last_name.$invalid && !recallForm.last_name.$pristine}"
                    name="last_name"
                    ng-model="request.lastName">
+            <span class="star-right">*</span>
             <input type="text"
                    class="form-control  margin-right"
                    placeholder="{{'email'|translate}}"
                    ng-class="{'error': showErrorEmailMessage}"
                    ng-model="request.email"
                    id="email2" name="email2">
+            <span class="star-left">*</span>
             <input type="number"
                    class="form-control"
                    placeholder="{{'phone' | translate}}"
                    ng-class="{'error': recallForm.phone.$invalid && !recallForm.phone.$pristine ||showErrorPhoneMessage}"
                    ng-model="request.phone"
+                   pattern="^[0-9\+\s]*$"
                    id="phone" name="phone"
                    required>
+            <span class="star-right">*</span>
             <div class="recallForm__error margin-right text-center"
                  ng-class="{'ru-text-width': localStorage.getItem('NG_TRANSLATE_LANG_KEY') == 'ru'}">
                 <span ng-show="recallForm.email2.$invalid && !recallForm.email2.$pristine || showErrorEmailMessage">{{'wrong_email'|translate}}</span>
@@ -44,9 +49,10 @@
                 <img src="/images/sprite/public-vacancy/atachment.png" alt="">
                 <input ng-disabled="filesForRecall.length == 2" type="file" oi-file="options" id="file" class="hidden"/>
                 <label for="file" href="#">{{'Attach document'|translate}}</label>
+                <span class="star-right">*</span>
                 <div ng-repeat="file in filesForRecall">
                     <i class="fa fa-file-o" aria-hidden="true"></i>
-                    <span title="{{file.fileName}}" bo-href="serverAddress+'/getapp?id='+file.attId+'&d=true'" target="_blank"">
+                    <span title="{{file.fileName}}" bo-href="serverAddress+'/getapp?id='+file.attId+'&d=true'" target="_blank">
                     {{file.name| cut:true:18:'...'}}
                     </span>
                     <i class="fa fa-times pull-right" ng-click="removeFile(file.attId)" aria-hidden="true"></i>
