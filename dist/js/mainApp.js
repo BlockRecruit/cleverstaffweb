@@ -36223,7 +36223,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             });
             console.log('here',firstName,lastName);
             $rootScope.changeResponsibleInVacancy.id = user.userId;
-            $rootScope.changeResponsibleInClient.name = firstName + " " + lastName;
             $rootScope.changeResponsibleInVacancy.text = $filter('translate')('Do you want to remove the responsible')
                 + " " + firstName + " " + lastName + " " + $filter('translate')("from vacancy") + " " + $scope.vacancy.position;
         };
