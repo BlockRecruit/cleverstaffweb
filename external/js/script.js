@@ -13,10 +13,12 @@ var linkedin_url = "https://www.linkedin.com/uas/oauth2/authorization" +
     "&state=STATUS123asd33342" +
     "&redirect_uri=" + location.protocol + "//" + document.domain + "/white.html";
 
-function sentAnalyticEvents(page, type) {
+function sentAnalyticEvents(type, action, page) {
     try {
         console.log('send','event',page,type);
-        if (document.domain !== 'cleverstaff.net') ga('send', 'event', type, page);
+        // ga('send', 'event', [eventCategory], [eventAction], [eventLabel], [eventValue], [fieldsObject]);
+        if (document.domain !== 'cleverstaff.net') ga('send', 'event', type, action, page);
+        // if (document.domain !== 'cleverstaff.net') ga('send', 'event', type, action, 'Ярлык', 'Ценность');
         if (document.domain !== 'cleverstaff.net') fbq('track', type);
     } catch(error) {
         console.error('Analytic Events', error);
@@ -2480,7 +2482,7 @@ $('#askQuestionSubmit').on('click',function(e){
             $('.keyRequirementsForm').css('display', 'none');
             //$('#contact').slideUp('slow');
             //$('.tyMessageQuestion').delay(800).fadeIn();
-            sentAnalyticEvents('Features', 'Personal_present');
+            sentAnalyticEvents( 'Personal_present', 'Submit', 'Features');
         },
         error: function (data) {
             localStorage.removeItem('phone');
@@ -2976,7 +2978,8 @@ $('#askQuestionSubmit2').on('click',function(e){
             $('.numberVacancyForm').css('display', 'none');
             $('.keyRequirementsForm').css('display', 'none');
 
-            sentAnalyticEvents('Price', 'Personal_present');
+            sentAnalyticEvents( 'Personal_present', 'Submit', 'Price');
+
 
             if(data.status != 'error') {
                 localStorage.removeItem('phone');
@@ -3473,7 +3476,8 @@ $('#askQuestionSubmit3').on('click',function(e){
       $('.numberVacancyForm').css('display', 'none');
       $('.keyRequirementsForm').css('display', 'none');
 
-        sentAnalyticEvents('Index', 'Personal_present');
+      sentAnalyticEvents('Personal_present', 'Submit', 'Index');
+
 
         if(data.status != 'error') {
             localStorage.removeItem('phone');
