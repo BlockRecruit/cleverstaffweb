@@ -2245,7 +2245,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $rootScope.emailThatAlreadyUsed = email;
             localStorage.emailThatAlreadyUsed = email.email;
             $rootScope.emailTemplateInModal.email = $rootScope.emailTemplateInModal.email + email.email;
-            $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiterEmail\]\]/g, $rootScope.emailTemplateInModal.email);
+            $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiterEmail\]\]/g, $rootScope.emailTemplateInModal.email?$rootScope.emailTemplateInModal.email:"");
             tinyMCE.get('modalMCE').setContent($rootScope.emailTemplateInModal.text);
         };
         $rootScope.sentEmail = function(){

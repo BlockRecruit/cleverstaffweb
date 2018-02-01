@@ -25664,7 +25664,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $rootScope.emailThatAlreadyUsed = email;
             localStorage.emailThatAlreadyUsed = email.email;
             $rootScope.emailTemplateInModal.email = $rootScope.emailTemplateInModal.email + email.email;
-            $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiterEmail\]\]/g, $rootScope.emailTemplateInModal.email);
+            $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiterEmail\]\]/g, $rootScope.emailTemplateInModal.email?$rootScope.emailTemplateInModal.email:"");
             tinyMCE.get('modalMCE').setContent($rootScope.emailTemplateInModal.text);
         };
         $rootScope.sentEmail = function(){
@@ -40822,20 +40822,27 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                     $rootScope.changeStatusOfInterviewInVacancy.status.value == 'shortlist'){
                     templateType = 'seeVacancy'
                 }
-                console.log('123')
                 Mail.getTemplateVacancy({vacancyId: $rootScope.changedStatusVacancy.vacancyId,type:templateType},function(data){
                     $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-"  + $rootScope.changedStatusVacancy.localId;
                     $rootScope.fileForSave = [];
                     $rootScope.emailTemplateInModal = data.object;
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName);
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $rootScope.changedStatusVacancy.position + '</a>');
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName);
-                    $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $rootScope.changedStatusVacancy.position + '</a>');
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName?$rootScope.candnotify.fullName:"");
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink?$scope.publicLink:""+ '">' + $rootScope.changedStatusVacancy.position?$rootScope.changedStatusVacancy.position:"" + '</a>');
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName?$rootScope.me.fullName:"");
+                    $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink?$scope.publicLink:""+ '">' + $rootScope.changedStatusVacancy.position?$rootScope.changedStatusVacancy.position:"" + '</a>');
                     $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[vacancy name\]\]/g, $rootScope.changedStatusVacancy.position);
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's phone\]\]/g, dataContacts["phonework"]);
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Skype\]\]/g, dataContacts['skype']);
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Facebook\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + dataContacts["facebook"] + '">' +  dataContacts["facebook"] + '</a>');
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's LinkedIn\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + dataContacts["linkedin"] + '">' + dataContacts["linkedin"] + '</a>');
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's phone\]\]/g, dataContacts["phonework"]?dataContacts["phonework"]:"");
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Skype\]\]/g, dataContacts['skype']?dataContacts['skype']:"");
+                    if(dataContacts["facebook"]) {
+                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Facebook\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + dataContacts["facebook"] + '">' +  dataContacts["facebook"] + '</a>');
+                    } else {
+                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Facebook\]\]/g, "");
+                    }
+                    if(dataContacts["linkedin"]) {
+                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's LinkedIn\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + dataContacts["linkedin"] + '">' + dataContacts["linkedin"] + '</a>');
+                    } else {
+                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's LinkedIn\]\]/g, "");
+                    }
                     if($rootScope.me.emails.length == 1){
                         $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiterEmail\]\]/g, $rootScope.me.emails[0].email);
                     }
