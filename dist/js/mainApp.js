@@ -4053,7 +4053,7 @@ directive('appVersion', ['version', function(version) {
                     language: $translate.use(),
                     weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
                     initialDate: new Date(),
-                    startDate: new Date()
+                    startDate: new Date(-1262304000000)
                 }).on('changeDate', function (val) {
                     var flag = false;
 
@@ -4125,7 +4125,7 @@ directive('appVersion', ['version', function(version) {
                     language: $translate.use(),
                     weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
                     initialDate: new Date(),
-                    startDate: new Date()
+                    startDate: new Date(-1262304000000)
                 }).on('changeDate', function (val) {
                     var flag = false;
                     if (val.date != undefined) {
