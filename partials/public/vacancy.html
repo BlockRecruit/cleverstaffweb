@@ -2,7 +2,7 @@
   <div class="hidden-lg hidden-md companyInfo" ng-if="vacancy.status != 'payment' && vacancy.status != 'completed' && vacancy.status != 'deleted' && vacancy.status != 'canceled' && vacancy.descr.length > 30">
     <div ng-if="companyLogo || companyPublicInfo.companyWebSite || companyPublicInfo.fb || companyPublicInfo.orgName">
 
-      <img class="logo" ng-if="companyLogo" ng-src="{{serverAddress}}/getlogo?id={{companyLogo}}" alt=""/>
+      <img class="logo" ng-if="vacancy.companyLogo" ng-src="{{serverAddress}}/getlogo?id={{vacancy.companyLogo}}" alt=""/>
       <div class="info">
         <h2 class="cutElementTextWidth">{{companyPublicInfo.orgName}}</h2>
 
@@ -32,7 +32,7 @@
 
       <div ng-if="companyLogo || companyPublicInfo.companyWebSite || companyPublicInfo.fb || companyPublicInfo.orgName">
 
-        <img class="logo" ng-if="companyLogo" ng-src="{{serverAddress}}/getlogo?id={{companyLogo}}" alt=""/>
+        <img class="logo" ng-if="vacancy.companyLogo" ng-src="{{serverAddress}}/getlogo?id={{vacancy.companyLogo}}" alt=""/>
         <div class="info">
           <div class="name_wrap cutElementTextWidth">
             <h2 class="" ng-class="{'no-margin-bottom' : !companyPublicInfo.companyWebSite && !companyPublicInfo.fb}">{{companyPublicInfo.orgName}}</h2>
@@ -126,7 +126,7 @@
     </div>
 
   </div>
-  <div class="row text-center" ng-if="vacancy.status == 'deleted' || vacancy.status == 'canceled' || vacancy.descr.length <= 30 || vacancy.status == 'payment' || vacancy.status == 'completed'">
+  <div class="row text-center" ng-if="loadStatusForPublicVacancy && (vacancy.status == 'deleted' || vacancy.status == 'canceled' || vacancy.descr.length <= 30 || vacancy.status == 'payment' || vacancy.status == 'completed' || !vacancy.descr)">
     <div class="no-description-message">
 
       <div class="circles">
@@ -135,7 +135,7 @@
         <div class="circle"></div>
       </div>
 
-      <div class="message" ng-if="vacancy.descr.length <= 30 && vacancy.status != 'deleted' && vacancy.status != 'canceled'">
+      <div class="message" ng-if="vacancy.descr.length <= 30 && vacancy.status != 'deleted' && vacancy.status != 'canceled' || !vacancy.descr">
         <span>{{'Unfortunately'|translate}}, <br> {{'this vacancy'| translate}} <br> <span class="vacancy-position">{{vacancy.position}}</span> {{'is currently unavailable because its description has not been completed yet'|translate}}</span>
         <img src="/images/sprite/public-vacancy/smile.png" alt="">
       </div>
