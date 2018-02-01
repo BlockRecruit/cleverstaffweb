@@ -1077,14 +1077,14 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             if (resp.status && resp.status === 'error' && resp.message) {
                 $scope.vacancyFound = false;
             } else {
-                $scope.vacancyId = resp.object.vacancyId;
-                $scope.request.vacancyId = resp.object.vacancyId;
-                $rootScope.title = resp.object.position + " - " + $filter('translate')('vacancy_in') + " CleverStaff";
-                $rootScope.vacancyName = resp.object.position;
-                if (resp.object.region != undefined) {
-                    $rootScope.region = resp.object.region.fullName;
+                $scope.vacancyId = resp.vacancy.id;
+                $scope.request.vacancyId = resp.vacancy.id;
+                $rootScope.title = resp.vacancy.position + " - " + $filter('translate')('vacancy_in') + " CleverStaff";
+                $rootScope.vacancyName = resp.vacancy.position;
+                if (resp.vacancy.region != undefined) {
+                    $rootScope.region = resp.vacancy.region.fullName;
                 }
-                $scope.vacancy = resp.object;
+                $scope.vacancy = resp.vacancy;
                 $scope.companyPublicInfo = {};
                 $scope.companyPublicInfo.fb = $scope.vacancy.linkToCompanyFaceBookPage;
                 $scope.companyPublicInfo.companyWebSite = $scope.vacancy.linkToCompanySite;
@@ -1092,7 +1092,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $scope.loadStatusForPublicVacancy = true;
                 $scope.vacancyFound = true;
                 //$location.hash('');
-                $location.search($filter('transliteration')(resp.object.position.replace(/\W+/g, '_'))).replace();
+                $location.search($filter('transliteration')(resp.vacancy.position.replace(/\W+/g, '_'))).replace();
                 //setTimeout(function(){
                 //    if (performance.navigation.type == 1) {
                 //        $location.$$absUrl
@@ -1105,7 +1105,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 //        history.pushState(null, "", $location.$$protocol + "://" + $location.$$host + "/i#" + $location.$$path + "?" + deleteTenSpaces);
                 //    }
                 //}, 1000);
-                Service.getOrgLogoId({orgId: resp.object.orgId}, function (logoResp) {
+                Service.getOrgLogoId({orgId: resp.vacancy.orgId}, function (logoResp) {
                     if (logoResp.status && logoResp.status === 'ok') {
                         $scope.companyLogo = logoResp.object;
                     }

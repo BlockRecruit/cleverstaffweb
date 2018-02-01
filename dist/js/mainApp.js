@@ -12685,7 +12685,7 @@ angular.module('services.company', [
                     Service.getAllOpenVacancy({
                         alias: string
                     },(resp) => {
-                        if(resp.status == 'ok'){
+                        if(resp.vacancies){
                             openVacancies = resp;
                             resolve(resp);
                         } else {
@@ -12701,7 +12701,7 @@ angular.module('services.company', [
 
         company.getVacanciesLocation = function() {
             let locations = [];
-            openVacancies.objects.map((vacancy) => {
+            openVacancies.vacancies.map((vacancy) => {
                 if(vacancy.region && vacancy.region.country) {
                     if(locations.indexOf(vacancy.region.country) === -1) {
                         locations.push(vacancy.region.country);
@@ -12712,14 +12712,14 @@ angular.module('services.company', [
         };
 
         company.getVacanciesPosition = function() {
-            return openVacancies.objects.map((vacancy) => {
+            return openVacancies.vacancies.map((vacancy) => {
                 return vacancy.position;
             });
         };
 
         company.positionAutoCompleteResult = function(string = "") {
             let data = [];
-                openVacancies.objects.map((vacancy) => {
+                openVacancies.vacancies.map((vacancy) => {
                     if(vacancy.position.toLowerCase().indexOf(string.toLowerCase()) !== -1) {
                         data.push(vacancy.position);
                     }
