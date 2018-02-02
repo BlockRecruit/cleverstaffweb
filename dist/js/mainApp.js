@@ -19126,7 +19126,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam.position = null;
         $scope.searchParam.candidateGroups = null;
         $scope.searchParam.candidateGroupIds = 'null';
-        $scope.searchParam.searchFullTextType = "booleanSearch";
+        $scope.searchParam.searchFullTextType = null;
         $scope.searchParam.responsibleId = 'null';
         $scope.searchParam.personId = Candidate.searchOptions().personId;
         $scope.searchParam.personNameWhoSearching = $rootScope.usernameThatIsSearching;
@@ -19167,7 +19167,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             searchIn: false,
             regionId: 'null',
             candidateGroupIds: null,
-            searchFullTextType: 'booleanSearch',
+            searchFullTextType: null,
             withPersonalContacts: 'null',
             responsibleId: null,
             personId: Candidate.searchOptions().personId,
@@ -19199,7 +19199,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             searchIn: false,
             regionId: 'null',
             candidateGroupIds: null,
-            searchFullTextType: 'booleanSearch',
+            searchFullTextType: null,
             responsibleId: 'null',
             personId: Candidate.searchOptions().personId,
             personNameWhoSearching: $rootScope.usernameThatIsSearching,
@@ -19652,9 +19652,11 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $scope.searchParam.candidateGroupIds = $scope.groupIdsForSearch;
 
             if($scope.searchParam.words){
+                Candidate.setOptions("searchFullTextType", 'booleanSearch');
                 Candidate.setOptions("sort", 'relevance');
                 $scope.filterForChange = 'relevance';
             }else{
+                Candidate.setOptions("searchFullTextType", null);
                 Candidate.setOptions("sort", $scope.filterForChange = 'dm');
                 //$scope.searchParam.sort = 'dm';
             }
