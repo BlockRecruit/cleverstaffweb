@@ -331,7 +331,7 @@
   "only_me1": "только мои",
   "only_me2": ", за которые я ответственен",
   "full_text": "Текст",
-  "Search by text and contacts": "Поиск по тексту резюме и контактам",
+  "Search by text and contacts": "Поиск по тексту резюме и контактам (boolean search)",
   "full_text_2": "Поиск по имени",
   "More_criteria": "Больше критериев",
   "More_1": "Больше",
