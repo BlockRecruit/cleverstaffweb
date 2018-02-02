@@ -19364,38 +19364,42 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         });
                     }
                     Candidate.all($scope.candidateSearchOptions, function (response) {
-                        $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
-                        $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
-                        $rootScope.objectSizeCand = $rootScope.objectSize;
-                        $rootScope.searchParam = $scope.searchParam;
-                        params.total(response['total']);
-                        $scope.paginationParams = {
-                            currentPage: $scope.candidateSearchOptions.page.number,
-                            totalCount: $rootScope.objectSize
-                        };
-                        let pagesCount = Math.ceil(response['total']/$scope.candidateSearchOptions.page.count);
-                        if(pagesCount == $scope.candidateSearchOptions.page.number + 1) {
-                            $('#show_more').hide();
-                        } else {
-                            $('#show_more').show();
-                        }
-                        $scope.candidateFound = response['total'] >= 1;
-                        $scope.criteriaForExcel["page"] = {
-                            number: 0,
-                            count: $scope.objectSize
-                        };
-                        $scope.limitReached = response['limitReached'];
-                        if(page) {
-                            $scope.candidates = $scope.candidates.concat(response['objects'])
-                            console.log($scope.candidates);
-                        } else {
-                            $scope.candidates = response['objects'];
-                            console.log($scope.candidates);
-                        }
-                        $defer.resolve($scope.candidates);
+                        if(response.status != 'error') {
+                            $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
+                            $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
+                            $rootScope.objectSizeCand = $rootScope.objectSize;
+                            $rootScope.searchParam = $scope.searchParam;
+                            params.total(response['total']);
+                            $scope.paginationParams = {
+                                currentPage: $scope.candidateSearchOptions.page.number,
+                                totalCount: $rootScope.objectSize
+                            };
+                            let pagesCount = Math.ceil(response['total']/$scope.candidateSearchOptions.page.count);
+                            if(pagesCount == $scope.candidateSearchOptions.page.number + 1) {
+                                $('#show_more').hide();
+                            } else {
+                                $('#show_more').show();
+                            }
+                            $scope.candidateFound = response['total'] >= 1;
+                            $scope.criteriaForExcel["page"] = {
+                                number: 0,
+                                count: $scope.objectSize
+                            };
+                            $scope.limitReached = response['limitReached'];
+                            if(page) {
+                                $scope.candidates = $scope.candidates.concat(response['objects'])
+                                console.log($scope.candidates);
+                            } else {
+                                $scope.candidates = response['objects'];
+                                console.log($scope.candidates);
+                            }
+                            $defer.resolve($scope.candidates);
 
-                        Candidate.init();
-                        $scope.searchParam.searchCs = true;
+                            Candidate.init();
+                            $scope.searchParam.searchCs = true;
+                        } else {
+                            notificationService.error(response.message)
+                        }
                         $rootScope.loading = false;
                     }, function () {
                         $rootScope.loading = false;
