@@ -387,8 +387,15 @@
 			width: auto;
 			height: 31px;
 			&.mail {
+				position: relative;
+				top: 2px;
+
 				width: 44px;
 				height: 26px;
+			}
+			&:hover {
+				cursor: pointer;
+				transform: scale(1.1, 1.1);
 			}
 		}
 		a {
