@@ -56,7 +56,6 @@ controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", 
                 datePayment: "",
                 accessType: 'public',
                 dateFinish: "",
-                sex:true,
                 clientId: {
                     clientId: $rootScope.addVacancyClientId
                 }

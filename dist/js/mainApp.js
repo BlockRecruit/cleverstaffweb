@@ -4053,7 +4053,7 @@ directive('appVersion', ['version', function(version) {
                     language: $translate.use(),
                     weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
                     initialDate: new Date(),
-                    startDate: new Date()
+                    startDate: new Date(-1262304000000)
                 }).on('changeDate', function (val) {
                     var flag = false;
 
@@ -4125,7 +4125,7 @@ directive('appVersion', ['version', function(version) {
                     language: $translate.use(),
                     weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
                     initialDate: new Date(),
-                    startDate: new Date()
+                    startDate: new Date(-1262304000000)
                 }).on('changeDate', function (val) {
                     var flag = false;
                     if (val.date != undefined) {
@@ -4310,8 +4310,10 @@ directive('appVersion', ['version', function(version) {
                         }
                     });
                     element.find('li').on('mousedown',(event) => {
-                        scope.params.page(event.target.value);
-                        scope.$apply();
+                        if(event.target.value) {
+                            scope.params.page(event.target.value);
+                            scope.$apply();
+                        }
                     });
                     $('body').on('mousedown', (event) => {
                         if(hideIfNotScrollBar(event)) {
@@ -4337,9 +4339,20 @@ directive('appVersion', ['version', function(version) {
                 function formingElement(startPage, lastPage) {
                     let pagesList = '';
                     let elementsCount = lastPage - startPage + 1;
-                    for(let i = startPage; i <= lastPage; i++){
-                        pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                    if(elementsCount < 200) {
+                        for(let i = startPage; i <= lastPage; i++){
+                            pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                        }
+                    } else {
+                        for(let i = startPage; i <= lastPage &&  i - startPage <= 100; i++){
+                            pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                        }
+                        pagesList += '<li class="ellipsis" value ="...">...</li>';
+                        for(let b = lastPage - 100; b <= lastPage; b++){
+                            pagesList += '<li value =" ' + b + '">' + b + '</li>';
+                        }
                     }
+
                     drListElement.html(pagesList);
                     if(elementsCount < 5) {
                         heightDropList = 20*(elementsCount);
@@ -4407,8 +4420,10 @@ directive('appVersion', ['version', function(version) {
                         }
                     });
                     element.find('li').on('mousedown',(event) => {
-                        scope.params.page(event.target.value);
-                        scope.$apply();
+                        if(event.target.value) {
+                            scope.params.page(event.target.value);
+                            scope.$apply();
+                        }
                     });
                     $('body').on('mousedown', (event) => {
                         if(hideIfNotScrollBar(event)) {
@@ -4434,9 +4449,20 @@ directive('appVersion', ['version', function(version) {
                 function formingElement(startPage, lastPage) {
                     let pagesList = '';
                     let elementsCount = lastPage - startPage + 1;
-                    for(let i = startPage; i <= lastPage; i++){
-                        pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                    if(elementsCount < 200) {
+                        for(let i = startPage; i <= lastPage; i++){
+                            pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                        }
+                    } else {
+                        for(let i = startPage; i <= lastPage &&  i - startPage <= 100; i++){
+                            pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                        }
+                        pagesList += '<li class="ellipsis" value ="...">...</li>';
+                        for(let b = lastPage - 100; b <= lastPage; b++){
+                            pagesList += '<li value =" ' + b + '">' + b + '</li>';
+                        }
                     }
+
                     drListElement.html(pagesList);
                     if(elementsCount < 5) {
                         heightDropList = 20*(elementsCount);
@@ -12461,7 +12487,8 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "profilesMerge": $sce.trustAsHtml($filter("translate")("The 'rules' of profiles merge") + '<ul>' + '<li>' + $filter("translate")("Only fields with different values are available for selection") + '</li>' + '<li>' + $filter("translate")("If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default") + '</li>' + '<li>' + $filter("translate")("Tags in the merged profile will be saved from both original ones") + '</li>' + '</ul>'),
                     "helpWindowZip1":  $sce.trustAsHtml($filter('translate')('You can just upload all resumes in one big folder and pack') + '</br></br>' + '<img src="../images/sprite/ZipArchive2.png" alt=""/>'),
                     "helpWindowZip2":  $sce.trustAsHtml($filter('translate')('If your resumes folders like in the picture:') + '</br></br>' + '<img src="../images/sprite/ZipArchive1.png" alt=""/>' + '</br></br>' + $filter('translate')('simply pack the root folder in the ZIP-archive. This is a good option')),
-                    "helpWindowZip3":  $sce.trustAsHtml($filter('translate')('If you have any candidates in the program E-Staff, they can be exported in two steps') + '</br></br>' + '<div>1.' + $filter('translate')('Create a script export (Menu -> Tools -> Administration -> Other -> Scripts exports). Uploaded types of objects - the candidate. Specify the name of the script and save')+'.' + '</br></br>2.' + $filter('translate')('Upload (Menu -> Tools -> Export -> Your script that you received from p.1. You will receive a folder with files of the candidate-0x0A1234E567C890A0.xml. All you need to pack a folder in the ZIP-archive and send it here. So the candidates of the E-Staff will take a CleverStaff.'))
+                    "helpWindowZip3":  $sce.trustAsHtml($filter('translate')('If you have any candidates in the program E-Staff, they can be exported in two steps') + '</br></br>' + '<div>1.' + $filter('translate')('Create a script export (Menu -> Tools -> Administration -> Other -> Scripts exports). Uploaded types of objects - the candidate. Specify the name of the script and save')+'.' + '</br></br>2.' + $filter('translate')('Upload (Menu -> Tools -> Export -> Your script that you received from p.1. You will receive a folder with files of the candidate-0x0A1234E567C890A0.xml. All you need to pack a folder in the ZIP-archive and send it here. So the candidates of the E-Staff will take a CleverStaff.')),
+                    "boolSearchInfo": $sce.trustAsHtml($filter('translate')('Boolean search info'))
                 };
                 $rootScope.tooltips = options;
             });
@@ -14277,7 +14304,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=43'
+        suffix: '.json?b=44'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -25637,7 +25664,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $rootScope.emailThatAlreadyUsed = email;
             localStorage.emailThatAlreadyUsed = email.email;
             $rootScope.emailTemplateInModal.email = $rootScope.emailTemplateInModal.email + email.email;
-            $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiterEmail\]\]/g, $rootScope.emailTemplateInModal.email);
+            $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiterEmail\]\]/g, $rootScope.emailTemplateInModal.email?$rootScope.emailTemplateInModal.email:"");
             tinyMCE.get('modalMCE').setContent($rootScope.emailTemplateInModal.text);
         };
         $rootScope.sentEmail = function(){
@@ -27395,7 +27422,9 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
 
             }
         });
+
         $rootScope.changeResponsibleInClient.id = user.userId;
+        $rootScope.changeResponsibleInClient.name = firstName + " " + lastName;
         $rootScope.changeResponsibleInClient.text = $filter('translate')('Do you want to remove the responsible')
         + " " + firstName + " " + lastName;
     };
@@ -33323,7 +33352,6 @@ controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", 
                 datePayment: "",
                 accessType: 'public',
                 dateFinish: "",
-                sex:true,
                 clientId: {
                     clientId: $rootScope.addVacancyClientId
                 }
@@ -34391,9 +34419,9 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
                         });
                     }
                 }
-                if (resp.object.sex === undefined) {
-                    $scope.vacancy.sex = null;
-                }
+                // if (resp.object.sex === undefined) {
+                //     $scope.vacancy.sex = null;
+                // }
                 if (resp.object.accessType === undefined) {
                     $scope.vacancy.accessType = 'private';
                 }
@@ -34503,16 +34531,16 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
             $location.path("/vacancies/" + $routeParams.id);
         };
 
-        $scope.sexObject = [
-            {name: "Male", value: true},
-            {name: "Female", value: false},
-            {name: "Doesn't matter", value: null}
-        ];
-        $scope.sexObjectRU = [
-            {name: "Мужчина", value: true},
-            {name: "Женщина", value: false},
-            {name: "Не имеет значения", value: null}
-        ];
+        // $scope.sexObject = [
+        //     {name: "Male", value: true},
+        //     {name: "Female", value: false},
+        //     {name: "Doesn't matter", value: null}
+        // ];
+        // $scope.sexObjectRU = [
+        //     {name: "Мужчина", value: true},
+        //     {name: "Женщина", value: false},
+        //     {name: "Не имеет значения", value: null}
+        // ];
 
         $scope.toAddClient = function() {
             var params = "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes";
@@ -36219,6 +36247,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
                 }
             });
+            console.log('here',firstName,lastName);
             $rootScope.changeResponsibleInVacancy.id = user.userId;
             $rootScope.changeResponsibleInVacancy.text = $filter('translate')('Do you want to remove the responsible')
                 + " " + firstName + " " + lastName + " " + $filter('translate')("from vacancy") + " " + $scope.vacancy.position;
@@ -40796,20 +40825,27 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                     $rootScope.changeStatusOfInterviewInVacancy.status.value == 'shortlist'){
                     templateType = 'seeVacancy'
                 }
-                console.log('123')
                 Mail.getTemplateVacancy({vacancyId: $rootScope.changedStatusVacancy.vacancyId,type:templateType},function(data){
                     $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-"  + $rootScope.changedStatusVacancy.localId;
                     $rootScope.fileForSave = [];
                     $rootScope.emailTemplateInModal = data.object;
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName);
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $rootScope.changedStatusVacancy.position + '</a>');
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName);
-                    $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $rootScope.changedStatusVacancy.position + '</a>');
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName?$rootScope.candnotify.fullName:"");
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink?$scope.publicLink:""+ '">' + $rootScope.changedStatusVacancy.position?$rootScope.changedStatusVacancy.position:"" + '</a>');
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName?$rootScope.me.fullName:"");
+                    $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink?$scope.publicLink:""+ '">' + $rootScope.changedStatusVacancy.position?$rootScope.changedStatusVacancy.position:"" + '</a>');
                     $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[vacancy name\]\]/g, $rootScope.changedStatusVacancy.position);
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's phone\]\]/g, dataContacts["phonework"]);
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Skype\]\]/g, dataContacts['skype']);
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Facebook\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + dataContacts["facebook"] + '">' +  dataContacts["facebook"] + '</a>');
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's LinkedIn\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + dataContacts["linkedin"] + '">' + dataContacts["linkedin"] + '</a>');
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's phone\]\]/g, dataContacts["phonework"]?dataContacts["phonework"]:"");
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Skype\]\]/g, dataContacts['skype']?dataContacts['skype']:"");
+                    if(dataContacts["facebook"]) {
+                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Facebook\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + dataContacts["facebook"] + '">' +  dataContacts["facebook"] + '</a>');
+                    } else {
+                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Facebook\]\]/g, "");
+                    }
+                    if(dataContacts["linkedin"]) {
+                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's LinkedIn\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + dataContacts["linkedin"] + '">' + dataContacts["linkedin"] + '</a>');
+                    } else {
+                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's LinkedIn\]\]/g, "");
+                    }
                     if($rootScope.me.emails.length == 1){
                         $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiterEmail\]\]/g, $rootScope.me.emails[0].email);
                     }

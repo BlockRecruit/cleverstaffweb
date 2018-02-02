@@ -89,7 +89,9 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
 
             }
         });
+
         $rootScope.changeResponsibleInClient.id = user.userId;
+        $rootScope.changeResponsibleInClient.name = firstName + " " + lastName;
         $rootScope.changeResponsibleInClient.text = $filter('translate')('Do you want to remove the responsible')
         + " " + firstName + " " + lastName;
     };
