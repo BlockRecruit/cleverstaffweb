@@ -19653,10 +19653,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
             if($scope.searchParam.words){
                 Candidate.setOptions("searchFullTextType", 'booleanSearch');
+                $scope.searchParam.searchFullTextType = 'booleanSearch';
                 Candidate.setOptions("sort", 'relevance');
                 $scope.filterForChange = 'relevance';
             }else{
                 Candidate.setOptions("searchFullTextType", null);
+                $scope.searchParam.searchFullTextType = null;
                 Candidate.setOptions("sort", $scope.filterForChange = 'dm');
                 //$scope.searchParam.sort = 'dm';
             }
