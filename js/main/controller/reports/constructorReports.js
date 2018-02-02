@@ -937,6 +937,9 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             }
         };
 
+
+        console.log($rootScope, 'asdasd')
+
         $scope.showChoosingVacancyFields = function (event) {
             if($('.chooseListFieldsVacancies').css('display') == 'none'){
                 $('.chooseListFieldsVacancies').show('500');

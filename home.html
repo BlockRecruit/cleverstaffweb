@@ -196,7 +196,7 @@
                 <div class="trial" ng-if="(digit > 0 && digit <= 14)">
                     <span ng-show="digit != 1">{{"Only"|translate}}</span><span ng-show="digit == 1">{{"Only_1"|translate}}</span><span ng-bind="digit" class="digit"></span><span>{{(digit >= 5 && digit <= 14)? "days_1Trial" : (digit < 5 && digit > 1)? "daysTrial" : (digit === 0)? "dayTrial": "dayTrial" | translate}}</span>
                     <i class="fa fa-info-circle tooltip-icon"  ng-mouseover="HoverBlockTrialShow()"  ng-mouseleave="HoverBlockTrialHidden()" aria-hidden="true">
-                        <div class="hoverExtension" ng-show="hoverBlockTrial">
+                        <div class="hoverExtension" style="font-family:'Open Sans', Arial, Verdana, sans-serif" ng-show="hoverBlockTrial">
                             <p>{{"All features are unlimited within your trial. You could invite unlimited number of users to test the system."|translate}}</p>
                             <p>{{"If your account will not be paid until trial end date"|translate}}</p>
                             <ul>
@@ -527,7 +527,7 @@
                                     </button>
                                 </span>
                                 <span class="col-lg-11 no-margin">
-                                    <span>
+                                    <span ng-style="$root.currentLang !== 'ru'? {'margin-right': '5px'} : null">
                                         {{'only_me1'|translate}}
                                     </span>
                                     <span>
@@ -639,7 +639,7 @@
                                     </button>
                                 </span>
                                 <span class="col-lg-11 no-margin">
-                                    <span>
+                                    <span ng-style="$root.currentLang !== 'ru'? {'margin-right': '5px'} : null">
                                         {{'only_me1'|translate}}
                                     </span>
                                     <span>
@@ -766,7 +766,7 @@
                                     </button>
                                 </span>
                                 <span class="col-lg-11 no-margin">
-                                    <span>
+                                    <span ng-style="$root.currentLang !== 'ru'? {'margin-right': '5px'} : null">
                                         {{'only_me1'|translate}}
                                     </span>
                                     <span>
@@ -882,7 +882,7 @@
                                     </button>
                                 </span>
                                 <span class="col-lg-11 no-margin">
-                                    <span>
+                                    <span ng-style="$root.currentLang !== 'ru'? {'margin-right': '5px'} : null">
                                         {{'only_me1'|translate}}
                                     </span>
                                     <span>
@@ -1009,7 +1009,7 @@
                                     </button>
                                 </span>
                                 <span class="col-lg-11 no-margin">
-                                    <span>
+                                    <span ng-style="$root.currentLang !== 'ru'? {'margin-right': '5px'} : null">
                                         {{'only_me1'|translate}}
                                     </span>
                                     <span>

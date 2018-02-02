@@ -12,6 +12,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
         $scope.serverAddress = serverAddress;
         $scope.loader = false;
         $scope.isSearched = false;
+        $scope.validNewClient = true;
         $scope.client = {logoId: null};
         $scope.industries = Service.getIndustries();
 
@@ -230,6 +231,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
     };
     $scope.addShortClient = function(){
         if($scope.shortAddClient.$valid){
+            $scope.validNewClient = true;
             Client.add($scope.client, function(resp) {
                 if(resp.status =='ok'){
                     $scope.tableParams.reload();
@@ -240,6 +242,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             });
         }else{
             notificationService.error($filter('translate')('Please fill in all fields'));
+            $scope.validNewClient = false;
         }
     };
         $scope.getFirstLetters = function(str){

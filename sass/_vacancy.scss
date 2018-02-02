@@ -2,6 +2,10 @@
 	#scrollup {
 		display: none;
 	}
+	.stage-position {
+		position: relative;
+		top: -2px;
+	}
 	::-webkit-input-placeholder {
 		color: $theme-grey;
 	}
