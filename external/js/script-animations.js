@@ -104,18 +104,26 @@ $(document).ready(function(){
             scroll = $(window).scrollTop();
         console.log(scroll);
         $('.titleTable2 .plans').css('width', $('.active')[2].offsetWidth);
-        $('.titleTable .plans').css('width', $('.active')[2].offsetWidth + 1);
-        $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth + 2);
+        $('.titleTable .plans').css('width', $('.active')[2].offsetWidth);
+        //$('.title').css('width', $('.customWidth')[0].offsetWidth);
+        //$('.superFunc td:not(:first-child)').css('width', $('.firstTable td:nth-child(2)')[0].offsetWidth);
+        //$('.support td:not(:first-child)').css('width', $('.firstTable td:nth-child(2)')[0].offsetWidth);
+        $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
         $('.titleTable2 td:first-child').css('width', $('.customWidth')[0].offsetWidth);
         var pc = 1200;
         var big_tablet = 991;
-        var tablet = 768;
+        var tablet = 767;
         var phone_or_tablet = 600;
         var phone = 440;
         var mini_phone = 320;
         if(window.location.pathname == '/ru/price.html'){
             if (scroll >= 1291){
-                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
+                console.log('under > 1200');
+                //$('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
+                //$('.support td:first-child').css('width', $('.customWidth')[0].offsetWidth);
+                $('.table-before-support-block td:first-child').css('width', $('.support td:first-child')[0].offsetWidth);
+                $('.support td:first-child').css('width', $('.table-before-support-block td:first-child')[0].offsetWidth);
+                //$('.table-before-support-block td:not(:first-child)').css('width', $('.support td:not(:first-child)')[0].offsetWidth);
                 sticky.addClass('fixed-plans');
                 sticky.removeClass('hidden');
             } else{
@@ -132,6 +140,14 @@ $(document).ready(function(){
                 $('.plans').css('visibility', 'visible');
             }
             if(pc >= $( window ).width()){
+                //console.log($('.support td:first-child')[0].offsetWidth);
+                //console.log($('.support td:not(:first-child)')[0].offsetWidth);
+                console.log('pc');
+                //$('.titleTable td:first-child').css('width', $('.support td:first-child')[0].offsetWidth + 1);
+                //$('.titleTable .plans').css('width', $('.active')[2].offsetWidth + 4);
+                $('.table-before-support-block td:first-child').css('width', $('.support td:first-child')[0].offsetWidth);
+                $('.support td:first-child').css('width', $('.table-before-support-block td:first-child')[0].offsetWidth);
+                //$('.table-before-support-block td:not(:first-child)').css('width', $('.support td:not(:first-child)')[0].offsetWidth);
                 if (scroll >= 1502){
                     sticky.addClass('fixed-plans');
                 } else{
@@ -139,47 +155,80 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 3860) {
+                if (scroll >= 3800) {
                     sticky.removeClass('fixed-plans');
                 }
             }
             if(big_tablet >= $( window ).width()){
-                if (scroll >= 1811){
+                //console.log('big_tablet');
+                //$('.titleTable2 .plans').css('width', $('.superFunc td:not(:first-child)')[0].offsetWidth);
+                //$('.titleTable .plans').css('width', $('.superFunc td:not(:first-child)')[0].offsetWidth);
+                //$('.support td:first-child').css('width', $('.table-before-support-block td:first-child')[0].offsetWidth + 18);
+                //$('.support td:not(:first-child)').css('width', $('.table-before-support-block td:not(:first-child)')[0].offsetWidth);
+                //$('.table td:first-child').css('width', 216);
+                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth + 2);
+                //$('.table td:first-child').css('width', 'inherit');
+                $('.table td:not(:first-child)').css('width', 120);
+                //$('.titleTable td:first-child').css('width', $('.support td:first-child')[0].offsetWidth + 50);
+                //$('.titleTable td:first-child').attr('style', 'width:'+$('.support td:first-child')[0].offsetWidth+'px!important');
+                //$('.table-before-support-block td:not(:first-child)').css('width', $('.support td:not(:first-child)')[0].offsetWidth);
+                //$('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
+                //$('.titleTable2 td:first-child').css('width', $('.customWidth')[0].offsetWidth);
+                if (scroll >= 1810){
                     sticky.addClass('fixed-plans');
                 } else{
                     sticky.removeClass('fixed-plans');
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 5255) {
+                if (scroll >= 4030) {
                     sticky.removeClass('fixed-plans');
                 }
             }
             if(tablet >= $( window ).width()){
-                if (scroll >= 2696){
+                console.log('tablet');
+                //$('.table-before-support-block td:first-child').css('width', $('.support td:first-child')[0].offsetWidth);
+                //$('.firstTable td:first-child').css('width', 138);
+                //$('.table-before-support-block td:not(:first-child)').css('width', $('.support td:not(:first-child)')[0].offsetWidth);
+                //$('.support td:not(:first-child)').css('width', $('.firstTable td:nth-child(2)')[0].offsetWidth);
+                $('.support td:not(:first-child)').css('width', $('.active')[2].offsetWidth);
+                $('.support td:first-child').css('width', $('.customWidth')[0].offsetWidth);
+                //$('.table td:first-child').css('width',  $('.titleTable td:first-child')[0].offsetWidth);
+                //console.log($('.table td:first-child'));
+                //$('.table-before-support-block  td:first-child').css('width', '');
+                //$('.table td:not(:first-child)').css('width', 120);
+                //$('.titleTable td:first-child').css('width', $('.support td:first-child')[0].offsetWidth);
+                $('.titleTable .plans').css('width', $('.active')[2].offsetWidth + 1);
+                $('.titleTable2 .plans').css('width', $('.active')[2].offsetWidth);
+                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
+                if (scroll >= 2697){
                     sticky.addClass('fixed-plans');
                 } else{
                     sticky.removeClass('fixed-plans');
                     sticky.addClass('hide-block').css('height', '50px');
                 }
 
-                if (scroll >= 6136) {
+                if (scroll >= 5145) {
                     sticky.removeClass('fixed-plans');
                 }
             }
             if(phone_or_tablet >= $( window ).width()){
-                if (scroll >= 2686){
+                console.log('phone_or_tablet');
+                if (scroll >= 2714){
                     sticky.addClass('fixed-plans');
                 } else{
                     sticky.removeClass('fixed-plans');
                     sticky.addClass('hide-block').css('height', '50px');
                 }
 
-                if (scroll >= 6136) {
+                if (scroll >= 5584) {
                     sticky.removeClass('fixed-plans');
                 }
             }
             if(phone >= $( window ).width()){
+                console.log('phone');
+                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
+                $('.support td:first-child').css('width', $('.table-before-support-block td:first-child')[0].offsetWidth);
                 $('.hide-block').css('height', '60px');
                 if (scroll >= 2861){
                     sticky.addClass('fixed-plans');
@@ -227,6 +276,7 @@ $(document).ready(function(){
                 }
 
                 if (scroll >= 3535) {
+                    console.log('remove pc');
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -239,6 +289,7 @@ $(document).ready(function(){
                 }
 
                 if (scroll >= 5142) {
+                    console.log('remove big_tablet');
                     sticky.removeClass('fixed-plans');
                 }
             }

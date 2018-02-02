@@ -1825,7 +1825,7 @@ footer{
 .enterPrizeTable img{
     display: none;
 }
-.titleTable td:first-child{
+.table td:first-child{
     width: 420px;
 }
 .table td:not(:first-child){
@@ -1836,6 +1836,9 @@ footer{
     margin: 0;
     padding: 0;
     display: inline-block;
+}
+.support .wordWrap{
+    word-break: break-all;
 }
 .fa-minus{
     color: #9D9BA0;
@@ -2400,7 +2403,19 @@ footer{
     border-radius: 12px;
 }
 /*modal end*/
-
+/*@media screen and (min-width: 991px) {*/
+    /*.support td:first-child{*/
+        /*width: 401px!important;*/
+    /*}*/
+    /*.support td:not(:first-child){*/
+        /*width: 180px!important;*/
+    /*}*/
+/*}*/
+/*@media screen and (min-width: 1200px) {*/
+    /*.support td:first-child{*/
+        /*width: 337px!important;*/
+    /*}*/
+/*}*/
 @media screen and (max-width: 1199px) {
     .tabsCs .nav-tabs li {
         padding: 5px 0 0 0;
@@ -2830,6 +2845,7 @@ footer{
     }
     .no-border a {
         padding: 10px;
+        width: 100px;
     }
     .oneRecrTableText, .teamWorkTableText , .corporateTableText, .enterPrizeTableText{
         display: none;
@@ -2857,11 +2873,11 @@ footer{
         margin-top: 24px;
     }
     .padding-block-ru:first-child p{
-        margin-top: 0px;
+        margin-top: 0;
         padding: 25px 0;
     }
     .padding-block-ru:nth-child(3) p{
-        margin-top: 0px;
+        margin-top: 0;
     }
     .lstChild{
         margin-top: 0;
@@ -2876,7 +2892,7 @@ footer{
         margin-bottom: -20px;
     }
     .corporate .discount-ru {
-        margin-bottom: 0px;
+        margin-bottom: 0;
     }
     .discount + .padding-bottom-ru{
         padding-bottom: 11px !important;
@@ -3119,7 +3135,9 @@ footer{
     }
     .no-border a {
         border: none;
-        padding: 10px 17px;
+        padding: 5px 0;
+        width: 120px;
+        border-radius: 10px;
     }
     .paddingBtn{
         padding: 10px!important;
@@ -3150,10 +3168,26 @@ footer{
     /*.titleTable2 td:nth-child(4){*/
         /*width: 150px;*/
     /*}*/
-
+    .table-before-support-block td:first-child{
+        width: 257px!important;
+    }
+    /*.titleTable td:first-child{*/
+        /*width: 375px!important;*/
+    /*}*/
+    /*.titleTable2 td:first-child{*/
+        /*width: 375px!important;*/
+    /*}*/
     .fixed-plans{
         width: 100%;
         padding-right: 30px;
+    }
+    .display-none{
+        display: none;
+    }
+    .mobBtn{
+        display: block;
+        width: 375px;
+        float: right;
     }
     /*price end*/
 
