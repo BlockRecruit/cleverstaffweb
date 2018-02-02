@@ -539,9 +539,17 @@ a:focus {
 .tabsCs .nav-tabs li{
     padding: 15px 0 15px 15px;
     width: 213px;
+    min-height: 70px;
+}
+.tabsCs .nav-tabs li a.less-padding {
+    padding: 0 11px;
 }
 .tabsCs .nav-tabs li:last-child{
     width: 255px;
+}
+
+.tabsCs .nav-tabs li:hover {
+    cursor: pointer;
 }
 .tabsCs .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
     border: none;
