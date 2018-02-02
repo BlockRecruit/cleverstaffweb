@@ -87,7 +87,7 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <div class="vacancies" ng-show="orgParams.size > 0 && (orgParams.objects | filter: filter).length > 0">
+            <div class="vacancies" ng-show="(orgParams.objects | filter: filter).length > 0">
                 <div class="vacancy" ng-repeat="publicVacancy in orgParams.objects | filter: filter">
                     <a ng-href="{{$location.$$host}}/i#/vacancy-{{publicVacancy.localId}}">
                         <div class="col-xs-12 col-sm-4 vacancy__name--wrap">
