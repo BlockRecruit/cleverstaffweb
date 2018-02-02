@@ -207,7 +207,8 @@
     "in_work": "In Progress",
     "all_done": "All Done",
     "canceled": "Canceled",
-    "deleted": "Deleted"
+    "deleted": "Deleted",
+    "on_hold": "On hold"
   },
   "Vacancy stages have been changed": "Vacancy stages changed",
   "interview_status_assoc": {
@@ -694,7 +695,7 @@
   "Write a comment why you want remove this vacancy": "Write why... (optional)",
   "Adding a contact person": "Adding a contact person",
   "Contact person": "Contact person",
-  "Do you want to remove the responsible": "Do you want to remove the responsible",
+  "Do you want to remove the responsible": "Do you really want to remove the responsible",
   "from vacancy": "from vacancy",
   "yes, remove": "Yes, remove",
   "Yes, delete": "Yes, delete",
@@ -2283,5 +2284,6 @@
   "The account name changed to": "The account name changed to",
   "Your company has no active vacancies in this account": "Your company has no active vacancies in this account",
   "yes_1":"Yes",
-  "Enter more data for search":"Enter more data for search"
+  "Enter more data for search":"Enter more data for search",
+  "delete_responsible_2":"Do you really want to remove the responsible"
 }

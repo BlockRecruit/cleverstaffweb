@@ -2,13 +2,13 @@
     <div class="modal-header">
         <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
         <h4 class="modal-title">
-            {{'delete_responsible'|translate}}
+            <span>{{$root.changeResponsibleInVacancy.text}}?</span>
         </h4>
     </div>
     <div class="modal-body">
         <div class="item taskText">
             <span>
-                {{$root.changeResponsibleInVacancy.text}}?
+                <!--{{$root.changeResponsibleInVacancy.text}}?-->
             </span>
             <textarea placeholder="{{'Write a comment (not required)' | translate}}" ng-model="$root.changeResponsibleInVacancy.comment" class="form-control"></textarea>
         </div>
