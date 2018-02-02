@@ -90,7 +90,7 @@ var app = angular.module('RecruitingAppStart', [
 }]).config(function($translateProvider,tmhDynamicLocaleProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=9'
+        suffix: '.json?b=10'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -2079,7 +2079,7 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                     $scope.getTestCandidate = resp.object;
                     $scope.currentLang = $translate.use();
                     if($scope.currentLang == undefined){
-                        $window.location.reload();
+                        console.log('lang');
                     }
                     if($scope.getTestCandidate.timeLimit == '3600' || $scope.getTestCandidate.timeLimit == '7200' || $scope.getTestCandidate.timeLimit == '10800' || $scope.getTestCandidate.timeLimit == '14400' || $scope.getTestCandidate.timeLimit == '18000' || $scope.getTestCandidate.timeLimit == '21600' || $scope.getTestCandidate.timeLimit == '25200' || $scope.getTestCandidate.timeLimit == '28800'|| $scope.getTestCandidate.timeLimit == '32400' || $scope.getTestCandidate.timeLimit == '36000' || $scope.getTestCandidate.timeLimit == '39600' || $scope.getTestCandidate.timeLimit == '43200' || $scope.getTestCandidate.timeLimit == '46800' || $scope.getTestCandidate.timeLimit == '54000' || $scope.getTestCandidate.timeLimit == '57600' || $scope.getTestCandidate.timeLimit == '61200' || $scope.getTestCandidate.timeLimit == '64800' || $scope.getTestCandidate.timeLimit == '68400' || $scope.getTestCandidate.timeLimit == '72000' || $scope.getTestCandidate.timeLimit == '75600' || $scope.getTestCandidate.timeLimit == '79200' || $scope.getTestCandidate.timeLimit == '82800' || $scope.getTestCandidate.timeLimit == '86400'){
                         $('.min').hide();
@@ -2217,7 +2217,6 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                     }
                 })
             }else if( $scope.checkAnswerText != undefined){
-                console.log($scope.checkAnswerText);
                 Test.saveAnswer({
                     questionId: $scope.firstTestQuestion.object.question.id,
                     appointmentId: $routeParams.id,
@@ -2232,9 +2231,17 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                         $scope.previousTestQuestion();
                     }
                 })
-            }
-            else{
-                notificationService.error($filter('translate')('Enter your answer first'));
+            } else if(next == 'prev') {
+                $scope.variantsAnswer = [];
+                $scope.checkAnswerText = undefined;
+                $scope.textAnswers = undefined;
+                $scope.previousTestQuestion();
+            } else{
+                if($scope.firstTestQuestion.object.question.answerType === 'task_question') {
+                    notificationService.error($filter('translate')('Enter your answer first text'));
+                } else {
+                    notificationService.error($filter('translate')('Enter your answer first'));
+                }
             }
         };
         $scope.previousTestQuestion = function(){

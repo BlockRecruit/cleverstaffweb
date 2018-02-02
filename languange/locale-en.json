@@ -1978,7 +1978,7 @@
   "Save and finish the test": "Save and finish the test",
   "Date of passing": "Date of passing",
   "Result": "Result",
-  "Enter your answer first": "Enter your answer first.",
+  "Enter your answer first": "Select your answer first.",
   "Change email": "Change email",
   "candidate_comments": "candidate comments",
   "vacancy_comments": "vacancy comments",
@@ -2285,5 +2285,6 @@
   "Your company has no active vacancies in this account": "Your company has no active vacancies in this account",
   "yes_1":"Yes",
   "Enter more data for search":"Enter more data for search",
+  "Enter your answer first text":"Enter your answer first",
   "delete_responsible_2":"Do you really want to remove the responsible"
 }
