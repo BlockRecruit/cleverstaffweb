@@ -717,7 +717,7 @@
 							}
 						}
 						.text-search {
-							width: 31%;
+							width: 78%;
 							height: 39px;
 							padding-right: 8px;
 
@@ -725,7 +725,7 @@
 							background-color: #fff;
 							& > .fixed-text-width {
 								overflow: hidden;
-								width: 100%;
+								width: 89%;
 								height: 37px;
 								padding-top: 10px;
 								padding-left: 10px;
@@ -756,11 +756,15 @@
 								text-overflow: ellipsis;
 							}
 						}
+						.boolean-label {
+							top: 6px;
+							right: 24%;
+						}
 						.boolSearch-info {
-							position: relative;
+							position: absolute;
+							top: 7px;
+							right: 25%;
 
-							display: inline-block;
-							width: 2%;
 							padding: 0;
 							& > i {
 								position: absolute;

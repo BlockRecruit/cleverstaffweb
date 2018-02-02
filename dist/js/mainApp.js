@@ -19057,17 +19057,17 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         {name: "Only by position", value: "byPosition"}
     ];
     $scope.textSearchTypeModel = $scope.textSearchType[0].value;
-    $scope.changeTextSearchType = function (val) {
-        if (val == "any") {
-            $scope.searchParam.searchFullTextType = 'or';
-        } else if (val == "whole") {
-            $scope.searchParam.searchFullTextType = 'full_match';
-        } else if (val == "byPosition") {
-            $scope.searchParam.searchFullTextType = 'position';
-        } else if (val == "AllWords") {
-            $scope.searchParam.searchFullTextType = 'and';
-        }
-    };
+    // $scope.changeTextSearchType = function (val) {
+    //     if (val == "any") {
+    //         $scope.searchParam.searchFullTextType = 'or';
+    //     } else if (val == "whole") {
+    //         $scope.searchParam.searchFullTextType = 'full_match';
+    //     } else if (val == "byPosition") {
+    //         $scope.searchParam.searchFullTextType = 'position';
+    //     } else if (val == "AllWords") {
+    //         $scope.searchParam.searchFullTextType = 'and';
+    //     }
+    // };
 
     $scope.boxParam = {
         cs: {
@@ -19126,7 +19126,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam.position = null;
         $scope.searchParam.candidateGroups = null;
         $scope.searchParam.candidateGroupIds = 'null';
-        $scope.searchParam.searchFullTextType = null;
+        $scope.searchParam.searchFullTextType = "booleanSearch";
         $scope.searchParam.responsibleId = 'null';
         $scope.searchParam.personId = Candidate.searchOptions().personId;
         $scope.searchParam.personNameWhoSearching = $rootScope.usernameThatIsSearching;
@@ -19167,7 +19167,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             searchIn: false,
             regionId: 'null',
             candidateGroupIds: null,
-            searchFullTextType: 'and',
+            searchFullTextType: 'booleanSearch',
             withPersonalContacts: 'null',
             responsibleId: null,
             personId: Candidate.searchOptions().personId,
@@ -19199,7 +19199,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             searchIn: false,
             regionId: 'null',
             candidateGroupIds: null,
-            searchFullTextType: 'and',
+            searchFullTextType: 'booleanSearch',
             responsibleId: 'null',
             personId: Candidate.searchOptions().personId,
             personNameWhoSearching: $rootScope.usernameThatIsSearching,
