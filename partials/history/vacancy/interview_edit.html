@@ -8,16 +8,10 @@
     </a>
 </div>
 <div class="col-lg-10 margin-top">
-    <span>
-        {{'history_info.candidate'|translate}}
-        <a href="#/candidates/{{history.candidate.localId}}">
-            {{history.candidate.fullName}}
-        </a>
-        {{'history_info.on_vacancy'|translate}}
-        <a href="#/vacancies/{{ history.vacancy.localId}}">
-            {{history.vacancy.position}}
-        </a>
-    </span>
+    <a ng-href="#/candidates/{{history.candidate.localId}}">
+        {{history.candidate.fullName}}
+    </a>
+    {{'history_info.was moved from'|translate}}
     <span class="status  passed {{history.stateOldName}}" ng-if="history.stateOldName">
         {{history.stateOldName | translate}}
     </span>
@@ -31,6 +25,10 @@
      <span class="status {{history.stateNew}}" ng-if="!history.stateNewName">
         {{history.stateNew | translate}}
     </span>
+    {{'history_info.stage of vacancy'|translate}}
+    <a ng-href="#/vacancies/{{ history.vacancy.localId}}">
+        {{history.vacancy.position}}
+    </a>
     <a title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href=""
        ng-click="changeCommentFlag(history)" class="editMessage pull-right">
         <i class="fa fa-pencil" aria-hidden="true"></i>
