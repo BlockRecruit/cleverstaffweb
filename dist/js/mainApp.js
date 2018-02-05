@@ -33905,8 +33905,6 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                                 $anchorScroll('mainTable');
                             });
                         }
-                        console.log('Vacancy.searchOptions()',Vacancy.searchOptions)
-                        console.log('$scope.searchParam',$scope.searchParam)
                         Vacancy.all(Vacancy.searchOptions(), function(response) {
                             $rootScope.objectSize = response['objects'] != undefined ? response['total'] : undefined;
                             $scope.paginationParams = {
@@ -34265,16 +34263,6 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                     }
                 });
             }
-
-            // data.forEach((item,index) => {
-            //     item['responsibles'].forEach(j => {
-            //         if(userID == j.personId){
-            //             data.splice(index, 1);
-            //             newData.push(item)
-            //         }
-            //     });
-            // });
-            console.log(newData, 'newData')
            return newData.concat(data);
         }
 
