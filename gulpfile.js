@@ -21,6 +21,7 @@ gulp.task('js', function() {
         .pipe(uglify())
         .pipe(gulp.dest('./external/js/'));
 });
+
 gulp.task('css', function () {
     return gulp.src([
             './external/css/normalize.css',
@@ -31,6 +32,36 @@ gulp.task('css', function () {
             './external/css/main.css',
     ])
         .pipe(concatCss("main.min.css"))
+        .pipe(cssnano())
+        .pipe(gulp.dest('./external/css/'));
+});
+
+gulp.task('amp-js', function() {
+    gulp.src([
+        './lib/jquery/jquery-2.0.3.min.js',
+        './external/js/bootstrap.js',
+        './external/js/jquery.jcarousellite.min.js',
+        './external/js/wow.min.js',
+        './js/ApiKey.js',
+        './external/js/main.js',
+        './external/js/style_func.js',
+        './external/js/script.js',
+        './external/js/script-animations.js'
+    ])
+        .pipe(concat('amp-script.min.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('./external/js/'));
+});
+
+gulp.task('amp-css', function () {
+    return gulp.src([
+        './external/css/normalize.css',
+        './external/css/form.css',
+        './external/css/bootstrap.min.css',
+        './external/css/main.css'
+
+    ])
+        .pipe(concatCss("amp-main.min.css"))
         .pipe(cssnano())
         .pipe(gulp.dest('./external/css/'));
 });

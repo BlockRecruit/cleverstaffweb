@@ -1,0 +1,72 @@
+
+
+.tabsCs .nav-tabs h3 {
+    background-color: #ffffff;
+    font-weight: 600;
+    color: #9b9b9c;
+    padding: 10px;
+}
+
+.menuLanding.display {
+    display: block;
+}
+
+#sidebar1 {
+    background-color: #ffffff;
+    width: 200px;
+    z-index: 2147483646;
+}
+
+#sidebar1 ul {
+    background-color: #ffffff;
+    margin: 0;
+    padding: 10px 5px;
+}
+
+#sidebar1 ul li {
+    list-style-type: none;
+    margin: 15px 0;
+    text-align: right;
+    padding-right: 20px;
+}
+
+#sidebar1 ul li a {
+    color: #444446;
+    font-weight: 600;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    line-height: 20px;
+}
+
+#sidebar1 ul li .dropdown {
+    display: block;
+    width: 100%;
+    text-align: right;
+}
+
+.i-amphtml-sidebar-mask {
+    background-color: initial;
+    z-index: 1;
+}
+
+button.amp-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 13px;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.i-amphtml-slide-item>* {
+    height: 250px;
+}
+
+@media (max-width: 991px) {
+    button.amp-menu {
+        display: block;
+    }
+}

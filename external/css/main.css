@@ -1,30 +1,30 @@
 @font-face {
     font-family: 'Freeroad-Light';
-    src: url('../fonts/Freeroad-Light.ttf') format('truetype');
+    src: url('/external/fonts/Freeroad-Light.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'Helv-3-Thin';
-    src: url('../fonts/shrift_website/HelveticaNeueCyr-Thin.otf') format('opentype');
+    src: url('/external/fonts/shrift_website/HelveticaNeueCyr-Thin.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'Helv-3-Medium';
-    src: url('../fonts/shrift_website/HelveticaNeueCyr-Medium.otf') format('opentype');
+    src: url('/external/fonts/shrift_website/HelveticaNeueCyr-Medium.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'Helv-3-Light';
-    src: url('../fonts/shrift_website/HelveticaNeueCyr-Light.otf') format('opentype');
+    src: url('/external/fonts/shrift_website/HelveticaNeueCyr-Light.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'Segoe Print';
-    src: url('../fonts/segoepr.ttf') format('truetype');
+    src: url('/external/fonts/segoepr.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -45,6 +45,17 @@ h3{
 }
 body {
     background-position: top center;
+}
+
+body .visible,
+body .visible-block {
+    opacity: 1;
+    display: inline-block;
+    position: static;
+}
+
+body .visible-block {
+    display: block;
 }
 /*header*/
 header {
@@ -342,7 +353,7 @@ a:focus {
     border-width: 1px;
 }
 .arrow{
-    background: url("../img/arrow2.png");
+    background: url("/external/img/arrow2.png");
     width: 69px;
     height: 60px;
     display: inline-block;
@@ -368,7 +379,7 @@ a:focus {
 }
 
 .cloud{
-    background: url("../img/cloud.png");
+    background: url("/external/img/cloud.png");
     width: 69px;
     height: 28px;
     display: block;
@@ -383,7 +394,7 @@ a:focus {
     opacity: 0;
 }
 .graf{
-    background: url("../img/graf2.png");
+    background: url("/external/img/graf2.png");
     width: 89px;
     height: 88px;
     display: block;
@@ -398,7 +409,7 @@ a:focus {
     opacity: 0;
 }
 .tasks{
-    background: url("../img/tasks.png");
+    background: url("/external/img/tasks.png");
     width: 81px;
     height: 70px;
     display: block;
@@ -418,7 +429,7 @@ a:focus {
     opacity: 0;
 }
 .cloud-sec{
-    background: url("../img/cloud.png");
+    background: url("/external/img/cloud.png");
     width: 69px;
     height: 28px;
     display: block;
@@ -433,7 +444,7 @@ a:focus {
     opacity: 0;
 }
 .chat{
-    background: url("../img/chat.png");
+    background: url("/external/img/chat.png");
     width: 100px;
     height: 49px;
     display: block;
@@ -448,7 +459,7 @@ a:focus {
     opacity: 0;
 }
 .calendar{
-    background: url("../img/calendar.png");
+    background: url("/external/img/calendar.png");
     width: 58px;
     height: 55px;
     display: block;
@@ -510,14 +521,14 @@ a:focus {
     opacity: 0;
 }
 .oldRecruitment{
-    background: url("../img/scketch2.png");
+    background: url("/external/img/scketch2.png");
     width: 371px;
     height: 364px;
     background-size: cover;
     margin: 20px auto;
 }
 .newRecruitment{
-    background: url("../img/scketch3.png");
+    background: url("/external/img/scketch3.png");
     width: 360px;
     height: 364px;
     background-size: cover;
@@ -584,31 +595,31 @@ a:focus {
     margin-top: 25px;
 }
 .tab-img-features{
-    background: url("../img/gif/Linkedin_integration.gif") no-repeat 50%;
+    background: url("/external/img/gif/Linkedin_integration.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
 }
 .tab-img-features2{
-    background: url("../img/gif/Appropriate_candidates_suggestions.gif") no-repeat 50%;
+    background: url("/external/img/gif/Appropriate_candidates_suggestions.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
 }
 .tab-img-features3{
-    background: url("../img/gif/Quick_vacancies_reports.gif") no-repeat 50%;
+    background: url("/external/img/gif/Quick_vacancies_reports.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
 }
 .tab-img-features4{
-    background: url("../img/gif/Resume_parsing.gif") no-repeat 50%;
+    background: url("/external/img/gif/Resume_parsing.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
 }
 .tab-img-features5{
-    background: url("../img/gif/Customizable_auto-emails.gif") no-repeat 50%;
+    background: url("/external/img/gif/Customizable_auto-emails.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
@@ -618,7 +629,7 @@ a:focus {
     position: relative;
 }
 .chat_2{
-    background: url("../img/chat.png");
+    background: url("/external/img/chat.png");
     width: 100px;
     height: 49px;
     display: block;
@@ -633,7 +644,7 @@ a:focus {
     -o-transform: rotate(-10deg);
 }
 .graf_2{
-    background: url("../img/graf2.png");
+    background: url("/external/img/graf2.png");
     width: 100px;
     height: 99px;
     display: block;
@@ -643,7 +654,7 @@ a:focus {
     top: 275px;
 }
 .blocks_2{
-    background: url("../img/blocks.png");
+    background: url("/external/img/blocks.png");
     width: 100px;
     height: 74px;
     display: block;
@@ -653,7 +664,7 @@ a:focus {
     bottom: 185px;
 }
 .puzzle_2{
-    background: url("../img/puzzle.png");
+    background: url("/external/img/puzzle.png");
     width: 37px;
     height: 49px;
     display: block;
@@ -668,7 +679,7 @@ a:focus {
     -o-transform: rotate(-25deg);
 }
 .clock_2{
-    background: url("../img/clock.png");
+    background: url("/external/img/clock.png");
     width: 42px;
     height: 35px;
     display: block;
@@ -678,7 +689,7 @@ a:focus {
     bottom: 10px;
 }
 .puzzle_3{
-    background: url("../img/puzzle.png");
+    background: url("/external/img/puzzle.png");
     width: 42px;
     height: 56px;
     display: block;
@@ -693,7 +704,7 @@ a:focus {
     -o-transform: rotate(120deg); /* Для Opera */
 }
 .clock_3{
-    background: url("../img/clock.png");
+    background: url("/external/img/clock.png");
     width: 42px;
     height: 35px;
     display: block;
@@ -703,7 +714,7 @@ a:focus {
     bottom: 265px;
 }
 .task_3{
-    background: url("../img/tasks.png");
+    background: url("/external/img/tasks.png");
     width: 79px;
     height: 68px;
     display: block;
@@ -718,7 +729,7 @@ a:focus {
     -o-transform: rotate(-45deg); /* Для Opera */
 }
 .task_4{
-    background: url("../img/tasks.png");
+    background: url("/external/img/tasks.png");
     width: 76px;
     height: 65px;
     display: block;
@@ -733,7 +744,7 @@ a:focus {
     -o-transform: rotate(-25deg); /* Для Opera */
 }
 .chat_3{
-    background: url("../img/chat.png");
+    background: url("/external/img/chat.png");
     width: 113px;
     height: 57px;
     display: block;
@@ -752,35 +763,35 @@ a:focus {
     font-size: 18px;
 }
 .growYour{
-    background: url("../img/svg/ic_cloud1.svg");
+    background: url("/external/img/svg/ic_cloud1.svg");
     height: 125px;
     width: 163px;
     background-size: contain;
     margin: 0 auto;
 }
 .powerfulIntegration{
-    background: url("../img/svg/ic_cloud2.svg");
+    background: url("/external/img/svg/ic_cloud2.svg");
     height: 125px;
     width: 163px;
     background-size: contain;
     margin: 0 auto;
 }
 .applicantTracking{
-    background: url("../img/svg/ic_cloud3.svg");
+    background: url("/external/img/svg/ic_cloud3.svg");
     height: 125px;
     width: 163px;
     background-size: contain;
     margin: 0 auto;
 }
 .automateRecruiting{
-    background: url("../img/svg/ic_cloud4.svg");
+    background: url("/external/img/svg/ic_cloud4.svg");
     height: 125px;
     width: 163px;
     background-size: contain;
     margin: 0 auto;
 }
 .advancedFeatures{
-    background: url("../img/svg/ic_cloud5.svg");
+    background: url("/external/img/svg/ic_cloud5.svg");
     height: 125px;
     width: 163px;
     background-size: contain;
@@ -811,35 +822,35 @@ a:focus {
     font-size: 28px;
 }
 .CSVersion{
-    background: url("../img/svg/ic_enterprice1.svg");
+    background: url("/external/img/svg/ic_enterprice1.svg");
     height: 125px;
     width: 163px;
     background-size: contain;
     margin: 0 auto;
 }
 .fullDatabase{
-    background: url("../img/svg/ic_enterprice2.svg");
+    background: url("/external/img/svg/ic_enterprice2.svg");
     height: 125px;
     width: 163px;
     background-size: contain;
     margin: 0 auto;
 }
 .ApiIntegration{
-    background: url("../img/svg/ic_enterprice3.svg");
+    background: url("/external/img/svg/ic_enterprice3.svg");
     height: 125px;
     width: 163px;
     background-size: contain;
     margin: 0 auto;
 }
 .companyDomain{
-    background: url("../img/svg/ic_enterprice4.svg");
+    background: url("/external/img/svg/ic_enterprice4.svg");
     height: 125px;
     width: 220px;
     background-size: contain;
     margin: 0 auto;
 }
 .customizations{
-    background: url("../img/svg/ic_enterprice5.svg");
+    background: url("/external/img/svg/ic_enterprice5.svg");
     height: 125px;
     width: 163px;
     background-size: contain;
@@ -859,42 +870,42 @@ a:focus {
     margin-bottom: 40px;
 }
 .databaseBackups{
-    background: url("../img/svg/im_secure5.svg");
+    background: url("/external/img/svg/im_secure5.svg");
     height: 125px;
     width: 163px;
     background-size: contain;
     margin: 0 auto 30px auto;
 }
 .secured{
-    background: url("../img/svg/im_secure.svg");
+    background: url("/external/img/svg/im_secure.svg");
     height: 270px;
     width: 245px;
     background-size: contain;
     margin: 0 auto;
 }
 .keepsPasswords{
-    background: url("../img/svg/im_secure3.svg");
+    background: url("/external/img/svg/im_secure3.svg");
     height: 118px;
     width: 163px;
     background-size: contain;
     margin: 0 auto 30px auto;
 }
 .encryption{
-    background: url("../img/svg/im_secure1.svg");
+    background: url("/external/img/svg/im_secure1.svg");
     height: 125px;
     width: 163px;
     background-size: contain;
     margin: 0 auto 30px auto;
 }
 .impossibleToDelete{
-    background: url("../img/svg/im_secure2.svg");
+    background: url("/external/img/svg/im_secure2.svg");
     height: 125px;
     width: 163px;
     background-size: contain;
     margin: 0 auto 30px auto;
 }
 .privacyInformation{
-    background: url("../img/svg/im_secure4.svg");
+    background: url("/external/img/svg/im_secure4.svg");
     height: 125px;
     width: 163px;
     background-size: contain;
@@ -912,7 +923,7 @@ a:focus {
     margin-bottom: 50px;
 }
 .kamaGames{
-    background: url("../img/customers/kamaGames.png");
+    background: url("/external/img/customers/kamaGames.png");
     height: 84px;
     width: 234px;
     background-size: contain;
@@ -921,14 +932,14 @@ a:focus {
     margin-top: 19px;
 }
 .ConscensiaLogo{
-    background: url("../img/customers/Conscensia_logo.png");
+    background: url("/external/img/customers/Conscensia_logo.png");
     height: 75px;
     width: 162px;
     background-size: contain;
     margin-right: 60px;
 }
 .recruit{
-    background: url("../img/customers/recruit.png");
+    background: url("/external/img/customers/recruit.png");
     height: 80px;
     width: 160px;
     background-size: contain;
@@ -936,21 +947,21 @@ a:focus {
     margin-top: 15px;
 }
 .vertaMedia{
-    background: url("../img/customers/vertaMedia.png");
+    background: url("/external/img/customers/vertaMedia.png");
     height: 84px;
     width: 138px;
     background-size: contain;
     margin-right: 80px;
 }
 .svitlaSystem{
-    background: url("../img/customers/svitlaSystem.png");
+    background: url("/external/img/customers/svitlaSystem.png");
     height: 77px;
     width: 177px;
     background-size: contain;
     margin-top: 15px;
 }
 .intersog{
-    background: url("../img/customers/intersog.png");
+    background: url("/external/img/customers/intersog.png");
     height: 73px;
     width: 179px;
     background-size: contain;
@@ -958,14 +969,14 @@ a:focus {
     clear: both;
 }
 .rsm{
-    background: url("../img/customers/rsm.png");
+    background: url("/external/img/customers/rsm.png");
     height: 79px;
     width: 230px;
     background-size: contain;
     margin-right: 20px;
 }
 .indigoLogo{
-    background: url("../img/customers/indigo_logo.png");
+    background: url("/external/img/customers/indigo_logo.png");
     height: 66px;
     width: 175px;
     background-size: contain;
@@ -973,7 +984,7 @@ a:focus {
     margin-right: 25px;
 }
 .avon{
-    background: url("../img/customers/avon.png");
+    background: url("/external/img/customers/avon.png");
     height: 40px;
     width: 187px;
     background-size: contain;
@@ -981,7 +992,7 @@ a:focus {
     margin-right: 15px;
 }
 .kingsChoise{
-    background: url("../img/customers/kingsChoise.png");
+    background: url("/external/img/customers/kingsChoise.png");
     height: 97px;
     width: 290px;
     background-size: contain;
@@ -1063,7 +1074,7 @@ a:focus {
     color: #FF9C07;
 }
 .flower{
-    background: url("../img/flower.png");
+    background: url("/external/img/flower.png");
     width: 56px;
     height: 88px;
     display: block;
@@ -1078,7 +1089,7 @@ a:focus {
     -o-transform: scaleX(-1);
 }
 .manSay{
-    background: url("../img/man.png");
+    background: url("/external/img/man.png");
     width: 100px;
     height: 160px;
     display: block;
@@ -1088,7 +1099,7 @@ a:focus {
     bottom: 50px;
 }
 .clientHappy{
-    background: url("../img/client_happy.png");
+    background: url("/external/img/client_happy.png");
     width: 100px;
     height: 170px;
     display: block;
@@ -1098,7 +1109,7 @@ a:focus {
     bottom: 70px;
 }
 .cheer{
-    background: url("../img/cheer.png");
+    background: url("/external/img/cheer.png");
     width: 100px;
     height: 78px;
     display: block;
@@ -1108,7 +1119,7 @@ a:focus {
     bottom: 3px;
 }
 .arrow-right{
-    background: url(../img/svg/arrow_2.svg);
+    background: url(/external/img/svg/arrow_2.svg);
     width: 30px;
     height: 30px;
     background-size: cover;
@@ -1136,7 +1147,7 @@ a:focus {
     color: #646364;
 }
 .rocket{
-    background: url("../img/rocket.png");
+    background: url("/external/img/rocket.png");
     width: 304px;
     height: 291px;
     display: block;
@@ -1165,7 +1176,7 @@ a:focus {
     font-weight: 600;
 }
 .cloudContact{
-    background: url(../img/cloud.png);
+    background: url(/external/img/cloud.png);
     width: 69px;
     height: 28px;
     display: block;
@@ -1175,7 +1186,7 @@ a:focus {
     top: 110px;
 }
 .plane{
-    background: url(../img/svg/im_plane.svg);
+    background: url(/external/img/svg/im_plane.svg);
     width: 69px;
     height: 46px;
     display: block;
@@ -1185,7 +1196,7 @@ a:focus {
     bottom: 230px;
 }
 .linePlane{
-    background: url(../img/svg/im_line.svg);
+    background: url(/external/img/svg/im_line.svg);
     width: 112px;
     height: 164px;
     display: block;
@@ -1195,7 +1206,7 @@ a:focus {
     bottom: 50px;
 }
 .cloudContact2{
-    background: url(../img/cloud.png);
+    background: url(/external/img/cloud.png);
     width: 69px;
     height: 28px;
     display: block;
@@ -1205,7 +1216,7 @@ a:focus {
     top: 30px;
 }
 .manPlane{
-    background: url(../img/svg/im_line.svg);
+    background: url(/external/img/svg/im_line.svg);
     width: 105px;
     height: 152px;
     display: block;
@@ -1220,7 +1231,7 @@ a:focus {
     -o-transform: scaleX(-1);
 }
 .planeContact2{
-    background: url(../img/svg/im_plane.svg);
+    background: url(/external/img/svg/im_plane.svg);
     display: block;
     background-size: cover;
     position: absolute;
@@ -1235,7 +1246,7 @@ a:focus {
     -o-transform: scaleX(-1);
 }
 .manContact2{
-    background: url(../img/manHellow.png);
+    background: url(/external/img/manHellow.png);
     width: 85px;
     height: 200px;
     display: block;
@@ -1265,7 +1276,7 @@ a:focus {
      border-bottom: 1px solid;
 }
 .email{
-    background: url(../img/svg/ic_contact_mail.svg);
+    background: url(/external/img/svg/ic_contact_mail.svg);
     width: 17px;
     height: 13px;
     display: block;
@@ -1275,7 +1286,7 @@ a:focus {
 
 }
 .skype{
-    background: url(../img/svg/ic_contact_skype.svg);
+    background: url(/external/img/svg/ic_contact_skype.svg);
     width: 17px;
     height: 17px;
     display: block;
@@ -1283,7 +1294,7 @@ a:focus {
     margin-right: 10px;
 }
 .tel{
-    background: url(../img/svg/ic_contact_phone.svg);
+    background: url(/external/img/svg/ic_contact_phone.svg);
     width: 17px;
     height: 17px;
     display: block;
@@ -1291,7 +1302,7 @@ a:focus {
     margin-right: 10px;
 }
 .fb{
-    background: url(../img/svg/ic_join_fb.svg);
+    background: url(/external/img/svg/ic_join_fb.svg);
     width: 12px;
     height: 25px;
     display: block;
@@ -1300,7 +1311,7 @@ a:focus {
     margin-top: 30px;
 }
 .gplus{
-    background: url(../img/svg/ic_join_gplus.svg);
+    background: url(/external/img/svg/ic_join_gplus.svg);
     width: 29px;
     height: 27px;
     display: block;
@@ -1308,7 +1319,7 @@ a:focus {
     margin-top: 32px;
 }
 .twit{
-    background: url(../img/svg/ic_join_twit.svg);
+    background: url(/external/img/svg/ic_join_twit.svg);
     width: 35px;
     height: 28px;
     display: block;
@@ -1317,7 +1328,7 @@ a:focus {
     margin-top: 30px;
 }
 .linkdIn{
-    background: url(../img/svg/ic_join_in.svg);
+    background: url(/external/img/svg/ic_join_in.svg);
     width: 26px;
     height: 26px;
     display: block;
@@ -1326,7 +1337,7 @@ a:focus {
     margin-top: 30px;
 }
 .youTube{
-    background: url(../img/svg/ic_join_youtube.svg);
+    background: url(/external/img/svg/ic_join_youtube.svg);
     width: 24px;
     height: 28px;
     display: block;
@@ -1383,6 +1394,7 @@ footer{
     top: 150px;
     outline:none;
 }
+
 .orangeBtnBorder:hover {
     text-decoration: none;
     background-color: #ED7D3B;
@@ -1403,7 +1415,7 @@ footer{
 }
 
 .priceMan{
-    background: url("../img/man5.png") no-repeat;
+    background: url("/external/img/man5.png") no-repeat;
     height: 128px;
     width: 60px;
     background-size: contain;
@@ -1417,7 +1429,7 @@ footer{
     opacity: 0;
 }
 .priceFlower{
-    background: url("../img/flower.png") no-repeat;
+    background: url("/external/img/flower.png") no-repeat;
     height: 56px;
     width: 50px;
     background-size: contain;
@@ -1431,7 +1443,7 @@ footer{
     opacity: 0;
 }
 .priceCheer{
-    background: url("../img/cheer.png") no-repeat;
+    background: url("/external/img/cheer.png") no-repeat;
     height: 78px;
     width: 100px;
     background-size: contain;
@@ -1444,7 +1456,7 @@ footer{
     opacity: 0;
 }
 .priceGraf{
-    background: url("../img/graf.png") no-repeat;
+    background: url("/external/img/graf.png") no-repeat;
     height: 90px;
     width: 129px;
     background-size: contain;
@@ -1569,7 +1581,7 @@ footer{
     display: block;
 }
 .mostPopular{
-    background: url(../img/price12.png);
+    background: url(/external/img/price12.png);
     position: absolute;
     left: -2px;
     top: -2px;
@@ -1597,7 +1609,7 @@ footer{
     color: #48CA4F;
 }
 .arrow-down{
-    background: url(../img/svg/arrow_1.svg);
+    background: url(/external/img/svg/arrow_1.svg);
     width: 30px;
     height: 30px;
     background-size: cover;
@@ -1634,7 +1646,7 @@ footer{
     color: #9C9A9F;
 }
 .plan-1{
-    background: url(../img/svg/prize/ic_1.svg);
+    background: url(/external/img/svg/prize/ic_1.svg);
     width: 23px;
     height: 20px;
     background-size: cover;
@@ -1648,7 +1660,7 @@ footer{
     margin-right: 10px;
 }
 .plan-2{
-    background: url(../img/svg/prize/ic_2.svg);
+    background: url(/external/img/svg/prize/ic_2.svg);
     width: 20px;
     height: 20px;
     background-size: cover;
@@ -1662,7 +1674,7 @@ footer{
     margin-right: 10px;
 }
 .plan-3{
-    background: url(../img/svg/prize/ic_3.svg);
+    background: url(/external/img/svg/prize/ic_3.svg);
     width: 25px;
     height: 20px;
     background-size: cover;
@@ -1676,7 +1688,7 @@ footer{
     margin-right: 10px;
 }
 .plan-4{
-    background: url(../img/svg/prize/ic_4.svg);
+    background: url(/external/img/svg/prize/ic_4.svg);
     width: 33px;
     height: 20px;
     background-size: cover;
@@ -1690,7 +1702,7 @@ footer{
     margin-right: 10px;
 }
 .plan-5{
-    background: url(../img/svg/prize/ic_5.svg);
+    background: url(/external/img/svg/prize/ic_5.svg);
     width: 22px;
     height: 20px;
     background-size: cover;
@@ -1704,7 +1716,7 @@ footer{
     margin-right: 10px;
 }
 .plan-6{
-    background: url(../img/svg/prize/ic_6.svg);
+    background: url(/external/img/svg/prize/ic_6.svg);
     width: 20px;
     height: 20px;
     background-size: cover;
@@ -1718,7 +1730,7 @@ footer{
     margin-right: 10px;
 }
 .plan-7{
-    background: url(../img/svg/prize/ic_7.svg);
+    background: url(/external/img/svg/prize/ic_7.svg);
     width: 25px;
     height: 20px;
     background-size: cover;
@@ -1732,7 +1744,7 @@ footer{
     margin-right: 10px;
 }
 .plan-8{
-    background: url(../img/svg/prize/ic_8.svg);
+    background: url(/external/img/svg/prize/ic_8.svg);
     width: 20px;
     height: 25px;
     background-size: cover;
@@ -1746,7 +1758,7 @@ footer{
     margin-right: 10px;
 }
 .plan-9{
-    background: url(../img/svg/prize/ic_9.svg);
+    background: url(/external/img/svg/prize/ic_9.svg);
     width: 24px;
     height: 20px;
     background-size: cover;
@@ -1874,7 +1886,7 @@ footer{
 
 /*home*/
 .teacher{
-    background: url(../img/svg/im_woman.svg);
+    background: url(/external/img/svg/im_woman.svg);
     width: 100px;
     height: 120px;
     background-size: cover;
@@ -1888,7 +1900,7 @@ footer{
     opacity: 0;
 }
 .settings{
-    background: url(../img/svg/im_set.svg);
+    background: url(/external/img/svg/im_set.svg);
     width: 65px;
     height: 80px;
     background-size: cover;
@@ -1933,7 +1945,7 @@ footer{
     color: #7DC072;
 }
 .closeImg{
-    background: url(../img/svg/ic_proplem.svg);
+    background: url(/external/img/svg/ic_proplem.svg);
     width: 32px;
     height: 35px;
     display: block;
@@ -1941,7 +1953,7 @@ footer{
     margin: 50px auto 20px auto;
 }
 .acceptImg{
-    background: url(../img/svg/ic_solution.svg);
+    background: url(/external/img/svg/ic_solution.svg);
     width: 46px;
     height: 35px;
     display: block;
@@ -1970,7 +1982,7 @@ footer{
     color: #7DC072;
 }
 .run-man{
-    background: url(../img/svg/im_run_man.svg);
+    background: url(/external/img/svg/im_run_man.svg);
     width: 90px;
     height: 120px;
     background-size: cover;
@@ -2010,7 +2022,7 @@ footer{
     opacity: 0;
 }
 .arrow-features{
-    background: url(../img/svg/im_arrow.svg);
+    background: url(/external/img/svg/im_arrow.svg);
     width: 80px;
     height: 125px;
     display: inline-block;
@@ -2030,7 +2042,7 @@ footer{
     opacity: 0;
 }
 .manWrite{
-    background: url(../img/man3.png);
+    background: url(/external/img/man3.png);
     width: 162px;
     height: 125px;
     display: inline-block;
@@ -2045,7 +2057,7 @@ footer{
     opacity: 0;
 }
 .flower-feature{
-    background: url(../img/flower.png);
+    background: url(/external/img/flower.png);
     width: 56px;
     height: 88px;
     display: block;
@@ -2065,7 +2077,7 @@ footer{
     opacity: 0;
 }
 .man{
-    background: url(../img/man2.png);
+    background: url(/external/img/man2.png);
     width: 127px;
     height: 141px;
     display: inline-block;
@@ -2145,94 +2157,94 @@ footer{
     margin-bottom: 40px;
 }
 .tab-img-page-features-database-instantly{
-    background: url("../img/gif/Resume_parsing.gif") no-repeat 50%;
+    background: url("/external/img/gif/Resume_parsing.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
 }
 .tab-img-page-features-database-instantly2{
-    background: url("../img/gif/Email_synс_uploads.gif") no-repeat 50%;
+    background: url("/external/img/gif/Email_synс_uploads.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
 }
 .tab-img-page-features-database-instantly3{
-    background: url("../img/gif/Archive_import.gif") no-repeat 50%;
+    background: url("/external/img/gif/Archive_import.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
 }
 .tab-img-page-features-database-instantly4{
-    background: url("../img/gif/Linkedin_integration.gif") no-repeat 50%;
+    background: url("/external/img/gif/Linkedin_integration.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
 }
 .tab-img-page-features-database-instantly5{
-    background: url("../img/gif/cv_lv.gif") no-repeat 50%;
+    background: url("/external/img/gif/cv_lv.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
 }
 .tab-img-page-features-tracking-system{
-    background: url("../img/gif/Custom_job_workflow_stages.gif") no-repeat 50%;
+    background: url("/external/img/gif/Custom_job_workflow_stages.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
 }
 .tab-img-page-features-tracking-system2{
-    background: url("../img/gif/Customizable_auto-emails.gif") no-repeat 50%;
+    background: url("/external/img/gif/Customizable_auto-emails.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
 }
 .tab-img-page-features-tracking-system3{
-    background: url("../img/gif/Integration_with_Calendar.gif") no-repeat 50%;
+    background: url("/external/img/gif/Integration_with_Calendar.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
 }
 .tab-img-page-features-recruitment-automation{
-    background: url("../img/gif/Appropriate_candidates_suggestions.gif") no-repeat 50%;
+    background: url("/external/img/gif/Appropriate_candidates_suggestions.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
 }
 .tab-img-page-features-recruitment-automation2{
-    background: url("../img/gif/Quick_vacancies_reports.gif") no-repeat 50%;
+    background: url("/external/img/gif/Quick_vacancies_reports.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
 }
 .tab-img-page-features-recruitment-automation3{
-    background: url("../img/gif/Recruiting_funnel.gif") no-repeat 50%;
+    background: url("/external/img/gif/Recruiting_funnel.gif") no-repeat 50%;
     height: 460px;
     width: 100%;
     background-size: contain;
 }
 .hr-module{
-    background: url(../img/svg/features/ic_HR_modul.svg);
+    background: url(/external/img/svg/features/ic_HR_modul.svg);
     height: 125px;
     width: 163px;
     background-size: contain;
     margin: 0 auto 30px auto;
 }
 .save-database{
-    background: url(../img/svg/features/ic_database_Backup.svg);
+    background: url(/external/img/svg/features/ic_database_Backup.svg);
     height: 125px;
     width: 163px;
     background-size: contain;
     margin: 0 auto 30px auto;
 }
 .clients-access{
-    background: url(../img/svg/features/ic_clients_access.svg);
+    background: url(/external/img/svg/features/ic_clients_access.svg);
     height: 125px;
     width: 163px;
     background-size: contain;
     margin: 0 auto 30px auto;
 }
 .integration{
-    background: url(../img/svg/features/ic_integrations.svg);
+    background: url(/external/img/svg/features/ic_integrations.svg);
     height: 125px;
     width: 163px;
     background-size: contain;
@@ -2265,7 +2277,7 @@ footer{
     color: inherit;
 }
 .arrow-right-green{
-    background: url(../img/svg/arrow_1.svg);
+    background: url(/external/img/svg/arrow_1.svg);
     width: 30px;
     height: 30px;
     background-size: cover;
@@ -2320,7 +2332,7 @@ footer{
     height: 155px;
 }
 .close{
-    background: url(../img/svg/im_close-x.svg);
+    background: url(/external/img/svg/im_close-x.svg);
     width: 20px;
     height: 20px;
     background-size: cover;
@@ -2329,7 +2341,7 @@ footer{
     top: 5px;
 }
 .arrow-modal{
-    background: url(../img/svg/im_line_for_plane.svg);
+    background: url(/external/img/svg/im_line_for_plane.svg);
     width: 70px;
     height: 25px;
     background-size: cover;
@@ -2338,7 +2350,7 @@ footer{
     bottom: 2px;
 }
 .plan-modal{
-    background: url(../img/svg/im_plane.svg);
+    background: url(/external/img/svg/im_plane.svg);
     width: 37px;
     height: 23px;
     background-size: cover;

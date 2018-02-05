@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html amp lang="ru">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="UTF-8">
+    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <title>CleverStaff - Единая система для подбора персонала</title>
+    <meta name="description" content="CleverStaff Recruitment Software and Applicant Tracking System">
+    <link rel="canonical" href="index.html">
+    <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../external/css/amp-main.min.css?b4">
+    <link rel="stylesheet" href="/external/css/amp.main.css">
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="CleverStaff | Единая система для профессионального подбора персонала"/>
+    <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
+    <meta property="og:image" content="https://dev.cleverstaff.net/images/sprite/for_preview_1080-1080.jpg"/>
+    <meta property="og:image:width" content="1080" />
+    <meta property="og:image:height" content="1080" />
+    <meta property="og:site_name" content="CleverStaff"/>
+
+    <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
+    <script async custom-element="amp-accordion" src="https://cdn.ampproject.org/v0/amp-accordion-0.1.js"></script>
+    <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
+
+    <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+</head>
+<body>
+<amp-sidebar id="sidebar1" layout="nodisplay" side="right">
+    <nav>
+        <ul>
+            <li><a href="why.html">Почему</a></li>
+            <li><a href="features.html">Возможности</a></li>
+            <li><a href="price.html">Цены</a></li>
+            <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+            <li>
+                <div class="dropdown pull-right adaptiveMenuShow float-none-mob">
+                    <button class="btn btn-primary dropdown-toggle"
+                            type="button"
+                            data-toggle="dropdown">RU <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="/index.html">EN</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</amp-sidebar>
+<div class="wrapper">
+    <header>
+        <div class="container">
+            <a href="/" class="logo pull-left"></a>
+            <a href="/" class="logo2 pull-left"></a>
+            <a class="signinButton btn btn-default navbar-btn loginBtn  adaptiveMenuShow btn-menu">Начать</a>
+            <span class="rusIcon hidden"><amp-img layout="fixed" src="/images/sprite/ru-flag-icon.png" width="21" height="21" alt=""></amp-img>
+                <span class="hidden-xs">RU хостинг</span>
+            </span>
+            <div class="useRusServers">
+                <b class="text-center">Мы используем российские сервера для хранения данных граждан РФ.</b>
+
+                <p>Таким образом, мы соблюдаем закон об обработке и хранении персональных данных (пользователей, кандидатов и клиентов) в Российской Федерации.</p>
+            </div>
+            <nav class="navbar pull-right">
+                <div class="container-fluid">
+                    <ul class="nav navbar-nav adaptiveMenu">
+                        <li><a href="why.html">Почему</a></li>
+                        <li><a href="features.html">Возможности</a></li>
+                        <li><a href="price.html">Цены</a></li>
+                        <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                    </ul>
+                    <a class="signinButton btn btn-default navbar-btn loginBtn adaptiveMenu pull-left">Начать</a>
+                    <button class="amp-menu hamburger" on='tap:sidebar1.toggle'>Menu</button>
+                    <div class="dropdown pull-right adaptiveMenu">
+                        <button class="btn btn-primary dropdown-toggle"
+                                type="button"
+                                data-toggle="dropdown">RUS <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/index.html" id="setLang">ENG</a></li>
+                        </ul>
+                    </div>
+                    <span class="iconMenu">
+                        <a id="menuFunc"><i class="fa fa-bars" aria-hidden="true"></i></a>
+                    </span>
+                </div>
+            </nav>
+            <div class="menuLanding">
+                <nav class="navbar pull-right">
+                    <div class="container-fluid">
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="block" id="home">
+        <div class="row">
+            <div class="col-md-2">
+                <span class="cloud"></span>
+                <span class="graf"></span>
+                <span class="tasks"></span>
+            </div>
+            <div class="col-md-8 text-center">
+                <h1 class="big-tittle visible">Единая система для профессионального <br>подбора персонала</h1>
+                <h4 class="big-tittle visible-block">Серверная и Облачная версии</h4>
+                <span class="arrow main-page-ru"></span>
+                <a class="orangeBtn orange-btn visible" href="signup.html">Начать Бесплатно</a>
+            </div>
+            <div class="col-md-2">
+                <span class="cloud-sec"></span>
+                <span class="chat"></span>
+                <span class="calendar"></span>
+            </div>
+        </div>
+    </div>
+    <div class="block" id="block_2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="text-center visible-block">Старый Рекрутинг</h2>
+                    <div class="oldRecruitment visible-block"></div>
+                    <p class="text-center visible">Кандидаты, инструменты и клиенты не должны быть разделены.<br>Административная работа не должна отнимать много времени.</p>
+                </div>
+                <div class="col-md-6">
+                    <h2 class="text-center visible-block">Новый Рекрутинг</h2>
+                    <div class="newRecruitment visible-block"></div>
+                    <p class="text-center visible">Единое место для всех инструментов, кандидатов, вакансий и данных. Автоматизация рутины.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block" id="block_3">
+        <div class="container">
+            <div class="row">
+                <div class="chat_2 wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+                <div class="graf_2 wow" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+                <div class="blocks_2 wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+                <div class="puzzle_2 wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+                <div class="clock_2 wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+                <div class="col-md-12 zIndex">
+                    <h3 class="text-center wow fadeInUp">Ключевые Возможности</h3>
+                    <div class="tabsCs wow fadeInUp">
+                        <ul class="nav nav-tabs">
+                            <amp-accordion disable-session-states>
+                                <section expanded class="text-center">
+                                    <h3>Добавляйте кандидатов в 1 клик</h3>
+                                    <p>
+                                        Моментальная интеграция с LinkedIn, почтой и сайтами поиска работы.
+                                        <amp-img src="/external/img/gif/Linkedin_integration.gif"
+                                                 width="340"
+                                                 height="250">
+
+                                        </amp-img>
+                                    </p>
+                                </section>
+                                <section class="text-center">
+                                    <h3>Рекомендации подходящих кандидатов</h3>
+                                    <p>Алгоритмы системы предлагают кандидатов из вашей базы, которые максимально соответствуют критериям вакансии.
+                                        <amp-img src="/external/img/gif/Appropriate_candidates_suggestions.gif"
+                                                 width="340"
+                                                 height="250">
+
+                                        </amp-img>
+                                    </p>
+                                </section>
+                                <section class="text-center">
+                                    <h3>Быстрые отчеты по вакансиям</h3>
+                                    <p>Все отчёты по вакансиям для заказчиков / руководителей теперь создаются автоматически за пару секунд.
+                                        <amp-img src="/external/img/gif/Quick_vacancies_reports.gif"
+                                                 width="340"
+                                                 height="250">
+
+                                        </amp-img>
+                                    </p>
+                                </section>
+                                <section class="text-center">
+                                    <h3>Технология парсинга резюме</h3>
+                                    <p>Загружайте резюме любого формата и CleverStaff конвертирует его в структурированную запись.<br> Больше не надо вводить данные вручную.
+                                        <amp-img src="/external/img/gif/Resume_parsing.gif"
+                                                 width="340"
+                                                 height="250">
+
+                                        </amp-img>
+                                    </p>
+                                </section>
+                                <section class="text-center">
+                                    <h3>Настраиваемые шаблоны писем</h3>
+                                    <p>Отправляйте автоматические письма кандидатам по настраиваемым шаблонам.
+                                        <amp-img src="/external/img/gif/Resume_parsing.gif"
+                                                 width="340"
+                                                 height="250">
+
+                                        </amp-img>
+                                    </p>
+                                </section>
+                            </amp-accordion>
+                            <!--<li class="active text-center gif-1"><a data-toggle="tab" href="#addCandidate">Добавляйте кандидатов в 1 клик</a></li>-->
+                            <!--<li class="text-center gif-2"><a data-toggle="tab" href="#menu1">Рекомендации подходящих кандидатов</a></li>-->
+                            <!--<li class="text-center gif-3"><a data-toggle="tab" href="#menu2">Быстрые отчеты по вакансиям</a></li>-->
+                            <!--<li class="text-center gif-4"><a data-toggle="tab" href="#menu3">Технология парсинга резюме</a></li>-->
+                            <!--<li class="text-center gif-5"><a data-toggle="tab" href="#menu4">Настраиваемые шаблоны писем</a></li>-->
+                        </ul>
+                        <div class="tab-content text-center">
+                            <a href="features.html" class="orangeBtn visible">Узнать все возможности</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="puzzle_3 wow fadeInRight" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+                <div class="clock_3 wow fadeInRight" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+                <div class="task_3 wow fadeInRight" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+                <div class="task_4 wow fadeInRight" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+                <div class="chat_3 wow fadeInRight" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+            </div>
+        </div>
+    </div>
+    <div class="block" id="block_4">
+        <div class="container">
+            <div class="row">
+                <h3 class="text-center wow fadeInUp">Выберите Версию, Подходящую Вашей Компании</h3>
+                <div class="tabsCs versionCompany">
+                    <ul class="nav nav-tabs">
+                        <amp-accordion disable-session-states>
+                            <section expanded>
+                                <h3 class="active text-center">Серверная</h3>
+                                <div id="enterprise" class="tab-pane">
+                                    <div class="col-md-3 col-sm-3 cloudFirst">
+                                        <div class="CSVersion"></div>
+                                        <p>Ваша версия CleverStaff на сервере вашей компании. У нас нет доступа к вашим данным.</p>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 cloudFirst" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60">
+                                        <div class="fullDatabase"></div>
+                                        <p>Полный контроль базы данных: кандидаты, файлы и списки у вас под рукой..</p>
+                                    </div>
+                                    <div class="col-md-4 col-sm-3" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60">
+                                        <div class="ApiIntegration"></div>
+                                        <p>API для интеграции с внутренними сервисами вашей компании.</p>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-4 col-sm-4 cloudSecond">
+                                        <div class="companyDomain"></div>
+                                        <p>Доменное имя вашей компании для максимальной персонализации.</p>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4">
+                                        <div class="customizations"></div>
+                                        <p>Настройка системы и возможностей под потребности вашего бизнеса.</p>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <a href="price.html" class="detailsPricing">Детально о ценах и сравнение <span class="arrow-right"></span></a>
+                                </div>
+                            </section>
+                            <section>
+                                <h3 class="text-center">Облачная</h3>
+                                <div id="cloud" class="tab-pane text-center">
+                                    <div class="col-md-3 col-sm-3 text-center cloudFirst">
+                                        <div class="growYour"></div>
+                                        <p>Расширяйте базу данных: моментально находите и добавляйте кандидатов.</p>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 text-center cloudFirst">
+                                        <div class="powerfulIntegration"></div>
+                                        <p>Мощные интеграции с LinkedIn, почтой, календарями и сайтами поиска работы.</p>
+                                    </div>
+                                    <div class="col-md-4 col-sm-3 text-center">
+                                        <div class="applicantTracking"></div>
+                                        <p>Единое место для оценки, учёта и обсуждения кандидатов.</p>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-4 col-sm-4 text-center cloudSecond">
+                                        <div class="automateRecruiting"></div>
+                                        <p>Автоматизируйте рекрутинг, забудьте о рутине и сохраняйте до 45% времени и $.</p>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4">
+                                        <div class="advancedFeatures"></div>
+                                        <p>Продвинутые возможности: HR модуль, резервные копии данных, доступ к аккаунту для клиентов.</p>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <a href="price.html" class="detailsPricing">Детально о ценах и сравнение  <span class="arrow-right"></span></a>
+                                </div>
+                            </section>
+                        </amp-accordion>
+                    </ul>
+                    <div class="tab-content text-center wow fadeInUp">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block" id="block_5">
+        <div class="container">
+            <div class="row text-center">
+                <h3 class="wow fadeInUp">Мы Гарантируем Безопасность Ваших Данных</h3>
+                <div class="col-md-4 wow fadeInUp">
+                    <div class="databaseBackups"></div>
+                    <p class="widthForP">Мы регулярно делаем резервные копии данных. Если подведет "железо", мы быстро восстановим работу и все данные.</p>
+                </div>
+                <div class="col-md-4 wow fadeInUp display-none">
+                    <div class="secured"></div>
+                </div>
+                <div class="col-md-4 wow fadeInUp">
+                    <div class="keepsPasswords"></div>
+                    <p class="widthForP">CleverStaff хранит пароли зашифрованными. Никто не сможет получить к ним доступ.</p>
+                </div>
+                <div class="clearfix"></div>
+                <br>
+                <br>
+                <div class="col-md-4 wow fadeInUp">
+                    <div class="encryption"></div>
+                    <p class="widthForP">Шифрование (https-протокол) защищает ваши данные от перехвата третьими лицами.</p>
+                </div>
+                <div class="col-md-4 wow fadeInUp">
+                    <div class="impossibleToDelete"></div>
+                    <p class="widthForP">В интерфейсе CleverStaff нет возможности удалить всю базу или какую-то её часть.</p>
+                </div>
+                <div class="col-md-4 wow fadeInUp">
+                    <div class="privacyInformation"></div>
+                    <p class="widthForP">Конфиденциальность ваших данных гарантируется компанией CleverStaff в договоре, имеющим юридическую силу.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block" id="block_6">
+        <div class="container">
+            <div class="row">
+                <h3 class="text-center wow fadeInUp">Мы Гордимся Нашими Пользователями</h3>
+                <div class="kamaGames pull-left wow fadeInUp"><a href="https://www.kamagames.com/" target="_blank"></a></div>
+                <div class="ConscensiaLogo pull-left wow fadeInUp"><a href="http://conscensia.dk/" target="_blank"></a></div>
+                <div class="recruit pull-left wow fadeInUp"><a href="http://recruitdee.com/" target="_blank"></a></div>
+                <div class="vertaMedia pull-left wow fadeInUp"><a href="https://vertamedia.com/" target="_blank"></a></div>
+                <div class="svitlaSystem pull-left wow fadeInUp"><a href="https://svitla.com/" target="_blank"></a></div>
+                <div class="intersog pull-left wow fadeInUp"><a href="http://ukraine.intersog.com/" target="_blank"></a></div>
+                <div class="rsm pull-left wow fadeInUp"><a href="http://www.rsmrecruitment.com/" target="_blank"></a></div>
+                <div class="indigoLogo pull-left wow fadeInUp"><a href="https://indigo.co.ua" target="_blank"></a></div>
+                <div class="avon pull-left wow fadeInUp"><a href="https://my.avon.ru/" target="_blank"></a></div>
+                <div class="kingsChoise pull-left wow fadeInUp"><a href="http://www.kingschoice.eu/" target="_blank"></a></div>
+            </div>
+        </div>
+    </div>
+    <div class="block" id="block_7">
+        <div class="container">
+            <div class="row">
+                <div class="flower wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+                <div class="manSay wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+                <amp-carousel id="carousel-with-preview"
+                              width="250"
+                              height="450"
+                              layout="responsive"
+                              type="slides">
+                    <div>
+                        <div class="slide-container">
+                            <blockquote>
+                                Пользуюсь CleverStaff с 2014 года, очень нравится, программа надежная, интерфейс приятный, функционал практичный. Уникальная функция поиска кандидатов не выходя с программы, сразу подтягивает резюме с рабочих сайтах (работа.юа, джин, линкидин и тп.) Спасибо Владимиру Курило и его команде за качественный продукт, жду новых фичь! )
+                            </blockquote>
+                            <span class="saysArrow"></span>
+                            <div class="person-card">
+                                <amp-img
+                                        src="../external/img/clients/client-feedback-5.png"
+                                        width="120"
+                                        height="120"
+                                        alt="Client"
+                                        layout="fixed">
+                                </amp-img>
+                                <div class="person-descr pull-left text-left">
+                                    <span class="person-name pull-left">КРИСТИНА КОРИШНИЧЕНКО</span><br>
+                                    <span class="person-work text-muted pull-left">HR В GROSSUM</span><br>
+                                    <span class="text-muted pull-left">5 февраля 2015</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="slide-container">
+                            <blockquote>
+                                Программа Clever Staff открыла для нас массу новых возможностей. Основные фишки которые мы используем каждый день:
+                                1. Возможность размещать вакансии в соц. сетях.
+                                2. Возможность делать доступ клиентам.
+                                3. Интеграция с hh.ru и linkedin.com, возможность скачивать резюме напрямую из hh.ru.
+                                4. Отчет о работе по вакансиям.
+                                5. Интеграция с календарем google.
+                            </blockquote>
+                            <span class="saysArrow"></span>
+                            <div class="person-card">
+                                <amp-img
+                                        src="../external/img/clients/client-feedback-6.png"
+                                        width="120"
+                                        height="120"
+                                        alt="Client"
+                                        layout="fixed">
+                                </amp-img>
+                                <div class="person-descr pull-left text-left">
+                                    <span class="person-name pull-left">МАКСИМ МАТВИЕНКО</span><br>
+                                    <span class="person-work text-muted pull-left">ВЛАДЕЛЕЦ КОМПАНИИ НОВЫЙ ПЕРСОНАЛ</span><br>
+                                    <span class="text-muted pull-left">5 июня 2015</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="slide-container">
+                            <blockquote>
+                                Познакомившись с функционалом и возможностями Clever Staff, наша команда сразу поняла - это именно тот софт, который мы так долго искали.
+                                Наконец-то мы нашли ATS, которая действительно оптимизирует и облегчает процесс рекрутинга.
+                            </blockquote>
+                            <span class="saysArrow"></span>
+                            <div class="person-card">
+                                <amp-img
+                                        src="../external/img/clients/client-feedback-7.jpg"
+                                        width="120"
+                                        height="120"
+                                        alt="Client"
+                                        layout="fixed">
+                                </amp-img>
+                                <div class="person-descr pull-left text-left">
+                                    <span class="person-name pull-left">ЮЛИЯ ВЕНГЕР</span><br>
+                                    <span class="person-work text-muted pull-left">CEO & FOUNDER, GUID, IT RECRUITMENT AGENCY</span><br>
+                                    <span class="text-muted pull-left">18 июля 2015</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="slide-container">
+                            <blockquote>
+                                Я пользуюсь CleverStaff уже несколько месяцев. ПО само по себе очень функциональное и простое - разобраться можно за 1 день. Но самая большая ценность для меня - это команда разработчиков. Они - очень оперативные ребята. Очень приятно, когда мои замечания и предложения учитываются, и по возможности реализуются в кратчайшие сроки. Хочется и дальше помогать улучшать это рекрутерское ПО.
+                            </blockquote>
+                            <span class="saysArrow"></span>
+                            <div class="person-card">
+                                <a href="https://www.facebook.com/NadezdaShtepa" target="_blank">
+                                    <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-3.png" alt="Клиент">
+                                </a>
+                                <div class="person-descr pull-left text-left">
+                                    <span class="person-name pull-left">НАДЕЖДА ШТЕПА</span><br>
+                                    <span class="person-work text-muted pull-left">УПРАВЛЯЮЩИЙ ПАРТНЕР В BUSINESS PERSONAL</span><br>
+                                    <span class="text-muted pull-left">21 января 2015</span>
+                                    <div class="clearfix"></div>
+                                    <a href="https://www.facebook.com/NadezdaShtepa" class="pull-left" target="_blank">
+                                        <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="slide-container">
+                            <blockquote>
+                                Самая удобная программа из всех, с которыми я работала! Теперь я избавила себя от 50% рутинных операций!
+                            </blockquote>
+                            <span class="saysArrow"></span>
+                            <div class="person-card">
+                                <a href="https://www.facebook.com/daria.borysenko" target="_blank">
+                                    <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-1.png" alt="Клиент">
+                                </a>
+                                <div class="person-descr pull-left text-left">
+                                    <span class="person-name pull-left">ДАРЬЯ БОРИСЕНКО</span><br>
+                                    <span class="person-work text-muted pull-left">HR ДИРЕКТОР В INTERSOG</span><br>
+                                    <span class="text-muted pull-left">14 июля 2014</span>
+                                    <div class="clearfix"></div>
+                                    <a href="https://www.facebook.com/daria.borysenko" class="pull-left" target="_blank">
+                                        <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="slide-container">
+                            <blockquote>
+                                Это лучшее ПО для подбора персонала с которым я когда-либо работала - система учета кандидатов и поиск! Быстрая и разработанная специально для рекрутеров. Я ждала нечто подобное на протяжении всей моей карьеры!
+                            </blockquote>
+                            <span class="saysArrow"></span>
+                            <div class="person-card">
+                                <a href="https://www.facebook.com/profile.php?id=100007642774010" target="_blank">
+                                    <img class="person-ava  pull-left" src="../external/img/clients/client-feedback-4.png" alt="Клиент">
+                                </a>
+                                <div class="person-descr pull-left text-left">
+                                    <span class="person-name pull-left">МАРИНА МАЗУРЕНКО</span><br>
+                                    <span class="person-work text-muted pull-left">HR МЕНЕДЖЕР В NCUBE</span><br>
+                                    <span class="text-muted pull-left">14 октября 2014</span>
+                                    <div class="clearfix"></div>
+                                    <a href="https://www.facebook.com/profile.php?id=100007642774010" class="pull-left" target="_blank">
+                                        <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </amp-carousel>
+                <div class="clearfix"></div>
+                <a href="http://www.capterra.com/applicant-tracking-software/spotlight/137247/CleverStaff/CleverStaff" target="_blank" class="text-center capterra wow fadeInUp">Прочесть отзывы на Capterra <span class="arrow-right"></span></a>
+                <div class="chat wow fadeInRight" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+                <div class="clientHappy wow fadeInRight" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+                <div class="cheer wow fadeInRight" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+            </div>
+        </div>
+    </div>
+    <div class="block padding-bottom" id="block_8">
+        <div class="container">
+            <div class="row text-center wow fadeInUp">
+                <h3>Перейдите на Качественно Новый Уровень</h3>
+                <p class="zIndex">Моментальный старт -- Перенос базы за секунды -- Почувствуйте разницу</p>
+                <a class="orangeBtn orange-btn visible zIndex tryItfreeTwo visible" data-params="freeOrStart">Начните Бесплатно Сейчас</a>
+            </div>
+            <div class="rocket wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+        </div>
+    </div>
+    <div class="block" id="block_9">
+        <div class="container">
+            <div class="row">
+                <div class="cloudContact wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+                <div class="plane"></div>
+                <div class="linePlane hidden-xs"></div>
+                <div class="col-md-8 col-md-offset-2 contactUs wow fadeInUp">
+                    <h3 class="text-center">Напишите Нам</h3>
+                    <form class="question-form" action="#" target="_top" name="form" id="questionForm">
+                        <div class="form-gr">
+                            <input id="nameQuestion" class="float-left" name="name" type="text" placeholder="Полное имя">
+                        </div>
+                        <div class="form-gr">
+                            <input id="emailQuestion" class="float-left float-right" name="email" type="text" placeholder="Email">
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-gr">
+                            <textarea id="textQuestion" class="input-large focused" name="questionText"
+                                      placeholder="Напишите ваш вопрос"></textarea>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="form-last text-center">
+                            <button id="askQuestionSubmit4" data-toggle="modal" class="visible feedback orangeBtn" name="send" type="button" value="Отправить">Отправить</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="cloudContact2 wow fadeInRight" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+                <div class="planeContact2 hidden-xs"></div>
+                <div class="manPlane hidden-xs"></div>
+                <div class="manContact2 wow fadeInRight" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
+            </div>
+        </div>
+    </div>
+    <div class="block" id="block_10">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                    <h4>Быстрые ссылки</h4>
+                    <ul>
+                        <li><a href="why.html">Почему?</a></li>
+                        <li><a href="features.html">Возможности</a></li>
+                        <li><a href="price.html">Цены</a></li>
+                        <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                        <li><a href="../api.html" target="_blank">API</a></li>
+                        <li><a href="../privacy.html" target="_blank" target="_blank">Privacy Policy</a></li>
+                        <li><a href="terms.html" target="_blank" target="_blank">Public Agreement</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-8 col-sm-4 col-md-4">
+                    <h4>Контакты</h4>
+                    <ul>
+                        <li><a href="mailto:contact@cleverstaff.net" target="_blank"><span class="email pull-left"></span>contact@cleverstaff.net</a></li>
+                        <li><a href="skype:cleverstaff?chat"><span class="skype pull-left"></span>cleverstaff</a></li>
+                        <li><span class="tel pull-left"></span>+38 (044) 22 11 063</li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4">
+                    <h4>Присоединяйтесь</h4>
+                    <a href="https://www.facebook.com/cleverstaff" target="_blank" class="pull-left"><span class="fb"></span></a>
+                    <a href="https://www.linkedin.com/company/cleverstaff" target="_blank" class="pull-left"><span class="linkdIn"></span></a>
+                    <a href="https://www.youtube.com/user/cleverstaff" target="_blank" class="pull-left"><span class="youTube"></span></a>
+                    <a href="https://twitter.com/cleverstaff" target="_blank" class="pull-left"><span class="twit"></span></a>
+                    <a href="https://plus.google.com/u/1/b/103298552184404196991/103298552184404196991" target="_blank" class="pull-left"><span class="gplus"></span></a>
+                    <div class="clearfix"></div>
+                    <br/>
+                    <a href='http://www.capterra.com/applicant-tracking-software/reviews/137247/CleverStaff/CleverStaff?utm_source=vendor&utm_medium=badge&utm_campaign=capterra_reviews_badge' target="_blank"> <amp-img layout="fixed" width="150" height="100" src='../external/img/62e9b8dfc9d563272407e48ee5216da2.png' ></amp-img></a>
+                </div>
+                <div class="clearfix"></div>
+                <footer>
+                    &copy; CleverStaff 2014-2017
+                </footer>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="need-demo-modal" class="demo modal fade" role="dialog">
+    <div class="modal-dialog modal-md demo-modal text-center">
+        <div class="modal-body">
+            <h2 class="modal-title text-center showDemo">
+                Проведите мне Презентацию
+            </h2>
+            <h2 class="modal-title text-center showTariffPrice hidden">
+                Запросить цену
+            </h2>
+            <form class="question-form" action="#" target="_top" name="form" id="questionForm-index">
+                <div class="form-gr">
+                    <div class="firstName">
+                        <label for="ex1_firstName" class="nameForm pull-left">Имя *</label>
+                        <div class="clearfix"></div>
+                        <input id="ex1_firstName" class="float-left " type="text" name="firstName" placeholder="Имя *">
+                        <div class="error-firstName hidden"></div>
+                    </div>
+                    <div class="lastName">
+                        <label for="ex1_lastName" class="nameForm pull-left">Фамилия *</label>
+                        <div class="clearfix"></div>
+                        <input id="ex1_lastName" class="float-left" type="text" name="lastName" placeholder="Фамилия *">
+                        <div class="error-lastName hidden"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-gr displayTable">
+                    <label for="ex1_number" class="phoneForm pull-left">Номер телефона *</label>
+                    <div class="clearfix"></div>
+                    <div class="countries pull-left">
+                        <select class="countryCustom" name="countryCustom"></select>
+                    </div>
+                    <div class="phone pull-right">
+                        <input id="ex1_number"  class="float-left phoneNumber pull-right" type="number" name="phone" placeholder="Телефон (назначить демо) *">
+                    </div>
+                    <div class="error-phone hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_mail" class="emailForm pull-left">Email *</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_mail" class="float-left" type="email" name="email" placeholder="Email *">
+                    <div class="error-email hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_skype" class="skypeForm pull-left">Skype</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_skype" class="float-left" type="text" name="skype" placeholder="Skype (для проведения демо)">
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_orgName" class="companyForm pull-left">Название компании *</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_orgName" class="float-left" type="text" name="companyName" placeholder="Название компании *">
+                    <div class="error-orgName hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_usersCount" class="usersCountForm pull-left">Количество рекрутеров в вашей компании? *</label>
+                    <div class="clearfix"></div>
+                    <select name="numberOfRecruiters" id="ex1_usersCount" class="float-left">
+                        <option value>Количество рекрутеров в вашей компании? *</option>
+                        <option value="1">1</option>
+                        <option value="2-4">2-4</option>
+                        <option value="5-9">5-9</option>
+                        <option value=">10">10 и больше</option>
+                    </select>
+                    <div class="error-usersCount hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_averageNum" class="numberVacancyForm pull-left">Среднее количество открытых вакансий в месяц *</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_averageNum" class="float-left" name="numberOfVacancies" placeholder="Среднее количество открытых вакансий в месяц *">
+                    <div class="error-averageNum hidden"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_soft" class="softForm pull-left">Какую систему для подбора персонала вы используете?</label>
+                    <input type="text" id="ex1_soft" class="float-left"  name="currentRecruitmentSoftware" placeholder="Какую систему для подбора персонала вы используете?">
+                    <div class="clearfix"></div>
+                </div>
+                <div class="form-gr">
+                    <label for="ex1_keyRequirements" class="keyRequirementsForm pull-left">Опишите ваши ключевые требования</label>
+                    <div class="clearfix"></div>
+                    <input id="ex1_keyRequirements" class="float-left" type="text" name="keyRequirements" placeholder="Опишите ваши ключевые требования">
+                    <div class="error-tellUs hidden"></div>
+                </div>
+                <div class="form-gr hidden">
+                    <input class="float-left" id="valueTariff" type="text" value="" name="intention" placeholder="">
+                </div>
+                <input type="hidden" class="" name="country" value="null">
+                <div class="clearfix"></div>
+                <div class="form-last text-center">
+                    <button id="askQuestionSubmit2" data-toggle="modal"  class="feedback orangeBtn border-width" name="send" type="button" value="Отправить">Отправить</button>
+                </div>
+            </form>
+            <span class="close" data-dismiss="modal"></span>
+        </div>
+    </div>
+</div>
+<div id="isIe" class="ie modal fade" role="dialog">
+    <div class="modal-dialog modal-md ie-modal text-center">
+        <div  class="modal-body">
+            <h4 class="modal-title">
+                Internet Explorer не подходит для работы в CleverStaff, перейдите в Chrome или Firefox
+            </h4>
+            <amp-img layout="fixed" src="../external/img/chrome.png" width="50" height="50" class="imgBrower" alt="Chrome"></amp-img>
+            <amp-img layout="fixed" src="../external/img/firefox.png" width="50" height="50" class="imgBrower" alt="Firefox"></amp-img>
+            <span class="close" data-dismiss="modal"></span>
+        </div>
+    </div>
+</div>
+<div id="thanks-modal" class="thanks modal fade" role="dialog">
+    <div class="modal-dialog modal-md thanks-modal thanks-modal-ru text-center">
+        <div class="modal-body padding-modal">
+            <h4 class="modal-title">
+                Спасибо!<br>
+                Мы скоро вам ответим :)
+            </h4>
+            <span class="close" data-dismiss="modal"></span>
+            <span class="arrow-modal"></span>
+            <span class="plan-modal"></span>
+        </div>
+    </div>
+</div>
+<!--<script type="text/javascript" src="../external/js/amp-script.min.js?b7"></script>-->
+</body>
+</html>
