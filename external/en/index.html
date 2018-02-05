@@ -115,7 +115,7 @@
                 <span class="arrow main-page"></span>
                 <a class="orangeBtn orange-btn" data-params="freeOrStart">Try it free</a>
                 <span class="or-index">or</span>
-                <a href="#need-demo-modal" data-toggle="modal"  data-params="demo" onclick="tariffFunc('demo');" class="btn demoParams orangeBtnBorder main-page">Request demo</a>
+                <a href="#need-demo-modal" data-toggle="modal"  data-params="demo" data-analytics="presentation" onclick="tariffFunc('demo');" class="btn demoParams orangeBtnBorder main-page">Request demo</a>
             </div>
             <div class="col-md-2">
                 <span class="cloud-sec"></span>
@@ -775,7 +775,7 @@
         if (document.domain === 'ru.cleverstaff.net') {
             $('.russian-host').css('display', 'flex');
         }
-        if (document.domain !== 'cleverstaff.net') {
+        if (document.domain === 'cleverstaff.net') {
             // google corporate data + logo
             var LDJson = document.createElement('script');
             LDJson.type = 'application/ld+json';

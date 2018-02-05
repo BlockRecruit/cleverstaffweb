@@ -13,19 +13,29 @@ var linkedin_url = "https://www.linkedin.com/uas/oauth2/authorization" +
     "&state=STATUS123asd33342" +
     "&redirect_uri=" + location.protocol + "//" + document.domain + "/white.html";
 
-function sentAnalyticEvents(type, action, page) {
+function sentAnalyticEvents(eventCategory, eventAction) {
     try {
-        ga('send', 'event', 'Personal_present', 'Submit');
         // ga('send', 'event', [eventCategory], [eventAction], [eventLabel], [eventValue], [fieldsObject]);
-        if (document.domain !== 'cleverstaff.net') ga('send', 'event', type, action, page);
-        if (document.domain !== 'cleverstaff.net') ga('send', 'event', type, action);
-        if (document.domain === 'cleverstaff.net') fbq('track', type);
+        if (document.domain !== 'cleverstaff.net') {
+            ga('send', 'event', eventCategory, eventAction);
+            fbq('track', eventCategory);
+        }
     } catch(error) {
         console.error('Analytic Events', error);
     }
 }
 
 $(document).ready(function () {
+
+
+    (function(){
+        $("[data-analytics='presentation']").bind('click', function() {
+            sentAnalyticEvents('Personal_present', 'Click');
+        });
+        $("[data-analytics='enterprise']").bind('click', function() {
+            sentAnalyticEvents('Personal_promo', 'Click');
+        });
+    })();
 
     (function(){
         var buttonsParamsTariff = document.querySelectorAll(".orange-btn, .signupBtn, .tryItfreeTwo, .featureStartTrial, .tryCsfree, .startNowOnerecrut, .teamWorkStartTrial, .corporateEnStart, .enterprizeGetOfferOne, .startNowOneRecrutTwo, .teamWorkStartTrialTwo, .corporateEnStartTwo, .enterprizeGetOfferTwo, .demoParams, .presentation"),
@@ -1992,6 +2002,7 @@ function tariffFunc(tarif){
     }
 }
 $('#askQuestionSubmit').on('click',function(e){
+    sentAnalyticEvents('Personal_promo', 'Click');
     var res = $("#questionForm").serializeObject();
     var string = res.country;
     res.utms = localStorage.getItem("UTMS");
@@ -2492,6 +2503,7 @@ $('#askQuestionSubmit').on('click',function(e){
 
 $('#askQuestionSubmit2').on('click',function(e){
     console.log('on ask quest');
+    sentAnalyticEvents('Personal_promo', 'Click');
     var res = $("#questionForm-index").serializeObject();
     res.utms = localStorage.getItem("UTMS");
     localStorage.removeItem('phone');
@@ -2995,7 +3007,8 @@ $('#askQuestionSubmit2').on('click',function(e){
 });
 
 $('#askQuestionSubmit3').on('click',function(e){
-  var res = $("#questionForm-index").serializeObject();
+    sentAnalyticEvents('Personal_promo', 'Click');
+    var res = $("#questionForm-index").serializeObject();
     var string = res.country;
     res.utms = localStorage.getItem("UTMS");
     if(string == 'null' || string == null || string == undefined){
@@ -3493,6 +3506,7 @@ $('#askQuestionSubmit3').on('click',function(e){
 });
 
 $('#askQuestionSubmit4').on('click',function(e){
+    sentAnalyticEvents('Personal_promo', 'Click');
     console.log('asdf');
     var res = $("#questionForm").serializeObject();
     console.log('res', res);
