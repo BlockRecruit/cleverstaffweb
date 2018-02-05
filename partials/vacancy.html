@@ -655,10 +655,10 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="candidate in dataForVacancy" ng-class="{'archived': candidate.candidateId.status == 'archived', 'add_color': candidate.added == true}">
-                    <td class="checklist" ng-if="candidate.state != 'approved' && candidate.candidateId.status != 'archived' && dataForVacancy.length > 1">
+                    <td class="checklist" ng-if="candidate.state != 'approved' && candidate.candidateId.status != 'archived' && activeName != null && dataForVacancy.length > 1">
                         <input ng-click="pushCandidateToVacancy(candidate)" type="checkbox" ng-model="candidate.added"/>
                     </td>
-                    <td class="checklist" ng-if="candidate.candidateId.status == 'archived'"></td>
+                    <td class="checklist" ng-if="candidate.candidateId.status == 'archived' && activeName != null"></td>
                     <td class="number" data-title="'№'" once-text="(tableParams.page() - 1) * tableParams.count() + $index + 1"></td>
                     <td class="preview text-center width-for-table-eye hidden-xs" priview="" pageid="candidate" candidate="candidate.candidateId">
                         <div>
@@ -725,7 +725,7 @@
                             {{'our employee'|translate}}!
                         </a>
                     </td>
-                    <!--<td></td>-->
+                    <td ng-if="candidate.candidateId.status == 'archived' && activeName == null"></td>
                     <!--<td class="add-comment-text text-right hidden-xs delete" ng-if="candidate.candidateId.status != 'archived'" title="{{'Remove Candidate' | translate}} {{'from vacancy' | translate}}" ng-click="showDeleteInterview(candidate);$event.stopPropagation();">-->
                         <!---->
                     <!--</td>-->

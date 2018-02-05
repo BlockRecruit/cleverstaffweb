@@ -23,7 +23,7 @@
             </a>"
         </span>
         <span class="manyCandidates" ng-if="history.candidates.length > 2">
-            <span class="boldTxt" ng-click="openMenuWithCandidates(history)">{{history.candidates.length}} {{'history_info.candidates_1'|translate}}</span>
+            <span class="boldTxt" ng-click="openMenuWithCandidates(history)">{{'history_info.candidates'|translate}} (<span class="blueLink">{{history.candidates.length}}</span>)</span>
         </span>
         {{'history_info.on_vacancy'|translate}}
         <a href="#/vacancies/{{ history.vacancy.localId}}">
@@ -69,7 +69,7 @@
         </div>
     </div>
     <span class="manyCandidates" ng-if="history.candidates.length > 2">
-        <div ng-show="showAllCandidates">
+        <div ng-show="history.showAllCandidates">
             <span ng-repeat="candidate in history.candidates" class="menuCandidate">
                 <a ng-href="#/candidates/{{candidate.localId}}" title="{{candidate.fullName}}">
                     {{candidate.fullName}}

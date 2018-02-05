@@ -3107,11 +3107,11 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
         $scope.changeCommentFlag = function(history){
             history.editCommentFlag = !history.editCommentFlag;
-            $scope.showAllCandidates = false;
             $scope.editComment = history.descr;
+            history.showAllCandidates = false;
         };
         $scope.openMenuWithCandidates = function(history){
-            $scope.showAllCandidates = !$scope.showAllCandidates;
+            history.showAllCandidates = !history.showAllCandidates;
             history.editCommentFlag = false;
         };
         $scope.changeComment = function (action, comment) {

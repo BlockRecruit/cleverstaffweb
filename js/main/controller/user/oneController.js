@@ -652,6 +652,11 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         $scope.changeCommentFlag = function(history){
             history.editCommentFlag = !history.editCommentFlag;
             $scope.editComment = history.descr;
+            history.showAllCandidates = false;
+        };
+        $scope.openMenuWithCandidates = function(history){
+            history.showAllCandidates = !history.showAllCandidates;
+            history.editCommentFlag = false;
         };
         $scope.changeComment = function(action){
             Action.editAction({"comment": action.descr, "actionId": action.actionId}, function(resp){
@@ -660,6 +665,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 }
                 else {
                     action.editCommentFlag = false;
+                    action.showAllCandidates = false;
                     action.descr = resp.object.descr;
                     action.new_komment = '';
                     action.dateEdit = resp.object.dateEdit;

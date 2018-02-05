@@ -8,7 +8,7 @@
     </a>
 </div>
 <div class="col-lg-10">
-    <a class="pull-right editMessage" title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href="" ng-click="history.editCommentFlag = !history.editCommentFlag">
+    <a class="pull-right editMessage" title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href="" ng-click="changeCommentFlag(history)">
         <i class="fa fa-pencil" aria-hidden="true"></i>
     </a>
     <span class="pull-left">{{'history_info.changed_the_status'|translate}} {{'for candidate'|translate}}</span>

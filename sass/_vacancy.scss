@@ -809,6 +809,9 @@
 					.manyCandidates {
 						& > .boldTxt {
 							@include bold();
+							.blueLink {
+								color: $theme-link-color;
+							}
 						}
 						.menuCandidate {
 							display: block;
