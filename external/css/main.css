@@ -3268,7 +3268,7 @@ footer{
         padding: 5px 0px;
         width: 123px;
         border-radius: 10px;
-        font-size: 11.5px;
+        font-size: 10px;
     }
     .mobBtn{
         display: block;
@@ -3502,7 +3502,7 @@ footer{
     }
     .no-border a {
         border: none;
-        padding: 5px 0px;
+        padding: 5px 4px;
         width: 84px;
         border-radius: 10px;
     }
