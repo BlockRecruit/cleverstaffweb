@@ -214,14 +214,76 @@
         <div class="container">
             <div class="row">
                 <h2 class="text-center wow fadeInUp">Plans Comparison</h2>
-                <div class="prices-block pull-right">
-                    <div class="col-md-1 text-center pull-right plans enterPrizeTable wow fadeInUp">Enterprise</div>
-                    <div class="col-md-1 text-center pull-right plans corporateTable corporateTableEn wow fadeInUp">Corporate</div>
-                    <div class="col-md-1 text-center pull-right plans teamWorkTable wow fadeInUp">Team work</div>
-                    <div class="col-md-1 text-center pull-right plans oneRecrTable wow fadeInUp">1 Recruiter</div>
-                </div>
+                <!--<div class="prices-block pull-right">-->
+                    <!--<div class="col-md-1 text-center pull-right plans enterPrizeTable wow fadeInUp">Enterprise</div>-->
+                    <!--<div class="col-md-1 text-center pull-right plans corporateTable corporateTableEn wow fadeInUp">Corporate</div>-->
+                    <!--<div class="col-md-1 text-center pull-right plans teamWorkTable wow fadeInUp">Team work</div>-->
+                    <!--<div class="col-md-1 text-center pull-right plans oneRecrTable wow fadeInUp">1 Recruiter</div>-->
+                <!--</div>-->
                 <div class="hide-block pull-right"></div>
                 <div class="clearfix"></div>
+                <table class="table table-bordered titleTable2 hideBlock">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td></td>
+                        <td class="text-center plans plans-for-ru oneRecrTable">
+                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='oneRecrTable'>1 Рекрутер</p>">
+                                <img src="/external/img/man-white.png" width="25" height="25"/>
+                            </a>
+                            <span class="oneRecrTableText">1Recruiter</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru teamWorkTable">
+                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='teamWorkTable'>Команда</p>">
+                                <img src="/external/img/team-white.png" width="25" height="25"/>
+                            </a>
+                            <span class="teamWorkTableText">Team work</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru corporateTable">
+                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='corporateTable'>Корпоративный</p>">
+                                <img src="/external/img/city_white.png" width="25" height="25"/>
+                            </a>
+                            <span class="corporateTableText">Corporate</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru enterPrizeTable">
+                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='enterPrizeTable'>Премиум</p>">
+                                <img src="/external/img/settings_white.png" width="25" height="25"/>
+                            </a>
+                            <span class="enterPrizeTableText">Enterprise</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered titleTable prices-block" style="position: fixed;display: none;">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td></td>
+                        <td class="text-center plans plans-for-ru oneRecrTable">
+                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='oneRecrTable'>1 Рекрутер</p>">
+                                <img src="/external/img/man-white.png" width="25" height="25"/>
+                            </a>
+                            <span class="oneRecrTableText">1Recruiter</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru teamWorkTable">
+                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='teamWorkTable'>Команда</p>">
+                                <img src="/external/img/team-white.png" width="25" height="25"/>
+                            </a>
+                            <span class="teamWorkTableText">Team work</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru corporateTable">
+                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='corporateTable'>Корпоративный</p>">
+                                <img src="/external/img/city_white.png" width="25" height="25"/>
+                            </a>
+                            <span class="corporateTableText">Corporate</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru enterPrizeTable">
+                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='enterPrizeTable'>Премиум</p>">
+                                <img src="/external/img/settings_white.png" width="25" height="25"/>
+                            </a>
+                            <span class="enterPrizeTableText">Enterprise</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
                 <table class="table styleHeaderTable wow fadeInUp">
                     <tbody>
                     <tr>
@@ -230,7 +292,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered wow fadeInUp">
+                <table class="table firstTable table-before-support-block table-bordered wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Database import</td>
@@ -298,7 +360,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered no-border-top wow fadeInUp">
+                <table class="table table-bordered table-before-support-block no-border-top wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Custom job workflow stages</td>
@@ -387,7 +449,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered no-border-top wow fadeInUp">
+                <table class="table table-bordered table-before-support-block no-border-top wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Integration with Google Calendar</td>
@@ -483,10 +545,10 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered no-padding-mob no-border-top wow fadeInUp">
+                <table class="table table-bordered superFunc table-before-support-block no-padding-mob no-border-top wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
-                        <td class="title">Full database control</td>
+                        <td class="title customWidth">Full database control</td>
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
@@ -537,7 +599,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered no-border-top wow fadeInUp">
+                <table class="table table-bordered support no-border-top wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Onboarding assistance</td>
