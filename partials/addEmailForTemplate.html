@@ -56,7 +56,7 @@
         <div class="container add-email">
            <form class="form-signin" ng-show="showAddEmail || editEmail" ng-init="obj={checkFields: false}">
                <h5 ng-show="showPassword">{{addedEmail.email}}</h5>
-               <input class="form-control" ng-class="{'wrong-email': wrongEmail}" ng-click="wrongEmail = false" ng-show="!showPassword && !$root.showAdvancedFields" type="text" name="email" ng-model="addedEmail.email" click-on-enter="#addEmailButton .next-step" placeholder="E-mail address">
+               <input class="form-control" ng-class="{'wrong-email': wrongEmail}" ng-click="wrongEmail = false" ng-show="!showPassword && !$root.showAdvancedFields" type="text" name="email" ng-model="addedEmail.email" click-on-enter="#addEmailButton .next-step" placeholder="E-mail address" ng-readonly="showPassword || $root.showAdvancedFields">
                <div class="text-center wrong-email-notification" ng-show="wrongEmail">{{'wrong_email' | translate}}</div>
                <div class="exchange" ng-show="!showPassword && !$root.showAdvancedFields" >
                    <input type="checkbox" id="exchange" ng-model="isExchange">
