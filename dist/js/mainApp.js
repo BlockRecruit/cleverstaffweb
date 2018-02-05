@@ -28843,6 +28843,11 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                         }
                                     });
                                 } else {
+                                    Candidate.checkMailbox({email: $rootScope.addedEmail.email}, (resp) => {
+                                        console.log('rest', resp)
+                                    }, (error) => {
+
+                                    });
                                     $rootScope.addedEmail.host = 'exchange';
                                     $scope.showPassword = true;
                                     $rootScope.showAdvancedFields = true;
@@ -28869,7 +28874,7 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
             $scope.isExchange = false;
             var emailDomen = $rootScope.editedEmail.email.substr($rootScope.editedEmail.email.indexOf("@") + 1);
             if(!$rootScope.showAdvancedFields){
-                if(emailDomen == 'mail.ru' || emailDomen == 'yandex.ru'){
+                if(emailDomen == 'mail.ru' || emailDomen == 'yandex.ru' || $rootScope.editedEmail.host == 'exchange'){
                     if($rootScope.editedEmail.email.length > 0 && $rootScope.editedEmail.password.length > 0){
                         if(emailDomen == 'mail.ru'){
                             $rootScope.editedEmail.smtp.type = 'mailru';
@@ -28967,6 +28972,10 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                 $rootScope.editedEmail.smtp.secure = email.smtpSecure;
                 $rootScope.editedEmail.smtp.port = email.smtpPort;
             } else {
+                $rootScope.editedEmail.domainSlashUsername = email.exchangeDomain + '/' + email.exchangeUsername;
+                $rootScope.editedEmail.exchangeHost = email.exchangeHost;
+                $rootScope.editedEmail.exchangeVersion = email.exchangeVersion;
+                $rootScope.editedEmail.host = 'exchange';
                 $rootScope.showPassInModal = true;
                 $rootScope.showAdvancedFields = false;
             }

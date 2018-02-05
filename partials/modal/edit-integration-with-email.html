@@ -21,7 +21,7 @@
                 </select>
                 <input class="form-control" ng-show="status=='exchange'" type="text" ng-model="$root.editedEmail.domainSlashUsername" name="domainSlashUsername" placeholder="Domain\user name">
                 <input class="form-control" ng-show="status=='exchange'" type="text" ng-model="$root.editedEmail.exchangeHost" name="exchangeHost" placeholder="Host">
-                <select class="exchange-version" ng-model="$root.editedEmail.exchangeVersion"  ng-init="$root.editedEmail.exchangeVersion = ''" ng-if="status=='exchange'">"
+                <select class="exchange-version" ng-model="$root.editedEmail.exchangeVersion"  ng-if="status=='exchange'">"
                     <option value="">Exchange version</option>
                     <option value="Exchange2007_SP1">Exchange2007 SP1</option>
                     <option value="Exchange2010">Exchange2010</option>
