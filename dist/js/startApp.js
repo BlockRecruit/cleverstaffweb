@@ -1300,6 +1300,8 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 if (validEmail($scope.request.email)) {
                     $scope.showErrorEmailMessage = true;
                     return;
+                }else{
+                    $scope.showErrorEmailMessage = false;
                 }
                 if ($scope.filesForRecall.length != 0) {
                     angular.forEach($scope.filesForRecall, function (resp) {
