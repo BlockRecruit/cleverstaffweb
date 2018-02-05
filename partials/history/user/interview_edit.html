@@ -8,17 +8,10 @@
     </a>
 </div>
 <div class="col-lg-10">
-    <span>
-        {{'history_info.candidate'|translate}}
-        <a href="#/candidates/{{history.candidate.localId}}">
-            {{history.candidate.fullName}}
-        </a>
-        {{'history_info.on_vacancy'|translate}}
-        <a href="#/vacancies/{{ history.vacancy.localId}}">
-            {{history.vacancy.position}}
-        </a>
-    </span>
-    <br/>
+    <a ng-href="#/candidates/{{history.candidate.localId}}">
+        {{history.candidate.fullName}}
+    </a>
+    {{'history_info.was moved from'|translate}}
     <span class="status  passed {{history.stateOldName}}" ng-if="history.stateOldName">
         {{history.stateOldName | translate}}
     </span>
@@ -32,8 +25,12 @@
      <span class="status {{history.stateNew}}" ng-if="!history.stateNewName">
         {{history.stateNew | translate}}
     </span>
-      <span ng-show="history.descr">
-         <br>
+    {{'history_info.stage to vacancy'|translate}}
+    <a ng-href="#/vacancies/{{ history.vacancy.localId}}">
+        {{history.vacancy.position}}
+    </a>
+    <span ng-show="history.descr">
+        <br>
     {{'history_info.message'|translate}}:
     <br/>
     <span ng-bind-html="history.descr|textForNotice:false"></span>
