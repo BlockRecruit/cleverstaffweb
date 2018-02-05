@@ -1,4 +1,4 @@
-.block-candidate {
+	.block-candidate {
 	width: 95%;
 	margin: 0 auto;
 	.breadcrumb {
@@ -695,7 +695,6 @@
 					background-color: $theme-white;
 					& > div {
 						.leftBlock {
-							display: flex;
 							a {
 								line-height: 26px;
 								i {
@@ -889,9 +888,6 @@
 								color: #ffc100 !important;
 							}
 						}
-						.leftBlock {
-							display: flex;
-						}
 						.phone {
 							span {
 								margin: 0;
@@ -999,6 +995,7 @@
 					}
 				}
 				.activity {
+					overflow: hidden;
 					margin: 0 -15px;
 					padding: 1px 30px;
 
