@@ -288,11 +288,6 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
         };
 
     }
-
-    $scope.errorMessage = {
-        show: false,
-        message: ""
-    };
     $scope.dateOptions = {
         changeYear: true,
         changeMonth: true,
@@ -433,12 +428,12 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
         $scope.$on('$destroy', myListener);
     $scope.saveCandidate = function() {
         $localStorage.set("candidate_currency", $scope.candidate.currency);
-        var salaryBol = true;
+        var salaryBol;
         $scope.candidate.position=$scope.getPositionAutocompleterValue();
-        if ($scope.candidate.salary != undefined && $scope.candidate.salary != "" && /[^[0-9]/.test($scope.candidate.salary)) {
-            $scope.errorMessage.show = true;
-            $scope.errorMessage.message = $filter("translate")("desired_salary_should_contains_only_numbers");
+        if ($scope.candidate.salary && $scope.candidate.salary <= 2147483647) {
             salaryBol = false;
+        } else {
+            salaryBol = true;
         }
         if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed) {
             $scope.saveButtonIsPressed = true;

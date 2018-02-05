@@ -234,8 +234,8 @@
                                 </div>
                                 <div class="item">
                                     <label>{{'desired_salary'|translate}}</label>
-                                    <input class="pull-left" placeholder="" name="salary" ng-model="candidate.salary" type="text"
-                                           ng-change="progressUpdate()" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    <input class="pull-left" placeholder="" name="salary" ng-model="candidate.salary" ng-model-options="{debounce: 1000}" type="text"
+                                           ng-change="progressUpdate()" oninput="this.value = this.value.replace(/[^0-9]/g, '');" ng-class="{'error': candidate.salary > 2147483647}">
                                     <select class="select2-container form-control input-lg select2  select14 widthSelectInput"
                                             ng-model="candidate.currency" ng-init="candidate.currency = 'USD'"
                                             ng-options="currency.value as currency.value for currency in currency">
@@ -243,6 +243,9 @@
                                     </select>
                                     <div class="alert alert-danger" ng-show="candidateForm.salary.$invalid && !candidateForm.salary.$pristine && candidateForm.salary.$error.required == true">
                                         {{'enter_salary'|translate}}.
+                                    </div>
+                                    <div class="alert alert-danger" ng-show="candidate.salary >= 2147483647">
+                                        {{'Too much Desired Salary salary value'|translate}}.
                                     </div>
                                 </div>
                                 <div class="item">
