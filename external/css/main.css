@@ -3171,6 +3171,9 @@ footer{
     .table-before-support-block td:first-child{
         width: 53%!important;
     }
+    .superFunc td:first-child{
+        word-break: break-all;
+    }
     /*.titleTable td:first-child{*/
         /*width: 375px!important;*/
     /*}*/

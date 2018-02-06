@@ -208,20 +208,20 @@ $(document).ready(function(){
                     sticky.addClass('hide-block').css('height', '50px');
                 }
 
-                if (scroll >= 5145) {
+                if (scroll >= 4662) {
                     sticky.removeClass('fixed-plans');
                 }
             }
             if(phone_or_tablet >= $( window ).width()){
                 console.log('phone_or_tablet');
-                if (scroll >= 2714){
+                if (scroll >= 2686){
                     sticky.addClass('fixed-plans');
                 } else{
                     sticky.removeClass('fixed-plans');
                     sticky.addClass('hide-block').css('height', '50px');
                 }
 
-                if (scroll >= 5584) {
+                if (scroll >= 5157) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -230,16 +230,16 @@ $(document).ready(function(){
                 //$('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
                 //$('.support td:first-child').css('width', $('.table-before-support-block td:first-child')[0].offsetWidth);
                 $('.hide-block').css('height', '60px');
-                $('.titleTable td:first-child').css('width', $('.superFunc td:first-child')[0].offsetWidth + 5);
+                //$('.titleTable td:first-child').css('width', $('.superFunc td:first-child')[0].offsetWidth + 5);
                 //$('.firstTable td:first-child').css('width', $('.support td:first-child')[0].offsetWidth + 14);
                 //$('.support td:first-child').css('width', $('.table-before-support-block td:first-child')[0].offsetWidth);
-                $('.table-before-support-block td:first-child').css('width',  $('.firstTable td:first-child')[0].offsetWidth);
+                //$('.table-before-support-block td:first-child').css('width',  $('.firstTable td:first-child')[0].offsetWidth);
                 //$('.superFunc td:first-child').css('width', $('.titleTable td:first-child')[0].offsetWidth + 14);
                 //console.log($('.superFunc'));
                 //console.log($('.superFunc td'));
                 //console.log($('.superFunc td:nth-child(2)'));
                 //$('.table-before-support-block td:not(:first-child)').css('width', $('.superFunc td:nth-child(2)')[0].offsetWidth);
-                $('.support td:not(:first-child)').css('width', $('.active')[2].offsetWidth);
+                //$('.support td:not(:first-child)').css('width', $('.active')[2].offsetWidth);
                 //$('.superFunc td:not(:first-child)').css('width', $('.active')[2].offsetWidth);
                 if (scroll >= 2861){
                     sticky.addClass('fixed-plans');
@@ -248,7 +248,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 6250) {
+                if (scroll >= 5824) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -299,7 +299,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 3291) {
+                if (scroll >= 3529) {
                     console.log('remove pc');
                     sticky.removeClass('fixed-plans');
                 }
@@ -327,30 +327,30 @@ $(document).ready(function(){
                 $('.titleTable .plans').css('width', $('.active')[2].offsetWidth + 1);
                 $('.titleTable2 .plans').css('width', $('.active')[2].offsetWidth);
                 $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
-                if (scroll >= 2697){
+                if (scroll >= 2701){
                     sticky.addClass('fixed-plans');
                 } else{
                     sticky.removeClass('fixed-plans');
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 4746) {
+                if (scroll >= 4606) {
                     sticky.removeClass('fixed-plans');
                 }
             }
             if(phone_or_tablet >= $( window ).width()){
                 console.log('phone_or_tablet');
-                $('.support td:first-child').css('width',  $('.superFunc td:first-child')[0].offsetWidth + 70);
-                $('.titleTable td:first-child').css('width',  $('customWidth')[0].offsetWidth);
-                $('.table-before-support-block td:first-child').css('width',  $('customWidth')[0].offsetWidth);
-                if (scroll >= 2675){
+                //$('.support td:first-child').css('width',  $('.customWidth')[0].offsetWidth);
+                $('.titleTable td:first-child').css('width',  $('.customWidth')[0].offsetWidth);
+                $('.table-before-support-block td:first-child').css('width',  $('.customWidth')[0].offsetWidth);
+                if (scroll >= 2701){
                     sticky.addClass('fixed-plans');
                 } else{
                     sticky.removeClass('fixed-plans');
                     sticky.addClass('hide-block').css('height', '50px');
                 }
 
-                if (scroll >= 6100) {
+                if (scroll >= 4740) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -358,22 +358,19 @@ $(document).ready(function(){
                 console.log('phone');
                 //$('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
                 //$('.support td:first-child').css('width', $('.table-before-support-block td:first-child')[0].offsetWidth);
-                $('.table-before-support-block td:first-child').css('width', $('.support td:first-child')[0].offsetWidth + 14);
-                console.log($('.superFunc'));
-                console.log($('.superFunc td'));
-                console.log($('.superFunc td:nth-child(2)'));
-                $('.table-before-support-block td:not(:first-child)').css('width', $('.superFunc td:nth-child(2)')[0].offsetWidth);
+                //$('.table-before-support-block td:first-child').css('width', $('.support td:first-child')[0].offsetWidth + 14);
+                //$('.table-before-support-block td:not(:first-child)').css('width', $('.superFunc td:nth-child(2)')[0].offsetWidth);
                 //$('.support td:not(:first-child)').css('width', $('.active')[2].offsetWidth);
                 //$('.superFunc td:not(:first-child)').css('width', $('.active')[2].offsetWidth);
                 $('.hide-block').css('height', '60px');
-                if (scroll >= 2675){
+                if (scroll >= 2800){
                     sticky.addClass('fixed-plans');
                 } else{
                     sticky.removeClass('fixed-plans');
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 6136) {
+                if (scroll >= 5778) {
                     sticky.removeClass('fixed-plans');
                 }
             }
