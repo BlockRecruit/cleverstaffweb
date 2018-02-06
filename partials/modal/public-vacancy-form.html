@@ -3,11 +3,13 @@
     <div class="form">
         <span class="form-name">{{'Application form' | translate}}</span>
         <form class="recallForm" name="recallForm" ng-submit="submitForm()" novalidate>
-            <div class="recallForm__error margin-right text-left" ng-show="recallForm.name.$invalid && !recallForm.name.$pristine">
-                <span>{{'Please enter your Name'|translate}}</span>
-            </div>
-            <div class="recallForm__error text-left" ng-show="recallForm.last_name.$invalid && !recallForm.last_name.$pristine">
-                <span>{{'Please enter your Last Name'|translate}}</span>
+            <div class="error_form">
+                <div class="recallForm__error margin-right text-left" ng-show="recallForm.name.$invalid && !recallForm.name.$pristine">
+                    <span>{{'Please enter your Name'|translate}}</span>
+                </div>
+                <div class="recallForm__error text-left pull-right" ng-show="recallForm.last_name.$invalid && !recallForm.last_name.$pristine">
+                    <span>{{'Please enter your Last Name'|translate}}</span>
+                </div>
             </div>
             <input type="text" class="form-control margin-right"
                    name="name"

@@ -81,7 +81,7 @@ body.modal-open-public-vacancy-form {
 
 				color: #a94442;
 				border-radius: 13px;
-				background-color: #f2dede;
+				//background-color: #f2dede;
 			}
 			&.margin-right {
 				margin-right: 9%;
@@ -90,6 +90,10 @@ body.modal-open-public-vacancy-form {
 		input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
 			-webkit-appearance: none;
+		}
+		.error_form {
+			display: inline-block;
+			width: 100%;
 		}
 	}
 	.closeModal {
