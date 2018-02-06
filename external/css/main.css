@@ -3169,7 +3169,7 @@ footer{
         /*width: 150px;*/
     /*}*/
     .table-before-support-block td:first-child{
-        width: 257px!important;
+        width: 53%!important;
     }
     /*.titleTable td:first-child{*/
         /*width: 375px!important;*/
@@ -3635,10 +3635,10 @@ footer{
         padding: 10px;
         margin-top: 0;
     }
-    .tablePrise .plans{
-        width: 50px;
-        word-break: break-word;
-    }
+    /*.tablePrise .plans{*/
+        /*width: 50px;*/
+        /*word-break: break-word;*/
+    /*}*/
     .hide-block{
         height: 60px!important;
     }
@@ -3664,6 +3664,12 @@ footer{
         vertical-align: inherit!important;
         top: 0;
     }
+    /*.table-before-support-block td:first-child{*/
+        /*width: 257px!important;*/
+    /*}*/
+    /*.firstTable td:first-child{*/
+        /*width: 435px!important;*/
+    /*}*/
     /*.tablePrise .enterPrizeTable{*/
         /*padding-bottom: 30px;*/
     /*}*/

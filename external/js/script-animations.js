@@ -103,8 +103,6 @@ $(document).ready(function(){
         var sticky = $('.prices-block'),
             scroll = $(window).scrollTop();
         console.log(scroll);
-        console.log($('.active'));
-        console.log($('.active')[2].offsetWidth);
         var pc = 1200;
         var big_tablet = 991;
         var tablet = 767;
@@ -229,9 +227,20 @@ $(document).ready(function(){
             }
             if(phone >= $( window ).width()){
                 console.log('phone');
-                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
-                $('.support td:first-child').css('width', $('.table-before-support-block td:first-child')[0].offsetWidth);
+                //$('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
+                //$('.support td:first-child').css('width', $('.table-before-support-block td:first-child')[0].offsetWidth);
                 $('.hide-block').css('height', '60px');
+                $('.titleTable td:first-child').css('width', $('.superFunc td:first-child')[0].offsetWidth + 5);
+                //$('.firstTable td:first-child').css('width', $('.support td:first-child')[0].offsetWidth + 14);
+                //$('.support td:first-child').css('width', $('.table-before-support-block td:first-child')[0].offsetWidth);
+                $('.table-before-support-block td:first-child').css('width',  $('.firstTable td:first-child')[0].offsetWidth);
+                //$('.superFunc td:first-child').css('width', $('.titleTable td:first-child')[0].offsetWidth + 14);
+                //console.log($('.superFunc'));
+                //console.log($('.superFunc td'));
+                //console.log($('.superFunc td:nth-child(2)'));
+                //$('.table-before-support-block td:not(:first-child)').css('width', $('.superFunc td:nth-child(2)')[0].offsetWidth);
+                $('.support td:not(:first-child)').css('width', $('.active')[2].offsetWidth);
+                //$('.superFunc td:not(:first-child)').css('width', $('.active')[2].offsetWidth);
                 if (scroll >= 2861){
                     sticky.addClass('fixed-plans');
                 } else{
@@ -256,10 +265,6 @@ $(document).ready(function(){
                 }
             }
         }else{
-            //$('.titleTable2 .plans').css('width', $('.active')[2].offsetWidth);
-            //$('.titleTable .plans').css('width', $('.active')[2].offsetWidth);
-            //$('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
-            //$('.titleTable2 td:first-child').css('width', $('.customWidth')[0].offsetWidth);
             if (scroll >= 1291){
                 console.log('under > 1200');
                 $('.titleTable2 .plans').css('width', $('.active')[2].offsetWidth);
@@ -335,6 +340,9 @@ $(document).ready(function(){
             }
             if(phone_or_tablet >= $( window ).width()){
                 console.log('phone_or_tablet');
+                $('.support td:first-child').css('width',  $('.superFunc td:first-child')[0].offsetWidth + 70);
+                $('.titleTable td:first-child').css('width',  $('customWidth')[0].offsetWidth);
+                $('.table-before-support-block td:first-child').css('width',  $('customWidth')[0].offsetWidth);
                 if (scroll >= 2675){
                     sticky.addClass('fixed-plans');
                 } else{
@@ -348,8 +356,15 @@ $(document).ready(function(){
             }
             if(phone >= $( window ).width()){
                 console.log('phone');
-                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
-                $('.support td:first-child').css('width', $('.table-before-support-block td:first-child')[0].offsetWidth);
+                //$('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
+                //$('.support td:first-child').css('width', $('.table-before-support-block td:first-child')[0].offsetWidth);
+                $('.table-before-support-block td:first-child').css('width', $('.support td:first-child')[0].offsetWidth + 14);
+                console.log($('.superFunc'));
+                console.log($('.superFunc td'));
+                console.log($('.superFunc td:nth-child(2)'));
+                $('.table-before-support-block td:not(:first-child)').css('width', $('.superFunc td:nth-child(2)')[0].offsetWidth);
+                //$('.support td:not(:first-child)').css('width', $('.active')[2].offsetWidth);
+                //$('.superFunc td:not(:first-child)').css('width', $('.active')[2].offsetWidth);
                 $('.hide-block').css('height', '60px');
                 if (scroll >= 2675){
                     sticky.addClass('fixed-plans');
