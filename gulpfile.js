@@ -5,7 +5,8 @@ var gulp = require('gulp-help')(require('gulp')),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
     cssnano = require('gulp-cssnano'),
-    concatCss = require('gulp-concat-css');
+    concatCss = require('gulp-concat-css'),
+    uncss = require('gulp-uncss');
 
 gulp.task('js', function() {
     gulp.src([
@@ -57,10 +58,12 @@ gulp.task('amp-css', function () {
     return gulp.src([
         './external/css/normalize.css',
         './external/css/form.css',
-        './external/css/bootstrap.min.css',
-        './external/css/main.css'
-
+        './external/css/bootstrap-amp.css',
+        './external/css/amp.main.css'
     ])
+        .pipe(uncss({
+            html: ['amp.html', './external/ru/amp.html', 'http://127.0.0.1/ru/amp.html']
+        }))
         .pipe(concatCss("amp-main.min.css"))
         .pipe(cssnano())
         .pipe(gulp.dest('./external/css/'));
