@@ -1,0 +1,42 @@
+User-agent: Googlebot
+Disallow:
+Sitemap: http://mars.cleverstaff.net/sitemap.xml
+Sitemap: http://mars.cleverstaff.net/blog/sitemap.xml
+
+User-agent: googlebot-image
+Disallow:
+
+User-agent: googlebot-mobile
+Disallow:
+
+User-agent: yahoo-slurp
+Disallow:
+
+User-agent: msnbot
+Disallow:
+
+User-agent: psbot
+Disallow:
+
+User-agent: Yandex
+Disallow:
+Host: mars.cleverstaff.net
+
+User-agent: Mail.Ru
+Disallow:
+Host: mars.cleverstaff.net
+
+User-agent: StackRambler
+Disallow:
+
+User-agent: Aport
+Disallow:
+
+User-agent: psbot
+Disallow:
+
+User-agent: *
+Disallow:
+Sitemap: http://mars.cleverstaff.net/sitemap.xml
+Sitemap: http://mars.cleverstaff.net/blog/sitemap.xml
+Host: mars.cleverstaff.net
