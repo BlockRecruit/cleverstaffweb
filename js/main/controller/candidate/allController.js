@@ -949,7 +949,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         };
                         $scope.limitReached = response['limitReached'];
                         if(page) {
-                            $scope.candidates = $scope.candidates.concat(response['objects'])
+                            $scope.candidates = $scope.candidates.concat(response['objects']);
                             console.log($scope.candidates);
                         } else {
                             $scope.candidates = response['objects'];
@@ -1059,8 +1059,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $scope.showUserFiles = function(user) {
         if($scope.clickedUser !== user) {
-            var clickedUserIndex = $scope.tableParams.data.indexOf(user);
-            $scope.clickedUser = $scope.tableParams.data[clickedUserIndex];
+            var clickedUserIndex = $scope.candidates.indexOf(user);
+            $scope.clickedUser = $scope.candidates[clickedUserIndex];
         } else {
             $scope.clickedUser = null;
         }
