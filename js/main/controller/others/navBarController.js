@@ -313,14 +313,16 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     };
     $rootScope.addInvite = function () {
         if ($rootScope.frontMode === 'war') {
-            $rootScope.inviteUser.clientId = $rootScope.clientToAddAutocompleaterId;
             if ($rootScope.inviteUser.role == null) {
                 notificationService.error($filter('translate')('need role'));
             } else if ($rootScope.inviteUser.email == null) {
                 notificationService.error($filter('translate')('wrong_email'));
-            } else if($rootScope.inviteUser.role == 'client' && ($rootScope.inviteUser.clientId == null || $rootScope.inviteUser.clientId == '')){
-                notificationService.error($filter('translate')('Select the specific Client for the Hiring manager'));
+            } else if($rootScope.inviteUser.role == 'client' && ($rootScope.VacancyAddedInCandidate == null || $rootScope.VacancyAddedInCandidate == undefined)){
+                notificationService.error($filter('translate')('Select the specific vacancy for the Hiring manager'));
             } else {
+                if($rootScope.VacancyAddedInCandidate != undefined){
+                    $rootScope.inviteUser.vacancyId = $rootScope.VacancyAddedInCandidate.vacancyId;
+                }
                 isBlock(function (resp) {
                     if (resp && resp.status == 'N') {
                         $rootScope.inviteUserBlock = true;
@@ -328,30 +330,33 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         $location.path("/users/" + resp.userId);
                         // $rootScope.closeNavModal();
                         $rootScope.inviteUser.email = "";
-                        $rootScope.inviteUser.clientId = '';
+                        $rootScope.VacancyAddedInCandidate.vacancyId = null;
+                        $rootScope.inviteUser.vacancyId = null;
                     } else if (resp && resp.status == 'A') {
                         notificationService.error("<a href='#/users/" + resp.userId + "'>" + resp.fullName + "</a> (" + resp.login + ") " + $filter("translate")("has already working in your account"));
                         $rootScope.closeNavModal();
                         $rootScope.inviteUser.email = "";
-                        $rootScope.inviteUser.clientId = '';
+                        $rootScope.VacancyAddedInCandidate.vacancyId = null;
+                        $rootScope.inviteUser.vacancyId = null;
                     } else {
-                        console.log($rootScope.inviteUser);
                         Person.inviteUser({
                             email: $rootScope.inviteUser.email,
                             role: $rootScope.inviteUser.role,
-                            clientId: $rootScope.inviteUser.clientId,
+                            vacancyId: $rootScope.inviteUser.role == 'client' ? $rootScope.inviteUser.vacancyId : null,
                             lang: $translate.use()
                         }, function (resp) {
                             if (resp.status && angular.equals(resp.status, "error")) {
                                 notificationService.error(resp.message);
                                 //$('.addUserInvite.modal').modal('hide');
                                 //$rootScope.inviteUser.email = "";
-                                $rootScope.inviteUser.clientId = '';
+                                $rootScope.VacancyAddedInCandidate.vacancyId= null;
+                                $rootScope.inviteUser.vacancyId = null;
                             } else {
                                 notificationService.success($filter('translate')('user_was_invite_1') + $rootScope.inviteUser.email + $filter('translate')('user_was_invite_2'));
                                 $rootScope.closeNavModal();
                                 $rootScope.inviteUser.email = "";
-                                $rootScope.inviteUser.clientId = '';
+                                $rootScope.VacancyAddedInCandidate.vacancyId = null;
+                                $rootScope.inviteUser.vacancyId = null;
                                 if ($location.path() == '/company/users') {
                                     $route.reload();
                                 }
