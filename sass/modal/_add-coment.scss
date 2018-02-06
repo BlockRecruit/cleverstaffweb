@@ -58,4 +58,12 @@
 			@include button-styling-cancel();
 		}
 	}
+	&.edit-email-integration {
+		input {
+			margin-bottom: 5px;
+		}
+		select {
+			border-radius: 5px;
+		}
+	}
 }
