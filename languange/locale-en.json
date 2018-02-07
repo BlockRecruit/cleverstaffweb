@@ -2232,7 +2232,7 @@
   "_Show": "Show",
   "items on page": "items on page",
   "The large quantity of results has been found.": "The large quantity of results has been found. <b>{{total_count}}</b> of them is shown. Please specify search criteria to get more accurate results",
-  "Boolean search info": "<p><b>Boolean Search Rules in CleverStaff:</b> </p><p>1. To search for the candidates, you can use three operators \"AND\", \"OR\", \"NOT\", and also \"\" for phrases and () to group search parameters in the query.</br> 2. All operators must be written in capital letters.</br>3. Operator \"NOT\" is used at the end of the search query.</br>4. Do not use the same search parameter twice in one query.</p><p><b>For Example:</b></br>1. (C++ OR C#) AND \"Software Engineer\"</br>2. QA AND (Selenium OR Python) NOT \"Manual Testing\"</p>",
+  "Boolean search info": "<p><b>Boolean Search Rules in CleverStaff:</b> </p><p>1. To search for the candidates, you can use three operators \"AND\", \"OR\", \"NOT\", and also \"\" for phrases and () to group search parameters in the query.</br>2. You have to use the brackets if you use several operators.</br> 3. All operators must be written in capital letters.</br>4. Operator \"NOT\" is used at the end of the search query.</br>5. Do not use the same search parameter twice in one query.</p><p><b>For Example:</b></br>1. (C++ OR C#) AND \"Software Engineer\"</br>2. QA AND (Selenium OR Python) NOT \"Manual Testing\"</p>",
   "Please add the candidates to this stage":"Please add the candidates to this stage",
   "Time range":"Time range",
   "currentWeek":"Current week",
