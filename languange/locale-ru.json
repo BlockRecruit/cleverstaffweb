@@ -2864,8 +2864,6 @@
   "previousYear":"Прошлый год",
   "customRange":" Настраиваемый период",
   "Select vacancies in the report":"Выбрать вакансии в отчете",
-  "replacement":"Замена",
-  "Comments only": "Только комментарии",
   "Comment changed":"Комментарий изменен",
   "ready_to_relocate2": "Готов к переезду",
   "Being a Free Plan user, you have free access to this feature for the first 7 days of your Trial": "Так как вы пользователь бесплатного аккаунта, у вас есть бесплатный доступ к этой функции в течение  7 дней пробного периода",
@@ -2879,5 +2877,6 @@
   "Domain/user name": "Домен/имя пользователя",
   "Exchange version": "Версия Exchange",
   "The Exchange server URL": "URL-адрес сервера Exchange должен выглядеть так: https://***/EWS/exchange.asmx",
-  "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email."
+  "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email.",
+  "Please attach your CV file": "Прикрепите файл резюме"
 }

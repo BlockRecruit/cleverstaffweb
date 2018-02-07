@@ -1291,7 +1291,6 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 }
             });
         };
-
         $scope.sendRequest = function (recallForm) {
             $scope.recallForm = recallForm;
           if ($scope.recallForm.$valid) {
@@ -1301,6 +1300,8 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 if (validEmail($scope.request.email)) {
                     $scope.showErrorEmailMessage = true;
                     return;
+                }else{
+                    $scope.showErrorEmailMessage = false;
                 }
                 if ($scope.filesForRecall.length != 0) {
                     angular.forEach($scope.filesForRecall, function (resp) {
@@ -1315,44 +1316,46 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 }
                 $scope.request.lang = $translate.use();
                 $scope.request.email = $('#email2').val();
-              $scope.request.phone = String($scope.request.phone);
+                $scope.request.phone = String($scope.request.phone);
                 if ($scope.request.phone == undefined || $scope.request.phone.match(/^[\(\)\s\-\+\d]{9,20}$/) == null) {
                     $scope.showErrorPhoneMessage = true;
                     return false;
                 }
-                Service.addCandidate($scope.request, function (resp) {
-                    if (resp.status && resp.status === 'error' && resp.message) {
+                if($scope.request.fileId == null){
+                    notificationService.error($filter('translate')('Please attach your CV file'));
+                }else{
+                    Service.addCandidate($scope.request, function (resp) {
+                        if (resp.status && resp.status === 'error' && resp.message) {
+                            $scope.message = "error";
+                        } else {
+                            $scope.message = "success";
+                            $scope.request = {
+                                name: "",
+                                lastName: "",
+                                phone: "",
+                                message: "",
+                                vacancyId: $scope.vacancyId,
+                                fileId: null
+                            };
+                            // $("#email2").val("");
+                            $scope.filesForRecall = [];
+                            $scope.recallForm.name.$pristine = true;
+                            $scope.recallForm.last_name.$pristine = true;
+                            $scope.recallForm.phone.$pristine = true;
+                            $scope.recallForm.phone.$invalid = false;
+                            $scope.recallForm.email2.$invalid = false;
+                            $scope.recallForm.email2.$pristine = false;
+                            $scope.showErrorEmailMessage = false;
+                            $('body').removeClass('modal-open-public-vacancy-form');
+                            $rootScope.closeModal();
+                            $scope.showModalInfoAboutVacancy();
+                        }
+
+                    }, function (resp) {
                         $scope.message = "error";
-                    } else {
-                        $scope.message = "success";
-                        $scope.request = {
-                            name: "",
-                            lastName: "",
-                            phone: "",
-                            message: "",
-                            vacancyId: $scope.vacancyId,
-                            fileId: null
-                        };
-                        // $("#email2").val("");
-                        $scope.filesForRecall = [];
-                        $scope.recallForm.name.$pristine = true;
-                        $scope.recallForm.last_name.$pristine = true;
-                        $scope.recallForm.phone.$pristine = true;
-                        $scope.recallForm.phone.$invalid = false;
-                        $scope.recallForm.email2.$invalid = false;
-                        $scope.recallForm.email2.$pristine = false;
-                        $scope.showErrorEmailMessage = false;
-                        $('body').removeClass('modal-open-public-vacancy-form');
-                        $rootScope.closeModal();
-                        $scope.showModalInfoAboutVacancy();
-                    }
-
-                }, function (resp) {
-                    $scope.message = "error";
-                });
-
+                    });
+                }
             } else {
-
                 $scope.recallForm.name.$pristine = false;
                 $scope.recallForm.last_name.$pristine = false;
                 if (validEmail($scope.request.email)) {
@@ -1362,14 +1365,6 @@ controller.controller('mainController' ,function($scope, $location, $window) {
 
             }
         };
-        //function myFunction(e) {
-        //    setTimeout(function () {
-        //        console.log('1')
-        //        $window.history.back();
-        //        this.removeEventListener('hashchange', arguments.callee, false);
-        //    }, 0)
-        //};
-        //$window.addEventListener("hashchange", myFunction)
     }])
     .controller('PublicVacancyAddController', function($rootScope, $scope, $filter, $location, $translate, Service, notificationService) {
         $rootScope.hasJS = true;
