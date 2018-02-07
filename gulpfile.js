@@ -56,15 +56,23 @@ gulp.task('amp-js', function() {
 
 gulp.task('amp-css', function () {
     return gulp.src([
+        './external/css/amp/main.css',
         './external/css/normalize.css',
-        './external/css/form.css',
-        './external/css/bootstrap-amp.css',
-        './external/css/amp.main.css'
+        './external/css/amp/form.css',
+        './external/css/amp/bootstrap-amp.css'
+    ])
+        .pipe(concatCss("main.min.css"))
+        .pipe(cssnano())
+        .pipe(gulp.dest('./external/css/amp/'));
+});
+
+gulp.task('uncss', function () { // removes unused css classes (if there is no DOM node with a certain class, this css class will be removed)
+    return gulp.src([
+        './external/css/amp/form.css'
     ])
         .pipe(uncss({
             html: ['amp.html', './external/ru/amp.html', 'http://127.0.0.1/ru/amp.html']
         }))
-        .pipe(concatCss("amp-main.min.css"))
-        .pipe(cssnano())
-        .pipe(gulp.dest('./external/css/'));
+        .pipe(concatCss("form.css"))
+        .pipe(gulp.dest('./external/css/amp/'));
 });

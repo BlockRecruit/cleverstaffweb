@@ -8,7 +8,7 @@
     <meta name="description" content="CleverStaff Recruitment Software and Applicant Tracking System">
     <link rel="canonical" href="index.html">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
-    <link rel="stylesheet" href="../external/css/amp-main.min.css?b4">
+    <link rel="stylesheet" href="../external/css/amp/main.min.css?b4">
     <!--<link rel="stylesheet" href="/external/css/amp.main.css">-->
     <meta name="viewport" content="width=device-width,minimum-scale=1">
     <meta property="og:type" content="website" />
@@ -20,6 +20,7 @@
     <meta property="og:site_name" content="CleverStaff"/>
 
     <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
+
 
 
     <script async custom-element="amp-carousel" src="https://cdn.ampproject.org/v0/amp-carousel-0.1.js"></script>
@@ -54,7 +55,7 @@
         <div class="container">
             <a href="/" class="logo pull-left"></a>
             <a href="/" class="logo2 pull-left"></a>
-            <a class="signinButton btn btn-default navbar-btn loginBtn  adaptiveMenuShow btn-menu">Начать</a>
+            <a class="signinButton btn btn-default navbar-btn loginBtn  adaptiveMenuShow btn-menu" href="signin.html">Начать</a>
             <span class="rusIcon hidden"><amp-img layout="fixed" src="/images/sprite/ru-flag-icon.png" width="21" height="21" alt=""></amp-img>
                 <span class="hidden-xs">RU хостинг</span>
             </span>
@@ -71,7 +72,7 @@
                         <li><a href="price.html">Цены</a></li>
                         <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
                     </ul>
-                    <a class="signinButton btn btn-default navbar-btn loginBtn adaptiveMenu pull-left">Начать</a>
+                    <a class="signinButton btn btn-default navbar-btn loginBtn adaptiveMenu pull-left" href="signin.html">Начать</a>
                     <button class="amp-menu hamburger" on='tap:sidebar1.toggle'>Menu</button>
                     <div class="dropdown pull-right adaptiveMenu">
                         <button class="btn btn-primary dropdown-toggle"
@@ -148,7 +149,7 @@
                                 <section expanded class="text-center">
                                     <h3>Добавляйте кандидатов в 1 клик</h3>
                                     <p>
-                                        Моментальная интеграция с LinkedIn, почтой и сайтами поиска работы.
+                                        <span>Моментальная интеграция с LinkedIn, почтой и сайтами поиска работы.</span>
                                         <amp-img src="/external/img/gif/Linkedin_integration.gif"
                                                  width="340"
                                                  height="250">
@@ -158,7 +159,8 @@
                                 </section>
                                 <section class="text-center">
                                     <h3>Рекомендации подходящих кандидатов</h3>
-                                    <p>Алгоритмы системы предлагают кандидатов из вашей базы, которые максимально соответствуют критериям вакансии.
+                                    <p>
+                                        <span>Алгоритмы системы предлагают кандидатов из вашей базы, которые максимально соответствуют критериям вакансии.</span>
                                         <amp-img src="/external/img/gif/Appropriate_candidates_suggestions.gif"
                                                  width="340"
                                                  height="250">
@@ -168,7 +170,8 @@
                                 </section>
                                 <section class="text-center">
                                     <h3>Быстрые отчеты по вакансиям</h3>
-                                    <p>Все отчёты по вакансиям для заказчиков / руководителей теперь создаются автоматически за пару секунд.
+                                    <p>
+                                        <span>Все отчёты по вакансиям для заказчиков / руководителей теперь создаются автоматически за пару секунд.</span>
                                         <amp-img src="/external/img/gif/Quick_vacancies_reports.gif"
                                                  width="340"
                                                  height="250">
@@ -178,7 +181,8 @@
                                 </section>
                                 <section class="text-center">
                                     <h3>Технология парсинга резюме</h3>
-                                    <p>Загружайте резюме любого формата и CleverStaff конвертирует его в структурированную запись.<br> Больше не надо вводить данные вручную.
+                                    <p>
+                                        <span>Загружайте резюме любого формата и CleverStaff конвертирует его в структурированную запись.<br> Больше не надо вводить данные вручную.</span>
                                         <amp-img src="/external/img/gif/Resume_parsing.gif"
                                                  width="340"
                                                  height="250">
@@ -188,7 +192,8 @@
                                 </section>
                                 <section class="text-center">
                                     <h3>Настраиваемые шаблоны писем</h3>
-                                    <p>Отправляйте автоматические письма кандидатам по настраиваемым шаблонам.
+                                    <p>
+                                        <span>Отправляйте автоматические письма кандидатам по настраиваемым шаблонам.</span>
                                         <amp-img src="/external/img/gif/Resume_parsing.gif"
                                                  width="340"
                                                  height="250">
@@ -340,8 +345,6 @@
     <div class="block" id="block_7">
         <div class="container">
             <div class="row">
-                <div class="flower wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
-                <div class="manSay wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
                 <amp-carousel id="carousel-with-preview"
                               width="250"
                               height="500"
@@ -422,7 +425,7 @@
                     <div>
                         <div class="slide-container">
                             <blockquote>
-                                Я пользуюсь CleverStaff уже несколько месяцев. ПО само по себе очень функциональное и простое - разобраться можно за 1 день. Но самая большая ценность для меня - это команда разработчиков. Они - очень оперативные ребята. Очень приятно, когда мои замечания и предложения учитываются, и по возможности реализуются в кратчайшие сроки. Хочется и дальше помогать улучшать это рекрутерское ПО.
+                                Я пользуюсь CleverStaff уже несколько месяцев. ПО само по себе очень функциональное и простое - разобраться можно за 1 день. Но самая большая ценность для меня - это команда разработчиков. Они - очень оперативные ребята. Очень приятно, когда мои замечания и предложения учитываются, и по возможности реализуются в кратчайшие сроки.
                             </blockquote>
                             <span class="saysArrow"></span>
                             <div class="person-card">
@@ -499,9 +502,6 @@
                 </amp-carousel>
                 <div class="clearfix"></div>
                 <a href="http://www.capterra.com/applicant-tracking-software/spotlight/137247/CleverStaff/CleverStaff" target="_blank" class="text-center capterra wow fadeInUp">Прочесть отзывы на Capterra <span class="arrow-right"></span></a>
-                <div class="chat wow fadeInRight" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
-                <div class="clientHappy wow fadeInRight" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
-                <div class="cheer wow fadeInRight" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
             </div>
         </div>
     </div>
@@ -510,7 +510,7 @@
             <div class="row text-center wow fadeInUp">
                 <h3>Перейдите на Качественно Новый Уровень</h3>
                 <p class="zIndex">Моментальный старт -- Перенос базы за секунды -- Почувствуйте разницу</p>
-                <a class="orangeBtn orange-btn visible zIndex tryItfreeTwo visible" data-params="freeOrStart">Начните Бесплатно Сейчас</a>
+                <a class="orangeBtn orange-btn visible zIndex tryItfreeTwo visible" href="signup.html" data-params="freeOrStart">Начните Бесплатно Сейчас</a>
             </div>
             <div class="rocket wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
         </div>
@@ -518,9 +518,6 @@
     <div class="block" id="block_9">
         <div class="container">
             <div class="row">
-                <div class="cloudContact wow fadeInLeft" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
-                <div class="plane"></div>
-                <div class="linePlane hidden-xs"></div>
                 <div class="col-md-8 col-md-offset-2 contactUs wow fadeInUp">
                     <h3 class="text-center">Напишите Нам</h3>
                     <form class="question-form" action="#" target="_top" name="form" id="questionForm">
@@ -541,10 +538,6 @@
                         </div>
                     </form>
                 </div>
-                <div class="cloudContact2 wow fadeInRight" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
-                <div class="planeContact2 hidden-xs"></div>
-                <div class="manPlane hidden-xs"></div>
-                <div class="manContact2 wow fadeInRight" data-wow-duration="1.5s" data-wow-delay="0.5s" data-wow-offset="60"></div>
             </div>
         </div>
     </div>
@@ -584,7 +577,7 @@
                 </div>
                 <div class="clearfix"></div>
                 <footer>
-                    &copy; CleverStaff 2014-2017
+                    &copy; CleverStaff 2014-2018
                 </footer>
             </div>
         </div>
@@ -710,6 +703,7 @@
         </div>
     </div>
 </div>
+
 <!--<script type="text/javascript" src="../external/js/amp-script.min.js?b7"></script>-->
 </body>
 </html>
