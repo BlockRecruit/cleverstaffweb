@@ -21,15 +21,14 @@
         {{history.stateOld | translate}}
     </span>
     <i class="fa fa-angle-right" aria-hidden="true"></i>
-    <span ng-if="$root.currentLang == 'en'"> {{'history_info.stage of'|translate}}</span>
+    {{'history_info.stage to'|translate}}
     <span class="status {{history.stateNewName}}" ng-if="history.stateNewName">
         {{history.stateNewName | translate}}
     </span>
      <span class="status {{history.stateNew}}" ng-if="!history.stateNewName">
         {{history.stateNew | translate}}
     </span>
-    <span ng-if="$root.currentLang == 'en'">{{'history_info.to vacancy'|translate}}</span>
-    <span ng-if="$root.currentLang == 'ru'">{{'history_info.stage of vacancy'|translate}}</span>
+    {{'history_info.stage of vacancy'|translate}}
     <a ng-href="#/vacancies/{{ history.vacancy.localId}}">
         {{history.vacancy.position}}
     </a>
