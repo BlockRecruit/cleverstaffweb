@@ -54,7 +54,7 @@
                         </span>
                         <div ng-show='$root.inviteUser.role == "client" && role.value == "client"'>
                             <input type="hidden" vacancy-autocompleter id="vacancyToAddAutocompleaterModal">
-                            <a class="link pull-right" href="#/vacancy/add" ng-click="$root.closeModal();">{{'Add vacancy' | translate}}</a>
+                            <i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.hmInvite" aria-hidden="true"></i>
                         </div>
                         <span ng-show='role.value == "freelancer"' class='grey'>
                             <span>

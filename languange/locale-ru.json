@@ -2907,5 +2907,6 @@
   "The timer will be displayed on the test page.In case you do not finish the test before the deadline, the test page will be closed, all the data entered will be saved and sent to the recruiter":"Время на прохождение этого теста ограничено.Таймер будет отображаться во время прохождения теста.По окончанию времени страница теста автоматически закроется, все введённые вами данные будут сохранены и отправлены рекрутеру",
   "The candidates have been successfully moved to the stage": "Кандидаты были успешно переведены на этап",
   "relocate": "переезд",
-  "Select the specific vacancy for the Hiring manager": "Выберите вакансию, к которой будет привязан Hiring manager"
+  "Select the specific vacancy for the Hiring manager": "Выберите вакансию, к которой будет привязан Hiring manager",
+  "Hiring Manager will be responsible for this vacancy after registration in account.": "После регистрации в аккаунте, Hiring Manager будет ответственным за эту вакансию"
 }
