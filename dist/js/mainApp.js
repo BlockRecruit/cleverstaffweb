@@ -19502,8 +19502,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $scope.showUserFiles = function(user) {
         if($scope.clickedUser !== user) {
-            var clickedUserIndex = $scope.candidates.indexOf(user);
-            $scope.clickedUser = $scope.candidates[clickedUserIndex];
+            var clickedUserIndex = $scope.tableParams.data.indexOf(user);
+            $scope.clickedUser = $scope.tableParams.data[clickedUserIndex];
         } else {
             $scope.clickedUser = null;
         }
