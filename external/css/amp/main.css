@@ -750,6 +750,8 @@ a:focus {
     font-weight: 600;
     margin-bottom: 50px;
 }
+
+
 .kamaGames{
     background: url("/external/img/customers/kamaGames.png");
     height: 84px;
@@ -1470,6 +1472,15 @@ footer{
         height: 124px;
     }
     .kamaGames,
+    .recruit,
+    .rsm,
+    .avon {
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 100%;
+        margin:5px auto;
+    }
+    .kamaGames,
     .ConscensiaLogo,
     .vertaMedia,
     .svitlaSystem,
@@ -1477,7 +1488,10 @@ footer{
     .indigoLogo,
     .kingsChoise{
         float: none;
-        margin: 0 auto 20px auto;
+        margin: 5px auto 20px auto;
+        width: 100%;
+        background-repeat: no-repeat;
+        background-position: center;
     }
     .person-ava{
         margin: 0;
@@ -1546,25 +1560,32 @@ footer{
     font-size: 17px;
 }
 
-#sidebar1 {
+#sidebar {
     background-color: #fff;
-    width: 200px;
+    width: 180px;
+    height: auto;
 }
 
-#sidebar1 ul {
+#sidebar .close-sidebar {
+    position: absolute;
+    top: 5px;
+    left: 8px;
+}
+
+#sidebar ul {
     background-color: #ffffff;
     margin: 0;
     padding: 10px 5px;
 }
 
-#sidebar1 ul li {
+#sidebar ul li {
     list-style-type: none;
     margin: 15px 0;
     text-align: right;
     padding-right: 20px;
 }
 
-#sidebar1 ul li a {
+#sidebar ul li a {
     color: #444446;
     font-weight: 600;
     padding-top: 15px;
@@ -1572,12 +1593,53 @@ footer{
     line-height: 20px;
 }
 
-#sidebar1 ul li .dropdown {
+#sidebar ul li .dropdown {
     display: block;
     width: 100%;
     text-align: right;
 }
 
+#sidebar section h6.dropdown-toggle {
+    color: #444446;
+    background: #fff;
+    border-color: #fff;
+    box-shadow: none;
+    display: inline-block;
+    padding: 0;
+    margin:8px 0 0 auto;
+    text-align: right;
+}
+
+#sidebar ul.dropdown-menu {
+    min-width: 0;
+    padding:10px 0;
+    width: 60px;
+    margin: 5px 0 0 auto;
+}
+
+#sidebar ul.dropdown-menu li {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+#sidebar ul.dropdown-menu li.no-padding {
+    padding-right: 0;
+}
+#sidebar ul.dropdown-menu li a {
+    padding: 0;
+}
+
+#sidebar li section {
+    background-color: #fff;
+    border:none;
+    padding-right: 0;
+    text-align: right;
+}
+
+#sidebar li section p span.inline{
+    display: inline-block;
+}
 
 #carousel-with-preview,
 .amp-carousel-slide {
@@ -1589,16 +1651,17 @@ amp-accordion > section[expanded] p span {
     margin: 10px 0;
 }
 
+
 button.amp-menu {
     display: none;
-    position: absolute;
-    right: 0;
-    top: 13px;
     border: none;
-    outline: none;
     background: none;
-    font-size: 14px;
     font-weight: bold;
+    letter-spacing: 3px;
+    transform: rotate(90deg);
+    font-size: 26px;
+    padding:0;
+    margin-top: 8px;
 }
 
 @media (max-width: 991px) {
