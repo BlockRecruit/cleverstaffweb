@@ -82,7 +82,7 @@
 		padding: 0 15px;
 		.mce-path {
 			& > div {
-				color: #ccc;
+				visibility: hidden;
 			}
 		}
 		a {
