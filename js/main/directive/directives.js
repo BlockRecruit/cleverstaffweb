@@ -4053,7 +4053,7 @@ directive('appVersion', ['version', function(version) {
                     language: $translate.use(),
                     weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
                     initialDate: new Date(),
-                    startDate: new Date()
+                    startDate: new Date(-1262304000000)
                 }).on('changeDate', function (val) {
                     var flag = false;
 
@@ -4125,7 +4125,7 @@ directive('appVersion', ['version', function(version) {
                     language: $translate.use(),
                     weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
                     initialDate: new Date(),
-                    startDate: new Date()
+                    startDate: new Date(-1262304000000)
                 }).on('changeDate', function (val) {
                     var flag = false;
                     if (val.date != undefined) {
@@ -4310,8 +4310,10 @@ directive('appVersion', ['version', function(version) {
                         }
                     });
                     element.find('li').on('mousedown',(event) => {
-                        scope.params.page(event.target.value);
-                        scope.$apply();
+                        if(event.target.value) {
+                            scope.params.page(event.target.value);
+                            scope.$apply();
+                        }
                     });
                     $('body').on('mousedown', (event) => {
                         if(hideIfNotScrollBar(event)) {
@@ -4337,9 +4339,20 @@ directive('appVersion', ['version', function(version) {
                 function formingElement(startPage, lastPage) {
                     let pagesList = '';
                     let elementsCount = lastPage - startPage + 1;
-                    for(let i = startPage; i <= lastPage; i++){
-                        pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                    if(elementsCount < 200) {
+                        for(let i = startPage; i <= lastPage; i++){
+                            pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                        }
+                    } else {
+                        for(let i = startPage; i <= lastPage &&  i - startPage <= 100; i++){
+                            pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                        }
+                        pagesList += '<li class="ellipsis" value ="...">...</li>';
+                        for(let b = lastPage - 100; b <= lastPage; b++){
+                            pagesList += '<li value =" ' + b + '">' + b + '</li>';
+                        }
                     }
+
                     drListElement.html(pagesList);
                     if(elementsCount < 5) {
                         heightDropList = 20*(elementsCount);
@@ -4407,8 +4420,10 @@ directive('appVersion', ['version', function(version) {
                         }
                     });
                     element.find('li').on('mousedown',(event) => {
-                        scope.params.page(event.target.value);
-                        scope.$apply();
+                        if(event.target.value) {
+                            scope.params.page(event.target.value);
+                            scope.$apply();
+                        }
                     });
                     $('body').on('mousedown', (event) => {
                         if(hideIfNotScrollBar(event)) {
@@ -4434,9 +4449,20 @@ directive('appVersion', ['version', function(version) {
                 function formingElement(startPage, lastPage) {
                     let pagesList = '';
                     let elementsCount = lastPage - startPage + 1;
-                    for(let i = startPage; i <= lastPage; i++){
-                        pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                    if(elementsCount < 200) {
+                        for(let i = startPage; i <= lastPage; i++){
+                            pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                        }
+                    } else {
+                        for(let i = startPage; i <= lastPage &&  i - startPage <= 100; i++){
+                            pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                        }
+                        pagesList += '<li class="ellipsis" value ="...">...</li>';
+                        for(let b = lastPage - 100; b <= lastPage; b++){
+                            pagesList += '<li value =" ' + b + '">' + b + '</li>';
+                        }
                     }
+
                     drListElement.html(pagesList);
                     if(elementsCount < 5) {
                         heightDropList = 20*(elementsCount);

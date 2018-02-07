@@ -4053,7 +4053,7 @@ directive('appVersion', ['version', function(version) {
                     language: $translate.use(),
                     weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
                     initialDate: new Date(),
-                    startDate: new Date()
+                    startDate: new Date(-1262304000000)
                 }).on('changeDate', function (val) {
                     var flag = false;
 
@@ -4125,7 +4125,7 @@ directive('appVersion', ['version', function(version) {
                     language: $translate.use(),
                     weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
                     initialDate: new Date(),
-                    startDate: new Date()
+                    startDate: new Date(-1262304000000)
                 }).on('changeDate', function (val) {
                     var flag = false;
                     if (val.date != undefined) {
@@ -4310,8 +4310,10 @@ directive('appVersion', ['version', function(version) {
                         }
                     });
                     element.find('li').on('mousedown',(event) => {
-                        scope.params.page(event.target.value);
-                        scope.$apply();
+                        if(event.target.value) {
+                            scope.params.page(event.target.value);
+                            scope.$apply();
+                        }
                     });
                     $('body').on('mousedown', (event) => {
                         if(hideIfNotScrollBar(event)) {
@@ -4337,9 +4339,20 @@ directive('appVersion', ['version', function(version) {
                 function formingElement(startPage, lastPage) {
                     let pagesList = '';
                     let elementsCount = lastPage - startPage + 1;
-                    for(let i = startPage; i <= lastPage; i++){
-                        pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                    if(elementsCount < 200) {
+                        for(let i = startPage; i <= lastPage; i++){
+                            pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                        }
+                    } else {
+                        for(let i = startPage; i <= lastPage &&  i - startPage <= 100; i++){
+                            pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                        }
+                        pagesList += '<li class="ellipsis" value ="...">...</li>';
+                        for(let b = lastPage - 100; b <= lastPage; b++){
+                            pagesList += '<li value =" ' + b + '">' + b + '</li>';
+                        }
                     }
+
                     drListElement.html(pagesList);
                     if(elementsCount < 5) {
                         heightDropList = 20*(elementsCount);
@@ -4407,8 +4420,10 @@ directive('appVersion', ['version', function(version) {
                         }
                     });
                     element.find('li').on('mousedown',(event) => {
-                        scope.params.page(event.target.value);
-                        scope.$apply();
+                        if(event.target.value) {
+                            scope.params.page(event.target.value);
+                            scope.$apply();
+                        }
                     });
                     $('body').on('mousedown', (event) => {
                         if(hideIfNotScrollBar(event)) {
@@ -4434,9 +4449,20 @@ directive('appVersion', ['version', function(version) {
                 function formingElement(startPage, lastPage) {
                     let pagesList = '';
                     let elementsCount = lastPage - startPage + 1;
-                    for(let i = startPage; i <= lastPage; i++){
-                        pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                    if(elementsCount < 200) {
+                        for(let i = startPage; i <= lastPage; i++){
+                            pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                        }
+                    } else {
+                        for(let i = startPage; i <= lastPage &&  i - startPage <= 100; i++){
+                            pagesList += '<li value =" ' + i + '">' + i + '</li>';
+                        }
+                        pagesList += '<li class="ellipsis" value ="...">...</li>';
+                        for(let b = lastPage - 100; b <= lastPage; b++){
+                            pagesList += '<li value =" ' + b + '">' + b + '</li>';
+                        }
                     }
+
                     drListElement.html(pagesList);
                     if(elementsCount < 5) {
                         heightDropList = 20*(elementsCount);
@@ -12461,7 +12487,10 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "profilesMerge": $sce.trustAsHtml($filter("translate")("The 'rules' of profiles merge") + '<ul>' + '<li>' + $filter("translate")("Only fields with different values are available for selection") + '</li>' + '<li>' + $filter("translate")("If the same field in both profiles has empty and filled values, the filled value will be saved in the merged profile by default") + '</li>' + '<li>' + $filter("translate")("Tags in the merged profile will be saved from both original ones") + '</li>' + '</ul>'),
                     "helpWindowZip1":  $sce.trustAsHtml($filter('translate')('You can just upload all resumes in one big folder and pack') + '</br></br>' + '<img src="../images/sprite/ZipArchive2.png" alt=""/>'),
                     "helpWindowZip2":  $sce.trustAsHtml($filter('translate')('If your resumes folders like in the picture:') + '</br></br>' + '<img src="../images/sprite/ZipArchive1.png" alt=""/>' + '</br></br>' + $filter('translate')('simply pack the root folder in the ZIP-archive. This is a good option')),
-                    "helpWindowZip3":  $sce.trustAsHtml($filter('translate')('If you have any candidates in the program E-Staff, they can be exported in two steps') + '</br></br>' + '<div>1.' + $filter('translate')('Create a script export (Menu -> Tools -> Administration -> Other -> Scripts exports). Uploaded types of objects - the candidate. Specify the name of the script and save')+'.' + '</br></br>2.' + $filter('translate')('Upload (Menu -> Tools -> Export -> Your script that you received from p.1. You will receive a folder with files of the candidate-0x0A1234E567C890A0.xml. All you need to pack a folder in the ZIP-archive and send it here. So the candidates of the E-Staff will take a CleverStaff.'))
+                    "helpWindowZip3":  $sce.trustAsHtml($filter('translate')('If you have any candidates in the program E-Staff, they can be exported in two steps') + '</br></br>' + '<div>1.' + $filter('translate')('Create a script export (Menu -> Tools -> Administration -> Other -> Scripts exports). Uploaded types of objects - the candidate. Specify the name of the script and save')+'.' + '</br></br>2.' + $filter('translate')('Upload (Menu -> Tools -> Export -> Your script that you received from p.1. You will receive a folder with files of the candidate-0x0A1234E567C890A0.xml. All you need to pack a folder in the ZIP-archive and send it here. So the candidates of the E-Staff will take a CleverStaff.')),
+                    "boolSearchInfo": $sce.trustAsHtml($filter('translate')('Boolean search info')),
+                    "exchangeHost":  $sce.trustAsHtml($filter('translate')('The Exchange server URL')),
+                    "exchangeDomain":  $sce.trustAsHtml($filter('translate')('Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address'))
                 };
                 $rootScope.tooltips = options;
             });
@@ -14277,7 +14306,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=43'
+        suffix: '.json?b=45'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -19030,17 +19059,17 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         {name: "Only by position", value: "byPosition"}
     ];
     $scope.textSearchTypeModel = $scope.textSearchType[0].value;
-    $scope.changeTextSearchType = function (val) {
-        if (val == "any") {
-            $scope.searchParam.searchFullTextType = 'or';
-        } else if (val == "whole") {
-            $scope.searchParam.searchFullTextType = 'full_match';
-        } else if (val == "byPosition") {
-            $scope.searchParam.searchFullTextType = 'position';
-        } else if (val == "AllWords") {
-            $scope.searchParam.searchFullTextType = 'and';
-        }
-    };
+    // $scope.changeTextSearchType = function (val) {
+    //     if (val == "any") {
+    //         $scope.searchParam.searchFullTextType = 'or';
+    //     } else if (val == "whole") {
+    //         $scope.searchParam.searchFullTextType = 'full_match';
+    //     } else if (val == "byPosition") {
+    //         $scope.searchParam.searchFullTextType = 'position';
+    //     } else if (val == "AllWords") {
+    //         $scope.searchParam.searchFullTextType = 'and';
+    //     }
+    // };
 
     $scope.boxParam = {
         cs: {
@@ -19140,7 +19169,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             searchIn: false,
             regionId: 'null',
             candidateGroupIds: null,
-            searchFullTextType: 'and',
+            searchFullTextType: null,
             withPersonalContacts: 'null',
             responsibleId: null,
             personId: Candidate.searchOptions().personId,
@@ -19172,7 +19201,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             searchIn: false,
             regionId: 'null',
             candidateGroupIds: null,
-            searchFullTextType: 'and',
+            searchFullTextType: null,
             responsibleId: 'null',
             personId: Candidate.searchOptions().personId,
             personNameWhoSearching: $rootScope.usernameThatIsSearching,
@@ -19337,38 +19366,42 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         });
                     }
                     Candidate.all($scope.candidateSearchOptions, function (response) {
-                        $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
-                        $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
-                        $rootScope.objectSizeCand = $rootScope.objectSize;
-                        $rootScope.searchParam = $scope.searchParam;
-                        params.total(response['total']);
-                        $scope.paginationParams = {
-                            currentPage: $scope.candidateSearchOptions.page.number,
-                            totalCount: $rootScope.objectSize
-                        };
-                        let pagesCount = Math.ceil(response['total']/$scope.candidateSearchOptions.page.count);
-                        if(pagesCount == $scope.candidateSearchOptions.page.number + 1) {
-                            $('#show_more').hide();
-                        } else {
-                            $('#show_more').show();
-                        }
-                        $scope.candidateFound = response['total'] >= 1;
-                        $scope.criteriaForExcel["page"] = {
-                            number: 0,
-                            count: $scope.objectSize
-                        };
-                        $scope.limitReached = response['limitReached'];
-                        if(page) {
-                            $scope.candidates = $scope.candidates.concat(response['objects'])
-                            console.log($scope.candidates);
-                        } else {
-                            $scope.candidates = response['objects'];
-                            console.log($scope.candidates);
-                        }
-                        $defer.resolve($scope.candidates);
+                        if(response.status != 'error') {
+                            $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
+                            $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
+                            $rootScope.objectSizeCand = $rootScope.objectSize;
+                            $rootScope.searchParam = $scope.searchParam;
+                            params.total(response['total']);
+                            $scope.paginationParams = {
+                                currentPage: $scope.candidateSearchOptions.page.number,
+                                totalCount: $rootScope.objectSize
+                            };
+                            let pagesCount = Math.ceil(response['total']/$scope.candidateSearchOptions.page.count);
+                            if(pagesCount == $scope.candidateSearchOptions.page.number + 1) {
+                                $('#show_more').hide();
+                            } else {
+                                $('#show_more').show();
+                            }
+                            $scope.candidateFound = response['total'] >= 1;
+                            $scope.criteriaForExcel["page"] = {
+                                number: 0,
+                                count: $scope.objectSize
+                            };
+                            $scope.limitReached = response['limitReached'];
+                            if(page) {
+                                $scope.candidates = $scope.candidates.concat(response['objects'])
+                                console.log($scope.candidates);
+                            } else {
+                                $scope.candidates = response['objects'];
+                                console.log($scope.candidates);
+                            }
+                            $defer.resolve($scope.candidates);
 
-                        Candidate.init();
-                        $scope.searchParam.searchCs = true;
+                            Candidate.init();
+                            $scope.searchParam.searchCs = true;
+                        } else {
+                            notificationService.error(response.message)
+                        }
                         $rootScope.loading = false;
                     }, function () {
                         $rootScope.loading = false;
@@ -19625,9 +19658,13 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $scope.searchParam.candidateGroupIds = $scope.groupIdsForSearch;
 
             if($scope.searchParam.words){
+                Candidate.setOptions("searchFullTextType", 'booleanSearch');
+                $scope.searchParam.searchFullTextType = 'booleanSearch';
                 Candidate.setOptions("sort", 'relevance');
                 $scope.filterForChange = 'relevance';
             }else{
+                Candidate.setOptions("searchFullTextType", null);
+                $scope.searchParam.searchFullTextType = null;
                 Candidate.setOptions("sort", $scope.filterForChange = 'dm');
                 //$scope.searchParam.sort = 'dm';
             }
@@ -25637,7 +25674,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $rootScope.emailThatAlreadyUsed = email;
             localStorage.emailThatAlreadyUsed = email.email;
             $rootScope.emailTemplateInModal.email = $rootScope.emailTemplateInModal.email + email.email;
-            $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiterEmail\]\]/g, $rootScope.emailTemplateInModal.email);
+            $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiterEmail\]\]/g, $rootScope.emailTemplateInModal.email?$rootScope.emailTemplateInModal.email:"");
             tinyMCE.get('modalMCE').setContent($rootScope.emailTemplateInModal.text);
         };
         $rootScope.sentEmail = function(){
@@ -27395,7 +27432,9 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
 
             }
         });
+
         $rootScope.changeResponsibleInClient.id = user.userId;
+        $rootScope.changeResponsibleInClient.name = firstName + " " + lastName;
         $rootScope.changeResponsibleInClient.text = $filter('translate')('Do you want to remove the responsible')
         + " " + firstName + " " + lastName;
     };
@@ -28713,6 +28752,7 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
         $rootScope.editEmail = false;
         $scope.wrongEmail = false;
         $scope.checkFields = false;
+        $scope.isExchange = false;
         $rootScope.addedEmail ={
             host: "email",
             email: "",
@@ -28779,7 +28819,6 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                 });
                             }else if(emailDomen == 'gmail.com'){
                                 googleService.gmailAuth("modify",function(result) {
-                                    console.log('gmail add-1', result)
                                     $rootScope.addedEmail.email = result.email;
                                     $rootScope.addedEmail.password = result.code;
                                     $rootScope.addedEmail.host = 'gmail';
@@ -28802,47 +28841,57 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                     });
                                 });
                             }else{
-                                Candidate.checkMailbox({email: $rootScope.addedEmail.email}, function(resp){
-                                    if(resp.status == 'ok'){
-                                        $rootScope.itsGmail = resp.code;
-                                        if(resp.code == 'gmail'){
-                                            googleService.gmailAuth("modify",function(result) {
-                                                console.log('gmail add-2', result)
-                                                $rootScope.addedEmail.email = result.email;
-                                                $rootScope.addedEmail.password = result.code;
-                                                $rootScope.addedEmail.host = 'gmail';
-                                                Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
-                                                    if(resp.status == 'error'){
-                                                        if(resp.code == 'сouldNotGetRefreshTokenIntegration') {
-                                                            $scope.modalInstance = $uibModal.open({
-                                                                animation: true,
-                                                                templateUrl: '../partials/modal/gmail-access.html',
-                                                                scope: $scope,
-                                                                resolve: {
-                                                                }
-                                                            });
-                                                        } else
-                                                        notificationService.error(resp.message);
-                                                    }else{
-                                                        $scope.updateCreatedEmails();
-                                                        $rootScope.updateMe();
-                                                    }
+                                if(!$scope.isExchange) {
+                                    Candidate.checkMailbox({email: $rootScope.addedEmail.email}, function(resp){
+                                        if(resp.status == 'ok'){
+                                            $rootScope.itsGmail = resp.code;
+                                            if(resp.code == 'gmail'){
+                                                googleService.gmailAuth("modify",function(result) {
+                                                    $rootScope.addedEmail.email = result.email;
+                                                    $rootScope.addedEmail.password = result.code;
+                                                    $rootScope.addedEmail.host = 'gmail';
+                                                    Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
+                                                        if(resp.status == 'error'){
+                                                            if(resp.code == 'сouldNotGetRefreshTokenIntegration') {
+                                                                $scope.modalInstance = $uibModal.open({
+                                                                    animation: true,
+                                                                    templateUrl: '../partials/modal/gmail-access.html',
+                                                                    scope: $scope,
+                                                                    resolve: {
+                                                                    }
+                                                                });
+                                                            } else
+                                                                notificationService.error(resp.message);
+                                                        }else{
+                                                            $scope.updateCreatedEmails();
+                                                            $rootScope.updateMe();
+                                                        }
+                                                    });
                                                 });
-                                            });
-                                        }else{
-                                            if(resp.message != undefined) {
-                                                $rootScope.addedEmail.smtp.host = $scope.parseParam(resp.message).host;
-                                                $rootScope.addedEmail.smtp.port = $scope.parseParam(resp.message).port;
-                                                $rootScope.addedEmail.smtp.secure = $scope.parseParam(resp.message).secure;
+                                            }else{
+                                                if(resp.message != undefined) {
+                                                    $rootScope.addedEmail.smtp.host = $scope.parseParam(resp.message).host;
+                                                    $rootScope.addedEmail.smtp.port = $scope.parseParam(resp.message).port;
+                                                    $rootScope.addedEmail.smtp.secure = $scope.parseParam(resp.message).secure;
+                                                }
+                                                $scope.showPassword = true;
+                                                $rootScope.showAdvancedFields = true;
                                             }
-                                            $scope.showPassword = true;
-                                            $rootScope.showAdvancedFields = true;
                                         }
-                                    }
-                                });
+                                    });
+                                } else {
+                                    Candidate.checkMailbox({email: $rootScope.addedEmail.email}, (resp) => {
+                                        console.log('rest', resp)
+                                    }, (error) => {
+
+                                    });
+                                    $rootScope.addedEmail.host = 'exchange';
+                                    $scope.showPassword = true;
+                                    $rootScope.showAdvancedFields = true;
+                                }
                             }
                         }else{
-                            if($rootScope.addedEmail.smtp.host != undefined && $rootScope.addedEmail.smtp.port != undefined && $rootScope.addedEmail.password != undefined) {
+                            if(($rootScope.addedEmail.smtp.host != undefined && $rootScope.addedEmail.smtp.port != undefined && $rootScope.addedEmail.password != undefined)||$scope.isExchange) {
                                 Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
                                     if(resp.status == 'error'){
                                         notificationService.error(resp.message);
@@ -28859,9 +28908,10 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                 }
         };
         $rootScope.editEmailFuc = function(){
+            $scope.isExchange = false;
             var emailDomen = $rootScope.editedEmail.email.substr($rootScope.editedEmail.email.indexOf("@") + 1);
             if(!$rootScope.showAdvancedFields){
-                if(emailDomen == 'mail.ru' || emailDomen == 'yandex.ru'){
+                if(emailDomen == 'mail.ru' || emailDomen == 'yandex.ru' || $rootScope.editedEmail.host == 'exchange'){
                     if($rootScope.editedEmail.email.length > 0 && $rootScope.editedEmail.password.length > 0){
                         if(emailDomen == 'mail.ru'){
                             $rootScope.editedEmail.smtp.type = 'mailru';
@@ -28933,6 +28983,7 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
             }
         };
         $scope.showEditeTemplateModal = function(email){
+            $scope.status = email.status;
             $rootScope.itsGmailModal = email.sendStatus;
             $rootScope.showAdvancedFields = false;
             $rootScope.editedEmail.host = 'email';
@@ -28951,23 +29002,32 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                 $rootScope.showPassInModal = true;
             }else if(emailDomen == 'gmail.com' || emailDomen == 'gmail' || email.sendStatus == 'gmail'){
                 $rootScope.showPassInModal = false;
-            }else{
+            }else if($scope.status != 'exchange'){
                 $rootScope.showPassInModal = true;
                 $rootScope.showAdvancedFields = true;
                 $rootScope.editedEmail.smtp.host = email.smtpHost;
                 $rootScope.editedEmail.smtp.secure = email.smtpSecure;
                 $rootScope.editedEmail.smtp.port = email.smtpPort;
+            } else {
+                $rootScope.editedEmail.domainSlashUsername = email.exchangeDomain + '/' + email.exchangeUsername;
+                $rootScope.editedEmail.exchangeHost = email.exchangeHost;
+                $rootScope.editedEmail.exchangeVersion = email.exchangeVersion;
+                $rootScope.editedEmail.host = 'exchange';
+                $rootScope.showPassInModal = true;
+                $rootScope.showAdvancedFields = false;
             }
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/edit-integration-with-email.html',
                 size: '',
+                scope: $scope,
                 resolve: function(){
 
                 }
             });
         };
         $scope.setDefault = function(){
+            $scope.isExchange = false;
             $rootScope.addedEmail ={
                 host: "email",
                 email: "",
@@ -33323,7 +33383,6 @@ controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", 
                 datePayment: "",
                 accessType: 'public',
                 dateFinish: "",
-                sex:true,
                 clientId: {
                     clientId: $rootScope.addVacancyClientId
                 }
@@ -33825,31 +33884,36 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                     }
                 }
                 if (ScopeService.isInit()) {
-                    var activeParam = ScopeService.getActiveScopeObject();
-                    $scope.activeScopeParam = activeParam;
-                    Vacancy.setOptions("page", {number: (params.$params.page - 1), count: params.$params.count});
-                    localStorage.countVacancy = params.$params.count;
-                    $scope.searchParam.pages.count = params.$params.count;
-                    $scope.searchParam.personId = $scope.searchParam.personId == 'null' ? null: $scope.searchParam.personId;
-                    Vacancy.setOptions("personId", $scope.searchParam.personId != undefined ? $scope.searchParam.personId : activeParam.name == 'onlyMy' ? $rootScope.userId : null);
-                    Vacancy.setOptions("salaryFrom", $scope.searchParam['salary'] ? $scope.searchParam['salary'].salaryFrom : null);
-                    Vacancy.setOptions("salaryTo", $scope.searchParam['salary'] ? $scope.searchParam['salary']["salaryTo"] : null);
-                    Vacancy.setOptions("state", isNotBlank($scope.searchParam['status']) && $scope.chosenStatuses.length == 1 ? $scope.searchParam['status'] : null);
-                    Vacancy.setOptions("states", $scope.chosenStatuses.length > 1 ? $scope.chosenStatuses : null);
-                    Vacancy.setOptions("words", $scope.searchParam['words'] ? $scope.searchParam['words'] : null);
-                    Vacancy.setOptions("clientId", isNotBlank($scope.searchParam['clientId']) ? $scope.searchParam['clientId'] : null);
-                    Vacancy.setOptions("responsibleId", isNotBlank($scope.searchParam['responsibleId']) ? $scope.searchParam['responsibleId'] : null);
-                    if ($scope.searchParam['regionId']) {
-                        var json = JSON.parse($scope.searchParam['regionId']);
-                        if (json.type == 'country') {
-                            Vacancy.setOptions("country", json.value);
-                        } else if (json.type == 'city') {
-                            Vacancy.setOptions("city", json.value);
+
+
+                    function setVacancyParam() {
+                        var activeParam = ScopeService.getActiveScopeObject();
+                        $scope.activeScopeParam = activeParam;
+                        Vacancy.setOptions("page", {number: (params.$params.page - 1), count: params.$params.count});
+                        localStorage.countVacancy = params.$params.count;
+                        $scope.searchParam.pages.count = params.$params.count;
+                        $scope.searchParam.personId = $scope.searchParam.personId == 'null' ? null: $scope.searchParam.personId;
+                        Vacancy.setOptions("personId", $scope.searchParam.personId != undefined ? $scope.searchParam.personId : activeParam.name == 'onlyMy' ? $rootScope.userId : null);
+                        Vacancy.setOptions("salaryFrom", $scope.searchParam['salary'] ? $scope.searchParam['salary'].salaryFrom : null);
+                        Vacancy.setOptions("salaryTo", $scope.searchParam['salary'] ? $scope.searchParam['salary']["salaryTo"] : null);
+                        Vacancy.setOptions("state", isNotBlank($scope.searchParam['status']) && $scope.chosenStatuses.length == 1 ? $scope.searchParam['status'] : null);
+                        Vacancy.setOptions("states", $scope.chosenStatuses.length > 1 ? $scope.chosenStatuses : null);
+                        Vacancy.setOptions("words", $scope.searchParam['words'] ? $scope.searchParam['words'] : null);
+                        Vacancy.setOptions("clientId", isNotBlank($scope.searchParam['clientId']) ? $scope.searchParam['clientId'] : null);
+                        Vacancy.setOptions("responsibleId", isNotBlank($scope.searchParam['responsibleId']) ? $scope.searchParam['responsibleId'] : null);
+                        if ($scope.searchParam['regionId']) {
+                            var json = JSON.parse($scope.searchParam['regionId']);
+                            if (json.type == 'country') {
+                                Vacancy.setOptions("country", json.value);
+                            } else if (json.type == 'city') {
+                                Vacancy.setOptions("city", json.value);
+                            }
+                        } else {
+                            Vacancy.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
+                            Vacancy.setOptions("city", activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null);
                         }
-                    } else {
-                        Vacancy.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
-                        Vacancy.setOptions("city", activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null);
                     }
+
 
                     function getVacancies(page, count) {
                         if(page || count) {
@@ -33888,7 +33952,6 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
 
 
                             response['objects'] = sortVacanciesByUserID(response['objects']);
-                            console.log( response['objects'] , ' response[\'objects\'] ')
                             if(page) {
                                 $scope.vacancies = $scope.vacancies.concat(response['objects'])
                             } else {
@@ -33905,8 +33968,11 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
 
                         });
                     }
+
+                    setVacancyParam();
                     getVacancies();
                     $scope.showMore = function () {
+                        setVacancyParam();
                         $scope.isShowMore = true;
                         Service.dynamicTableLoading(params.total(), currentPage, $scope.tableParams.count(), getVacancies)
                     };
@@ -34220,16 +34286,6 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                     }
                 });
             }
-
-            // data.forEach((item,index) => {
-            //     item['responsibles'].forEach(j => {
-            //         if(userID == j.personId){
-            //             data.splice(index, 1);
-            //             newData.push(item)
-            //         }
-            //     });
-            // });
-            console.log(newData, 'newData')
            return newData.concat(data);
         }
 
@@ -34391,9 +34447,9 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
                         });
                     }
                 }
-                if (resp.object.sex === undefined) {
-                    $scope.vacancy.sex = null;
-                }
+                // if (resp.object.sex === undefined) {
+                //     $scope.vacancy.sex = null;
+                // }
                 if (resp.object.accessType === undefined) {
                     $scope.vacancy.accessType = 'private';
                 }
@@ -34503,16 +34559,16 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
             $location.path("/vacancies/" + $routeParams.id);
         };
 
-        $scope.sexObject = [
-            {name: "Male", value: true},
-            {name: "Female", value: false},
-            {name: "Doesn't matter", value: null}
-        ];
-        $scope.sexObjectRU = [
-            {name: "Мужчина", value: true},
-            {name: "Женщина", value: false},
-            {name: "Не имеет значения", value: null}
-        ];
+        // $scope.sexObject = [
+        //     {name: "Male", value: true},
+        //     {name: "Female", value: false},
+        //     {name: "Doesn't matter", value: null}
+        // ];
+        // $scope.sexObjectRU = [
+        //     {name: "Мужчина", value: true},
+        //     {name: "Женщина", value: false},
+        //     {name: "Не имеет значения", value: null}
+        // ];
 
         $scope.toAddClient = function() {
             var params = "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes";
@@ -36219,6 +36275,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
                 }
             });
+            console.log('here',firstName,lastName);
             $rootScope.changeResponsibleInVacancy.id = user.userId;
             $rootScope.changeResponsibleInVacancy.text = $filter('translate')('Do you want to remove the responsible')
                 + " " + firstName + " " + lastName + " " + $filter('translate')("from vacancy") + " " + $scope.vacancy.position;
@@ -40796,20 +40853,27 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                     $rootScope.changeStatusOfInterviewInVacancy.status.value == 'shortlist'){
                     templateType = 'seeVacancy'
                 }
-                console.log('123')
                 Mail.getTemplateVacancy({vacancyId: $rootScope.changedStatusVacancy.vacancyId,type:templateType},function(data){
                     $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-"  + $rootScope.changedStatusVacancy.localId;
                     $rootScope.fileForSave = [];
                     $rootScope.emailTemplateInModal = data.object;
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName);
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $rootScope.changedStatusVacancy.position + '</a>');
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName);
-                    $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $rootScope.changedStatusVacancy.position + '</a>');
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName?$rootScope.candnotify.fullName:"");
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink?$scope.publicLink:""+ '">' + $rootScope.changedStatusVacancy.position?$rootScope.changedStatusVacancy.position:"" + '</a>');
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName?$rootScope.me.fullName:"");
+                    $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink?$scope.publicLink:""+ '">' + $rootScope.changedStatusVacancy.position?$rootScope.changedStatusVacancy.position:"" + '</a>');
                     $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[vacancy name\]\]/g, $rootScope.changedStatusVacancy.position);
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's phone\]\]/g, dataContacts["phonework"]);
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Skype\]\]/g, dataContacts['skype']);
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Facebook\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + dataContacts["facebook"] + '">' +  dataContacts["facebook"] + '</a>');
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's LinkedIn\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + dataContacts["linkedin"] + '">' + dataContacts["linkedin"] + '</a>');
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's phone\]\]/g, dataContacts["phonework"]?dataContacts["phonework"]:"");
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Skype\]\]/g, dataContacts['skype']?dataContacts['skype']:"");
+                    if(dataContacts["facebook"]) {
+                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Facebook\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + dataContacts["facebook"] + '">' +  dataContacts["facebook"] + '</a>');
+                    } else {
+                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's Facebook\]\]/g, "");
+                    }
+                    if(dataContacts["linkedin"]) {
+                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's LinkedIn\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + dataContacts["linkedin"] + '">' + dataContacts["linkedin"] + '</a>');
+                    } else {
+                        $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's LinkedIn\]\]/g, "");
+                    }
                     if($rootScope.me.emails.length == 1){
                         $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiterEmail\]\]/g, $rootScope.me.emails[0].email);
                     }

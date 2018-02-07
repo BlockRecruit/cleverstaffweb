@@ -716,6 +716,29 @@
 								font-size: 9px;
 							}
 						}
+						.text-search {
+							width: 78%;
+							height: 39px;
+							padding-right: 8px;
+
+							border-bottom: 1px solid $theme-light-grey-hover;
+							background-color: #fff;
+							& > .fixed-text-width {
+								overflow: hidden;
+								width: 89%;
+								height: 37px;
+								padding-top: 10px;
+								padding-left: 10px;
+
+								white-space: nowrap;
+								text-overflow: ellipsis;
+
+								border: none;
+								border-bottom: 1px solid #e3e3e3;
+								border-radius: 5px;
+								box-shadow: none;
+							}
+						}
 						.form-control {
 							width: 30%;
 							height: 39px;
@@ -732,17 +755,28 @@
 								white-space: nowrap;
 								text-overflow: ellipsis;
 							}
-							&.fixed-text-width {
-								overflow: hidden;
-								padding-right: 8px;
+						}
+						.boolean-label {
+							top: 6px;
+							right: 23%;
+						}
+						.boolSearch-info {
+							position: absolute;
+							top: 7px;
+							right: 28%;
 
-								white-space: nowrap;
-								text-overflow: ellipsis;
+							padding: 0;
+							& > i {
+								position: absolute;
+								bottom: -3px;
+								left: 17px;
 							}
 						}
 						.setCriteriaWord {
-							width: 46%;
+							width: 47%;
+							padding-top: 7px;
 							padding-right: 0;
+							padding-bottom: 5px;
 							padding-left: 0;
 							.notice_info_search_can {
 								@include button-styling-cancel();
@@ -756,8 +790,21 @@
 
 								border-radius: 5px;
 								background-color: #e3e3e3;
+
 								.dot {
+									position: relative;
+
 									color: $theme-dark;
+									.new-label {
+										font-size: 9px;
+
+										position: absolute;
+										top: -8px;
+
+										margin-left: 13px;
+
+										color: red;
+									}
 								}
 								.black-dot {
 									color: $theme-dark;
@@ -780,7 +827,7 @@
 						.forMobile {
 							line-height: 22px;
 
-							width: 20%;
+							width: 18%;
 							height: 39px;
 							padding-right: 0;
 							padding-left: 0;
@@ -1637,10 +1684,21 @@
 		width: 53%;
 	}
 	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group > .col-lg-12 > .forMobile {
-		width: 21%;
+		width: 16%;
+	}
+	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .text-search {
+		width: 84%;
 	}
 }
 @media (max-width: $screen-sm) {
+	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .text-search {
+		width: 84%;
+	}
+	.block-candidates .candidates-statuses .candidates-search-table > .criterionSearchCandidate .pivots li.too-match > .count {
+		position: relative;
+
+		width: 68%;
+	}
 	.block-candidates .candidates-statuses .candidates-search-table .status-info table > tbody > tr .responsible {
 		width: 40%;
 	}
@@ -1662,7 +1720,7 @@
 		padding-left: 12px;
 	}
 	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group > .col-lg-12 > .setCriteriaWord {
-		width: 49%;
+		width: 84%;
 	}
 	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group > .forMobile {
 		width: 21%;
@@ -1710,6 +1768,9 @@
 	}
 	.block-candidates .candidates-statuses .candidates-search-table > .miniMenuCandidate .item .clever-window {
 		right: -135px;
+	}
+	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .text-search {
+		width: 74%;
 	}
 	.block-candidates {
 		.candidates-statuses {

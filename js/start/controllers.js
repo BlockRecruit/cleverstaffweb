@@ -1069,7 +1069,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $rootScope.publicLink = $location.$$protocol + "://" + $location.$$host + ":8080/i#/" + $scope.companyParams.nameAlias + "-vacancies";
             });
         };
-        $scope.getCompanyParams();
+        // $scope.getCompanyParams();
         $scope.orgName = null;
         $scope.loadStatusForPublicVacancy = false;
         Service.publicVacancy({id: vacancyId, host: document.referrer}, function (resp) {
@@ -1089,10 +1089,10 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $scope.companyPublicInfo.fb = $scope.vacancy.linkToCompanyFaceBookPage;
                 $scope.companyPublicInfo.companyWebSite = $scope.vacancy.linkToCompanySite;
                 $scope.companyPublicInfo.orgName = $scope.vacancy.orgName;
-                $scope.loadStatusForPublicVacancy = true;
                 $scope.vacancyFound = true;
                 //$location.hash('');
                 $location.search($filter('transliteration')(resp.object.position.replace(/\W+/g, '_'))).replace();
+                $scope.loadStatusForPublicVacancy = true;
                 //setTimeout(function(){
                 //    if (performance.navigation.type == 1) {
                 //        $location.$$absUrl
@@ -1105,11 +1105,11 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 //        history.pushState(null, "", $location.$$protocol + "://" + $location.$$host + "/i#" + $location.$$path + "?" + deleteTenSpaces);
                 //    }
                 //}, 1000);
-                Service.getOrgLogoId({orgId: resp.object.orgId}, function (logoResp) {
-                    if (logoResp.status && logoResp.status === 'ok') {
-                        $scope.companyLogo = logoResp.object;
-                    }
-                });
+                // Service.getOrgLogoId({orgId: resp.object.orgId}, function (logoResp) {
+                //     if (logoResp.status && logoResp.status === 'ok') {
+                //         $scope.companyLogo = logoResp.object;
+                //     }
+                // });
             }
         }, function () {
         });

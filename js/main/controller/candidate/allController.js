@@ -620,17 +620,17 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         {name: "Only by position", value: "byPosition"}
     ];
     $scope.textSearchTypeModel = $scope.textSearchType[0].value;
-    $scope.changeTextSearchType = function (val) {
-        if (val == "any") {
-            $scope.searchParam.searchFullTextType = 'or';
-        } else if (val == "whole") {
-            $scope.searchParam.searchFullTextType = 'full_match';
-        } else if (val == "byPosition") {
-            $scope.searchParam.searchFullTextType = 'position';
-        } else if (val == "AllWords") {
-            $scope.searchParam.searchFullTextType = 'and';
-        }
-    };
+    // $scope.changeTextSearchType = function (val) {
+    //     if (val == "any") {
+    //         $scope.searchParam.searchFullTextType = 'or';
+    //     } else if (val == "whole") {
+    //         $scope.searchParam.searchFullTextType = 'full_match';
+    //     } else if (val == "byPosition") {
+    //         $scope.searchParam.searchFullTextType = 'position';
+    //     } else if (val == "AllWords") {
+    //         $scope.searchParam.searchFullTextType = 'and';
+    //     }
+    // };
 
     $scope.boxParam = {
         cs: {
@@ -730,7 +730,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             searchIn: false,
             regionId: 'null',
             candidateGroupIds: null,
-            searchFullTextType: 'and',
+            searchFullTextType: null,
             withPersonalContacts: 'null',
             responsibleId: null,
             personId: Candidate.searchOptions().personId,
@@ -762,7 +762,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             searchIn: false,
             regionId: 'null',
             candidateGroupIds: null,
-            searchFullTextType: 'and',
+            searchFullTextType: null,
             responsibleId: 'null',
             personId: Candidate.searchOptions().personId,
             personNameWhoSearching: $rootScope.usernameThatIsSearching,
@@ -927,38 +927,42 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         });
                     }
                     Candidate.all($scope.candidateSearchOptions, function (response) {
-                        $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
-                        $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
-                        $rootScope.objectSizeCand = $rootScope.objectSize;
-                        $rootScope.searchParam = $scope.searchParam;
-                        params.total(response['total']);
-                        $scope.paginationParams = {
-                            currentPage: $scope.candidateSearchOptions.page.number,
-                            totalCount: $rootScope.objectSize
-                        };
-                        let pagesCount = Math.ceil(response['total']/$scope.candidateSearchOptions.page.count);
-                        if(pagesCount == $scope.candidateSearchOptions.page.number + 1) {
-                            $('#show_more').hide();
-                        } else {
-                            $('#show_more').show();
-                        }
-                        $scope.candidateFound = response['total'] >= 1;
-                        $scope.criteriaForExcel["page"] = {
-                            number: 0,
-                            count: $scope.objectSize
-                        };
-                        $scope.limitReached = response['limitReached'];
-                        if(page) {
-                            $scope.candidates = $scope.candidates.concat(response['objects'])
-                            console.log($scope.candidates);
-                        } else {
-                            $scope.candidates = response['objects'];
-                            console.log($scope.candidates);
-                        }
-                        $defer.resolve($scope.candidates);
+                        if(response.status != 'error') {
+                            $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
+                            $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
+                            $rootScope.objectSizeCand = $rootScope.objectSize;
+                            $rootScope.searchParam = $scope.searchParam;
+                            params.total(response['total']);
+                            $scope.paginationParams = {
+                                currentPage: $scope.candidateSearchOptions.page.number,
+                                totalCount: $rootScope.objectSize
+                            };
+                            let pagesCount = Math.ceil(response['total']/$scope.candidateSearchOptions.page.count);
+                            if(pagesCount == $scope.candidateSearchOptions.page.number + 1) {
+                                $('#show_more').hide();
+                            } else {
+                                $('#show_more').show();
+                            }
+                            $scope.candidateFound = response['total'] >= 1;
+                            $scope.criteriaForExcel["page"] = {
+                                number: 0,
+                                count: $scope.objectSize
+                            };
+                            $scope.limitReached = response['limitReached'];
+                            if(page) {
+                                $scope.candidates = $scope.candidates.concat(response['objects'])
+                                console.log($scope.candidates);
+                            } else {
+                                $scope.candidates = response['objects'];
+                                console.log($scope.candidates);
+                            }
+                            $defer.resolve($scope.candidates);
 
-                        Candidate.init();
-                        $scope.searchParam.searchCs = true;
+                            Candidate.init();
+                            $scope.searchParam.searchCs = true;
+                        } else {
+                            notificationService.error(response.message)
+                        }
                         $rootScope.loading = false;
                     }, function () {
                         $rootScope.loading = false;
@@ -1215,9 +1219,13 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $scope.searchParam.candidateGroupIds = $scope.groupIdsForSearch;
 
             if($scope.searchParam.words){
+                Candidate.setOptions("searchFullTextType", 'booleanSearch');
+                $scope.searchParam.searchFullTextType = 'booleanSearch';
                 Candidate.setOptions("sort", 'relevance');
                 $scope.filterForChange = 'relevance';
             }else{
+                Candidate.setOptions("searchFullTextType", null);
+                $scope.searchParam.searchFullTextType = null;
                 Candidate.setOptions("sort", $scope.filterForChange = 'dm');
                 //$scope.searchParam.sort = 'dm';
             }
