@@ -577,14 +577,14 @@
                                 <div class="col-lg-7">
                                     <div class="field skillsBlock floatRight">
                                         <label class="form-description">{{'Skills with text'|translate}}</label>
-                                        <textarea id="tinymceTwo" ui-tinymce ng-model="candidate.coreSkills" ng-model-options="{debounce:500}" ng-change="progressUpdate()"></textarea>
+                                        <textarea id="tinymceTwo" ui-tinymce resizable="true" ng-model="candidate.coreSkills" ng-model-options="{debounce:500}" ng-change="progressUpdate()"></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-12 description-add">
                                 <div class="field big_tinymce">
                                     <label class="form-description">{{'description'|translate}}</label>
-                                    <textarea id="tinymce" ui-tinymce ng-model="candidate.descr" ng-model-options="{debounce:500}" ng-change="progressUpdate()"></textarea>
+                                    <textarea id="tinymce" ui-tinymce  resizable="true" ng-model="candidate.descr" ng-model-options="{debounce:500}" ng-change="progressUpdate()"></textarea>
                                 </div>
                                 <div class="text-center">
                                     <a type="button" ng-click="saveCandidate()" class="btn btn-primary">
