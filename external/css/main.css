@@ -3268,6 +3268,7 @@ footer{
         padding: 5px 0px;
         width: 123px;
         border-radius: 10px;
+        font-size: 10px;
     }
     .mobBtn{
         display: block;
@@ -3385,6 +3386,9 @@ footer{
     .vertaMedia,
     .svitlaSystem,
     .intersog,
+    .recruit,
+    .avon,
+    .rsm,
     .redFire,
     .indigoLogo,
     .gordost, .kingsChoise{
@@ -3498,7 +3502,7 @@ footer{
     }
     .no-border a {
         border: none;
-        padding: 5px 0px;
+        padding: 5px 4px;
         width: 84px;
         border-radius: 10px;
     }
@@ -3546,11 +3550,11 @@ footer{
         padding: 8px 0;
     }
     .priceMan{
-        left: -20px!important;
+        /*left: -20px!important;*/
         top: 165px;
     }
     .priceFlower{
-        left: 18px!important;
+        /*left: 18px!important;*/
         top: 155px;
     }
     .priceGraf {
