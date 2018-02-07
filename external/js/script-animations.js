@@ -200,7 +200,7 @@ $(document).ready(function(){
                 //$('.titleTable td:first-child').css('width', $('.support td:first-child')[0].offsetWidth);
                 $('.titleTable .plans').css('width', $('.active')[2].offsetWidth + 1);
                 $('.titleTable2 .plans').css('width', $('.active')[2].offsetWidth);
-                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
+                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth + 10);
                 if (scroll >= 2697){
                     sticky.addClass('fixed-plans');
                 } else{
@@ -214,6 +214,7 @@ $(document).ready(function(){
             }
             if(phone_or_tablet >= $( window ).width()){
                 console.log('phone_or_tablet');
+                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth + 5);
                 if (scroll >= 2686){
                     sticky.addClass('fixed-plans');
                 } else{
@@ -230,7 +231,7 @@ $(document).ready(function(){
                 //$('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
                 //$('.support td:first-child').css('width', $('.table-before-support-block td:first-child')[0].offsetWidth);
                 $('.hide-block').css('height', '60px');
-                //$('.titleTable td:first-child').css('width', $('.superFunc td:first-child')[0].offsetWidth + 5);
+                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth + 10);
                 //$('.firstTable td:first-child').css('width', $('.support td:first-child')[0].offsetWidth + 14);
                 //$('.support td:first-child').css('width', $('.table-before-support-block td:first-child')[0].offsetWidth);
                 //$('.table-before-support-block td:first-child').css('width',  $('.firstTable td:first-child')[0].offsetWidth);
@@ -326,7 +327,7 @@ $(document).ready(function(){
                 $('.support td:first-child').css('width', $('.customWidth')[0].offsetWidth);
                 $('.titleTable .plans').css('width', $('.active')[2].offsetWidth + 1);
                 $('.titleTable2 .plans').css('width', $('.active')[2].offsetWidth);
-                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
+                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth + 20);
                 if (scroll >= 2701){
                     sticky.addClass('fixed-plans');
                 } else{
@@ -341,7 +342,7 @@ $(document).ready(function(){
             if(phone_or_tablet >= $( window ).width()){
                 console.log('phone_or_tablet');
                 //$('.support td:first-child').css('width',  $('.customWidth')[0].offsetWidth);
-                $('.titleTable td:first-child').css('width',  $('.customWidth')[0].offsetWidth);
+                $('.titleTable td:first-child').css('width',  $('.customWidth')[0].offsetWidth + 10);
                 $('.table-before-support-block td:first-child').css('width',  $('.customWidth')[0].offsetWidth);
                 if (scroll >= 2701){
                     sticky.addClass('fixed-plans');
@@ -356,6 +357,7 @@ $(document).ready(function(){
             }
             if(phone >= $( window ).width()){
                 console.log('phone');
+                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth + 10);
                 //$('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
                 //$('.support td:first-child').css('width', $('.table-before-support-block td:first-child')[0].offsetWidth);
                 //$('.table-before-support-block td:first-child').css('width', $('.support td:first-child')[0].offsetWidth + 14);
