@@ -424,6 +424,34 @@
 		background-color: #fff;
 	}
 	.block-vacancy-task .vacancy-task .leftBar {
-		background-color: none;
+		background-color: inherit;
+	}
+	.block-vacancy-task .vacancy-task .leftBar .clever-window {
+		top: 20px !important;
+		left: -80px !important;
+	}
+	.block-vacancy-task .vacancy-task .centerBar > .vacancy-task-outer > .vacancy-task-table tr {
+		display: flex;
+		flex-direction: row;
+
+		justify-content: space-around;
+		align-items: flex-start;
+		flex-wrap: wrap;
+		> .date {
+			display: flex;
+
+			align-items: flex-end;
+			padding-bottom: 0;
+		}
+		> .task {
+			border: none;
+
+			order: 2;
+		}
+		> .statuses {
+			border: none;
+
+			order: 1;
+		}
 	}
 }
