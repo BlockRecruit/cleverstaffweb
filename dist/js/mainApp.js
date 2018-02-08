@@ -19502,8 +19502,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $scope.showUserFiles = function(user) {
         if($scope.clickedUser !== user) {
-            var clickedUserIndex = $scope.tableParams.data.indexOf(user);
-            $scope.clickedUser = $scope.tableParams.data[clickedUserIndex];
+            var clickedUserIndex = $scope.candidates.indexOf(user);
+            $scope.clickedUser = $scope.candidates[clickedUserIndex];
         } else {
             $scope.clickedUser = null;
         }
@@ -26740,6 +26740,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
         $scope.serverAddress = serverAddress;
         $scope.loader = false;
         $scope.isSearched = false;
+        $scope.validNewClient = true;
         $scope.client = {logoId: null};
         $scope.industries = Service.getIndustries();
 
@@ -26958,6 +26959,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
     };
     $scope.addShortClient = function(){
         if($scope.shortAddClient.$valid){
+            $scope.validNewClient = true;
             Client.add($scope.client, function(resp) {
                 if(resp.status =='ok'){
                     $scope.tableParams.reload();
@@ -26968,6 +26970,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             });
         }else{
             notificationService.error($filter('translate')('Please fill in all fields'));
+            $scope.validNewClient = false;
         }
     };
         $scope.getFirstLetters = function(str){
@@ -29801,7 +29804,16 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     Service.getRegions2(function (resp) {
         $scope.regions = resp;
-        var optionsHtml = '<option ng-selected="true" value="" selected style="color:#999">'+$filter('translate')('choose_region')+'</option>';
+        let lang = localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+        let translate ;
+
+        if(lang == 'ru'){
+            translate =  "Выберите регион";
+        }else{
+            translate =  "Choose region";
+        }
+
+        var optionsHtml = `<option ng-selected="true" value="" selected style="color:#999">${translate}</option>`;
         angular.forEach($scope.regions, function (value) {
             optionsHtml += "<option style='color: #000000' value='" + (value.id).replace(/\'/gi,"") + "'>" + value.name + "</option>";
         });
@@ -43685,6 +43697,9 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 $('.chooseListFields').hide("500");
             }
         };
+
+
+        console.log($rootScope, 'asdasd')
 
         $scope.showChoosingVacancyFields = function (event) {
             if($('.chooseListFieldsVacancies').css('display') == 'none'){

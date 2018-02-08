@@ -80,6 +80,11 @@
 
 		margin-top: 15px;
 		padding: 0 15px;
+		.mce-path {
+			& > div {
+				visibility: hidden;
+			}
+		}
 		a {
 			outline: none;
 		}
@@ -1070,7 +1075,6 @@
 					}
 					.tinyMCE-for-block {
 						border-right: 1px solid #e3e3e3;
-						border-left: 1px solid #e3e3e3;
 					}
 				}
 				& > .description-add {
@@ -1140,10 +1144,9 @@
 						}
 					}
 					.tinyMCE-for-block {
-						height: 330px!important;
+						min-height: 330px!important;
 
 						border-right: 1px solid #e3e3e3;
-						border-left: 1px solid #e3e3e3;
 					}
 					.form-description {
 						display: block;

@@ -32,18 +32,19 @@ body.modal-open-public-vacancy-form {
 			display: inline-block;
 			max-width: 45%;
 			height: 28px;
-			margin-bottom: 15px;
+			margin-bottom: 10px;
 			padding: 5px 10px;
 
 			color: #000;
 			border: 1px solid #c2bcbc;
 			border-radius: 13px;
 			outline: none;
-			&.margin-right {
-				margin-right: 9%;
-			}
+			//&.margin-right {
+			//	margin-right: 9%;
+			//}
 			&.error {
 				border: 1px solid #dd514c;
+				background-color: rgb(255, 246, 247);
 			}
 		}
 		textarea {
@@ -66,25 +67,24 @@ body.modal-open-public-vacancy-form {
 				cursor: pointer;
 			}
 		}
-		.recallForm__error {
-			font-size: 11px;
-			line-height: 10px;
+		.error_block {
+			.recallForm__error {
+				font-size: 11px;
+				line-height: 10px;
 
-			display: inline-block;
-			width: 45%;
-			max-height: 20px;
-			margin-bottom: 15px;
+				display: inline-block;
+				width: 45%;
+				max-height: 20px;
+				margin-bottom: 15px;
 
-			white-space: nowrap;
-			& span {
-				padding: 5px 10px;
+				white-space: nowrap;
+				& span {
+					padding: 5px 10px;
 
-				color: #a94442;
-				border-radius: 13px;
-				background-color: #f2dede;
-			}
-			&.margin-right {
-				margin-right: 9%;
+					color: #a94442;
+					border-radius: 13px;
+					//background-color: #f2dede;
+				}
 			}
 		}
 		input::-webkit-outer-spin-button,
