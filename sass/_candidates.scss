@@ -1683,6 +1683,20 @@
 		width: 16%;
 	}
 }
+@media (min-width: 1330px) and (max-width: 1800px) {
+	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .boolean-label {
+		left: 81%;
+	}
+	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .boolSearch-info {
+		left: 80%;
+	}
+	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .text-search {
+		width: 76%;
+	}
+	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .forMobile {
+		width: 20%;
+	}
+}
 @media (max-width: $screen-md) {
 	.block-candidates .candidates-statuses .candidates-search-table > .miniMenuCandidate .item .clever-window {
 		top: 27px;
