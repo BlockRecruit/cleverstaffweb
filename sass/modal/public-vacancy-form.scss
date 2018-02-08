@@ -68,6 +68,7 @@ body.modal-open-public-vacancy-form {
 			}
 		}
 		.error_block {
+			display: block;
 			.recallForm__error {
 				font-size: 11px;
 				line-height: 10px;
@@ -85,6 +86,12 @@ body.modal-open-public-vacancy-form {
 					border-radius: 13px;
 					//background-color: #f2dede;
 				}
+			}
+			.email {
+				clear: both;
+			}
+			.phone {
+				clear: right;
 			}
 		}
 		input::-webkit-outer-spin-button,

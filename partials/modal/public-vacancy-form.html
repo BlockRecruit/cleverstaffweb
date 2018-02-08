@@ -9,28 +9,29 @@
                    required
                    ng-model="request.name"
                    placeholder="{{'name' | translate}}*">
-            <input type="text" class="form-control"
+            <input type="text" class="form-control pull-right"
                    placeholder="{{'last_name' | translate}}*"
                    required
                    ng-class="{'error': recallForm.last_name.$invalid && !recallForm.last_name.$pristine}"
                    name="last_name"
                    ng-model="request.lastName">
             <div class="error_block">
-                <div class="recallForm__error text-left" ng-show="recallForm.email2.$invalid && !recallForm.email2.$pristine || showErrorEmailMessage">
+                <div class="recallForm__error text-left pull-left email" ng-show="recallForm.email2.$invalid && !recallForm.email2.$pristine || showErrorEmailMessage">
                     <span>{{'wrong_email'|translate}}</span>
                 </div>
-                <div class="recallForm__error text-left" ng-show="recallForm.phone.$invalid && !recallForm.phone.$pristine || showErrorPhoneMessage">
+                <!--<div class="clearfix"></div>-->
+                <div class="recallForm__error text-left pull-right phone" ng-show="recallForm.phone.$invalid && !recallForm.phone.$pristine || showErrorPhoneMessage">
                     <span>{{'Incorrect phone number'|translate}}</span>
                 </div>
             </div>
             <input type="text"
-                   class="form-control  margin-right"
+                   class="form-control  margin-right pull-left"
                    placeholder="{{'email'|translate}}*"
                    ng-class="{'error': showErrorEmailMessage}"
                    ng-model="request.email"
-                   id="email2" name="email2">
+                   id="email2" name="email2" style="clear: both;">
             <input type="number"
-                   class="form-control"
+                   class="form-control pull-right"
                    placeholder="{{'phone' | translate}}*"
                    ng-class="{'error': recallForm.phone.$invalid && !recallForm.phone.$pristine ||showErrorPhoneMessage}"
                    ng-model="request.phone"
