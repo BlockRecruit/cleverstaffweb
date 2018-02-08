@@ -7,9 +7,9 @@
                     <i class="fa fa-info-circle tooltip-icon" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.toolTipForNewClient" aria-hidden="true"></i>
                 </h4>
                 <form name="shortAddClient">
-                    <input type="text" class="form-control" name="name" ng-model="client.name" ng-maxlength="50" required placeholder="{{'Name of department company project'|translate}}">
+                    <input type="text" ng-style="!validNewClient? {border:'1px solid red' }:null" class="form-control" name="name" ng-model="client.name" ng-maxlength="50" required placeholder="{{'Name of department company project'|translate}}">
                     <a type="button" ng-click="addShortClient()" class="btn btn-primary">{{'Add client' | translate}}</a>
-                    <div ng-show="shortAddClient.name.$invalid && !shortAddClient.name.$pristine && shortAddClient.name.$error.required==true" class="alert alert-danger">
+                    <div ng-show="shortAddClient.name.$invalid && !shortAddClient.name.$pristine && shortAddClient.name.$error.required" class="alert alert-danger">
                         {{'enter_company_name'|translate}}
                     </div>
                     <div  ng-show="shortAddClient.name.$invalid && !shortAddClient.name.$pristine && shortAddClient.name.$error.maxlength==true" class="alert alert-danger">
@@ -142,8 +142,9 @@
                                     </td>
                                     <td class="status clickable">
                                             <span ng-class="{'in-work': client.state == 'in_work', 'future': client.state != 'in_work'}">
-                                               {{'client_status_assoc.'+client.state|translate}}
+                                               {{"client_status_assoc."+ client.state|translate}}
                                             </span>
+                                    </td>
                                     </td>
                                     <td class="vacancies hidden-xs">
                                         <div ng-repeat="vacancy in client.vacancies.objects| limitTo: 3">

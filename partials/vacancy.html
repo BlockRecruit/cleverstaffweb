@@ -324,7 +324,7 @@
                            title="{{'Delete_job_of_your_page_in_facebook'|translate}}"></i>
                     </div>
                     <div class="text-center button">
-                        <a type="button" class="btn btn-primary" ng-click="showShareFbPages()">
+                        <a style="background-color: #00B549;" type="button" class="btn btn-primary" ng-click="showShareFbPages()">
                             <span ng-show="vacancy.publish.length == 0">
                                 {{'Share_on_the_company_page_in_Facebook'|translate}}
                             </span>
@@ -514,7 +514,7 @@
                      ng-class="{'moveble' : status.movable == true && showMoveble == true,
                      'active': activeName == status.value || activeCustomStageName == status.name}"
                      ng-if="status.type == 'refuse'" class="decline status">
-                    <a href="">{{status.value|translate}}</a>
+                    <a href="" class="stage-position">{{status.value|translate}}</a>
                        <span class="counter">
                           {{status.count}}
                        </span>
@@ -840,7 +840,7 @@
                              ng-show="status.type != 'refuse'">
                             <input ng-checked="status.added" type="checkbox" ng-click="changeCustomInterviewStatus(status, status.value, 'simpleVacancy', $event)" name="{{status.value}}">
                             <i class="fa fa-comments-o" aria-hidden="true" ng-show="status.type == 'interview'"></i>
-                            {{status.value|translate}}
+                            <span class="stage-position">{{status.value|translate}}</span>
                             <i class="fa fa-pencil" aria-hidden="true" title="{{'Edit candidate' | translate}}"
                                ng-click="showEditStage(status);$event.stopPropagation()"
                                ng-show="$root.me.recrutRole == 'admin'"></i>
@@ -887,7 +887,7 @@
                              ng-repeat="status in customStages track by $index"
                              ng-show="status.type == 'refuse'">
                             <input ng-checked="status.added" type="checkbox" ng-click="changeCustomInterviewStatus(status, status.value, 'simpleVacancy')" name="{{status.value}}">
-                            {{status.value|translate}}
+                            <spna class="stage-position"> {{status.value|translate}}</spna>
                             <i class="fa fa-pencil" aria-hidden="true" title="{{'Edit candidate' | translate}}"
                                ng-click="showEditRefuseStage(status);$event.stopPropagation()"
                                ng-show="$root.me.recrutRole == 'admin'"></i>
