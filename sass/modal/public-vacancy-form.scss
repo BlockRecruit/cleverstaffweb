@@ -44,6 +44,7 @@ body.modal-open-public-vacancy-form {
 			}
 			&.error {
 				border: 1px solid #dd514c;
+				background-color: rgb(255, 246, 247);
 			}
 		}
 		textarea {
@@ -73,7 +74,7 @@ body.modal-open-public-vacancy-form {
 			display: inline-block;
 			width: 45%;
 			max-height: 20px;
-			margin-bottom: 15px;
+			margin-bottom: 5px;
 
 			white-space: nowrap;
 			& span {
