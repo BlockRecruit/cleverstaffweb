@@ -717,7 +717,7 @@
 							}
 						}
 						.text-search {
-							width: 78%;
+							width: 74%;
 							height: 39px;
 							padding-right: 8px;
 
@@ -725,7 +725,7 @@
 							background-color: #fff;
 							& > .fixed-text-width {
 								overflow: hidden;
-								width: 89%;
+								width: 100%;
 								height: 37px;
 								padding-top: 10px;
 								padding-left: 10px;
@@ -758,18 +758,17 @@
 						}
 						.boolean-label {
 							top: 6px;
-							right: 23%;
+							left: 78.7%;
 						}
 						.boolSearch-info {
 							position: absolute;
 							top: 7px;
-							right: 28%;
+							left: 78%;
 
 							padding: 0;
 							& > i {
 								position: absolute;
 								bottom: -3px;
-								left: 17px;
 							}
 						}
 						.setCriteriaWord {
@@ -825,12 +824,14 @@
 							}
 						}
 						.forMobile {
-							line-height: 22px;
+							line-height: 27px;
 
-							width: 18%;
+							width: 22%;
 							height: 39px;
-							padding-right: 0;
+							padding-right: 15px;
 							padding-left: 0;
+
+							text-align: right;
 
 							border-top-right-radius: 5px;
 							border-bottom-right-radius: 5px;
@@ -1666,6 +1667,35 @@
 				}
 			}
 		}
+	}
+}
+@media (min-width: 1800px) {
+	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .boolean-label {
+		left: 84.7%;
+	}
+	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .boolSearch-info {
+		left: 83.8%;
+	}
+	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .text-search {
+		width: 80%;
+	}
+	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .forMobile {
+		width: 16%;
+		padding-right: 30px;
+	}
+}
+@media (min-width: 1330px) and (max-width: 1800px) {
+	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .boolean-label {
+		left: 81%;
+	}
+	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .boolSearch-info {
+		left: 80%;
+	}
+	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .text-search {
+		width: 76%;
+	}
+	.block-candidates .candidates-statuses .candidates-search-table > .form-inline-search-candidates > .input-group .col-lg-12 .forMobile {
+		width: 20%;
 	}
 }
 @media (max-width: $screen-md) {
