@@ -4948,7 +4948,7 @@ $(document).ready(function(){
     $(".priceCheer").css({"opacity": 1, "right": -60});
     $(".priceGraf").css({"opacity": 1, "right": 135});
 });
-$(window).load(function(){
+$(document).ready(function(){
     $("#block_3 #addCandidate div").addClass("tab-img-features");
     $("#block_3 #menu1 div").addClass("tab-img-features2");
     $("#block_3 #menu2 div").addClass("tab-img-features3");

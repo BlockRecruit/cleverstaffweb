@@ -2286,10 +2286,13 @@
   "yes_1":"Yes",
   "Enter your answer first text":"Enter your answer first",
   "delete_responsible_2":"Do you really want to remove the responsible",
-  "Enter more data for search":"Enter more data for search",
   "The server URL": "The server URL",
   "Domain/user name": "Domain/user name",
   "The Exchange server URL": "The Exchange server URL should look like https://***/EWS/exchange.asmx",
   "Exchange version": "Exchange version",
-  "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Domain/user name is the required field <b>only</b> for those cases when logging into an account for exchange via Domain/user name, rather than an email address"
+  "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Domain/user name is the required field <b>only</b> for those cases when logging into an account for exchange via Domain/user name, rather than an email address",
+  "Please attach your CV file": "Please attach your CV file",
+  "Enter more data for search":"Enter more data for search",
+  "The vacancy":"The vacancy",
+  "_edited":"edited"
 }

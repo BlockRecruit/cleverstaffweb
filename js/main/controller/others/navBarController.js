@@ -50,7 +50,16 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     Service.getRegions2(function (resp) {
         $scope.regions = resp;
-        var optionsHtml = '<option ng-selected="true" value="" selected style="color:#999">'+$filter('translate')('choose_region')+'</option>';
+        let lang = localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+        let translate ;
+
+        if(lang == 'ru'){
+            translate =  "Выберите регион";
+        }else{
+            translate =  "Choose region";
+        }
+
+        var optionsHtml = `<option ng-selected="true" value="" selected style="color:#999">${translate}</option>`;
         angular.forEach($scope.regions, function (value) {
             optionsHtml += "<option style='color: #000000' value='" + (value.id).replace(/\'/gi,"") + "'>" + value.name + "</option>";
         });

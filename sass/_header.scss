@@ -76,6 +76,7 @@ body {
 		.hoverExtension {
 			@include border-radius();
 
+			font-size: 13px;
 			line-height: 1.4;
 
 			position: absolute;
