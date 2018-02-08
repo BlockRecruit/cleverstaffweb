@@ -5,8 +5,8 @@
             <span ng-if="candidatesAddToVacancyIds.length == 1" ng-repeat="candidate in $root.addCandidateChangeStage">
                 {{candidate.fullName}}
             </span>
-            <span ng-if="candidatesAddToVacancyIds.length == 2" ng-repeat="candidate in $root.addCandidateChangeStage">
-                {{candidate.fullName}} <span ng-show="$root.currentLang == 'en'">{{$last ? '' : ' and'}}</span><span ng-show="$root.currentLang == 'ru'">{{$last ? '' : ' и'}}</span>
+            <span ng-if="candidatesAddToVacancyIds.length == 2" title="{{candidate.fullName}}" ng-repeat="candidate in $root.addCandidateChangeStage">
+                {{candidate.fullName | limitTo:23}}{{::candidate.fullName.length > 23 ? '...' : ''}} <span ng-show="$root.currentLang == 'en'">{{$last ? '' : ' and'}}</span><span ng-show="$root.currentLang == 'ru'">{{$last ? '' : ' и'}}</span>
             </span>
             <span ng-if="candidatesAddToVacancyIds.length > 2">
                 {{'candidates'|translate}} ({{candidatesAddToVacancyIds.length}})
