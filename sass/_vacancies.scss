@@ -326,3 +326,13 @@
 		padding: 0;
 	}
 }
+
+@media (max-width: $screen-xs) {
+	.block-vacancies .row {
+		margin-right: 0;
+		margin-left: -8px;
+	}
+	.block-vacancies .search {
+		margin-left: -8px;
+	}
+}
