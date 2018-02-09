@@ -1173,6 +1173,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
         };
         $scope.sendRequest = function (recallForm) {
             $scope.recallForm = recallForm;
+            $scope.showErrorCvFileMessage = false;
           if ($scope.recallForm.$valid) {
                 if ($scope.request.email != undefined && $scope.request.email.length == 0) {
                     $scope.request.email = "";
@@ -1202,7 +1203,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                     return false;
                 }
                 if($scope.request.fileId == null){
-                    notificationService.error($filter('translate')('Please attach your CV file'));
+                    $scope.showErrorCvFileMessage = true;
                 }else{
                     Service.addCandidate($scope.request, function (resp) {
                         if (resp.status && resp.status === 'error' && resp.message) {

@@ -40,8 +40,11 @@
                    required>
             <textarea type="text" class="form-control"
                       placeholder="{{'message' | translate}}"
-                      ng-model="request.message">
-        </textarea>
+                      ng-model="request.message" name="message">
+            </textarea>
+            <div class="pull-left message" ng-show="recallForm.message.$invalid && !recallForm.message.$pristine || showErrorCvFileMessage">
+                <span>{{'Please attach your CV file'|translate}}</span>
+            </div>
             <div class="attachFile">
                 <img src="/images/sprite/public-vacancy/atachment.png" alt="">
                 <input ng-disabled="filesForRecall.length == 2" type="file" oi-file="options" id="file" class="hidden"/>

@@ -1293,6 +1293,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
         };
         $scope.sendRequest = function (recallForm) {
             $scope.recallForm = recallForm;
+            $scope.showErrorCvFileMessage = false;
           if ($scope.recallForm.$valid) {
                 if ($scope.request.email != undefined && $scope.request.email.length == 0) {
                     $scope.request.email = "";
@@ -1321,8 +1322,11 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                     $scope.showErrorPhoneMessage = true;
                     return false;
                 }
+              console.log($scope.recallForm);
+              console.log($scope.request);
                 if($scope.request.fileId == null){
-                    notificationService.error($filter('translate')('Please attach your CV file'));
+                    $scope.showErrorCvFileMessage = true;
+                    //notificationService.error($filter('translate')('Please attach your CV file'));
                 }else{
                     Service.addCandidate($scope.request, function (resp) {
                         if (resp.status && resp.status === 'error' && resp.message) {

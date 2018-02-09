@@ -94,6 +94,23 @@ body.modal-open-public-vacancy-form {
 				clear: right;
 			}
 		}
+		.message {
+			font-size: 11px;
+			line-height: 20px;
+
+			display: inline-block;
+			width: 45%;
+			max-height: 20px;
+			margin-left: 18px;
+
+			white-space: nowrap;
+			& span {
+				padding: 5px 10px;
+
+				color: #a94442;
+				border-radius: 13px;
+			}
+		}
 		input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
 			-webkit-appearance: none;
