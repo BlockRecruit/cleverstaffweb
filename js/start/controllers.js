@@ -1129,6 +1129,11 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             $scope.changeEmail();
             $scope.$apply();
         });
+        $rootScope.changeEmail = function(email){
+            if(email.length > 0){
+                $scope.showErrorEmailMessage = false;
+            }
+        };
         $scope.showErrorPhoneMessage = false;
         $('#phone').on('input', function () {
             $scope.showErrorPhoneMessage = false;

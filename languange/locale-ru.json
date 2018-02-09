@@ -2881,6 +2881,7 @@
   "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email.",
   "The vacancy":"Вакансия",
   "_edited":"изменена",
-  "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email.",
-  "Please attach your CV file": "Прикрепите файл резюме"
+  "Please attach your CV file": "Прикрепите файл резюме",
+  "Please enter your Name": "Введите Ваше имя",
+  "Please enter your Last Name": "Введите Вашу фамилию"
 }
