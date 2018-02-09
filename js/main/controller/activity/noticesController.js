@@ -1,15 +1,96 @@
-controller.controller('ActivityNoticesController',["$scope", "Notice", "Service","Person","$rootScope", "$filter", function($scope, Notice, Service, Person, $rootScope, $filter) {
+controller.controller('ActivityNoticesController',["$scope", "ngTableParams", "$timeout", "$anchorScroll", "Notice", "Service","Person","$rootScope", "$filter", function($scope, ngTableParams, $timeout, $anchorScroll, Notice, Service, Person, $rootScope, $filter) {
     var noticeDate = new Date();
     var sendReadRequest = [];
-    console.log(noticeDate);
     noticeDate.setDate(1);
     noticeDate.setMonth(noticeDate.getMonth() + 1);
     noticeDate.setHours(0);
     noticeDate.setMinutes(0);
     $scope.notices = [];
     $scope.usedIds = {};
-    $scope.searchNumber = 1;
-    $scope.showNumber = 20;
+    $scope.hideButtonPrevHistory = false;
+    let pagingParams = {
+        page: {
+            number: 0,
+            count: 15
+        }
+    };
+
+    let pageNumber = 0;
+    $scope.tableParams = new ngTableParams({
+        page: 1,
+        count: 15
+    }, {
+        total: 0,
+        getData: function($defer, params){
+            function getNotices(page, count) {
+                if(page || count) {
+                    pageNumber = page;
+                    pagingParams.page.number = page;
+                    pagingParams.page.count = count;
+                } else {
+                    $scope.isShowMore = false;
+                    pageNumber = params.$params.page-1;
+                    pagingParams.page.number = params.$params.page-1;
+                    pagingParams.page.count = params.$params.count;
+                    if(document.getElementById('scrollup'))
+                        document.getElementById('scrollup').style.display = 'none';
+                    $timeout(function() {
+                        $anchorScroll('mainTable');
+                    });
+                }
+                Notice.all({
+                    from: null,
+                    to: null,
+                    page:{
+                        count:pagingParams.page.count,
+                        number:pagingParams.page.number
+                    }
+                }, function(resp) {
+                    $scope.notificationOuter = resp;
+                    $scope.getMoreHistoryLoading = false;
+                    if (resp.status == 'ok' && resp.objects != undefined && resp.objects.length > 0) {
+                        if(page) {
+                            $scope.notices = $scope.notices.concat(resp['objects'])
+                        } else {
+                            $scope.notices = resp['objects'];
+                        }
+                        angular.forEach($scope.notices.object,function(data,key){
+                            data.dateCreationMonth = $filter('date')(data.dc,'MM')
+                        });
+                        $scope.dateCreate = noticeDate.getDate();
+                        console.log($scope.notices);
+                        $scope.totalPages = Math.ceil($scope.notificationOuter.total/$scope.showNumber);
+                        $rootScope.objectSize = resp['objects'] != undefined ? resp['total'] : 0;
+                        $scope.paginationParams = {
+                            currentPage: $scope.searchNumber,
+                            totalCount: $rootScope.objectSize
+                        };
+                        let pagesCount = Math.ceil(resp['total']/params.$params.count);
+                        if(pagesCount == pagingParams.page.number + 1) {
+                            $('#show_more').hide();
+                        } else {
+                            $('#show_more').show();
+                        }
+                        $rootScope.loading = false;
+                        params.total(resp['total']);
+                        $defer.resolve($scope.notices);
+                    } else if (resp.status == 'ok' && resp.objects == undefined) {
+                        $scope.hideButtonPrevHistory = true;
+                    }
+
+                }, function(respError) {
+                    $scope.getMoreHistoryLoading = true;
+                });
+            }
+
+            getNotices();
+            $scope.showMore = function () {
+                $scope.isShowMore = true;
+                Service.dynamicTableLoading(params.total(), pageNumber, params.$params.count, getNotices)
+            };
+        }
+    });
+
 
     Notice.registerNoticeView(function(id) {
         angular.forEach($scope.notices, function(not) {
@@ -20,57 +101,7 @@ controller.controller('ActivityNoticesController',["$scope", "Notice", "Service"
             })
         });
     }, "ActivityNoticesController");
-    $scope.hideButtonPrevHistory = false;
-    var array = [];
-    $scope.updateNotification = function(){
-        Notice.all({
-            from: null,
-            to: null,
-            page:{
-                count:$scope.showNumber,
-                number:$scope.searchNumber - 1
-            }
-        }, function(resp) {
-            $scope.notificationOuter = resp;
-            $scope.getMoreHistoryLoading = false;
-            if (resp.status == 'ok' && resp.objects != undefined && resp.objects.length > 0) {
-                console.log(resp);
-                /** @namespace resp.objects */
-                array.push({date: noticeDate.getTime(), object: resp.objects});
-                $scope.notices = array;
-                array = [];
-                angular.forEach($scope.notices[0].object,function(data,key){
-                    data.dateCreationMonth = $filter('date')(data.dc,'MM')
-                });
-                console.log($scope.notices);
-                $scope.totalPages = Math.ceil($scope.notificationOuter.total/$scope.showNumber)
-            } else if (resp.status == 'ok' && resp.objects == undefined) {
-                $scope.hideButtonPrevHistory = true;
-            }
 
-        }, function(respError) {
-            $scope.getMoreHistoryLoading = true;
-        });
-    };
-    $scope.getBehindLastMonth = function(subtractMonth) {
-        $scope.getMoreHistoryLoading = true;
-        var to = angular.copy(noticeDate);
-        if (subtractMonth) {
-            noticeDate.setMonth(noticeDate.getMonth() - 1);
-        }
-        $scope.updateNotification();
-    };
-    function pageScroll() {
-        $(window).scroll(function() {
-            if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-                $(window).unbind('scroll');
-                $scope.getBehindLastMonth(true);
-            }
-        });
-
-    }
-
-    $scope.getBehindLastMonth(true);
 
     $scope.readNotice = function(n) {
         if (!n.read) {
@@ -105,22 +136,6 @@ controller.controller('ActivityNoticesController',["$scope", "Notice", "Service"
                 $rootScope.updateNoticesNav();
             }
         })
-    };
-
-    $scope.changePage= function(index){
-        console.log(index);
-        $scope.searchNumber = $scope.searchNumber + index;
-        $scope.updateNotification();
-    };
-
-    $scope.changeInputPage = function(){
-        if($scope.searchNumber){
-            $scope.updateNotification();
-        }
-    };
-    $scope.changeShowNumber = function(number){
-        $scope.showNumber = number;
-        $scope.updateNotification();
     };
 
 

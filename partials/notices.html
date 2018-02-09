@@ -21,94 +21,75 @@
                         <!--</div>-->
                     </div>
                 </div>
-                <div class="history-outer" ng-repeat="notice in notices[0].object">
-                    <div class="row history-header last-actions-header month" ng-show="notices[0].object[$index - 1].dateCreationMonth != notice.dateCreationMonth">
-                        <div class="col-lg-10">
-                            <span class="title-header" translate="month_MM.{{notice.dc| date:'MM'}}">
-                            </span>
-                        </div>
-                    </div>
-                    <!---------------------------------------------- to repeat-->
-                    <div class="row history last-action"
-                         ng-click="readNotice(notice)"
-                         ng-switch="notice.type"
-                         ng-class="{'read':notice.read==false}">
-                        <div class="col-lg-1 col-xs-3 date">
-                                <span bo-html="notice.dc|dateFormat6:true">
-                                    <!--18 мая-->
-                                    <!--<br/>-->
-                                    <!--<span class="time">-->
-                                        <!--18.00-->
-                                    <!--</span>-->
-                                </span>
-                        </div>
-                        <div class="col-lg-11 col-xs-9 notices">
-                            <div ng-switch-when="parserEmailIncorrectPassword"   >
-                                {{'You entered an incorrect password'|translate}} {{notice.value}}
-                            </div>
-                            <div ng-switch-when="parserEditCandidate">
-                                {{'New resumes has been received from email'|translate}} {{notice.value}}. {{'Updated candidates'|translate}}:
-                                     <span ng-repeat="candidate in notice.candidates track by $index">
-                                         <a href="#/candidates/{{candidate.localId}}" once-text="candidate.fullName"></a><span ng-show="notice.candidates.length != $index + 1">,</span>
+                <table ng-table="tableParams" class="history-outer table" template-pagination="custom/pager" id="mainTable">
+                    <tbody>
+                        <tr ng-repeat="notice in notices">
+                            <td>
+                                <table>
+                                    <tr class=" history-header last-actions-header month" ng-show="notices[$index - 1].dateCreationMonth != notice.dateCreationMonth">
+                                        <td></td>
+
+                                        <td>
+                                    <span class="title-header" translate="month_MM.{{notice.dc| date:'MM'}}">
                                     </span>
-                            </div>
-                            <div ng-switch-when="testPassed">
-                                <span ng-repeat="candidate in notice.candidates track by $index">
-                                    <a href="#/candidates/{{candidate.localId}}" once-text="candidate.fullName"></a><span ng-show="notice.candidates.length != $index + 1">,</span>
-                                </span>{{'history_info.Candidate test passed'|translate}} "{{notice.value}}" {{'history_info.test'|translate}}
-                            </div>
-                            <div ng-switch-when="parserAddCandidate">
-                                {{'New resumes has been received from email'|translate}} {{notice.value}}, {{'the candidates were added'|translate}}:&nbsp;<span ng-repeat="candidate in notice.candidates track by $index"><a href="#/candidates/{{candidate.localId}}" once-text="candidate.fullName"></a><span ng-show="notice.candidates.length != $index + 1">,</span></span>
+                                        </td>
+                                    </tr>
+                                    <!---------------------------------------------- to repeat-->
+                                    <tr class=" history last-action"
+                                        ng-click="readNotice(notice)"
+                                        ng-switch="notice.type"
+                                        ng-class="{'read':notice.read==false}">
+                                        <td class=" date">
+                                        <span bo-html="notice.dc|dateFormat6:true">
+                                            <!--18 мая-->
+                                            <!--<br/>-->
+                                            <!--<span class="time">-->
+                                            <!--18.00-->
+                                            <!--</span>-->
+                                        </span>
+                                        </td>
+                                        <td class=" notices">
+                                            <div ng-switch-when="parserEmailIncorrectPassword"   >
+                                                {{'You entered an incorrect password'|translate}} {{notice.value}}
+                                            </div>
+                                            <div ng-switch-when="parserEditCandidate">
+                                                {{'New resumes has been received from email'|translate}} {{notice.value}}. {{'Updated candidates'|translate}}:
+                                                <span ng-repeat="candidate in notice.candidates track by $index">
+                                                 <a href="#/candidates/{{candidate.localId}}" once-text="candidate.fullName"></a><span ng-show="notice.candidates.length != $index + 1">,</span>
+                                            </span>
+                                            </div>
+                                            <div ng-switch-when="testPassed">
+                                        <span ng-repeat="candidate in notice.candidates track by $index">
+                                            <a href="#/candidates/{{candidate.localId}}" once-text="candidate.fullName"></a><span ng-show="notice.candidates.length != $index + 1">,</span>
+                                        </span>{{'history_info.Candidate test passed'|translate}} "{{notice.value}}" {{'history_info.test'|translate}}
+                                            </div>
+                                            <div ng-switch-when="parserAddCandidate">
+                                                {{'New resumes has been received from email'|translate}} {{notice.value}}, {{'the candidates were added'|translate}}:&nbsp;<span ng-repeat="candidate in notice.candidates track by $index"><a href="#/candidates/{{candidate.localId}}" once-text="candidate.fullName"></a><span ng-show="notice.candidates.length != $index + 1">,</span></span>
 
-                            </div>
+                                            </div>
 
-                            <div ng-switch-when="parserValidEmail">
-                                {{'parserValidEmail_1'|translate}} {{notice.value}} {{'parserValidEmail_2'}}
-                            </div>
+                                            <div ng-switch-when="parserValidEmail">
+                                                {{'parserValidEmail_1'|translate}} {{notice.value}} {{'parserValidEmail_2'}}
+                                            </div>
 
-                            <div ng-switch-when="addRecall">
-                                {{"New applicant to the vacancy"|translate}} <a href="#/vacancies/{{notice.vacancy.localId}}">{{notice.vacancy.position + " (" + notice.vacancy.clientId.name + ")"}}</a>
-                            </div>
-                            <div ng-switch-when="addResponsible">
-                                {{"You are assigned as responsible to vacancy"|translate}}:&nbsp;<a href="#/vacancies/{{notice.vacancy.localId}}">{{notice.vacancy.position + " (" + notice.vacancy.clientId.name + ")"}}</a>
-                            </div>
-                            <i class="fa fa-check-circle-o hidden-xs" ng-attr-title="{{(notice.read!=false) && ('Viewed'|translate) || ('Not viewed'|translate)}}" ng-class="{'green':notice.read!=false}" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="pagination-block" ng-show="notices[0].object.length > 0 && totalPages > 1">
-                    <div>
-                        {{'page'|translate}}
-                        &nbsp;
-                        <i class="fa fa-arrow-left" ng-show="searchNumber > 1" ng-click="changePage(-1)" aria-hidden="true"></i>
-                        <input type="text" ng-model="searchNumber" ng-change="changeInputPage(params,searchNumber)">
-                        <i class="fa fa-arrow-right" ng-show="searchNumber < totalPages" ng-click="changePage(+1)" aria-hidden="true"></i>
-                        &nbsp;
-                        {{'from_3'|translate}} {{totalPages}}
-                    </div>
-                    <!--<center class="hidden-xs hidden-sm">-->
-                        <!--<span class="ng-binding">{{'Show on one page' | translate}}&nbsp;&nbsp;</span>-->
+                                            <div ng-switch-when="addRecall">
+                                                {{"New applicant to the vacancy"|translate}} <a href="#/vacancies/{{notice.vacancy.localId}}">{{notice.vacancy.position + " (" + notice.vacancy.clientId.name + ")"}}</a>
+                                            </div>
+                                            <div ng-switch-when="addResponsible">
+                                                {{"You are assigned as responsible to vacancy"|translate}}:&nbsp;<a href="#/vacancies/{{notice.vacancy.localId}}">{{notice.vacancy.position + " (" + notice.vacancy.clientId.name + ")"}}</a>
+                                            </div>
+                                            <i class="fa fa-check-circle-o hidden-xs" ng-attr-title="{{(notice.read!=false) && ('Viewed'|translate) || ('Not viewed'|translate)}}" ng-class="{'green':notice.read!=false}" aria-hidden="true"></i>
+                                        </td>
+                                    </tr>
+                                    </tr>
+                                </table>
+                            </td>
 
-                        <!--<div class="ui custom_small pagination menu">-->
-                            <!--<a class="item" ng-class="{'active': changeShowNumber == 20}" ng-click="changeShowNumber(10)">-->
-                                <!--20-->
-                            <!--</a>-->
-                            <!--<a class="item"-->
-                               <!--ng-click="changeShowNumber(40)"-->
-                               <!--ng-class="{'active': changeShowNumber == 20}">-->
-                                <!--40-->
-                            <!--</a>-->
-                            <!--<a class="item" ng-click="params.count(60)">-->
-                                <!--60-->
-                            <!--</a>-->
-                            <!--<a class="item ng-hide"ng-click="params.count(120)">-->
-                                <!--120-->
-                            <!--</a>-->
-                        <!--</div>-->
-                        <!--<span-->
-                              <!--class="ng-binding">&nbsp;&nbsp;строк</span>-->
-                    <!--</center>-->
-                </div>
+                    </tbody>
+
+
+                </table>
+
             </div>
         </div>
     </div>
