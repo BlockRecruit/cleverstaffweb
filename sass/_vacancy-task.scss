@@ -444,17 +444,29 @@
 			display: flex;
 			padding-bottom: 0;
 
-			align-items: flex-end;
-		}
-		> .task {
-			border: none;
-
+			align-items: start;
 			order: 2;
 		}
-		> .statuses {
+		> .task {
+			width: auto!important;
+			margin-right: auto;
+
 			border: none;
 
 			order: 1;
+		}
+		> .statuses {
+			display: flex;
+			height: auto;
+			margin: 0 auto 0 10px!important;
+			margin-right: auto!important;
+			margin-left: 10px;
+			padding-top: 0;
+
+			border: none;
+
+			align-items: flex-start;
+			order: 3;;
 		}
 	}
 }
