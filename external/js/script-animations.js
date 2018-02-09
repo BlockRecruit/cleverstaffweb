@@ -1,5 +1,14 @@
 var mailPattern = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/i;
 $(document).ready(function(){
+    //$('body').on("touchstart", function(e) {
+    //    $(".popover").each(function () {
+    //        console.log(this);
+    //        if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+    //            console.log('1');
+    //            $(this).css('display', 'none');
+    //        }
+    //    });
+    //});
 	$(".menu").on("click","a", function (event) {
 		
 		event.preventDefault();
@@ -97,7 +106,6 @@ $(document).ready(function(){
     $('#menuFunc').click(function() {
         $('.menuLanding').toggle("slide");
     });
-
 
     $(window).scroll(function(){
         var sticky = $('.prices-block'),
