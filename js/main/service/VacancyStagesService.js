@@ -33,6 +33,9 @@ angular.module('services.vacancyStages', [
             return new Promise((resolve, reject) => {
                 vacancyStages.get(params, resp => resolve(resp, resp.request = 'stageFull'),error => reject(error));
             });
+            vac.get(function(params) {
+
+            })
         };
         return vacancyStages;
     }]);

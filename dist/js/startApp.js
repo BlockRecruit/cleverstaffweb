@@ -3234,7 +3234,7 @@ function convertToRegionObject(place, scope) {
 angular.module('services.candidate', [
     'ngResource',
     'ngCookies'
-]).factory('Candidate', ['$resource', 'serverAddress', '$filter', '$localStorage',"notificationService","$rootScope","$translate", function($resource, serverAddress, $filter, $localStorage,notificationService, $rootScope,$translate) {
+]).factory('Candidate', ['$resource', 'serverAddress', '$filter', '$localStorage',"notificationService","$rootScope","$translate", "CustomField", function($resource, serverAddress, $filter, $localStorage,notificationService, $rootScope, $translate, CustomField) {
     var options;
 
     var candidate = $resource(serverAddress + '/candidate/:param', {param: "@param"}

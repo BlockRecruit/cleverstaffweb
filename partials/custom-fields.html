@@ -1,0 +1,24 @@
+<div ng-repeat="field in customFields track by $index" class="custom-fields" ng-switch="field.type">
+    <div ng-switch-when="select" class="select-field field col-lg-4 col-md-4 col-sm-4 col-xs-6 with-contacts pull-right">
+        <select name="{{field.title}}" id="">
+            <option disabled selected>{{field.title}}</option>
+            <option value="{{param.value}}"
+                    ng-repeat="param in field.params track by $index">
+                {{param.value}}
+            </option>
+        </select>
+    </div>
+    <div ng-switch-when="string" class="field col-lg-4 col-md-4 col-sm-4 col-xs-6 with-contacts pull-right">
+        <!--{{field.title}} - string-->
+        <custom-field-auto-completer></custom-field-auto-completer>
+    </div>
+    <div ng-switch-when="date" class="date-field field col-lg-4 col-md-4 col-sm-4 col-xs-6 with-contacts pull-right">
+        <input placeholder="{{field.title}}" class="customFieldDate date" type="text">
+        <i class="fa fa-calendar" aria-hidden="true"></i>
+    </div>
+    <div ng-switch-when="datetime" class="date-field field col-lg-4 col-md-4 col-sm-4 col-xs-6 with-contacts pull-right">
+        <input placeholder="{{field.title}}" class="customFieldDatetime" type="text">
+        <i class="fa fa-calendar" aria-hidden="true"></i>
+    </div>
+    <div class="clearfix" ng-if="$index % 3 === 0"></div>
+</div>

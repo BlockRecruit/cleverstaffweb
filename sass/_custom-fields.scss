@@ -1,0 +1,28 @@
+.custom-fields {
+	.field {
+		height: 34px;
+		padding-left: 15px;
+	}
+	.select-field {
+		select {
+			margin-top: 5px;
+
+			color: #202021;
+			border: none;
+			border-bottom: 1px solid #e3e3e3;
+			background-color: #fff;
+			box-shadow: none;
+			option[disabled] {
+				color: #d3d3d3;
+			}
+		}
+	}
+	.date-field {
+		input {
+			border: none;
+		}
+		i.fa-calendar {
+			color: #00b549;
+		}
+	}
+}

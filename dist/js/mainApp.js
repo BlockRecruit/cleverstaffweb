@@ -4481,7 +4481,167 @@ directive('appVersion', ['version', function(version) {
 
             }
         }
-    }]);
+    }]).directive('customFields', ['$rootScope', 'CustomField', '$translate', function($rootScope, CustomField, $translate) {
+        return {
+            restrict: "E",
+            scope: { type: "=" },
+            templateUrl: "/partials/custom-fields.html",
+            link: function(scope, element, attr) {
+                scope.customFields = [];
+
+                CustomField.getCustomFields(scope.type)
+                    .then((resp) => {
+                        scope.customFields = resp.objects;
+                        console.log(scope.customFields);
+                        setDatePicker();
+                        setDatetimePicker();
+                    }, error => console.error(error));
+
+                function setDatePicker() {
+                    setTimeout(() => {
+                        $(".customFieldDate").each(() => {
+                            $(".customFieldDate").datetimepicker({
+                                format: $rootScope.currentLang === 'ru' ? "dd/mm/yyyy" : "mm/dd/yyyy",
+                                startView: 3,
+                                minView: 2,
+                                autoclose: true,
+                                language: $translate.use(),
+                                weekStart: $rootScope.currentLang === 'ru' ? 1 : 7,
+                                initialDate: new Date(),
+                                startDate: new Date(-1262304000000)
+                            }).on('changeDate', function (date) {
+                                // scope.date = data;
+                            }).on('hide', function () {
+                                $('.customFieldDate').blur();
+                            });
+                        });
+                    }, 0);
+                }
+
+                function setDatetimePicker() {
+                    setTimeout(() => {
+                        $(".customFieldDatetime").each(() => {
+                            $(".customFieldDatetime").datetimepicker({
+                                startView: 2,
+                                minView: 1,
+                                autoclose: true,
+                                language: $translate.use(),
+                                weekStart: $rootScope.currentLang === 'ru' ? 1 : 7,
+                                initialDate: new Date(),
+                                startDate: new Date(-1262304000000)
+                            }).on('changeDate', function (date) {
+                                // scope.date = data;
+                            }).on('hide', function () {
+                                $('.customFieldDatetime').blur();
+                            });
+                        });
+                    }, 0);
+                }
+
+            }
+        }
+    }]).directive('customFieldAutoCompleter', ["$rootScope", "$filter", "$translate", "serverAddress", function($rootScope, $filter, $translate, serverAddress) {
+            return {
+                restrict: 'EA',
+                replace: true,
+                link: function($scope, element, attrs) {
+                    $scope.setPositionAutocompleterValue = function(val) { //переимновтаь
+                        if (val != undefined) {
+                            $(element[0]).select2("data", {id: val, text: val});
+                        }else {
+                            $(element[0]).select2("data", {id: '', text: ''});
+                        }
+                    };
+                    $scope.getPositionAutocompleterValue = function() {//.переимновтаь
+                        var object = $(element[0]).select2("data");
+                        console.log(object);
+                        return object != null ? object.text : null;
+                    };
+                    var inputText = "";
+                    let translatedPositions = false;
+
+                    $rootScope.$on('$translateChangeSuccess', function () {
+                        initSelect2();
+                    });
+
+                    if(!translatedPositions) {
+                        initSelect2();
+                    }
+
+                    function initSelect2() {
+                        translatedPositions = true;
+                        $(element[0]).select2({
+                            placeholder: $translate.instant($scope.placeholder),
+                            minimumInputLength: 2,
+                            allowClear: true,
+                            formatInputTooShort: function () {
+                                return ""+ $filter('translate')('Please enter 2 characters') +"";
+                            },
+                            formatNoMatches: function(term) {
+                                return "<div class='select2-result-label' style='cursor: s-resize;'><span class='select2-match'></span>" + $filter('translate')('Enter a source of this candidate') + "</div>";
+                            },
+                            createSearchChoice: function(term, data) {
+                                if ($(data).filter(function() {
+                                        return this.text.localeCompare(term) === 0;
+                                    }).length === 0) {
+                                    inputText = term;
+                                    return {id: term, text: term};
+                                }
+                            },
+                            ajax: {
+                                url: serverAddress + "/candidate/autocompletePosition",
+                                dataType: 'json',
+                                crossDomain: true,
+                                type: "POST",
+                                data: function(term, page) {
+                                    return {
+                                        text: term.trim()
+                                    };
+                                },
+                                results: function(data, page) {
+                                    var result = [];
+                                    angular.forEach(data['objects'], function(val) {
+                                        result.push({id: val, text: val})
+                                    });
+                                    return {
+                                        results: result
+                                    };
+                                }
+                            },
+                            dropdownCssClass: "bigdrop"
+                        }).on("select2-close", function(e) {
+                            if (inputText.length > 0) {
+                                $(element[0]).select2("data", {id: inputText, text: removeExtraSpaces(inputText)});
+                            }
+                            if($(element[0]).select2("data")) {
+                                $(element[0]).select2("data", {id: inputText, text: removeExtraSpaces($(element[0]).select2("data").text)});
+                                $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
+                                $scope.setPositionAutocompleterValue($scope.searchParam.position);
+                            }
+                            $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
+                        }).on("select2-selecting", function(e) {
+                            inputText = "";
+                        }).on("select2-open", function() {
+                            if($(element[0]).select2("data"))
+                                $('#select2-drop input').val($(element[0]).select2("data").text)
+                        });
+                    }
+                    function removeExtraSpaces(string) {
+                        let str = string.split('');
+                        // console.log(str);
+                        for( let i = 0; i < str.length; i++) {
+                            if( str[i] === " " && str[i+1] === " " && i !== 0 && i !== str.length - 1  || (str[i] === " " && i === str.length - 1)) {
+                                // console.log(str[i],str[i+1],"spliced");
+                                str.splice(i,1);
+                                i--;
+                            }
+                        }
+                        // console.log(str);
+                        return str.join('');
+                    }
+                }
+            }
+        }]);
 function similar_text(first, second, percent) {
     if (first === null || second === null || typeof first === 'undefined' || typeof second === 'undefined') {
         return 0;
@@ -5849,7 +6009,7 @@ angular.module('services.candidateGroup', [
 angular.module('services.candidate', [
     'ngResource',
     'ngCookies'
-]).factory('Candidate', ['$resource', 'serverAddress', '$filter', '$localStorage',"notificationService","$rootScope","$translate", function($resource, serverAddress, $filter, $localStorage,notificationService, $rootScope,$translate) {
+]).factory('Candidate', ['$resource', 'serverAddress', '$filter', '$localStorage',"notificationService","$rootScope","$translate", "CustomField", function($resource, serverAddress, $filter, $localStorage,notificationService, $rootScope, $translate, CustomField) {
     var options;
 
     var candidate = $resource(serverAddress + '/candidate/:param', {param: "@param"}
@@ -7495,6 +7655,12 @@ angular.module('services.customField', [
         $rootScope.loading = true;
         return new Promise((resolve, reject) => {
             customField.getFieldsTitles({objectType: "vacancy"}, resp => resolve(resp, resp['request'] = 'customField'),error => reject(error));
+        });
+    };
+
+    customField.getCustomFields = function(type) {
+        return new Promise((resolve, reject) => {
+            customField.getFullFields({ objectType: type }, resp => resolve(resp), error => reject(error));
         });
     };
 
@@ -13588,6 +13754,9 @@ angular.module('services.vacancyStages', [
             return new Promise((resolve, reject) => {
                 vacancyStages.get(params, resp => resolve(resp, resp.request = 'stageFull'),error => reject(error));
             });
+            vac.get(function(params) {
+
+            })
         };
         return vacancyStages;
     }]);
@@ -19212,6 +19381,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         })
     };
     $scope.initSearchParam();
+
 
     $rootScope.excelExportType = 'candidates';
     $scope.loadingExcel = false;

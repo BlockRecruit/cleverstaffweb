@@ -774,6 +774,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     };
     $scope.initSearchParam();
 
+
     $rootScope.excelExportType = 'candidates';
     $scope.loadingExcel = false;
     $scope.exportToExcel = function () {

@@ -86,5 +86,11 @@ angular.module('services.customField', [
         });
     };
 
+    customField.getCustomFields = function(type) {
+        return new Promise((resolve, reject) => {
+            customField.getFullFields({ objectType: type }, resp => resolve(resp), error => reject(error));
+        });
+    };
+
     return customField;
 }]);
