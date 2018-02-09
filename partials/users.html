@@ -12,7 +12,6 @@
                     <!--<div id="wrapperForPng"></div>-->
                 <!--</div>-->
                 <input id="the-file-input" accept="image/*" type="file" style="display:none">
-
                 <img id="company-logo" ng-if="$root.companyLogo!=undefined" ng-src="{{$root.serverAddress}}/getapp?id={{$root.companyLogo}}&d=" alt=""/>
                 <div ng-show="$root.me.recrutRole == 'admin' && $root.companyLogo!=undefined" id="owner_photo_bubble_wrap">
                     <div id="owner_photo_bubble">
@@ -28,9 +27,9 @@
                     <a ng-show="$root.companyLogo == undefined && $root.me.recrutRole === 'admin'" add-logo type="button" class="btn btn-primary add-image">
                         {{'Upload logo' | translate}}
                         <br>
-                            <span class="size">
-                                {{'size_290x290'|translate}}
-                            </span>
+                        <span class="size">
+                            {{'size_290x290'|translate}}
+                        </span>
                     </a>
                 </div>
                 <label class="company-label pull-left" for="company-name">{{'Account name' | translate}}</label>
@@ -52,7 +51,7 @@
                     <!--</ol>-->
                 <!--</div>-->
                 <h4 ng-show="usersFound">
-                    <span ng-show="$root.currentLang == 'en'">{{::$root.me.orgName}}</span> {{'account users' | translate}} <span ng-show="$root.currentLang == 'ru'">{{$root.me.orgName}}</span>
+                    <span ng-show="$root.currentLang == 'en'">{{::$root.me.orgName}}</span> {{'account users' | translate}} <span ng-show="$root.currentLang == 'ru'">{{::$root.me.orgName}}</span>
                 </h4>
                 <div class="company-users" ng-show="usersFound">
                     <table class="table" ng-table="tableParams" template-pagination="custom/pager">
@@ -88,10 +87,10 @@
                         <tr ng-repeat="user in $data" ng-click="tofullinformation(user);$event.stopPropagation()">
                             <td class="clickable">{{(tableParams.page() - 1) * tableParams.count() + $index + 1}}</td>
                             <td class="user-name clickable">
-                                <a href="#/users/{{user.userId}}">
+                                <a href="#/users/{{::user.userId}}">
                                     <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
                                     <div class="responsible-initials hidden-xs">
-                                        <span>{{getFirstLetters(user.fullName)}}</span>
+                                        <span>{{::getFirstLetters(user.fullName)}}</span>
                                     </div>
                                    {{::user.fullName}}
                                 </a>

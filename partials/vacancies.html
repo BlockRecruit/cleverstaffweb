@@ -22,7 +22,6 @@
                         style="margin: 20px 0px 0px 0px;"
                         ng-show="$root.me.personParams.clientAccessLevel == 'hide'">{{$root.me.org.orgName}}</h4>
                     <a class="link pull-right" href="#/client/add" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer'  && $root.me.recrutRole != 'client'">{{'Add client' | translate}}</a>
-
                     <div class="clearfix"></div>
                     <span class="title title-after-position">{{'employment_type'|translate}}</span>
                     <select class="form-control" ng-model="vacancy.employmentType">
