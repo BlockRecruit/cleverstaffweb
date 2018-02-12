@@ -16369,7 +16369,7 @@ controller.controller('ActivityNoticesController',["$scope", "ngTableParams", "$
                         } else {
                             $scope.notices = resp['objects'];
                         }
-                        angular.forEach($scope.notices.object,function(data,key){
+                        angular.forEach($scope.notices,function(data,key){
                             data.dateCreationMonth = $filter('date')(data.dc,'MM')
                         });
                         $scope.dateCreate = noticeDate.getDate();
