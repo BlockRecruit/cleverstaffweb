@@ -1146,9 +1146,17 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $scope.showErrorEmailMessage = true;
             } else $scope.showErrorEmailMessage = $scope.request.email.length == 0;
         };
-        $scope.changePhone = function () {
-            $scope.recallForm.phone.$invalid = false;
+        $scope.changePhone = function (phone) {
+            //$scope.recallForm.phone.$invalid = false;
+            if(phone.length > 0){
+                $scope.showErrorPhoneMessage = false;
+            }
         };
+          $scope.$watch('request.phone', function (newVal, oldVal) {
+              if(newVal != undefined && oldVal != newVal){
+                  $scope.showErrorPhoneMessage = false;
+              }
+          });
 
         $scope.showModalInfoAboutVacancy = function() {
           $scope.modalInstance = $uibModal.open({

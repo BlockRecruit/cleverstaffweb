@@ -40,6 +40,7 @@
                    id="email2" name="email2" style="clear: both;">
             <input type="number"
                    class="form-control pull-right"
+                   ng-change="changePhone(request.phone)"
                    placeholder="{{'phone' | translate}}*"
                    ng-class="{'error': recallForm.phone.$invalid && !recallForm.phone.$pristine ||showErrorPhoneMessage}"
                    ng-model="request.phone"
