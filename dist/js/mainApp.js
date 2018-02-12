@@ -4521,7 +4521,7 @@ directive('appVersion', ['version', function(version) {
                 }
 
                 function setDatetimePicker() {
-                    $timeout(function() {
+                    $timeout(() => {
                         $(".customFieldDatetime").each(() => {
                             console.log('datetime');
                             $(".customFieldDatetime").datetimepicker({
@@ -4546,20 +4546,9 @@ directive('appVersion', ['version', function(version) {
     }]).directive('customFieldAutoCompleter', ["$rootScope", "$filter", "$translate", "serverAddress", function($rootScope, $filter, $translate, serverAddress) {
             return {
                 restrict: 'EA',
+                scope: { placeholder: "=" },
                 replace: true,
                 link: function($scope, element, attrs) {
-                    $scope.setPositionAutocompleterValue = function(val) { //переимновтаь
-                        if (val != undefined) {
-                            $(element[0]).select2("data", {id: val, text: val});
-                        }else {
-                            $(element[0]).select2("data", {id: '', text: ''});
-                        }
-                    };
-                    $scope.getPositionAutocompleterValue = function() {//.переимновтаь
-                        var object = $(element[0]).select2("data");
-                        console.log(object);
-                        return object != null ? object.text : null;
-                    };
                     var inputText = "";
                     let translatedPositions = false;
 
@@ -4629,6 +4618,7 @@ directive('appVersion', ['version', function(version) {
                                 $('#select2-drop input').val($(element[0]).select2("data").text)
                         });
                     }
+
                     function removeExtraSpaces(string) {
                         let str = string.split('');
                         for( let i = 0; i < str.length; i++) {

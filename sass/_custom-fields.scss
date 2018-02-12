@@ -1,11 +1,14 @@
 .custom-fields {
 	.field {
 		height: 34px;
-		padding-left: 15px;
+		margin-top: 5px;
+		padding: 6px 16px 0 0;
 	}
 	.select-field {
 		select {
+			width: 100%;
 			margin-top: 5px;
+			padding-left: 15px;
 
 			color: #202021;
 			border: none;
@@ -19,10 +22,18 @@
 	}
 	.date-field {
 		input {
+			width: calc(100% - 18px);
+			padding: 0 0 6px 15px;
+
 			border: none;
+			border-bottom: 1px solid lightgrey;
 		}
 		i.fa-calendar {
 			color: #00b549;
 		}
 	}
+}
+
+.block-candidates .candidates-statuses .candidates-search-table > .AdvancedSearchCandidate > .boxThreeColumn .col-lg-4.field {
+	padding: 6px 16px 0 0;
 }
