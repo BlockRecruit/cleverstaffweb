@@ -4481,7 +4481,7 @@ directive('appVersion', ['version', function(version) {
 
             }
         }
-    }]).directive('customFields', ['$rootScope', 'CustomField', '$translate', function($rootScope, CustomField, $translate) {
+    }]).directive('customFields', ['$rootScope', 'CustomField', '$translate', '$timeout', function($rootScope, CustomField, $translate, $timeout) {
         return {
             restrict: "E",
             scope: { type: "=" },
@@ -4492,14 +4492,16 @@ directive('appVersion', ['version', function(version) {
                 CustomField.getCustomFields(scope.type)
                     .then((resp) => {
                         scope.customFields = resp.objects;
+                        scope.$apply();
                         console.log(scope.customFields);
                         setDatePicker();
                         setDatetimePicker();
                     }, error => console.error(error));
 
                 function setDatePicker() {
-                    setTimeout(() => {
+                    $timeout(() => {
                         $(".customFieldDate").each(() => {
+                            console.log('date');
                             $(".customFieldDate").datetimepicker({
                                 format: $rootScope.currentLang === 'ru' ? "dd/mm/yyyy" : "mm/dd/yyyy",
                                 startView: 3,
@@ -4515,12 +4517,13 @@ directive('appVersion', ['version', function(version) {
                                 $('.customFieldDate').blur();
                             });
                         });
-                    }, 0);
+                    });
                 }
 
                 function setDatetimePicker() {
-                    setTimeout(() => {
+                    $timeout(() => {
                         $(".customFieldDatetime").each(() => {
+                            console.log('datetime');
                             $(".customFieldDatetime").datetimepicker({
                                 startView: 2,
                                 minView: 1,
@@ -4535,7 +4538,7 @@ directive('appVersion', ['version', function(version) {
                                 $('.customFieldDatetime').blur();
                             });
                         });
-                    }, 0);
+                    });
                 }
 
             }
@@ -4628,15 +4631,12 @@ directive('appVersion', ['version', function(version) {
                     }
                     function removeExtraSpaces(string) {
                         let str = string.split('');
-                        // console.log(str);
                         for( let i = 0; i < str.length; i++) {
                             if( str[i] === " " && str[i+1] === " " && i !== 0 && i !== str.length - 1  || (str[i] === " " && i === str.length - 1)) {
-                                // console.log(str[i],str[i+1],"spliced");
                                 str.splice(i,1);
                                 i--;
                             }
                         }
-                        // console.log(str);
                         return str.join('');
                     }
                 }
