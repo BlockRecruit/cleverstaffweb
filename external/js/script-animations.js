@@ -145,7 +145,7 @@ $(document).ready(function(){
     $(window).scroll(function(){
         var sticky = $('.prices-block'),
             scroll = $(window).scrollTop();
-        //console.log(scroll);
+        console.log(scroll);
         var pc = 1200;
         var big_tablet = 991;
         var tablet = 767;
@@ -365,7 +365,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 5778) {
+                if (scroll >= 5528) {
                     sticky.removeClass('fixed-plans');
                 }
             }
