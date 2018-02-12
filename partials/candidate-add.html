@@ -452,15 +452,20 @@
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 contactCandidate">
-                                <div class="item">
+                                <div class="item phoneBlock">
                                     <label>{{'phone'|translate}}</label>
                                     <!--<input placeholder="" ng-model="contacts.mphone" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && contacts.mphone.length > 0}">-->
-                                    <input placeholder="" ng-model="contacts.mphone" type="text" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone.length > 0}">
-                                    <i class="phone icon"></i>
-                                    <i class="fa absolute-right"
-                                       ng-attr-title='{{(candidate.preferableContact == "phone")? "Unmark as preferable contact method":"Mark as preferrable contact method"|translate}}'
-                                       ng-class="{'fa-star-o': candidate.preferableContact !== 'phone', 'fa-star' : candidate.preferableContact == 'phone'}"
-                                       ng-click="selectFavoriteContacts(this,'phone', $event)"></i>
+                                    <div class="duplicatePhone">
+                                        <input placeholder="" class="phoneInput" ng-model="contacts.mphone" type="text" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone.length > 0}">
+                                        <i class="phone icon"></i>
+                                        <i class="fa absolute-right"
+                                           ng-attr-title='{{(candidate.preferableContact == "phone")? "Unmark as preferable contact method":"Mark as preferrable contact method"|translate}}'
+                                           ng-class="{'fa-star-o': candidate.preferableContact !== 'phone', 'fa-star' : candidate.preferableContact == 'phone'}"
+                                           ng-click="selectFavoriteContacts(this,'phone', $event)">
+                                            <div class="clearfix"></div>
+                                        </i>
+                                    </div>
+                                    <i class="fa fa-plus-circle addPhone" ng-click="addInputPhone()" ng-show="btnToAddPhone"></i>
                                 </div>
                                 <div class="item">
                                     <label>Email</label>

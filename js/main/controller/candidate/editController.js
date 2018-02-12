@@ -380,6 +380,20 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.progressUpdate = function() {
             Candidate.progressUpdate($scope, true);
         };
+        $scope.btnToAddPhone = true;
+        $scope.addInputPhone = function(){
+            console.log($( ".duplicatePhone" ));
+            if($( ".duplicatePhone3").length == 1) {
+                $scope.btnToAddPhone = false;
+            }else if($( ".duplicatePhone2").length == 1){
+                $( ".duplicatePhone" ).clone().appendTo( ".contactCandidate .phoneBlock" );
+                $( ".duplicatePhone" )[0].className = 'duplicatePhone3';
+                $scope.btnToAddPhone = false;
+            }else if($( ".duplicatePhone").length == 1){
+                $( ".duplicatePhone" ).clone().appendTo( ".contactCandidate .phoneBlock" );
+                $( ".duplicatePhone" )[0].className = 'duplicatePhone2';
+            }
+        };
 
         $scope.imgWidthFunc = function(){
             var img = new Image();
