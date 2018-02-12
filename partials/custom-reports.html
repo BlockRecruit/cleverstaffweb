@@ -5,7 +5,7 @@
                 <span ng-bind="'_Report'|translate"></span>
                 <span ng-bind="::ctrlReport.dataReport['name']" style="margin:0 10px ;"></span>
                 <div class="icon" ng-show="$root.me.recrutRole === 'admin'">
-                    <a href="#/reports/edit-reports" ng-click="">
+                    <a href="#/reports/edit-reports" ng-if="$root.hideTariff" ng-click="">
                         <i class="fa fa-pencil" title="{{'Edit report parameters'|translate}}"></i>
                     </a>
                     <i class="fa fa-times" title="{{'Delete report'|translate}}" ng-click="ctrlReport.remove(ctrlReport.dataReport.customVacancyReportId, this)"></i>

@@ -38,7 +38,7 @@
                 <td ng-bind="report.descr || 'description'|translate"></td>
                 <td class="text-right">
                     <div ng-show="show && $root.me.recrutRole === 'admin'">
-                        <a href="#/reports/edit-reports" ng-show="!$root.hideTariff" ng-click="myReportsCtrl.getReport($event, report)">
+                        <a href="#/reports/edit-reports" ng-click="myReportsCtrl.getReport($event, report)">
                             <i class="fa fa-pencil" title="{{'Edit report parameters'|translate}}"></i>
                         </a>
                         <i class="fa fa-times" ng-click="myReportsCtrl.remove(report.customVacancyReportId, this, $event)" title="{{'Delete report'|translate}}"></i>
