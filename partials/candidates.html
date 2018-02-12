@@ -1,6 +1,6 @@
 <div class="block-candidates">
     <div class="candidates-statuses container-fluid">
-        <div class="row">
+        <div class="row" ng-click="parentClick($event)">
             <div class="col-lg-3 statuses hidden-xs hidden-sm" ng-show="$root.me.recrutRole != 'client' && !$root.searchParam.searchIn && !$root.searchParam.searchExternal && !$root.searchParam.searchSocial"
                  ng-class="{'overModal': $root.questStatus.growYourDatabasePopup == 'Y'}">
                 <div class="disable-click"></div>
@@ -152,7 +152,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="AdvancedSearchCandidate col-lg-12 col-xs-12" ng-show="showAdvancedSearchCandidate">
+                <div class="AdvancedSearchCandidate col-lg-12 col-xs-12"  ng-show="showAdvancedSearchCandidate">
                     <div class="boxThreeColumn col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" ng-show="$root.me.recrutRole != 'client'">
                             <input type="text" class="addTagsCandidate pull-left" id="candGroups" select2-groups-search
@@ -314,33 +314,34 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" ng-show="$root.me.recrutRole != 'client'">
                             <form class="form-inline-position pull-left">
-                                <div class="select">
-                                    <select ng-class="{'greyColor': searchParam.responsibleId == 'null'}"
-                                            ng-model="searchParam.responsibleId" class="form-control"
-                                            ng-init="searchParam.responsibleId = 'null'">
-                                        <option class="greyColor" value="null">{{'responsible'|translate}}</option>
-                                        <option class="othersColor" ng-selected="responsible == searchParam.responsibleId"
-                                                ng-repeat="responsible in persons| orderBy:['status','cutFullName']"
+                                <div class="select select-responsible" ng-init="searchParam.responsibleId = 'null'">
+                                    <input type="text" placeholder="{{'responsible'|translate}}"
+                                           ng-model="responsibleName"
+                                           disabled
+                                           style="cursor: pointer;padding-left: 20px;"
+                                           class="form-control col-lg-12 select-input-field">
+                                    <div class="dropdown-content">
+                                        <ul>
+                                            <li ng-repeat="responsible in persons| orderBy:['status','cutFullName']"
                                                 ng-if="responsible.cutFullName.length > 0 && responsible.userId == $root.me.userId"
                                                 ng-class="{disable: (responsible.status != 'A')}"
-                                                value="{{responsible.userId}}">
-                                            ({{'Me' | translate}}) {{responsible.cutFullName}}
-                                        </option>
-                                        <option class="othersColor" ng-selected="responsible == searchParam.responsibleId"
-                                                ng-repeat="responsible in persons| orderBy:['status','cutFullName']"
+                                                data-id="{{::responsible.userId}}"
+                                                class="select-list othersColor">({{'Me' | translate}}){{::responsible.cutFullName}}</li>
+                                            <li ng-repeat="responsible in persons| orderBy:['status','cutFullName']"
                                                 ng-if="responsible.cutFullName.length > 0 && responsible.userId != $root.me.userId"
                                                 ng-class="{disable: (responsible.status != 'A')}"
-                                                value="{{responsible.userId}}">
-                                            {{responsible.cutFullName}}
-                                        </option>
-                                    </select>
+                                                data-id="{{::responsible.userId}}"
+                                                class="select-list othersColor">{{::responsible.cutFullName}}</li>
+                                        </ul>
+                                    </div>
+                                    <div class="clearfix"></div>
                                 </div>
                             </form>
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <form class="form-inline-position pull-left">
-                                <div class="select">
+                                <div class="select clearfix">
                                     <select ng-class="{'greyColor': searchParam.employmentType == 'null'}" class="form-control"
                                             ng-model="searchParam.employmentType"
                                             ng-init="searchParam.employmentType = 'null'">

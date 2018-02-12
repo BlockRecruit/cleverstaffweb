@@ -19483,11 +19483,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $(document).click(function (){
         if($(".AdvancedSearchCandidate").css('display') != 'none'){
+            removeActiveBlock()
             $scope.showAdvancedSearchCandidateFuncHide();
             $scope.$apply();
         }
     });
-    $(".AdvancedSearchCandidate,.sortBy").click(function (e){
+    $(".sortBy").click(function (e){
         e.stopPropagation();
     });
 
@@ -20289,6 +20290,55 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
         });
     };
+
+    $scope.parentClick = function (event) {
+        let element = event.target;
+
+        isClickInAdvancedSearchCandidate(element, event);
+
+        if(element.classList.contains('select-input-field')){
+            clickOnSelectBlock(element);
+            return;
+        }
+
+        if(element.classList.contains('select-list')){
+            console.dir(element, 'element')
+            selectResponsible(element.dataset.id, element.textContent);
+            return;
+        }
+
+        removeActiveBlock();
+    };
+
+    function selectResponsible(id, name) {
+        $scope.searchParam.responsibleId = id;
+        $scope.responsibleName = name;
+        removeActiveBlock();
+    }
+
+    function clickOnSelectBlock(element) {
+        if(element.classList.contains('select-input-field')){
+            element.nextElementSibling.classList.toggle('activeBlock');
+            return;
+        }
+    }
+
+    function isClickInAdvancedSearchCandidate(element, event){
+        while (element && !element.classList.contains('row')){
+            if(element.classList.contains('AdvancedSearchCandidate')){
+                event.stopPropagation();
+                return;
+            }
+            element = element.parentNode;
+        }
+    }
+
+    function removeActiveBlock() {
+        let activeBlock = document.querySelector('.activeBlock');
+            console.log(activeBlock, 'activeBlock')
+        if(activeBlock)activeBlock.classList.remove('activeBlock');
+    }
+
     FileInit.initFileExcellUpload($rootScope, $scope, "candidate", {allowedType: ["xls", "xlsx"]}, $filter);
 }
 controller.controller('CandidateController', ["$localStorage", "$translate", "Service", "$scope", "ngTableParams",

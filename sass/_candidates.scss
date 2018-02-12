@@ -1174,7 +1174,54 @@
 								margin-right: 0;
 							}
 						}
+						& > .select-responsible {
+							position: relative;
+							&:after {
+								position: absolute;
+								top: 20px;
+								right: 5px;
+
+								content: "";
+
+								border: 3px solid transparent;
+								border-top: 7px solid #202021;
+							}
+						}
 						& > .select {
+							position: relative;
+							div.activeBlock {
+								visibility: visible;
+								max-height: 400px;
+							}
+							.dropdown-content {
+								position: absolute;
+								z-index: 999;
+								top: 100%;
+								left: 0;
+
+								visibility: hidden;
+								overflow-y: auto;
+								width: 100%;
+								max-height: 0;
+
+								transition: all 1s;
+
+								background-color: #f9f9f9;
+								box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+								ul {
+									margin: 0;
+									padding: 3px;
+								}
+								li.disable {
+									color: $theme-light-grey;
+								}
+								.greyColor {
+									color: $theme-dark;
+								}
+								.othersColor {
+									color: $theme-dark;
+								}
+							}
 							& > select {
 								@include input-styling();
 
