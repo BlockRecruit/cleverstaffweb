@@ -1054,13 +1054,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             $scope.message = 'def';
             $scope.filesForRecall.push({name: var2, attId: var1})
         };
-          //$scope.$watch('filesForRecall', function (newVal, oldVal) {
-          //    console.log(newVal);
-          //    console.log(oldVal);
-              //if(newVal != undefined && oldVal != newVal){
-              //    $scope.showErrorCvFileMessage = false;
-              //}
-          //});
+
         $scope.callbackFileError = function () {
             $scope.message = 'error_file';
         };
@@ -1193,7 +1187,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
         };
         $scope.sendRequest = function (recallForm) {
             $scope.recallForm = recallForm;
-            $scope.showErrorCvFileMessage = false;
+            $scope.showErrorCvFileMessage = true;
           if ($scope.recallForm.$valid) {
                 if ($scope.request.email != undefined && $scope.request.email.length == 0) {
                     $scope.request.email = "";
