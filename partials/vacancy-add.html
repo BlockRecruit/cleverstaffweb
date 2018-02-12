@@ -95,10 +95,10 @@
                     || vacancyForm.salaryTo.$error.max && !vacancyForm.salaryTo.$pristine" translate="Unacceptably large number">
                     </div>
                     <div class="alert alert-danger"
-                         ng-if="(vacancyForm.salaryFrom.$invalid && !vacancyForm.salaryFrom.$pristine && !vacancyForm.salaryFrom.$error.max) || (vacancyForm.salaryTo.$invalid && !vacancyForm.salaryTo.$pristine && !vacancyForm.salaryFrom.$error.max)"
+                         ng-if="(vacancyForm.salaryFrom.$invalid && !vacancyForm.salaryFrom.$pristine && !vacancyForm.salaryFrom.$error.max) || (vacancyForm.salaryTo.$invalid && !vacancyForm.salaryTo.$pristine && !vacancyForm.salaryTo.$error.max)"
                          ng-bind="'enter valid data greater than zero'|translate">
                     </div>
-                    {{vacancyForm.salaryFrom.$error.max}}
+                    <!--{{vacancyForm.salaryFrom.$error.max}}-->
                 </div>
                 <div class="col-lg-5 input-outer">
                     <span class="title">{{'budget'|translate}}</span>

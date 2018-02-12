@@ -73,6 +73,10 @@
 				&.error {
 					@include error-input-styling();
 				}
+				&::-webkit-outer-spin-button,
+				&::-webkit-inner-spin-button {
+					-webkit-appearance: none;
+				}
 			}
 			.select2-input {
 				width: 100% !important;
@@ -179,7 +183,8 @@
 				padding: 0;
 			}
 			.alert {
-				margin: 15px 0 0 0 ;
+				max-width: 94%;
+				margin: 15px auto 0;
 			}
 			.padding-right {
 				padding-right: 0;
