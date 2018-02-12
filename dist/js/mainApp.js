@@ -16447,8 +16447,8 @@ controller.controller('ActivityNoticesController',["$scope", "ngTableParams", "$
         Notice.readAll(function(resp){
             if(resp.status == 'ok'){
                 $rootScope.changeFaviconNumber(0);
-                $scope.getBehindLastMonth(true);
                 $rootScope.updateNoticesNav();
+                $scope.tableParams.reload();
             }
         })
     };

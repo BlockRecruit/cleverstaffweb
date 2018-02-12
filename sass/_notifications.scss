@@ -13,6 +13,17 @@
 	.row {
 		@include disabled-margins-for-row();
 	}
+	table {
+		width: 100%;
+		tbody {
+			tr {
+				padding: 0;
+				td {
+					padding: 0;
+				}
+			}
+		}
+	}
 	.history-outer {
 		.month {
 			background-color: $theme-light-green;
@@ -58,10 +69,11 @@
 			&.last-actions-header {
 				padding: 8px;
 			}
+			.month {
+				padding: 8px 24px;
+			}
 		}
 		.history {
-			@include flex-centered-verticaly();
-
 			margin-left: 0;
 			padding: 8px 24px;
 
@@ -85,13 +97,14 @@
 				font-size: 16px;
 
 				position: absolute;
-				right: 10px;
+				right: 50px;
 				&.green {
 					color: $theme-dark-green;
 				}
 			}
 			.date {
-				padding: 0;
+				width: 10%;
+				padding: 12px 24px;
 			}
 			.notices {
 				div {
@@ -101,14 +114,9 @@
 				}
 			}
 		}
-	}
-	.pagination-block {
-		margin-top: 15px;
-		margin-bottom: -15px;
-
-		text-align: center;
-		input {
-			width: 40px;
+		.notices-rows {
+			td {
+			}
 		}
 	}
 }

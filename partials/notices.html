@@ -21,18 +21,16 @@
                         <!--</div>-->
                     </div>
                 </div>
-                <table ng-table="tableParams" class="history-outer table" template-pagination="custom/pager" id="mainTable">
+                <table ng-table="tableParams" class="history-outer" template-pagination="custom/pager" id="mainTable">
                     <tbody>
-                        <tr ng-repeat="notice in notices">
+                        <tr ng-repeat="notice in notices" class="notices-rows">
                             <td>
                                 <table>
                                     <tr class=" history-header last-actions-header month" ng-show="notices[$index - 1].dateCreationMonth != notice.dateCreationMonth">
-                                        <td></td>
-
-                                        <td>
-                                    <span class="title-header" translate="month_MM.{{notice.dc| date:'MM'}}">
-                                    </span>
+                                        <td class="month">
+                                            <span class="title-header" translate="month_MM.{{notice.dc| date:'MM'}}"></span>
                                         </td>
+                                        <td></td>
                                     </tr>
                                     <!---------------------------------------------- to repeat-->
                                     <tr class=" history last-action"
