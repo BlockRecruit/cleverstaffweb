@@ -4,8 +4,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
     <script async src="https://cdn.ampproject.org/v0.js"></script>
-    <title>CleverStaff - Единая система для подбора персонала</title>
-    <meta name="description" content="CleverStaff Recruitment Software and Applicant Tracking System">
+    <title>Cleverstaff - Система подбора персонала.</title>
+    <meta name="description" content="Единая система для профессионального подбора персонала. Облачная и серверная версии">
     <link rel="canonical" href="index.html">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <!--<link rel="stylesheet" href="../external/css/amp/main.min.css?b4">-->
@@ -34,6 +34,7 @@
     <script async custom-element="amp-accordion" src="https://cdn.ampproject.org/v0/amp-accordion-0.1.js"></script>
     <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
     <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+    <script async custom-element="amp-analytics" src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"></script>
 </head>
 <body>
 <amp-sidebar id="sidebar" layout="nodisplay" side="right">
@@ -51,7 +52,7 @@
                             RU <span class="caret inline"></span>
                         </h6>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="/index.html">EN</a></li>
+                            <li><a href="/amp.html">EN</a></li>
                         </ul>
                     </section>
                 </amp-accordion>
@@ -89,7 +90,7 @@
                                 data-toggle="dropdown">RUS <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="/index.html" id="setLang">ENG</a></li>
+                            <li><a href="/amp.html" id="setLang">ENG</a></li>
                         </ul>
                     </div>
                     <span class="iconMenu">
@@ -160,9 +161,9 @@
                                     <p>
                                         <span>Моментальная интеграция с LinkedIn, почтой и сайтами поиска работы.</span>
                                         <amp-img src="/external/img/gif/Linkedin_integration.gif"
-                                                 width="340"
-                                                 height="250">
-
+                                                 width="1.7"
+                                                 height="1"
+                                                 layout="responsive">
                                         </amp-img>
                                     </p>
                                 </section>
@@ -171,9 +172,9 @@
                                     <p>
                                         <span>Алгоритмы системы предлагают кандидатов из вашей базы, которые максимально соответствуют критериям вакансии.</span>
                                         <amp-img src="/external/img/gif/Appropriate_candidates_suggestions.gif"
-                                                 width="340"
-                                                 height="250">
-
+                                                 width="1.7"
+                                                 height="1"
+                                                 layout="responsive">
                                         </amp-img>
                                     </p>
                                 </section>
@@ -182,9 +183,9 @@
                                     <p>
                                         <span>Все отчёты по вакансиям для заказчиков / руководителей теперь создаются автоматически за пару секунд.</span>
                                         <amp-img src="/external/img/gif/Quick_vacancies_reports.gif"
-                                                 width="340"
-                                                 height="250">
-
+                                                 width="1.7"
+                                                 height="1"
+                                                 layout="responsive">
                                         </amp-img>
                                     </p>
                                 </section>
@@ -193,9 +194,9 @@
                                     <p>
                                         <span>Загружайте резюме любого формата и CleverStaff конвертирует его в структурированную запись.<br> Больше не надо вводить данные вручную.</span>
                                         <amp-img src="/external/img/gif/Resume_parsing.gif"
-                                                 width="340"
-                                                 height="250">
-
+                                                 width="1.7"
+                                                 height="1"
+                                                 layout="responsive">
                                         </amp-img>
                                     </p>
                                 </section>
@@ -204,9 +205,9 @@
                                     <p>
                                         <span>Отправляйте автоматические письма кандидатам по настраиваемым шаблонам.</span>
                                         <amp-img src="/external/img/gif/Resume_parsing.gif"
-                                                 width="340"
-                                                 height="250">
-
+                                                 width="1.7"
+                                                 height="1"
+                                                 layout="responsive">
                                         </amp-img>
                                     </p>
                                 </section>
@@ -598,5 +599,24 @@
         </div>
     </div>
 </div>
+
+<amp-analytics type="googleanalytics" id="analytics">
+    <script type="application/json">
+        {
+            "vars": {
+                "account": "UA-52127049-1"
+            },
+            "triggers": {
+                "trackPageview": {
+                    "on": "visible",
+                    "request": "pageview",
+                    "vars": {
+                        "title": "Index-Ru"
+                    }
+                }
+            }
+        }
+    </script>
+</amp-analytics>
 </body>
 </html>
