@@ -50,7 +50,7 @@
                       placeholder="{{'message' | translate}}"
                       ng-model="request.message" name="message">
             </textarea>
-            <div class="pull-left message" ng-show="recallForm.message.$invalid && !recallForm.message.$pristine || showErrorCvFileMessage">
+            <div class="pull-left message" ng-show="filesForRecall.length == 0 && showErrorCvFileMessage">
                 <span>{{'Please attach your CV file'|translate}}</span>
             </div>
             <div class="attachFile">

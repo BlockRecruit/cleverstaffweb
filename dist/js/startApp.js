@@ -1326,8 +1326,10 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 if ($scope.request.phone == undefined || $scope.request.phone.match(/^[\(\)\s\-\+\d]{9,20}$/) == null) {
                     $scope.showErrorPhoneMessage = true;
                     return false;
+                }else{
+                    $scope.showErrorPhoneMessage = false;
                 }
-                if($scope.request.fileId == null){
+                if($scope.filesForRecall.length == 0){
                     $scope.showErrorCvFileMessage = true;
                 }else{
                     Service.addCandidate($scope.request, function (resp) {
