@@ -725,7 +725,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam.personNameWhoSearching = $rootScope.usernameThatIsSearching;
         $scope.searchParam.pages = {count: $scope.startPagesShown};
         $scope.searchParam.experience = 'null';
-        $scope.searchParam.languages =  'null';
+        $scope.searchParam.languages =  {
+            value:null,
+            text:true
+        };
         $scope.searchParam.origin = null;
         $scope.searchParam.skills = [];
         $scope.searchParam.withPersonalContacts.value = null;
@@ -797,7 +800,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             personNameWhoSearching: $rootScope.usernameThatIsSearching,
             pages: {count: $scope.startPagesShown},
             experience: null,
-            languages: 'null',
+            languages: {
+                value:null,
+                text:''
+            },
             skills: []
         };
         $scope.staticSearchParam = [];
@@ -841,7 +847,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             personNameWhoSearching: $rootScope.usernameThatIsSearching,
             pages: {count: $scope.startPagesShown},
             experience: null,
-            languages: 'null',
+            languages: {
+                value:null,
+                text:''
+            },
             skills: []
         })
     };
@@ -961,7 +970,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("industry", isNotBlank($scope.searchParam['industry']) ? $scope.searchParam['industry'] : null);
                 Candidate.setOptions("candidateGroupIds", $scope.searchParam['candidateGroupIds'] ? $scope.searchParam['candidateGroupIds'] : null);
                 Candidate.setOptions("experience", isNotBlank($scope.searchParam['experience']) ? $scope.searchParam['experience'] : null);
-                Candidate.setOptions("languages", $scope.searchParam['languages'] !== 'null' && $scope.searchParam['languages'].length > 0 ? $scope.searchParam['languages'] : []);
+                Candidate.setOptions("languages", $scope.searchParam['languages'].value ? $scope.searchParam['languages'].value : []);
                 Candidate.setOptions("searchFullTextType", isNotBlank($scope.searchParam['searchFullTextType']) ? $scope.searchParam['searchFullTextType'] : null);
                 Candidate.setOptions("sort", isNotBlank($scope.filterForChange) ? $scope.filterForChange : null);
                 Candidate.setOptions("sortOrder", $scope.filterForChange == 'alphabetically' ? 'ASC' : 'DESC');
@@ -1316,7 +1325,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 $scope.searchParam.regionId != null || $scope.searchParam.regionIdCity != null ||
                 $scope.searchParam.candidateGroupIds != null || $scope.searchParam.searchFullTextType != null ||
                 $scope.searchParam.responsibleId != 'null' || $scope.searchParam.personId != null ||
-                $scope.searchParam.experience != 'null' || $scope.searchParam.languages != 'null' ||
+                $scope.searchParam.experience != 'null' || $scope.searchParam.languages.value  ||
                 $scope.searchParam.skills.type != '_all' || ($scope.searchParam.withPersonalContacts.value != 'null' && $scope.searchParam.withPersonalContacts.value)) || ($scope.searhcForSure)||
                 $scope.chosenLangs.some(item => item != 'null') || $scope.groupIdsForSearch){
 
@@ -1339,7 +1348,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 notificationService.error($filter('translate')('This tag is not added to any candidate'));
             }
 
-            (!isClean)? $scope.searchParam['languages'] = $scope.chosenLangs.filter(item => item !== 'null'):null;
+            (!isClean)? $scope.searchParam['languages'].value = $scope.chosenLangs.filter(item => item !== 'null'):null;
 
 
             if($scope.searchParam.words && !$scope.searchParam.words.length){

@@ -174,22 +174,25 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 with-contacts" ng-show="$root.me.recrutRole != 'client'">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                             <form class="form-inline-position pull-left">
-                                <div class="select">
-                                    <select ng-class="{'greyColor': searchParam.withPersonalContacts == 'null'}" class="form-control"
-                                            ng-model="searchParam.withPersonalContacts">
-                                        <option value="null">{{'Personal contacts'|translate}}</option>
-                                        <option value="true">
-                                            {{'Available Email and/or Skype'|translate}}
-                                        </option>
-                                        <option value="false">{{'Unavailable Email and/or Skype'|translate}}</option>
-                                    </select>
-                                    <span class="new-label">New</span>
+                                <div class="select clearfix">
+                                    <custom-select placeholder="{{'Personal contacts'}}"
+                                                   model="searchParam.withPersonalContacts.text"
+                                                   method="selectWithPersonalContacts"
+                                                   data="[{text:'Available Email and/or Skype',value:true},{text:'Unavailable Email and/or Skype',value:false}]"></custom-select>
+                                    <!--<select ng-class="{'greyColor': searchParam.withPersonalContacts == 'null'}" class="form-control"-->
+                                    <!--ng-model="searchParam.withPersonalContacts">-->
+                                    <!--<option value="null">{{'Personal contacts'|translate}}</option>-->
+                                    <!--<option value="true">-->
+                                    <!--{{'Available Email and/or Skype'|translate}}-->
+                                    <!--</option>-->
+                                    <!--<option value="false">{{'Unavailable Email and/or Skype'|translate}}</option>-->
+                                    <!--</select>-->
                                 </div>
                             </form>
                         </div>
-                        <!--<div class="clearfix"></div>-->
+                        <div class="clearfix"></div>
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                             <form class="form-inline-position pull-left">
                                 <div class="select clearfix">
@@ -253,7 +256,7 @@
                                 </div>
                             </form>
                         </div>
-                        <!--<div class="clearfix"></div>-->
+                        <div class="clearfix"></div>
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                             <input type="number" class="form-control salary pull-left" ng-enter-search ng-model="searchParam.salary"
                                    placeholder="{{'salary_before'|translate}}">
@@ -315,7 +318,7 @@
                                 </div>
                             </form>
                         </div>
-                        <!--<div class="clearfix"></div>-->
+                        <div class="clearfix"></div>
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                             <form class="form-inline-position pull-left">
                                 <div class="select clearfix">
@@ -360,26 +363,25 @@
                                 </div>
                             </form>
                         </div>
-                        <!--<div class="clearfix"></div>-->
+                        <div class="clearfix"></div>
                         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
-                            <form class="form-inline-position pull-left">
-                                <div class="select clearfix">
-                                    <custom-select placeholder="{{'Personal contacts'}}"
-                                                   model="searchParam.withPersonalContacts.text"
-                                                   method="selectWithPersonalContacts"
-                                                   data="[{text:'Available Email and/or Skype',value:true},{text:'Unavailable Email and/or Skype',value:false}]"></custom-select>
-                                    <!--<select ng-class="{'greyColor': searchParam.withPersonalContacts == 'null'}" class="form-control"-->
-                                            <!--ng-model="searchParam.withPersonalContacts">-->
-                                        <!--<option value="null">{{'Personal contacts'|translate}}</option>-->
-                                        <!--<option value="true">-->
-                                            <!--{{'Available Email and/or Skype'|translate}}-->
+                            <custom-select model="searchParam.lenguages.text" method="selectEmploymentType" placeholder="{{'employment_type'}}" data="employmentType"></custom-select>
+                            <!--<form class="form-inline-position pull-left">-->
+                                <!--<div class="select">-->
+                                    <!--<select ng-class="{'greyColor': currentLang == 'null'}" class="form-control"-->
+                                            <!--ng-model="currentLang"-->
+                                            <!--ng-init="currentLang = 'null'"-->
+                                            <!--ng-change="addSearchLang(currentLang)">-->
+                                        <!--<option class="greyColor" value="null" selected>{{'languages_1'|translate}}</option>-->
+                                        <!--<option class="othersColor" ng-selected="(lang.name == chosenLangs[0] || lang.name == chosenLangs[1] || lang.name == chosenLangs[2]) && lang.name != 'null'"-->
+                                                <!--ng-repeat="lang in langsReceived | unique:'name'" ng-show="lang.name.length > 0" value="{{lang.name}}">-->
+                                            <!--{{lang.name}}-->
                                         <!--</option>-->
-                                        <!--<option value="false">{{'Unavailable Email and/or Skype'|translate}}</option>-->
                                     <!--</select>-->
-                                </div>
-                            </form>
+                                <!--</div>-->
+                            <!--</form>-->
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-6  col-xs-6" style="clear: both;" ng-if="chosenLangs[0] != 'null' || chosenLangs[1] != 'null' || chosenLangs[2] != 'null'">
+                        <div class="col-lg-4 col-md-4 col-sm-6  col-xs-6" style="clear: both;">
                             <div class="boxThreeColumn col-lg-11 col-xs-12 pull-left chosenLang"
                                  style="padding-top: 0px;"
                                  ng-repeat="chosenLang in chosenLangs track by $index" ng-if="chosenLang != 'null'">
