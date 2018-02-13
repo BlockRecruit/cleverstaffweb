@@ -21489,20 +21489,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.progressUpdate = function() {
             Candidate.progressUpdate($scope, true);
         };
-        $scope.btnToAddPhone = true;
-        $scope.addInputPhone = function(){
-            console.log($( ".duplicatePhone" ));
-            if($( ".duplicatePhone3").length == 1) {
-                $scope.btnToAddPhone = false;
-            }else if($( ".duplicatePhone2").length == 1){
-                $( ".duplicatePhone" ).clone().appendTo( ".contactCandidate .phoneBlock" );
-                $( ".duplicatePhone" )[0].className = 'duplicatePhone3';
-                $scope.btnToAddPhone = false;
-            }else if($( ".duplicatePhone").length == 1){
-                $( ".duplicatePhone" ).clone().appendTo( ".contactCandidate .phoneBlock" );
-                $( ".duplicatePhone" )[0].className = 'duplicatePhone2';
-            }
-        };
 
         $scope.imgWidthFunc = function(){
             var img = new Image();
@@ -22037,6 +22023,22 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             console.log(type);
             console.log(event);
             Candidate.setSelectFavoriteContacts($scope, type, event );
+        };
+
+        $scope.btnToAddPhone = true;
+        $scope.secondPhoneInput = false;
+        $scope.thirdPhoneInput = false;
+        var i = 0;
+        $scope.addInputPhone = function(){
+            i++;
+            if(i == 1){
+                $scope.secondPhoneInput = true;
+            }else if(i == 2){
+                $scope.thirdPhoneInput = true;
+                $scope.btnToAddPhone = false;
+            }else{
+                return false;
+            }
         };
 
     }]);
