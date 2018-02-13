@@ -1064,6 +1064,15 @@
                         {{'Design custom report'|translate}}
                         <span class="new-label" style="right: -17px; top: 0px; font-weight: 600;">beta</span>
                     </a>
+                    <a href=""
+                       class="disabled"
+                       ng-class="{'selected': $root.activePage == 'Reports constructor'}"
+                       style="position: relative;"
+                       ng-click="$root.disabledBtnFunc();"
+                       ng-show="!$root.hideTariff && $root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'client' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'salesmanager'">
+                        {{'Design custom report'|translate}}
+                        <span class="new-label" style="right: -22px; top: 0px; font-weight: 600;">beta</span>
+                    </a>
                 </li>
             </ul>
             </div>

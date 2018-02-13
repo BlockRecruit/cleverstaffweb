@@ -4,7 +4,10 @@
         </span>
         <p>
             <span class="slogan" ng-bind='"Cannot find the appropriate report? Build it yourself at "|translate'></span>
-            <a href="#/constructor-reports" style="position: relative;">{{"Custom report designer"|translate}}.
+            <a ng-if="!$root.hideTariff" ng-click="$root.disabledBtnFunc();" href="" style="position: relative;">{{"Custom report designer"|translate}}.
+                <span class="new-label" style="right: -18px; top: 0px; font-weight: 600;">beta</span>
+            </a>
+            <a ng-if="$root.hideTariff" href="#/constructor-reports" style="position: relative;">{{"Custom report designer"|translate}}.
                 <span class="new-label" style="right: -18px; top: 0px; font-weight: 600;">beta</span>
             </a>
         </p>
