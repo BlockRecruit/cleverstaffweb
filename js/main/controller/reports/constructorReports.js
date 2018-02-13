@@ -197,7 +197,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     "from": createCorrectDate($scope.startVacancyDate, ['00','00','00']),
                     "to": createCorrectDate($scope.endDate,['23','59','59']),
                     "types": null,
-                    "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : [],
+                    "vacancyIds": $scope.fieldsVacancyList.filter(item => item.visiable),
                     "vacancyStatuses": $scope.vacancysStatusesParam,
                     "interviewStatuses": $scope.inVacancysStatusesParam,
                     "interviewCreatorIds": $scope.choosenPersons,
@@ -343,7 +343,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     "datePayment","employmentType","candidatesRefused","candidatesInWork"],
                 "customVacancyFields":$scope.checkCustomListFields,
                 "withCandidates": $scope.withCandidates,
-                "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : []
+                "vacancyIds": $scope.fieldsVacancyList.filter(item => item.visiable)
 
             }, ifCheck)
             .then(response => {
@@ -517,7 +517,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                                 "interviewCreatorIds": $scope.choosenPersons,
                                 "vacancyFields": $scope.checkListFields,
                                 "withCandidates": $scope.withCandidates,
-                                "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : []
+                                "vacancyIds": $scope.fieldsVacancyList.filter(item => item.visiable)
                             }, false),
                             CustomField.requestGetFieldsTitles()
                         ])
@@ -600,7 +600,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     "vacancyFields":$scope.checkListFields,
                     "customVacancyFields":$scope.checkCustomListFields,
                     "withCandidates": $scope.withCandidates,
-                    "vacancyIds": ($scope.selectVacancy.length > 0)? $scope.selectVacancy.map(item => item.vacancyId) : []
+                    "vacancyIds": $scope.fieldsVacancyList.filter(item => item.visiable)
                 }, function (resp) {
                     if (resp.status == 'ok') {
                         var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
@@ -970,6 +970,8 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
         $scope.selectedVacancy = function (vacancyID) {
             vacancyID.visiable = !vacancyID.visiable;
+            reloadCountCandidatesInStages()
+
         };
 
         $scope.selectDateRange = function (event, dateRange, isUpdate) {
@@ -1025,9 +1027,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
         $scope.selectAllVacancies = function () {
             let _fieldsVacancyList = $scope.fieldsVacancyList;
-
             _fieldsVacancyList.forEach(item => item.visiable = $scope.chooseListFieldsVacancies);
-            // ($scope.chooseListFieldsVacancies)?  $scope.selectVacancy = _fieldsVacancyList.filter(item => item.visiable) : $scope.selectVacancy = [];
         };
 
         function isClickInDataShowBlock(element, id) {
@@ -1112,8 +1112,20 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             $rootScope.loading = false;
         }
 
-        function reloadCountCandidatesInStages(data){
+        function reloadCountCandidatesInStages(){
+            let requestData = {
+                "from": $scope.startVacancyDate,
+                "to": $scope.endDate,
+                "vacancyStatuses": $scope.vacancysStatusesParam,
+                "interviewCreatorIds": $scope.choosenPersons,
+                "vacancyIds": $scope.fieldsVacancyList.filter(item => item.visiable)
+            };
 
+            return  Stat.requestGetCountInterviewForActualVacancyStatistic(requestData)
+                .then((resp) => {
+                    $scope.vacancyStatuses = resp.objects;
+                    $rootScope.loading = false;
+                });
         }
     }
 ]);
