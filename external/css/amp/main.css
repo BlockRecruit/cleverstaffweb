@@ -855,6 +855,12 @@ a:focus {
 .person-ava{
     margin: 5px 0 0 129px;
 }
+.person-card {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    align-items: center;
+}
 .person-descr{
     margin: 40px 0 0 40px;
     width: 270px;
@@ -1680,7 +1686,8 @@ button.amp-menu {
 @media (max-width: 600px) {
     #carousel-with-preview,
     .amp-carousel-slide {
-        max-height: 600px;
+        max-height: 530px;
+        height: auto;
     }
     .block .row {
         margin:0 auto;
