@@ -14306,7 +14306,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=45'
+        suffix: '.json?b=46'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -17627,11 +17627,6 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
         };
 
     }
-
-    $scope.errorMessage = {
-        show: false,
-        message: ""
-    };
     $scope.dateOptions = {
         changeYear: true,
         changeMonth: true,
@@ -17772,12 +17767,12 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
         $scope.$on('$destroy', myListener);
     $scope.saveCandidate = function() {
         $localStorage.set("candidate_currency", $scope.candidate.currency);
-        var salaryBol = true;
+        var salaryBol;
         $scope.candidate.position=$scope.getPositionAutocompleterValue();
-        if ($scope.candidate.salary != undefined && $scope.candidate.salary != "" && /[^[0-9]/.test($scope.candidate.salary)) {
-            $scope.errorMessage.show = true;
-            $scope.errorMessage.message = $filter("translate")("desired_salary_should_contains_only_numbers");
+        if ($scope.candidate.salary && $scope.candidate.salary <= 2147483647) {
             salaryBol = false;
+        } else {
+            salaryBol = true;
         }
         if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed) {
             $scope.saveButtonIsPressed = true;
@@ -19651,7 +19646,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 $scope.searchParam.candidateGroupIds != null || $scope.searchParam.searchFullTextType != null ||
                 $scope.searchParam.responsibleId != 'null' || $scope.searchParam.personId != null ||
                 $scope.searchParam.experience != 'null' || $scope.searchParam.lang != 'null' ||
-                $scope.searchParam.skills.type != '_all' || $scope.searchParam.withPersonalContacts != 'null' || $scope.groupIdsForSearch) || ($scope.searhcForSure)){
+                $scope.searchParam.skills.type != '_all' || $scope.searchParam.withPersonalContacts != 'null') || ($scope.searhcForSure)){
             $scope.searhcForSure = false;
             $scope.showExternalMenu = false;
             $scope.clickBtnSort = true;
@@ -20752,10 +20747,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         };
         $scope.lang = Service.lang();
 
-        $scope.errorMessage = {
-            show: false,
-            message: ""
-        };
         FileInit.initCandFileOption($scope, "candidate", "", false, $filter);
         FileInit.initFileOptionForEditFromResume($scope, "candidate");
         $scope.callbackFile = function(resp, name) {
@@ -21378,11 +21369,12 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             $scope.$on('$destroy', myListener);
         },0);
         $scope.saveCandidate = function() {
-            var salaryBol = true;
-            if ($scope.candidate.salary != undefined && $scope.candidate.salary != "" && /[^[0-9]/.test($scope.candidate.salary)) {
-                $scope.errorMessage.show = true;
-                $scope.errorMessage.message = $filter("translate")("desired_salary_should_contains_only_numbers");
+            var salaryBol;
+            $scope.candidate.position=$scope.getPositionAutocompleterValue();
+            if ($scope.candidate.salary && $scope.candidate.salary >= 2147483647) {
                 salaryBol = false;
+            } else {
+                salaryBol = true;
             }
 
             if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed) {
@@ -21469,8 +21461,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                         $location.path("/candidates/" + val.object.localId);
                     } else {
                         $scope.saveButtonIsPressed = false;
-                        $scope.errorMessage.show = true;
-                        $scope.errorMessage.message = val.message;
                     }
                 }, function(err) {
                     $scope.saveButtonIsPressed = false;

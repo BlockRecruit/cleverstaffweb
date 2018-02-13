@@ -2292,8 +2292,9 @@
   "Exchange version": "Exchange version",
   "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Domain/user name is the required field <b>only</b> for those cases when logging into an account for exchange via Domain/user name, rather than an email address",
   "Please attach your CV file": "Please attach your CV file",
-  "Enter more data for search":"Enter more data for search",
   "The vacancy":"The vacancy",
+  "Enter more data for search":"Enter more data for search",
+  "Too much Desired Salary salary value": "Too much \"Desired Salary\" field value",
   "_edited":"edited",
   "Select all vacancies":  "Select all vacancies"
 }
