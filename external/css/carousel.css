@@ -3,10 +3,10 @@
 .carousel>ul>li>img{width:236px;height:140px;vertical-align:middle;margin:0px 16px 0px 16px;}
 .carousel a{display:inline-block;vertical-align:middle;}
 a.prev, a.next{width:28px;height:28px;line-height:1;text-decoration:none;display:inline-block;}
-a.next{background:url(../img/leftArrow.png);}
-a.next:hover{background:url(../img/leftArrow.png);}
-a.prev{background:url(../img/leftArrow.png);}
-a.prev:hover{background:url(../img/leftArrow.png);}
+a.next{background:url(/external/img/leftArrow.png);}
+a.next:hover{background:url(/external/img/leftArrow.png);}
+a.prev{background:url(/external/img/leftArrow.png);}
+a.prev:hover{background:url(/external/img/leftArrow.png);}
 a.prev{margin:0 50px 230px 0;height:35px;width:19px;}
 a.next{margin:0 0 230px 50px;height:35px;width:19px;transform:rotate(180deg);-moz-transform:rotate(180deg);-ms-transform:rotate(180deg);-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);}
 @media screen and (max-width:1199px){a.next{margin:0;position:relative;left:5px;top:-335px;}

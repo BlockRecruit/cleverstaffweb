@@ -63,6 +63,22 @@ $(document).ready(function () {
     var passPattern3 = /.*\d.*/;
     //buttons
 
+    $('#setLang').on('click', function() {
+        localStorage.setItem('NG_TRANSLATE_LANG_KEY', $(this).val());
+    });
+
+    $('#tariffModal').on('click', function() {
+        tariffFunc('demo');
+    });
+
+    $('#ex1_number').on('input', function() {
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    });
+
+    $('#ex1_averageNum').on('input', function() {
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    });
+
     $(window).scroll(function () {
         var top = $(document).scrollTop();
         if (top > 445 & top < 657) {
@@ -1041,7 +1057,7 @@ $(document).ready(function () {
         }
         return false;
     });
-    
+
     function isLanguageTextErrorForEmail() {
         var str = '';
 
@@ -1935,7 +1951,7 @@ $(document).ready(function () {
                 history.pushState({},"","");
                 window.location.replace("/signup.html");
             }
-            if(window.location.pathname == '/ru/' || window.location.pathname == '/ru/index.html'){
+            if(window.location.pathname == '/ru/' || window.location.pathname == '/ru/index.html' || window.location.pathname == '/ru/amp.html'){
                 history.pushState({},"","");
                 window.location.replace("/ru/signup.html");
             }
