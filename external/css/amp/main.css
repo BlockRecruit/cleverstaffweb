@@ -861,6 +861,9 @@ a:focus {
     justify-content: space-around;
     align-items: center;
 }
+.person-card amp-img{
+    border-radius: 50%;
+}
 .person-descr{
     margin: 40px 0 0 40px;
     width: 270px;
@@ -1564,7 +1567,7 @@ footer{
     font-weight: 600;
     color: #9b9b9c;
     padding: 10px;
-    font-size: 17px;
+    font-size: 14px;
 }
 
 #sidebar {
@@ -1656,6 +1659,7 @@ footer{
 amp-accordion > section[expanded] p span {
     display: block;
     margin: 10px 0;
+    padding: 0 10px;
 }
 
 
