@@ -7656,7 +7656,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         }
 
         function concatCastomOrStandartFields(custom, standart) {
-            console.log(custom, standart, 'custom, standart');
             custom.forEach(item => {
                 standart.push({
                     value: item.title,
@@ -7810,7 +7809,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         function isChanged(startData, finishData) {
             let index, i, change = true;
-            console.log(startData, finishData);
 
             for(i in startData){
                 index = Object.getOwnPropertyNames(finishData).sort().indexOf(i);
@@ -7930,7 +7928,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         }
 
         function setListVacancies(resp) {
-            console.log(this,'this')
             let responseData, listVacancies = this.fieldsVacancyList;
 
             if(!resp.objects){
@@ -7953,6 +7950,52 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             this.fieldsVacancyList = responseData;
             $rootScope.loading = false;
         }
+
+        function showBlocks(event) {
+            let targetDataID = getDataShowElement(event.target),
+                targetShowElement;
+
+            if(isClickInDataShowBlock(event.target, targetDataID['show'])){
+                return;
+            }
+
+            targetShowElement =  angular.element('#' + targetDataID['show'])[0];
+
+            if(targetDataID && targetDataID['show'] && !targetShowElement.classList.contains('active')){
+                _showBlocks(targetShowElement);
+                return;
+            }
+
+            _hiddenBlocks();
+        }
+
+        function getDataShowElement(target) {
+            let element = target;
+
+            while(!element.classList.contains('block-custom-report-edit')){
+                if(element.dataset.show){
+                    return element.dataset;
+                }
+                element = element.parentNode;
+            }
+            return false;
+        }
+
+        function isClickInDataShowBlock(element, id) {
+            while(!element.classList.contains('block-custom-report-edit')){
+                if(element.classList.contains('active') || (id && element.id === id)){
+                    return true;
+                }
+                element = element.parentNode;
+            }
+            return false;
+        }
+
+        function selectAllVacancies() {
+            let _fieldsVacancyList = this.fieldsVacancyList;
+                _fieldsVacancyList.forEach(item => item.visible = this.chooseListFieldsVacancies);
+            checkOnChange.call(this)
+        };
 
         resetDefaultData();
 
@@ -8182,17 +8225,8 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         };
 
-        function _moveCircleForVacancies() {
-            if(this.fieldsVacancyList.filter(i=>i.visible).length){
-                this.chooseListFieldsVacancies = true;
-            }else{
-                this.chooseListFieldsVacancies = false
-            }
-        };
-
-        singleton.hiddenBlocks = _hiddenBlocks;
-        singleton.showBlocks = _showBlocks;
-        singleton.moveCircleForVacancies = _moveCircleForVacancies;
+        singleton.showBlocks         = showBlocks;
+        singleton.selectAllVacancies = selectAllVacancies;
 
         return singleton;
     }catch(error){
@@ -19646,7 +19680,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 $scope.searchParam.candidateGroupIds != null || $scope.searchParam.searchFullTextType != null ||
                 $scope.searchParam.responsibleId != 'null' || $scope.searchParam.personId != null ||
                 $scope.searchParam.experience != 'null' || $scope.searchParam.lang != 'null' ||
-                $scope.searchParam.skills.type != '_all' || $scope.searchParam.withPersonalContacts != 'null') || ($scope.searhcForSure)){
+                $scope.searchParam.skills.type != '_all' || $scope.searchParam.withPersonalContacts != 'null' || $scope.groupIdsForSearch) || ($scope.searhcForSure)){
             $scope.searhcForSure = false;
             $scope.showExternalMenu = false;
             $scope.clickBtnSort = true;
@@ -42756,7 +42790,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
              $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomField, CustomReportsService) {
         let activeBlocks = [];
         $rootScope.loading = true;
-        $scope.chooseListFieldsVacancies = false;
+        // $scope.chooseListFieldsVacancies = false;
         $scope.regions = [];
         $scope.timeMaxZone = false;
         $scope.timeMaxZone2 = false;
@@ -43688,28 +43722,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             }
         };
 
-
-        console.log($rootScope, 'asdasd')
-
-        $scope.showChoosingVacancyFields = function (event) {
-            if($('.chooseListFieldsVacancies').css('display') == 'none'){
-                $('.chooseListFieldsVacancies').show('500');
-                $('body').mouseup((e) => {
-                    if ($('.chooseListFieldsVacancies').has(e.target).length === 0) {
-                        $scope.$apply(() => {
-                            $('.chooseListFieldsVacancies').hide("500");
-                            $(this).off('mouseup');
-                            $scope.query = '';
-                        });
-                    }
-                });
-            }else{
-                $('body').unbind('mouseup');
-                $('.chooseListFieldsVacancies').hide("500");
-                $scope.query = '';
-            }
-        };
-
         $scope.popup = function(){
             $('.commentBlog').popup({
                 position : 'right center'
@@ -43742,14 +43754,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         };
 
         $scope.selectedVacancy = function (vacancyID) {
-            let data = $scope.selectVacancy, index = data.indexOf(vacancyID);
-                if(index !== -1){
-                    vacancyID.visiable = false;
-                    data.splice(index, 1);
-                }else{
-                    vacancyID.visiable = true;
-                    data.push(vacancyID);
-                }
+            vacancyID.visiable = !vacancyID.visiable;
         };
 
         $scope.selectDateRange = function (event, dateRange, isUpdate) {
@@ -43801,34 +43806,57 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
         $scope.parentClick = function (event) {
             showBlocks(event);
-            moveCircleForVacancies();
         };
 
+        $scope.selectAllVacancies = function () {
+            let _fieldsVacancyList = $scope.fieldsVacancyList;
+
+            _fieldsVacancyList.forEach(item => item.visiable = $scope.chooseListFieldsVacancies);
+            // ($scope.chooseListFieldsVacancies)?  $scope.selectVacancy = _fieldsVacancyList.filter(item => item.visiable) : $scope.selectVacancy = [];
+        };
+
+        function isClickInDataShowBlock(element, id) {
+            while(!element.classList.contains('block-constructor-reports')){
+                if(element.classList.contains('active') || (id && element.id === id)){
+                    return true;
+                }
+                element = element.parentNode;
+            }
+            return false;
+        }
+
         function showBlocks(event) {
-            let targetDataID = event.target.dataset, blockShow;
-            if(targetDataID && targetDataID['show']){
-                blockShow = angular.element('#' + targetDataID['show'])[0];
-                _showBlocks(blockShow);
+            let targetDataID = getDataShowElement(event.target), targetShowElement;
+
+            if(isClickInDataShowBlock(event.target, targetDataID['show'])){
+                return;
+            }
+
+            targetShowElement =  angular.element('#' + targetDataID['show'])[0];
+
+            if(targetDataID && targetDataID['show'] && !targetShowElement.classList.contains('active')){
+                _showBlocks(targetShowElement);
                 return;
             }
 
             _hiddenBlocks();
-        };
+        }
 
+        function getDataShowElement(target) {
+            let element = target;
 
-        function moveCircleForVacancies() {
-            if($scope.selectVacancy.length){
-                $scope.chooseListFieldsVacancies = true;
-            }else{
-                $scope.chooseListFieldsVacancies = false
+            while(!element.classList.contains('block-constructor-reports')){
+                    if(element.dataset.show){
+                        return element.dataset;
+                    }
+                element = element.parentNode;
             }
-        };
-
-
+            return false;
+        }
 
         function _showBlocks(blockShow){
             activeBlocks.push(blockShow);
-            blockShow.classList.toggle('active');
+            blockShow.classList.add('active');
         }
 
         function _hiddenBlocks() {
@@ -43887,20 +43915,12 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             }
         };
 
-        let showBlocks =  (event) => {
-            let targetDataID = event.target.dataset, blockShow;
-
-            if(targetDataID && targetDataID['show']){
-                blockShow = angular.element('#' + targetDataID['show'])[0];
-                CustomReportEditService.showBlocks(blockShow);
-                return;
-            }
-            CustomReportEditService.hiddenBlocks();
+        let showCurrentBlock =  (event) => {
+            CustomReportEditService.showBlocks.call(null, event);
         };
 
         let _parentClick = event => {
-            showBlocks(event,$scope);
-            CustomReportEditService.moveCircleForVacancies.call(this);
+            showCurrentBlock(event,$scope);
         };
 
         CustomReportEditService.buildReport.call(this, $scope);
@@ -43924,8 +43944,8 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         this.saveCustomReport           = CustomReportEditService.saveCustomReport;
         this.showOrHideCandidates       = CustomReportEditService.showOrHideCandidates;
         this.selectDateRange            = CustomReportEditService.selectDateRange;
+        this.selectAllVacancies         = CustomReportEditService.selectAllVacancies;
         this.filterVacancy              = filterVacancy;
-        this.showBlocks                 = showBlocks;
         this.parentClick                = _parentClick;
     }catch(error){
         console.log(error, 'error')
