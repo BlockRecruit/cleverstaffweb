@@ -1,6 +1,6 @@
 function CandidateAllController($localStorage, $translate, Service, $scope, ngTableParams, Candidate, $location,
                                 $rootScope, $filter, $cookies, serverAddress, notificationService, googleService, $window,
-                                ScopeService, frontMode, Vacancy, Company, vacancyStages, $sce, $analytics, Mail, FileInit, $uibModal, Person, $timeout, CandidateGroup, $anchorScroll) {
+                                ScopeService, frontMode, Vacancy, Company, vacancyStages, CustomField,  $sce, $analytics, Mail, FileInit, $uibModal, Person, $timeout, CandidateGroup, $anchorScroll) {
     $scope.experience = Service.experience();
     $rootScope.objectSize = null;
     $scope.enableExcelUploadAll = 'N';
@@ -774,6 +774,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     };
     $scope.initSearchParam();
 
+    CustomField.getCustomFields('candidate')
+        .then((resp) => {
+            $scope.customFields = resp.objects;
+            $scope.$apply();
+            console.log(resp);
+        }, error => console.error(error));
 
     $rootScope.excelExportType = 'candidates';
     $scope.loadingExcel = false;
@@ -1855,5 +1861,5 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 }
 controller.controller('CandidateController', ["$localStorage", "$translate", "Service", "$scope", "ngTableParams",
     "Candidate", "$location", "$rootScope", "$filter", "$cookies", "serverAddress", "notificationService", "googleService",
-    "$window", "ScopeService", "frontMode", "Vacancy", "Company", "vacancyStages", "$sce", "$analytics", "Mail", "FileInit",
+    "$window", "ScopeService", "frontMode", "Vacancy", "Company", "vacancyStages", "CustomField", "$sce", "$analytics", "Mail", "FileInit",
     "$uibModal", "Person", "$timeout", "CandidateGroup", "$anchorScroll", CandidateAllController]);

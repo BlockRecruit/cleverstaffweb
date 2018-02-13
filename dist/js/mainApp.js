@@ -4484,15 +4484,19 @@ directive('appVersion', ['version', function(version) {
     }]).directive('customFields', ['$rootScope', 'CustomField', '$translate', '$timeout', function($rootScope, CustomField, $translate, $timeout) {
         return {
             restrict: "E",
-            scope: { type: "=" },
+            scope: {
+                type: "=",
+                customFields2: "="
+            },
             templateUrl: "/partials/custom-fields.html",
             link: function(scope, element, attr) {
                 scope.customFields = [];
                 scope.showCustomFields = false;
 
+                console.log(scope.customFields2);
+
                 scope.toggleCustomFields = function() {
                     scope.showCustomFields = !scope.showCustomFields;
-                    console.log('c');
                 };
 
                 CustomField.getCustomFields(scope.type)
@@ -18604,7 +18608,7 @@ controller.controller('CandidateAddFromZipController', ["Notice", "$localStorage
 
 function CandidateAllController($localStorage, $translate, Service, $scope, ngTableParams, Candidate, $location,
                                 $rootScope, $filter, $cookies, serverAddress, notificationService, googleService, $window,
-                                ScopeService, frontMode, Vacancy, Company, vacancyStages, $sce, $analytics, Mail, FileInit, $uibModal, Person, $timeout, CandidateGroup, $anchorScroll) {
+                                ScopeService, frontMode, Vacancy, Company, vacancyStages, CustomField,  $sce, $analytics, Mail, FileInit, $uibModal, Person, $timeout, CandidateGroup, $anchorScroll) {
     $scope.experience = Service.experience();
     $rootScope.objectSize = null;
     $scope.enableExcelUploadAll = 'N';
@@ -19378,6 +19382,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     };
     $scope.initSearchParam();
 
+    CustomField.getCustomFields('candidate')
+        .then((resp) => {
+            $scope.customFields = resp.objects;
+            $scope.$apply();
+            console.log(resp);
+        }, error => console.error(error));
 
     $rootScope.excelExportType = 'candidates';
     $scope.loadingExcel = false;
@@ -20459,7 +20469,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 }
 controller.controller('CandidateController', ["$localStorage", "$translate", "Service", "$scope", "ngTableParams",
     "Candidate", "$location", "$rootScope", "$filter", "$cookies", "serverAddress", "notificationService", "googleService",
-    "$window", "ScopeService", "frontMode", "Vacancy", "Company", "vacancyStages", "$sce", "$analytics", "Mail", "FileInit",
+    "$window", "ScopeService", "frontMode", "Vacancy", "Company", "vacancyStages", "CustomField", "$sce", "$analytics", "Mail", "FileInit",
     "$uibModal", "Person", "$timeout", "CandidateGroup", "$anchorScroll", CandidateAllController]);
 
 function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, googleService, Candidate, notificationService, $location, Client, $filter, vacancyStages) {

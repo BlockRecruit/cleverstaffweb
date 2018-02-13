@@ -4484,11 +4484,16 @@ directive('appVersion', ['version', function(version) {
     }]).directive('customFields', ['$rootScope', 'CustomField', '$translate', '$timeout', function($rootScope, CustomField, $translate, $timeout) {
         return {
             restrict: "E",
-            scope: { type: "=" },
+            scope: {
+                type: "=",
+                customFields2: "="
+            },
             templateUrl: "/partials/custom-fields.html",
             link: function(scope, element, attr) {
                 scope.customFields = [];
                 scope.showCustomFields = false;
+
+                console.log(scope.customFields2);
 
                 scope.toggleCustomFields = function() {
                     scope.showCustomFields = !scope.showCustomFields;
