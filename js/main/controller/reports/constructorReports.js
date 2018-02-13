@@ -1111,6 +1111,10 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             $scope.selectVacancy = responseData.filter(item => item.visiable);
             $rootScope.loading = false;
         }
+
+        function reloadCountCandidatesInStages(data){
+
+        }
     }
 ]);
 
