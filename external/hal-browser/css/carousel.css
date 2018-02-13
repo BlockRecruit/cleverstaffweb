@@ -1,0 +1,27 @@
+.custom-container{margin-top:60px;}
+.carousel{position:relative;visibility:hidden;left:-5000px;display:inline-block;border-radius:10px;width:600px;}
+.carousel>ul>li>img{width:236px;height:140px;vertical-align:middle;margin:0px 16px 0px 16px;}
+.carousel a{display:inline-block;vertical-align:middle;}
+a.prev, a.next{width:28px;height:28px;line-height:1;text-decoration:none;display:inline-block;}
+a.next{background:url(/external/img/leftArrow.png);}
+a.next:hover{background:url(/external/img/leftArrow.png);}
+a.prev{background:url(/external/img/leftArrow.png);}
+a.prev:hover{background:url(/external/img/leftArrow.png);}
+a.prev{margin:0 50px 230px 0;height:35px;width:19px;}
+a.next{margin:0 0 230px 50px;height:35px;width:19px;transform:rotate(180deg);-moz-transform:rotate(180deg);-ms-transform:rotate(180deg);-webkit-transform:rotate(180deg);-o-transform:rotate(180deg);}
+@media screen and (max-width:1199px){a.next{margin:0;position:relative;left:5px;top:-335px;}
+a.prev{position:relative;left:-5px;top:-335px;margin:0;}
+.carousel{width:650px;}
+}
+@media screen and (max-width:991px){a.next{margin:0;position:relative;left:5px;top:-410px;}
+a.prev{position:relative;left:-5px;top:-410px;margin:0;}
+.carousel{width:450px;}
+}
+@media screen and (max-width:767px){a.next{margin:0;position:relative;left:5px;top:-230px;}
+a.prev{position:relative;left:-5px;top:-230px;margin:0;}
+.carousel{width:565px;}
+}
+@media screen and (max-width:440px){a.next{margin:0;position:relative;left:5px;top:-554px;}
+a.prev{position:relative;left:-5px;top:-553px;margin:0;}
+.carousel{width:230px;}
+}
