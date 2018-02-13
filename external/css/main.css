@@ -1815,6 +1815,44 @@ footer{
 .oneRecrTable img{
     display: none;
 }
+.oneRecrTable button, .teamWorkTable button, .corporateTable button, .enterPrizeTable button{
+    background: none;
+    box-shadow: none;
+    border: none;
+    outline: none;
+}
+.clickedStyle{
+    box-shadow: 0 0 10px 0 #808080;
+    border-radius: 5px;
+    position: absolute;
+    margin: 38px 0 0 -70px;
+    color: #808080;
+    background-color: #fff;
+    height: 40px;
+    width: 91px;
+    line-height: 35px;
+    font-size: 12px;
+    padding: 5px;
+    z-index: 1;
+}
+.clickedStyle::after{
+    content: '';
+    position: absolute;
+    left: 33px;
+    bottom: 40px;
+    border: 10px solid transparent;
+    border-bottom: 10px solid #fff;
+}
+.clickedCorporate{
+    margin: 38px 0 0 -80px;
+    width: 120px;
+}
+.clickedCorporate::after{
+    left: 45px;
+}
+.clickedOneRecr, .clickedTeamWork, .clickedEnterPrize, .clickedCorporate{
+    opacity: 0;
+}
 .teamWorkTable{
     background-color: #58A44B;
     color: #fff;
@@ -3181,7 +3219,10 @@ footer{
         /*width: 150px;*/
     /*}*/
     .table-before-support-block td:first-child{
-        width: 257px!important;
+        width: 46%!important;
+    }
+    .superFunc td:first-child{
+        word-break: break-all;
     }
     /*.titleTable td:first-child{*/
         /*width: 375px!important;*/
@@ -3647,10 +3688,10 @@ footer{
         padding: 10px;
         margin-top: 0;
     }
-    .tablePrise .plans{
-        width: 50px;
-        word-break: break-word;
-    }
+    /*.tablePrise .plans{*/
+        /*width: 50px;*/
+        /*word-break: break-word;*/
+    /*}*/
     .hide-block{
         height: 60px!important;
     }

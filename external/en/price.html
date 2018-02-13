@@ -21,7 +21,7 @@
     <meta name="keywords" content="applicant tracking, recruitment automation, applicant tracking system, Recruitment service, ATS, recruitment software, hr module, Resume parsing, database search, job workflow stages, candidates suggestion, cv parsing">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <link rel="stylesheet" href="external/css/bootstrap.min.css">
-    <link rel="stylesheet" href="external/css/main.min.css?b7">
+    <link rel="stylesheet" href="external/css/main.min.css?b8">
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Plans & Pricing | CleverStaff | All-in-One ATS & Recruiting Software"/>
     <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
@@ -227,27 +227,31 @@
                     <tr>
                         <td></td>
                         <td class="text-center plans plans-for-ru oneRecrTable">
-                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='oneRecrTable'>1 Рекрутер</p>">
+                            <button type="button">
                                 <img src="/external/img/man-white.png" width="25" height="25"/>
-                            </a>
-                            <span class="oneRecrTableText">1Recruiter</span>
+                            </button>
+                            <span class="clickedOneRecr clickedStyle">1 Recruiter</span>
+                            <span class="oneRecrTableText">1 Recruiter</span>
                         </td>
                         <td class="text-center plans plans-for-ru teamWorkTable">
-                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='teamWorkTable'>Команда</p>">
+                            <button type="button">
                                 <img src="/external/img/team-white.png" width="25" height="25"/>
-                            </a>
+                            </button>
+                            <span class="clickedTeamWork clickedStyle">Team work</span>
                             <span class="teamWorkTableText">Team work</span>
                         </td>
                         <td class="text-center plans plans-for-ru corporateTable">
-                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='corporateTable'>Корпоративный</p>">
+                            <button type="button">
                                 <img src="/external/img/city_white.png" width="25" height="25"/>
-                            </a>
+                            </button>
+                            <span class="clickedCorporate clickedStyle">Corporate</span>
                             <span class="corporateTableText">Corporate</span>
                         </td>
                         <td class="text-center plans plans-for-ru enterPrizeTable">
-                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='enterPrizeTable'>Премиум</p>">
+                            <button type="button">
                                 <img src="/external/img/settings_white.png" width="25" height="25"/>
-                            </a>
+                            </button>
+                            <span class="clickedEnterPrize clickedStyle">Enterprise</span>
                             <span class="enterPrizeTableText">Enterprise</span>
                         </td>
                     </tr>
@@ -258,27 +262,31 @@
                     <tr>
                         <td></td>
                         <td class="text-center plans plans-for-ru oneRecrTable">
-                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='oneRecrTable'>1 Рекрутер</p>">
+                            <button type="button">
                                 <img src="/external/img/man-white.png" width="25" height="25"/>
-                            </a>
-                            <span class="oneRecrTableText">1Recruiter</span>
+                            </button>
+                            <span class="clickedOneRecr clickedStyle">1 Recruiter</span>
+                            <span class="oneRecrTableText">1 Recruiter</span>
                         </td>
                         <td class="text-center plans plans-for-ru teamWorkTable">
-                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='teamWorkTable'>Команда</p>">
+                            <button type="button">
                                 <img src="/external/img/team-white.png" width="25" height="25"/>
-                            </a>
+                            </button>
+                            <span class="clickedTeamWork clickedStyle">Team work</span>
                             <span class="teamWorkTableText">Team work</span>
                         </td>
                         <td class="text-center plans plans-for-ru corporateTable">
-                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='corporateTable'>Корпоративный</p>">
+                            <button type="button">
                                 <img src="/external/img/city_white.png" width="25" height="25"/>
-                            </a>
+                            </button>
+                            <span class="clickedCorporate clickedStyle">Corporate</span>
                             <span class="corporateTableText">Corporate</span>
                         </td>
                         <td class="text-center plans plans-for-ru enterPrizeTable">
-                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='enterPrizeTable'>Премиум</p>">
+                            <button type="button">
                                 <img src="/external/img/settings_white.png" width="25" height="25"/>
-                            </a>
+                            </button>
+                            <span class="clickedEnterPrize clickedStyle">Enterprise</span>
                             <span class="enterPrizeTableText">Enterprise</span>
                         </td>
                     </tr>
@@ -613,7 +621,7 @@
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                         <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
                         <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
-                        <td class="goldSuccess text-center">$2000 / year</td>
+                        <td class="goldSuccess text-center wordWrap">$2000 / year</td>
                     </tr>
                     <tr>
                         <td class="title">Data import in 3 days</td>
@@ -812,7 +820,7 @@
 
 <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/ApiKey.js?b1"></script>
-<script src="external/js/script.min.js?b13"></script>
+<script src="external/js/script.min.js?b14"></script>
 <script src="external/js/jquery.jcarousellite.min.js?b1"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 
