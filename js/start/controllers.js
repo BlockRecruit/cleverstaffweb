@@ -1174,6 +1174,8 @@ controller.controller('mainController' ,function($scope, $location, $window) {
 
         $scope.showRecallFromModal = function() {
             $scope.showErrorEmailMessage = false;
+            $scope.showErrorPhoneMessage = false;
+            $scope.showErrorCvFileMessage = false;
             $('body').addClass('modal-open-public-vacancy-form');
             $scope.modalInstance = $uibModal.open({
                 animation: true,
@@ -1259,6 +1261,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                     $scope.showErrorEmailMessage = true;
                 }
                 $scope.recallForm.phone.$pristine = false;
+                $scope.showErrorPhoneMessage = true;
 
             }
         };
