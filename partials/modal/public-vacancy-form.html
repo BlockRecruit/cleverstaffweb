@@ -29,7 +29,8 @@
                 </div>
                 <!--<div class="clearfix"></div>-->
                 <div class="recallForm__error text-center pull-right phone" ng-show="recallForm.phone.$invalid && !recallForm.phone.$pristine || showErrorPhoneMessage">
-                    <span>{{'Incorrect phone number'|translate}}</span>
+                    <span ng-if="!enterPhoneNumber">{{'Incorrect phone number'|translate}}</span>
+                    <span ng-if="enterPhoneNumber">{{'Enter phone number'|translate}}</span>
                 </div>
             </div>
             <input type="text"

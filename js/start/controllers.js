@@ -1187,9 +1187,11 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 }
             });
         };
+          $scope.enterPhoneNumber = false;
         $scope.sendRequest = function (recallForm) {
             $scope.recallForm = recallForm;
             $scope.showErrorCvFileMessage = true;
+            $scope.enterPhoneNumber = false;
           if ($scope.recallForm.$valid) {
                 if ($scope.request.email != undefined && $scope.request.email.length == 0) {
                     $scope.request.email = "";
@@ -1261,7 +1263,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                     $scope.showErrorEmailMessage = true;
                 }
                 $scope.recallForm.phone.$pristine = false;
-                $scope.showErrorPhoneMessage = true;
+                $scope.enterPhoneNumber = true;
 
             }
         };
