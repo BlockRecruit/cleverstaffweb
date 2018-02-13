@@ -219,7 +219,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block').css('height', '50px');
                 }
 
-                if (scroll >= 4662) {
+                if (scroll >= 4946) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -248,7 +248,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 5972) {
+                if (scroll >= 5711) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -335,7 +335,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 4606) {
+                if (scroll >= 4858) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -356,7 +356,7 @@ $(document).ready(function(){
             }
             if(phone >= $( window ).width()){
                 //console.log('phone');
-                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth);
+                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth + 10);
                 $('.hide-block').css('height', '60px');
                 if (scroll >= 2800){
                     sticky.addClass('fixed-plans');
@@ -365,7 +365,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block');
                 }
 
-                if (scroll >= 5528) {
+                if (scroll >= 5377) {
                     sticky.removeClass('fixed-plans');
                 }
             }
