@@ -1,16 +1,21 @@
 <div class="col-lg-3">
     <span class="time" ng-bind-html="vacancy.actions.objects[0].dm |dateFormat6:true |translate"></span>
 </div>
-<div class="col-lg-9">
+<div class="col-lg-1 name">
+    <a class="responsible-initials" title="{{::vacancy.actions.objects[0].person.fullName}}" ng-click="$event.stopPropagation();" ng-href="#/users/{{vacancy.creator.userId}}">
+        <span>{{getFirstLetters(vacancy.actions.objects[0].person.fullName)}}</span>
+    </a>
+</div>
+<div class="col-lg-8">
     <a href="#/vacancies/{{vacancy.localId}}"  class="user">
         <span once-text="vacancy.position"></span>
     </a>
     <span class="coma">, {{vacancy.clientId.name}},</span>
-    <a href="#/users/{{vacancy.creator.userId}}" >&nbsp;&nbsp;
-        <i class="fa fa-user" aria-hidden="true"></i>
-        {{vacancy.actions.objects[0].person.fullName}}
-    </a>
-    <br/>
+    <!--<a href="#/users/{{vacancy.creator.userId}}" >&nbsp;&nbsp;-->
+        <!--<i class="fa fa-user" aria-hidden="true"></i>-->
+        <!--{{vacancy.actions.objects[0].person.fullName}}-->
+    <!--</a>-->
+    <!--<br/>-->
     <span>
      {{'history_info.added_vacancy'|translate}}
     </span>
