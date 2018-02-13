@@ -465,6 +465,26 @@
                                             <div class="clearfix"></div>
                                         </i>
                                     </div>
+                                    <div class="duplicatePhone2" ng-show="secondPhoneInput">
+                                        <input placeholder="" class="phoneInput" ng-model="contacts.mphone2" type="text" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone2.length > 0}">
+                                        <i class="phone icon"></i>
+                                        <i class="fa absolute-right"
+                                           ng-attr-title='{{(candidate.preferableContact == "phone2")? "Unmark as preferable contact method":"Mark as preferrable contact method"|translate}}'
+                                           ng-class="{'fa-star-o': candidate.preferableContact !== 'phone2', 'fa-star' : candidate.preferableContact == 'phone2'}"
+                                           ng-click="selectFavoriteContacts(this, 'phone2', $event)">
+                                            <div class="clearfix"></div>
+                                        </i>
+                                    </div>
+                                    <div class="duplicatePhone3" ng-show="thirdPhoneInput">
+                                        <input placeholder="" class="phoneInput" ng-model="contacts.mphone3" type="text" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone3.length > 0}">
+                                        <i class="phone icon"></i>
+                                        <i class="fa absolute-right"
+                                           ng-attr-title='{{(candidate.preferableContact == "phone3")? "Unmark as preferable contact method":"Mark as preferrable contact method"|translate}}'
+                                           ng-class="{'fa-star-o': candidate.preferableContact !== 'phone3', 'fa-star' : candidate.preferableContact == 'phone3'}"
+                                           ng-click="selectFavoriteContacts(this, 'phone3', $event)">
+                                            <div class="clearfix"></div>
+                                        </i>
+                                    </div>
                                     <i class="fa fa-plus-circle addPhone" ng-click="addInputPhone()" ng-show="btnToAddPhone"></i>
                                 </div>
                                 <div class="item">
