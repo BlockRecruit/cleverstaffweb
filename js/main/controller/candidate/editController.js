@@ -921,6 +921,9 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         };
 
         $scope.selectFavoriteContacts = function ($scope, type, event) {
+            console.log($scope);
+            console.log(type);
+            console.log(event);
             Candidate.setSelectFavoriteContacts($scope, type, event );
         };
 
