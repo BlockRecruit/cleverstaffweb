@@ -736,9 +736,14 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if ($scope.contacts.email) {
                     candidate.contacts.push({type: "email", value: $scope.contacts.email});
                 }
-                if ($scope.contacts.mphone) {
-                    candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.split(/[\,+" "]/).join(",")});
+                if ($scope.contacts.mphone && $scope.contacts.mphone2 == undefined && $scope.contacts.mphone3 == undefined) {
+                    candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone});
+                }else if($scope.contacts.mphone2 != undefined && $scope.contacts.mphone3 == undefined){
+                    candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2)});
+                }else if($scope.contacts.mphone3 != undefined){
+                    candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2).concat(", ", $scope.contacts.mphone3)});
                 }
+                console.log($scope.contacts);
                 if ($scope.contacts.skype) {
                     candidate.contacts.push({type: "skype", value: $scope.contacts.skype});
                 }
@@ -774,7 +779,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 candidate.origin = $scope.getOriginAutocompleterValue();
 
                 deleteUnnecessaryFields(candidate);
-
+                console.log(candidate);
                 Candidate.edit(candidate, function(val) {
                     if (angular.equals(val.status, "ok")) {
                         notificationService.success($filter('translate')('Candidate saved'));
