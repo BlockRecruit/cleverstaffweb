@@ -4935,6 +4935,15 @@ setInterval(function () {
     }
 }, 1000);
 $(document).ready(function(){
+    $(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+    //$("#popover").popover("toggle");
+    //$(".fade.in").css('opacity', '0');
+    //$("#popover").on("click", function (event) {
+    //    console.log(event);
+    //    $("#popover").popover("toggle");
+    //});
     $(".signup-contact").css("top", 0);
     $(".cloud").css({"opacity": 1, "right": 0});
     $(".graf").css({"opacity": 1, "left": 15});

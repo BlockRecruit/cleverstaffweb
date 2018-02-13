@@ -217,14 +217,76 @@
         <div class="container">
             <div class="row">
                 <h2 class="text-center wow fadeInUp">Сравнение Тарифов</h2>
-                <div class="prices-block pull-right">
-                    <div class="col-md-1 text-center pull-right plans plans-for-ru enterPrizeTable wow fadeInUp">Премиум</div>
-                    <div class="col-md-1 text-center pull-right plans plans-for-ru corporateTable wow fadeInUp">Корпоративный</div>
-                    <div class="col-md-1 text-center pull-right plans plans-for-ru teamWorkTable wow fadeInUp">Команда</div>
-                    <div class="col-md-1 text-center pull-right plans plans-for-ru oneRecrTable wow fadeInUp">1 Рекрутер</div>
-                </div>
+                <!--<div class="prices-block pull-right hidden" style="display: none">-->
+                    <!--<div class="col-md-1 text-center pull-right plans plans-for-ru enterPrizeTable wow fadeInUp">Премиум</div>-->
+                    <!--<div class="col-md-1 text-center pull-right plans plans-for-ru corporateTable wow fadeInUp">Корпоративный</div>-->
+                    <!--<div class="col-md-1 text-center pull-right plans plans-for-ru teamWorkTable wow fadeInUp">Команда</div>-->
+                    <!--<div class="col-md-1 text-center pull-right plans plans-for-ru oneRecrTable wow fadeInUp">1 Рекрутер</div>-->
+                <!--</div>-->
                 <div class="hide-block pull-right"></div>
                 <div class="clearfix"></div>
+                <table class="table table-bordered titleTable2 hideBlock">
+                    <tbody class="hiddenBorderLeft">
+                        <tr>
+                            <td></td>
+                            <td class="text-center plans plans-for-ru oneRecrTable">
+                                <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='oneRecrTable'>1 Рекрутер</p>">
+                                    <img src="/external/img/man-white.png" width="25" height="25"/>
+                                </a>
+                                <span class="oneRecrTableText">1 Рекрутер</span>
+                            </td>
+                            <td class="text-center plans plans-for-ru teamWorkTable">
+                                <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='teamWorkTable'>Команда</p>">
+                                    <img src="/external/img/team-white.png" width="25" height="25"/>
+                                </a>
+                                <span class="teamWorkTableText">Команда</span>
+                            </td>
+                            <td class="text-center plans plans-for-ru corporateTable">
+                                <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='corporateTable'>Корпоративный</p>">
+                                    <img src="/external/img/city_white.png" width="25" height="25"/>
+                                </a>
+                                <span class="corporateTableText">Корпоративный</span>
+                            </td>
+                            <td class="text-center plans plans-for-ru enterPrizeTable">
+                                <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='enterPrizeTable'>Премиум</p>">
+                                    <img src="/external/img/settings_white.png" width="25" height="25"/>
+                                </a>
+                                <span class="enterPrizeTableText">Премиум</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered titleTable prices-block" style="position: fixed;display: none;">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td></td>
+                        <td class="text-center plans plans-for-ru oneRecrTable">
+                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='oneRecrTable'>1 Рекрутер</p>">
+                                <img src="/external/img/man-white.png" width="25" height="25"/>
+                            </a>
+                            <span class="oneRecrTableText">1 Рекрутер</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru teamWorkTable">
+                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='teamWorkTable'>Команда</p>">
+                                <img src="/external/img/team-white.png" width="25" height="25"/>
+                            </a>
+                            <span class="teamWorkTableText">Команда</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru corporateTable">
+                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='corporateTable'>Корпоративный</p>">
+                                <img src="/external/img/city_white.png" width="25" height="25"/>
+                            </a>
+                            <span class="corporateTableText">Корпоративный</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru enterPrizeTable">
+                            <a tabindex="0" role="button" data-toggle="popover" data-html="true" data-placement="bottom" data-trigger="focus" data-content="<p id='enterPrizeTable'>Премиум</p>">
+                                <img src="/external/img/settings_white.png" width="25" height="25"/>
+                            </a>
+                            <span class="enterPrizeTableText">Премиум</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
                 <table class="table styleHeaderTable wow fadeInUp">
                     <tbody>
                     <tr>
@@ -233,7 +295,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered wow fadeInUp">
+                <table class="table firstTable table-before-support-block table-bordered wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Импорт базы</td>
@@ -301,7 +363,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered wow fadeInUp">
+                <table class="table table-bordered table-before-support-block wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Настраиваемые этапы подбора</td>
@@ -390,7 +452,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered wow fadeInUp">
+                <table class="table table-bordered table-before-support-block wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Интеграция с Google и Outlook Calendar</td>
@@ -486,10 +548,10 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered no-padding-mob wow fadeInUp">
+                <table class="table superFunc table-bordered table-before-support-block no-padding-mob wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
-                        <td class="title">Полный контроль базы данных</td>
+                        <td class="title customWidth">Полный контроль базы данных</td>
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
@@ -540,7 +602,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered wow fadeInUp">
+                <table class="table support table-bordered wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Помощь и поддержка при адаптации</td>
@@ -554,7 +616,7 @@
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                         <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
                         <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
-                        <td class="goldSuccess text-center">$2000 / год</td>
+                        <td class="goldSuccess wordWrap text-center">$2000 / год</td>
                     </tr>
                     <tr>
                         <td class="title">Импорт базы данных за 3 дня</td>

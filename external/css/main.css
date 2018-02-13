@@ -1804,7 +1804,7 @@ footer{
 .fixed-plans{
     position: fixed;
     top: 80px;
-    margin-left: 420px;
+    /*margin-left: 420px;*/
     z-index: 15;
 }
 .oneRecrTable{
@@ -1812,21 +1812,45 @@ footer{
     color: #fff;
     border-radius: 12px 0 0 0;
 }
+.oneRecrTable img{
+    display: none;
+}
 .teamWorkTable{
     background-color: #58A44B;
     color: #fff;
 }
+.teamWorkTable img{
+    display: none;
+}
 .corporateTable{
     background-color: #EE7D3B;
     color: #fff;
+}
+.corporateTable img{
+    display: none;
 }
 .enterPrizeTable{
     background-color: #464646;
     color: #F2D479;
     border-radius: 0 12px 0 0;
 }
+.enterPrizeTable img{
+    display: none;
+}
+.table td:first-child{
+    width: 420px;
+}
 .table td:not(:first-child){
     width: 180px;
+    vertical-align: middle;
+}
+#oneRecrTable, #teamWorkTable, #corporateTable, #enterPrizeTable{
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+.support .wordWrap{
+    word-break: break-all;
 }
 .fa-minus{
     color: #9D9BA0;
@@ -1835,6 +1859,16 @@ footer{
 .fa-check{
     color: #62B452;
     font-size: 20px;
+}
+.titleTable, .titleTable2{
+    border: none;
+    margin: 0;
+}
+.titleTable td{
+    border: none!important;
+}
+.titleTable2 td{
+    border: none!important;
 }
 .styleHeaderTable{
     border-bottom: 2px solid #B1EBB4;
@@ -2381,10 +2415,22 @@ footer{
     border-radius: 12px;
 }
 /*modal end*/
-
+/*@media screen and (min-width: 991px) {*/
+    /*.support td:first-child{*/
+        /*width: 401px!important;*/
+    /*}*/
+    /*.support td:not(:first-child){*/
+        /*width: 180px!important;*/
+    /*}*/
+/*}*/
+/*@media screen and (min-width: 1200px) {*/
+    /*.support td:first-child{*/
+        /*width: 337px!important;*/
+    /*}*/
+/*}*/
 @media screen and (max-width: 1199px) {
     .tabsCs .nav-tabs li {
-        padding: 5px 0 0px 0px;
+        padding: 5px 0 0 0;
         width: 192px;
         height: 67px;
     }
@@ -2449,7 +2495,7 @@ footer{
         margin-right: 10px;
     }
     .kingsChoise{
-        margin-top: 0px;
+        margin-top: 0;
         clear: both;
     }
     .carouselBlock{
@@ -2554,10 +2600,15 @@ footer{
     .little-padding-btn{
         padding: 10px 7px;
     }
-    .fixed-plans{
-        width: initial;
-        margin-left: 216px;
-    }
+    /*.table td:first-child{*/
+        /*width: 12em;*/
+    /*}*/
+    /*.titleTable td:first-child{*/
+        /*width: 197px!important;*/
+    /*}*/
+    /*.titleTable td:not(:first-child){*/
+        /*width: 186px;*/
+    /*}*/
     .hide-block{
         height: 50px!important;
     }
@@ -2783,15 +2834,49 @@ footer{
         position: relative;
         right: -60px;
     }
-    .tablePrise .plans{
-        width: 157px;
-    }
+    /*.tablePrise .plans{*/
+        /*width: 132px;*/
+    /*}*/
+    /*.titleTable2 td:first-child{*/
+        /*width: 168px;*/
+    /*}*/
+    /*.titleTable2 td:not(:first-child){*/
+        /*!*width: 132px;*!*/
+        /*width: 138px;*/
+    /*}*/
+    /*.titleTable td:first-child{*/
+        /*width: 168px!important;*/
+    /*}*/
+    /*.titleTable td:not(:first-child){*/
+        /*!*width: 132px;*!*/
+        /*width: 138px;*/
+    /*}*/
     .fixed-plans{
-        margin-left: 88px;
-        width: initial;
+        width: 53.6em;
+        padding-right: 30px;
     }
     .no-border a {
         padding: 10px;
+        width: 100px;
+    }
+    .oneRecrTableText, .teamWorkTableText , .corporateTableText, .enterPrizeTableText{
+        display: none;
+    }
+    .oneRecrTable img{
+        display: block;
+        margin: 0 auto;
+    }
+    .teamWorkTable img{
+        display: block;
+        margin: 0 auto;
+    }
+    .corporateTable img{
+        display: block;
+        margin: 0 auto;
+    }
+    .enterPrizeTable img{
+        display: block;
+        margin: 0 auto;
     }
     .tarif{
         height: 360px;
@@ -2800,11 +2885,11 @@ footer{
         margin-top: 24px;
     }
     .padding-block-ru:first-child p{
-        margin-top: 0px;
+        margin-top: 0;
         padding: 25px 0;
     }
     .padding-block-ru:nth-child(3) p{
-        margin-top: 0px;
+        margin-top: 0;
     }
     .lstChild{
         margin-top: 0;
@@ -2819,7 +2904,7 @@ footer{
         margin-bottom: -20px;
     }
     .corporate .discount-ru {
-        margin-bottom: 0px;
+        margin-bottom: 0;
     }
     .discount + .padding-bottom-ru{
         padding-bottom: 11px !important;
@@ -2996,7 +3081,7 @@ footer{
         top: 3px;
     }
     .manSay{
-        left: 0px;
+        left: 0;
         bottom: 80px;
     }
     .cheer{
@@ -3007,7 +3092,7 @@ footer{
         width: 140px;
         height: 134px;
         bottom: -50px;
-        left: 0px;
+        left: 0;
     }
     .cloudContact2{
         right: 45px;
@@ -3062,7 +3147,9 @@ footer{
     }
     .no-border a {
         border: none;
-        padding: 10px 17px;
+        padding: 5px 0;
+        width: 120px;
+        border-radius: 10px;
     }
     .paddingBtn{
         padding: 10px!important;
@@ -3070,12 +3157,49 @@ footer{
     .no-padding{
         padding: 0!important;
     }
-    .tablePrise .plans{
-        width: 137px;
+    /*.tablePrise .plans{*/
+        /*width: 135px;*/
+    /*}*/
+    /*.titleTable td:first-child{*/
+        /*width: 169px;*/
+    /*}*/
+    /*.titleTable td:not(:first-child){*/
+        /*!*width: 135px;*!*/
+        /*width: 19.3%;*/
+    /*}*/
+    /*!*.titleTable td:nth-child(4){*!*/
+        /*!*width: 150px;*!*/
+    /*!*}*!*/
+    /*.titleTable2 td:first-child{*/
+        /*width: 168px;*/
+    /*}*/
+    /*.titleTable2 td:not(:first-child){*/
+        /*!*width: 134px;*!*/
+        /*width: 19.3%;*/
+    /*}*/
+    /*.titleTable2 td:nth-child(4){*/
+        /*width: 150px;*/
+    /*}*/
+    .table-before-support-block td:first-child{
+        width: 257px!important;
     }
+    /*.titleTable td:first-child{*/
+        /*width: 375px!important;*/
+    /*}*/
+    /*.titleTable2 td:first-child{*/
+        /*width: 375px!important;*/
+    /*}*/
     .fixed-plans{
-        margin-left: -30px;
         width: 100%;
+        padding-right: 30px;
+    }
+    .display-none{
+        display: none;
+    }
+    .mobBtn{
+        display: block;
+        width: 375px;
+        float: right;
     }
     /*price end*/
 
@@ -3161,6 +3285,12 @@ footer{
         width: 111px;
         padding: 10px 0;
     }
+    /*.titleTable td:not(:first-child){*/
+        /*width: 18.5%;*/
+    /*}*/
+    /*.titleTable2 td:not(:first-child){*/
+        /*width: 18.5%;*/
+    /*}*/
     .hide-block{
         height: 39px!important;
     }
@@ -3238,13 +3368,20 @@ footer{
     .tablePrise .plans{
         width: 95px;
     }
+    /*.titleTable td:first-child{*/
+        /*!*width: 135px;*!*/
+        /*width: 130px;*/
+    /*}*/
+    /*.titleTable2 td:first-child{*/
+        /*width: 168px;*/
+    /*}*/
     .firstStyleHeaderTable{
         font-size: 17px;
         vertical-align: inherit!important;
     }
     .secondStyleHeaderTable{
         vertical-align: inherit!important;
-        top: 0px;
+        top: 0;
     }
     .styleHeaderTable h4{
         width: 150px;
@@ -3452,7 +3589,7 @@ footer{
     .rocket{
         width: 140px;
         height: 134px;
-        bottom: 0px;
+        bottom: 0;
         left: -43px;
     }
     .cloudContact2{
@@ -3517,12 +3654,12 @@ footer{
     .hide-block{
         height: 60px!important;
     }
-    .plans-for-ru{
-        width: 71px!important;
-    }
+    /*.plans-for-ru{*/
+        /*width: 63px!important;*/
+    /*}*/
     .no-border a {
         border: none;
-        padding: 5px 4px;
+        padding: 5px 0;
         width: 84px;
         border-radius: 10px;
     }
@@ -3537,20 +3674,20 @@ footer{
     }
     .secondStyleHeaderTable{
         vertical-align: inherit!important;
-        top: 0px;
+        top: 0;
     }
-    .tablePrise .enterPrizeTable{
-        padding-bottom: 30px;
-    }
+    /*.tablePrise .enterPrizeTable{*/
+        /*padding-bottom: 30px;*/
+    /*}*/
     .tablePrise .corporateTable{
         padding-bottom: 10px;
     }
     .corporateTableEn{
         padding-bottom: 30px!important;
     }
-    .tablePrise .teamWorkTable{
-        padding-bottom: 30px;
-    }
+    /*.tablePrise .teamWorkTable{*/
+        /*padding-bottom: 30px;*/
+    /*}*/
     .styleHeaderTable h4{
         width: 117px;
     }
@@ -3584,6 +3721,13 @@ footer{
     .padding-block-ru, .mrgTopMob:first-child{
         margin-top: 40px;
     }
+    /*.titleTable td:first-child{*/
+        /*!*width: 135px;*!*/
+        /*width: 130px;*/
+    /*}*/
+    /*.titleTable2 td:first-child{*/
+        /*width: 168px;*/
+    /*}*/
     /*prize end*/
 
 
