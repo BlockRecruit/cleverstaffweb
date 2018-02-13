@@ -1,4 +1,5 @@
-<div ng-repeat="field in customFields track by $index" class="custom-fields" ng-switch="field.type">
+<div class="custom-fields-toggle" ng-click="toggleCustomFields()">Toggle</div>
+<div ng-repeat="field in customFields track by $index" class="custom-fields" ng-switch="field.type" ng-show="showCustomFields">
     <div ng-switch-when="select" class="select-field field col-lg-4 col-md-4 col-sm-4 col-xs-6 with-contacts pull-right">
         <select name="{{field.title}}">
             <option disabled selected>{{field.title}}</option>

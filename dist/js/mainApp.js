@@ -4488,6 +4488,12 @@ directive('appVersion', ['version', function(version) {
             templateUrl: "/partials/custom-fields.html",
             link: function(scope, element, attr) {
                 scope.customFields = [];
+                scope.showCustomFields = false;
+
+                scope.toggleCustomFields = function() {
+                    scope.showCustomFields = !scope.showCustomFields;
+                    console.log('c');
+                };
 
                 CustomField.getCustomFields(scope.type)
                     .then((resp) => {
