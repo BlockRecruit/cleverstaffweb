@@ -3717,6 +3717,15 @@ footer{
         vertical-align: inherit!important;
         top: 0;
     }
+    .table-before-support-block td:first-child{
+        width: 38%!important;
+    }
+    /*.table-before-support-block td:first-child{*/
+        /*width: 257px!important;*/
+    /*}*/
+    /*.firstTable td:first-child{*/
+        /*width: 435px!important;*/
+    /*}*/
     /*.tablePrise .enterPrizeTable{*/
         /*padding-bottom: 30px;*/
     /*}*/
@@ -3894,6 +3903,11 @@ footer{
     -o-transition: all 0.3s;
     transition: all 0.3s;
     outline: none;
+}
+@media screen and (max-width: 320px) {
+    .table-before-support-block td:first-child{
+        width: 40%!important;
+    }
 }
 @media print {
     .terms-content .button-block {
