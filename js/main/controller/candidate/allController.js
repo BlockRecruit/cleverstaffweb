@@ -12,6 +12,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.previousFlag = true;
     $scope.placeholder = $filter('translate')('by position');
     $rootScope.candidatesAddToVacancyIds = $scope.candidatesAddToVacancyIds;
+    $scope.customFields = null;
     vacancyStages.get(function (resp) {
         $scope.customStages = resp.object.interviewStates;
         $rootScope.customStages = resp.object.interviewStates;
@@ -774,12 +775,15 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     };
     $scope.initSearchParam();
 
-    CustomField.getCustomFields('candidate')
-        .then((resp) => {
-            $scope.customFields = resp.objects;
-            $scope.$apply();
-            console.log(resp);
-        }, error => console.error(error));
+    getCustomFields('candidate');
+
+    function getCustomFields(type) {
+        CustomField.getCustomFields(type)
+            .then((resp) => {
+                $scope.customFields = resp.objects;
+                console.log(resp.objects);
+            }, error => console.error(error));
+    }
 
     $rootScope.excelExportType = 'candidates';
     $scope.loadingExcel = false;

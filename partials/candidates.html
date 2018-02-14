@@ -397,7 +397,9 @@
                                 </div>
                             </form>
                         </div>
-                        <custom-fields ng-if="customFields != undefined" customFields2="customFields" type="'candidate'"></custom-fields>
+                        <div ng-if="customFields">
+                            <custom-fields fields="customFields"></custom-fields>
+                        </div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="text-center">

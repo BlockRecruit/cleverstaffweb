@@ -1,12 +1,13 @@
-<div class="custom-fields-toggle col-lg-4 col-md-4 col-sm-4 col-xs-6 with-contacts pull-left" ng-click="toggleCustomFields()">
+<div class="custom-fields-toggle col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-left" ng-click="toggleCustomFields()">
     <div class="toggle">
         <span>{{'Custom fields' | translate}}</span>
         <input type="checkbox" ng-checked="showCustomFields">
     </div>
 </div>
-<div ng-click="test()" ng-repeat="field in customFields track by $index" class="custom-fields" ng-switch="field.type" ng-show="showCustomFields">
-    <div ng-switch-when="select" class="select-field field col-lg-4 col-md-4 col-sm-4 col-xs-6 with-contacts pull-right">
-        <select name="{{field.title}}">
+<div ng-repeat="field in fields track by $index" class="custom-fields" ng-switch="field.type" ng-show="showCustomFields">
+
+   <div ng-switch-when="select" class="select-field field col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right">
+        <select name="{{field.title}}" ng-model="field.value" ng-init="field.value = field.title">
             <option disabled selected>{{field.title}}</option>
             <option value="{{param.value}}"
                     ng-repeat="param in field.params track by $index">
@@ -14,16 +15,20 @@
             </option>
         </select>
     </div>
-    <div ng-switch-when="string" class="field col-lg-4 col-md-4 col-sm-4 col-xs-6 with-contacts pull-right">
+
+    <div ng-switch-when="string" class="field col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right">
         <custom-field-auto-completer></custom-field-auto-completer>
     </div>
-    <div ng-switch-when="date" class="date-field field col-lg-4 col-md-4 col-sm-4 col-xs-6 with-contacts pull-right">
-        <input placeholder="{{field.title}}" class="customFieldDate" type="text">
+
+    <div ng-switch-when="date" class="date-field field col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right">
+        <input placeholder="{{field.title}}" index="{{$index}}" class="customFieldDate" type="text">
         <i class="fa fa-calendar" aria-hidden="true"></i>
     </div>
-    <div ng-switch-when="datetime" class="date-field field col-lg-4 col-md-4 col-sm-4 col-xs-6 with-contacts pull-right">
-        <input placeholder="{{field.title}}" class="customFieldDatetime" type="text">
+
+    <div ng-switch-when="datetime" class="date-field field col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right">
+        <input placeholder="{{field.title}}" index="{{$index}}" class="customFieldDatetime" type="text">
         <i class="fa fa-calendar" aria-hidden="true"></i>
     </div>
+
 </div>
 <div class="clearfix"></div>

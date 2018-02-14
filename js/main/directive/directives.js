@@ -4485,68 +4485,38 @@ directive('appVersion', ['version', function(version) {
         return {
             restrict: "E",
             scope: {
-                type: "=",
-                customFields2: "="
+                fields: "="
             },
             templateUrl: "/partials/custom-fields.html",
             link: function(scope, element, attr) {
-                scope.customFields = [];
                 scope.showCustomFields = false;
 
-                console.log('custom-fields', scope.customFields2);
+                setDatePicker(".customFieldDate", 3, 2, $rootScope.currentLang === 'ru' ? "dd/mm/yyyy" : "mm/dd/yyyy");
+                setDatePicker(".customFieldDatetime",2, 1, $rootScope.currentLang === 'ru' ? "dd/mm/yyyy" : "mm/dd/yyyy");
 
                 scope.toggleCustomFields = function() {
                     scope.showCustomFields = !scope.showCustomFields;
                 };
 
-                CustomField.getCustomFields(scope.type)
-                    .then((resp) => {
-                        scope.customFields = resp.objects;
-                        scope.$apply();
-                        console.log(scope.customFields);
-                        setDatePicker();
-                        setDatetimePicker();
-                    }, error => console.error(error));
-
-                function setDatePicker() {
+                function setDatePicker(selector, startView, minView, format) {
                     $timeout(() => {
-                        $(".customFieldDate").each(() => {
-                            console.log('date');
-                            $(".customFieldDate").datetimepicker({
-                                format: $rootScope.currentLang === 'ru' ? "dd/mm/yyyy" : "mm/dd/yyyy",
-                                startView: 3,
-                                minView: 2,
-                                autoclose: true,
-                                language: $translate.use(),
-                                weekStart: $rootScope.currentLang === 'ru' ? 1 : 7,
-                                initialDate: new Date(),
-                                startDate: new Date(-1262304000000)
-                            }).on('changeDate', function (date) {
-                                // scope.date = data;
-                            }).on('hide', function () {
-                                $('.customFieldDate').blur();
-                            });
-                        });
-                    });
-                }
-
-                function setDatetimePicker() {
-                    $timeout(() => {
-                        $(".customFieldDatetime").each(() => {
-                            console.log('datetime');
-                            $(".customFieldDatetime").datetimepicker({
-                                startView: 2,
-                                minView: 1,
-                                autoclose: true,
-                                language: $translate.use(),
-                                weekStart: $rootScope.currentLang === 'ru' ? 1 : 7,
-                                initialDate: new Date(),
-                                startDate: new Date(-1262304000000)
-                            }).on('changeDate', function (date) {
-                                // scope.date = data;
-                            }).on('hide', function () {
-                                $('.customFieldDatetime').blur();
-                            });
+                        $(selector).datetimepicker({
+                            format: format,
+                            startView: startView,
+                            minView: minView,
+                            autoclose: true,
+                            language: $translate.use(),
+                            weekStart: $rootScope.currentLang === 'ru' ? 1 : 7,
+                            initialDate: new Date(),
+                            startDate: new Date(-1262304000000)
+                        }).on('changeDate', function (event) {
+                            // scope.date = data;
+                            console.log(event);
+                            scope.fields[$(event.currentTarget).attr('index')].value = event.date;
+                            console.log($(event.currentTarget).attr('index'));
+                            console.log(scope.fields);
+                        }).on('hide', function () {
+                            $(selector).blur();
                         });
                     });
                 }
