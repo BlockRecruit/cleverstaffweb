@@ -427,7 +427,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                         var array = [];
                         $scope.totalVacancyStatusesCount = resp.object;
 
-                        setCountCadidateInStages($scope.totalVacancyStatusesCount)
+                        setCountCadidateInStatuses($scope.totalVacancyStatusesCount)
 
                         if ($scope.firstTimeLoading == 1) {
                             angular.forEach($scope.vacancyStatuses, function (res) {
@@ -959,7 +959,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
         $scope.selectedVacancy = function (vacancyID) {
             vacancyID.visiable = !vacancyID.visiable;
-            reloadCountCandidatesInStages()
+            reloadCountCandidatesInStatuses()
 
         };
 
@@ -1017,7 +1017,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         $scope.selectAllVacancies = function () {
             let _fieldsVacancyList = $scope.fieldsVacancyList;
             _fieldsVacancyList.forEach(item => item.visiable = $scope.chooseListFieldsVacancies);
-            reloadCountCandidatesInStages();
+            reloadCountCandidatesInStatuses();
         };
 
         function isClickInDataShowBlock(element, id) {
@@ -1102,7 +1102,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             $rootScope.loading = false;
         }
 
-        function reloadCountCandidatesInStages(){
+        function reloadCountCandidatesInStatuses(){
             let requestData = {
                 "from": $scope.startVacancyDate,
                 "to": $scope.endDate,
@@ -1112,11 +1112,14 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             }
             return  Stat.requestGetCountVacancyForActualVacancyStatistic(requestData)
                 .then((resp) => {
+                    $scope.totalVacancyStatusesCount = resp.object;
+                    setCountCadidateInStatuses($scope.totalVacancyStatusesCount);
                     resetAngularContext();
                 });
         }
 
-        function setCountCadidateInStages(totalVacancyStatusesCount) {
+        function setCountCadidateInStatuses(totalVacancyStatusesCount) {
+
             angular.forEach(totalVacancyStatusesCount, function (status) {
                 let search = false;
                 $scope.vacancyStatuses.forEach((item, index) => {

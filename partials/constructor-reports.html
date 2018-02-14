@@ -301,7 +301,7 @@
                         </div>
                         <div class="vacancy-statuses col-lg-12">
                                <span class="status" ng-repeat="status in vacancyStatuses track by $index"
-                                     ng-if="status.added">
+                                     ng-if="status.added ">
                                    {{status.value|translate}}
                                    <span class="counter">
                                       ({{status.count}})
