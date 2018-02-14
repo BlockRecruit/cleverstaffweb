@@ -3908,6 +3908,13 @@ footer{
     .table-before-support-block td:first-child{
         width: 40%!important;
     }
+    .titleTable .plans, .titleTable2 .plans {
+        width: 16px !important;
+    }
+    .titleTable .plans img, .titleTable2 .plans img {
+        width: 16px;
+        height: 16px;
+    }
 }
 @media print {
     .terms-content .button-block {
