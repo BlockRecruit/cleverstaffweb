@@ -43907,14 +43907,13 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             }
             return  Stat.requestGetCountVacancyForActualVacancyStatistic(requestData)
                 .then((resp) => {
-                    $scope.totalVacancyStatusesCount = resp.object;
-                    setCountCadidateInStatuses($scope.totalVacancyStatusesCount);
+                    $scope._vacancyStatuses = resp.object;
                     resetAngularContext();
                 });
         }
 
         function setCountCadidateInStatuses(totalVacancyStatusesCount) {
-
+            $scope._vacancyStatuses = totalVacancyStatusesCount;
             angular.forEach(totalVacancyStatusesCount, function (status) {
                 let search = false;
                 $scope.vacancyStatuses.forEach((item, index) => {

@@ -300,9 +300,9 @@
                             <h4 style="margin-right: 3px;">{{'Statuses' | translate}}:</h4>
                         </div>
                         <div class="vacancy-statuses col-lg-12">
-                               <span class="status" ng-repeat="status in vacancyStatuses track by $index"
+                               <span class="status" ng-repeat="status in _vacancyStatuses track by $index"
                                      ng-if="status.added ">
-                                   {{status.value|translate}}
+                                   {{status.item|translate}}
                                    <span class="counter">
                                       ({{status.count}})
                                    </span><span>,&nbsp;</span>
@@ -317,13 +317,13 @@
                             </span>
                         </span>
                         <a class="item choosingStages pull-left"
-                           ng-repeat="status in vacancyStatuses track by $index"
+                           ng-repeat="status in _vacancyStatuses track by $index"
                            ng-click="changeVacancyStatuses(status)">
-                            <button class="ui icon button" ng-class="{'checkmark': (status.added == true)}">
-                                <i class="fa fa-check-square checkmark" ng-show="status.added == true"  ng-checked="true" aria-hidden="true" checked="checked"></i>
+                            <button class="ui icon button" ng-class="{'checkmark': (status.added)}">
+                                <i class="fa fa-check-square checkmark" ng-show="status.added"  ng-checked="true" aria-hidden="true" checked="checked"></i>
                             </button>
                             <span>
-                                {{status.value|translate}}
+                                {{status.item|translate}}
                                 <span>({{status.count}})</span>
                             </span>
                         </a>
