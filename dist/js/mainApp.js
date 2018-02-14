@@ -43222,17 +43222,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                         var array = [];
                         $scope.totalVacancyStatusesCount = resp.object;
 
-                        angular.forEach($scope.totalVacancyStatusesCount, function (status) {
-                            let search = false;
-                            $scope.vacancyStatuses.forEach((item, index) => {
-                                if(item.value == status.item){
-                                    item['count'] = status['count'];
-                                    search = true;
-                                    return;
-                                }
-                            });
-                            if(!search)$scope.vacancyStatuses.push({value:status.item, count:status.count});
-                        });
+                        setCountCadidateInStages($scope.totalVacancyStatusesCount)
 
                         if ($scope.firstTimeLoading == 1) {
                             angular.forEach($scope.vacancyStatuses, function (res) {
@@ -43475,6 +43465,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             $scope.allStatuses.reasons = $scope.checkStatuses($scope.vacancyReasonsForRefusal);
             $scope.allStatuses.custom = $scope.checkStatuses($scope.vacancyCustomStages);
         };
+
         $scope.checkStatuses = function(blockStatuses){
             var number = 0;
 
@@ -43505,9 +43496,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         $scope.addAll = false;
         $scope.changeAllVacancyStatuses = function(nameBlockStatuses){
             var add = $scope.changeButtonForAllStatuses(nameBlockStatuses);
-
             if(nameBlockStatuses == 'standard'){
-
                 angular.forEach($scope.inVacancyStatuses,function(resp){
                     $scope.addAll = true;
                     if(!resp.added && resp.value != 'no_contacts' && resp.value != 'notafit' && resp.value != 'declinedoffer'
@@ -43558,7 +43547,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         };
 
         $scope.changeInVacancyStatuses = function(status){
-
             if($scope.inVacancysStatusesParam.length > 1){
                 if(status.added){
                     if(status.customInterviewStateId){
@@ -43745,6 +43733,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 $rootScope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/" + $scope.companyParams.nameAlias + "-vacancies";
             });
         };
+
         $scope.getCompanyParams();
 
         function createCorrectDate(date, time) {
@@ -43823,6 +43812,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         $scope.selectAllVacancies = function () {
             let _fieldsVacancyList = $scope.fieldsVacancyList;
             _fieldsVacancyList.forEach(item => item.visiable = $scope.chooseListFieldsVacancies);
+            reloadCountCandidatesInStages();
         };
 
         function isClickInDataShowBlock(element, id) {
@@ -43913,14 +43903,28 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 "to": $scope.endDate,
                 "vacancyStatuses": $scope.vacancysStatusesParam,
                 "interviewCreatorIds": $scope.choosenPersons,
-                "vacancyIds": $scope.fieldsVacancyList.filter(item => item.visiable)
-            };
-
-            return  Stat.requestGetCountInterviewForActualVacancyStatistic(requestData)
+                "vacancyIds": $scope.fieldsVacancyList.filter(item => item.visiable).map(item => item.vacancyId)
+            }
+            return  Stat.requestGetCountVacancyForActualVacancyStatistic(requestData)
                 .then((resp) => {
-                    $scope.vacancyStatuses = resp.objects;
-                    $rootScope.loading = false;
+                    resetAngularContext();
                 });
+        }
+
+        function setCountCadidateInStages(totalVacancyStatusesCount) {
+            angular.forEach(totalVacancyStatusesCount, function (status) {
+                let search = false;
+
+                $scope.vacancyStatuses.forEach((item, index) => {
+                    if(item.value == status.item){
+                        item['count'] = status['count'];
+                        search = true;
+                        return;
+                    }
+                });
+
+                if(!search)$scope.vacancyStatuses.push({value:status.item, count:status.count});
+            });
         }
     }
 ]);
