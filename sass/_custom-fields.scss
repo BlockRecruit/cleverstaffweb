@@ -1,8 +1,27 @@
-.custom-fields {
+custom-fields {
 	.field {
 		height: 34px;
 		margin-top: 5px;
 		padding: 6px 16px 0 0;
+	}
+	.custom-fields-toggle {
+		.toggle {
+			display: flex;
+			flex-direction: row;
+			max-width: 95%;
+			margin-top: 7px;
+			padding: 6px 2px 6px 15px;
+
+			color: #202021;
+			border-bottom: 1px solid #e3e3e3;
+			background-color: #fff;
+			box-shadow: none;
+
+			justify-content: space-between;
+		}
+		&:hover {
+			cursor: pointer;
+		}
 	}
 	.select-field {
 		select {
@@ -36,4 +55,7 @@
 
 .block-candidates .candidates-statuses .candidates-search-table > .AdvancedSearchCandidate > .boxThreeColumn .col-lg-4.field {
 	padding: 6px 16px 0 0;
+}
+.block-candidates .candidates-statuses .candidates-search-table > .AdvancedSearchCandidate > .boxThreeColumn .select2-container {
+	width: 100%;
 }

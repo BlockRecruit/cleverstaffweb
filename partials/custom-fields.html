@@ -1,4 +1,9 @@
-<div class="custom-fields-toggle" ng-click="toggleCustomFields()">Toggle</div>
+<div class="custom-fields-toggle col-lg-4 col-md-4 col-sm-4 col-xs-6 with-contacts pull-left" ng-click="toggleCustomFields()">
+    <div class="toggle">
+        <span>{{'Custom fields' | translate}}</span>
+        <input type="checkbox" ng-checked="showCustomFields">
+    </div>
+</div>
 <div ng-click="test()" ng-repeat="field in customFields track by $index" class="custom-fields" ng-switch="field.type" ng-show="showCustomFields">
     <div ng-switch-when="select" class="select-field field col-lg-4 col-md-4 col-sm-4 col-xs-6 with-contacts pull-right">
         <select name="{{field.title}}">

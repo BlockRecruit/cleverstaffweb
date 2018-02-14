@@ -4493,7 +4493,7 @@ directive('appVersion', ['version', function(version) {
                 scope.customFields = [];
                 scope.showCustomFields = false;
 
-                console.log(scope.customFields2);
+                console.log('custom-fields', scope.customFields2);
 
                 scope.toggleCustomFields = function() {
                     scope.showCustomFields = !scope.showCustomFields;
