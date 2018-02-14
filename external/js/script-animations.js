@@ -151,6 +151,8 @@ $(document).ready(function(){
         var tablet = 767;
         var phone_or_tablet = 600;
         var phone = 440;
+        var iphone8Plus = 414;
+        var iphone7 = 375;
         var mini_phone = 320;
         if(window.location.pathname == '/ru/price.html'){
             $('.titleTable2 .plans').css('width', $('.active')[2].offsetWidth);
@@ -219,7 +221,7 @@ $(document).ready(function(){
                     sticky.addClass('hide-block').css('height', '50px');
                 }
 
-                if (scroll >= 4946) {
+                if (scroll >= 4820) {
                     sticky.removeClass('fixed-plans');
                 }
             }
@@ -240,7 +242,7 @@ $(document).ready(function(){
             if(phone >= $( window ).width()){
                 //console.log('phone');
                 $('.hide-block').css('height', '60px');
-                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth + 10);
+                //$('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth + 10);
                 if (scroll >= 2861){
                     sticky.addClass('fixed-plans');
                 } else{
@@ -252,8 +254,48 @@ $(document).ready(function(){
                     sticky.removeClass('fixed-plans');
                 }
             }
-            if(mini_phone >= $( window ).width()){
-                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth + 10);
+            if(iphone8Plus == $( window ).width()){
+                //console.log('iphone8Plus');
+                if (scroll >= 2881){
+                    sticky.addClass('fixed-plans');
+                } else{
+                    sticky.removeClass('fixed-plans');
+                    sticky.addClass('hide-block');
+                }
+
+                if (scroll >= 6102) {
+                    sticky.removeClass('fixed-plans');
+                }
+            }
+            if(iphone7 == $( window ).width()){
+                //console.log('iphone7');
+                if (scroll >= 2881){
+                    sticky.addClass('fixed-plans');
+                } else{
+                    sticky.removeClass('fixed-plans');
+                    sticky.addClass('hide-block');
+                }
+
+                if (scroll >= 6321) {
+                    sticky.removeClass('fixed-plans');
+                }
+            }
+            if(mini_phone == $( window ).width()){
+                //console.log('mini_phone ==');
+                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth + 80);
+                if (scroll >= 2884){
+                    sticky.addClass('fixed-plans');
+                } else{
+                    sticky.removeClass('fixed-plans');
+                    sticky.addClass('hide-block');
+                }
+
+                if (scroll >= 6548) {
+                    sticky.removeClass('fixed-plans');
+                }
+            }
+            if(mini_phone > $( window ).width()){
+                $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth + 50);
                 if (scroll >= 2881){
                     sticky.addClass('fixed-plans');
                 } else{
@@ -369,7 +411,46 @@ $(document).ready(function(){
                     sticky.removeClass('fixed-plans');
                 }
             }
-            if(mini_phone >= $( window ).width()){
+            if(iphone8Plus == $( window ).width()){
+                //console.log('iphone8Plus');
+                if (scroll >= 2881){
+                    sticky.addClass('fixed-plans');
+                } else{
+                    sticky.removeClass('fixed-plans');
+                    sticky.addClass('hide-block');
+                }
+
+                if (scroll >= 5527) {
+                    sticky.removeClass('fixed-plans');
+                }
+            }
+            if(iphone7 == $( window ).width()){
+                //console.log('iphone7');
+                if (scroll >= 2881){
+                    sticky.addClass('fixed-plans');
+                } else{
+                    sticky.removeClass('fixed-plans');
+                    sticky.addClass('hide-block');
+                }
+
+                if (scroll >= 5726) {
+                    sticky.removeClass('fixed-plans');
+                }
+            }
+            if(mini_phone == $( window ).width()){
+                //console.log('mini_phone ==');
+                if (scroll >= 2758){
+                    sticky.addClass('fixed-plans');
+                } else{
+                    sticky.removeClass('fixed-plans');
+                    sticky.addClass('hide-block');
+                }
+
+                if (scroll >= 6135) {
+                    sticky.removeClass('fixed-plans');
+                }
+            }
+            if(mini_phone > $( window ).width()){
                 //console.log('mini_phone');
                 $('.titleTable td:first-child').css('width', $('.customWidth')[0].offsetWidth + 45);
                 if (scroll >= 2758){
