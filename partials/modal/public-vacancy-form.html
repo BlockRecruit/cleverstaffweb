@@ -28,7 +28,7 @@
                     <span>{{'wrong_email'|translate}}</span>
                 </div>
                 <!--<div class="clearfix"></div>-->
-                <div class="recallForm__error text-center pull-right phone" ng-show="(recallForm.phone.$invalid && !recallForm.phone.$pristine) || showErrorPhoneMessage">
+                <div class="recallForm__error text-center pull-right phone" ng-show="recallForm.phone.$invalid && !recallForm.phone.$pristine || showErrorPhoneMessage">
                     <span ng-if="incorrectPhoneNumber">{{'Incorrect phone number'|translate}}</span>
                     <span ng-if="enterPhoneNumber">{{'Enter phone number'|translate}}</span>
                 </div>
@@ -43,7 +43,7 @@
                    class="form-control pull-right"
                    ng-change="changePhone(request.phone)"
                    placeholder="{{'phone' | translate}}*"
-                   ng-class="{'error': (recallForm.phone.$invalid && !recallForm.phone.$pristine) || showErrorPhoneMessage}"
+                   ng-class="{'error': recallForm.phone.$invalid && !recallForm.phone.$pristine || showErrorPhoneMessage}"
                    ng-model="request.phone"
                    oninput="this.value = this.value.replace(/[^0-9\+\s]/g, '');"
                    pattern="^[0-9\+\s]*$"
