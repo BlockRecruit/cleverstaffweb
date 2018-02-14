@@ -1125,6 +1125,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             });
         };
         $scope.showErrorEmailMessage = false;
+        $scope.incorrectPhoneNumber = false;
         $('#email2').on('input', function () {
             $scope.request.email = $(this).val();
             $scope.changeEmail();
@@ -1147,9 +1148,14 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $scope.showErrorEmailMessage = true;
             } else $scope.showErrorEmailMessage = $scope.request.email.length == 0;
         };
-        $scope.changePhone = function (phone) {
+          $scope.enterPhoneNumber = false;
+          $scope.changePhone = function (phone) {
             //$scope.recallForm.phone.$invalid = false;
-            if(phone.length > 0){
+            if(phone == undefined){
+                $scope.enterPhoneNumber = true;
+                $scope.incorrectPhoneNumber = false;
+                $scope.showErrorPhoneMessage = true;
+            }else if(phone.length > 0){
                 $scope.showErrorPhoneMessage = false;
             }
         };
@@ -1187,11 +1193,11 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 }
             });
         };
-          $scope.enterPhoneNumber = false;
         $scope.sendRequest = function (recallForm) {
             $scope.recallForm = recallForm;
             $scope.showErrorCvFileMessage = true;
-            $scope.enterPhoneNumber = false;
+            $scope.showErrorPhoneMessage = true;
+            //$scope.enterPhoneNumber = false;
           if ($scope.recallForm.$valid) {
                 if ($scope.request.email != undefined && $scope.request.email.length == 0) {
                     $scope.request.email = "";
@@ -1218,6 +1224,8 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $scope.request.phone = String($scope.request.phone);
                 if ($scope.request.phone == undefined || $scope.request.phone.match(/^[\(\)\s\-\+\d]{9,20}$/) == null) {
                     $scope.showErrorPhoneMessage = true;
+                    $scope.enterPhoneNumber = false;
+                    $scope.incorrectPhoneNumber = true;
                     return false;
                 }else{
                     $scope.showErrorPhoneMessage = false;
@@ -1263,8 +1271,12 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                     $scope.showErrorEmailMessage = true;
                 }
                 $scope.recallForm.phone.$pristine = false;
-                $scope.enterPhoneNumber = true;
-
+              if($scope.request.phone == null || $scope.request.phone.length == 0){
+                  $scope.enterPhoneNumber = true;
+              }else{
+                  $scope.incorrectPhoneNumber = true;
+                  $scope.enterPhoneNumber = false;
+              }
             }
         };
     }])
