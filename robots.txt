@@ -1,7 +1,7 @@
 User-agent: Googlebot
 Disallow:
-Sitemap: http://mars.cleverstaff.net/sitemap.xml
-Sitemap: http://mars.cleverstaff.net/blog/sitemap.xml
+Sitemap: https://cleverstaff.net/sitemap.xml
+Sitemap: https://cleverstaff.net/blog/sitemap.xml
 
 User-agent: googlebot-image
 Disallow:
@@ -20,11 +20,11 @@ Disallow:
 
 User-agent: Yandex
 Disallow:
-Host: mars.cleverstaff.net
+Host: cleverstaff.net
 
 User-agent: Mail.Ru
 Disallow:
-Host: mars.cleverstaff.net
+Host: cleverstaff.net
 
 User-agent: StackRambler
 Disallow:
@@ -37,6 +37,6 @@ Disallow:
 
 User-agent: *
 Disallow:
-Sitemap: http://mars.cleverstaff.net/sitemap.xml
-Sitemap: http://mars.cleverstaff.net/blog/sitemap.xml
-Host: mars.cleverstaff.net
+Sitemap: https://cleverstaff.net/sitemap.xml
+Sitemap: https://cleverstaff.net/blog/sitemap.xml
+Host: cleverstaff.net
