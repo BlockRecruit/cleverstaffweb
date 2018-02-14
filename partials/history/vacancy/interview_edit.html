@@ -9,22 +9,26 @@
 </div>
 <div class="col-lg-10 margin-top">
     <span>
-        <span ng-if="history.candidate">
-            {{'history_info.candidate'|translate}}
-             <a ng-href="#/candidates/{{history.candidate.localId}}">
-                 {{history.candidate.fullName}}
-             </a>
-        </span>
-        <span ng-if="history.candidates.length == 2">
-            {{'history_info.candidates'|translate}} "<a ng-href="#/candidates/{{history.candidates[0].localId}}">
-                {{history.candidates[0].fullName}}
-            </a>" {{'and'|translate}} "<a ng-href="#/candidates/{{history.candidates[1].localId}}">
-                {{history.candidates[1].fullName}}
-            </a>"
-        </span>
-        <span class="manyCandidates" ng-if="history.candidates.length > 2">
-            <span class="boldTxt" ng-click="openMenuWithCandidates(history)">{{'history_info.candidates'|translate}} (<span class="blueLink">{{history.candidates.length}}</span>)</span>
-        </span>
+        {{'history_info.candidate'|translate}}
+        <a href="#/candidates/{{history.candidate.localId}}">
+            {{history.candidate.fullName}}
+        </a>
+        <!--<span ng-if="history.candidate">-->
+            <!--{{'history_info.candidate'|translate}}-->
+             <!--<a ng-href="#/candidates/{{history.candidate.localId}}">-->
+                 <!--{{history.candidate.fullName}}-->
+             <!--</a>-->
+        <!--</span>-->
+        <!--<span ng-if="history.candidates.length == 2">-->
+            <!--{{'history_info.candidates'|translate}} "<a ng-href="#/candidates/{{history.candidates[0].localId}}">-->
+                <!--{{history.candidates[0].fullName}}-->
+            <!--</a>" {{'and'|translate}} "<a ng-href="#/candidates/{{history.candidates[1].localId}}">-->
+                <!--{{history.candidates[1].fullName}}-->
+            <!--</a>"-->
+        <!--</span>-->
+        <!--<span class="manyCandidates" ng-if="history.candidates.length > 2">-->
+            <!--<span class="boldTxt" ng-click="openMenuWithCandidates(history)">{{'history_info.candidates'|translate}} (<span class="blueLink">{{history.candidates.length}}</span>)</span>-->
+        <!--</span>-->
         {{'history_info.on_vacancy'|translate}}
         <a href="#/vacancies/{{ history.vacancy.localId}}">
             {{history.vacancy.position}}
@@ -68,13 +72,13 @@
             {{'save'|translate}}
         </div>
     </div>
-    <span class="manyCandidates" ng-if="history.candidates.length > 2">
-        <div ng-show="history.showAllCandidates">
-            <span ng-repeat="candidate in history.candidates" class="menuCandidate">
-                <a ng-href="#/candidates/{{candidate.localId}}" title="{{candidate.fullName}}">
-                    {{candidate.fullName}}
-                </a>
-            </span>
-        </div>
-    </span>
+    <!--<span class="manyCandidates" ng-if="history.candidates.length > 2">-->
+        <!--<div ng-show="history.showAllCandidates">-->
+            <!--<span ng-repeat="candidate in history.candidates" class="menuCandidate">-->
+                <!--<a ng-href="#/candidates/{{candidate.localId}}" title="{{candidate.fullName}}">-->
+                    <!--{{candidate.fullName}}-->
+                <!--</a>-->
+            <!--</span>-->
+        <!--</div>-->
+    <!--</span>-->
 </div>
