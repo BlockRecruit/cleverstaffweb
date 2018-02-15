@@ -51,7 +51,7 @@
         }
     </style>
 </head>
-<body style="background-color:#fff">
+<body>
 <br><br>
 <div align="center">
     <table><tr><td width="600px">
@@ -61,17 +61,16 @@
             by the way, look how <h3 style="display: inline-block;margin: 10px 0;" class="imgTittle">Integration with LinkedIn</h3> works in CleverStaff
             <div id="banner-load"></div>
             <span class="CSLanding" style="margin-top: 50px">
-                <a href="/ru/index.html">Главная</a>&nbsp;|&nbsp;<a href="https://cleverstaff.net/blog/">Наш блог</a>&nbsp;|&nbsp;<a href="/ru/signup.html">Зарегистрироваться</a><br><br>
+                <a href="/ru/index.html">Home</a>&nbsp;|&nbsp;<a href="https://cleverstaff.net/blog/">Blog</a>&nbsp;|&nbsp;<a href="/ru/signup.html">Sign up</a><br><br>
             </span>
             <span class="CSWeb" style="display: none;margin-top: 50px">
-                <a href="/!#/organizer">Органайзер </a>&nbsp;|&nbsp;<a href="/!#/vacancies">Вакансии</a>&nbsp;|&nbsp;<a href="/!#/candidates">Кандидаты</a><br><br>
+                <a href="/!#/organizer">Organizer</a>&nbsp;|&nbsp;<a href="/!#/vacancies">Vacancies</a>&nbsp;|&nbsp;<a href="/!#/candidates">Candidates</a><br><br>
             </span>
         </div>
     </td></tr></table>
 </div>
 <script src="/lib/jquery/jquery-2.0.3.min.js"></script>
 <script type="application/javascript">
-    console.log(localStorage);
     var images = ['Linkedin_integration.gif', 'Resume_parsing.gif', 'Archive_import.gif', 'Customizable_auto-emails.gif', 'Custom_job_workflow_stages.gif', 'Local_job_boards_integration.gif', 'integration_HD.gif', 'Integration_with_Calendar.gif', 'Quick_vacancies_reports.gif', 'Recruiting_funnel.gif'];
     var imagesTittle = images[Math.floor(Math.random() * images.length)];
     $('.imgTittle')[0].innerText = imagesTittle.replace(/\.*/g,"").replace(/_/g," ").replace(/gif/g,"");
