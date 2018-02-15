@@ -925,7 +925,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
         $scope.filterVacancy = function (vacancy) {
             let statuses = $scope._vacancyStatuses;
-            if(vacancy.position.toLocaleLowerCase().indexOf($scope.query.toLocaleLowerCase()) !== -1 && statuses.some(status => status.item == vacancy.status && status.added)){
+            if(vacancy.position.toLocaleLowerCase().indexOf($scope.query.toLocaleLowerCase()) !== -1){
                 return vacancy;
             }
         };
@@ -1100,7 +1100,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 }
             });
         }
-
     }
 ]);
 
