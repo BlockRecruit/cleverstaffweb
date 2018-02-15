@@ -154,7 +154,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         }
 
         function concatCastomOrStandartFields(custom, standart) {
-            console.log(custom, standart, 'custom, standart');
             custom.forEach(item => {
                 standart.push({
                     value: item.title,
@@ -308,7 +307,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         function isChanged(startData, finishData) {
             let index, i, change = true;
-            console.log(startData, finishData);
 
             for(i in startData){
                 index = Object.getOwnPropertyNames(finishData).sort().indexOf(i);
@@ -428,7 +426,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         }
 
         function setListVacancies(resp) {
-            console.log(this,'this')
             let responseData, listVacancies = this.fieldsVacancyList;
 
             if(!resp.objects){
@@ -451,6 +448,52 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             this.fieldsVacancyList = responseData;
             $rootScope.loading = false;
         }
+
+        function showBlocks(event) {
+            let targetDataID = getDataShowElement(event.target),
+                targetShowElement;
+
+            if(isClickInDataShowBlock(event.target, targetDataID['show'])){
+                return;
+            }
+
+            targetShowElement =  angular.element('#' + targetDataID['show'])[0];
+
+            if(targetDataID && targetDataID['show'] && !targetShowElement.classList.contains('active')){
+                _showBlocks(targetShowElement);
+                return;
+            }
+
+            _hiddenBlocks();
+        }
+
+        function getDataShowElement(target) {
+            let element = target;
+
+            while(!element.classList.contains('block-custom-report-edit')){
+                if(element.dataset.show){
+                    return element.dataset;
+                }
+                element = element.parentNode;
+            }
+            return false;
+        }
+
+        function isClickInDataShowBlock(element, id) {
+            while(!element.classList.contains('block-custom-report-edit')){
+                if(element.classList.contains('active') || (id && element.id === id)){
+                    return true;
+                }
+                element = element.parentNode;
+            }
+            return false;
+        }
+
+        function selectAllVacancies() {
+            let _fieldsVacancyList = this.fieldsVacancyList;
+                _fieldsVacancyList.forEach(item => item.visible = this.chooseListFieldsVacancies);
+            checkOnChange.call(this)
+        };
 
         resetDefaultData();
 
@@ -680,17 +723,8 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         };
 
-        function _moveCircleForVacancies() {
-            if(this.fieldsVacancyList.filter(i=>i.visible).length){
-                this.chooseListFieldsVacancies = true;
-            }else{
-                this.chooseListFieldsVacancies = false
-            }
-        };
-
-        singleton.hiddenBlocks = _hiddenBlocks;
-        singleton.showBlocks = _showBlocks;
-        singleton.moveCircleForVacancies = _moveCircleForVacancies;
+        singleton.showBlocks         = showBlocks;
+        singleton.selectAllVacancies = selectAllVacancies;
 
         return singleton;
     }catch(error){

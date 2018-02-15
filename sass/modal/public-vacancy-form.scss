@@ -76,7 +76,7 @@ body.modal-open-public-vacancy-form {
 				display: inline-block;
 				width: 45%;
 				max-height: 20px;
-				margin-bottom: 15px;
+				margin-bottom: 9px;
 
 				white-space: nowrap;
 				& span {
@@ -84,7 +84,6 @@ body.modal-open-public-vacancy-form {
 
 					color: #a94442;
 					border-radius: 13px;
-					//background-color: #f2dede;
 				}
 			}
 			.email {
@@ -94,9 +93,33 @@ body.modal-open-public-vacancy-form {
 				clear: right;
 			}
 		}
+		.message {
+			font-size: 11px;
+			line-height: 20px;
+
+			display: inline-block;
+			width: 45%;
+			max-height: 20px;
+			margin-left: 18px;
+
+			white-space: nowrap;
+			& span {
+				padding: 5px 10px;
+
+				color: #a94442;
+				border-radius: 13px;
+			}
+		}
 		input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
 			-webkit-appearance: none;
+		}
+		.error_form {
+			display: inline-block;
+			width: 100%;
+			.recallForm__error {
+				margin-bottom: 5px;
+			}
 		}
 	}
 	.closeModal {
