@@ -306,7 +306,7 @@ $(document).ready(function(){
                     sticky.removeClass('fixed-plans');
                 }
             }
-        }else{
+        }else if(window.location.pathname == '/price.html'){
             if (scroll >= 1291){
                 //console.log('under > 1200');
                 $('.titleTable2 .plans').css('width', $('.active')[2].offsetWidth);
