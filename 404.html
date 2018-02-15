@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
@@ -7,6 +7,13 @@
     <title>Error 404. Page is not found</title>
     <link rel="shortcut icon" href="/images/sprite/favicon.png" type="image/png">
     <style>
+        body{
+            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #333;
+            background-color: #fff;
+        }
         .fade-in{
             -webkit-animation: fade-in 2s ease;
             -moz-animation: fade-in ease-in-out 2s both;
@@ -26,8 +33,21 @@
             margin: 10px 0 15px 0
         }
         #banner-load img{
-            width: 650px;
+            max-width: 650px;
             height: auto;
+        }
+        .CSLanding a, .CSWeb a{
+            color: #646465;
+            text-decoration: none;
+        }
+        .CSLanding a:hover, .CSWeb a:hover{
+            color: #9CCE95;
+            text-decoration: none;
+        }
+        @media screen and (max-width: 550px) {
+            #banner-load img{
+                width: 320px;
+            }
         }
     </style>
 </head>
@@ -39,33 +59,27 @@
             Error 404. Page is not found
             <br>
             by the way, look how <h3 style="display: inline-block;margin: 10px 0;" class="imgTittle">Integration with LinkedIn</h3> works in CleverStaff
-            <!--<center style="margin: 10px 0 15px 0"><img src="/external/img/gif/Linkedin_integration.gif" width="600" height="400" alt="Linkedin integration"></center>-->
             <div id="banner-load"></div>
             <span class="CSLanding" style="margin-top: 50px">
                 <a href="/ru/index.html">Главная</a>&nbsp;|&nbsp;<a href="https://cleverstaff.net/blog/">Наш блог</a>&nbsp;|&nbsp;<a href="/ru/signup.html">Зарегистрироваться</a><br><br>
             </span>
             <span class="CSWeb" style="display: none;margin-top: 50px">
-                <a href="/ru/index.html">Органайзер </a>&nbsp;|&nbsp;<a href="https://cleverstaff.net/blog/">Вакансии</a>&nbsp;|&nbsp;<a href="/ru/signup.html">Кандидаты</a><br><br>
+                <a href="/!#/organizer">Органайзер </a>&nbsp;|&nbsp;<a href="/!#/vacancies">Вакансии</a>&nbsp;|&nbsp;<a href="/!#/candidates">Кандидаты</a><br><br>
             </span>
         </div>
     </td></tr></table>
 </div>
 <script src="/lib/jquery/jquery-2.0.3.min.js"></script>
 <script type="application/javascript">
+    console.log(localStorage);
     var images = ['Linkedin_integration.gif', 'Resume_parsing.gif', 'Archive_import.gif', 'Customizable_auto-emails.gif', 'Custom_job_workflow_stages.gif', 'Local_job_boards_integration.gif', 'integration_HD.gif', 'Integration_with_Calendar.gif', 'Quick_vacancies_reports.gif', 'Recruiting_funnel.gif'];
-    $('.imgTittle')[0].innerText = images[Math.floor(Math.random() * images.length)];
-    $('<img class="fade-in" src="/external/img/gif/' + images[Math.floor(Math.random() * images.length)] + '">').appendTo('#banner-load');
-    console.log($('.imgTittle')[0].innerText);
-    console.log(images[Math.floor(Math.random())]);
-    console.log(images[Math.floor(Math.random() * images.length)]);
-//    var caption = ['Linkedin integration', 'Resume parsing', 'Archive import', 'Customizable auto emails', 'Custom job workflow stages', 'Local job boards integration', 'integration HD', 'Integration with Calendar', 'Quick vacancies_reports ', 'Recruiting funnel'];
-//    console.log(caption[Math.floor(Math.random())], 'caption-title');
-//    console.log(caption[Math.floor(Math.random() * caption.length)], 'caption-random');
+    var imagesTittle = images[Math.floor(Math.random() * images.length)];
+    $('.imgTittle')[0].innerText = imagesTittle.replace(/\.*/g,"").replace(/_/g," ").replace(/gif/g,"");
+    $('<img class="fade-in" src="/external/img/gif/' + imagesTittle + '">').appendTo('#banner-load');
     var request = new XMLHttpRequest();
     request.open('GET', '/hr/person/authping', true);
     var redirectLogin = false;
     request.send();
-    console.log(request);
     var CSWeb = document.getElementsByClassName('CSWeb');
     CSWeb[0].style.display = 'none';
     var CSLanding = document.getElementsByClassName('CSLanding');
@@ -80,7 +94,6 @@
                 CSWeb[0].style.display = 'block';
                 var CSLanding = document.getElementsByClassName('CSLanding');
                 CSLanding[0].style.display = 'none';
-//                window.location.replace("/!#/organizer");
             }
             event.preventDefault();
         }
