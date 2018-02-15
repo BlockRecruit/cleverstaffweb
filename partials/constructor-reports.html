@@ -67,7 +67,7 @@
                         <div class="fields-list clearfix">
                             <ul class="fields-list-row col-lg-6 clearfix">
                                 <li ng-repeat="vacancy in fieldsVacancyList track by $index"
-                                    ng-if="vacancy.visiable"
+                                    ng-show="vacancy.check"
                                     class="col-md-15 col-xs-3 ">
                                     <span>{{vacancy.position |translate}}</span>
                                 </li>
@@ -89,9 +89,11 @@
                         </div>
                         <div style="height: 140px;">
                             <ul class="fields-list-row clearfix col-lg-12">
-                                <li ng-repeat="field in fieldsVacancyList  track by $index"  ng-click="selectedVacancy(field, $event)">
+                                <li ng-repeat="field in fieldsVacancyList  track by $index"
+                                    ng-show="field.visiable"
+                                    ng-click="selectedVacancy(field, $event)">
                                     <button class="ui icon button select-vacancies">
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': (field.visiable)}"> </i>
+                                        <i class="fa fa-check-square" ng-class="{'checkmark': (field.check)}"> </i>
                                     </button>
                                     <span>{{field.position |translate}}</span>
                                 </li>
@@ -301,7 +303,7 @@
                         </div>
                         <div class="vacancy-statuses col-lg-12">
                                <span class="status" ng-repeat="status in _vacancyStatuses track by $index"
-                                     ng-if="status.added ">
+                                     ng-if="status.added">
                                    {{status.item|translate}}
                                    <span class="counter">
                                       ({{status.count}})
@@ -319,8 +321,8 @@
                         <a class="item choosingStages pull-left"
                            ng-repeat="status in _vacancyStatuses track by $index"
                            ng-click="changeVacancyStatuses(status)">
-                            <button class="ui icon button" ng-class="{'checkmark': (status.added)}">
-                                <i class="fa fa-check-square checkmark" ng-show="status.added"  ng-checked="true" aria-hidden="true" checked="checked"></i>
+                            <button class="ui icon button" ng-class="{'checkmark': status.added}">
+                                <i class="fa fa-check-square" ng-class="{'checkmark': status.added}" ng-show="status.visible"  ng-checked="true" aria-hidden="true" checked="checked"></i>
                             </button>
                             <span>
                                 {{status.item|translate}}
