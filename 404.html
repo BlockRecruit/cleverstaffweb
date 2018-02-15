@@ -3,23 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="content-language" content="ru-ru">
-    <title>Ошибка 404 - страница не найдена</title>
-    <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
+    <title>Error 404. Page is not found</title>
+    <link rel="shortcut icon" href="/images/sprite/favicon.png" type="image/png">
 </head>
 <body style="background-color:#fff">
 <br><br>
 <div align="center">
     <table><tr><td width="600px">
-        <center><img src="/images/sprite/404-error-page-6.jpg" alt="404 Not found"></center>
         <div id="message" align=center>
-            <h1>Здесь рыбы нет.</h1>
-            Страница, которую вы хотели открыть, почему-то не найдена.<br>
-            Наверное, случилось что-то ужасное, и мы на всякий случай просим прощения.<br><br>
-            Может быть, попробуете какую-то из этих ссылок?<br><br>
-            <a href="/ru/index.html">Наш сайт</a>&nbsp;|&nbsp;<a href="https://cleverstaff.net/blog/">Наш блог</a>&nbsp;|&nbsp;<a href="/ru/signup.html">Зарегистрироваться</a><br><br>
-            (Ошибка 404 - страница не найдена \ 404 Not Found)
+            Error 404. Page is not found
+            <br>
+            by the way, look how <h3 style="display: inline-block;margin: 10px 0;">Integration with LinkedIn</h3> works in CleverStaff
+            <center style="margin: 10px 0 15px 0"><img src="/external/img/gif/Linkedin_integration.gif" width="600" height="400" alt="Linkedin integration"></center>
+            <span class="CSLanding" style="margin-top: 50px">
+                <a href="/ru/index.html">Главная</a>&nbsp;|&nbsp;<a href="https://cleverstaff.net/blog/">Наш блог</a>&nbsp;|&nbsp;<a href="/ru/signup.html">Зарегистрироваться</a><br><br>
+            </span>
+            <span class="CSWeb" style="display: none;margin-top: 50px">
+                <a href="/ru/index.html">Органайзер </a>&nbsp;|&nbsp;<a href="https://cleverstaff.net/blog/">Вакансии</a>&nbsp;|&nbsp;<a href="/ru/signup.html">Кандидаты</a><br><br>
+            </span>
         </div>
     </td></tr></table>
 </div>
+<script type="application/javascript">
+    var request = new XMLHttpRequest();
+    request.open('GET', '/hr/person/authping', true);
+    var redirectLogin = false;
+    request.send();
+    console.log(request);
+    var CSWeb = document.getElementsByClassName('CSWeb');
+    CSWeb[0].style.display = 'none';
+    var CSLanding = document.getElementsByClassName('CSLanding');
+    CSLanding[0].style.display = 'block';
+    request.onload = function () {
+        if (request.status >= 200 && request.status < 400) {
+            resp = request.responseText;
+            var data = JSON.parse(resp);
+            if (data.status == 'ok') {
+                redirectLogin = true;
+                var CSWeb = document.getElementsByClassName('CSWeb');
+                CSWeb[0].style.display = 'block';
+                var CSLanding = document.getElementsByClassName('CSLanding');
+                CSLanding[0].style.display = 'none';
+//                window.location.replace("/!#/organizer");
+            }
+            event.preventDefault();
+        }
+    };
+//    if (redirectLogin) {
+//        window.location.replace("/!#/organizer");
+//    }else{
+//        history.pushState({},"","");
+//        window.location.replace("/ru/signin.html");
+//    }
+</script>
 </body>
 </html>
