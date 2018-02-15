@@ -139,6 +139,7 @@ angular.module('services.reportAll', [
             stat.deleteCustomVacancyReport(params, resp => resolve(resp),error => reject(error));
         });
     };
+
     stat.requestGetCountVacancyForActualVacancyStatistic = function (params){
         $rootScope.loading = true;
         return new Promise((resolve, reject) => {

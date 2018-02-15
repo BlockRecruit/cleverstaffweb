@@ -711,7 +711,7 @@
             $('.rusIcon').css('display', 'inline-block');
         }
         if (localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'en') {
-            window.location.replace('/index.html');
+            window.location.replace(`/index.html${window.location.search}`);
         }
 
         var lang = localStorage.getItem("NG_TRANSLATE_LANG_KEY");
@@ -722,7 +722,8 @@
             if (q === "auth") {
                 window.location.replace("/" + "?q=" + q);
             } else {
-                window.location.replace("/index.html");
+                window.location.replace(`/index.html${window.location.search}`);
+                // window.location.replace('/index.html');
             }
         }
     });
@@ -753,7 +754,6 @@
                     }]
                 });
             document.head.appendChild(LDJson);
-            console.log(document.head);
             // end of google corporate data + logo
             // Hubspot tracking code;
             var script = document.createElement('script');

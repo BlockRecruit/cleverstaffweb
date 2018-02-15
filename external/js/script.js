@@ -13,7 +13,8 @@ var linkedin_url = "https://www.linkedin.com/uas/oauth2/authorization" +
     "&state=STATUS123asd33342" +
     "&redirect_uri=" + location.protocol + "//" + document.domain + "/white.html";
 $(document).ready(function () {
-    (function(){
+
+    function trackTariff() {
         var buttonsParamsTariff = document.querySelectorAll(".orange-btn, .signupBtn, .tryItfreeTwo, .featureStartTrial, .tryCsfree, .startNowOnerecrut, .teamWorkStartTrial, .corporateEnStart, .enterprizeGetOfferOne, .startNowOneRecrutTwo, .teamWorkStartTrialTwo, .corporateEnStartTwo, .enterprizeGetOfferTwo, .demoParams, .presentation"),
             i = 0,
             max = buttonsParamsTariff.length;
@@ -22,11 +23,40 @@ $(document).ready(function () {
             localStorage.setItem("tarifParams", this.dataset.params);
         }
         for(; i < max; i++){
-            buttonsParamsTariff[i].addEventListener('click',setParamsTarif);
+            buttonsParamsTariff[i].addEventListener('click', setParamsTarif);
         }
-    })();
+    }
+    
+    function init() {
+        var data =  document.querySelectorAll('#need-demo-modal, a[href="#need-demo-modal"]'),
+            i = 0, max = data.length;
 
-    console.log(history);
+        if(window.location.href.indexOf('requestDemo') > 0){
+            $('.demoParams').click();
+        }
+
+        for(;i < max;i++){
+            data[i].onclick = function (event) {
+                if(window.location.href.indexOf('requestDemo') > 0 && (event.target.id == 'need-demo-modal' ||  event.target.classList.contains('close'))){
+                    if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") === 'ru'){
+                        history.pushState(null, null, '/ru/index.html');
+                    }else{history.pushState(null, null, '/index.html')}
+                }
+
+                if(event.target.href && event.target.href.indexOf('#need-demo-modal') > 0 && location.href.indexOf('index') > 0){
+                    history.pushState(null, null, location.href + '?requestDemo');
+                }else if(location.pathname === '/'){
+                    history.pushState(null, null, location.href + 'index.html?requestDemo');
+                }
+
+            };
+        }
+
+        trackTariff();
+    }
+
+    init();
+
 
     var q = getUrlParameter("q");
     if (q === "demo") {
@@ -159,7 +189,6 @@ $(document).ready(function () {
                 res.phone = $(".countryCustom").text(localStorage.getItem('phone').replace(/-/g,"") + res.phone)[0].textContent;
             }
             delete res.countryCustom;
-            console.log(res);
             $.ajax({
                 url: "/hr/person/registration/google",
                 type: "POST",
@@ -530,7 +559,6 @@ $(document).ready(function () {
                     socialSuccess("google", messages.send);
                 },
                 success: function (data) {
-                    console.log(data);
                     $($('.select2-selection--single')).css('border','2px solid #61B452');
                     $($('input[name=orgName]')).css('border','2px solid #61B452');
                     $($('select[name=usersCount]')).css('border','2px solid #61B452');
@@ -554,7 +582,6 @@ $(document).ready(function () {
                 },
                 error: function (data) {
                     localStorage.removeItem('phone');
-                    console.log(data);
                     if (data.status === "error") {
                         socialError("google", data.message);
                     }
@@ -958,7 +985,6 @@ $(document).ready(function () {
                     socialSuccess("facebook", messages.send);
                 },
                 success: function (data) {
-                    console.log(data);
                     $($('.select2-selection--single')).css('border','2px solid #61B452');
                     $($('input[name=orgName]')).css('border','2px solid #61B452');
                     $($('select[name=usersCount]')).css('border','2px solid #61B452');
@@ -983,7 +1009,6 @@ $(document).ready(function () {
                 },
                 error: function (data) {
                     localStorage.removeItem('phone');
-                    console.log(data);
                     if (data.status === "error") {
                         socialError("facebook", data.message);
                     }
@@ -1016,7 +1041,6 @@ $(document).ready(function () {
                     socialSuccess("linkedin", messages.send);
                 },
                 success: function (data) {
-                    console.log(data);
                     if (data.personId !== undefined) {
                         if (!isIE()) {
                             socialSuccess("linkedin", messages.redirect);
@@ -1031,7 +1055,7 @@ $(document).ready(function () {
                     signup_linkedin_loading = false;
                 },
                 error: function (data) {
-                    console.log(data);
+
                     if (data.status === "error") {
                         socialError("linkedin", data.message);
                     }
@@ -1185,7 +1209,6 @@ $(document).ready(function () {
                     clearInterval(timer)
                 },
                 error: function (data) {
-                    console.log(data);
                     if (data.status === "error") {
                         authError(data.message);
                     }
@@ -1233,7 +1256,6 @@ $(document).ready(function () {
     });
 
     $("#signup_email").focusout(function () {
-        console.log("test");
         if (mailPattern.test($(this).val())) {
             $.ajax({
                 url: "/hr/person/checkEmail",
@@ -1242,7 +1264,6 @@ $(document).ready(function () {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    console.log(data);
                     if (data.status === "ok") {
                         $("#signup_email").addClass("good").removeAttr("style");
                         $(".mail_occupied").fadeOut();
@@ -1326,7 +1347,6 @@ $(document).ready(function () {
                     }
                 },
                 success: function (data) {
-                    console.log(data);
                     if (data.personId !== undefined) {
                         sendGA('signup_success');
                         signupSuccess(messages.signup_success.replace("${login}", res.login).replace("${orgName}", res.orgName));
@@ -1336,7 +1356,6 @@ $(document).ready(function () {
                     signup_loading = false;
                 },
                 error: function (data) {
-                    console.log(data);
                     if (data.status === "error") {
                         signupError(data.message);
                     }
@@ -1552,7 +1571,7 @@ $(document).ready(function () {
                     $("#error-password").hide();
                 },5000);
             }
-            console.log('1');
+
             $.ajax({
                 url: "/hr/person/forgetPasswordRequest/" + localStorage.getItem("NG_TRANSLATE_LANG_KEY"),
                 type: "POST",
@@ -1570,13 +1589,11 @@ $(document).ready(function () {
                         xhr.abort();
                         $('.order_call_phone_need').fadeIn();
                         email.css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
-                        console.log('2');
                         callme_loading = false;
                         return false;
                     }
                 },
                 success: function (data) {
-                    console.log(data);
                     if (data.status === "ok") {
                         $(".order_call_win_under.order_call_success").show();
                         email.css('border','2px solid #61B452');
@@ -1597,7 +1614,6 @@ $(document).ready(function () {
                     }
                     callme_loading = false;
                 }, error: function (data) {
-                    console.log(data);
                     if (data.status === "error") {
                         signupError(data.message);
                     }
@@ -1619,7 +1635,7 @@ $(document).ready(function () {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    console.log(data);
+
                     if (data.status === "ok") {
                         authSuccess(messages.confirmMessage);
                     } else if (data.message) {
@@ -1631,7 +1647,6 @@ $(document).ready(function () {
                     }
                     confirmLetter_loading = false;
                 }, error: function (data) {
-                    console.log(data);
                     if (data.status === "error") {
                         signupError(data.message);
                     }
@@ -1672,7 +1687,6 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     sendGA('subscribe');
-                    console.log(data);
                     if (data.message !== undefined) {
                         if (data.status === "ok") {
                             $(".subscribeSuccess").show();
@@ -1683,7 +1697,6 @@ $(document).ready(function () {
                     subscribe_loading = false;
                 },
                 error: function (data) {
-                    console.log(data);
                     $(".subscribeText").hide();
                     if (data.status === "error") {
                         $(".subscribeServerError").text(data.message).show();
@@ -1959,7 +1972,6 @@ $(document).ready(function () {
     }
 });
 function tariffFunc(tarif){
-    console.log(tarif);
     if(tarif == 'team_work' || tarif == 'corporate' || tarif == 'enterprise' ){
         $('.showDemo').css('display', 'none');
         $('.showTariffPrice').css('display', 'block');
@@ -1977,6 +1989,7 @@ function tariffFunc(tarif){
         $('#valueTariff').val('Request demo');
     }
 }
+
 $('#askQuestionSubmit').on('click',function(e){
     var res = $("#questionForm").serializeObject();
     var string = res.country;
@@ -2444,6 +2457,7 @@ $('#askQuestionSubmit').on('click',function(e){
             }
         },
         complete: function(){
+            console.log('123123123123')
             $($('.select2-selection--single')).css('border','2px solid #61B452');
             $("#need-demo-modal").modal('hide');
             $("#thanks-modal").modal('show');
@@ -2941,6 +2955,7 @@ $('#askQuestionSubmit2').on('click',function(e){
             }
         },
         complete: function(data){
+            console.log('123123123123123 _ 2')
             $($('.select2-selection--single')).css('border','2px solid #61B452');
             $("#need-demo-modal").modal('hide');
             $("#thanks-modal").modal('show');
@@ -3439,6 +3454,7 @@ $('#askQuestionSubmit3').on('click',function(e){
       }
     },
     complete: function(data){
+        console.log('123123123123_3')
       $($('.select2-selection--single')).css('border','2px solid #61B452');
       $("#need-demo-modal").modal('hide');
       $("#thanks-modal").modal('show');
@@ -3527,6 +3543,7 @@ $('#askQuestionSubmit4').on('click',function(e){
 
         },
         complete: function(){
+            console.log('123123123123_4')
             $("#nameQuestion").val('');
             $("#emailQuestion").val('');
             $("#textQuestion").val('');
