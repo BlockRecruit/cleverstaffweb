@@ -20,6 +20,7 @@
     <meta name="description" content="CleverStaff -- All-in-One Software for Applicant Tracking &amp; Recruitment Automation. Enterprise and Cloud versions.">
     <meta name="keywords" content="recruitment software, applicant tracking system, ATS, applicant tracking software, saas applicant tracking, ATS tracking, ats system, staffing software, recruitment system, recruitment management system">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
+    <link rel="amphtml" href="amp.html">
     <link rel="stylesheet" href="external/css/bootstrap.min.css">
     <link rel="stylesheet" href="external/css/main.min.css?b8">
     <meta property="og:type" content="website" />
@@ -709,7 +710,7 @@
 
 <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/ApiKey.js?b1"></script>
-<script src="external/js/script.min.js?b14"></script>
+<script src="external/js/script.min.js?b15"></script>
 <script src="external/js/jquery.jcarousellite.min.js?b1"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 
@@ -745,27 +746,31 @@
             }
             return false;
         }
+
         if (hasUrlParameterWithoutQ()) {
             var sPageURL = window.location.search.substring(1);
             if (sPageURL && sPageURL !== '') {
                 localStorage.setItem("UTMS", sPageURL);
             }
         }
-        if (localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'ru') {
-            window.location.replace('/ru/index.html');
+
+        var url = ''
+        if (localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'ru' &&  window.location.pathname.indexOf('ru') < 0) {
+            url = `/ru${window.location.pathname}${window.location.search}`;
+            window.location.replace(url);
         }
 
         var lang = localStorage.getItem("NG_TRANSLATE_LANG_KEY");
         var userLang = navigator.language || navigator.userLanguage;
         var lST = userLang.substring(0, 2);
-        console.log(lang);
-        console.log(lST);
         if (lang == 'ru' || (lang == null && (lST == "ru" || lST == "be"))) {
             var q = getUrlParameter("q");
             if (q === "auth") {
                 window.location.replace("/" + "?q=" + q);
             } else {
-                window.location.replace("/ru/index.html");
+                // window.location.replace('/index.html');
+                // history.pushState(null, null, '/index.html')
+                window.location.replace(`/ru/index.html${window.location.search}`);
             }
         }
     });
@@ -796,7 +801,6 @@
                     }]
                 });
             document.head.appendChild(LDJson);
-            console.log(document.head);
             // end of google corporate data + logo
             <!-- Facebook Pixel Code -->
             !function(f,b,e,v,n,t,s)

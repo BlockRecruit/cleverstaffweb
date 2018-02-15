@@ -58,40 +58,46 @@
                         <div  style="display: inline-block" class="alert alert-danger" ng-show="timeMaxZone || timeMaxZone2">{{"The selected date can not be more than the current date."|translate}}</div>
                     </div>
                 </div>
-                <div class="wrapper-for-padding-right col-lg-6 col-md-12">
+                <div class="wrapper-for-padding-right col-lg-6 col-md-12"  data-show="chooseListFieldsVacancies">
                     <div class="col-lg-12 col-md-12 block-candidate-show">
                         <h4 class="candidate-show">
-                            <span style="margin-right: 3px; position: relative;top: 4px">{{"Select vacancies in the report"|translate}}:</span>
-                            <span class="switch">
-                                <input  id="cmn-toggle-10"
-                                        ng-model="chooseListFieldsVacancies"
-                                        ng-click="showChoosingVacancyFields($event)"
-                                        class="cmn-toggle cmn-toggle-round upcomingScopeSwticher"
-                                        type="checkbox">
-                                <label  class="" style="margin: 0px 0px 0px 8px;" for="cmn-toggle-10"></label>
-                            </span>
+                            <span style="margin-right: 3px; position: relative;top: 4px">{{"Select vacancies in the report"|translate}}</span>
+                            <i class="fa fa-pencil"></i>
                         </h4>
-                        <!--ng-model="chooseListFieldsVacancies"-->
                         <div class="fields-list clearfix">
                             <ul class="fields-list-row col-lg-6 clearfix">
-                                <li ng-repeat="vacancy in selectVacancy track by $index" class="col-md-15 col-xs-3 ">
+                                <li ng-repeat="vacancy in fieldsVacancyList track by $index"
+                                    ng-if="vacancy.visiable"
+                                    class="col-md-15 col-xs-3 ">
                                     <span>{{vacancy.position |translate}}</span>
                                 </li>
                             </ul>
                         </div>
-                        <div class="chooseListFieldsVacancies" style="display: none; padding: 16px;">
-                            <div class="enter-job-title">{{"enter job title"|translate}}</div>
-                            <div><input type="text"  ng-init="query=''" ng-model="query"></div>
+                    </div>
+                    <div class="chooseListFieldsVacancies" id="chooseListFieldsVacancies">
+                        <div class="enter-job-title">{{"enter job title"|translate}}</div>
+                        <div><input type="text"  ng-init="query=''" ng-model="query"></div>
+                        <div style="display: flex;flex-direction: row;justify-content: flex-start;align-items: center; margin: 10px 0px; ">
+                            <span class="switch" ng-click="selectAllVacancies()">
+                                <input  id="cmn-toggle-10"
+                                        ng-model="chooseListFieldsVacancies"
+                                        class="cmn-toggle cmn-toggle-round upcomingScopeSwticher"
+                                        type="checkbox">
+                                <label   for="cmn-toggle-10"></label>
+                            </span>
+                            <span>{{"Select all vacancies"|translate}}</span>
+                        </div>
+                        <div style="height: 140px;">
                             <ul class="fields-list-row clearfix col-lg-12">
                                 <li ng-repeat="field in fieldsVacancyList | filter:filterVacancy track by $index"  ng-click="selectedVacancy(field, $event)">
                                     <button class="ui icon button select-vacancies">
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': (field.visiable == true)}"> </i>
+                                        <i class="fa fa-check-square" ng-class="{'checkmark': (field.visiable)}"> </i>
                                     </button>
                                     <span>{{field.position |translate}}</span>
                                 </li>
                             </ul>
-                            <div class="clearfix"></div>
                         </div>
+                        <div class="clearfix"></div>
                     </div>
                 </div>
             </section>

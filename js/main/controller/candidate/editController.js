@@ -84,10 +84,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         };
         $scope.lang = Service.lang();
 
-        $scope.errorMessage = {
-            show: false,
-            message: ""
-        };
         FileInit.initCandFileOption($scope, "candidate", "", false, $filter);
         FileInit.initFileOptionForEditFromResume($scope, "candidate");
         $scope.callbackFile = function(resp, name) {
@@ -710,11 +706,12 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             $scope.$on('$destroy', myListener);
         },0);
         $scope.saveCandidate = function() {
-            var salaryBol = true;
-            if ($scope.candidate.salary != undefined && $scope.candidate.salary != "" && /[^[0-9]/.test($scope.candidate.salary)) {
-                $scope.errorMessage.show = true;
-                $scope.errorMessage.message = $filter("translate")("desired_salary_should_contains_only_numbers");
+            var salaryBol;
+            $scope.candidate.position=$scope.getPositionAutocompleterValue();
+            if ($scope.candidate.salary && $scope.candidate.salary >= 2147483647) {
                 salaryBol = false;
+            } else {
+                salaryBol = true;
             }
 
             if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed) {
@@ -801,8 +798,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                         $location.path("/candidates/" + val.object.localId);
                     } else {
                         $scope.saveButtonIsPressed = false;
-                        $scope.errorMessage.show = true;
-                        $scope.errorMessage.message = val.message;
                     }
                 }, function(err) {
                     $scope.saveButtonIsPressed = false;

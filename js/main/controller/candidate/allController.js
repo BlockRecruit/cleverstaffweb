@@ -1212,7 +1212,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 $scope.searchParam.candidateGroupIds != null || $scope.searchParam.searchFullTextType != null ||
                 $scope.searchParam.responsibleId != 'null' || $scope.searchParam.personId != null ||
                 $scope.searchParam.experience != 'null' || $scope.searchParam.lang != 'null' ||
-                $scope.searchParam.skills.type != '_all' || $scope.searchParam.withPersonalContacts != 'null') || ($scope.searhcForSure)){
+                $scope.searchParam.skills.type != '_all' || $scope.searchParam.withPersonalContacts != 'null' || $scope.groupIdsForSearch) || ($scope.searhcForSure)){
             $scope.searhcForSure = false;
             $scope.showExternalMenu = false;
             $scope.clickBtnSort = true;

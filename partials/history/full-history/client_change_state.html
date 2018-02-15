@@ -8,7 +8,8 @@
     </a>
 </div>
 <div class="col-lg-10">
-    <span>{{'history_info.Changed the status of the client'|translate}}</span>
+    <span ng-if="$root.currentLang == 'ru'">{{'history_info.Changed the status of the client'|translate}}</span>
+    <span ng-if="$root.currentLang == 'en'">{{'history_info.The status of the client'|translate}}</span>
     <a title="{{'Delete comment' | translate}}" ng-show="($root.me.fullName == history.person.fullName || $root.me.recrutRole === 'admin') && history.descr" href=""
        ng-click="showDeleteComment(history)" class="pull-right removeMessage">
         <i class="fa fa-times" aria-hidden="true"></i>
@@ -18,6 +19,7 @@
         <span ng-switch-when="hide">{{history.client.name}}</span>
         <span ng-switch-default>
             <a href="#/clients/{{history.client.localId}}">{{history.client.name}}</a>
+            <span ng-if="$root.currentLang == 'en'">{{'history_info.was changed'|translate}}</span>
         </span>
     </span>
     <br>
