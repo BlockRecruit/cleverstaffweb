@@ -154,7 +154,7 @@
 						flex-direction: row;
 						margin-right: 12px;
 
-						animation: zoom;
+						animation: resize;
 						animation-duration: 0.3s;
 
 						align-items: center;
@@ -162,7 +162,7 @@
 							margin-left: 5px;
 						}
 					}
-					@keyframes zoom {
+					@keyframes resize {
 						from {
 							transform: scale(0);
 						}

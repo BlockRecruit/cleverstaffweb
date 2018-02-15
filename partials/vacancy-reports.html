@@ -58,20 +58,11 @@
             </div>
             <div class="col-xs-12 no-padding">
                 <div class="funnel-types">
-                    <div class="funnel-type">
+                    <div class="funnel-type" ng-click="setStatisticsType('default')">
                         <h5>General Statistics</h5>
                     </div>
-                    <div class="funnel-type">
-                        <h5>Statistics for User-1</h5>
-                    </div>
-                    <div class="funnel-type">
-                        <h5>Statistics for User-2</h5>
-                    </div>
-                    <div class="funnel-type">
-                        <h5>Statistics for User-3</h5>
-                    </div>
-                    <div class="funnel-type">
-                        <h5>Statistics for User-3</h5>
+                    <div class="funnel-type" ng-repeat="responsible in responsibles" ng-click="setStatisticsType(responsible.id)">
+                        <h5>Statistics for {{responsible.name}}</h5>
                     </div>
                 </div>
             </div>
@@ -83,9 +74,13 @@
                                 <span class="text-center">{{'Recruiting funnel'|translate}}</span>
                             </div>
                         </div>
-                        <div ng-show="hasFunnelChart" class="myChartFunnel">
+                        <div class="myChartFunnel" ng-show="statisticsType === 'default' && hasFunnelChart">
                             <div id="myChartDiv" class="text-center"></div>
                         </div>
+                        <div class="myChartFunnel" ng-show="statisticsType === 'responsible' && hasFunnelChart">
+                            <div id="myChartDiv2" class="text-center"></div>
+                        </div>
+
                         <div class="ui vertically divided grid ">
                             <div class="sixteen wide column" style="padding-left:0px;padding-right:0px">
                                 <div style="padding:6px;text-align: center;" ng-show="!hasFunnelChart">
@@ -98,16 +93,6 @@
                                 <p>{{'It is useful to compare the recruiting funnel different recruiters to funnel recruiting of the company'|translate}}</p>
                             </div>
                         </div>
-                        <!--<div class="ui vertically divided grid ">-->
-                        <!--<div class="sixteen wide column" style="padding-left:0px;padding-right:0px">-->
-                        <!--<div style="padding:6px;text-align: justify;">-->
-                        <!--{{'Recruiting funnel shows the conversion between the stages. Stages with the lowest conversion'|translate}}-->
-                        <!--<br>-->
-                        <!--<br>-->
-                        <!--{{'It is useful to compare the recruiting funnel different recruiters to funnel recruiting of the company.'|translate}}-->
-                        <!--</div>-->
-                        <!--</div>-->
-                        <!--</div>-->
                     </div>
                 </div>
                 <div>

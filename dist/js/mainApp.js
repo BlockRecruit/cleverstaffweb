@@ -39462,6 +39462,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
     function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $routeParams, notificationService, $filter,
              $translate, Person, Statistic, vacancyStages, Company) {
         var chartHeight = 0;
+        $scope.statisticsType = 'default';
         $scope.lang = $translate;
         vacancyStages.get(function(resp){
             $scope.customStages = resp.object.interviewStates;
@@ -39525,324 +39526,204 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     });
 
                     $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
-
-                    angular.forEach($scope.customStages, function(resp){
-                        angular.forEach($scope.detailInterviewInfo, function(value){
-                            if(value.key === resp.customInterviewStateId){
-                                value.key = resp.name;
-                            }
-                        });
-
-                        angular.forEach($scope.declinedStages, function(value, index){
-                            if(value === resp.customInterviewStateId){
-                                $scope.declinedStages[index] = resp.name;
-                            }
-                        });
-
-                        angular.forEach($scope.notDeclinedStages, function(value, index){
-                            if(value === resp.customInterviewStateId){
-                                $scope.notDeclinedStages[index] = resp.name;
-                            }
-                        });
-                    });
                 }
-                initSalesFunnel(null, null);
+
+                let stages = validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages);
+
+                initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages, "myChartDiv", null, null);
             });
         });
 
-        function initSalesFunnel(dateFrom, dateTo) {
-            $scope.funnelMap = [];
+        function validatedStages(allStages, notDeclinedStages, declinedStages) {
+            angular.forEach($scope.customStages, function(resp){
+                angular.forEach(allStages, function(value){
+                    if(value.key === resp.customInterviewStateId) {
+                        value.key = resp.name;
+                    }
+                });
+
+                angular.forEach(declinedStages, function(value, index){
+                    if(value === resp.customInterviewStateId){
+                        declinedStages[index] = resp.name;
+                    }
+                });
+
+                angular.forEach(notDeclinedStages, function(value, index){
+                    if(value === resp.customInterviewStateId){
+                        notDeclinedStages[index] = resp.name;
+                    }
+                });
+            });
+
+            return { allStages: allStages, declinedStages:declinedStages, notDeclinedStages: notDeclinedStages }
+        }
+
+        function initSalesFunnel(stages, notDeclinedStages, declinedStages, id, dateFrom, dateTo) {
+            console.log(stages);
+
+            let funnelMap = [];
             $scope.hasFunnelChart = false;
 
-            if ($scope.detailInterviewInfo) {
-                angular.forEach($scope.detailInterviewInfo, (stage,index) => {
-                    $scope.funnelMap[index] = { key: stage.key, value: stage.value.length };
+            if (stages) {
+                angular.forEach(stages, (stage,index) => {
+                    funnelMap[index] = { key: stage.key, value: stage.value.length };
 
-                    angular.forEach($scope.declinedStages, (declinedStage) => {
+                    angular.forEach(declinedStages, (declinedStage) => {
                         if(declinedStage === stage.key) {
-                            $scope.funnelMap.splice(index,1);
+                            funnelMap.splice(index,1);
                         }
                     });
 
                 });
 
-                angular.forEach($scope.notDeclinedStages, (notDeclinedStage) => {
+                angular.forEach(notDeclinedStages, (notDeclinedStage) => {
                     let missingStage = true;
 
-                    angular.forEach($scope.funnelMap, (stage,index) => {
-                        // console.log($scope.funnelMap[index].key, notDeclinedStage);
+                    angular.forEach(funnelMap, (stage,index) => {
                         if(missingStage) {
-                            // console.log($scope.funnelMap[index].key, notDeclinedStage);
-                            if($scope.funnelMap[index].key === notDeclinedStage) {
-                                console.log('exist',notDeclinedStage);
+                            if(funnelMap[index].key === notDeclinedStage) {
                                 missingStage = false;
                             } else {
                                 missingStage = true;
                             }
 
-                            if(index === $scope.funnelMap.length - 1 && missingStage) {
-                                console.log("not-exist",notDeclinedStage);
-                                $scope.funnelMap[index+1] = { key: notDeclinedStage, value: 0 };
+                            if(index === funnelMap.length - 1 && missingStage) {
+                                funnelMap[index+1] = { key: notDeclinedStage, value: 0 };
                             }
 
                         }
                     });
-                    console.log('-------------------');
                 });
-
-
-                if(!$scope.funnelMap[0]) {
-                    return;
-                }
             }
-            // $scope.funnelMap.map((item) => {
-            //     console.log(item);
-            // });
-            console.log($scope.funnelMap);
 
-            var myChart = {};
-            if ($scope.detailInterviewInfo) {
-                $scope.hasFunnelChart = true;
-                chartHeight = 30*($scope.funnelMap.length + 1);
-                var series = [];
-                var values = [];
-                var values2 = [];
-                var values3 = [];
-                var values4 = [];
-                var lastCount = null;
+            if(!funnelMap[0]) {
+                return;
+            }
 
-                angular.forEach($scope.funnelMap, function(stage) {
-                    console.log(stage.value,stage.key);
-                    series.push({
-                        "values": [stage.value]
-                    });
-                    values.push($filter('translate')(stage.key));
-                    values2.push(stage.value.toString());
-                    if (lastCount == null) {
-                        values3.push('100%');
-                    } else {
-                        values3.push((stage.value != 0 ? Math.round(stage.value / lastCount * 100) : 0) + '%');
-                    }
-                    if(lastCount == null) {
-                        values4.push('100%');
-                    } else{
-                        values4.push((stage.value != 0 ? Math.round(stage.value / $scope.funnelMap[0].value * 100) : 0) + '%');
-                    }
-                    lastCount = stage.value;
+            drawFunnel(funnelMap, funnelConfig(funnelMap), id);
+        }
+
+        function funnelConfig(funnelMap) {
+            $scope.hasFunnelChart = true;
+            chartHeight = 30*(funnelMap.length + 1);
+            let series = [],
+                values = [],
+                values2 = [],
+                values3 = [],
+                values4 = [],
+                lastCount = null;
+
+            angular.forEach(funnelMap, function(stage) {
+                series.push({
+                    "values": [stage.value]
                 });
 
-                myChart = {
-                    "type": "funnel",
-                    "width":'900px',
-                    "series": series,
-                    tooltip: {visible: true, shadow: 0},
-                    "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 75}},
-                    "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": -60}},
-                    "scale-y-3": {
-                        "values": values3, "item": {fontSize: 12,"offset-x": 25}
-                    },
-                    "scale-y-4": {
-                        "values": values4, "item": {fontSize: 12,"offset-x": 107}
-                    },
-                    "plot": {
-                        // "offset-x": '60px'
-                    },
-                    plotarea: {
-                        margin: '40px 0 0 20%'
-                    },
-                    "scale-x": {"values": [""]},
-                    labels: [{
-                        text: $filter('translate')('Relative conversion'),
+                values.push($filter('translate')(stage.key));
+                values2.push(stage.value.toString());
+
+                if (!lastCount) {
+                    values3.push('100%');
+                    values4.push('100%');
+                } else {
+                    values3.push((stage.value != 0 ? Math.round(stage.value / lastCount * 100) : 0) + '%');
+                    values4.push((stage.value != 0 ? Math.round(stage.value / funnelMap[0].value * 100) : 0) + '%');
+                }
+
+                lastCount = stage.value;
+            });
+
+            return { chartHeight: chartHeight, series: series, values: values, values2: values2, values3: values3, values4: values4 }
+        }
+
+        function drawFunnel(funnelMap, config, id) {
+            let myChart = {},
+                chartHeight = config.chartHeight,
+                series = config.series,
+                values = config.values,
+                values2 = config.values2,
+                values3 = config.values3,
+                values4 = config.values4;
+
+            myChart = {
+                "type": "funnel",
+                "width":'900px',
+                "series": series,
+                tooltip: {visible: true, shadow: 0},
+                "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 75}},
+                "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": -60}},
+                "scale-y-3": {
+                    "values": values3, "item": {fontSize: 12,"offset-x": 25}
+                },
+                "scale-y-4": {
+                    "values": values4, "item": {fontSize: 12,"offset-x": 107}
+                },
+                "plot": {
+                    // "offset-x": '60px'
+                },
+                plotarea: {
+                    margin: '40px 0 0 20%'
+                },
+                "scale-x": {"values": [""]},
+                labels: [{
+                    text: $filter('translate')('Relative conversion'),
+                    fontWeight: "bold",
+                    fontSize: 12,
+                    // offsetX: $translate.use() != 'en' ?  775 : 785,
+                    offsetX: $translate.use() != 'en' ?  895 : 905,
+                    offsetY: 0
+                },
+                    {
+                        text: $filter('translate')('Absolute conversion'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        // offsetX: $translate.use() != 'en' ?  775 : 785,
-                        offsetX: $translate.use() != 'en' ?  895 : 905,
+                        // offsetX: 870,
+                        offsetX: 990,
                         offsetY: 0
                     },
-                        {
-                            text: $filter('translate')('Absolute conversion'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            // offsetX: 870,
-                            offsetX: 990,
-                            offsetY: 0
-                        },
-                        {
-                            text: $filter('translate')('Candidates'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            // offsetX: $translate.use() != 'en' ? 700 : 710,
-                            offsetX: $translate.use() != 'en' ? 815 : 825,
-                            offsetY: 0
-                        },
-                        {
-                            text: $filter('translate')('status'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: 210,
-                            offsetY: 0
-                        }
-                    ],
-                    "backgroundColor": "#FFFFFF",
-                    "gui": {
-                        "behaviors": [
-                            {"id": "DownloadPDF", "enabled": "none"},
-                            {"id": "Reload", "enabled": "none"},
-                            {"id": "Print", "enabled": "none"},
-                            {"id": "DownloadSVG", "enabled": "none"},
-                            {"id": "LogScale", "enabled": "none"},
-                            {"id": "About", "enabled": "none"},
-                            {"id": "FullScreen", "enabled": "none"},
-                            {"id": "BugReport", "enabled": "none"},
-                            {"id": "ViewSource", "enabled": "none"},
-                            {"id": "FullScreen", "enabled": "none"},
-                            {
-                                "id": "FullScreen", "enabled": "none"
-                            }
-                        ]
+                    {
+                        text: $filter('translate')('Candidates'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        // offsetX: $translate.use() != 'en' ? 700 : 710,
+                        offsetX: $translate.use() != 'en' ? 815 : 825,
+                        offsetY: 0
+                    },
+                    {
+                        text: $filter('translate')('status'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        offsetX: 210,
+                        offsetY: 0
                     }
-                };
-            } else {
-                chartHeight = 350;
-                myChart = {
-                    "type": "funnel",
-                    "width":'410px',
-                    "series": [
+                ],
+                "backgroundColor": "#FFFFFF",
+                "gui": {
+                    "behaviors": [
+                        {"id": "DownloadPDF", "enabled": "none"},
+                        {"id": "Reload", "enabled": "none"},
+                        {"id": "Print", "enabled": "none"},
+                        {"id": "DownloadSVG", "enabled": "none"},
+                        {"id": "LogScale", "enabled": "none"},
+                        {"id": "About", "enabled": "none"},
+                        {"id": "FullScreen", "enabled": "none"},
+                        {"id": "BugReport", "enabled": "none"},
+                        {"id": "ViewSource", "enabled": "none"},
+                        {"id": "FullScreen", "enabled": "none"},
                         {
-                            "values": [$scope.funnelMap['longlist']]
-                        }, {
-                            "values": [$scope.funnelMap['shortlist']]
-                        }, {
-                            "values": [$scope.funnelMap['interview']]
-                        }, {
-                            "values": [$scope.funnelMap['approved']]
+                            "id": "FullScreen", "enabled": "none"
                         }
-                    ],
-                    "tooltip": {
-                        "visible": true
-                    },
-                    "scale-y": {
-                        "values": [$filter('translate')('long_list'),
-                            $filter('translate')('short_list'),
-                            $filter('translate')('interview'),
-                            $filter('translate')('approved')],
-                        "item": {
-                            fontSize: 12,
-                            "offset-x": 35
-                        }
-                    },
-                    "scale-y-2": {
-                        "values": [$scope.funnelMap['longlist'] + '',
-                            $scope.funnelMap['shortlist'] + '',
-                            $scope.funnelMap['interview'] + '',
-                            $scope.funnelMap['approved'] + ''],
-                        "item": {
-                            fontSize: 12,
-                            "offset-x": 0
-                        }
-                    },
-                    "scale-y-3": {
-                        "values": ['100%',
-                            Math.round($scope.funnelMap['shortlist'] / $scope.funnelMap['longlist'] * 100) + '%',
-                            ($scope.funnelMap['shortlist'] != 0 ? Math.round($scope.funnelMap['interview'] / $scope.funnelMap['shortlist'] * 100) : 0) + '%',
-                            ($scope.funnelMap['interview'] != 0 ? Math.round($scope.funnelMap['approved'] / $scope.funnelMap['interview'] * 100) : 0) + '%'],
-                        "item": {
-                            fontSize: 12,
-                            "offset-x": -10
-                        }
-                    },
-                    "scale-y-4": {
-                        "values": ['100%',
-                            Math.round($scope.funnelMap['shortlist'] / $scope.funnelMap['longlist'] * 100) + '%',
-                            ($scope.funnelMap['interview'] != 0 ? Math.round($scope.funnelMap['interview'] / $scope.funnelMap['longlist'] * 100) : 0) + '%',
-                            ($scope.funnelMap['approved'] != 0 ? Math.round($scope.funnelMap['approved'] / $scope.funnelMap['longlist'] * 100) : 0) + '%'],
-                        "item": {
-                            fontSize: 12,
-                            "offset-x": 115
-                        }
-                    },
-                    "scale-x": {
-                        "values": [""]
-                    },
-                    labels: [
-                        {
-                            text: $filter('translate')('Relative conversion'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: 570,
-                            offsetY: 20
-                        },
-                        {
-                            text: $filter('translate')('Absolute conversion'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: 570,
-                            offsetY: 20
-                        },
-                        {
-                            text: $filter('translate')('Count'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: $translate.use() != 'en' ? 485 : 505,
-                            offsetY: 20
-                        },
-                        {
-                            text: $filter('translate')('status'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: 80,
-                            offsetY: 20
-                        }
-                    ],
-                    "backgroundColor": "#FFFFFF",
-                    "gui": {
-                        "behaviors": [
-                            {
-                                "id": "DownloadPDF",
-                                "enabled": "none"
-                            }, {
-                                "id": "Reload",
-                                "enabled": "none"
-                            }, {
-                                "id": "Print",
-                                "enabled": "none"
-                            }, {
-                                "id": "DownloadSVG",
-                                "enabled": "none"
-                            }, {
-                                "id": "LogScale",
-                                "enabled": "none"
-                            }, {
-                                "id": "About",
-                                "enabled": "none"
-                            }, {
-                                "id": "FullScreen",
-                                "enabled": "none"
-                            }, {
-                                "id": "BugReport",
-                                "enabled": "none"
-                            }, {
-                                "id": "ViewSource",
-                                "enabled": "none"
-                            }, {
-                                "id": "FullScreen",
-                                "enabled": "none"
-                            }, {
-                                "id": "FullScreen",
-                                "enabled": "none"
-                            }
-                        ]
-                    }
-                };
-            }
+                    ]
+                }
+            };
             zingchart.render({
-                id: "myChartDiv",
+                id: id,
                 data: myChart,
                 height: chartHeight,
                 width: 1290,
                 output: "html5"
             });
         }
+
 
         $scope.updateData = function() {
             var dateFrom = $('#dateFrom').datetimepicker('getDate') != null ? $('#dateFrom').datetimepicker('getDate') : null;
@@ -39875,9 +39756,13 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                         });
                     }
                 });
-            initSalesFunnel(dateFrom, dateTo);
+            initSalesFunnel($scope.detailInterviewInfo, $scope.declinedStages, $scope.notDeclinedStages, null, null);
 
             zingchart.exec('myChartDiv', 'reload');
+        };
+
+        $scope.setStatisticsType = function(type) {
+            $scope.statisticsType = type;
         };
 
         $scope.inDevelopmentMessage = function() {
@@ -39924,7 +39809,141 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
 ]);
 
+// if no funnelData
 
+// else {
+//     chartHeight = 350;
+//     myChart = {
+//         "type": "funnel",
+//         "width":'410px',
+//         "series": [
+//             {
+//                 "values": [funnelMap['longlist']]
+//             }, {
+//                 "values": [funnelMap['shortlist']]
+//             }, {
+//                 "values": [funnelMap['interview']]
+//             }, {
+//                 "values": [funnelMap['approved']]
+//             }
+//         ],
+//         "tooltip": {
+//             "visible": true
+//         },
+//         "scale-y": {
+//             "values": [$filter('translate')('long_list'),
+//                 $filter('translate')('short_list'),
+//                 $filter('translate')('interview'),
+//                 $filter('translate')('approved')],
+//             "item": {
+//                 fontSize: 12,
+//                 "offset-x": 35
+//             }
+//         },
+//         "scale-y-2": {
+//             "values": [funnelMap['longlist'] + '',
+//                 funnelMap['shortlist'] + '',
+//                 funnelMap['interview'] + '',
+//                 funnelMap['approved'] + ''],
+//             "item": {
+//                 fontSize: 12,
+//                 "offset-x": 0
+//             }
+//         },
+//         "scale-y-3": {
+//             "values": ['100%',
+//                 Math.round(funnelMap['shortlist'] / funnelMap['longlist'] * 100) + '%',
+//                 (funnelMap['shortlist'] != 0 ? Math.round(funnelMap['interview'] / funnelMap['shortlist'] * 100) : 0) + '%',
+//                 (funnelMap['interview'] != 0 ? Math.round(funnelMap['approved'] / funnelMap['interview'] * 100) : 0) + '%'],
+//             "item": {
+//                 fontSize: 12,
+//                 "offset-x": -10
+//             }
+//         },
+//         "scale-y-4": {
+//             "values": ['100%',
+//                 Math.round(funnelMap['shortlist'] / funnelMap['longlist'] * 100) + '%',
+//                 (funnelMap['interview'] != 0 ? Math.round(funnelMap['interview'] / funnelMap['longlist'] * 100) : 0) + '%',
+//                 (funnelMap['approved'] != 0 ? Math.round(funnelMap['approved'] / funnelMap['longlist'] * 100) : 0) + '%'],
+//             "item": {
+//                 fontSize: 12,
+//                 "offset-x": 115
+//             }
+//         },
+//         "scale-x": {
+//             "values": [""]
+//         },
+//         labels: [
+//             {
+//                 text: $filter('translate')('Relative conversion'),
+//                 fontWeight: "bold",
+//                 fontSize: 12,
+//                 offsetX: 570,
+//                 offsetY: 20
+//             },
+//             {
+//                 text: $filter('translate')('Absolute conversion'),
+//                 fontWeight: "bold",
+//                 fontSize: 12,
+//                 offsetX: 570,
+//                 offsetY: 20
+//             },
+//             {
+//                 text: $filter('translate')('Count'),
+//                 fontWeight: "bold",
+//                 fontSize: 12,
+//                 offsetX: $translate.use() != 'en' ? 485 : 505,
+//                 offsetY: 20
+//             },
+//             {
+//                 text: $filter('translate')('status'),
+//                 fontWeight: "bold",
+//                 fontSize: 12,
+//                 offsetX: 80,
+//                 offsetY: 20
+//             }
+//         ],
+//         "backgroundColor": "#FFFFFF",
+//         "gui": {
+//             "behaviors": [
+//                 {
+//                     "id": "DownloadPDF",
+//                     "enabled": "none"
+//                 }, {
+//                     "id": "Reload",
+//                     "enabled": "none"
+//                 }, {
+//                     "id": "Print",
+//                     "enabled": "none"
+//                 }, {
+//                     "id": "DownloadSVG",
+//                     "enabled": "none"
+//                 }, {
+//                     "id": "LogScale",
+//                     "enabled": "none"
+//                 }, {
+//                     "id": "About",
+//                     "enabled": "none"
+//                 }, {
+//                     "id": "FullScreen",
+//                     "enabled": "none"
+//                 }, {
+//                     "id": "BugReport",
+//                     "enabled": "none"
+//                 }, {
+//                     "id": "ViewSource",
+//                     "enabled": "none"
+//                 }, {
+//                     "id": "FullScreen",
+//                     "enabled": "none"
+//                 }, {
+//                     "id": "FullScreen",
+//                     "enabled": "none"
+//                 }
+//             ]
+//         }
+//     };
+// }
 
 
 function deleteUnnecessaryFields(object) {
