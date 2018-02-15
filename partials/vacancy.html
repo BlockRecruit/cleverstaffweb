@@ -26,7 +26,7 @@
 
     <div class="container-fluid nav-vacancy">
         <div>
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav mobile">
                 <li class="dropdown pull-left">
                     <a class=""
                        ng-click="VacanciesInfCandidTaskHistClientFunc('information')"
@@ -130,7 +130,8 @@
                                 <span class="inlineLang" ng-repeat="lang in vacancy.languages">{{lang.name}} <span translate="{{lang.level}}"></span></span>
                             </div>
                         </div>
-                        <div class="customFields col-lg-12" ng-show="fieldValue.fieldValue != undefined" ng-repeat="fieldValue in vacancy.customFields" class="phone">
+                        <div class="clearfix"></div>
+                        <div class="customFields col-lg-12" ng-show="fieldValue.fieldValue != undefined" ng-repeat="fieldValue in vacancy.customFields">
                             <span class="title" ng-show="fieldValue.state == 'A'">{{fieldValue.title}}:</span>
                             <span ng-show="(fieldValue.type == 'string' || fieldValue.type == 'select') && fieldValue.state == 'A'">{{fieldValue.fieldValue.value}}</span>
                             <span ng-show="fieldValue.type == 'date' && fieldValue.state == 'A'">{{fieldValue.fieldValue.dateTimeValue|dateFormat}}</span>

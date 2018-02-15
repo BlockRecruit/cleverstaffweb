@@ -93,6 +93,22 @@ $(document).ready(function () {
     var passPattern3 = /.*\d.*/;
     //buttons
 
+    $('#setLang').on('click', function() {
+        localStorage.setItem('NG_TRANSLATE_LANG_KEY', $(this).val());
+    });
+
+    $('#tariffModal').on('click', function() {
+        tariffFunc('demo');
+    });
+
+    $('#ex1_number').on('input', function() {
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    });
+
+    $('#ex1_averageNum').on('input', function() {
+        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    });
+
     $(window).scroll(function () {
         var top = $(document).scrollTop();
         if (top > 445 & top < 657) {
@@ -254,7 +270,7 @@ $(document).ready(function () {
                             { id: 'CI', text: 'Cote D\'Ivoire (+225)', value: '+225'},
                             { id: 'HR', text: 'Croatia (+385)', value: '+385'},
                             { id: 'CU', text: 'Cuba (+53)', value: '+53'},
-                            { id: 'CY', text: 'Cyprus (+90)', value: '+90'},
+                            { id: 'CY', text: 'Cyprus (+357)', value: '+357'},
                             { id: 'CZ', text: 'Czech Republic (+420)', value: '+420'},
                             { id: 'DK', text: 'Denmark (+45)', value: '+45'},
                             { id: 'DJ', text: 'Djibouti (+253)', value: '+253'},
@@ -678,7 +694,7 @@ $(document).ready(function () {
                             { id: 'CI', text: 'Cote D\'Ivoire (+225)', value: '+225'},
                             { id: 'HR', text: 'Croatia (+385)', value: '+385'},
                             { id: 'CU', text: 'Cuba (+53)', value: '+53'},
-                            { id: 'CY', text: 'Cyprus (+90)', value: '+90'},
+                            { id: 'CY', text: 'Cyprus (+357)', value: '+357'},
                             { id: 'CZ', text: 'Czech Republic (+420)', value: '+420'},
                             { id: 'DK', text: 'Denmark (+45)', value: '+45'},
                             { id: 'DJ', text: 'Djibouti (+253)', value: '+253'},
@@ -1065,7 +1081,7 @@ $(document).ready(function () {
         }
         return false;
     });
-    
+
     function isLanguageTextErrorForEmail() {
         var str = '';
 
@@ -1948,7 +1964,7 @@ $(document).ready(function () {
                 history.pushState({},"","");
                 window.location.replace("/signup.html");
             }
-            if(window.location.pathname == '/ru/' || window.location.pathname == '/ru/index.html'){
+            if(window.location.pathname == '/ru/' || window.location.pathname == '/ru/index.html' || window.location.pathname == '/ru/amp.html'){
                 history.pushState({},"","");
                 window.location.replace("/ru/signup.html");
             }
@@ -2085,7 +2101,7 @@ $('#askQuestionSubmit').on('click',function(e){
                     { id: 'CI', text: 'Cote D\'Ivoire (+225)', value: '+225'},
                     { id: 'HR', text: 'Croatia (+385)', value: '+385'},
                     { id: 'CU', text: 'Cuba (+53)', value: '+53'},
-                    { id: 'CY', text: 'Cyprus (+90)', value: '+90'},
+                    { id: 'CY', text: 'Cyprus (+357)', value: '+357'},
                     { id: 'CZ', text: 'Czech Republic (+420)', value: '+420'},
                     { id: 'DK', text: 'Denmark (+45)', value: '+45'},
                     { id: 'DJ', text: 'Djibouti (+253)', value: '+253'},
@@ -2589,7 +2605,7 @@ $('#askQuestionSubmit2').on('click',function(e){
                     { id: 'CI', text: 'Cote D\'Ivoire (+225)', value: '+225'},
                     { id: 'HR', text: 'Croatia (+385)', value: '+385'},
                     { id: 'CU', text: 'Cuba (+53)', value: '+53'},
-                    { id: 'CY', text: 'Cyprus (+90)', value: '+90'},
+                    { id: 'CY', text: 'Cyprus (+357)', value: '+357'},
                     { id: 'CZ', text: 'Czech Republic (+420)', value: '+420'},
                     { id: 'DK', text: 'Denmark (+45)', value: '+45'},
                     { id: 'DJ', text: 'Djibouti (+253)', value: '+253'},
@@ -3121,7 +3137,7 @@ $('#askQuestionSubmit3').on('click',function(e){
                 { id: 'CI', text: 'Cote D\'Ivoire (+225)', value: '+225'},
                 { id: 'HR', text: 'Croatia (+385)', value: '+385'},
                 { id: 'CU', text: 'Cuba (+53)', value: '+53'},
-                { id: 'CY', text: 'Cyprus (+90)', value: '+90'},
+                { id: 'CY', text: 'Cyprus (+357)', value: '+357'},
                 { id: 'CZ', text: 'Czech Republic (+420)', value: '+420'},
                 { id: 'DK', text: 'Denmark (+45)', value: '+45'},
                 { id: 'DJ', text: 'Djibouti (+253)', value: '+253'},
@@ -4499,7 +4515,7 @@ function signupForm() {
                     { id: 'CI', text: 'Cote D\'Ivoire (+225)', value: '+225'},
                     { id: 'HR', text: 'Croatia (+385)', value: '+385'},
                     { id: 'CU', text: 'Cuba (+53)', value: '+53'},
-                    { id: 'CY', text: 'Cyprus (+90)', value: '+90'},
+                    { id: 'CY', text: 'Cyprus (+357)', value: '+357'},
                     { id: 'CZ', text: 'Czech Republic (+420)', value: '+420'},
                     { id: 'DK', text: 'Denmark (+45)', value: '+45'},
                     { id: 'DJ', text: 'Djibouti (+253)', value: '+253'},
@@ -4936,6 +4952,15 @@ setInterval(function () {
     }
 }, 1000);
 $(document).ready(function(){
+    $(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+    //$("#popover").popover("toggle");
+    //$(".fade.in").css('opacity', '0');
+    //$("#popover").on("click", function (event) {
+    //    console.log(event);
+    //    $("#popover").popover("toggle");
+    //});
     $(".signup-contact").css("top", 0);
     $(".cloud").css({"opacity": 1, "right": 0});
     $(".graf").css({"opacity": 1, "left": 15});
@@ -5045,7 +5070,7 @@ $(document).ready(function(){
             { id: 'CI', text: 'Cote D\'Ivoire (+225)', value: '+225'},
             { id: 'HR', text: 'Croatia (+385)', value: '+385'},
             { id: 'CU', text: 'Cuba (+53)', value: '+53'},
-            { id: 'CY', text: 'Cyprus (+90)', value: '+90'},
+            { id: 'CY', text: 'Cyprus (+357)', value: '+357'},
             { id: 'CZ', text: 'Czech Republic (+420)', value: '+420'},
             { id: 'DK', text: 'Denmark (+45)', value: '+45'},
             { id: 'DJ', text: 'Djibouti (+253)', value: '+253'},
