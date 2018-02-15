@@ -142,16 +142,25 @@
 					top: 100%;
 					left: 0;
 
+					display: flex;
+					flex-direction: row;
 					width: 100%;
 					padding: 10px 16px;
 
 					background-color: #fff;
 					box-shadow: 0 0 7px 4px rgba(0, 0, 0, 0.2);
 					.responsible {
-						display: inline-block;
+						display: flex;
+						flex-direction: row;
+						margin-right: 12px;
 
 						animation: zoom;
 						animation-duration: 0.3s;
+
+						align-items: center;
+						input {
+							margin-left: 5px;
+						}
 					}
 					@keyframes zoom {
 						from {
@@ -182,12 +191,9 @@
 				background-color: #fff;
 				&:nth-child(odd) {
 					margin: 0 auto 10px 0;
-				}
-				&:last-child {
-					margin: 0 0 10px auto;
-				}
-				&:nth-child(5) {
-					margin: 0 auto 10px;
+					&:last-child {
+						margin: 0 auto 10px;
+					}
 				}
 				h5 {
 					font-family: "Helvetica-Bold";
