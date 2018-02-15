@@ -2301,5 +2301,8 @@
   "Enter more data for search":"Enter more data for search",
   "Too much Desired Salary salary value": "Too much \"Desired Salary\" field value",
   "_edited":"edited",
-  "Select all vacancies":  "Select all vacancies"
+  "Select all vacancies":  "Select all vacancies",
+  "Please enter your Name": "Please enter your Name",
+  "Please enter your Last Name": "Please enter your Last Name",
+  "Enter phone number": "Please enter phone number"
 }

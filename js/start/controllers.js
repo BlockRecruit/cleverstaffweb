@@ -1054,6 +1054,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             $scope.message = 'def';
             $scope.filesForRecall.push({name: var2, attId: var1})
         };
+
         $scope.callbackFileError = function () {
             $scope.message = 'error_file';
         };
@@ -1124,11 +1125,17 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             });
         };
         $scope.showErrorEmailMessage = false;
+        $scope.incorrectPhoneNumber = false;
         $('#email2').on('input', function () {
             $scope.request.email = $(this).val();
             $scope.changeEmail();
             $scope.$apply();
         });
+        $rootScope.changeEmail = function(email){
+            if(email.length > 0){
+                $scope.showErrorEmailMessage = false;
+            }
+        };
         $scope.showErrorPhoneMessage = false;
         $('#phone').on('input', function () {
             $scope.showErrorPhoneMessage = false;
@@ -1141,9 +1148,22 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $scope.showErrorEmailMessage = true;
             } else $scope.showErrorEmailMessage = $scope.request.email.length == 0;
         };
-        $scope.changePhone = function () {
-            $scope.recallForm.phone.$invalid = false;
+          $scope.enterPhoneNumber = false;
+          $scope.changePhone = function (phone) {
+            //$scope.recallForm.phone.$invalid = false;
+            if(phone == undefined){
+                $scope.enterPhoneNumber = true;
+                $scope.incorrectPhoneNumber = false;
+                $scope.showErrorPhoneMessage = true;
+            }else if(phone.length > 0){
+                $scope.showErrorPhoneMessage = false;
+            }
         };
+          $scope.$watch('request.phone', function (newVal, oldVal) {
+              if(newVal != undefined && oldVal != newVal){
+                  $scope.showErrorPhoneMessage = false;
+              }
+          });
 
         $scope.showModalInfoAboutVacancy = function() {
           $scope.modalInstance = $uibModal.open({
@@ -1160,6 +1180,8 @@ controller.controller('mainController' ,function($scope, $location, $window) {
 
         $scope.showRecallFromModal = function() {
             $scope.showErrorEmailMessage = false;
+            $scope.showErrorPhoneMessage = false;
+            $scope.showErrorCvFileMessage = false;
             $('body').addClass('modal-open-public-vacancy-form');
             $scope.modalInstance = $uibModal.open({
                 animation: true,
@@ -1173,6 +1195,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
         };
         $scope.sendRequest = function (recallForm) {
             $scope.recallForm = recallForm;
+            $scope.showErrorCvFileMessage = true;
           if ($scope.recallForm.$valid) {
                 if ($scope.request.email != undefined && $scope.request.email.length == 0) {
                     $scope.request.email = "";
@@ -1199,10 +1222,14 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $scope.request.phone = String($scope.request.phone);
                 if ($scope.request.phone == undefined || $scope.request.phone.match(/^[\(\)\s\-\+\d]{9,20}$/) == null) {
                     $scope.showErrorPhoneMessage = true;
+                    $scope.enterPhoneNumber = false;
+                    $scope.incorrectPhoneNumber = true;
                     return false;
+                }else{
+                    $scope.showErrorPhoneMessage = false;
                 }
-                if($scope.request.fileId == null){
-                    notificationService.error($filter('translate')('Please attach your CV file'));
+                if($scope.filesForRecall.length == 0){
+                    $scope.showErrorCvFileMessage = true;
                 }else{
                     Service.addCandidate($scope.request, function (resp) {
                         if (resp.status && resp.status === 'error' && resp.message) {
@@ -1242,7 +1269,16 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                     $scope.showErrorEmailMessage = true;
                 }
                 $scope.recallForm.phone.$pristine = false;
-
+                if($scope.request.phone == null || $scope.request.phone.length == 0){
+                    $scope.enterPhoneNumber = true;
+                }else if($scope.request.phone.length < 9 || $scope.request.phone.length > 20){
+                    $scope.showErrorPhoneMessage = true;
+                    $scope.incorrectPhoneNumber = true;
+                    $scope.enterPhoneNumber = false;
+                }else{
+                    $scope.incorrectPhoneNumber = true;
+                    $scope.enterPhoneNumber = false;
+                }
             }
         };
     }])

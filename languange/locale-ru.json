@@ -2887,5 +2887,8 @@
   "Enter more data for search":"Введите больше символов для поиска",
   "Too much Desired Salary salary value": "Слишком большое значение поля \"Желаемая зарплата\"",
   "Please attach your CV file": "Прикрепите файл резюме",
-  "Select all vacancies":"Выбрать все вакансии"
+  "Select all vacancies":"Выбрать все вакансии",
+  "Please enter your Name": "Введите Ваше имя",
+  "Please enter your Last Name": "Введите Вашу фамилию",
+  "Enter phone number": "Введите номер телефона"
 }
