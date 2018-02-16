@@ -61,9 +61,12 @@
                     <div class="funnel-type" ng-click="setStatisticsType('default')">
                         <h5>General Statistics</h5>
                     </div>
-                    <div class="funnel-type" ng-repeat="responsible in responsibles" ng-click="setStatisticsType(responsible.id)">
+                    <div class="funnel-type"  ng-click="setStatisticsType('responsible')">
                         <h5>Statistics for {{responsible.name}}</h5>
                     </div>
+                    <!--<div class="funnel-type" ng-repeat="responsible in responsibles" ng-click="setStatisticsType(responsible.id)">-->
+                        <!--<h5>Statistics for {{responsible.name}}</h5>-->
+                    <!--</div>-->
                 </div>
             </div>
             <div class="col-lg-12 funnelPanel">

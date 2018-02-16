@@ -100,7 +100,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         }
 
         function initSalesFunnel(stages, notDeclinedStages, declinedStages, id, dateFrom, dateTo) {
-            console.log(stages);
 
             let funnelMap = [];
             $scope.hasFunnelChart = false;
@@ -152,6 +151,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 values2 = [],
                 values3 = [],
                 values4 = [],
+                values5 = [],
                 lastCount = null;
 
             angular.forEach(funnelMap, function(stage) {
@@ -177,6 +177,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         }
 
         function drawFunnel(funnelMap, config, id) {
+
             let myChart = {},
                 chartHeight = config.chartHeight,
                 series = config.series,
@@ -205,14 +206,15 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     margin: '40px 0 0 20%'
                 },
                 "scale-x": {"values": [""]},
-                labels: [{
+                labels: [
+                    {
                     text: $filter('translate')('Relative conversion'),
                     fontWeight: "bold",
                     fontSize: 12,
                     // offsetX: $translate.use() != 'en' ?  775 : 785,
                     offsetX: $translate.use() != 'en' ?  895 : 905,
                     offsetY: 0
-                },
+                    },
                     {
                         text: $filter('translate')('Absolute conversion'),
                         fontWeight: "bold",
@@ -267,6 +269,26 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         $scope.setStatisticsType = function(type) {
             $scope.statisticsType = type;
+            let stages = validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages);
+
+            initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages, "myChartDiv2", null, null);
+
+            let values5 = [];
+
+            for(let i = 0; i < 10; i++) {
+                values5.push(Math.random() *100 + i);
+            }
+
+            zingchart.exec('myChartDiv2', 'addplot', {
+                graphid : 0,
+                plotindex : 1,
+                data : {
+                    values : values5,
+                    text : "My new plot"
+                }
+            });
+
+            zingchart.exec('myChartDiv', 'reload');
         };
 
         $scope.updateData = function() {
@@ -300,7 +322,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                         });
                     }
                 });
-            initSalesFunnel($scope.detailInterviewInfo, $scope.declinedStages, $scope.notDeclinedStages, null, null);
+
+            let stages = validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages);
+
+            initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages, "myChartDiv2", null, null);
 
             zingchart.exec('myChartDiv', 'reload');
         };
