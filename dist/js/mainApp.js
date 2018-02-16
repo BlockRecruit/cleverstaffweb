@@ -16266,7 +16266,12 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
         $scope.changeCommentFlag = function(history){
             history.editCommentFlag = !history.editCommentFlag;
             $scope.editComment = history.descr;
+            history.showAllCandidates = false;
             console.log('history.editCommentFlag');
+        };
+        $scope.openMenuWithCandidates = function(history){
+            history.showAllCandidates = !history.showAllCandidates;
+            history.editCommentFlag = false;
         };
 
         $scope.showDeleteComment = function(resp) {
@@ -27901,10 +27906,14 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
         $rootScope.addVacancyClientId = id;
         $location.path("/vacancy/add/");
     };
-
+    $scope.openMenuWithCandidates = function(history){
+        history.showAllCandidates = !history.showAllCandidates;
+        history.editCommentFlag = false;
+    };
     $scope.changeCommentFlag = function(history){
         history.editCommentFlag = !history.editCommentFlag;
         $scope.editComment = history.descr;
+        history.showAllCandidates = false;
     };
     $scope.changeComment = function(action, comment){
         Action.editAction({"comment": comment, "actionId": action.actionId}, function(resp){
@@ -32428,9 +32437,6 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             }else{
                 $scope.setPersonParam('clientAccessLevel', 'full');
             }
-        };
-        $scope.openMenuWithCandidates = function(){
-            $scope.showAllCandidates = !$scope.showAllCandidates;
         };
 
         $scope.disableViewClients = function() {

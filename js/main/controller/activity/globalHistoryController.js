@@ -99,7 +99,12 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
         $scope.changeCommentFlag = function(history){
             history.editCommentFlag = !history.editCommentFlag;
             $scope.editComment = history.descr;
+            history.showAllCandidates = false;
             console.log('history.editCommentFlag');
+        };
+        $scope.openMenuWithCandidates = function(history){
+            history.showAllCandidates = !history.showAllCandidates;
+            history.editCommentFlag = false;
         };
 
         $scope.showDeleteComment = function(resp) {

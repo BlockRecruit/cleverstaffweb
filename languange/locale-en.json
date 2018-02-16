@@ -553,7 +553,9 @@
     "Candidate test passed": "finished the",
     "test": "test",
     "The candidate": "The candidate",
-    "profile was edited by": "profile was edited by"
+    "profile was edited by": "profile was edited by",
+    "were moved from": "were moved from",
+    "by": "by"
   },
   "Remove Skill": "Remove skill",
   "information": "Vacancy details",

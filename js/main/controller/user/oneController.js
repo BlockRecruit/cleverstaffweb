@@ -38,9 +38,6 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 $scope.setPersonParam('clientAccessLevel', 'full');
             }
         };
-        $scope.openMenuWithCandidates = function(){
-            $scope.showAllCandidates = !$scope.showAllCandidates;
-        };
 
         $scope.disableViewClients = function() {
             $scope.setPersonParam('clientAccessLevel', 'hide');
