@@ -1119,6 +1119,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
                if(!searchNeedVacansy){
                    elem.check = false;
+                   elem.visiable = false;
                }
            }
 

@@ -493,7 +493,24 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             let _fieldsVacancyList = this.fieldsVacancyList;
                 _fieldsVacancyList.forEach(item => item.visible = this.chooseListFieldsVacancies);
             checkOnChange.call(this)
-        };
+        }
+
+        function reloadCountCandidatesInStatuses($scope){
+            let requestData = {
+                "from": this.startVacancyDate,
+                "to": this.endDate,
+                "vacancyStatuses":   $scope._vacancyStatuses.filter(item => item.added).map(status => status.item),
+                "interviewCreatorIds": $scope.choosenPersons,
+                "vacancyIds": $scope.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId)
+            };
+
+            return  Stat.requestGetCountVacancyForActualVacancyStatistic(requestData)
+                .then((resp) => {
+                    setCountCadidateInStatuses(resp.object);
+                    resetAngularContext();
+                });
+        }
+
 
         resetDefaultData();
 
@@ -545,8 +562,9 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             checkOnChange.call(this)
         };
 
-        singleton.selectValueVacancyFields = function (status) {
+        singleton.selectValueVacancyFields = function (status, $scope) {
             status.visible = !status.visible;
+            reloadCountCandidatesInStatuses(status, $scope);
             checkOnChange.call(this)
         };
 

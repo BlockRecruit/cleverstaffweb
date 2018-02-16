@@ -43914,6 +43914,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
                if(!searchNeedVacansy){
                    elem.check = false;
+                   elem.visiable = false;
                }
            }
 
@@ -43929,21 +43930,14 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                        $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, CustomReportEditService, $uibModal) {
     try {
         let filterVacancy = (vacancy) => {
-            let statuses = this.data.vacancyStatuses,
-                index = vacancy.position.toLocaleLowerCase().indexOf(this.query.toLocaleLowerCase());
+            let index = vacancy.position.toLocaleLowerCase().indexOf(this.query.toLocaleLowerCase());
 
-            if(index !== -1 && statuses.some(item => item == vacancy.status)){
+            if(index !== -1){
                 return vacancy;
             }
-        };
-
-        let showCurrentBlock =  (event) => {
-            CustomReportEditService.showBlocks.call(null, event);
-        };
-
-        let _parentClick = event => {
-            showCurrentBlock(event,$scope);
-        };
+        },
+         showCurrentBlock = event => CustomReportEditService.showBlocks.call(null, event);
+         _parentClick     = event => showCurrentBlock(event,$scope);
 
         CustomReportEditService.buildReport.call(this, $scope);
         this.showChoosingMenu           = CustomReportsService.showChoosingMenu;

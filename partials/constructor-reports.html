@@ -89,7 +89,7 @@
                         </div>
                         <div style="height: 140px;">
                             <ul class="fields-list-row clearfix col-lg-12">
-                                <li ng-repeat="field in fieldsVacancyList  track by $index"
+                                <li ng-repeat="field in fieldsVacancyList|filter:filterVacancy  track by $index"
                                     ng-show="field.visiable"
                                     ng-click="selectedVacancy(field, $event)">
                                     <button class="ui icon button select-vacancies">
