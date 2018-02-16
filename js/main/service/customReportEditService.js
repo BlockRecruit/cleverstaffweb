@@ -495,22 +495,40 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             checkOnChange.call(this)
         }
 
-        function reloadCountCandidatesInStatuses($scope){
+        function reloadCountCandidatesInStatuses(status, $scope){
+            console.log(this, 'this')
             let requestData = {
                 "from": this.startVacancyDate,
                 "to": this.endDate,
-                "vacancyStatuses":   $scope._vacancyStatuses.filter(item => item.added).map(status => status.item),
-                "interviewCreatorIds": $scope.choosenPersons,
-                "vacancyIds": $scope.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId)
+                "vacancyStatuses":this.vacancyStatuses.filter(item => item.added).map(status => status.item),
+                "interviewCreatorIds": this.choosenPersons,
+                "vacancyIds": this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId)
             };
 
             return  Stat.requestGetCountVacancyForActualVacancyStatistic(requestData)
                 .then((resp) => {
-                    setCountCadidateInStatuses(resp.object);
-                    resetAngularContext();
+                    setCountCadidateInStatuses.call(this, resp.object);
+                    resetAngularContext($scope);
                 });
         }
 
+        function setCountCadidateInStatuses(totalVacancyStatusesCount) {
+            this.vacancyStatuses = totalVacancyStatusesCount;
+
+            this.vacancyStatuses.forEach(item => {
+                if(item.count > 0){
+                    item.added = true;
+                }else{
+                    item.added = false;
+                }
+                item.visible = true;
+            });
+        }
+
+        function resetAngularContext($scope) {
+            $rootScope.loading = false;
+            $scope.$apply();
+        }
 
         resetDefaultData();
 
@@ -562,9 +580,9 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             checkOnChange.call(this)
         };
 
-        singleton.selectValueVacancyFields = function (status, $scope) {
+        singleton.selectValueVacancyFields = function ($scope, status) {
             status.visible = !status.visible;
-            reloadCountCandidatesInStatuses(status, $scope);
+            reloadCountCandidatesInStatuses.apply(this, [status, $scope]);
             checkOnChange.call(this)
         };
 

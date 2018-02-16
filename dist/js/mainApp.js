@@ -7995,7 +7995,42 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             let _fieldsVacancyList = this.fieldsVacancyList;
                 _fieldsVacancyList.forEach(item => item.visible = this.chooseListFieldsVacancies);
             checkOnChange.call(this)
-        };
+        }
+
+        function reloadCountCandidatesInStatuses(status, $scope){
+            console.log(this, 'this')
+            let requestData = {
+                "from": this.startVacancyDate,
+                "to": this.endDate,
+                "vacancyStatuses":this.vacancyStatuses.filter(item => item.added).map(status => status.item),
+                "interviewCreatorIds": this.choosenPersons,
+                "vacancyIds": this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId)
+            };
+
+            return  Stat.requestGetCountVacancyForActualVacancyStatistic(requestData)
+                .then((resp) => {
+                    setCountCadidateInStatuses.call(this, resp.object);
+                    resetAngularContext($scope);
+                });
+        }
+
+        function setCountCadidateInStatuses(totalVacancyStatusesCount) {
+            this.vacancyStatuses = totalVacancyStatusesCount;
+
+            this.vacancyStatuses.forEach(item => {
+                if(item.count > 0){
+                    item.added = true;
+                }else{
+                    item.added = false;
+                }
+                item.visible = true;
+            });
+        }
+
+        function resetAngularContext($scope) {
+            $rootScope.loading = false;
+            $scope.$apply();
+        }
 
         resetDefaultData();
 
@@ -8047,8 +8082,9 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             checkOnChange.call(this)
         };
 
-        singleton.selectValueVacancyFields = function (status) {
+        singleton.selectValueVacancyFields = function ($scope, status) {
             status.visible = !status.visible;
+            reloadCountCandidatesInStatuses.apply(this, [status, $scope]);
             checkOnChange.call(this)
         };
 
@@ -43937,7 +43973,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             }
         },
          showCurrentBlock = event => CustomReportEditService.showBlocks.call(null, event);
-         _parentClick     = event => showCurrentBlock(event,$scope);
+         _parentClick     = event => showCurrentBlock(event, $scope);
 
         CustomReportEditService.buildReport.call(this, $scope);
         this.showChoosingMenu           = CustomReportsService.showChoosingMenu;
@@ -43952,7 +43988,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         this.selectValue                = CustomReportEditService.selectValue;
         this.selectValueStages          = CustomReportEditService.selectValueStages;
         this.selectAllStages            = CustomReportEditService.selectAllStages;
-        this.selectValueVacancyFields   = CustomReportEditService.selectValueVacancyFields;
+        this.selectValueVacancyFields   = CustomReportEditService.selectValueVacancyFields.bind(this, $scope);
         this.changeNameOrDescription    = CustomReportEditService.changeNameOrDescription;
         this.editNameOrDescr            = CustomReportEditService.editNameOrDescr;
         this.closeModal                 = CustomReportEditService.closeModal;

@@ -26,7 +26,7 @@
         this.selectValue                = CustomReportEditService.selectValue;
         this.selectValueStages          = CustomReportEditService.selectValueStages;
         this.selectAllStages            = CustomReportEditService.selectAllStages;
-        this.selectValueVacancyFields   = CustomReportEditService.selectValueVacancyFields;
+        this.selectValueVacancyFields   = CustomReportEditService.selectValueVacancyFields.bind(this, $scope);
         this.changeNameOrDescription    = CustomReportEditService.changeNameOrDescription;
         this.editNameOrDescr            = CustomReportEditService.editNameOrDescr;
         this.closeModal                 = CustomReportEditService.closeModal;
