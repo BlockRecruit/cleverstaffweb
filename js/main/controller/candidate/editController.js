@@ -15,7 +15,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.candidateOrigin = '';
         $scope.experience = Service.experience();
         $scope.industries = Service.getIndustries();
-        $scope.contacts = {skype: "", mphone: "", email: ""};
+        $scope.contacts = {skype: "", mphone: [], email: ""};
         $scope.fieldValues = {
             objType: "candidate",
             fieldValueId: '',
@@ -289,7 +289,18 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                                 $scope.contacts.email = val.value;
                             }
                             if (angular.equals(val.type, "mphone")) {
-                                $scope.contacts.mphone = val.value;
+                                //$scope.contacts.mphone = val.value;
+                                console.log(val.value);
+                                var arr = val.value.split(",");
+                                console.log(arr);
+                                $scope.contacts.mphone.push(arr[0].trim());
+                                if(arr[1] != undefined){
+                                    $scope.contacts.mphone.push(arr[1].trim());
+                                }
+                                if(arr[2] != undefined){
+                                    $scope.contacts.mphone.push(arr[2].trim());
+                                }
+                                console.log($scope.contacts);
                             }
                             if (angular.equals(val.type, "skype")) {
                                 $scope.contacts.skype = val.value;
