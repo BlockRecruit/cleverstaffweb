@@ -283,21 +283,21 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             if(type === 'default') return;
             let values = $scope.detailInterviewInfo.slice(0, 5); // response data
 
-            let userArray = ["140","8","8","8","8"]; // candidates amount --> get from values
+            let candidatesArray = ["16","8","8","8","8","8","8","8"]; // get from values
             let stages = validatedStages(values, $scope.notDeclinedStages, $scope.declinedStages);
-            let series = [{"values": [140]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]}]; // candidates amounth --> get from values
 
-            let seriesToDisplay = [];
+            let userSeries = [{"values": [140]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]}]; // candidates amounth --> get from values
+            let userSeriesToDisplay = [];
 
-                series.forEach((item) => {
-                   seriesToDisplay.push(String(item.values[0]));
-                });
-                console.log(seriesToDisplay);
+            userSeries.forEach((item) => {
+                userSeriesToDisplay.push(String(item.values[0]));
+            });
+                console.log(userSeriesToDisplay);
 
             let obj = {
-                "series": series,
-                "scale-y-2": {"values": seriesToDisplay, "item": {fontSize: 12,"offset-x": -60}},
-                "scale-y-5": {"values": userArray, "item": {fontSize: 12,"offset-x": 200}},
+                "series": userSeries,
+                "scale-y-2": {"values": candidatesArray, "item": {fontSize: 12,"offset-x": -60}},
+                "scale-y-5": {"values": userSeriesToDisplay, "item": {fontSize: 12,"offset-x": 200}},
                 labels: [
                     {
                         text: $filter('translate')('USER NAME'),
