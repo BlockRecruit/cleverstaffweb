@@ -2890,5 +2890,8 @@
   "Select all vacancies":"Выбрать все вакансии",
   "Please enter your Name": "Введите Ваше имя",
   "Please enter your Last Name": "Введите Вашу фамилию",
-  "Enter phone number": "Введите номер телефона"
+  "Enter phone number": "Введите номер телефона",
+  "replacement":"Замена",
+  "_undefined":"Уровень",
+  "Language with this level is already selected":"Язык с таким уровнем уже выбран"
 }

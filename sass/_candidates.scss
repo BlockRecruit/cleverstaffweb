@@ -1090,17 +1090,51 @@
 						}
 					}
 					.chosenLang {
-						width: 95%;
+						position: relative;
+
+						display: flex;
+						clear: both;
+						width: 96%;
 						margin-top: 5px;
-						padding: 3px 12px;
+						padding: 3px 0;
+						padding-right: 12px;
 
 						border-radius: 5px;
-						background-color: $theme-subtitle-background;
-						&:hover {
-							cursor: default;
 
-							background-color: #fff0f0;
+						justify-content: space-between;
+						align-items: center;
+						flex-wrap: wrap;
+						.fa-times {
+							position: absolute;
+							top: 3px;
+							left: 0;
+
+							color: rgba(0, 0, 0, 0.38);
 						}
+					}
+					.language-name {
+						line-height: 13px;
+
+						position: relative;
+
+						display: inline;
+						width: 44%;
+						padding: 3px 5px 3px 18px;
+
+						word-break: break-word;
+
+						border: 1px solid #aaa;
+						border-radius: 3px;
+						background-color: #e4e4e4;
+						background-clip: padding-box;
+						box-shadow: 0 0 2px #fff inset, 0 1px 0 rgba(0, 0, 0, 0.05);
+					}
+					.language-level {
+						display: inline-block !important;
+						width: 50%;
+						height: 26px;
+						margin: 0;
+						padding: 0 12px;
 					}
 					.select2-container {
 						width: 95%;
@@ -1771,6 +1805,7 @@
 @media (max-width: 660px) {
 	.block-candidates .candidates-statuses .candidates-search-table > .AdvancedSearchCandidate > .boxThreeColumn .ageFrom span:first-child {
 		display: block;
+		margin-right: 0;
 	}
 	.block-candidates .candidates-statuses .candidates-search-table > .AdvancedSearchCandidate > .boxThreeColumn .form-inline-position > .select > select.ageTo {
 		float: none!important;
@@ -2091,6 +2126,18 @@
 	}
 	.block-candidates .candidates-statuses .candidates-search-table > .AdvancedSearchCandidate > .boxThreeColumn .ageFrom select {
 		width: 33%;
+	}
+}
+
+@media (max-width: 650px) {
+	.block-candidates .candidates-statuses .candidates-search-table > .AdvancedSearchCandidate > .boxThreeColumn .chosenLang {
+		width: 100%;
+	}
+}
+@media (max-width: 600px) {
+	.block-candidates .candidates-statuses .candidates-search-table > .AdvancedSearchCandidate > .boxThreeColumn .language-level {
+		display: block !important;
+		margin-left: -2px;
 	}
 }
 
