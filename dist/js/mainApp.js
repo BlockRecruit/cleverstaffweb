@@ -13973,7 +13973,15 @@ angular.module('RecruitingApp', [
             title: 'Add vacancy',
             templateUrl: 'partials/vacancy-add.html',
             controller: "vacancyAddController",
-            pageName: "Vacancy add"
+            pageName: "Vacancy add",
+            resolve: {
+                CustomFieldList: function(CustomField) {
+                    return new Promise((resolve, reject) => {
+                        CustomField.getFullFields({objectType: 'vacancy'},
+                            resp => resolve(resp),error => reject(error));
+                    });
+                }
+            }
         })
         .when('/vacancy/edit/:id', {
             title: 'Edit vacancy',
@@ -14351,6 +14359,7 @@ angular.module('RecruitingApp', [
     });
 }).config(function (googleServiceProvider, $logProvider, $translateProvider, tmhDynamicLocaleProvider) {
     /************************************/
+
     googleServiceProvider.configure({
         clientIdT: '195081582460-eo4qmmi7o6hii0ckmrc004lhkh9m3596.apps.googleusercontent.com',
         clientIdW: apiKey.google.client_id,
@@ -33426,8 +33435,8 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
     }
 ]);
 
-controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", "Service", "Client", "$location", "$rootScope", "notificationService", "$filter", "$translate", "$localStorage", "$cookies", "$window", "Person", "Company","Candidate","CustomField",
-    function(FileInit, $scope, Vacancy, Service, Client, $location, $rootScope, notificationService, $filter, $translate, $localStorage, $cookies, $window, Person, Company,Candidate, CustomField) {
+controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", "Service", "Client", "$location", "$rootScope", "notificationService", "$filter", "$translate", "$localStorage", "$cookies", "$window", "Person", "Company","Candidate","CustomField","CustomFieldList",
+    function(FileInit, $scope, Vacancy, Service, Client, $location, $rootScope, notificationService, $filter, $translate, $localStorage, $cookies, $window, Person, Company,Candidate, CustomField, CustomFieldList) {
         $scope.addedLang = [];
         $scope.objType = 'vacancy';
         $scope.showStatus = true;
@@ -33726,9 +33735,11 @@ controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", 
         };
         $scope.getCompanyParams();
         $scope.getFullCustomFields = function(){
+            $rootScope.loading = true;
             CustomField.getFullFields({
                 objectType: 'vacancy'
             }, function(resp) {
+                $rootScope.loading = false;
                 if (resp.status == "ok") {
                     $scope.allObjCustomField = resp.objects;
                 } else {
@@ -33736,7 +33747,8 @@ controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", 
                 }
             });
         };
-        $scope.getFullCustomFields();
+        $scope.allObjCustomField = CustomFieldList.objects;
+        // $scope.getFullCustomFields();
         $scope.deleteDate = function(id){
             $scope.editCustomId = id;
             angular.forEach($('.editDate'), function (nval) {
