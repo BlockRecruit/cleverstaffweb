@@ -908,6 +908,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             });
         };
         $scope.pushCandidateToVacancy = function(candidate){
+            //console.log(candidate);
             if(candidate.added){
                 var candidateAdded = false;
                 for(var key in $scope.candidatesAddToVacancyIds){
@@ -926,14 +927,15 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.pushAllCandidatesToVacancy = function () {
             $scope.checkAllCandidates = !$scope.checkAllCandidates;
             angular.forEach($scope.dataForVacancy, function(resp){
-                angular.forEach($scope.candidatesAddToVacancyIds, function(ids){
-                    if(resp.candidate == ids){
-                        console.log(resp);
-                        $scope.candidatesAddToVacancyIds.splice($scope.candidatesAddToVacancyIds.indexOf(resp.candidateId.candidateId), 1);
-                        $scope.addCandidateChangeStage.splice($scope.addCandidateChangeStage.indexOf(resp.candidateId.candidateId), 1);
-                    }
-                });
+                //angular.forEach($scope.candidatesAddToVacancyIds, function(ids){
+                //    if(resp.candidate == ids){
+                //        console.log(resp);
+                //        $scope.candidatesAddToVacancyIds.splice($scope.candidatesAddToVacancyIds.indexOf(resp.candidateId.candidateId), 1);
+                //        $scope.addCandidateChangeStage.splice($scope.addCandidateChangeStage.indexOf(resp.candidateId.candidateId), 1);
+                //    }
+                //});
                 if($scope.checkAllCandidates && resp.candidateId.status != 'archived'){
+                    $scope.candidatesAddToVacancyIds.push(resp.candidateId.candidateId);
                     resp.added = true
                 }else{
                     resp.added = false;

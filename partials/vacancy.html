@@ -656,7 +656,7 @@
                 <tbody>
                 <tr ng-repeat="candidate in dataForVacancy" ng-class="{'archived': candidate.candidateId.status == 'archived', 'add_color': candidate.added == true}">
                     <td class="checklist" ng-if="candidate.state != 'approved' && candidate.candidateId.status != 'archived' && activeName != null && dataForVacancy.length > 1">
-                        <input ng-click="pushCandidateToVacancy(candidate)" type="checkbox" ng-model="candidate.added"/>
+                        <input ng-click="pushCandidateToVacancy(candidate)" title="{{candidate.candidateId.candidateId}}" type="checkbox" ng-model="candidate.added"/>
                     </td>
                     <td class="checklist" ng-if="candidate.candidateId.status == 'archived' && activeName != null"></td>
                     <td class="number" data-title="'№'" once-text="(tableParams.page() - 1) * tableParams.count() + $index + 1"></td>
