@@ -71,7 +71,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
                 let stages = validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages);
 
-                initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages, "myChartDiv",  null, null);
+                initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages, "myChartDiv",  null, null, null);
             });
         });
 
@@ -280,13 +280,24 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         $scope.setStatisticsType = function(type) {
             $scope.statisticsType = type;
-            let values = $scope.detailInterviewInfo.slice(0, 5);
-            let values5 = ["123","123","123","123","123","123","123","123"];
-            let stages = validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages);
-            let ser = [[8],[7],[6],[5],[4],[3],[2],[1]];
+            if(type === 'default') return;
+            let values = $scope.detailInterviewInfo.slice(0, 5); // response data
+
+            let userArray = ["140","8","8","8","8"]; // candidates amount --> get from values
+            let stages = validatedStages(values, $scope.notDeclinedStages, $scope.declinedStages);
+            let series = [{"values": [140]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]}]; // candidates amounth --> get from values
+
+            let seriesToDisplay = [];
+
+                series.forEach((item) => {
+                   seriesToDisplay.push(String(item.values[0]));
+                });
+                console.log(seriesToDisplay);
+
             let obj = {
-                "series": ser,
-                "scale-y-5": {"values": values5, "item": {fontSize: 12,"offset-x": 200}},
+                "series": series,
+                "scale-y-2": {"values": seriesToDisplay, "item": {fontSize: 12,"offset-x": -60}},
+                "scale-y-5": {"values": userArray, "item": {fontSize: 12,"offset-x": 200}},
                 labels: [
                     {
                         text: $filter('translate')('USER NAME'),
