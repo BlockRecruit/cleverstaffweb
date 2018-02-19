@@ -190,6 +190,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
 
         $scope.saveCustomReport = function (reportsSave, formSaveCustomReport) {
+            console.log( $scope.fieldsVacancyList, ' $scope.fieldsVacancyList')
             if(formSaveCustomReport.$valid) {
                 translateWords.getTranslete("Report saved", $scope, 'reportSaved');
                 var params = {
@@ -324,7 +325,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 $scope.checkListFieldsLength = true;
                 return;
             }
-
+                // console.log($scope.fieldsVacancyList, $scope.fieldsVacancyList)
             Stat.requestGetActualVacancyStatistic2({
                 "from": createCorrectDate($scope.startVacancyDate, ['00','00','00']),
                 "to": createCorrectDate($scope.endDate,['23','59','59']),
@@ -337,7 +338,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     "datePayment","employmentType","candidatesRefused","candidatesInWork"],
                 "customVacancyFields":$scope.checkCustomListFields,
                 "withCandidates": $scope.withCandidates,
-                "vacancyIds": $scope.fieldsVacancyList.filter(item => item.check)
+                "vacancyIds": $scope.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId)
 
             }, ifCheck)
             .then(response => {
@@ -499,7 +500,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                                 "interviewCreatorIds": $scope.choosenPersons,
                                 "vacancyFields": $scope.checkListFields,
                                 "withCandidates": $scope.withCandidates,
-                                "vacancyIds": $scope.fieldsVacancyList.filter(item => item.check)
+                                "vacancyIds": $scope.fieldsVacancyList.filter(item => item.check).map(item.vacancyId)
                             }, false),
                             CustomField.requestGetFieldsTitles()
                         ])
@@ -582,7 +583,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     "vacancyFields":$scope.checkListFields,
                     "customVacancyFields":$scope.checkCustomListFields,
                     "withCandidates": $scope.withCandidates,
-                    "vacancyIds": $scope.fieldsVacancyList.filter(item => item.check)
+                    "vacancyIds": $scope.fieldsVacancyList.filter(item => item.check).map(item.vacancyId)
                 }, function (resp) {
                     if (resp.status == 'ok') {
                         var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";

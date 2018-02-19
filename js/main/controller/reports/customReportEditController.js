@@ -34,7 +34,7 @@
         this.saveCustomReport           = CustomReportEditService.saveCustomReport;
         this.showOrHideCandidates       = CustomReportEditService.showOrHideCandidates;
         this.selectDateRange            = CustomReportEditService.selectDateRange;
-        this.selectAllVacancies         = CustomReportEditService.selectAllVacancies;
+        this.selectAllVacancies         = CustomReportEditService.selectAllVacancies.bind(this, $scope);
         this.filterVacancy              = filterVacancy;
         this.parentClick                = _parentClick;
     }catch(error){

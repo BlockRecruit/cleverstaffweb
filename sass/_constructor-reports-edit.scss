@@ -11,6 +11,11 @@
 		padding-top: 8px !important;
 		padding-bottom: 8px !important;
 	}
+	.btn {
+		&.save {
+			padding: 3px 12px;
+		}
+	}
 	.header {
 		@include flex();
 	}

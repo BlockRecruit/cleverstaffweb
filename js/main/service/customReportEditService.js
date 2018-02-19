@@ -208,19 +208,9 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             });
         }
 
-        function checkCountStatuses(data, property) {
-            angular.forEach(data, function (status) {
-                let search = false;
-
-                property.forEach((item) => {
-                    if(item.value == status.item){
-                        item['count'] = status['count'];
-                        search = true;
-                        return;
-                    }
-                });
-                if(!search)property.push({value:status.item, count:status.count});
-            });
+        function checkCountStatuses(data) {
+            data.forEach(item => item.check = true);
+            this.vacancyStatuses = data;
         }
 
         function concatStages(data){
@@ -262,9 +252,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                 requestCountStages = data.filter(item => item.request === "stagesOrCount");
 
             if (item.request === 'statusesOrCount') {
-                checkCountStatuses(respData, vacancyStatuses);
-                checkProperty(singleton.editReport.vacancyStatuses, vacancyStatuses);
-                this.vacancyStatuses = vacancyStatuses;
+                checkCountStatuses.call(this, respData);
             } else if (item.request === 'stageFull') {
                 allStages = respData.interviewStates.filter(item => item.status !== 'D');
                 allStages = concatStages(allStages);
@@ -339,7 +327,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             this.data.interviewStatuses   = filterSelectedItems(this.selectStages, 'interviewStatuses');
             this.data.vacancyFields       = filterSelectedItems(this.fieldsList, 'vacancyFields');
             this.data.сustomVacancyFields = filterSelectedItems(this.fieldsList, 'сustomVacancyFields');
-            this.data.vacancyIds          = this.fieldsVacancyList.filter(item => item.visible).map(item => item.vacancyId);
+            this.data.vacancyIds          = this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId);
         }
 
         function filterSelectedItems(data, type) {
@@ -397,12 +385,14 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         function checkPropertiesListVacancies(fieldsVacancyList, responseData) {
             let data, index;
-
+            console.log(fieldsVacancyList, responseData);
             responseData.forEach(item => {
                 index = fieldsVacancyList.indexOf(item.vacancyId);
+                console.log(index, 'index')
                 if(index !== -1){
-                    item.visible = true;
+                    item.check = true;
                 }
+                item.visible = true;
             });
 
             return responseData;
@@ -419,10 +409,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                 activeBlocks.splice(i,1);
                 i -= 1;
             }
-        }
-
-        function updateListVacansies(startDate,endDate) {
-          return Vacancy.getAllVacansies({from:startDate,to:endDate});
         }
 
         function setListVacancies(resp) {
@@ -489,45 +475,64 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             return false;
         }
 
-        function selectAllVacancies() {
+        function selectAllVacancies($scope) {
             let _fieldsVacancyList = this.fieldsVacancyList;
-                _fieldsVacancyList.forEach(item => item.visible = this.chooseListFieldsVacancies);
+                _fieldsVacancyList.forEach(item => item.check = this.chooseListFieldsVacancies);
+                console.log($scope, '$scope')
+            reloadCountCandidatesInStatuses.apply(this, [$scope]);
             checkOnChange.call(this)
         }
 
-        function reloadCountCandidatesInStatuses(status, $scope){
-            console.log(this, 'this')
+        function reloadCountCandidatesInStatuses($scope){
             let requestData = {
-                "from": this.startVacancyDate,
-                "to": this.endDate,
-                "vacancyStatuses":this.vacancyStatuses.filter(item => item.added).map(status => status.item),
+                "from": this.data.dateFrom,
+                "to": this.data.dateTo,
+                "vacancyStatuses":this.vacancyStatuses.filter(item => item.check).map(status => status.item),
                 "interviewCreatorIds": this.choosenPersons,
                 "vacancyIds": this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId)
             };
 
             return  Stat.requestGetCountVacancyForActualVacancyStatistic(requestData)
                 .then((resp) => {
-                    setCountCadidateInStatuses.call(this, resp.object);
+                    checkCountStatuses.call(this, resp.object);
                     resetAngularContext($scope);
                 });
         }
 
-        function setCountCadidateInStatuses(totalVacancyStatusesCount) {
-            this.vacancyStatuses = totalVacancyStatusesCount;
-
-            this.vacancyStatuses.forEach(item => {
-                if(item.count > 0){
-                    item.added = true;
-                }else{
-                    item.added = false;
-                }
-                item.visible = true;
-            });
+        function updateListVacansies(startDate,endDate) {
+            Vacancy.getAllVacansies({from:startDate,to:endDate})
+                .then(setListVacancies);
         }
+
 
         function resetAngularContext($scope) {
             $rootScope.loading = false;
             $scope.$apply();
+        }
+
+        function updateListVacanciesWithStatuses(){
+            console.log(this, 'this')
+            let listCheckStatuses = this.vacancyStatuses.filter(item => item.check).map(status => status.item),
+                max = this.fieldsVacancyList.length, i = 0;
+
+            for(;i < max;i++){
+                let searchNeedVacansy = false,
+                    elem = this.fieldsVacancyList[i];
+
+                listCheckStatuses.forEach(status =>{
+                    if(elem.status == status){
+                        elem.visible = true;
+                        searchNeedVacansy = true;
+                        return;
+                    }
+                });
+
+                if(!searchNeedVacansy){
+                    elem.check = false;
+                    elem.visible = false;
+                }
+            }
+
         }
 
         resetDefaultData();
@@ -548,7 +553,8 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                         Stat.requestGetCountVacancyForActualVacancyStatistic({
                             from: singleton.editReport.dateFrom,
                             interviewCreatorIds: [],
-                            to: singleton.editReport.dateTo
+                            to: singleton.editReport.dateTo,
+                            vacancyIds:singleton.editReport.vacancyIds || []
                         }),
                         Stat.requestGetCountInterviewForActualVacancyStatistic({
                             from: singleton.editReport.dateFrom,
@@ -576,13 +582,14 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         };
 
         singleton.selectValue = function (status) {
-            status.added = !status.added;
+            status.check = !status.check;
+            updateListVacanciesWithStatuses.call(this)
             checkOnChange.call(this)
         };
 
         singleton.selectValueVacancyFields = function ($scope, status) {
-            status.visible = !status.visible;
-            reloadCountCandidatesInStatuses.apply(this, [status, $scope]);
+            status.check = !status.check;
+            reloadCountCandidatesInStatuses.apply(this, [$scope, status]);
             checkOnChange.call(this)
         };
 
