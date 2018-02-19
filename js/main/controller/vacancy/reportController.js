@@ -71,7 +71,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
                 let stages = validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages);
 
-                initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages, "myChartDiv", null, null);
+                initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages, "myChartDiv",  null, null);
             });
         });
 
@@ -99,7 +99,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             return { allStages: allStages, declinedStages:declinedStages, notDeclinedStages: notDeclinedStages }
         }
 
-        function initSalesFunnel(stages, notDeclinedStages, declinedStages, id, dateFrom, dateTo) {
+        function initSalesFunnel(stages, notDeclinedStages, declinedStages, id, dateFrom, dateTo, assignObj) {
 
             let funnelMap = [];
             $scope.hasFunnelChart = false;
@@ -140,7 +140,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 return;
             }
 
-            drawFunnel(funnelMap, funnelConfig(funnelMap), id);
+            drawFunnel(funnelMap, funnelConfig(funnelMap), id, assignObj);
         }
 
         function funnelConfig(funnelMap) {
@@ -176,7 +176,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             return { chartHeight: chartHeight, series: series, values: values, values2: values2, values3: values3, values4: values4 }
         }
 
-        function drawFunnel(funnelMap, config, id) {
+        function drawFunnel(funnelMap, config, id, assignObj) {
 
             let myChart = {},
                 chartHeight = config.chartHeight,
@@ -258,6 +258,17 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     ]
                 }
             };
+
+
+
+            if(assignObj) {
+                console.log('mychart',myChart);
+                console.log('assignObj',assignObj);
+
+                let result = Object.assign(myChart, assignObj);
+
+                console.log('result', result);
+            }
             zingchart.render({
                 id: id,
                 data: myChart,
@@ -269,26 +280,57 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         $scope.setStatisticsType = function(type) {
             $scope.statisticsType = type;
+            let values = $scope.detailInterviewInfo.slice(0, 5);
+            let values5 = ["123","123","123","123","123","123","123","123"];
             let stages = validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages);
+            let ser = [[8],[7],[6],[5],[4],[3],[2],[1]];
+            let obj = {
+                "series": ser,
+                "scale-y-5": {"values": values5, "item": {fontSize: 12,"offset-x": 200}},
+                labels: [
+                    {
+                        text: $filter('translate')('USER NAME'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        // offsetX: $translate.use() != 'en' ?  775 : 785,
+                        offsetX: $translate.use() != 'en' ?  1095 : 1105,
+                        offsetY: 0
+                    },
+                    {
+                        text: $filter('translate')('Relative conversion'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        // offsetX: $translate.use() != 'en' ?  775 : 785,
+                        offsetX: $translate.use() != 'en' ?  895 : 905,
+                        offsetY: 0
+                    },
+                    {
+                        text: $filter('translate')('Absolute conversion'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        // offsetX: 870,
+                        offsetX: 990,
+                        offsetY: 0
+                    },
+                    {
+                        text: $filter('translate')('Candidates'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        // offsetX: $translate.use() != 'en' ? 700 : 710,
+                        offsetX: $translate.use() != 'en' ? 815 : 825,
+                        offsetY: 0
+                    },
+                    {
+                        text: $filter('translate')('status'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        offsetX: 210,
+                        offsetY: 0
+                    }
+                ]
+            };
 
-            initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages, "myChartDiv2", null, null);
-
-            let values5 = [];
-
-            for(let i = 0; i < 10; i++) {
-                values5.push(Math.random() *100 + i);
-            }
-
-            zingchart.exec('myChartDiv2', 'addplot', {
-                graphid : 0,
-                plotindex : 1,
-                data : {
-                    values : values5,
-                    text : "My new plot"
-                }
-            });
-
-            zingchart.exec('myChartDiv', 'reload');
+            initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages, "myChartDiv2", null, null, obj);
         };
 
         $scope.updateData = function() {
@@ -373,140 +415,3 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
     }
 
 ]);
-
-// if no funnelData
-
-// else {
-//     chartHeight = 350;
-//     myChart = {
-//         "type": "funnel",
-//         "width":'410px',
-//         "series": [
-//             {
-//                 "values": [funnelMap['longlist']]
-//             }, {
-//                 "values": [funnelMap['shortlist']]
-//             }, {
-//                 "values": [funnelMap['interview']]
-//             }, {
-//                 "values": [funnelMap['approved']]
-//             }
-//         ],
-//         "tooltip": {
-//             "visible": true
-//         },
-//         "scale-y": {
-//             "values": [$filter('translate')('long_list'),
-//                 $filter('translate')('short_list'),
-//                 $filter('translate')('interview'),
-//                 $filter('translate')('approved')],
-//             "item": {
-//                 fontSize: 12,
-//                 "offset-x": 35
-//             }
-//         },
-//         "scale-y-2": {
-//             "values": [funnelMap['longlist'] + '',
-//                 funnelMap['shortlist'] + '',
-//                 funnelMap['interview'] + '',
-//                 funnelMap['approved'] + ''],
-//             "item": {
-//                 fontSize: 12,
-//                 "offset-x": 0
-//             }
-//         },
-//         "scale-y-3": {
-//             "values": ['100%',
-//                 Math.round(funnelMap['shortlist'] / funnelMap['longlist'] * 100) + '%',
-//                 (funnelMap['shortlist'] != 0 ? Math.round(funnelMap['interview'] / funnelMap['shortlist'] * 100) : 0) + '%',
-//                 (funnelMap['interview'] != 0 ? Math.round(funnelMap['approved'] / funnelMap['interview'] * 100) : 0) + '%'],
-//             "item": {
-//                 fontSize: 12,
-//                 "offset-x": -10
-//             }
-//         },
-//         "scale-y-4": {
-//             "values": ['100%',
-//                 Math.round(funnelMap['shortlist'] / funnelMap['longlist'] * 100) + '%',
-//                 (funnelMap['interview'] != 0 ? Math.round(funnelMap['interview'] / funnelMap['longlist'] * 100) : 0) + '%',
-//                 (funnelMap['approved'] != 0 ? Math.round(funnelMap['approved'] / funnelMap['longlist'] * 100) : 0) + '%'],
-//             "item": {
-//                 fontSize: 12,
-//                 "offset-x": 115
-//             }
-//         },
-//         "scale-x": {
-//             "values": [""]
-//         },
-//         labels: [
-//             {
-//                 text: $filter('translate')('Relative conversion'),
-//                 fontWeight: "bold",
-//                 fontSize: 12,
-//                 offsetX: 570,
-//                 offsetY: 20
-//             },
-//             {
-//                 text: $filter('translate')('Absolute conversion'),
-//                 fontWeight: "bold",
-//                 fontSize: 12,
-//                 offsetX: 570,
-//                 offsetY: 20
-//             },
-//             {
-//                 text: $filter('translate')('Count'),
-//                 fontWeight: "bold",
-//                 fontSize: 12,
-//                 offsetX: $translate.use() != 'en' ? 485 : 505,
-//                 offsetY: 20
-//             },
-//             {
-//                 text: $filter('translate')('status'),
-//                 fontWeight: "bold",
-//                 fontSize: 12,
-//                 offsetX: 80,
-//                 offsetY: 20
-//             }
-//         ],
-//         "backgroundColor": "#FFFFFF",
-//         "gui": {
-//             "behaviors": [
-//                 {
-//                     "id": "DownloadPDF",
-//                     "enabled": "none"
-//                 }, {
-//                     "id": "Reload",
-//                     "enabled": "none"
-//                 }, {
-//                     "id": "Print",
-//                     "enabled": "none"
-//                 }, {
-//                     "id": "DownloadSVG",
-//                     "enabled": "none"
-//                 }, {
-//                     "id": "LogScale",
-//                     "enabled": "none"
-//                 }, {
-//                     "id": "About",
-//                     "enabled": "none"
-//                 }, {
-//                     "id": "FullScreen",
-//                     "enabled": "none"
-//                 }, {
-//                     "id": "BugReport",
-//                     "enabled": "none"
-//                 }, {
-//                     "id": "ViewSource",
-//                     "enabled": "none"
-//                 }, {
-//                     "id": "FullScreen",
-//                     "enabled": "none"
-//                 }, {
-//                     "id": "FullScreen",
-//                     "enabled": "none"
-//                 }
-//             ]
-//         }
-//     };
-// }
-
