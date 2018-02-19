@@ -716,6 +716,8 @@ angular.module('services.vacancy', [
 
     };
 
+    vacancy.languageLevelData = ['_undefined', 'Basic', 'Pre_Intermediate', 'Intermediate', 'Upper_Intermediate', 'Advanced', 'Native'];
+
     vacancy.getInterviewStatus = function() {
         return [
             {name: "Long list", value: "longlist"},
@@ -766,6 +768,7 @@ angular.module('services.vacancy', [
     vacancy.setOptions = function(name, value) {
         options[name] = value;
     };
+
     vacancy.init = function() {
         options = {
             "state": null,
