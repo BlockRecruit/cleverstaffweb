@@ -1186,6 +1186,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 if(elem == 'null' ){
                     $scope.chosenLangs[i] = {name:lang};
                     $scope.currentLang = 'null';
+                    console.log($scope.chosenLangs, 'chosenLangs')
                     return;
                 }
             }
@@ -1222,7 +1223,9 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 $scope.searchParam.candidateGroupIds != null || $scope.searchParam.searchFullTextType != null ||
                 $scope.searchParam.responsibleId != 'null' || $scope.searchParam.personId != null ||
                 $scope.searchParam.experience != 'null' || $scope.searchParam.languages != 'null' ||
-                $scope.searchParam.skills.type != '_all' || $scope.searchParam.withPersonalContacts != 'null') || ($scope.searhcForSure)){
+                $scope.searchParam.skills.type != '_all' || $scope.searchParam.withPersonalContacts != 'null') || ($scope.searhcForSure)||
+                $scope.chosenLangs.some(item => item != 'null')){
+
             $scope.searhcForSure = false;
             $scope.showExternalMenu = false;
             $scope.clickBtnSort = true;
@@ -1245,7 +1248,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             (!isClean)? $scope.searchParam['languages'] = $scope.chosenLangs.filter(item => item !== 'null'):null;
 
 
-            if($scope.searchParam.words && $scope.searchParam.words.length == 1){
+            if($scope.searchParam.words && $scope.searchParam.words.length  ){
                 notificationService.error($filter('translate')('Enter more data for search'));
                 return
             }
@@ -1322,6 +1325,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             },0)
         }
         else{
+            console.log('123123123')
             notificationService.error($filter('translate')('Enter the data'));
         }
     };
