@@ -303,6 +303,8 @@ angular.module('services.candidate', [
             }
         });
 
+
+
     function unCheckFavoriteContact(checkElement, $scope){
         checkElement.classList.remove('fa-star');
         checkElement.classList.add('fa-star-o');
