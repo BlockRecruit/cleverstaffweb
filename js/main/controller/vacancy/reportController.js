@@ -263,10 +263,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
             if(assignObj) {
                 console.log('mychart',myChart);
-                console.log('assignObj',assignObj);
-
                 let result = Object.assign(myChart, assignObj);
-
                 console.log('result', result);
             }
             zingchart.render({
@@ -283,21 +280,21 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             if(type === 'default') return;
             let values = $scope.detailInterviewInfo.slice(0, 5); // response data
 
-            let candidatesArray = ["16","8","8","8","8","8","8","8"]; // get from values
+            let ALLCANDIDATES = ["16","8","8","8","8","8","8","8"]; // get from values
             let stages = validatedStages(values, $scope.notDeclinedStages, $scope.declinedStages);
 
             let userSeries = [{"values": [140]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]}]; // candidates amounth --> get from values
-            let userSeriesToDisplay = [];
+            let USERCANDIDATES = [];
 
             userSeries.forEach((item) => {
-                userSeriesToDisplay.push(String(item.values[0]));
+                USERCANDIDATES.push(String(item.values[0]));
             });
                 console.log(userSeriesToDisplay);
 
             let obj = {
-                "series": userSeries,
-                "scale-y-2": {"values": candidatesArray, "item": {fontSize: 12,"offset-x": -60}},
-                "scale-y-5": {"values": userSeriesToDisplay, "item": {fontSize: 12,"offset-x": 200}},
+                // "series": userSeries,
+                "scale-y-2": {"values": ALLCANDIDATES, "item": {fontSize: 12,"offset-x": -60}},
+                "scale-y-5": {"values": USERCANDIDATES, "item": {fontSize: 12,"offset-x": 200}},
                 labels: [
                     {
                         text: $filter('translate')('USER NAME'),
