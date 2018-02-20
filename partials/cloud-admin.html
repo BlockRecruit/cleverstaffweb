@@ -8,7 +8,7 @@
                 <table border="1" cellpadding="2" class="table admin-panel-table" style="border: none">
                 <thead>
                     <tr>
-                        <th ng-repeat="head in tableHeads" ng-click="sortBy(head)">
+                        <th ng-repeat="head in tableHeads" ng-click="sortBy(head)" ng-style="scroll >= max ? { 'text-align':'left' } : { 'text-align': 'center' }">
                             {{head | parseCamelCase}}
                             <i ng-if="head === sortCriteria" ng-class="{'fa-caret-up': reverseSort, 'fa-caret-down': !reverseSort}" class="fa" aria-hidden="true"></i>
                         </th>
@@ -23,7 +23,10 @@
                     <tr ng-repeat="item in data | orderBy: sortCriteria: reverseSort" ng-click="openNewPayment(item)" title="{{'Add new payment'|translate}}">
                         <td>{{item.points}}</td>
                         <td>{{item.score}}</td>
-                        <td>{{item.account}}</td>
+                        <td>
+                            {{item.account | limitTo:13}}
+                            <span class="comment" ng-show="item.account.length > 13">...</span>
+                        </td>
                         <td>{{item.country}}</td>
                         <td>{{item.created| date:'dd.MM.yyyy'}}</td>
                         <td>{{item.regUsers}}</td>
