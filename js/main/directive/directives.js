@@ -4481,7 +4481,35 @@ directive('appVersion', ['version', function(version) {
 
             }
         }
-    }]);
+    }])
+    .directive("customSelect",[setCustomSelect]);
+
+// ng-model="type" class="form-control col-lg-12 select-input-field"
+function setCustomSelect(){
+    let restrict  = "EACM",
+        scope = {
+            type:"@",
+            data:"="
+        },
+        template = `
+        
+        <div class="dropdown-content">
+            <ul>
+                <li ng-repeat="item in data track by $index">{{item}}</li>
+            </ul>
+        </div>`;
+    return {
+        restrict,
+        scope,
+        template,
+        link(scope, element, attrs){
+        console.log(attrs, 'attrs')
+        console.log(scope, 'attrs')
+        console.log(element, 'attrs')
+        }
+    };
+};
+
 function similar_text(first, second, percent) {
     if (first === null || second === null || typeof first === 'undefined' || typeof second === 'undefined') {
         return 0;

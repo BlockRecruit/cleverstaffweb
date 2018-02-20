@@ -314,26 +314,29 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" ng-show="$root.me.recrutRole != 'client'">
                             <form class="form-inline-position pull-left">
-                                <div class="select select-responsible" ng-init="searchParam.responsibleId = 'null'">
-                                    <input type="text" placeholder="{{'responsible'|translate}}"
-                                           ng-model="responsibleName"
-                                           disabled
-                                           style="cursor: pointer;padding-left: 20px;"
-                                           class="form-control col-lg-12 select-input-field">
-                                    <div class="dropdown-content">
-                                        <ul>
-                                            <li ng-repeat="responsible in persons| orderBy:['status','cutFullName']"
-                                                ng-if="responsible.cutFullName.length > 0 && responsible.userId == $root.me.userId"
-                                                ng-class="{disable: (responsible.status != 'A')}"
-                                                data-id="{{::responsible.userId}}"
-                                                class="select-list othersColor">({{'Me' | translate}}){{::responsible.cutFullName}}</li>
-                                            <li ng-repeat="responsible in persons| orderBy:['status','cutFullName']"
-                                                ng-if="responsible.cutFullName.length > 0 && responsible.userId != $root.me.userId"
-                                                ng-class="{disable: (responsible.status != 'A')}"
-                                                data-id="{{::responsible.userId}}"
-                                                class="select-list othersColor">{{::responsible.cutFullName}}</li>
-                                        </ul>
-                                    </div>
+                                <div class="select select-responsible"  ng-init="searchParam.responsibleId = 'null'">
+                                    <custom-select data="[1,2,3,4]" type="{{'responsible'}}"></custom-select>
+
+
+                                    <!--<input type="text" placeholder="{{'responsible'|translate}}"-->
+                                           <!--ng-model="responsibleName"-->
+                                           <!--disabled-->
+                                           <!--style="cursor: pointer;padding-left: 20px;"-->
+                                           <!--class="form-control col-lg-12 select-input-field">-->
+                                    <!--<div class="dropdown-content">-->
+                                        <!--<ul>-->
+                                            <!--<li ng-repeat="responsible in persons| orderBy:['status','cutFullName']"-->
+                                                <!--ng-if="responsible.cutFullName.length > 0 && responsible.userId == $root.me.userId"-->
+                                                <!--ng-class="{disable: (responsible.status != 'A')}"-->
+                                                <!--data-id="{{::responsible.userId}}"-->
+                                                <!--class="select-list othersColor">({{'Me' | translate}}){{::responsible.cutFullName}}</li>-->
+                                            <!--<li ng-repeat="responsible in persons| orderBy:['status','cutFullName']"-->
+                                                <!--ng-if="responsible.cutFullName.length > 0 && responsible.userId != $root.me.userId"-->
+                                                <!--ng-class="{disable: (responsible.status != 'A')}"-->
+                                                <!--data-id="{{::responsible.userId}}"-->
+                                                <!--class="select-list othersColor">{{::responsible.cutFullName}}</li>-->
+                                        <!--</ul>-->
+                                    <!--</div>-->
                                     <div class="clearfix"></div>
                                 </div>
                             </form>
