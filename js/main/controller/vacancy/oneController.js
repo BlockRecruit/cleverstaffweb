@@ -33,12 +33,15 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
+
         $scope.closeModal = function(){
             $scope.modalInstance.close();
         };
+
         $scope.emailTemplateForRender ={
             text:''
         };
+
         if($location.$$absUrl.indexOf('&task=') != -1) {
             $scope.urlTaskId = $location.$$absUrl.split('&task=')[1];
         }

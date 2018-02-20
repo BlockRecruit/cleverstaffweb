@@ -430,11 +430,14 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
         $localStorage.set("candidate_currency", $scope.candidate.currency);
         var salaryBol;
         $scope.candidate.position=$scope.getPositionAutocompleterValue();
-        if ($scope.candidate.salary && $scope.candidate.salary <= 2147483647) {
-            salaryBol = false;
-        } else {
+        if ($scope.candidate.salary && $scope.candidate.salary <= 2147483647 || !$scope.candidate.salary) {
             salaryBol = true;
+        } else {
+            salaryBol = false;
         }
+
+        console.log($scope.candidateForm);
+        console.log($scope.candidateForm.$valid);
         if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed) {
             $scope.saveButtonIsPressed = true;
             var candidate = $scope.candidate;

@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <style>.async-hide { opacity: 0 !important} </style>
+    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+    })(window,document.documentElement,'async-hide','dataLayer',4000,
+        {'GTM-PHXZMBX':true});</script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
     <script>
@@ -10,6 +16,23 @@
             gtag('js', new Date());
 
             gtag('config', 'UA-52127049-1');
+
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-52127049-1', {
+                'cookieDomain': document.domain
+            });
+            ga('require', 'GTM-PHXZMBX');
+            ga('send', 'pageview');
         }
     </script>
     <!-- end of gtag -->
@@ -21,7 +44,7 @@
     <meta name="keywords" content="ATS, система для рекрутинга, cleverstaff, программа для рекрутинга">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <link rel="stylesheet" href="../external/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../external/css/main.min.css?b8">
+    <link rel="stylesheet" href="../external/css/main.min.css?b9">
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Возможности | CleverStaff | Единая система для профессионального подбора персонала"/>
     <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
@@ -541,7 +564,7 @@
                 </div>
                 <div class="form-gr">
                     <label for="ex1_usersCount" class="usersCountForm pull-left">Выберите количество рекрутеров</label>
-                    <select name="numberOfRecruiters" id="ex1_usersCount" class="float-left">
+                    <select name="numberOfRecruiters" id="ex1_usersCount" class="float-left webkit-fix">
                         <option value>Количество рекрутеров в вашей компании? *</option>
                         <option value="1">1</option>
                         <option value="2-4">2-4</option>
@@ -664,22 +687,6 @@
         fbq('init', '980245322007471');
         fbq('track', 'PageView');
         <!-- End Facebook Pixel Code -->
-
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-52127049-1', {
-            'cookieDomain': document.domain
-        });
-        ga('send', 'pageview');
     }
 </script>
 <!-- Facebook Pixel Code -->

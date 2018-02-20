@@ -516,6 +516,7 @@
     "to_the_interview": "to the",
     "added_vacancy": "The vacancy added",
     "edited_vacancy": "The vacancy edited",
+    "edited_vacancy_short": "The vacancy",
     "remove": "Remove",
     "remove2": "removed",
     "removed": "Removed",
@@ -2304,5 +2305,8 @@
   "Select all vacancies":  "Select all vacancies",
   "Please enter your Name": "Please enter your Name",
   "Please enter your Last Name": "Please enter your Last Name",
-  "Enter phone number": "Please enter phone number"
+  "Enter phone number": "Please enter phone number",
+  "_Invited user":"Invited users",
+  "_undefined":"Level",
+  "Language with this level is already selected":"Language with this level is already selected"
 }

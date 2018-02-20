@@ -142,18 +142,18 @@
                     </div>
                     <div class="clearfix"></div>
                     <div ng-show="!showAdvancedSearchCandidate" class="item">
-                        <a type="button" ng-click="clickSearch();" class="btn btn-primary find-button">
+                        <a type="button" ng-click="clickSearch(false);" class="btn btn-primary find-button">
                             {{'Find Candidates'|translate}}
                         </a>
                     </div>
                 </div>
                 <div class="AdvancedSearchCandidate col-lg-12 col-xs-12" ng-show="showAdvancedSearchCandidate">
                     <div class="boxThreeColumn col-lg-12 col-md-12 col-sm-12 col-xs-12 pull-left">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" ng-show="$root.me.recrutRole != 'client'">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" ng-show="$root.me.recrutRole != 'client'">
                             <input type="text" class="addTagsCandidate pull-left" id="candGroups" select2-groups-search
                                    placeholder="{{'Search by tag'| translate}}" ng-readonly="$root.me.recrutRole == 'client'">
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                             <form class="form-inline-position pull-left industry-select">
                                 <div class="select">
                                 <span ng-class="{'greyColor': searchParam.industry == 'null'}" class="form-control"
@@ -164,30 +164,29 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 with-contacts" ng-show="$root.me.recrutRole != 'client'">
                             <form class="form-inline-position pull-left">
                                 <div class="select">
-                                    <select ng-class="{'greyColor': currentLang == 'null'}" class="form-control"
-                                            ng-model="currentLang"
-                                            ng-init="currentLang = 'null'"
-                                            ng-change="addSearchLang(currentLang)">
-                                        <option class="greyColor" value="null">{{'languages_1'|translate}}</option>
-                                        <option class="othersColor" ng-selected="(lang.name == chosenLangs[0] || lang.name == chosenLangs[1] || lang.name == chosenLangs[2]) && lang.name != 'null'"
-                                                ng-repeat="lang in langsReceived | unique:'name'" ng-show="lang.name.length > 0" value="{{lang.name}}">
-                                            {{lang.name}}
+                                    <select ng-class="{'greyColor': searchParam.withPersonalContacts == 'null'}" class="form-control"
+                                            ng-model="searchParam.withPersonalContacts">
+                                        <option value="null">{{'Personal contacts'|translate}}</option>
+                                        <option value="true">
+                                            {{'Available Email and/or Skype'|translate}}
                                         </option>
+                                        <option value="false">{{'Unavailable Email and/or Skype'|translate}}</option>
                                     </select>
+                                    <span class="new-label">New</span>
                                 </div>
                             </form>
                         </div>
-                        <div class="clearfix"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <!--<div class="clearfix"></div>-->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                             <form class="form-inline-position pull-left">
                                 <div class="select">
                                     <select ng-class="{'greyColor': searchParam.experience == 'null'}" class="form-control"
                                             ng-model="searchParam.experience"
                                             ng-init="searchParam.experience = 'null'">
-                                        <option class="greyColor" value="null">{{'experience'|translate}}</option>
+                                        <option class="greyColor"  ng-selected="true" value="null">{{'experience'|translate}}</option>
                                         <option class="othersColor" ng-selected="ex.value == searchParam.experience"
                                                 ng-repeat="ex in experience" value="{{ex.value}}">
                                             {{'experience_assoc.' + ex.value|translate}}
@@ -196,21 +195,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="hidden-sm hidden-md hidden-lg col-xs-6" ng-show="chosenLangs[0] != 'null' || chosenLangs[1] != 'null' || chosenLangs[2] != 'null'">
-                            <div class="boxThreeColumn col-lg-11 col-xs-12 pull-left chosenLang" ng-click="deleteSearchLang(0)" ng-show="chosenLangs[0] != 'null'">
-                                {{chosenLangs[0]}}
-                                <i class="fa fa-times"></i>
-                            </div>
-                            <div class="boxThreeColumn col-lg-11 col-xs-12 pull-left chosenLang" ng-click="deleteSearchLang(1)" ng-show="chosenLangs[1] != 'null'">
-                                {{chosenLangs[1]}}
-                                <i class="fa fa-times"></i>
-                            </div>
-                            <div class="boxThreeColumn col-lg-11 col-xs-12 pull-left chosenLang" ng-click="deleteSearchLang(2)" ng-show="chosenLangs[2] != 'null'">
-                                {{chosenLangs[2]}}
-                                <i class="fa fa-times"></i>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                             <form class="form-inline-position pull-left">
                                 <div class="select" ng-show="lang.use() == 'en'">
                                     <select ng-class="{'greyColor': searchParam.sex == 'null'}" class="form-control"
@@ -248,21 +233,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 hidden-xs" ng-show="chosenLangs[0] != 'null' || chosenLangs[1] != 'null' || chosenLangs[2] != 'null'">
-                            <div class="boxThreeColumn col-lg-11 col-xs-12 pull-left chosenLang" ng-click="deleteSearchLang(0)" ng-show="chosenLangs[0] != 'null'">
-                                {{chosenLangs[0]}}
-                                <i class="fa fa-times"></i>
-                            </div>
-                            <div class="boxThreeColumn col-lg-11 col-xs-12 pull-left chosenLang" ng-click="deleteSearchLang(1)" ng-show="chosenLangs[1] != 'null'">
-                                {{chosenLangs[1]}}
-                                <i class="fa fa-times"></i>
-                            </div>
-                            <div class="boxThreeColumn col-lg-11 col-xs-12 pull-left chosenLang" ng-click="deleteSearchLang(2)" ng-show="chosenLangs[2] != 'null'">
-                                {{chosenLangs[2]}}
-                                <i class="fa fa-times"></i>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                             <form class="form-inline-position pull-left">
                                 <div class="select">
                                     <select ng-class="{'greyColor': searchParam.status == 'null'}" class="form-control"
@@ -278,36 +249,39 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="clearfix"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <!--<div class="clearfix"></div>-->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                             <input type="number" class="form-control salary pull-left" ng-enter-search ng-model="searchParam.salary"
                                    placeholder="{{'salary_before'|translate}}">
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                            <form class="form-inline-position ageFrom pull-left">
-                                <div class="select">
-                                    <span>{{'Age (years)'|translate}}:</span><span>{{'from'|translate}}</span>
-                                    <select ng-class="{'greyColor': searchParam.ageFrom == null}" class="form-control"
-                                            ng-model="searchParam.ageFrom"
-                                            ng-init="searchParam.ageFrom = null"
-                                            ng-change="ageEmptyFieldAdd('ageFrom')">
-                                        <option class="othersColor" ng-selected="age==searchParam.ageFrom" value="{{age}}"
-                                                ng-repeat=" age in ageSearchFrom track by $index">{{age}}
-                                        </option>
-                                    </select>
-                                    <span class="age-to">{{'age to'|translate}}</span>
-                                    <select ng-class="{'greyColor': searchParam.ageTo == null}" class="response ageTo form-control pull-right"
-                                            ng-model="searchParam.ageTo"
-                                            ng-init="searchParam.ageTo = null"
-                                            ng-change="ageEmptyFieldAdd()">
-                                        <option class="othersColor" ng-selected="age==searchParam.ageTo" value="{{age}}"
-                                                ng-repeat=" age in ageSearchTo track by $index">{{age}}
-                                        </option>
-                                    </select>
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+                            <form class="form-inline-position ageFrom pull-left" style="display: flex;justify-content: center; padding-left: 2px;">
+                                <div class="select clearfix" style="display: flex;justify-content: space-between;align-items: center;width: 100%;">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-4" style="padding: 0px;">{{'Age (years)'|translate}}:</div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-8" style="padding: 0px;display: flex;flex-direction: row;justify-content: space-between;align-items: center;">
+                                        <span style="display: inline;">{{'from'|translate}}</span>
+                                        <select ng-class="{'greyColor': searchParam.ageFrom == null}" style="padding: 0px; width: 33%;" class="form-control"
+                                                ng-model="searchParam.ageFrom"
+                                                ng-init="searchParam.ageFrom = null"
+                                                ng-change="ageEmptyFieldAdd('ageFrom')">
+                                            <option class="othersColor" ng-selected="age==searchParam.ageFrom" value="{{age}}"
+                                                    ng-repeat=" age in ageSearchFrom track by $index">{{age}}
+                                            </option>
+                                        </select>
+                                        <span class="age-to">{{'age to'|translate}}</span>
+                                        <select ng-class="{'greyColor': searchParam.ageTo == null}" style="padding: 0px; width: 33%;" class="response ageTo form-control"
+                                                ng-model="searchParam.ageTo"
+                                                ng-init="searchParam.ageTo = null"
+                                                ng-change="ageEmptyFieldAdd()">
+                                            <option class="othersColor" ng-selected="age==searchParam.ageTo" value="{{age}}"
+                                                    ng-repeat=" age in ageSearchTo track by $index">{{age}}
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
                             </form>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" ng-show="$root.me.recrutRole != 'client'">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" ng-show="$root.me.recrutRole != 'client'">
                             <form class="form-inline-position pull-left">
                                 <div class="select">
                                     <select ng-class="{'greyColor': searchParam.responsibleId == 'null'}"
@@ -332,8 +306,8 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="clearfix"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <!--<div class="clearfix"></div>-->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                             <form class="form-inline-position pull-left">
                                 <div class="select">
                                     <select ng-class="{'greyColor': searchParam.employmentType == 'null'}" class="form-control"
@@ -348,13 +322,12 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                             <form class="form-inline-position pull-left origin" ng-class="{editOrigin: searchParam.origin && $root.me.recrutRole === 'admin'}">
                                 <input origin-autocompleter ng-model="searchParam.origin">
                             </form>
                         </div>
-
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 pull-right">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 ">
                             <form class="form-inline-position pull-left move-left skills">
                                 <input skills-autocompleter-for-search name="skills" ng-maxlength="50" ng-model="searchParam.skills.name" type="text">
                             </form>
@@ -377,20 +350,39 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="clearfix"></div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 with-contacts pull-right" ng-show="$root.me.recrutRole != 'client'">
+                        <!--<div class="clearfix"></div>-->
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                             <form class="form-inline-position pull-left">
                                 <div class="select">
-                                    <select ng-class="{'greyColor': searchParam.withPersonalContacts == 'null'}" class="form-control"
-                                            ng-model="searchParam.withPersonalContacts">
-                                        <option value="null">{{'Personal contacts'|translate}}</option>
-                                        <option value="true">
-                                            {{'Available Email and/or Skype'|translate}}
+                                    <select ng-class="{'greyColor': currentLang == 'null'}" class="form-control"
+                                            ng-model="currentLang"
+                                            ng-init="currentLang = 'null'"
+                                            ng-change="addSearchLang(currentLang)">
+                                        <option class="greyColor" value="null" selected>{{'languages_1'|translate}}</option>
+                                        <option class="othersColor" ng-selected="(lang.name == chosenLangs[0] || lang.name == chosenLangs[1] || lang.name == chosenLangs[2]) && lang.name != 'null'"
+                                                ng-repeat="lang in langsReceived | unique:'name'" ng-show="lang.name.length > 0" value="{{lang.name}}">
+                                            {{lang.name}}
                                         </option>
-                                        <option value="false">{{'Unavailable Email and/or Skype'|translate}}</option>
                                     </select>
                                 </div>
                             </form>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-6  col-xs-6" style="clear: both;" ng-if="chosenLangs[0] != 'null' || chosenLangs[1] != 'null' || chosenLangs[2] != 'null'">
+                            <div class="boxThreeColumn col-lg-11 col-xs-12 pull-left chosenLang"
+                                 style="padding-top: 0px;"
+                                 ng-repeat="chosenLang in chosenLangs track by $index" ng-if="chosenLang != 'null'">
+                                <span class="language-name">
+                                    <i class="fa fa-times" ng-click="deleteSearchLang(chosenLang,$event)"></i>
+                                    {{chosenLang.name}}
+                                </span>
+                                <select style="padding: 0px;" class="language-level form-control"  ng-model="level" ng-init="level = '_undefined'" ng-change="searchLevelLanguage(chosenLang, level, $index)">
+                                    <option ng-value="::language"
+                                            ng-selected="language =='_undefined'"
+                                            ng-repeat="language in ::languageLevelData track by $index"
+                                            ng-bind="language|translate"></option>
+                                </select>
+                                <span class="new-label" style="right: 0px;">new</span>
+                            </div>
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -405,7 +397,7 @@
                 <div class="col-lg-12 criterionSearchCandidate" ng-class="{'limited': limitReached === true}" ng-show="searchParam.searchCs">
                     <div ng-show="(staticSearchParam[0].words || (staticSearchParam[0].regionId == searchParam.regionId && staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
                             (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType != null) ||
-                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
+                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].languages != 'null' && staticSearchParam[0].languages.length) || (staticSearchParam[0].responsibleId != 'null') ||
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts != 'null') && !limitReached">
                         <span class="count">{{'found'|translate}} <span>{{objectSize}}</span></span>
                         {{'criteria'|translate}}:
@@ -414,7 +406,7 @@
                         <!--start main criterials-->
                         <li class="firstPivot" ng-show="!(staticSearchParam[0].words || (staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
                             (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null') ||
-                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
+                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].languages != 'null' && staticSearchParam[0].languages.length ) || (staticSearchParam[0].responsibleId != 'null') ||
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts != 'null')">
                             <span ng-show="!objectSize">{{'There are no candidates in your vacancies yet.'|translate}}</span>
                             <span ng-show="objectSize">
@@ -505,8 +497,15 @@
                             <i ng-click="closeSearchTags('ageTo');clickSearch();" class="fa fa-times"
                                aria-hidden="true"></i>
                         </li>
-                        <li ng-show="staticSearchParam[0].lang != 'null'" class="pivot">{{'languages_1'|translate}}:
-                            {{staticSearchParam[0].lang}}
+                        <li class="pivot" ng-if="staticSearchParam[0].languages.length && staticSearchParam[0].languages !== 'null'">
+                            {{'languages_1'|translate}}:
+                           <span ng-repeat="languages in staticSearchParam[0].languages track by $index">
+                               <span>
+                                   {{languages['name']}}
+                                 <span ng-show="languages['level'] && languages['level'] !== 'null' && languages['level'] !== '_undefined'">{{'- ' +( languages['level']|translate)}}</span>
+                                 <span ng-if="!$last">,</span>
+                               </span>
+                           </span>
                             <i ng-click="closeSearchTags('lang');clickSearch();" class="fa fa-times" aria-hidden="true"></i>
                         </li>
                         <li ng-show="staticSearchParam[0].responsibleId != 'null' && (searchParam.responsibleId == responsible.userId)"
@@ -557,14 +556,14 @@
                             <span>{{activeScopeParam.value.name}}</span></li>
                         <li ng-show="staticSearchParam[0].words || (staticSearchParam[0].regionId == searchParam.regionId && staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
                             (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType) ||
-                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
+                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].languages != 'null' && staticSearchParam[0].languages.length) || (staticSearchParam[0].responsibleId != 'null') ||
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts != 'null'|| staticSearchParam[0].origin != null">
                             <span id="btnCl12" class="button_add ui item icon teal button" ng-click="cleanTags();">
                             <i class="fa fa-trash" aria-hidden="true"></i></span>
                         </li>
                         <li class="too-match" ng-show="limitReached === true && (staticSearchParam[0].words || (staticSearchParam[0].regionId == searchParam.regionId && staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
                             (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null') ||
-                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
+                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex != 'null') || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].languages != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts != 'null')">
                             <span class="count" translate="The large quantity of results has been found." translate-values="{total_count: objectSize}"></span>
                         </li>
