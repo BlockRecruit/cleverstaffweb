@@ -83,7 +83,7 @@
               <span class="languages" ng-if="vacancy.languages.length">
                   <span class="lang" ng-repeat="lang in vacancy.languages">
                     {{lang.name}}
-                    <span class="level"><span ng-if="lang.level == 'undefined'">({{lang.level | translate}})</span><span ng-if="lang.level != 'undefined'">{{lang.level | translate}}</span><span ng-if="vacancy.languages.length >=2">;</span></span>
+                    <span class="level">{{lang.level | translate}}<span ng-if="vacancy.languages.length >=2">;</span></span>
                   </span>
               </span>
             </div>

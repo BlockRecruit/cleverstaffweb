@@ -20,6 +20,8 @@
 		@include bt-margins-from-side();
 		& > .fullName-position {
 			float: none;
+			margin-top: -5px;
+			margin-bottom: 15px;
 			& > span {
 				@include bold();
 
