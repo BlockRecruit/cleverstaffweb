@@ -4482,17 +4482,16 @@ directive('appVersion', ['version', function(version) {
             }
         }
     }])
-    .directive("customSelect",[setCustomSelect]);
+    .directive("customSelect",setCustomSelect);
 
 // ng-model="type" class="form-control col-lg-12 select-input-field"
-function setCustomSelect(){
+function setCustomSelect($compile){
     let restrict  = "EACM",
         scope = {
-            type:"@",
             data:"="
         },
         template = `
-        
+        <input type="text" class="form-control col-lg-12 select-input-field">
         <div class="dropdown-content">
             <ul>
                 <li ng-repeat="item in data track by $index">{{item}}</li>
@@ -4501,11 +4500,9 @@ function setCustomSelect(){
     return {
         restrict,
         scope,
-        template,
+        tempalate:$compile(template)(scope),
         link(scope, element, attrs){
-        console.log(attrs, 'attrs')
-        console.log(scope, 'scope')
-        console.log(element, 'element')
+            console.log($compile(template)(scope));
         }
     };
 };
@@ -18469,6 +18466,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                                 $rootScope, $filter, $cookies, serverAddress, notificationService, googleService, $window,
                                 ScopeService, frontMode, Vacancy, Company, vacancyStages, $sce, $analytics, Mail, FileInit, $uibModal, Person, $timeout, CandidateGroup, $anchorScroll) {
     $scope.experience = Service.experience();
+    $scope.responsibleName = "123123123";
     $rootScope.objectSize = null;
     $scope.enableExcelUploadAll = 'N';
     $scope.a = {};

@@ -2,6 +2,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                                 $rootScope, $filter, $cookies, serverAddress, notificationService, googleService, $window,
                                 ScopeService, frontMode, Vacancy, Company, vacancyStages, $sce, $analytics, Mail, FileInit, $uibModal, Person, $timeout, CandidateGroup, $anchorScroll) {
     $scope.experience = Service.experience();
+    $scope.responsibleName = "123123123";
     $rootScope.objectSize = null;
     $scope.enableExcelUploadAll = 'N';
     $scope.a = {};

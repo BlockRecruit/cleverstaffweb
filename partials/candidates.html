@@ -315,9 +315,7 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" ng-show="$root.me.recrutRole != 'client'">
                             <form class="form-inline-position pull-left">
                                 <div class="select select-responsible"  ng-init="searchParam.responsibleId = 'null'">
-                                    <custom-select data="[1,2,3,4]" type="{{'responsible'}}"> ng-model='responsibleName'</custom-select>
-
-
+                                    <custom-select ng-model='responsibleName' data="[1,2,3,4]" ></custom-select>
                                     <!--<input type="text" placeholder="{{'responsible'|translate}}"-->
                                            <!--ng-model="responsibleName"-->
                                            <!--disabled-->

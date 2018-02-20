@@ -4482,17 +4482,16 @@ directive('appVersion', ['version', function(version) {
             }
         }
     }])
-    .directive("customSelect",[setCustomSelect]);
+    .directive("customSelect",setCustomSelect);
 
 // ng-model="type" class="form-control col-lg-12 select-input-field"
-function setCustomSelect(){
+function setCustomSelect($compile){
     let restrict  = "EACM",
         scope = {
-            type:"@",
             data:"="
         },
         template = `
-        
+        <input type="text" class="form-control col-lg-12 select-input-field">
         <div class="dropdown-content">
             <ul>
                 <li ng-repeat="item in data track by $index">{{item}}</li>
@@ -4501,11 +4500,8 @@ function setCustomSelect(){
     return {
         restrict,
         scope,
-        template,
         link(scope, element, attrs){
-        console.log(attrs, 'attrs')
-        console.log(scope, 'scope')
-        console.log(element, 'element')
+
         }
     };
 };
