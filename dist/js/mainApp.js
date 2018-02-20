@@ -29162,7 +29162,7 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
                             max = item.scrollWidth - item.scrollLeft - item.clientWidth - 1;
                             $scope.max = max;
                         }
-                        scroll = item.scrollLeft += 500;
+                        scroll = item.scrollLeft += 1120;
                         $scope.scroll = scroll;
                     })
                 };
@@ -29174,7 +29174,7 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
                 scroll = 0;
             return function () {
                 elems.forEach(item =>{
-                    scroll = item.scrollLeft -= 500;
+                    scroll = item.scrollLeft -= 1120;
                     $scope.scroll = scroll;
                 })
             };
