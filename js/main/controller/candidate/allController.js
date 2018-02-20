@@ -1223,7 +1223,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 $scope.searchParam.responsibleId != 'null' || $scope.searchParam.personId != null ||
                 $scope.searchParam.experience != 'null' || $scope.searchParam.languages != 'null' ||
                 $scope.searchParam.skills.type != '_all' || $scope.searchParam.withPersonalContacts != 'null') || ($scope.searhcForSure)||
-                $scope.chosenLangs.some(item => item != 'null')){
+                $scope.chosenLangs.some(item => item != 'null') || $scope.groupIdsForSearch){
 
             $scope.searhcForSure = false;
             $scope.showExternalMenu = false;
@@ -1324,7 +1324,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             },0)
         }
         else{
-            console.log('123123123')
             notificationService.error($filter('translate')('Enter the data'));
         }
     };
