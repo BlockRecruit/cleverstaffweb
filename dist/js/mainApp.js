@@ -19691,6 +19691,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $rootScope.clickSearch(true);
     };
     $rootScope.clickSearch = function (isClean) {
+        console.log($scope.searchParam, '$scope.searchParam');
         if(($scope.searchParam.salary != null || $scope.searchParam.status != 'null' ||
                 $scope.searchParam.sex != 'null' || $scope.searchParam.employmentType != 'null' ||
                 $scope.searchParam.industry != 'null' || $scope.searchParam.ageFrom != null ||
@@ -19702,7 +19703,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 $scope.searchParam.responsibleId != 'null' || $scope.searchParam.personId != null ||
                 $scope.searchParam.experience != 'null' || $scope.searchParam.languages != 'null' ||
                 $scope.searchParam.skills.type != '_all' || $scope.searchParam.withPersonalContacts != 'null') || ($scope.searhcForSure)||
-            $scope.chosenLangs.some(item => item != 'null')){
+                $scope.chosenLangs.some(item => item != 'null')){
+
             $scope.searhcForSure = false;
             $scope.showExternalMenu = false;
             $scope.clickBtnSort = true;
@@ -20347,7 +20349,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     function resetLanguagesSearCriterion() {
         $scope.chosenLangs = ['null', 'null', 'null'];
         $scope.staticSearchParam[0].languages = 'null';
-        $scope.searchParam.languages = 'null';
+        $scope.searchParam.languages = [];
         $scope.currentLang = 'null';
         $scope.level = '_undefined';
     }

@@ -1213,6 +1213,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $rootScope.clickSearch(true);
     };
     $rootScope.clickSearch = function (isClean) {
+        console.log($scope.searchParam, '$scope.searchParam');
         if(($scope.searchParam.salary != null || $scope.searchParam.status != 'null' ||
                 $scope.searchParam.sex != 'null' || $scope.searchParam.employmentType != 'null' ||
                 $scope.searchParam.industry != 'null' || $scope.searchParam.ageFrom != null ||
@@ -1870,7 +1871,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     function resetLanguagesSearCriterion() {
         $scope.chosenLangs = ['null', 'null', 'null'];
         $scope.staticSearchParam[0].languages = 'null';
-        $scope.searchParam.languages = 'null';
+        $scope.searchParam.languages = [];
         $scope.currentLang = 'null';
         $scope.level = '_undefined';
     }
