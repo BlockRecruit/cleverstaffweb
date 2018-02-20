@@ -427,14 +427,16 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
         });
         $scope.$on('$destroy', myListener);
     $scope.saveCandidate = function() {
+        console.log($scope.candidate.salary);
         $localStorage.set("candidate_currency", $scope.candidate.currency);
         var salaryBol;
         $scope.candidate.position=$scope.getPositionAutocompleterValue();
         if ($scope.candidate.salary && $scope.candidate.salary <= 2147483647) {
-            salaryBol = false;
-        } else {
             salaryBol = true;
+        } else {
+            salaryBol = false;
         }
+        console.log(salaryBol);
         if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed) {
             $scope.saveButtonIsPressed = true;
             var candidate = $scope.candidate;
