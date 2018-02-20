@@ -882,7 +882,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     Candidate.setOptions("city", activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null);
                 }
 
-                $scope.searchParam['languages']
 
                 Candidate.setOptions("allContainsWords", $scope.searchParam.allContainsWords);
                 Candidate.setOptions("name", $scope.searchParam.name);
@@ -1213,7 +1212,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $rootScope.clickSearch(true);
     };
     $rootScope.clickSearch = function (isClean) {
-        console.log($scope.searchParam, '$scope.searchParam');
         if(($scope.searchParam.salary != null || $scope.searchParam.status != 'null' ||
                 $scope.searchParam.sex != 'null' || $scope.searchParam.employmentType != 'null' ||
                 $scope.searchParam.industry != 'null' || $scope.searchParam.ageFrom != null ||
@@ -1249,7 +1247,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             (!isClean)? $scope.searchParam['languages'] = $scope.chosenLangs.filter(item => item !== 'null'):null;
 
 
-            if($scope.searchParam.words && $scope.searchParam.words.length  ){
+            if($scope.searchParam.words && !$scope.searchParam.words.length){
                 notificationService.error($filter('translate')('Enter more data for search'));
                 return
             }
