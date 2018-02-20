@@ -4504,8 +4504,8 @@ function setCustomSelect(){
         template,
         link(scope, element, attrs){
         console.log(attrs, 'attrs')
-        console.log(scope, 'attrs')
-        console.log(element, 'attrs')
+        console.log(scope, 'scope')
+        console.log(element, 'element')
         }
     };
 };
