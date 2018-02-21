@@ -5416,6 +5416,7 @@ angular.module('ui.tinymce', [])
                     image_advtab: true,
                     toolbar_items_size: 'small',
                     relative_urls: false,
+                    link_assume_external_targets: true,
 
                     elements: attrs.id,
                     content_css: "/dist/css/tinymce.css"

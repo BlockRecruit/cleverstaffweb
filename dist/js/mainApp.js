@@ -20811,66 +20811,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             }
         };
 
-        tinymce.init({
-            selector: '#tinymceTwo',
-            mode: 'exact',
-            theme: "modern",
-            height: 200,
-            language: $scope.lang!=undefined ||$scope.lang!=null?$scope.lang:"ru",
-            browser_spellcheck: true,
-            menubar: false,
-            statusbar: false,
-            theme_advanced_resizing: true,
-            plugins: ["advlist autolink lists link image charmap print preview hr anchor pagebreak",
-                "searchreplace visualblocks visualchars code fullscreen",
-                "insertdatetime media nonbreaking save table directionality",
-                "template paste textcolor  "],
-            fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt",
-            toolbar1: "bold italic forecolor backcolor fontsizeselect | bullist numlist | link",
-            image_advtab: true,
-            toolbar_items_size: 'small',
-            relative_urls: false,
-            link_assume_external_targets: true,
-            setup: function (ed) {
-                ed.on('SetContent', function (e) {
-
-                });
-                ed.on('change', function(e) {
-                    $scope.candidate.descr = tinyMCE.get('tinymce').getContent();
-                });
-            }
-        });
-
-        tinymce.init({
-            selector: '#tinymce',
-            mode: 'exact',
-            theme: "modern",
-            height: 145,
-            language: $scope.lang!=undefined ||$scope.lang!=null?$scope.lang:"ru",
-            browser_spellcheck: true,
-            menubar: false,
-            statusbar: false,
-            theme_advanced_resizing: true,
-            plugins: ["advlist autolink lists link image charmap print preview hr anchor pagebreak",
-                "searchreplace visualblocks visualchars code fullscreen",
-                "insertdatetime media nonbreaking save table directionality",
-                "template paste textcolor  "],
-            fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt",
-            toolbar1: "bold italic forecolor backcolor fontsizeselect | bullist numlist | link",
-            image_advtab: true,
-            toolbar_items_size: 'small',
-            relative_urls: false,
-            link_assume_external_targets: true,
-            setup: function (ed) {
-                ed.on('SetContent', function (e) {
-
-                });
-                ed.on('change', function(e) {
-                    $scope.candidate.descr = tinyMCE.get('tinymce').getContent();
-                });
-            }
-        });
-
         $scope.showModalAddPhoto = function(){
             $scope.modalInstance = $uibModal.open({
                 animation: true,
@@ -21052,7 +20992,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     }
 
                     $scope.candidate = resp.object;
-
 
                     $scope.checkDuplicatesByNameAndContacts();
                     if(!$scope.candidate.customFields){
