@@ -771,9 +771,11 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 //}
                 if ($scope.contacts.mphone && $scope.contacts.mphone2 == undefined && $scope.contacts.mphone3 == undefined) {
                     candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone});
-                }else if($scope.contacts.mphone2 != undefined && $scope.contacts.mphone3 == undefined){
+                }
+                if($scope.contacts.mphone2 != undefined && $scope.contacts.mphone3 == undefined){
                     candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2)});
-                }else if($scope.contacts.mphone3 != undefined){
+                }
+                if($scope.contacts.mphone3 != undefined){
                     candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2).concat(", ", $scope.contacts.mphone3)});
                 }
                 console.log($scope.contacts);
@@ -850,6 +852,8 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 $scope.candidateForm.education.$pristine = false;
                 $scope.candidateForm.currentWorkPlace.$pristine = false;
                 $scope.candidateForm.currentPosition.$pristine = false;
+                console.log($scope.candidateForm);
+                $scope.candidateForm.mphone.$pristine = false;
 //            $scope.candidateForm.region.$pristine = false;
             }
         };
