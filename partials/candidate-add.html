@@ -459,7 +459,7 @@
                                     <label>{{'phone'|translate}}</label>
                                     <!--<input placeholder="" ng-model="contacts.mphone" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && contacts.mphone.length > 0}">-->
                                     <div class="duplicatePhone">
-                                        <input placeholder="" class="phoneInput" ng-model="contacts.mphone" type="text" name="mphone" ng-pattern="/^[+0-9]{9,20}$/" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error': (duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone.length > 0) || candidateForm.mphone.$invalid}" required>
+                                        <input placeholder="" class="phoneInput" ng-model="contacts.mphone" type="text" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error': (duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone.length > 0) || !phoneError}">
                                         <i class="phone icon"></i>
                                         <i class="fa absolute-right"
                                            ng-attr-title='{{(candidate.preferableContact == "phone")? "Unmark as preferable contact method":"Mark as preferrable contact method"|translate}}'
@@ -469,7 +469,7 @@
                                         </i>
                                     </div>
                                     <div class="duplicatePhone2" ng-show="secondPhoneInput">
-                                        <input placeholder="" class="phoneInput" ng-model="contacts.mphone2" type="text" name="mphone2" ng-pattern="/^[+0-9]{9,20}$/" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error': (duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone2.length > 0) || candidateForm.mphone2.$invalid}">
+                                        <input placeholder="" class="phoneInput" ng-model="contacts.mphone2" type="text" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error': (duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone2.length > 0) || !phoneError2}">
                                         <i class="phone icon"></i>
                                         <i class="fa absolute-right"
                                            ng-attr-title='{{(candidate.preferableContact == "phone2")? "Unmark as preferable contact method":"Mark as preferrable contact method"|translate}}'
@@ -479,7 +479,7 @@
                                         </i>
                                     </div>
                                     <div class="duplicatePhone3" ng-show="thirdPhoneInput">
-                                        <input placeholder="" class="phoneInput" ng-model="contacts.mphone3" type="text" name="mphone3" ng-pattern="/^[+0-9]{9,20}$/" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error': (duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone3.length > 0) || candidateForm.mphone3.$invalid}">
+                                        <input placeholder="" class="phoneInput" ng-model="contacts.mphone3" type="text" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error': (duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone3.length > 0) || !phoneError3}">
                                         <i class="phone icon"></i>
                                         <i class="fa absolute-right"
                                            ng-attr-title='{{(candidate.preferableContact == "phone3")? "Unmark as preferable contact method":"Mark as preferrable contact method"|translate}}'
