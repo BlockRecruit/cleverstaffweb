@@ -107,6 +107,7 @@
   "required_experience": "Требуемый опыт",
   "interview_date": "Дата",
   "change_status": "Перевести",
+  "change_status_1": "Перевести на этап",
   "date": "Дата",
   "contact": "Контакт",
   "choose_region": "Выберите регион",
@@ -575,6 +576,8 @@
     "in_client_v2": "у заказчика",
     "to_the_interview": "на ",
     "candidate": "Кандидат",
+    "candidates": "Кандидаты",
+    "candidates_1": "кандидатов",
     "added_vacancy": "Добавлена вакансия",
     "edited_vacancy": "Изменена вакансия",
     "remove": "Удален",
@@ -605,7 +608,9 @@
     "Candidate test passed": "закончил(а) прохождение теста",
     "test": "",
     "The candidate": "Профиль кандидата",
-    "profile was edited by": "был отредактирован пользователем"
+    "profile was edited by": "был отредактирован пользователем",
+    "were moved from": "переведены с этапа",
+    "by": "пользователем"
   },
   "Remove Skill": "Удалить навык",
   "information": "Описание вакансии",
@@ -2869,7 +2874,6 @@
   "previousYear":"Прошлый год",
   "customRange":" Настраиваемый период",
   "Select vacancies in the report":"Выбрать вакансии в отчете",
-  "replacement":"Замена",
   "Start the test":"Начать тест",
   "Next question":"Следующий вопрос",
   "Test":"Тест",
@@ -2891,7 +2895,6 @@
   "The Exchange server URL": "URL-адрес сервера Exchange должен выглядеть так: https://***/EWS/exchange.asmx",
   "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email.",
   "The vacancy":"Вакансия",
-  "_edited":"изменена",
   "Enter more data for search":"Введите больше символов для поиска",
   "Too much Desired Salary salary value": "Слишком большое значение поля \"Желаемая зарплата\"",
   "Please attach your CV file": "Прикрепите файл резюме",
@@ -2901,5 +2904,6 @@
   "Enter phone number": "Введите номер телефона",
   "_undefined":"Уровень",
   "Language with this level is already selected":"Язык с таким уровнем уже выбран",
-  "The timer will be displayed on the test page.In case you do not finish the test before the deadline, the test page will be closed, all the data entered will be saved and sent to the recruiter":"Время на прохождение этого теста ограничено.Таймер будет отображаться во время прохождения теста.По окончанию времени страница теста автоматически закроется, все введённые вами данные будут сохранены и отправлены рекрутеру"
+  "The timer will be displayed on the test page.In case you do not finish the test before the deadline, the test page will be closed, all the data entered will be saved and sent to the recruiter":"Время на прохождение этого теста ограничено.Таймер будет отображаться во время прохождения теста.По окончанию времени страница теста автоматически закроется, все введённые вами данные будут сохранены и отправлены рекрутеру",
+  "The candidates have been successfully moved to the stage": "Кандидаты были успешно переведены на этап"
 }

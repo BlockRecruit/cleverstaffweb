@@ -1,16 +1,46 @@
 <div class="candidate-add-in-vacancy">
     <div class="modal-header">
         <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
-        <h4 class="modal-title">{{$root.changeStatusOfInterviewInVacancy.candidate.candidateId.fullName}}</h4>
+        <h4 class="modal-title" ng-if="candidatesAddToVacancyIds.length > 0">
+            <span ng-if="candidatesAddToVacancyIds.length == 1" ng-repeat="candidate in $root.addCandidateChangeStage track by $index">
+                {{candidate.fullName}}
+            </span>
+            <span ng-if="candidatesAddToVacancyIds.length == 2" title="{{candidate.fullName}}" ng-repeat="candidate in $root.addCandidateChangeStage track by $index">
+                {{candidate.fullName | limitTo:23}}{{::candidate.fullName.length > 23 ? '...' : ''}} <span ng-show="$root.currentLang == 'en'">{{$last ? '' : ' and'}}</span><span ng-show="$root.currentLang == 'ru'">{{$last ? '' : ' и'}}</span>
+            </span>
+            <span ng-if="candidatesAddToVacancyIds.length > 2">
+                {{'candidates'|translate}} ({{candidatesAddToVacancyIds.length}})
+            </span>
+        </h4>
+        <h4 class="modal-title" ng-if="candidatesAddToVacancyIds.length == 0">
+            {{$root.changeStatusOfInterviewInVacancy.candidate.candidateId.fullName}}
+        </h4>
     </div>
     <div class="modal-body">
         <div class="item">
             <select class="form-control" ng-model="$root.changeStatus"
-                    ng-change="$root.toChangeStatusInterview($root.changeStatus, $root.changeStatusOfInterviewInVacancy.candidate)">
+                    ng-change="$root.toChangeStatusInterview($root.changeStatus, $root.addCandidateChangeStage)"
+            ng-if="candidatesAddToVacancyIds.length > 0">
                 <option value="" selected style="display: none">{{'choose_stage'|translate}}</option>
                 <option ng-repeat="status in $root.VacancyStatusFiltered"
                         class="{{status.active_color}}"
-                        ng-disabled="activeName == status.value || activeCustomStageName == status.value"
+                        ng-disabled="activeName == status.value || activeCustomStageName == status.value ||
+                        ((status.type == 'interview' || status.value == 'interview' || status.value == 'interview_with_the_client' || status.value == 'tech_interview' ||
+                        status.value == 'hr_interview' || status.value == 'Interview with CEO' || status.value == 'interview_with_the_boss' || status.value == 'approved') && candidatesAddToVacancyIds.length > 1)"
+                        ng-show="$root.changeStatusOfInterviewInVacancy.candidate.state != status.value"
+                        ng-value="status.value"
+                        ng-class="{disabled_status:activeName == status.value}"> {{status.value|translate}}
+                </option>
+            </select>
+            <select class="form-control" ng-model="$root.changeStatus"
+                    ng-change="$root.toChangeStatusInterview($root.changeStatus, $root.changeStatusOfInterviewInVacancy.candidate)"
+                    ng-if="candidatesAddToVacancyIds.length == 0">
+                <option value="" selected style="display: none">{{'choose_stage'|translate}}</option>
+                <option ng-repeat="status in $root.VacancyStatusFiltered"
+                        class="{{status.active_color}}"
+                        ng-disabled="activeName == status.value || activeCustomStageName == status.value ||
+                        ((status.type == 'interview' || status.value == 'interview' || status.value == 'interview_with_the_client' || status.value == 'tech_interview' ||
+                        status.value == 'hr_interview' || status.value == 'Interview with CEO' || status.value == 'interview_with_the_boss' || status.value == 'approved') && candidatesAddToVacancyIds.length > 1)"
                         ng-show="$root.changeStatusOfInterviewInVacancy.candidate.state != status.value"
                         ng-value="status.value"
                         ng-class="{disabled_status:activeName == status.value}"> {{status.value|translate}}

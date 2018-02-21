@@ -137,6 +137,7 @@
   "site_address": "Website URL",
   "name": "First Name",
   "change_status": "Change stage",
+  "change_status_1": "Change stage",
   "interview_date": "Interview date",
   "date": "Date",
   "message": "Message",
@@ -499,6 +500,8 @@
     "Tag": "Tag",
     "added": "added",
     "candidate": "Candidate",
+    "candidates": "Candidates",
+    "candidates_1": "candidates",
     "Added": "Added",
     "Added1": "Added",
     "client_added": "Client added",
@@ -550,7 +553,9 @@
     "Candidate test passed": "finished the",
     "test": "test",
     "The candidate": "The candidate",
-    "profile was edited by": "profile was edited by"
+    "profile was edited by": "profile was edited by",
+    "were moved from": "were moved from",
+    "by": "by"
   },
   "Remove Skill": "Remove skill",
   "information": "Vacancy details",
@@ -2281,6 +2286,7 @@
   "close window": "Close window",
   "Comments only": "Comments only",
   "replacement": "Replacement",
+  "_Invited user":"Invited users",
   "Changes saved": "Changes saved",
   "Comment changed": "Comment changed",
   "ready_to_relocate2": "Ready to relocate",
@@ -2303,7 +2309,6 @@
   "Please enter your Name": "Please enter your Name",
   "Please enter your Last Name": "Please enter your Last Name",
   "Enter phone number": "Please enter phone number",
-  "_Invited user": "Invited users",
   "_undefined": "Level",
   "Language with this level is already selected": "Language with this level is already selected",
   "Select vacancies in the report": "Select vacancies in the report",
@@ -2312,5 +2317,6 @@
   "Next question": "Next question",
   "Finish the test": "Finish the test",
   "Do you want to finish the test?": "Do you want to finish the test?",
-  "Click on the picture to enlarge": "Click on the picture to enlarge"
+  "Click on the picture to enlarge": "Click on the picture to enlarge",
+  "The candidates have been successfully moved to the stage": "The candidates have been successfully moved to the stage"
 }

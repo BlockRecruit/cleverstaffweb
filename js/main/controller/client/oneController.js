@@ -489,10 +489,14 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
         $rootScope.addVacancyClientId = id;
         $location.path("/vacancy/add/");
     };
-
+    $scope.openMenuWithCandidates = function(history){
+        history.showAllCandidates = !history.showAllCandidates;
+        history.editCommentFlag = false;
+    };
     $scope.changeCommentFlag = function(history){
         history.editCommentFlag = !history.editCommentFlag;
         $scope.editComment = history.descr;
+        history.showAllCandidates = false;
     };
     $scope.changeComment = function(action, comment){
         Action.editAction({"comment": comment, "actionId": action.actionId}, function(resp){
