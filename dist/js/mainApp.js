@@ -20678,6 +20678,9 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.showAddedFiles = false;
         $scope.photoUrl = '';
         $scope.showAddLink = false;
+        $scope.btnToAddPhone = true;
+        $scope.secondPhoneInput = false;
+        $scope.thirdPhoneInput = false;
         $scope.objType = 'candidate';
         $scope.currency = Service.currency();
         $scope.candidateOrigin = '';
@@ -20955,23 +20958,34 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                         $(".datepickerOfBirth").datetimepicker("setDate", new Date(resp.object.db));
                     }
                     if (resp.object.contacts) {
-                        console.log($scope.contacts);
                         angular.forEach(resp.object.contacts, function(val) {
                             if (angular.equals(val.type, "email")) {
                                 $scope.contacts.email = val.value;
                             }
                             if (angular.equals(val.type, "mphone")) {
-                                //$scope.contacts.mphone = val.value;
-                                console.log(val.value);
-                                var arr = val.value.split(",");
-                                console.log(arr);
-                                $scope.contacts.mphone.push(arr[0].trim());
-                                if(arr[1] != undefined){
-                                    $scope.contacts.mphone.push(arr[1].trim());
+                                $scope.contacts.mphone = val.valueList[0];
+                                if(val.valueList[1]){
+                                    $scope.contacts.mphone2 = val.valueList[1];
+                                    $scope.secondPhoneInput = true;
                                 }
-                                if(arr[2] != undefined){
-                                    $scope.contacts.mphone.push(arr[2].trim());
+                                if(val.valueList[2]){
+                                    $scope.contacts.mphone3 = val.valueList[2];
+                                    $scope.btnToAddPhone = false;
+                                    $scope.thirdPhoneInput = true;
                                 }
+
+
+
+                                //console.log(val.value);
+                                //var arr = val.value.split(",");
+                                //console.log(arr);
+                                //$scope.contacts.mphone.push(arr[0].trim());
+                                //if(arr[1] != undefined){
+                                //    $scope.contacts.mphone.push(arr[1].trim());
+                                //}
+                                //if(arr[2] != undefined){
+                                //    $scope.contacts.mphone.push(arr[2].trim());
+                                //}
                                 console.log($scope.contacts);
                             }
                             if (angular.equals(val.type, "skype")) {
@@ -21420,6 +21434,9 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if ($scope.contacts.email) {
                     candidate.contacts.push({type: "email", value: $scope.contacts.email});
                 }
+                //if ($scope.contacts.mphone) {
+                //    candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.split(/[\,+" "]/).join(",")});
+                //}
                 if ($scope.contacts.mphone && $scope.contacts.mphone2 == undefined && $scope.contacts.mphone3 == undefined) {
                     candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone});
                 }else if($scope.contacts.mphone2 != undefined && $scope.contacts.mphone3 == undefined){
@@ -21604,9 +21621,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             Candidate.setSelectFavoriteContacts($scope, type, event );
         };
 
-        $scope.btnToAddPhone = true;
-        $scope.secondPhoneInput = false;
-        $scope.thirdPhoneInput = false;
         var i = 0;
         $scope.addInputPhone = function(){
             i++;

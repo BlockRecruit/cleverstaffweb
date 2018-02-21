@@ -455,8 +455,8 @@
                                 <div class="item phoneBlock">
                                     <label>{{'phone'|translate}}</label>
                                     <!--<input placeholder="" ng-model="contacts.mphone" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && contacts.mphone.length > 0}">-->
-                                    <div class="duplicatePhone" ng-repeat="mphone in contacts.mphone track by $index" ng-show="mphone != undefined">
-                                        <input placeholder="" class="phoneInput" ng-model="mphone" type="text" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone.length > 0}">
+                                    <div class="duplicatePhone">
+                                        <input placeholder="" class="phoneInput" ng-model="contacts.mphone" type="text" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone.length > 0}">
                                         <i class="phone icon"></i>
                                         <i class="fa absolute-right"
                                            ng-attr-title='{{(candidate.preferableContact == "phone")? "Unmark as preferable contact method":"Mark as preferrable contact method"|translate}}'
