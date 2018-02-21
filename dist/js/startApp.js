@@ -3747,6 +3747,7 @@ angular.module('services.candidate', [
         $scope.dublicetesTypeEmail = '';
         $scope.dublicetesTypeSkype = '';
         $scope.dublicetesTypeLinkedin = '';
+        console.log($scope.contacts, 'phone');
         if ((!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.mphone && $scope.contacts.mphone.length > 4) || (!duplicatesByNameAndContacts && $scope.candidate.fullName && $scope.candidate.fullName.length > 3)) {
         //if (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4 && $scope.contacts.skype && $scope.contacts.skype.length > 4 && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4 && $scope.contacts.mphone && $scope.contacts.mphone.length > 4 && $scope.candidate.fullName && $scope.candidate.fullName.length > 3) {
             duplicatesByNameAndContacts = true;
