@@ -1247,6 +1247,14 @@
 
 							margin-left: 15px;
 						}
+						img {
+							width: auto;
+							height: 31px;
+							&:hover {
+								cursor: pointer;
+								transform: scale(1.1,1.1);
+							}
+						}
 						.comments-wrap {
 							display: flex;
 							flex-direction: row;
@@ -1377,6 +1385,14 @@
 							@include button-green-styling();
 
 							margin-left: 15px;
+						}
+						img {
+							width: auto;
+							height: 31px;
+							&:hover {
+								cursor: pointer;
+								transform: scale(1.1,1.1);
+							}
 						}
 						.show-comments {
 							display: inline-block;

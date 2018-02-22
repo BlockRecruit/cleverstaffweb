@@ -943,22 +943,6 @@
 					margin-right: 0;
 				}
 			}
-			//.flex-align {
-			//	display: flex;
-			//	flex-direction: row;
-			//
-			//	justify-content: space-between;
-			//	align-items: center;
-			//	flex-wrap: wrap;
-			//	a {
-			//		background-color: inherit;
-			//		img {
-			//			display: block;
-			//			width: auto;
-			//			height: 31px;
-			//		}
-			//	}
-			//}
 		}
 		.more-history {
 			@include button-styling();
