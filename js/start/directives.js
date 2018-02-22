@@ -620,9 +620,14 @@ angular.module('RecruitingAppStart.directives', [])
         return {
             restrict: "A",
             link: function(scope, element, attrs) {
-                console.log(attrs);
-                let logo = $('#' + attrs.id + ' .logo');
-                console.log(logo);
+                // console.log(element);
+                // let logo = $("#" + attrs.id + " .logo");
+                $(document).ready(function(){
+                    // setTimeout(() => {
+                        let logo = $("#toggle-company-block .info");
+                        console.log(logo);
+                    // }, 2000);
+                })
             }
         }
     }]);
