@@ -3239,6 +3239,15 @@ angular.module('RecruitingAppStart.directives', [])
                 }
             }
         }
+    }]).directive('toggleCompanyBlock', [function(){
+        return {
+            restrict: "A",
+            link: function(scope, element, attrs) {
+                console.log(attrs);
+                let logo = $(attrs.id + ' .logo');
+                console.log(logo);
+            }
+        }
     }]);
 
 function similar_text(first, second, percent) {
