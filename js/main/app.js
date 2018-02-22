@@ -670,7 +670,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=50'
+        suffix: '.json?b=52'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');

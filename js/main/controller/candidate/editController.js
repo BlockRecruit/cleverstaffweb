@@ -35,6 +35,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             url: ''
         };
 
+
         $scope.linksForSave = [];
         $rootScope.changeStateInCandidate = {status: "", comment: "", fullName: null, placeholder: null};
         $scope.map = {
@@ -60,6 +61,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 longitude: null
             }
         };
+
         $scope.showModalAddPhoto = function(){
             $scope.modalInstance = $uibModal.open({
                 animation: true,
@@ -241,7 +243,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     }
 
                     $scope.candidate = resp.object;
-
 
                     $scope.checkDuplicatesByNameAndContacts();
                     if(!$scope.candidate.customFields){

@@ -10,7 +10,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
     <script>
-        if (document.domain === 'cleverstaff.net') {
+        if (document.domain !== 'cleverstaff.net') {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -38,17 +38,16 @@
     <!-- end of gtag -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
-    <title>CleverStaff -- All-in-One Recruitment Software</title>
+    <title>Cleverstaff - Applicant tracking system. All in one recruiting software.</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CleverStaff -- All-in-One Software for Applicant Tracking &amp; Recruitment Automation. Enterprise and Cloud versions.">
-    <meta name="keywords" content="recruitment software, applicant tracking system, ATS, applicant tracking software, saas applicant tracking, ATS tracking, ats system, staffing software, recruitment system, recruitment management system">
+    <meta name="description" content="All in one software for applicant tracking system & recruitment automation. Enterprise and cloud versions.">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <link rel="amphtml" href="amp.html">
     <link rel="stylesheet" href="external/css/bootstrap.min.css">
     <link rel="stylesheet" href="external/css/main.min.css?b9">
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="CleverStaff -- All-in-One Software for Applicant Tracking & Recruitment Automation"/>
-    <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
+    <meta property="og:title" content="Cleverstaff - Applicant tracking system. All in one recruiting software."/>
+    <meta property="og:description" content="All in one software for applicant tracking system & recruitment automation. Enterprise and cloud versions."/>
     <meta property="og:image" content="https://dev.cleverstaff.net/images/sprite/for_preview_1080-1080.jpg"/>
     <meta property="og:image:width" content="1080" />
     <meta property="og:image:height" content="1080" />
@@ -139,7 +138,7 @@
                 <span class="arrow main-page"></span>
                 <a class="orangeBtn orange-btn" data-params="freeOrStart">Try it free</a>
                 <span class="or-index">or</span>
-                <a href="#need-demo-modal" data-toggle="modal"  data-params="demo" onclick="tariffFunc('demo');" class="btn demoParams orangeBtnBorder main-page">Request demo</a>
+                <a href="#need-demo-modal" data-toggle="modal"  data-params="demo" data-analytics="presentation" onclick="tariffFunc('demo');" class="btn demoParams orangeBtnBorder main-page">Request demo</a>
             </div>
             <div class="col-md-2">
                 <span class="cloud-sec"></span>
@@ -733,7 +732,7 @@
 
 <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/ApiKey.js?b1"></script>
-<script src="external/js/script.min.js?b15"></script>
+<script src="external/js/script.min.js?b16"></script>
 <script src="external/js/jquery.jcarousellite.min.js?b1"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 

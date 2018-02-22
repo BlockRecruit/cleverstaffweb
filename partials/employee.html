@@ -8,13 +8,15 @@
     </div>
     <div class="row employee-information">
         <div class="col-lg-12 fullName-position">
-            <span>{{pageObject.employee.candidateId.fullName}}, <span>{{pageObject.employee.position}}</span></span>
+            <span>{{pageObject.employee.candidateId.fullName}}, <span>{{pageObject.employee.position}}, </span>
+                <a href="" ng-click="toEdit()"><i class="fa fa-pencil" aria-hidden="true"></i>{{'edit_profile'|translate}}</a>
+            </span>
         </div>
-        <div class="col-lg-11 profile-menu">
-            <ul>
-                <li><a href="" ng-click="toEdit()"><i class="fa fa-pencil" aria-hidden="true"></i>{{'edit_profile'|translate}}</a></li>
-            </ul>
-        </div>
+        <!--<div class="col-lg-11 profile-menu">-->
+            <!--<ul>-->
+                <!--<li></li>-->
+            <!--</ul>-->
+        <!--</div>-->
         <div class="row employee-profile-rezume">
             <div class="col-lg-3 leftBar">
                 <div class="col-lg-12 employee-foto">

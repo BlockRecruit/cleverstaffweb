@@ -32,6 +32,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             }
         );
 
+
         $scope.toggleLocationSelect = function() {
             $scope.hideSearchLocations = !$scope.hideSearchLocations;
         };
@@ -119,7 +120,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             selectedPosition = null;
         };
 
-         function getAllVacancyForCompany(){
+        (function getAllVacancyForCompany(){
             let string = $routeParams.nameAlias.replace('-vacancies', '');
             Company.getAllOpenVacancies(string)
                 .then((resp) => {
@@ -136,7 +137,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
                 }, (err) => {
                     console.error(err);
                 });
-        }
+        })();
 
         function checkAutoCompletePosition() {
             let inputPosition = $('.positions-wrap input.vacancy-position'),
@@ -175,6 +176,5 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             selectedLocation = null;
         }
 
-        getAllVacancyForCompany();
     }]
 );

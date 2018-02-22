@@ -295,8 +295,14 @@
 				@include disabled-margins-for-row;
 
 				background-color: $theme-subtitle-background;
+				input {
+					display: inline-block;
+					margin-right: 10px;
+				}
 				h4 {
-					font-weight: 600;
+					@include bold();
+
+					display: inline-block;
 				}
 				.links {
 					margin-top: 10px;
@@ -323,6 +329,14 @@
 					&:focus {
 						outline: none;
 					}
+				}
+			}
+			.changeStatusBtn {
+				margin-bottom: 15px;
+				a {
+					@include button-green-styling();
+
+					transition: 0.5s;
 				}
 			}
 			.sorting {
@@ -354,6 +368,9 @@
 					padding-left: 15px;
 				}
 			}
+			.blockStage {
+				padding-left: 15px;
+			}
 			table {
 				background-color: $theme-white;
 				thead:not(.recalls-header) {
@@ -383,7 +400,7 @@
 
 					vertical-align: middle;
 					&.candidate-deleted {
-						width: 22%;
+						width: 27%;
 					}
 					.restore-candidate {
 						@include button-styling();
@@ -395,7 +412,6 @@
 					}
 					.remove-from-vacancy {
 						margin-top: 3px;
-						margin-right: 15%;
 
 						cursor: pointer;
 
@@ -418,8 +434,13 @@
 				.number {
 					width: 20px;
 				}
+				.checklist {
+					width: 20px;
+					padding-left: 15px;
+				}
 				.preview {
 					width: 25px;
+					padding-left: 3px;
 				}
 				.date {
 					width: 145px;
@@ -536,9 +557,18 @@
 							opacity: 0.5;
 						}
 						&:nth-child(7) {
-							width: 24%;
+							width: 27%;
+						}
+						&:nth-child(8) {
+							width: 19%;
+						}
+						&:nth-child(9) {
+							width: 22%;
 						}
 					}
+				}
+				.add_color {
+					background-color: #f0fff0;
 				}
 			}
 		}
@@ -776,6 +806,17 @@
 				}
 				.margin-top {
 					margin-top: -8px;
+					.manyCandidates {
+						& > .boldTxt {
+							@include bold();
+							.blueLink {
+								color: $theme-link-color;
+							}
+						}
+						.menuCandidate {
+							display: block;
+						}
+					}
 				}
 				.margin-top-1 {
 					margin-top: -17px;
@@ -812,6 +853,8 @@
 				//display: block;
 				&:not(.btn) {
 					@include link-styling();
+
+					display: inline-block;
 				}
 				&.accept-button {
 					@include button-styling();
