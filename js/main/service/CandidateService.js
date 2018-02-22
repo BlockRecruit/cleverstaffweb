@@ -516,16 +516,30 @@ angular.module('services.candidate', [
         $scope.dublicetesTypeEmail = '';
         $scope.dublicetesTypeSkype = '';
         $scope.dublicetesTypeLinkedin = '';
-        console.log($scope.contacts, 'phone');
         if ((!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.mphone && $scope.contacts.mphone.length > 4) || (!duplicatesByNameAndContacts && $scope.candidate.fullName && $scope.candidate.fullName.length > 3)) {
         //if (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4 && $scope.contacts.skype && $scope.contacts.skype.length > 4 && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4 && $scope.contacts.mphone && $scope.contacts.mphone.length > 4 && $scope.candidate.fullName && $scope.candidate.fullName.length > 3) {
             duplicatesByNameAndContacts = true;
             setTimeout(function(){
+                if ($scope.contacts.mphone == undefined && $scope.contacts.mphone2 && $scope.contacts.mphone3) {
+                    $scope.addPhone = $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2).concat(", ", $scope.contacts.mphone3);
+                }
+                if ($scope.contacts.mphone == undefined && $scope.contacts.mphone2 == undefined && $scope.contacts.mphone3) {
+                    $scope.addPhone = $scope.contacts.mphone.concat(", ", $scope.contacts.mphone3);
+                }
+                if ($scope.contacts.mphone == undefined && $scope.contacts.mphone2 && $scope.contacts.mphone3 == undefined) {
+                    $scope.addPhone = $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2);
+                }
+                if($scope.contacts.mphone && $scope.contacts.mphone2 && $scope.contacts.mphone3 == undefined){
+                    $scope.addPhone = $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2);
+                }
+                if($scope.contacts.mphone3 && $scope.contacts.mphone && $scope.contacts.mphone2 == undefined){
+                    $scope.addPhone = $scope.contacts.mphone.concat(", ", $scope.contacts.mphone3);
+                }
                 candidate.getDuplicatesByNameAndContacts({
                     email: $scope.contacts.email,
                     skype: $scope.contacts.skype,
                     linkedInUrl: $scope.contacts.linkedin,
-                    phone: $scope.contacts.mphone,
+                    phone: $scope.addPhone,
                     fullName: $scope.candidate.fullName
                 }, function (res) {
                     $scope.duplicatesByNameAndContacts = [];
@@ -932,7 +946,6 @@ angular.module('services.candidate', [
                 if ($scope.contacts.email) {
                     cand.contacts.push({type: "email", value: $scope.contacts.email});
                 }
-                console.log('vik12q');
                 //candidate.checkDuplicatesByEmail($scope);
                 if ($scope.contacts.mphone) {
                     cand.contacts.push({type: "mphone", value: $scope.contacts.mphone});
@@ -1024,6 +1037,7 @@ angular.module('services.candidate', [
             $scope.photoLink = $scope.serverAddress + "/getapp?id=" + $scope.candidate.photo + "&d=true";
             $scope.fileForSave = [];
             $scope.contacts = [];
+            console.log(object.contacts);
             if (object.contacts != undefined) {
                 $.each(object.contacts, function(i, c) {
                     if (angular.equals(c.type, "email")) {

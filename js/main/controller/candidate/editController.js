@@ -305,20 +305,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                                     $scope.btnToAddPhone = false;
                                     $scope.thirdPhoneInput = true;
                                 }
-
-
-
-                                //console.log(val.value);
-                                //var arr = val.value.split(",");
-                                //console.log(arr);
-                                //$scope.contacts.mphone.push(arr[0].trim());
-                                //if(arr[1] != undefined){
-                                //    $scope.contacts.mphone.push(arr[1].trim());
-                                //}
-                                //if(arr[2] != undefined){
-                                //    $scope.contacts.mphone.push(arr[2].trim());
-                                //}
-                                console.log($scope.contacts);
                             }
                             if (angular.equals(val.type, "skype")) {
                                 $scope.contacts.skype = val.value;
@@ -780,9 +766,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if ($scope.contacts.email) {
                     candidate.contacts.push({type: "email", value: $scope.contacts.email});
                 }
-                //if ($scope.contacts.mphone) {
-                //    candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.split(/[\,+" "]/).join(",")});
-                //}
                 if ($scope.contacts.mphone && $scope.contacts.mphone2 == undefined && $scope.contacts.mphone3 == undefined) {
                     candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone});
                 }
@@ -795,7 +778,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if($scope.contacts.mphone3 != undefined && $scope.contacts.mphone2 != undefined){
                     candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2).concat(", ", $scope.contacts.mphone3)});
                 }
-                console.log($scope.contacts);
                 if ($scope.contacts.skype) {
                     candidate.contacts.push({type: "skype", value: $scope.contacts.skype});
                 }
@@ -964,9 +946,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         };
 
         $scope.selectFavoriteContacts = function ($scope, type, event) {
-            console.log($scope);
-            console.log(type);
-            console.log(event);
             Candidate.setSelectFavoriteContacts($scope, type, event );
         };
 

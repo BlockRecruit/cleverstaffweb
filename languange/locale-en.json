@@ -2305,10 +2305,7 @@
   "The vacancy":"The vacancy",
   "_edited":"edited",
   "Hide from all public vacancies list:":"Hide vacancy from public list:",
-  "The vacancy": "The vacancy",
-  "Enter more data for search": "Enter more data for search",
   "Too much Desired Salary salary value": "Too much \"Desired Salary\" field value",
-  "_edited": "edited",
   "Select all vacancies": "Select all vacancies",
   "Please enter your Name": "Please enter your Name",
   "Please enter your Last Name": "Please enter your Last Name",
@@ -2325,5 +2322,6 @@
   "The candidates have been successfully moved to the stage": "The candidates have been successfully moved to the stage",
   "Select the specific vacancy for the Hiring manager": "Select the specific vacancy for the Hiring manager",
   "Hiring manager must be responsible for the vacancy.Please select a vacancy": "Hiring manager must be responsible for the vacancy. Please select a vacancy",
-  "Hiring Manager will be responsible for this vacancy after registration in account.": "Hiring Manager will be responsible for this vacancy after registration in account."
+  "Hiring Manager will be responsible for this vacancy after registration in account.": "Hiring Manager will be responsible for this vacancy after registration in account.",
+  "Add another phone number": "Add another phone number"
 }
