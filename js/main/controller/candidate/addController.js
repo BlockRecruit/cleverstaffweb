@@ -19,6 +19,10 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
     $scope.experience = Service.experience();
     $scope.lang = Service.lang();
     $scope.googleMapOption = false;
+    $scope.btnToAddPhone = true;
+    $scope.phoneError = true;
+    $scope.phoneError2 = true;
+    $scope.phoneError3 = true;
     $location.hash('');
     $scope.regionToRelocate = [];
     $scope.duplicatesByEmail = [];
@@ -260,7 +264,16 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
                     $scope.contacts.email = val.value;
                 }
                 if (angular.equals(val.type, "mphone")) {
-                    $scope.contacts.mphone = val.value;
+                    $scope.contacts.mphone = val.valueList[0];
+                    if(val.valueList[1]){
+                        $scope.contacts.mphone2 = val.valueList[1];
+                        $scope.secondPhoneInput = true;
+                    }
+                    if(val.valueList[2]){
+                        $scope.contacts.mphone3 = val.valueList[2];
+                        $scope.btnToAddPhone = false;
+                        $scope.thirdPhoneInput = true;
+                    }
                 }
                 if (angular.equals(val.type, "skype")) {
                     $scope.contacts.skype = val.value;
@@ -440,7 +453,22 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             $scope.errorMessage.message = $filter("translate")("desired_salary_should_contains_only_numbers");
             salaryBol = false;
         }
-        if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed) {
+        if($scope.contacts.mphone == undefined || $scope.contacts.mphone == "" || /^[+0-9]{6,20}$/.test($scope.contacts.mphone)){
+            $scope.phoneError = true;
+        }else{
+            $scope.phoneError = false;
+        }
+        if($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == "" || /^[+0-9]{6,20}$/.test($scope.contacts.mphone2)){
+            $scope.phoneError2 = true;
+        }else{
+            $scope.phoneError2 = false;
+        }
+        if($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == "" || /^[+0-9]{6,20}$/.test($scope.contacts.mphone3)){
+            $scope.phoneError3 = true;
+        }else{
+            $scope.phoneError3 = false;
+        }
+        if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed && $scope.phoneError && $scope.phoneError2 && $scope.phoneError3) {
             $scope.saveButtonIsPressed = true;
             var candidate = $scope.candidate;
             candidate.languages = [];
@@ -459,8 +487,17 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             if ($scope.contacts.email) {
                 candidate.contacts.push({type: "email", value: $scope.contacts.email});
             }
-            if ($scope.contacts.mphone) {
+            if ($scope.contacts.mphone && $scope.contacts.mphone2 == undefined && $scope.contacts.mphone3 == undefined) {
                 candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone});
+            }
+            if($scope.contacts.mphone2 != undefined && $scope.contacts.mphone3 == undefined){
+                candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2)});
+            }
+            if($scope.contacts.mphone3 && $scope.contacts.mphone && $scope.contacts.mphone2 == undefined){
+                candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone3)});
+            }
+            if($scope.contacts.mphone3 != undefined && $scope.contacts.mphone2 != undefined){
+                candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2).concat(", ", $scope.contacts.mphone3)});
             }
             if ($scope.contacts.skype) {
                 candidate.contacts.push({type: "skype", value: $scope.contacts.skype});
@@ -749,6 +786,19 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
 
     $scope.selectFavoriteContacts = function ($scope, type, event) {
         Candidate.setSelectFavoriteContacts($scope, type, event );
+    };
+
+    var i = 0;
+    $scope.addInputPhone = function(){
+        i++;
+        if(i == 1){
+            $scope.secondPhoneInput = true;
+        }else if(i == 2){
+            $scope.thirdPhoneInput = true;
+            $scope.btnToAddPhone = false;
+        }else{
+            return false;
+        }
     };
 
     }]);

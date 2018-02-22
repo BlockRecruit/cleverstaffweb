@@ -512,11 +512,21 @@
                         </div>
                         <div class="col-lg-6 right-column">
                             <div class="phone leftBlock"ng-show="(candidate.contacts|filter:type = 'mphone').length > 0">
-                                <span ng-repeat=" contact in candidate.contacts|filter:type = 'mphone'" title="{{::contact.value}}">
-                                    <span class="preferable-contact" ng-repeat="phone in ::contact.value.split(',') track by $index">
+                                <span ng-repeat="contact in candidate.contacts|filter:type = 'mphone'" title="{{::contact.value}}">
+                                    <span class="preferable-contact" ng-if="contact.valueList[0]">
+                                        {{contact.valueList[0]}}
                                         <i class="fa fa-phone" aria-hidden="true"></i>
-                                            {{::phone}}
-                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact === 'phone'"></i>
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'phone'"></i>
+                                    </span>
+                                    <span class="preferable-contact" ng-if="contact.valueList[1]">
+                                        {{contact.valueList[1]}}
+                                        <i class="fa fa-phone" aria-hidden="true"></i>
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'phone2'"></i>
+                                    </span>
+                                    <span class="preferable-contact" ng-if="contact.valueList[2]">
+                                        {{contact.valueList[2]}}
+                                        <i class="fa fa-phone" aria-hidden="true"></i>
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'phone3'"></i>
                                     </span>
                                 </span>
                             </div>
