@@ -28,7 +28,7 @@
   </div>
 
   <div class="row" ng-if="vacancy.status != 'payment' && vacancy.status != 'completed' && vacancy.status != 'deleted' && vacancy.status != 'canceled' && vacancy.descr.length > 30">
-    <div class="col-lg-2 col-md-3 hidden-sm hidden-xs companyInfo comp-abs" ng-mouseenter="companyInfoHoverIn()" ng-mouseleave="companyInfoHoverOut()">
+    <div class="col-lg-2 col-md-3 hidden-sm hidden-xs companyInfo comp-abs" id="toggle-company-block" toggle-company-block ng-mouseenter="companyInfoHoverIn()" ng-mouseleave="companyInfoHoverOut()">
 
       <div ng-if="companyLogo || companyPublicInfo.companyWebSite || companyPublicInfo.fb || companyPublicInfo.orgName">
 
