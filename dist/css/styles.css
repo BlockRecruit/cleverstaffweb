@@ -22295,7 +22295,7 @@ html body#tinymce.mce-content-body {
     line-height: 50px;
     color: #b8b8b8; }
   .block-zip-archive .addZipArchive > .howAddZipResume {
-    padding: 0 50px; }
+    padding: 0 35px; }
     .block-zip-archive .addZipArchive > .howAddZipResume .helpZip {
       position: absolute;
       z-index: 9;
