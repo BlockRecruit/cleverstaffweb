@@ -927,6 +927,10 @@
 				img {
 					width: auto;
 					height: 31px;
+					&:hover {
+						cursor: pointer;
+						transform: scale(1.1,1.1);
+					}
 				}
 			}
 			@media (max-width: $screen-sm) {
