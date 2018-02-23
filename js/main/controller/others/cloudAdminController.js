@@ -59,7 +59,7 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
                     elems[0].children[0].children[0].children[0].children[0].children[9].style.width = '1.7%';
                     elems[0].children[0].children[0].children[0].children[0].children[15].style.width = '4%';
                     elems[0].children[0].children[0].children[0].children[0].children[18].style.width = '2.7%';
-                    elems[0].children[0].children[0].children[0].children[0].children[22].style.width = '3.9%';
+                    elems[0].children[0].children[0].children[0].children[0].children[22].style.width = '3.5%';
                     elems.forEach(item => {
                         if(max <= 0){
                             max = item.scrollWidth - item.scrollLeft - item.clientWidth - 1;
