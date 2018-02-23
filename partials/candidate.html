@@ -97,7 +97,7 @@
                             <!--alt="{{'edit_profile'|translate}}">-->
                             <img ng-click="showModalAddCommentToCandidate('md');"
                                  ng-show="$root.me.recrutRole != 'client'"
-                                 class="action-button"
+                                 class="action-button pull-right"
                                  src="../images/sprite/addMessage.svg"
                                  alt="{{'add_comment'|translate}}">
                             <img ng-click="showCandidateSentEmail('md');"
@@ -748,11 +748,12 @@
                                     <label class="" ng-click="showCommentsSwitch()" for="cmn-toggle-9"></label>
                                     <label ng-click="showDetails()" ng-class="{grey: onlyComments}" class="floatLeft not-for-print">{{'Show details'|translate}}</label>
                                 </div>
-                                <a href="" ng-click="showModalAddCommentToCandidate('md');" class="add_comment pull-right not-for-print">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                                    {{'add_comment'|translate}}
-                                    <!--<img src="/images/sprite/addMessage.svg" alt="{{'add_comment'|translate}}">-->
-                                </a>
+                                <img ng-click="showModalAddCommentToCandidate('md');"
+                                     ng-show="$root.me.recrutRole != 'client'"
+                                     class="action-button pull-right"
+                                     src="../images/sprite/addMessage.svg"
+                                     alt="{{'add_comment'|translate}}"
+                                     title="{{'add_comment'|translate}}">
                             </div>
                         </div>
                         <div class="row event last-action"
@@ -1038,8 +1039,8 @@
                                     </a>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div class="add_comment mobile pull-right">
-                                    <img ng-click="showModalAddCommentToCandidate('md');" src="/images/sprite/addMessage.svg" alt="{{'add_comment'|translate}}">
+                                <div class=" mobile pull-right">
+                                    <img ng-click="showModalAddCommentToCandidate('md');" src="/images/sprite/addMessage.svg" alt="{{'add_comment'|translate}}" title="{{'add_comment'|translate}}">
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="clearfix"></div>

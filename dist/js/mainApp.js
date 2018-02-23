@@ -13973,7 +13973,15 @@ angular.module('RecruitingApp', [
             title: 'Add vacancy',
             templateUrl: 'partials/vacancy-add.html',
             controller: "vacancyAddController",
-            pageName: "Vacancy add"
+            pageName: "Vacancy add",
+            resolve: {
+                CustomFieldList: function(CustomField) {
+                    return new Promise((resolve, reject) => {
+                        CustomField.getFullFields({objectType: 'vacancy'},
+                            resp => resolve(resp),error => reject(error));
+                    });
+                }
+            }
         })
         .when('/vacancy/edit/:id', {
             title: 'Edit vacancy',
@@ -14351,6 +14359,7 @@ angular.module('RecruitingApp', [
     });
 }).config(function (googleServiceProvider, $logProvider, $translateProvider, tmhDynamicLocaleProvider) {
     /************************************/
+
     googleServiceProvider.configure({
         clientIdT: '195081582460-eo4qmmi7o6hii0ckmrc004lhkh9m3596.apps.googleusercontent.com',
         clientIdW: apiKey.google.client_id,
@@ -29215,12 +29224,25 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
                 max = 0,
                 scroll = 0;
                 return function () {
+                    elems[0].children[0].children[0].children[0].children[0].children[0].style.width = '1.5%';
+                    elems[0].children[0].children[0].children[0].children[0].children[1].style.width = '2%';
+                    elems[0].children[0].children[0].children[0].children[0].children[2].style.width = '3%';
+                    elems[0].children[0].children[0].children[0].children[0].children[3].style.width = '1.5%';
+                    elems[0].children[0].children[0].children[0].children[0].children[4].style.width = '1.5%';
+                    elems[0].children[0].children[0].children[0].children[0].children[5].style.width = '2%';
+                    elems[0].children[0].children[0].children[0].children[0].children[6].style.width = '2%';
+                    elems[0].children[0].children[0].children[0].children[0].children[7].style.width = '2%';
+                    elems[0].children[0].children[0].children[0].children[0].children[8].style.width = '2%';
+                    elems[0].children[0].children[0].children[0].children[0].children[9].style.width = '1.7%';
+                    elems[0].children[0].children[0].children[0].children[0].children[15].style.width = '4%';
+                    elems[0].children[0].children[0].children[0].children[0].children[18].style.width = '2.7%';
+                    elems[0].children[0].children[0].children[0].children[0].children[22].style.width = '3.5%';
                     elems.forEach(item => {
                         if(max <= 0){
                             max = item.scrollWidth - item.scrollLeft - item.clientWidth - 1;
                             $scope.max = max;
                         }
-                        scroll = item.scrollLeft += 500;
+                        scroll = item.scrollLeft += 1150;
                         $scope.scroll = scroll;
                     })
                 };
@@ -29231,8 +29253,25 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
                 min = 0,
                 scroll = 0;
             return function () {
+                //elems[0].children[0].children[0].children[0].children[0].children[9].style.width = '1.6%';
+                //elems[0].children[0].children[0].children[0].children[0].children[3].style.width = '1.7%';
+                elems[0].children[0].children[0].children[0].children[0].children[0].style.width = '1.6%';
+                elems[0].children[0].children[0].children[0].children[0].children[1].style.width = '2.1%';
+                elems[0].children[0].children[0].children[0].children[0].children[2].style.width = '3.1%';
+                elems[0].children[0].children[0].children[0].children[0].children[3].style.width = '1.6%';
+                elems[0].children[0].children[0].children[0].children[0].children[4].style.width = '1.9%';
+                elems[0].children[0].children[0].children[0].children[0].children[5].style.width = '2.1%';
+                elems[0].children[0].children[0].children[0].children[0].children[6].style.width = '2.1%';
+                elems[0].children[0].children[0].children[0].children[0].children[7].style.width = '2.1%';
+                elems[0].children[0].children[0].children[0].children[0].children[8].style.width = '2%';
+                elems[0].children[0].children[0].children[0].children[0].children[9].style.width = '1.6%';
+                elems[0].children[0].children[0].children[0].children[0].children[10].style.width = '2%';
+                elems[0].children[0].children[0].children[0].children[0].children[11].style.width = '1.5%';
+                elems[0].children[0].children[0].children[0].children[0].children[12].style.width = '1.5%';
+                elems[0].children[0].children[0].children[0].children[0].children[13].style.width = '2.1%';
+                elems[0].children[0].children[0].children[0].children[0].children[14].style.width = '2.1%';
                 elems.forEach(item =>{
-                    scroll = item.scrollLeft -= 500;
+                    scroll = item.scrollLeft -= 1150;
                     $scope.scroll = scroll;
                 })
             };
@@ -33426,8 +33465,8 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
     }
 ]);
 
-controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", "Service", "Client", "$location", "$rootScope", "notificationService", "$filter", "$translate", "$localStorage", "$cookies", "$window", "Person", "Company","Candidate","CustomField",
-    function(FileInit, $scope, Vacancy, Service, Client, $location, $rootScope, notificationService, $filter, $translate, $localStorage, $cookies, $window, Person, Company,Candidate, CustomField) {
+controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", "Service", "Client", "$location", "$rootScope", "notificationService", "$filter", "$translate", "$localStorage", "$cookies", "$window", "Person", "Company","Candidate","CustomField","CustomFieldList",
+    function(FileInit, $scope, Vacancy, Service, Client, $location, $rootScope, notificationService, $filter, $translate, $localStorage, $cookies, $window, Person, Company,Candidate, CustomField, CustomFieldList) {
         $scope.addedLang = [];
         $scope.objType = 'vacancy';
         $scope.showStatus = true;
@@ -33725,18 +33764,22 @@ controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", 
             });
         };
         $scope.getCompanyParams();
-        $scope.getFullCustomFields = function(){
-            CustomField.getFullFields({
-                objectType: 'vacancy'
-            }, function(resp) {
-                if (resp.status == "ok") {
-                    $scope.allObjCustomField = resp.objects;
-                } else {
-                    notificationService.error(resp.message);
-                }
-            });
-        };
-        $scope.getFullCustomFields();
+        // $scope.getFullCustomFields = function(){
+        //     $rootScope.loading = true;
+        //     CustomField.getFullFields({
+        //         objectType: 'vacancy'
+        //     }, function(resp) {
+        //         $rootScope.loading = false;
+        //         if (resp.status == "ok") {
+        //             $scope.allObjCustomField = resp.objects;
+        //         } else {
+        //             notificationService.error(resp.message);
+        //         }
+        //     });
+        // };
+
+        $scope.allObjCustomField = CustomFieldList.objects;
+        // $scope.getFullCustomFields();
         $scope.deleteDate = function(id){
             $scope.editCustomId = id;
             angular.forEach($('.editDate'), function (nval) {
