@@ -1938,6 +1938,14 @@
 						position: relative;
 
 						vertical-align: middle;
+						.phone {
+							display: block;
+							.fa-star {
+								position: initial;
+
+								color: #ffc100 !important;
+							}
+						}
 						.absolute-right {
 							font-size: 16px;
 

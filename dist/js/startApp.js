@@ -3858,7 +3858,7 @@ angular.module('services.candidate', [
 
     var duplicatesByNameAndContacts = false;
     candidate.checkDuplicatesByNameAndContacts = function($scope) {
-        console.log(duplicatesByNameAndContacts);
+        //console.log(duplicatesByNameAndContacts);
         $scope.dublicetesTypeName = '';
         $scope.dublicetesTypeMphone = '';
         $scope.dublicetesTypeEmail = '';
@@ -3893,7 +3893,7 @@ angular.module('services.candidate', [
                     $scope.duplicatesByNameAndContacts = [];
                     if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
                         angular.forEach(res.objects, function (c, i) {
-                            console.log(c.candidateId != $scope.candidate.candidateId, ' candID');
+                            //console.log(c.candidateId != $scope.candidate.candidateId, ' candID');
                             if (c.candidateId != $scope.candidate.candidateId) {
                                 $scope.duplicatesByNameAndContacts.push(c);
                                 if (c.type == "name") {
@@ -4283,7 +4283,7 @@ angular.module('services.candidate', [
             }
             cand.employmentType = $scope.getSelect2EmploymentType();
             cand.db = $('.datepickerOfBirth').datetimepicker();
-            console.log( cand.db, ' cand.db');
+            //console.log( cand.db, ' cand.db');
             if ($("#pac-input").val() && $("#pac-input").val().length == 0) {
                 cand.region = null;
             } else if ($("#pac-input").val() && $("#pac-input").val().length > 0) {

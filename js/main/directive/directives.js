@@ -3269,7 +3269,6 @@ directive('appVersion', ['version', function(version) {
                     };
                     $scope.getPositionAutocompleterValue = function() {//.переимновтаь
                         var object = $(element[0]).select2("data");
-                        console.log(object);
                         return object != null ? object.text : null;
                     };
                     var inputText = "";
