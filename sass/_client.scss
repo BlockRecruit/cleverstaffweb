@@ -686,6 +686,14 @@
 				font-size: 18px;
 				font-weight: 600;
 			}
+			img {
+				width: auto;
+				height: 31px;
+				&:hover {
+					cursor: pointer;
+					transform: scale(1.1, 1.1);
+				}
+			}
 			a:not(.show-comments) {
 				@include button-green-styling();
 
@@ -810,6 +818,14 @@
 			.title-header {
 				font-size: 18px;
 				font-weight: 600;
+			}
+			img {
+				width: auto;
+				height: 31px;
+				&:hover {
+					cursor: pointer;
+					transform: scale(1.1, 1.1);
+				}
 			}
 			a:not(.show-comments) {
 				@include button-green-styling();

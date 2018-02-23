@@ -917,26 +917,21 @@
 
 				font-size: 18px;
 			}
-			a:not(.show-comments) {
-				@include button-green-styling();
-
-				margin-left: 15px;
-				padding: 3px 12px;
-
-				border: none;
-			}
 			.show-comments {
 				margin: 4px 0 0 20px;
 
 				color: #202021;
 			}
+			a.add_comment {
+				outline: none;
+				img {
+					width: auto;
+					height: 31px;
+				}
+			}
 			@media (max-width: $screen-sm) {
 				.show-comments {
 					margin-bottom: 5px;
-					margin-left: 0;
-				}
-				a.add_comment {
-					float: left!important;
 					margin-left: 0;
 				}
 				.switch {
@@ -948,22 +943,6 @@
 					margin-right: 0;
 				}
 			}
-			//.flex-align {
-			//	display: flex;
-			//	flex-direction: row;
-			//
-			//	justify-content: space-between;
-			//	align-items: center;
-			//	flex-wrap: wrap;
-			//	a {
-			//		background-color: inherit;
-			//		img {
-			//			display: block;
-			//			width: auto;
-			//			height: 31px;
-			//		}
-			//	}
-			//}
 		}
 		.more-history {
 			@include button-styling();
