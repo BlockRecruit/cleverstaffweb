@@ -29227,16 +29227,16 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
                     elems[0].children[0].children[0].children[0].children[0].children[0].style.width = '1.5%';
                     elems[0].children[0].children[0].children[0].children[0].children[1].style.width = '2%';
                     elems[0].children[0].children[0].children[0].children[0].children[2].style.width = '3%';
-                    elems[0].children[0].children[0].children[0].children[0].children[3].style.width = '1.5%';
-                    elems[0].children[0].children[0].children[0].children[0].children[4].style.width = '1.5%';
+                    elems[0].children[0].children[0].children[0].children[0].children[3].style.width = '1.6%';
+                    elems[0].children[0].children[0].children[0].children[0].children[4].style.width = '1.6%';
                     elems[0].children[0].children[0].children[0].children[0].children[5].style.width = '2%';
                     elems[0].children[0].children[0].children[0].children[0].children[6].style.width = '2%';
                     elems[0].children[0].children[0].children[0].children[0].children[7].style.width = '2%';
                     elems[0].children[0].children[0].children[0].children[0].children[8].style.width = '2%';
-                    elems[0].children[0].children[0].children[0].children[0].children[9].style.width = '1.7%';
+                    elems[0].children[0].children[0].children[0].children[0].children[9].style.width = '1.5%';
                     elems[0].children[0].children[0].children[0].children[0].children[15].style.width = '4%';
                     elems[0].children[0].children[0].children[0].children[0].children[18].style.width = '2.7%';
-                    elems[0].children[0].children[0].children[0].children[0].children[22].style.width = '3.9%';
+                    elems[0].children[0].children[0].children[0].children[0].children[22].style.width = '3.5%';
                     elems.forEach(item => {
                         if(max <= 0){
                             max = item.scrollWidth - item.scrollLeft - item.clientWidth - 1;
@@ -29253,8 +29253,6 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
                 min = 0,
                 scroll = 0;
             return function () {
-                //elems[0].children[0].children[0].children[0].children[0].children[9].style.width = '1.6%';
-                //elems[0].children[0].children[0].children[0].children[0].children[3].style.width = '1.7%';
                 elems[0].children[0].children[0].children[0].children[0].children[0].style.width = '1.6%';
                 elems[0].children[0].children[0].children[0].children[0].children[1].style.width = '2.1%';
                 elems[0].children[0].children[0].children[0].children[0].children[2].style.width = '3.1%';
@@ -33764,19 +33762,20 @@ controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", 
             });
         };
         $scope.getCompanyParams();
-        $scope.getFullCustomFields = function(){
-            $rootScope.loading = true;
-            CustomField.getFullFields({
-                objectType: 'vacancy'
-            }, function(resp) {
-                $rootScope.loading = false;
-                if (resp.status == "ok") {
-                    $scope.allObjCustomField = resp.objects;
-                } else {
-                    notificationService.error(resp.message);
-                }
-            });
-        };
+        // $scope.getFullCustomFields = function(){
+        //     $rootScope.loading = true;
+        //     CustomField.getFullFields({
+        //         objectType: 'vacancy'
+        //     }, function(resp) {
+        //         $rootScope.loading = false;
+        //         if (resp.status == "ok") {
+        //             $scope.allObjCustomField = resp.objects;
+        //         } else {
+        //             notificationService.error(resp.message);
+        //         }
+        //     });
+        // };
+
         $scope.allObjCustomField = CustomFieldList.objects;
         // $scope.getFullCustomFields();
         $scope.deleteDate = function(id){
