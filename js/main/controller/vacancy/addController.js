@@ -1,5 +1,5 @@
-controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", "Service", "Client", "$location", "$rootScope", "notificationService", "$filter", "$translate", "$localStorage", "$cookies", "$window", "Person", "Company","Candidate","CustomField",
-    function(FileInit, $scope, Vacancy, Service, Client, $location, $rootScope, notificationService, $filter, $translate, $localStorage, $cookies, $window, Person, Company,Candidate, CustomField) {
+controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", "Service", "Client", "$location", "$rootScope", "notificationService", "$filter", "$translate", "$localStorage", "$cookies", "$window", "Person", "Company","Candidate","CustomField","CustomFieldList",
+    function(FileInit, $scope, Vacancy, Service, Client, $location, $rootScope, notificationService, $filter, $translate, $localStorage, $cookies, $window, Person, Company,Candidate, CustomField, CustomFieldList) {
         $scope.addedLang = [];
         $scope.objType = 'vacancy';
         $scope.showStatus = true;
@@ -297,18 +297,22 @@ controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", 
             });
         };
         $scope.getCompanyParams();
-        $scope.getFullCustomFields = function(){
-            CustomField.getFullFields({
-                objectType: 'vacancy'
-            }, function(resp) {
-                if (resp.status == "ok") {
-                    $scope.allObjCustomField = resp.objects;
-                } else {
-                    notificationService.error(resp.message);
-                }
-            });
-        };
-        $scope.getFullCustomFields();
+        // $scope.getFullCustomFields = function(){
+        //     $rootScope.loading = true;
+        //     CustomField.getFullFields({
+        //         objectType: 'vacancy'
+        //     }, function(resp) {
+        //         $rootScope.loading = false;
+        //         if (resp.status == "ok") {
+        //             $scope.allObjCustomField = resp.objects;
+        //         } else {
+        //             notificationService.error(resp.message);
+        //         }
+        //     });
+        // };
+
+        $scope.allObjCustomField = CustomFieldList.objects;
+        // $scope.getFullCustomFields();
         $scope.deleteDate = function(id){
             $scope.editCustomId = id;
             angular.forEach($('.editDate'), function (nval) {

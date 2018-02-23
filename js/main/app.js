@@ -280,7 +280,15 @@ angular.module('RecruitingApp', [
             title: 'Add vacancy',
             templateUrl: 'partials/vacancy-add.html',
             controller: "vacancyAddController",
-            pageName: "Vacancy add"
+            pageName: "Vacancy add",
+            resolve: {
+                CustomFieldList: function(CustomField) {
+                    return new Promise((resolve, reject) => {
+                        CustomField.getFullFields({objectType: 'vacancy'},
+                            resp => resolve(resp),error => reject(error));
+                    });
+                }
+            }
         })
         .when('/vacancy/edit/:id', {
             title: 'Edit vacancy',
@@ -658,6 +666,7 @@ angular.module('RecruitingApp', [
     });
 }).config(function (googleServiceProvider, $logProvider, $translateProvider, tmhDynamicLocaleProvider) {
     /************************************/
+
     googleServiceProvider.configure({
         clientIdT: '195081582460-eo4qmmi7o6hii0ckmrc004lhkh9m3596.apps.googleusercontent.com',
         clientIdW: apiKey.google.client_id,
