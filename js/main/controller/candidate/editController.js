@@ -770,16 +770,16 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if ($scope.contacts.email) {
                     candidate.contacts.push({type: "email", value: $scope.contacts.email});
                 }
-                if ($scope.contacts.mphone && $scope.contacts.mphone2 == undefined && $scope.contacts.mphone3 == undefined) {
+                if ($scope.contacts.mphone && ($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == '') && ($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == '')) {
                     candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone});
                 }
-                if($scope.contacts.mphone2 != undefined && $scope.contacts.mphone3 == undefined){
+                if($scope.contacts.mphone2 != undefined && $scope.contacts.mphone2 != '' && ($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == '')){
                     candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2)});
                 }
-                if($scope.contacts.mphone3 && $scope.contacts.mphone && $scope.contacts.mphone2 == undefined){
+                if($scope.contacts.mphone3 && $scope.contacts.mphone && ($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == '')){
                     candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone3)});
                 }
-                if($scope.contacts.mphone3 != undefined && $scope.contacts.mphone2 != undefined){
+                if($scope.contacts.mphone3 != undefined && $scope.contacts.mphone3 != '' && $scope.contacts.mphone2 != undefined && $scope.contacts.mphone2 != ''){
                     candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2).concat(", ", $scope.contacts.mphone3)});
                 }
                 if ($scope.contacts.skype) {

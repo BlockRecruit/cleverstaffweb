@@ -1822,7 +1822,18 @@
                             <td class="content-header"><i class="fa fa-phone" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
                                 <div ng-repeat=" contact in candidatePreview.contacts|filter:type = 'mphone'">
-                                    {{contact.value}}
+                                    <span class="phone" ng-show="contact.valueList[0]">
+                                        {{contact.valueList[0]}}
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-if="candidatePreview.preferableContact == 'phone'"></i>
+                                    </span>
+                                    <span class="phone" ng-show="contact.valueList[1]">
+                                        {{contact.valueList[1]}}
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-if="candidatePreview.preferableContact == 'phone2'"></i>
+                                    </span>
+                                    <span class="phone" ng-show="contact.valueList[2]">
+                                        {{contact.valueList[2]}}
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-if="candidatePreview.preferableContact == 'phone3'"></i>
+                                    </span>
                                 </div>
                                 <i style="color: #ffc100" class="fa fa-star absolute-right"
                                    ng-show="candidatePreview.preferableContact === 'phone'"></i>

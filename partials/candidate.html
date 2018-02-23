@@ -516,17 +516,17 @@
                                     <span class="preferable-contact" ng-if="contact.valueList[0]">
                                         {{contact.valueList[0]}}
                                         <i class="fa fa-phone" aria-hidden="true"></i>
-                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'phone'"></i>
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'phone'"></i>
                                     </span>
                                     <span class="preferable-contact" ng-if="contact.valueList[1]">
                                         {{contact.valueList[1]}}
                                         <i class="fa fa-phone" aria-hidden="true"></i>
-                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'phone2'"></i>
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'phone2'"></i>
                                     </span>
                                     <span class="preferable-contact" ng-if="contact.valueList[2]">
                                         {{contact.valueList[2]}}
                                         <i class="fa fa-phone" aria-hidden="true"></i>
-                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'phone3'"></i>
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'phone3'"></i>
                                     </span>
                                 </span>
                             </div>
