@@ -3,10 +3,20 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
     "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route", "$timeout",
     function (localStorageService, CacheCandidates, $localStorage, $scope, Vacancy, Service, $translate, $routeParams,
               $filter, ngTableParams, Person, $location, $rootScope, FileInit,
-              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route, $timeout) {
+              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route,$timeout) {
+        $rootScope.currentElementPos = true;
+        $rootScope.setCurrent = true;
+        $rootScope.isAddCandidates= true;
+        localStorage.setItem('currentPage', 'vacancies');
+        localStorage.removeItem('stageUrl');
+        localStorage.removeItem('candidatesInStagesVac');
+        localStorage.removeItem('getAllCandidates');
+        Candidate.getCandidate = [];
+        Vacancy.getCandidate = [];
+        $scope.noCandidatesInThisVacancy = false;
         $scope.langs = Service.lang();
         $scope.serverAddress = serverAddress;
-        $scope.noCandidatesInThisVacancy = false;
+        $rootScope.currentElementPos = true;
         $scope.loadingCandidates = true;
         $scope.facebookAppId = facebookAppId;
         $scope.showSearchCandidate = false;
@@ -30,6 +40,9 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $localStorage.remove("vacancyForTest");
         $localStorage.remove("activeCustomStageName");
         $localStorage.remove("activeCustomStageId");
+        localStorage.setItem('candidatesInStagesVac', false);
+        Candidate.getCandidate = false;
+
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -763,11 +776,13 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         $rootScope.stageUrl = {
                             url:$location.$$absUrl.split('#')[1],
                             name: $scope.vacancy.position,
-                            stage: $scope.activeName
+                            stage: ($scope.activeCustomStageName)? $scope.activeCustomStageName: $scope.activeName
                         };
                         localStorage.setItem('stage', JSON.stringify($location.$$absUrl.split('stage=')));
+                        localStorage.setItem('stageUrl',JSON.stringify($rootScope.stageUrl));
+                        console.log( $scope.activeCustomStageName, ' $rootScope.activeCustomStageName ')
+                        console.log( $scope.activeName, ' $rootScope.activeName ')
                         return function (status,event) {
-
                             $scope.visiable = status.hidden;
                             if(!$scope.visiable) $scope.noAccess = false;
                             $scope.loadingCandidates = true;
@@ -847,10 +862,10 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
                             $rootScope.stageUrl = {
                                 url:$location.$$absUrl.split('#')[1],
-                                    name: $scope.vacancy.position,
-                                    stage: status.value
+                                name: $scope.vacancy.position,
+                                stage: ($scope.activeCustomStageName)? $scope.activeCustomStageName: $scope.activeName
                             };
-
+                            localStorage.setItem('stageUrl',JSON.stringify($rootScope.stageUrl));
 
                             function showLongLists(status) {
                                 $scope.activeName = status.value;
@@ -1985,8 +2000,14 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 document.getElementById('scrollup').style.display = 'none';
                         }
                         Vacancy.getCandidatesInStages($scope.vacancySearchParams, function(resp){
+                            Vacancy.candidateLastRequestParams = $scope.vacancySearchParams;
+                            localStorage.setItem('objectSize', resp.total);
+                            Vacancy.getCandidate = resp.objects.map(item => item.candidateId.localId);
+                            localStorage.setItem('candidateLastRequestParams', JSON.stringify($scope.vacancySearchParams));
                             $scope.numberOfCandidatesInDifferentStates();
                             $scope.candidatesInStages = resp.objects;
+                            data = resp.objects.map((item)=> item.candidateId.localId);
+                            localStorage.setItem('candidatesInStagesVac', JSON.stringify(data));
                             angular.forEach(resp.objects, function (val) {
                                 angular.forEach($scope.VacancyStatusFiltered, function (res) {
                                     if(res.customInterviewStateId == val.state){
@@ -2068,10 +2089,10 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $scope.a.searchNumber = $scope.tableParams.page();
                     }
                     getCandidates();
-                $scope.showMore = function () {
-                    $scope.isShowMore = true;
-                    Service.dynamicTableLoading(params.total(), $scope.vacancySearchParams.page.number, $scope.vacancySearchParams.page.count, getCandidates)
-                };
+                    $scope.showMore = function () {
+                        $scope.isShowMore = true;
+                        Service.dynamicTableLoading(params.total(), $scope.vacancySearchParams.page.number, $scope.vacancySearchParams.page.count, getCandidates)
+                    };
             }
         }
         });
@@ -2638,7 +2659,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
         $scope.showRecalls = function (status) {
             if ($scope.showMoveble) return;
-            console.log("as");
             $scope.visiable2 = status.hidden;
             $scope.visiable = false;
 
@@ -3712,7 +3732,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 $scope.searchCandidateName = null;
                 $scope.activeName = 'longlist';
             }
-            $scope.tableParams.page($scope.a.searchNumber);
+            // $scope.tableParams.page($scope.a.searchNumber);
             $scope.$apply();
         };
 
@@ -4032,7 +4052,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
             $scope.updateTasks();
         };
-
         $scope.openVacancyCandidateChangeStatus = function (candidate) {
             console.log(candidate);
             $rootScope.changeStatusOfInterviewInVacancy.candidate = false;
@@ -4238,10 +4257,21 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 }
             })
         }
+
+        $scope.routeOnCandidate = function(url, panel){
+            if(panel === 'history'){
+                localStorage.setItem("isAddCandidates", false);
+            }else if(panel === 'candidate'){
+                localStorage.setItem("isAddCandidates", true);
+            }
+
+            $location.path('/candidates/' + url);
+        }
+
         if($scope.activeName === 'extra_status') {
             setActiveStatus();
         }
-        ////////////////////////////////////////////////////////End of edit page
+
         function resetTemplate() {
             $scope.activeTemplate = '';
             $scope.showAddEmailTemplate = false;

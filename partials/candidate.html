@@ -1,15 +1,16 @@
-<div class="controller-view">
+<div class="controller-view main-block" ng-mouseover="nextOrPrevElements($event)" ng-click="nextElement($event)">
     <div class="block-candidate">
-        <div ng-show="$root.stageUrl" class="breadcrumbs">
-            <!--<ol  class="breadcrumb hidden-xs hidden-sm">-->
-                <!--<li><a href="#/vacancies">{{'vacancies'|translate}}</a></li>-->
-                <!--<li><a href="#{{$root.stageUrl.url}}" ng-bind="$root.stageUrl.name"></a></li>-->
-                <!--<li>-->
-                    <!--<a href="#{{$root.stageUrl.url}}" ng-bind="$root.stageUrl.stage|translate"></a>-->
-                <!--</li>-->
-            <!--</ol>-->
+        <div ng-show="$root.stageUrl && $root.isAddCandidates" class="breadcrumbs">
+            <ol  class="breadcrumb hidden-xs hidden-sm">
+                <li><a href="#/vacancies">{{'vacancies'|translate}}</a></li>
+                <li><a href="#{{$root.stageUrl.url}}" ng-bind="$root.stageUrl.name"></a></li>
+                <li>
+                    <a href="#{{$root.stageUrl.url}}" ng-bind="$root.stageUrl.stage|translate"></a>
+                </li>
+            </ol>
         </div>
-        <div class="container-fluid nav-candidate hidden-lg hidden-md" ng-show="currentTab == 'profile' || currentTab == 'task' || currentTab == 'history'">
+        <div class="container-fluid nav-candidate hidden-lg hidden-md"
+             ng-show="currentTab == 'profile' || currentTab == 'task' || currentTab == 'history'">
             <div class="second-navbar">
                 <ul class="nav navbar-nav col-sm-10 col-xs-12">
                     <li class="hidden-lg hidden-md col-sm-3 col-sm-offset-3 col-xs-3">
@@ -24,10 +25,13 @@
                 </ul>
             </div>
         </div>
-        <div ng-show="currentTab == 'profile'" class="row candidate-information">
+        <div ng-show="currentTab == 'profile'"
+             ng-style="$root.isAddCandidates? null:{'margin-top':'11px'}"
+             class="row candidate-information">
             <div class="col-lg-12 fullName-position" ng-style="$root.stageUrl && {margin:'0px'}">
                 <div class="col-lg-7">
                     <span>{{candidate.fullName}}, <span>{{candidate.position}}</span></span>
+                    <span style="font-weight: normal" ng-if="$root.isAddCandidates">({{currentIndex + "/" + candidateLength}})</span>
                 </div>
                 <div class="col-lg-6 hidden-xs hidden-sm last-comment-item" ng-show="lastMessage">
                     <div class="col-lg-6 text-right">

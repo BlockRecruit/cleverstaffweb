@@ -1,6 +1,7 @@
 controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope", "Service", "Person", "Company", "notificationService", "$filter", "$translate", "$uibModal", "vacancyStages","Action","CacheCandidates",
     function($scope, $rootScope, Service, Person, Company, notificationService, $filter, $translate, $uibModal, vacancyStages, Action, CacheCandidates) {
     $scope.showHistory = true;
+    localStorage.setItem("isAddCandidates", JSON.stringify(false));
     $scope.loading = true;
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();

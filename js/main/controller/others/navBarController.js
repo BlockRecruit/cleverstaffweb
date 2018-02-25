@@ -253,6 +253,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             $("#notice_element_icon").css({"background-color": "rgba(0, 0, 0, 0)"});
             $(document).off('mouseup')
         }
+        localStorage.setItem("isAddCandidates", false);
     };
     //$scope.toggleNoticeMenu = function(){
     //    $('body').click(function (e) {
@@ -1445,8 +1446,10 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                         $('.modal').css('opacity','1');
                                     }
                                 });
+
                                 $rootScope.news = resp.objects;
                                 FB.XFBML.parse();
+
                                 $rootScope.modalInstance = $uibModal.open({
                                     animation: true,
                                     backdrop: 'static',

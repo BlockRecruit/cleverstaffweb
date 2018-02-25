@@ -597,7 +597,7 @@
                             <i class="fa fa-check-square-o" aria-hidden="true"></i>
                         </a>
                     </div>
-                    <div class="col-lg-4" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'salesmanager' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y')">
+                    <div class="col-lg-4" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y')">
                         <a ng-click="exportToExcel()" ng-show="$root.hideTariff" title="{{'Export to Excel' | translate}}">
                             {{'Export to Excel' | translate}}
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>
@@ -672,7 +672,7 @@
                         <!--</div>-->
                     <!--</td>-->
                     <td class="name" data-title="'Name'">
-                        <a href="#/candidates/{{::candidate.candidateId.localId}}" ng-click="$event.stopPropagation();">{{::candidate.candidateId.fullName}}</a>
+                        <a  ng-click="routeOnCandidate(candidate.candidateId.localId,'candidate');">{{::candidate.candidateId.fullName}}</a>
                     </td>
                     <td ng-if="candidate.candidateId.status == 'archived'"></td>
                     <td class="date" ng-if="candidate.candidateId.status != 'archived'">

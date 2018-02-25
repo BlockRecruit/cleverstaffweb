@@ -1,7 +1,7 @@
 controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope", "$translate", "FileInit", "$location", "Service", "Candidate", "notificationService", "$filter",
-    "$localStorage", "$cookies", "$window", "serverAddress","$routeParams", "$uibModal", "CustomField",
+    "$localStorage", "$cookies", "$window", "serverAddress","$routeParams", "$uibModal", "CustomField","sliderElements",
     function($rootScope, $http, $scope, $translate, FileInit, $location, Service, Candidate, notificationService, $filter, $localStorage,
-             $cookies, $window, serverAddress,$routeParams, $uibModal, CustomField) {
+             $cookies, $window, serverAddress,$routeParams, $uibModal, CustomField, sliderElements) {
     Service.toAddCandidate("/candidates/");
 
 
@@ -435,9 +435,6 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
         } else {
             salaryBol = false;
         }
-
-        console.log($scope.candidateForm);
-        console.log($scope.candidateForm.$valid);
         if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed) {
             $scope.saveButtonIsPressed = true;
             var candidate = $scope.candidate;
@@ -490,6 +487,8 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             candidate.origin = $scope.getOriginAutocompleterValue();
             deleteUnnecessaryFields(candidate);
             Candidate.add(candidate, function(val) {
+                $rootScope.isAddCandidates = false;
+                localStorage.setItem("isAddCandidates", $rootScope.isAddCandidates);
                 if (angular.equals(val.status, "ok")) {
                     $scope.saveButtonIsPressed = false;
                     notificationService.success($filter('translate')('Candidate saved'));
