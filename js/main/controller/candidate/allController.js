@@ -1,9 +1,13 @@
 function CandidateAllController($localStorage, $translate, Service, $scope, ngTableParams, Candidate, $location,
                                 $rootScope, $filter, $cookies, serverAddress, notificationService, googleService, $window,
-                                ScopeService, frontMode, Vacancy, Company, vacancyStages, $sce, $analytics, Mail, FileInit, $uibModal, Person, $timeout, CandidateGroup, $anchorScroll) {
+                                ScopeService, frontMode, Vacancy, Company, vacancyStages, $sce, $analytics, Mail, FileInit, $uibModal, Person, $timeout, CandidateGroup, $anchorScroll, ) {
     $scope.experience = Service.experience();
     $rootScope.objectSize = null;
+    $rootScope.isAddCandidates= true;
+    localStorage.setItem("isAddCandidates", $rootScope.isAddCandidates);
+    $rootScope.candidateLength = null;
     $scope.enableExcelUploadAll = 'N';
+    $rootScope.setCurrent = true;
     $scope.a = {};
     $scope.a.searchNumber = 1;
     $scope.candidatesAddToVacancyIds = [];
@@ -12,6 +16,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.previousFlag = true;
     $scope.placeholder = $filter('translate')('by position');
     $rootScope.candidatesAddToVacancyIds = $scope.candidatesAddToVacancyIds;
+    $rootScope.currentElementPos = true;
+    localStorage.setItem('currentPage', 'candidates');
+    localStorage.removeItem('stageUrl');
+    localStorage.removeItem('candidatesInStagesVac');
+    localStorage.removeItem('getAllCandidates');
+    Candidate.getCandidate = [];
     vacancyStages.get(function (resp) {
         $scope.customStages = resp.object.interviewStates;
         $rootScope.customStages = resp.object.interviewStates;
@@ -926,10 +936,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                             $anchorScroll('mainTable');
                         });
                     }
-                    Candidate.all($scope.candidateSearchOptions, function (response) {
-                        if(response.status != 'error') {
+
+
+                    Candidate.getAllCandidates($scope.candidateSearchOptions)
+                        .then(response =>{
+                            console.log(response, 'responsegu')
                             $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
-                            $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
+                            $rootScope.objectSize = response['objects'] ? response['total'] : 0;
+                            localStorage.setItem('objectSize',  $rootScope.objectSize);
                             $rootScope.objectSizeCand = $rootScope.objectSize;
                             $rootScope.searchParam = $scope.searchParam;
                             params.total(response['total']);
@@ -951,23 +965,17 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                             $scope.limitReached = response['limitReached'];
                             if(page) {
                                 $scope.candidates = $scope.candidates.concat(response['objects'])
-                                console.log($scope.candidates);
                             } else {
                                 $scope.candidates = response['objects'];
-                                console.log($scope.candidates);
                             }
                             $defer.resolve($scope.candidates);
-
-                            Candidate.init();
+                            // Candidate.init();
                             $scope.searchParam.searchCs = true;
-                        } else {
-                            notificationService.error(response.message)
-                        }
-                        $rootScope.loading = false;
-                    }, function () {
-                        $rootScope.loading = false;
-                    });
+                            $rootScope.loading = false;
+                            $scope.$apply();
+                        }, resp => $rootScope.loading = false);
                 }
+
                 getCandidates();
                 $scope.showMore = function () {
                     $scope.isShowMore = true;

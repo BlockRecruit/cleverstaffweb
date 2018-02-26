@@ -1,12 +1,15 @@
 controller.controller('CandidateOneController', ["CacheCandidates", "$localStorage", "$scope", "frontMode", "$translate", "googleService", "$location", "$routeParams", "Candidate",
     "Service", "$rootScope", "Person", "serverAddress", "FileInit", "notificationService", "$filter", "Vacancy",
-    "Action", "vacancyStages", "Task", "File", "$sce", "$window", "Mail", "$uibModal", "$timeout", "$route", "Test", "CandidateGroup",
+    "Action", "vacancyStages", "Task", "File", "$sce", "$window", "Mail", "$uibModal", "$timeout", "$route", "Test", "CandidateGroup","sliderElements",
     function (CacheCandidates, $localStorage, $scope, frontMode, $translate, googleService, $location, $routeParams, Candidate, Service, $rootScope, Person, serverAddress, FileInit,
-              notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup ) {
+              notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup, sliderElements) {
         delete $rootScope.client;
         $scope.serverAddress = serverAddress;
+        $rootScope.objectSize = null;
+        $rootScope.isAddCandidates =  JSON.parse(localStorage.getItem("isAddCandidates"));
         $localStorage.remove("candidateForTest");
-        if($location.$$absUrl.indexOf('&task=') != -1) {
+
+        if($location.$$absUrl.indexOf('&task=') != -1) {F
             $scope.urlTaskId = $location.$$absUrl.split('&task=')[1];
         }
         if($localStorage.get('calendarShow') != undefined){
@@ -81,12 +84,17 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 data = JSON.parse(localStorage.getItem('candidatesInStagesVac'));
             }
 
+            nextElementMethod.cacheCandidateLength = data.length;
+
+
             data.forEach((item, index) => {
                if(item == $routeParams.id){
                    nextElementMethod.cacheCurrentIndex = index + 1;
                }
             });
         }
+
+        setPositionCandidates(Candidate.getCandidate, sliderElements.nextElement);
 
         $('.showCommentSwitcher').prop("checked", !$scope.onlyComments);
 
@@ -749,9 +757,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 //getcandidateproperties start
                 Candidate.getCandidateProperties({candidateId: $scope.candidate.candidateId}, function (res) {
                     if(res.status == 'ok' && res.object) {
-
                         $scope.candidateProperties = res.object;
-
                         //setGroups start
                         if ($scope.candidate.groups !== undefined) {
                             if ($scope.candidateProperties.candidateGroups !== undefined) {
@@ -1595,6 +1601,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             }else{
                                 var id = resp.object.interviewId + changeObj.status.value;
                             }
+
                             if(changeObj.date){
                                 if($rootScope.calendarShow){
                                     googleCalendarCreateEvent(googleService, changeObj.date, changeObj.candidate.candidateId.fullName,
@@ -2281,6 +2288,12 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 });
         };
 
+        sliderElements.params = Candidate.candidateLastRequestParams || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
+        sliderElements.setCurrent();
+        $scope.nextOrPrevElements = sliderElements.nextOrPrevElements.bind(null, $scope);
+        $scope.nextElement = sliderElements.nextElement.bind(null, $scope);
+        $scope.candidateLength = $rootScope.objectSize || localStorage.getItem('objectSize');
+        $scope.currentIndex = sliderElements.nextElement.cacheCurrentPosition + 1 ||  (+localStorage.getItem('numberPage')) +  1;
         ///////////////////////////////////////////////////////////////End of Sent Email candidate
     }]);
 

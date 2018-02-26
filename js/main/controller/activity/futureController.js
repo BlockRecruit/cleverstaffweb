@@ -5,6 +5,7 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
     $rootScope.loading = true;
     $rootScope.showAchieves = true;
     $scope.activeVacancy = null;
+        localStorage.setItem("isAddCandidates", false);
         Task.task($scope, $rootScope, $location, $translate, $uibModal, $route);
         //if(localStorage.showAchieves == 'true'){
         //    $scope.showAchieves = true;

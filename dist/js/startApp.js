@@ -3339,7 +3339,7 @@ function convertToRegionObject(place, scope) {
 angular.module('services.candidate', [
     'ngResource',
     'ngCookies'
-]).factory('Candidate', ['$resource', 'serverAddress', '$filter', '$localStorage',"notificationService","$rootScope","$translate", function($resource, serverAddress, $filter, $localStorage,notificationService, $rootScope,$translate) {
+]).factory('Candidate', ['$resource', 'serverAddress', '$filter', '$localStorage',"notificationService","$rootScope","$translate", function($resource, serverAddress, $filter, $localStorage,notificationService, $rootScope, $translate ) {
     var options;
 
     var candidate = $resource(serverAddress + '/candidate/:param', {param: "@param"}
@@ -4636,7 +4636,6 @@ angular.module('services.candidate', [
     candidate.init();
 
     candidate.getAllCandidates = function (params) {
-        console.log(params, 'params');
         candidate.candidateLastRequestParams = params;
         localStorage.setItem('candidateLastRequestParams', JSON.stringify(params));
         return new Promise((resolve, reject) => {

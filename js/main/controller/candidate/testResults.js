@@ -6,7 +6,7 @@ controller.controller('testResults', ["$scope", "Test", "notificationService", "
     $scope.objectSize = 0;
     $scope.test = {};
     $scope.detailedInfo = {};
-
+    localStorage.setItem("isAddCandidates", false);
     if($location.path().match('candidate/tests/results')) {
         $scope.typeOfResults = 'candidate';
         $scope.requestParams = {

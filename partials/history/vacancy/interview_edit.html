@@ -11,7 +11,7 @@
     <span>
         <span ng-if="history.candidate">
             {{'history_info.candidate'|translate}}
-             <a ng-href="#/candidates/{{history.candidate.localId}}">
+             <a ng-click="routeOnCandidate(history.candidate.localId, 'history')">
                  {{history.candidate.fullName}}
              </a>
         </span>

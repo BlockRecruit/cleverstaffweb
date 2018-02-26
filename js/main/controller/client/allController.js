@@ -15,8 +15,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
         $scope.validNewClient = true;
         $scope.client = {logoId: null};
         $scope.industries = Service.getIndustries();
-
-
+        localStorage.setItem("isAddCandidates", false);
     $scope.status = [
         {value: "future", name: "future"},
         {value: "in_work", name: "in work"},
@@ -95,7 +94,8 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             });
             $('#cs-region-filter-select, #cs-region-filter-select-for-linkedin').html(optionsHtml);
             $('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
-        });
+        })
+
         $scope.setSearchedRegion = function(){
             $scope.searchParam.regionIdCity = null;
             var obj = JSON.parse($scope.searchParam.regionId);
