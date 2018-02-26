@@ -143,19 +143,19 @@
             </div>
             <div class="" id="navbar-main">
                 <ul class="nav navbar-nav navigation navbar-collapse collapse">
-                    <li class="dropdown">
+                    <li class="dropdown organizer" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/organizer" ng-class="{'active': $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'}">
                             <i class="sprite sprite-calendar"></i>
-                            <span>{{'activity'| translate}}</span>
+                            <span>{{'Organizer'| translate}}</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="vacancies" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/vacancies" ng-class="{'active': $root.activePage == 'Vacancies' || $root.activePage == 'Vacancy add' || $root.activePage == 'Vacancy edit' }">
                             <i class="sprite sprite-vacancy"></i>
                             <span>{{'Vacancies'| translate}}</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="candidates" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/candidates" ng-class="{'active': $root.activePage == 'Candidates' || $root.activePage == 'Candidate add' || $root.activePage == 'Candidates add from email'
                                                                     || $root.activePage == 'Zip' || $root.activePage == 'Excel History' || $root.activePage == 'Candidate edit' || $root.activePage == 'Tests and forms'
                                                                     || $root.activePage == 'Send test candidate to email' || $root.activePage == 'Test results' || $root.activePage == 'Test page' || $root.activePage == 'Candidate'}">
@@ -163,21 +163,21 @@
                             <span>{{'candidates'| translate}}</span>
                         </a>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown clients" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/clients" ng-class="{'active': $root.activePage == 'Clients' || $root.activePage == 'Client add' || $root.activePage == 'Client edit'}"
                            ng-if="$root.me.personParams.clientAccessLevel != 'hide'">
                             <i class="sprite sprite-clients"></i>
-                            <span ng-show="$root.me!=undefined">{{'clients'| translate}}</span>
+                            <span ng-show="$root.me!=undefined">{{'Clients'| translate}}</span>
                             <!--<span ng-if="$root.me.recrutRole=='client'">{{'client(i)'| translate}}</span>-->
                         </a>
                     </li>
-                    <li class="dropdown" ng-if="$root.me!=undefined && $root.me.recrutRole!='client'">
+                    <li class="dropdown users" ng-if="$root.me!=undefined && $root.me.recrutRole!='client'" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/company/users" ng-class="{'active': $root.activePage == 'Users' || $root.activePage == 'Company History' || $root.activePage == 'Company settings' || $root.activePage == 'Company users' || $root.activePage == 'Company employees' || $root.activePage == 'Employee add' || $root.activePage == 'Employee User' || $root.activePage == 'Department Catalog' || $root.activePage == 'Employee Edit User' || $root.activePage == 'Custom fields'}">
                             <i class="sprite sprite-company"></i>
                             <span>{{'Account'| translate}}</span>
                         </a>
                     </li>
-                    <li class="dropdown"  ng-if="$root.me!= undefined &&  $root.me.recrutRole!='salesmanager' && $root.me.recrutRole!='researcher'">
+                    <li class="dropdown reports"  ng-if="$root.me!= undefined &&  $root.me.recrutRole!='salesmanager' && $root.me.recrutRole!='researcher'" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/reports"
                            ng-show="$root.me.recrutRole !== 'freelancer' && $root.me.recrutRole!='client'"
                            ng-class="{'active': $root.activePage == 'Pipeline' || $root.activePage == 'Statistics client' || $root.activePage == 'Report all' || $root.activePage == 'Vacancy report' || $root.activePage == 'Reports' || $root.activePage ==  'Reports constructor' ||  $root.activePage == 'Custom Reports'|| $root.activePage == 'Edit Reports'}">
