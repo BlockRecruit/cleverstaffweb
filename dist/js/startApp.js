@@ -2097,6 +2097,7 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
             Test.openTest({
                 appointmentId: $routeParams.id
             },function(resp){
+                $scope.startTestFunc();
                 $scope.showFirstTest = true;
                 $scope.loaded = true;
                 if(resp.message == 'This test is already passed. If you want to pass it one more time, please contact the recruiter who sent you the test link.'){
@@ -2214,11 +2215,19 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
             }
         };
         $scope.startTestFunc = function (tab) {
-            $scope.currentTab = tab;
+            $scope.currentTab = tab || "start_test";
             Test.startTest({
                 appointmentId: $routeParams.id
             },function(resp){
                 if(resp.status == 'ok'){
+                    console.log("test");
+                    if(!tab) {
+                        if(resp.object.question.num > 1 || resp.object.answer) $scope.startTestFunc('first_test');
+                        return;
+                    }
+
+                    if(resp.object.answer) setRightAnswer(resp);
+
                     $scope.firstTestQuestion = resp;
                     if(resp.object.question.imageId != undefined){
                         $scope.imageId = serverAddress + "/getPublicFile/" + resp.object.question.imageId;
@@ -2227,7 +2236,8 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                     if($scope.initialCountdown > 0){
                         $scope.timer();
                     }
-                    $scope.firstPage = 1;
+                    $scope.firstPage = resp.object.question.num;
+                    console.log($scope.showFirstTest, $scope.firstTestQuestion, $scope.currentTab);
                 }else{
                     notificationService.error(resp.message);
                 }
@@ -2316,35 +2326,7 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                     $scope.firstTestQuestion = resp;
                     $scope.imageId = serverAddress + "/getPublicFile/" + resp.object.question.imageId;
                     -$scope.firstPage;
-                    var rightAnswer = {};
-                    angular.copy(resp.object.answer, rightAnswer);
-                    if(rightAnswer != null){
-                        if(rightAnswer.variantsArray != undefined){
-                            $scope.variantsAnswer = [];
-                            angular.forEach(rightAnswer.variantsArray, function (val) {
-                                var answer = {};
-                                angular.copy(resp.object.question, answer);
-                                if(answer.answerType == 'few_answers'){
-                                    $scope.variantsAnswer = [];
-                                    angular.forEach(rightAnswer.variantsArray, function (val) {
-                                        $scope.variantsAnswer.push(val);
-                                        $scope.checkAnswerText = undefined;
-                                        $scope.textAnswers = undefined;
-                                    });
-                                }else if(answer.answerType == 'one_answer'){
-                                    $scope.checkAnswerText = null;
-                                    angular.forEach(rightAnswer.variantsArray, function (val) {
-                                        $scope.checkAnswerText = val;
-                                        $scope.variantsAnswer = undefined;
-                                        $scope.textAnswers = undefined;
-                                    });
-                                }
-                            });
-                        }else if(rightAnswer.text != undefined){
-                            $scope.textAnswers = rightAnswer.text;
-                            $('#answersText').val($scope.textAnswers);
-                        }
-                    }
+                    setRightAnswer(resp);
                     $scope.hideTest = true;
                     $scope.saveAnswersTest = false;
                 }else{
@@ -2418,6 +2400,38 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                 }
             })
         };
+
+        function setRightAnswer(resp) {
+            var rightAnswer = {};
+            angular.copy(resp.object.answer, rightAnswer);
+            if(rightAnswer != null){
+                if(rightAnswer.variantsArray != undefined){
+                    $scope.variantsAnswer = [];
+                    angular.forEach(rightAnswer.variantsArray, function (val) {
+                        var answer = {};
+                        angular.copy(resp.object.question, answer);
+                        if(answer.answerType == 'few_answers'){
+                            $scope.variantsAnswer = [];
+                            angular.forEach(rightAnswer.variantsArray, function (val) {
+                                $scope.variantsAnswer.push(val);
+                                $scope.checkAnswerText = undefined;
+                                $scope.textAnswers = undefined;
+                            });
+                        }else if(answer.answerType == 'one_answer'){
+                            $scope.checkAnswerText = [];
+                            angular.forEach(rightAnswer.variantsArray, function (val) {
+                                $scope.checkAnswerText = [val];
+                                $scope.variantsAnswer = undefined;
+                                $scope.textAnswers = undefined;
+                            });
+                        }
+                    });
+                }else if(rightAnswer.text != undefined){
+                    $scope.textAnswers = rightAnswer.text;
+                    $('#answersText').val($scope.textAnswers);
+                }
+            }
+        }
         $scope.showModalImage = function() {
             $('#question-modal').removeClass('hidden');
             $('#question-modal').addClass('visible');

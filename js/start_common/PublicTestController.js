@@ -161,8 +161,7 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                 if(resp.status == 'ok'){
                     console.log("test");
                     if(!tab) {
-                        console.log("no_TAB");
-                        if(resp.object.answer) $scope.startTestFunc('first_test');
+                        if(resp.object.question.num > 1 || resp.object.answer) $scope.startTestFunc('first_test');
                         return;
                     }
 
