@@ -620,14 +620,11 @@ angular.module('RecruitingAppStart.directives', [])
         return {
             restrict: "A",
             link: function(scope, element, attrs) {
-                let logo, toggleBlock, nameWrap, linksWrap, name, siteLink, fbLink,
+                let logo, nameWrap, linksWrap, name, siteLink, fbLink,
                     id = '#' + attrs.id,
                     timeout;
 
                 $timeout(() => {
-                    toggleBlock = $(id + '.comp-abs');
-                    logo = $(id + ' .logo');
-
                     nameWrap = $(id + ' .name_wrap');
                     name = $(id +  ' .name_wrap h2');
 
@@ -635,6 +632,8 @@ angular.module('RecruitingAppStart.directives', [])
                     siteLink = $(id + ' .info--site .site-link');
                     fbLink = $(id + ' .info--site .fb-link');
 
+                    console.log($(id));
+                    console.log(logo);
                 });
 
                 element.on({
@@ -643,19 +642,21 @@ angular.module('RecruitingAppStart.directives', [])
                 });
 
                 function showBlock() {
+                    logo = $(id + ' .logo');
+
                     clearTimeout(timeout);
 
                     if(linksWrap.width() - siteLink.width() <= 44.64 || linksWrap.width() - fbLink.width() <= 44.64 || nameWrap.width() <= name.width()) {
                         let adaptiveImgWidth = logo.height();
                         logo.height(adaptiveImgWidth);
                         timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
-                        toggleBlock.addClass('hovered');
+                        element.addClass('hovered');
                     }
                 }
 
                 function hideBlock() {
                     nameWrap.css('white-space', 'nowrap');
-                    toggleBlock.removeClass('hovered');
+                    element.removeClass('hovered');
                     clearTimeout(timeout);
                 }
             }

@@ -366,33 +366,6 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
             $('#question-modal').addClass('hidden');
         };
 
-        let timeout;
-        $scope.companyInfoHoverIn = function() {
-            let logo = $('.logo'),
-                companyInfo = $('.companyInfo'),
-                nameWrap = $('.name_wrap'),
-                infoSite = $('.info--site:eq'),
-                name = $('.block-company-public-vacancy .companyInfo h2'),
-                site = $('.info--site:eq a'),
-                fb = $('.info--site:eq a');
-
-            clearTimeout(timeout);
-
-            if(infoSite.width() - site.width() <= 44.64 || infoSite.width() - fb.width() <= 44.64 || nameWrap.width() <= name.width()) {
-                $scope.adaptiveImgWidth = logo.height();
-                logo.height($scope.adaptiveImgWidth);
-                timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
-                companyInfo.addClass('hovered');
-            }
-        };
-
-        $scope.companyInfoHoverOut = function() {
-            console.log('out');
-            let nameWrap = $('.name_wrap');
-            nameWrap.css('white-space', 'nowrap');
-            $('.companyInfo').removeClass('hovered');
-            clearTimeout(timeout);
-        };
     }]
 );
 /*** Created by вик on 31.05.2017.*/

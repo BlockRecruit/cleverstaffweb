@@ -1,5 +1,5 @@
 <div class="container-fluid block-public block-public-test">
-    <div class="row companyInfo" ng-mouseenter="companyInfoHoverIn()" ng-mouseleave="companyInfoHoverOut()" ng-show="currentTab === 'start_test'">
+    <div class="row companyInfo" id="toggle-company-block" toggle-company-block ng-show="currentTab === 'start_test'">
         <!--<img class="logo" src="/images/sprite/Angelina%20_Joli.png" alt=""/>-->
         <img class="logo" ng-if="companyInfo.logo" ng-src="{{serverAddress}}/getlogo?id={{companyInfo.logo}}" alt=""/>
         <div class="info">
