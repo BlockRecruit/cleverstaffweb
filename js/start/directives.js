@@ -616,18 +616,67 @@ angular.module('RecruitingAppStart.directives', [])
                 }
             }
         }
-    }]).directive('toggleCompanyBlock', [function(){
+    }]).directive('toggleCompanyBlock', ['$timeout', function($timeout){
         return {
             restrict: "A",
             link: function(scope, element, attrs) {
-                // console.log(element);
-                // let logo = $("#" + attrs.id + " .logo");
-                $(document).ready(function(){
-                    // setTimeout(() => {
-                        let logo = $("#toggle-company-block .info");
-                        console.log(logo);
-                    // }, 2000);
-                })
+                let logo, toggleBlock, nameWrap, linksWrap, name, siteLink, fbLink,
+                    id = '#' + attrs.id,
+                    timeout;
+                // setTimeout(() => console.log(logo), 2000);
+
+                $timeout(() => {
+                    toggleBlock = $(id + '.comp-abs');
+                    logo = $(id + ' .logo');
+
+                    nameWrap = $(id + ' .name_wrap');
+                    name = $(id +  ' .name_wrap h2');
+
+                    linksWrap = $(id + ' .info--site:eq(0)');
+                    siteLink = $(id + ' .info--site .site-link');
+                    fbLink = $(id + ' .info--site .fb-link');
+
+                    console.log("----------------");
+                    console.log(logo);
+                    console.log(toggleBlock);
+                    console.log(nameWrap);
+                    console.log(linksWrap);
+                    console.log(name);
+                    console.log(siteLink);
+                    console.log(fbLink);
+                });
+
+                element.on({
+                    mouseenter: () => showBlock(),
+                    mouseout: () => hideBlock()
+                });
+
+                function showBlock() {
+                    toggleBlock = $(id + '.comp-abs');
+                    logo = $(id + ' .logo');
+
+                    nameWrap = $(id + ' .name_wrap');
+                    name = $(id +  ' .name_wrap h2');
+
+                    linksWrap = $(id + ' .info--site:eq(0)');
+                    siteLink = $(id + ' .info--site .site-link');
+                    fbLink = $(id + ' .info--site .fb-link');
+                    // clearTimeout(timeout);
+
+                    if(linksWrap.width() - siteLink.width() <= 44.64 || linksWrap.width() - fbLink.width() <= 44.64 || nameWrap.width() <= name.width()) {
+                        let adaptiveImgWidth = logo.height();
+                        logo.height(adaptiveImgWidth);
+                        timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
+                        toggleBlock.addClass('hovered');
+                        console.log("yep",linksWrap.width(),siteLink.width(),fbLink.width(),name.width(),nameWrap.width());
+                    }
+                }
+
+                function hideBlock() {
+                    nameWrap.css('white-space', 'nowrap');
+                    toggleBlock.removeClass('hovered');
+                    // clearTimeout(timeout);
+                }
             }
         }
     }]);
