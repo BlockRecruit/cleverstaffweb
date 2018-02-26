@@ -4929,7 +4929,7 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
         };
     }])
     .filter('dateFormat6', ["$filter", "$translate",'$rootScope' , function ($filter, $translate, $rootScope) {
-        return function (date, withHour) {
+        return function (date, withHour, noBreak) {
             var hour = "";
             var dateToday = new Date().getTime();
             var dateTomorrow = new Date().setDate(new Date().getDate() + 1);
@@ -4938,7 +4938,11 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             var dateMDY = "";
             if (lang == 'ru' || lang == 'ua') {
                 dateMD = "d MMM ";
-                dateMDY = "d MMM '<br/>' y ";
+                if(noBreak) {
+                    dateMDY = "d MMM y ";
+                } else {
+                    dateMDY = "d MMM '<br/>' y ";
+                }
             } else if (lang == 'en') {
                 dateMD = "MMM d ";
                 dateMDY = "MMM d, y ";
@@ -4954,7 +4958,11 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                 if (angular.equals($filter('date')(dateToday, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
                     var res = $filter("translate")("today");
                     if (withHour) {
-                        res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour);
+                        if(noBreak) {
+                            res += " " + $filter("translate")("at") + " " + $filter('date')(date, hour);
+                        } else {
+                            res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour);
+                        }
                     }
 
                     if(res.indexOf('до полудня') !== -1){
@@ -4967,14 +4975,27 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                 } else if (angular.equals($filter('date')(dateTomorrow, 'y MMM d'), $filter('date')(date, 'y MMM d'))) {
                     var res = $filter("translate")("tomorrow");
                     if (withHour) {
-                        res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour)
+                        if(noBreak) {
+                            res += " " + $filter("translate")("at") + $filter('date')(date, hour);
+                        } else {
+                            res += " " + $filter("translate")("at") + '<br/>' + $filter('date')(date, hour);
+                        }
                     }
+
                     return res;
                 } else {
-                    return $filter('date')(date, dateMD + '<br/>' + hour);
+                    if(noBreak) {
+                        return $filter('date')(date, dateMD + hour);
+                    } else {
+                        return $filter('date')(date, dateMD + '<br/>' + hour);
+                    }
                 }
             } else {
-                return $filter('date')(date, dateMDY + hour);
+                if(noBreak) {
+                    return $filter('date')(date, dateMD + hour);
+                } else {
+                    return $filter('date')(date, dateMDY + hour);
+                }
             }
         };
     }])

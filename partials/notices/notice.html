@@ -67,7 +67,7 @@
                             {{"You are assigned as responsible to vacancy"|translate}}: <a ng-click="toVacancy(notice.vacancy.localId)">{{notice.vacancy.position + " (" + notice.vacancy.clientId.name + ")"}}</a>
                         </div>
                     </div>
-                    <span class="date">{{notice.dc|dateFormat:true}}</span>
+                    <span class="date">{{notice.dc|dateFormat6:true:true}}</span>
                     <i class="fa fa-check-circle-o"  ng-attr-title="{{(notice.read!=false) && ('Viewed'|translate) || ('Not viewed'|translate)}}" ng-class="{'green':notice.read!=false}" aria-hidden="true"></i>
                 </div>
             </div>
