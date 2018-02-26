@@ -35,6 +35,14 @@
 				}
 			}
 		}
+		.addVacancy {
+			.select2-container {
+				width: 70%;
+			}
+			.fa-info-circle {
+				margin-top: 20px;
+			}
+		}
 		& > .roleInviteUser {
 			margin-top: 10px;
 			& > span {

@@ -36,6 +36,10 @@
             {{"Enter_new_users_email_1"|translate}}
         </p>
         <input type="text" ng-model="$root.inviteUser.email" required class="form-control" placeholder="{{'email_invitation_user'|translate}}">
+        <div class="addVacancy" ng-show="$root.activePage == 'Reports' || $root.activePage == 'Pipeline' || $root.activePage == 'Vacancy report' || $root.activePage == 'Statistics client' || $root.activePage == 'Reports constructor'">
+            <input type="hidden" vacancy-autocompleter id="vacancyToAddAutocompleaterModal">
+            <i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="top-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.hmInvite" aria-hidden="true"></i>
+        </div>
         <!--<input type="radio" ng-model="$root.inviteUser.role" value="client">-->
         <div class="roleInviteUser" ng-show="$root.activePage == 'Company users' || $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'">
             <span>{{'role'|translate}}</span>
