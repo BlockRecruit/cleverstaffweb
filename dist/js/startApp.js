@@ -1021,40 +1021,6 @@ controller.controller('mainController' ,function($scope, $location, $window) {
               }
       });
 
-          // let timeout;
-          // $scope.companyInfoHoverIn = function() {
-          //     let logo = $('.logo:eq( 1 )'),
-          //         companyInfo = $('.comp-abs'),
-          //         nameWrap = $('.name_wrap'),
-          //         infoSite = $('.info--site:eq(2)'),
-          //         name = $('.block-company-public-vacancy .companyInfo h2:eq(1)'),
-          //         site = $('.info--site:eq(2) a'),
-          //         fb = $('.info--site:eq(3) a');
-          //
-          //     console.log(logo);
-          //     console.log(companyInfo);
-          //     console.log(nameWrap);
-          //     console.log(infoSite);
-          //     console.log(name);
-          //     console.log(site);
-          //     console.log(fb);
-          //
-          //     clearTimeout(timeout);
-          //
-          //     if(infoSite.width() - site.width() <= 44.64 || infoSite.width() - fb.width() <= 44.64 || nameWrap.width() <= name.width()) {
-          //         $scope.adaptiveImgWidth = logo.height();
-          //         logo.height($scope.adaptiveImgWidth);
-          //         timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
-          //         companyInfo.addClass('hovered');
-          //     }
-          // };
-          //
-          // $scope.companyInfoHoverOut = function() {
-          //     let nameWrap = $('.name_wrap');
-          //     nameWrap.css('white-space', 'nowrap');
-          //     $('.comp-abs').removeClass('hovered');
-          //     clearTimeout(timeout);
-          // };
 
         $scope.share = function (sourse) {
             if ($scope.companyLogo != undefined && $scope.companyLogo !== '') {
@@ -3254,7 +3220,6 @@ angular.module('RecruitingAppStart.directives', [])
                 let logo, toggleBlock, nameWrap, linksWrap, name, siteLink, fbLink,
                     id = '#' + attrs.id,
                     timeout;
-                // setTimeout(() => console.log(logo), 2000);
 
                 $timeout(() => {
                     toggleBlock = $(id + '.comp-abs');
@@ -3267,46 +3232,28 @@ angular.module('RecruitingAppStart.directives', [])
                     siteLink = $(id + ' .info--site .site-link');
                     fbLink = $(id + ' .info--site .fb-link');
 
-                    console.log("----------------");
-                    console.log(logo);
-                    console.log(toggleBlock);
-                    console.log(nameWrap);
-                    console.log(linksWrap);
-                    console.log(name);
-                    console.log(siteLink);
-                    console.log(fbLink);
                 });
 
                 element.on({
                     mouseenter: () => showBlock(),
-                    mouseout: () => hideBlock()
+                    mouseleave: () => hideBlock()
                 });
 
                 function showBlock() {
-                    toggleBlock = $(id + '.comp-abs');
-                    logo = $(id + ' .logo');
-
-                    nameWrap = $(id + ' .name_wrap');
-                    name = $(id +  ' .name_wrap h2');
-
-                    linksWrap = $(id + ' .info--site:eq(0)');
-                    siteLink = $(id + ' .info--site .site-link');
-                    fbLink = $(id + ' .info--site .fb-link');
-                    // clearTimeout(timeout);
+                    clearTimeout(timeout);
 
                     if(linksWrap.width() - siteLink.width() <= 44.64 || linksWrap.width() - fbLink.width() <= 44.64 || nameWrap.width() <= name.width()) {
                         let adaptiveImgWidth = logo.height();
                         logo.height(adaptiveImgWidth);
                         timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
                         toggleBlock.addClass('hovered');
-                        console.log("yep",linksWrap.width(),siteLink.width(),fbLink.width(),name.width(),nameWrap.width());
                     }
                 }
 
                 function hideBlock() {
                     nameWrap.css('white-space', 'nowrap');
                     toggleBlock.removeClass('hovered');
-                    // clearTimeout(timeout);
+                    clearTimeout(timeout);
                 }
             }
         }
