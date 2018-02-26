@@ -891,15 +891,15 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             });
         });
 
-          $(window).scroll(function(){
-              if($('.vacancy-info').offset() && $(window).scrollTop() >= $('.vacancy-info').offset().top - 10) {
-                  $('.apply-buttons').addClass("fixed")
-              } else {
-                  if($('.apply-buttons').hasClass("fixed")) {
-                      $('.apply-buttons').removeClass("fixed");
-                  }
+        $(window).scroll(function(){
+          if($('.vacancy-info').offset() && $(window).scrollTop() >= $('.vacancy-info').offset().top - 10) {
+              $('.apply-buttons').addClass("fixed")
+          } else {
+              if($('.apply-buttons').hasClass("fixed")) {
+                  $('.apply-buttons').removeClass("fixed");
               }
-      });
+          }
+        });
 
 
         $scope.share = function (sourse) {

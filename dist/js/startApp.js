@@ -1011,15 +1011,15 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             });
         });
 
-          $(window).scroll(function(){
-              if($('.vacancy-info').offset() && $(window).scrollTop() >= $('.vacancy-info').offset().top - 10) {
-                  $('.apply-buttons').addClass("fixed")
-              } else {
-                  if($('.apply-buttons').hasClass("fixed")) {
-                      $('.apply-buttons').removeClass("fixed");
-                  }
+        $(window).scroll(function(){
+          if($('.vacancy-info').offset() && $(window).scrollTop() >= $('.vacancy-info').offset().top - 10) {
+              $('.apply-buttons').addClass("fixed")
+          } else {
+              if($('.apply-buttons').hasClass("fixed")) {
+                  $('.apply-buttons').removeClass("fixed");
               }
-      });
+          }
+        });
 
 
         $scope.share = function (sourse) {
@@ -2401,33 +2401,6 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
             $('#question-modal').addClass('hidden');
         };
 
-        let timeout;
-        $scope.companyInfoHoverIn = function() {
-            let logo = $('.logo'),
-                companyInfo = $('.companyInfo'),
-                nameWrap = $('.name_wrap'),
-                infoSite = $('.info--site:eq'),
-                name = $('.block-company-public-vacancy .companyInfo h2'),
-                site = $('.info--site:eq a'),
-                fb = $('.info--site:eq a');
-
-            clearTimeout(timeout);
-
-            if(infoSite.width() - site.width() <= 44.64 || infoSite.width() - fb.width() <= 44.64 || nameWrap.width() <= name.width()) {
-                $scope.adaptiveImgWidth = logo.height();
-                logo.height($scope.adaptiveImgWidth);
-                timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
-                companyInfo.addClass('hovered');
-            }
-        };
-
-        $scope.companyInfoHoverOut = function() {
-            console.log('out');
-            let nameWrap = $('.name_wrap');
-            nameWrap.css('white-space', 'nowrap');
-            $('.companyInfo').removeClass('hovered');
-            clearTimeout(timeout);
-        };
     }]
 );
 /*** Created by вик on 31.05.2017.*/
@@ -3217,14 +3190,11 @@ angular.module('RecruitingAppStart.directives', [])
         return {
             restrict: "A",
             link: function(scope, element, attrs) {
-                let logo, toggleBlock, nameWrap, linksWrap, name, siteLink, fbLink,
+                let logo, nameWrap, linksWrap, name, siteLink, fbLink,
                     id = '#' + attrs.id,
                     timeout;
 
                 $timeout(() => {
-                    toggleBlock = $(id + '.comp-abs');
-                    logo = $(id + ' .logo');
-
                     nameWrap = $(id + ' .name_wrap');
                     name = $(id +  ' .name_wrap h2');
 
@@ -3232,6 +3202,8 @@ angular.module('RecruitingAppStart.directives', [])
                     siteLink = $(id + ' .info--site .site-link');
                     fbLink = $(id + ' .info--site .fb-link');
 
+                    console.log($(id));
+                    console.log(logo);
                 });
 
                 element.on({
@@ -3240,19 +3212,21 @@ angular.module('RecruitingAppStart.directives', [])
                 });
 
                 function showBlock() {
+                    logo = $(id + ' .logo');
+
                     clearTimeout(timeout);
 
                     if(linksWrap.width() - siteLink.width() <= 44.64 || linksWrap.width() - fbLink.width() <= 44.64 || nameWrap.width() <= name.width()) {
                         let adaptiveImgWidth = logo.height();
                         logo.height(adaptiveImgWidth);
                         timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
-                        toggleBlock.addClass('hovered');
+                        element.addClass('hovered');
                     }
                 }
 
                 function hideBlock() {
                     nameWrap.css('white-space', 'nowrap');
-                    toggleBlock.removeClass('hovered');
+                    element.removeClass('hovered');
                     clearTimeout(timeout);
                 }
             }
