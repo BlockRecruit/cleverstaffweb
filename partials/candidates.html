@@ -188,16 +188,17 @@
                         <div class="clearfix"></div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <form class="form-inline-position pull-left">
-                                <div class="select">
-                                    <select ng-class="{'greyColor': searchParam.experience == 'null'}" class="form-control"
-                                            ng-model="searchParam.experience"
-                                            ng-init="searchParam.experience = 'null'">
-                                        <option class="greyColor" value="null">{{'experience'|translate}}</option>
-                                        <option class="othersColor" ng-selected="ex.value == searchParam.experience"
-                                                ng-repeat="ex in experience" value="{{ex.value}}">
-                                            {{'experience_assoc.' + ex.value|translate}}
-                                        </option>
-                                    </select>
+                                <div class="select clearfix">
+                                    <custom-select model="searchParam.experience.text" method="selectExperience" placeholder="{{'experience'}}" data="experience"></custom-select>
+                                    <!--<select ng-class="{'greyColor': searchParam.experience == 'null'}" class="form-control"-->
+                                            <!--ng-model="searchParam.experience"-->
+                                            <!--ng-init="searchParam.experience = 'null'">-->
+                                        <!--<option class="greyColor" value="null">{{'experience'|translate}}</option>-->
+                                        <!--<option class="othersColor" ng-selected="ex.value == searchParam.experience"-->
+                                                <!--ng-repeat="ex in experience" value="{{ex.value}}">-->
+                                            <!--{{'experience_assoc.' + ex.value|translate}}-->
+                                        <!--</option>-->
+                                    <!--</select>-->
                                 </div>
                             </form>
                         </div>
@@ -351,15 +352,16 @@
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
                             <form class="form-inline-position pull-left">
                                 <div class="select clearfix">
-                                    <select ng-class="{'greyColor': searchParam.employmentType == 'null'}" class="form-control"
-                                            ng-model="searchParam.employmentType"
-                                            ng-init="searchParam.employmentType = 'null'">
-                                        <option class="greyColor" value="null">{{'employment_type'|translate}}</option>
-                                        <option class="othersColor" ng-selected="et.value == searchParam.employmentType"
-                                                value="{{et.value}}" ng-repeat="et in employmentType">
-                                            {{'employment_type_assoc.' + et.value|translate}}
-                                        </option>
-                                    </select>
+                                    <custom-select model="searchParam.employmentType.text" method="selectEmploymentType" placeholder="{{'employment_type'}}" data="employmentType"></custom-select>
+                                    <!--<select ng-class="{'greyColor': searchParam.employmentType == 'null'}" class="form-control"-->
+                                            <!--ng-model="searchParam.employmentType"-->
+                                            <!--ng-init="searchParam.employmentType = 'null'">-->
+                                        <!--<option class="greyColor" value="null">{{'employment_type'|translate}}</option>-->
+                                        <!--<option class="othersColor" ng-selected="et.value == searchParam.employmentType"-->
+                                                <!--value="{{et.value}}" ng-repeat="et in employmentType">-->
+                                            <!--{{'employment_type_assoc.' + et.value|translate}}-->
+                                        <!--</option>-->
+                                    <!--</select>-->
                                 </div>
                             </form>
                         </div>
@@ -423,7 +425,7 @@
                 <div class="clearfix"></div>
                 <div class="col-lg-12 criterionSearchCandidate" ng-class="{'limited': limitReached === true}" ng-show="searchParam.searchCs">
                     <div ng-show="(staticSearchParam[0].words || (staticSearchParam[0].regionId == searchParam.regionId && staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
-                            (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType != null) ||
+                            (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType.value) ||
                             (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex.value != null) || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom.text) || (staticSearchParam[0].ageTo.text) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts !== null) && !limitReached">
                         <span class="count">{{'found'|translate}} <span>{{objectSize}}</span></span>
@@ -432,7 +434,7 @@
                     <ul class="pivots" ng-show="searchParam.searchCs">
                         <!--start main criterials-->
                         <li class="firstPivot" ng-show="!(staticSearchParam[0].words || (staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
-                            (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null') ||
+                            (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType.value) ||
                             (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex.value != null) || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom.text) || (staticSearchParam[0].ageTo.text) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || !staticSearchParam[0].withPersonalContacts == null)">
                             <span ng-show="!objectSize">{{'There are no candidates in your vacancies yet.'|translate}}</span>
@@ -492,9 +494,9 @@
                             <i ng-click="closeSearchTags('salary');clickSearch();" class="fa fa-times"
                                aria-hidden="true"></i>
                         </li>
-                        <li ng-show="staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType"
+                        <li ng-show="staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType.value"
                             class="pivot">{{'employment_type'|translate}}: {{'employment_type_assoc.' +
-                            staticSearchParam[0].employmentType|translate}}
+                            staticSearchParam[0].employmentType.value|translate}}
                             <i ng-click="closeSearchTags('employmentType');clickSearch();" class="fa fa-times"
                                aria-hidden="true"></i>
                         </li>
@@ -574,14 +576,14 @@
                             style="background-color: #0AA5DF;color: #fff;">{{'scope'|translate}}: {{'only'|translate}}
                             <span>{{activeScopeParam.value.name}}</span></li>
                         <li ng-show="staticSearchParam[0].words || (staticSearchParam[0].regionId == searchParam.regionId && staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
-                            (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType) ||
+                            (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType.value) ||
                             (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex.value != null) || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom.text) || (staticSearchParam[0].ageTo.text) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts || staticSearchParam[0].origin != null">
                             <span id="btnCl12" class="button_add ui item icon teal button" ng-click="cleanTags();">
                             <i class="fa fa-trash" aria-hidden="true"></i></span>
                         </li>
                         <li class="too-match" ng-show="limitReached === true && (staticSearchParam[0].words || (staticSearchParam[0].regionId == searchParam.regionId && staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
-                            (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null') ||
+                            (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType.value) ||
                             (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex.value != null) || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom) || (staticSearchParam[0].ageTo) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts)">
                             <span class="count" translate="The large quantity of results has been found." translate-values="{total_count: objectSize}"></span>
