@@ -6,68 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Error 404. Page is not found</title>
     <link rel="shortcut icon" href="/images/sprite/favicon.png" type="image/png">
-    <style>
-        body{
-            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-            font-size: 14px;
-            line-height: 1.42857143;
-            color: #333;
-            background-color: #fff;
-        }
-        .fade-in{
-            -webkit-animation: fade-in 2s ease;
-            -moz-animation: fade-in ease-in-out 2s both;
-            -ms-animation: fade-in ease-in-out 2s both;
-            -o-animation: fade-in ease-in-out 2s both;
-            animation: fade-in 2s ease;
-            visibility: visible;
-            -webkit-backface-visibility: hidden;
-        }
-
-        @-webkit-keyframes fade-in{0%{opacity:0;} 100%{opacity:1;}}
-        @-moz-keyframes fade-in{0%{opacity:0} 100%{opacity:1}}
-        @-o-keyframes fade-in{0%{opacity:0} 100%{opacity:1}}
-        @keyframes fade-in{0%{opacity:0} 100%{opacity:1}}
-
-        #banner-load{
-            margin: 10px 0 15px 0
-        }
-        #banner-load img{
-            max-width: 650px;
-            height: auto;
-        }
-        .CSLanding a, .CSWeb a{
-            color: #646465;
-            text-decoration: none;
-        }
-        .CSLanding a:hover, .CSWeb a:hover{
-            color: #9CCE95;
-            text-decoration: none;
-        }
-        @media screen and (max-width: 550px) {
-            #banner-load img{
-                width: 320px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/external/css/main.min.css?b1">
 </head>
-<body>
+<body class="error404">
 <br><br>
 <div align="center">
     <table><tr><td width="600px">
         <div id="message" align=center>
             Error 404. Page is not found
             <br>
-            by the way, look how <h3 style="display: inline-block;margin: 10px 0;" class="imgTittle">Integration with LinkedIn</h3> works in CleverStaff
+            by the way, look how <h3 class="imgTittle">Integration with LinkedIn</h3> works in CleverStaff
             <div id="banner-load"></div>
-            <span class="CSLanding" style="margin-top: 25px">
+            <span class="CSLanding">
                 <a href="/">Home</a>&nbsp;|&nbsp;<a href="https://cleverstaff.net/news/">Blog</a>&nbsp;|&nbsp;<a href="../signup.html">Sign up</a><br><br>
             </span>
-            <span class="CSWeb" style="display: none;margin-top: 25px">
+            <span class="CSWeb" style="display: none;">
                 <a href="/!#/organizer">Organizer</a>&nbsp;|&nbsp;<a href="/!#/vacancies">Vacancies</a>&nbsp;|&nbsp;<a href="/!#/candidates">Candidates</a><br><br>
             </span>
         </div>
     </td></tr></table>
+</div>
+<div class="background-animations">
+    <img class="cloud-1 position" src="/images/sprite/public-vacancy/cloud.png" alt="">
+    <img class="cloud-2 position" src="/images/sprite/public-vacancy/cloud.png" alt="">
+    <img class="cloud-3 position" src="/images/sprite/public-vacancy/cloud.png" alt="">
+    <img class="cloud-4 position" src="/images/sprite/public-vacancy/cloud.png" alt="">
+    <img class="plane-2 position" src="/images/sprite/public-vacancy/plane-2.png" alt="">
+    <img class="person-3 position" src="/images/sprite/public-vacancy/person-3.png" alt="">
+    <img class="planes position" src="/images/sprite/public-vacancy/plane.png" alt="">
+    <img class="person-1 position" src="/images/sprite/public-vacancy/person-1.png" alt="">
+    <img class="person-2 position" src="/images/sprite/public-vacancy/person-2.png" alt="">
+    <img class="flowers position" src="/images/sprite/public-vacancy/flower.png" alt="">
 </div>
 <script src="/lib/jquery/jquery-2.0.3.min.js"></script>
 <script type="application/javascript">
