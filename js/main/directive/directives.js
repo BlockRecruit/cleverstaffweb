@@ -4483,25 +4483,26 @@ directive('appVersion', ['version', function(version) {
         }
     }])
     .directive("customSelect",setCustomSelect);
-
-// ng-model="type" class="form-control col-lg-12 select-input-field"
-function setCustomSelect($compile){
+function setCustomSelect(){
     let restrict  = "EACM",
         scope = {
-            data:"="
+            data:"=",
+            model:"=",
+            placeholder:"@",
+            method:"="
         },
         template = `
-        <input type="text" class="form-control col-lg-12 select-input-field">
-        <div class="dropdown-content">
+        <input type="text" ng-model="model" placeholder="{{placeholder|translate}}" class="form-control col-lg-12 select-input-field">
+        <div class="dropdown-content" style="z-index: -999">
             <ul>
-                <li ng-repeat="item in data track by $index">{{item}}</li>
+                <li ng-repeat="item in data track by $index" ng-click="method(item)" ng-class="{disable: (item.status == 'N')}">{{item.text|translate}}</li>
             </ul>
         </div>`;
     return {
         restrict,
         scope,
+        template,
         link(scope, element, attrs){
-
         }
     };
 };

@@ -1190,6 +1190,8 @@
 						& > .select {
 							position: relative;
 							div.activeBlock {
+								z-index: 999999!important;
+
 								visibility: visible;
 								max-height: 400px;
 							}
@@ -1211,6 +1213,9 @@
 								ul {
 									margin: 0;
 									padding: 3px;
+								}
+								li:hover {
+									background-color: rgba(14%, 89%, 22%, 0.7);
 								}
 								li.disable {
 									color: $theme-light-grey;
@@ -1307,7 +1312,13 @@
 						}
 					}
 					.ageFrom {
-						padding-left: 20px;
+						padding: 10px;
+						input {
+							position: relative;
+							top: 8px;
+
+							height: 22px;
+						}
 						select {
 							display: inline-block;
 							width: 20%;

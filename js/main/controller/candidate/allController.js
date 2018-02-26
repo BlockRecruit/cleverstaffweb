@@ -2,7 +2,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                                 $rootScope, $filter, $cookies, serverAddress, notificationService, googleService, $window,
                                 ScopeService, frontMode, Vacancy, Company, vacancyStages, $sce, $analytics, Mail, FileInit, $uibModal, Person, $timeout, CandidateGroup, $anchorScroll) {
     $scope.experience = Service.experience();
-    $scope.responsibleName = "123123123";
     $rootScope.objectSize = null;
     $scope.enableExcelUploadAll = 'N';
     $scope.a = {};
@@ -654,8 +653,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.ageSearchTo = [];
     Service.gender($scope);
     for (var i = 15; i <= 80; i++) {
-        $scope.ageSearchFrom.push(i);
-        $scope.ageSearchTo.push(i);
+        $scope.ageSearchFrom.push({text:i,value:true});
+        $scope.ageSearchTo.push({text:i,value:false});
     }
     $rootScope.loading = false;
     $scope.isSearched = false;
@@ -679,12 +678,18 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam.regionId = null;
         $scope.searchParam.regionIdCity = null;
         $scope.searchParam.salary = null;
-        $scope.searchParam.status = 'null';
-        $scope.searchParam.sex = 'null';
+        $scope.searchParam.status.value = 'null';
+        $scope.searchParam.sex = {text:'',value:null};
         $scope.searchParam.employmentType = 'null';
         $scope.searchParam.industry = 'null';
-        $scope.searchParam.ageFrom = null;
-        $scope.searchParam.ageTo = null;
+        $scope.searchParam.ageFrom = {
+            text:'',
+            value:true
+        };
+        $scope.searchParam.ageTo={
+            text:'',
+            value:true
+        };
         $scope.searchParam.words = null;
         $scope.searchParam.company = null;
         $scope.searchParam.position = null;
@@ -699,6 +704,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam.lang =  'null';
         $scope.searchParam.origin = null;
         $scope.searchParam.skills = [];
+        $scope.searchParam.withPersonalContacts.value = null;
         $scope.setSkillAutocompleterValueForSearch('');
         $scope.setOriginAutocompleterValue('');
     };
@@ -714,12 +720,24 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam = {
             searchType: "AllWords",
             salary: null,
-            status: 'null',
-            sex: 'null',
+            status: {
+                value:'',
+                text:''
+            },
+            sex: {
+                value:null,
+                text:''
+            },
             employmentType: 'null',
             industry: 'null',
-            ageFrom: null,
-            ageTo: null,
+            ageFrom:{
+                text:'',
+                value:true
+            },
+            ageTo:{
+                text:'',
+                value:true
+            },
             sort: 'dm',
             sortOrder: 'DESC',
             words: null,
@@ -732,7 +750,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             regionId: 'null',
             candidateGroupIds: null,
             searchFullTextType: null,
-            withPersonalContacts: 'null',
+            withPersonalContacts: {
+                value:null,
+                text:''
+            },
             responsibleId: null,
             personId: Candidate.searchOptions().personId,
             personNameWhoSearching: $rootScope.usernameThatIsSearching,
@@ -746,7 +767,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             searchType: "AllWords",
             salary: null,
             status: 'null',
-            sex: 'null',
+            sex: {
+                value: null,
+                text: ''
+            },
             employmentType: 'null',
             industry: 'null',
             ageFrom: null,
@@ -755,7 +779,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             sortOrder: 'DESC',
             words: null,
             position: null,
-            withPersonalContacts: 'null',
+            withPersonalContacts: null,
             searchCs: true,
             candidateGroups: null,
             searchExternal: false,
@@ -890,14 +914,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("experience", $scope.searchParam.experience);
                 Candidate.setOptions("searchWordsInPosition", $scope.searchParam.searchWordsInPosition);
                 Candidate.setOptions("requiredAllContainsWords", $scope.searchParam.requiredAllContainsWords);
-                Candidate.setOptions("dateTo", isNotBlank($scope.searchParam['ageFrom']) ?
-                    new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageFrom'])).getTime() : null);
-                Candidate.setOptions("dateFrom", isNotBlank($scope.searchParam['ageTo']) ?
-                    new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageTo'])).getTime() : null);
-                Candidate.setOptions("state", isNotBlank($scope.searchParam['status']) ? $scope.searchParam['status'] : null);
+                Candidate.setOptions("dateTo", $scope.searchParam['ageFrom'].text ?
+                    new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageFrom'].text)).getTime() : null);
+                Candidate.setOptions("dateFrom", $scope.searchParam['ageTo'].text ?
+                    new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageTo'].text)).getTime() : null);
+                Candidate.setOptions("state", isNotBlank($scope.searchParam['status'].value) ? $scope.searchParam['status'].value : null);
                 Candidate.setOptions("words", isNotBlank($scope.searchParam['words']) ? $scope.searchParam['words'] : null);
                 Candidate.setOptions("salaryTo", $scope.searchParam['salary'] ? $scope.searchParam['salary'] : null);
-                Candidate.setOptions("sex", isNotBlank($scope.searchParam['sex']) ? $scope.searchParam['sex'] : null);
+                Candidate.setOptions("sex", isNotBlank($scope.searchParam['sex'].text) ? $scope.searchParam['sex'].value : null);
                 Candidate.setOptions("employmentType", isNotBlank($scope.searchParam['employmentType']) ? $scope.searchParam['employmentType'] : null);
                 Candidate.setOptions("responsibleId", isNotBlank($scope.searchParam['responsibleId']) ? $scope.searchParam['responsibleId'] : null);
                 Candidate.setOptions("industry", isNotBlank($scope.searchParam['industry']) ? $scope.searchParam['industry'] : null);
@@ -907,7 +931,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("searchFullTextType", isNotBlank($scope.searchParam['searchFullTextType']) ? $scope.searchParam['searchFullTextType'] : null);
                 Candidate.setOptions("sort", isNotBlank($scope.filterForChange) ? $scope.filterForChange : null);
                 Candidate.setOptions("sortOrder", $scope.filterForChange == 'alphabetically' ? 'ASC' : 'DESC');
-                Candidate.setOptions("withPersonalContacts", $scope.searchParam['withPersonalContacts'] == 'null' ? null: $scope.searchParam['withPersonalContacts'] == "true");
+                Candidate.setOptions("withPersonalContacts", $scope.searchParam['withPersonalContacts'].value == null ? null : $scope.searchParam['withPersonalContacts'].value);
                 Candidate.setOptions("skills",$scope.searchParam.skills.name ? [{name: $scope.getSkillAutocompleterValueForSearch(),type: $scope.searchParam.skills.type}] : null);
                 Candidate.setOptions("origin", isNotBlank($scope.searchParam['origin']) ? $scope.searchParam['origin'] : null);
                 $scope.criteriaForExcel = angular.copy(Candidate.searchOptions());
@@ -929,7 +953,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     }
                     Candidate.all($scope.candidateSearchOptions, function (response) {
                         if(response.status != 'error') {
-                            $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
                             $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
                             $rootScope.objectSizeCand = $rootScope.objectSize;
                             $rootScope.searchParam = $scope.searchParam;
@@ -1004,6 +1027,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         }
     });
     Person.getAllPersons(function (resp) {
+        let obj, person;
         $scope.persons = [];
         $rootScope.persons = [];
         $rootScope.personsNotChanged = [];
@@ -1013,6 +1037,21 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $rootScope.persons.push($scope.associativePerson[key]);
             $rootScope.personsNotChanged.push($scope.associativePerson[key]);
         });
+
+        $scope.personsNameOrStatus = $scope.persons.map((item, index) => {
+            let me = "(Me) ";
+            if(item.userId === $rootScope.me.userId){
+                me += item.cutFullName;
+                item.cutFullName = me;
+                obj = {text:item.cutFullName, status:item.status, id:item.userId};
+                person = Object.assign({}, obj);
+                return obj;
+            }
+            return {text:item.cutFullName, status:item.status, id:item.userId}
+        }).sort((a, b) => {return (b.status > a.status)? -1 : 1});
+
+        $scope.personsNameOrStatus.splice($scope.personsNameOrStatus.indexOf(obj), 1);
+        $scope.personsNameOrStatus.unshift(person);
     });
 
     $scope.changeInputPage = function(params,searchNumber){
@@ -1087,14 +1126,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $scope.staticSearchParam[0].skills.type = '_all';
             $scope.searchParam.skills.type = '_all';
         }else if(param == 'sex'){
-            $scope.staticSearchParam[0].sex = 'null';
-            $scope.searchParam.sex = 'null';
+            $scope.staticSearchParam[0].sex.value = null;
+            $scope.searchParam.sex.value = null;
         }else if(param == 'salary'){
             $scope.staticSearchParam[0].salary = null;
             $scope.searchParam.salary = null;
         }else if(param == 'status'){
             $scope.staticSearchParam[0].status = 'null';
-            $scope.searchParam.status = 'null';
+            $scope.searchParam.status.value = 'null';
         }else if(param == 'ageFrom'){
             $scope.staticSearchParam[0].ageFrom = null;
             $scope.searchParam.ageFrom = null;
@@ -1134,8 +1173,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $scope.searchParam.regionId = null;
             $scope.searchParam.regionIdCity = null;
         }else if(param == 'withPersonalContacts'){
-            $scope.staticSearchParam[0].withPersonalContacts = 'null';
-            $scope.searchParam.withPersonalContacts = 'null';
+            $scope.staticSearchParam[0].withPersonalContacts = null;
+            $scope.searchParam.withPersonalContacts.value = null;
         }else if(param == 'origin'){
             $scope.staticSearchParam[0].origin = null;
             $scope.searchParam.origin = null;
@@ -1204,8 +1243,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $rootScope.clickSearch();
     };
     $rootScope.clickSearch = function () {
-        if(($scope.searchParam.salary != null || $scope.searchParam.status != 'null' ||
-                $scope.searchParam.sex != 'null' || $scope.searchParam.employmentType != 'null' ||
+        if(($scope.searchParam.salary != null || $scope.searchParam.status.value != 'null' ||
+                $scope.searchParam.sex.value != 'null' || $scope.searchParam.employmentType != 'null' ||
                 $scope.searchParam.industry != 'null' || $scope.searchParam.ageFrom != null ||
                 $scope.searchParam.ageTo != null || $scope.filterForChange != 'dm' ||
                 $scope.searchParam.sortOrder != 'DESC' || $scope.searchParam.words != null || $scope.searchParam.name != null ||
@@ -1214,7 +1253,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 $scope.searchParam.candidateGroupIds != null || $scope.searchParam.searchFullTextType != null ||
                 $scope.searchParam.responsibleId != 'null' || $scope.searchParam.personId != null ||
                 $scope.searchParam.experience != 'null' || $scope.searchParam.lang != 'null' ||
-                $scope.searchParam.skills.type != '_all' || $scope.searchParam.withPersonalContacts != 'null') || ($scope.searhcForSure)){
+                $scope.searchParam.skills.type != '_all' || ($scope.searchParam.withPersonalContacts.value != 'null' && $scope.searchParam.withPersonalContacts.value)) || ($scope.searhcForSure)){
             $scope.searhcForSure = false;
             $scope.showExternalMenu = false;
             $scope.clickBtnSort = true;
@@ -1239,13 +1278,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 notificationService.error($filter('translate')('Enter more data for search'));
                 return
             }
+            console.log($scope.searchParam.withPersonalContacts, '123');
 
             var array = [];
             array.push({
                 searchType: '',
                 salary: $scope.searchParam.salary,
-                status: $scope.searchParam.status,
-                sex: $scope.searchParam.sex,
+                status: $scope.searchParam.status.value,
+                sex:{value:$scope.searchParam.sex.value, text:$scope.searchParam.sex.text},
                 employmentType: $scope.searchParam.employmentType,
                 industry: $scope.searchParam.industry,
                 ageFrom: $scope.searchParam.ageFrom,
@@ -1272,12 +1312,13 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 lang: $scope.searchParam.lang,
                 skills: $scope.searchParam.skills,
                 origin: $scope.searchParam.origin,
-                withPersonalContacts: $scope.searchParam.withPersonalContacts
+                withPersonalContacts: $scope.searchParam.withPersonalContacts.value == null? null : $scope.searchParam.withPersonalContacts.value
             });
+            console.log(array, 'array')
             $scope.staticSearchParam = array;
             if ($scope.searchParam['name'] ||
                 $scope.searchParam['salary'] ||
-                $scope.searchParam['status'] ||
+                $scope.searchParam['status'].value ||
                 $scope.searchParam['words'] ||
                 $scope.searchParam['ageTo'] ||
                 $("#regionExternalSearchRegion").select2('data') ||
@@ -1405,6 +1446,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         }
     };
     $scope.status = Candidate.getStatus();
+    $scope.statusFilter= $scope.status.map(item => {
+        return {text:item.value};
+    });
+
     if ($localStorage.isExist("candidateSearchObject")) {
         var json = JSON.parse($localStorage.get("candidateSearchObject"));
         $scope.searchExternalObject = json.searchExternalObject;
@@ -1863,23 +1908,20 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             return;
         }
 
-        if(element.classList.contains('select-list')){
-            console.dir(element, 'element')
-            selectResponsible(element.dataset.id, element.textContent);
-            return;
-        }
-
         removeActiveBlock();
     };
 
-    function selectResponsible(id, name) {
-        $scope.searchParam.responsibleId = id;
-        $scope.responsibleName = name;
+    function selectResponsible(vacancy) {
+        console.log(vacancy, 'vacancy')
+        $scope.searchParam.responsibleId = vacancy.id;
+        $scope.responsibleName = vacancy.text;
         removeActiveBlock();
     }
 
     function clickOnSelectBlock(element) {
         if(element.classList.contains('select-input-field')){
+            removeActiveBlock();
+            element.nextElementSibling.style = '';
             element.nextElementSibling.classList.toggle('activeBlock');
             return;
         }
@@ -1897,9 +1939,21 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     function removeActiveBlock() {
         let activeBlock = document.querySelector('.activeBlock');
-            console.log(activeBlock, 'activeBlock')
-        if(activeBlock)activeBlock.classList.remove('activeBlock');
+        if(activeBlock){
+            activeBlock.style.zIndex = '-1';
+            activeBlock.classList.remove('activeBlock');
+        }
     }
+
+
+    $scope.selectResponsible = selectResponsible;
+    $scope.selectStatus = item => $scope.searchParam.status = {text:$filter('translate')(item.text), value:item.text};
+    $scope.selectWithPersonalContacts = item => $scope.searchParam.withPersonalContacts = item;
+    $scope.selectPersonSex = item => $scope.searchParam.sex = item;
+    $scope.selectPersonAge = item => (item.value)? $scope.searchParam.ageFrom = item:$scope.searchParam.ageTo = item;
+
+
+
 
     FileInit.initFileExcellUpload($rootScope, $scope, "candidate", {allowedType: ["xls", "xlsx"]}, $filter);
 }
