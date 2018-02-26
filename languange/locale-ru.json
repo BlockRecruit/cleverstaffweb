@@ -2908,5 +2908,6 @@
   "The candidates have been successfully moved to the stage": "Кандидаты были успешно переведены на этап",
   "relocate": "переезд",
   "Select the specific vacancy for the Hiring manager": "Выберите вакансию, к которой будет привязан Hiring manager",
+  "Hiring manager must be responsible for the vacancy.Please select a vacancy": "Hiring manager должен быть ответственным по вакансии. Пожалуйста, выберите вакансию",
   "Hiring Manager will be responsible for this vacancy after registration in account.": "После регистрации в аккаунте, Hiring Manager будет ответственным за эту вакансию"
 }

@@ -328,7 +328,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             } else if ($rootScope.inviteUser.email == null) {
                 notificationService.error($filter('translate')('wrong_email'));
             }else if($rootScope.inviteUser.role == 'client' && ($rootScope.VacancyAddedInCandidate == null || $rootScope.VacancyAddedInCandidate == undefined)){
-                notificationService.error($filter('translate')('Select the specific vacancy for the Hiring manager'));
+                notificationService.error($filter('translate')('Hiring manager must be responsible for the vacancy.Please select a vacancy'));
             } else {
                 if($rootScope.VacancyAddedInCandidate != undefined){
                     $rootScope.inviteUser.vacancyId = $rootScope.VacancyAddedInCandidate.vacancyId;
