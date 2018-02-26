@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "gulp-install": "^0.6.0",
+    "handlebars": "^4.0.11",
     "ng-meta": "^1.0.0"
   }
 }
