@@ -645,6 +645,9 @@
 					padding-left: 0;
 				}
 				.sortBy {
+					.width-auto {
+						width: auto;
+					}
 					.no-padding {
 						padding: 0;
 					}
