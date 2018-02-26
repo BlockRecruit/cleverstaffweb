@@ -34,7 +34,8 @@ angular.module('services', [
         'services.customField',
         'services.translateWords',
         'services.CustomReportsService',
-        'services.CustomReportEditService'
+        'services.CustomReportEditService',
+        'services.slider'
     ]
 );
 

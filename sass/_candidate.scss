@@ -1,9 +1,12 @@
-	.block-candidate {
+.block-candidate {
+	position: relative;
+
 	width: 95%;
 	margin: 0 auto;
 	.breadcrumb {
 		margin: 0;
 	}
+
 	.candidate-information {
 		@include bt-margins-from-side();
 		.fullName-position {
@@ -1480,6 +1483,57 @@
 		}
 	}
 }
+
+.main-block {
+	position: relative;
+	z-index: 99;
+	.leftBlockArrow {
+		position: fixed;
+		z-index: -9999;
+		top: 0;
+		left: 0;
+
+		height: 100%;
+
+		background-color: rgb(227, 227, 227);
+		.fa:hover {
+			transform: scale(1.5);
+		}
+	}
+	.rightBlockArrow {
+		position: fixed;
+		z-index: -9999;
+		top: 0;
+		right: 0;
+
+		height: 100%;
+
+		background-color: rgb(227, 227, 227);
+		.fa:hover {
+			transform: scale(1.5);
+		}
+	}
+}
+
+.nextElements {
+	z-index: -9999;
+	&.fa-chevron-left {
+		font-size: 30px;
+
+		position: fixed;
+		top: 50%;
+		left: 3px;
+	}
+	&.fa-chevron-right {
+		font-size: 30px;
+
+		position: fixed;
+		top: 50%;
+		right: 3px;
+	}
+}
+
+
 @media (min-width: $screen-md) {
 	.candidate-profile-rezume .centerBar .profile-menu {
 		display: inline-block!important;

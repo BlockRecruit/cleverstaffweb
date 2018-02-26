@@ -1,7 +1,9 @@
 controller.controller('vacanciesController', ["localStorageService", "$scope", "Vacancy", "ngTableParams", "$location", "Client", "$rootScope", "$filter", "Service",
-    "ScopeService", "Company", "notificationService", "serverAddress", "$timeout", "Person", "$uibModal", "$anchorScroll",
+    "ScopeService", "Company", "notificationService", "serverAddress", "$timeout", "Person", "$uibModal", "$anchorScroll", "Candidate",
     function(localStorageService, $scope, Vacancy, ngTableParams, $location, Client, $rootScope, $filter, Service, ScopeService, Company, notificationService,
-             serverAddress, $timeout, Person, $uibModal, $anchorScroll) {
+             serverAddress, $timeout, Person, $uibModal, $anchorScroll, Candidate) {
+    localStorage.removeItem('getAllCandidates');
+    localStorage.removeItem('currentPage');
     $scope.vacanciesFound = null;
     $rootScope.searchCheckVacancy = $rootScope.searchCheckVacancy == undefined ? false : $rootScope.searchCheckVacancy;
     $scope.onlyMe = $rootScope.onlyMe;
@@ -23,6 +25,12 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
     $scope.chosenStatuses = [];
     $scope.currentStatus = null;
     $scope.isSearched = false;
+    $rootScope.setCurrent = true;
+    localStorage.setItem('currentPage','vacancies');
+    $rootScope.currentElementPos = true;
+    Candidate.candidateLastRequestParams = null;
+    Candidate.getCandidate = [];
+    Vacancy.getCandidate = [];
     $rootScope.changeStateObject = {status: "", comment: "", placeholder: null};
     $rootScope.closeModal = function(){
         $scope.modalInstance.close();

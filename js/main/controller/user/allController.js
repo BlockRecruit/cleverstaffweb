@@ -12,6 +12,7 @@ controller.controller('usersController', ["$localStorage", "$translate", "$scope
         $scope.sortReverseDisabled = true;
         $scope.toggleDisabledUsers = true;
         $scope.toggleInvitedUsers = true;
+        localStorage.setItem("isAddCandidates", false);
         $localStorage.remove("previousHistoryCustomFields");
         //listenerForScope($scope, $rootScope);
         $rootScope.closeModal = function(){

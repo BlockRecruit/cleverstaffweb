@@ -9,7 +9,8 @@
 </div>
 <div class="col-lg-10 margin-top">
     <span>
-        <a href="#/candidates/{{history.candidate.localId}}">
+
+        <a ng-click="routeOnCandidate(history.candidate.localId, 'history')">
             {{history.candidate.fullName}}
         </a>
         {{'history_info.added_in'|translate}}

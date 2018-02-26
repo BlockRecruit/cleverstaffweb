@@ -798,6 +798,22 @@ angular.module('services.vacancy', [
     };
     vacancy.init();
     vacancy.getAllVacansies = (params) => $q((resolve, reject) =>vacancy.getVacanciesForReport(params, response => resolve(response), error => reject(error)));
+    vacancy.requestGetCandidatesInStages = function (params) {
+        $rootScope.loading = true;
+        return new Promise((resolve, reject) => {
+            vacancy.getCandidatesInStages(params, (response) => {
+                console.log('!!!!!!!!!!!!!!')
+                vacancy.candidateLastRequestParams = params;
+                vacancy.getCandidate = response.objects.map(item => item.candidateId.localId);
+                localStorage.setItem('candidateLastRequestParams', JSON.stringify(params));
+                localStorage.setItem('getAllCandidates', JSON.stringify(vacancy.getCandidate));
+                resolve(response, params);
+            },() =>{
+                reject();
+            });
+        });
+    };
+
     return vacancy;
 }
 ]);

@@ -5853,7 +5853,7 @@ angular.module('services.candidateGroup', [
 angular.module('services.candidate', [
     'ngResource',
     'ngCookies'
-]).factory('Candidate', ['$resource', 'serverAddress', '$filter', '$localStorage',"notificationService","$rootScope","$translate", function($resource, serverAddress, $filter, $localStorage,notificationService, $rootScope,$translate) {
+]).factory('Candidate', ['$resource', 'serverAddress', '$filter', '$localStorage',"notificationService","$rootScope","$translate", function($resource, serverAddress, $filter, $localStorage,notificationService, $rootScope, $translate ) {
     var options;
 
     var candidate = $resource(serverAddress + '/candidate/:param', {param: "@param"}
@@ -7150,7 +7150,6 @@ angular.module('services.candidate', [
     candidate.init();
 
     candidate.getAllCandidates = function (params) {
-        console.log(params, 'params');
         candidate.candidateLastRequestParams = params;
         localStorage.setItem('candidateLastRequestParams', JSON.stringify(params));
         return new Promise((resolve, reject) => {
@@ -11476,6 +11475,319 @@ angular.module('services.scope', []).factory('ScopeService', ['$rootScope', 'loc
 ])
 ;
 
+angular.module('services.slider', [
+    'ngResource',
+    'ngCookies'
+]).factory('sliderElements', ['$resource', 'serverAddress', '$filter', '$localStorage',"notificationService","$rootScope","$translate","$location","Candidate","Vacancy", function($resource, serverAddress, $filter, $localStorage,notificationService, $rootScope,$translate, $location, Candidate, Vacancy) {
+    let sliderElements = {},currentPage,
+         iterator = (function () {
+    let index = 0,
+        collection = [],
+        length = 0;
+
+        function getNewPackCandidatesNext($scope) {
+            if(currentPage === 'candidates'){
+                Candidate.getAllCandidates(sliderElements.params)
+                    .then((resp, params) => {
+                        collection = collection.concat(resp.objects.map(item => item.localId))
+                        return {
+                            collection: collection,
+                            params: sliderElements.params
+                        }
+                    })
+                    .then(data => {
+                        $scope.$apply(() =>{
+                            Candidate.getCandidate = data.collection;
+                            localStorage.setItem('getAllCandidates', JSON.stringify(Candidate.getCandidate));
+                            sliderElements.params = data.params;
+                            console.log(sliderElements.params, 'sliderElements.params')
+                            $location.path("candidates/" +  (data["collection"][length]));
+                            length = data.collection.length;
+                            sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'up']);
+                            $rootScope.loading = false;
+                        })
+                    });
+            }else{
+                Vacancy.requestGetCandidatesInStages(sliderElements.params)
+                    .then((resp) => {
+                        console.log(resp, 'resp');
+                        collection = collection.concat(resp.objects.map(item => item.candidateId.localId));
+                        console.log(collection, 'collection!2222!!!!!');
+                        return {
+                            collection: collection,
+                            params: sliderElements.params
+                        }
+                    })
+                    .then(data => {
+                        $scope.$apply(() =>{
+                            Vacancy.getCandidate = data.collection;
+                            localStorage.setItem('getAllCandidates', JSON.stringify(Vacancy.getCandidate));
+                            sliderElements.params = data.params;
+                            $location.path("candidates/" +  (data["collection"][length]));
+                            length = data.collection.length;
+                            sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'up']);
+                            $rootScope.setCurrent = false;
+                            $rootScope.loading = false;
+                        })
+                    });
+            }
+            return null;
+        }
+
+        function getNewPackCandidatesPrevious($scope, type) {
+            if(currentPage === 'candidates'){
+                Candidate.getAllCandidates(sliderElements.params)
+                    .then((resp, params) => {
+                        console.log(resp, 'resp');
+                        resp.objects.reverse().map(item =>{
+                            collection.unshift(item.localId)
+                        });
+                        return {
+                            collection: collection,
+                            params: sliderElements.params
+                        }
+                    })
+                    .then(data => {
+                        $scope.$apply(() =>{
+                            Candidate.getCandidate = data.collection;
+                            localStorage.setItem('getAllCandidates', JSON.stringify(Candidate.getCandidate));
+                            sliderElements.params = data.params;
+                            $location.path("candidates/" +  (data["collection"][data.params.page.count - 1]));
+                            length = data.collection.length;
+                            index  = data.params.page.count - 2;
+                            sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'down']);
+                            $rootScope.loading = false;
+                        })
+                    });
+            }else{
+                Vacancy.requestGetCandidatesInStages(sliderElements.params)
+                    .then((resp, params) => {
+                        resp.objects.reverse().map(item =>collection.unshift(item.candidateId.localId));
+                        return {
+                            collection: collection,
+                            params: sliderElements.params
+                        }
+                    })
+                    .then(data => {
+                        $scope.$apply(() =>{
+                            Vacancy.getCandidate = data.collection;
+                            localStorage.setItem('getAllCandidates', JSON.stringify(Vacancy.getCandidate));
+                            sliderElements.params = data.params;
+                            $location.path("candidates/" +  (data["collection"][data.params.page.count - 1]));
+                            length = data.collection.length;
+                            index  = data.params.page.count - 2;
+                            sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'down']);
+                            $rootScope.loading = false;
+                        })
+                    });
+            }
+            return null;
+        }
+
+
+        // currentPage = getLocation();
+        //      sliderElements.getData = getData;
+        function getData() {
+            sliderElements.params ;
+
+            if(currentPage === 'candidates'){ // проверка от куда зашел пользователь
+                sliderElements.params = Candidate.candidateLastRequestParams || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
+                if(Candidate.getCandidate){
+                    collection = Candidate.getCandidate;
+                    length = collection.length;
+                }else if(localStorage.getItem('getAllCandidates')){
+                    collection = JSON.parse(localStorage.getItem('getAllCandidates'));
+                    length = collection.length;
+                }
+            }else if(currentPage == 'vacancies'){
+                sliderElements.params = Vacancy.candidateLastRequestParams  || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
+                if(localStorage.getItem('candidatesInStagesVac')){
+                    collection = Vacancy.getCandidate || JSON.parse(localStorage.getItem('candidatesInStagesVac'));
+                    length =  collection.length;
+                }
+            }
+        }
+
+        getData();
+
+        return{ // патерн итератор
+                next($scope){
+                    var element = '';
+
+                    if(!this.hasNext()){
+                        return getNewPackCandidatesNext($scope);
+                    }else{
+                        getData();
+                        index = index  + 1;
+                        element = collection[index];
+                        this.index = index;
+                        return element;
+                    }
+                },
+                previous($scope){
+                    var element;
+
+                    if(!this.hasPrevious()){
+                        return getNewPackCandidatesPrevious($scope);
+                    }
+                    (index !== 0)? index = index - 1 : index = 0;
+                    element = collection[index];
+                    this.index = index;
+                    return element;
+                },
+                hasNext(){
+                    (index > 0 && ((index + 1) % sliderElements.params.page.count == 0))? sliderElements.params.page.number += 1 : false;
+                    return index < length - 1;
+                },
+                hasPrevious(){
+                    (index > 0 && (index % sliderElements.params.page.count === 0) || index == 0)? sliderElements.params.page.number -= 1 : false;
+                    return index > 0;
+                },
+                current(){
+                    let localId = $location.path().split('/')[2];
+                        getData();
+                        index = collection.indexOf(localId);
+                        length = collection.length;
+                        console.log(collection, 'collection')
+                        console.log(index, 'index')
+                        this.length = length;
+                        this.index = index;
+                }
+        }
+    })();
+    sliderElements.nextOrPrevElements = function ($scope, event) {
+        let i = event.pageX, j = event.pageY,
+            buttons = document.querySelectorAll('.leftBlockArrow, .rightBlockArrow'),
+            mass = [].slice.apply(event.target.classList);
+
+        const   mainBlock = document.querySelector('.main-block'),
+                coords = getCoords(mainBlock.firstElementChild),
+                blockElementOffsetLeft = coords.left,
+                blockCandidateOffsetRight = coords.right;
+
+        if( event.target.classList[1] === 'fa-chevron-left'  ||
+            event.target.classList[1] === 'fa-chevron-right' ||
+            event.target.classList[0] === 'leftBlockArrow'        ||
+            event.target.classList[0] === 'rightBlockArrow') return;
+
+        if(buttons && buttons.length >= 1 && mass.indexOf('main-block') === -1){
+            buttons.forEach((elem)=>{
+                elem.remove();
+            });
+            return;
+        }
+
+        if( i <= blockElementOffsetLeft){
+            iterator.current();
+            event.target.style.cursor = 'pointer';
+            createArrowLeft(blockElementOffsetLeft, mainBlock);
+        }else if( i >= blockCandidateOffsetRight){
+            iterator.current();
+            event.target.style.cursor = 'pointer';
+            createArrowRight(blockElementOffsetLeft, sliderElements.nextElement["cacheCandidateLength"], sliderElements.nextElement["cacheCurrentIndex"], mainBlock);
+        }else{
+            mainBlock.style.cursor = 'initial';
+        }
+    };
+
+    sliderElements.nextElement = function ($scope, event) {
+        let element;
+
+        console.log(sliderElements.nextElement["cacheCurrentPosition"], 'sliderElements.nextElement["cacheCurrentPosition"]');
+        sliderElements.nextElement["cacheCurrentPosition"] = +localStorage.getItem('numberPage');
+        console.log(sliderElements.nextElement["cacheCurrentPosition"], 'sliderElements.nextElement["cacheCurrentPosition"]');
+
+        if(event.target.dataset.btn === 'right'){
+            element =  iterator.next($scope);
+            sliderElements.nextElement["cacheCurrentPosition"] += 1;
+            localStorage.setItem('numberPage', sliderElements.nextElement["cacheCurrentPosition"]);
+        }else if(event.target.dataset.btn  === "left"){
+            element = iterator.previous($scope);
+            sliderElements.nextElement["cacheCurrentPosition"] -= 1;
+            localStorage.setItem('numberPage',  sliderElements.nextElement["cacheCurrentPosition"]);
+        }
+
+        if(!element) return;
+
+        $location.path("candidates/" + element);
+    };
+
+    // sliderElements.nextElement["cacheCurrentPosition"] = +localStorage.getItem('numberPage');
+
+    sliderElements.setCurrent = () =>{
+        currentPage = getLocation();
+        if($rootScope.setCurrent)
+            sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [true]);
+        $rootScope.setCurrent = false;
+    };
+
+    function getPosition(flag, route){
+        let pageNumber = this.params.page.number + 1, count = this.params.page.count, index, resault;
+        console.log(pageNumber, 'pageNumber');
+        console.log(count, 'count');
+        console.log(count, 'count');
+
+        if(flag){
+            iterator.current();
+            index = iterator.index;
+            resault = ((pageNumber * count) - count) + index;
+        }else{
+            if(route == 'up'){
+                resault = ((pageNumber * count) - count);
+            }else if(route == 'down'){
+                resault = pageNumber * count;
+                resault--;
+            }
+        }
+        localStorage.setItem('numberPage', resault);
+        return resault;
+    }
+
+    function createArrowLeft(width, mainBlock) {
+        let currentIndex = iterator.index,
+            number = sliderElements.params.page.number + 1;
+
+        if((number === 1) && (currentIndex == 0) || !$rootScope.isAddCandidates){
+            mainBlock.style.cursor = 'initial';
+            return;
+        }
+
+        $('.main-block').append('<div class="leftBlockArrow" data-btn="left" ng-if="currentIndex != 1" style="width:' + width + 'px" data-btn="left"><i data-btn="left" class="fa fa-chevron-left nextElements"></i> </div>');
+    }
+
+    function createArrowRight(width, cacheCandidateLength, cacheCurrentIndex, mainBlock) {
+        let max = $rootScope.objectSize || localStorage.getItem('objectSize'),
+            currentIndex = iterator.index,
+            currentLength = iterator.length - 1,
+            number = sliderElements.params.page.number + 1,
+            count = sliderElements.params.page.count;
+
+        console.log($rootScope.isAddCandidates, 'sliderElements');
+
+        if((number === Math.ceil(max / count)) && (currentIndex == currentLength) || !$rootScope.isAddCandidates){
+            mainBlock.style.cursor = 'initial';
+            return;
+        }
+
+        $('.main-block').append('<div class="rightBlockArrow" data-btn="right"  style="width:' + width + 'px"; data-btn="right"><i  data-btn="right" class="fa fa-chevron-right nextElements"></i></div>');
+    };
+
+    function getCoords(elem) {
+        var box = elem.getBoundingClientRect();
+        return {
+            right: box.right + pageXOffset,
+            left: box.left + pageXOffset
+        };
+    }
+
+    function getLocation() {
+        currentPage =  localStorage.getItem('currentPage');
+        return currentPage;
+    }
+
+
+    return sliderElements;
+}]);
  angular.module('services.statistic', [
     'ngResource'
 ]).factory('Statistic', ['$resource', 'serverAddress', function($resource, serverAddress) {
@@ -13607,6 +13919,22 @@ angular.module('services.vacancy', [
     };
     vacancy.init();
     vacancy.getAllVacansies = (params) => $q((resolve, reject) =>vacancy.getVacanciesForReport(params, response => resolve(response), error => reject(error)));
+    vacancy.requestGetCandidatesInStages = function (params) {
+        $rootScope.loading = true;
+        return new Promise((resolve, reject) => {
+            vacancy.getCandidatesInStages(params, (response) => {
+                console.log('!!!!!!!!!!!!!!')
+                vacancy.candidateLastRequestParams = params;
+                vacancy.getCandidate = response.objects.map(item => item.candidateId.localId);
+                localStorage.setItem('candidateLastRequestParams', JSON.stringify(params));
+                localStorage.setItem('getAllCandidates', JSON.stringify(vacancy.getCandidate));
+                resolve(response, params);
+            },() =>{
+                reject();
+            });
+        });
+    };
+
     return vacancy;
 }
 ]);
@@ -13685,7 +14013,8 @@ angular.module('services', [
         'services.customField',
         'services.translateWords',
         'services.CustomReportsService',
-        'services.CustomReportEditService'
+        'services.CustomReportEditService',
+        'services.slider'
     ]
 );
 
@@ -14359,7 +14688,6 @@ angular.module('RecruitingApp', [
     });
 }).config(function (googleServiceProvider, $logProvider, $translateProvider, tmhDynamicLocaleProvider) {
     /************************************/
-
     googleServiceProvider.configure({
         clientIdT: '195081582460-eo4qmmi7o6hii0ckmrc004lhkh9m3596.apps.googleusercontent.com',
         clientIdW: apiKey.google.client_id,
@@ -15140,6 +15468,7 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
     $rootScope.loading = true;
     $rootScope.showAchieves = true;
     $scope.activeVacancy = null;
+        localStorage.setItem("isAddCandidates", false);
         Task.task($scope, $rootScope, $location, $translate, $uibModal, $route);
         //if(localStorage.showAchieves == 'true'){
         //    $scope.showAchieves = true;
@@ -16183,6 +16512,7 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
 controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope", "Service", "Person", "Company", "notificationService", "$filter", "$translate", "$uibModal", "vacancyStages","Action","CacheCandidates",
     function($scope, $rootScope, Service, Person, Company, notificationService, $filter, $translate, $uibModal, vacancyStages, Action, CacheCandidates) {
     $scope.showHistory = true;
+    localStorage.setItem("isAddCandidates", JSON.stringify(false));
     $scope.loading = true;
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
@@ -17409,9 +17739,9 @@ controller.controller('ActivityStatisticsController', ["$scope", "$rootScope", "
 }]);
 
 controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope", "$translate", "FileInit", "$location", "Service", "Candidate", "notificationService", "$filter",
-    "$localStorage", "$cookies", "$window", "serverAddress","$routeParams", "$uibModal", "CustomField",
+    "$localStorage", "$cookies", "$window", "serverAddress","$routeParams", "$uibModal", "CustomField","sliderElements",
     function($rootScope, $http, $scope, $translate, FileInit, $location, Service, Candidate, notificationService, $filter, $localStorage,
-             $cookies, $window, serverAddress,$routeParams, $uibModal, CustomField) {
+             $cookies, $window, serverAddress,$routeParams, $uibModal, CustomField, sliderElements) {
     Service.toAddCandidate("/candidates/");
 
 
@@ -17845,9 +18175,6 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
         } else {
             salaryBol = false;
         }
-
-        console.log($scope.candidateForm);
-        console.log($scope.candidateForm.$valid);
         if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed) {
             $scope.saveButtonIsPressed = true;
             var candidate = $scope.candidate;
@@ -17900,6 +18227,8 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             candidate.origin = $scope.getOriginAutocompleterValue();
             deleteUnnecessaryFields(candidate);
             Candidate.add(candidate, function(val) {
+                $rootScope.isAddCandidates = false;
+                localStorage.setItem("isAddCandidates", $rootScope.isAddCandidates);
                 if (angular.equals(val.status, "ok")) {
                     $scope.saveButtonIsPressed = false;
                     notificationService.success($filter('translate')('Candidate saved'));
@@ -18508,10 +18837,14 @@ controller.controller('CandidateAddFromZipController', ["Notice", "$localStorage
 
 function CandidateAllController($localStorage, $translate, Service, $scope, ngTableParams, Candidate, $location,
                                 $rootScope, $filter, $cookies, serverAddress, notificationService, googleService, $window,
-                                ScopeService, frontMode, Vacancy, Company, vacancyStages, $sce, $analytics, Mail, FileInit, $uibModal, Person, $timeout, CandidateGroup, $anchorScroll) {
+                                ScopeService, frontMode, Vacancy, Company, vacancyStages, $sce, $analytics, Mail, FileInit, $uibModal, Person, $timeout, CandidateGroup, $anchorScroll, ) {
     $scope.experience = Service.experience();
     $rootScope.objectSize = null;
+    $rootScope.isAddCandidates= true;
+    localStorage.setItem("isAddCandidates", $rootScope.isAddCandidates);
+    $rootScope.candidateLength = null;
     $scope.enableExcelUploadAll = 'N';
+    $rootScope.setCurrent = true;
     $scope.a = {};
     $scope.a.searchNumber = 1;
     $scope.candidatesAddToVacancyIds = [];
@@ -18520,6 +18853,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.previousFlag = true;
     $scope.placeholder = $filter('translate')('by position');
     $rootScope.candidatesAddToVacancyIds = $scope.candidatesAddToVacancyIds;
+    $rootScope.currentElementPos = true;
+    localStorage.setItem('currentPage', 'candidates');
+    localStorage.removeItem('stageUrl');
+    localStorage.removeItem('candidatesInStagesVac');
+    localStorage.removeItem('getAllCandidates');
+    Candidate.getCandidate = [];
     vacancyStages.get(function (resp) {
         $scope.customStages = resp.object.interviewStates;
         $rootScope.customStages = resp.object.interviewStates;
@@ -19434,10 +19773,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                             $anchorScroll('mainTable');
                         });
                     }
-                    Candidate.all($scope.candidateSearchOptions, function (response) {
-                        if(response.status != 'error') {
+
+
+                    Candidate.getAllCandidates($scope.candidateSearchOptions)
+                        .then(response =>{
+                            console.log(response, 'responsegu')
                             $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
-                            $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
+                            $rootScope.objectSize = response['objects'] ? response['total'] : 0;
+                            localStorage.setItem('objectSize',  $rootScope.objectSize);
                             $rootScope.objectSizeCand = $rootScope.objectSize;
                             $rootScope.searchParam = $scope.searchParam;
                             params.total(response['total']);
@@ -19459,23 +19802,17 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                             $scope.limitReached = response['limitReached'];
                             if(page) {
                                 $scope.candidates = $scope.candidates.concat(response['objects'])
-                                console.log($scope.candidates);
                             } else {
                                 $scope.candidates = response['objects'];
-                                console.log($scope.candidates);
                             }
                             $defer.resolve($scope.candidates);
-
-                            Candidate.init();
+                            // Candidate.init();
                             $scope.searchParam.searchCs = true;
-                        } else {
-                            notificationService.error(response.message)
-                        }
-                        $rootScope.loading = false;
-                    }, function () {
-                        $rootScope.loading = false;
-                    });
+                            $rootScope.loading = false;
+                            $scope.$apply();
+                        }, resp => $rootScope.loading = false);
                 }
+
                 getCandidates();
                 $scope.showMore = function () {
                     $scope.isShowMore = true;
@@ -21148,8 +21485,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 266){
-                    $('#page-avatar').css({'width': '100%', 'height': 'auto'});
                 }else{
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
@@ -23515,13 +23850,16 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
 
 controller.controller('CandidateOneController', ["CacheCandidates", "$localStorage", "$scope", "frontMode", "$translate", "googleService", "$location", "$routeParams", "Candidate",
     "Service", "$rootScope", "Person", "serverAddress", "FileInit", "notificationService", "$filter", "Vacancy",
-    "Action", "vacancyStages", "Task", "File", "$sce", "$window", "Mail", "$uibModal", "$timeout", "$route", "Test", "CandidateGroup",
+    "Action", "vacancyStages", "Task", "File", "$sce", "$window", "Mail", "$uibModal", "$timeout", "$route", "Test", "CandidateGroup","sliderElements",
     function (CacheCandidates, $localStorage, $scope, frontMode, $translate, googleService, $location, $routeParams, Candidate, Service, $rootScope, Person, serverAddress, FileInit,
-              notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup ) {
+              notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup, sliderElements) {
         delete $rootScope.client;
         $scope.serverAddress = serverAddress;
+        $rootScope.objectSize = null;
+        $rootScope.isAddCandidates =  JSON.parse(localStorage.getItem("isAddCandidates"));
         $localStorage.remove("candidateForTest");
-        if($location.$$absUrl.indexOf('&task=') != -1) {
+
+        if($location.$$absUrl.indexOf('&task=') != -1) {F
             $scope.urlTaskId = $location.$$absUrl.split('&task=')[1];
         }
         if($localStorage.get('calendarShow') != undefined){
@@ -23596,12 +23934,17 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 data = JSON.parse(localStorage.getItem('candidatesInStagesVac'));
             }
 
+            nextElementMethod.cacheCandidateLength = data.length;
+
+
             data.forEach((item, index) => {
                if(item == $routeParams.id){
                    nextElementMethod.cacheCurrentIndex = index + 1;
                }
             });
         }
+
+        setPositionCandidates(Candidate.getCandidate, sliderElements.nextElement);
 
         $('.showCommentSwitcher').prop("checked", !$scope.onlyComments);
 
@@ -24264,9 +24607,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 //getcandidateproperties start
                 Candidate.getCandidateProperties({candidateId: $scope.candidate.candidateId}, function (res) {
                     if(res.status == 'ok' && res.object) {
-
                         $scope.candidateProperties = res.object;
-
                         //setGroups start
                         if ($scope.candidate.groups !== undefined) {
                             if ($scope.candidateProperties.candidateGroups !== undefined) {
@@ -25110,6 +25451,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             }else{
                                 var id = resp.object.interviewId + changeObj.status.value;
                             }
+
                             if(changeObj.date){
                                 if($rootScope.calendarShow){
                                     googleCalendarCreateEvent(googleService, changeObj.date, changeObj.candidate.candidateId.fullName,
@@ -25796,6 +26138,12 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 });
         };
 
+        sliderElements.params = Candidate.candidateLastRequestParams || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
+        sliderElements.setCurrent();
+        $scope.nextOrPrevElements = sliderElements.nextOrPrevElements.bind(null, $scope);
+        $scope.nextElement = sliderElements.nextElement.bind(null, $scope);
+        $scope.candidateLength = $rootScope.objectSize || localStorage.getItem('objectSize');
+        $scope.currentIndex = sliderElements.nextElement.cacheCurrentPosition + 1 ||  (+localStorage.getItem('numberPage')) +  1;
         ///////////////////////////////////////////////////////////////End of Sent Email candidate
     }]);
 
@@ -25809,7 +26157,7 @@ controller.controller('testResults', ["$scope", "Test", "notificationService", "
     $scope.objectSize = 0;
     $scope.test = {};
     $scope.detailedInfo = {};
-
+    localStorage.setItem("isAddCandidates", false);
     if($location.path().match('candidate/tests/results')) {
         $scope.typeOfResults = 'candidate';
         $scope.requestParams = {
@@ -26831,8 +27179,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
         $scope.validNewClient = true;
         $scope.client = {logoId: null};
         $scope.industries = Service.getIndustries();
-
-
+        localStorage.setItem("isAddCandidates", false);
     $scope.status = [
         {value: "future", name: "future"},
         {value: "in_work", name: "in work"},
@@ -26911,7 +27258,8 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             });
             $('#cs-region-filter-select, #cs-region-filter-select-for-linkedin').html(optionsHtml);
             $('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
-        });
+        })
+
         $scope.setSearchedRegion = function(){
             $scope.searchParam.regionIdCity = null;
             var obj = JSON.parse($scope.searchParam.regionId);
@@ -30129,6 +30477,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             $("#notice_element_icon").css({"background-color": "rgba(0, 0, 0, 0)"});
             $(document).off('mouseup')
         }
+        localStorage.setItem("isAddCandidates", false);
     };
     //$scope.toggleNoticeMenu = function(){
     //    $('body').click(function (e) {
@@ -31321,8 +31670,10 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                         $('.modal').css('opacity','1');
                                     }
                                 });
+
                                 $rootScope.news = resp.objects;
                                 FB.XFBML.parse();
+
                                 $rootScope.modalInstance = $uibModal.open({
                                     animation: true,
                                     backdrop: 'static',
@@ -32112,6 +32463,7 @@ controller.controller('usersController', ["$localStorage", "$translate", "$scope
         $scope.sortReverseDisabled = true;
         $scope.toggleDisabledUsers = true;
         $scope.toggleInvitedUsers = true;
+        localStorage.setItem("isAddCandidates", false);
         $localStorage.remove("previousHistoryCustomFields");
         //listenerForScope($scope, $rootScope);
         $rootScope.closeModal = function(){
@@ -33799,9 +34151,11 @@ controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", 
 ]);
 
 controller.controller('vacanciesController', ["localStorageService", "$scope", "Vacancy", "ngTableParams", "$location", "Client", "$rootScope", "$filter", "Service",
-    "ScopeService", "Company", "notificationService", "serverAddress", "$timeout", "Person", "$uibModal", "$anchorScroll",
+    "ScopeService", "Company", "notificationService", "serverAddress", "$timeout", "Person", "$uibModal", "$anchorScroll", "Candidate",
     function(localStorageService, $scope, Vacancy, ngTableParams, $location, Client, $rootScope, $filter, Service, ScopeService, Company, notificationService,
-             serverAddress, $timeout, Person, $uibModal, $anchorScroll) {
+             serverAddress, $timeout, Person, $uibModal, $anchorScroll, Candidate) {
+    localStorage.removeItem('getAllCandidates');
+    localStorage.removeItem('currentPage');
     $scope.vacanciesFound = null;
     $rootScope.searchCheckVacancy = $rootScope.searchCheckVacancy == undefined ? false : $rootScope.searchCheckVacancy;
     $scope.onlyMe = $rootScope.onlyMe;
@@ -33823,6 +34177,12 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
     $scope.chosenStatuses = [];
     $scope.currentStatus = null;
     $scope.isSearched = false;
+    $rootScope.setCurrent = true;
+    localStorage.setItem('currentPage','vacancies');
+    $rootScope.currentElementPos = true;
+    Candidate.candidateLastRequestParams = null;
+    Candidate.getCandidate = [];
+    Vacancy.getCandidate = [];
     $rootScope.changeStateObject = {status: "", comment: "", placeholder: null};
     $rootScope.closeModal = function(){
         $scope.modalInstance.close();
@@ -34884,10 +35244,20 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
     "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route", "$timeout",
     function (localStorageService, CacheCandidates, $localStorage, $scope, Vacancy, Service, $translate, $routeParams,
               $filter, ngTableParams, Person, $location, $rootScope, FileInit,
-              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route, $timeout) {
+              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route,$timeout) {
+        $rootScope.currentElementPos = true;
+        $rootScope.setCurrent = true;
+        $rootScope.isAddCandidates= true;
+        localStorage.setItem('currentPage', 'vacancies');
+        localStorage.removeItem('stageUrl');
+        localStorage.removeItem('candidatesInStagesVac');
+        localStorage.removeItem('getAllCandidates');
+        Candidate.getCandidate = [];
+        Vacancy.getCandidate = [];
+        $scope.noCandidatesInThisVacancy = false;
         $scope.langs = Service.lang();
         $scope.serverAddress = serverAddress;
-        $scope.noCandidatesInThisVacancy = false;
+        $rootScope.currentElementPos = true;
         $scope.loadingCandidates = true;
         $scope.facebookAppId = facebookAppId;
         $scope.showSearchCandidate = false;
@@ -34911,6 +35281,9 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $localStorage.remove("vacancyForTest");
         $localStorage.remove("activeCustomStageName");
         $localStorage.remove("activeCustomStageId");
+        localStorage.setItem('candidatesInStagesVac', false);
+        Candidate.getCandidate = false;
+
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -35644,11 +36017,13 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         $rootScope.stageUrl = {
                             url:$location.$$absUrl.split('#')[1],
                             name: $scope.vacancy.position,
-                            stage: $scope.activeName
+                            stage: ($scope.activeCustomStageName)? $scope.activeCustomStageName: $scope.activeName
                         };
                         localStorage.setItem('stage', JSON.stringify($location.$$absUrl.split('stage=')));
+                        localStorage.setItem('stageUrl',JSON.stringify($rootScope.stageUrl));
+                        console.log( $scope.activeCustomStageName, ' $rootScope.activeCustomStageName ')
+                        console.log( $scope.activeName, ' $rootScope.activeName ')
                         return function (status,event) {
-
                             $scope.visiable = status.hidden;
                             if(!$scope.visiable) $scope.noAccess = false;
                             $scope.loadingCandidates = true;
@@ -35728,10 +36103,10 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
                             $rootScope.stageUrl = {
                                 url:$location.$$absUrl.split('#')[1],
-                                    name: $scope.vacancy.position,
-                                    stage: status.value
+                                name: $scope.vacancy.position,
+                                stage: ($scope.activeCustomStageName)? $scope.activeCustomStageName: $scope.activeName
                             };
-
+                            localStorage.setItem('stageUrl',JSON.stringify($rootScope.stageUrl));
 
                             function showLongLists(status) {
                                 $scope.activeName = status.value;
@@ -36866,8 +37241,14 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 document.getElementById('scrollup').style.display = 'none';
                         }
                         Vacancy.getCandidatesInStages($scope.vacancySearchParams, function(resp){
+                            Vacancy.candidateLastRequestParams = $scope.vacancySearchParams;
+                            localStorage.setItem('objectSize', resp.total);
+                            Vacancy.getCandidate = resp.objects.map(item => item.candidateId.localId);
+                            localStorage.setItem('candidateLastRequestParams', JSON.stringify($scope.vacancySearchParams));
                             $scope.numberOfCandidatesInDifferentStates();
                             $scope.candidatesInStages = resp.objects;
+                            data = resp.objects.map((item)=> item.candidateId.localId);
+                            localStorage.setItem('candidatesInStagesVac', JSON.stringify(data));
                             angular.forEach(resp.objects, function (val) {
                                 angular.forEach($scope.VacancyStatusFiltered, function (res) {
                                     if(res.customInterviewStateId == val.state){
@@ -36949,10 +37330,10 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $scope.a.searchNumber = $scope.tableParams.page();
                     }
                     getCandidates();
-                $scope.showMore = function () {
-                    $scope.isShowMore = true;
-                    Service.dynamicTableLoading(params.total(), $scope.vacancySearchParams.page.number, $scope.vacancySearchParams.page.count, getCandidates)
-                };
+                    $scope.showMore = function () {
+                        $scope.isShowMore = true;
+                        Service.dynamicTableLoading(params.total(), $scope.vacancySearchParams.page.number, $scope.vacancySearchParams.page.count, getCandidates)
+                    };
             }
         }
         });
@@ -37519,7 +37900,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
         $scope.showRecalls = function (status) {
             if ($scope.showMoveble) return;
-            console.log("as");
             $scope.visiable2 = status.hidden;
             $scope.visiable = false;
 
@@ -38593,7 +38973,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 $scope.searchCandidateName = null;
                 $scope.activeName = 'longlist';
             }
-            $scope.tableParams.page($scope.a.searchNumber);
+            // $scope.tableParams.page($scope.a.searchNumber);
             $scope.$apply();
         };
 
@@ -38913,7 +39293,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
             $scope.updateTasks();
         };
-
         $scope.openVacancyCandidateChangeStatus = function (candidate) {
             console.log(candidate);
             $rootScope.changeStatusOfInterviewInVacancy.candidate = false;
@@ -39119,10 +39498,21 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 }
             })
         }
+
+        $scope.routeOnCandidate = function(url, panel){
+            if(panel === 'history'){
+                localStorage.setItem("isAddCandidates", false);
+            }else if(panel === 'candidate'){
+                localStorage.setItem("isAddCandidates", true);
+            }
+
+            $location.path('/candidates/' + url);
+        }
+
         if($scope.activeName === 'extra_status') {
             setActiveStatus();
         }
-        ////////////////////////////////////////////////////////End of edit page
+
         function resetTemplate() {
             $scope.activeTemplate = '';
             $scope.showAddEmailTemplate = false;
@@ -44358,7 +44748,6 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
             });
 
         this.changeLocation = (path,report, event) => {
-            console.log(report, event)
             this.getReport(event, report);
             $location.path(path);
         };
@@ -44369,6 +44758,7 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
         this.getReport    = CustomReportsService.getReport;
         this.remove       = CustomReportsService.remove;
         this.removeReport = CustomReportsService.removeReport;
+        localStorage.setItem("isAddCandidates", false);
     }catch(erorr){
         console.log('Ошибка в customReports', erorr);
     }

@@ -11,7 +11,6 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
             });
 
         this.changeLocation = (path,report, event) => {
-            console.log(report, event)
             this.getReport(event, report);
             $location.path(path);
         };
@@ -22,6 +21,7 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
         this.getReport    = CustomReportsService.getReport;
         this.remove       = CustomReportsService.remove;
         this.removeReport = CustomReportsService.removeReport;
+        localStorage.setItem("isAddCandidates", false);
     }catch(erorr){
         console.log('Ошибка в customReports', erorr);
     }
