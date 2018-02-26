@@ -2072,6 +2072,7 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
         $scope.saveAnswersTest = false;
         $scope.endTestMsg = null;
         $scope.serverAddress = serverAddress;
+        $scope.checkPreviousAnswers = false;
         $scope.inHover = function(){
             $scope.showHover = true;
         };
@@ -2220,9 +2221,10 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                 appointmentId: $routeParams.id
             },function(resp){
                 if(resp.status == 'ok'){
-                    console.log("test");
                     if(!tab) {
-                        if(resp.object.question.num > 1 || resp.object.answer) $scope.startTestFunc('first_test');
+                        if(resp.object.question.num > 1 || resp.object.answer) {
+                            $scope.startTestFunc('first_test');
+                        }
                         return;
                     }
 
@@ -2237,7 +2239,7 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                         $scope.timer();
                     }
                     $scope.firstPage = resp.object.question.num;
-                    console.log($scope.showFirstTest, $scope.firstTestQuestion, $scope.currentTab);
+                    $scope.checkPreviousAnswers = true;
                 }else{
                     notificationService.error(resp.message);
                 }
