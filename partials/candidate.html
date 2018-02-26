@@ -1,6 +1,6 @@
 <div class="controller-view main-block" ng-mouseover="nextOrPrevElements($event)" ng-click="nextElement($event)">
     <div class="block-candidate">
-        <div ng-show="$root.stageUrl && $root.isAddCandidates" class="breadcrumbs">
+        <div ng-if="$root.stageUrl && $root.isAddCandidates" class="breadcrumbs">
             <ol  class="breadcrumb hidden-xs hidden-sm">
                 <li><a href="#/vacancies">{{'vacancies'|translate}}</a></li>
                 <li><a href="#{{$root.stageUrl.url}}" ng-bind="$root.stageUrl.name"></a></li>
@@ -28,7 +28,7 @@
         <div ng-show="currentTab == 'profile'"
              ng-style="$root.isAddCandidates? null:{'margin-top':'11px'}"
              class="row candidate-information">
-            <div class="col-lg-12 fullName-position" ng-style="$root.stageUrl && {margin:'0px'}">
+            <div class="col-lg-12 fullName-position"  style="margin-top: 0px;   " ng-style="$root.stageUrl && {margin:'0px'}">
                 <div class="col-lg-7">
                     <span>{{candidate.fullName}}, <span>{{candidate.position}}</span></span>
                     <span style="font-weight: normal" ng-if="$root.isAddCandidates">({{currentIndex + "/" + candidateLength}})</span>
@@ -423,7 +423,7 @@
                         <!--class="addVacancy-icon-tablet">-->
                         <!--<a href="" ng-click="showModalAddCommentToCandidate('md');" class="pull-right move-bot"><i class="fa fa-pencil" aria-hidden="true"></i>{{'add_comment'|translate}}</a>-->
                     </div>
-                    <div class="main-info col-lg-12">
+                    <div class="main-info col-lg-12 clearfix">
                         <div class="col-lg-6">
                             <div class="leftBlock clearfix">
                                 <a ng-click="showRegion2Map = !showRegion2Map" class="phone" ng-show="candidate.region.displayFullName">

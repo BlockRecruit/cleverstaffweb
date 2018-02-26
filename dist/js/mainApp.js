@@ -11657,7 +11657,7 @@ angular.module('services.slider', [
     })();
     sliderElements.nextOrPrevElements = function ($scope, event) {
         let i = event.pageX, j = event.pageY,
-            buttons = document.querySelectorAll('.leftBlock, .rightBlock'),
+            buttons = document.querySelectorAll('.leftBlockArrow, .rightBlockArrow'),
             mass = [].slice.apply(event.target.classList);
 
         const   mainBlock = document.querySelector('.main-block'),
@@ -11667,8 +11667,8 @@ angular.module('services.slider', [
 
         if( event.target.classList[1] === 'fa-chevron-left'  ||
             event.target.classList[1] === 'fa-chevron-right' ||
-            event.target.classList[0] === 'leftBlock'        ||
-            event.target.classList[0] === 'rightBlock') return;
+            event.target.classList[0] === 'leftBlockArrow'        ||
+            event.target.classList[0] === 'rightBlockArrow') return;
 
         if(buttons && buttons.length >= 1 && mass.indexOf('main-block') === -1){
             buttons.forEach((elem)=>{
@@ -11752,7 +11752,7 @@ angular.module('services.slider', [
             return;
         }
 
-        $('.main-block').append('<div class="leftBlock" data-btn="left" ng-if="currentIndex != 1" style="width:' + width + 'px" data-btn="left"><i data-btn="left" class="fa fa-chevron-left nextElements"></i> </div>');
+        $('.main-block').append('<div class="leftBlockArrow" data-btn="left" ng-if="currentIndex != 1" style="width:' + width + 'px" data-btn="left"><i data-btn="left" class="fa fa-chevron-left nextElements"></i> </div>');
     }
 
     function createArrowRight(width, cacheCandidateLength, cacheCurrentIndex, mainBlock) {
@@ -11769,7 +11769,7 @@ angular.module('services.slider', [
             return;
         }
 
-        $('.main-block').append('<div class="rightBlock" data-btn="right"  style="width:' + width + 'px"; data-btn="right"><i  data-btn="right" class="fa fa-chevron-right nextElements"></i></div>');
+        $('.main-block').append('<div class="rightBlockArrow" data-btn="right"  style="width:' + width + 'px"; data-btn="right"><i  data-btn="right" class="fa fa-chevron-right nextElements"></i></div>');
     };
 
     function getCoords(elem) {
@@ -19777,6 +19777,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
                     Candidate.getAllCandidates($scope.candidateSearchOptions)
                         .then(response =>{
+                            console.log(response, 'responsegu')
                             $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
                             $rootScope.objectSize = response['objects'] ? response['total'] : 0;
                             localStorage.setItem('objectSize',  $rootScope.objectSize);
@@ -26156,7 +26157,7 @@ controller.controller('testResults', ["$scope", "Test", "notificationService", "
     $scope.objectSize = 0;
     $scope.test = {};
     $scope.detailedInfo = {};
-
+    localStorage.setItem("isAddCandidates", false);
     if($location.path().match('candidate/tests/results')) {
         $scope.typeOfResults = 'candidate';
         $scope.requestParams = {
@@ -44747,7 +44748,6 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
             });
 
         this.changeLocation = (path,report, event) => {
-            console.log(report, event)
             this.getReport(event, report);
             $location.path(path);
         };

@@ -19728,24 +19728,24 @@ input.cmn-toggle-round:checked + label:after {
 .main-block {
   position: relative;
   z-index: 99; }
-  .main-block .leftBlock {
+  .main-block .leftBlockArrow {
     position: fixed;
     z-index: -9999;
     top: 0;
     left: 0;
     height: 100%;
     background-color: #e3e3e3; }
-    .main-block .leftBlock .fa:hover {
+    .main-block .leftBlockArrow .fa:hover {
       -webkit-transform: scale(1.5);
       transform: scale(1.5); }
-  .main-block .rightBlock {
+  .main-block .rightBlockArrow {
     position: fixed;
     z-index: -9999;
     top: 0;
     right: 0;
     height: 100%;
     background-color: #e3e3e3; }
-    .main-block .rightBlock .fa:hover {
+    .main-block .rightBlockArrow .fa:hover {
       -webkit-transform: scale(1.5);
       transform: scale(1.5); }
 

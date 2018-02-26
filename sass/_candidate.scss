@@ -1487,7 +1487,7 @@
 .main-block {
 	position: relative;
 	z-index: 99;
-	.leftBlock {
+	.leftBlockArrow {
 		position: fixed;
 		z-index: -9999;
 		top: 0;
@@ -1500,7 +1500,7 @@
 			transform: scale(1.5);
 		}
 	}
-	.rightBlock {
+	.rightBlockArrow {
 		position: fixed;
 		z-index: -9999;
 		top: 0;

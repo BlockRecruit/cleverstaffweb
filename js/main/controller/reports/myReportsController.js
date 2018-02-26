@@ -11,7 +11,6 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
             });
 
         this.changeLocation = (path,report, event) => {
-            console.log(report, event)
             this.getReport(event, report);
             $location.path(path);
         };

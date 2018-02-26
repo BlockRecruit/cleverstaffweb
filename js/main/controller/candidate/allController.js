@@ -940,6 +940,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
                     Candidate.getAllCandidates($scope.candidateSearchOptions)
                         .then(response =>{
+                            console.log(response, 'responsegu')
                             $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
                             $rootScope.objectSize = response['objects'] ? response['total'] : 0;
                             localStorage.setItem('objectSize',  $rootScope.objectSize);
