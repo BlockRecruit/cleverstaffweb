@@ -11726,9 +11726,6 @@ angular.module('services.slider', [
 
     function getPosition(flag, route){
         let pageNumber = this.params.page.number + 1, count = this.params.page.count, index, resault;
-        console.log(pageNumber, 'pageNumber');
-        console.log(count, 'count');
-        console.log(count, 'count');
 
         if(flag){
             iterator.current();
@@ -36254,6 +36251,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
         $scope.getEmailTemplates = function () {
             Mail.getTemplatesVacancy({vacancyId: $scope.vacancy.vacancyId,type:"candidateCreateInterviewNotification"},function(data){
+                console.log('123123123')
                 $scope.emailTemplates = data.objects;
                 if(localStorage.editTemplate){
                     $scope.VacanciesInfCandidTaskHistClientFunc('settings');
@@ -36449,6 +36447,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         }
                     });
                     Mail.getTemplateVacancy({vacancyId: $scope.vacancy.vacancyId,type:'seeVacancy'},function(data){
+
                         //data.text = data.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName);
                         data.object.text = data.object.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $scope.vacancy.position + '</a>');
                         data.object.text = data.object.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName);
@@ -37421,10 +37420,12 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $rootScope.changeStatusOfInterviewInVacancy.status.value == 'shortlist'){
                     templateType = 'seeVacancy'
                 }
+                console.log(candidate, 'candidate')
                 Mail.getTemplateVacancy({vacancyId: $scope.vacancy.vacancyId,type:templateType},function(data){
                     $rootScope.fileForSave = [];
                     $rootScope.emailTemplateInModal = data.object;
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName ? $rootScope.candnotify.fullName : candidate.fullName);
+                    console.log($rootScope.candnotify, '$rootScope.candnotify');
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName ? $rootScope.candnotify.fullName : candidate.candidateId.fullName);
                     $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $scope.vacancy.position + '</a>');
                     $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName);
                     $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $scope.vacancy.position + '</a>');
@@ -39218,7 +39219,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
             var candidateFullName = $("#candidateToAddInInterview").select2('data') !== null ? $("#candidateToAddInInterview").select2('data').text : null;
             $rootScope.addCandidateInInterview.status = status;
-
+            console.log(candidateFullName, 'candidateFullName')
             if($rootScope.addCandidateInInterview.status.value == 'interview' ||
                 $rootScope.addCandidateInInterview.status.withDate ||
                 $rootScope.addCandidateInInterview.status.value == 'longlist' ||
@@ -41576,6 +41577,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                     if(!$scope.publicLink) {
                         $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-" + $rootScope.vacancyForAddCandidate;
                     }
+                    console.log($rootScope.candnotify, '$rootScope.candnotify')
                     $rootScope.emailTemplateInModal = data.object;
                     $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName);
                     $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $rootScope.VacancyAddedInCandidate.position + '</a>');
@@ -41634,6 +41636,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                     templateType = 'seeVacancy'
                 }
                 Mail.getTemplateVacancy({vacancyId: $rootScope.changedStatusVacancy.vacancyId,type:templateType},function(data){
+                    console.log($rootScope.candnotify, '$rootScope.candnotify');
                     $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-"  + $rootScope.changedStatusVacancy.localId;
                     $rootScope.fileForSave = [];
                     $rootScope.emailTemplateInModal = data.object;
