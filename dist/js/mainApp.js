@@ -36550,6 +36550,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.recallToInterview.recall = recall;
             $('.addInInterviewFromRecall.modal').modal('show');
             // console.log(recall)
+            console.log($rootScope.candnotify, '$rootScope.candnotify')
             $rootScope.candnotify = {};
             $rootScope.candnotify.emails = recall.email.split(",");
             $rootScope.candnotify.sendMail = recall.email;
@@ -37458,6 +37459,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.approvedCount = $scope.approvedCount;
             $rootScope.candnotify = {};
+            console.log(candidate.candidateId.email.split(','), 'candidate.candidateId.email.split(\',\')')
+            $rootScope.candnotify.sendMail = candidate.candidateId.email.split(',')[0];
             if($rootScope.candidatesAddToVacancyIds.length == 1){
                 Candidate.getContacts({"candidateId": candidate[0].candidateId}, function (resp) {
                     var email = "";
@@ -37974,6 +37977,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
                 }
             });
+            console.log($rootScope.candnotify, '$rootScope.candnotify')
             $rootScope.candnotify = {};
             $rootScope.candnotify.show = false;
             $rootScope.candnotify.send = false;
@@ -38228,6 +38232,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.addFromAdvice.statusObject = $scope.VacancyStatusFiltered;
             $('.addFromAdvice').modal('show');
             $rootScope.candnotify = {};
+            console.log($rootScope.candnotify, '$rootScope.candnotify')
             $rootScope.candnotify.show = false;
             Candidate.getContacts({"candidateId": candidateId}, function (resp) {
                 var email = "";
@@ -39294,7 +39299,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $scope.updateTasks();
         };
         $scope.openVacancyCandidateChangeStatus = function (candidate) {
-            console.log(candidate);
             $rootScope.changeStatusOfInterviewInVacancy.candidate = false;
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.status = '';
@@ -39308,18 +39312,25 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
             $scope.modalInstance = $uibModal.open({
                 animation: false,
-                templateUrl: '../partials/modal/vacancy-candidate-change-status.html?b3',
+                templateUrl: '../partials/modal/vacancy-candidate-change-status.html?b41123',
                 size: '',
-                scope:$scope,
-                resolve: function(){
-
-                }
+                scope: $scope,
             });
             $scope.modalInstance.closed.then(function() {
                 $rootScope.candnotify.show = false;
                 tinyMCE.remove()
             });
             $scope.modalInstance.opened.then(function(){
+                   // let interval = setInterval(()=>{
+                   //     $rootScope.sendMail222  = candidate.candidateId.email;
+                   //      let sendMail =document.querySelector("#sendMail");
+                   //     if(sendMail.value && sendMail.value.length){
+                   //         console.log(sendMail.value, 'sendMail.value')
+                   //         clearInterval(interval)
+                   //     }
+                   //
+                   //
+                   //  },200)
                 setTimeout(function(){
                     tinymce.init({
                         selector: '#modalMCE',
@@ -39372,6 +39383,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                             $rootScope.changeStatusOfInterviewInVacancy.date = null;
                         }
                     });
+
                     $(".changeStatusOfInterviewEmployed1").datetimepicker({
                         format: "dd/mm/yyyy",
                         startView: 2,

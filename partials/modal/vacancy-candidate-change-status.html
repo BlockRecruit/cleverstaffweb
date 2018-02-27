@@ -92,9 +92,7 @@
            </div>
            <div class="item">
                <span class="title">{{"Candidate's email"|translate}}</span>
-               ({{candidate}})
-
-               <input class="form-control" ng-model="$root.candnotify.sendMail" type="text">
+               <input class="form-control" id="sendMail" ng-model="$root.candnotify.sendMail" type="text">
            </div>
            <div class="item mail-checkbox" ng-show="$root.candnotify.show">
                <div ng-show="$root.me.emails.length == 1" class="field">
