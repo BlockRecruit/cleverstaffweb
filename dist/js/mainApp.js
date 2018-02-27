@@ -37244,7 +37244,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         Vacancy.getCandidatesInStages($scope.vacancySearchParams, function(resp){
                             Vacancy.candidateLastRequestParams = $scope.vacancySearchParams;
                             localStorage.setItem('objectSize', resp.total);
-                            Vacancy.getCandidate = resp.objects.map(item => item.candidateId.localId);
+                            console.log(resp.objects, 'resp.objects')
+                            Vacancy.getCandidate = (resp.objects && resp.objects.length)?resp.objects.map(item => item.candidateId.localId):[];
                             localStorage.setItem('candidateLastRequestParams', JSON.stringify($scope.vacancySearchParams));
                             $scope.numberOfCandidatesInDifferentStates();
                             $scope.candidatesInStages = resp.objects;
@@ -37459,8 +37460,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.approvedCount = $scope.approvedCount;
             $rootScope.candnotify = {};
-            console.log(candidate.candidateId.email.split(','), 'candidate.candidateId.email.split(\',\')')
-            $rootScope.candnotify.sendMail = candidate.candidateId.email.split(',')[0];
+            console.log( candidate.candidateId.email.split(/[',',' ']/gi), '123213')
+            $rootScope.candnotify.sendMail = candidate.candidateId.email.split(/[',',' ']/gi)[0];
             if($rootScope.candidatesAddToVacancyIds.length == 1){
                 Candidate.getContacts({"candidateId": candidate[0].candidateId}, function (resp) {
                     var email = "";
@@ -37470,7 +37471,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         }
                     });
                     $rootScope.candnotify.emails = email.replace(/ /gi, "").split(",");
-                    $rootScope.candnotify.sendMail = $rootScope.candnotify.emails[0];
+                    // $rootScope.candnotify.sendMail = $rootScope.candnotify.emails[0];
                 });
                 $rootScope.candnotify.show = false;
                 $rootScope.candnotify.fullName = candidate[0].fullName;
