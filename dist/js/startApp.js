@@ -4642,7 +4642,6 @@ angular.module('services.candidate', [
             let data;
             $rootScope.loading = true;
             candidate.all(params, (response) => {
-                console.log(response);
                 if(!response.object) {
                     $rootScope.loading = false;
                     resolve(response, params);

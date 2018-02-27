@@ -7156,7 +7156,6 @@ angular.module('services.candidate', [
             let data;
             $rootScope.loading = true;
             candidate.all(params, (response) => {
-                console.log(response);
                 if(!response.object) {
                     $rootScope.loading = false;
                     resolve(response, params);
@@ -19786,7 +19785,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                             if(response.status === "error") {
                                 notificationService.error(response.message);
                             } else {
-                                console.log(response, 'responsegu');
                                 $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
                                 $rootScope.objectSize = response['objects'] ? response['total'] : 0;
                                 localStorage.setItem('objectSize',  $rootScope.objectSize);
