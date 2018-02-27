@@ -348,9 +348,12 @@
 				border-top-right-radius: 5px;
 				background-color: $theme-white;
 				.dateOfWork {
-					height: 50px;
+					height: 30px;
 					& > .dateOfWorkBold {
 						@include bold;
+					}
+					&.info {
+						height: 28px;
 					}
 				}
 				a {

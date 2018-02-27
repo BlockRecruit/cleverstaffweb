@@ -42281,6 +42281,7 @@ function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filte
     $scope.employeesFound = null;
     $scope.a = {};
     $scope.a.searchNumber = 1;
+    $scope.test = true;
     $scope.employeesObj = {
         dataIsLoad: true,
         allDataSize: 0,
@@ -42421,7 +42422,10 @@ function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filte
                         } else {
                             $('#show_more').show();
                         }
-                        $defer.resolve(data);
+                        if($scope.test) {
+                            $defer.resolve(data);
+                            $scope.test = false;
+                        }
                         $scope.employeesObj.allDataSize = response['total'];
                         if($scope.searchParam.state == null){
                             $scope.searchParam.state = 'null';
