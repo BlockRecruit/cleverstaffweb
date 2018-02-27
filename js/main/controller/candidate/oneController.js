@@ -76,13 +76,19 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
         function setPositionCandidates(dataCandidates, nextElementMethod){
             var data, index, size;
+
+            console.log(dataCandidates, 'dataCandidates')
             if(dataCandidates){
                 data = dataCandidates;
             }else if(localStorage.getItem('getAllCandidates')){
                 data = JSON.parse(localStorage.getItem('getAllCandidates'));
             }else if(localStorage.getItem('candidatesInStagesVac')){
                 data = JSON.parse(localStorage.getItem('candidatesInStagesVac'));
+            }else{
+                $rootScope.isAddCandidates = false;
+                return;
             }
+
 
             nextElementMethod.cacheCandidateLength = data.length;
 
