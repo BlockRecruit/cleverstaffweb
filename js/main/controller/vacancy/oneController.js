@@ -6,6 +6,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
               googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route,$timeout,$window) {
         $rootScope.currentElementPos = true;
         $rootScope.setCurrent = true;
+        localStorage.setItem('setCurrent', true);
         $rootScope.isAddCandidates= true;
         localStorage.setItem('currentPage', 'vacancies');
         localStorage.removeItem('stageUrl');
@@ -4262,6 +4263,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             [$filter('translate')('Open in new tab'), function ($itemScope) {
                 console.log($location,'location');
                 let url = $location.$$protocol + '://' + $location.$$host +'/!#' + '/candidates/' + $itemScope.candidate.candidateId.localId;
+
                 $window.open(url, "_blank");
             }]];
 

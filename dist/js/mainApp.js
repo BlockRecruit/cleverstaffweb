@@ -11527,6 +11527,7 @@ angular.module('services.slider', [
                             length = data.collection.length;
                             sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'up']);
                             $rootScope.setCurrent = false;
+                            localStorage.setItem('setCurrent', false);
                             $rootScope.loading = false;
                         })
                     });
@@ -11716,9 +11717,11 @@ angular.module('services.slider', [
 
     sliderElements.setCurrent = () =>{
         currentPage = getLocation();
+        $rootScope.setCurrent = $rootScope.setCurrent || localStorage.getItem('setCurrent');
         if($rootScope.setCurrent)
             sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [true]);
         $rootScope.setCurrent = false;
+        localStorage.setItem('setCurrent', false);
     };
 
     function getPosition(flag, route){
@@ -18845,6 +18848,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $rootScope.candidateLength = null;
     $scope.enableExcelUploadAll = 'N';
     $rootScope.setCurrent = true;
+    localStorage.setItem('setCurrent', true);
     $scope.a = {};
     $scope.a.searchNumber = 1;
     $scope.candidatesAddToVacancyIds = [];
@@ -34178,6 +34182,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
     $scope.currentStatus = null;
     $scope.isSearched = false;
     $rootScope.setCurrent = true;
+    localStorage.setItem('setCurrent', true);
     localStorage.setItem('currentPage','vacancies');
     $rootScope.currentElementPos = true;
     Candidate.candidateLastRequestParams = null;
@@ -35247,6 +35252,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
               googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route,$timeout,$window) {
         $rootScope.currentElementPos = true;
         $rootScope.setCurrent = true;
+        localStorage.setItem('setCurrent', true);
         $rootScope.isAddCandidates= true;
         localStorage.setItem('currentPage', 'vacancies');
         localStorage.removeItem('stageUrl');
@@ -39503,6 +39509,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             [$filter('translate')('Open in new tab'), function ($itemScope) {
                 console.log($location,'location');
                 let url = $location.$$protocol + '://' + $location.$$host +'/!#' + '/candidates/' + $itemScope.candidate.candidateId.localId;
+
                 $window.open(url, "_blank");
             }]];
 
