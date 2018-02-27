@@ -75,9 +75,11 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.stageUrl = JSON.parse(localStorage.getItem('stageUrl'));
 
         function setPositionCandidates(dataCandidates, nextElementMethod){
-            var data, index, size;
+            var data, index, size,
+            a = document.referrer;
 
             // if(!dataCandidates) $rootScope.isAddCandidates = false;
+
 
             if(dataCandidates){
                 data = dataCandidates;
