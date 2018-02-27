@@ -91,6 +91,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
             if(!data){
                 $rootScope.isAddCandidates = false;
+                localStorage.setItem("isAddCandidates", false);
                 data = [];
             }
             nextElementMethod.cacheCandidateLength = data.length;
