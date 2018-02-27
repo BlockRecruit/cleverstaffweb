@@ -200,19 +200,19 @@
                         <div class="dateOfWork" ng-show="pageObject.employee.localId">
                             {{'Employee id'|translate}}: <span class="dateOfWorkBold">{{pageObject.employee.localId}}</span>
                         </div>
-                        <a class="dateOfWork phone" href="" ng-show="pageObject.employee.position">
+                        <a class="dateOfWork info phone" href="" ng-show="pageObject.employee.position">
                             <i class="fa fa-pie-chart" aria-hidden="true"></i>
                             {{pageObject.employee.position}}
                         </a>
-                        <a class="dateOfWork" href="" ng-show="pageObject.employee.candidateId.region">
+                        <a class="dateOfWork info" href="" ng-show="pageObject.employee.candidateId.region">
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
                             {{pageObject.employee.candidateId.region.displayFullName}}
                         </a>
-                        <a class="dateOfWork phone" href="" class="phone" ng-show="pageObject.employee.candidateId != undefined && pageObject.employee.candidateId.db" title="{{'date_of_birth'|translate}}">
+                        <a class="dateOfWork info phone" href="" class="phone" ng-show="pageObject.employee.candidateId != undefined && pageObject.employee.candidateId.db" title="{{'date_of_birth'|translate}}">
                             <i class="fa fa-calendar" aria-hidden="true"></i>
                             {{pageObject.employee.candidateId.db|dateFormat}}({{pageObject.employee.candidateId.db|ageOfDate}})
                         </a>
-                        <a class="dateOfWork phone" href="" class="phone" ng-show="pageObject.employee.salary">
+                        <a class="dateOfWork info phone" href="" class="phone" ng-show="pageObject.employee.salary">
                             <i class="fa fa-usd" aria-hidden="true"></i>
                             {{pageObject.employee.salary}} {{pageObject.employee.currency}}
                         </a>
@@ -256,25 +256,24 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="dateOfWork" ng-show="pageObject.employee">
-                            <span class="dateOfWorkBold">{{pageObject.employee.dateDepartment|dateFormat}}</span><br>
                             <span>{{'Date of the work in the department' | translate}}</span>
+                            <span class="dateOfWorkBold">{{pageObject.employee.dateDepartment|dateFormat}}</span><br>
                         </div>
                         <div class="dateOfWork" ng-show="pageObject.employee">
-                            <span class="dateOfWorkBold">{{pageObject.employee.dateEmployee|dateFormat}}</span><br>
                             <span>{{'Date of employment' | translate}}</span>
+                            <span class="dateOfWorkBold">{{pageObject.employee.dateEmployee|dateFormat}}</span><br>
                         </div>
                         <div class="dateOfWork" ng-show="pageObject.employee">
-                            <!--с -->
-                            <span class="dateOfWorkBold">{{pageObject.employee.datePosition|dateFormat}}</span><br>
                             <span>{{'Date of admission to the post' | translate}}</span>
+                            <span class="dateOfWorkBold">{{pageObject.employee.datePosition|dateFormat}}</span><br>
                         </div>
                         <div class="dateOfWork" ng-show="pageObject.employee && pageObject.employee.state != 'dismiss'">
-                            <span class="dateOfWorkBold">{{pageObject.employee.dateSalary|dateFormat}}</span><br>
                             <span>{{'Salary date' | translate}}</span>
+                            <span class="dateOfWorkBold">{{pageObject.employee.dateSalary|dateFormat}}</span><br>
                         </div>
                         <div class="dateOfWork" ng-show="pageObject.employee && pageObject.employee.state == 'dismiss'">
-                            <span class="dateOfWorkBold">{{pageObject.employee.dateDismiss|dateFormat}}</span><br>
                             <span>{{'dismiss' | translate}}</span>
+                            <span class="dateOfWorkBold">{{pageObject.employee.dateDismiss|dateFormat}}</span>
                         </div>
                     </div>
                 </div>
