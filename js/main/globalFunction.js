@@ -742,6 +742,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                     if(!$scope.publicLink) {
                         $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-" + $rootScope.vacancyForAddCandidate;
                     }
+                    console.log($rootScope.candnotify, '$rootScope.candnotify')
                     $rootScope.emailTemplateInModal = data.object;
                     $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName);
                     $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $rootScope.VacancyAddedInCandidate.position + '</a>');
@@ -800,6 +801,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                     templateType = 'seeVacancy'
                 }
                 Mail.getTemplateVacancy({vacancyId: $rootScope.changedStatusVacancy.vacancyId,type:templateType},function(data){
+                    console.log($rootScope.candnotify, '$rootScope.candnotify');
                     $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-"  + $rootScope.changedStatusVacancy.localId;
                     $rootScope.fileForSave = [];
                     $rootScope.emailTemplateInModal = data.object;

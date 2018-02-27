@@ -246,9 +246,6 @@ angular.module('services.slider', [
 
     function getPosition(flag, route){
         let pageNumber = this.params.page.number + 1, count = this.params.page.count, index, resault;
-        console.log(pageNumber, 'pageNumber');
-        console.log(count, 'count');
-        console.log(count, 'count');
 
         if(flag){
             iterator.current();
