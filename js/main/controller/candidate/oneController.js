@@ -77,7 +77,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         function setPositionCandidates(dataCandidates, nextElementMethod){
             var data, index, size;
 
-            if(!dataCandidates) $rootScope.isAddCandidates = false;
+            // if(!dataCandidates) $rootScope.isAddCandidates = false;
 
             if(dataCandidates){
                 data = dataCandidates;
@@ -87,6 +87,10 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 data = JSON.parse(localStorage.getItem('candidatesInStagesVac'));
             }
 
+            if(!data){
+                $rootScope.isAddCandidates = false;
+                data = [];
+            }
             nextElementMethod.cacheCandidateLength = data.length;
 
 

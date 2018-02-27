@@ -241,6 +241,7 @@ angular.module('services.slider', [
     sliderElements.setCurrent = () =>{
         currentPage = getLocation();
         $rootScope.setCurrent = $rootScope.setCurrent || localStorage.getItem('setCurrent');
+
         if($rootScope.setCurrent)
             sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [true]);
         $rootScope.setCurrent = false;
