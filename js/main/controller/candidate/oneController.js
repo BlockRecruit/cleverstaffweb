@@ -76,6 +76,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
         function setPositionCandidates(dataCandidates, nextElementMethod){
             var data, index, size;
+
+            if(!dataCandidates) $rootScope.isAddCandidates = false;
+
             if(dataCandidates){
                 data = dataCandidates;
             }else if(localStorage.getItem('getAllCandidates')){
