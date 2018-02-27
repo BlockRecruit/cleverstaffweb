@@ -8,6 +8,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $rootScope.candidateLength = null;
     $scope.enableExcelUploadAll = 'N';
     $rootScope.setCurrent = true;
+    localStorage.setItem('setCurrent', true);
     $scope.a = {};
     $scope.a.searchNumber = 1;
     $scope.candidatesAddToVacancyIds = [];

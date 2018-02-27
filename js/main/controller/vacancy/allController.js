@@ -26,6 +26,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
     $scope.currentStatus = null;
     $scope.isSearched = false;
     $rootScope.setCurrent = true;
+    localStorage.setItem('setCurrent', true);
     localStorage.setItem('currentPage','vacancies');
     $rootScope.currentElementPos = true;
     Candidate.candidateLastRequestParams = null;

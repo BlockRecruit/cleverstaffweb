@@ -50,6 +50,7 @@ angular.module('services.slider', [
                             length = data.collection.length;
                             sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'up']);
                             $rootScope.setCurrent = false;
+                            localStorage.setItem('setCurrent', false);
                             $rootScope.loading = false;
                         })
                     });
@@ -239,9 +240,11 @@ angular.module('services.slider', [
 
     sliderElements.setCurrent = () =>{
         currentPage = getLocation();
+        $rootScope.setCurrent = $rootScope.setCurrent || localStorage.getItem('setCurrent');
         if($rootScope.setCurrent)
             sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [true]);
         $rootScope.setCurrent = false;
+        localStorage.setItem('setCurrent', false);
     };
 
     function getPosition(flag, route){
