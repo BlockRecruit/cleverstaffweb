@@ -584,15 +584,15 @@
             </div>
             <div class="clearfix"></div>
             <div class="row header" ng-show="!showSearchCandidate">
-                <div class="col-lg-4 blockStage">
+                <div class="col-lg-3 blockStage">
                     <input ng-click="pushAllCandidatesToVacancy()" ng-hide="((showTable === 'not available' || showTable === undefined && $scope.loadingCandidates == false) && !noCandidatesInThisVacancy) || activeName == 'approved' || dataForVacancy.length < 2" ng-checked="checkAllCandidates == true" type="checkbox"/>
                     <h4 ng-show="!activeCustomStageName">{{activeName | translate}}</h4>
                     <h4 ng-show="activeCustomStageName">
                         {{activeCustomStageName}}
                     </h4>
                 </div>
-                <div class="col-lg-8 text-right links hidden-xs hidden-sm">
-                    <div class="col-lg-4" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'salesmanager'">
+                <div class="col-lg-9 text-right links hidden-xs hidden-sm">
+                    <div class="col-lg-3" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'salesmanager'">
                         <a ng-show="vacancy.testIds.length > 0" ng-click="$root.sendTestFromVacancyStage(activeName, 'longlist', dataForVacancy)" title="{{'Send test' | translate}}">
                             {{'Send test' | translate}}
                             <i class="fa fa-check-square-o" aria-hidden="true"></i>
@@ -602,7 +602,7 @@
                             <i class="fa fa-check-square-o" aria-hidden="true"></i>
                         </a>
                     </div>
-                    <div class="col-lg-4" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y')">
+                    <div class="col-lg-3" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y')">
                         <a ng-click="exportToExcel()" ng-show="$root.hideTariff" title="{{'Export to Excel' | translate}}">
                             {{'Export to Excel' | translate}}
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>
@@ -612,7 +612,7 @@
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>
                         </button>
                     </div>
-                    <div class="col-lg-4" ng-show="$root.me.recrutRole != 'salesmanager'">
+                    <div class="col-lg-3" ng-show="$root.me.recrutRole != 'salesmanager'">
                         <a id="export_in_excel" class="hidden" href="">
                         </a>
                         <a ng-click="sendCandidatesToClient()">
@@ -624,7 +624,7 @@
                             <!--<i class="fa fa-envelope" aria-hidden="true"></i>-->
                         <!--</a>-->
                     </div>
-                    <div class="mailing" ng-show="$root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'admin'" ng-class="{'col-lg-4': !($root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y'))}">
+                    <div class="mailing col-lg-3" ng-show="$root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'admin'" ng-class="{'col-lg-4': !($root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y'))}">
                         <a href="" ng-click="toCreateMailing()">
                             <span translate="Create email campaign"></span>
                             <i class="letters" ></i>

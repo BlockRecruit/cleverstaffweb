@@ -295,6 +295,8 @@
 			.header {
 				@include disabled-margins-for-row;
 
+				overflow: hidden;
+
 				background-color: $theme-subtitle-background;
 				input {
 					display: inline-block;
@@ -309,6 +311,7 @@
 					display: flex;
 					margin-top: 10px;
 					padding: 0;
+					padding-right: 25px;
 
 					justify-content: space-between;
 					.send-test {
@@ -320,6 +323,9 @@
 					}
 					.mailing {
 						padding-right: 20px;
+						span {
+							white-space: nowrap;
+						}
 						.letters {
 							top: 3px;
 							right: -23px;
