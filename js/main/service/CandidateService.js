@@ -1304,6 +1304,11 @@ angular.module('services.candidate', [
             let data;
             $rootScope.loading = true;
             candidate.all(params, (response) => {
+                if(!response.object) {
+                    $rootScope.loading = false;
+                    resolve(response, params);
+                    return;
+                }
                 candidate.getCandidate = response.objects.map(item => item.localId);
                 data = candidate.getCandidate;
                 localStorage.setItem('getAllCandidates', JSON.stringify(data));

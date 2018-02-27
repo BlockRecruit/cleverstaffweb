@@ -28,7 +28,7 @@
   </div>
 
   <div class="row" ng-if="vacancy.status != 'payment' && vacancy.status != 'completed' && vacancy.status != 'deleted' && vacancy.status != 'canceled' && vacancy.descr.length > 30">
-    <div class="col-lg-2 col-md-3 hidden-sm hidden-xs companyInfo comp-abs" ng-mouseenter="companyInfoHoverIn()" ng-mouseleave="companyInfoHoverOut()">
+    <div class="col-lg-2 col-md-3 hidden-sm hidden-xs companyInfo comp-abs" id="toggle-company-block" toggle-company-block>
 
       <div ng-if="companyLogo || companyPublicInfo.companyWebSite || companyPublicInfo.fb || companyPublicInfo.orgName">
 
@@ -39,7 +39,7 @@
           </div>
           <div class="info--site" ng-show="companyPublicInfo.companyWebSite">
             <img src="/images/sprite/public-vacancy/website.svg" alt="">
-            <a class="cutElementTextWidth" href="{{companyPublicInfo.companyWebSite}}" target="_blank">{{companyPublicInfo.companyWebSite}}</a>
+            <a class="cutElementTextWidth site-link" href="{{companyPublicInfo.companyWebSite}}" target="_blank">{{companyPublicInfo.companyWebSite}}</a>
           </div>
 
           <div class="info--site" ng-show="companyPublicInfo.fb">

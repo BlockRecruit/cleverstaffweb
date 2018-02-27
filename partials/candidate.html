@@ -31,7 +31,7 @@
             <div class="col-lg-12 fullName-position"  style="margin-top: 0px;   " ng-style="$root.stageUrl && {margin:'0px'}">
                 <div class="col-lg-7">
                     <span>{{candidate.fullName}}, <span>{{candidate.position}}</span></span>
-                    <span style="font-weight: normal" ng-if="$root.isAddCandidates">({{currentIndex + "/" + candidateLength}})</span>
+                    <span style="font-weight: normal" ng-if="$root.isAddCandidates && currentIndex">({{currentIndex + "/" + candidateLength}})</span>
                 </div>
                 <div class="col-lg-6 hidden-xs hidden-sm last-comment-item" ng-show="lastMessage">
                     <div class="col-lg-6 text-right">

@@ -572,12 +572,12 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 addCandidatesInVacancy" ng-show="searchParam.searchCs && objectSize">
                     <div class="col-lg-4 col-md-3 col-sm-3 col-xs-12 padding-left">
                     <span class="pull-left sortBy col-lg-12 col-md-12 col-sm-12 no-padding">
-                        <span class="col-lg-5 col-md-5 col-sm-6 no-padding pull-left">
+                        <span class="col-lg-5 col-md-5 col-sm-6 no-padding pull-left width-auto">
                              <label>
                                  {{'Sort by'|translate}}:
                              </label>
                         </span>
-                        <span class="col-lg-7 col-md-7 col-sm-6 no-padding pull-left">
+                        <span class="col-lg-7 col-md-7 col-sm-6 pull-left">
                             <select  ng-class="{'full-width': !candidatesAddToVacancyIds.length}" ng-model="filterForChange" ng-options="item.values as item.name | translate for item in filterSort" ng-selected="filterForChange == searchParam.sort" ng-class="{'greyColor': filterForChange == 'relevance'}"></select>
                         </span>
                     </span>

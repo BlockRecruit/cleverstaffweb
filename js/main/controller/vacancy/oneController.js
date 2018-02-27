@@ -1,11 +1,12 @@
 controller.controller('vacancyController', ["localStorageService", "CacheCandidates", "$localStorage", "$scope", "Vacancy",
     "Service", "$translate", "$routeParams", "$filter", "ngTableParams", "Person", "$location", "$rootScope", "FileInit",
-    "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route", "$timeout",
+    "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route", "$timeout","$window",
     function (localStorageService, CacheCandidates, $localStorage, $scope, Vacancy, Service, $translate, $routeParams,
               $filter, ngTableParams, Person, $location, $rootScope, FileInit,
-              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route,$timeout) {
+              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route,$timeout,$window) {
         $rootScope.currentElementPos = true;
         $rootScope.setCurrent = true;
+        localStorage.setItem('setCurrent', true);
         $rootScope.isAddCandidates= true;
         localStorage.setItem('currentPage', 'vacancies');
         localStorage.removeItem('stageUrl');
@@ -1007,6 +1008,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
         $scope.getEmailTemplates = function () {
             Mail.getTemplatesVacancy({vacancyId: $scope.vacancy.vacancyId,type:"candidateCreateInterviewNotification"},function(data){
+                console.log('123123123')
                 $scope.emailTemplates = data.objects;
                 if(localStorage.editTemplate){
                     $scope.VacanciesInfCandidTaskHistClientFunc('settings');
@@ -1202,6 +1204,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         }
                     });
                     Mail.getTemplateVacancy({vacancyId: $scope.vacancy.vacancyId,type:'seeVacancy'},function(data){
+
                         //data.text = data.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName);
                         data.object.text = data.object.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $scope.vacancy.position + '</a>');
                         data.object.text = data.object.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName);
@@ -1309,6 +1312,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.recallToInterview.recall = recall;
             $('.addInInterviewFromRecall.modal').modal('show');
             // console.log(recall)
+            console.log($rootScope.candnotify, '$rootScope.candnotify')
             $rootScope.candnotify = {};
             $rootScope.candnotify.emails = recall.email.split(",");
             $rootScope.candnotify.sendMail = recall.email;
@@ -2002,7 +2006,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         Vacancy.getCandidatesInStages($scope.vacancySearchParams, function(resp){
                             Vacancy.candidateLastRequestParams = $scope.vacancySearchParams;
                             localStorage.setItem('objectSize', resp.total);
-                            Vacancy.getCandidate = resp.objects.map(item => item.candidateId.localId);
+                            console.log(resp.objects, 'resp.objects')
+                            Vacancy.getCandidate = (resp.objects && resp.objects.length)?resp.objects.map(item => item.candidateId.localId):[];
                             localStorage.setItem('candidateLastRequestParams', JSON.stringify($scope.vacancySearchParams));
                             $scope.numberOfCandidatesInDifferentStates();
                             $scope.candidatesInStages = resp.objects;
@@ -2174,10 +2179,12 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $rootScope.changeStatusOfInterviewInVacancy.status.value == 'shortlist'){
                     templateType = 'seeVacancy'
                 }
+                console.log(candidate, 'candidate')
                 Mail.getTemplateVacancy({vacancyId: $scope.vacancy.vacancyId,type:templateType},function(data){
                     $rootScope.fileForSave = [];
                     $rootScope.emailTemplateInModal = data.object;
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName ? $rootScope.candnotify.fullName : candidate.fullName);
+                    console.log($rootScope.candnotify, '$rootScope.candnotify');
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName ? $rootScope.candnotify.fullName : candidate.candidateId.fullName);
                     $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $scope.vacancy.position + '</a>');
                     $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName);
                     $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $scope.vacancy.position + '</a>');
@@ -2217,6 +2224,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.approvedCount = $scope.approvedCount;
             $rootScope.candnotify = {};
+            console.log( candidate.candidateId.email.split(/[',',' ']/gi), '123213')
+            $rootScope.candnotify.sendMail = candidate.candidateId.email.split(/[',',' ']/gi)[0];
             if($rootScope.candidatesAddToVacancyIds.length == 1){
                 Candidate.getContacts({"candidateId": candidate[0].candidateId}, function (resp) {
                     var email = "";
@@ -2226,7 +2235,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         }
                     });
                     $rootScope.candnotify.emails = email.replace(/ /gi, "").split(",");
-                    $rootScope.candnotify.sendMail = $rootScope.candnotify.emails[0];
+                    // $rootScope.candnotify.sendMail = $rootScope.candnotify.emails[0];
                 });
                 $rootScope.candnotify.show = false;
                 $rootScope.candnotify.fullName = candidate[0].fullName;
@@ -2733,6 +2742,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
                 }
             });
+            console.log($rootScope.candnotify, '$rootScope.candnotify')
             $rootScope.candnotify = {};
             $rootScope.candnotify.show = false;
             $rootScope.candnotify.send = false;
@@ -2987,6 +2997,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.addFromAdvice.statusObject = $scope.VacancyStatusFiltered;
             $('.addFromAdvice').modal('show');
             $rootScope.candnotify = {};
+            console.log($rootScope.candnotify, '$rootScope.candnotify')
             $rootScope.candnotify.show = false;
             Candidate.getContacts({"candidateId": candidateId}, function (resp) {
                 var email = "";
@@ -3971,7 +3982,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
             var candidateFullName = $("#candidateToAddInInterview").select2('data') !== null ? $("#candidateToAddInInterview").select2('data').text : null;
             $rootScope.addCandidateInInterview.status = status;
-
+            console.log(candidateFullName, 'candidateFullName')
             if($rootScope.addCandidateInInterview.status.value == 'interview' ||
                 $rootScope.addCandidateInInterview.status.withDate ||
                 $rootScope.addCandidateInInterview.status.value == 'longlist' ||
@@ -4053,7 +4064,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $scope.updateTasks();
         };
         $scope.openVacancyCandidateChangeStatus = function (candidate) {
-            console.log(candidate);
             $rootScope.changeStatusOfInterviewInVacancy.candidate = false;
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.status = '';
@@ -4067,17 +4077,25 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
             $scope.modalInstance = $uibModal.open({
                 animation: false,
-                templateUrl: '../partials/modal/vacancy-candidate-change-status.html',
+                templateUrl: '../partials/modal/vacancy-candidate-change-status.html?b41123',
                 size: '',
-                resolve: function(){
-
-                }
+                scope: $scope,
             });
             $scope.modalInstance.closed.then(function() {
                 $rootScope.candnotify.show = false;
                 tinyMCE.remove()
             });
             $scope.modalInstance.opened.then(function(){
+                   // let interval = setInterval(()=>{
+                   //     $rootScope.sendMail222  = candidate.candidateId.email;
+                   //      let sendMail =document.querySelector("#sendMail");
+                   //     if(sendMail.value && sendMail.value.length){
+                   //         console.log(sendMail.value, 'sendMail.value')
+                   //         clearInterval(interval)
+                   //     }
+                   //
+                   //
+                   //  },200)
                 setTimeout(function(){
                     tinymce.init({
                         selector: '#modalMCE',
@@ -4130,6 +4148,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                             $rootScope.changeStatusOfInterviewInVacancy.date = null;
                         }
                     });
+
                     $(".changeStatusOfInterviewEmployed1").datetimepicker({
                         format: "dd/mm/yyyy",
                         startView: 2,
@@ -4256,9 +4275,17 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     notificationService.error(resp.message)
                 }
             })
-        }
+        };
 
-        $scope.routeOnCandidate = function(url, panel){
+        $scope.menuOptions = [
+            [$filter('translate')('Open in new tab'), function ($itemScope) {
+                console.log($location,'location');
+                let url = $location.$$protocol + '://' + $location.$$host +'/!#' + '/candidates/' + $itemScope.candidate.candidateId.localId;
+
+                $window.open(url, "_blank");
+            }]];
+
+        $scope.routeOnCandidate = function(event, url, panel){
             if(panel === 'history'){
                 localStorage.setItem("isAddCandidates", false);
             }else if(panel === 'candidate'){
@@ -4266,7 +4293,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
 
             $location.path('/candidates/' + url);
-        }
+        };
 
         if($scope.activeName === 'extra_status') {
             setActiveStatus();

@@ -90,7 +90,7 @@ var app = angular.module('RecruitingAppStart', [
 }]).config(function($translateProvider,tmhDynamicLocaleProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=11'
+        suffix: '.json?b=12'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -1011,42 +1011,16 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             });
         });
 
-          $(window).scroll(function(){
-              if($('.vacancy-info').offset() && $(window).scrollTop() >= $('.vacancy-info').offset().top - 10) {
-                  $('.apply-buttons').addClass("fixed")
-              } else {
-                  if($('.apply-buttons').hasClass("fixed")) {
-                      $('.apply-buttons').removeClass("fixed");
-                  }
+        $(window).scroll(function(){
+          if($('.vacancy-info').offset() && $(window).scrollTop() >= $('.vacancy-info').offset().top - 10) {
+              $('.apply-buttons').addClass("fixed")
+          } else {
+              if($('.apply-buttons').hasClass("fixed")) {
+                  $('.apply-buttons').removeClass("fixed");
               }
-      });
+          }
+        });
 
-          let timeout;
-          $scope.companyInfoHoverIn = function() {
-              let logo = $('.logo:eq( 1 )'),
-                  companyInfo = $('.comp-abs'),
-                  nameWrap = $('.name_wrap'),
-                  infoSite = $('.info--site:eq(2)'),
-                  name = $('.block-company-public-vacancy .companyInfo h2:eq(1)'),
-                  site = $('.info--site:eq(2) a'),
-                  fb = $('.info--site:eq(3) a');
-
-              clearTimeout(timeout);
-
-              if(infoSite.width() - site.width() <= 44.64 || infoSite.width() - fb.width() <= 44.64 || nameWrap.width() <= name.width()) {
-                  $scope.adaptiveImgWidth = logo.height();
-                  logo.height($scope.adaptiveImgWidth);
-                  timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
-                  companyInfo.addClass('hovered');
-              }
-          };
-
-          $scope.companyInfoHoverOut = function() {
-              let nameWrap = $('.name_wrap');
-              nameWrap.css('white-space', 'nowrap');
-              $('.comp-abs').removeClass('hovered');
-              clearTimeout(timeout);
-          };
 
         $scope.share = function (sourse) {
             if ($scope.companyLogo != undefined && $scope.companyLogo !== '') {
@@ -2427,33 +2401,6 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
             $('#question-modal').addClass('hidden');
         };
 
-        let timeout;
-        $scope.companyInfoHoverIn = function() {
-            let logo = $('.logo'),
-                companyInfo = $('.companyInfo'),
-                nameWrap = $('.name_wrap'),
-                infoSite = $('.info--site:eq'),
-                name = $('.block-company-public-vacancy .companyInfo h2'),
-                site = $('.info--site:eq a'),
-                fb = $('.info--site:eq a');
-
-            clearTimeout(timeout);
-
-            if(infoSite.width() - site.width() <= 44.64 || infoSite.width() - fb.width() <= 44.64 || nameWrap.width() <= name.width()) {
-                $scope.adaptiveImgWidth = logo.height();
-                logo.height($scope.adaptiveImgWidth);
-                timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
-                companyInfo.addClass('hovered');
-            }
-        };
-
-        $scope.companyInfoHoverOut = function() {
-            console.log('out');
-            let nameWrap = $('.name_wrap');
-            nameWrap.css('white-space', 'nowrap');
-            $('.companyInfo').removeClass('hovered');
-            clearTimeout(timeout);
-        };
     }]
 );
 /*** Created by вик on 31.05.2017.*/
@@ -3236,6 +3183,51 @@ angular.module('RecruitingAppStart.directives', [])
 
                 function reset() {
                     selectedItemIndex = -1;
+                }
+            }
+        }
+    }]).directive('toggleCompanyBlock', ['$timeout', function($timeout){
+        return {
+            restrict: "A",
+            link: function(scope, element, attrs) {
+                let logo, nameWrap, linksWrap, name, siteLink, fbLink,
+                    id = '#' + attrs.id,
+                    timeout;
+
+                $timeout(() => {
+                    nameWrap = $(id + ' .name_wrap');
+                    name = $(id +  ' .name_wrap h2');
+
+                    linksWrap = $(id + ' .info--site:eq(0)');
+                    siteLink = $(id + ' .info--site .site-link');
+                    fbLink = $(id + ' .info--site .fb-link');
+
+                    console.log($(id));
+                    console.log(logo);
+                });
+
+                element.on({
+                    mouseenter: () => showBlock(),
+                    mouseleave: () => hideBlock()
+                });
+
+                function showBlock() {
+                    logo = $(id + ' .logo');
+
+                    clearTimeout(timeout);
+
+                    if(linksWrap.width() - siteLink.width() <= 44.64 || linksWrap.width() - fbLink.width() <= 44.64 || nameWrap.width() <= name.width()) {
+                        let adaptiveImgWidth = logo.height();
+                        logo.height(adaptiveImgWidth);
+                        timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
+                        element.addClass('hovered');
+                    }
+                }
+
+                function hideBlock() {
+                    nameWrap.css('white-space', 'nowrap');
+                    element.removeClass('hovered');
+                    clearTimeout(timeout);
                 }
             }
         }
@@ -4642,6 +4634,11 @@ angular.module('services.candidate', [
             let data;
             $rootScope.loading = true;
             candidate.all(params, (response) => {
+                if(!response.object) {
+                    $rootScope.loading = false;
+                    resolve(response, params);
+                    return;
+                }
                 candidate.getCandidate = response.objects.map(item => item.localId);
                 data = candidate.getCandidate;
                 localStorage.setItem('getAllCandidates', JSON.stringify(data));

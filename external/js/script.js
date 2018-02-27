@@ -628,6 +628,9 @@ $(document).ready(function () {
             });
         return false;
     });
+    if(window.location.pathname == '/ru/'){
+        localStorage.setItem("NG_TRANSLATE_LANG_KEY", "ru")
+    }
 
     enterForm('#signupFacebookForm', '#signupFacebookBtn');
     var signup_facebook_loading = false;

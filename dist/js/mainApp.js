@@ -1757,6 +1757,7 @@ directive('appVersion', ['version', function(version) {
                                 };
                             },
                             results: function(data, page) {
+                                console.log(data);
                                 var results = [];
                                 if (data['objects'] !== undefined) {
                                     $.each(data['objects'], function(index, item) {
@@ -1918,7 +1919,7 @@ directive('appVersion', ['version', function(version) {
                                         //}
                                         results.push({
                                             id: item.candidateId,
-                                            text: item.interviews ? item.fullName + " [" + item.interviews[0].state + "]": item.fullName,
+                                            text: item.interviews ? item.fullName + " [" + $filter('translate')(item.interviews[0].state) + "]": item.fullName,
                                             inVacancy: inVacancy,
                                             status: status,
                                             name: realName
@@ -7156,6 +7157,11 @@ angular.module('services.candidate', [
             let data;
             $rootScope.loading = true;
             candidate.all(params, (response) => {
+                if(!response.object) {
+                    $rootScope.loading = false;
+                    resolve(response, params);
+                    return;
+                }
                 candidate.getCandidate = response.objects.map(item => item.localId);
                 data = candidate.getCandidate;
                 localStorage.setItem('getAllCandidates', JSON.stringify(data));
@@ -11527,6 +11533,7 @@ angular.module('services.slider', [
                             length = data.collection.length;
                             sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'up']);
                             $rootScope.setCurrent = false;
+                            localStorage.setItem('setCurrent', false);
                             $rootScope.loading = false;
                         })
                     });
@@ -11716,16 +11723,16 @@ angular.module('services.slider', [
 
     sliderElements.setCurrent = () =>{
         currentPage = getLocation();
+        $rootScope.setCurrent = $rootScope.setCurrent || localStorage.getItem('setCurrent');
+
         if($rootScope.setCurrent)
             sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [true]);
         $rootScope.setCurrent = false;
+        localStorage.setItem('setCurrent', false);
     };
 
     function getPosition(flag, route){
         let pageNumber = this.params.page.number + 1, count = this.params.page.count, index, resault;
-        console.log(pageNumber, 'pageNumber');
-        console.log(count, 'count');
-        console.log(count, 'count');
 
         if(flag){
             iterator.current();
@@ -11746,13 +11753,14 @@ angular.module('services.slider', [
     function createArrowLeft(width, mainBlock) {
         let currentIndex = iterator.index,
             number = sliderElements.params.page.number + 1;
+        console.log(sliderElements.nextElement.cacheCurrentPosition, 'sliderElements.nextElement.cacheCurrentPosition');
 
-        if((number === 1) && (currentIndex == 0) || !$rootScope.isAddCandidates){
+        if((number === 1) && (currentIndex == 0) || !$rootScope.isAddCandidates || sliderElements.nextElement.cacheCurrentPosition < 0){
             mainBlock.style.cursor = 'initial';
             return;
         }
 
-        $('.main-block').append('<div class="leftBlockArrow" data-btn="left" ng-if="currentIndex != 1" style="width:' + width + 'px" data-btn="left"><i data-btn="left" class="fa fa-chevron-left nextElements"></i> </div>');
+        $('.main-block').append('<div class="leftBlockArrow" ng-show="currentIndex" data-btn="left" style="width:' + width + 'px" data-btn="left"><i data-btn="left" class="fa fa-chevron-left nextElements"></i> </div>');
     }
 
     function createArrowRight(width, cacheCandidateLength, cacheCurrentIndex, mainBlock) {
@@ -11762,14 +11770,14 @@ angular.module('services.slider', [
             number = sliderElements.params.page.number + 1,
             count = sliderElements.params.page.count;
 
-        console.log($rootScope.isAddCandidates, 'sliderElements');
+        console.log(sliderElements.nextElement.cacheCurrentPosition, 'sliderElements.nextElement.cacheCurrentPosition');
 
-        if((number === Math.ceil(max / count)) && (currentIndex == currentLength) || !$rootScope.isAddCandidates){
+        if((number === Math.ceil(max / count)) && (currentIndex == currentLength) || !$rootScope.isAddCandidates || sliderElements.nextElement.cacheCurrentPosition < 0){
             mainBlock.style.cursor = 'initial';
             return;
         }
 
-        $('.main-block').append('<div class="rightBlockArrow" data-btn="right"  style="width:' + width + 'px"; data-btn="right"><i  data-btn="right" class="fa fa-chevron-right nextElements"></i></div>');
+        $('.main-block').append('<div class="rightBlockArrow" ng-show="currentIndex" data-btn="right"  style="width:' + width + 'px"; data-btn="right"><i  data-btn="right" class="fa fa-chevron-right nextElements"></i></div>');
     };
 
     function getCoords(elem) {
@@ -14700,7 +14708,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=55'
+        suffix: '.json?b=56'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -18837,7 +18845,7 @@ controller.controller('CandidateAddFromZipController', ["Notice", "$localStorage
 
 function CandidateAllController($localStorage, $translate, Service, $scope, ngTableParams, Candidate, $location,
                                 $rootScope, $filter, $cookies, serverAddress, notificationService, googleService, $window,
-                                ScopeService, frontMode, Vacancy, Company, vacancyStages, $sce, $analytics, Mail, FileInit, $uibModal, Person, $timeout, CandidateGroup, $anchorScroll, ) {
+                                ScopeService, frontMode, Vacancy, Company, vacancyStages, $sce, $analytics, Mail, FileInit, $uibModal, Person, $timeout, CandidateGroup, $anchorScroll ) {
     $scope.experience = Service.experience();
     $rootScope.objectSize = null;
     $rootScope.isAddCandidates= true;
@@ -18845,6 +18853,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $rootScope.candidateLength = null;
     $scope.enableExcelUploadAll = 'N';
     $rootScope.setCurrent = true;
+    localStorage.setItem('setCurrent', true);
     $scope.a = {};
     $scope.a.searchNumber = 1;
     $scope.candidatesAddToVacancyIds = [];
@@ -19777,39 +19786,42 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
                     Candidate.getAllCandidates($scope.candidateSearchOptions)
                         .then(response =>{
-                            console.log(response, 'responsegu')
-                            $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
-                            $rootScope.objectSize = response['objects'] ? response['total'] : 0;
-                            localStorage.setItem('objectSize',  $rootScope.objectSize);
-                            $rootScope.objectSizeCand = $rootScope.objectSize;
-                            $rootScope.searchParam = $scope.searchParam;
-                            params.total(response['total']);
-                            $scope.paginationParams = {
-                                currentPage: $scope.candidateSearchOptions.page.number,
-                                totalCount: $rootScope.objectSize
-                            };
-                            let pagesCount = Math.ceil(response['total']/$scope.candidateSearchOptions.page.count);
-                            if(pagesCount == $scope.candidateSearchOptions.page.number + 1) {
-                                $('#show_more').hide();
+                            if(response.status === "error") {
+                                notificationService.error(response.message);
                             } else {
-                                $('#show_more').show();
+                                $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
+                                $rootScope.objectSize = response['objects'] ? response['total'] : 0;
+                                localStorage.setItem('objectSize',  $rootScope.objectSize);
+                                $rootScope.objectSizeCand = $rootScope.objectSize;
+                                $rootScope.searchParam = $scope.searchParam;
+                                params.total(response['total']);
+                                $scope.paginationParams = {
+                                    currentPage: $scope.candidateSearchOptions.page.number,
+                                    totalCount: $rootScope.objectSize
+                                };
+                                let pagesCount = Math.ceil(response['total']/$scope.candidateSearchOptions.page.count);
+                                if(pagesCount == $scope.candidateSearchOptions.page.number + 1) {
+                                    $('#show_more').hide();
+                                } else {
+                                    $('#show_more').show();
+                                }
+                                $scope.candidateFound = response['total'] >= 1;
+                                $scope.criteriaForExcel["page"] = {
+                                    number: 0,
+                                    count: $scope.objectSize
+                                };
+                                $scope.limitReached = response['limitReached'];
+                                if(page) {
+                                    $scope.candidates = $scope.candidates.concat(response['objects'])
+                                } else {
+                                    $scope.candidates = response['objects'];
+                                }
+                                $defer.resolve($scope.candidates);
+                                // Candidate.init();
+                                $scope.searchParam.searchCs = true;
+                                $rootScope.loading = false;
+                                $scope.$apply();
                             }
-                            $scope.candidateFound = response['total'] >= 1;
-                            $scope.criteriaForExcel["page"] = {
-                                number: 0,
-                                count: $scope.objectSize
-                            };
-                            $scope.limitReached = response['limitReached'];
-                            if(page) {
-                                $scope.candidates = $scope.candidates.concat(response['objects'])
-                            } else {
-                                $scope.candidates = response['objects'];
-                            }
-                            $defer.resolve($scope.candidates);
-                            // Candidate.init();
-                            $scope.searchParam.searchCs = true;
-                            $rootScope.loading = false;
-                            $scope.$apply();
                         }, resp => $rootScope.loading = false);
                 }
 
@@ -23925,7 +23937,12 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.stageUrl = JSON.parse(localStorage.getItem('stageUrl'));
 
         function setPositionCandidates(dataCandidates, nextElementMethod){
-            var data, index, size;
+            var data, index, size,
+            a = document.referrer;
+
+            // if(!dataCandidates) $rootScope.isAddCandidates = false;
+
+
             if(dataCandidates){
                 data = dataCandidates;
             }else if(localStorage.getItem('getAllCandidates')){
@@ -23934,6 +23951,11 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 data = JSON.parse(localStorage.getItem('candidatesInStagesVac'));
             }
 
+            if(!data){
+                $rootScope.isAddCandidates = false;
+                localStorage.setItem("isAddCandidates", false);
+                data = [];
+            }
             nextElementMethod.cacheCandidateLength = data.length;
 
 
@@ -34178,6 +34200,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
     $scope.currentStatus = null;
     $scope.isSearched = false;
     $rootScope.setCurrent = true;
+    localStorage.setItem('setCurrent', true);
     localStorage.setItem('currentPage','vacancies');
     $rootScope.currentElementPos = true;
     Candidate.candidateLastRequestParams = null;
@@ -35241,12 +35264,13 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
 
 controller.controller('vacancyController', ["localStorageService", "CacheCandidates", "$localStorage", "$scope", "Vacancy",
     "Service", "$translate", "$routeParams", "$filter", "ngTableParams", "Person", "$location", "$rootScope", "FileInit",
-    "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route", "$timeout",
+    "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route", "$timeout","$window",
     function (localStorageService, CacheCandidates, $localStorage, $scope, Vacancy, Service, $translate, $routeParams,
               $filter, ngTableParams, Person, $location, $rootScope, FileInit,
-              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route,$timeout) {
+              googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route,$timeout,$window) {
         $rootScope.currentElementPos = true;
         $rootScope.setCurrent = true;
+        localStorage.setItem('setCurrent', true);
         $rootScope.isAddCandidates= true;
         localStorage.setItem('currentPage', 'vacancies');
         localStorage.removeItem('stageUrl');
@@ -36248,6 +36272,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
         $scope.getEmailTemplates = function () {
             Mail.getTemplatesVacancy({vacancyId: $scope.vacancy.vacancyId,type:"candidateCreateInterviewNotification"},function(data){
+                console.log('123123123')
                 $scope.emailTemplates = data.objects;
                 if(localStorage.editTemplate){
                     $scope.VacanciesInfCandidTaskHistClientFunc('settings');
@@ -36443,6 +36468,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         }
                     });
                     Mail.getTemplateVacancy({vacancyId: $scope.vacancy.vacancyId,type:'seeVacancy'},function(data){
+
                         //data.text = data.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName);
                         data.object.text = data.object.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $scope.vacancy.position + '</a>');
                         data.object.text = data.object.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName);
@@ -36550,6 +36576,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.recallToInterview.recall = recall;
             $('.addInInterviewFromRecall.modal').modal('show');
             // console.log(recall)
+            console.log($rootScope.candnotify, '$rootScope.candnotify')
             $rootScope.candnotify = {};
             $rootScope.candnotify.emails = recall.email.split(",");
             $rootScope.candnotify.sendMail = recall.email;
@@ -37243,7 +37270,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         Vacancy.getCandidatesInStages($scope.vacancySearchParams, function(resp){
                             Vacancy.candidateLastRequestParams = $scope.vacancySearchParams;
                             localStorage.setItem('objectSize', resp.total);
-                            Vacancy.getCandidate = resp.objects.map(item => item.candidateId.localId);
+                            console.log(resp.objects, 'resp.objects')
+                            Vacancy.getCandidate = (resp.objects && resp.objects.length)?resp.objects.map(item => item.candidateId.localId):[];
                             localStorage.setItem('candidateLastRequestParams', JSON.stringify($scope.vacancySearchParams));
                             $scope.numberOfCandidatesInDifferentStates();
                             $scope.candidatesInStages = resp.objects;
@@ -37415,10 +37443,12 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $rootScope.changeStatusOfInterviewInVacancy.status.value == 'shortlist'){
                     templateType = 'seeVacancy'
                 }
+                console.log(candidate, 'candidate')
                 Mail.getTemplateVacancy({vacancyId: $scope.vacancy.vacancyId,type:templateType},function(data){
                     $rootScope.fileForSave = [];
                     $rootScope.emailTemplateInModal = data.object;
-                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName ? $rootScope.candnotify.fullName : candidate.fullName);
+                    console.log($rootScope.candnotify, '$rootScope.candnotify');
+                    $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName ? $rootScope.candnotify.fullName : candidate.candidateId.fullName);
                     $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $scope.vacancy.position + '</a>');
                     $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[recruiter's name\]\]/g, $rootScope.me.fullName);
                     $rootScope.emailTemplateInModal.title = $rootScope.emailTemplateInModal.title.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $scope.vacancy.position + '</a>');
@@ -37458,6 +37488,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.approvedCount = $scope.approvedCount;
             $rootScope.candnotify = {};
+            console.log( candidate.candidateId.email.split(/[',',' ']/gi), '123213')
+            $rootScope.candnotify.sendMail = candidate.candidateId.email.split(/[',',' ']/gi)[0];
             if($rootScope.candidatesAddToVacancyIds.length == 1){
                 Candidate.getContacts({"candidateId": candidate[0].candidateId}, function (resp) {
                     var email = "";
@@ -37467,7 +37499,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         }
                     });
                     $rootScope.candnotify.emails = email.replace(/ /gi, "").split(",");
-                    $rootScope.candnotify.sendMail = $rootScope.candnotify.emails[0];
+                    // $rootScope.candnotify.sendMail = $rootScope.candnotify.emails[0];
                 });
                 $rootScope.candnotify.show = false;
                 $rootScope.candnotify.fullName = candidate[0].fullName;
@@ -37974,6 +38006,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
                 }
             });
+            console.log($rootScope.candnotify, '$rootScope.candnotify')
             $rootScope.candnotify = {};
             $rootScope.candnotify.show = false;
             $rootScope.candnotify.send = false;
@@ -38228,6 +38261,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.addFromAdvice.statusObject = $scope.VacancyStatusFiltered;
             $('.addFromAdvice').modal('show');
             $rootScope.candnotify = {};
+            console.log($rootScope.candnotify, '$rootScope.candnotify')
             $rootScope.candnotify.show = false;
             Candidate.getContacts({"candidateId": candidateId}, function (resp) {
                 var email = "";
@@ -39212,7 +39246,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
             var candidateFullName = $("#candidateToAddInInterview").select2('data') !== null ? $("#candidateToAddInInterview").select2('data').text : null;
             $rootScope.addCandidateInInterview.status = status;
-
+            console.log(candidateFullName, 'candidateFullName')
             if($rootScope.addCandidateInInterview.status.value == 'interview' ||
                 $rootScope.addCandidateInInterview.status.withDate ||
                 $rootScope.addCandidateInInterview.status.value == 'longlist' ||
@@ -39294,7 +39328,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $scope.updateTasks();
         };
         $scope.openVacancyCandidateChangeStatus = function (candidate) {
-            console.log(candidate);
             $rootScope.changeStatusOfInterviewInVacancy.candidate = false;
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.status = '';
@@ -39308,17 +39341,25 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
             $scope.modalInstance = $uibModal.open({
                 animation: false,
-                templateUrl: '../partials/modal/vacancy-candidate-change-status.html',
+                templateUrl: '../partials/modal/vacancy-candidate-change-status.html?b41123',
                 size: '',
-                resolve: function(){
-
-                }
+                scope: $scope,
             });
             $scope.modalInstance.closed.then(function() {
                 $rootScope.candnotify.show = false;
                 tinyMCE.remove()
             });
             $scope.modalInstance.opened.then(function(){
+                   // let interval = setInterval(()=>{
+                   //     $rootScope.sendMail222  = candidate.candidateId.email;
+                   //      let sendMail =document.querySelector("#sendMail");
+                   //     if(sendMail.value && sendMail.value.length){
+                   //         console.log(sendMail.value, 'sendMail.value')
+                   //         clearInterval(interval)
+                   //     }
+                   //
+                   //
+                   //  },200)
                 setTimeout(function(){
                     tinymce.init({
                         selector: '#modalMCE',
@@ -39371,6 +39412,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                             $rootScope.changeStatusOfInterviewInVacancy.date = null;
                         }
                     });
+
                     $(".changeStatusOfInterviewEmployed1").datetimepicker({
                         format: "dd/mm/yyyy",
                         startView: 2,
@@ -39497,9 +39539,17 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     notificationService.error(resp.message)
                 }
             })
-        }
+        };
 
-        $scope.routeOnCandidate = function(url, panel){
+        $scope.menuOptions = [
+            [$filter('translate')('Open in new tab'), function ($itemScope) {
+                console.log($location,'location');
+                let url = $location.$$protocol + '://' + $location.$$host +'/!#' + '/candidates/' + $itemScope.candidate.candidateId.localId;
+
+                $window.open(url, "_blank");
+            }]];
+
+        $scope.routeOnCandidate = function(event, url, panel){
             if(panel === 'history'){
                 localStorage.setItem("isAddCandidates", false);
             }else if(panel === 'candidate'){
@@ -39507,7 +39557,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
 
             $location.path('/candidates/' + url);
-        }
+        };
 
         if($scope.activeName === 'extra_status') {
             setActiveStatus();
@@ -40360,6 +40410,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         Vacancy.one({"localId": $routeParams.id}, function(resp) {
             $scope.vacancy = resp.object;
+
             $("#dateFrom").datetimepicker({
                 format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
                 startView: 2,
@@ -40371,23 +40422,20 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             });
 
             $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
+
             $("#dateTo").datetimepicker({
                 format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
                 startView: 2,
                 minView: 2,
                 autoclose: true,
-                endDate: $scope.vacancy.dateFinish != undefined ? new Date($scope.vacancy.dateFinish) : new Date(),
+                endDate: new Date(),
                 weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
                 language: $translate.use()
             });
 
-            if ($scope.vacancy.dateFinish != undefined) {
-                $("#dateTo").datetimepicker("setDate", new Date($scope.vacancy.dateFinish));
-            } else {
-                var d = new Date();
-                d.setHours(0, 0, 0, 0);
-                $("#dateTo").datetimepicker("setDate", d);
-            }
+            var d = new Date();
+            d.setHours(0, 0, 0, 0);
+            $("#dateTo").datetimepicker("setDate", d);
 
             let stagesString = [];
 
@@ -41562,6 +41610,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                     if(!$scope.publicLink) {
                         $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-" + $rootScope.vacancyForAddCandidate;
                     }
+                    console.log($rootScope.candnotify, '$rootScope.candnotify')
                     $rootScope.emailTemplateInModal = data.object;
                     $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName);
                     $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[vacancy link\]\]/g, '<a style="font-weight: 600; {cursor: pointer;text-decoration: blink;color: #1A6986; text-decoration: none} :hover {text-decoration: underline;}"target="_blank" href="' + $scope.publicLink+ '">' + $rootScope.VacancyAddedInCandidate.position + '</a>');
@@ -41620,6 +41669,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                     templateType = 'seeVacancy'
                 }
                 Mail.getTemplateVacancy({vacancyId: $rootScope.changedStatusVacancy.vacancyId,type:templateType},function(data){
+                    console.log($rootScope.candnotify, '$rootScope.candnotify');
                     $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-"  + $rootScope.changedStatusVacancy.localId;
                     $rootScope.fileForSave = [];
                     $rootScope.emailTemplateInModal = data.object;
