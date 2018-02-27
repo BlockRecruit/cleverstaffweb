@@ -1757,6 +1757,7 @@ directive('appVersion', ['version', function(version) {
                                 };
                             },
                             results: function(data, page) {
+                                console.log(data);
                                 var results = [];
                                 if (data['objects'] !== undefined) {
                                     $.each(data['objects'], function(index, item) {
@@ -1918,7 +1919,7 @@ directive('appVersion', ['version', function(version) {
                                         //}
                                         results.push({
                                             id: item.candidateId,
-                                            text: item.interviews ? item.fullName + " [" + item.interviews[0].state + "]": item.fullName,
+                                            text: item.interviews ? item.fullName + " [" + $filter('translate')(item.interviews[0].state) + "]": item.fullName,
                                             inVacancy: inVacancy,
                                             status: status,
                                             name: realName
