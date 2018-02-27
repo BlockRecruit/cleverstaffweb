@@ -100,7 +100,7 @@
                             <div class="emp-salary" ng-show="publicVacancy.employmentType || publicVacancy.salaryFrom && publicVacancy.salaryTo">
                                 <span class="vacancy__salary" ng-show="publicVacancy.salaryFrom || publicVacancy.salaryTo">
                                     <span ng-if="publicVacancy.salaryFrom && !publicVacancy.salaryTo">{{publicVacancy.salaryFrom}}+ {{publicVacancy.currency}}</span>
-                                    <span ng-if="!publicVacancy.salaryFrom && publicVacancy.salaryTo">up to {{publicVacancy.salaryTo}} {{publicVacancy.currency}}</span>
+                                    <span ng-if="!publicVacancy.salaryFrom && publicVacancy.salaryTo">{{'up to' | translate}} {{publicVacancy.salaryTo}} {{publicVacancy.currency}}</span>
                                     <span ng-if="publicVacancy.salaryFrom && publicVacancy.salaryTo">{{publicVacancy.salaryFrom}}-{{publicVacancy.salaryTo}} {{publicVacancy.currency}}</span>
                                     <span ng-if="publicVacancy.employmentType">,</span>
                                 </span>
