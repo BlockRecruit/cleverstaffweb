@@ -27157,14 +27157,14 @@ controller.controller('ClientAddController', ["FileInit", "$scope", "Service", "
         };
 
 
-        // $scope.getClientsAmount = function() {
-        //     Client.all(Client.searchOptions(), function (response) {
-        //         $rootScope.objectSize = response['objects'] ? response['total'] : 0;
-        //     });
-        // };
+        $scope.getClientsAmount = function() {
+            Client.all(Client.searchOptions(), function (response) {
+                $rootScope.objectSize = response['objects'] ? response['total'] : 0;
+            });
+        };
 
         $scope.getFullCustomFields();
-        // $scope.getClientsAmount();
+        $scope.getClientsAmount();
     }]);
 
 controller.controller('ClientsController', ["$scope", "$location", "Client", "ngTableParams", "$rootScope", "$filter", 'Person', 'ScopeService','notificationService', 'serverAddress', 'Service', '$timeout', '$anchorScroll',
