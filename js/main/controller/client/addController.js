@@ -113,6 +113,7 @@ controller.controller('ClientAddController', ["FileInit", "$scope", "Service", "
                     if (angular.equals(resp.status, "ok")) {
                         Client.all(Client.searchOptions(), function (response) {
                             $rootScope.clientsForInvite = response.objects;
+                            console.log('a');
                         });
                         notificationService.success($filter('translate')("client_save_1") + " " + $scope.client.name + $filter('translate')("client_save_2"));
                         $location.path("/clients/" + resp.object.localId);
@@ -160,5 +161,14 @@ controller.controller('ClientAddController', ["FileInit", "$scope", "Service", "
                 }
             });
         };
+
+
+        // $scope.getClientsAmount = function() {
+        //     Client.all(Client.searchOptions(), function (response) {
+        //         $rootScope.objectSize = response['objects'] ? response['total'] : 0;
+        //     });
+        // };
+
         $scope.getFullCustomFields();
+        // $scope.getClientsAmount();
     }]);

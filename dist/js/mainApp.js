@@ -5079,13 +5079,8 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
     }])
     .filter('clientsCountFormat', ["$filter", function ($filter) {
         return function (count) {
-            if (count == 1) {
-                return count;
-            } else if (count == undefined) {
-                return 0;
-            } else {
-                return count;
-            }
+            if(count) return count;
+            return 0;
         };
     }])
     .filter('ageOfDate', ['$filter', function ($filter) {
@@ -27112,6 +27107,7 @@ controller.controller('ClientAddController', ["FileInit", "$scope", "Service", "
                     if (angular.equals(resp.status, "ok")) {
                         Client.all(Client.searchOptions(), function (response) {
                             $rootScope.clientsForInvite = response.objects;
+                            console.log('a');
                         });
                         notificationService.success($filter('translate')("client_save_1") + " " + $scope.client.name + $filter('translate')("client_save_2"));
                         $location.path("/clients/" + resp.object.localId);
@@ -27159,7 +27155,16 @@ controller.controller('ClientAddController', ["FileInit", "$scope", "Service", "
                 }
             });
         };
+
+
+        // $scope.getClientsAmount = function() {
+        //     Client.all(Client.searchOptions(), function (response) {
+        //         $rootScope.objectSize = response['objects'] ? response['total'] : 0;
+        //     });
+        // };
+
         $scope.getFullCustomFields();
+        // $scope.getClientsAmount();
     }]);
 
 controller.controller('ClientsController', ["$scope", "$location", "Client", "ngTableParams", "$rootScope", "$filter", 'Person', 'ScopeService','notificationService', 'serverAddress', 'Service', '$timeout', '$anchorScroll',
@@ -27344,6 +27349,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                     }
                     Client.all(Client.searchOptions(), function(response) {
                         $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
+                        console.log($rootScope.objectSize);
                         if(page) {
                             $scope.clients = $scope.clients.concat(response['objects'])
                         } else {
@@ -42281,7 +42287,6 @@ function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filte
     $scope.employeesFound = null;
     $scope.a = {};
     $scope.a.searchNumber = 1;
-    $scope.test = true;
     $scope.employeesObj = {
         dataIsLoad: true,
         allDataSize: 0,
@@ -42422,10 +42427,7 @@ function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filte
                         } else {
                             $('#show_more').show();
                         }
-                        if($scope.test) {
-                            $defer.resolve(data);
-                            $scope.test = false;
-                        }
+                        $defer.resolve(data);
                         $scope.employeesObj.allDataSize = response['total'];
                         if($scope.searchParam.state == null){
                             $scope.searchParam.state = 'null';
