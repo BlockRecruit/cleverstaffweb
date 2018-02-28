@@ -39629,7 +39629,7 @@ controller.controller('pipelineController', ["$rootScope", "$scope", "notificati
         $scope.showPipelineDescr = function(){
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/pipeline-descr.html?b=1',
+                templateUrl: '../partials/modal/pipeline-descr.html?b=2',
                 size: '',
                 resolve: function(){
 
