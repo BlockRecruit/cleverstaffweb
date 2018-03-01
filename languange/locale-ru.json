@@ -2805,9 +2805,6 @@
   "Apply via": "Отправить с",
   "Application form": "Форма Заявки",
   "send": "Отправить",
-  "Apply now": "Откликнуться",
-  "Apply via": "Откликнуться с",
-  "Application form": "Отклик на вакансию",
   "Haven`t received the report?": "Не пришел отчет?",
   "Request daily report from": "Запросить ежедневный отчет за",
   "Select date": "Выберите дату",
@@ -2822,7 +2819,6 @@
   "Show more": "Показать ещё",
   "Only account administrator is able to make a payment":"Только администратор аккаунта может произвести оплату",
   "Changes saved":"Изменения сохранены",
-  "Only account administrator is able to make a payment":"Только администратор аккаунта может произвести оплату",
   "Preferable contact method": "Предпочтительный метод связи",
   "Mark as preferrable contact method":"Отметить как предпочтительный метод связи",
   "Unmark as preferable contact method":"Снять отметку предпочтительного метода связи",
@@ -2910,5 +2906,8 @@
   "Language with this level is already selected":"Язык с таким уровнем уже выбран",
   "The timer will be displayed on the test page.In case you do not finish the test before the deadline, the test page will be closed, all the data entered will be saved and sent to the recruiter":"Время на прохождение этого теста ограничено.Таймер будет отображаться во время прохождения теста.По окончанию времени страница теста автоматически закроется, все введённые вами данные будут сохранены и отправлены рекрутеру",
   "The candidates have been successfully moved to the stage": "Кандидаты были успешно переведены на этап",
-  "relocate": "переезд"
+  "relocate": "переезд",
+  "Select the specific vacancy for the Hiring manager": "Выберите вакансию, к которой будет привязан Hiring manager",
+  "Hiring manager must be responsible for the vacancy.Please select a vacancy": "Hiring manager должен быть ответственным по вакансии. Пожалуйста, выберите вакансию",
+  "Hiring Manager will be responsible for this vacancy after registration in account.": "После регистрации в аккаунте, Hiring Manager будет ответственным за эту вакансию"
 }

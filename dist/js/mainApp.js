@@ -12846,7 +12846,8 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "helpWindowZip3":  $sce.trustAsHtml($filter('translate')('If you have any candidates in the program E-Staff, they can be exported in two steps') + '</br></br>' + '<div>1.' + $filter('translate')('Create a script export (Menu -> Tools -> Administration -> Other -> Scripts exports). Uploaded types of objects - the candidate. Specify the name of the script and save')+'.' + '</br></br>2.' + $filter('translate')('Upload (Menu -> Tools -> Export -> Your script that you received from p.1. You will receive a folder with files of the candidate-0x0A1234E567C890A0.xml. All you need to pack a folder in the ZIP-archive and send it here. So the candidates of the E-Staff will take a CleverStaff.')),
                     "boolSearchInfo": $sce.trustAsHtml($filter('translate')('Boolean search info')),
                     "exchangeHost":  $sce.trustAsHtml($filter('translate')('The Exchange server URL')),
-                    "exchangeDomain":  $sce.trustAsHtml($filter('translate')('Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address'))
+                    "exchangeDomain":  $sce.trustAsHtml($filter('translate')('Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address')),
+                    "hmInvite":  $sce.trustAsHtml($filter('translate')('Hiring Manager will be responsible for this vacancy after registration in account.'))
                 };
                 $rootScope.tooltips = options;
             });
@@ -28872,6 +28873,7 @@ controller.controller('ContactAddController',["$scope", "$location", "$routePara
 
                });
            }else{
+               $scope.contact.vacancyId = $rootScope.VacancyAddedInCandidate.vacancyId;
                Contacts.addContactAndSignUp($scope.contact, function(resp) {
                    $scope.errorMessage.show = false;
                    if (angular.equals(resp.status, "ok")) {
@@ -30579,33 +30581,42 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 notificationService.error($filter('translate')('need role'));
             } else if ($rootScope.inviteUser.email == null) {
                 notificationService.error($filter('translate')('wrong_email'));
+            }else if($rootScope.inviteUser.role == 'client' && ($rootScope.VacancyAddedInCandidate == null || $rootScope.VacancyAddedInCandidate == undefined)){
+                notificationService.error($filter('translate')('Hiring manager must be responsible for the vacancy.Please select a vacancy'));
             } else {
+                if($rootScope.VacancyAddedInCandidate != undefined){
+                    $rootScope.inviteUser.vacancyId = $rootScope.VacancyAddedInCandidate.vacancyId;
+                }
                 isBlock(function (resp) {
                     if (resp && resp.status == 'N') {
                         $rootScope.inviteUserBlock = true;
                         $rootScope.errorMessageType = "inviteBlockUser";
                         $location.path("/users/" + resp.userId);
                         // $rootScope.closeNavModal();
-                        $rootScope.inviteUser.email = "";
+                        $rootScope.VacancyAddedInCandidate.vacancyId = null;
+                        $rootScope.inviteUser.vacancyId = null;
                     } else if (resp && resp.status == 'A') {
                         notificationService.error("<a href='#/users/" + resp.userId + "'>" + resp.fullName + "</a> (" + resp.login + ") " + $filter("translate")("has already working in your account"));
                         $rootScope.closeNavModal();
-                        $rootScope.inviteUser.email = "";
+                        $rootScope.VacancyAddedInCandidate.vacancyId = null;
+                        $rootScope.inviteUser.vacancyId = null;
                     } else {
                         Person.inviteUser({
                             email: $rootScope.inviteUser.email,
                             role: $rootScope.inviteUser.role,
-                            //clientId: $rootScope.inviteUser.clientId,
+                            vacancyId: $rootScope.inviteUser.role == 'client' ? $rootScope.inviteUser.vacancyId : null,
                             lang: $translate.use()
                         }, function (resp) {
                             if (resp.status && angular.equals(resp.status, "error")) {
                                 notificationService.error(resp.message);
                                 //$('.addUserInvite.modal').modal('hide');
-                                //$rootScope.inviteUser.email = "";
+                                $rootScope.VacancyAddedInCandidate.vacancyId = null;
+                                $rootScope.inviteUser.vacancyId = null;
                             } else {
                                 notificationService.success($filter('translate')('user_was_invite_1') + $rootScope.inviteUser.email + $filter('translate')('user_was_invite_2'));
                                 $rootScope.closeNavModal();
-                                $rootScope.inviteUser.email = "";
+                                $rootScope.VacancyAddedInCandidate.vacancyId = null;
+                                $rootScope.inviteUser.vacancyId = null;
                                 if ($location.path() == '/company/users') {
                                     $route.reload();
                                 }
