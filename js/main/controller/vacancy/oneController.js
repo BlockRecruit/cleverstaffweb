@@ -958,6 +958,50 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 $scope.pushCandidateToVacancy(resp, 'all');
             });
         };
+        $scope.pushAllCandidatesToVacancyForRecalls = function(recalls){
+            console.log(recalls);
+            $scope.checkAllCandidates = !$scope.checkAllCandidates;
+            angular.forEach(recalls, function(resp){
+                console.log($scope.candidatesAddToVacancyIds);
+                angular.forEach($scope.candidatesAddToVacancyIds, function(ids){
+                    if(resp.candidateId == ids){
+                        $scope.candidatesAddToVacancyIds.splice($scope.candidatesAddToVacancyIds.indexOf(resp.candidates[0].candidateId), 1);
+                        $scope.addCandidateChangeStage.splice($scope.addCandidateChangeStage.indexOf(resp.candidates[0].candidateId), 1);
+                    }
+                });
+                if(resp.candidates){
+                    if($scope.checkAllCandidates && resp.candidates[0].status != 'archived'){
+                        resp.added = true
+                    }else{
+                        resp.added = false;
+                    }
+                    if(!$scope.checkAllCandidates){
+                        $scope.candidatesAddToVacancyIds.splice(0, $scope.candidatesAddToVacancyIds.length-1);
+                        $scope.addCandidateChangeStage.splice(0, $scope.addCandidateChangeStage.length-1);
+                    }
+                    console.log(resp);
+                    $scope.pushCandidateToVacancyForRecalls(resp, 'all');
+                }
+            });
+        };
+        $scope.pushCandidateToVacancyForRecalls = function(candidate, all){
+            if(candidate.added){
+                var candidateAdded = false;
+                for(var key in $scope.candidatesAddToVacancyIds){
+                    if(candidate.candidateId == $scope.candidatesAddToVacancyIds[key])
+                        candidateAdded = true;
+                }
+                if(!candidateAdded){
+                    $scope.candidatesAddToVacancyIds.push(candidate.candidateId);
+                    $scope.addCandidateChangeStage.push(candidate.candidates[0]);
+                    console.log($scope.addCandidateChangeStage);
+                }
+            }else if(candidate.added == false && all == undefined){
+                $scope.candidatesAddToVacancyIds.splice($scope.candidatesAddToVacancyIds.indexOf(candidate.candidateId), 1);
+                $scope.addCandidateChangeStage.splice($scope.addCandidateChangeStage.indexOf(candidate.candidates[0]), 1);
+                console.log($scope.addCandidateChangeStage);
+            }
+        };
 
         $scope.updateTasks = function (needReload) {
             Task.get({
@@ -1455,13 +1499,12 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
         };
         $rootScope.addCommentInVacancyToCandidate = function () {
-
             if ($rootScope.commentVacancyToCandidate.comment != undefined) {
                 $scope.commentVacancyToCandidate.loading = true;
                 Vacancy.setMessageToCandidate({
                     comment: $rootScope.commentVacancyToCandidate.comment,
                     vacancyId: $scope.vacancy.vacancyId,
-                    candidateId: $scope.chosenCandidate.candidateId.candidateId
+                    candidateId: $scope.chosenCandidate.candidateId.candidateId || $scope.chosenCandidate.candidateId
                 }, function (resp) {
                     $scope.commentVacancyToCandidate.loading = false;
                     $rootScope.closeModal();
@@ -3106,7 +3149,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $rootScope.deleteInterview = function () {
             Vacancy.removeInterview({
                 vacancyId: $scope.vacancy.vacancyId,
-                candidateId: $rootScope.candidateRemoveId,
+                candidateId: $rootScope.candidateRemoveId || $rootScope.client.candidateId,
                 comment: $rootScope.deleteInterview.comment
             }, function (resp) {
                 if (resp.status === "ok") {

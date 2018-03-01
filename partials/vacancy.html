@@ -618,7 +618,7 @@
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>
                         </button>
                     </div>
-                    <div class="col-lg-4" ng-show="$root.me.recrutRole != 'salesmanager'">
+                    <div class="col-lg-4 padding-zero" ng-show="$root.me.recrutRole != 'salesmanager'">
                         <a id="export_in_excel" class="hidden" href="">
                         </a>
                         <a ng-click="sendCandidatesToClient()">
@@ -766,43 +766,141 @@
                 {{"This vacanсy doesn't contain candidates now"|translate}}
             </h4>
         </div>
-        <div id="recallsTable" class="col-lg-7 status-info no-padding-sm" ng-class="{'col-lg-12' : showSearchCandidate}"
+        <div id="recallsTable" class="col-lg-9 status-info no-padding-sm" ng-class="{'col-lg-12' : showSearchCandidate}"
              ng-if="($root.me.recrutRole !== 'client')">
+            <div class="changeStatusBtn pull-right" ng-show="candidatesAddToVacancyIds.length > 0" ng-class="{'hidden-xs': showSearchCandidate}">
+                <a href="" class="btn btn-success no-hover-sm" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidatesAddToVacancyIds);">
+                    {{'change_status_1' | translate}} ({{candidatesAddToVacancyIds.length}})
+                </a>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row header" ng-show="!showSearchCandidate">
+                <div class="col-lg-4 blockStage">
+                    <input ng-click="pushAllCandidatesToVacancyForRecalls(recalls)" ng-hide="recalls.length < 2" ng-checked="checkAllCandidates == true" type="checkbox"/>
+                    <h4>{{activeName | translate}}</h4>
+                </div>
+                <div class="col-lg-8 text-right links hidden-xs hidden-sm">
+                    <div class="col-lg-4" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'salesmanager'">
+                        <a ng-show="vacancy.testIds.length > 0" ng-click="$root.sendTestFromVacancyStage(activeName, 'longlist', dataForVacancy)" title="{{'Send test' | translate}}">
+                            {{'Send test' | translate}}
+                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                        </a>
+                        <a ng-show="vacancy.testIds.length == 0" href="#/candidate/tests" title="{{'Create new test' | translate}}">
+                            {{'Create new test' | translate}}
+                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="col-lg-4" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y')">
+                        <a ng-click="exportToExcel()" ng-show="$root.hideTariff" title="{{'Export to Excel' | translate}}">
+                            {{'Export to Excel' | translate}}
+                            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        </a>
+                        <button id="disabledBtn-4" ng-show="!$root.hideTariff"  ng-click="$root.disabledBtnFunc();" type="button" class="btn btn-default disabled">
+                            {{'Export to Excel' | translate}}
+                            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="col-lg-4 padding-zero" ng-show="$root.me.recrutRole != 'salesmanager'">
+                        <a id="export_in_excel" class="hidden" href="">
+                        </a>
+                        <a ng-click="sendCandidatesToClient()">
+                            {{'Send to the Client'|translate}}
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
             <table class="table">
                 <thead class="recalls-header">
                 <tr>
-                    <th translate="application_date"></th>
-                    <th class="hidden-xs hidden-sm"></th>
-                    <!--<th>asd</th>-->
-                    <th translate="name"></th>
-                    <th translate="phone"></th>
+                    <th>
+                        №
+                        <i class="fa fa-sort pull-right" aria-hidden="true"></i>
+                    </th>
+                    <th>
+                        {{'vacancy_save_1'|translate}}
+                        <i class="fa fa-sort pull-right" aria-hidden="true"></i>
+                    </th>
+                    <th>
+                        {{'region'|translate}}
+                        <i class="fa fa-sort pull-right" aria-hidden="true"></i>
+                    </th>
+                    <th>
+
+                    </th>
+                    <th ng-show="!showSearchCandidate">
+                        {{'stage'|translate}}
+                        <i class="fa fa-sort pull-right" aria-hidden="true"></i>
+                    </th>
+                    <th class="hidden-xs">
+                        {{'comment'|translate}}
+                        <i class="fa fa-sort pull-right" aria-hidden="true"></i>
+                    </th>
+                    <th>
+                        {{'salary'|translate}}
+                        <i class="fa fa-sort pull-right" aria-hidden="true"></i>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-click="toOneRecall(recall.recallId)" ng-repeat="recall in recalls|orderBy:'-dc':true">
-                    <td bo-text="recall.dc| dateFormat:true"></td>
-                    <td class="button-outer text-center padding-right"  ng-class="{'hidden-xs': showSearchCandidate ||candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview'
+                <tr ng-repeat="recall in recalls|orderBy:'-dc':true" ng-class="{'archived': recall.candidates[0].status == 'archived', 'add_color': recall.added == true}">
+                    <td class="checklist" ng-if="recall.candidates[0].status != 'archived' && activeName != null && recalls.length > 1">
+                        <input ng-click="pushCandidateToVacancyForRecalls(recall)" type="checkbox" ng-model="recall.added"/>
+                    </td>
+                    <td class="checklist" ng-if="recall.candidates[0].status == 'archived' && activeName != null"></td>
+                    <td class="number" data-title="'№'" once-text="(tableParams.page() - 1) * tableParams.count() + $index + 1"></td>
+                    <td class="preview text-center width-for-table-eye hidden-xs" priview="" pageid="recall" candidate="recall.candidates[0]">
+                        <div>
+                            <i class="fa fa-address-card-o text_change" title="{{'CV preview'|translate}}" aria-hidden="true"></i>
+                        </div>
+                    </td>
+                    <td class="name" data-title="'Name'">
+                        <a  ng-click="routeOnCandidate($event,recall.candidates[0].localId,'candidate');" ng-context-menu="menuOptions">{{::recall.candidates[0].fullName}}</a>
+                    </td>
+                    <!--<td ng-if="recall.candidates[0].status == 'archived'"></td>-->
+                    <td class="checklist" ng-if="recall.candidates[0].status != 'archived' && candidatesAddToVacancyIds.length > 0"></td>
+                    <td class="button-outer text-center padding-right" ng-if="recall.candidates[0].status != 'archived' && candidatesAddToVacancyIds.length == 0"  ng-class="{'hidden-xs': showSearchCandidate ||candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview'
                         || candidate.state == 'hr_interview' || candidate.state == 'interview_with_the_boss' || candidate.state == 'interview_with_the_client')}">
                         <a href="" ng-show="recall.candidates" class="btn btn-success no-hover-sm"
                            ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(recall);" >{{'change_status' | translate}}</a>
                     </td>
-                    <!--<td class="button-outer hidden-xs hidden-sm">-->
-                        <!--&lt;!&ndash;<a href="" ng-click="openVacancyCandidateChangeStatus(recall.candidates[0]);$event.stopPropagation();" ng-show="recall.candidates" class="btn btn-success">{{'change_status' | translate}}</a>&ndash;&gt;-->
-                    <!--</td>-->
-                    <td>
-                        <span>
-                            <a ng-href="#/candidates/{{recall.candidates[0].localId}}"
-                               ng-show="recall.candidates"
-                               ng-click="$event.stopPropagation();"
-                               bo-text="recall.candidates[0].fullName">
-                            </a>
-                            <span href="" ng-show="recall.candidateId.length == 0"
-                                  bo-text="recall.name+' '+recall.lastName">
-                            </span>
-                        </span>
+                    <td class="responsible hidden-xs" ng-if="recall.candidates[0].status != 'archived'" ng-click="$event.stopPropagation()">
+                        <a ng-repeat="responsible in persons" href="#/users/{{::responsible.userId}}"
+                           ng-show="responsible.userId && (responsible.userId == recall.candidates[0].creatorId)">
+                            <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
+                            <!--{{responsible.fullName}}-->
+                            <div class="responsible-initials" title="{{::responsible.cutFullName}}">
+                                <span>{{getFirstLetters(responsible.fullName)}}</span>
+                            </div>
+                        </a>
                     </td>
-                    <td>
-                        {{recall.phone}}
+                    <td ng-class="{'ng-hide': recall.candidates[0].status == 'archived'}"></td>
+                    <td class="add-comment-text text-right hidden-xs" ng-if="recall.candidates[0].status != 'archived'">
+                        <span title="{{::candidate.dm | dateFormat2}}" ng-click="showModalAddCommentToCandidate(recall.candidates[0]);$event.stopPropagation();" ng-show="activeName != 'approved'" class="comment text-left pull-left">
+                            {{recall.message | limitTo:80}}
+                            <span class="comment" ng-show="recall.message.length > 53 && activeName != 'approved'">...</span>
+                        </span>
+                        <a href="#/company/employee/add/{{::recall.candidates[0].localId}}" ng-click="$event.stopPropagation();"
+                           ng-show="activeName == 'approved' && ($root.me.personParams.enableEmployee == 'Y' || $root.me.orgParams.enableEmployee == 'Y')"
+                           class="btn btn-success">
+                            {{'our employee' | translate}}
+                        </a>
+                        <a ng-show="activeName == 'approved' && ($root.me.personParams.enableEmployee != 'Y' || $root.me.orgParams.enableEmployee != 'Y')" type="button" href="#/hr-module-info"
+                           class="btn btn-success hidden">
+                            {{'our employee'|translate}}!
+                        </a>
+                    </td>
+                    <td ng-if="recall.candidates[0].status == 'archived' && activeName == null"></td>
+                    <td ng-if="recall.candidates[0].status == 'archived'" class="candidate-deleted" colspan="2" translate="Candidate has been removed from the database"></td>
+                    <td ng-if="recall.candidates[0].status == 'archived'" colspan="2" class="text-center hidden-xs">
+                        <button class="restore-candidate" translate="Restore" ng-click="restoreCandidate(recall.candidates[0].candidateId, recall.candidates[0].localId, recall.candidates[0].fullName)"></button>
+                    </td>
+                    <td ng-if="recall.candidates[0].status == 'archived'" class="text-left hidden-xs">
+                        <span translate="Remove from this vacancy" class="remove-from-vacancy" ng-click="showDeleteInterview(candidate);$event.stopPropagation();"></span>
+                    </td>
+                    <td ng-class="{'ng-hide': recall.candidates[0].status == 'archived'}" class="text-right" style="width: 6%;">
+                        <i ng-show="activeName != 'approved'" ng-click="showModalAddCommentToCandidate(recall.candidates[0]);$event.stopPropagation();" title="{{'Edit comment' | translate}}" class="fa fa-pencil" aria-hidden="true"></i>
+                        <i class="fa fa-times delete" aria-hidden="true"  title="{{'Remove Candidate' | translate}} {{'from vacancy' | translate}}" ng-click="showDeleteInterview(recall.candidates[0]);$event.stopPropagation();"></i>
                     </td>
                 </tr>
                 </tbody>

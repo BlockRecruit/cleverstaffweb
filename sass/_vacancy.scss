@@ -306,6 +306,9 @@
 				}
 				.links {
 					margin-top: 10px;
+					.padding-zero {
+						padding: 0;
+					}
 				}
 				a {
 					cursor: pointer;
@@ -380,7 +383,7 @@
 			}
 			table {
 				background-color: $theme-white;
-				thead:not(.recalls-header) {
+				thead {
 					display: none;
 				}
 				tr:hover {
@@ -589,11 +592,13 @@
 							width: 5%;
 						}
 						&:nth-child(7) {
-							//width: 27%;
 							width: 49%;
 						}
 						&:nth-child(8) {
-							width: 20%;
+							width: 24%;
+						}
+						&:nth-child(8) {
+							width: 23%;
 						}
 						&:nth-child(9) {
 							width: 23%;
