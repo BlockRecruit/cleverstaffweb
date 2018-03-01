@@ -39809,8 +39809,8 @@ controller.controller('reportAllController', ["$rootScope", "$scope", "Vacancy",
                                 }
                             });
 
-                            angular.forEach($scope.customStagesFull.interviewStates, function (customStatus) {
-                                if (res.action.stateOld == customStatus.customInterviewStateId || res.action.stateNew === customStatus.customInterviewStateId) {
+                            angular.forEach($scope.customStagesFull, function (customStatus) {
+                                if (res.interview.state == customStatus.customInterviewStateId) {
                                     res.interview.state = customStatus.name;
                                 }
                             });
@@ -44139,7 +44139,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                             });
 
                             angular.forEach($scope.customStagesFull.interviewStates, function (customStatus) {
-                                if (res.action.stateOld == customStatus.customInterviewStateId || res.action.stateNew === customStatus.customInterviewStateId) {
+                                if (res.interview.state == customStatus.customInterviewStateId) {
                                     res.interview.state = customStatus.name;
                                 }
                             });
