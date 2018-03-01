@@ -37388,43 +37388,6 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
                 //notificationService.error($filter('translate')('service temporarily unvailable'));
             });
         };
-        $scope.pushCandidateToVacancy = function(candidate, all){
-            if(candidate.added){
-                var candidateAdded = false;
-                for(var key in $scope.candidatesAddToVacancyIds){
-                    if(candidate.candidateId == $scope.candidatesAddToVacancyIds[key])
-                        candidateAdded = true;
-                }
-                if(!candidateAdded){
-                    $scope.candidatesAddToVacancyIds.push(candidate.candidateId.candidateId);
-                    $scope.addCandidateChangeStage.push(candidate.candidateId)
-                }
-            }else if(candidate.added == false && all == undefined){
-                $scope.candidatesAddToVacancyIds.splice($scope.candidatesAddToVacancyIds.indexOf(candidate.candidateId.candidateId), 1);
-                $scope.addCandidateChangeStage.splice($scope.addCandidateChangeStage.indexOf(candidate.candidateId), 1);
-            }
-        };
-        $scope.pushAllCandidatesToVacancy = function () {
-            $scope.checkAllCandidates = !$scope.checkAllCandidates;
-            angular.forEach($scope.dataForVacancy, function(resp){
-                angular.forEach($scope.candidatesAddToVacancyIds, function(ids){
-                    if(resp.candidate == ids){
-                        $scope.candidatesAddToVacancyIds.splice($scope.candidatesAddToVacancyIds.indexOf(resp.candidateId.candidateId), 1);
-                        $scope.addCandidateChangeStage.splice($scope.addCandidateChangeStage.indexOf(resp.candidateId.candidateId), 1);
-                    }
-                });
-                if($scope.checkAllCandidates && resp.candidateId.status != 'archived'){
-                    resp.added = true
-                }else{
-                    resp.added = false;
-                }
-                if(!$scope.checkAllCandidates){
-                    $scope.candidatesAddToVacancyIds.splice(0, $scope.candidatesAddToVacancyIds.length-1);
-                    $scope.addCandidateChangeStage.splice(0, $scope.addCandidateChangeStage.length-1);
-                }
-                $scope.pushCandidateToVacancy(resp, 'all');
-            });
-        };
 
         $scope.updateTasks = function (needReload) {
             Task.get({
@@ -38420,6 +38383,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
         }, {
             total: 0,
             getData: function ($defer, params) {
+                pushCurrentPick();
                 if($scope.vacancy){
                     $rootScope.loading = true;
                     $scope.finalCandidate = null;
@@ -40097,29 +40061,6 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
             }
         };
 
-        $scope.changeInputPage = function(params,searchNumber){
-            pushCurrentPick();
-            var searchNumber = Math.round(searchNumber);
-            var maxValue = $filter('roundUp')(params.settings().total/params.count());
-            if(searchNumber){
-                if(searchNumber >= 1 && searchNumber <= maxValue){
-                    params.page(searchNumber);
-                    $scope.a.searchNumber = searchNumber;
-                }
-            }
-            if(searchNumber){
-                if(searchNumber >= 1 && searchNumber <= maxValue){
-                    //params.page(searchNumber);
-                    $scope.a.searchNumber = searchNumber;
-                    $location.$$absUrl = $location.$$absUrl.split("&")[0];
-                    if(!$scope.showSearchCandidate){
-                        $location.$$absUrl = $location.$$absUrl + '&page=' + $scope.a.searchNumber + '&stage=' + $scope.activeName;
-                    }else{
-                        $location.$$absUrl = $location.$$absUrl + '&page=' + $scope.a.searchNumber + '&search=' + $scope.searchCandidateName;
-                    }
-                }
-            }
-        };
         $scope.updateSearch = function(){
             if(!$scope.searchCandidateName){
                 $scope.searchCandidateName = null;
@@ -40745,9 +40686,18 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
                     candidate.mailing = false;
                 })
             }
+            $scope.countPicked();
         };
         $scope.toMyMailings = function () {
             $location.url("/mailings");
+        };
+        $scope.countPicked = function () {
+            $scope.candidatesAddToVacancyIds = [];
+            $scope.dataForVacancy.forEach(candidate => {
+               if(candidate.mailing) {
+                   $scope.candidatesAddToVacancyIds.push(candidate.candidateId.candidateId)
+               }
+            });
         };
         function pushCurrentPick() {
             dataForMailingVacancy = _.unionBy(_.filter($scope.dataForVacancy, 'mailing'), dataForMailingVacancy, 'interviewId');
