@@ -7157,7 +7157,7 @@ angular.module('services.candidate', [
             let data;
             $rootScope.loading = true;
             candidate.all(params, (response) => {
-                if(!response.object) {
+                if(!response.objects) {
                     $rootScope.loading = false;
                     resolve(response, params);
                     return;
@@ -11691,7 +11691,7 @@ angular.module('services.slider', [
         }else if( i >= blockCandidateOffsetRight){
             iterator.current();
             event.target.style.cursor = 'pointer';
-            createArrowRight(blockElementOffsetLeft, sliderElements.nextElement["cacheCandidateLength"], sliderElements.nextElement["cacheCurrentIndex"], mainBlock);
+            createArrowRight(blockElementOffsetLeft, mainBlock);
         }else{
             mainBlock.style.cursor = 'initial';
         }
@@ -11763,7 +11763,7 @@ angular.module('services.slider', [
         $('.main-block').append('<div class="leftBlockArrow" ng-show="currentIndex" data-btn="left" style="width:' + width + 'px" data-btn="left"><i data-btn="left" class="fa fa-chevron-left nextElements"></i> </div>');
     }
 
-    function createArrowRight(width, cacheCandidateLength, cacheCurrentIndex, mainBlock) {
+    function createArrowRight(width, mainBlock) {
         let max = $rootScope.objectSize || localStorage.getItem('objectSize'),
             currentIndex = iterator.index,
             currentLength = iterator.length - 1,
@@ -23936,12 +23936,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.clickedAddVacancyInCandidate = false;
         $rootScope.stageUrl = JSON.parse(localStorage.getItem('stageUrl'));
 
-        function setPositionCandidates(dataCandidates, nextElementMethod){
-            var data, index, size,
-            a = document.referrer;
-
-            // if(!dataCandidates) $rootScope.isAddCandidates = false;
-
+        function isDataForCandidatesEmpty(dataCandidates){
+            var data;
 
             if(dataCandidates){
                 data = dataCandidates;
@@ -23956,17 +23952,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 localStorage.setItem("isAddCandidates", false);
                 data = [];
             }
-            nextElementMethod.cacheCandidateLength = data.length;
-
-
-            data.forEach((item, index) => {
-               if(item == $routeParams.id){
-                   nextElementMethod.cacheCurrentIndex = index + 1;
-               }
-            });
         }
 
-        setPositionCandidates(Candidate.getCandidate, sliderElements.nextElement);
+        isDataForCandidatesEmpty(Candidate.getCandidate);
 
         $('.showCommentSwitcher').prop("checked", !$scope.onlyComments);
 
@@ -37270,7 +37258,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         Vacancy.getCandidatesInStages($scope.vacancySearchParams, function(resp){
                             Vacancy.candidateLastRequestParams = $scope.vacancySearchParams;
                             localStorage.setItem('objectSize', resp.total);
-                            console.log(resp.objects, 'resp.objects')
                             Vacancy.getCandidate = (resp.objects && resp.objects.length)?resp.objects.map(item => item.candidateId.localId):[];
                             localStorage.setItem('candidateLastRequestParams', JSON.stringify($scope.vacancySearchParams));
                             $scope.numberOfCandidatesInDifferentStates();

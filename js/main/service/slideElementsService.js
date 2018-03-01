@@ -208,7 +208,7 @@ angular.module('services.slider', [
         }else if( i >= blockCandidateOffsetRight){
             iterator.current();
             event.target.style.cursor = 'pointer';
-            createArrowRight(blockElementOffsetLeft, sliderElements.nextElement["cacheCandidateLength"], sliderElements.nextElement["cacheCurrentIndex"], mainBlock);
+            createArrowRight(blockElementOffsetLeft, mainBlock);
         }else{
             mainBlock.style.cursor = 'initial';
         }
@@ -280,7 +280,7 @@ angular.module('services.slider', [
         $('.main-block').append('<div class="leftBlockArrow" ng-show="currentIndex" data-btn="left" style="width:' + width + 'px" data-btn="left"><i data-btn="left" class="fa fa-chevron-left nextElements"></i> </div>');
     }
 
-    function createArrowRight(width, cacheCandidateLength, cacheCurrentIndex, mainBlock) {
+    function createArrowRight(width, mainBlock) {
         let max = $rootScope.objectSize || localStorage.getItem('objectSize'),
             currentIndex = iterator.index,
             currentLength = iterator.length - 1,

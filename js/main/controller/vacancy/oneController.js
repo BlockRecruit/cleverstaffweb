@@ -2006,7 +2006,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         Vacancy.getCandidatesInStages($scope.vacancySearchParams, function(resp){
                             Vacancy.candidateLastRequestParams = $scope.vacancySearchParams;
                             localStorage.setItem('objectSize', resp.total);
-                            console.log(resp.objects, 'resp.objects')
                             Vacancy.getCandidate = (resp.objects && resp.objects.length)?resp.objects.map(item => item.candidateId.localId):[];
                             localStorage.setItem('candidateLastRequestParams', JSON.stringify($scope.vacancySearchParams));
                             $scope.numberOfCandidatesInDifferentStates();
