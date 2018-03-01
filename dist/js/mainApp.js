@@ -11329,7 +11329,20 @@ angular.module('services.mailing',[]
             params: {
                 action: "cloneCompaign"
             }
+        },
+        enableMailing : {
+            method: "POST",
+            params: {
+                action: "enableMailing"
+            }
+        },
+        getCompaignPriceForMailing : {
+            method: "POST",
+            params: {
+                action: "getCompaignPrice"
+            }
         }
+
     });
 
     try {
@@ -11989,6 +12002,29 @@ angular.module('services.mailing',[]
         });
     };
 
+    service.getCompaignPrice = function(params) {
+        return new Promise((resolve, reject) => {
+            service.getCompaignPriceForMailing(params, resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            });
+        });
+    };
+
+    service.enableMailingService = function(params) {
+        return new Promise((resolve, reject) => {
+            service.enableMailing(params, resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            });
+        });
+    };
 
     function subscriberListParamsPrepared(internal, candidates) {
         let prepared = {
@@ -34024,9 +34060,9 @@ controller.controller('userInfoController',["$scope", "Person", function($scope,
 
 controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Person", "$rootScope", "$routeParams", "Vacancy",
     "$location", "$translate", "Candidate", "Service", "notificationService", "$filter", "googleService", '$http', 'serverAddress', 'Client',
-    'Company', 'vacancyStages','Action', '$sce', '$uibModal',
+    'Company', 'vacancyStages','Action', '$sce', '$uibModal', 'Mailing',
     function($scope, tmhDynamicLocale, Person, $rootScope, $routeParams, Vacancy, $location, $translate, Candidate, Service,
-             notificationService, $filter, googleService, $http, serverAddress, Client, Company, vacancyStages, Action, $sce, $uibModal) {
+             notificationService, $filter, googleService, $http, serverAddress, Client, Company, vacancyStages, Action, $sce, $uibModal, Mailing) {
         $scope.showChangePassword = false;
         $scope.showChangeOrgName = false;
         $scope.showChangeRole = false;
@@ -34035,6 +34071,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         $scope.showChangeContacts = false;
         $scope.changedName = "";
         $scope.contacts = {};
+        $scope.hideMailingService = false;
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -34664,7 +34701,15 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             }
         };
 
-        $scope.getCompanyParams = function(){
+        $scope.enableMailingService = function(user) {
+            Mailing.enableMailingService({
+                userId: user.userId,
+                enableMailing: !$scope.hideMailingService
+            }).then(resp => console.log(resp), // add notify
+                    error => console.error(error.message)); // add notify
+        };
+
+        $scope.getCompanyParams = function() {
             Company.getParams(function(resp){
                 $scope.companyParams = resp.object;
             });
@@ -46482,6 +46527,12 @@ component.component('preview', {
 
 
         $scope.sendMailing = function () {
+            console.log($scope.mailingParams);
+            Mailing.getCompaignPrice({
+                compaignId: $scope.mailingParams.compaignId
+            }).then(resp => console.log(resp),
+                error => console.error(error.message));
+
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/confirm-send-mailing.html?1',
@@ -46491,22 +46542,27 @@ component.component('preview', {
 
                 }
             });
+
+            $scope.modalInstance.result.catch(function () { $scope.modalInstance.close(); })
+            // $scope.modalInstance.result.then(function () {
+            // }, function () {
+            // });
         };
 
 
         $scope.confirmSendMailing = function () {
             $scope.modalInstance.close();
             $rootScope.loading = true;
-            Mailing.sendCampaign().then(
-                result => {
-                    $rootScope.loading = false;
-                    Mailing.afterSending();
-                },
-                error => {
-                    $rootScope.loading = false;
-                    console.log('in error', error)
-                }
-            );
+            // Mailing.sendCampaign().then(
+            //     result => {
+            //         $rootScope.loading = false;
+            //         Mailing.afterSending();
+            //     },
+            //     error => {
+            //         $rootScope.loading = false;
+            //         console.log('in error', error)
+            //     }
+            // );
         };
 
 

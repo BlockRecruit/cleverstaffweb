@@ -1,8 +1,8 @@
 controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Person", "$rootScope", "$routeParams", "Vacancy",
     "$location", "$translate", "Candidate", "Service", "notificationService", "$filter", "googleService", '$http', 'serverAddress', 'Client',
-    'Company', 'vacancyStages','Action', '$sce', '$uibModal',
+    'Company', 'vacancyStages','Action', '$sce', '$uibModal', 'Mailing',
     function($scope, tmhDynamicLocale, Person, $rootScope, $routeParams, Vacancy, $location, $translate, Candidate, Service,
-             notificationService, $filter, googleService, $http, serverAddress, Client, Company, vacancyStages, Action, $sce, $uibModal) {
+             notificationService, $filter, googleService, $http, serverAddress, Client, Company, vacancyStages, Action, $sce, $uibModal, Mailing) {
         $scope.showChangePassword = false;
         $scope.showChangeOrgName = false;
         $scope.showChangeRole = false;
@@ -11,6 +11,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         $scope.showChangeContacts = false;
         $scope.changedName = "";
         $scope.contacts = {};
+        $scope.hideMailingService = false;
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -640,7 +641,15 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             }
         };
 
-        $scope.getCompanyParams = function(){
+        $scope.enableMailingService = function(user) {
+            Mailing.enableMailingService({
+                userId: user.userId,
+                enableMailing: !$scope.hideMailingService
+            }).then(resp => console.log(resp), // add notify
+                    error => console.error(error.message)); // add notify
+        };
+
+        $scope.getCompanyParams = function() {
             Company.getParams(function(resp){
                 $scope.companyParams = resp.object;
             });

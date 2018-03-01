@@ -33,6 +33,11 @@ component.component('preview', {
 
 
         $scope.sendMailing = function () {
+            Mailing.getCompaignPrice({
+                compaignId: $scope.mailingParams.compaignId
+            }).then(resp => console.log(resp),
+                    error => console.error(error.message));
+
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/confirm-send-mailing.html?1',
@@ -42,22 +47,24 @@ component.component('preview', {
 
                 }
             });
+
+            $scope.modalInstance.result.catch(function () { $scope.modalInstance.close(); })
         };
 
 
         $scope.confirmSendMailing = function () {
             $scope.modalInstance.close();
             $rootScope.loading = true;
-            Mailing.sendCampaign().then(
-                result => {
-                    $rootScope.loading = false;
-                    Mailing.afterSending();
-                },
-                error => {
-                    $rootScope.loading = false;
-                    console.log('in error', error)
-                }
-            );
+            // Mailing.sendCampaign().then(
+            //     result => {
+            //         $rootScope.loading = false;
+            //         Mailing.afterSending();
+            //     },
+            //     error => {
+            //         $rootScope.loading = false;
+            //         console.log('in error', error)
+            //     }
+            // );
         };
 
 

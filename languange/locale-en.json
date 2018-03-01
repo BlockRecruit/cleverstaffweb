@@ -2405,5 +2405,7 @@
   "Not opened": "Not opened",
   "Not delivered":"Not delivered",
   "Read": "Read",
-  "Create the copy of current mailing for the further sending": "Create the copy of current mailing for the further sending"
+  "Create the copy of current mailing for the further sending": "Create the copy of current mailing for the further sending",
+  "Hide Mailing Service":"Hide Mailing Service",
+  "User won't be able to create, send and view created mailings.":"User won't be able to create, send and view created mailings."
 }
