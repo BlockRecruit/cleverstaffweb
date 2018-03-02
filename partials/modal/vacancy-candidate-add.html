@@ -24,7 +24,7 @@
                 <option ng-repeat="status in $root.addCandidateInInterview.statusObject"
                         value="{{status}}"
                         ng-selected="$root.addCandidateInVacancy.status === status"
-                        ng-init="$root.status2 = false">
+                        ng-init="$root.status2 = false" ng-hide="status.value == 'applied_people'">
                     {{status.value|translate}}
                 </option>
             </select>

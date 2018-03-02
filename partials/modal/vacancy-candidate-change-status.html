@@ -27,7 +27,7 @@
                         ng-disabled="activeName == status.value || activeCustomStageName == status.value ||
                         ((status.type == 'interview' || status.value == 'interview' || status.value == 'interview_with_the_client' || status.value == 'tech_interview' ||
                         status.value == 'hr_interview' || status.value == 'Interview with CEO' || status.value == 'interview_with_the_boss' || status.value == 'approved') && candidatesAddToVacancyIds.length > 1)"
-                        ng-show="$root.changeStatusOfInterviewInVacancy.candidate.state != status.value"
+                        ng-show="$root.changeStatusOfInterviewInVacancy.candidate.state != status.value && status.value != 'applied_people'"
                         ng-value="status.value"
                         ng-class="{disabled_status:activeName == status.value}"> {{status.value|translate}}
                 </option>
@@ -41,7 +41,7 @@
                         ng-disabled="activeName == status.value || activeCustomStageName == status.value ||
                         ((status.type == 'interview' || status.value == 'interview' || status.value == 'interview_with_the_client' || status.value == 'tech_interview' ||
                         status.value == 'hr_interview' || status.value == 'Interview with CEO' || status.value == 'interview_with_the_boss' || status.value == 'approved') && candidatesAddToVacancyIds.length > 1)"
-                        ng-show="$root.changeStatusOfInterviewInVacancy.candidate.state != status.value"
+                        ng-show="$root.changeStatusOfInterviewInVacancy.candidate.state != status.value && status.value != 'applied_people'"
                         ng-value="status.value"
                         ng-class="{disabled_status:activeName == status.value}"> {{status.value|translate}}
                 </option>
