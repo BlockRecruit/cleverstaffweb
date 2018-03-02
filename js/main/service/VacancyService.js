@@ -257,7 +257,7 @@ angular.module('services.vacancy', [
         });
     };
 
-    vacancy.requestChangeVacanciesForCandidatesAccess =  (access, vacancyId) => vacancy.changeVacanciesForCandidatesAccess({vacancyId,vacanciesForCandidatesAccess:(access)?"publicAccess":"privateAccess"}, resp => console.log(resp));
+    vacancy.requestChangeVacanciesForCandidatesAccess =  (access, vacancyId) => vacancy.changeVacanciesForCandidatesAccess({vacancyId,vacanciesForCandidatesAccess:(access)?"privateAccess":"publicAccess"}, resp => console.log(resp));
 
     vacancy.interviewStatusNew = function() {
         return [

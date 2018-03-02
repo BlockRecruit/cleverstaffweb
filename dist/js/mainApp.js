@@ -11721,7 +11721,6 @@ angular.module('services.slider', [
         $rootScope.setCurrent = $rootScope.setCurrent || JSON.parse(localStorage.getItem('setCurrent'));
 
         if(+$rootScope.setCurrent){
-
             sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [true]);
         }
         $rootScope.setCurrent = false;
@@ -13384,7 +13383,7 @@ angular.module('services.vacancy', [
         });
     };
 
-    vacancy.requestChangeVacanciesForCandidatesAccess =  (access, vacancyId) => vacancy.changeVacanciesForCandidatesAccess({vacancyId,vacanciesForCandidatesAccess:(access)?"publicAccess":"privateAccess"}, resp => console.log(resp));
+    vacancy.requestChangeVacanciesForCandidatesAccess =  (access, vacancyId) => vacancy.changeVacanciesForCandidatesAccess({vacancyId,vacanciesForCandidatesAccess:(access)?"privateAccess":"publicAccess"}, resp => console.log(resp));
 
     vacancy.interviewStatusNew = function() {
         return [
