@@ -55,16 +55,16 @@ component.component('preview', {
         $scope.confirmSendMailing = function () {
             $scope.modalInstance.close();
             $rootScope.loading = true;
-            Mailing.sendCampaign().then(
-                result => {
-                    $rootScope.loading = false;
-                    Mailing.afterSending();
-                },
-                error => {
-                    $rootScope.loading = false;
-                    console.log('in error', error)
-                }
-            );
+            // Mailing.sendCampaign().then(
+            //     result => {
+            //         $rootScope.loading = false;
+            //         Mailing.afterSending();
+            //     },
+            //     error => {
+            //         $rootScope.loading = false;
+            //         console.log('in error', error)
+            //     }
+            // );
         };
 
 

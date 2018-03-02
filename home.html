@@ -683,7 +683,7 @@
                         </a>
                     </li>
                     <li class="hidden-sm hidden-xs">
-                        <a ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter'" class="mailing-tab" href="#/mailings" ng-class="{'selected': $root.activePage == 'Mailings'}">
+                        <a ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter' && $root.me.orgParams.enableMailing" class="mailing-tab" href="#/mailings" ng-class="{'selected': $root.activePage == 'Mailings'}">
                             {{'Mass mailings'|translate}}
                             <span class="new-label">New</span>
                         </a>

@@ -64,9 +64,9 @@
                     <div class="col-lg-12" ng-show="$root.me.recrutRole === 'admin' && user.login != $root.me.login && user.status  != 'N'">
                         <div class="switch">
                             <label for="mailingService-access" class="floatLeft">{{'Hide Mailing Service'|translate}}</label>
-                            <input id="mailingService-access" ng-click="enableMailingService(user)" ng-checked="hideMailingService" ng-model="hideMailingService" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                            <input id="mailingService-access" ng-click="enableMailingService(user)" ng-checked="!$root.me.orgParams.enableMailing" ng-model="hideMailingService" class="cmn-toggle cmn-toggle-round" type="checkbox">
                             <label class="floatLeft" for="mailingService-access"></label>
-                            {{'User won't be able to create, send and view created mailings.' | translate}}
+                            {{'User won`t be able to create, send and view created mailings.' | translate}}
                         </div>
                     </div>
                     <div class="col-lg-12 borderNone" ng-show="allVacancyInUser.length > 0">

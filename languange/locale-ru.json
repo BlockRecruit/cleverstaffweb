@@ -2999,5 +2999,7 @@
   "Hide Mailing Service":"Скрыть рассылочный сервис",
   "User won't be able to create, send and view created mailings":"Пользователь не сможет создавать, отправлять, а также просматривать созданные рассылки",
   "Available_1":"Доступно",
-  "free letters are available":"бесплатных писем, из них использовано"
+  "free letters are available":"бесплатных писем, из них использовано",
+  "You do not have enough money on your balance to make a mailing.":"У вас на балансе недостаточно денег для совершения рассылки.",
+  "The price of mailing is":"Стоимость рассылки составляет"
 }

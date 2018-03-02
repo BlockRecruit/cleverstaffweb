@@ -1007,32 +1007,35 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
            });
            return result.join("");
        }
-    }).filter('mailingServiceMessageParser', function() {
+    }).filter('mailingServiceMessageParser', ['$filter', '$translate', function($filter, $translate) {
         return function(sendMailingParams, mailsToSend) {
+            const lang = $translate.use();
             console.log(sendMailingParams);
 
             sendMailingParams.freeMailCount = 0;
             sendMailingParams.compaignPrice = 1111;
 
+            console.log($translate.use());
 
             if(sendMailingParams.freeMailCount && !sendMailingParams.compaignPrice) {
-                return "Доступно " + sendMailingParams.freeMailCount + "бесплатных писем. Из них будет использовано " + mailsToSend;
+                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + "бесплатных писем. Из них будет использовано " + mailsToSend;
+                if(lang === 'en') return sendMailingParams.freeMailCount + "free letters are available. Of these," + mailsToSend + "letters will be used";
             }
 
             if(!sendMailingParams.freeMailCount && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
-                return 'Стоимость рассылки составляет ' + sendMailingParams.compaignPrice + '$';
+                return $(filter)('translate')('The price of mailing is ') + sendMailingParams.compaignPrice + '$';
             }
 
             if(sendMailingParams.freeMailCount && sendMailingParams.compaignPrice && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
-                return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем." +
-                       " Стоимость рассылки составит " + sendMailingParams.compaignPrice + '$';
+                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем." + " Стоимость рассылки составит " + sendMailingParams.compaignPrice + '$';
+                if(lang === 'en') return sendMailingParams.freeMailCount + "free letters are available. " + "Стоимость рассылки составит " + sendMailingParams.compaignPrice + '$';
             }
 
             if(sendMailingParams.compaignPrice > sendMailingParams.accountBalance) {
-                return 'У вас на балнсе недостаточно денег для совершения рассылки.';
+                return $filter('translate')('You do not have enough money on your balance to make a mailing.');
             }
         }
-    });
+    }]);
 function linkify3(text) {
     if (text) {
         text = text.replace(
