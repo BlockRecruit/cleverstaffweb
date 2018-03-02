@@ -29802,7 +29802,7 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
         //    });
         //};
         if($localStorage.get("archive_excel") == 'archive'){
-            Candidate.getSearchHistoryAdmin({types: ["cleverstaff_excel", "backup"]}, function (resp) {
+            Candidate.getSearchHistoryAdmin({types: ["backup"]}, function (resp) {
                 if (angular.equals(resp.status, "ok")) {
                     console.log(resp);
                     $scope.history = resp.objects;
@@ -29820,7 +29820,7 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
                 }
             });
         }else if($localStorage.get("archive_excel") == 'null'){
-            Candidate.getSearchHistoryAdmin({types: ["cleverstaff_excel", "backup"]}, function (resp) {
+            Candidate.getSearchHistoryAdmin({types: ["backup"]}, function (resp) {
                 if (angular.equals(resp.status, "ok")) {
                     $scope.history = resp.objects;
                     $scope.historyLimitExcel = resp.size;
