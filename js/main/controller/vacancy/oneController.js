@@ -781,8 +781,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         };
                         localStorage.setItem('stage', JSON.stringify($location.$$absUrl.split('stage=')));
                         localStorage.setItem('stageUrl',JSON.stringify($rootScope.stageUrl));
-                        console.log( $scope.activeCustomStageName, ' $rootScope.activeCustomStageName ')
-                        console.log( $scope.activeName, ' $rootScope.activeName ')
                         return function (status,event) {
                             $scope.visiable = status.hidden;
                             if(!$scope.visiable) $scope.noAccess = false;
@@ -2011,7 +2009,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                             localStorage.setItem('candidateLastRequestParams', JSON.stringify($scope.vacancySearchParams));
                             $scope.numberOfCandidatesInDifferentStates();
                             $scope.candidatesInStages = resp.objects;
-                            data = resp.objects.map((item)=> item.candidateId.localId);
+                            data = (resp.objects && resp.objects.length)? resp.objects.map((item)=> item.candidateId.localId):[];
                             localStorage.setItem('candidatesInStagesVac', JSON.stringify(data));
                             angular.forEach(resp.objects, function (val) {
                                 angular.forEach($scope.VacancyStatusFiltered, function (res) {
@@ -2224,8 +2222,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.approvedCount = $scope.approvedCount;
             $rootScope.candnotify = {};
-            console.log( candidate.candidateId.email.split(/[',',' ']/gi), '123213')
-            $rootScope.candnotify.sendMail = candidate.candidateId.email.split(/[',',' ']/gi)[0];
+            $rootScope.candnotify.sendMail = (candidate.candidateId.email && candidate.candidateId.email.length)? candidate.candidateId.email.split(/[',',' ']/gi)[0]: '';
             if($rootScope.candidatesAddToVacancyIds.length == 1){
                 Candidate.getContacts({"candidateId": candidate[0].candidateId}, function (resp) {
                     var email = "";
@@ -2997,7 +2994,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.addFromAdvice.statusObject = $scope.VacancyStatusFiltered;
             $('.addFromAdvice').modal('show');
             $rootScope.candnotify = {};
-            console.log($rootScope.candnotify, '$rootScope.candnotify')
             $rootScope.candnotify.show = false;
             Candidate.getContacts({"candidateId": candidateId}, function (resp) {
                 var email = "";
