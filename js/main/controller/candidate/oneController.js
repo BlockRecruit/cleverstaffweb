@@ -74,12 +74,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.clickedAddVacancyInCandidate = false;
         $rootScope.stageUrl = JSON.parse(localStorage.getItem('stageUrl'));
 
-        function setPositionCandidates(dataCandidates, nextElementMethod){
-            var data, index, size,
-            a = document.referrer;
-
-            // if(!dataCandidates) $rootScope.isAddCandidates = false;
-
+        function isDataForCandidatesEmpty(dataCandidates){
+            var data;
 
             if(dataCandidates){
                 data = dataCandidates;
@@ -94,17 +90,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 localStorage.setItem("isAddCandidates", false);
                 data = [];
             }
-            nextElementMethod.cacheCandidateLength = data.length;
-
-
-            data.forEach((item, index) => {
-               if(item == $routeParams.id){
-                   nextElementMethod.cacheCurrentIndex = index + 1;
-               }
-            });
         }
 
-        setPositionCandidates(Candidate.getCandidate, sliderElements.nextElement);
+        isDataForCandidatesEmpty(Candidate.getCandidate);
 
         $('.showCommentSwitcher').prop("checked", !$scope.onlyComments);
 
