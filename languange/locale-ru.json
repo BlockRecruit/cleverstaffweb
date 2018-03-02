@@ -2910,5 +2910,9 @@
   "Language with this level is already selected":"Язык с таким уровнем уже выбран",
   "The timer will be displayed on the test page.In case you do not finish the test before the deadline, the test page will be closed, all the data entered will be saved and sent to the recruiter":"Время на прохождение этого теста ограничено.Таймер будет отображаться во время прохождения теста.По окончанию времени страница теста автоматически закроется, все введённые вами данные будут сохранены и отправлены рекрутеру",
   "The candidates have been successfully moved to the stage": "Кандидаты были успешно переведены на этап",
-  "relocate": "переезд"
+  "relocate": "переезд",
+  "_edited":"изменена",
+  "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email.",
+  "Please attach your CV file": "Прикрепите файл резюме",
+  "Hide from all public vacancies list:":"Скрыть вакансию из публичного доступа:"
 }
