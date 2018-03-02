@@ -11718,10 +11718,11 @@ angular.module('services.slider', [
 
     sliderElements.setCurrent = () =>{
         currentPage = getLocation();
-        $rootScope.setCurrent = $rootScope.setCurrent || localStorage.getItem('setCurrent');
+        $rootScope.setCurrent = $rootScope.setCurrent || JSON.parse(localStorage.getItem('setCurrent'));
 
-        if($rootScope.setCurrent)
+        if(+$rootScope.setCurrent){
             sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [true]);
+        }
         $rootScope.setCurrent = false;
         localStorage.setItem('setCurrent', false);
     };
@@ -13357,6 +13358,12 @@ angular.module('services.vacancy', [
             params:{
                 param:'getVacanciesForReport'
             }
+        },
+        changeVacanciesForCandidatesAccess :{
+            method:"POST",
+            params:{
+                param:'changeVacanciesForCandidatesAccess'
+            }
         }
     });
 
@@ -13375,6 +13382,8 @@ angular.module('services.vacancy', [
             vacancy.openHideState(params, resp => resolve(resp),error => reject(error));
         });
     };
+
+    vacancy.requestChangeVacanciesForCandidatesAccess =  (access, vacancyId) => vacancy.changeVacanciesForCandidatesAccess({vacancyId,vacanciesForCandidatesAccess:(access)?"privateAccess":"publicAccess"}, resp => console.log(resp));
 
     vacancy.interviewStatusNew = function() {
         return [
@@ -14704,7 +14713,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=57'
+        suffix: '.json?b=60'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -35712,7 +35721,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     object.interviewObject.dateInterview = newDate;
                     $rootScope.closeModal();
                     Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
-                        console.log("gggg");
                         $scope.vacancy = resp.object;
                         $rootScope.vacancy = resp.object;
                         $scope.tableParams.reload();
@@ -35752,6 +35760,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $("#descr").html(resp.object.descr);
                     $scope.vacancy = resp.object;
                     $rootScope.vacancy = resp.object;
+                    setVacanciesForCandidatesAccess($scope.vacancy.vacanciesForCandidatesAccess);
                     $scope.statusForChange = $scope.vacancy.status;
                     if($scope.urlTaskId) {
                         $scope.VacanciesInfCandidTaskHistClientFunc('task');
@@ -36272,7 +36281,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
         $scope.getEmailTemplates = function () {
             Mail.getTemplatesVacancy({vacancyId: $scope.vacancy.vacancyId,type:"candidateCreateInterviewNotification"},function(data){
-                console.log('123123123')
                 $scope.emailTemplates = data.objects;
                 if(localStorage.editTemplate){
                     $scope.VacanciesInfCandidTaskHistClientFunc('settings');
@@ -37442,7 +37450,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $rootScope.changeStatusOfInterviewInVacancy.status.value == 'shortlist'){
                     templateType = 'seeVacancy'
                 }
-                console.log(candidate, 'candidate')
                 Mail.getTemplateVacancy({vacancyId: $scope.vacancy.vacancyId,type:templateType},function(data){
                     $rootScope.fileForSave = [];
                     $rootScope.emailTemplateInModal = data.object;
@@ -37827,8 +37834,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 //notificationService.error($filter('translate')('service temporarily unvailable'));
                                 $rootScope.addCandidateInInterviewbuttonClicked = false;
                             });
-                        }else {
-                            console.log(changeObj);
+                        } else {
                             Vacancy[neededRequest]({
                                 "personId": $scope.personId,
                                 "recallId": neededRequest == 'addInterview'?$rootScope.changeStatusOfInterviewInVacancy.candidate.recallId:null,
@@ -38004,7 +38010,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
                 }
             });
-            console.log($rootScope.candnotify, '$rootScope.candnotify')
             $rootScope.candnotify = {};
             $rootScope.candnotify.show = false;
             $rootScope.candnotify.send = false;
@@ -39243,7 +39248,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
             var candidateFullName = $("#candidateToAddInInterview").select2('data') !== null ? $("#candidateToAddInInterview").select2('data').text : null;
             $rootScope.addCandidateInInterview.status = status;
-            console.log(candidateFullName, 'candidateFullName')
+
             if($rootScope.addCandidateInInterview.status.value == 'interview' ||
                 $rootScope.addCandidateInInterview.status.withDate ||
                 $rootScope.addCandidateInInterview.status.value == 'longlist' ||
@@ -39340,23 +39345,15 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 animation: false,
                 templateUrl: '../partials/modal/vacancy-candidate-change-status.html?b41123',
                 size: '',
-                scope: $scope,
+                resolve: function(){
+
+                }
             });
             $scope.modalInstance.closed.then(function() {
                 $rootScope.candnotify.show = false;
                 tinyMCE.remove()
             });
             $scope.modalInstance.opened.then(function(){
-                   // let interval = setInterval(()=>{
-                   //     $rootScope.sendMail222  = candidate.candidateId.email;
-                   //      let sendMail =document.querySelector("#sendMail");
-                   //     if(sendMail.value && sendMail.value.length){
-                   //         console.log(sendMail.value, 'sendMail.value')
-                   //         clearInterval(interval)
-                   //     }
-                   //
-                   //
-                   //  },200)
                 setTimeout(function(){
                     tinymce.init({
                         selector: '#modalMCE',
@@ -39564,6 +39561,19 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $scope.activeTemplate = '';
             $scope.showAddEmailTemplate = false;
         }
+
+
+        function setVacanciesForCandidatesAccess(access) {
+            if(access == 'publicAccess'){
+                $scope.accessVacancies = true;
+            }else if(access == 'privateAccess'){
+                $scope.accessVacancies = false;
+            }
+
+        }
+
+        $scope.hiddenOrShowVacanciesOnThePublicListVacancies = Vacancy.requestChangeVacanciesForCandidatesAccess;
+
     }]);
 
 controller.controller('pipelineController', ["$rootScope", "$scope", "notificationService", "$filter", "$translate", "vacancyStages","Stat", "$uibModal",
