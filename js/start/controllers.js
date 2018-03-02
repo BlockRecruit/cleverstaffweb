@@ -1026,7 +1026,11 @@ controller.controller('mainController' ,function($scope, $location, $window) {
         $scope.filesForRecall = [];
         $scope.callbackFile = function (var1, var2) {
             $scope.message = 'def';
-            $scope.filesForRecall.push({name: var2, attId: var1})
+            if($scope.filesForRecall.length == 0){
+                $scope.filesForRecall.push({name: var2, attId: var1});
+            }else{
+                notificationService.error($filter('translate')('You can attach only 1 file with your CV'));
+            }
         };
 
         $scope.callbackFileError = function () {
