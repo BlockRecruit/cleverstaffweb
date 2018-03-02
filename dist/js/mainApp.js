@@ -11718,9 +11718,9 @@ angular.module('services.slider', [
 
     sliderElements.setCurrent = () =>{
         currentPage = getLocation();
-        $rootScope.setCurrent = $rootScope.setCurrent || localStorage.getItem('setCurrent');
-        console.log($rootScope.setCurrent, '$rootScope.setCurrent')
-        if($rootScope.setCurrent){
+        $rootScope.setCurrent = $rootScope.setCurrent || JSON.parse(localStorage.getItem('setCurrent'));
+
+        if(+$rootScope.setCurrent){
 
             sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [true]);
         }
@@ -14714,7 +14714,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=57'
+        suffix: '.json?b=60'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
