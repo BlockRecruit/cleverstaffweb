@@ -163,7 +163,9 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                     if(!tab) {
                         if(resp.object.question.num > 1 || resp.object.answer) {
                             $scope.startTestFunc('first_test');
+                            return;
                         }
+                        $scope.checkPreviousAnswers = true;
                         return;
                     }
 
