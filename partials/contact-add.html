@@ -143,6 +143,11 @@
                                 <label class="" ng-click="saveType = !saveType" for="cmn-toggle-9"></label>
                                 <label class="floatLeft ng-binding" ng-class="{grey: !saveType}">{{'Save and invite to my account as a Hiring Manager' | translate}}</label>
                                 <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.addContactInvite" aria-hidden="true"></i>
+                                <br>
+                                <div ng-show="saveType">
+                                    <input type="hidden" vacancy-autocompleter id="vacancyToAddAutocompleaterModal">
+                                    <i class="fa fa-info-circle infoForVacancy tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.hmInvite" aria-hidden="true"></i>
+                                </div>
                             </div>
                             <p ng-show="buttonClicked" class="text-center please-fill" style="position: relative;">
                                 <span class="alert alert-danger" style="width: auto; padding: 3px 4px">{{'Please fill at least one of the contacts fields'|translate}}</span>

@@ -45,9 +45,8 @@
                     <a ng-click="VacanciesInfCandidTaskHistClientFunc('task') "
                        ng-class="{'selected' : currentTab == 'task'}">
                         {{'Tasks'|translate}}
-                            <span class="counter">
-                               {{totalTasksNumber}}
-                           </span>
+                        <span class="counter ">{{totalTasksNumber}}</span>
+                        </span>
                     </a>
                 </li>
                 <li class="pull-left">
@@ -270,6 +269,17 @@
                         </span>
                 </a>
                 <div class="clearfix"></div>
+                <div class="wrap-switcher" ng-if="$root.me.recrutRole === 'admin' || isResponsiblePerson">
+                    <span style="vertical-align: top;">{{"Hide from all public vacancies list:"|translate}}</span>
+                    <span class="switch" style="display: inline-block;">
+                        <input  id="cmn-toggle-10"
+                                class="cmn-toggle cmn-toggle-round upcomingScopeSwticher"
+                                ng-click="hiddenOrShowVacanciesOnThePublicListVacancies(accessVacancies,vacancy.vacancyId)"
+                                ng-model="accessVacancies"
+                                type="checkbox">
+                        <label  class="" style="margin: 0px 0px 0px 8px;" for="cmn-toggle-10"></label>
+                    </span>
+                </div>
                 <div class="social hidden-xs hidden-sm"
                      ng-if="vacancy.descr.length > 30 && (vacancy.status != 'payment' && vacancy.status != 'canceled' && vacancy.status != 'completed')">
                     <h4>

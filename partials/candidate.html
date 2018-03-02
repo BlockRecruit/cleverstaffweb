@@ -1,6 +1,6 @@
 <div class="controller-view main-block" ng-mouseover="nextOrPrevElements($event)" ng-click="nextElement($event)">
     <div class="block-candidate">
-        <div ng-if="$root.stageUrl && $root.isAddCandidates" class="breadcrumbs">
+        <div ng-if="$root.stageUrl && $root.isAddCandidates && currentIndex" class="breadcrumbs">
             <ol  class="breadcrumb hidden-xs hidden-sm">
                 <li><a href="#/vacancies">{{'vacancies'|translate}}</a></li>
                 <li><a href="#{{$root.stageUrl.url}}" ng-bind="$root.stageUrl.name"></a></li>

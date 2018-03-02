@@ -74,12 +74,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.clickedAddVacancyInCandidate = false;
         $rootScope.stageUrl = JSON.parse(localStorage.getItem('stageUrl'));
 
-        function setPositionCandidates(dataCandidates, nextElementMethod){
-            var data, index, size,
-            a = document.referrer;
-
-            // if(!dataCandidates) $rootScope.isAddCandidates = false;
-
+        function isDataForCandidatesEmpty(dataCandidates){
+            var data;
 
             if(dataCandidates){
                 data = dataCandidates;
@@ -94,17 +90,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 localStorage.setItem("isAddCandidates", false);
                 data = [];
             }
-            nextElementMethod.cacheCandidateLength = data.length;
-
-
-            data.forEach((item, index) => {
-               if(item == $routeParams.id){
-                   nextElementMethod.cacheCurrentIndex = index + 1;
-               }
-            });
         }
 
-        setPositionCandidates(Candidate.getCandidate, sliderElements.nextElement);
+        isDataForCandidatesEmpty(Candidate.getCandidate);
 
         $('.showCommentSwitcher').prop("checked", !$scope.onlyComments);
 
@@ -1403,8 +1391,6 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                    },0);
                 })
                     .then((elements) =>{
-                        console.log(elements);
-
                         elements['changeStatusOfInterviewInVacancyPick'].datetimepicker({
                             format: "dd/mm/yyyy hh:ii",
                             startView: 2,
@@ -1453,7 +1439,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 }
             });
             $rootScope.candnotify.emails = email.replace(/ /gi, "").split(",");
-            $rootScope.candnotify.sendMail = $rootScope.candnotify.emails[0];
+            $rootScope.candnotify.sendMail = (email && email.length)? email.split(/[',',' ']/gi)[0] : '';
 
             $rootScope.candnotify.show = false;
             $rootScope.candnotify.fullName = $scope.candidate.fullName;
@@ -1628,7 +1614,6 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             //});
                             $rootScope.clickedSaveStatusInterviewInVacancy = false;
                             if ($rootScope.candnotify.send && $rootScope.candnotify.sendMail.length > 1 && sendEmail) {
-                                console.log('sent');
                                 var candnotify = $rootScope.candnotify;
                                 var changeObj = $rootScope.changeStatusOfInterviewInVacancy;
                                 Mail.sendMailByTemplateVerified({

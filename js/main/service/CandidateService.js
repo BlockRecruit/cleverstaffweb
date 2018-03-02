@@ -1304,7 +1304,7 @@ angular.module('services.candidate', [
             let data;
             $rootScope.loading = true;
             candidate.all(params, (response) => {
-                if(!response.object) {
+                if(!response.objects) {
                     $rootScope.loading = false;
                     resolve(response, params);
                     return;
