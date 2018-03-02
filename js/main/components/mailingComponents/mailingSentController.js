@@ -4,7 +4,12 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
     $scope.cloneName = '';
     let statistics = {};
     $scope.readers = [];
+    $scope.notRecieved = [];
     $scope.statistics = {};
+    $scope.opensListFlag = {
+      opened: false,
+      undelivered: false
+    };
     let defaultBreadcrumbs = [
         {
             href: '#/candidates',
@@ -28,14 +33,16 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
     Mailing.getAnalytics({compaignIds: [$scope.sentMailing.compaignId]},function (resp) {
         let respObj = resp.object[0];
         if(resp.status != 'error') {
-            statistics.common = getCommonStatistics(respObj.compaign);
+            statistics.common = getCommonStatistics(respObj);
+            statistics.undelivered = getUndeliveredStatistics(respObj);
             $scope.readers = getReadersList(respObj.compaignEntries);
+            $scope.notReceived = getNotReceivedList(respObj.compaignEntries);
             $scope.statistics = {
               opens: statistics.common.opens,
               sent: statistics.common.sent,
               undelivered: statistics.common.undelivered
             };
-            chartRendering(statistics.common);
+            chartRendering(statistics.common, statistics.undelivered);
         }
     },function (error) {
         console.log('error',error);
@@ -71,24 +78,48 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
     };
 
 
-    $scope.readerListToggle = function () {
-        $scope.opensListFlag = !$scope.opensListFlag;
+    $scope.readerListToggle = function (sliderType) {
+        $scope.opensListFlag[sliderType] = !$scope.opensListFlag[sliderType];
     };
 
 
     function getCommonStatistics(statParams) {
-        let result = {};
-        if(statParams.opens > statParams.sent)
-            statParams.opens = statParams.sent;
-        let delivered = (statParams.sent!==undefined && statParams.undelivered!==undefined)?(statParams.sent - statParams.undelivered):0;
-        result = {
-            sent: statParams.sent?statParams.sent:0,
-            opens: statParams.opens?statParams.opens:0,
-            undelivered: statParams.undelivered?statParams.undelivered:0,
+        let commonStat = statParams.compaign;
+        let detailedStat = statParams.compaignEntries;
+        let undeliveredCount = 0;
+        let opens = 0;
+        statParams.compaignEntries.forEach(entry => {
+            if(entry.status == 'undelivered')
+                undeliveredCount++;
+            if(entry.status == 'open')
+                opens++;
+        });
+        let delivered = (commonStat.sent!==undefined && commonStat.undelivered!==undefined)?(commonStat.sent - undeliveredCount):0;
+        return {
+            sent: commonStat.sent?commonStat.sent:0,
+            opens: opens,
+            undelivered: undeliveredCount,
             delivered:delivered,
-            notOpened: (statParams.opens!==undefined)?(delivered - statParams.opens):0
-        };
-        return result;
+            notOpened: delivered - opens
+        }
+    }
+
+
+    function getUndeliveredStatistics(statParams) {
+        let wrongEmails = 0;
+        let otherReason = 0;
+        statParams.compaignEntries.forEach(entry => {
+            if(entry.reason == 'Неверный email') {
+                wrongEmails++;
+            }
+        });
+        otherReason = statParams.compaign.undelivered - wrongEmails - statParams.compaign.spam;
+        otherReason = otherReason < 0 ? 0 : otherReason;
+        return {
+            spam: statParams.compaign.spam,
+            wrongEmail: wrongEmails,
+            other: otherReason
+        }
     }
 
 
@@ -107,8 +138,23 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
     }
 
 
-    function chartRendering(common) {
-        var myConfig = {
+    function getNotReceivedList(listReceivers) {
+        let notReceived = [];
+        listReceivers.forEach((reader) => {
+            if(reader.status == 'undelivered') {
+                notReceived.push({
+                    email: reader.subscriber.email,
+                    name: reader.subscriber.firstName + reader.subscriber.lastName,
+                    localId: reader.subscriber.localId
+                });
+            }
+        });
+        return notReceived;
+    }
+
+
+    function chartRendering(common, undelivered) {
+        var commonStat = {
             "type":"pie",
             "plot": {
                 "borderColor": "#eee",
@@ -159,16 +205,67 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
                 }
             ]
         };
+        var undeliveredStat = {
+            "type":"pie",
+            "plot": {
+                "borderColor": "#eee",
+                "borderWidth": 3,
+                "valueBox": {
+                    "placement": 'out',
+                    "text": '%t\n%npv%',
+                    "fontFamily": "Open Sans"
+                },
+                "tooltip":{
+                    "fontSize": '18',
+                    "fontFamily": "Open Sans",
+                    "padding": "5 10"
+                },
+                "animation":{
+                    "effect": 2,
+                    "method": 5,
+                    "speed": 900,
+                    "sequence": 1,
+                    "delay": 1000
+                }
+            },
+            "title":{
+                "text":$translate.instant('Delivery fail reasons'),
+                "fontColor": "#8e99a9",
+                "align": "left",
+                "offsetX": 10,
+                "fontFamily": "Open Sans",
+                "fontSize": 18
+            },
+            "plotarea": {
+                "margin": "20 0 0 0"
+            },
+            "series":[
+                {
+                    "values":[undelivered.spam],
+                    "text": $translate.instant('Spam')
+                },
+                {
+                    "values":[undelivered.other],
+                    "text": $translate.instant('Other'),
+                    "backgroundColor":"#7ca82b"
+                },
+                {
+                    "values":[undelivered.wrongEmail],
+                    "text": $translate.instant('Email does not exist'),
+                    "backgroundColor":"#d31e1e"
+                }
+            ]
+        };
 
         zingchart.render({
             id : 'commonStat',
-            data : myConfig,
+            data : commonStat,
             height: 300,
             width: "100%"
         });
         zingchart.render({
             id : 'failsStat',
-            data : myConfig,
+            data : undeliveredStat,
             height: 300,
             width: "100%"
         });

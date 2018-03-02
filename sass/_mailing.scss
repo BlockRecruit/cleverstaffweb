@@ -865,6 +865,7 @@
 				text-align: center;
 				&.col-lg-4 {
 					width: 30%;
+					height: fit-content;
 					padding: 5px;
 
 					border: 1px solid #ccc;
@@ -913,7 +914,7 @@
 				border: 1px solid #ccc;
 			}
 		}
-		.read {
+		.statistics-top {
 			.header {
 				background-color: #e3f2dd;
 			}

@@ -2405,5 +2405,8 @@
   "Not opened": "Not opened",
   "Not delivered":"Not delivered",
   "Read": "Read",
-  "Create the copy of current mailing for the further sending": "Create the copy of current mailing for the further sending"
+  "Create the copy of current mailing for the further sending": "Create the copy of current mailing for the further sending",
+  "Delivery fail reasons": "Delivery fail reasons",
+  "Spam": "Spam",
+  "Email does not exist": "Email does not exist"
 }

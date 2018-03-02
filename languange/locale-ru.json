@@ -2995,5 +2995,8 @@
   "Not opened": "Не открыто",
   "Not delivered": "Не доставлено",
   "Read": "Прочитано",
-  "Create the copy of current mailing for the further sending": "Создать копию текущей рассылки для отправки"
+  "Create the copy of current mailing for the further sending": "Создать копию текущей рассылки для отправки",
+  "Delivery fail reasons": "Причины недоставки",
+  "Spam": "Спам",
+  "Email does not exist": "Адрес не существует"
 }
