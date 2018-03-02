@@ -738,7 +738,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         });
 
 
-                        $scope.recallsStage = [{value: 'recalls', hidden: true}];
+                        $scope.recallsStage = [{value: 'applied_people', hidden: true}];
                         isLockCheckStages($scope.hiddenStages, sortedStages);
                         isLockCheckStages($scope.hiddenStages, $scope.recallsStage);
 
@@ -746,7 +746,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         $scope.VacancyStatusFiltered = sortedStages;
                         $rootScope.VacancyStatusFiltered = sortedStages;
                     } else {
-                        $scope.recallsStage = [{value: 'recalls', hidden: true}];
+                        $scope.recallsStage = [{value: 'applied_people', hidden: true}];
                         isLockCheckStages($scope.hiddenStages, $scope.recallsStage);
                         $scope.VacancyStatusFiltered = $filter('vacancyStatusInSelectFilter')($scope.VacancyStatus);
                         $rootScope.VacancyStatusFiltered = $filter('vacancyStatusInSelectFilter')($scope.VacancyStatus);
