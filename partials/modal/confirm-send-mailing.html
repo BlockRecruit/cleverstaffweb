@@ -4,6 +4,27 @@
         <h4 class="modal-title" translate="Are you sure you`ve double checked all details?" ></h4>
     </div>
     <div class="modal-body">
+        <div>
+            <span>{{sendMailingParams | mailingServiceMessageParser:candidatesForMailing.length}}</span>
+        </div>
+        <!--<div ng-if="sendMailingParams.freeMailCount && !sendMailingParams.compaignPrice">-->
+            <!--<span>{{'Available_1' | translate}}</span>-->
+            <!--<span>{{sendMailingParams.freeMailCount}}</span>-->
+            <!--<span>{{'free letters are available' | translate}}</span>-->
+            <!--<span>{{candidatesForMailing.length}}</span>-->
+        <!--</div>-->
+        <!--<div ng-if="!sendMailingParams.freeMailCount && sendMailingParams.compaignPrice && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance">-->
+            <!--{{'Сто имость рассылки составляет' + compaignPrice + '$'}}-->
+        <!--</div>-->
+        <!--<div ng-if="sendMailingParams.freeMailCount && sendMailingParams.compaignPrice && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance">-->
+            <!--{{'Доступно ' + sendMailingParams.freeMailCount  + ' бесплатных писем. Из них будет использовано ' + candidatesForMailing.length}}-->
+            <!--{{' а так же стоимость рассылки составит 5$'}}-->
+        <!--</div>-->
+        <!--<div ng-if="sendMailingParams.compaignPrice > sendMailingParams.accountBalance">-->
+            <!--{{'У вас на балнсе недостаточно денег для совершения рассылки.'}}-->
+            <!--<a href="../pay.html" ng-if="$root.me.recrutRole === 'admin'">{{'Оплатить'}}</a>-->
+        <!--</div>-->
+
     </div>
     <div class="modal-footer">
         <div class="text-center button">

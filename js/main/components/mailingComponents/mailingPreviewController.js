@@ -1,12 +1,14 @@
-controller.controller('mailingPreviewController', ['$scope', '$rootScope', 'notificationService', '$localStorage', '$filter', '$uibModal','$state', '$location', 'Mailing']);
+controller.controller('mailingPreviewController', ['$scope', '$rootScope', 'notificationService', '$localStorage', '$filter', '$uibModal','$state', '$location', 'Mailing', 'Account']);
 component.component('preview', {
     templateUrl: "partials/mailing/mailing-preview.html",
-    controller: function ($scope, $rootScope, notificationService, $localStorage, $filter, $uibModal, $state, $location, Mailing) {
+    controller: function ($scope, $rootScope, notificationService, $localStorage, $filter, $uibModal, $state, $location, Mailing, Account) {
         $scope.candidatesForMailing = $localStorage.get('candidatesForMailing')?JSON.parse($localStorage.get('candidatesForMailing')):[];
         $scope.mailingParams = {};
         $scope.mailingParams = Mailing.getMailingDetails();
+        $scope.sendMailingParams = {};
         $scope.testEmail = '';
         $scope.sendTestShow = false;
+
         $scope.mailingPreview = function () {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
@@ -33,38 +35,36 @@ component.component('preview', {
 
 
         $scope.sendMailing = function () {
-            Mailing.getCompaignPrice({
-                compaignId: $scope.mailingParams.compaignId
-            }).then(resp => console.log(resp),
-                    error => console.error(error.message));
+            Promise.all([
+                Mailing.getCompaignPrice({ compaignId: $scope.mailingParams.compaignId}),
+                getAccountInfo()
+                ])
+                .then((resp) => {
+                    $scope.sendMailingParams = {
+                        accountBalance: resp[1].object.amount,
+                        compaignPrice: resp[0].object / 100,
+                        freeMailCount: $rootScope.me.orgParams.freeMailCount
+                    };
 
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: '../partials/modal/confirm-send-mailing.html?1',
-                size: '',
-                scope: $scope,
-                resolve: function(){
-
-                }
-            });
-
-            $scope.modalInstance.result.catch(function () { $scope.modalInstance.close(); })
+                    openMailingModal();
+                    $scope.$apply();
+                }, error => notificationService.error(error));
         };
 
 
         $scope.confirmSendMailing = function () {
             $scope.modalInstance.close();
             $rootScope.loading = true;
-            // Mailing.sendCampaign().then(
-            //     result => {
-            //         $rootScope.loading = false;
-            //         Mailing.afterSending();
-            //     },
-            //     error => {
-            //         $rootScope.loading = false;
-            //         console.log('in error', error)
-            //     }
-            // );
+            Mailing.sendCampaign().then(
+                result => {
+                    $rootScope.loading = false;
+                    Mailing.afterSending();
+                },
+                error => {
+                    $rootScope.loading = false;
+                    console.log('in error', error)
+                }
+            );
         };
 
 
@@ -101,6 +101,31 @@ component.component('preview', {
             $scope.modalInstance.close();
         };
 
+        function getAccountInfo() {
+            return new Promise((resolve, reject) => {
+               Account.getAccountInfo((resp) => {
+                   if(resp.status !== 'error') {
+                       resolve(resp);
+                   } else {
+                       reject(resp);
+                   }
+               }, error => console.error(error));
+            });
+        }
+
+        function openMailingModal(){
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/confirm-send-mailing.html?3',
+                size: '',
+                scope: $scope,
+                resolve: function(){
+
+                }
+            });
+
+            $scope.modalInstance.result.catch(function () { $scope.modalInstance.close(); })
+        }
 
         $('#step_2').unbind().on('click', $scope.editMessage);
         $('#step_1').unbind().on('click', $scope.editDetails);

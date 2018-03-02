@@ -160,7 +160,7 @@
 
 .delete-mailing {
 	.modal-header {
-		border: none;
+		//border: none;
 		& > h4 {
 			@include bold();
 		}

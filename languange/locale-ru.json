@@ -2997,5 +2997,7 @@
   "Read": "Прочитано",
   "Create the copy of current mailing for the further sending": "Создать копию текущей рассылки для отправки",
   "Hide Mailing Service":"Скрыть рассылочный сервис",
-  "User won't be able to create, send and view created mailings":"Пользователь не сможет создавать, отправлять, а также просматривать созданные рассылки"
+  "User won't be able to create, send and view created mailings":"Пользователь не сможет создавать, отправлять, а также просматривать созданные рассылки",
+  "Available_1":"Доступно",
+  "free letters are available":"бесплатных писем, из них использовано"
 }

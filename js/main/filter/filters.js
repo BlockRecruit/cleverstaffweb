@@ -1007,6 +1007,31 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
            });
            return result.join("");
        }
+    }).filter('mailingServiceMessageParser', function() {
+        return function(sendMailingParams, mailsToSend) {
+            console.log(sendMailingParams);
+
+            sendMailingParams.freeMailCount = 0;
+            sendMailingParams.compaignPrice = 1111;
+
+
+            if(sendMailingParams.freeMailCount && !sendMailingParams.compaignPrice) {
+                return "Доступно " + sendMailingParams.freeMailCount + "бесплатных писем. Из них будет использовано " + mailsToSend;
+            }
+
+            if(!sendMailingParams.freeMailCount && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
+                return 'Стоимость рассылки составляет ' + sendMailingParams.compaignPrice + '$';
+            }
+
+            if(sendMailingParams.freeMailCount && sendMailingParams.compaignPrice && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
+                return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем." +
+                       " Стоимость рассылки составит " + sendMailingParams.compaignPrice + '$';
+            }
+
+            if(sendMailingParams.compaignPrice > sendMailingParams.accountBalance) {
+                return 'У вас на балнсе недостаточно денег для совершения рассылки.';
+            }
+        }
     });
 function linkify3(text) {
     if (text) {
