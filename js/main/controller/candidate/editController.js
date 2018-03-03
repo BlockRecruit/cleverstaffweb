@@ -21,7 +21,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.candidateOrigin = '';
         $scope.experience = Service.experience();
         $scope.industries = Service.getIndustries();
-        $scope.contacts = {skype: "", mphone: [], email: ""};
+        $scope.contacts = {skype: "", mphone: "", email: ""};
         $scope.fieldValues = {
             objType: "candidate",
             fieldValueId: '',
