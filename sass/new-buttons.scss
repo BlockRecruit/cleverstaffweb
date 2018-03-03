@@ -18,8 +18,12 @@
 	&.cancel {
 		padding: 6px 17px;
 
-		border: 1px solid #919191;
-		background-color: #919191;
+		border: 1px solid #b8b8b8;
+		background-color: #b8b8b8;
+	}
+	&.attention {
+		border: 1px solid #f49719;
+		background-color: #f49719;
 	}
 	&:hover {
 		color: #00b549;
@@ -27,8 +31,13 @@
 		background-color: #fff;
 		&.cancel {
 			color: #fff;
-			border: 1px solid #454444;
-			background-color: #454444;
+			border: 1px solid #8d8989;
+			background-color: #8d8989;
+		}
+		&.attention {
+			color: #fff;
+			border: 1px solid #e77f00;
+			background-color: #e77f00;
 		}
 	}
 	&:focus {
@@ -141,7 +150,7 @@
 
 // custom input [type=checkbox]
 .custom[type="checkbox"] {
-	position: absolute; // take it out of document flow
+	position: absolute;
 
 	opacity: 0; // hide it
 
@@ -153,7 +162,6 @@
 		cursor: pointer;
 	}
 
-	// Box.
 	& + label:before {
 		display: inline-block;
 		width: 20px;
@@ -168,36 +176,30 @@
 		background: #e3f2dd;
 	}
 
-	// Box hover
 	&:hover + label:before {
 		background: lightgrey;
 	}
 
-	// Box focus
 	&:focus + label:before {
 		box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
 	}
 
-	// Box checked
 	&:checked + label:before {
 		border-radius: 50%;
 		background: #00b549;
 	}
 
-	// Disabled state label.
 	&:disabled + label {
 		cursor: auto;
 
 		color: #b8b8b8;
 	}
 
-	// Disabled box.
 	&:disabled + label:before {
 		background: #ddd;
 		box-shadow: none;
 	}
 
-	// Checkmark. Could be replaced with an image
 	&:checked + label:after {
 		position: absolute;
 		top: 10px;
