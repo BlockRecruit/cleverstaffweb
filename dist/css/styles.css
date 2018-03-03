@@ -14133,7 +14133,7 @@ input.cmn-toggle-round:checked + label:after {
         .block-vacancy .vacancy-statuses .status-info table .archived td:nth-child(8) {
           width: 19%; }
         .block-vacancy .vacancy-statuses .status-info table .archived td:nth-child(9) {
-          width: 22%; }
+          width: 23%; }
       .block-vacancy .vacancy-statuses .status-info table .add_color {
         background-color: #f0fff0; }
     .block-vacancy .vacancy-statuses .stages-option .stages {
