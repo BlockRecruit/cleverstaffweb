@@ -43,9 +43,15 @@ component.component('preview', {
                     $scope.sendMailingParams = {
                         accountBalance: resp[1].object.amount,
                         compaignPrice: resp[0].object / 100,
-                        freeMailCount: $rootScope.me.orgParams.freeMailCount
+                        freeMailCount: $rootScope.me.orgParams.freeMailCount,
+                        available: true
                     };
 
+                    $scope.sendMailingParams.compaignPrice = 1111;
+
+                    if($scope.sendMailingParams.compaignPrice > $scope.sendMailingParams.accountBalance) {
+                        $scope.sendMailingParams.available = false;
+                    }
                     openMailingModal();
                     $scope.$apply();
                 }, error => notificationService.error(error));
@@ -53,6 +59,10 @@ component.component('preview', {
 
 
         $scope.confirmSendMailing = function () {
+            if(!$scope.sendMailingParams.available) {
+                notificationService.error($filter('translate')('You do not have enough money on your balance to make a mailing.'));
+                return;
+            }
             $scope.modalInstance.close();
             $rootScope.loading = true;
             // Mailing.sendCampaign().then(

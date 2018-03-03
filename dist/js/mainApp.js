@@ -5989,14 +5989,10 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             const lang = $translate.use();
             console.log(sendMailingParams);
 
-            sendMailingParams.freeMailCount = 0;
-            sendMailingParams.compaignPrice = 1111;
-
-            console.log($translate.use());
 
             if(sendMailingParams.freeMailCount && !sendMailingParams.compaignPrice) {
-                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + "бесплатных писем. Из них будет использовано " + mailsToSend;
-                if(lang === 'en') return sendMailingParams.freeMailCount + "free letters are available. Of these," + mailsToSend + "letters will be used";
+                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем. Из них будет использовано " + mailsToSend;
+                if(lang === 'en') return sendMailingParams.freeMailCount + " free letters are available. Of these, " + mailsToSend + " letters will be used";
             }
 
             if(!sendMailingParams.freeMailCount && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
@@ -6004,8 +6000,8 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             }
 
             if(sendMailingParams.freeMailCount && sendMailingParams.compaignPrice && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
-                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем." + " Стоимость рассылки составит " + sendMailingParams.compaignPrice + '$';
-                if(lang === 'en') return sendMailingParams.freeMailCount + "free letters are available. " + "Стоимость рассылки составит " + sendMailingParams.compaignPrice + '$';
+                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем. Стоимость рассылки составит " + sendMailingParams.compaignPrice + '$';
+                if(lang === 'en') return sendMailingParams.freeMailCount + " free letters are available. The cost of mailing will be " + sendMailingParams.compaignPrice + '$';
             }
 
             if(sendMailingParams.compaignPrice > sendMailingParams.accountBalance) {
@@ -32926,15 +32922,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     TooltipService.createTooltips();
 
-    if($rootScope.modalInstance){
-        $rootScope.modalInstance.closed.then(function(){
-            showNews()
-        });
-    }else{
-        showNews();
-    }
-
-    function showNews(){
+    $rootScope.showNews = function(){
         News.getNews(function(resp){
             if(resp.status == 'ok'){
                 var i = 0;
@@ -32997,6 +32985,14 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 }
             }
         });
+    }
+
+    if($rootScope.modalInstance){
+        $rootScope.modalInstance.closed.then(function(){
+            $rootScope.showNews()
+        });
+    }else{
+        $rootScope.showNews();
     }
 
     //console.log($rootScope.previousHistoryFeedback);
@@ -46565,9 +46561,15 @@ component.component('preview', {
                     $scope.sendMailingParams = {
                         accountBalance: resp[1].object.amount,
                         compaignPrice: resp[0].object / 100,
-                        freeMailCount: $rootScope.me.orgParams.freeMailCount
+                        freeMailCount: $rootScope.me.orgParams.freeMailCount,
+                        available: true
                     };
 
+                    $scope.sendMailingParams.compaignPrice = 1111;
+
+                    if($scope.sendMailingParams.compaignPrice > $scope.sendMailingParams.accountBalance) {
+                        $scope.sendMailingParams.available = false;
+                    }
                     openMailingModal();
                     $scope.$apply();
                 }, error => notificationService.error(error));
@@ -46575,6 +46577,10 @@ component.component('preview', {
 
 
         $scope.confirmSendMailing = function () {
+            if(!$scope.sendMailingParams.available) {
+                notificationService.error($filter('translate')('You do not have enough money on your balance to make a mailing.'));
+                return;
+            }
             $scope.modalInstance.close();
             $rootScope.loading = true;
             // Mailing.sendCampaign().then(
@@ -46659,6 +46665,7 @@ component.component('preview', {
 controller.controller('mailingsController', ['$scope', '$localStorage', '$rootScope', '$state','$timeout', '$filter', '$transitions', '$uibModal', 'Mailing',
     function ($scope, $localStorage, $rootScope, $state, $timeout, $filter, $transitions, $uibModal, Mailing) {
 
+
         $scope.savedMailings = [];
         let isPreviousSentMailings = $rootScope.previousLocation?$rootScope.previousLocation.indexOf('mailing-sent')!=-1:false;
         let defaultBreadcrumbs = [
@@ -46707,6 +46714,12 @@ controller.controller('mailingsController', ['$scope', '$localStorage', '$rootSc
         $scope.newMailing = function () {
             Mailing.newMailing();
         };
+
+        function checkForMailingNews() {
+            if($rootScope.me.orgParams.mailingNews) {
+                //
+            }
+        }
 
 }]);
 controller.controller('mailingSentController',['$scope', '$rootScope', '$filter', '$translate', 'notificationService', '$uibModal', '$state', '$localStorage', 'Mailing', function ($scope, $rootScope, $filter, $translate, notificationService, $uibModal, $state, $localStorage, Mailing) {

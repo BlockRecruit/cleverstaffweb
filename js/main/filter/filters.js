@@ -1012,14 +1012,10 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             const lang = $translate.use();
             console.log(sendMailingParams);
 
-            sendMailingParams.freeMailCount = 0;
-            sendMailingParams.compaignPrice = 1111;
-
-            console.log($translate.use());
 
             if(sendMailingParams.freeMailCount && !sendMailingParams.compaignPrice) {
-                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + "бесплатных писем. Из них будет использовано " + mailsToSend;
-                if(lang === 'en') return sendMailingParams.freeMailCount + "free letters are available. Of these," + mailsToSend + "letters will be used";
+                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем. Из них будет использовано " + mailsToSend;
+                if(lang === 'en') return sendMailingParams.freeMailCount + " free letters are available. Of these, " + mailsToSend + " letters will be used";
             }
 
             if(!sendMailingParams.freeMailCount && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
@@ -1027,8 +1023,8 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             }
 
             if(sendMailingParams.freeMailCount && sendMailingParams.compaignPrice && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
-                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем." + " Стоимость рассылки составит " + sendMailingParams.compaignPrice + '$';
-                if(lang === 'en') return sendMailingParams.freeMailCount + "free letters are available. " + "Стоимость рассылки составит " + sendMailingParams.compaignPrice + '$';
+                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем. Стоимость рассылки составит " + sendMailingParams.compaignPrice + '$';
+                if(lang === 'en') return sendMailingParams.freeMailCount + " free letters are available. The cost of mailing will be " + sendMailingParams.compaignPrice + '$';
             }
 
             if(sendMailingParams.compaignPrice > sendMailingParams.accountBalance) {

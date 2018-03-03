@@ -169,6 +169,7 @@
 		}
 	}
 	.modal-body {
+		text-align: center;
 		& > .taskText {
 			& > .form-control {
 				height: 200px;
@@ -179,6 +180,12 @@
 		}
 		&.news-modal {
 			overflow-x: hidden;
+		}
+		a.orange-button {
+			@include button-styling();
+
+			display: inline-block;
+			margin-top: 15px;
 		}
 	}
 	.modal-footer {

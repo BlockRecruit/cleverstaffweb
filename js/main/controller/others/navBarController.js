@@ -1418,15 +1418,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     TooltipService.createTooltips();
 
-    if($rootScope.modalInstance){
-        $rootScope.modalInstance.closed.then(function(){
-            showNews()
-        });
-    }else{
-        showNews();
-    }
-
-    function showNews(){
+    $rootScope.showNews = function(){
         News.getNews(function(resp){
             if(resp.status == 'ok'){
                 var i = 0;
@@ -1489,6 +1481,14 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 }
             }
         });
+    }
+
+    if($rootScope.modalInstance){
+        $rootScope.modalInstance.closed.then(function(){
+            $rootScope.showNews()
+        });
+    }else{
+        $rootScope.showNews();
     }
 
     //console.log($rootScope.previousHistoryFeedback);
