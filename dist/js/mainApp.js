@@ -5987,7 +5987,6 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
     }).filter('mailingServiceMessageParser', ['$filter', '$translate', function($filter, $translate) {
         return function(sendMailingParams, mailsToSend) {
             const lang = $translate.use();
-            console.log(sendMailingParams);
 
 
             if(sendMailingParams.freeMailCount && !sendMailingParams.compaignPrice) {
@@ -46565,7 +46564,6 @@ component.component('preview', {
                         available: true
                     };
 
-                    $scope.sendMailingParams.compaignPrice = 1111;
 
                     if($scope.sendMailingParams.compaignPrice > $scope.sendMailingParams.accountBalance) {
                         $scope.sendMailingParams.available = false;
@@ -46583,16 +46581,16 @@ component.component('preview', {
             }
             $scope.modalInstance.close();
             $rootScope.loading = true;
-            // Mailing.sendCampaign().then(
-            //     result => {
-            //         $rootScope.loading = false;
-            //         Mailing.afterSending();
-            //     },
-            //     error => {
-            //         $rootScope.loading = false;
-            //         console.log('in error', error)
-            //     }
-            // );
+            Mailing.sendCampaign().then(
+                result => {
+                    $rootScope.loading = false;
+                    Mailing.afterSending();
+                },
+                error => {
+                    $rootScope.loading = false;
+                    console.log('in error', error)
+                }
+            );
         };
 
 

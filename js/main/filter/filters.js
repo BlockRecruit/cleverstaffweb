@@ -1010,7 +1010,6 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
     }).filter('mailingServiceMessageParser', ['$filter', '$translate', function($filter, $translate) {
         return function(sendMailingParams, mailsToSend) {
             const lang = $translate.use();
-            console.log(sendMailingParams);
 
 
             if(sendMailingParams.freeMailCount && !sendMailingParams.compaignPrice) {
