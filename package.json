@@ -43,6 +43,7 @@
     "yargs": "^4.7.1"
   },
   "dependencies": {
+    "angular-animate": "^1.6.9",
     "gulp-install": "^0.6.0",
     "handlebars": "^4.0.11",
     "ng-meta": "^1.0.0"

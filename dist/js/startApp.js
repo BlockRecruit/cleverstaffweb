@@ -19,7 +19,8 @@ var app = angular.module('RecruitingAppStart', [
     'ngMeta',
     'ui.bootstrap',
     'ngAnimate'
-]).constant('serverAddress', '/hr').config(['$routeProvider', 'ngMetaProvider', function($routeProvider, ngMetaProvider) {
+]).constant('serverAddress', '/hr').config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+    $locationProvider.hashPrefix('');
     $routeProvider
         .when('/confirmRegistration/finishReg/:personId/:key', {
             templateUrl: 'partials/start/finishreg.html',
