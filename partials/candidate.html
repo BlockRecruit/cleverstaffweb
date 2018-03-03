@@ -951,6 +951,9 @@
                             <div class="col-lg-12 not-for-print" ng-switch-when="vacancy_set_responsible">
                                 <ng-include src="'partials/history/candidate/vacancy_set_responsible.html'"></ng-include>
                             </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="send_compaign">
+                                <ng-include src="'partials/history/candidate/mailing-sent.html'"></ng-include>
+                            </div>
                         </div>
                         <!-------------------------------------------------------end-->
                         <button class="btn more-history not-for-print" ng-click="getMoreHistory()" ng-show="historyTotal > historyLimit">
@@ -1221,6 +1224,9 @@
                             </div>
                             <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="vacancy_set_responsible">
                                 <ng-include src="'partials/history/candidate/vacancy_set_responsible.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12 col-sm-12 col-xs-12" ng-switch-when="send_compaign">
+                                <ng-include src="'partials/history/candidate/mailing-sent.html'"></ng-include>
                             </div>
                         </div>
                         <!-------------------------------------------------------end-->
