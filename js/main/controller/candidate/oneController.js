@@ -653,7 +653,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 $scope.candidate = resp.object;
                 $rootScope.candidate = resp.object;
                 $rootScope.localIdOfMerged = $scope.candidate.localId;
-                $localStorage.set('candidateForTest', $rootScope.candidate);
+                //$localStorage.set('candidateForTest', $rootScope.candidate);
                 $scope.locationBeforeCustomFields = $location.$$path.replace('/candidates/' + $scope.candidate.localId, 'candidates');
                 $localStorage.set('previousHistoryCustomFields', $scope.locationBeforeCustomFields);
                 $scope.changeStatus = $scope.candidate.status;
