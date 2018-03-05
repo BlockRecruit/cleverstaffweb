@@ -2918,5 +2918,6 @@
   "_edited":"изменена",
   "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email.",
   "Please attach your CV file": "Прикрепите файл резюме",
-  "Hide from all public vacancies list:":"Скрыть вакансию из публичного доступа:"
+  "Hide from all public vacancies list:":"Скрыть вакансию из публичного доступа:",
+  "work": "Работает"
 }
