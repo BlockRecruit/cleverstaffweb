@@ -2325,5 +2325,6 @@
   "The candidates have been successfully moved to the stage": "The candidates have been successfully moved to the stage",
   "Select the specific vacancy for the Hiring manager": "Select the specific vacancy for the Hiring manager",
   "Hiring manager must be responsible for the vacancy.Please select a vacancy": "Hiring manager must be responsible for the vacancy. Please select a vacancy",
-  "Hiring Manager will be responsible for this vacancy after registration in account.": "Hiring Manager will be responsible for this vacancy after registration in account."
+  "Hiring Manager will be responsible for this vacancy after registration in account.": "Hiring Manager will be responsible for this vacancy after registration in account.",
+  "Searching": "Searching..."
 }
