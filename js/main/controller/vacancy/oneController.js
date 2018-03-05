@@ -4290,9 +4290,9 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
         function setVacanciesForCandidatesAccess(access) {
             if(access == 'publicAccess'){
-                $scope.accessVacancies = true;
-            }else if(access == 'privateAccess'){
                 $scope.accessVacancies = false;
+            }else if(access == 'privateAccess'){
+                $scope.accessVacancies = true;
             }
 
         }
