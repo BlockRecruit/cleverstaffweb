@@ -144,6 +144,9 @@
         <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="task_change_type">
             <ng-include src="'partials/history/vacancy/vacancy_task_change.html'"></ng-include>
         </div>
+        <div class="col-lg-12 col-md-12 col-xs-12" ng-switch-when="send_compaign">
+            <ng-include src="'partials/history/vacancy/mailing-sent.html'"></ng-include>
+        </div>
     </div>
     <!-------------------------------------------------------end-->
     <button class="btn more-history" ng-click="getMoreHistory()" ng-show="historyTotal > historyLimit">
