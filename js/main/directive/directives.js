@@ -3897,77 +3897,80 @@ directive('appVersion', ['version', function(version) {
 
             }
         }
-    }]).directive('fixedHeaderTable', ['$timeout', function($timeout) {
+    }]).directive('fixedHeaderTable', ['$window', function($window) {
         return {
             restrict: 'EA',
             scope: {
                 columns: "=",
-                secondColumns: "="
+                secondColumns: "=",
+                vacancies: "="
             },
             link: function(scope, element, attrs) {
-
-                $(window).load(function() {
-                    $(element).after('<table class="table" id="header-fixed" columns="10" second-columns="8" style="position: fixed;top: 0;display: none;background-color: inherit; margin-right: 15px;width: 98%"></table>');
-                    // setTimeout(function(){
-                        var tableOffset = $('#'+ attrs.id).offset().top;
-                        /////////////////////////////////////////////////////////////////////////  Id is a must!!!!!!
-                        /////////////////////////////////////////////////////////////////////////  ".main-header" is a must!!!!!!
-                        var header = $('#'+ attrs.id + " #main-header").clone();
-                        var secondHeader = $('#'+ attrs.id + " #second_header").clone();
-                        var $fixedHeader = $("#header-fixed").append(header);
-                        $fixedHeader = $("#header-fixed").append(secondHeader);
-                        console.log($fixedHeader);
-                        setTimeout(function(){
-                            $("#header-fixed #main-header td:nth-child(1)").css('width', '95');
-                            $("#header-fixed #main-header td:nth-child(2)").css('width', '95');
-                            $("#header-fixed #main-header td:nth-child(3)").css('width', '105');
-                            $("#header-fixed #main-header td:nth-child(4)").css('width', '130');
-                            $("#header-fixed #main-header td:nth-child(5)").css('width', '92');
-                            $("#header-fixed #main-header td:nth-child(6)").css('width', '100');
-                            $("#header-fixed #main-header td:nth-child(7)").css('width', '239');
-                            $("#header-fixed #main-header td:nth-child(8)").css('width', '271');
-                            $("#header-fixed #main-header td:nth-child(9)").css('width', '127');
-                            $("#header-fixed #main-header td:nth-child(10)").css('width', '152');
-                            //for (var i = 1; i <= scope.columns; i++){
-                            //    $("#header-fixed #main-header td:nth-child("+i+")").css('width', $('#'+ attrs.id + " #main-header td:nth-child("+i+")").css('width'));
-                            //}
-                            if(secondHeader){
-                                console.log(scope.secondColumns);
-                                $("#header-fixed #second_header td:nth-child(1)").css('width', '105');
-                                $("#header-fixed #second_header td:nth-child(2)").css('width', '119');
-                                $("#header-fixed #second_header td:nth-child(3)").css('width', '93');
-                                $("#header-fixed #second_header td:nth-child(4)").css('width', '119');
-                                $("#header-fixed #second_header td:nth-child(5)").css('width', '56');
-                                $("#header-fixed #second_header td:nth-child(6)").css('width', '84');
-                                $("#header-fixed #second_header td:nth-child(7)").css('width', '88');
-                                $("#header-fixed #second_header td:nth-child(8)").css('width', '84');
-                                //for (var i = 1; i <= scope.secondColumns; i++){
-                                //    $("#header-fixed #second_header td:nth-child("+i+")").css('width', $('#'+ attrs.id + " #second_header td:nth-child("+i+")").css('width'));
-                                //}
-                            }
-                            console.log('done')
-                        },1000);
-
-                        $(window).bind("scroll", function() {
-                            var offset = $(this).scrollTop();
-                            if (offset >= tableOffset && $fixedHeader.is(":hidden")) {
-                                if(window.screen.width >= '1400'){
-                                    $fixedHeader.css('display', 'inline-table');
-                                    $("#header-fixed #main-header td:nth-child(7)").css('width', '226');
-                                    $("#header-fixed #main-header td:nth-child(8)").css('width', '225');
-                                    $("#header-fixed #main-header td:nth-child(9)").css('width', '157');
-                                    $("#header-fixed #main-header td:nth-child(10)").css('width', '183');
-                                }else{
-                                    $fixedHeader.css('display', 'block');
-                                }
-                            }
-                            else if (offset < tableOffset) {
-                                $fixedHeader.hide();
-                            }
-                        });
-                    // },100)
+                scope.$watch('vacancies', function(newValue) {
+                    if(newValue) setTable();
                 });
 
+                function setTable() {
+                    $(element).after('<table class="table" id="header-fixed" columns="10" second-columns="8" style="position: fixed;top: 0;display: none;background-color: inherit; margin-right: 15px;width: 98%"></table>');
+                    // setTimeout(function(){
+                    var tableOffset = $('#'+ attrs.id).offset().top;
+                    /////////////////////////////////////////////////////////////////////////  Id is a must!!!!!!
+                    /////////////////////////////////////////////////////////////////////////  ".main-header" is a must!!!!!!
+                    console.log($("#header-fixed"));
+                    var header = $('#'+ attrs.id + " #main-header").clone();
+                    var secondHeader = $('#'+ attrs.id + " #second_header").clone();
+                    var $fixedHeader = $("#header-fixed").append(header);
+                    $fixedHeader = $("#header-fixed").append(secondHeader);
+                    setTimeout(function(){
+                        $("#header-fixed #main-header td:nth-child(1)").css('width', '95');
+                        $("#header-fixed #main-header td:nth-child(2)").css('width', '95');
+                        $("#header-fixed #main-header td:nth-child(3)").css('width', '105');
+                        $("#header-fixed #main-header td:nth-child(4)").css('width', '130');
+                        $("#header-fixed #main-header td:nth-child(5)").css('width', '92');
+                        $("#header-fixed #main-header td:nth-child(6)").css('width', '100');
+                        $("#header-fixed #main-header td:nth-child(7)").css('width', '239');
+                        $("#header-fixed #main-header td:nth-child(8)").css('width', '271');
+                        $("#header-fixed #main-header td:nth-child(9)").css('width', '127');
+                        $("#header-fixed #main-header td:nth-child(10)").css('width', '152');
+                        //for (var i = 1; i <= scope.columns; i++){
+                        //    $("#header-fixed #main-header td:nth-child("+i+")").css('width', $('#'+ attrs.id + " #main-header td:nth-child("+i+")").css('width'));
+                        //}
+                        if(secondHeader){
+                            console.log(scope.secondColumns);
+                            $("#header-fixed #second_header td:nth-child(1)").css('width', '105');
+                            $("#header-fixed #second_header td:nth-child(2)").css('width', '119');
+                            $("#header-fixed #second_header td:nth-child(3)").css('width', '93');
+                            $("#header-fixed #second_header td:nth-child(4)").css('width', '119');
+                            $("#header-fixed #second_header td:nth-child(5)").css('width', '56');
+                            $("#header-fixed #second_header td:nth-child(6)").css('width', '84');
+                            $("#header-fixed #second_header td:nth-child(7)").css('width', '88');
+                            $("#header-fixed #second_header td:nth-child(8)").css('width', '84');
+                            //for (var i = 1; i <= scope.secondColumns; i++){
+                            //    $("#header-fixed #second_header td:nth-child("+i+")").css('width', $('#'+ attrs.id + " #second_header td:nth-child("+i+")").css('width'));
+                            //}
+                        }
+                        console.log('done')
+                    },1000);
+
+                    $(window).bind("scroll", function() {
+                        var offset = $(this).scrollTop();
+                        if (offset >= tableOffset && $fixedHeader.is(":hidden")) {
+                            if(window.screen.width >= '1400'){
+                                $fixedHeader.css('display', 'inline-table');
+                                $("#header-fixed #main-header td:nth-child(7)").css('width', '226');
+                                $("#header-fixed #main-header td:nth-child(8)").css('width', '225');
+                                $("#header-fixed #main-header td:nth-child(9)").css('width', '157');
+                                $("#header-fixed #main-header td:nth-child(10)").css('width', '183');
+                            }else{
+                                $fixedHeader.css('display', 'block');
+                            }
+                        }
+                        else if (offset < tableOffset) {
+                            $fixedHeader.hide();
+                        }
+                    });
+                    // },100)
+                }
             }
         }
     }]).directive('datepickerForTask', ["$filter",  "$rootScope" ,"$translate", "$route", "Task" ,function($filter,  $rootScope, $translate, $route, Task){

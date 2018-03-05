@@ -5,7 +5,7 @@
     </h3>
     <div class="clearfix"></div>
     <a class="description-link" href="" ng-click="showPipelineDescr()">{{'Show the report description' | translate}}</a>
-    <table class="table" columns="10" second-columns="8" id="table-1" fixed-header-table Table>
+    <table class="table" columns="10" second-columns="8" id="table-1" vacancies="vacancies" fixed-header-table Table>
         <tbody>
         <tr class="main-header text-center" id="main-header">
             <td rowspan="2" style="width: 95px">{{'Client' | translate}}</td>
@@ -45,8 +45,12 @@
             </td>
             <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}" class="text-center">{{vacancy.vacancyCreated | dateFormat2}}</td>
             <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}" class="text-center"><span>{{vacancy.deadline | dateFormat2}}</span></td>
-            <td ng-class="{'Warning':vacancy.warning}">{{vacancy.lastActiveStage.stage | translate}}</td>
-            <td ng-class="{'Warning':vacancy.warning}">
+            <td ng-class="{'Warning':vacancy.warning,
+                           'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates && !vacancy.warning,
+                           'green':vacancy.approved.candidates > 0 && !vacancy.warning}">{{vacancy.lastActiveStage.stage | translate}}</td>
+            <td ng-class="{'Warning':vacancy.warning,
+                           'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates && !vacancy.warning,
+                           'green':vacancy.approved.candidates > 0 && !vacancy.warning}">
                 <span>
                     <span ng-show="vacancy.lastActiveStage.lastDayCandidates">+</span>
                     {{vacancy.lastActiveStage.lastDayCandidates}}
