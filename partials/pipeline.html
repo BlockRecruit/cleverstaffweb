@@ -29,13 +29,9 @@
             <td style="width: 56px" translate="Count2"></td>
             <td style="width: 84px">{{'Last date' | translate}}</td>
         </tr>
-        <tr ng-repeat="vacancy in vacancies">
-            <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}"><span ng-show="vacancies[$index - 1].client != vacancy.client">{{vacancy.client}}</span></td>
-            <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}">
-                <a href="#/vacancies/{{vacancy.vacancyId}}">
-                    {{vacancy.position}}
-                </a>
-            </td>
+        <tr ng-repeat="vacancy in vacancies" ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}">
+            <td><span ng-show="vacancies[$index - 1].client != vacancy.client">{{vacancy.client}}</span></td>
+            <td><a href="#/vacancies/{{vacancy.vacancyId}}">{{vacancy.position}}</a></td>
             <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}">{{vacancy.region}}</td>
             <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}">
                 <a href="#/users/responsible.localId" ng-repeat="responsible in vacancy.responsibles">
