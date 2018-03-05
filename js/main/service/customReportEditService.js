@@ -167,8 +167,8 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             property.forEach(item  => {
                 if(data.indexOf(item.value) !== -1 || data.indexOf(item.customInterviewStateId) !== -1){
                     item.added = true;
-            }
-        });
+                }
+            });
             return property;
         }
 

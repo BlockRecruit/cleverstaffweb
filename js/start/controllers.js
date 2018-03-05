@@ -850,20 +850,31 @@ controller.controller('mainController' ,function($scope, $location, $window) {
     .controller('PublicVacancyController', ["$rootScope", "$scope", "$filter", "$location", "$routeParams", "$sce" , "$translate", "Service",
                 "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal" ,
       function($rootScope, $scope, $filter, $location, $routeParams, $sce , $translate, Service,
-               notificationService, FileInit, serverAddress, $window, Company, $uibModal) {
+               notificationService, FileInit, serverAddress, $window, Company, $uibModal, ) {
 
+        function redirectToUrlWithoutSharp() {
+            let url = $location.path(), index = url.indexOf('#');
 
+            if(index > 0){
+                console.log(url.split('#'),'url');
+            }
+        }
+
+        console.log($location, 'location!!!')
+
+        // redirectToUrlWithoutSharp();
         $rootScope.closeModal = function(){
           $scope.modalInstance.close();
           $('body').removeClass('modal-open-public-vacancy-form');
         };
 
-        if($location.$$absUrl.indexOf('/pv/') >= 0){
-            var string = $location.$$path;
-            string = string.replace("/pv/", "vacancy-");
-            console.log(string);
-            $window.location.replace('/i#/' + string);
-        }
+        // if($location.$$absUrl.indexOf('/pv/') >= 0){
+        //     var string = $location.$$path;
+        //     string = string.replace("/pv/", "vacancy-");
+        //     console.log(string);
+        //     $window.location.replace('/i#/' + string);
+        // }
+
         $("#signUpButtonDiv").hide();
         $("#signInButtonDiv").hide();
         $scope.message = 'def';
@@ -1066,7 +1077,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $scope.companyPublicInfo.orgName = $scope.vacancy.orgName;
                 $scope.vacancyFound = true;
                 //$location.hash('');
-                $location.search($filter('transliteration')(resp.object.position.replace(/\W+/g, '_'))).replace();
+                // $location.search($filter('transliteration')(resp.object.position.replace(/\W+/g, '_'))).replace();
                 $scope.loadStatusForPublicVacancy = true;
                 //setTimeout(function(){
                 //    if (performance.navigation.type == 1) {

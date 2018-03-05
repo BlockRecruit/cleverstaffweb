@@ -1,7 +1,16 @@
 controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serverAddress', 'Service', 'Company',
-    'notificationService', '$routeParams', '$window','$filter',
-    function ($scope, $rootScope, serverAddress, Service, Company, notificationService, $routeParams, $window, $filter) {
+    'notificationService', '$routeParams', '$window','$filter','$location',
+    function ($scope, $rootScope, serverAddress, Service, Company, notificationService, $routeParams, $window, $filter, $location ) {
+        function redirectToUrlWithoutSharp() {
+            let url = $location;
 
+            console.log(url, '123')
+            // if(index > 0){
+            //     console.log(url.split('#'),'url');
+            // }
+        }
+
+        redirectToUrlWithoutSharp();
         $scope.loaded = false;
         $scope.hideSearchPositions = true;
         $scope.hideSearchLocations = true;
@@ -121,7 +130,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
         };
 
         (function getAllVacancyForCompany(){
-            let string = $routeParams.nameAlias.replace('-vacancies', '');
+             let string = $routeParams.nameAlias.replace('-vacancies', '');
             Company.getAllOpenVacancies(string)
                 .then((resp) => {
                     $scope.orgParams = resp;

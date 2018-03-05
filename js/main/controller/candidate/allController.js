@@ -604,7 +604,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.extensionHas = false;
     //$scope.cities = [];
     Service.getRegions2(function (countries, cities) {
-        console.log(countries);
         //console.log(cities);
         $scope.countries = countries;
         $scope.cities = cities;
@@ -744,7 +743,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             regionId: 'null',
             candidateGroupIds: null,
             searchFullTextType: null,
-            withPersonalContacts: 'null',
+            withPersonalContacts: null,
             responsibleId: null,
             personId: Candidate.searchOptions().personId,
             personNameWhoSearching: $rootScope.usernameThatIsSearching,
@@ -767,7 +766,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             sortOrder: 'DESC',
             words: null,
             position: null,
-            withPersonalContacts: 'null',
+            withPersonalContacts: null,
             searchCs: true,
             candidateGroups: null,
             searchExternal: false,
@@ -846,6 +845,24 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.showMessageAboutChangeTypeOfOtherSiteSearchmouseover = true
     };
 
+    function setPreviousSearch(searchParam) {
+        let previousParams = Candidate.searchOptions();
+        console.log(previousParams, 'previousParams');
+        console.log(searchParam, 'searchParam ----START');
+
+        if (previousParams) {
+            for (let i in previousParams) {
+                if(+previousParams[i]){
+                    searchParam[i] = +previousParams[i];
+                }else{
+                    searchParam[i] = previousParams[i]
+                }
+
+            }
+        }
+        console.log(searchParam, 'searchParam ---- FINISH');
+    }
+
     $scope.tableParams = new ngTableParams({
         page: 1,
         count: $scope.searchParam.pages.count
@@ -875,6 +892,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 } else {
                     localStorage.countCandidate = 15;
                 }
+
+
+                setPreviousSearch($scope.searchParam);
+
 
                 $scope.searchParam.pages.count = params.$params.count;
                 if ($scope.searchParam['regionId'] == 'null') {
@@ -920,12 +941,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("searchFullTextType", isNotBlank($scope.searchParam['searchFullTextType']) ? $scope.searchParam['searchFullTextType'] : null);
                 Candidate.setOptions("sort", isNotBlank($scope.filterForChange) ? $scope.filterForChange : null);
                 Candidate.setOptions("sortOrder", $scope.filterForChange == 'alphabetically' ? 'ASC' : 'DESC');
-                Candidate.setOptions("withPersonalContacts", $scope.searchParam['withPersonalContacts'] == 'null' ? null: $scope.searchParam['withPersonalContacts'] == "true");
-                Candidate.setOptions("skills",$scope.searchParam.skills.name ? [{name: $scope.getSkillAutocompleterValueForSearch(),type: $scope.searchParam.skills.type}] : null);
+                Candidate.setOptions("withPersonalContacts", $scope.searchParam['withPersonalContacts'] ? $scope.searchParam['withPersonalContacts'] : null);
+                Candidate.setOptions("skills",$scope.searchParam.skills && $scope.searchParam.skills.name ? [{name: $scope.getSkillAutocompleterValueForSearch(),type: $scope.searchParam.skills.type}] : null);
                 Candidate.setOptions("origin", isNotBlank($scope.searchParam['origin']) ? $scope.searchParam['origin'] : null);
                 $scope.criteriaForExcel = angular.copy(Candidate.searchOptions());
                 $scope.candidateSearchOptions = Candidate.searchOptions();
-                $rootScope.searchParamInCandidate = $scope.searchParam;
+                $rootScope.searchParamInCandidate = angular.copy($scope.searchParam);
 
                 function getCandidates(page, count) {
                     if(page || count) {
@@ -947,7 +968,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                             if(response.status === "error") {
                                 notificationService.error(response.message);
                             } else {
-                                $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
+                                $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'];
                                 $rootScope.objectSize = response['objects'] ? response['total'] : 0;
                                 localStorage.setItem('objectSize',  $rootScope.objectSize);
                                 $rootScope.objectSizeCand = $rootScope.objectSize;
@@ -1146,8 +1167,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $scope.searchParam.regionId = null;
             $scope.searchParam.regionIdCity = null;
         }else if(param == 'withPersonalContacts'){
-            $scope.staticSearchParam[0].withPersonalContacts = 'null';
-            $scope.searchParam.withPersonalContacts = 'null';
+            $scope.staticSearchParam[0].withPersonalContacts = null;
+            $scope.searchParam.withPersonalContacts = null;
         }else if(param == 'origin'){
             $scope.staticSearchParam[0].origin = null;
             $scope.searchParam.origin = null;
@@ -1237,7 +1258,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 $scope.searchParam.candidateGroupIds != null || $scope.searchParam.searchFullTextType != null ||
                 $scope.searchParam.responsibleId != 'null' || $scope.searchParam.personId != null ||
                 $scope.searchParam.experience != 'null' || $scope.searchParam.languages != 'null' ||
-                $scope.searchParam.skills.type != '_all' || $scope.searchParam.withPersonalContacts != 'null') || ($scope.searhcForSure)||
+                $scope.searchParam.skills.type != '_all' || $scope.searchParam.withPersonalContacts) || ($scope.searhcForSure)||
                 $scope.chosenLangs.some(item => item != 'null') || $scope.groupIdsForSearch){
 
             $scope.searhcForSure = false;

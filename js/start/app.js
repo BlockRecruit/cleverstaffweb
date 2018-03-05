@@ -19,7 +19,7 @@ var app = angular.module('RecruitingAppStart', [
     'ngMeta',
     'ui.bootstrap',
     'ngAnimate'
-]).constant('serverAddress', '/hr').config(['$routeProvider', 'ngMetaProvider', function($routeProvider, ngMetaProvider) {
+]).constant('serverAddress', '/hr').config(['$routeProvider', 'ngMetaProvider','$locationProvider', function($routeProvider, ngMetaProvider,$locationProvider) {
     $routeProvider
         .when('/confirmRegistration/finishReg/:personId/:key', {
             templateUrl: 'partials/start/finishreg.html',
@@ -36,12 +36,21 @@ var app = angular.module('RecruitingAppStart', [
             controller: 'PublicVacancyController',
             title: "Vacancy |"
         })
-        .when('/vacancy-:vacancyId', {
+        .when('/i/vacancy-:vacancyId', {
             title: "Vacancy |",
             templateUrl: 'partials/public/vacancy.html',
             controller: 'PublicVacancyController',
             meta: {
                 description: 'Vacancy in CleverStaff Recruitment Software'
+            }
+        })
+        .when('/i/:nameAlias', {
+            templateUrl: 'partials/public/company.html',
+            controller: 'PublicCompanyController',
+            title: "Company |",
+            pageName: "Public vacancy for candidate",
+            meta: {
+                description: 'Vacancies in CleverStaff Recruitment Software'
             }
         })
         .when('/:nameAlias', {
@@ -87,6 +96,7 @@ var app = angular.module('RecruitingAppStart', [
             title: 'Redirect'
         })
         .otherwise({redirectTo: '/redirect'});
+    $locationProvider.html5Mode(true);
 }]).config(function($translateProvider,tmhDynamicLocaleProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',

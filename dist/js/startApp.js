@@ -19,7 +19,7 @@ var app = angular.module('RecruitingAppStart', [
     'ngMeta',
     'ui.bootstrap',
     'ngAnimate'
-]).constant('serverAddress', '/hr').config(['$routeProvider', 'ngMetaProvider', function($routeProvider, ngMetaProvider) {
+]).constant('serverAddress', '/hr').config(['$routeProvider', 'ngMetaProvider','$locationProvider', function($routeProvider, ngMetaProvider,$locationProvider) {
     $routeProvider
         .when('/confirmRegistration/finishReg/:personId/:key', {
             templateUrl: 'partials/start/finishreg.html',
@@ -36,12 +36,21 @@ var app = angular.module('RecruitingAppStart', [
             controller: 'PublicVacancyController',
             title: "Vacancy |"
         })
-        .when('/vacancy-:vacancyId', {
+        .when('/i/vacancy-:vacancyId', {
             title: "Vacancy |",
             templateUrl: 'partials/public/vacancy.html',
             controller: 'PublicVacancyController',
             meta: {
                 description: 'Vacancy in CleverStaff Recruitment Software'
+            }
+        })
+        .when('/i/:nameAlias', {
+            templateUrl: 'partials/public/company.html',
+            controller: 'PublicCompanyController',
+            title: "Company |",
+            pageName: "Public vacancy for candidate",
+            meta: {
+                description: 'Vacancies in CleverStaff Recruitment Software'
             }
         })
         .when('/:nameAlias', {
@@ -87,6 +96,7 @@ var app = angular.module('RecruitingAppStart', [
             title: 'Redirect'
         })
         .otherwise({redirectTo: '/redirect'});
+    $locationProvider.html5Mode(true);
 }]).config(function($translateProvider,tmhDynamicLocaleProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
@@ -970,20 +980,31 @@ controller.controller('mainController' ,function($scope, $location, $window) {
     .controller('PublicVacancyController', ["$rootScope", "$scope", "$filter", "$location", "$routeParams", "$sce" , "$translate", "Service",
                 "notificationService", "FileInit", "serverAddress", "$window", "Company", "$uibModal" ,
       function($rootScope, $scope, $filter, $location, $routeParams, $sce , $translate, Service,
-               notificationService, FileInit, serverAddress, $window, Company, $uibModal) {
+               notificationService, FileInit, serverAddress, $window, Company, $uibModal, ) {
 
+        function redirectToUrlWithoutSharp() {
+            let url = $location.path(), index = url.indexOf('#');
 
+            if(index > 0){
+                console.log(url.split('#'),'url');
+            }
+        }
+
+        console.log($location, 'location!!!')
+
+        // redirectToUrlWithoutSharp();
         $rootScope.closeModal = function(){
           $scope.modalInstance.close();
           $('body').removeClass('modal-open-public-vacancy-form');
         };
 
-        if($location.$$absUrl.indexOf('/pv/') >= 0){
-            var string = $location.$$path;
-            string = string.replace("/pv/", "vacancy-");
-            console.log(string);
-            $window.location.replace('/i#/' + string);
-        }
+        // if($location.$$absUrl.indexOf('/pv/') >= 0){
+        //     var string = $location.$$path;
+        //     string = string.replace("/pv/", "vacancy-");
+        //     console.log(string);
+        //     $window.location.replace('/i#/' + string);
+        // }
+
         $("#signUpButtonDiv").hide();
         $("#signInButtonDiv").hide();
         $scope.message = 'def';
@@ -1186,7 +1207,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $scope.companyPublicInfo.orgName = $scope.vacancy.orgName;
                 $scope.vacancyFound = true;
                 //$location.hash('');
-                $location.search($filter('transliteration')(resp.object.position.replace(/\W+/g, '_'))).replace();
+                // $location.search($filter('transliteration')(resp.object.position.replace(/\W+/g, '_'))).replace();
                 $scope.loadStatusForPublicVacancy = true;
                 //setTimeout(function(){
                 //    if (performance.navigation.type == 1) {
@@ -1853,9 +1874,18 @@ controller.controller('PublicCandidateController', ['$scope', 'Service', '$route
     }]
 );
 controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serverAddress', 'Service', 'Company',
-    'notificationService', '$routeParams', '$window','$filter',
-    function ($scope, $rootScope, serverAddress, Service, Company, notificationService, $routeParams, $window, $filter) {
+    'notificationService', '$routeParams', '$window','$filter','$location',
+    function ($scope, $rootScope, serverAddress, Service, Company, notificationService, $routeParams, $window, $filter, $location ) {
+        function redirectToUrlWithoutSharp() {
+            let url = $location;
 
+            console.log(url, '123')
+            // if(index > 0){
+            //     console.log(url.split('#'),'url');
+            // }
+        }
+
+        redirectToUrlWithoutSharp();
         $scope.loaded = false;
         $scope.hideSearchPositions = true;
         $scope.hideSearchLocations = true;
@@ -1975,7 +2005,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
         };
 
         (function getAllVacancyForCompany(){
-            let string = $routeParams.nameAlias.replace('-vacancies', '');
+             let string = $routeParams.nameAlias.replace('-vacancies', '');
             Company.getAllOpenVacancies(string)
                 .then((resp) => {
                     $scope.orgParams = resp;
@@ -3767,7 +3797,8 @@ angular.module('services.candidate', [
             "position": null,
             "salary": null,
             "sex": null,
-            "candidateGroupId" : null
+            "candidateGroupId" : null,
+            "withPersonalContacts" : null
         };
     };
 

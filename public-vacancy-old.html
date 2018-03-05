@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+ let url = location.href, index = url.indexOf('#');
+     if(index > 0){
+         let urlWithoutSharp = url.slice(0,index) + url.slice(++index);
+         location.replace(urlWithoutSharp);
+     }else{
+         location.replace(url[url.length-1] + '/public-vacancies');
+     }
+</script>
+
+</body>
+</html>
