@@ -55,7 +55,7 @@
                 <button class="btn-new apply small send-test" ng-click="startTestFunc('first_test')">{{'Start the test' | translate }}</button>
             </div>
 
-            <div class="block-info question"   ng-show="currentTab == 'first_test' && hideTest && firstTestQuestion">
+            <div class="block-info question"   ng-show="currentTab == 'first_test' && hideTest && firstTestQuestion && !showEndMessage">
 
                 <div class="question-header">
                     <div ng-show="initialCountdown > 0" class="time-limit">
