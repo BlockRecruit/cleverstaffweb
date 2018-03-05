@@ -39591,7 +39591,7 @@ controller.controller('pipelineController', ["$rootScope", "$scope", "notificati
                    $scope.stagesOnVacancy = resp.objects[0].lastActiveState;
                    angular.forEach($scope.vacancies, function(data,key){
                        if(data.deadline){
-                           if(differenceBetweenTwoDates(data.deadline, new Date()) < -5){
+                           if(differenceBetweenTwoDates(data.deadline, new Date()) <= 3){
                                data.strongWarning = true;
                            }
                        }
