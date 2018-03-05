@@ -2086,7 +2086,7 @@ directive('appVersion', ['version', function(version) {
                 }
             }
         }
-    }]).directive('clientAutocompleter', ["$filter", "serverAddress", "$rootScope","vacancyStages", function($filter, serverAddress, $rootScope, vacancyStages) {
+    }]).directive('clientAutocompleter', ["$filter", "serverAddress", "$rootScope","vacancyStages", "$translate", function($filter, serverAddress, $rootScope, vacancyStages, $translate) {
         return {
             restrict: 'EA',
             replace: true,
@@ -2099,7 +2099,7 @@ directive('appVersion', ['version', function(version) {
                 };
                 if ($(element[0])) {
                     element.select2({
-                        placeholder: $filter('translate')('client'),
+                        placeholder: $translate.instant('client'),
                         minimumInputLength: 0,
                         allowClear: true,
                         ajax: {
@@ -2135,6 +2135,10 @@ directive('appVersion', ['version', function(version) {
                         dropdownCssClass: "bigdrop"
                     }).on("change", function(e) {
 
+                    }).on("select2-opening", function(e){
+                        setTimeout(function () {
+                            $('#select2-drop .select2-results .select2-searching')[0].innerText = $filter("translate")("Searching");
+                        }, 0);
                     })
                 }
             }
