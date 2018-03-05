@@ -30,23 +30,23 @@
             <td style="width: 84px">{{'Last date' | translate}}</td>
         </tr>
         <tr ng-repeat="vacancy in vacancies">
-            <td><span ng-show="vacancies[$index - 1].client != vacancy.client">{{vacancy.client}}</span></td>
-            <td>
-                <a ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}" href="#/vacancies/{{vacancy.vacancyId}}">
+            <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}"><span ng-show="vacancies[$index - 1].client != vacancy.client">{{vacancy.client}}</span></td>
+            <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}">
+                <a href="#/vacancies/{{vacancy.vacancyId}}">
                     {{vacancy.position}}
                 </a>
             </td>
-            <td>{{vacancy.region}}</td>
-            <td>
+            <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}">{{vacancy.region}}</td>
+            <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}">
                 <a ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates}" href="#/users/responsible.localId" ng-repeat="responsible in vacancy.responsibles">
                     {{responsible.cutFullName}}
                     <br/>
                 </a>
             </td>
-            <td class="text-center">{{vacancy.vacancyCreated | dateFormat2}}</td>
-            <td class="text-center"><span ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates}">{{vacancy.deadline | dateFormat2}}</span></td>
-            <td>{{vacancy.lastActiveStage.stage | translate}}</td>
-            <td>
+            <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}" class="text-center">{{vacancy.vacancyCreated | dateFormat2}}</td>
+            <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}" class="text-center"><span>{{vacancy.deadline | dateFormat2}}</span></td>
+            <td ng-class="{'Warning':vacancy.warning}">{{vacancy.lastActiveStage.stage | translate}}</td>
+            <td ng-class="{'Warning':vacancy.warning}">
                 <span>
                     <span ng-show="vacancy.lastActiveStage.lastDayCandidates">+</span>
                     {{vacancy.lastActiveStage.lastDayCandidates}}
@@ -54,10 +54,10 @@
                     {{vacancy.lastActiveStage.candidates}}
                 </span>
                 <br/>
-                <span ng-class="{'Warning':vacancy.warning}" ng-show="vacancy.lastActiveStage.differenceInDays" class="grey">{{vacancy.lastActiveStage.differenceInDays}} {{'days ago' | translate}}</span>
+                <span ng-show="vacancy.lastActiveStage.differenceInDays" class="grey">{{vacancy.lastActiveStage.differenceInDays}} {{'days ago' | translate}}</span>
             </td>
-            <td class="grey">{{vacancy.previousActiveStage.stage | translate}}</td>
-            <td class="grey">
+            <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}" class="grey">{{vacancy.previousActiveStage.stage | translate}}</td>
+            <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}" class="grey">
                 <span ng-show="vacancy.previousActiveStage.lastDayCandidates">+</span>
                 {{vacancy.previousActiveStage.lastDayCandidates}}
                 <span ng-show="vacancy.previousActiveStage.lastDayCandidates">{{'from2' | translate}}</span>
@@ -65,10 +65,11 @@
                 <br/>
                 <span class="grey">{{vacancy.previousActiveStage.lastAction | dateFormat2}}</span>
             </td>
-            <td class="text-center"><span ng-class="{'green':vacancy.approved.candidates > 0}">{{vacancy.approved.candidates}}</span></td>
-            <td class="text-center">{{vacancy.approved.lastAction | dateFormat2}}</td>
-            <td class="grey text-center">{{vacancy.refusal.candidates}}</td>
-            <td class="grey text-center">{{vacancy.refusal.lastAction | dateFormat2}}</td>
+            <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}" class="text-center">
+                <span>{{vacancy.approved.candidates}}</span></td>
+            <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}" class="text-center">{{vacancy.approved.lastAction | dateFormat2}}</td>
+            <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}" class="grey text-center">{{vacancy.refusal.candidates}}</td>
+            <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}" class="grey text-center">{{vacancy.refusal.lastAction | dateFormat2}}</td>
         </tr>
         </tbody>
     </table>
