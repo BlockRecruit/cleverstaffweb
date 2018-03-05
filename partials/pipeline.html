@@ -38,7 +38,7 @@
             </td>
             <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}">{{vacancy.region}}</td>
             <td ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}">
-                <a ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates}" href="#/users/responsible.localId" ng-repeat="responsible in vacancy.responsibles">
+                <a href="#/users/responsible.localId" ng-repeat="responsible in vacancy.responsibles">
                     {{responsible.cutFullName}}
                     <br/>
                 </a>
