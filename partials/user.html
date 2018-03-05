@@ -61,7 +61,7 @@
                             <span ng-show="!user.personParams.enableDownloadToExcel">{{'no'|translate}}</span>
                         </div>
                     </div>
-                    <div class="col-lg-12" ng-show="$root.me.recrutRole === 'admin' && user.login != $root.me.login && user.status  != 'N'">
+                    <div class="col-lg-12" ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'recruter' && user.login != $root.me.login && user.status  != 'N'">
                         <div class="switch">
                             <label for="mailingService-access" class="floatLeft">{{'Hide Mailing Service'|translate}}</label>
                             <input id="mailingService-access" ng-click="enableMailingService(user)" ng-checked="!$root.me.orgParams.enableMailing" ng-model="hideMailingService" class="cmn-toggle cmn-toggle-round" type="checkbox">

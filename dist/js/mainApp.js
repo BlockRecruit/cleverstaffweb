@@ -46515,10 +46515,10 @@ component.component('editor', {
 
     }
 })
-controller.controller('mailingPreviewController', ['$scope', '$rootScope', 'notificationService', '$localStorage', '$filter', '$uibModal','$state', '$location', 'Mailing', 'Account']);
+controller.controller('mailingPreviewController', ['$scope', '$rootScope', 'notificationService', '$localStorage', '$filter', '$uibModal','$state', '$location', 'Mailing', 'Account', 'Person']);
 component.component('preview', {
     templateUrl: "partials/mailing/mailing-preview.html",
-    controller: function ($scope, $rootScope, notificationService, $localStorage, $filter, $uibModal, $state, $location, Mailing, Account) {
+    controller: function ($scope, $rootScope, notificationService, $localStorage, $filter, $uibModal, $state, $location, Mailing, Account, Person) {
         $scope.candidatesForMailing = $localStorage.get('candidatesForMailing')?JSON.parse($localStorage.get('candidatesForMailing')):[];
         $scope.mailingParams = {};
         $scope.mailingParams = Mailing.getMailingDetails();
@@ -46554,20 +46554,23 @@ component.component('preview', {
         $scope.sendMailing = function () {
             Promise.all([
                 Mailing.getCompaignPrice({ compaignId: $scope.mailingParams.compaignId}),
-                getAccountInfo()
+                getAccountInfo(),
+                getFreeMailCount(),
                 ])
-                .then((resp) => {
+                .then(([compaignPrice, accountInfo, freeMailCount]) => {
                     $scope.sendMailingParams = {
-                        accountBalance: resp[1].object.amount,
-                        compaignPrice: resp[0].object / 100,
-                        freeMailCount: $rootScope.me.orgParams.freeMailCount,
+                        accountBalance: accountInfo.object.amount,
+                        compaignPrice: compaignPrice.object / 100,
+                        freeMailCount: freeMailCount.object.orgParams.freeMailCount,
                         available: true
                     };
 
+                    console.log($scope.sendMailingParams);
 
                     if($scope.sendMailingParams.compaignPrice > $scope.sendMailingParams.accountBalance) {
                         $scope.sendMailingParams.available = false;
                     }
+
                     openMailingModal();
                     $scope.$apply();
                 }, error => notificationService.error(error));
@@ -46637,6 +46640,18 @@ component.component('preview', {
                    }
                }, error => console.error(error));
             });
+        }
+
+        function getFreeMailCount() {
+            return new Promise((resolve, reject) => {
+                Person.getMe(function(resp) {
+                    if(resp.status === 'ok') {
+                        resolve(resp);
+                    } else {
+                        reject(resp);
+                    }
+                });
+            }, error => console.error(error));
         }
 
         function openMailingModal(){
