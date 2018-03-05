@@ -682,7 +682,7 @@
                         <!--</div>-->
                     <!--</td>-->
                     <td class="name" data-title="'Name'">
-                        <a  ng-click="routeOnCandidate($event,candidate.candidateId.localId,'candidate');" ng-context-menu="menuOptions">{{::candidate.candidateId.fullName}}</a>
+                        <a ng-href="#/candidates/{{candidate.candidateId.localId}}" ng-click="routeOnCandidate($event,candidate.candidateId.localId,'candidate');" ng-context-menu="menuOptions">{{::candidate.candidateId.fullName}}</a>
                     </td>
                     <td ng-if="candidate.candidateId.status == 'archived'"></td>
                     <td class="date" ng-if="candidate.candidateId.status != 'archived'">
