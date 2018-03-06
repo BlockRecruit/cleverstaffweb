@@ -52,7 +52,7 @@
                     {{vacancy.lastActiveStage.candidates}}
                 </span>
                 <br/>
-                <span ng-show="vacancy.lastActiveStage.differenceInDays" class="grey">{{vacancy.lastActiveStage.differenceInDays}} {{'days ago' | translate}}</span>
+                <span ng-show="vacancy.lastActiveStage.differenceInDays">{{vacancy.lastActiveStage.differenceInDays}} {{'days ago' | translate}}</span>
             </td>
             <td>{{vacancy.previousActiveStage.stage | translate}}</td>
             <td>
@@ -61,7 +61,7 @@
                 <span ng-show="vacancy.previousActiveStage.lastDayCandidates">{{'from2' | translate}}</span>
                 {{vacancy.previousActiveStage.candidates}}
                 <br/>
-                <span class="grey">{{vacancy.previousActiveStage.lastAction | dateFormat2}}</span>
+                <span>{{vacancy.previousActiveStage.lastAction | dateFormat2}}</span>
             </td>
             <td class="text-center">
                 <span>{{vacancy.approved.candidates}}</span></td>
