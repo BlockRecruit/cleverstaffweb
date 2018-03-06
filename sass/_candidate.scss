@@ -693,6 +693,12 @@
 					border-top-left-radius: 5px;
 					border-top-right-radius: 5px;
 					background-color: $theme-white;
+					.left-col {
+						span,
+						a {
+							line-height: 26px;
+						}
+					}
 					& > div {
 						.leftBlock {
 							a {
