@@ -581,12 +581,8 @@
 					border-radius: 5px;
 					background-color: $theme-white;
 					& > ul {
-						//<<<<<<< HEAD
 						display: inline-block;
 						width: 49%;
-						//=======
-						//						display: -webkit-inline-box;
-						//>>>>>>> 3034-merge-duplicates
 						margin-bottom: 0;
 						padding: 0;
 
@@ -916,15 +912,11 @@
 								color: $theme-dark;
 							}
 							i {
+								display: block;
 								margin-right: 6px;
 
-<<<<<<< HEAD
 								color: $theme-dark-green;
-=======
-							display: block;
-							//.preferable-contact {
-							//	@include flex(column, flex-start, flex-start);
-							//}
+							}
 						}
 						.homepage,
 						.phone,
@@ -944,7 +936,6 @@
 								&:last-child {
 									margin-bottom: 0;
 								}
->>>>>>> fixes styles
 							}
 						}
 					}
@@ -1509,6 +1500,7 @@
 		}
 	}
 }
+
 
 .main-block {
 	position: relative;
