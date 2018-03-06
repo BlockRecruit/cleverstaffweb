@@ -21236,7 +21236,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.candidateOrigin = '';
         $scope.experience = Service.experience();
         $scope.industries = Service.getIndustries();
-        $scope.contacts = {skype: "", mphone: "", email: ""};
+        $scope.contacts = {skype: "", mphone: "", email: "",telegram: ""};
         $scope.fieldValues = {
             objType: "candidate",
             fieldValueId: '',
@@ -21539,6 +21539,10 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                             if (angular.equals(val.type, "homepage")) {
                                 $scope.contacts.homepage = val.value;
                             }
+                            if (angular.equals(val.type, "telegram")) {
+                                $scope.contacts.telegram = val.value;
+                            }
+                            console.log( $scope.contacts.telegram, ' $scope.contacts.telegram')
                         });
                     }
                     $scope.candidate.fieldValues = [];
@@ -22011,6 +22015,9 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if ($scope.contacts.homepage) {
                     candidate.contacts.push({type: "homepage", value: $scope.contacts.homepage});
                 }
+                if ($scope.contacts.telegram) {
+                    candidate.contacts.push({type: "telegram", value: $scope.contacts.telegram});
+                }
                 if ($("#pac-input").val().length == 0) {
                     candidate.region = null;
                 } else if ($("#pac-input").val().length > 0 && (candidate.region == undefined || $("#pac-input").val() != candidate.region.fullName)) {
@@ -22359,8 +22366,8 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
         $scope.currency = Service.currency();
         $scope.experience = Service.experience();
         $scope.industries = Service.getIndustries();
-        $scope.contacts = {skype: "", mphone: "", email: "", linkedin: "", facebook: "", googleplus: "", github: "", homepage: ""};
-        $scope.contacts2 = {skype: "", mphone: "", email: "", linkedin: "", facebook: "", googleplus: "", github: "", homepage: ""};
+        $scope.contacts = {skype: "", mphone: "", email: "", linkedin: "", facebook: "", googleplus: "", github: "", homepage: "", telegram:""};
+        $scope.contacts2 = {skype: "", mphone: "", email: "", linkedin: "", facebook: "", googleplus: "", github: "", homepage: "", telegram:""};
         $scope.src = {
             salary: '1',
             fullName: '1'
@@ -22390,6 +22397,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
         $scope.secondFacebook  = false;
         $scope.secondGoogleplus  = false;
         $scope.secondGithub  = false;
+        $scope.secondTelegram = false;
         $scope.secondHomepage  = false;
         $scope.secondDb  = false;
         $scope.secondCustomFields  = false;
@@ -22664,6 +22672,9 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                             if (angular.equals(val.type, "github")) {
                                 $scope.contacts.github = val.value;
                             }
+                            if (angular.equals(val.type, "telegram")) {
+                                $scope.contacts.telegram = val.value;
+                            }
                             if (angular.equals(val.type, "homepage")) {
                                 $scope.contacts.homepage = val.value;
                             }
@@ -22793,6 +22804,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                             });
                         }
                         $scope.candidateBeforeMerge = angular.copy($scope.candidate);
+                        console.log( $scope.candidateBeforeMerge, ' $scope.candidateBeforeMerge')
                         $scope.contactsBeforeMerge = angular.copy($scope.contacts);
                     }
                 } else {
@@ -22851,6 +22863,9 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                             }
                             if (angular.equals(val.type, "github")) {
                                 $scope.contacts2.github = val.value;
+                            }
+                            if (angular.equals(val.type, "telegram")) {
+                                $scope.contacts2.telegram = val.value;
                             }
                             if (angular.equals(val.type, "homepage")) {
                                 $scope.contacts2.homepage = val.value;
@@ -22921,6 +22936,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
         };
         $scope.updateCandidate2();
         $scope.selectSource = function (src, index, customField, isContact, type) {
+            console.log($scope.candidate, $scope.candidateBeforeMerge);
             var sourceForRegion = function () {
                 //var source;
                 if(src == '1') {
@@ -23303,6 +23319,21 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     $('button.github').css('border', 'none');
                 }
             };
+            var sourceForTelegram = function () {
+                if(src === '1') {
+                    $scope.secondTelegram  = false;
+                    $scope.candidate[type] = $scope.candidateBeforeMerge[type];
+                    $scope.src.telegram = '1';
+                    $('button.active').removeClass('telegram');
+                    $('button.telegram').css('border', 'none');
+                }else if(src === '2') {
+                    $scope.secondTelegram = true;
+                    $scope.candidate[type] = $scope.candidate2[type];
+                    $scope.src.telegram = '2';
+                    $('button.active').removeClass('telegram');
+                    $('button.telegram').css('border', 'none');
+                }
+            };
             var sourceForHomepage = function () {
                 if(src === '1') {
                     $scope.secondHomepage  = false;
@@ -23569,6 +23600,9 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 case  'googleplus':
                     sourceForGoogleplus();
                     break;
+                case  'telegram':
+                    sourceForTelegram();
+                    break;
                 case  'facebook':
                     sourceForFacebook();
                     break;
@@ -23728,7 +23762,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     candidate.files = $scope.candidate2.files;
                     candidate.files = candidate.files.concat($scope.candidateBeforeMerge.files);
                 }
-                console.log($scope.candidate);
                 candidate.languages = [];
                 if ($scope.candidateBeforeMerge.languages.length > 0 && !$scope.secondLanguages) {
                     angular.forEach($scope.candidateBeforeMerge.languages, function (val) {
@@ -23807,17 +23840,20 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 }else if($scope.contacts2.github){
                     candidate.contacts.push({type: "github", value: $scope.contacts2.github});
                 }
+
+                console.log(!!$scope.contacts.telegram, '$scope.contacts.telegram!!!!!!!!!!!!!!!!!!!!')
+                if ($scope.contacts.telegram) {
+                    candidate.contacts.push({type: "telegram", value: $scope.contacts.telegram});
+                }else if($scope.contacts2.telegram){
+                    candidate.contacts.push({type: "telegram", value: $scope.contacts2.telegram});
+                }
+
                 if ($scope.contacts.homepage && !$scope.secondHomepage) {
                     candidate.contacts.push({type: "homepage", value: $scope.contacts.homepage});
                 }else if($scope.contacts2.homepage){
                     candidate.contacts.push({type: "homepage", value: $scope.contacts2.homepage});
                 }
-                //if ($("#pac-input").val().length == 0) {
-                //    candidate.region = null;
-                //} else if ($("#pac-input").val().length > 0 && (candidate.region == undefined || $("#pac-input").val() != candidate.region.fullName)) {
-                //    if ($scope.region)
-                //        candidate.region = $scope.region;
-                //}
+
                 if ($scope.candidateBeforeMerge.region != undefined && !$scope.secondRegion) {
                     candidate.region = $scope.candidateBeforeMerge.region;
                 }else if ($scope.candidate2.region != undefined) {
@@ -23892,9 +23928,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     candidate.sex = $scope.candidate2.sex;
                 }
                 var mergeData  = $scope.candidate2.candidateId;
-                console.log(candidate);
                 $http.put(serverAddress + '/candidate/' + 'mergeCandidates?duplicateId=' + mergeData, candidate).then(function (val) {
-                    console.log(val);
                     if (angular.equals(val.data.status, "ok")) {
                         notificationService.success($filter('translate')('You successfully merged candidates’ profiles'));
                         CacheCandidates.update(val.data.object);
@@ -23967,7 +24001,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
 
         $scope.removeLink = function(id) {
             angular.forEach($scope.linksForSave, function(val, ind) {
-                console.log(val);
                 if (val.fileName === id) {
                     $scope.linksForSave.splice(ind, 1);
                 }
@@ -24741,7 +24774,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     linkedin: [],
                     googleplus: [],
                     github: [],
-                    email: []
+                    email: [],
+                    telegram: []
                 };
                 $scope.countEmail = 0;
                 angular.forEach($scope.candidate.contacts, function (contacts) {
@@ -24752,6 +24786,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         case 'googleplus':
                         case 'github':
                         case 'email':
+                        case 'telegram':
                             multipleContacts[contacts.type] = contacts.value.split(/[\s,";"]+/);
                             break;
                     }
@@ -24766,7 +24801,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     linkedin: [],
                     googleplus: [],
                     github: [],
-                    email: []
+                    email: [],
+                    telegram: []
                 };
 
                 for(key in multipleContacts) {
@@ -24774,6 +24810,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         $scope.multipleContacts[key].push(currentVal.trim());
                     });
                 }
+                console.log($scope.multipleContacts, '$scope.multipleContacts')
                 //getcandidateproperties start
                 Candidate.getCandidateProperties({candidateId: $scope.candidate.candidateId}, function (res) {
                     if(res.status == 'ok' && res.object) {
