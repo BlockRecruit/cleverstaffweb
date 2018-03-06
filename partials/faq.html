@@ -32,7 +32,8 @@
                             </uib-accordion-heading>
                             <p>{{'To set email notifications open your profile menu and choose the Email notifications'|translate}}.</p>
                             <br>
-                            <img src="/images/sprite/faq/2.png" width="100%" alt="">
+                            <img ng-if="$root.currentLang == 'ru'" src="/images/sprite/faq/1-2.png" width="100%" alt="">
+                            <img ng-if="$root.currentLang == 'en'" src="/images/sprite/faq/1-2-en.png" width="100%" alt="">
                         </li>
                         <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$third">
                             <uib-accordion-heading>
@@ -40,7 +41,8 @@
                             </uib-accordion-heading>
                             <p>{{'Choose a vacancy and go to Vacancy details. Find the Social networks block and choose a network to share the vacancy in a timeline:  Facebook, LinkedIn, Twitter, Vkontakte'|translate}}.</p>
                             <br>
-                            <img src="/images/sprite/faq/3.png" width="100%" alt="">
+                            <img ng-if="$root.currentLang == 'ru'" src="/images/sprite/faq/1-3.png" width="100%" alt="">
+                            <img ng-if="$root.currentLang == 'en'" src="/images/sprite/faq/1-3-en.png" width="100%" alt="">
                             <br>
                             <br>
                             <p>{{'Also, you could share your vacancies at your company Facebook page at Comapany → Company settings → Create a Jobs Tab'|translate}}.</p>
@@ -51,7 +53,8 @@
                             </uib-accordion-heading>
                             <p>{{'If you want to show/restore deleted/cancelled vacancies go to Vacancies and choose the Deleted/Cancelled'|translate}}.</p>
                             <br>
-                            <img src="/images/sprite/faq/4.png" width="100%" alt="">
+                            <img ng-if="$root.currentLang == 'ru'" src="/images/sprite/faq/1-4.png" width="100%" alt="">
+                            <img ng-if="$root.currentLang == 'en'" src="/images/sprite/faq/1-4-en.png" width="100%" alt="">
                         </li>
                     </uib-accordion>
                 </ul>
@@ -83,11 +86,11 @@
                         </li>
                         <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$seventh">
                             <uib-accordion-heading>
-                                <span>3. {{'How to change a plan from free (Freelancer) to a paid one (For Companies)'|translate}}</span> <i class="fa" ng-class="{'fa-angle-down': !$seventh, 'fa-angle-up': $seventh}" aria-hidden="true"></i>
+                                <span>3. <span translate="How to change a plan from free 1 Recruiter to a paid one Team Work"></span></span> <i class="fa" ng-class="{'fa-angle-down': !$seventh, 'fa-angle-up': $seventh}" aria-hidden="true"></i>
                             </uib-accordion-heading>
                             <p>{{'The plan will be changed automatically when your account gets more than 1 user'|translate}}.</p>
                             <br>
-                            <p>{{'Some features are limited for a free plan (Freelancer). To open all features and upgrade your plan to a paid one you should pay for a 1+ month ($25) at'|translate}} <a href="https://cleverstaff.net/!#/pay" target="_blank">{{'Pay_1'|translate}}</a> {{'tab'|translate}}.</p>
+                            <p><span translate="Some features are limited for a free plan 1 Recruiter. To open all features and upgrade your plan to a paid one you should pay for a 1+ month ($25) at"></span> <a href="https://cleverstaff.net/!#/pay" target="_blank">{{'Pay_1'|translate}}</a> <span ng-show="$root.currentLang == 'en'">{{'tab'|translate}}</span>.</p>
                         </li>
                         <li uib-accordion-group class="panel-default" filter-list="searchFaq" is-open="$eighth">
                             <uib-accordion-heading>
@@ -179,7 +182,8 @@
                             <p>{{'To integrate with email go to Candidates tab → Import from e-mail and enter the data for successful integration'|translate}}.</p>
                             <p>{{'If you have a corporate email, probably you should input the smtp host, port, secure data which you could receive from your system administrator.'|translate}}</p>
                             <br>
-                            <img src="/images/sprite/faq/5.png" width="100%" alt="">
+                            <img ng-if="$root.currentLang == 'ru'" src="/images/sprite/faq/4-3.png" width="100%" alt="">
+                            <img ng-if="$root.currentLang == 'en'" src="/images/sprite/faq/4-3-en.png" width="100%" alt="">
                         </li>
                     </uib-accordion>
                 </ul>
