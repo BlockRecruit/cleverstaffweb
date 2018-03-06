@@ -4493,7 +4493,7 @@ function setCustomSelect(){
         },
         template = `
         <div class="select clearfix">
-            <input type="text" ng-model="model" placeholder="{{placeholder|translate}}" class="form-control col-lg-12 select-input-field">
+            <input type="text" ng-model="model" placeholder="{{placeholder|translate}}" readonly class="form-control col-lg-12 select-input-field">
             <div class="dropdown-content" style="z-index: -999">
                 <ul>
                     <li ng-repeat="item in data track by $index" ng-click="method(item)" ng-class="{disable: (item.status == 'N')}">{{item.text|translate}}</li>
@@ -19149,8 +19149,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         Candidate.setOptions("sort", 'dm');
         $scope.searchParam.searchType = "AllWords";
         $scope.searchParam.name = null;
-        $scope.searchParam.regionId = null;
-        $scope.searchParam.regionIdCity.value = null;
+        $scope.searchParam.regionId = {
+            value: null,
+            text:''
+        };
+        $scope.searchParam.regionIdCity = {
+            value: null,
+            text:''
+        };
         $scope.searchParam.salary = null;
         $scope.searchParam.status.value = 'null';
         $scope.searchParam.sex = {text:'',value:null};
@@ -19186,7 +19192,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.setOriginAutocompleterValue('');
     };
     $rootScope.clearSearchRegion = function(){
-        $scope.searchParam.regionId = 'null';
+        $scope.searchParam.regionId = {
+            value:null,
+            text:''
+        };
     };
     if (localStorage.countCandidate) {
         $scope.startPagesShown = localStorage.countCandidate;
@@ -19391,7 +19400,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
                 console.log( $scope.searchParam, ' $scope.searchParam')
                 Candidate.setOptions("allContainsWords", $scope.searchParam.allContainsWords);
-                Candidate.setOptions("region", $scope.searchParam.regionId.value? $scope.searchParam.regionId.value : null);
+                Candidate.setOptions("country", $scope.searchParam.regionId.value? $scope.searchParam.regionId.value : null);
                 Candidate.setOptions("city", $scope.searchParam.regionIdCity.value? $scope.searchParam.regionIdCity.value : null);
                 Candidate.setOptions("name", $scope.searchParam.name);
                 Candidate.setOptions("position", $scope.searchParam.position);
@@ -19662,9 +19671,18 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $scope.staticSearchParam[0].responsibleId = 'null';
             $scope.searchParam.responsibleId = 'null';
         }else if(param == 'regionId'){
-            $scope.staticSearchParam[0].regionId = 'null';
-            $scope.searchParam.regionId = null;
-            $scope.searchParam.regionIdCity = null;
+            $scope.staticSearchParam[0].regionId = {
+                value:null,
+                text:''
+            };
+            $scope.searchParam.regionId = {
+                value:null,
+                text:''
+            };
+            $scope.searchParam.regionIdCity = {
+                value:null,
+                text:''
+            };
         }else if(param == 'withPersonalContacts'){
             $scope.staticSearchParam[0].withPersonalContacts = null;
             $scope.searchParam.withPersonalContacts.value = null;
@@ -19906,7 +19924,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         }
     };
     $scope.selectRegion = function (val) {
-        if ($scope.searchParam.regionId != null) {
+        if ($scope.searchParam.regionId.value != null) {
             var json = JSON.parse($scope.searchParam.regionId);
             return json != null && val.value == json.value;
         }

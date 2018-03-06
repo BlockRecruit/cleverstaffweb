@@ -4493,7 +4493,7 @@ function setCustomSelect(){
         },
         template = `
         <div class="select clearfix">
-            <input type="text" ng-model="model" placeholder="{{placeholder|translate}}" class="form-control col-lg-12 select-input-field">
+            <input type="text" ng-model="model" placeholder="{{placeholder|translate}}" readonly class="form-control col-lg-12 select-input-field">
             <div class="dropdown-content" style="z-index: -999">
                 <ul>
                     <li ng-repeat="item in data track by $index" ng-click="method(item)" ng-class="{disable: (item.status == 'N')}">{{item.text|translate}}</li>

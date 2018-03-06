@@ -428,7 +428,7 @@
                     </div>
                     <ul class="pivots" ng-show="searchParam.searchCs">
                         <!--start main criterials-->
-                        <li class="firstPivot" ng-show="!(staticSearchParam[0].words || (staticSearchParam[0].regionId.value && staticSearchParam[0].regionId.value) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
+                        <li class="firstPivot" ng-show="!(staticSearchParam[0].words || staticSearchParam[0].regionId.value || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
                             (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType.value) ||
                             (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex.value != null) || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom.text) || (staticSearchParam[0].ageTo.text) || (staticSearchParam[0].lang != 'null') || (staticSearchParam[0].responsibleId != 'null') ||
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || !staticSearchParam[0].withPersonalContacts == null)">
@@ -456,8 +456,8 @@
                                aria-hidden="true"></i>
                         </li>
                         <li ng-show="staticSearchParam[0].regionId.value" class="pivot">
-                            <span ng-show="staticSearchParam[0].regionId.value && country.id == searchParam.regionId.value && staticSearchParam[0].regionIdCity.value" ng-repeat="country in countries">
-                                <span ng-show="$root.currentLang == 'en' && searchParam.regionId.value == country.id">{{'country'|translate}}: {{country.nameEn}}</span>
+                            <span ng-show="staticSearchParam[0].regionId.text && country.value && !staticSearchParam[0].regionIdCity.value" ng-repeat="country in countries">
+                                <span ng-show="$root.currentLang == 'en' && searchParam.regionId.value == country.value">{{'country'|translate}}: {{country.nameEn}}</span>
                                 <span ng-show="$root.currentLang == 'ru' && searchParam.regionId.value == country.id">{{'country'|translate}}: {{country.nameRu}}</span>
                             </span>
                             <span ng-show="staticSearchParam[0].regionIdCity.value && cities.value == staticSearchParam[0].regionIdCity.value" ng-repeat="cities in city">
