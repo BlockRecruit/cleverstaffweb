@@ -647,11 +647,17 @@ angular.module('services.mailing',[]
     };
 
 
+    service.toSentMailingFromHistory = function (mailingId) {
+        service.getComp
+    };
+
+
     service.toSentPreview = function (mailing) {
+        let id = mailing.subscriberListIds?mailing.subscriberListIds[0]:mailing;
         let sentPreviewObj = {};
         let candidatesContacts = [];
         service.getSubscriberList({
-            subscriberListId: mailing.subscriberListIds[0]
+            subscriberListId: id
         }, (resp) =>{
             if(resp.status != 'error') {
                 resp.object.subscribers.forEach((currentValue) => {

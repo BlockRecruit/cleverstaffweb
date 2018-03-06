@@ -1,8 +1,8 @@
 controller.controller('CandidateOneController', ["CacheCandidates", "$localStorage", "$scope", "frontMode", "$translate", "googleService", "$location", "$routeParams", "Candidate",
     "Service", "$rootScope", "Person", "serverAddress", "FileInit", "notificationService", "$filter", "Vacancy",
-    "Action", "vacancyStages", "Task", "File", "$sce", "$window", "Mail", "$uibModal", "$timeout", "$route", "Test", "CandidateGroup","sliderElements",
+    "Action", "vacancyStages", "Task", "File", "$sce", "$window", "Mail", "$uibModal", "$timeout", "$route", "Test", "CandidateGroup","sliderElements", "Mailing",
     function (CacheCandidates, $localStorage, $scope, frontMode, $translate, googleService, $location, $routeParams, Candidate, Service, $rootScope, Person, serverAddress, FileInit,
-              notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup, sliderElements) {
+              notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup, sliderElements, Mailing) {
         delete $rootScope.client;
         $scope.serverAddress = serverAddress;
         $rootScope.objectSize = null;
@@ -2295,6 +2295,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.candidateLength = $rootScope.objectSize || localStorage.getItem('objectSize');
         $scope.currentIndex = sliderElements.nextElement.cacheCurrentPosition + 1 ||  (+localStorage.getItem('numberPage')) +  1;
         ///////////////////////////////////////////////////////////////End of Sent Email candidate
+        $scope.toSentPreview = function (mailing) {
+            Mailing.toSentPreview(mailing);
+        };
     }]);
 
 

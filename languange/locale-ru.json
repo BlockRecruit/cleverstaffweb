@@ -2996,7 +2996,7 @@
   "Not delivered": "Не доставлено",
   "Read": "Прочитано",
   "Create the copy of current mailing for the further sending": "Создать копию текущей рассылки для отправки",
-  "Delivery fail reasons": "Причины недоставки",
+  "Delivery fail reasons": "Причины сбоя доставки",
   "Spam": "Спам",
   "Candidate was sent a mailing": "Кандидату была отправлена рассылка"
 }

@@ -10,6 +10,7 @@ component.component('sentMailingStatus',{
                 <div class="stat-opened" ng-class="{'not-completed': $ctrl.opened < $ctrl.sent || $ctrl.sent == 0}" title="{{$ctrl.titleTexts.opened}}" ng-bind="$ctrl.opened"></div>
                `,
     controller: function ($translate) {
+        $('.status-panel').tooltip();
         this.$onInit = function () {
             this.opened = (this.opened <= this.sent?this.opened:this.sent);
             let titleTextsPerc = {

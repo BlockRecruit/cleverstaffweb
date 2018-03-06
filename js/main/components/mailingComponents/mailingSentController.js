@@ -62,11 +62,13 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
     $scope.cloneMailing = function (cloneName) {
         if(cloneName && cloneName.length > 0) {
             Mailing.cloneMailing({
-                    'сompaignId': $scope.sentMailing.compaignId,
+                    'compaignId': $scope.sentMailing.compaignId,
                     'internalName': cloneName
             },(resp)=> {
                 if(resp.status !== 'error') {
-                    console.log('newMail', resp)
+                    notificationService.success($filter('translate')('Mailing cloned'))
+                } else {
+                    notificationService.error(resp.message)
                 }
             }, (error)=>{
                 notificationService.error(error)

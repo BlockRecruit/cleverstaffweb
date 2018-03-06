@@ -84,7 +84,9 @@ component.component('sent', {
                     'internalName': cloneName
                 },(resp)=> {
                     if(resp.status !== 'error') {
-                        console.log('newMail', resp)
+                        notificationService.success($filter('translate')('Mailing cloned'))
+                    } else {
+                        notificationService.error(resp.message)
                     }
                 }, (error)=>{
                     notificationService.error(error)

@@ -15,14 +15,14 @@
                  {{history.candidate.fullName}}
              </a>
         </span>
-        <span ng-if="history.candidates.length == 2">
+        <span ng-if="history.candidates.length < 3 && history.candidates.length > 1">
             <a ng-href="#/candidates/{{history.candidates[0].localId}}">
                 {{history.candidates[0].fullName}}
             </a> {{'and'|translate}} <a ng-href="#/candidates/{{history.candidates[1].localId}}">
                 {{history.candidates[1].fullName}}
             </a>
         </span>
-        <span class="manyCandidates" ng-if="history.candidates.length > 2">
+        <span class="manyCandidates" ng-if="history.candidates.length > 3">
             <span class="boldTxt" ng-click="openMenuWithCandidates(history)">{{'history_info.candidates'|translate}} (<span class="blueLink">{{history.candidates.length}}</span>)</span>
         </span>
         {{'history_info.on_vacancy'|translate}}

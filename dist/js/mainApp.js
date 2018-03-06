@@ -11908,11 +11908,17 @@ angular.module('services.mailing',[]
     };
 
 
+    service.toSentMailingFromHistory = function (mailingId) {
+        service.getComp
+    };
+
+
     service.toSentPreview = function (mailing) {
+        let id = mailing.subscriberListIds?mailing.subscriberListIds[0]:mailing;
         let sentPreviewObj = {};
         let candidatesContacts = [];
         service.getSubscriberList({
-            subscriberListId: mailing.subscriberListIds[0]
+            subscriberListId: id
         }, (resp) =>{
             if(resp.status != 'error') {
                 resp.object.subscribers.forEach((currentValue) => {
@@ -25070,9 +25076,9 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
 
 controller.controller('CandidateOneController', ["CacheCandidates", "$localStorage", "$scope", "frontMode", "$translate", "googleService", "$location", "$routeParams", "Candidate",
     "Service", "$rootScope", "Person", "serverAddress", "FileInit", "notificationService", "$filter", "Vacancy",
-    "Action", "vacancyStages", "Task", "File", "$sce", "$window", "Mail", "$uibModal", "$timeout", "$route", "Test", "CandidateGroup","sliderElements",
+    "Action", "vacancyStages", "Task", "File", "$sce", "$window", "Mail", "$uibModal", "$timeout", "$route", "Test", "CandidateGroup","sliderElements", "Mailing",
     function (CacheCandidates, $localStorage, $scope, frontMode, $translate, googleService, $location, $routeParams, Candidate, Service, $rootScope, Person, serverAddress, FileInit,
-              notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup, sliderElements) {
+              notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup, sliderElements, Mailing) {
         delete $rootScope.client;
         $scope.serverAddress = serverAddress;
         $rootScope.objectSize = null;
@@ -27365,6 +27371,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.candidateLength = $rootScope.objectSize || localStorage.getItem('objectSize');
         $scope.currentIndex = sliderElements.nextElement.cacheCurrentPosition + 1 ||  (+localStorage.getItem('numberPage')) +  1;
         ///////////////////////////////////////////////////////////////End of Sent Email candidate
+        $scope.toSentPreview = function (mailing) {
+            Mailing.toSentPreview(mailing);
+        };
     }]);
 
 
@@ -46618,11 +46627,13 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
     $scope.cloneMailing = function (cloneName) {
         if(cloneName && cloneName.length > 0) {
             Mailing.cloneMailing({
-                    'сompaignId': $scope.sentMailing.compaignId,
+                    'compaignId': $scope.sentMailing.compaignId,
                     'internalName': cloneName
             },(resp)=> {
                 if(resp.status !== 'error') {
-                    console.log('newMail', resp)
+                    notificationService.success($filter('translate')('Mailing cloned'))
+                } else {
+                    notificationService.error(resp.message)
                 }
             }, (error)=>{
                 notificationService.error(error)
@@ -47036,7 +47047,9 @@ component.component('sent', {
                     'internalName': cloneName
                 },(resp)=> {
                     if(resp.status !== 'error') {
-                        console.log('newMail', resp)
+                        notificationService.success($filter('translate')('Mailing cloned'))
+                    } else {
+                        notificationService.error(resp.message)
                     }
                 }, (error)=>{
                     notificationService.error(error)
@@ -47061,6 +47074,7 @@ component.component('sentMailingStatus',{
                 <div class="stat-opened" ng-class="{'not-completed': $ctrl.opened < $ctrl.sent || $ctrl.sent == 0}" title="{{$ctrl.titleTexts.opened}}" ng-bind="$ctrl.opened"></div>
                `,
     controller: function ($translate) {
+        $('.status-panel').tooltip();
         this.$onInit = function () {
             this.opened = (this.opened <= this.sent?this.opened:this.sent);
             let titleTextsPerc = {
