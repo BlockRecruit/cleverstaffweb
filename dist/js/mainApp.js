@@ -14670,16 +14670,17 @@ angular.module('RecruitingApp', [
             });
         };
         $rootScope.sendCandidateToTest = function(candidate, count){
-            $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
             if(count == 0){
                 notificationService.error($filter('translate')('Please add an email before sending a test to this candidate'))
             }else{
-                if($rootScope.candidateToTest != undefined){
+                if(candidate != undefined){
+                    $localStorage.set('candidateForTest', candidate);
+                    $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
                     $location.path('/candidate/send-test-candidate-to-email-from-candidate');
-                    $rootScope.fromCandidate = [$rootScope.candidateToTest];
-                    $rootScope.emailCandidateId = $rootScope.candidateToTest.candidateId;
-                    if($rootScope.candidateToTest.contacts.length > 0){
-                        angular.forEach($rootScope.candidateToTest.contacts, function (nval) {
+                    $rootScope.fromCandidate = [candidate];
+                    $rootScope.emailCandidateId = candidate.candidateId;
+                    if(candidate.contacts.length > 0){
+                        angular.forEach(candidate.contacts, function (nval) {
                             if (nval.type == "email") {
                                 delete  $rootScope.emailCandidate;
                                 var email = nval.value.split(" ")[0];
@@ -24520,7 +24521,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 $scope.candidate = resp.object;
                 $rootScope.candidate = resp.object;
                 $rootScope.localIdOfMerged = $scope.candidate.localId;
-                $localStorage.set('candidateForTest', $rootScope.candidate);
+                //$localStorage.set('candidateForTest', $rootScope.candidate);
                 $scope.locationBeforeCustomFields = $location.$$path.replace('/candidates/' + $scope.candidate.localId, 'candidates');
                 $localStorage.set('previousHistoryCustomFields', $scope.locationBeforeCustomFields);
                 $scope.changeStatus = $scope.candidate.status;
@@ -26802,19 +26803,17 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
         };
         if($rootScope.activePage == 'Send test candidate to email from candidate'){
             $rootScope.sendCandidateToTest();
-            console.log($rootScope.candidateToTest);
+            if($rootScope.candidateToTest == undefined){
+                $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
+                $rootScope.fromCandidate = [$rootScope.candidateToTest];
+                $rootScope.emailCandidateId = $rootScope.candidateToTest.candidateId;
+            }
             $scope.sendTestRequest.push({
                 candidateId: $rootScope.emailCandidateId,
                 email: $rootScope.emailCandidate
             });
-            //if($rootScope.candidateToTest == undefined){
-            //    notificationService.error($filter('translate')('Please add an email before sending a test to this candidate'));
-            //}else{
-            //
-            //}
         }else if($rootScope.activePage == 'Send test candidate to email from vacancy'){
             setTimeout(function(){
-                console.log('vik1');
                 $rootScope.candidatesInStages = JSON.parse($localStorage.get('vacancyForTest'));
                 $rootScope.activeCustomStageName = $localStorage.get('activeCustomStageName');
                 $scope.activeCustomStageId = $localStorage.get('activeCustomStageId');
@@ -26835,10 +26834,6 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                 });
             }, 0);
 
-        }else{
-            //$localStorage.remove("candidateForTest");
-            //$localStorage.remove("vacancyForTest");
-            //$localStorage.remove("activeCustomStageName");
         }
         $scope.sendTestToCandidate = function () {
             if($rootScope.activePage == 'Send test candidate to email'){

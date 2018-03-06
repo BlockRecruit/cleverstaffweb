@@ -635,16 +635,17 @@ angular.module('RecruitingApp', [
             });
         };
         $rootScope.sendCandidateToTest = function(candidate, count){
-            $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
             if(count == 0){
                 notificationService.error($filter('translate')('Please add an email before sending a test to this candidate'))
             }else{
-                if($rootScope.candidateToTest != undefined){
+                if(candidate != undefined){
+                    $localStorage.set('candidateForTest', candidate);
+                    $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
                     $location.path('/candidate/send-test-candidate-to-email-from-candidate');
-                    $rootScope.fromCandidate = [$rootScope.candidateToTest];
-                    $rootScope.emailCandidateId = $rootScope.candidateToTest.candidateId;
-                    if($rootScope.candidateToTest.contacts.length > 0){
-                        angular.forEach($rootScope.candidateToTest.contacts, function (nval) {
+                    $rootScope.fromCandidate = [candidate];
+                    $rootScope.emailCandidateId = candidate.candidateId;
+                    if(candidate.contacts.length > 0){
+                        angular.forEach(candidate.contacts, function (nval) {
                             if (nval.type == "email") {
                                 delete  $rootScope.emailCandidate;
                                 var email = nval.value.split(" ")[0];
