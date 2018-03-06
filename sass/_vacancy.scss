@@ -530,7 +530,7 @@
 					color: $theme-grey;
 				}
 				.add-comment-text {
-					max-width: 39px;
+					width: 25%;
 					span:not(.comment) {
 						transition: 0.5s;
 
@@ -999,5 +999,20 @@
 	}
 	.ui-pnotify {
 		right: 10px!important;
+	}
+	.block-vacancy .vacancy-statuses .status-info .sorting select {
+		width: 95%;
+	}
+	.block-vacancy .vacancy-statuses .status-info table .name .button-outer {
+		@include button-green-styling();
+
+		transition: 0.5s;
+
+		opacity: 0;
+	}
+	.block-vacancy .vacancy-statuses .status-info table .add-comment-text {
+		width: inherit;
+		max-width: 50px;
+		padding: 0;
 	}
 }
