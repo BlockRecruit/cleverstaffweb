@@ -524,7 +524,7 @@
                                     <label>{{::"Telegram"}}</label>
                                     <input placeholder="" ng-model="contacts.telegram" ng-model-options="{debounce: 500}" type="text" ng-change="progressUpdate()">
                                     <i class="fa absolute-right"
-                                       style="bottom: auto;top: 20px;"
+                                       style="bottom: 2px"
                                        title='{{(candidate.preferableContact == "telegram")? "Unmark as preferable contact method"  : "Mark as preferrable contact method" |translate}}'
                                        ng-class="{'fa-star-o':candidate.preferableContact !== 'telegram','fa-star':candidate.preferableContact == 'telegram'}"
                                        ng-click="selectFavoriteContacts(this,'telegram', $event)"></i>
