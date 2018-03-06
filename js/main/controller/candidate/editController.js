@@ -15,7 +15,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.candidateOrigin = '';
         $scope.experience = Service.experience();
         $scope.industries = Service.getIndustries();
-        $scope.contacts = {skype: "", mphone: "", email: ""};
+        $scope.contacts = {skype: "", mphone: "", email: "",telegram: ""};
         $scope.fieldValues = {
             objType: "candidate",
             fieldValueId: '',
@@ -309,6 +309,10 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                             if (angular.equals(val.type, "homepage")) {
                                 $scope.contacts.homepage = val.value;
                             }
+                            if (angular.equals(val.type, "telegram")) {
+                                $scope.contacts.telegram = val.value;
+                            }
+                            console.log( $scope.contacts.telegram, ' $scope.contacts.telegram')
                         });
                     }
                     $scope.candidate.fieldValues = [];
@@ -756,6 +760,9 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 }
                 if ($scope.contacts.homepage) {
                     candidate.contacts.push({type: "homepage", value: $scope.contacts.homepage});
+                }
+                if ($scope.contacts.telegram) {
+                    candidate.contacts.push({type: "telegram", value: $scope.contacts.telegram});
                 }
                 if ($("#pac-input").val().length == 0) {
                     candidate.region = null;
