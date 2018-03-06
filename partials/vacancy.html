@@ -41,7 +41,7 @@
                            </span>
                     </a>
                 </li>
-                <li class="pull-left">
+                <li class="pull-left" ng-if="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'recruter'">
                     <a ng-click="VacanciesInfCandidTaskHistClientFunc('suggestions')"
                        ng-class="{'selected' : currentTab == 'suggestions'}">
                         {{'Suggested candidates' | translate}}
