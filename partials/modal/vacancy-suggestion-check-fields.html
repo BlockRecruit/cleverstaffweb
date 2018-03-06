@@ -1,0 +1,15 @@
+<div class="add-coment">
+    <div class="modal-header">
+        <h3>Fill all vacancy fields</h3>
+    </div>
+    <div class="modal-body">
+        <input type="number" ng-if="emptyRequiredFields.salaryFrom" ng-model="vacancy.salaryFrom">
+        <input type="number" ng-if="emptyRequiredFields.salaryTo" ng-model="vacancy.salaryTo">
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary" ng-click="saveVacancy()">{{'cancel'|translate}}</a>
+        </div>
+    </div>
+</div>

@@ -26,5 +26,19 @@ angular.module('services.vacancySuggestions', [
           })
         };
 
+        vacancySuggestions.saveVacancy = function(vacancy) {
+            return new Promise((resolve, reject) => {
+                Vacancy.edit(vacancy, response => resolve(response), error => reject(error));
+            })
+        };
+
+        vacancySuggestions.getRequiredFields = function(vacancy) {
+            if(vacancy.employmentType === 'telework') {
+                return ['salaryFrom', 'salaryTo'];
+            } else {
+                return ['salaryFrom', 'salaryTo', 'region'];
+            }
+        };
+
         return vacancySuggestions;
     }]);
