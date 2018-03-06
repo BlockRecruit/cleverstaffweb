@@ -6381,7 +6381,7 @@ angular.module('services.candidate', [
         $scope.dublicetesTypeLinkedin = '';
         if ((!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && ($scope.contacts.mphone || $scope.contacts.mphone2 || $scope.contacts.mphone3 )) || (!duplicatesByNameAndContacts && $scope.candidate.fullName && $scope.candidate.fullName.length > 3)) {
         //if (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4 && $scope.contacts.skype && $scope.contacts.skype.length > 4 && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4 && $scope.contacts.mphone && $scope.contacts.mphone.length > 4 && $scope.candidate.fullName && $scope.candidate.fullName.length > 3) {
-            $rootScope.loading = true;
+        //    $rootScope.loading = true;
             duplicatesByNameAndContacts = true;
             setTimeout(function(){
                 $scope.addPhone = '';
@@ -6414,7 +6414,7 @@ angular.module('services.candidate', [
                     fullName: $scope.candidate.fullName
                 }, function (res) {
                     $scope.duplicatesByNameAndContacts = [];
-                    $rootScope.loading = false;
+                    //$rootScope.loading = false;
                     if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
                         angular.forEach(res.objects, function (c, i) {
                             //console.log(c.candidateId != $scope.candidate.candidateId, ' candID');
