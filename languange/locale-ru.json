@@ -433,6 +433,7 @@
     "is_not_looking_for_job": "Поиск работы не актуальный"
   },
   "interview_status_assoc_full": {
+    "applied_people": "Отклики",
     "longlist": "Найденные",
     "shortlist": "Отобранные",
     "interview": "Собеседование",

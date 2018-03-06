@@ -242,6 +242,7 @@
     "is_not_looking_for_job": "Is not looking for job"
   },
   "interview_status_assoc_full": {
+    "applied_people": "Applied People",
     "longlist": "Long List",
     "approved": "Hired",
     "sent_offer": "Offer Sent",
