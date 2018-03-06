@@ -595,10 +595,13 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.extensionHas = false;
     //$scope.cities = [];
     Service.getRegions2(function (countries, cities) {
-        console.log(countries);
-        //console.log(cities);
+        console.log(countries, 'countries');
+        console.log(cities, 'countries');
+        setTextfielsInObject(countries);
+        setTextfielsInObject(cities);
         $scope.countries = countries;
         $scope.cities = cities;
+
         //var optionsHtml = '<option value="null" style="color:#999">'+$filter('translate')('region')+'</option>';
         //var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
         //angular.forEach($scope.countries, function (value) {
@@ -678,7 +681,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam.searchType = "AllWords";
         $scope.searchParam.name = null;
         $scope.searchParam.regionId = null;
-        $scope.searchParam.regionIdCity = null;
+        $scope.searchParam.regionIdCity.value = null;
         $scope.searchParam.salary = null;
         $scope.searchParam.status.value = 'null';
         $scope.searchParam.sex = {text:'',value:null};
@@ -755,7 +758,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             searchExternal: false,
             searchSocial: false,
             searchIn: false,
-            regionId: 'null',
+            regionId: {
+                text:'',
+                value:null
+            },
+            regionIdCity: {
+                text:'',
+                value:null
+            },
             candidateGroupIds: null,
             searchFullTextType: null,
             withPersonalContacts: {
@@ -796,7 +806,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             searchExternal: false,
             searchSocial: false,
             searchIn: false,
-            regionId: 'null',
+            regionId: {
+                value: null,
+                text:''
+            },
+            regionIdCity: {
+                value: null,
+                text:''
+            },
             candidateGroupIds: null,
             searchFullTextType: null,
             responsibleId: 'null',
@@ -902,25 +919,11 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 }
 
                 $scope.searchParam.pages.count = params.$params.count;
-                if ($scope.searchParam['regionId'] == 'null') {
-                    $scope.searchParam['regionId'] = null;
-                }
-                if ($scope.searchParam['regionIdCity'] == 'null') {
-                    $scope.searchParam['regionIdCity'] = null;
-                }
-                if ($scope.searchParam['regionId']) {
-                    if($scope.searchParam['regionIdCity']){
-                        Candidate.setOptions("city", $scope.searchParam['regionIdCity']);
-                    }else{
-                        Candidate.setOptions("country", $scope.searchParam['regionId']);
-                    }
-                } else {
-                    Candidate.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
-                    Candidate.setOptions("city", activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null);
-                }
 
-                console.log($scope.searchParam['employmentType'], '')
+                console.log( $scope.searchParam, ' $scope.searchParam')
                 Candidate.setOptions("allContainsWords", $scope.searchParam.allContainsWords);
+                Candidate.setOptions("region", $scope.searchParam.regionId.value? $scope.searchParam.regionId.value : null);
+                Candidate.setOptions("city", $scope.searchParam.regionIdCity.value? $scope.searchParam.regionIdCity.value : null);
                 Candidate.setOptions("name", $scope.searchParam.name);
                 Candidate.setOptions("position", $scope.searchParam.position);
                 Candidate.setOptions("experience", $scope.searchParam.experience);
@@ -1578,33 +1581,20 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $location.path('candidates/' + user.localId);
         }
     };
-    $scope.setSearchedRegion = function(){
+    $scope.setSearchedRegion = function(region){
+        console.log(region, 'region')
+        $scope.searchParam.regionId = region;
         $scope.city = [];
-        //$scope.searchParam.regionId = null;
-        $scope.searchParam.regionIdCity = null;
+        $scope.searchParam.regionIdCity = {value:null, text:""};
+
         angular.forEach($scope.cities, function (nval) {
-            if(nval.type == 'city' && (nval.country == $scope.searchParam.regionId || nval.countryRu == $scope.searchParam.regionId)){
+            if(nval.type == 'city' && (nval.country == $scope.searchParam.regionId.value || nval.countryRu == $scope.searchParam.regionId.value)){
                 $scope.city.push(nval);
             }
         });
-        var uniqueArray = removeDuplicates($scope.city, "id");
-        $scope.city = uniqueArray;
-        console.log($scope.city);
-        //$scope.searchParam.regionIdCity = null;
-        //var obj = JSON.parse($scope.searchParam.regionId);
-        //if(obj.type == 'country'){
-        //    $scope.searchedRegion = JSON.parse($scope.searchParam.regionId);
-        //    $('#cs-region-filter-select-cities').find('option').remove();
-        //    var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
-        //    angular.forEach($scope.cities, function (value) {
-        //        if(value.type == 'city' && value.country == $scope.searchedRegion.country){
-        //            optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-        //        }
-        //    });
-        //    $('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
-        //}else{
-        //    $scope.searchedRegionCity = JSON.parse($scope.searchParam.regionIdCity);
-        //}
+        // var uniqueArray = removeDuplicates($scope.city, "id");
+        // $scope.city = uniqueArray;
+        console.log($scope.city, 'cityyyyy');
     };
     if($rootScope.changeSearchTypeNotFromCandidates){
         $scope.changeSearchType($rootScope.changeSearchTypeNotFromCandidates);
@@ -1933,7 +1923,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     };
 
     function selectResponsible(vacancy) {
-        console.log(vacancy, 'vacancy')
         $scope.searchParam.responsibleId = vacancy.id;
         $scope.responsibleName = vacancy.text;
         removeActiveBlock();
@@ -1966,6 +1955,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         }
     }
 
+    function setTextfielsInObject(data) {
+        for(let i in data){
+            data[i]["text"] = data[i]["name"];
+        }
+    }
+
 
     $scope.selectResponsible = selectResponsible;
     $scope.selectStatus = item => $scope.searchParam.status = {text:$filter('translate')(item.text), value:item.text};
@@ -1974,6 +1969,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.selectPersonAge = item => (item.value)? $scope.searchParam.ageFrom = item:$scope.searchParam.ageTo = item;
     $scope.selectEmploymentType = item => $scope.searchParam.employmentType = {text:$filter('translate')(item.text), value:item.text};;
     $scope.selectExperience = item => $scope.searchParam.experience = item;
+    $scope.selectRegionIdCity = item => $scope.searchParam.regionIdCity  = item;
 
 
 

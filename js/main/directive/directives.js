@@ -4492,19 +4492,24 @@ function setCustomSelect(){
             method:"="
         },
         template = `
-        <input type="text" ng-model="model" placeholder="{{placeholder|translate}}" class="form-control col-lg-12 select-input-field">
-        <div class="dropdown-content" style="z-index: -999">
-            <ul>
-                <li ng-repeat="item in data track by $index" ng-click="method(item)" ng-class="{disable: (item.status == 'N')}">{{item.text|translate}}</li>
-            </ul>
+        <div class="select clearfix">
+            <input type="text" ng-model="model" placeholder="{{placeholder|translate}}" class="form-control col-lg-12 select-input-field">
+            <div class="dropdown-content" style="z-index: -999">
+                <ul>
+                    <li ng-repeat="item in data track by $index" ng-click="method(item)" ng-class="{disable: (item.status == 'N')}">{{item.text|translate}}</li>
+                </ul>
+            </div>
         </div>`;
     return {
         restrict,
         scope,
         template,
         link(scope, element, attrs){
+            scope.showOrHideDropDownList = $event => {
+                console.log($event, '$event');
+            };
         }
-    };
+    }
 };
 
 function similar_text(first, second, percent) {
