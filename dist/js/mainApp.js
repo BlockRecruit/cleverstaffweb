@@ -14028,6 +14028,7 @@ angular.module('services.vacancySuggestions', [
             if(vacancy.employmentType === 'telework') {
                 return ['salaryFrom', 'salaryTo'];
             } else {
+                console.log(vacancy.region);
                 return ['salaryFrom', 'salaryTo', 'region'];
             }
         };
@@ -36628,8 +36629,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $scope.emptyRequiredFields = [];
             let requiredFields = vacancySuggestions.getRequiredFields($scope.vacancy);
 
-            console.log($scope.vacancy);
-
             Object.keys($scope.vacancy).forEach(key => {
                requiredFields.forEach(field => {
                    if(key === field && !$scope.vacancy[key]) {
@@ -36642,10 +36641,15 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                            $scope.emptyRequiredFields.push(field);
                        }
                    }
+                   if(key === 'region' && !$scope.vacancy[key].city) {
+                       if($scope.emptyRequiredFields.indexOf(key) === -1) {
+                           console.log('push', key);
+                           $scope.emptyRequiredFields.push(key);
+                       }
+                   }
                })
             });
 
-            console.log($scope.emptyRequiredFields);
             if($scope.emptyRequiredFields.length) {
                 $scope.modalInstance = $uibModal.open({
                     animation: true,
@@ -39653,6 +39657,11 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
 
         }
+
+        $scope.validSalary = function (event) {
+            if(event.keyCode == 43 || event.keyCode == 45 || event.keyCode == 101 || event.keyCode == 69 )
+                event.preventDefault();
+        };
 
         $scope.hiddenOrShowVacanciesOnThePublicListVacancies = Vacancy.requestChangeVacanciesForCandidatesAccess;
 

@@ -2921,5 +2921,9 @@
   "Suggested candidates not found": "Предлагаемые кандидаты не найдены",
   "Already added to this vacancy": "Уже добавлен в эту вакансию",
   "Here will be displayed candidates suitable for this vacancy. CleverStaff chooses the most suitable candidates for the desired position, place of residence and salary": "Здесь будут отображатся кандидаты подходящие для данной вакансии. CleverStaff выбирает наиболее походящих кандидатов по желаемой должности, месту проживания, жалаемой зарплате",
-  "Relevancy of the candidate": "Релевантность кандидата"
+  "Relevancy of the candidate": "Релевантность кандидата",
+  "Fill in the information, necessary for the selection of candidates":"Заполните данные, необходимые для подбора кандидатов",
+  "Select candidates":"Подобрать кандидатов",
+  "Country and city":"Страна и город",
+  "Fill in the information necessary for the selection of candidates":"Заполните поля, необходимые для качественного подбора кандидатов"
 }

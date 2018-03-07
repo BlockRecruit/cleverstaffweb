@@ -1,0 +1,49 @@
+.vacancy-suggestion-fields {
+	.modal-body {
+		.required-fields {
+			display: flex;
+			flex-direction: column;
+
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: flex-start;
+			.field {
+				margin-bottom: 10px;
+				padding-bottom: 5px;
+				label {
+					font-family: "Helvetica-Regular";
+					font-size: 13px;
+
+					display: inline-block;
+					min-width: 100px;
+					margin-right: 10px;
+
+					color: #000;
+				}
+				input {
+					height: 25px;
+					padding-bottom: 4px;
+
+					cursor: pointer;
+
+					border: none;
+					border-bottom: 1px solid #e3e3e3;
+					background-color: #fff;
+					box-shadow: none;
+					&[type="number"]::-webkit-outer-spin-button,
+					&[type="number"]::-webkit-inner-spin-button {
+						-webkit-appearance: none;
+					}
+					&.error {
+						border-color: #e86863;
+					}
+				}
+			}
+		}
+	}
+	.modal-footer {
+		.btn-primary {
+			@include button-styling();
+		}
+	}
+}

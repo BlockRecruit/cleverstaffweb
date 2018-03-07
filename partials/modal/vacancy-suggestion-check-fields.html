@@ -1,15 +1,37 @@
-<div class="add-coment">
+<div class="vacancy-suggestion-fields">
     <div class="modal-header">
-        <h3>Fill all vacancy fields</h3>
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h3>{{'Fill in the information necessary for the selection of candidates' | translate}}</h3>
     </div>
     <div class="modal-body">
-        <input type="number" ng-if="emptyRequiredFields.salaryFrom" ng-model="vacancy.salaryFrom">
-        <input type="number" ng-if="emptyRequiredFields.salaryTo" ng-model="vacancy.salaryTo">
+        <form  name="requiredFieldsForm" class="required-fields">
+            <div class="field">
+                <label for="salaryFrom">{{'salary' | translate}}&nbsp(min)</label>
+                <input id="salaryFrom" type="number" min="0" max="99999999"
+                       ng-if="emptyRequiredFields.indexOf('salaryFrom') !== -1"
+                       ng-model="vacancy.salaryFrom"
+                       ng-class="{'error': requiredFieldsForm.salaryFrom.$invalid && !requiredFieldsForm.salaryFrom.$pristine}"
+                       ng-keypress="validSalary($event)">
+            </div>
+            <div class="field">
+                <label for="salaryTo">{{'salary' | translate}}&nbsp(max)</label>
+                <input id="salaryTo" type="number" min="0" max="99999999"
+                       ng-if="emptyRequiredFields.indexOf('salaryTo') !== -1"
+                       ng-model="vacancy.salaryTo"
+                       ng-class="{'error': requiredFieldsForm.salaryTo.$invalid && !requiredFieldsForm.salaryTo.$pristine}"
+                       ng-keypress="validSalary($event)">
+            </div>
+            <div class="field">
+                <label for="salaryTo">{{'Country and city' | translate}}*</label>
+                <input id="pac-input" placeholder="{{'Enter the address'|translate}}"
+                       ng-model="regionInput" googleplace>
+            </div>
+        </form>
     </div>
     <div class="modal-footer">
-        <div class="text-center button">
-            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'cancel'|translate}}</a>
-            <a type="button" class="btn btn-primary" ng-click="saveVacancy()">{{'cancel'|translate}}</a>
+        <div class="text-center">
+            <a type="button" class="btn cancel" ng-click="$root.closeModal();">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary" ng-click="saveVacancy()">{{'Select candidates'|translate}}</a>
         </div>
     </div>
 </div>

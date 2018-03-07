@@ -36,6 +36,7 @@ angular.module('services.vacancySuggestions', [
             if(vacancy.employmentType === 'telework') {
                 return ['salaryFrom', 'salaryTo'];
             } else {
+                console.log(vacancy.region);
                 return ['salaryFrom', 'salaryTo', 'region'];
             }
         };
