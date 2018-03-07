@@ -702,7 +702,7 @@
 					& > div {
 						.leftBlock {
 							a {
-								line-height: 16px;
+								line-height: 26px;
 								i {
 									position: relative;
 									top: -1px;
@@ -933,12 +933,12 @@
 						.linkedin,
 						.skype,
 						.linkedProfiles {
-							margin-bottom: 8px;
+							//margin-bottom: 8px;
 							.preferable-contact {
-								line-height: 16px !important;
-
-								display: block;
-								margin-bottom: 8px;
+								//line-height: 16px !important;
+								//
+								//display: block;
+								//margin-bottom: 8px;
 								&:last-child {
 									margin-bottom: 0;
 								}

@@ -572,7 +572,7 @@
                                      </a>
                                 </span>
                             </div>
-                            <div class="homepage">
+                            <div class="homepage leftBlock">
                                 <span class="preferable-contact" ng-repeat="contact in multipleContacts['telegram'] track by $index"  title="{{contact}}">
                                     <span  class="not-for-print" target="_blank" href="{{contact}}">
                                        <img width="12px" src="../../images/sprite/vectorpaint.svg" alt="telegram">
@@ -590,7 +590,7 @@
                                      </a>
                                 </span>
                             </div>
-                            <div class="facebook" ng-show="(candidate.contacts|filter:type = 'facebook').length > 0">
+                            <div class="facebook leftBlock" ng-show="(candidate.contacts|filter:type = 'facebook').length > 0">
                                 <span class="preferable-contact" ng-repeat="contact in ::multipleContacts['facebook'] track by $index" title="{{contact}}">
                                     <a target="_blank" class="not-for-print" href="{{::contact| makeLink}}">
                                         <i class="fa fa-facebook" aria-hidden="true"></i>
