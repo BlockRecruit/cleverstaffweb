@@ -2338,5 +2338,7 @@
   "Relevancy of the candidate": "Relevancy to the vacancy criteria",
   "Fill in the information necessary for the selection of candidates":"Fill in the information necessary for the selection of candidates",
   "Select candidates":"Select candidates",
-  "Country and city": "Country and city"
+  "Country and city": "Country and city",
+  "Exact matching":"Exact matching",
+  "Probably suitable":"Probably suitable"
 }

@@ -202,7 +202,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
             if($scope.currentTab == 'suggestions'){
                 resetTemplate();
-                if(!checkForFieldsCompletion().invalid) {
+                if(!checkRequiredFieldsCompletion().invalid) {
                     $scope.reloadSuggestions();
                 }
             }
@@ -1304,7 +1304,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
         };
 
-        function checkForFieldsCompletion() {
+        function checkRequiredFieldsCompletion() {
             $scope.emptyRequiredFields = [];
             let requiredFields = vacancySuggestions.getRequiredFields($scope.vacancy);
 
@@ -1322,7 +1322,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                    }
                    if(key === 'region' && !$scope.vacancy[key].city) {
                        if($scope.emptyRequiredFields.indexOf(key) === -1) {
-                           console.log('push', key);
                            $scope.emptyRequiredFields.push(key);
                        }
                    }
