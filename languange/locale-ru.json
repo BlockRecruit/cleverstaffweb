@@ -2998,5 +2998,6 @@
   "Create the copy of current mailing for the further sending": "Создать копию текущей рассылки для отправки",
   "Delivery fail reasons": "Причины сбоя доставки",
   "Spam": "Спам",
-  "Candidate was sent a mailing": "Кандидату была отправлена рассылка"
+  "Candidate was sent a mailing": "Кандидату была отправлена рассылка",
+  "Email does not exist": "Адрес не существует"
 }
