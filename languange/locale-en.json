@@ -1745,7 +1745,7 @@
   "Upload CVs one-by-one via Upload resume button": "Upload CVs one-by-one via ‘Upload resume’ button",
   "Upload resume archive to import the upload the archive with your candidates resumes in ZIP / RAR. You can add resumes in .doc, .docx, PDF and .odt formats": "'Upload resume archive' to import the archive with your candidate's CVs in ZIP / RAR. You can add resumes in .doc, .docx, PDF and .odt formats",
   "Import from Excel to upload an Excel file with your candidates data": "'Import from Excel' to upload an Excel file with your candidates’ data",
-  "If you need to migrate your database from any other ATS / recruiting software (Zoho, Podio, Bullhorn, etc.), we will do it for you with all interconnections, comments and tasks for free": "If you need to migrate your database from any other ATS / recruiting software (Zoho, Podio, Bullhorn, etc.), we will do it for you with all interconnections, comments and tasks for free.",
+  "If you need to migrate your database from any other ATS / recruiting software (Zoho, Podio, Bullhorn, etc.), we will do it for you with all interconnections, comments and tasks": "If you need to migrate your database from any other ATS / recruiting software (Zoho, Podio, Bullhorn, etc.), we will do it for you with all interconnections, comments and tasks.",
   "If your base is": " ",
   "Can I upload CVs from email? How to set the integration": "Can I upload CVs from email? How to set the integration?",
   "To integrate with email go to Candidates tab → Import from e-mail and enter the data for successful integration": "To integrate with email go to ‘Candidates’ tab → ‘Import from e-mail’ and enter the data for successful integration",
