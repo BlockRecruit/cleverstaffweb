@@ -5,23 +5,21 @@
     </div>
     <div class="modal-body">
         <form  name="requiredFieldsForm" class="required-fields">
-            <div class="field">
+            <div class="field" ng-if="emptyRequiredFields.indexOf('salaryFrom') !== -1">
                 <label for="salaryFrom">{{'salary' | translate}}&nbsp(min)</label>
                 <input id="salaryFrom" type="number" min="0" max="99999999"
-                       ng-if="emptyRequiredFields.indexOf('salaryFrom') !== -1"
                        ng-model="vacancy.salaryFrom"
                        ng-class="{'error': requiredFieldsForm.salaryFrom.$invalid && !requiredFieldsForm.salaryFrom.$pristine}"
                        ng-keypress="validSalary($event)">
             </div>
-            <div class="field">
+            <div class="field" ng-if="emptyRequiredFields.indexOf('salaryTo') !== -1">
                 <label for="salaryTo">{{'salary' | translate}}&nbsp(max)</label>
                 <input id="salaryTo" type="number" min="0" max="99999999"
-                       ng-if="emptyRequiredFields.indexOf('salaryTo') !== -1"
                        ng-model="vacancy.salaryTo"
                        ng-class="{'error': requiredFieldsForm.salaryTo.$invalid && !requiredFieldsForm.salaryTo.$pristine}"
                        ng-keypress="validSalary($event)">
             </div>
-            <div class="field">
+            <div class="field" ng-if="emptyRequiredFields.indexOf('region') !== -1">
                 <label for="salaryTo">{{'Country and city' | translate}}*</label>
                 <input id="pac-input" placeholder="{{'Enter the address'|translate}}"
                        ng-model="regionInput" googleplace>

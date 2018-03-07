@@ -35523,7 +35523,9 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
             if($scope.currentTab == 'suggestions'){
                 resetTemplate();
-                $scope.reloadSuggestions();
+                if(!checkForFieldsCompletion().invalid) {
+                    $scope.reloadSuggestions();
+                }
             }
         };
         $scope.changeVacancyType = function (typeName, saveInServer, changeAnimation) {
@@ -36583,8 +36585,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $scope.suggestedCandidates = resp['objects'];
                     $rootScope.loading = false;
                     $scope.$apply();
-
-                    checkForFieldsCompletion();
                 });
         };
 
@@ -36658,6 +36658,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     scope: $scope
                 });
             }
+
+            return { invalid: Boolean($scope.emptyRequiredFields.length) };
         }
 
         $rootScope.errorMessageForAddCandidate = {show: false, text: ""};

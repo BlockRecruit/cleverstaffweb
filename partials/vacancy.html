@@ -970,6 +970,14 @@
         </div>
     </div>
     <div ng-show="currentTab == 'suggestions'" class="suggested-candidates">
+        <div class="container-fluid matching-tabs">
+            <div class="row">
+                <ul>
+                    <li class="active"><a href="">Точно подходящие</a></li>
+                    <li><a href="">Возможно подходящие</a></li>
+                </ul>
+            </div>
+        </div>
         <div class="container margin">
             <div class="row" ng-show="!suggestedCandidates.length && !$root.loading">
                 <div class="col-md-12">
