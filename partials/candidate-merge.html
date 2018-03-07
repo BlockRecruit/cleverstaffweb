@@ -861,6 +861,23 @@
                                     <!--<input placeholder="" ng-model="contacts.github" type="text">-->
                                     <!--<i class="github icon"></i>-->
                                 </div>
+                                <div class="col-lg-6 item with-border telegram" ng-show="contacts.telegram && contacts2.telegram">
+                                    <label>Telegram</label>
+                                    <div class="btn-group" role="group" aria-label="Basic example" ng-init="src.telegram = '0'">
+                                        <button ng-repeat="telegram in candidateBeforeMerge.contacts|filter : {'type' : 'telegram'}" title="{{telegram.value}}" type="button"
+                                                class="btn btn-secondary" ng-class="{'active': src.telegram == '1', 'telegram' : src.telegram  != '1'}"
+                                                ng-click="selectSource('1', null, null, false, 'telegram')">
+                                            {{telegram.value}}
+                                        </button>
+                                        <button ng-repeat="telegram in candidate2.contacts|filter : {'type' : 'telegram'}" title="{{telegram.value}}" type="button"
+                                                class="btn btn-secondary secondBtn" ng-class="{'active': src.telegram == '2', 'telegram' : src.telegram != '2'}"
+                                                ng-click="selectSource('2', null, null, false, 'telegram')" >
+                                            {{telegram.value}}
+                                        </button>
+                                    </div>
+                                    <!--<input placeholder="" ng-model="contacts.github" type="text">-->
+                                    <!--<i class="github icon"></i>-->
+                                </div>
                                 <div class="col-lg-6 item with-border homepages" ng-show="(contacts.homepage && contacts2.homepage) && contacts.homepage != contacts2.homepage">
                                     <!--<label class="label-top">{{'source'|translate}}/{{'Candidate profile'|translate}}</label>-->
                                     <!--<select ng-model="src.homepage"-->

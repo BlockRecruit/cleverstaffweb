@@ -581,12 +581,8 @@
 					border-radius: 5px;
 					background-color: $theme-white;
 					& > ul {
-						//<<<<<<< HEAD
 						display: inline-block;
 						width: 49%;
-						//=======
-						//						display: -webkit-inline-box;
-						//>>>>>>> 3034-merge-duplicates
 						margin-bottom: 0;
 						padding: 0;
 
@@ -697,6 +693,12 @@
 					border-top-left-radius: 5px;
 					border-top-right-radius: 5px;
 					background-color: $theme-white;
+					.left-col {
+						span,
+						a {
+							line-height: 26px;
+						}
+					}
 					& > div {
 						.leftBlock {
 							a {
@@ -916,9 +918,30 @@
 								color: $theme-dark;
 							}
 							i {
+								display: inline-block;
 								margin-right: 6px;
 
 								color: $theme-dark-green;
+							}
+						}
+						.homepage,
+						.phone,
+						.github,
+						.googleplus,
+						.facebook,
+						.email,
+						.linkedin,
+						.skype,
+						.linkedProfiles {
+							//margin-bottom: 8px;
+							.preferable-contact {
+								//line-height: 16px !important;
+								//
+								//display: block;
+								//margin-bottom: 8px;
+								&:last-child {
+									margin-bottom: 0;
+								}
 							}
 						}
 					}

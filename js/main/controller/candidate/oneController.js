@@ -653,7 +653,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 $scope.candidate = resp.object;
                 $rootScope.candidate = resp.object;
                 $rootScope.localIdOfMerged = $scope.candidate.localId;
-                $localStorage.set('candidateForTest', $rootScope.candidate);
+                //$localStorage.set('candidateForTest', $rootScope.candidate);
                 $scope.locationBeforeCustomFields = $location.$$path.replace('/candidates/' + $scope.candidate.localId, 'candidates');
                 $localStorage.set('previousHistoryCustomFields', $scope.locationBeforeCustomFields);
                 $scope.changeStatus = $scope.candidate.status;
@@ -719,7 +719,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     linkedin: [],
                     googleplus: [],
                     github: [],
-                    email: []
+                    email: [],
+                    telegram: []
                 };
                 $scope.countEmail = 0;
                 angular.forEach($scope.candidate.contacts, function (contacts) {
@@ -730,6 +731,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         case 'googleplus':
                         case 'github':
                         case 'email':
+                        case 'telegram':
                             multipleContacts[contacts.type] = contacts.value.split(/[\s,";"]+/);
                             break;
                     }
@@ -744,7 +746,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     linkedin: [],
                     googleplus: [],
                     github: [],
-                    email: []
+                    email: [],
+                    telegram: []
                 };
 
                 for(key in multipleContacts) {
@@ -752,6 +755,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         $scope.multipleContacts[key].push(currentVal.trim());
                     });
                 }
+                console.log($scope.multipleContacts, '$scope.multipleContacts')
                 //getcandidateproperties start
                 Candidate.getCandidateProperties({candidateId: $scope.candidate.candidateId}, function (res) {
                     if(res.status == 'ok' && res.object) {

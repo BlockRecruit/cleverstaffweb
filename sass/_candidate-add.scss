@@ -775,9 +775,30 @@
 
 							position: absolute;
 							right: 4px;
-							bottom: 3px;
+							//bottom: 3px;
+
+							margin-top: -18px;
+							//position: relative;
+							//right: 4px;
+							//bottom: 17px;
 
 							color: #ffc100;
+						}
+						.duplicatePhone,
+						.duplicatePhone2,
+						.duplicatePhone3 {
+							margin: 5px 0 7px 0;
+						}
+						.addPhone {
+							font-size: 16px;
+
+							position: absolute;
+							right: -16px;
+							bottom: 2px;
+
+							cursor: pointer;
+
+							color: $theme-green;
 						}
 					}
 					.with-border {

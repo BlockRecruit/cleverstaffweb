@@ -424,7 +424,7 @@
                         <!--<a href="" ng-click="showModalAddCommentToCandidate('md');" class="pull-right move-bot"><i class="fa fa-pencil" aria-hidden="true"></i>{{'add_comment'|translate}}</a>-->
                     </div>
                     <div class="main-info col-lg-12 clearfix">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 left-col">
                             <div class="leftBlock clearfix">
                                 <a ng-click="showRegion2Map = !showRegion2Map" class="phone" ng-show="candidate.region.displayFullName">
                                     <i class="fa fa-map-marker" aria-hidden="true"></i>
@@ -515,12 +515,22 @@
                             <!--</a>-->
                         </div>
                         <div class="col-lg-6 right-column">
-                            <div class="phone leftBlock"ng-show="(candidate.contacts|filter:type = 'mphone').length > 0">
-                                <span ng-repeat=" contact in candidate.contacts|filter:type = 'mphone'" title="{{::contact.value}}">
-                                    <span class="preferable-contact" ng-repeat="phone in ::contact.value.split(',') track by $index">
-                                        <i class="fa fa-phone" aria-hidden="true"></i>
-                                            {{::phone}}
-                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact === 'phone'"></i>
+                            <div class="phone leftBlock" ng-show="(candidate.contacts|filter:type = 'mphone').length > 0">
+                                <span ng-repeat="contact in candidate.contacts|filter:type = 'mphone'">
+                                    <span class="preferable-contact" ng-if="contact.valueList[0]">
+                                         <i class="fa fa-phone" aria-hidden="true"></i>
+                                        {{contact.valueList[0]}}
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'phone'"></i>
+                                    </span>
+                                    <span class="preferable-contact" ng-if="contact.valueList[1]">
+                                         <i class="fa fa-phone" aria-hidden="true"></i>
+                                        {{contact.valueList[1]}}
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'phone2'"></i>
+                                    </span>
+                                    <span class="preferable-contact" ng-if="contact.valueList[2]">
+                                         <i class="fa fa-phone" aria-hidden="true"></i>
+                                        {{contact.valueList[2]}}
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'phone3'"></i>
                                     </span>
                                 </span>
                             </div>
@@ -533,7 +543,7 @@
                                         {{contact| limitTo: 30}}
                                         <span ng-show="contact.length > 30">...</span>
                                     </a>
-                                    <i class="fa fa-star"  style="position: relative;top: -4px;" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'mail'"></i>
+                                    <i class="fa fa-star"  style="position: relative;top: -4px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'mail'"></i>
                                 </span>
                             </div>
                             <div class="skype leftBlock" ng-show="(candidate.contacts|filter:type = 'skype').length > 0">
@@ -559,6 +569,24 @@
                                          <i class="fa fa-linkedin" aria-hidden="true"></i>
                                                {{::contact | limitTo: 30}}
                                             <span ng-show="contact.length > 30">...</span>
+                                     </a>
+                                </span>
+                            </div>
+                            <div class="homepage leftBlock">
+                                <span class="preferable-contact" ng-repeat="contact in multipleContacts['telegram'] track by $index"  title="{{contact}}">
+                                    <span  class="not-for-print" target="_blank" href="{{contact}}">
+                                       <img width="12px" src="../../images/sprite/vectorpaint.svg" alt="telegram">
+                                       <a style="position: relative;display: inline;" href="{{::contact|makeLink}}">
+                                           {{::contact|cutName:true:30}}
+                                            <i class="fa fa-star" title='{{"Preferable contact method |  Предпочтительный метод контакта"}}'  ng-show="candidate.preferableContact == 'telegram'"></i>
+                                       </a>
+                                    </span>
+                                     <a  class="hidden show-for-print" target="_blank" href="{{contact}}">
+                                         <i class="fa fa-home" aria-hidden="true"></i>
+                                         <span style="position: relative;">
+                                             {{::contact|cutName:true:30}}
+                                             <i class="fa fa-star " title='{{"Preferable contact method |  Предпочтительный метод контакта"}}'  ng-show="candidate.preferableContact == 'telegram'"></i>
+                                         </span>
                                      </a>
                                 </span>
                             </div>

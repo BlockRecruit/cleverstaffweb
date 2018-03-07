@@ -1745,8 +1745,8 @@
   "Upload CVs one-by-one via Upload resume button": "Upload CVs one-by-one via ‘Upload resume’ button",
   "Upload resume archive to import the upload the archive with your candidates resumes in ZIP / RAR. You can add resumes in .doc, .docx, PDF and .odt formats": "'Upload resume archive' to import the archive with your candidate's CVs in ZIP / RAR. You can add resumes in .doc, .docx, PDF and .odt formats",
   "Import from Excel to upload an Excel file with your candidates data": "'Import from Excel' to upload an Excel file with your candidates’ data",
+  "If your base is": "",
   "If you need to migrate your database from any other ATS / recruiting software (Zoho, Podio, Bullhorn, etc.), we will do it for you with all interconnections, comments and tasks for free": "If you need to migrate your database from any other ATS / recruiting software (Zoho, Podio, Bullhorn, etc.), we will do it for you with all interconnections, comments and tasks for free.",
-  "If your base is": " ",
   "Can I upload CVs from email? How to set the integration": "Can I upload CVs from email? How to set the integration?",
   "To integrate with email go to Candidates tab → Import from e-mail and enter the data for successful integration": "To integrate with email go to ‘Candidates’ tab → ‘Import from e-mail’ and enter the data for successful integration",
   "If you have a corporate email, probably you should input the smtp host, port, secure data which you could receive from your system administrator.": "If you have a corporate email, probably you should input the smtp host, port, secure data which you could receive from your system administrator.",
@@ -2305,10 +2305,7 @@
   "The vacancy":"The vacancy",
   "_edited":"edited",
   "Hide from all public vacancies list:":"Hide vacancy from public list:",
-  "The vacancy": "The vacancy",
-  "Enter more data for search": "Enter more data for search",
   "Too much Desired Salary salary value": "Too much \"Desired Salary\" field value",
-  "_edited": "edited",
   "Select all vacancies": "Select all vacancies",
   "Please enter your Name": "Please enter your Name",
   "Please enter your Last Name": "Please enter your Last Name",
@@ -2325,5 +2322,8 @@
   "The candidates have been successfully moved to the stage": "The candidates have been successfully moved to the stage",
   "Select the specific vacancy for the Hiring manager": "Select the specific vacancy for the Hiring manager",
   "Hiring manager must be responsible for the vacancy.Please select a vacancy": "Hiring manager must be responsible for the vacancy. Please select a vacancy",
-  "Hiring Manager will be responsible for this vacancy after registration in account.": "Hiring Manager will be responsible for this vacancy after registration in account."
+  "Hiring Manager will be responsible for this vacancy after registration in account.": "Hiring Manager will be responsible for this vacancy after registration in account.",
+  "work": "Work",
+  "Searching": "Searching...",
+  "Add another phone number": "Add another phone number"
 }

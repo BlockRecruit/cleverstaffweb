@@ -2086,7 +2086,7 @@ directive('appVersion', ['version', function(version) {
                 }
             }
         }
-    }]).directive('clientAutocompleter', ["$filter", "serverAddress", "$rootScope","vacancyStages", function($filter, serverAddress, $rootScope, vacancyStages) {
+    }]).directive('clientAutocompleter', ["$filter", "serverAddress", "$rootScope","vacancyStages", "$translate", function($filter, serverAddress, $rootScope, vacancyStages, $translate) {
         return {
             restrict: 'EA',
             replace: true,
@@ -2097,45 +2097,61 @@ directive('appVersion', ['version', function(version) {
                         $(element[0]).select2("data", {id: id, text: val});
                     }
                 };
-                if ($(element[0])) {
-                    element.select2({
-                        placeholder: $filter('translate')('client'),
-                        minimumInputLength: 0,
-                        allowClear: true,
-                        ajax: {
-                            url: serverAddress + "/client/autocompleteClients",
-                            dataType: 'json',
-                            crossDomain: true,
-                            type: "POST",
-                            data: function(term, page) {
-                                return {
-                                    text: term.trim()
-                                };
-                            },
-                            results: function(data, page) {
-                                var results = [];
-                                var inVacancy = false;
-                                var status = "";
-                                var realName = "";
-                                if (data['objects'] !== undefined) {
-                                    console.log(data['objects']);
-                                    angular.forEach(data['objects'], function(item) {
-                                        results.push({
-                                            id: item.clientId,
-                                            text: item.name,
-                                            name: item.name
-                                        });
-                                    });
-                                }
-                                return {
-                                    results: results
-                                };
-                            }
-                        },
-                        dropdownCssClass: "bigdrop"
-                    }).on("change", function(e) {
+                let translatedPositions = false;
 
-                    })
+                $rootScope.$on('$translateChangeSuccess', function () {
+                    initSelect2();
+                });
+
+                if(!translatedPositions) {
+                    initSelect2();
+                }
+                function initSelect2() {
+                    translatedPositions = true;
+                    if ($(element[0])) {
+                        element.select2({
+                            placeholder: $translate.instant('client'),
+                            minimumInputLength: 0,
+                            allowClear: true,
+                            ajax: {
+                                url: serverAddress + "/client/autocompleteClients",
+                                dataType: 'json',
+                                crossDomain: true,
+                                type: "POST",
+                                data: function(term, page) {
+                                    return {
+                                        text: term.trim()
+                                    };
+                                },
+                                results: function(data, page) {
+                                    var results = [];
+                                    var inVacancy = false;
+                                    var status = "";
+                                    var realName = "";
+                                    if (data['objects'] !== undefined) {
+                                        console.log(data['objects']);
+                                        angular.forEach(data['objects'], function(item) {
+                                            results.push({
+                                                id: item.clientId,
+                                                text: item.name,
+                                                name: item.name
+                                            });
+                                        });
+                                    }
+                                    return {
+                                        results: results
+                                    };
+                                }
+                            },
+                            dropdownCssClass: "bigdrop"
+                        }).on("change", function(e) {
+
+                        }).on("select2-opening", function(e){
+                            setTimeout(function () {
+                                $('#select2-drop .select2-results .select2-searching')[0].innerText = $filter("translate")("Searching");
+                            }, 0);
+                        })
+                    }
                 }
             }
         }
@@ -3269,7 +3285,6 @@ directive('appVersion', ['version', function(version) {
                     };
                     $scope.getPositionAutocompleterValue = function() {//.переимновтаь
                         var object = $(element[0]).select2("data");
-                        console.log(object);
                         return object != null ? object.text : null;
                     };
                     var inputText = "";
@@ -6358,27 +6373,51 @@ angular.module('services.candidate', [
 
     var duplicatesByNameAndContacts = false;
     candidate.checkDuplicatesByNameAndContacts = function($scope) {
-        console.log(duplicatesByNameAndContacts);
+        //console.log(duplicatesByNameAndContacts);
         $scope.dublicetesTypeName = '';
         $scope.dublicetesTypeMphone = '';
         $scope.dublicetesTypeEmail = '';
         $scope.dublicetesTypeSkype = '';
         $scope.dublicetesTypeLinkedin = '';
-        if ((!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.mphone && $scope.contacts.mphone.length > 4) || (!duplicatesByNameAndContacts && $scope.candidate.fullName && $scope.candidate.fullName.length > 3)) {
+        if ((!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && ($scope.contacts.mphone || $scope.contacts.mphone2 || $scope.contacts.mphone3 )) || (!duplicatesByNameAndContacts && $scope.candidate.fullName && $scope.candidate.fullName.length > 3)) {
         //if (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4 && $scope.contacts.skype && $scope.contacts.skype.length > 4 && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4 && $scope.contacts.mphone && $scope.contacts.mphone.length > 4 && $scope.candidate.fullName && $scope.candidate.fullName.length > 3) {
+        //    $rootScope.loading = true;
             duplicatesByNameAndContacts = true;
             setTimeout(function(){
+                $scope.addPhone = '';
+                if ($scope.contacts.mphone && ($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == '') && ($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == '')) {
+                    $scope.addPhone = $scope.contacts.mphone;
+                }
+                if (($scope.contacts.mphone == undefined || $scope.contacts.mphone == '') && $scope.contacts.mphone2 && $scope.contacts.mphone3) {
+                    $scope.addPhone = $scope.contacts.mphone2.concat(", ", $scope.contacts.mphone3);
+                }
+                if (($scope.contacts.mphone == undefined || $scope.contacts.mphone == '') && ($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == '') && $scope.contacts.mphone3) {
+                    $scope.addPhone = $scope.contacts.mphone3;
+                }
+                if (($scope.contacts.mphone == undefined || $scope.contacts.mphone == '') && $scope.contacts.mphone2 && ($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == '')) {
+                    $scope.addPhone = $scope.contacts.mphone2;
+                }
+                if($scope.contacts.mphone && $scope.contacts.mphone2 && ($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == '')){
+                    $scope.addPhone = $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2);
+                }
+                if($scope.contacts.mphone3 && $scope.contacts.mphone && ($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == '')){
+                    $scope.addPhone = $scope.contacts.mphone.concat(", ", $scope.contacts.mphone3);
+                }
+                if($scope.contacts.mphone && $scope.contacts.mphone2 && $scope.contacts.mphone3){
+                    $scope.addPhone = $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2).concat(", ", $scope.contacts.mphone3);
+                }
                 candidate.getDuplicatesByNameAndContacts({
                     email: $scope.contacts.email,
                     skype: $scope.contacts.skype,
                     linkedInUrl: $scope.contacts.linkedin,
-                    phone: $scope.contacts.mphone,
+                    phone: $scope.addPhone,
                     fullName: $scope.candidate.fullName
                 }, function (res) {
                     $scope.duplicatesByNameAndContacts = [];
+                    //$rootScope.loading = false;
                     if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
                         angular.forEach(res.objects, function (c, i) {
-                            console.log(c.candidateId != $scope.candidate.candidateId, ' candID');
+                            //console.log(c.candidateId != $scope.candidate.candidateId, ' candID');
                             if (c.candidateId != $scope.candidate.candidateId) {
                                 $scope.duplicatesByNameAndContacts.push(c);
                                 if (c.type == "name") {
@@ -6768,7 +6807,7 @@ angular.module('services.candidate', [
             }
             cand.employmentType = $scope.getSelect2EmploymentType();
             cand.db = $('.datepickerOfBirth').datetimepicker();
-            console.log( cand.db, ' cand.db');
+            //console.log( cand.db, ' cand.db');
             if ($("#pac-input").val() && $("#pac-input").val().length == 0) {
                 cand.region = null;
             } else if ($("#pac-input").val() && $("#pac-input").val().length > 0) {
@@ -6779,7 +6818,6 @@ angular.module('services.candidate', [
                 if ($scope.contacts.email) {
                     cand.contacts.push({type: "email", value: $scope.contacts.email});
                 }
-                console.log('vik12q');
                 //candidate.checkDuplicatesByEmail($scope);
                 if ($scope.contacts.mphone) {
                     cand.contacts.push({type: "mphone", value: $scope.contacts.mphone});
@@ -6871,6 +6909,7 @@ angular.module('services.candidate', [
             $scope.photoLink = $scope.serverAddress + "/getapp?id=" + $scope.candidate.photo + "&d=true";
             $scope.fileForSave = [];
             $scope.contacts = [];
+            console.log(object.contacts);
             if (object.contacts != undefined) {
                 $.each(object.contacts, function(i, c) {
                     if (angular.equals(c.type, "email")) {
@@ -6880,7 +6919,20 @@ angular.module('services.candidate', [
                         $scope.contacts.skype = c.value;
                     }
                     if (angular.equals(c.type, "mphone")) {
-                        $scope.contacts.mphone = c.value;
+                        var arr = c.value.split(",");
+                        if(arr[0] != undefined){
+                            $scope.contacts.mphone = arr[0].trim();
+                        }
+                        if(arr[1] != undefined){
+                            $scope.contacts.mphone2 = arr[1].trim();
+                            $scope.secondPhoneInput = true;
+                        }
+                        if(arr[2] != undefined){
+                            $scope.contacts.mphone3 = arr[2].trim();
+                            $scope.btnToAddPhone = false;
+                            $scope.thirdPhoneInput = true;
+                        }
+                        console.log($scope.contacts);
                     }
                     if (angular.equals(c.type, "homepage")) {
                         $scope.contacts.homepage = c.value;
@@ -14670,16 +14722,17 @@ angular.module('RecruitingApp', [
             });
         };
         $rootScope.sendCandidateToTest = function(candidate, count){
-            $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
             if(count == 0){
                 notificationService.error($filter('translate')('Please add an email before sending a test to this candidate'))
             }else{
-                if($rootScope.candidateToTest != undefined){
+                if(candidate != undefined){
+                    $localStorage.set('candidateForTest', candidate);
+                    $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
                     $location.path('/candidate/send-test-candidate-to-email-from-candidate');
-                    $rootScope.fromCandidate = [$rootScope.candidateToTest];
-                    $rootScope.emailCandidateId = $rootScope.candidateToTest.candidateId;
-                    if($rootScope.candidateToTest.contacts.length > 0){
-                        angular.forEach($rootScope.candidateToTest.contacts, function (nval) {
+                    $rootScope.fromCandidate = [candidate];
+                    $rootScope.emailCandidateId = candidate.candidateId;
+                    if(candidate.contacts.length > 0){
+                        angular.forEach(candidate.contacts, function (nval) {
                             if (nval.type == "email") {
                                 delete  $rootScope.emailCandidate;
                                 var email = nval.value.split(" ")[0];
@@ -14713,7 +14766,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=60'
+        suffix: '.json?b=62'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -17772,6 +17825,10 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
     $scope.experience = Service.experience();
     $scope.lang = Service.lang();
     $scope.googleMapOption = false;
+    $scope.btnToAddPhone = true;
+    $scope.phoneError = true;
+    $scope.phoneError2 = true;
+    $scope.phoneError3 = true;
     $location.hash('');
     $scope.regionToRelocate = [];
     $scope.duplicatesByEmail = [];
@@ -18013,7 +18070,16 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
                     $scope.contacts.email = val.value;
                 }
                 if (angular.equals(val.type, "mphone")) {
-                    $scope.contacts.mphone = val.value;
+                    $scope.contacts.mphone = val.valueList[0];
+                    if(val.valueList[1]){
+                        $scope.contacts.mphone2 = val.valueList[1];
+                        $scope.secondPhoneInput = true;
+                    }
+                    if(val.valueList[2]){
+                        $scope.contacts.mphone3 = val.valueList[2];
+                        $scope.btnToAddPhone = false;
+                        $scope.thirdPhoneInput = true;
+                    }
                 }
                 if (angular.equals(val.type, "skype")) {
                     $scope.contacts.skype = val.value;
@@ -18188,7 +18254,22 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
         } else {
             salaryBol = false;
         }
-        if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed) {
+        if($scope.contacts.mphone == undefined || $scope.contacts.mphone == "" || /^[+0-9]{6,20}$/.test($scope.contacts.mphone)){
+            $scope.phoneError = true;
+        }else{
+            $scope.phoneError = false;
+        }
+        if($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == "" || /^[+0-9]{6,20}$/.test($scope.contacts.mphone2)){
+            $scope.phoneError2 = true;
+        }else{
+            $scope.phoneError2 = false;
+        }
+        if($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == "" || /^[+0-9]{6,20}$/.test($scope.contacts.mphone3)){
+            $scope.phoneError3 = true;
+        }else{
+            $scope.phoneError3 = false;
+        }
+        if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed && $scope.phoneError && $scope.phoneError2 && $scope.phoneError3) {
             $scope.saveButtonIsPressed = true;
             var candidate = $scope.candidate;
             candidate.languages = [];
@@ -18207,8 +18288,17 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             if ($scope.contacts.email) {
                 candidate.contacts.push({type: "email", value: $scope.contacts.email});
             }
-            if ($scope.contacts.mphone) {
+            if ($scope.contacts.mphone && $scope.contacts.mphone2 == undefined && $scope.contacts.mphone3 == undefined) {
                 candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone});
+            }
+            if($scope.contacts.mphone2 != undefined && $scope.contacts.mphone3 == undefined){
+                candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2)});
+            }
+            if($scope.contacts.mphone3 && $scope.contacts.mphone && $scope.contacts.mphone2 == undefined){
+                candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone3)});
+            }
+            if($scope.contacts.mphone3 != undefined && $scope.contacts.mphone2 != undefined){
+                candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2).concat(", ", $scope.contacts.mphone3)});
             }
             if ($scope.contacts.skype) {
                 candidate.contacts.push({type: "skype", value: $scope.contacts.skype});
@@ -18499,6 +18589,19 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
 
     $scope.selectFavoriteContacts = function ($scope, type, event) {
         Candidate.setSelectFavoriteContacts($scope, type, event );
+    };
+
+    var i = 0;
+    $scope.addInputPhone = function(){
+        i++;
+        if(i == 1){
+            $scope.secondPhoneInput = true;
+        }else if(i == 2){
+            $scope.thirdPhoneInput = true;
+            $scope.btnToAddPhone = false;
+        }else{
+            return false;
+        }
     };
 
     }]);
@@ -21122,12 +21225,18 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.showAddedFiles = false;
         $scope.photoUrl = '';
         $scope.showAddLink = false;
+        $scope.btnToAddPhone = true;
+        $scope.secondPhoneInput = false;
+        $scope.thirdPhoneInput = false;
+        $scope.phoneError = true;
+        $scope.phoneError2 = true;
+        $scope.phoneError3 = true;
         $scope.objType = 'candidate';
         $scope.currency = Service.currency();
         $scope.candidateOrigin = '';
         $scope.experience = Service.experience();
         $scope.industries = Service.getIndustries();
-        $scope.contacts = {skype: "", mphone: "", email: ""};
+        $scope.contacts = {skype: "", mphone: "", email: "",telegram: ""};
         $scope.fieldValues = {
             objType: "candidate",
             fieldValueId: '',
@@ -21401,7 +21510,16 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                                 $scope.contacts.email = val.value;
                             }
                             if (angular.equals(val.type, "mphone")) {
-                                $scope.contacts.mphone = val.value;
+                                $scope.contacts.mphone = val.valueList[0];
+                                if(val.valueList[1]){
+                                    $scope.contacts.mphone2 = val.valueList[1];
+                                    $scope.secondPhoneInput = true;
+                                }
+                                if(val.valueList[2]){
+                                    $scope.contacts.mphone3 = val.valueList[2];
+                                    $scope.btnToAddPhone = false;
+                                    $scope.thirdPhoneInput = true;
+                                }
                             }
                             if (angular.equals(val.type, "skype")) {
                                 $scope.contacts.skype = val.value;
@@ -21421,6 +21539,10 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                             if (angular.equals(val.type, "homepage")) {
                                 $scope.contacts.homepage = val.value;
                             }
+                            if (angular.equals(val.type, "telegram")) {
+                                $scope.contacts.telegram = val.value;
+                            }
+                            console.log( $scope.contacts.telegram, ' $scope.contacts.telegram')
                         });
                     }
                     $scope.candidate.fieldValues = [];
@@ -21824,8 +21946,23 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             } else {
                 salaryBol = true;
             }
+            if($scope.contacts.mphone == undefined || $scope.contacts.mphone == "" || /^[+0-9]{6,20}$/.test($scope.contacts.mphone)){
+                $scope.phoneError = true;
+            }else{
+                $scope.phoneError = false;
+            }
+            if($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == "" || /^[+0-9]{6,20}$/.test($scope.contacts.mphone2)){
+                $scope.phoneError2 = true;
+            }else{
+                $scope.phoneError2 = false;
+            }
+            if($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == "" || /^[+0-9]{6,20}$/.test($scope.contacts.mphone3)){
+                $scope.phoneError3 = true;
+            }else{
+                $scope.phoneError3 = false;
+            }
 
-            if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed) {
+            if ($scope.candidateForm.$valid && salaryBol && !$scope.saveButtonIsPressed && $scope.phoneError && $scope.phoneError2 && $scope.phoneError3) {
                 $scope.saveButtonIsPressed = true;
                 var candidate = $scope.candidate;
                 candidate.languages = [];
@@ -21848,8 +21985,17 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if ($scope.contacts.email) {
                     candidate.contacts.push({type: "email", value: $scope.contacts.email});
                 }
-                if ($scope.contacts.mphone) {
-                    candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.split(/[\,+" "]/).join(",")});
+                if ($scope.contacts.mphone && ($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == '') && ($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == '')) {
+                    candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone});
+                }
+                if($scope.contacts.mphone2 != undefined && $scope.contacts.mphone2 != '' && ($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == '')){
+                    candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2)});
+                }
+                if($scope.contacts.mphone3 && $scope.contacts.mphone && ($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == '')){
+                    candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone3)});
+                }
+                if($scope.contacts.mphone3 != undefined && $scope.contacts.mphone3 != '' && $scope.contacts.mphone2 != undefined && $scope.contacts.mphone2 != ''){
+                    candidate.contacts.push({type: "mphone", value: $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2).concat(", ", $scope.contacts.mphone3)});
                 }
                 if ($scope.contacts.skype) {
                     candidate.contacts.push({type: "skype", value: $scope.contacts.skype});
@@ -21869,6 +22015,9 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if ($scope.contacts.homepage) {
                     candidate.contacts.push({type: "homepage", value: $scope.contacts.homepage});
                 }
+                if ($scope.contacts.telegram) {
+                    candidate.contacts.push({type: "telegram", value: $scope.contacts.telegram});
+                }
                 if ($("#pac-input").val().length == 0) {
                     candidate.region = null;
                 } else if ($("#pac-input").val().length > 0 && (candidate.region == undefined || $("#pac-input").val() != candidate.region.fullName)) {
@@ -21886,7 +22035,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 candidate.origin = $scope.getOriginAutocompleterValue();
 
                 deleteUnnecessaryFields(candidate);
-
+                console.log(candidate);
                 Candidate.edit(candidate, function(val) {
                     if (angular.equals(val.status, "ok")) {
                         notificationService.success($filter('translate')('Candidate saved'));
@@ -22020,6 +22169,19 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
 
         $scope.selectFavoriteContacts = function ($scope, type, event) {
             Candidate.setSelectFavoriteContacts($scope, type, event );
+        };
+
+        var i = 0;
+        $scope.addInputPhone = function(){
+            i++;
+            if(i == 1){
+                $scope.secondPhoneInput = true;
+            }else if(i == 2){
+                $scope.thirdPhoneInput = true;
+                $scope.btnToAddPhone = false;
+            }else{
+                return false;
+            }
         };
 
     }]);
@@ -22204,8 +22366,8 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
         $scope.currency = Service.currency();
         $scope.experience = Service.experience();
         $scope.industries = Service.getIndustries();
-        $scope.contacts = {skype: "", mphone: "", email: "", linkedin: "", facebook: "", googleplus: "", github: "", homepage: ""};
-        $scope.contacts2 = {skype: "", mphone: "", email: "", linkedin: "", facebook: "", googleplus: "", github: "", homepage: ""};
+        $scope.contacts = {skype: "", mphone: "", email: "", linkedin: "", facebook: "", googleplus: "", github: "", homepage: "", telegram:""};
+        $scope.contacts2 = {skype: "", mphone: "", email: "", linkedin: "", facebook: "", googleplus: "", github: "", homepage: "", telegram:""};
         $scope.src = {
             salary: '1',
             fullName: '1'
@@ -22235,6 +22397,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
         $scope.secondFacebook  = false;
         $scope.secondGoogleplus  = false;
         $scope.secondGithub  = false;
+        $scope.secondTelegram = false;
         $scope.secondHomepage  = false;
         $scope.secondDb  = false;
         $scope.secondCustomFields  = false;
@@ -22509,6 +22672,9 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                             if (angular.equals(val.type, "github")) {
                                 $scope.contacts.github = val.value;
                             }
+                            if (angular.equals(val.type, "telegram")) {
+                                $scope.contacts.telegram = val.value;
+                            }
                             if (angular.equals(val.type, "homepage")) {
                                 $scope.contacts.homepage = val.value;
                             }
@@ -22638,6 +22804,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                             });
                         }
                         $scope.candidateBeforeMerge = angular.copy($scope.candidate);
+                        console.log( $scope.candidateBeforeMerge, ' $scope.candidateBeforeMerge')
                         $scope.contactsBeforeMerge = angular.copy($scope.contacts);
                     }
                 } else {
@@ -22696,6 +22863,9 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                             }
                             if (angular.equals(val.type, "github")) {
                                 $scope.contacts2.github = val.value;
+                            }
+                            if (angular.equals(val.type, "telegram")) {
+                                $scope.contacts2.telegram = val.value;
                             }
                             if (angular.equals(val.type, "homepage")) {
                                 $scope.contacts2.homepage = val.value;
@@ -22766,6 +22936,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
         };
         $scope.updateCandidate2();
         $scope.selectSource = function (src, index, customField, isContact, type) {
+            console.log($scope.candidate, $scope.candidateBeforeMerge);
             var sourceForRegion = function () {
                 //var source;
                 if(src == '1') {
@@ -23148,6 +23319,21 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     $('button.github').css('border', 'none');
                 }
             };
+            var sourceForTelegram = function () {
+                if(src === '1') {
+                    $scope.secondTelegram  = false;
+                    $scope.candidate[type] = $scope.candidateBeforeMerge[type];
+                    $scope.src.telegram = '1';
+                    $('button.active').removeClass('telegram');
+                    $('button.telegram').css('border', 'none');
+                }else if(src === '2') {
+                    $scope.secondTelegram = true;
+                    $scope.candidate[type] = $scope.candidate2[type];
+                    $scope.src.telegram = '2';
+                    $('button.active').removeClass('telegram');
+                    $('button.telegram').css('border', 'none');
+                }
+            };
             var sourceForHomepage = function () {
                 if(src === '1') {
                     $scope.secondHomepage  = false;
@@ -23414,6 +23600,9 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 case  'googleplus':
                     sourceForGoogleplus();
                     break;
+                case  'telegram':
+                    sourceForTelegram();
+                    break;
                 case  'facebook':
                     sourceForFacebook();
                     break;
@@ -23573,7 +23762,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     candidate.files = $scope.candidate2.files;
                     candidate.files = candidate.files.concat($scope.candidateBeforeMerge.files);
                 }
-                console.log($scope.candidate);
                 candidate.languages = [];
                 if ($scope.candidateBeforeMerge.languages.length > 0 && !$scope.secondLanguages) {
                     angular.forEach($scope.candidateBeforeMerge.languages, function (val) {
@@ -23652,17 +23840,20 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 }else if($scope.contacts2.github){
                     candidate.contacts.push({type: "github", value: $scope.contacts2.github});
                 }
+
+                console.log(!!$scope.contacts.telegram, '$scope.contacts.telegram!!!!!!!!!!!!!!!!!!!!')
+                if ($scope.contacts.telegram) {
+                    candidate.contacts.push({type: "telegram", value: $scope.contacts.telegram});
+                }else if($scope.contacts2.telegram){
+                    candidate.contacts.push({type: "telegram", value: $scope.contacts2.telegram});
+                }
+
                 if ($scope.contacts.homepage && !$scope.secondHomepage) {
                     candidate.contacts.push({type: "homepage", value: $scope.contacts.homepage});
                 }else if($scope.contacts2.homepage){
                     candidate.contacts.push({type: "homepage", value: $scope.contacts2.homepage});
                 }
-                //if ($("#pac-input").val().length == 0) {
-                //    candidate.region = null;
-                //} else if ($("#pac-input").val().length > 0 && (candidate.region == undefined || $("#pac-input").val() != candidate.region.fullName)) {
-                //    if ($scope.region)
-                //        candidate.region = $scope.region;
-                //}
+
                 if ($scope.candidateBeforeMerge.region != undefined && !$scope.secondRegion) {
                     candidate.region = $scope.candidateBeforeMerge.region;
                 }else if ($scope.candidate2.region != undefined) {
@@ -23737,9 +23928,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     candidate.sex = $scope.candidate2.sex;
                 }
                 var mergeData  = $scope.candidate2.candidateId;
-                console.log(candidate);
                 $http.put(serverAddress + '/candidate/' + 'mergeCandidates?duplicateId=' + mergeData, candidate).then(function (val) {
-                    console.log(val);
                     if (angular.equals(val.data.status, "ok")) {
                         notificationService.success($filter('translate')('You successfully merged candidates’ profiles'));
                         CacheCandidates.update(val.data.object);
@@ -23812,7 +24001,6 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
 
         $scope.removeLink = function(id) {
             angular.forEach($scope.linksForSave, function(val, ind) {
-                console.log(val);
                 if (val.fileName === id) {
                     $scope.linksForSave.splice(ind, 1);
                 }
@@ -24520,7 +24708,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 $scope.candidate = resp.object;
                 $rootScope.candidate = resp.object;
                 $rootScope.localIdOfMerged = $scope.candidate.localId;
-                $localStorage.set('candidateForTest', $rootScope.candidate);
+                //$localStorage.set('candidateForTest', $rootScope.candidate);
                 $scope.locationBeforeCustomFields = $location.$$path.replace('/candidates/' + $scope.candidate.localId, 'candidates');
                 $localStorage.set('previousHistoryCustomFields', $scope.locationBeforeCustomFields);
                 $scope.changeStatus = $scope.candidate.status;
@@ -24586,7 +24774,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     linkedin: [],
                     googleplus: [],
                     github: [],
-                    email: []
+                    email: [],
+                    telegram: []
                 };
                 $scope.countEmail = 0;
                 angular.forEach($scope.candidate.contacts, function (contacts) {
@@ -24597,6 +24786,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         case 'googleplus':
                         case 'github':
                         case 'email':
+                        case 'telegram':
                             multipleContacts[contacts.type] = contacts.value.split(/[\s,";"]+/);
                             break;
                     }
@@ -24611,7 +24801,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     linkedin: [],
                     googleplus: [],
                     github: [],
-                    email: []
+                    email: [],
+                    telegram: []
                 };
 
                 for(key in multipleContacts) {
@@ -24619,6 +24810,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         $scope.multipleContacts[key].push(currentVal.trim());
                     });
                 }
+                console.log($scope.multipleContacts, '$scope.multipleContacts')
                 //getcandidateproperties start
                 Candidate.getCandidateProperties({candidateId: $scope.candidate.candidateId}, function (res) {
                     if(res.status == 'ok' && res.object) {
@@ -26802,19 +26994,17 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
         };
         if($rootScope.activePage == 'Send test candidate to email from candidate'){
             $rootScope.sendCandidateToTest();
-            console.log($rootScope.candidateToTest);
+            if($rootScope.candidateToTest == undefined){
+                $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
+                $rootScope.fromCandidate = [$rootScope.candidateToTest];
+                $rootScope.emailCandidateId = $rootScope.candidateToTest.candidateId;
+            }
             $scope.sendTestRequest.push({
                 candidateId: $rootScope.emailCandidateId,
                 email: $rootScope.emailCandidate
             });
-            //if($rootScope.candidateToTest == undefined){
-            //    notificationService.error($filter('translate')('Please add an email before sending a test to this candidate'));
-            //}else{
-            //
-            //}
         }else if($rootScope.activePage == 'Send test candidate to email from vacancy'){
             setTimeout(function(){
-                console.log('vik1');
                 $rootScope.candidatesInStages = JSON.parse($localStorage.get('vacancyForTest'));
                 $rootScope.activeCustomStageName = $localStorage.get('activeCustomStageName');
                 $scope.activeCustomStageId = $localStorage.get('activeCustomStageId');
@@ -26835,10 +27025,6 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                 });
             }, 0);
 
-        }else{
-            //$localStorage.remove("candidateForTest");
-            //$localStorage.remove("vacancyForTest");
-            //$localStorage.remove("activeCustomStageName");
         }
         $scope.sendTestToCandidate = function () {
             if($rootScope.activePage == 'Send test candidate to email'){
