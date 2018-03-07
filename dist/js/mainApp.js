@@ -26997,7 +26997,19 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
             if($rootScope.candidateToTest == undefined){
                 $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
                 $rootScope.fromCandidate = [$rootScope.candidateToTest];
+                console.log($rootScope.fromCandidate);
                 $rootScope.emailCandidateId = $rootScope.candidateToTest.candidateId;
+                if($rootScope.candidateToTest.contacts.length > 0){
+                    angular.forEach($rootScope.candidateToTest.contacts, function (nval) {
+                        if (nval.type == "email") {
+                            delete  $rootScope.emailCandidate;
+                            var email = nval.value.split(" ")[0];
+                            $rootScope.emailCandidate = email.replace(/,/g,"");
+                        }
+                    });
+                }else{
+                    notificationService.error($filter('translate')('Please add an email before sending a test to this candidate'))
+                }
             }
             $scope.sendTestRequest.push({
                 candidateId: $rootScope.emailCandidateId,
