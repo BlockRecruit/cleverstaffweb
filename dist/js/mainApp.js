@@ -45983,7 +45983,7 @@ controller
 
 
 
-controller.controller('mailingController', ['$scope', '$rootScope','$localStorage', 'notificationService','$filter', '$uibModal','$state', '$transitions', 'Mailing', function ($scope, $rootScope, $localStorage, notificationService, $filter, $uibModal, $state, $transitions, Mailing) {
+controller.controller('mailingController', ['$scope', '$rootScope', '$translate', '$localStorage', 'notificationService','$filter', '$uibModal','$state', '$transitions', 'Mailing', function ($scope, $rootScope, $translate, $localStorage, notificationService, $filter, $uibModal, $state, $transitions, Mailing) {
     $scope.currentStep = Mailing.currentStep;
 
     let mailingDetails = Mailing.getMailingDetails();
@@ -46008,6 +46008,27 @@ controller.controller('mailingController', ['$scope', '$rootScope','$localStorag
             $state.go('mailing-details');
             break;
     }
+
+
+    let storedBreadcrumbs = $localStorage.get('breadcrumbs');
+    let defaultBreadcrumbs = [
+        {
+            href: '#/candidates',
+            transl: 'our_base'
+        },
+        {
+            transl: 'My mailings'
+        }
+    ];
+    let breadCrumbs = storedBreadcrumbs?JSON.parse(storedBreadcrumbs):defaultBreadcrumbs;
+    breadCrumbs.pop();
+    breadCrumbs.push({
+        href: '#/mailings',
+        transl: 'My mailings'
+    },{
+        value: $scope.internalName?$scope.internalName:$translate.instant('New mailing')
+    });
+    $rootScope.breadCrumbs = breadCrumbs;
 
 
     $scope.fieldFocused = function (event) {
