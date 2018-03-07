@@ -2988,7 +2988,7 @@
   "Delivered_stat": "Доставлено",
   "Opened_stat": "Открыто",
   "Clone mailing": "Клонировать рассылку",
-  "Mailing cloned": "Рассылка клонирована",
+  "Mailing cloned": "Рассылка клонирована и добавлена в Подготовленные рассылки",
   "Fill in the new mailing name": "Введите название новой рассылки",
   "Count of recipients should be less than 1000": "Количество получателей не должно превышать 1000 человек",
   "Delivery result": "Результат доставки",

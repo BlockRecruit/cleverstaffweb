@@ -880,25 +880,7 @@ button.ui-button::-moz-focus-inner {
 	border-width: 0;
 	background: none;
 }
-.ui-tooltip {
-	position: absolute;
-	z-index: 9999;
 
-	max-width: 300px;
-	padding: 8px;
-
-	opacity: 1;
-	border: 1px solid #00b549;
-	background: #fff;
-	box-shadow: none;
-}
-/* Fades and background-images don't work well together in IE6, drop the image */
-* html .ui-tooltip {
-	background-image: none;
-}
-body .ui-tooltip {
-	border-width: 2px;
-}
 
 /* Component containers
 ----------------------------------*/
@@ -1671,4 +1653,27 @@ body .ui-tooltip {
 
 	filter: Alpha(Opacity=30);
 	-khtml-border-radius: 8px;
+}
+
+.ui-tooltip {
+	font-size: 13px;
+
+	position: absolute;
+	z-index: 9999;
+
+	max-width: 300px;
+	padding: 3px 5px;
+
+	opacity: 1;
+	border: 1px solid #00b549;
+	border-radius: 3px 5px;
+	background: #fff;
+	box-shadow: none;
+}
+/* Fades and background-images don't work well together in IE6, drop the image */
+* html .ui-tooltip {
+	background-image: none;
+}
+body .ui-tooltip {
+	border-width: 1px;
 }

@@ -905,17 +905,17 @@ a.ui-button:active,
 }.ui-state-error,
 .ui-widget-content .ui-state-error,
 .ui-widget-header .ui-state-error {
-	color: #5f3f3f;
-	border: 1px solid #f1a899;
-	background: #fddfdf;
+	color: #fff;
+	border: 1px solid #cd0a0a;
+	background: #cd0a0a url("images/ui-bg_flat_15_cd0a0a_40x100.png") 50% 50% repeat-x;
 }.ui-state-error a,
 .ui-widget-content .ui-state-error a,
 .ui-widget-header .ui-state-error a {
-	color: #5f3f3f;
+	color: #fff;
 }.ui-state-error-text,
 .ui-widget-content .ui-state-error-text,
 .ui-widget-header .ui-state-error-text {
-	color: #5f3f3f;
+	color: #fff;
 }.ui-priority-primary,
 .ui-widget-content .ui-priority-primary,
 .ui-widget-header .ui-priority-primary {
@@ -958,7 +958,7 @@ a.ui-button:active,
 	background-image: url("images/ui-icons_777620_256x240.png");
 }.ui-state-error .ui-icon,
 .ui-state-error-text .ui-icon {
-	background-image: url("images/ui-icons_cc0000_256x240.png");
+	background-image: url("images/ui-icons_ffffff_256x240.png");
 }.ui-button .ui-icon {
 	background-image: url("images/ui-icons_777777_256x240.png");
 }.ui-icon-blank {
