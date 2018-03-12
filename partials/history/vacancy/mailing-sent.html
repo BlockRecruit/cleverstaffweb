@@ -9,6 +9,9 @@
 </div>
 <div class="col-lg-10 margin-top">
     <span>
+        <span translate="Mailing"></span>
+        <a ng-bind="history.descr" ng-click="toSentPreview(history.compaignId)"></a>
+        <span translate="was sent"></span>
         <span ng-if="history.candidate">
             {{'history_info.candidate'|translate}}
              <a ng-click="routeOnCandidate(history.candidate.localId, 'history')">
@@ -23,34 +26,13 @@
             </a>
         </span>
         <span class="manyCandidates" ng-if="history.candidates.length > 3">
-            <span class="boldTxt" ng-click="openMenuWithCandidates(history)">{{'history_info.candidates'|translate}} (<span class="blueLink">{{history.candidates.length}}</span>)</span>
+            <span class="boldTxt" ng-click="openMenuWithCandidates(history)">{{'to_candidates'|translate}} (<span class="blueLink">{{history.candidates.length}}</span>)</span>
         </span>
         {{'history_info.on_vacancy'|translate}}
         <a href="#/vacancies/{{ history.vacancy.localId}}">
             {{history.vacancy.position}}
         </a>
     </span>
-    <a title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href=""
-       ng-click="changeCommentFlag(history)" class="editMessage pull-right">
-        <i class="fa fa-pencil" aria-hidden="true"></i>
-    </a>
-    <span ng-show="history.descr">
-        <br>
-        {{'history_info.message'|translate}}:
-        <br/>
-        <span ng-bind-html="history.descr|textForNotice:false"></span>
-    </span>
-    <div class="textField" ng-show="history.editCommentFlag">
-        <div class="field">
-            <textarea class="editCommentArea" ng-model="editComment"></textarea>
-        </div>
-        <div ng-click="history.editCommentFlag = false" class="btn btn-primary cancel">
-            {{'cancel'|translate}}
-        </div>
-        <div ng-click="changeComment(history, editComment)" class="btn btn-primary accept">
-            {{'save'|translate}}
-        </div>
-    </div>
     <span class="manyCandidates" ng-if="history.candidates.length > 2">
         <div ng-show="history.showAllCandidates">
             <span ng-repeat="candidate in history.candidates" class="menuCandidate">

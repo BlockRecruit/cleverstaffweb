@@ -90,7 +90,7 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
         let detailedStat = statParams.compaignEntries;
         let undeliveredCount = 0;
         let opens = 0;
-        statParams.compaignEntries.forEach(entry => {
+        detailedStat.forEach(entry => {
             if(entry.status == 'undelivered')
                 undeliveredCount++;
             if(entry.status == 'open')
@@ -98,7 +98,7 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
         });
         let delivered = (commonStat.sent!==undefined && commonStat.undelivered!==undefined)?(commonStat.sent - undeliveredCount):0;
         return {
-            sent: commonStat.sent?commonStat.sent:0,
+            sent: detailedStat?detailedStat.length:0,
             opens: opens,
             undelivered: undeliveredCount,
             delivered:delivered,

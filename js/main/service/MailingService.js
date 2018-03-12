@@ -39,6 +39,12 @@ angular.module('services.mailing',[]
                 action: "getAllCompaigns"
             }
         },
+        getCompaign: {
+            method: "GET",
+            params: {
+                action: "getCompaign"
+            }
+        },
         getSubscriberList: {
             method: "GET",
             params: {
@@ -118,6 +124,19 @@ angular.module('services.mailing',[]
         $localStorage.remove('stepClickable');
         service.setStep("mailing-details");
         $location.url("/mailing");
+    };
+
+
+    service.showSentCompaignById = function (id) {
+      service.getCompaign({"compaignId": id}, (resp) => {
+          if(resp.status != 'error') {
+              service.toSentPreview(resp.object);
+          } else {
+              notificationService.error(resp.message)
+          }
+      }, (error) => {
+            notificationService.error(error.message)
+      })
     };
 
 
@@ -680,6 +699,8 @@ angular.module('services.mailing',[]
 
                 $localStorage.set('sentMailing', JSON.stringify(sentPreviewObj));
                 $location.url('/mailing-sent')
+            } else {
+                notificationService.error(resp.message)
             }
         },(error) => {
             notificationService.error(error.message);

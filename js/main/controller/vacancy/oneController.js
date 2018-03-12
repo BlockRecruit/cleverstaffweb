@@ -4249,6 +4249,9 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
             });
             $scope.allCandidatesChecked = ( $scope.dataForVacancy && $scope.dataForVacancy.length > 0 && _.find($scope.dataForVacancy, function (o) {return ! o.mailing;}) === undefined );
         }
+        $scope.toSentPreview = function (mailing) {
+            Mailing.showSentCompaignById(mailing);
+        };
         ///////////////////////////////////////////////////////Mailing End
 
         function resetTemplate() {

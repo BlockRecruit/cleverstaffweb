@@ -11300,6 +11300,12 @@ angular.module('services.mailing',[]
                 action: "getAllCompaigns"
             }
         },
+        getCompaign: {
+            method: "GET",
+            params: {
+                action: "getCompaign"
+            }
+        },
         getSubscriberList: {
             method: "GET",
             params: {
@@ -11379,6 +11385,19 @@ angular.module('services.mailing',[]
         $localStorage.remove('stepClickable');
         service.setStep("mailing-details");
         $location.url("/mailing");
+    };
+
+
+    service.showSentCompaignById = function (id) {
+      service.getCompaign({"compaignId": id}, (resp) => {
+          if(resp.status != 'error') {
+              service.toSentPreview(resp.object);
+          } else {
+              notificationService.error(resp.message)
+          }
+      }, (error) => {
+            notificationService.error(error.message)
+      })
     };
 
 
@@ -11941,6 +11960,8 @@ angular.module('services.mailing',[]
 
                 $localStorage.set('sentMailing', JSON.stringify(sentPreviewObj));
                 $location.url('/mailing-sent')
+            } else {
+                notificationService.error(resp.message)
             }
         },(error) => {
             notificationService.error(error.message);
@@ -27372,7 +27393,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.currentIndex = sliderElements.nextElement.cacheCurrentPosition + 1 ||  (+localStorage.getItem('numberPage')) +  1;
         ///////////////////////////////////////////////////////////////End of Sent Email candidate
         $scope.toSentPreview = function (mailing) {
-            Mailing.toSentPreview(mailing);
+            Mailing.showSentCompaignById(mailing);
         };
     }]);
 
@@ -40724,6 +40745,9 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
             });
             $scope.allCandidatesChecked = ( $scope.dataForVacancy && $scope.dataForVacancy.length > 0 && _.find($scope.dataForVacancy, function (o) {return ! o.mailing;}) === undefined );
         }
+        $scope.toSentPreview = function (mailing) {
+            Mailing.showSentCompaignById(mailing);
+        };
         ///////////////////////////////////////////////////////Mailing End
 
         function resetTemplate() {
@@ -46676,7 +46700,7 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
         let detailedStat = statParams.compaignEntries;
         let undeliveredCount = 0;
         let opens = 0;
-        statParams.compaignEntries.forEach(entry => {
+        detailedStat.forEach(entry => {
             if(entry.status == 'undelivered')
                 undeliveredCount++;
             if(entry.status == 'open')
@@ -46684,7 +46708,7 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
         });
         let delivered = (commonStat.sent!==undefined && commonStat.undelivered!==undefined)?(commonStat.sent - undeliveredCount):0;
         return {
-            sent: commonStat.sent?commonStat.sent:0,
+            sent: detailedStat?detailedStat.length:0,
             opens: opens,
             undelivered: undeliveredCount,
             delivered:delivered,

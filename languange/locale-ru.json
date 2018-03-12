@@ -2999,5 +2999,7 @@
   "Delivery fail reasons": "Причины сбоя доставки",
   "Spam": "Спам",
   "Candidate was sent a mailing": "Кандидату была отправлена рассылка",
-  "Email does not exist": "Адрес не существует"
+  "Email does not exist": "Адрес не существует",
+  "was sent": "была отправлена",
+  "to_candidates": "кандидатам"
 }

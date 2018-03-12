@@ -2296,7 +2296,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.currentIndex = sliderElements.nextElement.cacheCurrentPosition + 1 ||  (+localStorage.getItem('numberPage')) +  1;
         ///////////////////////////////////////////////////////////////End of Sent Email candidate
         $scope.toSentPreview = function (mailing) {
-            Mailing.toSentPreview(mailing);
+            Mailing.showSentCompaignById(mailing);
         };
     }]);
 
