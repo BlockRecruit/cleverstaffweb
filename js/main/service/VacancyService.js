@@ -240,6 +240,7 @@ angular.module('services.vacancy', [
             }
         }
     });
+    let currentTab = 'candidate';
 
     vacancy.requestHideState = function (params){
         $rootScope.loading = true;
@@ -820,6 +821,14 @@ angular.module('services.vacancy', [
                 reject();
             });
         });
+    };
+
+    vacancy.setCurrentTab = function(tab) {
+        currentTab = tab;
+    };
+
+    vacancy.getCurrentTab = function() {
+        return currentTab;
     };
 
     return vacancy;
