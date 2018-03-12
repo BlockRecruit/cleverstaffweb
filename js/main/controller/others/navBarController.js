@@ -1465,15 +1465,15 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                     angular.forEach($rootScope.news, function(data,key){
                                         array.push(data);
                                     });
-                                    // News.setNewsAsViewed({
-                                    //     postsIds: array
-                                    // },function(res){
-                                    //     if(res.status == 'ok'){
-                                    //
-                                    //     }else{
-                                    //         notificationService.error(res.message);
-                                    //     }
-                                    // });
+                                    News.setNewsAsViewed({
+                                        postsIds: array
+                                    },function(res){
+                                        if(res.status == 'ok'){
+
+                                        }else{
+                                            notificationService.error(res.message);
+                                        }
+                                    });
                                 });
                             }
                         },5)

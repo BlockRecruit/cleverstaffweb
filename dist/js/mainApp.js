@@ -5995,7 +5995,7 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             }
 
             if(!sendMailingParams.freeMailCount && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
-                return $(filter)('translate')('The price of mailing is ') + sendMailingParams.compaignPrice + '$';
+                return $filter('translate')('The price of mailing is') + ' ' + sendMailingParams.compaignPrice + '$';
             }
 
             if(sendMailingParams.freeMailCount && sendMailingParams.compaignPrice && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
@@ -32968,15 +32968,15 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                     angular.forEach($rootScope.news, function(data,key){
                                         array.push(data);
                                     });
-                                    // News.setNewsAsViewed({
-                                    //     postsIds: array
-                                    // },function(res){
-                                    //     if(res.status == 'ok'){
-                                    //
-                                    //     }else{
-                                    //         notificationService.error(res.message);
-                                    //     }
-                                    // });
+                                    News.setNewsAsViewed({
+                                        postsIds: array
+                                    },function(res){
+                                        if(res.status == 'ok'){
+
+                                        }else{
+                                            notificationService.error(res.message);
+                                        }
+                                    });
                                 });
                             }
                         },5)
@@ -34725,10 +34725,17 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         };
 
         $scope.enableMailingService = function(user) {
+            console.log(user);
             Mailing.enableMailingService({
                 userId: user.userId,
                 enableMailing: !$scope.hideMailingService
-            }).then(resp => console.log(resp), // add notify
+            }).then(resp => {
+                        if(!$scope.hideMailingService) {
+                            notificationService.success($filter('translate')('Mailings are available for the user') + ' ' + user.fullName)
+                        } else {
+                            notificationService.success($filter('translate')('Mailings are hidden for the user') + ' ' + user.fullName);
+                        }
+                    },
                     error => console.error(error.message)); // add notify
         };
 
@@ -46556,8 +46563,7 @@ component.component('preview', {
                 Mailing.getCompaignPrice({ compaignId: $scope.mailingParams.compaignId}),
                 getAccountInfo(),
                 getFreeMailCount(),
-                ])
-                .then(([compaignPrice, accountInfo, freeMailCount]) => {
+                ]).then(([compaignPrice, accountInfo, freeMailCount]) => {
                     $scope.sendMailingParams = {
                         accountBalance: accountInfo.object.amount,
                         compaignPrice: compaignPrice.object,

@@ -642,10 +642,17 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         };
 
         $scope.enableMailingService = function(user) {
+            console.log(user);
             Mailing.enableMailingService({
                 userId: user.userId,
                 enableMailing: !$scope.hideMailingService
-            }).then(resp => console.log(resp), // add notify
+            }).then(resp => {
+                        if(!$scope.hideMailingService) {
+                            notificationService.success($filter('translate')('Mailings are available for the user') + ' ' + user.fullName)
+                        } else {
+                            notificationService.success($filter('translate')('Mailings are hidden for the user') + ' ' + user.fullName);
+                        }
+                    },
                     error => console.error(error.message)); // add notify
         };
 

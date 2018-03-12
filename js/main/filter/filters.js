@@ -1018,7 +1018,7 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             }
 
             if(!sendMailingParams.freeMailCount && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
-                return $(filter)('translate')('The price of mailing is ') + sendMailingParams.compaignPrice + '$';
+                return $filter('translate')('The price of mailing is') + ' ' + sendMailingParams.compaignPrice + '$';
             }
 
             if(sendMailingParams.freeMailCount && sendMailingParams.compaignPrice && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
