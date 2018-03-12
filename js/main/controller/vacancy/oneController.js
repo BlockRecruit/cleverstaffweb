@@ -183,11 +183,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             if($scope.currentTab == 'suggestions'){
                 resetTemplate();
                 $scope.$broadcast('suggestions');
-                // if(checkRequiredFieldsCompletion().invalid) {
-                //     openSuggestionModal();
-                // } else {
-                //     $scope.reloadSuggestions();
-                // }
             }
         };
         function setTaskDatePicker() {
