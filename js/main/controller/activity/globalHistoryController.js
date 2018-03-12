@@ -1,5 +1,5 @@
-controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope", "Service", "Person", "Company", "notificationService", "$filter", "$translate", "$uibModal", "vacancyStages","Action","CacheCandidates",
-    function($scope, $rootScope, Service, Person, Company, notificationService, $filter, $translate, $uibModal, vacancyStages, Action, CacheCandidates) {
+controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope", "Service", "Person", "Company", "notificationService", "$filter", "$translate", "$uibModal", "vacancyStages","Action","CacheCandidates", "Mailing",
+    function($scope, $rootScope, Service, Person, Company, notificationService, $filter, $translate, $uibModal, vacancyStages, Action, CacheCandidates, Mailing) {
     $scope.showHistory = true;
     localStorage.setItem("isAddCandidates", JSON.stringify(false));
     $scope.loading = true;
@@ -138,5 +138,9 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
                 }
                 $scope.closeModal();
             })
+        };
+
+        $scope.toSentPreview = function (mailing) {
+            Mailing.showSentCompaignById(mailing);
         };
 }]);

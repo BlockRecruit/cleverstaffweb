@@ -511,6 +511,9 @@
                             <div class="col-lg-12" ng-switch-when="client_set_responsible">
                                 <ng-include src="'partials/history/user/client_set_responsible.html'"></ng-include>
                             </div>
+                            <div class="col-lg-12" ng-switch-when="send_compaign">
+                                <ng-include src="'partials/history/user/mailing-sent.html'"></ng-include>
+                            </div>
                         </div>
                         <!-------------------------------------------------------end-->
                         <button class="btn more-history" ng-click="getMoreHistory()" ng-show="historyTotal > historyLimit">

@@ -17756,8 +17756,8 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
         }
 }]);
 
-controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope", "Service", "Person", "Company", "notificationService", "$filter", "$translate", "$uibModal", "vacancyStages","Action","CacheCandidates",
-    function($scope, $rootScope, Service, Person, Company, notificationService, $filter, $translate, $uibModal, vacancyStages, Action, CacheCandidates) {
+controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope", "Service", "Person", "Company", "notificationService", "$filter", "$translate", "$uibModal", "vacancyStages","Action","CacheCandidates", "Mailing",
+    function($scope, $rootScope, Service, Person, Company, notificationService, $filter, $translate, $uibModal, vacancyStages, Action, CacheCandidates, Mailing) {
     $scope.showHistory = true;
     localStorage.setItem("isAddCandidates", JSON.stringify(false));
     $scope.loading = true;
@@ -17896,6 +17896,10 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
                 }
                 $scope.closeModal();
             })
+        };
+
+        $scope.toSentPreview = function (mailing) {
+            Mailing.showSentCompaignById(mailing);
         };
 }]);
 
@@ -34054,9 +34058,9 @@ controller.controller('userInfoController',["$scope", "Person", function($scope,
 
 controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Person", "$rootScope", "$routeParams", "Vacancy",
     "$location", "$translate", "Candidate", "Service", "notificationService", "$filter", "googleService", '$http', 'serverAddress', 'Client',
-    'Company', 'vacancyStages','Action', '$sce', '$uibModal',
+    'Company', 'vacancyStages','Action', '$sce', '$uibModal', 'Mailing',
     function($scope, tmhDynamicLocale, Person, $rootScope, $routeParams, Vacancy, $location, $translate, Candidate, Service,
-             notificationService, $filter, googleService, $http, serverAddress, Client, Company, vacancyStages, Action, $sce, $uibModal) {
+             notificationService, $filter, googleService, $http, serverAddress, Client, Company, vacancyStages, Action, $sce, $uibModal, Mailing) {
         $scope.showChangePassword = false;
         $scope.showChangeOrgName = false;
         $scope.showChangeRole = false;
@@ -34813,6 +34817,10 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 $('.popover').remove('.popover');
             }
         });
+
+        $scope.toSentPreview = function (mailing) {
+            Mailing.showSentCompaignById(mailing);
+        };
     }
 ]);
 

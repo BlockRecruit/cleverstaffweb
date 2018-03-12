@@ -1,8 +1,8 @@
 controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Person", "$rootScope", "$routeParams", "Vacancy",
     "$location", "$translate", "Candidate", "Service", "notificationService", "$filter", "googleService", '$http', 'serverAddress', 'Client',
-    'Company', 'vacancyStages','Action', '$sce', '$uibModal',
+    'Company', 'vacancyStages','Action', '$sce', '$uibModal', 'Mailing',
     function($scope, tmhDynamicLocale, Person, $rootScope, $routeParams, Vacancy, $location, $translate, Candidate, Service,
-             notificationService, $filter, googleService, $http, serverAddress, Client, Company, vacancyStages, Action, $sce, $uibModal) {
+             notificationService, $filter, googleService, $http, serverAddress, Client, Company, vacancyStages, Action, $sce, $uibModal, Mailing) {
         $scope.showChangePassword = false;
         $scope.showChangeOrgName = false;
         $scope.showChangeRole = false;
@@ -759,5 +759,9 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 $('.popover').remove('.popover');
             }
         });
+
+        $scope.toSentPreview = function (mailing) {
+            Mailing.showSentCompaignById(mailing);
+        };
     }
 ]);
