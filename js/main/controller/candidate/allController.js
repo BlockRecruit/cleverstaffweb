@@ -709,6 +709,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam.languages =  'null';
         $scope.searchParam.origin = null;
         $scope.searchParam.skills = [];
+        $scope.searchParam.withPersonalContacts = 'null';
         $scope.setSkillAutocompleterValueForSearch('');
         $scope.setOriginAutocompleterValue("source");
         resetLanguagesSearCriterion();
