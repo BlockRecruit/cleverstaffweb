@@ -1007,7 +1007,30 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
            });
            return result.join("");
        }
-    });
+    }).filter('mailingServiceMessageParser', ['$filter', '$translate', function($filter, $translate) {
+        return function(sendMailingParams, mailsToSend) {
+            const lang = $translate.use();
+
+
+            if(sendMailingParams.freeMailCount && !sendMailingParams.compaignPrice) {
+                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем. Из них будет использовано " + mailsToSend;
+                if(lang === 'en') return sendMailingParams.freeMailCount + " free letters are available. Of these, " + mailsToSend + " letters will be used";
+            }
+
+            if(!sendMailingParams.freeMailCount && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
+                return $filter('translate')('The price of mailing is') + ' ' + sendMailingParams.compaignPrice + '$';
+            }
+
+            if(sendMailingParams.freeMailCount && sendMailingParams.compaignPrice && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
+                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем, так же стоимость рассылки составит " + sendMailingParams.compaignPrice + '$';
+                if(lang === 'en') return sendMailingParams.freeMailCount + " free letters are available. The cost of mailing will be " + sendMailingParams.compaignPrice + '$';
+            }
+
+            if(sendMailingParams.compaignPrice > sendMailingParams.accountBalance) {
+                return $filter('translate')('You do not have enough money on your balance to make a mailing.');
+            }
+        }
+    }]);
 function linkify3(text) {
     if (text) {
         text = text.replace(

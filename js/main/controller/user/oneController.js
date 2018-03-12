@@ -11,6 +11,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         $scope.showChangeContacts = false;
         $scope.changedName = "";
         $scope.contacts = {};
+        $scope.hideMailingService = false;
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -640,7 +641,22 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             }
         };
 
-        $scope.getCompanyParams = function(){
+        $scope.enableMailingService = function(user) {
+            console.log(user);
+            Mailing.enableMailingService({
+                userId: user.userId,
+                enableMailing: !$scope.hideMailingService
+            }).then(resp => {
+                        if(!$scope.hideMailingService) {
+                            notificationService.success($filter('translate')('Mailings are available for the user') + ' ' + user.fullName)
+                        } else {
+                            notificationService.success($filter('translate')('Mailings are hidden for the user') + ' ' + user.fullName);
+                        }
+                    },
+                    error => console.error(error.message)); // add notify
+        };
+
+        $scope.getCompanyParams = function() {
             Company.getParams(function(resp){
                 $scope.companyParams = resp.object;
             });

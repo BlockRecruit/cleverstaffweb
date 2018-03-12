@@ -5984,7 +5984,30 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
            });
            return result.join("");
        }
-    });
+    }).filter('mailingServiceMessageParser', ['$filter', '$translate', function($filter, $translate) {
+        return function(sendMailingParams, mailsToSend) {
+            const lang = $translate.use();
+
+
+            if(sendMailingParams.freeMailCount && !sendMailingParams.compaignPrice) {
+                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем. Из них будет использовано " + mailsToSend;
+                if(lang === 'en') return sendMailingParams.freeMailCount + " free letters are available. Of these, " + mailsToSend + " letters will be used";
+            }
+
+            if(!sendMailingParams.freeMailCount && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
+                return $filter('translate')('The price of mailing is') + ' ' + sendMailingParams.compaignPrice + '$';
+            }
+
+            if(sendMailingParams.freeMailCount && sendMailingParams.compaignPrice && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
+                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем, так же стоимость рассылки составит " + sendMailingParams.compaignPrice + '$';
+                if(lang === 'en') return sendMailingParams.freeMailCount + " free letters are available. The cost of mailing will be " + sendMailingParams.compaignPrice + '$';
+            }
+
+            if(sendMailingParams.compaignPrice > sendMailingParams.accountBalance) {
+                return $filter('translate')('You do not have enough money on your balance to make a mailing.');
+            }
+        }
+    }]);
 function linkify3(text) {
     if (text) {
         text = text.replace(
@@ -11335,7 +11358,20 @@ angular.module('services.mailing',[]
             params: {
                 action: "cloneCompaign"
             }
+        },
+        enableMailing : {
+            method: "POST",
+            params: {
+                action: "enableMailing"
+            }
+        },
+        getCompaignPriceForMailing : {
+            method: "POST",
+            params: {
+                action: "getCompaignPrice"
+            }
         }
+
     });
 
     try {
@@ -12016,6 +12052,29 @@ angular.module('services.mailing',[]
         });
     };
 
+    service.getCompaignPrice = function(params) {
+        return new Promise((resolve, reject) => {
+            service.getCompaignPriceForMailing(params, resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            });
+        });
+    };
+
+    service.enableMailingService = function(params) {
+        return new Promise((resolve, reject) => {
+            service.enableMailing(params, resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            });
+        });
+    };
 
     function subscriberListParamsPrepared(internal, candidates) {
         let prepared = {
@@ -32896,14 +32955,6 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     TooltipService.createTooltips();
 
-    if($rootScope.modalInstance){
-        $rootScope.modalInstance.closed.then(function(){
-            showNews()
-        });
-    }else{
-        showNews();
-    }
-
     function showNews(){
         News.getNews(function(resp){
             if(resp.status == 'ok'){
@@ -32967,6 +33018,14 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 }
             }
         });
+    }
+
+    if($rootScope.modalInstance){
+        $rootScope.modalInstance.closed.then(function(){
+            showNews()
+        });
+    }else{
+        showNews();
     }
 
     //console.log($rootScope.previousHistoryFeedback);
@@ -34069,6 +34128,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         $scope.showChangeContacts = false;
         $scope.changedName = "";
         $scope.contacts = {};
+        $scope.hideMailingService = false;
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -34698,7 +34758,22 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             }
         };
 
-        $scope.getCompanyParams = function(){
+        $scope.enableMailingService = function(user) {
+            console.log(user);
+            Mailing.enableMailingService({
+                userId: user.userId,
+                enableMailing: !$scope.hideMailingService
+            }).then(resp => {
+                        if(!$scope.hideMailingService) {
+                            notificationService.success($filter('translate')('Mailings are available for the user') + ' ' + user.fullName)
+                        } else {
+                            notificationService.success($filter('translate')('Mailings are hidden for the user') + ' ' + user.fullName);
+                        }
+                    },
+                    error => console.error(error.message)); // add notify
+        };
+
+        $scope.getCompanyParams = function() {
             Company.getParams(function(resp){
                 $scope.companyParams = resp.object;
             });
@@ -46459,15 +46534,17 @@ component.component('editor', {
 
     }
 })
-controller.controller('mailingPreviewController', ['$scope', '$rootScope', 'notificationService', '$localStorage', '$filter', '$uibModal','$state', '$location', 'Mailing']);
+controller.controller('mailingPreviewController', ['$scope', '$rootScope', 'notificationService', '$localStorage', '$filter', '$uibModal','$state', '$location', 'Mailing', 'Account', 'Person']);
 component.component('preview', {
     templateUrl: "partials/mailing/mailing-preview.html",
-    controller: function ($scope, $rootScope, notificationService, $localStorage, $filter, $uibModal, $state, $location, Mailing) {
+    controller: function ($scope, $rootScope, notificationService, $localStorage, $filter, $uibModal, $state, $location, Mailing, Account, Person) {
         $scope.candidatesForMailing = $localStorage.get('candidatesForMailing')?JSON.parse($localStorage.get('candidatesForMailing')):[];
         $scope.mailingParams = {};
         $scope.mailingParams = Mailing.getMailingDetails();
+        $scope.sendMailingParams = {};
         $scope.testEmail = '';
         $scope.sendTestShow = false;
+
         $scope.mailingPreview = function () {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
@@ -46494,19 +46571,33 @@ component.component('preview', {
 
 
         $scope.sendMailing = function () {
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: '../partials/modal/confirm-send-mailing.html?1',
-                size: '',
-                scope: $scope,
-                resolve: function(){
+            Promise.all([
+                Mailing.getCompaignPrice({ compaignId: $scope.mailingParams.compaignId}),
+                getAccountInfo(),
+                getFreeMailCount(),
+                ]).then(([compaignPrice, accountInfo, freeMailCount]) => {
+                    $scope.sendMailingParams = {
+                        accountBalance: accountInfo.object.amount,
+                        compaignPrice: compaignPrice.object,
+                        freeMailCount: freeMailCount.object.orgParams.freeMailCount,
+                        available: true
+                    };
 
-                }
-            });
+                    if($scope.sendMailingParams.compaignPrice > $scope.sendMailingParams.accountBalance) {
+                        $scope.sendMailingParams.available = false;
+                    }
+
+                    openMailingModal();
+                    $scope.$apply();
+                }, error => notificationService.error(error));
         };
 
 
         $scope.confirmSendMailing = function () {
+            if(!$scope.sendMailingParams.available) {
+                notificationService.error($filter('translate')('You do not have enough money on your balance to make a mailing.'));
+                return;
+            }
             $scope.modalInstance.close();
             $rootScope.loading = true;
             Mailing.sendCampaign().then(
@@ -46555,6 +46646,43 @@ component.component('preview', {
             $scope.modalInstance.close();
         };
 
+        function getAccountInfo() {
+            return new Promise((resolve, reject) => {
+               Account.getAccountInfo((resp) => {
+                   if(resp.status !== 'error') {
+                       resolve(resp);
+                   } else {
+                       reject(resp);
+                   }
+               }, error => console.error(error));
+            });
+        }
+
+        function getFreeMailCount() {
+            return new Promise((resolve, reject) => {
+                Person.getMe(function(resp) {
+                    if(resp.status === 'ok') {
+                        resolve(resp);
+                    } else {
+                        reject(resp);
+                    }
+                });
+            }, error => console.error(error));
+        }
+
+        function openMailingModal(){
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/confirm-send-mailing.html?3',
+                size: '',
+                scope: $scope,
+                resolve: function(){
+
+                }
+            });
+
+            $scope.modalInstance.result.catch(function () { $scope.modalInstance.close(); })
+        }
 
         $('#step_2').unbind().on('click', $scope.editMessage);
         $('#step_1').unbind().on('click', $scope.editDetails);
@@ -46565,6 +46693,7 @@ component.component('preview', {
 });
 controller.controller('mailingsController', ['$scope', '$localStorage', '$rootScope', '$state','$timeout', '$filter', '$transitions', '$uibModal', 'Mailing',
     function ($scope, $localStorage, $rootScope, $state, $timeout, $filter, $transitions, $uibModal, Mailing) {
+
 
         $scope.savedMailings = [];
         let isPreviousSentMailings = $rootScope.previousLocation?$rootScope.previousLocation.indexOf('mailing-sent')!=-1:false;
@@ -46614,6 +46743,12 @@ controller.controller('mailingsController', ['$scope', '$localStorage', '$rootSc
         $scope.newMailing = function () {
             Mailing.newMailing();
         };
+
+        function checkForMailingNews() {
+            if($rootScope.me.orgParams.mailingNews) {
+                //
+            }
+        }
 
 }]);
 controller.controller('mailingSentController',['$scope', '$rootScope', '$filter', '$translate', 'notificationService', '$uibModal', '$state', '$localStorage', 'Mailing', function ($scope, $rootScope, $filter, $translate, notificationService, $uibModal, $state, $localStorage, Mailing) {

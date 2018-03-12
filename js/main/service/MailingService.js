@@ -74,7 +74,20 @@ angular.module('services.mailing',[]
             params: {
                 action: "cloneCompaign"
             }
+        },
+        enableMailing : {
+            method: "POST",
+            params: {
+                action: "enableMailing"
+            }
+        },
+        getCompaignPriceForMailing : {
+            method: "POST",
+            params: {
+                action: "getCompaignPrice"
+            }
         }
+
     });
 
     try {
@@ -755,6 +768,29 @@ angular.module('services.mailing',[]
         });
     };
 
+    service.getCompaignPrice = function(params) {
+        return new Promise((resolve, reject) => {
+            service.getCompaignPriceForMailing(params, resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            });
+        });
+    };
+
+    service.enableMailingService = function(params) {
+        return new Promise((resolve, reject) => {
+            service.enableMailing(params, resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            });
+        });
+    };
 
     function subscriberListParamsPrepared(internal, candidates) {
         let prepared = {

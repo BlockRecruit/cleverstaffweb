@@ -190,7 +190,7 @@
                                 <td ng-show="(!expense.descr) && (expense.type == 'pay')">
                                     <span>{{"Reffilling the balance"|translate}}</span>
                                 </td>
-                                <td ng-show="(!!expense.descr) && (expense.type == 'adjustment')">
+                                <td ng-show="(!!expense.descr) && (expense.type == 'adjustment' || expense.type === 'expense')">
                                     {{expense.descr}}
                                 </td>
                                 <!--<td ng-class="{'blue': expense.entity =='payment'}" ng-show="!expense.descr"><span ng-show="expense.entity =='expense'">-</span>${{expense.amount}}</td>-->

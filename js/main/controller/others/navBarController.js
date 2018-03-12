@@ -1418,14 +1418,6 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     TooltipService.createTooltips();
 
-    if($rootScope.modalInstance){
-        $rootScope.modalInstance.closed.then(function(){
-            showNews()
-        });
-    }else{
-        showNews();
-    }
-
     function showNews(){
         News.getNews(function(resp){
             if(resp.status == 'ok'){
@@ -1489,6 +1481,14 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 }
             }
         });
+    }
+
+    if($rootScope.modalInstance){
+        $rootScope.modalInstance.closed.then(function(){
+            showNews()
+        });
+    }else{
+        showNews();
     }
 
     //console.log($rootScope.previousHistoryFeedback);
