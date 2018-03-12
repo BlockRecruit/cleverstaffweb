@@ -18,10 +18,10 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <LINK REL="SHORTCUT ICON" HREF="images/sprite/favicon.png?b3">
-    <link rel="stylesheet" href="dist/css/styles.css?b251">
+    <link rel="stylesheet" href="dist/css/styles.css?b262">
     <link rel="stylesheet" type="text/css" media="print" href="dist/css/print.css" />
     <!--<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>-->
-    <script type="text/javascript" src="dist/js/mainLib.js?b190"></script>
+    <script type="text/javascript" src="dist/js/mainLib.js?b201"></script>
 
 
     <!--<link  href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">-->
@@ -143,19 +143,19 @@
             </div>
             <div class="" id="navbar-main">
                 <ul class="nav navbar-nav navigation navbar-collapse collapse">
-                    <li class="dropdown">
+                    <li class="dropdown organizer" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/organizer" ng-class="{'active': $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'}">
                             <i class="sprite sprite-calendar"></i>
-                            <span translate="activity"></span>
+                            <span translate="Organizer"></span>
                         </a>
                     </li>
-                    <li>
+                    <li class="vacancies" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/vacancies" ng-class="{'active': $root.activePage == 'Vacancies' || $root.activePage == 'Vacancy add' || $root.activePage == 'Vacancy edit' }">
                             <i class="sprite sprite-vacancy"></i>
                             <span translate="Vacancies"></span>
                         </a>
                     </li>
-                    <li>
+                    <li class="candidates" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/candidates" ng-class="{'active': $root.activePage == 'Candidates' || $root.activePage == 'Candidate add' || $root.activePage == 'Candidates add from email'
                                                                     || $root.activePage == 'Zip' || $root.activePage == 'Excel History' || $root.activePage == 'Candidate edit' || $root.activePage == 'Tests and forms'
                                                                     || $root.activePage == 'Send test candidate to email' || $root.activePage == 'Test results' || $root.activePage == 'Test page' || $root.activePage == 'Candidate'}">
@@ -163,21 +163,21 @@
                             <span translate="candidates"></span>
                         </a>
                     </li>
-                    <li class="dropdown">
+                    <li class="dropdown clients" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/clients" ng-class="{'active': $root.activePage == 'Clients' || $root.activePage == 'Client add' || $root.activePage == 'Client edit'}"
                            ng-if="$root.me.personParams.clientAccessLevel != 'hide'">
                             <i class="sprite sprite-clients"></i>
-                            <span ng-show="$root.me!=undefined" translate="clients"></span>
+                            <span ng-show="$root.me!=undefined" translate="Clients"></span>
                             <!--<span ng-if="$root.me.recrutRole=='client'">{{'client(i)'| translate}}</span>-->
                         </a>
                     </li>
-                    <li class="dropdown" ng-if="$root.me!=undefined && $root.me.recrutRole!='client'">
+                    <li class="dropdown users" ng-if="$root.me!=undefined && $root.me.recrutRole!='client'" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/company/users" ng-class="{'active': $root.activePage == 'Users' || $root.activePage == 'Company History' || $root.activePage == 'Company settings' || $root.activePage == 'Company users' || $root.activePage == 'Company employees' || $root.activePage == 'Employee add' || $root.activePage == 'Employee User' || $root.activePage == 'Department Catalog' || $root.activePage == 'Employee Edit User' || $root.activePage == 'Custom fields'}">
                             <i class="sprite sprite-company"></i>
                             <span translate="Account"></span>
                         </a>
                     </li>
-                    <li class="dropdown"  ng-if="$root.me!= undefined &&  $root.me.recrutRole!='salesmanager' && $root.me.recrutRole!='researcher'">
+                    <li class="dropdown reports"  ng-if="$root.me!= undefined &&  $root.me.recrutRole!='salesmanager' && $root.me.recrutRole!='researcher'" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/reports"
                            ng-show="$root.me.recrutRole !== 'freelancer' && $root.me.recrutRole!='client'"
                            ng-class="{'active': $root.activePage == 'Pipeline' || $root.activePage == 'Statistics client' || $root.activePage == 'Report all' || $root.activePage == 'Vacancy report' || $root.activePage == 'Reports' || $root.activePage ==  'Reports constructor' ||  $root.activePage == 'Custom Reports'|| $root.activePage == 'Edit Reports'}">
@@ -1346,11 +1346,11 @@
     </div>
     <div id="fb-root"></div>
 
-    <script type="text/javascript" src="js/ApiKey.js?b5"></script>
+    <script type="text/javascript" src="js/ApiKey.js?b7"></script>
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZul9dW5-r5WVV1479hAgVxM5Z75C-ykM&libraries=places"></script>
     <script type="text/javascript" src="lib/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b318"></script>
+    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b336"></script>
 
     <!--ЗPignation in TAble-->
     <script type="text/ng-template" id="custom/pager">

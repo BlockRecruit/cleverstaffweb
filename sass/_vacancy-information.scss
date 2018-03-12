@@ -330,6 +330,9 @@
 					}
 				}
 			}
+			.wrap-switcher {
+				margin-bottom: 15px;
+			}
 			.social {
 				padding: 15px;
 
@@ -411,6 +414,20 @@
 					}
 				}
 			}
+		}
+	}
+}
+.send-vacancy-by-email {
+	.modal-footer {
+		clear: both;
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			@include button-styling();
+		}
+		.cancel {
+			@include button-styling-cancel();
 		}
 	}
 }

@@ -2382,8 +2382,6 @@ td.relative span.first {
     left: 10px;
 }
 /*features end*/
-
-
 /*modal*/
 .thanks{
     padding-left: 0!important;
@@ -3420,6 +3418,11 @@ select.webkit-fix {
     .or-index {
         display: block;
         margin: 10px 30px;
+    }
+}
+@media screen and (max-width: 550px) {
+    .error404 #banner-load img{
+        width: 320px;
     }
 }
 

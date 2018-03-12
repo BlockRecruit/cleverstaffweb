@@ -1918,7 +1918,7 @@ directive('appVersion', ['version', function(version) {
                                         //}
                                         results.push({
                                             id: item.candidateId,
-                                            text: item.interviews ? item.fullName + " [" + item.interviews[0].state + "]": item.fullName,
+                                            text: item.interviews ? item.fullName + " [" + $filter('translate')(item.interviews[0].state) + "]": item.fullName,
                                             inVacancy: inVacancy,
                                             status: status,
                                             name: realName
@@ -2085,7 +2085,7 @@ directive('appVersion', ['version', function(version) {
                 }
             }
         }
-    }]).directive('clientAutocompleter', ["$filter", "serverAddress", "$rootScope","vacancyStages", function($filter, serverAddress, $rootScope, vacancyStages) {
+    }]).directive('clientAutocompleter', ["$filter", "serverAddress", "$rootScope","vacancyStages", "$translate", function($filter, serverAddress, $rootScope, vacancyStages, $translate) {
         return {
             restrict: 'EA',
             replace: true,
@@ -2096,45 +2096,61 @@ directive('appVersion', ['version', function(version) {
                         $(element[0]).select2("data", {id: id, text: val});
                     }
                 };
-                if ($(element[0])) {
-                    element.select2({
-                        placeholder: $filter('translate')('client'),
-                        minimumInputLength: 0,
-                        allowClear: true,
-                        ajax: {
-                            url: serverAddress + "/client/autocompleteClients",
-                            dataType: 'json',
-                            crossDomain: true,
-                            type: "POST",
-                            data: function(term, page) {
-                                return {
-                                    text: term.trim()
-                                };
-                            },
-                            results: function(data, page) {
-                                var results = [];
-                                var inVacancy = false;
-                                var status = "";
-                                var realName = "";
-                                if (data['objects'] !== undefined) {
-                                    console.log(data['objects']);
-                                    angular.forEach(data['objects'], function(item) {
-                                        results.push({
-                                            id: item.clientId,
-                                            text: item.name,
-                                            name: item.name
-                                        });
-                                    });
-                                }
-                                return {
-                                    results: results
-                                };
-                            }
-                        },
-                        dropdownCssClass: "bigdrop"
-                    }).on("change", function(e) {
+                let translatedPositions = false;
 
-                    })
+                $rootScope.$on('$translateChangeSuccess', function () {
+                    initSelect2();
+                });
+
+                if(!translatedPositions) {
+                    initSelect2();
+                }
+                function initSelect2() {
+                    translatedPositions = true;
+                    if ($(element[0])) {
+                        element.select2({
+                            placeholder: $translate.instant('client'),
+                            minimumInputLength: 0,
+                            allowClear: true,
+                            ajax: {
+                                url: serverAddress + "/client/autocompleteClients",
+                                dataType: 'json',
+                                crossDomain: true,
+                                type: "POST",
+                                data: function(term, page) {
+                                    return {
+                                        text: term.trim()
+                                    };
+                                },
+                                results: function(data, page) {
+                                    var results = [];
+                                    var inVacancy = false;
+                                    var status = "";
+                                    var realName = "";
+                                    if (data['objects'] !== undefined) {
+                                        console.log(data['objects']);
+                                        angular.forEach(data['objects'], function(item) {
+                                            results.push({
+                                                id: item.clientId,
+                                                text: item.name,
+                                                name: item.name
+                                            });
+                                        });
+                                    }
+                                    return {
+                                        results: results
+                                    };
+                                }
+                            },
+                            dropdownCssClass: "bigdrop"
+                        }).on("change", function(e) {
+
+                        }).on("select2-opening", function(e){
+                            setTimeout(function () {
+                                $('#select2-drop .select2-results .select2-searching')[0].innerText = $filter("translate")("Searching");
+                            }, 0);
+                        })
+                    }
                 }
             }
         }
@@ -3268,7 +3284,6 @@ directive('appVersion', ['version', function(version) {
                     };
                     $scope.getPositionAutocompleterValue = function() {//.переимновтаь
                         var object = $(element[0]).select2("data");
-                        console.log(object);
                         return object != null ? object.text : null;
                     };
                     var inputText = "";

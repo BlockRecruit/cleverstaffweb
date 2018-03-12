@@ -510,27 +510,51 @@ angular.module('services.candidate', [
 
     var duplicatesByNameAndContacts = false;
     candidate.checkDuplicatesByNameAndContacts = function($scope) {
-        console.log(duplicatesByNameAndContacts);
+        //console.log(duplicatesByNameAndContacts);
         $scope.dublicetesTypeName = '';
         $scope.dublicetesTypeMphone = '';
         $scope.dublicetesTypeEmail = '';
         $scope.dublicetesTypeSkype = '';
         $scope.dublicetesTypeLinkedin = '';
-        if ((!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.mphone && $scope.contacts.mphone.length > 4) || (!duplicatesByNameAndContacts && $scope.candidate.fullName && $scope.candidate.fullName.length > 3)) {
+        if ((!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && ($scope.contacts.mphone || $scope.contacts.mphone2 || $scope.contacts.mphone3 )) || (!duplicatesByNameAndContacts && $scope.candidate.fullName && $scope.candidate.fullName.length > 3)) {
         //if (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4 && $scope.contacts.skype && $scope.contacts.skype.length > 4 && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4 && $scope.contacts.mphone && $scope.contacts.mphone.length > 4 && $scope.candidate.fullName && $scope.candidate.fullName.length > 3) {
+        //    $rootScope.loading = true;
             duplicatesByNameAndContacts = true;
             setTimeout(function(){
+                $scope.addPhone = '';
+                if ($scope.contacts.mphone && ($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == '') && ($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == '')) {
+                    $scope.addPhone = $scope.contacts.mphone;
+                }
+                if (($scope.contacts.mphone == undefined || $scope.contacts.mphone == '') && $scope.contacts.mphone2 && $scope.contacts.mphone3) {
+                    $scope.addPhone = $scope.contacts.mphone2.concat(", ", $scope.contacts.mphone3);
+                }
+                if (($scope.contacts.mphone == undefined || $scope.contacts.mphone == '') && ($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == '') && $scope.contacts.mphone3) {
+                    $scope.addPhone = $scope.contacts.mphone3;
+                }
+                if (($scope.contacts.mphone == undefined || $scope.contacts.mphone == '') && $scope.contacts.mphone2 && ($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == '')) {
+                    $scope.addPhone = $scope.contacts.mphone2;
+                }
+                if($scope.contacts.mphone && $scope.contacts.mphone2 && ($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == '')){
+                    $scope.addPhone = $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2);
+                }
+                if($scope.contacts.mphone3 && $scope.contacts.mphone && ($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == '')){
+                    $scope.addPhone = $scope.contacts.mphone.concat(", ", $scope.contacts.mphone3);
+                }
+                if($scope.contacts.mphone && $scope.contacts.mphone2 && $scope.contacts.mphone3){
+                    $scope.addPhone = $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2).concat(", ", $scope.contacts.mphone3);
+                }
                 candidate.getDuplicatesByNameAndContacts({
                     email: $scope.contacts.email,
                     skype: $scope.contacts.skype,
                     linkedInUrl: $scope.contacts.linkedin,
-                    phone: $scope.contacts.mphone,
+                    phone: $scope.addPhone,
                     fullName: $scope.candidate.fullName
                 }, function (res) {
                     $scope.duplicatesByNameAndContacts = [];
+                    //$rootScope.loading = false;
                     if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
                         angular.forEach(res.objects, function (c, i) {
-                            console.log(c.candidateId != $scope.candidate.candidateId, ' candID');
+                            //console.log(c.candidateId != $scope.candidate.candidateId, ' candID');
                             if (c.candidateId != $scope.candidate.candidateId) {
                                 $scope.duplicatesByNameAndContacts.push(c);
                                 if (c.type == "name") {
@@ -920,7 +944,7 @@ angular.module('services.candidate', [
             }
             cand.employmentType = $scope.getSelect2EmploymentType();
             cand.db = $('.datepickerOfBirth').datetimepicker();
-            console.log( cand.db, ' cand.db');
+            //console.log( cand.db, ' cand.db');
             if ($("#pac-input").val() && $("#pac-input").val().length == 0) {
                 cand.region = null;
             } else if ($("#pac-input").val() && $("#pac-input").val().length > 0) {
@@ -931,7 +955,6 @@ angular.module('services.candidate', [
                 if ($scope.contacts.email) {
                     cand.contacts.push({type: "email", value: $scope.contacts.email});
                 }
-                console.log('vik12q');
                 //candidate.checkDuplicatesByEmail($scope);
                 if ($scope.contacts.mphone) {
                     cand.contacts.push({type: "mphone", value: $scope.contacts.mphone});
@@ -1023,6 +1046,7 @@ angular.module('services.candidate', [
             $scope.photoLink = $scope.serverAddress + "/getapp?id=" + $scope.candidate.photo + "&d=true";
             $scope.fileForSave = [];
             $scope.contacts = [];
+            console.log(object.contacts);
             if (object.contacts != undefined) {
                 $.each(object.contacts, function(i, c) {
                     if (angular.equals(c.type, "email")) {
@@ -1032,7 +1056,20 @@ angular.module('services.candidate', [
                         $scope.contacts.skype = c.value;
                     }
                     if (angular.equals(c.type, "mphone")) {
-                        $scope.contacts.mphone = c.value;
+                        var arr = c.value.split(",");
+                        if(arr[0] != undefined){
+                            $scope.contacts.mphone = arr[0].trim();
+                        }
+                        if(arr[1] != undefined){
+                            $scope.contacts.mphone2 = arr[1].trim();
+                            $scope.secondPhoneInput = true;
+                        }
+                        if(arr[2] != undefined){
+                            $scope.contacts.mphone3 = arr[2].trim();
+                            $scope.btnToAddPhone = false;
+                            $scope.thirdPhoneInput = true;
+                        }
+                        console.log($scope.contacts);
                     }
                     if (angular.equals(c.type, "homepage")) {
                         $scope.contacts.homepage = c.value;
@@ -1304,6 +1341,11 @@ angular.module('services.candidate', [
             let data;
             $rootScope.loading = true;
             candidate.all(params, (response) => {
+                if(!response.objects) {
+                    $rootScope.loading = false;
+                    resolve(response, params);
+                    return;
+                }
                 candidate.getCandidate = response.objects.map(item => item.localId);
                 data = candidate.getCandidate;
                 localStorage.setItem('getAllCandidates', JSON.stringify(data));

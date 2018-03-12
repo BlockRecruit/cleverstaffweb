@@ -124,6 +124,7 @@ controller.controller('ContactAddController',["$scope", "$location", "$routePara
 
                });
            }else{
+               $scope.contact.vacancyId = $rootScope.VacancyAddedInCandidate.vacancyId;
                Contacts.addContactAndSignUp($scope.contact, function(resp) {
                    $scope.errorMessage.show = false;
                    if (angular.equals(resp.status, "ok")) {

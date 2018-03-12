@@ -91,7 +91,7 @@ var app = angular.module('RecruitingAppStart', [
 }]).config(function($translateProvider,tmhDynamicLocaleProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=11'
+        suffix: '.json?b=12'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -1012,42 +1012,16 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             });
         });
 
-          $(window).scroll(function(){
-              if($('.vacancy-info').offset() && $(window).scrollTop() >= $('.vacancy-info').offset().top - 10) {
-                  $('.apply-buttons').addClass("fixed")
-              } else {
-                  if($('.apply-buttons').hasClass("fixed")) {
-                      $('.apply-buttons').removeClass("fixed");
-                  }
+        $(window).scroll(function(){
+          if($('.vacancy-info').offset() && $(window).scrollTop() >= $('.vacancy-info').offset().top - 10) {
+              $('.apply-buttons').addClass("fixed")
+          } else {
+              if($('.apply-buttons').hasClass("fixed")) {
+                  $('.apply-buttons').removeClass("fixed");
               }
-      });
+          }
+        });
 
-          let timeout;
-          $scope.companyInfoHoverIn = function() {
-              let logo = $('.logo:eq( 1 )'),
-                  companyInfo = $('.comp-abs'),
-                  nameWrap = $('.name_wrap'),
-                  infoSite = $('.info--site:eq(2)'),
-                  name = $('.block-company-public-vacancy .companyInfo h2:eq(1)'),
-                  site = $('.info--site:eq(2) a'),
-                  fb = $('.info--site:eq(3) a');
-
-              clearTimeout(timeout);
-
-              if(infoSite.width() - site.width() <= 44.64 || infoSite.width() - fb.width() <= 44.64 || nameWrap.width() <= name.width()) {
-                  $scope.adaptiveImgWidth = logo.height();
-                  logo.height($scope.adaptiveImgWidth);
-                  timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
-                  companyInfo.addClass('hovered');
-              }
-          };
-
-          $scope.companyInfoHoverOut = function() {
-              let nameWrap = $('.name_wrap');
-              nameWrap.css('white-space', 'nowrap');
-              $('.comp-abs').removeClass('hovered');
-              clearTimeout(timeout);
-          };
 
         $scope.share = function (sourse) {
             if ($scope.companyLogo != undefined && $scope.companyLogo !== '') {
@@ -2073,6 +2047,7 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
         $scope.saveAnswersTest = false;
         $scope.endTestMsg = null;
         $scope.serverAddress = serverAddress;
+        $scope.checkPreviousAnswers = false;
         $scope.inHover = function(){
             $scope.showHover = true;
         };
@@ -2098,6 +2073,7 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
             Test.openTest({
                 appointmentId: $routeParams.id
             },function(resp){
+                $scope.startTestFunc();
                 $scope.showFirstTest = true;
                 $scope.loaded = true;
                 if(resp.message == 'This test is already passed. If you want to pass it one more time, please contact the recruiter who sent you the test link.'){
@@ -2215,11 +2191,22 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
             }
         };
         $scope.startTestFunc = function (tab) {
-            $scope.currentTab = tab;
+            $scope.currentTab = tab || "start_test";
             Test.startTest({
                 appointmentId: $routeParams.id
             },function(resp){
                 if(resp.status == 'ok'){
+                    if(!tab) {
+                        if(resp.object.question.num > 1 || resp.object.answer) {
+                            $scope.startTestFunc('first_test');
+                            return;
+                        }
+                        $scope.checkPreviousAnswers = true;
+                        return;
+                    }
+
+                    if(resp.object.answer) setRightAnswer(resp);
+
                     $scope.firstTestQuestion = resp;
                     if(resp.object.question.imageId != undefined){
                         $scope.imageId = serverAddress + "/getPublicFile/" + resp.object.question.imageId;
@@ -2228,7 +2215,8 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                     if($scope.initialCountdown > 0){
                         $scope.timer();
                     }
-                    $scope.firstPage = 1;
+                    $scope.firstPage = resp.object.question.num;
+                    $scope.checkPreviousAnswers = true;
                 }else{
                     notificationService.error(resp.message);
                 }
@@ -2317,35 +2305,7 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                     $scope.firstTestQuestion = resp;
                     $scope.imageId = serverAddress + "/getPublicFile/" + resp.object.question.imageId;
                     -$scope.firstPage;
-                    var rightAnswer = {};
-                    angular.copy(resp.object.answer, rightAnswer);
-                    if(rightAnswer != null){
-                        if(rightAnswer.variantsArray != undefined){
-                            $scope.variantsAnswer = [];
-                            angular.forEach(rightAnswer.variantsArray, function (val) {
-                                var answer = {};
-                                angular.copy(resp.object.question, answer);
-                                if(answer.answerType == 'few_answers'){
-                                    $scope.variantsAnswer = [];
-                                    angular.forEach(rightAnswer.variantsArray, function (val) {
-                                        $scope.variantsAnswer.push(val);
-                                        $scope.checkAnswerText = undefined;
-                                        $scope.textAnswers = undefined;
-                                    });
-                                }else if(answer.answerType == 'one_answer'){
-                                    $scope.checkAnswerText = null;
-                                    angular.forEach(rightAnswer.variantsArray, function (val) {
-                                        $scope.checkAnswerText = val;
-                                        $scope.variantsAnswer = undefined;
-                                        $scope.textAnswers = undefined;
-                                    });
-                                }
-                            });
-                        }else if(rightAnswer.text != undefined){
-                            $scope.textAnswers = rightAnswer.text;
-                            $('#answersText').val($scope.textAnswers);
-                        }
-                    }
+                    setRightAnswer(resp);
                     $scope.hideTest = true;
                     $scope.saveAnswersTest = false;
                 }else{
@@ -2419,6 +2379,38 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                 }
             })
         };
+
+        function setRightAnswer(resp) {
+            var rightAnswer = {};
+            angular.copy(resp.object.answer, rightAnswer);
+            if(rightAnswer != null){
+                if(rightAnswer.variantsArray != undefined){
+                    $scope.variantsAnswer = [];
+                    angular.forEach(rightAnswer.variantsArray, function (val) {
+                        var answer = {};
+                        angular.copy(resp.object.question, answer);
+                        if(answer.answerType == 'few_answers'){
+                            $scope.variantsAnswer = [];
+                            angular.forEach(rightAnswer.variantsArray, function (val) {
+                                $scope.variantsAnswer.push(val);
+                                $scope.checkAnswerText = undefined;
+                                $scope.textAnswers = undefined;
+                            });
+                        }else if(answer.answerType == 'one_answer'){
+                            $scope.checkAnswerText = [];
+                            angular.forEach(rightAnswer.variantsArray, function (val) {
+                                $scope.checkAnswerText = [val];
+                                $scope.variantsAnswer = undefined;
+                                $scope.textAnswers = undefined;
+                            });
+                        }
+                    });
+                }else if(rightAnswer.text != undefined){
+                    $scope.textAnswers = rightAnswer.text;
+                    $('#answersText').val($scope.textAnswers);
+                }
+            }
+        }
         $scope.showModalImage = function() {
             $('#question-modal').removeClass('hidden');
             $('#question-modal').addClass('visible');
@@ -2428,33 +2420,6 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
             $('#question-modal').addClass('hidden');
         };
 
-        let timeout;
-        $scope.companyInfoHoverIn = function() {
-            let logo = $('.logo'),
-                companyInfo = $('.companyInfo'),
-                nameWrap = $('.name_wrap'),
-                infoSite = $('.info--site:eq'),
-                name = $('.block-company-public-vacancy .companyInfo h2'),
-                site = $('.info--site:eq a'),
-                fb = $('.info--site:eq a');
-
-            clearTimeout(timeout);
-
-            if(infoSite.width() - site.width() <= 44.64 || infoSite.width() - fb.width() <= 44.64 || nameWrap.width() <= name.width()) {
-                $scope.adaptiveImgWidth = logo.height();
-                logo.height($scope.adaptiveImgWidth);
-                timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
-                companyInfo.addClass('hovered');
-            }
-        };
-
-        $scope.companyInfoHoverOut = function() {
-            console.log('out');
-            let nameWrap = $('.name_wrap');
-            nameWrap.css('white-space', 'nowrap');
-            $('.companyInfo').removeClass('hovered');
-            clearTimeout(timeout);
-        };
     }]
 );
 /*** Created by вик on 31.05.2017.*/
@@ -3240,6 +3205,51 @@ angular.module('RecruitingAppStart.directives', [])
                 }
             }
         }
+    }]).directive('toggleCompanyBlock', ['$timeout', function($timeout){
+        return {
+            restrict: "A",
+            link: function(scope, element, attrs) {
+                let logo, nameWrap, linksWrap, name, siteLink, fbLink,
+                    id = '#' + attrs.id,
+                    timeout;
+
+                $timeout(() => {
+                    nameWrap = $(id + ' .name_wrap');
+                    name = $(id +  ' .name_wrap h2');
+
+                    linksWrap = $(id + ' .info--site:eq(0)');
+                    siteLink = $(id + ' .info--site .site-link');
+                    fbLink = $(id + ' .info--site .fb-link');
+
+                    console.log($(id));
+                    console.log(logo);
+                });
+
+                element.on({
+                    mouseenter: () => showBlock(),
+                    mouseleave: () => hideBlock()
+                });
+
+                function showBlock() {
+                    logo = $(id + ' .logo');
+
+                    clearTimeout(timeout);
+
+                    if(linksWrap.width() - siteLink.width() <= 44.64 || linksWrap.width() - fbLink.width() <= 44.64 || nameWrap.width() <= name.width()) {
+                        let adaptiveImgWidth = logo.height();
+                        logo.height(adaptiveImgWidth);
+                        timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
+                        element.addClass('hovered');
+                    }
+                }
+
+                function hideBlock() {
+                    nameWrap.css('white-space', 'nowrap');
+                    element.removeClass('hovered');
+                    clearTimeout(timeout);
+                }
+            }
+        }
     }]);
 
 function similar_text(first, second, percent) {
@@ -3849,27 +3859,51 @@ angular.module('services.candidate', [
 
     var duplicatesByNameAndContacts = false;
     candidate.checkDuplicatesByNameAndContacts = function($scope) {
-        console.log(duplicatesByNameAndContacts);
+        //console.log(duplicatesByNameAndContacts);
         $scope.dublicetesTypeName = '';
         $scope.dublicetesTypeMphone = '';
         $scope.dublicetesTypeEmail = '';
         $scope.dublicetesTypeSkype = '';
         $scope.dublicetesTypeLinkedin = '';
-        if ((!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.mphone && $scope.contacts.mphone.length > 4) || (!duplicatesByNameAndContacts && $scope.candidate.fullName && $scope.candidate.fullName.length > 3)) {
+        if ((!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.skype && $scope.contacts.skype.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4) || (!duplicatesByNameAndContacts && $scope.contacts && ($scope.contacts.mphone || $scope.contacts.mphone2 || $scope.contacts.mphone3 )) || (!duplicatesByNameAndContacts && $scope.candidate.fullName && $scope.candidate.fullName.length > 3)) {
         //if (!duplicatesByNameAndContacts && $scope.contacts && $scope.contacts.email && $scope.contacts.email.length > 4 && $scope.contacts.skype && $scope.contacts.skype.length > 4 && $scope.contacts.linkedin && $scope.contacts.linkedin.length > 4 && $scope.contacts.mphone && $scope.contacts.mphone.length > 4 && $scope.candidate.fullName && $scope.candidate.fullName.length > 3) {
+        //    $rootScope.loading = true;
             duplicatesByNameAndContacts = true;
             setTimeout(function(){
+                $scope.addPhone = '';
+                if ($scope.contacts.mphone && ($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == '') && ($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == '')) {
+                    $scope.addPhone = $scope.contacts.mphone;
+                }
+                if (($scope.contacts.mphone == undefined || $scope.contacts.mphone == '') && $scope.contacts.mphone2 && $scope.contacts.mphone3) {
+                    $scope.addPhone = $scope.contacts.mphone2.concat(", ", $scope.contacts.mphone3);
+                }
+                if (($scope.contacts.mphone == undefined || $scope.contacts.mphone == '') && ($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == '') && $scope.contacts.mphone3) {
+                    $scope.addPhone = $scope.contacts.mphone3;
+                }
+                if (($scope.contacts.mphone == undefined || $scope.contacts.mphone == '') && $scope.contacts.mphone2 && ($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == '')) {
+                    $scope.addPhone = $scope.contacts.mphone2;
+                }
+                if($scope.contacts.mphone && $scope.contacts.mphone2 && ($scope.contacts.mphone3 == undefined || $scope.contacts.mphone3 == '')){
+                    $scope.addPhone = $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2);
+                }
+                if($scope.contacts.mphone3 && $scope.contacts.mphone && ($scope.contacts.mphone2 == undefined || $scope.contacts.mphone2 == '')){
+                    $scope.addPhone = $scope.contacts.mphone.concat(", ", $scope.contacts.mphone3);
+                }
+                if($scope.contacts.mphone && $scope.contacts.mphone2 && $scope.contacts.mphone3){
+                    $scope.addPhone = $scope.contacts.mphone.concat(", ", $scope.contacts.mphone2).concat(", ", $scope.contacts.mphone3);
+                }
                 candidate.getDuplicatesByNameAndContacts({
                     email: $scope.contacts.email,
                     skype: $scope.contacts.skype,
                     linkedInUrl: $scope.contacts.linkedin,
-                    phone: $scope.contacts.mphone,
+                    phone: $scope.addPhone,
                     fullName: $scope.candidate.fullName
                 }, function (res) {
                     $scope.duplicatesByNameAndContacts = [];
+                    //$rootScope.loading = false;
                     if (res.status === "ok" && res.objects != undefined && res.objects.length > 0) {
                         angular.forEach(res.objects, function (c, i) {
-                            console.log(c.candidateId != $scope.candidate.candidateId, ' candID');
+                            //console.log(c.candidateId != $scope.candidate.candidateId, ' candID');
                             if (c.candidateId != $scope.candidate.candidateId) {
                                 $scope.duplicatesByNameAndContacts.push(c);
                                 if (c.type == "name") {
@@ -4259,7 +4293,7 @@ angular.module('services.candidate', [
             }
             cand.employmentType = $scope.getSelect2EmploymentType();
             cand.db = $('.datepickerOfBirth').datetimepicker();
-            console.log( cand.db, ' cand.db');
+            //console.log( cand.db, ' cand.db');
             if ($("#pac-input").val() && $("#pac-input").val().length == 0) {
                 cand.region = null;
             } else if ($("#pac-input").val() && $("#pac-input").val().length > 0) {
@@ -4270,7 +4304,6 @@ angular.module('services.candidate', [
                 if ($scope.contacts.email) {
                     cand.contacts.push({type: "email", value: $scope.contacts.email});
                 }
-                console.log('vik12q');
                 //candidate.checkDuplicatesByEmail($scope);
                 if ($scope.contacts.mphone) {
                     cand.contacts.push({type: "mphone", value: $scope.contacts.mphone});
@@ -4362,6 +4395,7 @@ angular.module('services.candidate', [
             $scope.photoLink = $scope.serverAddress + "/getapp?id=" + $scope.candidate.photo + "&d=true";
             $scope.fileForSave = [];
             $scope.contacts = [];
+            console.log(object.contacts);
             if (object.contacts != undefined) {
                 $.each(object.contacts, function(i, c) {
                     if (angular.equals(c.type, "email")) {
@@ -4371,7 +4405,20 @@ angular.module('services.candidate', [
                         $scope.contacts.skype = c.value;
                     }
                     if (angular.equals(c.type, "mphone")) {
-                        $scope.contacts.mphone = c.value;
+                        var arr = c.value.split(",");
+                        if(arr[0] != undefined){
+                            $scope.contacts.mphone = arr[0].trim();
+                        }
+                        if(arr[1] != undefined){
+                            $scope.contacts.mphone2 = arr[1].trim();
+                            $scope.secondPhoneInput = true;
+                        }
+                        if(arr[2] != undefined){
+                            $scope.contacts.mphone3 = arr[2].trim();
+                            $scope.btnToAddPhone = false;
+                            $scope.thirdPhoneInput = true;
+                        }
+                        console.log($scope.contacts);
                     }
                     if (angular.equals(c.type, "homepage")) {
                         $scope.contacts.homepage = c.value;
@@ -4643,6 +4690,11 @@ angular.module('services.candidate', [
             let data;
             $rootScope.loading = true;
             candidate.all(params, (response) => {
+                if(!response.objects) {
+                    $rootScope.loading = false;
+                    resolve(response, params);
+                    return;
+                }
                 candidate.getCandidate = response.objects.map(item => item.localId);
                 data = candidate.getCandidate;
                 localStorage.setItem('getAllCandidates', JSON.stringify(data));

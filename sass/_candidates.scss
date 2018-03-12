@@ -645,6 +645,9 @@
 					padding-left: 0;
 				}
 				.sortBy {
+					.width-auto {
+						width: auto;
+					}
 					.no-padding {
 						padding: 0;
 					}
@@ -1935,6 +1938,16 @@
 						position: relative;
 
 						vertical-align: middle;
+						.phone {
+							display: block;
+							.fa-star {
+								font-size: 16px;
+
+								position: initial;
+
+								color: #ffc100 !important;
+							}
+						}
 						.absolute-right {
 							font-size: 16px;
 
@@ -2017,7 +2030,7 @@
 						text-align: center;
 						vertical-align: middle;
 						img {
-							width: 52%;
+							width: 38%;
 							height: auto;
 							&.exp {
 								width: 60%;

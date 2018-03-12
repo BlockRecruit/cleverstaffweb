@@ -50,6 +50,7 @@ angular.module('services.slider', [
                             length = data.collection.length;
                             sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [false, 'up']);
                             $rootScope.setCurrent = false;
+                            localStorage.setItem('setCurrent', false);
                             $rootScope.loading = false;
                         })
                     });
@@ -207,7 +208,7 @@ angular.module('services.slider', [
         }else if( i >= blockCandidateOffsetRight){
             iterator.current();
             event.target.style.cursor = 'pointer';
-            createArrowRight(blockElementOffsetLeft, sliderElements.nextElement["cacheCandidateLength"], sliderElements.nextElement["cacheCurrentIndex"], mainBlock);
+            createArrowRight(blockElementOffsetLeft, mainBlock);
         }else{
             mainBlock.style.cursor = 'initial';
         }
@@ -239,16 +240,17 @@ angular.module('services.slider', [
 
     sliderElements.setCurrent = () =>{
         currentPage = getLocation();
-        if($rootScope.setCurrent)
+        $rootScope.setCurrent = $rootScope.setCurrent || JSON.parse(localStorage.getItem('setCurrent'));
+
+        if(+$rootScope.setCurrent){
             sliderElements.nextElement["cacheCurrentPosition"] =  getPosition.apply(sliderElements, [true]);
+        }
         $rootScope.setCurrent = false;
+        localStorage.setItem('setCurrent', false);
     };
 
     function getPosition(flag, route){
         let pageNumber = this.params.page.number + 1, count = this.params.page.count, index, resault;
-        console.log(pageNumber, 'pageNumber');
-        console.log(count, 'count');
-        console.log(count, 'count');
 
         if(flag){
             iterator.current();
@@ -269,30 +271,31 @@ angular.module('services.slider', [
     function createArrowLeft(width, mainBlock) {
         let currentIndex = iterator.index,
             number = sliderElements.params.page.number + 1;
+        console.log(sliderElements.nextElement.cacheCurrentPosition, 'sliderElements.nextElement.cacheCurrentPosition');
 
-        if((number === 1) && (currentIndex == 0) || !$rootScope.isAddCandidates){
+        if((number === 1) && (currentIndex == 0) || !$rootScope.isAddCandidates || sliderElements.nextElement.cacheCurrentPosition < 0){
             mainBlock.style.cursor = 'initial';
             return;
         }
 
-        $('.main-block').append('<div class="leftBlockArrow" data-btn="left" ng-if="currentIndex != 1" style="width:' + width + 'px" data-btn="left"><i data-btn="left" class="fa fa-chevron-left nextElements"></i> </div>');
+        $('.main-block').append('<div class="leftBlockArrow" ng-show="currentIndex" data-btn="left" style="width:' + width + 'px" data-btn="left"><i data-btn="left" class="fa fa-chevron-left nextElements"></i> </div>');
     }
 
-    function createArrowRight(width, cacheCandidateLength, cacheCurrentIndex, mainBlock) {
+    function createArrowRight(width, mainBlock) {
         let max = $rootScope.objectSize || localStorage.getItem('objectSize'),
             currentIndex = iterator.index,
             currentLength = iterator.length - 1,
             number = sliderElements.params.page.number + 1,
             count = sliderElements.params.page.count;
 
-        console.log($rootScope.isAddCandidates, 'sliderElements');
+        console.log(sliderElements.nextElement.cacheCurrentPosition, 'sliderElements.nextElement.cacheCurrentPosition');
 
-        if((number === Math.ceil(max / count)) && (currentIndex == currentLength) || !$rootScope.isAddCandidates){
+        if((number === Math.ceil(max / count)) && (currentIndex == currentLength) || !$rootScope.isAddCandidates || sliderElements.nextElement.cacheCurrentPosition < 0){
             mainBlock.style.cursor = 'initial';
             return;
         }
 
-        $('.main-block').append('<div class="rightBlockArrow" data-btn="right"  style="width:' + width + 'px"; data-btn="right"><i  data-btn="right" class="fa fa-chevron-right nextElements"></i></div>');
+        $('.main-block').append('<div class="rightBlockArrow" ng-show="currentIndex" data-btn="right"  style="width:' + width + 'px"; data-btn="right"><i  data-btn="right" class="fa fa-chevron-right nextElements"></i></div>');
     };
 
     function getCoords(elem) {

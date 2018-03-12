@@ -45,9 +45,8 @@
                     <a ng-click="VacanciesInfCandidTaskHistClientFunc('task') "
                        ng-class="{'selected' : currentTab == 'task'}">
                         {{'Tasks'|translate}}
-                            <span class="counter">
-                               {{totalTasksNumber}}
-                           </span>
+                        <span class="counter ">{{totalTasksNumber}}</span>
+                        </span>
                     </a>
                 </li>
                 <li class="pull-left">
@@ -275,6 +274,17 @@
                         </span>
                 </a>
                 <div class="clearfix"></div>
+                <div class="wrap-switcher" ng-if="$root.me.recrutRole === 'admin' || isResponsiblePerson">
+                    <span style="vertical-align: top;">{{"Hide from all public vacancies list:"|translate}}</span>
+                    <span class="switch" style="display: inline-block;">
+                        <input  id="cmn-toggle-10"
+                                class="cmn-toggle cmn-toggle-round upcomingScopeSwticher"
+                                ng-click="hiddenOrShowVacanciesOnThePublicListVacancies(accessVacancies,vacancy.vacancyId)"
+                                ng-model="accessVacancies"
+                                type="checkbox">
+                        <label  class="" style="margin: 0px 0px 0px 8px;" for="cmn-toggle-10"></label>
+                    </span>
+                </div>
                 <div class="social hidden-xs hidden-sm"
                      ng-if="vacancy.descr.length > 30 && (vacancy.status != 'payment' && vacancy.status != 'canceled' && vacancy.status != 'completed')">
                     <h4>
@@ -684,9 +694,10 @@
                         <!--</div>-->
                     <!--</td>-->
                     <td class="name" data-title="'Name'">
-                        <a  ng-click="routeOnCandidate(candidate.candidateId.localId,'candidate');">{{::candidate.candidateId.fullName}}</a>
+                        <a ng-href="#/candidates/{{candidate.candidateId.localId}}" ng-click="routeOnCandidate($event,candidate.candidateId.localId,'candidate');" ng-context-menu="menuOptions">{{::candidate.candidateId.fullName}}</a>
                     </td>
-                    <td ng-if="candidate.candidateId.status == 'archived'"></td>
+                    <!--<td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}"></td>-->
+                    <!--<td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}" colspan="2"></td>-->
                     <td class="date" ng-if="candidate.candidateId.status != 'archived'">
                         <span ng-click="openChangeVacancyInterviewDate(candidate);$event.stopPropagation();">
                             {{::candidate.dateInterview|dateFormat:true}}
@@ -719,10 +730,9 @@
                     <!--<td class="comment">-->
                         <!--<span>{{candidate.comment}}</span>-->
                     <!--</td>-->
-                    <td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}"></td>
-                    <td class="add-comment-text text-right hidden-xs" ng-if="candidate.candidateId.status != 'archived'">
+                    <td class="add-comment-text text-right hidden-xs" colspan="2" ng-if="candidate.candidateId.status != 'archived'">
                         <span title="{{::candidate.dm | dateFormat2}}" ng-click="showModalAddCommentToCandidate(candidate);$event.stopPropagation();" ng-show="activeName != 'approved'" class="comment text-left pull-left">
-                            {{candidate.comment | limitTo:80}}
+                            {{candidate.comment | limitTo:60}}
                             <span class="comment" ng-show="candidate.comment.length > 53 && activeName != 'approved'">...</span>
                         </span>
                         <a href="#/company/employee/add/{{::candidate.candidateId.localId}}" ng-click="$event.stopPropagation();"
@@ -745,11 +755,11 @@
                         <button class="restore-candidate" translate="Restore" ng-click="restoreCandidate(candidate.candidateId.candidateId, candidate.candidateId.localId, candidate.candidateId.fullName)">
                         </button>
                     </td>
-                    <td ng-if="candidate.candidateId.status == 'archived'" class="text-left hidden-xs">
+                    <td ng-if="candidate.candidateId.status == 'archived'" class="text-center hidden-xs" colspan="3">
                         <span translate="Remove from this vacancy" class="remove-from-vacancy" ng-click="showDeleteInterview(candidate);$event.stopPropagation();">
                         </span>
                     </td>
-                    <td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}" class="text-right" style="width: 6%;">
+                    <td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}" class="text-right" style="width: 7%;">
                         <i ng-show="activeName != 'approved'" ng-click="showModalAddCommentToCandidate(candidate);$event.stopPropagation();" title="{{'Edit comment' | translate}}" class="fa fa-pencil" aria-hidden="true"></i>
                         <i class="fa fa-times delete" aria-hidden="true"  title="{{'Remove Candidate' | translate}} {{'from vacancy' | translate}}" ng-click="showDeleteInterview(candidate);$event.stopPropagation();"></i>
                     </td>

@@ -1,5 +1,5 @@
 <div class="container-fluid block-public block-public-test">
-    <div class="row companyInfo" ng-mouseenter="companyInfoHoverIn()" ng-mouseleave="companyInfoHoverOut()" ng-show="currentTab === 'start_test'">
+    <div class="row companyInfo" id="toggle-company-block" toggle-company-block ng-show="currentTab === 'start_test' && checkPreviousAnswers">
         <!--<img class="logo" src="/images/sprite/Angelina%20_Joli.png" alt=""/>-->
         <img class="logo" ng-if="companyInfo.logo" ng-src="{{serverAddress}}/getlogo?id={{companyInfo.logo}}" alt=""/>
         <div class="info">
@@ -30,7 +30,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" ng-show="checkPreviousAnswers">
             <div class="block-info" ng-show="currentTab == 'start_test' && showFirstTest && !firstTestQuestion && !showEndMessage">
 
                 <div class="block-accent">
@@ -55,7 +55,7 @@
                 <button class="btn-new apply small send-test" ng-click="startTestFunc('first_test')">{{'Start the test' | translate }}</button>
             </div>
 
-            <div class="block-info question"   ng-show="currentTab == 'first_test' && hideTest && firstTestQuestion">
+            <div class="block-info question"   ng-show="currentTab == 'first_test' && hideTest && firstTestQuestion && !showEndMessage">
 
                 <div class="question-header">
                     <div ng-show="initialCountdown > 0" class="time-limit">

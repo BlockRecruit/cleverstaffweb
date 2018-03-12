@@ -97,9 +97,11 @@
                             <span class="vacancy__location" ng-show="publicVacancy.region.fullName">{{publicVacancy.region.fullName}}</span>
                         </div>
                         <div class="col-xs-12 col-sm-4 text-right vacancy__salary--wrap">
-                            <div class="emp-salary" ng-show="publicVacancy.employmentType || publicVacancy.salaryFrom && publicVacancy.salaryTo">
-                                <span class="vacancy__salary" ng-show="publicVacancy.salaryFrom && publicVacancy.salaryTo">
-                                    {{publicVacancy.salaryFrom}}-{{publicVacancy.salaryTo}} {{publicVacancy.currency}}
+                            <div class="emp-salary" ng-show="publicVacancy.employmentType || publicVacancy.salaryFrom || publicVacancy.salaryTo">
+                                <span class="vacancy__salary" ng-show="publicVacancy.salaryFrom || publicVacancy.salaryTo">
+                                    <span ng-if="publicVacancy.salaryFrom && !publicVacancy.salaryTo">{{publicVacancy.salaryFrom}}+ {{publicVacancy.currency}}</span>
+                                    <span ng-if="!publicVacancy.salaryFrom && publicVacancy.salaryTo">{{'up to' | translate}} {{publicVacancy.salaryTo}} {{publicVacancy.currency}}</span>
+                                    <span ng-if="publicVacancy.salaryFrom && publicVacancy.salaryTo">{{publicVacancy.salaryFrom}}-{{publicVacancy.salaryTo}} {{publicVacancy.currency}}</span>
                                     <span ng-if="publicVacancy.employmentType">,</span>
                                 </span>
                                 <span class="vacancy__employment" uib-tooltip="{{publicVacancy.employmentType | translate}}" ng-show="publicVacancy.employmentType">

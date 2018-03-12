@@ -38,6 +38,8 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "boolSearchInfo": $sce.trustAsHtml($filter('translate')('Boolean search info')),
                     "exchangeHost":  $sce.trustAsHtml($filter('translate')('The Exchange server URL')),
                     "exchangeDomain":  $sce.trustAsHtml($filter('translate')('Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address')),
+                    "hmInvite":  $sce.trustAsHtml($filter('translate')('Hiring Manager will be responsible for this vacancy after registration in account.')),
+                    "exchangeDomain":  $sce.trustAsHtml($filter('translate')('Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address')),
                     "mailingAddFromJob": $sce.trustAsHtml($filter('translate')('Select the vacancy and the stage. Candidates from the selected stage will become the recipients of the mailing. Only candidates with e-mail will be added')),
                     "mailingClone": $sce.trustAsHtml($filter('translate')('Create the copy of current mailing for the further sending'))
                 };

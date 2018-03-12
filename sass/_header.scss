@@ -272,12 +272,11 @@ body {
 
 				display: flex;
 				flex-direction: row;
+				//width: 101px;
+				//min-height: 101px;
 				min-height: 48px;
 				margin-top: 2px;
-				padding-top: 10px;
-				padding-right: 6px;
-				padding-bottom: 12px;
-				padding-left: 6px;
+				padding: 10px 6px 12px 6px;
 
 				color: $theme-white;
 				border-top-left-radius: 5px;
@@ -988,17 +987,29 @@ ul.nav.navbar-nav {
 	background: #fff;
 	box-shadow: none;
 }
-//@media(max-width: 605px) {
-//	.modal-open-news .modal {
-//		top: 0;
-//		right: 0;
-//		bottom: 0;
-//		left: 0;
-//
-//		margin-left: 0;
-//	}
-//}
 
+.navbar .nav.navigation li {
+	&.ru-width {
+		&.organizer {
+			width: 119.59px;
+		}
+		&.vacancies {
+			width: 103.52px;
+		}
+		&.candidates {
+			width: 116.92px;
+		}
+		&.clients {
+			width: 108.7px;
+		}
+		&.users {
+			width: 94.13px;
+		}
+		&.reports {
+			width: 87.44px;
+		}
+	}
+}
 
 @media(max-width: $screen-md) {
 	.navbar .nav.information img.margin-left {

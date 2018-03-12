@@ -474,7 +474,7 @@
 						}
 					}
 					&.candidate-deleted {
-						width: 27%;
+						width: 40%;
 					}
 					.restore-candidate {
 						@include button-styling();
@@ -517,7 +517,7 @@
 					padding-left: 3px;
 				}
 				.date {
-					width: 145px;
+					width: 18%;
 				}
 				.fa-address-card-o {
 					cursor: pointer;
@@ -525,7 +525,7 @@
 					color: #74b832;
 				}
 				.name {
-					width: 25%;
+					width: 20%;
 					i {
 						color: $theme-green;
 					}
@@ -622,22 +622,54 @@
 					background-color: #e1e1e1;
 					td {
 						&:nth-child(1) {
+							width: 1%;
+
 							opacity: 0.5;
 						}
 						&:nth-child(2) {
+							width: 1%;
+
 							opacity: 0.5;
 						}
 						&:nth-child(3) {
+							width: 1%;
+
 							opacity: 0.5;
 						}
+						.name {
+							width: 20%;
+						}
+						.candidate-deleted {
+							width: 43%;
+						}
+						&:nth-child(6) {
+							width: 5%;
+						}
 						&:nth-child(7) {
-							width: 27%;
+							//width: 27%;
+							width: 49%;
 						}
 						&:nth-child(8) {
-							width: 19%;
+							width: 20%;
 						}
 						&:nth-child(9) {
-							width: 22%;
+							width: 23%;
+						}
+					}
+				}
+				& > .deleted {
+					td {
+						.name {
+							width: 30%;
+						}
+						.candidate-deleted {
+							width: 50%;
+						}
+						&:nth-child(6) {
+							width: 18%;
+						}
+						&:nth-child(7) {
+							width: 28%;
 						}
 					}
 				}

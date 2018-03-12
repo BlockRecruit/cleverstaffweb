@@ -574,7 +574,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                             });
 
                             angular.forEach($scope.customStagesFull.interviewStates, function (customStatus) {
-                                if (res.action.stateOld == customStatus.customInterviewStateId || res.action.stateNew === customStatus.customInterviewStateId) {
+                                if (res.interview.state == customStatus.customInterviewStateId) {
                                     res.interview.state = customStatus.name;
                                 }
                             });
