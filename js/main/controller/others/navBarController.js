@@ -1418,7 +1418,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     TooltipService.createTooltips();
 
-    $rootScope.showNews = function(){
+    function showNews(){
         News.getNews(function(resp){
             if(resp.status == 'ok'){
                 var i = 0;
@@ -1465,15 +1465,15 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                     angular.forEach($rootScope.news, function(data,key){
                                         array.push(data);
                                     });
-                                    News.setNewsAsViewed({
-                                        postsIds: array
-                                    },function(res){
-                                        if(res.status == 'ok'){
-
-                                        }else{
-                                            notificationService.error(res.message);
-                                        }
-                                    });
+                                    // News.setNewsAsViewed({
+                                    //     postsIds: array
+                                    // },function(res){
+                                    //     if(res.status == 'ok'){
+                                    //
+                                    //     }else{
+                                    //         notificationService.error(res.message);
+                                    //     }
+                                    // });
                                 });
                             }
                         },5)
@@ -1485,10 +1485,10 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     if($rootScope.modalInstance){
         $rootScope.modalInstance.closed.then(function(){
-            $rootScope.showNews()
+            showNews()
         });
     }else{
-        $rootScope.showNews();
+        showNews();
     }
 
     //console.log($rootScope.previousHistoryFeedback);

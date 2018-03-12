@@ -43,7 +43,7 @@ component.component('preview', {
                 .then(([compaignPrice, accountInfo, freeMailCount]) => {
                     $scope.sendMailingParams = {
                         accountBalance: accountInfo.object.amount,
-                        compaignPrice: compaignPrice.object / 100,
+                        compaignPrice: compaignPrice.object,
                         freeMailCount: freeMailCount.object.orgParams.freeMailCount,
                         available: true
                     };
