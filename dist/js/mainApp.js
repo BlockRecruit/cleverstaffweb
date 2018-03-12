@@ -11374,11 +11374,15 @@ angular.module('services.mailing',[]
 
     });
 
-    try {
-        service.currentStep = JSON.parse($localStorage.get('currentStep')) || "mailing-details";
-    } catch (err){
-        console.log('Error in parse JSON service.currentStep', err);
-    }
+    service.getCurrentStep = function () {
+        try {
+            return JSON.parse($localStorage.get('currentStep')) || "mailing-details";
+        } catch (err){
+            console.log('Error in parse JSON service.currentStep', err);
+            return "mailing-details";
+        }
+    };
+
 
     service.candidatesForMailing = [];
     service.listObject = {};
@@ -11397,7 +11401,6 @@ angular.module('services.mailing',[]
 
 
     service.setStep = function (step) {
-        service.currentStep = step;
         $localStorage.set('currentStep', JSON.stringify(step));
         $state.go(step);
     };
@@ -11941,6 +11944,7 @@ angular.module('services.mailing',[]
                     $localStorage.set('candidatesForMailing', candidatesForMailing);
                     $localStorage.set('subscriberListParams', subscriberListParams);
                     $localStorage.set('currentStep', JSON.stringify("mailing-details"));
+                    $localStorage.set('stepClickable', 3);
                     $location.url('/mailing');
                 }
             });
@@ -11957,6 +11961,7 @@ angular.module('services.mailing',[]
             $localStorage.remove('mailingRecipientsSource');
             $localStorage.remove('candidatesForMailing');
             $localStorage.set('subscriberListParams', subscriberListParams);
+            $localStorage.set('stepClickable', 2);
             $localStorage.set('currentStep', JSON.stringify("mailing-details"));
             $location.url('/mailing');
         }
@@ -11964,7 +11969,15 @@ angular.module('services.mailing',[]
 
 
     service.toSentMailingFromHistory = function (mailingId) {
-        service.getComp
+        service.getCompaign({"compaignId": mailingId}, resp => {
+            if(resp.status != 'error') {
+                service.toSentPreview(resp.object);
+            } else {
+                notificationService.error(resp.message)
+            }
+        }, error => {
+            console.log('Error in toSentMailingFromHistory')
+        })
     };
 
 
@@ -46091,7 +46104,7 @@ controller
 
 
 controller.controller('mailingController', ['$scope', '$rootScope', '$translate', '$localStorage', 'notificationService','$filter', '$uibModal','$state', '$transitions', 'Mailing', function ($scope, $rootScope, $translate, $localStorage, notificationService, $filter, $uibModal, $state, $transitions, Mailing) {
-    $scope.currentStep = Mailing.currentStep;
+    $scope.currentStep = Mailing.getCurrentStep();
 
     let mailingDetails = Mailing.getMailingDetails();
 

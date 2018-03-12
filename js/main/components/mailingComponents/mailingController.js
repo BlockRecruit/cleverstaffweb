@@ -1,5 +1,5 @@
 controller.controller('mailingController', ['$scope', '$rootScope', '$translate', '$localStorage', 'notificationService','$filter', '$uibModal','$state', '$transitions', 'Mailing', function ($scope, $rootScope, $translate, $localStorage, notificationService, $filter, $uibModal, $state, $transitions, Mailing) {
-    $scope.currentStep = Mailing.currentStep;
+    $scope.currentStep = Mailing.getCurrentStep();
 
     let mailingDetails = Mailing.getMailingDetails();
 
