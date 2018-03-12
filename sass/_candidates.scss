@@ -192,9 +192,6 @@
 .block-candidates {
 	.select {
 		position: relative;
-		& > input {
-			height: 21px;
-		}
 		div.activeBlock {
 			z-index: 999999!important;
 
@@ -1323,7 +1320,11 @@
 						}
 					}
 					.ageFrom {
+						position: relative;
+						top: 3px;
+
 						padding: 10px;
+						padding-top: 0;
 						input {
 							position: relative;
 							top: 8px;
