@@ -1956,6 +1956,9 @@
 							right: 2px;
 
 							color: #b8b8b8;
+							&.fa {
+								top: calc(50% - 7.5px);
+							}
 						}
 						.employment-type {
 							display: block;

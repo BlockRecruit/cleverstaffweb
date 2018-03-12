@@ -1856,6 +1856,17 @@
                                 <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='linkedin'"></i>
                             </td>
                         </tr>
+                        <tr ng-show="(candidatePreview.contacts|filter:type = 'telegram').length > 0">
+                            <td class="content-header"><img  src="../../images/sprite/vectorpaint.svg" alt="telegram"></td>
+                            <td class="item-in-table" style=" padding: 0.5em 0.3em;word-break: break-word;">
+                                <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'telegram'" style="position: relative;">
+                                    <div ng-repeat="item in contact.value.split(' ') track by $index">
+                                        <a target="_blank" style="display: inline;" href="{{item|makeLink}}">{{item|cut:true:30}}</a>
+                                    </div>
+                                    <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='telegram'"></i>
+                                </div>
+                            </td>
+                        </tr>
                         <tr ng-show="(candidatePreview.contacts|filter:type = 'facebook').length > 0">
                             <td class="content-header"><i class="fa fa-facebook" aria-hidden="true"></i></td>
                             <td class="item-in-table" style=" padding: 0.5em 0.3em">
@@ -1880,15 +1891,6 @@
                                 <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'homepage'">
                                     <a target="_blank" href="{{contact.value}}">{{contact.value|cut:true:30}}</a>
                                     <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='home'"></i>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr ng-show="(candidatePreview.contacts|filter:type = 'telegram').length > 0">
-                            <td class="content-header"><img  src="../../images/sprite/vectorpaint.svg" alt="telegram"></td>
-                            <td class="item-in-table" style=" padding: 0.5em 0.3em;word-break: break-word;">
-                                <div ng-repeat="contact in candidatePreview.contacts|filter:type = 'telegram'">
-                                    <a target="_blank" style="display: inline;" href="{{contact.value|makeLink}}">{{contact.value|cut:true:30}}</a>
-                                    <i style="color: #ffc100" class="fa fa-star absolute-right" ng-show="candidatePreview.preferableContact =='telegram'"></i>
                                 </div>
                             </td>
                         </tr>
