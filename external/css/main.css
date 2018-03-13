@@ -1878,7 +1878,7 @@ footer{
 .table td:first-child{
     width: 420px;
 }
-.table td:not(:first-child, .relative){
+.table td:not(:first-child){
     width: 180px;
     vertical-align: middle;
 }
@@ -1937,16 +1937,6 @@ footer{
 }
 .twoHundred{
     border-right: 1px solid #f5f5f5!important;
-}
-tr.accent {
-    background-color: #f5f5f5;
-}
-td.relative span{
-    position: relative;
-    left: 30px;
-}
-td.relative span.first {
-    left: 14px;
 }
 .no-border{
     border-bottom: 1px solid #fff!important;
@@ -3875,7 +3865,6 @@ select.webkit-fix {
     padding-top: 38px;
     margin-top: 75px;
     text-align: left;
-    vertical-align: middle!important;
 }
 .terms-content {
     font-family: Roboto Light, sans-serif;
