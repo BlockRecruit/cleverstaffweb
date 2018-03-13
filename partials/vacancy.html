@@ -418,9 +418,6 @@
                 <div class="pull-right settings">
                     <i ng-click="candidateInVacancy('extra_status',$event)" class="fa fa-cog" aria-hidden="true" title="{{'Setting the stage' | translate}}" id="openSettings"></i>
                 </div>
-                <div class="show-list hidden-xs hidden-sm">
-                    <a href="" ng-click="showSearchCandidateFunc()">{{'Show a list' | translate}}</a>
-                </div>
                 <div class="clearfix"></div>
                 <div class="sortableOptions">
                     <div>
@@ -586,6 +583,10 @@
                 <a href="" class="btn btn-success no-hover-sm" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidatesAddToVacancyIds);">
                     {{'change_status_1' | translate}} ({{candidatesAddToVacancyIds.length}})
                 </a>
+            </div>
+            <div class="show-list pull-right hidden-xs hidden-sm">
+                <a href="" type="button" class="btn btn-primary" ng-show="!showSearchCandidate" ng-click="showSearchCandidateFunc()">{{'Show a list' | translate}}</a>
+                <a href="" type="button" class="btn btn-primary" ng-show="showSearchCandidate" ng-click="hideSearchCandidateFunc()">{{'Сandidates in stages' | translate}}</a>
             </div>
             <div class="clearfix"></div>
             <div class="row header" ng-show="!showSearchCandidate">
