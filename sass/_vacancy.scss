@@ -382,6 +382,9 @@
 						span {
 							opacity: 1;
 						}
+						a {
+							opacity: 1;
+						}
 					}
 					.delete {
 						opacity: 1;
@@ -532,6 +535,13 @@
 				.add-comment-text {
 					max-width: 39px;
 					span:not(.comment) {
+						transition: 0.5s;
+
+						opacity: 0;
+					}
+					a {
+						@include button-green-styling();
+
 						transition: 0.5s;
 
 						opacity: 0;
