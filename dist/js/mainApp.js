@@ -930,7 +930,7 @@ directive('appVersion', ['version', function(version) {
                     };
                     scope.getPlugin = function() {
                         if (navigator.saysWho.indexOf("Chrome") != -1) {
-                            $window.open("https://chrome.google.com/webstore/detail/cleverstaff-extension/mefmhdnojajocbdcpcajdjnbccggbnha");
+                            $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
                         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
                             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
                             $window.open("/extension/CleverstaffExtension4Firefox.xpi");
@@ -15977,7 +15977,7 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
     $scope.achievePopup();
     $scope.getPlugin = function() {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
-            window.open("https://chrome.google.com/webstore/detail/cleverstaff-extension/komohkkfnbgjojbglkikdfbkjpefkjem");
+            window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
             window.open("/extension/CleverstaffExtension4Firefox.xpi");
@@ -17951,7 +17951,7 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
 
     $scope.getPlugin = function () {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
-            $window.open("https://chrome.google.com/webstore/detail/cleverstaff-extension/komohkkfnbgjojbglkikdfbkjpefkjem");
+            $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
             $window.open("/extension/CleverstaffExtension4Firefox.xpi");
@@ -20434,7 +20434,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $scope.getPlugin = function () {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
-            $window.open("https://chrome.google.com/webstore/detail/cleverstaff-extension/mefmhdnojajocbdcpcajdjnbccggbnha");
+            $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
             $window.open("/extension/CleverstaffExtension4Firefox.xpi");
@@ -30221,7 +30221,7 @@ controller.controller('EfficiencyController', ["$scope", "$rootScope", "$filter"
 
     $scope.getPlugin = function() {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
-            $window.open("https://chrome.google.com/webstore/detail/cleverstaff-extension/mefmhdnojajocbdcpcajdjnbccggbnha");
+            $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
             $window.open("/extension/CleverstaffExtension4Firefox.xpi");
@@ -31642,9 +31642,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.getPlugin = function(status) {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
             if(status == 'old'){
-                $window.open("//chrome.google.com/webstore/detail/cleverstaff-extension/mefmhdnojajocbdcpcajdjnbccggbnha");
+                $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
             }else{
-                $window.open("//chrome.google.com/webstore/detail/cleverstaff-extension/komohkkfnbgjojbglkikdfbkjpefkjem");
+                $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
             }
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
