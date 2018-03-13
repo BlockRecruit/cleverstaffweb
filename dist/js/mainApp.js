@@ -35513,11 +35513,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             if($scope.currentTab == 'suggestions'){
                 resetTemplate();
                 $scope.$broadcast('suggestions');
-                // if(checkRequiredFieldsCompletion().invalid) {
-                //     openSuggestionModal();
-                // } else {
-                //     $scope.reloadSuggestions();
-                // }
             }
         };
         function setTaskDatePicker() {
@@ -36592,85 +36587,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         if (frontMode === 'war') {
             googleService.checkAuthTimeout();
         }
-
-        // $scope.reloadSuggestions = function () {
-        //     $rootScope.loading = true;
-        //     vacancySuggestions.getSuggestions({"vacancyId": $scope.vacancy.vacancyId})
-        //         .then(resp => {
-        //             $scope.suggestedCandidates = resp['objects'];
-        //             $rootScope.loading = false;
-        //             $scope.$apply();
-        //         });
-        // };
-
-        // $scope.saveVacancyFromSuggestion = function() {
-        //     if(checkRequiredFieldsCompletion().invalid) {
-        //         notificationService.error($filter('translate')('Fill all fields'));
-        //         return;
-        //     }
-        //     vacancySuggestions.saveVacancy($scope.vacancy)
-        //         .then(resp => {
-        //            if(resp.status === 'ok') {
-        //                notificationService.success($filter('translate')('vacancy_save_1') + $scope.vacancy.position + $filter('translate')('vacancy_save_2'));
-        //                $rootScope.closeModal();
-        //            } else {
-        //                notificationService.error(resp.message);
-        //            }
-        //         }, error => notificationService.error(error));
-        // };
-
-        // function checkRequiredFieldsCompletion() {
-        //     $scope.emptyRequiredFields = [];
-        //     let requiredFields = vacancySuggestions.getRequiredFields($scope.vacancy);
-        //
-        //     Object.keys($scope.vacancy).forEach(key => {
-        //         requiredFields.forEach(field => {
-        //             if(key === field && !$scope.vacancy[key]) {
-        //                 if($scope.emptyRequiredFields.indexOf(key) === -1) {
-        //                     $scope.emptyRequiredFields.push(key);
-        //                 }
-        //             }
-        //             if(!$scope.vacancy[field]) {
-        //                 if($scope.emptyRequiredFields.indexOf(field) === -1) {
-        //                     $scope.emptyRequiredFields.push(field);
-        //                 }
-        //             }
-        //             if(key === 'region' && !$scope.vacancy[key].city) {
-        //                 if($scope.emptyRequiredFields.indexOf(key) === -1) {
-        //                     $scope.emptyRequiredFields.push(key);
-        //                 }
-        //             }
-        //         })
-        //     });
-        //
-        //     return { invalid: Boolean($scope.emptyRequiredFields.length) };
-        // }
-
-        // function openSuggestionModal() {
-        //     if($scope.emptyRequiredFields.length) {
-        //         $scope.modalInstance = $uibModal.open({
-        //             animation: true,
-        //             templateUrl: '../partials/modal/vacancy-suggestion-check-fields.html',
-        //             size: '',
-        //             scope: $scope
-        //         });
-        //
-        //         $scope.modalInstance.result.then(() => {
-        //             if(checkRequiredFieldsCompletion().invalid) $scope.VacanciesInfCandidTaskHistClientFunc('candidate');
-        //         },() => {
-        //             if(checkRequiredFieldsCompletion().invalid) $scope.VacanciesInfCandidTaskHistClientFunc('candidate');
-        //         });
-        //     }
-        // }
-
-        // $scope.sortCandidatesBy = function(head) {
-        //     if(head !== $scope.SuggestionsSortCriteria) {
-        //         $scope.SuggestionsSortCriteria = head;
-        //         $scope.reverseSort = true;
-        //     } else {
-        //         $scope.reverseSort = !$scope.reverseSort;
-        //     }
-        // };
 
         $rootScope.errorMessageForAddCandidate = {show: false, text: ""};
         $rootScope.select2Options = {allowClear: true};
@@ -41062,12 +40978,14 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
 
             Object.keys($scope.vacancy).forEach(key => {
                 requiredFields.forEach(field => {
-                    if(key === field && !$scope.vacancy[key]) {
+                    if(key === field && !$scope.vacancy[key] && $scope.vacancy[key] !== 0) {
+                        console.log($scope.vacancy[key]);
                         if($scope.emptyRequiredFields.indexOf(key) === -1) {
                             $scope.emptyRequiredFields.push(key);
                         }
                     }
-                    if(!$scope.vacancy[field]) {
+                    if(!$scope.vacancy[field] && $scope.vacancy[field] !== 0) {
+                        // if($scope.vacancy[field] && $scope.vacancy[field] === 0) console.log('salary',$scope.vacancy[field]);
                         if($scope.emptyRequiredFields.indexOf(field) === -1) {
                             $scope.emptyRequiredFields.push(field);
                         }

@@ -84,12 +84,13 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
 
             Object.keys($scope.vacancy).forEach(key => {
                 requiredFields.forEach(field => {
-                    if(key === field && !$scope.vacancy[key]) {
+                    if(key === field && !$scope.vacancy[key] && $scope.vacancy[key] !== 0) {
+                        console.log($scope.vacancy[key]);
                         if($scope.emptyRequiredFields.indexOf(key) === -1) {
                             $scope.emptyRequiredFields.push(key);
                         }
                     }
-                    if(!$scope.vacancy[field]) {
+                    if(!$scope.vacancy[field] && $scope.vacancy[field] !== 0) {
                         if($scope.emptyRequiredFields.indexOf(field) === -1) {
                             $scope.emptyRequiredFields.push(field);
                         }
