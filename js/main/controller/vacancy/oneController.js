@@ -105,6 +105,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.show_full_descr = false;
         $scope.showMoveble = false;
         $scope.currentTab = Vacancy.getCurrentTab();
+        console.log('get',Vacancy.getCurrentTab());
         $scope.errorDuplicateStage = false;
         $scope.advicesLimit = 5;
         $scope.activeCustomStageName = '';

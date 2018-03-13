@@ -973,8 +973,12 @@
         <div class="container-fluid matching-tabs">
             <div class="row">
                 <ul>
-                    <li ng-class="{'active': suggestionTab === 'exactMatching'}" ng-click="setSuggestionTab('exactMatching')"><a href="">{{'Exact matching' | translate}}</a></li>
-                    <li ng-class="{'active': suggestionTab === 'suitableMatching'}" ng-click="setSuggestionTab('suitableMatching')"><a href="">{{'Probably suitable' | translate}}</a></li>
+                    <li ng-class="{'active': suggestionTab === 'exactMatching'}" ng-click="setSuggestionTab('exactMatching')">
+                        <a href="">{{'Exact matching' | translate}}</a>
+                    </li>
+                    <li ng-class="{'active': suggestionTab === 'suitableMatching'}" ng-click="setSuggestionTab('suitableMatching')">
+                        <a href="">{{'Probably suitable' | translate}}</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -982,7 +986,6 @@
             <div class="row" ng-show="!suggestedCandidates.length && !$root.loading">
                 <div class="col-md-12">
                     <div class="header">
-                        <!--<h4 ng-show="suggestedCandidates.length">{{'Candidates' | translate}}</h4>-->
                         <h4>{{'Suggested candidates not found' | translate}}</h4>
                     </div>
                 </div>
@@ -1010,11 +1013,8 @@
                                 </th>
                             </tr>
                          </thead>
-                        <!--| orderBy: SuggestionsSortCriteria: reverseSort-->
-                        <!--suggestedCandidates-->
                         <tr ng-repeat="candidate in suggestedCandidates | orderBy: SuggestionsSortCriteria: reverseSort track by $index" ng-class="{'disabled' : candidate.adviceType === 'has'}">
                             <td class="number" data-title="'№'">{{$index + 1}}</td>
-                            <!--<td class="number" data-title="'№'">{{suggestedCandidates.indexOf(candidate) + 1}}</td>-->
                             <td class="preview text-center width-for-table-eye hidden-xs" priview="" pageid="candidate" candidate="candidate">
                                 <div>
                                     <i class="fa fa-address-card-o text_change" title="{{'CV preview'|translate}}" aria-hidden="true"></i>

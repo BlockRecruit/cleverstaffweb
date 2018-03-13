@@ -406,6 +406,7 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
                 Vacancy.edit($scope.vacancy, function(resp) {
                     if (angular.equals(resp.status, "ok")) {
                         notificationService.success($filter('translate')('vacancy_save_1') + $scope.vacancy.position + $filter('translate')('vacancy_save_2'));
+                        Vacancy.setCurrentTab('candidate');
                         $location.path("vacancies/" + resp.object.localId);
                         $scope.clickedAddVacancy = false;
                     } else {

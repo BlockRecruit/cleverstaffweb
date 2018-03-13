@@ -35292,6 +35292,7 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
                 Vacancy.edit($scope.vacancy, function(resp) {
                     if (angular.equals(resp.status, "ok")) {
                         notificationService.success($filter('translate')('vacancy_save_1') + $scope.vacancy.position + $filter('translate')('vacancy_save_2'));
+                        Vacancy.setCurrentTab('candidate');
                         $location.path("vacancies/" + resp.object.localId);
                         $scope.clickedAddVacancy = false;
                     } else {
@@ -35435,6 +35436,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.show_full_descr = false;
         $scope.showMoveble = false;
         $scope.currentTab = Vacancy.getCurrentTab();
+        console.log('get',Vacancy.getCurrentTab());
         $scope.errorDuplicateStage = false;
         $scope.advicesLimit = 5;
         $scope.activeCustomStageName = '';
@@ -40896,8 +40898,10 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
     "$routeParams", "notificationService", "$filter", "$translate","vacancySuggestions","$uibModal",
     function($rootScope, $scope, Vacancy, $location, $routeParams, notificationService, $filter,
              $translate,vacancySuggestions,$uibModal) {
+        $scope.candidates = [];
         $scope.suggestionTab = 'exactMatching';
 
+        console.log('here');
         $scope.SuggestionsSortCriteria = 'scorePersent';
         $scope.reverseSort = true;
 
@@ -40915,7 +40919,11 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
 
         $scope.setSuggestionTab = function(tab) {
             $scope.suggestionTab = tab;
-            getSuggestions(type) // type = 'exactMatching' or 'suitableMatching'
+            if(tab === 'exactMatching') {
+                $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
+            } else {
+                $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, false);
+            }
         };
 
         $scope.saveVacancyFromSuggestion = function() {
@@ -40961,15 +40969,27 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
             }
         };
 
-         function getSuggestions(type) {
+         function getSuggestions() {
             $rootScope.loading = true;
             vacancySuggestions.getSuggestions({"vacancyId": $scope.vacancy.vacancyId})
                 .then(resp => {
-                    $scope.suggestedCandidates = resp['objects'];
-                    console.log($scope.suggestedCandidates);
+                    $scope.candidates = resp['objects'];
+                    $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
                     $rootScope.loading = false;
                     $scope.$apply();
                 });
+        }
+
+        function filterCandidatesByMatching(candidates, exactMatching){
+             let result = [];
+
+             candidates.forEach(candidate => {
+                 if(candidate.exactlyAppropriate === exactMatching) {
+                     result.push(candidate);
+                 }
+             });
+
+             return result;
         }
 
         function checkRequiredFieldsCompletion() {
@@ -40985,7 +41005,6 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
                         }
                     }
                     if(!$scope.vacancy[field] && $scope.vacancy[field] !== 0) {
-                        // if($scope.vacancy[field] && $scope.vacancy[field] === 0) console.log('salary',$scope.vacancy[field]);
                         if($scope.emptyRequiredFields.indexOf(field) === -1) {
                             $scope.emptyRequiredFields.push(field);
                         }

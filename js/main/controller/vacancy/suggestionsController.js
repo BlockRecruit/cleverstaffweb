@@ -2,6 +2,7 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
     "$routeParams", "notificationService", "$filter", "$translate","vacancySuggestions","$uibModal",
     function($rootScope, $scope, Vacancy, $location, $routeParams, notificationService, $filter,
              $translate,vacancySuggestions,$uibModal) {
+        $scope.candidates = [];
         $scope.suggestionTab = 'exactMatching';
 
         $scope.SuggestionsSortCriteria = 'scorePersent';
@@ -21,7 +22,11 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
 
         $scope.setSuggestionTab = function(tab) {
             $scope.suggestionTab = tab;
-            getSuggestions(type) // type = 'exactMatching' or 'suitableMatching'
+            if(tab === 'exactMatching') {
+                $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
+            } else {
+                $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, false);
+            }
         };
 
         $scope.saveVacancyFromSuggestion = function() {
@@ -67,15 +72,27 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
             }
         };
 
-         function getSuggestions(type) {
+         function getSuggestions() {
             $rootScope.loading = true;
             vacancySuggestions.getSuggestions({"vacancyId": $scope.vacancy.vacancyId})
                 .then(resp => {
-                    $scope.suggestedCandidates = resp['objects'];
-                    console.log($scope.suggestedCandidates);
+                    $scope.candidates = resp['objects'];
+                    $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
                     $rootScope.loading = false;
                     $scope.$apply();
                 });
+        }
+
+        function filterCandidatesByMatching(candidates, exactMatching){
+             let result = [];
+
+             candidates.forEach(candidate => {
+                 if(candidate.exactlyAppropriate === exactMatching) {
+                     result.push(candidate);
+                 }
+             });
+
+             return result;
         }
 
         function checkRequiredFieldsCompletion() {
