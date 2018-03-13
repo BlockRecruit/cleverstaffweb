@@ -12,13 +12,13 @@
         <span translate="Mailing"></span>
         <a ng-bind="history.descr" ng-click="toSentPreview(history.compaignId)"></a>
         <span translate="was sent"></span>
-        <span ng-if="history.candidate">
-            {{'history_info.candidate'|translate}}
-             <a ng-click="routeOnCandidate(history.candidate.localId, 'history')">
-                 {{history.candidate.fullName}}
+        <span ng-if="history.candidates.length == 1">
+            {{'candidate_5'|translate}}
+             <a ng-href="#/candidates/{{history.candidates[0].localId}}">
+                 {{history.candidates[0].fullName}}
              </a>
         </span>
-        <span ng-if="history.candidates.length < 3 && history.candidates.length > 1">
+        <span ng-if="history.candidates.length == 2">
             <a ng-href="#/candidates/{{history.candidates[0].localId}}">
                 {{history.candidates[0].fullName}}
             </a> {{'and'|translate}} <a ng-href="#/candidates/{{history.candidates[1].localId}}">
