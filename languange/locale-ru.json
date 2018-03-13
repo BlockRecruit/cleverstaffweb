@@ -1987,7 +1987,7 @@
   "Back to the stages list": "Сгруппировать по этапам",
   "Search in stages": "Поиск кандидата",
   "FIO": "ФИО",
-  "Show a list": "Показать одним списком",
+  "Show a list": "Кандидаты одним списком",
   "Find": "Найти",
   "Search clients":"Найти заказчиков",
   "Search vacancies":"Найти вакансии",
@@ -2805,9 +2805,6 @@
   "Apply via": "Отправить с",
   "Application form": "Форма Заявки",
   "send": "Отправить",
-  "Apply now": "Откликнуться",
-  "Apply via": "Откликнуться с",
-  "Application form": "Отклик на вакансию",
   "Haven`t received the report?": "Не пришел отчет?",
   "Request daily report from": "Запросить ежедневный отчет за",
   "Select date": "Выберите дату",
@@ -2917,7 +2914,6 @@
   "work": "Работает",
   "Searching": "Поиск...",
   "Add another phone number": "Добавить еще один номер телефона",
-  "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email.",
-  "Please attach your CV file": "Прикрепите файл резюме",
-  "Hide from all public vacancies list:":"Скрыть из публичного списка вакансий:"
+  "Hide from all public vacancies list:":"Скрыть из публичного списка вакансий:",
+  "Сandidates in stages": "Кандидаты на этапах"
 }

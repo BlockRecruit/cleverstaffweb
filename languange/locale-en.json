@@ -1473,7 +1473,7 @@
   "Employee id": "Employee ID",
   "You must select a stage": "You must select a stage",
   "choose_stage": "Choose stage",
-  "Show a list": "Show as a single list",
+  "Show a list": "Candidates in one list",
   "Find": "Find",
   "Search clients": "Search clients",
   "Search vacancies": "Search vacancies",
@@ -2325,5 +2325,6 @@
   "Hiring Manager will be responsible for this vacancy after registration in account.": "Hiring Manager will be responsible for this vacancy after registration in account.",
   "work": "Work",
   "Searching": "Searching...",
-  "Add another phone number": "Add another phone number"
+  "Add another phone number": "Add another phone number",
+  "Сandidates in stages": "Сandidates in stages"
 }
