@@ -30,7 +30,7 @@
 
 			position: absolute;
 			z-index: 9;
-			top: 43px;
+			top: 100px;
 			right: 0;
 
 			display: none;
@@ -56,7 +56,7 @@
 
 			position: absolute;
 			z-index: 9;
-			top: 100px;
+			top: 43px;
 			right: 0;
 
 			display: none;
@@ -198,7 +198,7 @@
 	font-family: "Helvetica-Regular";
 	font-size: 14px;
 
-	width: 87px;
+	width: 110px;
 	margin-bottom: 15px;
 	padding: 0 25px;
 
@@ -230,7 +230,4 @@
 			background-color: #fff;
 		}
 	}
-}
-.ru-width {
-	width: 110px;
 }
