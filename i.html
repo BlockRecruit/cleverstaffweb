@@ -34,6 +34,11 @@
 <!-- /builddist -->
 
 <!-- Fixed navbar -->
+<div ng-show="$root.loading" class="loader-container">
+    <div class="loader-outer">
+        <div class="loader"></div>
+    </div>
+</div>
 <div class="navbar navbar-static-top" ng-cloak ng-show="$root.activeController != 'PublicCompanyController' && $root.activeController != 'PublicVacancyController' && $root.activeController != 'PublicTestController' && $root.activeController != undefined">
     <div class="container-fluid">
         <div class="navbar-header-public-vacancy">
