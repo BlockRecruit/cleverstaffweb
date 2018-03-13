@@ -40,10 +40,10 @@ component.component('preview', {
                 getAccountInfo(),
                 getFreeMailCount(),
                 ]).then(([compaignPrice, accountInfo, freeMailCount]) => {
-                    $scope.sendMailingParams = {
+                $scope.sendMailingParams = {
                         accountBalance: accountInfo.object.amount,
                         compaignPrice: compaignPrice.object,
-                        freeMailCount: freeMailCount.object.orgParams.freeMailCount,
+                        freeMailCount: +(freeMailCount.object.orgParams.freeMailCount),
                         available: true
                     };
 

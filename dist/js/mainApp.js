@@ -5988,6 +5988,7 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
         return function(sendMailingParams, mailsToSend) {
             const lang = $translate.use();
 
+            console.log(sendMailingParams.freeMailCount, Boolean(sendMailingParams.freeMailCount));
 
             if(sendMailingParams.freeMailCount && !sendMailingParams.compaignPrice) {
                 if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем. Из них будет использовано " + mailsToSend;
@@ -46564,10 +46565,10 @@ component.component('preview', {
                 getAccountInfo(),
                 getFreeMailCount(),
                 ]).then(([compaignPrice, accountInfo, freeMailCount]) => {
-                    $scope.sendMailingParams = {
+                $scope.sendMailingParams = {
                         accountBalance: accountInfo.object.amount,
                         compaignPrice: compaignPrice.object,
-                        freeMailCount: freeMailCount.object.orgParams.freeMailCount,
+                        freeMailCount: +(freeMailCount.object.orgParams.freeMailCount),
                         available: true
                     };
 

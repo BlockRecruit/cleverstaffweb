@@ -1011,7 +1011,6 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
         return function(sendMailingParams, mailsToSend) {
             const lang = $translate.use();
 
-
             if(sendMailingParams.freeMailCount && !sendMailingParams.compaignPrice) {
                 if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем. Из них будет использовано " + mailsToSend;
                 if(lang === 'en') return sendMailingParams.freeMailCount + " free letters are available. Of these, " + mailsToSend + " letters will be used";
