@@ -84,15 +84,9 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
         }
 
         function filterCandidatesByMatching(candidates, exactMatching){
-             let result = [];
-
-             candidates.forEach(candidate => {
-                 if(candidate.exactlyAppropriate === exactMatching) {
-                     result.push(candidate);
-                 }
+             return candidates.filter(candidate => {
+                 return candidate.exactlyAppropriate === exactMatching;
              });
-
-             return result;
         }
 
         function checkRequiredFieldsCompletion() {

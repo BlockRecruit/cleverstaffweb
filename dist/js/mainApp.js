@@ -40901,7 +40901,6 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
         $scope.candidates = [];
         $scope.suggestionTab = 'exactMatching';
 
-        console.log('here');
         $scope.SuggestionsSortCriteria = 'scorePersent';
         $scope.reverseSort = true;
 
@@ -40981,15 +40980,11 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
         }
 
         function filterCandidatesByMatching(candidates, exactMatching){
-             let result = [];
-
-             candidates.forEach(candidate => {
-                 if(candidate.exactlyAppropriate === exactMatching) {
-                     result.push(candidate);
-                 }
+             return candidates.filter(candidate => {
+                 return candidate.exactlyAppropriate === exactMatching;
              });
 
-             return result;
+             // return result;
         }
 
         function checkRequiredFieldsCompletion() {
