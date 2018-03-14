@@ -35374,6 +35374,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $localStorage.remove("activeCustomStageId");
         localStorage.setItem('candidatesInStagesVac', false);
         Candidate.getCandidate = false;
+        Vacancy.setCurrentTab('candidate');
 
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
@@ -35436,7 +35437,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.show_full_descr = false;
         $scope.showMoveble = false;
         $scope.currentTab = Vacancy.getCurrentTab();
-        console.log('get',Vacancy.getCurrentTab());
         $scope.errorDuplicateStage = false;
         $scope.advicesLimit = 5;
         $scope.activeCustomStageName = '';
@@ -40979,12 +40979,10 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
                 });
         }
 
-        function filterCandidatesByMatching(candidates, exactMatching){
+        function filterCandidatesByMatching(candidates, exactMatching) {
              return candidates.filter(candidate => {
                  return candidate.exactlyAppropriate === exactMatching;
              });
-
-             // return result;
         }
 
         function checkRequiredFieldsCompletion() {
