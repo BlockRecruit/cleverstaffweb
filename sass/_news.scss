@@ -1,4 +1,7 @@
 .block-news {
+	min-height: 100vh;
+
+	background-color: #e3f2dd;
 	.fbGroupPage {
 		line-height: 40px;
 
@@ -27,6 +30,7 @@
 
 			position: absolute;
 			z-index: 9;
+			top: 100px;
 			right: 0;
 
 			display: none;
@@ -34,7 +38,7 @@
 			padding: 10px;
 
 			color: $theme-dark;
-			border: 1px solid $theme-light-grey-hover;
+			border: 1px solid #00b549;
 			background-color: $theme-white;
 			ul {
 				@include bold();
@@ -52,7 +56,7 @@
 
 			position: absolute;
 			z-index: 9;
-			top: 95px;
+			top: 43px;
 			right: 0;
 
 			display: none;
@@ -60,7 +64,7 @@
 			padding: 10px;
 
 			color: $theme-dark;
-			border: 1px solid $theme-light-grey-hover;
+			border: 1px solid #00b549;
 			background-color: $theme-white;
 			a {
 				@include link-styling();
@@ -80,6 +84,150 @@
 					@include bold();
 				}
 			}
+		}
+	}
+	.background-animations {
+		& img.position {
+			position: fixed;
+
+			opacity: 0.45;
+			&.cloud-1 {
+				top: 10%;
+				left: 11%;
+			}
+			&.cloud-2 {
+				position: absolute;
+				top: 110px;
+				left: 22%;
+			}
+			&.cloud-3 {
+				top: 9%;
+				right: 15%;
+			}
+			&.cloud-4 {
+				position: absolute;
+				top: 100px;
+				right: 23%;
+			}
+			&.ball {
+				top: 40%;
+				left: 12%;
+			}
+			&.calendar {
+				top: 34%;
+				right: 7%;
+			}
+			&.calendar-2 {
+				top: 52%;
+				left: 5%;
+			}
+			&.spiral-line {
+				top: 44%;
+				right: 12%;
+			}
+			&.person-3 {
+				top: 54.5%;
+				right: 0;
+			}
+			&.plane {
+				top: 17.5%;
+				left: 1%;
+			}
+			&.person-1 {
+				position: absolute;
+				bottom: 0.8%;
+				left: 10%;
+			}
+			&.person-2 {
+				position: absolute;
+				right: 9%;
+				bottom: 1%;
+			}
+			&.plane-2 {
+				right: 5%;
+				bottom: 3%;
+			}
+			&.flower {
+				bottom: 0;
+				left: 0;
+			}
+		}
+		.cloud-1.ng-enter,
+		.cloud-2.ng-enter,
+		.calendar-2.ng-enter,
+		.plane.ng-enter,
+		.person-1.ng-enter,
+		.ball.ng-enter {
+			transition: 0.65s linear all;
+			transform: translateX(-300%);
+
+			opacity: 0;
+		}
+		.cloud-4.ng-enter,
+		.cloud-3.ng-enter,
+		.calendar.ng-enter,
+		.spiral-line.ng-enter,
+		.person-3.ng-enter,
+		.person-2.ng-enter {
+			transition: 0.65s linear all;
+			transform: translateX(300%);
+
+			opacity: 0;
+		}
+		.cloud-1.ng-enter.ng-enter-active,
+		.ball.ng-enter.ng-enter-active,
+		.calendar-2.ng-enter.ng-enter-active,
+		.plane.ng-enter.ng-enter-active,
+		.person-1.ng-enter.ng-enter-active,
+		.cloud-2.ng-enter.ng-enter-active,
+		.cloud-4.ng-enter.ng-enter-active,
+		.cloud-3.ng-enter.ng-enter-active,
+		.calendar.ng-enter.ng-enter-active,
+		.spiral-line.ng-enter.ng-enter-active,
+		.person-3.ng-enter.ng-enter-active,
+		.person-2.ng-enter.ng-enter-active {
+			transform: translateY(0);
+
+			opacity: 1;
+		}
+	}
+}
+.btn-modern {
+	@include bold();
+
+	font-family: "Helvetica-Regular";
+	font-size: 14px;
+
+	width: 110px;
+	margin-bottom: 15px;
+	padding: 0 25px;
+
+	transition: all 0.3s;
+	text-align: center;
+
+	color: #fff;
+	border: 1px solid #00b549;
+	border-radius: 25px;
+	background-color: #00b549;
+	&.Info {
+		border: 1px solid #00b549;
+		&:hover {
+			color: #00b549;
+			border: 1px solid #00b549;
+			background-color: #fff;
+		}
+	}
+	&:focus {
+		border: none;
+		outline: none;
+	}
+	&.Rules {
+		border: 1px solid #f49518;
+		background-color: #f49518;
+		&:hover {
+			color: #f49518;
+			border: 1px solid #f49518;
+			background-color: #fff;
 		}
 	}
 }
