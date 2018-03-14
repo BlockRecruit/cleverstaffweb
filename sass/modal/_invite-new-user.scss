@@ -1,106 +1,197 @@
 .invite-new-user {
-	::-webkit-input-placeholder {
-		color: $theme-grey;
-	}
-	::-moz-placeholder {
-		color: $theme-grey;
-	}/* Firefox 19+ */
-	:-moz-placeholder {
-		color: $theme-grey;
-	}/* Firefox 18- */
-	:-ms-input-placeholder {
-		color: $theme-grey;
-	}
 	.modal-header {
-		& > h4 {
-			@include bold();
+		position: relative;
+
+		text-align: center;
+		h3 {
+			margin: 0;
 		}
-		i {
-			@include close-item();
+		.close-modal {
+			line-height: 30px;
+
+			position: absolute;
+			top: 10px;
+			right: 10px;
+
+			width: 30px;
+			height: 30px;
+
+			color: #fff;
+			border-radius: 50%;
+			background-color: #dfdee0;
+			&:hover {
+				cursor: pointer;
+			}
 		}
 	}
 	.modal-body {
-		& > span {
-			color: $theme-grey;
-		}
-		& > input {
-			@include input-styling();
-		}
-		.inviteHM {
-			ul {
-				li {
-					span {
-						@include bold();
-					}
+		padding: 0 7% 30px;
+		.step {
+			margin-top: 15px;
+			.step-number {
+				display: block;
+				margin-bottom: 10px;
+			}
+			.user-data {
+				input {
+					height: 30px;
+					padding: 10px 0 10px 10px;
 				}
 			}
-		}
-		.addVacancy {
-			.select2-container {
-				width: 70%;
+			.access {
+				width: 100%;
+				margin-bottom: 10px;
+				padding-bottom: 6px;
+
+				border-bottom: 1px solid #e0e0e0;
+				span {
+					font-family: "Helvetica-Medium";
+					font-size: 16px;
+
+					color: #b8b8b8;
+				}
 			}
-			.fa-info-circle {
-				margin-top: 20px;
-			}
-		}
-		& > .roleInviteUser {
-			margin-top: 10px;
-			& > span {
-				color: $theme-grey;
-			}
-			& > .checkboxes {
-				& > .checkbox-outer {
-					input {
-						cursor: pointer;
-						vertical-align: text-top;
-						&:focus {
-							outline: none;
+			.user-roles {
+				display: inline-flex;
+				width: 100%;
+
+				flex-wrap: wrap;
+				justify-content: space-between;
+				flex: 250px;
+				.user-role {
+					display: inline-flex;
+					flex-direction: row;
+					width: 235px;
+					margin-bottom: 10px;
+					padding: 8px 20px;
+
+					transition: background-color 0.35s ease;
+
+					border: 2px solid #00b549;
+					border-radius: 30px;
+
+					flex-wrap: wrap;
+					justify-content: space-between;
+					align-items: center;
+					label.invite {
+						height: 12px;
+					}
+					.role-settings-wrap {
+						text-align: right;
+						span {
+							display: block;
+							&.role-name {
+								font-family: "Helvetica-Bold";
+								font-size: 15px;
+
+								text-align: center;
+								text-transform: uppercase;
+
+								color: #333;
+							}
+							&.role-type {
+								font-family: "Helvetica-Regular";
+								font-size: 13px;
+
+								color: #b8b8b8;
+							}
 						}
 					}
-					span.grey {
-						font-size: 13px;
-
-						color: $theme-grey;
+					&.selected {
+						background-color: #00b549;
+						.role-settings-wrap {
+							span {
+								color: #fff;
+							}
+						}
+						.custom[type="radio"] {
+							&:checked + label:after {
+								background-color: #fff;
+							}
+							&:checked + label:before,
+							&:not(:checked) + label:before {
+								border: 2px solid #fff;
+								background-color: #00b549;
+							}
+						}
+						&:hover {
+							span {
+								&.role-name {
+									color: #333;
+								}
+								&.role-type {
+									color: #b8b8b8;
+								}
+							}
+						}
 					}
-					.select2-container {
-						width: 70%;
-					}
-					.link {
-						text-decoration: none;
+					&:hover {
+						cursor: pointer;
 
-						color: $theme-link-color;
+						background-color: #f0ffea;
+					}
+					&:last-child {
+						margin-bottom: 0;
+					}
+				}
+				.vacancy-autocompleter {
+					position: relative;
+
+					display: flex;
+					min-width: 230px;
+					max-width: 230px;
+					margin-bottom: 13px;
+
+					align-items: center;
+					i {
+						font-size: 25px;
+
+						position: absolute;
+						top: calc(50% - 12px);
+						right: -25px;
+
+						color: #0096f5;
 					}
 				}
 			}
-			& > .form-inline-position {
-				& > .select {
-					& > select {
-						@include input-styling();
-					}
-				}
+			&:first-child {
+				margin-top: 5px;
 			}
 		}
 	}
 	.modal-footer {
-		.btn {
-			@include button-styling();
-		}
-		.accept {
-			@include button-styling();
-		}
-		.cancel {
-			@include button-styling-cancel();
-		}
-		#disabledBtn {
-			margin-left: 30px;
+		text-align: center;
+		button {
+			font-family: "Helvetica-Heavy";
+			font-size: 14px;
 
-			cursor: pointer;
+			min-width: 180px;
 
-			color: $theme-white;
-			background-color: $theme-blue;
-			&:focus {
-				outline: none;
+			text-transform: uppercase;
+			&.cancel {
+				margin-right: 25px;
+				padding: 8px 20px;
 			}
 		}
+	}
+	.tooltip-dark {
+		margin-top: -20px;
+
+		text-align: left;
+
+		border: 1px solid #333;
+		background-color: #f9f9f9;
+		.tooltip-inner {
+			font-family: "Helvetica-Light";
+			font-size: 14px;
+
+			text-align: left;
+
+			color: #333;
+			background-color: #f9f9f9;
+		}
+	}
+	.select2-choice.select2-default {
+		background: none!important;
 	}
 }

@@ -5111,7 +5111,7 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                 }
                 var cases = [2, 0, 1, 1, 1, 2];
                 var translate = $filter('translate');
-                return age + " " + [translate('years old1'), translate('years old2'), translate('age_1')][(age % 100 > 4 && age % 100 < 20) ? 2 : cases[(age % 10 < 5) ? age % 10 : 5]];
+                return age + " " + [translate('year'), translate('years'), translate('age_1')][(age % 100 > 4 && age % 100 < 20) ? 2 : cases[(age % 10 < 5) ? age % 10 : 5]];
 
             }
         };
@@ -5571,7 +5571,18 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
            });
            return result.join("");
        }
-    });
+    }).filter('userTypes', ['$filter', function($filter) {
+        return function(access) {
+            switch (access) {
+                case 'full-access':
+                    return $filter('translate')('Paid_user');
+                case 'limited-access':
+                    return $filter('translate')('Paid_user');
+                case 'free-access':
+                    return $filter('translate')('Free_user');
+            }
+        }
+    }]);
 function linkify3(text) {
     if (text) {
         text = text.replace(
@@ -12900,7 +12911,14 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "boolSearchInfo": $sce.trustAsHtml($filter('translate')('Boolean search info')),
                     "exchangeHost":  $sce.trustAsHtml($filter('translate')('The Exchange server URL')),
                     "exchangeDomain":  $sce.trustAsHtml($filter('translate')('Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address')),
-                    "hmInvite":  $sce.trustAsHtml($filter('translate')('Hiring Manager will be responsible for this vacancy after registration in account.'))
+                    "hmInvite":  $sce.trustAsHtml($filter('translate')('Hiring Manager will be responsible for this vacancy after registration in account.')),
+                    "userInvite": {
+                        "admin" : $sce.trustAsHtml($filter('translate')('Full control on a company account. Able to manage users, clients, vacancies, and candidates. Paid user')),
+                        "recruter" : $sce.trustAsHtml($filter('translate')('Able to manage clients, vacancies and candidates. Paid user')),
+                        "freelancer" : $sce.trustAsHtml($filter('translate')('Cannot see the full database. Able to manage only clients, vacancies, and candidates he/she is responsible for. Paid user')),
+                        "researcher" : $sce.trustAsHtml($filter('translate')('Cannot see the full database and other users. Able to see only vacancies he/she responsible for and candidates he/she added')),
+                        "client" : $sce.trustAsHtml($filter('translate')('Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number')),
+                    }
                 };
                 $rootScope.tooltips = options;
             });
@@ -14766,7 +14784,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=63'
+        suffix: '.json?b=64'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -19662,7 +19680,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam.languages =  'null';
         $scope.searchParam.origin = null;
         $scope.searchParam.skills = [];
-        $scope.searchParam.withPersonalContacts = 'null';
         $scope.setSkillAutocompleterValueForSearch('');
         $scope.setOriginAutocompleterValue("source");
         resetLanguagesSearCriterion();
@@ -26999,17 +27016,6 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                 $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
                 $rootScope.fromCandidate = [$rootScope.candidateToTest];
                 $rootScope.emailCandidateId = $rootScope.candidateToTest.candidateId;
-                if($rootScope.candidateToTest.contacts.length > 0){
-                    angular.forEach($rootScope.candidateToTest.contacts, function (nval) {
-                        if (nval.type == "email") {
-                            delete  $rootScope.emailCandidate;
-                            var email = nval.value.split(" ")[0];
-                            $rootScope.emailCandidate = email.replace(/,/g,"");
-                        }
-                    });
-                }else{
-                    notificationService.error($filter('translate')('Please add an email before sending a test to this candidate'))
-                }
             }
             $scope.sendTestRequest.push({
                 candidateId: $rootScope.emailCandidateId,
@@ -30479,7 +30485,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.inviteHiringManager = function(){
         $rootScope.modalInstance = $uibModal.open({
             animation: true,
-            templateUrl: 'partials/modal/invite-new-user.html?b5',
+            templateUrl: 'partials/modal/invite-hiring-manager.html',
             size: '',
             resolve: function(){
 
@@ -30831,15 +30837,32 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     // Client.all(Client.searchOptions(), function (response) {
     //     $rootScope.clientsForInvite = response.objects;
     // });
-
-    $rootScope.userRole = [
-        {"name": "Recruiter", "value": "recruter"},
-        {"name": "Admin", "value": "admin"},
-        {"name": "Sales Manager", "value": "salesmanager"},
-        {"name": "Client", "value": "client"},
-        {"name": "Freelancer", "value": "freelancer"},
-        {"name": "Researcher", "value": "researcher"}
+    $rootScope.userRoles = [
+        {
+            type: "fullAccess",
+            roles: [
+                {"name": "Admin", "value": "admin", "type" : "full-access"},
+                {"name": "Recruiter", "value": "recruter", "type": 'full-access'}
+            ]
+        },
+        {
+            type: "limitedAccess",
+            roles: [
+                {"name": "Freelancer", "value": "freelancer", "type": 'limited-access'},
+                {"name": "Researcher", "value": "researcher", "type": 'limited-access'},
+            ]
+        },
+        {
+            type: "freeAccess",
+            roles: [
+                {"name": "Hiring Manager", "value": "client", "type": 'free-access'}
+            ]
+        }
     ];
+
+    $rootScope.selectUserRole = function(role) {
+        $rootScope.inviteUser.role = role.value;
+    };
 
     myIntervalFunction();
     $scope.scopeStyle = {'max-width': "160px"};
@@ -39531,7 +39554,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.changeStatusOfInterviewInVacancy.candidate = false;
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.status = '';
-            $rootScope.changeStatusOfInterviewInVacancy.comment = '';
+            $rootScope.changeStatusOfInterviewInVacancy.comment = candidate.comment;
             $rootScope.showEmployedFields = false;
             $rootScope.changeStatus = '';
             if(candidate.candidateId && typeof candidate.candidateId == 'string' && candidate.candidates) {

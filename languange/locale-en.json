@@ -2327,5 +2327,13 @@
   "Hiring Manager will be responsible for this vacancy after registration in account.": "Hiring Manager will be responsible for this vacancy after registration in account.",
   "work": "Work",
   "Searching": "Searching...",
-  "Add another phone number": "Add another phone number"
+  "Add another phone number": "Add another phone number",
+  "Hiring Manager will be responsible for this vacancy after registration in account.": "Hiring Manager will be responsible for this vacancy after registration in account.",
+  "Paid_user": "Paid user",
+  "Free_user": "Free user",
+  "fullAccess" : "Full access",
+  "limitedAccess" : "Limited access",
+  "freeAccess": "Free access",
+  "Select the role of the new user":"Select the role of the new user",
+  "New user invite":"Invite new user"
 }

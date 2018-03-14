@@ -2914,5 +2914,16 @@
   "work": "Работает",
   "Searching": "Поиск...",
   "Add another phone number": "Добавить еще один номер телефона",
+  "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email.",
+  "Please attach your CV file": "Прикрепите файл резюме",
+  "Hide from all public vacancies list:":"Скрыть из публичного списка вакансий:",
+  "Hide from all public vacancies list:":"Скрыть вакансию из публичного доступа:",
+  "Paid_user":"Платный пользователь",
+  "Free_user":"Бесплатный пользователь",
+  "fullAccess" : "Полный доступ",
+  "limitedAccess" : "Ограниченный доступ",
+  "freeAccess": "Бесплатный доступ",
+  "Select the role of the new user":"Выберите роль нового пользователя",
+  "New user invite":"Пригласить нового пользователя",
   "Hide from all public vacancies list:":"Скрыть из публичного списка вакансий:"
 }

@@ -962,7 +962,18 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
            });
            return result.join("");
        }
-    });
+    }).filter('userTypes', ['$filter', function($filter) {
+        return function(access) {
+            switch (access) {
+                case 'full-access':
+                    return $filter('translate')('Paid_user');
+                case 'limited-access':
+                    return $filter('translate')('Paid_user');
+                case 'free-access':
+                    return $filter('translate')('Free_user');
+            }
+        }
+    }]);
 function linkify3(text) {
     if (text) {
         text = text.replace(
