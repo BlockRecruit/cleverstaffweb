@@ -1017,12 +1017,12 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             }
 
             if(!sendMailingParams.freeMailCount && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
-                return $filter('translate')('The price of mailing is') + ' ' + sendMailingParams.compaignPrice + '$';
+                return $filter('translate')('The price of mailing is') + ' ' + sendMailingParams.compaignPrice.toFixed(2) + '$';
             }
 
             if(sendMailingParams.freeMailCount && sendMailingParams.compaignPrice && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
-                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем, так же стоимость рассылки составит " + sendMailingParams.compaignPrice + '$';
-                if(lang === 'en') return sendMailingParams.freeMailCount + " free letters are available. The cost of mailing will be " + sendMailingParams.compaignPrice + '$';
+                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем. Из них будет использовано " + sendMailingParams.freeMailCount + ".Так же стоимость рассылки составит " + sendMailingParams.compaignPrice.toFixed(2) + '$';
+                if(lang === 'en') return sendMailingParams.freeMailCount + " free letters are available. Of these," + sendMailingParams.freeMailCount + " letters will be used"  + "The cost of mailing will be " + sendMailingParams.compaignPrice.toFixed(2) + '$';
             }
 
             if(sendMailingParams.compaignPrice > sendMailingParams.accountBalance) {
