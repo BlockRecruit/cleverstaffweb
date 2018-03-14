@@ -25,7 +25,6 @@ controller.controller('mailingController', ['$scope', '$rootScope', '$translate'
     }
 
 
-    let storedBreadcrumbs = $localStorage.get('breadcrumbs');
     let defaultBreadcrumbs = [
         {
             href: '#/candidates',
@@ -35,6 +34,34 @@ controller.controller('mailingController', ['$scope', '$rootScope', '$translate'
             transl: 'My mailings'
         }
     ];
+
+
+    if($rootScope.previousLocation) {
+        if($rootScope.previousLocation.indexOf('vacancies') != -1) {
+            if($rootScope.vacancy) {
+                $localStorage.set('breadcrumbs', JSON.stringify([
+                    {
+                        href: '#/vacancies',
+                        transl: 'vacancies'
+                    },
+                    {
+                        href: '#/vacancies/' + $rootScope.vacancy.localId,
+                        value: $rootScope.vacancy.position
+                    },
+                    {
+                        transl: 'My mailings'
+                    }
+                ]));
+            } else {
+                $localStorage.set('breadcrumbs', JSON.stringify(defaultBreadcrumbs));
+            }
+        } else {
+            $localStorage.set('breadcrumbs', JSON.stringify(defaultBreadcrumbs));
+        }
+    }
+
+
+    let storedBreadcrumbs = $localStorage.get('breadcrumbs');
     let breadCrumbs = storedBreadcrumbs?JSON.parse(storedBreadcrumbs):defaultBreadcrumbs;
     breadCrumbs.pop();
     breadCrumbs.push({

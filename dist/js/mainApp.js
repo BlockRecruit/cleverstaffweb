@@ -11669,14 +11669,14 @@ angular.module('services.mailing',[]
     };
 
 
-    service.toCreateMailing = function (candidates, $uibModal, $scope) {
+    service.toCreateMailing = function ($uibModal, $scope, candidates, mailingSource) {
         candidatesForMailing = [];
         delete $rootScope.VacancyStatusFiltered;
-        $localStorage.remove('mailingRecipientsSource');
         $localStorage.remove('candidatesForMailing');
         $localStorage.remove('subscriberListParams');
         $localStorage.remove('currentStep');
         $localStorage.remove('stepClickable');
+        $localStorage.set('mailingRecipientsSource', JSON.stringify(mailingSource));
         $scope.toTheMailing = function () {
             service.setStep("mailing-details");
             $localStorage.set('candidatesForMailing', $rootScope.candidatesWithMail);
@@ -41072,9 +41072,25 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
         });
         let dataForMailingVacancy = [];
         $scope.toCreateMailing = function () {
+            let fullState = {};
+            $scope.VacancyStatusFiltered.some((status)=> {
+                if(status.value == $scope.activeName) {
+                    fullState = status;
+                    return true
+                } else {
+                    return false
+                }
+            });
+            let mailingSource = {
+              vacancyId: $scope.vacancy.vacancyId,
+              localId: $scope.vacancy.localId,
+              state: $scope.activeName,
+              stageName:  $scope.activeCustomStageName?$scope.activeCustomStageName:$scope.activeName,
+              fullState: fullState
+            };
             pushCurrentPick();
-            console.log('vacancy', $scope.vacancy, $scope.activeName, $scope.activeCustomStageName)
-            Mailing.toCreateMailing(dataForMailingVacancy, $uibModal, $scope, $state);
+            console.log('vacancy', $scope.vacancy, $scope.activeName, $scope.activeCustomStageName, fullState)
+            Mailing.toCreateMailing($uibModal, $scope, dataForMailingVacancy, mailingSource);
         };
         $scope.checkAllForMailing = function () {
             if ($scope.allCandidatesChecked) {
@@ -46417,7 +46433,6 @@ controller.controller('mailingController', ['$scope', '$rootScope', '$translate'
     }
 
 
-    let storedBreadcrumbs = $localStorage.get('breadcrumbs');
     let defaultBreadcrumbs = [
         {
             href: '#/candidates',
@@ -46427,6 +46442,34 @@ controller.controller('mailingController', ['$scope', '$rootScope', '$translate'
             transl: 'My mailings'
         }
     ];
+
+
+    if($rootScope.previousLocation) {
+        if($rootScope.previousLocation.indexOf('vacancies') != -1) {
+            if($rootScope.vacancy) {
+                $localStorage.set('breadcrumbs', JSON.stringify([
+                    {
+                        href: '#/vacancies',
+                        transl: 'vacancies'
+                    },
+                    {
+                        href: '#/vacancies/' + $rootScope.vacancy.localId,
+                        value: $rootScope.vacancy.position
+                    },
+                    {
+                        transl: 'My mailings'
+                    }
+                ]));
+            } else {
+                $localStorage.set('breadcrumbs', JSON.stringify(defaultBreadcrumbs));
+            }
+        } else {
+            $localStorage.set('breadcrumbs', JSON.stringify(defaultBreadcrumbs));
+        }
+    }
+
+
+    let storedBreadcrumbs = $localStorage.get('breadcrumbs');
     let breadCrumbs = storedBreadcrumbs?JSON.parse(storedBreadcrumbs):defaultBreadcrumbs;
     breadCrumbs.pop();
     breadCrumbs.push({

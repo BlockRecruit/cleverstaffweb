@@ -4252,9 +4252,25 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
         });
         let dataForMailingVacancy = [];
         $scope.toCreateMailing = function () {
+            let fullState = {};
+            $scope.VacancyStatusFiltered.some((status)=> {
+                if(status.value == $scope.activeName) {
+                    fullState = status;
+                    return true
+                } else {
+                    return false
+                }
+            });
+            let mailingSource = {
+              vacancyId: $scope.vacancy.vacancyId,
+              localId: $scope.vacancy.localId,
+              state: $scope.activeName,
+              stageName:  $scope.activeCustomStageName?$scope.activeCustomStageName:$scope.activeName,
+              fullState: fullState
+            };
             pushCurrentPick();
-            console.log('vacancy', $scope.vacancy, $scope.activeName, $scope.activeCustomStageName)
-            Mailing.toCreateMailing(dataForMailingVacancy, $uibModal, $scope, $state);
+            console.log('vacancy', $scope.vacancy, $scope.activeName, $scope.activeCustomStageName, fullState)
+            Mailing.toCreateMailing($uibModal, $scope, dataForMailingVacancy, mailingSource);
         };
         $scope.checkAllForMailing = function () {
             if ($scope.allCandidatesChecked) {

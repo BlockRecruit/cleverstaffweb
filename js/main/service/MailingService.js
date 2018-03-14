@@ -332,14 +332,14 @@ angular.module('services.mailing',[]
     };
 
 
-    service.toCreateMailing = function (candidates, $uibModal, $scope) {
+    service.toCreateMailing = function ($uibModal, $scope, candidates, mailingSource) {
         candidatesForMailing = [];
         delete $rootScope.VacancyStatusFiltered;
-        $localStorage.remove('mailingRecipientsSource');
         $localStorage.remove('candidatesForMailing');
         $localStorage.remove('subscriberListParams');
         $localStorage.remove('currentStep');
         $localStorage.remove('stepClickable');
+        $localStorage.set('mailingRecipientsSource', JSON.stringify(mailingSource));
         $scope.toTheMailing = function () {
             service.setStep("mailing-details");
             $localStorage.set('candidatesForMailing', $rootScope.candidatesWithMail);
