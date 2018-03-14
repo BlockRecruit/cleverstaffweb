@@ -32,12 +32,19 @@ angular.module('services.vacancySuggestions', [
             })
         };
 
-        vacancySuggestions.getRequiredFields = function(vacancy) {
+        vacancySuggestions.getVacancyRequiredFields = function(vacancy) {
             if(vacancy.employmentType === 'telework') {
                 return ['salaryFrom', 'salaryTo'];
             } else {
-                console.log(vacancy.region);
                 return ['salaryFrom', 'salaryTo', 'region'];
+            }
+        };
+
+        vacancySuggestions.getCandidateRequiredFields = function(vacancy) {
+            if(vacancy.employmentType === 'telework') {
+                return ['salary'];
+            } else {
+                return ['salary', 'region'];
             }
         };
 

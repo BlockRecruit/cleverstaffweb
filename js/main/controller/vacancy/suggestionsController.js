@@ -3,13 +3,16 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
     function($rootScope, $scope, Vacancy, $location, $routeParams, notificationService, $filter,
              $translate,vacancySuggestions,$uibModal) {
         $scope.candidates = [];
+        $scope.vacancyEmptyRequiredFields = [];
+        $scope.candidatesEmptyRequiredFields = [];
         $scope.suggestionTab = 'exactMatching';
 
         $scope.SuggestionsSortCriteria = 'scorePersent';
         $scope.reverseSort = true;
 
         $scope.$on('suggestions', function() {
-            if(checkRequiredFieldsCompletion().invalid) {
+            if(checkRequiredFieldsCompletion($scope.vacancy).invalid) {
+                $scope.vacancyEmptyRequiredFields = checkRequiredFieldsCompletion($scope.vacancy).emptyFields;
                 openSuggestionModal();
             } else {
                 getSuggestions();
@@ -24,13 +27,15 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
             $scope.suggestionTab = tab;
             if(tab === 'exactMatching') {
                 $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
+                console.log($scope.suggestedCandidates);
             } else {
                 $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, false);
+                getCandidatesEmptyFields();
             }
         };
 
         $scope.saveVacancyFromSuggestion = function() {
-            if(checkRequiredFieldsCompletion().invalid) {
+            if(checkRequiredFieldsCompletion($scope.vacancy).invalid) {
                 notificationService.error($filter('translate')('Fill all fields'));
                 return;
             }
@@ -72,12 +77,13 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
             }
         };
 
-         function getSuggestions() {
+        function getSuggestions() {
             $rootScope.loading = true;
             vacancySuggestions.getSuggestions({"vacancyId": $scope.vacancy.vacancyId})
                 .then(resp => {
                     $scope.candidates = resp['objects'];
                     $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
+                    $scope.suggestionTab = 'exactMatching';
                     $rootScope.loading = false;
                     $scope.$apply();
                 });
@@ -89,36 +95,42 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
              });
         }
 
-        function checkRequiredFieldsCompletion() {
-            $scope.emptyRequiredFields = [];
-            let requiredFields = vacancySuggestions.getRequiredFields($scope.vacancy);
+        function getCandidatesEmptyFields() {
+            const candidateRequiredFields = vacancySuggestions.getCandidateRequiredFields($scope.vacancy);
+            $scope.suggestedCandidates.forEach(candidate => {
+                candidate.emptyFields = checkRequiredFieldsCompletion(candidate, candidateRequiredFields).emptyFields;
+                console.log(candidate.emptyFields);
+            });
+        }
 
-            Object.keys($scope.vacancy).forEach(key => {
+        function checkRequiredFieldsCompletion(object, requiredFields = vacancySuggestions.getVacancyRequiredFields($scope.vacancy)) {
+            let emptyFields = [];
+
+            Object.keys(object).forEach(key => {
                 requiredFields.forEach(field => {
-                    if(key === field && !$scope.vacancy[key] && $scope.vacancy[key] !== 0) {
-                        console.log($scope.vacancy[key]);
-                        if($scope.emptyRequiredFields.indexOf(key) === -1) {
-                            $scope.emptyRequiredFields.push(key);
+                    if(key === field && !object[key] && object[key] !== 0) {
+                        if(emptyFields.indexOf(key) === -1) {
+                            emptyFields.push(key);
                         }
                     }
-                    if(!$scope.vacancy[field] && $scope.vacancy[field] !== 0) {
-                        if($scope.emptyRequiredFields.indexOf(field) === -1) {
-                            $scope.emptyRequiredFields.push(field);
+                    if(!object[field] && object[field] !== 0) {
+                        if(emptyFields.indexOf(field) === -1) {
+                            emptyFields.push(field);
                         }
                     }
-                    if(key === 'region' && !$scope.vacancy[key].city) {
-                        if($scope.emptyRequiredFields.indexOf(key) === -1) {
-                            $scope.emptyRequiredFields.push(key);
+                    if(key === 'region' && !object[key].city) {
+                        if(emptyFields.indexOf(key) === -1) {
+                            emptyFields.push(key);
                         }
                     }
-                })
+                });
             });
 
-            return { invalid: Boolean($scope.emptyRequiredFields.length) };
+            return { emptyFields: emptyFields, invalid: Boolean(emptyFields.length) };
         }
 
         function openSuggestionModal() {
-            if($scope.emptyRequiredFields.length) {
+            if($scope.vacancyEmptyRequiredFields.length) {
                 $scope.modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '../partials/modal/vacancy-suggestion-check-fields.html',
@@ -127,9 +139,9 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
                 });
 
                 $scope.modalInstance.result.then(() => {
-                    if(checkRequiredFieldsCompletion().invalid) $scope.$parent.VacanciesInfCandidTaskHistClientFunc('candidate');
+                    if(checkRequiredFieldsCompletion($scope.vacancy).invalid) $scope.$parent.VacanciesInfCandidTaskHistClientFunc('candidate');
                 },() => {
-                    if(checkRequiredFieldsCompletion().invalid) $scope.$parent.VacanciesInfCandidTaskHistClientFunc('candidate');
+                    if(checkRequiredFieldsCompletion($scope.vacancy).invalid) $scope.$parent.VacanciesInfCandidTaskHistClientFunc('candidate');
                 });
             }
         }

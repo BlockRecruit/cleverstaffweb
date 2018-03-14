@@ -129,23 +129,32 @@
 					text-align: center;
 				}
 				&.position {
-					width: 27%;
+					width: 20%;
 					span {
 						font-weight: 600;
 					}
 				}
 				&.button-outer {
-					width: 180px;
+					width: 165px;
 
 					text-align: center;
 				}
 				&.scorePersent {
-					width: 25px;
+					width: 65px;
 
 					span {
 						font-weight: 600;
 
 						color: #74b832;
+					}
+				}
+				&.empty-fields {
+					i {
+						font-size: 22px;
+
+						margin-left: 5px;
+
+						color: #d22b2b;
 					}
 				}
 			}

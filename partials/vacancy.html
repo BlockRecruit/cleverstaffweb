@@ -1007,6 +1007,7 @@
                                 </th>
                                 <th></th>
                                 <th>{{'desired position' | translate}}</th>
+                                <th ng-show="suggestionTab === 'suitableMatching'">Поля, необходимые для заполнения</th>
                                 <th ng-click="sortCandidatesBy('scorePersent')">
                                     <img tooltip-class="customClass" uib-tooltip="{{'Relevancy of the candidate' | translate}}" src="/images/sprite/matching.svg" alt="">
                                     <i ng-if="'scorePersent' === SuggestionsSortCriteria" ng-class="{'fa-caret-up': reverseSort, 'fa-caret-down': !reverseSort}" class="fa" aria-hidden="true"></i>
@@ -1026,7 +1027,7 @@
                                 </a>
                             </td>
                             <td class="salary">
-                                <span ng-if="candidate.salary">{{candidate.salary}} {{candidate.currency}}</span>
+                                <span ng-if="candidate.salary || candidate.salary === 0">{{candidate.salary}} {{candidate.currency}}</span>
                             </td>
                             <td class="button-outer">
                                 <a ng-show="candidate.adviceType !== 'has'" ng-click="saveCandidateFromSuggestions(candidate)" class="btn btn-success no-hover-sm">{{'add_to_vacancy' | translate}}</a>
@@ -1034,6 +1035,11 @@
                             </td>
                             <td class="position">
                                 <span>{{candidate.position}}</span>
+                            </td>
+                            <td class="empty-fields" ng-show="candidate.emptyFields">
+                                <span>Поля необходимые для заполнения:</span>
+                                <i ng-if="candidate.emptyFields.indexOf('region') !== -1" class="fa fa-map-marker" aria-hidden="true"></i>
+                                <i ng-if="candidate.emptyFields.indexOf('salary') !== -1" class="fa fa-usd" aria-hidden="true"></i>
                             </td>
                             <td class="scorePersent">
                                 <span>{{candidate.scorePersent}}%</span>

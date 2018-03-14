@@ -5,7 +5,7 @@
     </div>
     <div class="modal-body">
         <form  name="requiredFieldsForm" class="required-fields">
-            <div class="field" ng-if="emptyRequiredFields.indexOf('salaryFrom') !== -1 || emptyRequiredFields.indexOf('salaryTo') !== -1">
+            <div class="field" ng-if="vacancyEmptyRequiredFields.indexOf('salaryFrom') !== -1 || vacancyEmptyRequiredFields.indexOf('salaryTo') !== -1">
                 <label for="salaryFrom">{{'salary' | translate}}&nbsp(min)</label>
                 <input id="salaryFrom" type="number" min="0" max="99999999"
                        ng-model="vacancy.salaryFrom"
@@ -20,7 +20,7 @@
                     <option value="{{currency.value}}" ng-repeat="currency in currency">{{currency.value}}</option>
                 </select>
             </div>
-            <div class="field" ng-if="emptyRequiredFields.indexOf('region') !== -1">
+            <div class="field" ng-if="vacancyEmptyRequiredFields.indexOf('region') !== -1">
                 <label for="pac-input">{{'Country and city' | translate}}*</label>
                 <input id="pac-input" placeholder="{{'Enter the address'|translate}}"
                        ng-model="regionInput" googleplace>
