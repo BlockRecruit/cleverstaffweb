@@ -169,6 +169,7 @@ angular.module('services.mailing',[]
             paramsObject.vacancyId = recipientsSource.vacancyId;
             paramsObject.vacancyName = recipientsSource.localId;
             paramsObject.stageId = recipientsSource.state;
+            paramsObject.stageName = recipientsSource.stageName;
         }
         return $q((resolve, reject) => {
             if(paramsObject.subscriberListId && !existedList.compaignId) {
@@ -220,6 +221,7 @@ angular.module('services.mailing',[]
             paramsObject.vacancyId = recipientsSource.vacancyId;
             paramsObject.vacancyName = recipientsSource.localId;
             paramsObject.stageId = recipientsSource.state;
+            paramsObject.stageName = recipientsSource.stageName;
         }
         if(existedList && existedList.subscriberLists && !existedList.compaignId) {
             paramsObject.subscriberListId = existedList.subscriberLists[0].subscriberListId;
@@ -401,6 +403,7 @@ angular.module('services.mailing',[]
             newMailing.vacancyId = recipientsSource.vacancyId;
             newMailing.vacancyName = recipientsSource.localId;
             newMailing.stageId = recipientsSource.state;
+            newMailing.stageName = recipientsSource.stageName;
         }
         function saveNewList(resolve, reject) {
             service.setList({name: newMailing.name,

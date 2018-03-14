@@ -4253,6 +4253,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
         let dataForMailingVacancy = [];
         $scope.toCreateMailing = function () {
             pushCurrentPick();
+            console.log('vacancy', $scope.vacancy, $scope.activeName, $scope.activeCustomStageName)
             Mailing.toCreateMailing(dataForMailingVacancy, $uibModal, $scope, $state);
         };
         $scope.checkAllForMailing = function () {

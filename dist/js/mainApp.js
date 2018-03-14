@@ -4890,7 +4890,7 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                     vacancySearchParams.vacancyId = scope.vacancyId||recipientsSource.vacancyId;
                     vacancySearchParams.state = statusPicked.customInterviewStateId?statusPicked.customInterviewStateId:statusPicked.value;
                     if(statusPicked.count > 0 && statusPicked.count < maxCandidatesPerRequest) {
-                        fetchCandidate(vacancySearchParams).then((result) => {
+                        fetchCandidate(vacancySearchParams, statusPicked.value).then((result) => {
                             setTable(result);
                         }, (error) => {
                         });
@@ -4930,12 +4930,12 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                 }
 
 
-                function fetchCandidate(params) {
+                function fetchCandidate(params, stageName) {
                     return new $q((resolve, reject) => {
                         $rootScope.loading = true;
                         Vacancy.getCandidatesInStages(params, (resp) => {
                             if(resp.status != 'error') {
-                                saveVacancyParams(params.state, scope.localId, scope.vacancyId);
+                                saveVacancyParams(params.state, scope.localId, scope.vacancyId, stageName);
                                 $rootScope.loading = false;
                                 if(!$rootScope.$$phase)
                                     $rootScope.$apply();
@@ -4958,11 +4958,12 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                 }
 
 
-                function saveVacancyParams(state, localId, vacancyId) {
+                function saveVacancyParams(state, localId, vacancyId, stageName) {
                     $localStorage.set('mailingRecipientsSource', JSON.stringify({
                         localId: localId?localId:recipientsSource.localId,
                         vacancyId: vacancyId?vacancyId:recipientsSource.vacancyId,
                         state: state,
+                        stageName: stageName,
                         fullState: JSON.parse(scope.currentStatus)
                     }));
                 }
@@ -11505,6 +11506,7 @@ angular.module('services.mailing',[]
             paramsObject.vacancyId = recipientsSource.vacancyId;
             paramsObject.vacancyName = recipientsSource.localId;
             paramsObject.stageId = recipientsSource.state;
+            paramsObject.stageName = recipientsSource.stageName;
         }
         return $q((resolve, reject) => {
             if(paramsObject.subscriberListId && !existedList.compaignId) {
@@ -11556,6 +11558,7 @@ angular.module('services.mailing',[]
             paramsObject.vacancyId = recipientsSource.vacancyId;
             paramsObject.vacancyName = recipientsSource.localId;
             paramsObject.stageId = recipientsSource.state;
+            paramsObject.stageName = recipientsSource.stageName;
         }
         if(existedList && existedList.subscriberLists && !existedList.compaignId) {
             paramsObject.subscriberListId = existedList.subscriberLists[0].subscriberListId;
@@ -11737,6 +11740,7 @@ angular.module('services.mailing',[]
             newMailing.vacancyId = recipientsSource.vacancyId;
             newMailing.vacancyName = recipientsSource.localId;
             newMailing.stageId = recipientsSource.state;
+            newMailing.stageName = recipientsSource.stageName;
         }
         function saveNewList(resolve, reject) {
             service.setList({name: newMailing.name,
@@ -41069,6 +41073,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
         let dataForMailingVacancy = [];
         $scope.toCreateMailing = function () {
             pushCurrentPick();
+            console.log('vacancy', $scope.vacancy, $scope.activeName, $scope.activeCustomStageName)
             Mailing.toCreateMailing(dataForMailingVacancy, $uibModal, $scope, $state);
         };
         $scope.checkAllForMailing = function () {
