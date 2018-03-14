@@ -31384,7 +31384,7 @@ span.custom-tooltip {
       color: #646465;
       border: 1px solid #ccc;
       border-radius: 35px;
-      background: url(../../external/img/svg/btn_google.svg);
+      background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDEyIDEyIj48cGF0aCBmaWxsPSIjNDI4NUY0IiBkPSJNMTEuNzYgNi4xMzZjMC0uNDI1LS4wMzgtLjgzNC0uMTEtMS4yMjdINlY3LjIzaDMuMjNhMi43NiAyLjc2IDAgMCAxLTEuMTk4IDEuODF2MS41MDZIOS45N2MxLjEzNC0xLjA0NCAxLjc4OS0yLjU4MiAxLjc4OS00LjQxeiIvPjxwYXRoIGZpbGw9IiMzNEE4NTMiIGQ9Ik02IDEyYzEuNjIgMCAyLjk3OC0uNTM3IDMuOTctMS40NTRMOC4wMzMgOS4wNDFjLS41MzcuMzYtMS4yMjUuNTczLTIuMDMyLjU3My0xLjU2MyAwLTIuODg1LTEuMDU2LTMuMzU3LTIuNDc0SC42Mzh2MS41NTVBNS45OTggNS45OTggMCAwIDAgNiAxMnoiLz48cGF0aCBmaWxsPSIjRkJCQzA1IiBkPSJNMi42NDMgNy4xNEEzLjYwNyAzLjYwNyAwIDAgMSAyLjQ1NSA2YzAtLjM5NS4wNjgtLjc4LjE4OC0xLjE0VjMuMzA1SC42MzhhNS45OTggNS45OTggMCAwIDAgMCA1LjM5TDIuNjQzIDcuMTR6Ii8+PHBhdGggZmlsbD0iI0VBNDMzNSIgZD0iTTYgMi4zODZjLjg4IDAgMS42NzIuMzAzIDIuMjk0Ljg5OGwxLjcyLTEuNzIxQzguOTc2LjU5NSA3LjYxOCAwIDYgMEE1Ljk5OCA1Ljk5OCAwIDAgMCAuNjM4IDMuMzA1TDIuNjQzIDQuODZDMy4xMTUgMy40NDIgNC40MzcgMi4zODYgNiAyLjM4NnoiLz48L3N2Zz4=);
       background-color: #fcfcfc;
       background-repeat: no-repeat;
       background-position: 8px 7px;
@@ -34725,11 +34725,11 @@ body.modal-open-public-vacancy-form .modal-content {
         color: #202021;
         background-color: #eee !important; }
       .block-my-mailings table.sent-mailings td .status-panel > div.stat-sent {
-        background-color: #0df96d; }
+        background-color: #ffea00; }
       .block-my-mailings table.sent-mailings td .status-panel > div.stat-delivered {
-        background-color: #17dc67; }
+        background-color: #ff9800; }
       .block-my-mailings table.sent-mailings td .status-panel > div.stat-opened {
-        background-color: #00b549; }
+        background-color: #4caf50; }
   .block-my-mailings table.sent-mailings td.clone .button {
     font-weight: 600;
     padding: 3px 12px;
