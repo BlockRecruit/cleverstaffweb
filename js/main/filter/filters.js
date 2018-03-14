@@ -502,7 +502,7 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                 }
                 var cases = [2, 0, 1, 1, 1, 2];
                 var translate = $filter('translate');
-                return age + " " + [translate('year'), translate('years'), translate('age_1')][(age % 100 > 4 && age % 100 < 20) ? 2 : cases[(age % 10 < 5) ? age % 10 : 5]];
+                return age + " " + [translate('years old1'), translate('years old2'), translate('age_1')][(age % 100 > 4 && age % 100 < 20) ? 2 : cases[(age % 10 < 5) ? age % 10 : 5]];
 
             }
         };
