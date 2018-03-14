@@ -47,6 +47,12 @@
 				&.green {
 					background-color: #e9eee9!important;
 				}
+				&.strongWarning {
+					background-color: rgba(229, 86, 95, 0.4) !important;
+				}
+				&.Warning {
+					background-color: rgba(242, 211, 118, 0.6) !important;
+				}
 			}
 			&.strongWarning {
 				background-color: rgba(255, 99, 109, 0.4)!important;
