@@ -19662,6 +19662,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam.languages =  'null';
         $scope.searchParam.origin = null;
         $scope.searchParam.skills = [];
+        $scope.searchParam.withPersonalContacts = 'null';
         $scope.setSkillAutocompleterValueForSearch('');
         $scope.setOriginAutocompleterValue("source");
         resetLanguagesSearCriterion();
@@ -39519,7 +39520,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $rootScope.changeStatusOfInterviewInVacancy.candidate = false;
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.status = '';
-            $rootScope.changeStatusOfInterviewInVacancy.comment = candidate.comment;
+            $rootScope.changeStatusOfInterviewInVacancy.comment = '';
             $rootScope.showEmployedFields = false;
             $rootScope.changeStatus = '';
             if(candidate.candidateId && typeof candidate.candidateId == 'string' && candidate.candidates) {
