@@ -31,7 +31,8 @@
 .error-orgName,
 .error-usersCount,
 .error-password,
-.error-terms{
+.error-terms,
+.error-google-name{
     color: red;
     margin-top: 20px;
 }
