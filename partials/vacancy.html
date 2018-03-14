@@ -579,14 +579,14 @@
                     </option>
                 </select>
             </div>
+            <div class="show-list pull-right hidden-xs hidden-sm">
+                <a href="" type="button" class="btn btn-primary" ng-show="!showSearchCandidate" ng-click="showSearchCandidateFunc()">{{'Show a list' | translate}}</a>
+                <a href="" type="button" class="btn btn-primary" ng-show="showSearchCandidate" ng-click="hideSearchCandidateFunc()">{{'Сandidates in stages' | translate}}</a>
+            </div>
             <div class="changeStatusBtn pull-right" ng-show="candidatesAddToVacancyIds.length > 0" ng-class="{'hidden-xs': showSearchCandidate || candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview' || candidate.state == 'hr_interview' || candidate.state == 'interview_with_the_boss' || candidate.state == 'interview_with_the_client')}">
                 <a href="" class="btn btn-success no-hover-sm" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidatesAddToVacancyIds);">
                     {{'change_status_1' | translate}} ({{candidatesAddToVacancyIds.length}})
                 </a>
-            </div>
-            <div class="show-list pull-right hidden-xs hidden-sm">
-                <a href="" type="button" class="btn btn-primary" ng-show="!showSearchCandidate" ng-click="showSearchCandidateFunc()">{{'Show a list' | translate}}</a>
-                <a href="" type="button" class="btn btn-primary" ng-show="showSearchCandidate" ng-click="hideSearchCandidateFunc()">{{'Сandidates in stages' | translate}}</a>
             </div>
             <div class="clearfix"></div>
             <div class="row header" ng-show="!showSearchCandidate">
