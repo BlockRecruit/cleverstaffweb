@@ -23,11 +23,11 @@ controller.controller('pipelineController', ["$rootScope", "$scope", "notificati
                                   case 1:
                                       data.lastActiveStage = dat;
                                       data.lastActiveStage.differenceInDays = differenceBetweenTwoDates(new Date(), data.lastActiveStage.lastAction);
-                                      if(data.deadline){
+                                      // if(data.deadline){
                                           if(differenceBetweenTwoDates(data.lastActiveStage.lastAction, new Date()) < -5){
                                               data.warning = true;
                                           }
-                                      }
+                                      // }
                                       break;
                                   case 2:
                                       data.previousActiveStage = dat;
