@@ -5571,7 +5571,18 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
            });
            return result.join("");
        }
-    });
+    }).filter('userTypes', ['$filter', function($filter) {
+        return function(access) {
+            switch (access) {
+                case 'full-access':
+                    return $filter('translate')('Paid_user');
+                case 'limited-access':
+                    return $filter('translate')('Paid_user');
+                case 'free-access':
+                    return $filter('translate')('Free_user');
+            }
+        }
+    }]);
 function linkify3(text) {
     if (text) {
         text = text.replace(
@@ -12900,7 +12911,14 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "boolSearchInfo": $sce.trustAsHtml($filter('translate')('Boolean search info')),
                     "exchangeHost":  $sce.trustAsHtml($filter('translate')('The Exchange server URL')),
                     "exchangeDomain":  $sce.trustAsHtml($filter('translate')('Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address')),
-                    "hmInvite":  $sce.trustAsHtml($filter('translate')('Hiring Manager will be responsible for this vacancy after registration in account.'))
+                    "hmInvite":  $sce.trustAsHtml($filter('translate')('Hiring Manager will be responsible for this vacancy after registration in account.')),
+                    "userInvite": {
+                        "admin" : $sce.trustAsHtml($filter('translate')('Full control on a company account. Able to manage users, clients, vacancies, and candidates. Paid user')),
+                        "recruter" : $sce.trustAsHtml($filter('translate')('Able to manage clients, vacancies and candidates. Paid user')),
+                        "freelancer" : $sce.trustAsHtml($filter('translate')('Cannot see the full database. Able to manage only clients, vacancies, and candidates he/she is responsible for. Paid user')),
+                        "researcher" : $sce.trustAsHtml($filter('translate')('Cannot see the full database and other users. Able to see only vacancies he/she responsible for and candidates he/she added')),
+                        "client" : $sce.trustAsHtml($filter('translate')('Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number')),
+                    }
                 };
                 $rootScope.tooltips = options;
             });
@@ -14766,7 +14784,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=62'
+        suffix: '.json?b=64'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -30467,7 +30485,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.inviteHiringManager = function(){
         $rootScope.modalInstance = $uibModal.open({
             animation: true,
-            templateUrl: 'partials/modal/invite-new-user.html?b5',
+            templateUrl: 'partials/modal/invite-hiring-manager.html',
             size: '',
             resolve: function(){
 
@@ -30819,15 +30837,32 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     // Client.all(Client.searchOptions(), function (response) {
     //     $rootScope.clientsForInvite = response.objects;
     // });
-
-    $rootScope.userRole = [
-        {"name": "Recruiter", "value": "recruter"},
-        {"name": "Admin", "value": "admin"},
-        {"name": "Sales Manager", "value": "salesmanager"},
-        {"name": "Client", "value": "client"},
-        {"name": "Freelancer", "value": "freelancer"},
-        {"name": "Researcher", "value": "researcher"}
+    $rootScope.userRoles = [
+        {
+            type: "fullAccess",
+            roles: [
+                {"name": "Admin", "value": "admin", "type" : "full-access"},
+                {"name": "Recruiter", "value": "recruter", "type": 'full-access'}
+            ]
+        },
+        {
+            type: "limitedAccess",
+            roles: [
+                {"name": "Freelancer", "value": "freelancer", "type": 'limited-access'},
+                {"name": "Researcher", "value": "researcher", "type": 'limited-access'},
+            ]
+        },
+        {
+            type: "freeAccess",
+            roles: [
+                {"name": "Hiring Manager", "value": "client", "type": 'free-access'}
+            ]
+        }
     ];
+
+    $rootScope.selectUserRole = function(role) {
+        $rootScope.inviteUser.role = role.value;
+    };
 
     myIntervalFunction();
     $scope.scopeStyle = {'max-width': "160px"};
