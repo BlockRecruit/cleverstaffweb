@@ -1,7 +1,7 @@
 controller.controller('ActivityFutureController', ["$scope", "$translate", "$rootScope", "Vacancy", "frontMode", "$filter", "Sticker",
-    "Service", "ScopeService","Person", "$location", "notificationService","Task","$document", "$uibModal", "$sce", "$timeout", "$route", "Achieve",
+    "Service", "ScopeService","Person", "$location", "notificationService","Task","$document", "$uibModal", "$sce", "$timeout", "$route", "Achieve", "Mailing",
     function($scope, $translate, $rootScope, Vacancy, frontMode, $filter, Sticker, Service, ScopeService, Person, $location,
-             notificationService,Task, $document, $uibModal, $sce, $timeout, $route, Achieve) {
+             notificationService,Task, $document, $uibModal, $sce, $timeout, $route, Achieve, Mailing) {
     $rootScope.loading = true;
     $rootScope.showAchieves = true;
     $scope.activeVacancy = null;
@@ -1025,6 +1025,10 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
                     }
                 },0)
             });
+        };
+
+        $scope.toSentPreview = function (mailing) {
+            Mailing.showSentCompaignById(mailing);
         };
 
         if($rootScope.currentLang == 'en'){

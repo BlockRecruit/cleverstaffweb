@@ -1,0 +1,44 @@
+<div class="col-lg-3">
+    <span class="time" ng-bind-html="vacancy.actions.objects[0].dm |dateFormat6:true |translate"></span>
+</div>
+<div class="col-lg-1 name">
+    <a class="responsible-initials" title="{{::vacancy.actions.objects[0].person.fullName}}" ng-click="$event.stopPropagation();" ng-href="#/users/{{vacancy.creator.userId}}">
+        <span>{{getFirstLetters(vacancy.actions.objects[0].person.fullName)}}</span>
+    </a>
+</div>
+<div class="col-lg-8 margin-top">
+    <span>
+        <span translate="Mailing"></span>
+        <a ng-bind="vacancy.actions.objects[0].descr" ng-click="toSentPreview(vacancy.actions.objects[0].compaignId)"></a>
+        <span translate="was sent"></span>
+        <span ng-if="vacancy.actions.objects[0].candidates.length == 1">
+            {{'candidate_5'|translate}}
+             <a ng-href="#/candidates/{{vacancy.actions.objects[0].candidates[0].localId}}">
+                 {{vacancy.actions.objects[0].candidates[0].fullName}}
+             </a>
+        </span>
+        <span ng-if="vacancy.actions.objects[0].candidates.length == 2">
+            <a ng-href="#/candidates/{{vacancy.actions.objects[0].candidates[0].localId}}">
+                {{vacancy.actions.objects[0].candidates[0].fullName}}
+            </a> {{'and'|translate}} <a ng-href="#/candidates/{{vacancy.actions.objects[0].candidates[1].localId}}">
+                {{vacancy.actions.objects[0].candidates[1].fullName}}
+            </a>
+        </span>
+        <span class="manyCandidates" ng-if="vacancy.actions.objects[0].candidates.length > 3">
+            <span class="boldTxt" ng-click="openMenuWithCandidates(vacancy)">{{'to_candidates'|translate}} (<span class="blueLink">{{vacancy.actions.objects[0].candidates.length}}</span>)</span>
+        </span>
+        {{'history_info.on_vacancy'|translate}}
+        <a href="#/vacancies/{{ vacancy.localId}}">
+            {{vacancy.position}}
+        </a>
+    </span>
+    <span class="manyCandidates" ng-if="vacancy.actions.objects[0].candidates.length > 2">
+        <div ng-show="vacancy.actions.objects[0].showAllCandidates">
+            <span ng-repeat="candidate in vacancy.actions.objects[0].candidates" class="menuCandidate">
+                <a ng-href="#/candidates/{{candidate.localId}}" title="{{candidate.fullName}}">
+                    {{candidate.fullName}}
+                </a>
+            </span>
+        </div>
+    </span>
+</div>

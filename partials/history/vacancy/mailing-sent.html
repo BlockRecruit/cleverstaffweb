@@ -13,25 +13,21 @@
         <a ng-bind="history.descr" ng-click="toSentPreview(history.compaignId)"></a>
         <span translate="was sent"></span>
         <span ng-if="history.candidate">
-            {{'history_info.candidate'|translate}}
-             <a ng-click="routeOnCandidate(history.candidate.localId, 'history')">
+            {{'candidate_5'|translate}}
+             <a ng-href="#/candidates/{{history.candidate.localId}}">
                  {{history.candidate.fullName}}
              </a>
         </span>
-        <span ng-if="history.candidates.length < 3 && history.candidates.length > 1">
+        <span ng-if="history.candidates.length == 2">
             <a ng-href="#/candidates/{{history.candidates[0].localId}}">
                 {{history.candidates[0].fullName}}
             </a> {{'and'|translate}} <a ng-href="#/candidates/{{history.candidates[1].localId}}">
                 {{history.candidates[1].fullName}}
             </a>
         </span>
-        <span class="manyCandidates" ng-if="history.candidates.length > 3">
+        <span class="manyCandidates" ng-if="history.candidates.length > 2">
             <span class="boldTxt" ng-click="openMenuWithCandidates(history)">{{'to_candidates'|translate}} (<span class="blueLink">{{history.candidates.length}}</span>)</span>
         </span>
-        {{'history_info.on_vacancy'|translate}}
-        <a href="#/vacancies/{{ history.vacancy.localId}}">
-            {{history.vacancy.position}}
-        </a>
     </span>
     <span class="manyCandidates" ng-if="history.candidates.length > 2">
         <div ng-show="history.showAllCandidates">
