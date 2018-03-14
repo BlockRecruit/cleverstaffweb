@@ -2914,5 +2914,12 @@
   "work": "Работает",
   "Searching": "Поиск...",
   "Add another phone number": "Добавить еще один номер телефона",
-  "Hide from all public vacancies list:":"Скрыть из публичного списка вакансий:"
+  "Hide from all public vacancies list:":"Скрыть из публичного списка вакансий:",
+  "Paid_user":"Платный пользователь",
+  "Free_user":"Бесплатный пользователь",
+  "fullAccess" : "Полный доступ",
+  "limitedAccess" : "Ограниченный доступ",
+  "freeAccess": "Бесплатный доступ",
+  "Select the role of the new user":"Выберите роль нового пользователя",
+  "New user invite":"Пригласить нового пользователя"
 }
