@@ -12308,6 +12308,7 @@ angular.module('services.task', [
                         $rootScope.closeModal();
                         $scope.urlTaskId = null;
                         $location.$$absUrl = $location.$$absUrl.split("&")[0];
+                        notificationService.success($filter('translate')('Task deleted'));
                         //$scope.$apply();
                     }else{
                         notificationService.error(resp.message);
@@ -14787,7 +14788,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=63'
+        suffix: '.json?b=64'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
