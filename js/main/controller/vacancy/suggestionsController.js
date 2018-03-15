@@ -108,12 +108,12 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
 
             Object.keys(object).forEach(key => {
                 requiredFields.forEach(field => {
-                    if(key === field && !object[key] && object[key] !== 0) {
+                    if(key === field && !object[key]) {
                         if(emptyFields.indexOf(key) === -1) {
                             emptyFields.push(key);
                         }
                     }
-                    if(!object[field] && object[field] !== 0) {
+                    if(!object[field]) {
                         if(emptyFields.indexOf(field) === -1) {
                             emptyFields.push(field);
                         }

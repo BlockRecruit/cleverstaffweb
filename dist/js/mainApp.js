@@ -40929,7 +40929,7 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
         $scope.setSuggestionTab = function(tab) {
             $scope.suggestionTab = tab;
             if(tab === 'exactMatching') {
-                $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
+                $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, false);
                 console.log($scope.suggestedCandidates);
             } else {
                 $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, false);
@@ -41011,12 +41011,12 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
 
             Object.keys(object).forEach(key => {
                 requiredFields.forEach(field => {
-                    if(key === field && !object[key] && object[key] !== 0) {
+                    if(key === field && !object[key]) {
                         if(emptyFields.indexOf(key) === -1) {
                             emptyFields.push(key);
                         }
                     }
-                    if(!object[field] && object[field] !== 0) {
+                    if(!object[field]) {
                         if(emptyFields.indexOf(field) === -1) {
                             emptyFields.push(field);
                         }
