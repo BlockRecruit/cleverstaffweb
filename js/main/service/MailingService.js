@@ -410,7 +410,8 @@ angular.module('services.mailing',[]
                 subscribers: newMailing.subscribers,
                 vacancyId: newMailing.vacancyId,
                 vacancyName: newMailing.vacancyName,
-                stageId: newMailing.stageId
+                stageId: newMailing.stageId,
+                stageName: newMailing.stageName
             }, function (resp) {
                 if(resp.object && resp.object.subscriberListId) {
                     mailingForSend.subscriberLists = [{subscriberListId: resp.object.subscriberListId}];
@@ -570,7 +571,7 @@ angular.module('services.mailing',[]
                 }],
             },
             compaign: {
-                subject: newMailing.subject + ' -- TEST',
+                subject: newMailing.subject,
                 internalName: newMailing.internalName,
                 html: newMailing.text,
                 fromName: newMailing.fromName,
@@ -631,7 +632,8 @@ angular.module('services.mailing',[]
                     vacancySelectParam = {
                         localId: resp.object.vacancyName,
                         vacancyId: resp.object.vacancyId,
-                        state: resp.object.stageId
+                        state: resp.object.stageId,
+                        stageName: resp.object.stageName
                     };
                     resp.object.subscribers.forEach((currentValue) => {
                         candidatesContacts.push(_.pick(currentValue, ['firstName', 'lastName', 'email', 'localId']))
@@ -676,7 +678,6 @@ angular.module('services.mailing',[]
                 text: mailingForEdit.html,
                 compaignId: mailingForEdit.compaignId
             };
-            $localStorage.remove('mailingRecipientsSource');
             $localStorage.remove('mailingRecipientsSource');
             $localStorage.remove('candidatesForMailing');
             $localStorage.set('subscriberListParams', subscriberListParams);

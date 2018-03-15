@@ -2425,5 +2425,6 @@
   "Spam": "Spam",
   "Email does not exist": "Email does not exist",
   "Candidate was sent a mailing": "Candidate was sent a mailing",
-  "to_candidates": "to the candidate"
+  "to_candidates": "to the candidate",
+  "on stage": "on stage"
 }
