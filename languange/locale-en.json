@@ -2335,5 +2335,7 @@
   "limitedAccess" : "Limited access",
   "freeAccess": "Free access",
   "Select the role of the new user":"Select the role of the new user",
-  "New user invite":"Invite new user"
+  "New user invite":"Invite new user",
+  "Add another phone number": "Add another phone number",
+  "Task deleted":"Task deleted"
 }
