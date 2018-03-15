@@ -652,7 +652,7 @@
 				tr {
 					th {
 						&.sent-date {
-							width: 35%;
+							width: 20%;
 
 							text-align: center;
 						}
@@ -660,7 +660,7 @@
 							width: 24%;
 						}
 						&.last-column {
-							width: 25%;
+							width: 20%;
 						}
 					}
 				}
@@ -683,7 +683,8 @@
 				}
 				.status-panel {
 					display: flex;
-					width: 70%;
+					width: 35%;
+					margin: 0 auto;
 					padding: 2px;
 
 					border: 1px solid #ccc;

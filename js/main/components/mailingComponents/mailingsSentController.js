@@ -7,6 +7,7 @@ component.component('sent', {
             page: {number: 0, count: 15},
             status: 'sent'
         };
+        $scope.currentDate = new Date().getTime();
         $scope.tableParams = new ngTableParams({
             page: 1,
             count: $scope.requestParams.page.count

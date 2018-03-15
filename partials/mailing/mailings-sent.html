@@ -25,8 +25,10 @@
                             {{(mailing.sendDate)|dateFormat2}}
                         </span>
                     </td>
-                    <td class="clickable hidden-xs last-column">
+                    <td class="clickable hidden-xs last-column" ng-if="currentDate - mailing.sendDate > 6000000">
                         <sent-mailing-status sent="mailing.sent" delivered="mailing.sent - mailing.undelivered" opened="mailing.opens" class="status-panel"></sent-mailing-status>
+                    </td>
+                    <td class="clickable hidden-xs last-column text-center" ng-if="currentDate - mailing.sendDate <= 6000000" translate="Statistics will appear in a few minutes">
                     </td>
                     <td class="clone" ng-click="$event.stopPropagation()">
                         <button translate="Clone mailing" class="button" ng-click="cloneModal(mailing.compaignId)"></button>
