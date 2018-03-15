@@ -33,7 +33,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.inviteHiringManager = function(){
         $rootScope.modalInstance = $uibModal.open({
             animation: true,
-            templateUrl: 'partials/modal/invite-new-user.html?b5',
+            templateUrl: 'partials/modal/invite-hiring-manager.html',
             size: '',
             resolve: function(){
 
@@ -385,15 +385,32 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     // Client.all(Client.searchOptions(), function (response) {
     //     $rootScope.clientsForInvite = response.objects;
     // });
-
-    $rootScope.userRole = [
-        {"name": "Recruiter", "value": "recruter"},
-        {"name": "Admin", "value": "admin"},
-        {"name": "Sales Manager", "value": "salesmanager"},
-        {"name": "Client", "value": "client"},
-        {"name": "Freelancer", "value": "freelancer"},
-        {"name": "Researcher", "value": "researcher"}
+    $rootScope.userRoles = [
+        {
+            type: "fullAccess",
+            roles: [
+                {"name": "Admin", "value": "admin", "type" : "full-access"},
+                {"name": "Recruiter", "value": "recruter", "type": 'full-access'}
+            ]
+        },
+        {
+            type: "limitedAccess",
+            roles: [
+                {"name": "Freelancer", "value": "freelancer", "type": 'limited-access'},
+                {"name": "Researcher", "value": "researcher", "type": 'limited-access'},
+            ]
+        },
+        {
+            type: "freeAccess",
+            roles: [
+                {"name": "Hiring Manager", "value": "client", "type": 'free-access'}
+            ]
+        }
     ];
+
+    $rootScope.selectUserRole = function(role) {
+        $rootScope.inviteUser.role = role.value;
+    };
 
     myIntervalFunction();
     $scope.scopeStyle = {'max-width': "160px"};
@@ -1208,9 +1225,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.getPlugin = function(status) {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
             if(status == 'old'){
-                $window.open("//chrome.google.com/webstore/detail/cleverstaff-extension/mefmhdnojajocbdcpcajdjnbccggbnha");
+                $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
             }else{
-                $window.open("//chrome.google.com/webstore/detail/cleverstaff-extension/komohkkfnbgjojbglkikdfbkjpefkjem");
+                $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
             }
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");

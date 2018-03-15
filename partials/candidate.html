@@ -576,9 +576,9 @@
                                 <span class="preferable-contact" ng-repeat="contact in multipleContacts['telegram'] track by $index"  title="{{contact}}">
                                     <span  class="not-for-print" target="_blank" href="{{contact}}">
                                        <img width="12px" src="../../images/sprite/vectorpaint.svg" alt="telegram">
-                                       <a style="position: relative;display: inline;" href="{{::contact|makeLink}}">
+                                       <a style="position: relative;display: inline;" target="_blank" href="{{::contact|makeLink}}">
                                            {{::contact|cutName:true:30}}
-                                            <i class="fa fa-star" title='{{"Preferable contact method |  Предпочтительный метод контакта"}}'  ng-show="candidate.preferableContact == 'telegram'"></i>
+                                            <i class="fa fa-star" title="{{'Preferable contact method'|translate}}"  ng-show="candidate.preferableContact == 'telegram'"></i>
                                        </a>
                                     </span>
                                      <a  class="hidden show-for-print" target="_blank" href="{{contact}}">

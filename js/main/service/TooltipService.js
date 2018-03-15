@@ -38,10 +38,16 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "boolSearchInfo": $sce.trustAsHtml($filter('translate')('Boolean search info')),
                     "exchangeHost":  $sce.trustAsHtml($filter('translate')('The Exchange server URL')),
                     "exchangeDomain":  $sce.trustAsHtml($filter('translate')('Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address')),
-                    "hmInvite":  $sce.trustAsHtml($filter('translate')('Hiring Manager will be responsible for this vacancy after registration in account.')),
-                    "exchangeDomain":  $sce.trustAsHtml($filter('translate')('Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address')),
                     "mailingAddFromJob": $sce.trustAsHtml($filter('translate')('Select the vacancy and the stage. Candidates from the selected stage will become the recipients of the mailing. Only candidates with e-mail will be added')),
-                    "mailingClone": $sce.trustAsHtml($filter('translate')('Create the copy of current mailing for the further sending'))
+                    "mailingClone": $sce.trustAsHtml($filter('translate')('Create the copy of current mailing for the further sending')),
+                    "hmInvite":  $sce.trustAsHtml($filter('translate')('Hiring Manager will be responsible for this vacancy after registration in account.')),
+                    "userInvite": {
+                        "admin" : $sce.trustAsHtml($filter('translate')('Full control on a company account. Able to manage users, clients, vacancies, and candidates. Paid user')),
+                        "recruter" : $sce.trustAsHtml($filter('translate')('Able to manage clients, vacancies and candidates. Paid user')),
+                        "freelancer" : $sce.trustAsHtml($filter('translate')('Cannot see the full database. Able to manage only clients, vacancies, and candidates he/she is responsible for. Paid user')),
+                        "researcher" : $sce.trustAsHtml($filter('translate')('Cannot see the full database and other users. Able to see only vacancies he/she responsible for and candidates he/she added')),
+                        "client" : $sce.trustAsHtml($filter('translate')('Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number')),
+                    }
                 };
                 $rootScope.tooltips = options;
             });

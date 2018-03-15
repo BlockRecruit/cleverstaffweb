@@ -4019,7 +4019,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
             $rootScope.changeStatusOfInterviewInVacancy.candidate = false;
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.status = '';
-            $rootScope.changeStatusOfInterviewInVacancy.comment = candidate.comment;
+            $rootScope.changeStatusOfInterviewInVacancy.comment = '';
             $rootScope.showEmployedFields = false;
             $rootScope.changeStatus = '';
             if(candidate.candidateId && typeof candidate.candidateId == 'string' && candidate.candidates) {
