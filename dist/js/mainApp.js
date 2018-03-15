@@ -42601,6 +42601,8 @@ function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filte
         {name: "dismiss", value: "dismiss"},
     ];
 
+    $scope.sortCriteria = "candidateId.fullName";
+    $scope.reverseSort = true;
 
     $scope.toAddEmployee = function() {
         $location.path('/company/employee/add');
@@ -42704,6 +42706,9 @@ function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filte
                         } else {
                             $scope.employees = response['objects'];
                         }
+                        $scope.employees.forEach(employee => {
+                            employee.salary = employee.salary ? parseInt(employee.salary) : employee.salary;
+                        });
                         var data = $filter('orderBy')(response['objects'], params.orderBy());
                         if (!data && !$scope.searchButtonClicked) {
                             data = [];
@@ -42743,15 +42748,25 @@ function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filte
             getEmployees();
             $scope.showMore = function () {
                 $scope.isShowMore = true;
-                Service.dynamicTableLoading(params.total(), pageNumber, params.$params.count, getEmployees)
+                Service.dynamicTableLoading(params.total(), pageNumber, params.$params.count, getEmployees);
             };
             $rootScope.searchParamInClients = $scope.searchParam;
             $scope.a.searchNumber = $scope.tableParams.page();
             $rootScope.previousSearchNumber = $scope.a.searchNumber;
             $scope.searchParam.isClicked = false;
-
         }
     });
+
+    $scope.sortTableBy = function(head) {
+        if(head !== $scope.sortCriteria) {
+            $scope.sortCriteria = head;
+            $scope.reverseSort = true;
+        } else {
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+
+    };
+
     $scope.changeInputPage = function(params,searchNumber){
         var searchNumber = Math.round(searchNumber);
         var maxValue = $filter('roundUp')(params.settings().total/params.count());
