@@ -13,13 +13,23 @@
             <div class="col-lg-12 fullName-position">
                 <span class="pull-left" ng-show="userId != user.userId">{{user.firstName}} {{user.lastName}}</span>
                 <span class="pull-left" ng-click="focusChangeNameFunc();" ng-show="showForm && user.userId == userId">{{user.firstName}} {{user.lastName}}</span>
-                <textarea ng-model="changedName" ng-keypress="checkKeyFunc($event);" id="changeNameInput" ng-blur="changeUserFirstName();" ng-show="!showForm" class="pull-left focusTextArea"></textarea>
+                <textarea ng-model="changedName" id="changeNameInput"class="pull-left focusTextArea"
+                          ng-keypress="checkKeyFunc($event);"
+                          ng-show="!showForm"
+                          ng-class="{'active' : !showForm}"></textarea>
                 <a href="" class="pull-left showNameUser" ng-click="focusChangeNameFunc();" ng-show="(userId == user.userId) && showForm" style="font-size: 14px;padding-left: 3px;bottom: 0px;position: relative;">
                     <i class="fa fa-pencil" title="{{'Change Name'|translate}}"></i>
                 </a>
-                <!--<a type="button" ng-blur="changeUserFirstName()" ng-show="!showForm" class="btn btn-primary save-button pull-left">-->
-                    <!--{{'save'|translate}}-->
-                <!--</a>-->
+                <div class="clearfix"></div>
+                <div class="action-buttons" ng-show="!showForm" >
+                    <a type="button" ng-click="hideForm()"  class="btn btn-primary cancel pull-left">
+                        {{'cancel'|translate}}
+                    </a>
+                    <a type="button" ng-click="changeUserFirstName()" class="btn btn-primary save-button pull-left">
+                        {{'save'|translate}}
+                    </a>
+                </div>
+                <div class="clearfix"></div>
                 <span class="banFa pull-left" ng-show="user.status == 'N'">
                     <i class="fa fa-ban" aria-hidden="true"></i>{{'Disabled'|translate}}
                 </span>

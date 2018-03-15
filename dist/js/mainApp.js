@@ -33732,6 +33732,9 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 $('#changeNameInput').blur()
             }
         };
+        $scope.hideForm = function() {
+            $scope.showForm = true;
+        };
         $scope.changeUserFirstName = function (){
             if($scope.changedName.length > 0){
                 Person.changeFirstName({
@@ -33743,6 +33746,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                             $scope.user = resp.object;
                             $rootScope.updateMe();
                         });
+                        notificationService.success($filter('translate')('Name has been changed'));
                     }else{
                         notificationService.error(resp.message);
                     }
