@@ -1,5 +1,13 @@
 <div class="block-constructor-reports" ng-click="parentClick($event)">
-    <header style="position: relative;">
+    <div class="col-lg-12 return-on-report-page">
+        <a href="#/reports"
+           class="hidden-xs hidden-sm"
+           style="position: relative;">
+            <img style="position: relative;top: -1px;" src="images/reports-img/long-arrow.png" alt="">
+            {{"go back to reports menu"|translate}}
+        </a>
+    </div>
+    <header style="position: relative; clear: both;">
         <h3 class="title">{{"Design custom report"| translate}}</h3>
         <p class="description">{{"Custom reports designer allows you build your own reports with appropriate parameters."|translate}}</p>
         <p class="description">{{"Only users with the Admin role are able to save the custom report parameters."|translate}}</p>

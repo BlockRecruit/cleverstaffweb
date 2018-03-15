@@ -4262,9 +4262,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
         $scope.menuOptions = [
             [$filter('translate')('Open in new tab'), function ($itemScope) {
-                console.log($location,'location');
                 let url = $location.$$protocol + '://' + $location.$$host +'/!#' + '/candidates/' + $itemScope.candidate.candidateId.localId;
-
                 $window.open(url, "_blank");
             }]];
 

@@ -11518,6 +11518,78 @@ angular.module('services.pay', [
 
      return person;
  }]);
+angular.module('services.employee', [
+    'ngResource'
+]).factory('reportsService', ['$rootScope', '$resource', 'serverAddress','$uibModal','$location', '$window', function($rootScope, $resource, serverAddress, $uibModal, $location, $window ) {
+    let reportsData = {};
+        reportsData.reportsBlocks = [
+            {
+                src:"images/reports-img/voronka.png",
+                title:"Funnel and vacancy report",
+                description:"The recruitment funnel displays the conversion of candidates in vacancies and helps to identify the bottlenecks or forgotten candidates.",
+                href:"/reports/vacancy"
+            },
+            {
+                src:"images/reports-img/statistika.png",
+                title:" User statistics",
+                description:"Displays the effectiveness of recruiters in numbers and percentages for the chosen period.",
+                href:"/reports/statistics"
+            },
+            {
+                src:"images/reports-img/pipeline.png",
+                title:"Pipeline report",
+                description:"Displays problem vacancies and responsible employees and helps to determine which areas need to be strengthened.",
+                href:"/reports/pipeline"
+            }
+        ];
+
+        function inviteHiringManager() {
+            $rootScope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'partials/modal/invite-hiring-manager.html',
+                size: '',
+                resolve: function(){
+
+                }
+            });
+            $rootScope.modalInstance.opened.then(function(){
+                $rootScope.inviteUser.role = 'client';
+            });
+            $rootScope.modalInstance.closed.then(function() {
+                $rootScope.inviteUser.role = null;
+                $rootScope.inviteUser.email = null;
+            });
+        }
+        
+        function replaceClassName(nameFirst, newNameSecond, element) {
+            element.classList.toggle(nameFirst);
+            element.classList.add(newNameSecond);
+        }
+
+        function showMore() {
+            let defaultHeightBlockReportsList = getComputedStyle(document.querySelector('.custom-reports-list'))['maxHeight'],
+                blockReportsList = document.querySelector('.custom-reports-list'),
+                blockShowMore = document.querySelector('.show-more');
+
+            this.showMore  = function () {
+                let scrollHeightBlockReportsList = blockReportsList.scrollHeight;
+
+                (blockReportsList.classList.contains('show'))? blockReportsList.style.maxHeight = defaultHeightBlockReportsList : blockReportsList.style.maxHeight = scrollHeightBlockReportsList + 'px';
+
+                blockReportsList.classList.toggle('show');
+                blockShowMore.classList.toggle('border-bottom');
+                this.isShowMore = !this.isShowMore;
+                replaceClassName('fa-angle-down', 'fa-angle-up', blockShowMore.querySelector('.fa'));
+            }
+        }
+
+        reportsData.showMore = showMore;
+        reportsData.inviteHiringManager = inviteHiringManager;
+
+    return reportsData;
+}]);
+
+
 angular.module('services.scope', []).factory('ScopeService', ['$rootScope', 'localStorageService', function($rootScope, localStorageService) {
     var currentControllerUpdateFunc = null;
     var defaultScopeIsInitialized = false;
@@ -40044,9 +40116,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
         $scope.menuOptions = [
             [$filter('translate')('Open in new tab'), function ($itemScope) {
-                console.log($location,'location');
                 let url = $location.$$protocol + '://' + $location.$$host +'/!#' + '/candidates/' + $itemScope.candidate.candidateId.localId;
-
                 $window.open(url, "_blank");
             }]];
 
@@ -45316,9 +45386,8 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
 
 function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter, translateWords,
-                       $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService) {
+                       $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, reportsService, $window) {
     try {
-
         Stat.requestGetCustomVacancyReports()
             .then((resp) => {
                 this.customReports = resp['objects'];
@@ -45326,17 +45395,20 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
                 $scope.$apply();
             });
 
-        this.changeLocation = (path,report, event) => {
-            this.getReport(event, report);
+        reportsService.showMore.call(this);
+
+        this.changeLocation = (path, report, event) => {
+            (report)? this.getReport(event, report) : null;
             $location.path(path);
         };
 
-        this.changeLocationAllVacancies = (path) => {
-            $location.path(path);
-        };
-        this.getReport    = CustomReportsService.getReport;
-        this.remove       = CustomReportsService.remove;
-        this.removeReport = CustomReportsService.removeReport;
+        this.isShowMore          = true;
+        this.getReport           = CustomReportsService.getReport;
+        this.remove              = CustomReportsService.remove;
+        this.removeReport        = CustomReportsService.removeReport;
+        this.removeReport        = CustomReportsService.removeReport;
+        this.reportsBlocks       = reportsService.reportsBlocks;
+        this.inviteHiringManager = reportsService.inviteHiringManager;
         localStorage.setItem("isAddCandidates", false);
     }catch(erorr){
         console.log('Ошибка в customReports', erorr);
@@ -45345,6 +45417,6 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
 controller
     .controller("MyReportsCtrl", ["$rootScope", "$scope", "Vacancy", "Service", "$location",
         "$routeParams", "notificationService", "$filter", "translateWords", "$translate",
-        "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService", MyReportsCtrl]);
+        "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService","reportsService","$window", MyReportsCtrl]);
 
 
