@@ -885,8 +885,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 }
                 if ($scope.searchParam['regionId']) {
                     if($scope.searchParam['regionIdCity']){
+                        Candidate.setOptions("country", $scope.searchParam['regionId']);
                         Candidate.setOptions("city", $scope.searchParam['regionIdCity']);
                     }else{
+                        Candidate.setOptions("city", null);
                         Candidate.setOptions("country", $scope.searchParam['regionId']);
                     }
                 } else {

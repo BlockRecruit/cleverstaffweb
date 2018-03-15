@@ -433,7 +433,7 @@
                                aria-hidden="true"></i>
                         </li>
                         <li ng-show="staticSearchParam[0].regionId != 'null' && staticSearchParam[0].regionId.length > 0" class="pivot">
-                            <span ng-show="staticSearchParam[0].regionId != 'null' && country.id == searchParam.regionId && staticSearchParam[0].regionIdCity == null" ng-repeat="country in countries">
+                            <span ng-show="staticSearchParam[0].regionId != 'null' && country.id == searchParam.regionId && (staticSearchParam[0].regionIdCity == null || staticSearchParam[0].regionIdCity == '')" ng-repeat="country in countries">
                                 <span ng-show="$root.currentLang == 'en' && searchParam.regionId == country.id">{{'country'|translate}}: {{country.nameEn}}</span>
                                 <span ng-show="$root.currentLang == 'ru' && searchParam.regionId == country.id">{{'country'|translate}}: {{country.nameRu}}</span>
                             </span>
