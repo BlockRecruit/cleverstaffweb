@@ -33734,6 +33734,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         };
         $scope.hideForm = function() {
             $scope.showForm = true;
+            $scope.changedName = $scope.user.firstName;
         };
         $scope.changeUserFirstName = function (){
             if($scope.changedName.length > 0){
