@@ -686,7 +686,7 @@
                     <td class="checklist" ng-if="candidate.state != 'approved' && candidate.candidateId.status != 'archived' && activeName != null && dataForVacancy.length > 1">
                         <input ng-click="pushCandidateToVacancy(candidate)" type="checkbox" ng-model="candidate.added"/>
                     </td>
-                    <td class="checklist" ng-if="candidate.candidateId.status == 'archived' && activeName != null"></td>
+                    <td class="checklist" ng-if="candidate.candidateId.status == 'archived' && candidate.state != 'approved' && activeName != null"></td>
                     <td class="number" data-title="'№'" once-text="(tableParams.page() - 1) * tableParams.count() + $index + 1"></td>
                     <td class="preview text-center width-for-table-eye hidden-xs" priview="" pageid="candidate" candidate="candidate.candidateId">
                         <div>
