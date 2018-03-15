@@ -33781,8 +33781,8 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         };
         $scope.checkKeyFunc = function(event){
             if(event.keyCode === 13){
-                $scope.showForm = true;
-                $('#changeNameInput').blur()
+                event.preventDefault();
+                return false;
             }
         };
         $scope.hideForm = function() {
