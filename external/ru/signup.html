@@ -451,7 +451,7 @@
                     <input type="email" class="float-left google-form-width" id="google_mail" name="login" readonly value="" disabled="">
                 </div>
                 <div class="form-gr">
-                    <input type="email" class="float-left google-form-width" id="google_name" oninput="this.value = this.value.replace(/[^A-Za-zА-Яа-яЁё]'`-/g, ''); " name="firstName" value="" placeholder="Введите имя *">
+                    <input type="email" class="float-left google-form-width" id="google_name" oninput="this.value = this.value.replace(/[^A-Za-zА-Яа-яЁё '`-]/g, ''); " name="firstName" value="" placeholder="Введите имя *">
                     <div class="error-google-name hidden"></div>
                 </div>
                 <div class="form-gr">

@@ -215,6 +215,9 @@ $(document).ready(function () {
             res.intention =  localStorage.getItem("tarifParams");
             res.utms = localStorage.getItem("UTMS");
             res.login = $("#google_mail").val();
+            var textName = res.firstName;
+            res.firstName = textName.replace(/[^A-Za-zА-Яа-яЁё '`-]+/g, '');
+            $("#google_name").val(res.firstName);
             var string = res.country;
             if(string == 'null' || string == null || string == undefined){
                 res.country = 'Afghanistan';
@@ -228,7 +231,7 @@ $(document).ready(function () {
             }
             delete res.countryCustom;
             $.ajax({
-                url: "/hr/person/registation/google",
+                url: "/hr/person/registration/google",
                 type: "POST",
                 data: JSON.stringify(res),
                 contentType: "application/json; charset=utf-8",
@@ -4157,34 +4160,6 @@ function checkFormGoogle(){
     $($('input[name=password]')).css('border','2px solid #61B452');
     $($('input[name=password2]')).css('border','2px solid #61B452');
 
-    //var testFirstName = /[^0-9]+[\`\'\_]/;
-    //var testFirstName1 = /\W+/;
-    //var testFirstName2 = /[^_]/;
-    //console.log(testFirstName);
-    //var password2 = /.*[a-zA-Z].*/;
-    var valueFirstName = $($('#google_name'));
-    //console.log(testFirstName1.test(valueFirstName.val()), 'testFirstName1');
-    //console.log(testFirstName2.test(valueFirstName.val()), 'testFirstName2');
-    console.log(valueFirstName.val());
-    var testFirstName = valueFirstName.val();
-    //console.log(testFirstName.test(valueFirstName.val()), 'testFirstName');
-    testFirstName.replace(/[^A-Za-zА-Яа-яЁё'`-]+/g, '');
-    console.log(testFirstName.replace(/[^A-Za-zА-Яа-яЁё'`-]+/g, ''));
-    $('#google_name')[0].value = testFirstName;
-    console.log($('#google_name'));
-    console.log($('#google_name').val());
-    //console.log(qwer.trim());
-    //if(!testFirstName.test(valueFirstName.val())){
-    //    valueFirstName.css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
-    //    valueFirstName.focus();
-    //    $(".error-google-name").html(messages.enter_correct_name);
-    //    $(".error-google-name").removeClass("hidden");
-    //    setTimeout(function (){
-    //        $(".error-google-name").addClass("hidden");
-    //    },5000);
-    //    return false;
-    //}
-    //console.log(password2.test(password.val()));
     if(form.orgName == "") {
         $($('input[name=orgName]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
         $($('input[name=orgName]')).focus();
