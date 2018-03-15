@@ -34710,7 +34710,7 @@ body.modal-open-public-vacancy-form .modal-content {
   .block-my-mailings table.sent-mailings td .status-panel {
     display: -webkit-flex;
     display: flex;
-    width: 35%;
+    width: 30%;
     margin: 0 auto;
     padding: 2px;
     border: 1px solid #ccc;
