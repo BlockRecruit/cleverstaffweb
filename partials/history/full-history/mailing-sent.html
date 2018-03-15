@@ -29,7 +29,7 @@
             <span class="boldTxt" ng-click="openMenuWithCandidates(history)">{{'to_candidates'|translate}} (<span class="blueLink">{{history.candidates.length}}</span>)</span>
         </span>
         <span translate="on stage" ng-if="history.stageName"></span>
-        <span style="font-weight: bold;" ng-bind="history.stageName" ng-if="history.stageName"></span>
+        <span style="font-weight: bold;" translate="{{history.stageName}}" ng-if="history.stageName"></span>
         <span translate="history_info.on_vacancy" ng-if="history.vacancy"></span>
         <a href="#/vacancies/{{ history.vacancy.localId}}" ng-if="history.vacancy">
             {{history.vacancy.position}}

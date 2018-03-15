@@ -12,10 +12,10 @@
         <span translate="Mailing"></span>
         <a ng-bind="history.descr" ng-click="toSentPreview(history.compaignId)"></a>
         <span translate="was sent"></span>
-        <span ng-if="history.candidate">
+        <span ng-if="history.candidates.length == 1">
             {{'candidate_5'|translate}}
-             <a ng-href="#/candidates/{{history.candidate.localId}}">
-                 {{history.candidate.fullName}}
+             <a ng-href="#/candidates/{{history.candidates[0].localId}}">
+                 {{history.candidates[0].fullName}}
              </a>
         </span>
         <span ng-if="history.candidates.length == 2">
@@ -30,7 +30,7 @@
         </span>
     </span>
     <span translate="on stage"></span>
-    <span style="font-weight: bold;" ng-bind="history.stageName"></span>
+    <span style="font-weight: bold;" translate="{{history.stageName}}"></span>
     <span class="manyCandidates" ng-if="history.candidates.length > 2">
         <div ng-show="history.showAllCandidates">
             <span ng-repeat="candidate in history.candidates" class="menuCandidate">
