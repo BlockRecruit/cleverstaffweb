@@ -339,6 +339,13 @@
 					transition: 0.5s;
 				}
 			}
+			.show-list {
+				margin-bottom: 15px;
+				margin-left: 10px;
+				a {
+					@include button-styling();
+				}
+			}
 			.sorting {
 				margin-bottom: 15px;
 				label {

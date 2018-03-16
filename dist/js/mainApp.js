@@ -930,7 +930,7 @@ directive('appVersion', ['version', function(version) {
                     };
                     scope.getPlugin = function() {
                         if (navigator.saysWho.indexOf("Chrome") != -1) {
-                            $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
+                            $window.open("https://chrome.google.com/webstore/detail/recruiters-integration-to/ibfoabadoicmplbdpmchomcagkpmfama");
                         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
                             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
                             $window.open("/extension/CleverstaffExtension4Firefox.xpi");
@@ -12308,6 +12308,7 @@ angular.module('services.task', [
                         $rootScope.closeModal();
                         $scope.urlTaskId = null;
                         $location.$$absUrl = $location.$$absUrl.split("&")[0];
+                        notificationService.success($filter('translate')('Task deleted'));
                         //$scope.$apply();
                     }else{
                         notificationService.error(resp.message);
@@ -14787,7 +14788,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=63'
+        suffix: '.json?b=64'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -15998,7 +15999,7 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
     $scope.achievePopup();
     $scope.getPlugin = function() {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
-            window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
+            window.open("https://chrome.google.com/webstore/detail/recruiters-integration-to/ibfoabadoicmplbdpmchomcagkpmfama");
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
             window.open("/extension/CleverstaffExtension4Firefox.xpi");
@@ -17972,7 +17973,7 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
 
     $scope.getPlugin = function () {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
-            $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
+            $window.open("https://chrome.google.com/webstore/detail/recruiters-integration-to/ibfoabadoicmplbdpmchomcagkpmfama");
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
             $window.open("/extension/CleverstaffExtension4Firefox.xpi");
@@ -19859,8 +19860,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 }
                 if ($scope.searchParam['regionId']) {
                     if($scope.searchParam['regionIdCity']){
+                        Candidate.setOptions("country", $scope.searchParam['regionId']);
                         Candidate.setOptions("city", $scope.searchParam['regionIdCity']);
                     }else{
+                        Candidate.setOptions("city", null);
                         Candidate.setOptions("country", $scope.searchParam['regionId']);
                     }
                 } else {
@@ -20456,7 +20459,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $scope.getPlugin = function () {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
-            $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
+            $window.open("https://chrome.google.com/webstore/detail/recruiters-integration-to/ibfoabadoicmplbdpmchomcagkpmfama");
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
             $window.open("/extension/CleverstaffExtension4Firefox.xpi");
@@ -30254,7 +30257,7 @@ controller.controller('EfficiencyController', ["$scope", "$rootScope", "$filter"
 
     $scope.getPlugin = function() {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
-            $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
+            $window.open("https://chrome.google.com/webstore/detail/recruiters-integration-to/ibfoabadoicmplbdpmchomcagkpmfama");
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
             $window.open("/extension/CleverstaffExtension4Firefox.xpi");
@@ -30500,7 +30503,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.inviteHiringManager = function(){
         $rootScope.modalInstance = $uibModal.open({
             animation: true,
-            templateUrl: 'partials/modal/invite-hiring-manager.html',
+            templateUrl: 'partials/modal/invite-hiring-manager.html?b=1',
             size: '',
             resolve: function(){
 
@@ -31692,9 +31695,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.getPlugin = function(status) {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
             if(status == 'old'){
-                $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
+                $window.open("https://chrome.google.com/webstore/detail/recruiters-integration-to/ibfoabadoicmplbdpmchomcagkpmfama");
             }else{
-                $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
+                $window.open("https://chrome.google.com/webstore/detail/recruiters-integration-to/ibfoabadoicmplbdpmchomcagkpmfama");
             }
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
@@ -33778,9 +33781,13 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         };
         $scope.checkKeyFunc = function(event){
             if(event.keyCode === 13){
-                $scope.showForm = true;
-                $('#changeNameInput').blur()
+                event.preventDefault();
+                return false;
             }
+        };
+        $scope.hideForm = function() {
+            $scope.showForm = true;
+            $scope.changedName = $scope.user.firstName;
         };
         $scope.changeUserFirstName = function (){
             if($scope.changedName.length > 0){
@@ -33793,6 +33800,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                             $scope.user = resp.object;
                             $rootScope.updateMe();
                         });
+                        notificationService.success($filter('translate')('Name has been changed'));
                     }else{
                         notificationService.error(resp.message);
                     }
@@ -42593,6 +42601,8 @@ function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filte
         {name: "dismiss", value: "dismiss"},
     ];
 
+    $scope.sortCriteria = "candidateId.fullName";
+    $scope.reverseSort = true;
 
     $scope.toAddEmployee = function() {
         $location.path('/company/employee/add');
@@ -42696,6 +42706,9 @@ function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filte
                         } else {
                             $scope.employees = response['objects'];
                         }
+                        $scope.employees.forEach(employee => {
+                            employee.salary = employee.salary ? parseInt(employee.salary) : employee.salary;
+                        });
                         var data = $filter('orderBy')(response['objects'], params.orderBy());
                         if (!data && !$scope.searchButtonClicked) {
                             data = [];
@@ -42735,15 +42748,25 @@ function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filte
             getEmployees();
             $scope.showMore = function () {
                 $scope.isShowMore = true;
-                Service.dynamicTableLoading(params.total(), pageNumber, params.$params.count, getEmployees)
+                Service.dynamicTableLoading(params.total(), pageNumber, params.$params.count, getEmployees);
             };
             $rootScope.searchParamInClients = $scope.searchParam;
             $scope.a.searchNumber = $scope.tableParams.page();
             $rootScope.previousSearchNumber = $scope.a.searchNumber;
             $scope.searchParam.isClicked = false;
-
         }
     });
+
+    $scope.sortTableBy = function(head) {
+        if(head !== $scope.sortCriteria) {
+            $scope.sortCriteria = head;
+            $scope.reverseSort = true;
+        } else {
+            $scope.reverseSort = !$scope.reverseSort;
+        }
+
+    };
+
     $scope.changeInputPage = function(params,searchNumber){
         var searchNumber = Math.round(searchNumber);
         var maxValue = $filter('roundUp')(params.settings().total/params.count());

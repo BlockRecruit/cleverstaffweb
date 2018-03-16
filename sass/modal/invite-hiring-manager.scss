@@ -3,8 +3,12 @@
 		position: relative;
 
 		text-align: center;
-		h3 {
+		h4 {
+			font-family: "Helvetica-Heavy";
+
 			margin: 0;
+
+			text-transform: uppercase;
 		}
 		.close-modal {
 			line-height: 30px;
@@ -40,6 +44,8 @@
 				top: 3px;
 
 				margin-left: 5px;
+
+				color: #ccc;
 			}
 		}
 		.user-email {
@@ -50,7 +56,7 @@
 		text-align: center;
 		button {
 			font-family: "Helvetica-Heavy";
-			font-size: 14px;
+			font-size: 16px;
 
 			min-width: 180px;
 

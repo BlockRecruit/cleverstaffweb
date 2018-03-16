@@ -104,32 +104,32 @@
                             <tr>
                                 <th>
                                     №
-                                    <i class="fa fa-sort" aria-hidden="true"></i>
+                                    <!--<i class="fa fa-sort" aria-hidden="true"></i>-->
                                 </th>
-                                <th ng-click="tableParams.sorting({'candidateId.fullName': tableParams.isSortBy('candidateId.fullName', 'asc') ? 'desc' : 'asc'})">
+                                <th ng-click="sortTableBy('candidateId.fullName')">
                                     {{'name' | translate}}
                                     <i class="fa fa-sort" aria-hidden="true"></i>
                                 </th>
-                                <th class="hidden-xs" ng-click="tableParams.sorting({'department': tableParams.isSortBy('department', 'asc') ? 'desc' : 'asc'})">
+                                <th class="hidden-xs" ng-click="sortTableBy('employeeDepartment.name')">
                                     {{'department' | translate}}
                                     <i class="fa fa-sort" aria-hidden="true"></i>
                                 </th>
-                                <th ng-click="tableParams.sorting({'position': tableParams.isSortBy('position', 'asc') ? 'desc' : 'asc'})">
+                                <th ng-click="sortTableBy('position')">
                                     {{'position' | translate}}
                                     <i class="fa fa-sort" aria-hidden="true"></i>
                                 </th>
-                                <th class="hidden-xs" ng-click="tableParams.sorting({'salary': tableParams.isSortBy('salary', 'asc') ? 'desc' : 'asc'})">
+                                <th class="hidden-xs" ng-click="sortTableBy('salary')">
                                     {{'salary' | translate}}
                                     <i class="fa fa-sort" aria-hidden="true"></i>
                                 </th>
-                                <th class="hidden-xs" ng-click="tableParams.sorting({'state': tableParams.isSortBy('state', 'asc') ? 'desc' : 'asc'})">
+                                <th class="hidden-xs" ng-click="sortTableBy('state')">
                                     {{'status' | translate}}
                                     <i class="fa fa-sort" aria-hidden="true"></i>
                                 </th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr ng-repeat="employee in employees"
+                            <tr ng-repeat="employee in employees  | orderBy: sortCriteria: reverseSort"
                                  tofullinformation="company/employees/{{employee.employeeId}}">
                                 <td class="clickable">{{(tableParams.page() - 1) * tableParams.count() + $index + 1}}</td>
                                 <td class="clickable">
