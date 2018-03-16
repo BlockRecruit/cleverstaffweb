@@ -13,6 +13,9 @@
 }
 
 .block-mailing {
+	.breadcrumb {
+		margin-bottom: 0;
+	}
 	.preview-candidate-mailing {
 		margin-right: 10px;
 		& > .fa-address-card-o {

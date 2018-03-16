@@ -35,7 +35,7 @@
         </a>
     </span>
     <span class="manyCandidates" ng-if="vacancy.actions.objects[0].candidates.length > 2">
-        <div ng-show="vacancy.actions.objects[0].showAllCandidates">
+        <div ng-show="vacancy.showAllCandidates">
             <span ng-repeat="candidate in vacancy.actions.objects[0].candidates" class="menuCandidate">
                 <a ng-href="#/candidates/{{candidate.localId}}" title="{{candidate.fullName}}">
                     {{candidate.fullName}}

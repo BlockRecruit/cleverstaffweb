@@ -188,6 +188,17 @@
 				color: #4d4d4d;
 			}
 		}
+		.manyCandidates {
+			& > .boldTxt {
+				@include bold();
+				.blueLink {
+					color: $theme-link-color;
+				}
+			}
+		}
+		.menuCandidate {
+			display: block;
+		}
 	}
 	.newAccount {
 		@include disabled-margins-for-row();

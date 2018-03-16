@@ -1031,6 +1031,11 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
             Mailing.showSentCompaignById(mailing);
         };
 
+        $scope.openMenuWithCandidates = function(history){
+            history.showAllCandidates = !history.showAllCandidates;
+            history.editCommentFlag = false;
+        };
+
         if($rootScope.currentLang == 'en'){
             (function(d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0];
