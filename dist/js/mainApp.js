@@ -4512,14 +4512,16 @@ function setCustomSelect(){
             data:"=",
             model:"=",
             placeholder:"@",
-            method:"="
+            method:"=",
+            $scope:"=",
+            event:"="
         },
         template = `
         <div class="select clearfix">
             <input type="text" ng-model="model" placeholder="{{placeholder|translate}}" readonly class="form-control col-lg-12 select-input-field">
             <div class="dropdown-content" style="z-index: -999">
                 <ul>
-                    <li ng-repeat="item in data track by $index" ng-click="method(item)" ng-class="{disable: (item.status == 'N')}">{{item.text|translate}}</li>
+                    <li ng-repeat="item in data track by $index" ng-click="method(item, $scope, $event, $index)" ng-class="{disable: (item.status == 'N')}">{{item.text|translate}}</li>
                 </ul>
             </div>
         </div>`;
@@ -4528,9 +4530,7 @@ function setCustomSelect(){
         scope,
         template,
         link(scope, element, attrs){
-            scope.showOrHideDropDownList = $event => {
-                console.log($event, '$event');
-            };
+
         }
     }
 };
@@ -13960,7 +13960,14 @@ angular.module('services.vacancy', [
 
     };
 
-    vacancy.languageLevelData = ['_undefined', 'Basic', 'Pre_Intermediate', 'Intermediate', 'Upper_Intermediate', 'Advanced', 'Native'];
+    vacancy.languageLevelData = [
+        {value:'_undefined', text:'_undefined'},
+        {value:'Basic', text:'Basic'},
+        {value:'Pre_Intermediate', text:'Pre_Intermediate'},
+        {text:'Upper_Intermediate',value:'Upper_Intermediate'},
+        {text:'Advanced', value:'Advanced'},
+        {text:'Native', value:'Native'}
+    ];
 
     vacancy.getInterviewStatus = function() {
         return [
@@ -20260,15 +20267,16 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     }
 
 
-    $scope.searchLevelLanguage = function (chosenLang, level, index) {
+    $scope.searchLevelLanguage = function (chosenLang, level, index, scope) {
         let data = $scope.chosenLangs, indexLang = data.indexOf(chosenLang);
 
         if(isDuplicateLanguage(data[indexLang],level, indexLang)) {
             notificationService.error("Language with this level is already selected");
-            document.querySelectorAll('.language-level')[index]['0'].selected = true;
+            // document.querySelectorAll('.language-level');
+            console.log(scope.level = '', 'scope')
             return;
         }
-
+        console.log(scope);
         if(data[indexLang] && level !== '_undefined'){
             data[indexLang].level = level;
         }
@@ -20277,6 +20285,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.searchLangs = '';
     $scope.chosenLangs = ['null','null','null'];
     $scope.currentLang = 'null';
+
     $scope.addSearchLang = function (lang) {
         let i = 0, max = $scope.chosenLangs.length;
 
@@ -20306,6 +20315,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         let index = $scope.chosenLangs.indexOf(selectedLang);
         $scope.chosenLangs.splice(index, 1);
         $scope.currentLang = 'null';
+        event.stopPropagation();
     };
 
     $scope.inHover = function () {
@@ -20388,6 +20398,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 personId: Candidate.searchOptions().personId,
                 personNameWhoSearching: $rootScope.usernameThatIsSearching,
                 pages: {count: $scope.startPagesShown},
+                experience: $scope.searchParam.experience,
                 experience: $scope.searchParam.experience,
                 languages: $scope.searchParam.languages,
                 skills: $scope.searchParam.skills,
@@ -20621,6 +20632,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $scope.langs = Candidate.getLangInOrg(function (resp) {
         if (resp.object) {
+            resp.object.forEach(item => item.text = item.name);
             $scope.langsReceived = resp.object;
             angular.forEach($scope.langsReceived, function (val) {
                 if(val.name != undefined){
@@ -20995,6 +21007,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     function isClickInAdvancedSearchCandidate(element, event){
         while (element && !element.classList.contains('row')){
             if(element.classList.contains('AdvancedSearchCandidate')){
+                console.log(element, '123');
                 event.stopPropagation();
                 return;
             }
@@ -21025,9 +21038,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.selectEmploymentType = item => $scope.searchParam.employmentType = {text:$filter('translate')(item.text), value:item.text};;
     $scope.selectExperience = item => $scope.searchParam.experience = item;
     $scope.selectRegionIdCity = item => $scope.searchParam.regionIdCity  = item;
-
-
-
+    $scope.selectLanguages = item => {
+        $scope.searchParam.languages  = item
+        $scope.addSearchLang(item['text']);
+    };
+    $scope.selectLanguagesLevel = (item, $scope, event, $index) => {
+        $scope.level = $filter('translate')(item.text);
+        $scope.searchLevelLanguage($scope.chosenLang, item.text, $index, $scope);
+    };
 
     FileInit.initFileExcellUpload($rootScope, $scope, "candidate", {allowedType: ["xls", "xlsx"]}, $filter);
 
