@@ -1008,7 +1008,7 @@
                                 <th></th>
                                 <th>{{'desired position' | translate}}</th>
                                 <th ng-show="suggestionTab === 'suitableMatching'" class="emptyFields">{{'Fields required for filling' | translate}}</th>
-                                <th ng-click="sortCandidatesBy('scorePersent')">
+                                <th class="scorePersent" ng-click="sortCandidatesBy('scorePersent')">
                                     <img tooltip-class="tooltip-outer" uib-tooltip="{{'Relevancy of the candidate' | translate}}" src="/images/sprite/matching.svg" alt="">
                                     <i ng-if="'scorePersent' === SuggestionsSortCriteria" ng-class="{'fa-caret-up': reverseSort, 'fa-caret-down': !reverseSort}" class="fa" aria-hidden="true"></i>
                                 </th>
