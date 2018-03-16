@@ -1009,7 +1009,7 @@
                                 <th>{{'desired position' | translate}}</th>
                                 <th ng-show="suggestionTab === 'suitableMatching'" class="emptyFields">{{'Fields required for filling' | translate}}</th>
                                 <th ng-click="sortCandidatesBy('scorePersent')">
-                                    <img tooltip-class="customClass" uib-tooltip="{{'Relevancy of the candidate' | translate}}" src="/images/sprite/matching.svg" alt="">
+                                    <img tooltip-class="tooltip-outer" uib-tooltip="{{'Relevancy of the candidate' | translate}}" src="/images/sprite/matching.svg" alt="">
                                     <i ng-if="'scorePersent' === SuggestionsSortCriteria" ng-class="{'fa-caret-up': reverseSort, 'fa-caret-down': !reverseSort}" class="fa" aria-hidden="true"></i>
                                 </th>
                             </tr>
@@ -1037,8 +1037,10 @@
                                 <span>{{candidate.position}}</span>
                             </td>
                             <td class="empty-fields" ng-show="candidate.emptyFields">
-                                <i ng-if="candidate.emptyFields.indexOf('region') !== -1" class="fa fa-map-marker" aria-hidden="true"></i>
-                                <i ng-if="candidate.emptyFields.indexOf('salary') !== -1" class="fa fa-usd" aria-hidden="true"></i>
+                                <i tooltip-class="tooltip-outer" uib-tooltip="{{'salary' | translate}}"
+                                   ng-if="candidate.emptyFields.indexOf('region') !== -1"  class="fa fa-map-marker" aria-hidden="true"></i>
+                                <i tooltip-class="tooltip-outer" uib-tooltip="{{'lives_in' | translate}}"
+                                   ng-if="candidate.emptyFields.indexOf('salary') !== -1" class="fa fa-usd" aria-hidden="true"></i>
                             </td>
                             <td class="scorePersent">
                                 <span>{{candidate.scorePersent}}%</span>
