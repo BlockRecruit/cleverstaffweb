@@ -125,7 +125,7 @@
                                      ng-mouseleave="hideRefusal(interview.vacancyId.vacancyId)">
                                     <div class="clever-window-element small"
                                          ng-repeat="istatus in interview.vacancyId.interviewStatus.split(',')"
-                                         ng-show="interview.state != istatus"
+                                         ng-show="interview.state != istatus && istatus != 'applied_people'"
                                          status-color-div old="istatus"
                                          id="{{istatus}}"
                                          ng-click="toChangeStatusInterview(istatus, interview.vacancyId.vacancyId, interview.vacancyId.interviewStatusNotTouchable, interview.vacancyId.position, interview.vacancyId)">
@@ -159,7 +159,7 @@
                                 <div id="changeStatePop{{interview.vacancyId.vacancyId}}" class="clever-window status-vacancy"  ng-show="showChangeStatusValue == interview.vacancyId.vacancyId">
                                     <div class="clever-window-element small"
                                          ng-repeat="istatus in interview.vacancyId.interviewStatus.split(',')"
-                                         ng-show="interview.state != istatus"
+                                         ng-show="interview.state != istatus && istatus != 'applied_people'"
                                          status-color-div old="istatus"
                                          ng-click="toChangeStatusInterview(istatus, interview.vacancyId.vacancyId, interview.vacancyId.interviewStatusNotTouchable, interview.vacancyId.position, interview.vacancyId)">
                                     </div>
