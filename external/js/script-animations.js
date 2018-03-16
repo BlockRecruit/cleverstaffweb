@@ -269,7 +269,7 @@ $(document).ready(function(){
         var iphone8Plus = 414;
         var iphone7 = 375;
         var mini_phone = 320;
-        if(window.location.pathname == '/ru/cleverstaff-vs-potok.html' || window.location.pathname == '/ru/cleverstaff-vs-friendwork.html'){
+        if(window.location.pathname == '/ru/cleverstaff-vs-potok.html' || window.location.pathname == '/ru/cleverstaff-vs-friendwork.html' || window.location.pathname == '/ru/compare-persia.html'){
             if (navigator.userAgent.indexOf ('Chrome') != -1 || navigator.userAgent.indexOf ('Safari') != -1){
                 $('.firefox').css('display', 'none');
                 $('.chrome').css('display', 'block');
@@ -280,11 +280,13 @@ $(document).ready(function(){
             var tablet_690 = 697;
             phone_or_tablet = 650;
             var phone_or_tablet_600 = 600;
+            var phone_or_tablet_584_persia = 584;
             phone = 550;
             var mini_phone_457 = 457;
             mini_phone = 440;
             var mini_phone_428 = 428;
             var mini_phone_375 = 375;
+            var mini_phone_366_persia = 366;
             var mini_phone_367_friendwork = 367;
             var mini_phone_335 = 335;
             var mini_phone_329 = 329;
@@ -307,7 +309,7 @@ $(document).ready(function(){
                     $('.titleTable').removeClass('fixed-tab');
                     $('.hideTab').addClass('hidden');
                 }
-                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html'){
+                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html' || window.location.pathname == '/ru/compare-persia.html'){
                     if (scroll >= 722) {
                         $('.hideTab').addClass('hidden');
                         $('.titleTable').removeClass('fixed-tab');
@@ -330,7 +332,7 @@ $(document).ready(function(){
                     $('.titleTable').removeClass('fixed-tab');
                     $('.hideTab').addClass('hidden');
                 }
-                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html'){
+                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html' || window.location.pathname == '/ru/compare-persia.html'){
                     if (scroll >= 723) {
                         $('.hideTab').addClass('hidden');
                         $('.titleTable').removeClass('fixed-tab');
@@ -353,7 +355,7 @@ $(document).ready(function(){
                     $('.titleTable').removeClass('fixed-tab');
                     $('.hideTab').addClass('hidden');
                 }
-                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html'){
+                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html' || window.location.pathname == '/ru/compare-persia.html'){
                     if (scroll >= 780) {
                         $('.hideTab').addClass('hidden');
                         $('.titleTable').removeClass('fixed-tab');
@@ -374,7 +376,7 @@ $(document).ready(function(){
                 $('.lastTable .width').css('width', $('.content .border-radius-first')[0].offsetWidth);
                 $('.titleTable').css('width', $('.content')[0].offsetWidth);
                 $('.lastTable').css('width', $('.content')[0].offsetWidth);
-                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html'){
+                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html' || window.location.pathname == '/ru/compare-persia.html'){
                     if (scroll >= 274){
                         $('.hideTab').removeClass('hidden');
                         $('.titleTable').addClass('fixed-tab');
@@ -391,13 +393,29 @@ $(document).ready(function(){
                         $('.hideTab').addClass('hidden');
                     }
                 }
-                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html'){
+                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html' || window.location.pathname == '/ru/compare-persia.html'){
                     if (scroll >= 723) {
                         $('.hideTab').addClass('hidden');
                         $('.titleTable').removeClass('fixed-tab');
                     }
                 }else if(window.location.pathname == '/ru/cleverstaff-vs-friendwork.html'){
                     if (scroll >= 875) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }
+            }
+            if(phone_or_tablet_584_persia >= $( window ).width()){
+                $('.titleTable').css('width', $('.content')[0].offsetWidth);
+                if (scroll >= 322){
+                    $('.hideTab').removeClass('hidden');
+                    $('.titleTable').addClass('fixed-tab');
+                } else{
+                    $('.titleTable').removeClass('fixed-tab');
+                    $('.hideTab').addClass('hidden');
+                }
+                if(window.location.pathname == '/ru/compare-persia.html'){
+                    if (scroll >= 772) {
                         $('.hideTab').addClass('hidden');
                         $('.titleTable').removeClass('fixed-tab');
                     }
@@ -412,7 +430,7 @@ $(document).ready(function(){
                     $('.titleTable').removeClass('fixed-tab');
                     $('.hideTab').addClass('hidden');
                 }
-                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html'){
+                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html'  || window.location.pathname == '/ru/compare-persia.html'){
                     if (scroll >= 772) {
                         $('.hideTab').addClass('hidden');
                         $('.titleTable').removeClass('fixed-tab');
@@ -433,7 +451,7 @@ $(document).ready(function(){
                     $('.titleTable').removeClass('fixed-tab');
                     $('.hideTab').addClass('hidden');
                 }
-                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html'){
+                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html' || window.location.pathname == '/ru/compare-persia.html'){
                     if (scroll >= 895) {
                         $('.hideTab').addClass('hidden');
                         $('.titleTable').removeClass('fixed-tab');
@@ -454,7 +472,7 @@ $(document).ready(function(){
                     $('.titleTable').removeClass('fixed-tab');
                     $('.hideTab').addClass('hidden');
                 }
-                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html'){
+                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html' || window.location.pathname == '/ru/compare-persia.html'){
                     if (scroll >= 876) {
                         $('.hideTab').addClass('hidden');
                         $('.titleTable').removeClass('fixed-tab');
@@ -475,7 +493,7 @@ $(document).ready(function(){
                     $('.titleTable').removeClass('fixed-tab');
                     $('.hideTab').addClass('hidden');
                 }
-                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html'){
+                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html' || window.location.pathname == '/ru/compare-persia.html'){
                     if (scroll >= 884) {
                         $('.hideTab').addClass('hidden');
                         $('.titleTable').removeClass('fixed-tab');
@@ -496,7 +514,7 @@ $(document).ready(function(){
                     $('.titleTable').removeClass('fixed-tab');
                     $('.hideTab').addClass('hidden');
                 }
-                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html'){
+                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html' || window.location.pathname == '/ru/compare-persia.html'){
                     if (scroll >= 986) {
                         $('.hideTab').addClass('hidden');
                         $('.titleTable').removeClass('fixed-tab');
@@ -508,19 +526,45 @@ $(document).ready(function(){
                     }
                 }
             }
+            if(mini_phone_366_persia >= $( window ).width()){
+                if(window.location.pathname == '/ru/compare-persia.html'){
+                    $('.titleTable').css('width', $('.content')[0].offsetWidth);
+                    if (scroll >= 414){
+                        $('.hideTab').removeClass('hidden');
+                        $('.titleTable').addClass('fixed-tab');
+                    } else{
+                        $('.titleTable').removeClass('fixed-tab');
+                        $('.hideTab').addClass('hidden');
+                    }
+                    if (scroll >= 966) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }
+            }
 
             if(mini_phone_335 >= $( window ).width()){
                 $('.titleTable .widthChild').css('width', $('.content .border-radius-first')[0].offsetWidth);
                 $('.lastTable .width').css('width', $('.content .border-radius-first')[0].offsetWidth);
                 $('.titleTable').css('width', $('.content')[0].offsetWidth);
-                if (scroll >= 367){
-                    $('.hideTab').removeClass('hidden');
-                    $('.titleTable').addClass('fixed-tab');
-                } else{
-                    $('.titleTable').removeClass('fixed-tab');
-                    $('.hideTab').addClass('hidden');
+                if(window.location.pathname == '/ru/compare-potok.html' || window.location.pathname == '/ru/compare-friendwork.html'){
+                    if (scroll >= 367){
+                        $('.hideTab').removeClass('hidden');
+                        $('.titleTable').addClass('fixed-tab');
+                    } else{
+                        $('.titleTable').removeClass('fixed-tab');
+                        $('.hideTab').addClass('hidden');
+                    }
+                } else if(window.location.pathname == '/ru/compare-persia.html'){
+                    if (scroll >= 413){
+                        $('.hideTab').removeClass('hidden');
+                        $('.titleTable').addClass('fixed-tab');
+                    } else{
+                        $('.titleTable').removeClass('fixed-tab');
+                        $('.hideTab').addClass('hidden');
+                    }
                 }
-                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html'){
+                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html' || window.location.pathname == '/ru/compare-persia.html'){
                     if (scroll >= 1028) {
                         $('.hideTab').addClass('hidden');
                         $('.titleTable').removeClass('fixed-tab');
@@ -536,14 +580,24 @@ $(document).ready(function(){
                 $('.titleTable .widthChild').css('width', $('.content .border-radius-first')[0].offsetWidth);
                 $('.lastTable .width').css('width', $('.content .border-radius-first')[0].offsetWidth);
                 $('.titleTable').css('width', $('.content')[0].offsetWidth);
-                if (scroll >= 368){
-                    $('.hideTab').removeClass('hidden');
-                    $('.titleTable').addClass('fixed-tab');
-                } else{
-                    $('.titleTable').removeClass('fixed-tab');
-                    $('.hideTab').addClass('hidden');
+                if(window.location.pathname == '/ru/compare-potok.html' || window.location.pathname == '/ru/compare-friendwork.html'){
+                    if (scroll >= 368){
+                        $('.hideTab').removeClass('hidden');
+                        $('.titleTable').addClass('fixed-tab');
+                    } else{
+                        $('.titleTable').removeClass('fixed-tab');
+                        $('.hideTab').addClass('hidden');
+                    }
+                } else if(window.location.pathname == '/ru/compare-persia.html'){
+                    if (scroll >= 414){
+                        $('.hideTab').removeClass('hidden');
+                        $('.titleTable').addClass('fixed-tab');
+                    } else{
+                        $('.titleTable').removeClass('fixed-tab');
+                        $('.hideTab').addClass('hidden');
+                    }
                 }
-                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html'){
+                if(window.location.pathname == '/ru/cleverstaff-vs-potok.html' || window.location.pathname == '/ru/compare-persia.html'){
                     if (scroll >= 1027) {
                         $('.hideTab').addClass('hidden');
                         $('.titleTable').removeClass('fixed-tab');
