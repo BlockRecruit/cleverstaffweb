@@ -20,7 +20,8 @@ component.component('mDetails', {
             $scope.fromName = $rootScope.me.fullName;
             $scope.fromMail = $rootScope.me.login;
             for(let i = $scope.candidatesForMailing.length - 1; i >= 0; i-- ) {
-                $scope.candidatesForMailing[i].candidateId.email = $scope.candidatesForMailing[i].candidateId.email.split(regForMailSplit)[0];
+                if($scope.candidatesForMailing[i].candidateId.email)
+                    $scope.candidatesForMailing[i].candidateId.email = $scope.candidatesForMailing[i].candidateId.email.split(regForMailSplit)[0];
                 $scope.candidatesForMailing[i].mailing = true;
             }
         }
@@ -75,7 +76,7 @@ component.component('mDetails', {
 
 
         $scope.addRecipient = function () {
-            if($scope.newRecipient && $scope.newRecipient.contacts) {
+            if($scope.newRecipient) {
                 let preparedCandidate = candidateTransform($scope.newRecipient);
                 preparedCandidate.mailing = true;
                 if(preparedCandidate) {
@@ -88,31 +89,30 @@ component.component('mDetails', {
                     });
                     $scope.modalInstance.close();
                 } else {
-                    notificationService.error($filter('translate')('No email for this candidate found in database'))
+                    console.log('preparedCandidate is:',preparedCandidate)
                 }
             } else {
-                notificationService.error($filter('translate')('No email for this candidate found in database'))
+                console.log('$scope.newRecipient is:',$scope.newRecipient)
             }
 
             function candidateTransform(candidate) {
                 let candidateTransformed = {
                     candidateId: {}
                 };
-                let withEmail = candidate.contacts.some((contact) => {
-                    if(contact.type == 'email') {
-                        candidateTransformed.candidateId.email = contact.value;
-                        candidateTransformed.candidateId.localId = candidate.id;
-                        candidateTransformed.candidateId.firstName = candidate.text.split(' ')[0];
-                        candidateTransformed.candidateId.lastName = candidate.text.split(' ')[1]?candidate.text.split(' ')[1]:'';
-                        candidateTransformed.candidateId.fullName = candidate.text;
-                        return true
-                    }
-                });
-                if(withEmail) {
-                    return candidateTransformed
-                } else {
-                    return false
+                candidateTransformed.candidateId.localId = candidate.id;
+                candidateTransformed.candidateId.firstName = candidate.text.split(' ')[0];
+                candidateTransformed.candidateId.lastName = candidate.text.split(' ')[1]?candidate.text.split(' ')[1]:'';
+                candidateTransformed.candidateId.fullName = candidate.text;
+                if(candidate.contacts) {
+                    candidate.contacts.some((contact) => {
+                        if(contact.type == 'email') {
+                            candidateTransformed.candidateId.email = contact.value;
+                            return true
+                        }
+                    });
                 }
+
+                return candidateTransformed
             }
 
         };

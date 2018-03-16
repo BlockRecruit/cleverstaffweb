@@ -4667,21 +4667,18 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                         type: "POST",
                         data: function(term, page) {
                             return {
-                                name: term.trim(),
-                                withPersonalContacts: true
+                                name: term.trim()
                             };
                         },
                         results: function(data, page) {
                             var results = [];
                             if (data['objects'] !== undefined) {
                                 angular.forEach(data['objects'], function(item) {
-                                    if(item.contacts != undefined) {
-                                        results.push({
-                                            id: item.localId,
-                                            text: item.fullName,
-                                            contacts: item.contacts
-                                        });
-                                    }
+                                    results.push({
+                                        id: item.localId,
+                                        text: item.fullName,
+                                        contacts: item.contacts
+                                    });
                                 });
                             }
                             return {
@@ -11691,42 +11688,18 @@ angular.module('services.mailing',[]
         $localStorage.remove('currentStep');
         $localStorage.remove('stepClickable');
         $localStorage.set('mailingRecipientsSource', JSON.stringify(mailingSource));
-        $scope.toTheMailing = function () {
-            service.setStep("mailing-details");
-            $localStorage.set('candidatesForMailing', $rootScope.candidatesWithMail);
-            $location.url("/mailing");
-        };
         angular.forEach(candidates, function (candidate) {
             if(candidate.mailing) {
                 candidatesForMailing.push(candidate);
             }
         });
+        $scope.toTheMailing = function () {
+            service.setStep("mailing-details");
+            $localStorage.set('candidatesForMailing', candidatesForMailing);
+            $location.url("/mailing");
+        };
         if(candidatesForMailing.length != 0) {
-            $rootScope.candidatesWithoutMail = [];
-            $rootScope.candidatesWithMail = [];
-            angular.forEach(candidatesForMailing, function (candidate) {
-                if(!candidate.candidateId.email) {
-                    $rootScope.candidatesWithoutMail.push(candidate);
-                } else {
-                    $rootScope.candidatesWithMail.push(candidate);
-                }
-            });
-            if($rootScope.candidatesWithoutMail.length > 0) {
-                if($rootScope.candidatesWithoutMail.length != candidatesForMailing.length) {
-                    $scope.modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: '../partials/modal/candidate-without-contacts.html?b1',
-                        size: '',
-                        scope: $scope,
-                        resolve: function(){
-                        }
-                    });
-                } else {
-                    notificationService.error($filter('translate')('Please pick the candidates with email'));
-                }
-            } else {
-                $scope.toTheMailing();
-            }
+            $scope.toTheMailing();
         } else {
             notificationService.error($filter('translate')('Please pick the candidates'));
         }
@@ -46569,7 +46542,8 @@ component.component('mDetails', {
             $scope.fromName = $rootScope.me.fullName;
             $scope.fromMail = $rootScope.me.login;
             for(let i = $scope.candidatesForMailing.length - 1; i >= 0; i-- ) {
-                $scope.candidatesForMailing[i].candidateId.email = $scope.candidatesForMailing[i].candidateId.email.split(regForMailSplit)[0];
+                if($scope.candidatesForMailing[i].candidateId.email)
+                    $scope.candidatesForMailing[i].candidateId.email = $scope.candidatesForMailing[i].candidateId.email.split(regForMailSplit)[0];
                 $scope.candidatesForMailing[i].mailing = true;
             }
         }
@@ -46624,7 +46598,7 @@ component.component('mDetails', {
 
 
         $scope.addRecipient = function () {
-            if($scope.newRecipient && $scope.newRecipient.contacts) {
+            if($scope.newRecipient) {
                 let preparedCandidate = candidateTransform($scope.newRecipient);
                 preparedCandidate.mailing = true;
                 if(preparedCandidate) {
@@ -46637,31 +46611,30 @@ component.component('mDetails', {
                     });
                     $scope.modalInstance.close();
                 } else {
-                    notificationService.error($filter('translate')('No email for this candidate found in database'))
+                    console.log('preparedCandidate is:',preparedCandidate)
                 }
             } else {
-                notificationService.error($filter('translate')('No email for this candidate found in database'))
+                console.log('$scope.newRecipient is:',$scope.newRecipient)
             }
 
             function candidateTransform(candidate) {
                 let candidateTransformed = {
                     candidateId: {}
                 };
-                let withEmail = candidate.contacts.some((contact) => {
-                    if(contact.type == 'email') {
-                        candidateTransformed.candidateId.email = contact.value;
-                        candidateTransformed.candidateId.localId = candidate.id;
-                        candidateTransformed.candidateId.firstName = candidate.text.split(' ')[0];
-                        candidateTransformed.candidateId.lastName = candidate.text.split(' ')[1]?candidate.text.split(' ')[1]:'';
-                        candidateTransformed.candidateId.fullName = candidate.text;
-                        return true
-                    }
-                });
-                if(withEmail) {
-                    return candidateTransformed
-                } else {
-                    return false
+                candidateTransformed.candidateId.localId = candidate.id;
+                candidateTransformed.candidateId.firstName = candidate.text.split(' ')[0];
+                candidateTransformed.candidateId.lastName = candidate.text.split(' ')[1]?candidate.text.split(' ')[1]:'';
+                candidateTransformed.candidateId.fullName = candidate.text;
+                if(candidate.contacts) {
+                    candidate.contacts.some((contact) => {
+                        if(contact.type == 'email') {
+                            candidateTransformed.candidateId.email = contact.value;
+                            return true
+                        }
+                    });
                 }
+
+                return candidateTransformed
             }
 
         };

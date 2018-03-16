@@ -340,42 +340,18 @@ angular.module('services.mailing',[]
         $localStorage.remove('currentStep');
         $localStorage.remove('stepClickable');
         $localStorage.set('mailingRecipientsSource', JSON.stringify(mailingSource));
-        $scope.toTheMailing = function () {
-            service.setStep("mailing-details");
-            $localStorage.set('candidatesForMailing', $rootScope.candidatesWithMail);
-            $location.url("/mailing");
-        };
         angular.forEach(candidates, function (candidate) {
             if(candidate.mailing) {
                 candidatesForMailing.push(candidate);
             }
         });
+        $scope.toTheMailing = function () {
+            service.setStep("mailing-details");
+            $localStorage.set('candidatesForMailing', candidatesForMailing);
+            $location.url("/mailing");
+        };
         if(candidatesForMailing.length != 0) {
-            $rootScope.candidatesWithoutMail = [];
-            $rootScope.candidatesWithMail = [];
-            angular.forEach(candidatesForMailing, function (candidate) {
-                if(!candidate.candidateId.email) {
-                    $rootScope.candidatesWithoutMail.push(candidate);
-                } else {
-                    $rootScope.candidatesWithMail.push(candidate);
-                }
-            });
-            if($rootScope.candidatesWithoutMail.length > 0) {
-                if($rootScope.candidatesWithoutMail.length != candidatesForMailing.length) {
-                    $scope.modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: '../partials/modal/candidate-without-contacts.html?b1',
-                        size: '',
-                        scope: $scope,
-                        resolve: function(){
-                        }
-                    });
-                } else {
-                    notificationService.error($filter('translate')('Please pick the candidates with email'));
-                }
-            } else {
-                $scope.toTheMailing();
-            }
+            $scope.toTheMailing();
         } else {
             notificationService.error($filter('translate')('Please pick the candidates'));
         }

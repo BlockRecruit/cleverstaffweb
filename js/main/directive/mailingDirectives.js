@@ -15,21 +15,18 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                         type: "POST",
                         data: function(term, page) {
                             return {
-                                name: term.trim(),
-                                withPersonalContacts: true
+                                name: term.trim()
                             };
                         },
                         results: function(data, page) {
                             var results = [];
                             if (data['objects'] !== undefined) {
                                 angular.forEach(data['objects'], function(item) {
-                                    if(item.contacts != undefined) {
-                                        results.push({
-                                            id: item.localId,
-                                            text: item.fullName,
-                                            contacts: item.contacts
-                                        });
-                                    }
+                                    results.push({
+                                        id: item.localId,
+                                        text: item.fullName,
+                                        contacts: item.contacts
+                                    });
                                 });
                             }
                             return {
