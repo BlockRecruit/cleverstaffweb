@@ -40,7 +40,7 @@ component.component('preview', {
                 getAccountInfo(),
                 getFreeMailCount(),
                 ]).then(([compaignPrice, accountInfo, freeMailCount]) => {
-                $scope.sendMailingParams = {
+                    $scope.sendMailingParams = {
                         accountBalance: accountInfo.object.amount,
                         compaignPrice: compaignPrice.object,
                         freeMailCount: +(freeMailCount.object.orgParams.freeMailCount),
@@ -137,7 +137,7 @@ component.component('preview', {
         function openMailingModal(){
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/confirm-send-mailing.html?3',
+                templateUrl: '../partials/modal/confirm-send-mailing.html?4',
                 size: '',
                 scope: $scope,
                 resolve: function(){

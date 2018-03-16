@@ -2408,9 +2408,17 @@
   "Create the copy of current mailing for the further sending": "Create the copy of current mailing for the further sending",
   "Hide Mailing Service":"Hide mailing service",
   "User won't be able to create, send and view created mailings.":"User won't be able to create, send and view created mailings.",
-  "You do not have enough money on your balance to make a mailing.":"You do not have enough money on your balance to make a mailing.",
+  "Not have enough money on your balance to make a mailing.":"Not have enough money on your balance to make a mailing.",
   "The price of mailing is":"The price of mailing is",
   "User won`t be able to create, send and view created mailings.":"User won`t be able to create, send and view created mailings.",
   "Mailings are hidden for the user":"Mailings are hidden for the user",
-  "Mailings are available for the user":"Mailings are available for the user"
+  "Mailings are available for the user":"Mailings are available for the user",
+  "letter": {
+    "plural" : ["letters"],
+    "single": ["letter"]
+  },
+  "free_1": {
+    "plural" : ["free", "free"],
+    "single": ["free"]
+  }
 }

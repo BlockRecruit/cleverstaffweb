@@ -51,10 +51,18 @@ controller.controller('mailingsController', ['$scope', '$localStorage', '$rootSc
             Mailing.newMailing();
         };
 
-        function checkForMailingNews() {
-            if($rootScope.me.orgParams.mailingNews) {
-                //
-            }
+        function openMailingInfoModal() {
+            //if(param) {}
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/mailingServiceInfo.html',
+                size: '',
+                scope: $scope,
+                resolve: function(){
+
+                }
+            });
         }
 
+        openMailingInfoModal();
 }]);

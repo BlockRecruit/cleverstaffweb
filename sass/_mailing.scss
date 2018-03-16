@@ -564,10 +564,53 @@
 	.breadcrumb {
 		margin-bottom: 0;
 	}
-	h3 {
-		font-weight: bold;
+	.intro {
+		display: flex;
+		flex-direction: row;
 
-		margin-top: 10px;
+		justify-content: space-between;
+		align-items: center;
+		h3 {
+			font-weight: bold;
+
+			margin-top: 10px;
+		}
+		.info-icons {
+			position: relative;
+
+			padding-right: 12px;
+			span {
+				font-family: "Helvetica-Medium";
+				font-size: 17px;
+
+				position: relative;
+				top: 2px;
+
+				display: inline-block;
+				min-width: 19px;
+				margin: 0 15px 0 3px;
+
+				color: #0c96f5;
+
+				align-self: center;
+			}
+			img {
+				width: auto;
+				height: 26px;
+			}
+			&:after {
+				position: absolute;
+				top: calc(50% - 13px);
+				left: 55px;
+
+				width: 10px;
+				height: 26px;
+
+				content: "";
+
+				background-image: url("/images/sprite/brackets.png");
+			}
+		}
 	}
 	.options-tab {
 		@include option-tab();

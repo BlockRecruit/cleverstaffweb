@@ -3,7 +3,7 @@
         <i class="fa fa-times pull-right" ng-click="modalInstance.close()"></i>
         <h4 class="modal-title" translate="Are you sure you`ve double checked all details?" ></h4>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" ng-if="$root.me.orgParams.mailingTariff === 'defaultTariff'">
         <div>
             <span>{{sendMailingParams | mailingServiceMessageParser:candidatesForMailing.length}}</span>
             <br>
@@ -11,7 +11,7 @@
         </div>
 
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" ng-if="sendMailingParams.available">
         <div class="text-center button">
             <a type="button" class="btn btn-primary cancel" ng-click="modalInstance.close()" translate="Edited_1"></a>
             <a type="button" class="btn btn-primary accept" translate="Send mailing" ng-click="confirmSendMailing()"></a>
