@@ -37,6 +37,21 @@
 
 					margin: 0 0 5px 0;
 				}
+				.deadline {
+					@include bold();
+
+					font-size: 14px;
+
+					position: absolute;
+					top: 13px;
+					left: 285px;
+					.deadline-finish {
+						color: $theme-red;
+					}
+					span {
+						font-weight: 500;
+					}
+				}
 				.resp-preson {
 					display: inline-block;
 					span {

@@ -15,6 +15,11 @@
         <div class="row">
             <div class="col-lg-12 report-info">
                 <h4>{{'Responsible' | translate}}:</h4>
+                <span class="deadline" ng-show="vacancy.dateFinish">
+                    {{'Deadline' | translate}}:
+                    <br>
+                    <span ng-class="{'deadline-finish': deadline <= $root.nowDate}">{{vacancy.dateFinish}}</span>
+                </span>
                 <div ng-repeat="respPerson in vacancy.responsiblesPerson" class="resp-preson">
                     <!--<img src="../images/sprite/test-client.png" alt="">-->
                     <a href="#/users/{{respPerson.responsible.userId}}">{{respPerson.responsible.cutFullName}}</a>
