@@ -48,7 +48,7 @@
                         <td class="email">
                             <span ng-if="!candidate.editable && candidate.candidateId.email" ng-bind="candidate.candidateId.email"></span>
                             <span ng-if="!candidate.editable && !candidate.candidateId.email" translate="Email is not specified" class="no-email"></span>
-                            <input ng-if="candidate.editable" class="form-control" ng-model="candidate.candidateId.email" type="text" maxlength="100">
+                            <input ng-if="candidate.editable" class="form-control" ng-init="candidate.candidateId.emailNew = candidate.candidateId.email" ng-model="candidate.candidateId.emailNew" type="text" maxlength="100">
                         </td>
                         <td class="send ">
                             <a title="{{'Delete'|translate}}" href="" ng-hide="candidate.editable" ng-click="deleteCandidates(candidate.candidateId)" class="pull-right ng-scope edit-test">
@@ -57,7 +57,7 @@
                             <a href="" class="pull-right ng-binding edit-test" ng-hide="candidate.editable" title="{{'Edit'| translate}}" ng-click="candidate.editable = true">
                                 <i class="fa fa-pencil" title="{{'Edit'|translate}}" aria-hidden="true"></i>
                             </a>
-                            <button class="save-button btn" ng-click="saveCandidateContacts(candidate.candidateId)" ng-class="{'show-item': candidate.editable}" translate="save"></button>
+                            <button class="save-button btn" ng-click="saveCandidateContacts(candidate.candidateId, candidate.candidateId.emailNew)" ng-class="{'show-item': candidate.editable}" translate="save"></button>
                             <button class="cancel-button btn" ng-click="cancelSavingCandidateContacts(candidate.candidateId.localId)" ng-show="candidate.editable" translate="cancel"></button>
                         </td>
                     </tr>

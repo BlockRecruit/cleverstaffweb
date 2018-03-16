@@ -44,12 +44,13 @@ component.component('mDetails', {
 
 
 
-        $scope.saveCandidateContacts = function (candidate) {
+        $scope.saveCandidateContacts = function (candidate, newEmail) {
             if(!candidate.localId) {
                 notificationService.error('There is no candidate Id. This mailing is broken. Please, create new mailing');
                 return
             }
-            if(Mailing.emailValidation(candidate.email)) {
+            if(Mailing.emailValidation(newEmail)) {
+                candidate.email = newEmail;
                 editCandidate(candidate);
             } else {
                 notificationService.error($filter('translate')('wrong_email'));
@@ -58,7 +59,6 @@ component.component('mDetails', {
 
 
         $scope.cancelSavingCandidateContacts = function (localId) {
-
             hideEditInput(localId)
         };
 
