@@ -40929,7 +40929,7 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
         $scope.setSuggestionTab = function(tab) {
             $scope.suggestionTab = tab;
             if(tab === 'exactMatching') {
-                $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, false);
+                $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
                 console.log($scope.suggestedCandidates);
             } else {
                 $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, false);
