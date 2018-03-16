@@ -2619,9 +2619,15 @@ select.webkit-fix {
     -webkit-text-fill-color: transparent;
     font-size: 56px;
 }
-#home .potok-tittle h1 .logo-friendwork{
+#home .potok-tittle h1 .logo-friendwork {
     font-family: 'Rounded FriendWork';
     color: #00C0E8;
+}
+#home .potok-tittle h1 img {
+    margin-top: -10px;
+}
+#home .potok-tittle h1 .logo-estaff {
+    margin-top: -17px;
 }
 #home .potok-tittle h1 .question-potok:after{
     content: '?';
@@ -2683,14 +2689,14 @@ select.webkit-fix {
     z-index: 9;
 }
 #block_2 .key-differences .content .ic-problem{
-    background: url(../img/svg/ic_proplem.svg);
-    width: 19px;
+    background: url(../img/svg/ic_proplem.svg) no-repeat;
+    width: 18px;
     height: 20px;
     display: inline-block;
     vertical-align: middle;
 }
 #block_2 .key-differences .content .ic-solution{
-    background: url(../img/svg/ic_solution.svg);
+    background: url(../img/svg/ic_solution.svg) no-repeat;
     width: 26px;
     height: 20px;
     display: inline-block;
@@ -2791,6 +2797,12 @@ select.webkit-fix {
     font-size: 24px;
     letter-spacing: -3px;
 }
+#block_2 .key-differences .content .segoe-7:before{
+    content: '7 ';
+    position: inherit;
+    font-size: 24px;
+    letter-spacing: -3px;
+}
 #block_2 .key-differences .content .segoe-8:before{
     content: '8 ';
     position: inherit;
@@ -2804,6 +2816,18 @@ select.webkit-fix {
     left: 5px;
 }
 #block_2 .key-differences .content .segoe-20-num:before{
+    content: '20';
+    font-size: 24px;
+    position: relative;
+    left: 5px;
+}
+#block_2 .key-differences .content .segoe-11:before{
+    content: '11';
+    font-size: 24px;
+    position: relative;
+    left: 5px;
+}
+#block_2 .key-differences .content .segoe-20:before{
     content: '20';
     font-size: 24px;
     position: relative;
@@ -2965,7 +2989,8 @@ select.webkit-fix {
    opacity: 0.5;
 }
 #block_3 .main-advantages .task_4{
-    bottom: 135px;
+    bottom: 110px;
+    right: 225px;
 }
 #block_3 .main-advantages .clock_3{
     bottom: 245px;
@@ -3205,6 +3230,14 @@ select.webkit-fix {
     #home .potok-tittle h1 .logo-friendwork{
         width: 185px;
         height: 28px;
+    }
+    #home .potok-tittle h1 .logo-persia{
+        width: 160px;
+        height: 50px;
+    }
+    #home .potok-tittle h1 .logo-estaff{
+        width: 160px;
+        height: 36px;
     }
     #home .potok-tittle .teacher{
         bottom: 10px;
@@ -3623,6 +3656,9 @@ select.webkit-fix {
     }
     #block_2 .key-differences .content .border-radius-table .clickedStyleSearchCriteriaForCs:after{
         left: 195px;
+    }
+    #block_3 .main-advantages .task_4{
+        right: 105px;
     }
     #block_3 .main-advantages .bigImg{
         width: 100%;
