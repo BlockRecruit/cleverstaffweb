@@ -46826,6 +46826,39 @@ component.component('mDetails', {
             });
         }
 
+        $scope.closeModal = function() {
+            $scope.modalInstance.close();
+        };
+
+        $scope.openMailingInfoModal = function() {
+            if($rootScope.me.personParams.mailingNews === "true") {
+                $scope.mailingModal();
+            }
+        };
+
+        $scope.mailingModal = function() {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/mailingServiceInfo.html',
+                size: '',
+                scope: $scope,
+                backdrop: 'static',
+                resolve: function(){}
+            });
+
+            $scope.modalInstance.result.then(function () {
+                if($rootScope.me.personParams.mailingNews === "true") {
+                    Person.changeUserParam({
+                        userId: $rootScope.me.userId,
+                        name: 'mailingNews',
+                        value: false
+                    });
+                }
+            });
+        };
+
+        $scope.openMailingInfoModal();
+
     }
 });
 controller.controller('mailingEditorController', ['$scope', '$rootScope','$localStorage', 'notificationService','$filter', '$uibModal', 'Mailing', ]);

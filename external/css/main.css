@@ -1941,12 +1941,9 @@ footer{
 tr.accent {
     background-color: #f5f5f5;
 }
-td.relative span{
-    position: relative;
-    left: 30px;
-}
-td.relative span.first {
-    left: 14px;
+.mailing {
+    display: flex;
+    justify-content: space-around;
 }
 .no-border{
     border-bottom: 1px solid #fff!important;
