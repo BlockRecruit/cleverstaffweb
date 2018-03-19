@@ -381,3 +381,26 @@
 		outline: none;
 	}
 }
+
+@mixin btn-primary-new {
+	font-family: "Helvetica-Regular";
+	font-size: 16px;
+
+	padding: 8px 20px;
+
+	transition: all 0.3s;
+	text-align: center;
+
+	color: #fff;
+	border: 1px solid #00b549;
+	border-radius: 25px;
+	background-color: #00b549;
+	&:hover {
+		color: #00b549;
+		border: 1px solid #00b549;
+		background-color: #fff;
+	}
+	&:focus {
+		outline: none;
+	}
+}
