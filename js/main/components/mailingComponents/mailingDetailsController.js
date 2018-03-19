@@ -1,6 +1,6 @@
 component.component('mDetails', {
     templateUrl: "partials/mailing/mailing-details.html",
-    controller: function ($location, $scope, $rootScope, $localStorage, notificationService, $filter, $uibModal, $http, $state, Mailing, vacancyStages) {
+    controller: function ($location, $scope, $rootScope, $localStorage, notificationService, $filter, $uibModal, $http, $state, Mailing, vacancyStages, Person) {
         $scope.candidatesForMailing = $localStorage.get('candidatesForMailing')?JSON.parse($localStorage.get('candidatesForMailing')):[];
         let olderAvailableStep = $localStorage.get('stepClickable');
         $scope.newRecipient = {};
