@@ -46587,15 +46587,16 @@ component.component('preview', {
                 Mailing.getCompaignPrice({ compaignId: $scope.mailingParams.compaignId}),
                 getAccountInfo(),
                 getFreeMailCount(),
-                ]).then(([compaignPrice, accountInfo, freeMailCount]) => {
+                ]).then(([compaignPrice, accountInfo, getMe]) => {
                     $scope.sendMailingParams = {
                         accountBalance: accountInfo.object.amount,
                         compaignPrice: compaignPrice.object,
-                        freeMailCount: +(freeMailCount.object.orgParams.freeMailCount),
+                        freeMailCount: +(getMe.object.orgParams.freeMailCount),
+                        tariff: getMe.object.orgParams.mailingTariff,
                         available: true
                     };
 
-                    if($scope.sendMailingParams.compaignPrice > $scope.sendMailingParams.accountBalance) {
+                    if($scope.sendMailingParams.compaignPrice > $scope.sendMailingParams.accountBalance && $scope.sendMailingParams.tariff === 'defaultTariff') {
                         $scope.sendMailingParams.available = false;
                     }
 
@@ -46685,7 +46686,7 @@ component.component('preview', {
         function openMailingModal(){
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/confirm-send-mailing.html?4',
+                templateUrl: '../partials/modal/confirm-send-mailing.html?5',
                 size: '',
                 scope: $scope,
                 resolve: function(){
@@ -46703,8 +46704,8 @@ component.component('preview', {
 
     }
 });
-controller.controller('mailingsController', ['$scope', '$localStorage', '$rootScope', '$state','$timeout', '$filter', '$transitions', '$uibModal', 'Mailing',
-    function ($scope, $localStorage, $rootScope, $state, $timeout, $filter, $transitions, $uibModal, Mailing) {
+controller.controller('mailingsController', ['$scope', '$localStorage', '$rootScope', '$state','$timeout', '$filter', '$transitions', '$uibModal', 'Mailing', 'Person',
+    function ($scope, $localStorage, $rootScope, $state, $timeout, $filter, $transitions, $uibModal, Mailing, Person) {
 
 
         $scope.savedMailings = [];
@@ -46761,14 +46762,28 @@ controller.controller('mailingsController', ['$scope', '$localStorage', '$rootSc
         };
 
         $scope.openMailingInfoModal = function() {
+            if($rootScope.me.personParams.mailingNews === "true") {
+                $scope.mailingModal();
+            }
+        };
+
+        $scope.mailingModal = function() {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/mailingServiceInfo.html',
                 size: '',
                 scope: $scope,
                 backdrop: 'static',
-                resolve: function(){
+                resolve: function(){}
+            });
 
+            $scope.modalInstance.result.then(function () {
+                if($rootScope.me.personParams.mailingNews === "true") {
+                    Person.changeUserParam({
+                        userId: $rootScope.me.userId,
+                        name: 'mailingNews',
+                        value: false
+                    });
                 }
             });
         };

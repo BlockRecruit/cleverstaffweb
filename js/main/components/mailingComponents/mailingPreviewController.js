@@ -39,15 +39,16 @@ component.component('preview', {
                 Mailing.getCompaignPrice({ compaignId: $scope.mailingParams.compaignId}),
                 getAccountInfo(),
                 getFreeMailCount(),
-                ]).then(([compaignPrice, accountInfo, freeMailCount]) => {
+                ]).then(([compaignPrice, accountInfo, getMe]) => {
                     $scope.sendMailingParams = {
                         accountBalance: accountInfo.object.amount,
                         compaignPrice: compaignPrice.object,
-                        freeMailCount: +(freeMailCount.object.orgParams.freeMailCount),
+                        freeMailCount: +(getMe.object.orgParams.freeMailCount),
+                        tariff: getMe.object.orgParams.mailingTariff,
                         available: true
                     };
 
-                    if($scope.sendMailingParams.compaignPrice > $scope.sendMailingParams.accountBalance) {
+                    if($scope.sendMailingParams.compaignPrice > $scope.sendMailingParams.accountBalance && $scope.sendMailingParams.tariff === 'defaultTariff') {
                         $scope.sendMailingParams.available = false;
                     }
 
@@ -137,7 +138,7 @@ component.component('preview', {
         function openMailingModal(){
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/confirm-send-mailing.html?4',
+                templateUrl: '../partials/modal/confirm-send-mailing.html?5',
                 size: '',
                 scope: $scope,
                 resolve: function(){
