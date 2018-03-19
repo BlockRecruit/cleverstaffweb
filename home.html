@@ -131,28 +131,24 @@
         </div>
     </div>
     <div class="navbar navbar-static-top" ng-controller="NavbarController" ng-class="{'overModal': $root.me.orgs.length > 1 && !$root.hideTariff}">
-        <div class="container-fluid">
+        <div class="container-fluid first-navbar">
             <div class="navbar-header pull-left">
                 <a href="#/organizer" class="navbar-brand">
                     <span class="logo"></span>
                 </a>
-                <!--<a class="brand-text pull-left" href="#/organizer">-->
-                    <!--<span>Clever</span>-->
-                    <!--<span>Staff</span>-->
-                <!--</a>-->
             </div>
             <div class="" id="navbar-main">
-                <ul class="nav navbar-nav navigation navbar-collapse collapse">
+                <ul class="nav navbar-nav navigation">
                     <li class="dropdown organizer" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/organizer" ng-class="{'active': $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'}">
                             <i class="sprite sprite-calendar"></i>
-                            <span>{{'Organizer'| translate}}</span>
+                            <span translate="Organizer"></span>
                         </a>
                     </li>
                     <li class="vacancies" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/vacancies" ng-class="{'active': $root.activePage == 'Vacancies' || $root.activePage == 'Vacancy add' || $root.activePage == 'Vacancy edit' }">
                             <i class="sprite sprite-vacancy"></i>
-                            <span>{{'Vacancies'| translate}}</span>
+                            <span translate="Vacancies"></span>
                         </a>
                     </li>
                     <li class="candidates" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
@@ -160,35 +156,34 @@
                                                                     || $root.activePage == 'Zip' || $root.activePage == 'Excel History' || $root.activePage == 'Candidate edit' || $root.activePage == 'Tests and forms'
                                                                     || $root.activePage == 'Send test candidate to email' || $root.activePage == 'Test results' || $root.activePage == 'Test page' || $root.activePage == 'Candidate'}">
                             <i class="sprite sprite-candidates"></i>
-                            <span>{{'candidates'| translate}}</span>
+                            <span translate="candidates"></span>
                         </a>
                     </li>
                     <li class="dropdown clients" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/clients" ng-class="{'active': $root.activePage == 'Clients' || $root.activePage == 'Client add' || $root.activePage == 'Client edit'}"
                            ng-if="$root.me.personParams.clientAccessLevel != 'hide'">
                             <i class="sprite sprite-clients"></i>
-                            <span ng-show="$root.me!=undefined">{{'Clients'| translate}}</span>
-                            <!--<span ng-if="$root.me.recrutRole=='client'">{{'client(i)'| translate}}</span>-->
+                            <span ng-show="$root.me!=undefined" translate="Clients"></span>
                         </a>
                     </li>
                     <li class="dropdown users" ng-if="$root.me!=undefined && $root.me.recrutRole!='client'" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/company/users" ng-class="{'active': $root.activePage == 'Users' || $root.activePage == 'Company History' || $root.activePage == 'Company settings' || $root.activePage == 'Company users' || $root.activePage == 'Company employees' || $root.activePage == 'Employee add' || $root.activePage == 'Employee User' || $root.activePage == 'Department Catalog' || $root.activePage == 'Employee Edit User' || $root.activePage == 'Custom fields'}">
                             <i class="sprite sprite-company"></i>
-                            <span>{{'Account'| translate}}</span>
+                            <span translate="Account"></span>
                         </a>
                     </li>
                     <li class="dropdown reports"  ng-if="$root.me!= undefined &&  $root.me.recrutRole!='salesmanager' && $root.me.recrutRole!='researcher'" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/reports"
                            ng-show="$root.me.recrutRole !== 'freelancer' && $root.me.recrutRole!='client'"
                            ng-class="{'active': $root.activePage == 'Pipeline' || $root.activePage == 'Statistics client' || $root.activePage == 'Report all' || $root.activePage == 'Vacancy report' || $root.activePage == 'Reports' || $root.activePage ==  'Reports constructor' ||  $root.activePage == 'Custom Reports'|| $root.activePage == 'Edit Reports'}">
-                            <i class="fa fa-bar-chart"></i>
-                            <span>{{'Reports'| translate}}</span>
+                            <i class="sprite sprite-reports"></i>
+                            <span translate="Reports"></span>
                         </a>
                         <a href="#/reports/pipeline"
                            ng-show="$root.me.recrutRole == 'freelancer' || $root.me.recrutRole == 'client'"
                            ng-class="{'active': $root.activePage == 'Pipeline' || $root.activePage == 'Statistics client' || $root.activePage == 'Report all' || $root.activePage == 'Vacancy report' || $root.activePage == 'Reports' || $root.activePage ==  'Reports constructor' ||  $root.activePage == 'Custom Reports'|| $root.activePage == 'Edit Reports'}">
                             <i class="fa fa-bar-chart"></i>
-                            <span>{{'Reports'| translate}}</span>
+                            <span translate="Reports"></span>
                         </a>
 
                     </li>
@@ -208,9 +203,6 @@
                     </i>
                 </div>
                 <ul class="nav information navbar-nav navbar-right pull-right margin-bot">
-                    <!--<li class="text-center newDesignPage" ng-hide="$root.me.personParams.sendDesignFeedback == 'Y'">-->
-                        <!--<a href="#/feedback-new-design">{{'Do you like the new CleverStaff design'|translate}}</a>-->
-                    <!--</li>-->
                     <li class="payMoney hidden-xs hidden-sm" ng-show="$root.me.recrutRole == 'admin'">
                         <a href="#/pay" class="payment" ng-class="{'low-low-balance': paidFor!==undefined && paidFor <= 4 && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free'),'low-balance': paidFor!==undefined && paidFor <= 7}">
                             <i class="fa fa-usd"></i>
@@ -226,7 +218,6 @@
                         <div class="btn-group" uib-dropdown>
                             <button uib-dropdown-toggle>
                                 <i class="fa fa-question" aria-hidden="true"></i>
-                                {{'Support'|translate}}
                             </button>
                             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                                 <li role="menuitem">
@@ -268,22 +259,10 @@
                         </a>
                     </li>
                     <li>
-                        <!--<a href="#" class="profile" target="_blank">-->
-                            <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
-                            <!--Vladimir Kurilo-->
-                            <!--<span class="caret"></span>-->
-                        <!--</a>-->
                         <div class="btn-group" uib-dropdown>
                             <button type="button" class="btn btn-primary profile" uib-dropdown-toggle ng-disabled="disabled">
-                                <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
                                 <i class="fa fa-cog" aria-hidden="true"></i>
                             </button>
-                            <!--<button type="button" class="btn btn-primary profile ng-binding dropdown-toggle" uib-dropdown-toggle="" ng-disabled="disabled" aria-haspopup="true" aria-expanded="false">-->
-                                <!--&lt;!&ndash;<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">&ndash;&gt;-->
-                                <!--&lt;!&ndash; ngIf: g_info &ndash;&gt;-->
-                                <!--{{nameUser}}-->
-                                <!--<span class="caret"></span>-->
-                            <!--</button>-->
                             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                                 <li role="menuitem">
                                     <a ng-click="toUser()">

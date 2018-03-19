@@ -48,24 +48,11 @@ body {
 	}
 }
 
-#navbar-main {
-	@include flex(row, space-between);
-
-	font-family: "Open Sans", Arial, Verdana, sans-serif;
-	font-size: 13px;
-	.trial {
-		align-self: center;
-	}
-	p {
-		margin: 0;
-	}
-}
-
 .trial {
 	padding: 5px 12px;
 
 	color: black;
-	border-radius: 43px;
+	border-radius: 5px;
 	background: #fff;
 	.digit {
 		@include bold();
@@ -106,8 +93,13 @@ body {
 .navbar {
 	color: $theme-white;
 	border: 0;
-	background-color: $theme-green;
-	box-shadow: -1px 2px 22px -2px rgba(204,204,204,1);
+	background-color: $theme-top-menu;
+	box-shadow: -1px 2px 22px -2px rgba(204,204,204,1);;
+	.first-navbar {
+		display: flex;
+		height: 65px;
+		padding: 0 30px;
+	}
 	.responsive-nav {
 		position: absolute;
 		z-index: 99;
@@ -141,7 +133,7 @@ body {
 						&.sprite {
 							display: block;
 
-							background-image: url(../../images/sprite/icons/sprite.svg?1);
+							background-image: url(../../images/sprite/icons/sprite.png?1);
 							background-repeat: no-repeat;
 							background-size: 142px auto;
 						}
@@ -153,27 +145,33 @@ body {
 						}
 						&.sprite-vacancy {
 							width: 21px;
-							height: 19px;
+							height: 18px;
 
-							background-position: 95% 82%;
+							background-position: 17% 1%;
 						}
 						&.sprite-candidates {
-							width: 23px;
-							height: 21px;
+							width: 21px;
+							height: 19px;
 
-							background-position: -90px 0;
+							background-position: 36% 0;
 						}
 						&.sprite-clients {
+							width: 23px;
+							height: 19px;
+
+							background-position: 57% 2%;
+						}
+						&.sprite-company {
+							width: 20px;
+							height: 19px;
+
+							background-position: 77% 39%;
+						}
+						&.sprite-reports {
 							width: 18px;
 							height: 18px;
 
-							background-position: 22% 86%;
-						}
-						&.sprite-company {
-							width: 23px;
-							height: 20px;
-
-							background-position: 25% 11%;
+							background-position: 94% 40%;
 						}
 					}
 				}
@@ -187,16 +185,21 @@ body {
 		}
 	}
 	.navbar-header {
+		display: flex;
 		margin-top: 0;
+		margin-right: 30px;
+
+		align-items: center;
 		.navbar-brand {
 			@include bold();
 
 			font-family: Roboto, sans-serif;
 			font-size: 48px;
 
-			display: block;
-			height: 47px;
-			padding: 7px 7px;
+			display: inline-block;
+			height: 32px;
+			margin: 0;
+			padding: 0;
 
 			color: $theme-white;
 			.logo {
@@ -204,7 +207,7 @@ body {
 				width: 32px;
 				height: 32px;
 
-				background: url(/images/sprite/CS_logo_white_transparent.png) no-repeat;
+				background: url(/images/sprite/favicon.png) no-repeat;
 				background-size: cover;
 			}
 		}
@@ -225,10 +228,27 @@ body {
 		}
 	}
 	#navbar-main {
-		display: flex;
+		display: flex !important;
+		width: 100%;
+		height: 65px !important;
 
 		justify-content: space-between;
 		align-items: center;
+
+		& > ul {
+			display: flex;
+			height: 65px !important;
+			& > li {
+				display: flex;
+
+				align-items: center;
+			}
+			&.navigation {
+				& > li {
+					align-items: stretch;
+				}
+			}
+		}
 		@media (max-width: 1085px) {
 			span.active-page {
 				display: inline-block;
@@ -264,9 +284,6 @@ body {
 	}
 	.nav {
 		&.navigation {
-			li {
-				margin-left: 3px;
-			}
 			a {
 				font-weight: 600;
 
@@ -276,7 +293,7 @@ body {
 				//min-height: 101px;
 				min-height: 48px;
 				margin-top: 2px;
-				padding: 10px 6px 12px 6px;
+				padding: 10px;
 
 				color: $theme-white;
 				border-top-left-radius: 5px;
@@ -284,90 +301,115 @@ body {
 
 				align-items: center;
 				span {
-					margin-left: 4px;
+					font-family: "Helvetica-Normal", Arial, Verdana, sans-serif;
+					font-size: 16px;
+					font-weight: normal;
+
+					margin-left: 9px;
+
+					letter-spacing: 0.6px;
+					text-transform: uppercase;
 				}
 				i {
 					font-size: 17px;
 					&.sprite {
 						display: block;
 
-						background-image: url(../../images/sprite/icons/sprite.svg?1);
+						background-image: url(../../images/sprite/icons/sprite.png?1);
 						background-repeat: no-repeat;
 						background-size: 142px auto;
 					}
 					&.sprite-calendar {
-						width: 22px;
-						height: 19px;
-
-						background-position: 37% 87%;
-					}
-					&.sprite-vacancy {
-						width: 21px;
-						height: 19px;
-
-						background-position: 76% 85%;
-					}
-					&.sprite-candidates {
-						width: 23px;
-						height: 21px;
-
-						background-position: 53% 7%;
-					}
-					&.sprite-clients {
 						width: 18px;
 						height: 18px;
 
-						background-position: 3% 91%;
+						background-position: 0 1%;
 					}
-					&.sprite-company {
-						width: 22px;
+					&.sprite-vacancy {
+						width: 21px;
+						height: 18px;
+
+						background-position: 17% 1%;
+					}
+					&.sprite-candidates {
+						width: 21px;
 						height: 19px;
 
-						background-position: 2% 6%;
+						background-position: 36% 0;
+					}
+					&.sprite-clients {
+						width: 23px;
+						height: 18px;
+
+						background-position: 57% 1%;
+					}
+					&.sprite-company {
+						width: 21px;
+						height: 18px;
+
+						background-position: 77% 1%;
+					}
+					&.sprite-reports {
+						width: 18px;
+						height: 18px;
+
+						background-position: 94% 1%;
 					}
 				}
-				&:hover,
+				&:hover {
+					background-color: $theme-top-menu-hover;
+				}
+				&:not(.active):hover {
+					border-top-left-radius: 0;
+					border-top-right-radius: 0;
+				}
 				&.active {
 					color: #333;
-					background-color: $theme-white;
+					background-color: $theme-substrate;
 					i {
 						font-size: 17px;
 						&.sprite {
 							display: block;
 
-							background-image: url(../../images/sprite/icons/sprite.svg?1);
+							background-image: url(../../images/sprite/icons/sprite.png?1);
 							background-repeat: no-repeat;
-							background-size: 142px auto;
+							background-size: 140px auto;
 						}
 						&.sprite-calendar {
-							width: 22px;
-							height: 19px;
+							width: 18px;
+							height: 18px;
 
-							background-position: 55% 87%;
+							background-position: 0 41%;
 						}
 						&.sprite-vacancy {
 							width: 21px;
 							height: 19px;
 
-							background-position: 95% 82%;
+							background-position: 18% 37%;
 						}
 						&.sprite-candidates {
-							width: 23px;
-							height: 21px;
+							width: 19px;
+							height: 19px;
 
-							background-position: -90px 0;
+							background-position: 37% 40%;
 						}
 						&.sprite-clients {
+							width: 25px;
+							height: 18px;
+
+							background-position: 57% 42%;
+						}
+						&.sprite-company {
+							width: 20px;
+							height: 19px;
+
+							background-position: 77% 39%;
+						}
+						&.sprite-reports {
 							width: 18px;
 							height: 18px;
 
-							background-position: 22% 86%;
-						}
-						&.sprite-company {
-							width: 22px;
-							height: 19px;
-
-							background-position: 25% 9%;
+							background-position: 94% 40%;
 						}
 					}
 				}
@@ -432,10 +474,10 @@ body {
 				&.payment {
 					font-size: 12px;
 
-					margin-top: 14px;
+					height: 41px;
 					padding: 0;
 
-					border-radius: 20px;
+					border-radius: 5px;
 					background-color: $theme-light-green-hover;
 					&.low-balance {
 						span {
@@ -443,8 +485,6 @@ body {
 						}
 					}
 					&.low-low-balance {
-						margin-top: 13px;
-
 						border: 1px solid $theme-red;
 						background-color: rgb(229, 228, 228);
 						.fa-usd {
@@ -641,7 +681,7 @@ body {
 
 		width: 100%;
 
-		background-color: $theme-white;
+		background-color: $theme-substrate;
 		.nav {
 			float: left;
 			margin: 9px 0;
@@ -988,22 +1028,22 @@ ul.nav.navbar-nav {
 .navbar .nav.navigation li {
 	&.ru-width {
 		&.organizer {
-			width: 119.59px;
+			width: 159.59px;
 		}
 		&.vacancies {
-			width: 103.52px;
+			width: 141.52px;
 		}
 		&.candidates {
-			width: 116.92px;
+			width: 155.92px;
 		}
 		&.clients {
-			width: 108.7px;
+			width: 151.7px;
 		}
 		&.users {
-			width: 94.13px;
+			width: 126.13px;
 		}
 		&.reports {
-			width: 87.44px;
+			width: 119.44px;
 		}
 	}
 }
