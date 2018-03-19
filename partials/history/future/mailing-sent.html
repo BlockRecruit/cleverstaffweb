@@ -28,7 +28,7 @@
             <span class="boldTxt" ng-click="openMenuWithCandidates(vacancy)">{{'to_candidates'|translate}} (<span class="blueLink">{{vacancy.actions.objects[0].candidates.length}}</span>)</span>
         </span>
         <span translate="on stage"></span>
-        <span style="font-weight: bold;" translate="{{history.stageName}}"></span>
+        "<span translate="{{vacancy.actions.objects[0].stageName}}"></span>"
         {{'history_info.on_vacancy'|translate}}
         <a href="#/vacancies/{{ vacancy.localId}}">
             {{vacancy.position}}
