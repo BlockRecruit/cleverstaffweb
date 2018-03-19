@@ -8,7 +8,6 @@ component.component('saved',{
             status: 'newComp'
         };
 
-
         $scope.toEditMailing = function (mailingForEdit) {
             Mailing.makeStepClickable(3);
             Mailing.toEditMailing(mailingForEdit);
@@ -116,7 +115,6 @@ component.component('saved',{
                 $rootScope.loading = false;
             });
         };
-
 
     }
 });

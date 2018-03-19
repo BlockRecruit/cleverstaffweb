@@ -6008,26 +6008,50 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
         }
     }]).filter('mailingServiceMessageParser', ['$filter', '$translate', function($filter, $translate) {
         return function(sendMailingParams, mailsToSend) {
-            const lang = $translate.use();
-
+            let parsedWords = {
+                letter : $filter('getWordEndingForm')('letter', sendMailingParams.freeMailCount),
+                free: $filter('getWordEndingForm')('free_1', sendMailingParams.freeMailCount)
+            };
 
             if(sendMailingParams.freeMailCount && !sendMailingParams.compaignPrice) {
-                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем. Из них будет использовано " + mailsToSend;
-                if(lang === 'en') return sendMailingParams.freeMailCount + " free letters are available. Of these, " + mailsToSend + " letters will be used";
+                return $filter('translate')('Available letters amount', {amount: sendMailingParams.freeMailCount, mailsToSend: mailsToSend, parsedWords: parsedWords});
             }
 
             if(!sendMailingParams.freeMailCount && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
-                return $filter('translate')('The price of mailing is') + ' ' + sendMailingParams.compaignPrice + '$';
+                return $filter('translate')('The price of mailing is', {price : sendMailingParams.compaignPrice.toFixed(2)});
             }
 
             if(sendMailingParams.freeMailCount && sendMailingParams.compaignPrice && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
-                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем, так же стоимость рассылки составит " + sendMailingParams.compaignPrice + '$';
-                if(lang === 'en') return sendMailingParams.freeMailCount + " free letters are available. The cost of mailing will be " + sendMailingParams.compaignPrice + '$';
+                return $filter('translate')('Available letters amount', {amount: sendMailingParams.freeMailCount, mailsToSend: sendMailingParams.freeMailCount, parsedWords: parsedWords}) + " " + $filter('translate')('The price of mailing is', {price : sendMailingParams.compaignPrice.toFixed(2)});
             }
 
             if(sendMailingParams.compaignPrice > sendMailingParams.accountBalance) {
                 return $filter('translate')('You do not have enough money on your balance to make a mailing.');
             }
+        }
+    }]).filter('getWordEndingForm', ['$filter', '$translate', function($filter, $translate) {
+        return function(word, number) {
+            let parsedNumber = number % 10,
+                lang = $translate.use();
+
+            function getWordEndingForm() {
+                if(lang === 'en') {
+                    if(number === 1) {
+                        return $filter('translate')(word + '.single.0');
+                    } else {
+                        return $filter('translate')(word + '.plural.0');
+                    }
+                }
+
+                if(lang === 'ru') {
+                    if(number >= 10 && number <= 20) return $filter('translate')(word + '.plural.1');
+                    if(parsedNumber === 1) return $filter('translate')(word + '.single.0');
+                    if(parsedNumber === 0 || parsedNumber >= 5 && parsedNumber <= 9) return $filter('translate')(word + '.plural.1');
+                    if(parsedNumber > 1 && parsedNumber <= 4) return $filter('translate')(word + '.plural.0');
+                }
+            }
+
+            return getWordEndingForm();
         }
     }]);
 function linkify3(text) {
@@ -46953,15 +46977,16 @@ component.component('preview', {
                 Mailing.getCompaignPrice({ compaignId: $scope.mailingParams.compaignId}),
                 getAccountInfo(),
                 getFreeMailCount(),
-                ]).then(([compaignPrice, accountInfo, freeMailCount]) => {
+                ]).then(([compaignPrice, accountInfo, getMe]) => {
                     $scope.sendMailingParams = {
                         accountBalance: accountInfo.object.amount,
                         compaignPrice: compaignPrice.object,
-                        freeMailCount: freeMailCount.object.orgParams.freeMailCount,
+                        freeMailCount: +(getMe.object.orgParams.freeMailCount),
+                        tariff: getMe.object.orgParams.mailingTariff,
                         available: true
                     };
 
-                    if($scope.sendMailingParams.compaignPrice > $scope.sendMailingParams.accountBalance) {
+                    if($scope.sendMailingParams.compaignPrice > $scope.sendMailingParams.accountBalance && $scope.sendMailingParams.tariff === 'defaultTariff') {
                         $scope.sendMailingParams.available = false;
                     }
 
@@ -47051,7 +47076,7 @@ component.component('preview', {
         function openMailingModal(){
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/confirm-send-mailing.html?3',
+                templateUrl: '../partials/modal/confirm-send-mailing.html?5',
                 size: '',
                 scope: $scope,
                 resolve: function(){
@@ -47069,8 +47094,8 @@ component.component('preview', {
 
     }
 });
-controller.controller('mailingsController', ['$scope', '$localStorage', '$rootScope', '$state','$timeout', '$filter', '$transitions', '$uibModal', 'Mailing',
-    function ($scope, $localStorage, $rootScope, $state, $timeout, $filter, $transitions, $uibModal, Mailing) {
+controller.controller('mailingsController', ['$scope', '$localStorage', '$rootScope', '$state','$timeout', '$filter', '$transitions', '$uibModal', 'Mailing', 'Person',
+    function ($scope, $localStorage, $rootScope, $state, $timeout, $filter, $transitions, $uibModal, Mailing, Person) {
 
 
         $scope.savedMailings = [];
@@ -47122,12 +47147,38 @@ controller.controller('mailingsController', ['$scope', '$localStorage', '$rootSc
             Mailing.newMailing();
         };
 
-        function checkForMailingNews() {
-            if($rootScope.me.orgParams.mailingNews) {
-                //
-            }
-        }
+        $scope.closeModal = function() {
+            $scope.modalInstance.close();
+        };
 
+        $scope.openMailingInfoModal = function() {
+            if($rootScope.me.personParams.mailingNews === "true") {
+                $scope.mailingModal();
+            }
+        };
+
+        $scope.mailingModal = function() {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/mailingServiceInfo.html',
+                size: '',
+                scope: $scope,
+                backdrop: 'static',
+                resolve: function(){}
+            });
+
+            $scope.modalInstance.result.then(function () {
+                if($rootScope.me.personParams.mailingNews === "true") {
+                    Person.changeUserParam({
+                        userId: $rootScope.me.userId,
+                        name: 'mailingNews',
+                        value: false
+                    });
+                }
+            });
+        };
+
+        $scope.openMailingInfoModal();
 }]);
 controller.controller('mailingSentController',['$scope', '$rootScope', '$filter', '$translate', 'notificationService', '$uibModal', '$state', '$localStorage', 'Mailing', function ($scope, $rootScope, $filter, $translate, notificationService, $uibModal, $state, $localStorage, Mailing) {
     $scope.sentMailing = JSON.parse($localStorage.get('sentMailing'));
@@ -47415,7 +47466,6 @@ component.component('saved',{
             status: 'newComp'
         };
 
-
         $scope.toEditMailing = function (mailingForEdit) {
             Mailing.makeStepClickable(3);
             Mailing.toEditMailing(mailingForEdit);
@@ -47523,7 +47573,6 @@ component.component('saved',{
                 $rootScope.loading = false;
             });
         };
-
 
     }
 });

@@ -1015,26 +1015,50 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
         }
     }]).filter('mailingServiceMessageParser', ['$filter', '$translate', function($filter, $translate) {
         return function(sendMailingParams, mailsToSend) {
-            const lang = $translate.use();
-
+            let parsedWords = {
+                letter : $filter('getWordEndingForm')('letter', sendMailingParams.freeMailCount),
+                free: $filter('getWordEndingForm')('free_1', sendMailingParams.freeMailCount)
+            };
 
             if(sendMailingParams.freeMailCount && !sendMailingParams.compaignPrice) {
-                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем. Из них будет использовано " + mailsToSend;
-                if(lang === 'en') return sendMailingParams.freeMailCount + " free letters are available. Of these, " + mailsToSend + " letters will be used";
+                return $filter('translate')('Available letters amount', {amount: sendMailingParams.freeMailCount, mailsToSend: mailsToSend, parsedWords: parsedWords});
             }
 
             if(!sendMailingParams.freeMailCount && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
-                return $filter('translate')('The price of mailing is') + ' ' + sendMailingParams.compaignPrice + '$';
+                return $filter('translate')('The price of mailing is', {price : sendMailingParams.compaignPrice.toFixed(2)});
             }
 
             if(sendMailingParams.freeMailCount && sendMailingParams.compaignPrice && sendMailingParams.compaignPrice <= sendMailingParams.accountBalance) {
-                if(lang === 'ru') return "Доступно " + sendMailingParams.freeMailCount + " бесплатных писем, так же стоимость рассылки составит " + sendMailingParams.compaignPrice + '$';
-                if(lang === 'en') return sendMailingParams.freeMailCount + " free letters are available. The cost of mailing will be " + sendMailingParams.compaignPrice + '$';
+                return $filter('translate')('Available letters amount', {amount: sendMailingParams.freeMailCount, mailsToSend: sendMailingParams.freeMailCount, parsedWords: parsedWords}) + " " + $filter('translate')('The price of mailing is', {price : sendMailingParams.compaignPrice.toFixed(2)});
             }
 
             if(sendMailingParams.compaignPrice > sendMailingParams.accountBalance) {
                 return $filter('translate')('You do not have enough money on your balance to make a mailing.');
             }
+        }
+    }]).filter('getWordEndingForm', ['$filter', '$translate', function($filter, $translate) {
+        return function(word, number) {
+            let parsedNumber = number % 10,
+                lang = $translate.use();
+
+            function getWordEndingForm() {
+                if(lang === 'en') {
+                    if(number === 1) {
+                        return $filter('translate')(word + '.single.0');
+                    } else {
+                        return $filter('translate')(word + '.plural.0');
+                    }
+                }
+
+                if(lang === 'ru') {
+                    if(number >= 10 && number <= 20) return $filter('translate')(word + '.plural.1');
+                    if(parsedNumber === 1) return $filter('translate')(word + '.single.0');
+                    if(parsedNumber === 0 || parsedNumber >= 5 && parsedNumber <= 9) return $filter('translate')(word + '.plural.1');
+                    if(parsedNumber > 1 && parsedNumber <= 4) return $filter('translate')(word + '.plural.0');
+                }
+            }
+
+            return getWordEndingForm();
         }
     }]);
 function linkify3(text) {

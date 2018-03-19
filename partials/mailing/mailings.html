@@ -3,7 +3,17 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <h3 translate="My mailings"></h3>
+                <div class="intro">
+                    <h3 translate="My mailings"></h3>
+                    <div class="info-icons">
+                        <div class="mail-count" ng-if="+($root.me.orgParams.freeMailCount) && $root.me.orgParams.mailingTariff === 'defaultTariff'" title="{{'Number of free letters in account' | translate}}">
+                            <img src="/images/sprite/mailing-count.png" alt="">
+                            <span>{{$root.me.orgParams.freeMailCount}}</span>
+                            <img class="brackets" src="/images/sprite/brackets.png">
+                        </div>
+                        <img ng-click="mailingModal()" class="mailing-info" src="/images/sprite/mailing-info.png" title="{{'Information about mailings' | translate}}">
+                    </div>
+                </div>
             </div>
         </div>
         <div class="row">
