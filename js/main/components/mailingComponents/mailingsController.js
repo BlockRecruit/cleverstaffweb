@@ -1,5 +1,5 @@
-controller.controller('mailingsController', ['$scope', '$localStorage', '$rootScope', '$state','$timeout', '$filter', '$transitions', '$uibModal', 'Mailing',
-    function ($scope, $localStorage, $rootScope, $state, $timeout, $filter, $transitions, $uibModal, Mailing) {
+controller.controller('mailingsController', ['$scope', '$localStorage', '$rootScope', '$state','$timeout', '$filter', '$transitions', '$uibModal', 'Mailing', 'Person',
+    function ($scope, $localStorage, $rootScope, $state, $timeout, $filter, $transitions, $uibModal, Mailing, Person) {
 
 
         $scope.savedMailings = [];
@@ -51,10 +51,36 @@ controller.controller('mailingsController', ['$scope', '$localStorage', '$rootSc
             Mailing.newMailing();
         };
 
-        function checkForMailingNews() {
-            if($rootScope.me.orgParams.mailingNews) {
-                //
-            }
-        }
+        $scope.closeModal = function() {
+            $scope.modalInstance.close();
+        };
 
+        $scope.openMailingInfoModal = function() {
+            if($rootScope.me.personParams.mailingNews === "true") {
+                $scope.mailingModal();
+            }
+        };
+
+        $scope.mailingModal = function() {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/mailingServiceInfo.html',
+                size: '',
+                scope: $scope,
+                backdrop: 'static',
+                resolve: function(){}
+            });
+
+            $scope.modalInstance.result.then(function () {
+                if($rootScope.me.personParams.mailingNews === "true") {
+                    Person.changeUserParam({
+                        userId: $rootScope.me.userId,
+                        name: 'mailingNews',
+                        value: false
+                    });
+                }
+            });
+        };
+
+        $scope.openMailingInfoModal();
 }]);
