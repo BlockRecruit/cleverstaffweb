@@ -51,18 +51,22 @@ controller.controller('mailingsController', ['$scope', '$localStorage', '$rootSc
             Mailing.newMailing();
         };
 
-        function openMailingInfoModal() {
-            //if(param) {}
+        $scope.closeModal = function() {
+            $scope.modalInstance.close();
+        };
+
+        $scope.openMailingInfoModal = function() {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/mailingServiceInfo.html',
                 size: '',
                 scope: $scope,
+                backdrop: 'static',
                 resolve: function(){
 
                 }
             });
-        }
+        };
 
-        openMailingInfoModal();
+        $scope.openMailingInfoModal();
 }]);

@@ -3014,5 +3014,7 @@
     "single": ["бесплатное"]
   },
   "Available letters amount":"Доступно {{amount}} {{parsedWords.free}} {{parsedWords.letter}}. Из них будет использовано {{mailsToSend}}.",
-  "You do not have enough money on your balance to make a mailing.":"У вас недостаточно денег для совершения рассылки"
+  "You do not have enough money on your balance to make a mailing.":"У вас недостаточно денег для совершения рассылки",
+  "Number of free letters in account":"Количество бесплатных писем в системе",
+  "Information about mailings":"Информация о рассылочном сервисе"
 }

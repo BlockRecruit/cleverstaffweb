@@ -46756,20 +46756,24 @@ controller.controller('mailingsController', ['$scope', '$localStorage', '$rootSc
             Mailing.newMailing();
         };
 
-        function openMailingInfoModal() {
-            //if(param) {}
+        $scope.closeModal = function() {
+            $scope.modalInstance.close();
+        };
+
+        $scope.openMailingInfoModal = function() {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/mailingServiceInfo.html',
                 size: '',
                 scope: $scope,
+                backdrop: 'static',
                 resolve: function(){
 
                 }
             });
-        }
+        };
 
-        openMailingInfoModal();
+        $scope.openMailingInfoModal();
 }]);
 controller.controller('mailingSentController',['$scope', '$rootScope', '$filter', '$translate', 'notificationService', '$uibModal', '$state', '$localStorage', 'Mailing', function ($scope, $rootScope, $filter, $translate, notificationService, $uibModal, $state, $localStorage, Mailing) {
     $scope.sentMailing = JSON.parse($localStorage.get('sentMailing'));
@@ -46958,7 +46962,6 @@ component.component('saved',{
             status: 'newComp'
         };
 
-
         $scope.toEditMailing = function (mailingForEdit) {
             Mailing.makeStepClickable(3);
             Mailing.toEditMailing(mailingForEdit);
@@ -47066,7 +47069,6 @@ component.component('saved',{
                 $rootScope.loading = false;
             });
         };
-
 
     }
 });
