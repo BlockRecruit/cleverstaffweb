@@ -12,10 +12,12 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                         url: serverAddress + "/candidate/autocompleate",
                         dataType: 'json',
                         crossDomain: true,
+                        quietMillis: 500,
                         type: "POST",
                         data: function(term, page) {
                             return {
-                                name: term.trim()
+                                name: term.trim(),
+                                withPersonalContacts: true
                             };
                         },
                         results: function(data, page) {
