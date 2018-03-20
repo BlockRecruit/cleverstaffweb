@@ -31,7 +31,7 @@
             <div class="col-lg-12 fullName-position"  style="margin-top: 0px;   " ng-style="$root.stageUrl && {margin:'0px'}">
                 <div class="col-lg-7">
                     <span>{{candidate.fullName}}, <span>{{candidate.position}}</span></span>
-                    <span style="font-weight: normal" ng-if="$root.isAddCandidates && currentIndex">({{currentIndex + "/" + candidateLength}})</span>
+                    <span class="counter-candidate" style="font-weight: normal" ng-if="$root.isAddCandidates && currentIndex">({{currentIndex + "/" + candidateLength}})</span>
                 </div>
                 <div class="col-lg-6 hidden-xs hidden-sm last-comment-item" ng-show="lastMessage">
                     <div class="col-lg-6 text-right">
@@ -485,16 +485,16 @@
                                 </a>
                             </div>
                             <div class="leftBlock clearfix">
-                                <a ng-show="candidate.education" class="phone">
+                                <div ng-show="candidate.education" class="phone education">
                                     <span>{{'education'|translate}}:</span>
-                                    <span id="candidateEducation"></span>
-                                </a>
+                                    {{candidate.education}}
+                                </div>
                             </div>
                             <div class="leftBlock clearfix">
-                                <a ng-show="candidate.currentWorkPlace" class="phone">
+                                <div ng-show="candidate.currentWorkPlace" class="phone currentWorkPlace">
                                     <span>{{'Current company'|translate}}:</span>
-                                    <span>{{candidate.currentWorkPlace}}</span>
-                                </a>
+                                    {{candidate.currentWorkPlace}}
+                                </div>
                             </div>
                             <div class="leftBlock clearfix">
                                 <a ng-show="candidate.currentPosition" class="phone">
@@ -583,7 +583,7 @@
                                     </span>
                                      <a  class="hidden show-for-print" target="_blank" href="{{contact}}">
                                          <i class="fa fa-home" aria-hidden="true"></i>
-                                         <span style="position: relative;">
+                                         <span>
                                              {{::contact|cutName:true:30}}
                                              <i class="fa fa-star " title='{{"Preferable contact method |  Предпочтительный метод контакта"}}'  ng-show="candidate.preferableContact == 'telegram'"></i>
                                          </span>
@@ -637,17 +637,13 @@
                                 <span class="preferable-contact" ng-repeat="contact in multipleContacts['homepage'] track by $index"  title="{{contact}}">
                                     <a  class="not-for-print" target="_blank" href="{{contact}}">
                                         <i class="fa fa-home" aria-hidden="true"></i>
-                                       <span style="position: relative;">
-                                           {{::contact|cutName:true:30}}
-                                            <i class="fa fa-star" title='{{"Preferable contact method |  Предпочтительный метод контакта"}}'  ng-show="candidate.preferableContact == 'home'"></i>
-                                       </span>
+                                        {{::contact|cutName:true:30}}
+                                        <i class="fa fa-star" title='{{"Preferable contact method |  Предпочтительный метод контакта"}}'  ng-show="candidate.preferableContact == 'home'"></i>
                                     </a>
                                      <a  class="hidden show-for-print" target="_blank" href="{{contact}}">
                                          <i class="fa fa-home" aria-hidden="true"></i>
-                                         <span style="position: relative;">
-                                             {{::contact|cutName:true:30}}
-                                             <i class="fa fa-star " title='{{"Preferable contact method |  Предпочтительный метод контакта"}}'  ng-show="candidate.preferableContact == 'home'"></i>
-                                         </span>
+                                         {{::contact|cutName:true:30}}
+                                         <i class="fa fa-star " title='{{"Preferable contact method |  Предпочтительный метод контакта"}}'  ng-show="candidate.preferableContact == 'home'"></i>
                                      </a>
                                 </span>
                             </div>
