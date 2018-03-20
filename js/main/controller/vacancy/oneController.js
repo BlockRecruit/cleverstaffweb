@@ -4254,7 +4254,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
         $scope.toCreateMailing = function () {
             let fullState = {};
             $scope.VacancyStatusFiltered.some((status)=> {
-                if(status.value == $scope.activeName) {
+                if(status.value == $scope.activeName || status.customInterviewStateId == $scope.activeName) {
                     fullState = status;
                     return true
                 } else {

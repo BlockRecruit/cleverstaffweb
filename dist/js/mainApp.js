@@ -4676,11 +4676,15 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                             var results = [];
                             if (data['objects'] !== undefined) {
                                 angular.forEach(data['objects'], function(item) {
-                                    results.push({
-                                        id: item.localId,
-                                        text: item.fullName,
-                                        contacts: item.contacts
-                                    });
+                                    if(!scope.$parent.candidatesForMailing.some((candidate) => {
+                                        return candidate.candidateId.localId == item.localId
+                                    })) {
+                                        results.push({
+                                            id: item.localId,
+                                            text: item.fullName,
+                                            contacts: item.contacts
+                                        });
+                                    }
                                 });
                             }
                             return {
@@ -4691,6 +4695,7 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                     dropdownCssClass: "bigdrop"
                 }).on('change', (e) => {
                     if(e.added) {
+                        console.log('scope.$parent',scope.$parent.candidatesForMailing)
                         scope.$parent.newRecipient = e.added;
                     }
                 });
@@ -4771,7 +4776,6 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                         Mailing.getVacancyParams(recipientsSource.localId).then((result) => {
                             $(element[0]).select2("data", {id: result.vacancyId, text: result.position});
                             statusListForming(result.vacancyId, result.statuses).then((result) => {
-                                $scope.va
                                 console.log("$scope.VacancyStatusFiltered",$scope.VacancyStatusFiltered)
                                 $scope.VacancyStatusFiltered.some((status)=> {
                                     if(status.value == recipientsSource.state) {
@@ -4887,20 +4891,22 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                 let recipientsSource = JSON.parse($localStorage.get('mailingRecipientsSource'));
                 recipientsSource = recipientsSource?recipientsSource:{localId: "", vacancyId: "",};
                 scope.fetchCandidates = function () {
-                    let statusPicked = JSON.parse(scope.currentStatus);
-                    vacancySearchParams.page.count = statusPicked.count;
-                    vacancySearchParams.vacancyId = scope.vacancyId||recipientsSource.vacancyId;
-                    vacancySearchParams.state = statusPicked.customInterviewStateId?statusPicked.customInterviewStateId:statusPicked.value;
-                    if(statusPicked.count > 0 && statusPicked.count < maxCandidatesPerRequest) {
-                        fetchCandidate(vacancySearchParams, statusPicked.value).then((result) => {
-                            setTable(result);
-                        }, (error) => {
-                        });
+                    if(scope.currentStatus) {
+                        let statusPicked = JSON.parse(scope.currentStatus);
+                        vacancySearchParams.page.count = statusPicked.count;
+                        vacancySearchParams.vacancyId = scope.vacancyId||recipientsSource.vacancyId;
+                        vacancySearchParams.state = statusPicked.customInterviewStateId?statusPicked.customInterviewStateId:statusPicked.value;
+                        if(statusPicked.count > 0 && statusPicked.count < maxCandidatesPerRequest) {
+                            fetchCandidate(vacancySearchParams, statusPicked.value).then((result) => {
+                                setTable(result);
+                            }, (error) => {
+                            });
 //If candidates count too large, load through several requests
-                    } else if (statusPicked.count >= maxCandidatesPerRequest){
-                        let pagesCount = Math.ceil(statusPicked.count/maxCandidatesPerRequest);
-                        vacancySearchParams.page.count = maxCandidatesPerRequest;
-                        recursiveFetch(pagesCount, []);
+                        } else if (statusPicked.count >= maxCandidatesPerRequest){
+                            let pagesCount = Math.ceil(statusPicked.count/maxCandidatesPerRequest);
+                            vacancySearchParams.page.count = maxCandidatesPerRequest;
+                            recursiveFetch(pagesCount, []);
+                        }
                     }
                 };
 
@@ -41128,7 +41134,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
         $scope.toCreateMailing = function () {
             let fullState = {};
             $scope.VacancyStatusFiltered.some((status)=> {
-                if(status.value == $scope.activeName) {
+                if(status.value == $scope.activeName || status.customInterviewStateId == $scope.activeName) {
                     fullState = status;
                     return true
                 } else {
@@ -46977,6 +46983,7 @@ component.component('preview', {
     templateUrl: "partials/mailing/mailing-preview.html",
     controller: function ($scope, $rootScope, notificationService, $localStorage, $filter, $uibModal, $state, $location, Mailing, Account, Person) {
         $scope.candidatesForMailing = $localStorage.get('candidatesForMailing')?JSON.parse($localStorage.get('candidatesForMailing')):[];
+        $scope.candidatesForMailing = $scope.candidatesForMailing.filter( candidate => candidate.mailing);
         $scope.mailingParams = {};
         $scope.mailingParams = Mailing.getMailingDetails();
         $scope.sendMailingParams = {};

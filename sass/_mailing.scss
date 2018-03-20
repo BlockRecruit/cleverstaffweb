@@ -269,6 +269,11 @@
 						&:first-child {
 							padding-left: 15px;
 						}
+						&.email {
+							& > span {
+								padding: 7px 55px;
+							}
+						}
 						.no-email {
 							font-style: italic;
 

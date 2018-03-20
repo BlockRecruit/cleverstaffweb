@@ -3,6 +3,7 @@ component.component('preview', {
     templateUrl: "partials/mailing/mailing-preview.html",
     controller: function ($scope, $rootScope, notificationService, $localStorage, $filter, $uibModal, $state, $location, Mailing, Account, Person) {
         $scope.candidatesForMailing = $localStorage.get('candidatesForMailing')?JSON.parse($localStorage.get('candidatesForMailing')):[];
+        $scope.candidatesForMailing = $scope.candidatesForMailing.filter( candidate => candidate.mailing);
         $scope.mailingParams = {};
         $scope.mailingParams = Mailing.getMailingDetails();
         $scope.sendMailingParams = {};
