@@ -12143,7 +12143,7 @@ angular.module('services.mailing',[]
                 } else {
                     reject(resp);
                 }
-            });
+            }, error => reject(error));
         });
     };
 
@@ -47105,8 +47105,8 @@ component.component('preview', {
                     } else {
                         reject(resp);
                     }
-                });
-            }, error => console.error(error));
+                }, error => console.error(error));
+            });
         }
 
         function openMailingModal(){
@@ -47214,7 +47214,28 @@ controller.controller('mailingsController', ['$scope', '$localStorage', '$rootSc
             });
         };
 
-        $scope.openMailingInfoModal();
+        function getFreeMailCount() {
+            return new Promise((resolve, reject) => {
+                Person.getMe(resp => {
+                    if(resp.status === 'ok') {
+                        resolve(resp);
+                    } else {
+                        reject(resp);
+                    }
+                }, error => console.error(error));
+            });
+        }
+
+        function getInitialData() {
+            getFreeMailCount()
+                .then(resp => {
+                    console.log(resp);
+                    $rootScope.me = resp.object;
+                    $scope.openMailingInfoModal();
+                }, error => console.error(error));
+        }
+
+        getInitialData();
 }]);
 controller.controller('mailingSentController',['$scope', '$rootScope', '$filter', '$translate', 'notificationService', '$uibModal', '$state', '$localStorage', 'Mailing', function ($scope, $rootScope, $filter, $translate, notificationService, $uibModal, $state, $localStorage, Mailing) {
     $scope.sentMailing = JSON.parse($localStorage.get('sentMailing'));

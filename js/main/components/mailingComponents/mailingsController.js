@@ -82,5 +82,26 @@ controller.controller('mailingsController', ['$scope', '$localStorage', '$rootSc
             });
         };
 
-        $scope.openMailingInfoModal();
+        function getFreeMailCount() {
+            return new Promise((resolve, reject) => {
+                Person.getMe(resp => {
+                    if(resp.status === 'ok') {
+                        resolve(resp);
+                    } else {
+                        reject(resp);
+                    }
+                }, error => console.error(error));
+            });
+        }
+
+        function getInitialData() {
+            getFreeMailCount()
+                .then(resp => {
+                    console.log(resp);
+                    $rootScope.me = resp.object;
+                    $scope.openMailingInfoModal();
+                }, error => console.error(error));
+        }
+
+        getInitialData();
 }]);

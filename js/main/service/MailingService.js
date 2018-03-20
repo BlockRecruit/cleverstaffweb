@@ -769,7 +769,7 @@ angular.module('services.mailing',[]
                 } else {
                     reject(resp);
                 }
-            });
+            }, error => reject(error));
         });
     };
 

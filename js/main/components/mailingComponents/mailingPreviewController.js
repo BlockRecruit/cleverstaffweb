@@ -131,8 +131,8 @@ component.component('preview', {
                     } else {
                         reject(resp);
                     }
-                });
-            }, error => console.error(error));
+                }, error => console.error(error));
+            });
         }
 
         function openMailingModal(){
