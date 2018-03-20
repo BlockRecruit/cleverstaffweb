@@ -994,3 +994,13 @@
 		}
 	}
 }
+
+@media screen and (max-width: 1200px) {
+	.block-mailing .mailing-editor-block .form-horizontal .sender > .control-label,
+	.block-mailing .mailing-editor-block .form-horizontal .subject > .control-label {
+		width: 14%;
+	}
+	.block-mailing .mailing-editor-block .form-horizontal #from {
+		width: 80%;
+	}
+}

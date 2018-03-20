@@ -4,10 +4,10 @@
             <h4 translate="Adding recipients from a vacancy"></h4>
             <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="top-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.mailingAddFromJob" aria-hidden="true"></i>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-6">
             <input mailing-vacancy-autocompleter ng-model="someModel" ng-model-options="{debounce: 1000}" id="vacancyAutocomplete ">
         </div>
-        <div class="col-lg-6" mailing-fetch-candidates statuses="VacancyStatusFiltered" vacancy-id="{{vacancy.id}}" local-id="{{vacancy.localId}}" candidates="candidatesForMailing"></div>
+        <div class="col-lg-6 col-md-6" mailing-fetch-candidates statuses="VacancyStatusFiltered" vacancy-id="{{vacancy.id}}" local-id="{{vacancy.localId}}" candidates="candidatesForMailing"></div>
     </div>
     <div class="row candidates-table">
         <div class="col-lg-12 block-header">

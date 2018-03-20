@@ -46712,16 +46712,17 @@ component.component('mDetails', {
                     }
                     let incorrectEmails = false;
                     angular.forEach($scope.candidatesForMailing, (candidate)=>{
-                        if(candidate.candidateId.email && candidate.mailing) {
-                            if(candidate.candidateId.email.indexOf('@') == -1 && candidate.mailing) {
+                        if(candidate.mailing) {
+                            if(candidate.candidateId.email) {
+                                if(candidate.candidateId.email.indexOf('@') == -1 && candidate.mailing) {
+                                    candidate.wrongEmail = true;
+                                    incorrectEmails = true;
+                                }
+                            } else {
                                 candidate.wrongEmail = true;
                                 incorrectEmails = true;
                             }
-                        } else {
-                            candidate.wrongEmail = true;
-                            incorrectEmails = true;
                         }
-
                     });
                     if(!$scope.$$phase && !$rootScope.$$phase) {
                         $scope.$apply();
