@@ -583,6 +583,17 @@
                     </span>
                     </div>
                     <div class="col-lg-8 col-md-9 col-sm-9 hidden-xs add-in-vacancy move-right" ng-show="searchParam.searchCs">
+                        <div class="action-buttons" ng-show="candidatesAddToVacancyIds.length">
+                            <a href="" title="{{'Delete candidates' | translate:{amount: candidatesAddToVacancyIds.length} }}" ng-click="deleteCandidatesModal()">
+                                <img src="/images/sprite/remove.png" alt="">
+                            </a>
+                            <a href="" title="{{'Add tags to candidate' | translate:{amount: candidatesAddToVacancyIds.length} }}" ng-click="showTagsForMassModal()">
+                                <img src="/images/sprite/add-tags.png" alt="">
+                            </a>
+                            <a href="" title="{{'Add candidates to vacancy' | translate:{amount: candidatesAddToVacancyIds.length} }}" ng-click="showAddCandidatesInVacancy()">
+                                <img src="/images/sprite/add-candidate.png" alt="">
+                            </a>
+                        </div>
                         <button class="btn pull-right" ng-show="candidatesAddToVacancyIds.length > 0"
                                 ng-click="showAddCandidatesInVacancy()">
                             {{'add_to_vacancy' | translate}} {{candidatesAddToVacancyIds.length}} <span ng-show="candidatesAddToVacancyIds.length == 1">{{'candidate_2'|translate}}</span>

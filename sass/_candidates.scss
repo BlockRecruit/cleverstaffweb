@@ -691,6 +691,25 @@
 						position: relative;
 						left: 28px;
 					}
+					.action-buttons {
+						display: flex;
+
+						justify-content: flex-end;
+						a {
+							display: inline-block;
+							margin-right: 20px;
+							img {
+								width: auto;
+								height: 21px;
+								&:hover {
+									transform: scale(1.1, 1.1);
+								}
+							}
+							&:last-child {
+								margin-right: 0;
+							}
+						}
+					}
 				}
 			}
 			& > .form-inline-search-candidates {

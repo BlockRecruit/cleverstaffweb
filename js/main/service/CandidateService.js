@@ -1357,5 +1357,21 @@ angular.module('services.candidate', [
         });
     };
 
+    candidate.deleteCandidates = function(param) {
+        return new Promise((resolve, reject) => {
+            candidate.changeState({
+                candidateIds: param.ids,
+                comment: param.comment,
+                candidateState: param.candidateState
+            }, resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            }, error => reject(error));
+        });
+    };
+
     return candidate;
 }]);

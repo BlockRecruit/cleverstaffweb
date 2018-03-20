@@ -2932,5 +2932,9 @@
   "Hide from all public vacancies list:":"Скрыть из публичного списка вакансий:",
   "Task deleted":"Задача удалена",
   "Сandidates in stages": "Кандидаты на этапах",
-  "Invite user with a role" :"Пригласить пользователя с ролью"
+  "Invite user with a role" :"Пригласить пользователя с ролью",
+  "Add tags to candidate": "Добавить теги {{amount}} кандидатам",
+  "Add candidates to vacancy": "Добавить в вакансию {{amount}} кандидатов",
+  "Delete candidates":"Удалить {{amount}} кандидатов",
+  "Are you sure that you want to delete candidates":"Вы действительно хотите удалить {{amount}} кандидатов"
 }

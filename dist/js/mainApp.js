@@ -7234,6 +7234,22 @@ angular.module('services.candidate', [
         });
     };
 
+    candidate.deleteCandidates = function(param) {
+        return new Promise((resolve, reject) => {
+            candidate.changeState({
+                candidateIds: param.ids,
+                comment: param.comment,
+                candidateState: param.candidateState
+            }, resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            }, error => reject(error));
+        });
+    };
+
     return candidate;
 }]);
 
@@ -18993,6 +19009,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.placeholder = $filter('translate')('by position');
     $rootScope.candidatesAddToVacancyIds = $scope.candidatesAddToVacancyIds;
     $rootScope.currentElementPos = true;
+    $scope.deleteCandidatesComment = "";
     localStorage.setItem('currentPage', 'candidates');
     localStorage.removeItem('stageUrl');
     localStorage.removeItem('candidatesInStagesVac');
@@ -19916,7 +19933,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                         });
                     }
 
-
                     Candidate.getAllCandidates($scope.candidateSearchOptions)
                         .then(response =>{
                             if(response.status === "error") {
@@ -19928,6 +19944,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                                 $rootScope.objectSizeCand = $rootScope.objectSize;
                                 $rootScope.searchParam = $scope.searchParam;
                                 params.total(response['total']);
+                                console.log(params.total());
                                 $scope.paginationParams = {
                                     currentPage: $scope.candidateSearchOptions.page.number,
                                     totalCount: $rootScope.objectSize
@@ -19961,6 +19978,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 getCandidates();
                 $scope.showMore = function () {
                     $scope.isShowMore = true;
+                    $scope.tableParams.reload();
                     Service.dynamicTableLoading(params.total(), $scope.candidateSearchOptions.page.number, $scope.candidateSearchOptions.page.count, getCandidates)
                 };
                 $scope.a.searchNumber = $scope.tableParams.page();
@@ -20738,6 +20756,41 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }else{
                 notificationService.error(resp.message);
             }
+        });
+    };
+    $scope.deleteCandidates = function() {
+        $rootScope.loading = true;
+
+        Candidate.deleteCandidates({
+            ids : $scope.candidatesAddToVacancyIds,
+            comment : $scope.deleteCandidatesComment,
+            candidateState: "archived"
+        }).then(resp => {
+            Candidate.getAllCandidates($scope.candidateSearchOptions)
+                .then(resp => {
+                    if(resp.status === 'ok') {
+                        $scope.tableParams.reload();
+                        console.log(resp);
+                        // Service.dynamicTableLoading(resp['total'], $scope.candidateSearchOptions.page.number, $scope.candidateSearchOptions.page.count, $scope.getCandidates);
+                    } else  {
+                        notificationService.error(resp.message);
+                    }
+                });
+
+            $rootScope.closeModal();
+            $rootScope.loading = false;
+        }, error => {
+            $rootScope.loading = false;
+            notificationService.error(resp.message);
+        })
+    };
+    $scope.deleteCandidatesModal = function() {
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/delete-candidates.html',
+            size: '',
+            scope: $scope,
+            resolve: function(){}
         });
     };
     $scope.showTagsForMassModal = function(){
