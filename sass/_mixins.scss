@@ -404,3 +404,27 @@
 		outline: none;
 	}
 }
+
+@mixin btn-accent() {
+	@include btn-primary-new();
+
+	border: 1px solid #f49719;
+	background-color: #f49719;
+	&:hover {
+		color: #f49719;
+		border: 1px solid #f49719;
+		background-color: #fff;
+	}
+}
+
+@mixin btn-cancel() {
+	@include btn-primary-new();
+
+	border: 1px solid #b8b8b8;
+	background-color: #b8b8b8;
+	&:hover {
+		color: #b8b8b8;
+		border: 1px solid #b8b8b8;
+		background-color: #fff;
+	}
+}

@@ -81,7 +81,7 @@
 				}
 			}
 			.buttons-wrap {
-				.cancel.btn-new {
+				.cancel {
 					left: 12%;
 				}
 			}
@@ -227,6 +227,7 @@
 			display: flex;
 			flex-direction: row;
 			margin-top: 20px;
+			padding-bottom: 15px;
 
 			justify-content: center;
 			.next-question {
@@ -245,6 +246,18 @@
 				.next-question.cancel {
 					position: static;
 				}
+			}
+		}
+		.btn-primary-new {
+			@include btn-primary-new();
+
+			&.cancel {
+				@include btn-cancel();
+
+				padding: 6px 17px;
+			}
+			&.small {
+				padding: 9px 28px;
 			}
 		}
 	}

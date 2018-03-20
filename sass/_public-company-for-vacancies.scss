@@ -352,6 +352,8 @@ body {
 
 			vertical-align: middle;
 			.btn-primary-new {
+				@include btn-primary-new();
+
 				height: 26px;
 				padding: 1px 23px;
 			}
