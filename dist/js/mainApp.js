@@ -8989,6 +8989,7 @@ angular.module('services.employee', [
                                 });
                             }
                         } else if (resp.status == 'error') {
+                            $rootScope.loading = false;
                             notificationService.error(resp.message);
                             if ($scope.callbackFileError != undefined) {
                                 $scope.callbackFileError("error");
@@ -8996,7 +8997,7 @@ angular.module('services.employee', [
                         }
                     }).catch(function(data) {
 
-                        $scope.loading = false;
+                        $rootScope.loading = false;
 
 //                            data.response= JSON.parse(data.response);
                         if (data.response[0].code == 'type') {

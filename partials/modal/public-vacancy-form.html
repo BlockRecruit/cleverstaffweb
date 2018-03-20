@@ -16,13 +16,15 @@
                    ng-class="{'error': recallForm.name.$invalid && !recallForm.name.$pristine}"
                    required
                    ng-model="request.name"
-                   placeholder="{{'name' | translate}}*">
+                   oninput="this.value = this.value.replace(/[^A-Za-zА-Яа-яЁё\s]/g, '');"
+                   placeholder="{{'name' | translate}}*" maxlength="20">
             <input type="text" class="form-control pull-right"
                    placeholder="{{'last_name' | translate}}*"
                    required
                    ng-class="{'error': recallForm.last_name.$invalid && !recallForm.last_name.$pristine}"
                    name="last_name"
-                   ng-model="request.lastName">
+                   oninput="this.value = this.value.replace(/[^A-Za-zА-Яа-яЁё\s]/g, '');"
+                   ng-model="request.lastName" maxlength="20">
             <div class="error_block">
                 <div class="recallForm__error text-center pull-left email" ng-show="recallForm.email2.$invalid && !recallForm.email2.$pristine || showErrorEmailMessage">
                     <span>{{'wrong_email'|translate}}</span>

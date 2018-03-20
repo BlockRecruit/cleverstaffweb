@@ -53,7 +53,17 @@
                 <h4 style="font-weight:bold;">{{"Stages"|translate}}</h4>
                 <div class="status"
                      ng-repeat="object in  pageObject.vacancyStatus"
-                     ng-click="chooseShowEmail(object.value)">
+                     ng-click="chooseShowEmail(object.value)"
+                     ng-if="object.value == 'applied_people'">
+                    <a href="">{{object.value|translate}}</a>
+                       <span class="counter">
+                          {{object.candidates.length}}
+                       </span>
+                </div>
+                <div class="status"
+                     ng-repeat="object in  pageObject.vacancyStatus"
+                     ng-click="chooseShowEmail(object.value)"
+                     ng-if="object.value != 'applied_people'">
                     <a href="">{{object.value|translate}}</a>
                        <span class="counter">
                           {{object.candidates.length}}
