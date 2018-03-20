@@ -137,17 +137,19 @@
 	.form-horizontal {
 		&.inner-name {
 			.form-group {
+				display: flex;
 				margin-top: 5px;
 			}
 			.control-label {
-				padding: 8px 15px 0 15px;
+				padding: 8px 25px 0 15px;
 
 				text-align: left;
 			}
 			.form-control {
-				display: inline-block;
-				width: 81%;
 				margin-right: 15px;
+			}
+			.internal-input {
+				flex-grow: 1;
 			}
 		}
 	}

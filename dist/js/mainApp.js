@@ -46467,7 +46467,7 @@ controller
 
 
 controller.controller('mailingController', ['$scope', '$rootScope', '$translate', '$localStorage', 'notificationService','$filter', '$uibModal','$state', '$transitions', 'Mailing', function ($scope, $rootScope, $translate, $localStorage, notificationService, $filter, $uibModal, $state, $transitions, Mailing) {
-    $scope.currentStep = Mailing.getCurrentStep();
+    $scope.includes = $state.includes;
 
     let mailingDetails = Mailing.getMailingDetails();
 
@@ -46477,7 +46477,7 @@ controller.controller('mailingController', ['$scope', '$rootScope', '$translate'
         $scope.internalName = '';
     }
 
-    switch ($scope.currentStep) {
+    switch (Mailing.getCurrentStep()) {
         case 'mailing-details':
             $state.go('mailing-details');
             break;
@@ -46703,7 +46703,7 @@ component.component('mDetails', {
             $('.required').each(function () {
                 let element = $(this);
                 element.removeClass('empty');
-                if(element[0].value.length == 0) {
+                if(element[0].value.trim().length == 0) {
                     element.addClass('empty');
                     notValid = true;
                 }

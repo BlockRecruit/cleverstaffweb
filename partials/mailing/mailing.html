@@ -6,24 +6,27 @@
                 <h3 translate="Create & send the email campaign"></h3>
             </div>
         </div>
-        <form class="form-horizontal inner-name" ng-show="currentStep == 'mailing-details'">
+        <form class="form-horizontal inner-name" ng-show="includes('mailing-details')">
             <div class="form-group">
-                <label class="control-label" for="internal-name">
-                    <span translate="Internal mailing name"></span>*
-                    <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="top-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.mailingInternal" aria-hidden="true"></i>
-                </label>
-                <input type="text" class="form-control required pull-right" id="internal-name" maxlength="50" ng-model="internalName" ng-change="updateInternal()" ng-model-options="{debounce: 500}" ng-focus="fieldFocused($event)" >
+                <div class="internal-input_label">
+                    <label class="control-label" for="internal-name">
+                        <span translate="Internal mailing name"></span>*
+                        <i class="fa fa-info-circle tooltip-icon" title="" tooltip-placement="top-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.mailingInternal" aria-hidden="true"></i>
+                    </label>
+                </div>
+                <div class="internal-input">
+                    <input type="text" class="form-control required pull-right" id="internal-name" maxlength="50" ng-model="internalName" ng-change="updateInternal()" ng-model-options="{debounce: 500}" ng-focus="fieldFocused($event)" >
 
+                </div>
             </div>
         </form>
-        <div class="row" ng-show="currentStep == 'mailing-editor' || currentStep == 'mailing-preview'">
+        <div class="row" ng-show="includes('mailing-editor') || includes('mailing-preview')">
             <div class="col-lg-12">
                 <h4 ng-bind="internalName"></h4>
             </div>
         </div>
         <div class="row steps-row">
             <div class="col-lg-10 steps col-lg-offset-1">
-                {{mailingParams.currentStep}}
                 <div class="text-center step clickable" id="step_1" ui-sref-active="active" > <i class="mailing-detail-icon"></i><b>{{'Step'|translate}} 1.</b> {{'Choose candidates'|translate}} <i class="sprite-arrow-detail"></i><a
                         ui-sref="mailing-details"></a></div>
                 <div class="text-center step clickable"  id="step_2" ui-sref-active="active" > <i class="email-text-icon"></i><b>{{'Step'|translate}} 2.</b> {{'Email text composition'|translate}} <i class="sprite-arrow-email"></i><a

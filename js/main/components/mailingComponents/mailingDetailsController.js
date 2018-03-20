@@ -144,7 +144,7 @@ component.component('mDetails', {
             $('.required').each(function () {
                 let element = $(this);
                 element.removeClass('empty');
-                if(element[0].value.length == 0) {
+                if(element[0].value.trim().length == 0) {
                     element.addClass('empty');
                     notValid = true;
                 }
