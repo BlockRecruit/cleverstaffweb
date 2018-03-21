@@ -54,14 +54,26 @@
 	}
 	.modal-footer {
 		text-align: center;
-		button {
-			font-family: "Helvetica-Heavy";
+		button.btn-primary-new {
+			@include btn-primary-new();
+
 			font-size: 16px;
 
 			min-width: 180px;
 
 			text-transform: uppercase;
+			&.accent {
+				@include btn-accent();
+
+				font-family: "Helvetica-Heavy";
+
+				padding: 8px 20px;
+			}
 			&.cancel {
+				@include btn-cancel();
+
+				font-family: "Helvetica-Heavy";
+
 				margin-right: 25px;
 				padding: 8px 20px;
 			}

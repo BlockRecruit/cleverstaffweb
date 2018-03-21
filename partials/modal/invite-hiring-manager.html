@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn-new attention" ng-click="$root.addInvite()"
+        <button class="btn-primary-new accent" ng-click="$root.addInvite()"
                 ng-disabled="!(!inviteForm.email.$error.email && !inviteForm.email.$error.required)"
                 ng-show="$root.inviteUser.role == 'admin' || $root.inviteUser.role == 'recruter'
                || $root.inviteUser.role == 'salesmanager' || $root.inviteUser.role == 'freelancer'

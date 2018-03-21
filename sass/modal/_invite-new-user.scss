@@ -93,7 +93,7 @@
 								font-size: 15px;
 
 								text-align: center;
-								letter-spacing: 0.4px;
+								letter-spacing: 0.6px;
 								text-transform: uppercase;
 
 								color: #333;
@@ -175,15 +175,27 @@
 
 		border-top: none;
 		button {
-			font-family: "Helvetica-Heavy";
-			font-size: 16px;
+			@include btn-primary-new();
 
 			min-width: 195px;
 
 			letter-spacing: 1px;
 			text-transform: uppercase;
 			&.cancel {
+				@include btn-cancel();
+
+				font-family: "Helvetica-Heavy";
+				font-size: 16px;
+
 				margin-right: 25px;
+				padding: 10px 20px;
+			}
+			&.accent {
+				@include btn-accent();
+
+				font-family: "Helvetica-Heavy";
+				font-size: 16px;
+
 				padding: 10px 20px;
 			}
 		}
