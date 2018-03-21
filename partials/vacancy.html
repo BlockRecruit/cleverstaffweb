@@ -634,7 +634,8 @@
                             <!--<i class="fa fa-envelope" aria-hidden="true"></i>-->
                         <!--</a>-->
                     </div>
-                    <div class="mailing col-lg-3" ng-show="$root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'admin'" ng-class="{'col-lg-4': !($root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y'))}">
+                    <div class="mailing col-lg-3" ng-show="$root.me.orgParams.enableMailing !== 'false' && $root.me.personParams.enableMailing !== 'false' && ($root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter')"
+                         ng-class="{'col-lg-4': !($root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y'))}">
                         <a href="" ng-click="toCreateMailing()">
                             <span translate="Create email campaign"></span>
                             <i class="letters" ></i>
