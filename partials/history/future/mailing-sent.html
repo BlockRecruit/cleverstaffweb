@@ -18,6 +18,7 @@
              </a>
         </span>
         <span ng-if="vacancy.actions.objects[0].candidates.length == 2">
+            <span translate="to_candidates"></span>
             <a ng-href="#/candidates/{{vacancy.actions.objects[0].candidates[0].localId}}">
                 {{vacancy.actions.objects[0].candidates[0].fullName}}
             </a> {{'and'|translate}} <a ng-href="#/candidates/{{vacancy.actions.objects[0].candidates[1].localId}}">
