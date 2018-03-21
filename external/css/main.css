@@ -1945,6 +1945,11 @@ tr.accent {
     display: flex;
     justify-content: space-around;
 }
+.mailing span.bold {
+    font-weight: 600;
+    display: inline-block;
+}
+
 .no-border{
     border-bottom: 1px solid #fff!important;
     border-left: 1px solid #fff!important;
@@ -2694,6 +2699,14 @@ select.webkit-fix {
     /*features end*/
 }
 @media screen and (max-width: 991px) {
+    .mailing span.bold {
+        display: block;
+        border-right:1px solid #ccc;
+        padding-right: 5px;
+    }
+    .mailing span.no-border-right {
+        border-right: none;
+    }
     .adaptiveMenu{
         display: none!important;
     }
