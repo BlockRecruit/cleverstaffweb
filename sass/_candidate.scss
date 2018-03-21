@@ -783,7 +783,8 @@
 							}
 						}
 						.education,
-						.currentWorkPlace {
+						.currentWorkPlace,
+						.currentPosition {
 							line-height: 26px;
 							span {
 								@include bold();
