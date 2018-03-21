@@ -2734,7 +2734,7 @@
   "Short description": "Краткое описание",
   "Custom reports designer allows you build your own reports with appropriate parameters.": "Конструктор отчётов позволяет создавать отчёты с нужными вам параметрами.",
   "Only users with the Admin role are able to save the custom report parameters.": "Сохранять выбранные параметры отчёта могут только пользователи с ролью Admin.",
-  "Add / Remove report fields": "Добавить / Удалить поля в отчёте",
+  "Add / Remove report fields": "Добавить / Удалить поля вакансии в отчёте",
   "Budget": "Бюджет",
   "location": "Регион",
   "Responsible for a vacancy": "Ответственные по вакансии",
