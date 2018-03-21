@@ -215,6 +215,9 @@ $(document).ready(function () {
             res.intention =  localStorage.getItem("tarifParams");
             res.utms = localStorage.getItem("UTMS");
             res.login = $("#google_mail").val();
+            var textName = res.firstName;
+            res.firstName = textName.replace(/[^A-Za-zА-Яа-яЁё '`-]+/g, '');
+            $("#google_name").val(res.firstName);
             var string = res.country;
             if(string == 'null' || string == null || string == undefined){
                 res.country = 'Afghanistan';
