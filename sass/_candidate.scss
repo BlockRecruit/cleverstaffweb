@@ -133,22 +133,38 @@
 					}
 					& > .addTagsCandidateForAdmin {
 						.select2-search-choice {
-							padding: 3px 35px 3px 3px;
+							display: flex;
+							flex-direction: row;
+							padding: 3px 8px;
+
+							justify-content: space-around;
 						}
 						.select2-search-choice-close {
-							right: 3px;
-							left: inherit;
+							position: static;
+
+							margin: 0 5px;
 						}
 						.select2-search-choice-edit {
-							right: 18px;
+							position: static;
 
-							display: inline;
+							display: inline-block;
+							margin-right: 5px;
 
-							-webkit-transform: scale(-1, 1);
-							-moz-transform: scale(-1, 1);
-							-ms-transform: scale(-1, 1);
-							-o-transform: scale(-1, 1);
 							transform: scale(-1, 1);
+						}
+						.select2-search-choice-remove {
+							display: inline-block;
+							width: 10px;
+							height: 12px;
+
+							background: url("../images/sprite/remove.png") center no-repeat;
+							background-size: 10px;
+							&:hover {
+								width: 13px;
+								height: 14px;
+
+								background-size: 12px;
+							}
 						}
 					}
 				}

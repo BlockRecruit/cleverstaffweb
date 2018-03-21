@@ -2934,7 +2934,3463 @@ for(;h>e;)i=b[e],k.push(new google.maps.LatLng(i[1],i[0])),d=!0,e++;for(;l>e;)k.
 },q.prototype.setChildScope=function(a,b){return _.each(this.scopePropNames,function(c){return function(d){var e,f;return e=d+"Key",f="self"===c[e]?b:b[c[e]],f!==a[d]?a[d]=f:void 0}}(this)),a.model=b},q.prototype.interpolateContent=function(a,b){var c,d,e,f,g,h;if(void 0!==this.contentKeys&&0!==this.contentKeys.length){for(c=o(a),d={},h=this.contentKeys,f=0,g=h.length;g>f;f++)e=h[f],d[e]=b[e];return c(d)}},q}(c)}])}.call(this),function(){b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapCircle",["uiGmapICircle","uiGmapCircleParentModel",function(a,b){return _.extend(a,{link:function(a,c,d,e){return e.getScope().deferred.promise.then(function(){return function(e){return new b(a,c,d,e)}}(this))}})}])}.call(this),function(){var a=function(a,b){return function(){return a.apply(b,arguments)}},c={}.hasOwnProperty,d=function(a,b){function d(){this.constructor=a}for(var e in b)c.call(b,e)&&(a[e]=b[e]);return d.prototype=b.prototype,a.prototype=new d,a.__super__=b.prototype,a};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapControl",["uiGmapIControl","$http","$templateCache","$compile","$controller","uiGmapGoogleMapApi",function(c,e,f,g,h,i){var j;return j=function(j){function k(){this.link=a(this.link,this),k.__super__.constructor.call(this)}return d(k,j),k.prototype.link=function(a,d,j,k){return i.then(function(d){return function(i){var j,l;return b.isUndefined(a.template)?void d.$log.error("mapControl: could not find a valid template property"):(j=b.isDefined(a.index&&!isNaN(parseInt(a.index)))?parseInt(a.index):void 0,l=b.isDefined(a.position)?a.position.toUpperCase().replace(/-/g,"_"):"TOP_CENTER",i.ControlPosition[l]?c.mapPromise(a,k).then(function(c){var i,k;return i=void 0,k=b.element("<div></div>"),e.get(a.template,{cache:f}).success(function(c){var d,e;return e=a.$new(),k.append(c),b.isDefined(a.controller)&&(d=h(a.controller,{$scope:e}),k.children().data("$ngControllerController",d)),i=g(k.children())(e),j?i[0].index=j:void 0}).error(function(){return d.$log.error("mapControl: template could not be found")}).then(function(){return c.controls[google.maps.ControlPosition[l]].push(i[0])})}):void d.$log.error("mapControl: invalid position property"))}}(this))},k}(c)}])}.call(this),function(){b.module("uiGmapgoogle-maps.directives.api").service("uiGmapDragZoom",["uiGmapCtrlHandle","uiGmapPropertyAction",function(a,b){return{restrict:"EMA",transclude:!0,template:'<div class="angular-google-map-dragzoom" ng-transclude style="display: none"></div>',require:"^uiGmapGoogleMap",scope:{keyboardkey:"=",options:"=",spec:"="},controller:["$scope","$element",function(b,c){return b.ctrlType="uiGmapDragZoom",_.extend(this,a.handle(b,c))}],link:function(c,d,e,f){return a.mapPromise(c,f).then(function(a){var d,e,f;return d=function(b){return a.enableKeyDragZoom(b),c.spec?c.spec.enableKeyDragZoom(b):void 0},e=new b(function(a,b){return b?d({key:b}):d()}),f=new b(function(a,b){return b?d(b):void 0}),c.$watch("keyboardkey",e.sic),e.sic(c.keyboardkey),c.$watch("options",f.sic),f.sic(c.options)})}}}])}.call(this),function(){b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapDrawingManager",["uiGmapIDrawingManager","uiGmapDrawingManagerParentModel",function(a,b){return _.extend(a,{link:function(a,c,d,e){return e.getScope().deferred.promise.then(function(e){return new b(a,c,d,e)})}})}])}.call(this),function(){var a=function(a,b){return function(){return a.apply(b,arguments)}},c={}.hasOwnProperty,d=function(a,b){function d(){this.constructor=a}for(var e in b)c.call(b,e)&&(a[e]=b[e]);return d.prototype=b.prototype,a.prototype=new d,a.__super__=b.prototype,a};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapApiFreeDrawPolygons",["uiGmapLogger","uiGmapBaseObject","uiGmapCtrlHandle","uiGmapDrawFreeHandChildModel","uiGmapLodash",function(b,c,e,f,g){var h;return h=function(c){function h(){return this.link=a(this.link,this),h.__super__.constructor.apply(this,arguments)}return d(h,c),h.include(e),h.prototype.restrict="EMA",h.prototype.replace=!0,h.prototype.require="^uiGmapGoogleMap",h.prototype.scope={polygons:"=",draw:"=",revertmapoptions:"="},h.prototype.link=function(a,c,d,e){return this.mapPromise(a,e).then(function(){return function(c){var d,e;return a.polygons?_.isArray(a.polygons)?(d=new f(c,a.revertmapoptions),e=void 0,a.draw=function(){return"function"==typeof e&&e(),d.engage(a.polygons).then(function(){var b;return b=!0,e=a.$watchCollection("polygons",function(a,c){var d;return b||a===c?void(b=!1):(d=g.differenceObjects(c,a),d.forEach(function(a){return a.setMap(null)}))})})}):b.error("Free Draw Polygons must be of type Array!"):b.error("No polygons to bind to!")}}(this))},h}(c)}])}.call(this),function(){b.module("uiGmapgoogle-maps.directives.api").service("uiGmapICircle",[function(){var a;return a={},{restrict:"EA",replace:!0,require:"^uiGmapGoogleMap",scope:{center:"=center",radius:"=radius",stroke:"=stroke",fill:"=fill",clickable:"=",draggable:"=",editable:"=",geodesic:"=",icons:"=icons",visible:"=",events:"="}}}])}.call(this),function(){var a={}.hasOwnProperty,c=function(b,c){function d(){this.constructor=b}for(var e in c)a.call(c,e)&&(b[e]=c[e]);return d.prototype=c.prototype,b.prototype=new d,b.__super__=c.prototype,b};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapIControl",["uiGmapBaseObject","uiGmapLogger","uiGmapCtrlHandle",function(a,b,d){var e;return e=function(a){function e(){this.restrict="EA",this.replace=!0,this.require="^uiGmapGoogleMap",this.scope={template:"@template",position:"@position",controller:"@controller",index:"@index"},this.$log=b}return c(e,a),e.extend(d),e.prototype.link=function(){throw new Exception("Not implemented!!")},e}(a)}])}.call(this),function(){b.module("uiGmapgoogle-maps.directives.api").service("uiGmapIDrawingManager",[function(){return{restrict:"EA",replace:!0,require:"^uiGmapGoogleMap",scope:{"static":"@",control:"=",options:"=",events:"="}}}])}.call(this),function(){var a={}.hasOwnProperty,c=function(b,c){function d(){this.constructor=b}for(var e in c)a.call(c,e)&&(b[e]=c[e]);return d.prototype=c.prototype,b.prototype=new d,b.__super__=c.prototype,b};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapIMarker",["uiGmapBaseObject","uiGmapCtrlHandle",function(a,b){var d;return d=function(a){function d(){this.restrict="EMA",this.require="^uiGmapGoogleMap",this.priority=-1,this.transclude=!0,this.replace=!0,this.scope=_.extend(this.scope||{},d.scopeKeys)}return c(d,a),d.scopeKeys={coords:"=coords",icon:"=icon",click:"&click",options:"=options",events:"=events",fit:"=fit",idKey:"=idkey",control:"=control"},d.keys=_.keys(d.scopeKeys),d.extend(b),d}(a)}])}.call(this),function(){var a={}.hasOwnProperty,c=function(b,c){function d(){this.constructor=b}for(var e in c)a.call(c,e)&&(b[e]=c[e]);return d.prototype=c.prototype,b.prototype=new d,b.__super__=c.prototype,b};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapIPolygon",["uiGmapGmapUtil","uiGmapBaseObject","uiGmapLogger","uiGmapCtrlHandle",function(a,b,d,e){var f;return f=function(b){function f(){}return c(f,b),f.include(a),f.extend(e),f.prototype.restrict="EMA",f.prototype.replace=!0,f.prototype.require="^uiGmapGoogleMap",f.prototype.scope={path:"=path",stroke:"=stroke",clickable:"=",draggable:"=",editable:"=",geodesic:"=",fill:"=",icons:"=icons",visible:"=","static":"=",events:"=",zIndex:"=zindex",fit:"=",control:"=control"},f.prototype.DEFAULTS={},f.prototype.$log=d,f}(b)}])}.call(this),function(){var a={}.hasOwnProperty,c=function(b,c){function d(){this.constructor=b}for(var e in c)a.call(c,e)&&(b[e]=c[e]);return d.prototype=c.prototype,b.prototype=new d,b.__super__=c.prototype,b};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapIPolyline",["uiGmapGmapUtil","uiGmapBaseObject","uiGmapLogger","uiGmapCtrlHandle",function(a,b,d,e){var f;return f=function(b){function f(){}return c(f,b),f.include(a),f.extend(e),f.prototype.restrict="EMA",f.prototype.replace=!0,f.prototype.require="^uiGmapGoogleMap",f.prototype.scope={path:"=",stroke:"=",clickable:"=",draggable:"=",editable:"=",geodesic:"=",icons:"=",visible:"=","static":"=",fit:"=",events:"="},f.prototype.DEFAULTS={},f.prototype.$log=d,f}(b)}])}.call(this),function(){b.module("uiGmapgoogle-maps.directives.api").service("uiGmapIRectangle",[function(){var a;return a={},{restrict:"EMA",require:"^uiGmapGoogleMap",replace:!0,scope:{bounds:"=",stroke:"=",clickable:"=",draggable:"=",editable:"=",fill:"=",visible:"=",events:"="}}}])}.call(this),function(){var a={}.hasOwnProperty,c=function(b,c){function d(){this.constructor=b}for(var e in c)a.call(c,e)&&(b[e]=c[e]);return d.prototype=c.prototype,b.prototype=new d,b.__super__=c.prototype,b};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapIWindow",["uiGmapBaseObject","uiGmapChildEvents","uiGmapCtrlHandle",function(a,b,d){var e;return e=function(a){function e(){this.restrict="EMA",this.template=void 0,this.transclude=!0,this.priority=-100,this.require="^uiGmapGoogleMap",this.replace=!0,this.scope={coords:"=coords",template:"=template",templateUrl:"=templateurl",templateParameter:"=templateparameter",isIconVisibleOnClick:"=isiconvisibleonclick",closeClick:"&closeclick",options:"=options",control:"=control",show:"=show"}}return c(e,a),e.include(b),e.extend(d),e}(a)}])}.call(this),function(){var a=function(a,b){return function(){return a.apply(b,arguments)}},d={}.hasOwnProperty,e=function(a,b){function c(){this.constructor=a}for(var e in b)d.call(b,e)&&(a[e]=b[e]);return c.prototype=b.prototype,a.prototype=new c,a.__super__=b.prototype,a};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapMap",["$timeout","$q","uiGmapLogger","uiGmapGmapUtil","uiGmapBaseObject","uiGmapCtrlHandle","uiGmapIsReady","uiGmapuuid","uiGmapExtendGWin","uiGmapExtendMarkerClusterer","uiGmapGoogleMapsUtilV3","uiGmapGoogleMapApi","uiGmapEventsHelper",function(d,f,g,h,i,j,k,l,m,n,o,p,q){var r,s,t;return r=void 0,t=[o,m,n],s=function(f){function i(){this.link=a(this.link,this);var b,c;b=function(a){var b,c;return c=void 0,a.$on("$destroy",function(){return k.reset()}),b=j.handle(a),a.ctrlType="Map",a.deferred.promise.then(function(){return t.forEach(function(a){return a.init()})}),b.getMap=function(){return a.map},c=_.extend(this,b)},this.controller=["$scope",b],c=this}return e(i,f),i.include(h),i.prototype.restrict="EMA",i.prototype.transclude=!0,i.prototype.replace=!1,i.prototype.template='<div class="angular-google-map"><div class="angular-google-map-container"></div><div ng-transclude style="display: none"></div></div>',i.prototype.scope={center:"=",zoom:"=",dragging:"=",control:"=",options:"=",events:"=",eventOpts:"=",styles:"=",bounds:"=",update:"="},i.prototype.link=function(a,e,f){var h,i;return h=[],a.$on("$destroy",function(){return q.removeEvents(h)}),a.idleAndZoomChanged=!1,null==a.center?void(i=a.$watch("center",function(b){return function(){return a.center?(i(),b.link(a,e,f)):void 0}}(this))):p.then(function(i){return function(j){var m,n,o,p,s,t,u,v,w,x,y,z,A,B,C,D,E,F;if(r={mapTypeId:j.MapTypeId.ROADMAP},C=k.spawn(),x=function(){return C.deferred.resolve({instance:C.instance,map:E})},!i.validateCoords(a.center))return void g.error("angular-google-maps: could not find a valid center property");if(!b.isDefined(a.zoom))return void g.error("angular-google-maps: map zoom property not set");if(p=b.element(e),p.addClass("angular-google-map"),w={options:{}},f.options&&(w.options=a.options),f.styles&&(w.styles=a.styles),f.type&&(D=f.type.toUpperCase(),google.maps.MapTypeId.hasOwnProperty(D)?w.mapTypeId=google.maps.MapTypeId[f.type.toUpperCase()]:g.error("angular-google-maps: invalid map type '"+f.type+"'")),u=b.extend({},r,w,{center:i.getCoords(a.center),zoom:a.zoom,bounds:a.bounds}),E=new google.maps.Map(p.find("div")[1],u),E.uiGmap_id=l.generate(),o=!1,h.push(google.maps.event.addListenerOnce(E,"idle",function(){return a.deferred.resolve(E),x()})),n=f.events&&null!=(null!=(F=a.events)?F.blacklist:void 0)?a.events.blacklist:[],_.isString(n)&&(n=[n]),v=function(b,c,d){return _.contains(n,b)?void 0:(d&&d(),h.push(google.maps.event.addListener(E,b,function(){var b;return(null!=(b=a.update)?b.lazy:void 0)?void 0:c()})))},_.contains(n,"all")||(v("dragstart",function(){return o=!0,a.$evalAsync(function(a){return null!=a.dragging?a.dragging=o:void 0})}),v("dragend",function(){return o=!1,a.$evalAsync(function(a){return null!=a.dragging?a.dragging=o:void 0})}),v("drag",function(){var c,e,f,g;return c=E.center,d(function(){var d;return d=a,b.isDefined(d.center.type)?(d.center.coordinates[1]=c.lat(),d.center.coordinates[0]=c.lng()):(d.center.latitude=c.lat(),d.center.longitude=c.lng())},null!=(e=a.eventOpts)&&null!=(f=e.debounce)&&null!=(g=f.debounce)?g.dragMs:void 0)}),B=!1,A=!1,v("zoom_changed",function(){var b,c;if(!B)return a.zoom!==E.zoom?(A=!0,d(function(){return a.zoom=E.zoom,A=!1},null!=(b=a.eventOpts)&&null!=(c=b.debounce)?c.zoomMs:void 0)):void 0}),z=!1,y=!1,v("center_changed",function(){var c,e,f;return c=E.center,z?void 0:(y=!0,d(function(){var d;return d=a,E.dragging||(b.isDefined(d.center.type)?(d.center.coordinates[1]!==c.lat()&&(d.center.coordinates[1]=c.lat()),d.center.coordinates[0]!==c.lng()&&(d.center.coordinates[0]=c.lng())):(d.center.latitude!==c.lat()&&(d.center.latitude=c.lat()),d.center.longitude!==c.lng()&&(d.center.longitude=c.lng()))),y=!1},null!=(e=a.eventOpts)&&null!=(f=e.debounce)?f.centerMs:void 0))}),v("idle",function(){var d,e,f;return d=E.getBounds(),e=d.getNorthEast(),f=d.getSouthWest(),a.$evalAsync(function(d){var g;return g=E.center,b.isDefined(d.center.type)?(d.center.coordinates[1]!==g.lat()&&(d.center.coordinates[1]=g.lat()),d.center.coordinates[0]!==g.lng()&&(d.center.coordinates[0]=g.lng())):(d.center.latitude!==g.lat()&&(d.center.latitude=g.lat()),d.center.longitude!==g.lng()&&(d.center.longitude=g.lng())),null!==d.bounds&&d.bounds!==c&&void 0!==d.bounds?(d.bounds.northeast={latitude:e.lat(),longitude:e.lng()},d.bounds.southwest={latitude:f.lat(),longitude:f.lng()},d.zoom=E.zoom,a.idleAndZoomChanged=!a.idleAndZoomChanged):void 0})})),b.isDefined(a.events)&&null!==a.events&&b.isObject(a.events)){t=function(b){return function(){return a.events[b].apply(a,[E,b,arguments])}},m=[];for(s in a.events)a.events.hasOwnProperty(s)&&b.isFunction(a.events[s])&&m.push(google.maps.event.addListener(E,s,t(s)));h.concat(m)}return E.getOptions=function(){return u},a.map=E,null!=f.control&&null!=a.control&&(a.control.refresh=function(a){var b;if(null!=E)return google.maps.event.trigger(E,"resize"),null!=(null!=a?a.latitude:void 0)&&null!=(null!=a?a.latitude:void 0)?(b=i.getCoords(a),i.isTrue(f.pan)?E.panTo(b):E.setCenter(b)):void 0},a.control.getGMap=function(){return E},a.control.getMapOptions=function(){return u},a.control.getCustomEventListeners=function(){return m},a.control.removeEvents=function(a){return q.removeEvents(a)}),a.$watch("center",function(b,c){var d;if(b!==c&&!y&&(d=i.getCoords(a.center),d.lat()!==E.center.lat()||d.lng()!==E.center.lng()))return z=!0,o||(i.validateCoords(b)||g.error("Invalid center for newValue: "+JSON.stringify(b)),i.isTrue(f.pan)&&a.zoom===E.zoom?E.panTo(d):E.setCenter(d)),z=!1},!0),a.$watch("zoom",function(b,c){var e,f;if(!_.isEqual(b,c)&&E.getZoom()!==a.zoom)return B=!0,d(function(){return E.setZoom(b),B=!1},(null!=(e=a.eventOpts)&&null!=(f=e.debounce)?f.zoomMs:void 0)+20,!1)}),a.$watch("bounds",function(a,b){var c,d,e;if(a!==b)return null==a.northeast.latitude||null==a.northeast.longitude||null==a.southwest.latitude||null==a.southwest.longitude?void g.error("Invalid map bounds for new value: "+JSON.stringify(a)):(d=new google.maps.LatLng(a.northeast.latitude,a.northeast.longitude),e=new google.maps.LatLng(a.southwest.latitude,a.southwest.longitude),c=new google.maps.LatLngBounds(e,d),E.fitBounds(c))}),["options","styles"].forEach(function(b){return a.$watch(b,function(a,b){var c;return c=this.exp,_.isEqual(a,b)?void 0:(w.options=a,null!=E?E.setOptions(w):void 0)})},!0)}}(this))},i}(i)}])}.call(this),function(){var a=function(a,b){return function(){return a.apply(b,arguments)}},c={}.hasOwnProperty,d=function(a,b){function d(){this.constructor=a}for(var e in b)c.call(b,e)&&(a[e]=b[e]);return d.prototype=b.prototype,a.prototype=new d,a.__super__=b.prototype,a};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapMarker",["uiGmapIMarker","uiGmapMarkerChildModel","uiGmapMarkerManager","uiGmapLogger",function(b,c,e,f){var g;return g=function(g){function h(){this.link=a(this.link,this),h.__super__.constructor.call(this),this.template='<span class="angular-google-map-marker" ng-transclude></span>',f.info(this)}return d(h,g),h.prototype.controller=["$scope","$element",function(a,c){return a.ctrlType="Marker",_.extend(this,b.handle(a,c))}],h.prototype.link=function(a,d,f,g){var h;return h=b.mapPromise(a,g),h.then(function(){return function(d){var f,g,h,i,j,k;return h=new e(d),i=_.object(b.keys,b.keys),j=new c(a,a,i,d,{},f=!0,h,g=!1,k=!1),j.deferred.promise.then(function(b){return a.deferred.resolve(b)}),null!=a.control?a.control.getGMarkers=h.getGMarkers:void 0}}(this)),a.$on("$destroy",function(){return function(){var a;return"undefined"!=typeof a&&null!==a&&a.clear(),a=null}}(this))},h}(b)}])}.call(this),function(){var a={}.hasOwnProperty,c=function(b,c){function d(){this.constructor=b}for(var e in c)a.call(c,e)&&(b[e]=c[e]);return d.prototype=c.prototype,b.prototype=new d,b.__super__=c.prototype,b};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapMarkers",["uiGmapIMarker","uiGmapPlural","uiGmapMarkersParentModel","uiGmap_sync","uiGmapLogger",function(a,b,d,e,f){var g;return g=function(e){function g(){g.__super__.constructor.call(this),this.template='<span class="angular-google-map-markers" ng-transclude></span>',b.extend(this,{doRebuildAll:"=dorebuildall",doCluster:"=docluster",clusterOptions:"=clusteroptions",clusterEvents:"=clusterevents",modelsByRef:"=modelsbyref"}),f.info(this)}return c(g,e),g.prototype.controller=["$scope","$element",function(b,c){return b.ctrlType="Markers",_.extend(this,a.handle(b,c))}],g.prototype.link=function(b,c,e,f){var g,h;return g=void 0,h=function(){return null!=b.control&&(b.control.getGMarkers=function(){var a;return null!=(a=g.gMarkerManager)?a.getGMarkers():void 0},b.control.getChildMarkers=function(){return g.markerModels}),b.deferred.resolve()},a.mapPromise(b,f).then(function(a){var i;return i=f.getScope(),i.$watch("idleAndZoomChanged",function(){return _.defer(g.gMarkerManager.draw)}),g=new d(b,c,e,a),_.last(g.existingPieces._content).then(function(){return h()})})},g}(a)}])}.call(this),function(){b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapPlural",[function(){return{extend:function(a,b){return _.extend(a.scope||{},b||{},{idKey:"=idkey",doRebuildAll:"=dorebuildall",models:"=models",chunk:"=chunk"})}}}])}.call(this),function(){var a=function(a,b){return function(){return a.apply(b,arguments)}},c={}.hasOwnProperty,d=function(a,b){function d(){this.constructor=a}for(var e in b)c.call(b,e)&&(a[e]=b[e]);return d.prototype=b.prototype,a.prototype=new d,a.__super__=b.prototype,a};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapPolygon",["uiGmapIPolygon","$timeout","uiGmaparray-sync","uiGmapPolygonChildModel",function(b,c,e,f){var g;return g=function(c){function e(){return this.link=a(this.link,this),e.__super__.constructor.apply(this,arguments)}return d(e,c),e.prototype.link=function(a,c,d,e){var g,h;return g=[],h=b.mapPromise(a,e),null!=a.control&&(a.control.getInstance=this,a.control.polygons=g,a.control.promise=h),h.then(function(b){return function(c){return g.push(new f(a,d,c,b.DEFAULTS))}}(this))},e}(b)}])}.call(this),function(){var a=function(a,b){return function(){return a.apply(b,arguments)}},c={}.hasOwnProperty,d=function(a,b){function d(){this.constructor=a}for(var e in b)c.call(b,e)&&(a[e]=b[e]);return d.prototype=b.prototype,a.prototype=new d,a.__super__=b.prototype,a};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapPolygons",["uiGmapIPolygon","$timeout","uiGmaparray-sync","uiGmapPolygonsParentModel","uiGmapPlural",function(c,e,f,g,h){var i;return i=function(c){function e(){this.link=a(this.link,this),e.__super__.constructor.call(this),h.extend(this),this.$log.info(this)}return d(e,c),e.prototype.link=function(a,c,d,e){return e.getScope().deferred.promise.then(function(e){return function(f){var h;return(b.isUndefined(a.path)||null===a.path)&&e.$log.warn("polygons: no valid path attribute found"),a.models||e.$log.warn("polygons: no models found to create from"),h=null,null!=a.control&&(a.control.updateModels=function(b){return a.models=b,h.createChildScopes(!1)},a.control.newModels=function(b){return a.models=b,h.rebuildAll(a,!0,!0)},a.control.clean=function(){return h.rebuildAll(a,!1,!0)}),h=new g(a,c,d,f,e.DEFAULTS)}}(this))},e}(c)}])}.call(this),function(){var a=function(a,b){return function(){return a.apply(b,arguments)}},c={}.hasOwnProperty,d=function(a,b){function d(){this.constructor=a}for(var e in b)c.call(b,e)&&(a[e]=b[e]);return d.prototype=b.prototype,a.prototype=new d,a.__super__=b.prototype,a};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapPolyline",["uiGmapIPolyline","$timeout","uiGmaparray-sync","uiGmapPolylineChildModel",function(c,e,f,g){var h;return h=function(e){function f(){return this.link=a(this.link,this),f.__super__.constructor.apply(this,arguments)}return d(f,e),f.prototype.link=function(a,d,e,f){return c.mapPromise(a,f).then(function(c){return function(d){return(b.isUndefined(a.path)||null===a.path||!c.validatePath(a.path))&&c.$log.warn("polyline: no valid path attribute found"),new g(a,e,d,c.DEFAULTS)}}(this))},f}(c)}])}.call(this),function(){var a=function(a,b){return function(){return a.apply(b,arguments)}},c={}.hasOwnProperty,d=function(a,b){function d(){this.constructor=a}for(var e in b)c.call(b,e)&&(a[e]=b[e]);return d.prototype=b.prototype,a.prototype=new d,a.__super__=b.prototype,a};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapPolylines",["uiGmapIPolyline","$timeout","uiGmaparray-sync","uiGmapPolylinesParentModel",function(c,e,f,g){var h;return h=function(c){function e(){this.link=a(this.link,this),e.__super__.constructor.call(this),this.scope.idKey="=idkey",this.scope.models="=models",this.$log.info(this)}return d(e,c),e.prototype.link=function(a,c,d,e){return e.getScope().deferred.promise.then(function(e){return function(f){return(b.isUndefined(a.path)||null===a.path)&&e.$log.warn("polylines: no valid path attribute found"),a.models||e.$log.warn("polylines: no models found to create from"),new g(a,c,d,f,e.DEFAULTS)}}(this))},e}(c)}])}.call(this),function(){b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapRectangle",["uiGmapLogger","uiGmapGmapUtil","uiGmapIRectangle","uiGmapRectangleParentModel",function(a,b,c,d){return _.extend(c,{link:function(a,b,c,e){return e.getScope().deferred.promise.then(function(){return function(e){return new d(a,b,c,e)}}(this))}})}])}.call(this),function(){var a=function(a,b){return function(){return a.apply(b,arguments)}},c={}.hasOwnProperty,d=function(a,b){function d(){this.constructor=a}for(var e in b)c.call(b,e)&&(a[e]=b[e]);return d.prototype=b.prototype,a.prototype=new d,a.__super__=b.prototype,a};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapWindow",["uiGmapIWindow","uiGmapGmapUtil","uiGmapWindowChildModel","uiGmapLodash","uiGmapLogger",function(c,e,f,g,h){var i;return i=function(i){function j(){this.link=a(this.link,this),j.__super__.constructor.call(this),this.require=["^uiGmapGoogleMap","^?uiGmapMarker"],this.template='<span class="angular-google-maps-window" ng-transclude></span>',h.debug(this),this.childWindows=[]}return d(j,i),j.include(e),j.prototype.link=function(a,d,e,f){var g,h;return g=f.length>1&&null!=f[1]?f[1]:void 0,h=null!=g?g.getScope():void 0,this.mapPromise=c.mapPromise(a,f[0]),this.mapPromise.then(function(c){return function(f){var i;return i=!0,b.isDefined(e.isiconvisibleonclick)&&(i=a.isIconVisibleOnClick),g?h.deferred.promise.then(function(){return c.init(a,d,i,f,h)}):void c.init(a,d,i,f)}}(this))},j.prototype.init=function(a,b,c,d,e){var h,i,j,k,l;return i=null!=a.options?a.options:{},k=null!=a&&this.validateCoords(a.coords),null!=(null!=e?e.getGMarker:void 0)&&(j=e.getGMarker()),l=k?this.createWindowOptions(j,a,b.html(),i):i,null!=d&&(h=new f({},a,l,c,d,e,b),this.childWindows.push(h),a.$on("$destroy",function(a){return function(){return a.childWindows=g.withoutObjects(a.childWindows,[h],function(a,b){return a.scope.$id===b.scope.$id}),a.childWindows.length=0}}(this))),null!=a.control&&(a.control.getGWindows=function(a){return function(){return a.childWindows.map(function(a){return a.gWin})}}(this),a.control.getChildWindows=function(a){return function(){return a.childWindows}}(this),a.control.showWindow=function(a){return function(){return a.childWindows.map(function(a){return a.showWindow()})}}(this),a.control.hideWindow=function(a){return function(){return a.childWindows.map(function(a){return a.hideWindow()})}}(this)),null!=this.onChildCreation&&null!=h?this.onChildCreation(h):void 0},j}(c)}])}.call(this),function(){var a=function(a,b){return function(){return a.apply(b,arguments)}},c={}.hasOwnProperty,d=function(a,b){function d(){this.constructor=a}for(var e in b)c.call(b,e)&&(a[e]=b[e]);return d.prototype=b.prototype,a.prototype=new d,a.__super__=b.prototype,a};b.module("uiGmapgoogle-maps.directives.api").factory("uiGmapWindows",["uiGmapIWindow","uiGmapPlural","uiGmapWindowsParentModel","uiGmapPromise","uiGmapLogger",function(b,c,e,f,g){var h;return h=function(b){function h(){this.init=a(this.init,this),this.link=a(this.link,this),h.__super__.constructor.call(this),this.require=["^uiGmapGoogleMap","^?uiGmapMarkers"],this.template='<span class="angular-google-maps-windows" ng-transclude></span>',c.extend(this),g.debug(this)}return d(h,b),h.prototype.link=function(a,b,c,d){var e,g,h;return e=d[0].getScope(),g=d.length>1&&null!=d[1]?d[1]:void 0,h=null!=g?g.getScope():void 0,e.deferred.promise.then(function(e){return function(g){var i,j;return i=(null!=h&&null!=(j=h.deferred)?j.promise:void 0)||f.resolve(),i.then(function(){var f,i;return f=null!=(i=e.parentModel)?i.existingPieces:void 0,f?f.then(function(){return e.init(a,b,c,d,g,h)}):e.init(a,b,c,d,g,h)})}}(this))},h.prototype.init=function(a,b,c,d,f,g){var h;return h=new e(a,b,c,d,f,g),null!=a.control?(a.control.getGWindows=function(){return function(){return h.windows.map(function(a){return a.gWin})}}(this),a.control.getChildWindows=function(){return function(){return h.windows}}(this)):void 0},h}(b)}])}.call(this),function(){b.module("uiGmapgoogle-maps").directive("uiGmapGoogleMap",["uiGmapMap",function(a){return new a}])}.call(this),function(){b.module("uiGmapgoogle-maps").directive("uiGmapMarker",["$timeout","uiGmapMarker",function(a,b){return new b(a)}])}.call(this),function(){b.module("uiGmapgoogle-maps").directive("uiGmapMarkers",["$timeout","uiGmapMarkers",function(a,b){return new b(a)}])}.call(this),function(){b.module("uiGmapgoogle-maps").directive("uiGmapPolygon",["uiGmapPolygon",function(a){return new a}])}.call(this),function(){b.module("uiGmapgoogle-maps").directive("uiGmapCircle",["uiGmapCircle",function(a){return a}])}.call(this),function(){b.module("uiGmapgoogle-maps").directive("uiGmapPolyline",["uiGmapPolyline",function(a){return new a}])}.call(this),function(){b.module("uiGmapgoogle-maps").directive("uiGmapPolylines",["uiGmapPolylines",function(a){return new a}])}.call(this),function(){b.module("uiGmapgoogle-maps").directive("uiGmapRectangle",["uiGmapLogger","uiGmapRectangle",function(a,b){return b}])}.call(this),function(){b.module("uiGmapgoogle-maps").directive("uiGmapWindow",["$timeout","$compile","$http","$templateCache","uiGmapWindow",function(a,b,c,d,e){return new e(a,b,c,d)}])}.call(this),function(){b.module("uiGmapgoogle-maps").directive("uiGmapWindows",["$timeout","$compile","$http","$templateCache","$interpolate","uiGmapWindows",function(a,b,c,d,e,f){return new f(a,b,c,d,e)}])}.call(this),function(){var a=function(a,b){return function(){return a.apply(b,arguments)}};b.module("uiGmapgoogle-maps").directive("uiGmapLayer",["$timeout","uiGmapLogger","uiGmapLayerParentModel",function(b,c,d){var e;return new(e=function(){function b(){this.link=a(this.link,this),this.$log=c,this.restrict="EMA",this.require="^uiGmapGoogleMap",this.priority=-1,this.transclude=!0,this.template="<span class='angular-google-map-layer' ng-transclude></span>",this.replace=!0,this.scope={show:"=show",type:"=type",namespace:"=namespace",options:"=options",onCreated:"&oncreated"}}return b.prototype.link=function(a,b,c,e){return e.getScope().deferred.promise.then(function(){return function(e){return null!=a.onCreated?new d(a,b,c,e,a.onCreated):new d(a,b,c,e)}}(this))},b}())}])}.call(this),function(){b.module("uiGmapgoogle-maps").directive("uiGmapMapControl",["uiGmapControl",function(a){return new a}])}.call(this),function(){b.module("uiGmapgoogle-maps").directive("uiGmapDragZoom",["uiGmapDragZoom",function(a){return a}])}.call(this),function(){b.module("uiGmapgoogle-maps").directive("uiGmapDrawingManager",["uiGmapDrawingManager",function(a){return a}])}.call(this),function(){b.module("uiGmapgoogle-maps").directive("uiGmapFreeDrawPolygons",["uiGmapApiFreeDrawPolygons",function(a){return new a}])}.call(this),function(){var a=function(a,b){return function(){return a.apply(b,arguments)}};b.module("uiGmapgoogle-maps").directive("uiGmapMapType",["$timeout","uiGmapLogger","uiGmapMapTypeParentModel",function(b,c,d){var e;return new(e=function(){function b(){this.link=a(this.link,this),this.$log=c,this.restrict="EMA",this.require="^uiGmapGoogleMap",this.priority=-1,this.transclude=!0,this.template='<span class="angular-google-map-layer" ng-transclude></span>',this.replace=!0,this.scope={show:"=show",options:"=options",refresh:"=refresh",id:"@"}}return b.prototype.link=function(a,b,c,e){return e.getScope().deferred.promise.then(function(){return function(e){return new d(a,b,c,e)}}(this))},b}())}])}.call(this),function(){b.module("uiGmapgoogle-maps").directive("uiGmapPolygons",["uiGmapPolygons",function(a){return new a}])}.call(this),function(){var a=function(a,b){return function(){return a.apply(b,arguments)}};b.module("uiGmapgoogle-maps").directive("uiGmapSearchBox",["uiGmapGoogleMapApi","uiGmapLogger","uiGmapSearchBoxParentModel","$http","$templateCache","$compile",function(c,d,e,f,g,h){var i;return new(i=function(){function i(){this.link=a(this.link,this),this.$log=d,this.restrict="EMA",this.require="^uiGmapGoogleMap",this.priority=-1,this.transclude=!0,this.template="<span class='angular-google-map-search' ng-transclude></span>",this.replace=!0,this.scope={template:"=template",events:"=events",position:"=?position",options:"=?options",parentdiv:"=?parentdiv"}}return i.prototype.link=function(a,d,i,j){return c.then(function(c){return function(k){return f.get(a.template,{cache:g}).success(function(f){return b.isUndefined(a.events)?void c.$log.error("searchBox: the events property is required"):j.getScope().deferred.promise.then(function(g){var j;return j=b.isDefined(a.position)?a.position.toUpperCase().replace(/-/g,"_"):"TOP_LEFT",k.ControlPosition[j]?new e(a,d,i,g,j,h(f)(a)):void c.$log.error("searchBox: invalid position property")})})}}(this))},i}())}])}.call(this),b.module("uiGmapgoogle-maps.wrapped").service("uiGmapuuid",function(){function a(){}return a.generate=function(){var b=a._gri,c=a._ha;return c(b(32),8)+"-"+c(b(16),4)+"-"+c(16384|b(12),4)+"-"+c(32768|b(14),4)+"-"+c(b(48),12)},a._gri=function(a){return 0>a?0/0:30>=a?0|Math.random()*(1<<a):53>=a?(0|1073741824*Math.random())+1073741824*(0|Math.random()*(1<<a-30)):0/0},a._ha=function(a,b){for(var c=a.toString(16),d=b-c.length,e="0";d>0;d>>>=1,e+=e)1&d&&(c=e+c);return c},a}),b.module("uiGmapgoogle-maps.wrapped").service("uiGmapGoogleMapsUtilV3",function(){return{init:_.once(function(){function b(a){a=a||{},google.maps.OverlayView.apply(this,arguments),this.content_=a.content||"",this.disableAutoPan_=a.disableAutoPan||!1,this.maxWidth_=a.maxWidth||0,this.pixelOffset_=a.pixelOffset||new google.maps.Size(0,0),this.position_=a.position||new google.maps.LatLng(0,0),this.zIndex_=a.zIndex||null,this.boxClass_=a.boxClass||"infoBox",this.boxStyle_=a.boxStyle||{},this.closeBoxMargin_=a.closeBoxMargin||"2px",this.closeBoxURL_=a.closeBoxURL||"http://www.google.com/intl/en_us/mapfiles/close.gif",""===a.closeBoxURL&&(this.closeBoxURL_=""),this.infoBoxClearance_=a.infoBoxClearance||new google.maps.Size(1,1),"undefined"==typeof a.visible&&(a.visible="undefined"==typeof a.isHidden?!0:!a.isHidden),this.isHidden_=!a.visible,this.alignBottom_=a.alignBottom||!1,this.pane_=a.pane||"floatPane",this.enableEventPropagation_=a.enableEventPropagation||!1,this.div_=null,this.closeListener_=null,this.moveListener_=null,this.contextListener_=null,this.eventListeners_=null,this.fixedWidthSet_=null
 }function d(a,b){a.getMarkerClusterer().extend(d,google.maps.OverlayView),this.cluster_=a,this.className_=a.getMarkerClusterer().getClusterClass(),this.styles_=b,this.center_=null,this.div_=null,this.sums_=null,this.visible_=!1,this.setMap(a.getMap())}function e(a){this.markerClusterer_=a,this.map_=a.getMap(),this.gridSize_=a.getGridSize(),this.minClusterSize_=a.getMinimumClusterSize(),this.averageCenter_=a.getAverageCenter(),this.markers_=[],this.center_=null,this.bounds_=null,this.clusterIcon_=new d(this,a.getStyles())}function f(a,b,d){this.extend(f,google.maps.OverlayView),b=b||[],d=d||{},this.markers_=[],this.clusters_=[],this.listeners_=[],this.activeMap_=null,this.ready_=!1,this.gridSize_=d.gridSize||60,this.minClusterSize_=d.minimumClusterSize||2,this.maxZoom_=d.maxZoom||null,this.styles_=d.styles||[],this.title_=d.title||"",this.zoomOnClick_=!0,d.zoomOnClick!==c&&(this.zoomOnClick_=d.zoomOnClick),this.averageCenter_=!1,d.averageCenter!==c&&(this.averageCenter_=d.averageCenter),this.ignoreHidden_=!1,d.ignoreHidden!==c&&(this.ignoreHidden_=d.ignoreHidden),this.enableRetinaIcons_=!1,d.enableRetinaIcons!==c&&(this.enableRetinaIcons_=d.enableRetinaIcons),this.imagePath_=d.imagePath||f.IMAGE_PATH,this.imageExtension_=d.imageExtension||f.IMAGE_EXTENSION,this.imageSizes_=d.imageSizes||f.IMAGE_SIZES,this.calculator_=d.calculator||f.CALCULATOR,this.batchSize_=d.batchSize||f.BATCH_SIZE,this.batchSizeIE_=d.batchSizeIE||f.BATCH_SIZE_IE,this.clusterClass_=d.clusterClass||"cluster",-1!==navigator.userAgent.toLowerCase().indexOf("msie")&&(this.batchSize_=this.batchSizeIE_),this.setupStyles_(),this.addMarkers(b,!0),this.setMap(a)}function g(a,b){function c(){}c.prototype=b.prototype,a.superClass_=b.prototype,a.prototype=new c,a.prototype.constructor=a}function h(a,b){this.marker_=a,this.handCursorURL_=a.handCursorURL,this.labelDiv_=document.createElement("div"),this.labelDiv_.style.cssText="position: absolute; overflow: hidden;",this.eventDiv_=document.createElement("div"),this.eventDiv_.style.cssText=this.labelDiv_.style.cssText,this.eventDiv_.setAttribute("onselectstart","return false;"),this.eventDiv_.setAttribute("ondragstart","return false;"),this.crossDiv_=h.getSharedCross(b)}function i(a){a=a||{},a.labelContent=a.labelContent||"",a.labelAnchor=a.labelAnchor||new google.maps.Point(0,0),a.labelClass=a.labelClass||"markerLabels",a.labelStyle=a.labelStyle||{},a.labelInBackground=a.labelInBackground||!1,"undefined"==typeof a.labelVisible&&(a.labelVisible=!0),"undefined"==typeof a.raiseOnDrag&&(a.raiseOnDrag=!0),"undefined"==typeof a.clickable&&(a.clickable=!0),"undefined"==typeof a.draggable&&(a.draggable=!1),"undefined"==typeof a.optimized&&(a.optimized=!1),a.crossImage=a.crossImage||"http"+("https:"===document.location.protocol?"s":"")+"://maps.gstatic.com/intl/en_us/mapfiles/drag_cross_67_16.png",a.handCursor=a.handCursor||"http"+("https:"===document.location.protocol?"s":"")+"://maps.gstatic.com/intl/en_us/mapfiles/closedhand_8_8.cur",a.optimized=!1,this.label=new h(this,a.crossImage,a.handCursor),google.maps.Marker.apply(this,arguments)}b.prototype=new google.maps.OverlayView,b.prototype.createInfoBoxDiv_=function(){var a,b,c,d=this,e=function(a){a.cancelBubble=!0,a.stopPropagation&&a.stopPropagation()},f=function(a){a.returnValue=!1,a.preventDefault&&a.preventDefault(),d.enableEventPropagation_||e(a)};if(!this.div_){if(this.div_=document.createElement("div"),this.setBoxStyle_(),"undefined"==typeof this.content_.nodeType?this.div_.innerHTML=this.getCloseBoxImg_()+this.content_:(this.div_.innerHTML=this.getCloseBoxImg_(),this.div_.appendChild(this.content_)),this.getPanes()[this.pane_].appendChild(this.div_),this.addClickHandler_(),this.div_.style.width?this.fixedWidthSet_=!0:0!==this.maxWidth_&&this.div_.offsetWidth>this.maxWidth_?(this.div_.style.width=this.maxWidth_,this.div_.style.overflow="auto",this.fixedWidthSet_=!0):(c=this.getBoxWidths_(),this.div_.style.width=this.div_.offsetWidth-c.left-c.right+"px",this.fixedWidthSet_=!1),this.panBox_(this.disableAutoPan_),!this.enableEventPropagation_){for(this.eventListeners_=[],b=["mousedown","mouseover","mouseout","mouseup","click","dblclick","touchstart","touchend","touchmove"],a=0;a<b.length;a++)this.eventListeners_.push(google.maps.event.addDomListener(this.div_,b[a],e));this.eventListeners_.push(google.maps.event.addDomListener(this.div_,"mouseover",function(){this.style.cursor="default"}))}this.contextListener_=google.maps.event.addDomListener(this.div_,"contextmenu",f),google.maps.event.trigger(this,"domready")}},b.prototype.getCloseBoxImg_=function(){var a="";return""!==this.closeBoxURL_&&(a="<img",a+=" src='"+this.closeBoxURL_+"'",a+=" align=right",a+=" style='",a+=" position: relative;",a+=" cursor: pointer;",a+=" margin: "+this.closeBoxMargin_+";",a+="'>"),a},b.prototype.addClickHandler_=function(){var a;""!==this.closeBoxURL_?(a=this.div_.firstChild,this.closeListener_=google.maps.event.addDomListener(a,"click",this.getCloseClickHandler_())):this.closeListener_=null},b.prototype.getCloseClickHandler_=function(){var a=this;return function(b){b.cancelBubble=!0,b.stopPropagation&&b.stopPropagation(),google.maps.event.trigger(a,"closeclick"),a.close()}},b.prototype.panBox_=function(a){var b,c,d=0,e=0;if(!a&&(b=this.getMap(),b instanceof google.maps.Map)){b.getBounds().contains(this.position_)||b.setCenter(this.position_),c=b.getBounds();var f=b.getDiv(),g=f.offsetWidth,h=f.offsetHeight,i=this.pixelOffset_.width,j=this.pixelOffset_.height,k=this.div_.offsetWidth,l=this.div_.offsetHeight,m=this.infoBoxClearance_.width,n=this.infoBoxClearance_.height,o=this.getProjection().fromLatLngToContainerPixel(this.position_);if(o.x<-i+m?d=o.x+i-m:o.x+k+i+m>g&&(d=o.x+k+i+m-g),this.alignBottom_?o.y<-j+n+l?e=o.y+j-n-l:o.y+j+n>h&&(e=o.y+j+n-h):o.y<-j+n?e=o.y+j-n:o.y+l+j+n>h&&(e=o.y+l+j+n-h),0!==d||0!==e){{b.getCenter()}b.panBy(d,e)}}},b.prototype.setBoxStyle_=function(){var a,b;if(this.div_){this.div_.className=this.boxClass_,this.div_.style.cssText="",b=this.boxStyle_;for(a in b)b.hasOwnProperty(a)&&(this.div_.style[a]=b[a]);"undefined"!=typeof this.div_.style.opacity&&""!==this.div_.style.opacity&&(this.div_.style.filter="alpha(opacity="+100*this.div_.style.opacity+")"),this.div_.style.position="absolute",this.div_.style.visibility="hidden",null!==this.zIndex_&&(this.div_.style.zIndex=this.zIndex_)}},b.prototype.getBoxWidths_=function(){var a,b={top:0,bottom:0,left:0,right:0},c=this.div_;return document.defaultView&&document.defaultView.getComputedStyle?(a=c.ownerDocument.defaultView.getComputedStyle(c,""),a&&(b.top=parseInt(a.borderTopWidth,10)||0,b.bottom=parseInt(a.borderBottomWidth,10)||0,b.left=parseInt(a.borderLeftWidth,10)||0,b.right=parseInt(a.borderRightWidth,10)||0)):document.documentElement.currentStyle&&c.currentStyle&&(b.top=parseInt(c.currentStyle.borderTopWidth,10)||0,b.bottom=parseInt(c.currentStyle.borderBottomWidth,10)||0,b.left=parseInt(c.currentStyle.borderLeftWidth,10)||0,b.right=parseInt(c.currentStyle.borderRightWidth,10)||0),b},b.prototype.onRemove=function(){this.div_&&(this.div_.parentNode.removeChild(this.div_),this.div_=null)},b.prototype.draw=function(){this.createInfoBoxDiv_();var a=this.getProjection().fromLatLngToDivPixel(this.position_);this.div_.style.left=a.x+this.pixelOffset_.width+"px",this.alignBottom_?this.div_.style.bottom=-(a.y+this.pixelOffset_.height)+"px":this.div_.style.top=a.y+this.pixelOffset_.height+"px",this.div_.style.visibility=this.isHidden_?"hidden":"visible"},b.prototype.setOptions=function(a){"undefined"!=typeof a.boxClass&&(this.boxClass_=a.boxClass,this.setBoxStyle_()),"undefined"!=typeof a.boxStyle&&(this.boxStyle_=a.boxStyle,this.setBoxStyle_()),"undefined"!=typeof a.content&&this.setContent(a.content),"undefined"!=typeof a.disableAutoPan&&(this.disableAutoPan_=a.disableAutoPan),"undefined"!=typeof a.maxWidth&&(this.maxWidth_=a.maxWidth),"undefined"!=typeof a.pixelOffset&&(this.pixelOffset_=a.pixelOffset),"undefined"!=typeof a.alignBottom&&(this.alignBottom_=a.alignBottom),"undefined"!=typeof a.position&&this.setPosition(a.position),"undefined"!=typeof a.zIndex&&this.setZIndex(a.zIndex),"undefined"!=typeof a.closeBoxMargin&&(this.closeBoxMargin_=a.closeBoxMargin),"undefined"!=typeof a.closeBoxURL&&(this.closeBoxURL_=a.closeBoxURL),"undefined"!=typeof a.infoBoxClearance&&(this.infoBoxClearance_=a.infoBoxClearance),"undefined"!=typeof a.isHidden&&(this.isHidden_=a.isHidden),"undefined"!=typeof a.visible&&(this.isHidden_=!a.visible),"undefined"!=typeof a.enableEventPropagation&&(this.enableEventPropagation_=a.enableEventPropagation),this.div_&&this.draw()},b.prototype.setContent=function(a){this.content_=a,this.div_&&(this.closeListener_&&(google.maps.event.removeListener(this.closeListener_),this.closeListener_=null),this.fixedWidthSet_||(this.div_.style.width=""),"undefined"==typeof a.nodeType?this.div_.innerHTML=this.getCloseBoxImg_()+a:(this.div_.innerHTML=this.getCloseBoxImg_(),this.div_.appendChild(a)),this.fixedWidthSet_||(this.div_.style.width=this.div_.offsetWidth+"px","undefined"==typeof a.nodeType?this.div_.innerHTML=this.getCloseBoxImg_()+a:(this.div_.innerHTML=this.getCloseBoxImg_(),this.div_.appendChild(a))),this.addClickHandler_()),google.maps.event.trigger(this,"content_changed")},b.prototype.setPosition=function(a){this.position_=a,this.div_&&this.draw(),google.maps.event.trigger(this,"position_changed")},b.prototype.setZIndex=function(a){this.zIndex_=a,this.div_&&(this.div_.style.zIndex=a),google.maps.event.trigger(this,"zindex_changed")},b.prototype.setVisible=function(a){this.isHidden_=!a,this.div_&&(this.div_.style.visibility=this.isHidden_?"hidden":"visible")},b.prototype.getContent=function(){return this.content_},b.prototype.getPosition=function(){return this.position_},b.prototype.getZIndex=function(){return this.zIndex_},b.prototype.getVisible=function(){var a;return a="undefined"==typeof this.getMap()||null===this.getMap()?!1:!this.isHidden_},b.prototype.show=function(){this.isHidden_=!1,this.div_&&(this.div_.style.visibility="visible")},b.prototype.hide=function(){this.isHidden_=!0,this.div_&&(this.div_.style.visibility="hidden")},b.prototype.open=function(a,b){var c=this;b&&(this.position_=b.getPosition(),this.moveListener_=google.maps.event.addListener(b,"position_changed",function(){c.setPosition(this.getPosition())})),this.setMap(a),this.div_&&this.panBox_()},b.prototype.close=function(){var a;if(this.closeListener_&&(google.maps.event.removeListener(this.closeListener_),this.closeListener_=null),this.eventListeners_){for(a=0;a<this.eventListeners_.length;a++)google.maps.event.removeListener(this.eventListeners_[a]);this.eventListeners_=null}this.moveListener_&&(google.maps.event.removeListener(this.moveListener_),this.moveListener_=null),this.contextListener_&&(google.maps.event.removeListener(this.contextListener_),this.contextListener_=null),this.setMap(null)},function(){function b(a,b){var c=this,d=new google.maps.OverlayView;d.onAdd=function(){c.init_(a,b)},d.draw=function(){},d.onRemove=function(){},d.setMap(a),this.prjov_=d}var c=function(a){var b;switch(a){case"thin":b="2px";break;case"medium":b="4px";break;case"thick":b="6px";break;default:b=a}return b},d=function(a){var b,d={};if(document.defaultView&&document.defaultView.getComputedStyle){if(b=a.ownerDocument.defaultView.getComputedStyle(a,""))return d.top=parseInt(b.borderTopWidth,10)||0,d.bottom=parseInt(b.borderBottomWidth,10)||0,d.left=parseInt(b.borderLeftWidth,10)||0,d.right=parseInt(b.borderRightWidth,10)||0,d}else if(document.documentElement.currentStyle&&a.currentStyle)return d.top=parseInt(c(a.currentStyle.borderTopWidth),10)||0,d.bottom=parseInt(c(a.currentStyle.borderBottomWidth),10)||0,d.left=parseInt(c(a.currentStyle.borderLeftWidth),10)||0,d.right=parseInt(c(a.currentStyle.borderRightWidth),10)||0,d;return d.top=parseInt(a.style["border-top-width"],10)||0,d.bottom=parseInt(a.style["border-bottom-width"],10)||0,d.left=parseInt(a.style["border-left-width"],10)||0,d.right=parseInt(a.style["border-right-width"],10)||0,d},e={x:0,y:0},f=function(){e.x="undefined"!=typeof document.documentElement.scrollLeft?document.documentElement.scrollLeft:document.body.scrollLeft,e.y="undefined"!=typeof document.documentElement.scrollTop?document.documentElement.scrollTop:document.body.scrollTop};f();var g=function(b){var c=0,d=0;return b=b||a.event,"undefined"!=typeof b.pageX?(c=b.pageX,d=b.pageY):"undefined"!=typeof b.clientX&&(c=b.clientX+e.x,d=b.clientY+e.y),{left:c,top:d}},h=function(b){for(var c=b.offsetLeft,d=b.offsetTop,e=b.offsetParent;null!==e;){e!==document.body&&e!==document.documentElement&&(c-=e.scrollLeft,d-=e.scrollTop);var f=e,g=f.offsetLeft,h=f.offsetTop;if(!g&&!h&&a.getComputedStyle){var i=document.defaultView.getComputedStyle(f,null).MozTransform||document.defaultView.getComputedStyle(f,null).WebkitTransform;if(i&&"string"==typeof i){var j=i.split(",");g+=parseInt(j[4],10)||0,h+=parseInt(j[5],10)||0}}c+=g,d+=h,e=e.offsetParent}return{left:c,top:d}},i=function(a,b){if(a&&b)for(var c in b)b.hasOwnProperty(c)&&(a[c]=b[c]);return a},j=function(a,b){"undefined"!=typeof b&&(a.style.opacity=b),"undefined"!=typeof a.style.opacity&&""!==a.style.opacity&&(a.style.filter="alpha(opacity="+100*a.style.opacity+")")};b.prototype.init_=function(b,c){var e,g=this;for(this.map_=b,c=c||{},this.key_=c.key||"shift",this.key_=this.key_.toLowerCase(),this.borderWidths_=d(this.map_.getDiv()),this.veilDiv_=[],e=0;4>e;e++)this.veilDiv_[e]=document.createElement("div"),this.veilDiv_[e].onselectstart=function(){return!1},i(this.veilDiv_[e].style,{backgroundColor:"gray",opacity:.25,cursor:"crosshair"}),i(this.veilDiv_[e].style,c.paneStyle),i(this.veilDiv_[e].style,c.veilStyle),i(this.veilDiv_[e].style,{position:"absolute",overflow:"hidden",display:"none"}),"shift"===this.key_&&(this.veilDiv_[e].style.MozUserSelect="none"),j(this.veilDiv_[e]),"transparent"===this.veilDiv_[e].style.backgroundColor&&(this.veilDiv_[e].style.backgroundColor="white",j(this.veilDiv_[e],0)),this.map_.getDiv().appendChild(this.veilDiv_[e]);this.noZoom_=c.noZoom||!1,this.visualEnabled_=c.visualEnabled||!1,this.visualClass_=c.visualClass||"",this.visualPosition_=c.visualPosition||google.maps.ControlPosition.LEFT_TOP,this.visualPositionOffset_=c.visualPositionOffset||new google.maps.Size(35,0),this.visualPositionIndex_=c.visualPositionIndex||null,this.visualSprite_=c.visualSprite||"http"+("https:"===document.location.protocol?"s":"")+"://maps.gstatic.com/mapfiles/ftr/controls/dragzoom_btn.png",this.visualSize_=c.visualSize||new google.maps.Size(20,20),this.visualTips_=c.visualTips||{},this.visualTips_.off=this.visualTips_.off||"Turn on drag zoom mode",this.visualTips_.on=this.visualTips_.on||"Turn off drag zoom mode",this.boxDiv_=document.createElement("div"),i(this.boxDiv_.style,{border:"4px solid #736AFF"}),i(this.boxDiv_.style,c.boxStyle),i(this.boxDiv_.style,{position:"absolute",display:"none"}),j(this.boxDiv_),this.map_.getDiv().appendChild(this.boxDiv_),this.boxBorderWidths_=d(this.boxDiv_),this.listeners_=[google.maps.event.addDomListener(document,"keydown",function(a){g.onKeyDown_(a)}),google.maps.event.addDomListener(document,"keyup",function(a){g.onKeyUp_(a)}),google.maps.event.addDomListener(this.veilDiv_[0],"mousedown",function(a){g.onMouseDown_(a)}),google.maps.event.addDomListener(this.veilDiv_[1],"mousedown",function(a){g.onMouseDown_(a)}),google.maps.event.addDomListener(this.veilDiv_[2],"mousedown",function(a){g.onMouseDown_(a)}),google.maps.event.addDomListener(this.veilDiv_[3],"mousedown",function(a){g.onMouseDown_(a)}),google.maps.event.addDomListener(document,"mousedown",function(a){g.onMouseDownDocument_(a)}),google.maps.event.addDomListener(document,"mousemove",function(a){g.onMouseMove_(a)}),google.maps.event.addDomListener(document,"mouseup",function(a){g.onMouseUp_(a)}),google.maps.event.addDomListener(a,"scroll",f)],this.hotKeyDown_=!1,this.mouseDown_=!1,this.dragging_=!1,this.startPt_=null,this.endPt_=null,this.mapWidth_=null,this.mapHeight_=null,this.mousePosn_=null,this.mapPosn_=null,this.visualEnabled_&&(this.buttonDiv_=this.initControl_(this.visualPositionOffset_),null!==this.visualPositionIndex_&&(this.buttonDiv_.index=this.visualPositionIndex_),this.map_.controls[this.visualPosition_].push(this.buttonDiv_),this.controlIndex_=this.map_.controls[this.visualPosition_].length-1)},b.prototype.initControl_=function(a){var b,c,d=this;return b=document.createElement("div"),b.className=this.visualClass_,b.style.position="relative",b.style.overflow="hidden",b.style.height=this.visualSize_.height+"px",b.style.width=this.visualSize_.width+"px",b.title=this.visualTips_.off,c=document.createElement("img"),c.src=this.visualSprite_,c.style.position="absolute",c.style.left=-(2*this.visualSize_.width)+"px",c.style.top="0px",b.appendChild(c),b.onclick=function(a){d.hotKeyDown_=!d.hotKeyDown_,d.hotKeyDown_?(d.buttonDiv_.firstChild.style.left=-(0*d.visualSize_.width)+"px",d.buttonDiv_.title=d.visualTips_.on,d.activatedByControl_=!0,google.maps.event.trigger(d,"activate")):(d.buttonDiv_.firstChild.style.left=-(2*d.visualSize_.width)+"px",d.buttonDiv_.title=d.visualTips_.off,google.maps.event.trigger(d,"deactivate")),d.onMouseMove_(a)},b.onmouseover=function(){d.buttonDiv_.firstChild.style.left=-(1*d.visualSize_.width)+"px"},b.onmouseout=function(){d.hotKeyDown_?(d.buttonDiv_.firstChild.style.left=-(0*d.visualSize_.width)+"px",d.buttonDiv_.title=d.visualTips_.on):(d.buttonDiv_.firstChild.style.left=-(2*d.visualSize_.width)+"px",d.buttonDiv_.title=d.visualTips_.off)},b.ondragstart=function(){return!1},i(b.style,{cursor:"pointer",marginTop:a.height+"px",marginLeft:a.width+"px"}),b},b.prototype.isHotKeyDown_=function(b){var c;if(b=b||a.event,c=b.shiftKey&&"shift"===this.key_||b.altKey&&"alt"===this.key_||b.ctrlKey&&"ctrl"===this.key_,!c)switch(b.keyCode){case 16:"shift"===this.key_&&(c=!0);break;case 17:"ctrl"===this.key_&&(c=!0);break;case 18:"alt"===this.key_&&(c=!0)}return c},b.prototype.isMouseOnMap_=function(){var a=this.mousePosn_;if(a){var b=this.mapPosn_,c=this.map_.getDiv();return a.left>b.left&&a.left<b.left+c.offsetWidth&&a.top>b.top&&a.top<b.top+c.offsetHeight}return!1},b.prototype.setVeilVisibility_=function(){var a;if(this.map_&&this.hotKeyDown_&&this.isMouseOnMap_()){var b=this.map_.getDiv();if(this.mapWidth_=b.offsetWidth-(this.borderWidths_.left+this.borderWidths_.right),this.mapHeight_=b.offsetHeight-(this.borderWidths_.top+this.borderWidths_.bottom),this.activatedByControl_){var c=parseInt(this.buttonDiv_.style.left,10)+this.visualPositionOffset_.width,d=parseInt(this.buttonDiv_.style.top,10)+this.visualPositionOffset_.height,e=this.visualSize_.width,f=this.visualSize_.height;for(this.veilDiv_[0].style.top="0px",this.veilDiv_[0].style.left="0px",this.veilDiv_[0].style.width=c+"px",this.veilDiv_[0].style.height=this.mapHeight_+"px",this.veilDiv_[1].style.top="0px",this.veilDiv_[1].style.left=c+e+"px",this.veilDiv_[1].style.width=this.mapWidth_-(c+e)+"px",this.veilDiv_[1].style.height=this.mapHeight_+"px",this.veilDiv_[2].style.top="0px",this.veilDiv_[2].style.left=c+"px",this.veilDiv_[2].style.width=e+"px",this.veilDiv_[2].style.height=d+"px",this.veilDiv_[3].style.top=d+f+"px",this.veilDiv_[3].style.left=c+"px",this.veilDiv_[3].style.width=e+"px",this.veilDiv_[3].style.height=this.mapHeight_-(d+f)+"px",a=0;a<this.veilDiv_.length;a++)this.veilDiv_[a].style.display="block"}else{for(this.veilDiv_[0].style.left="0px",this.veilDiv_[0].style.top="0px",this.veilDiv_[0].style.width=this.mapWidth_+"px",this.veilDiv_[0].style.height=this.mapHeight_+"px",a=1;a<this.veilDiv_.length;a++)this.veilDiv_[a].style.width="0px",this.veilDiv_[a].style.height="0px";for(a=0;a<this.veilDiv_.length;a++)this.veilDiv_[a].style.display="block"}}else for(a=0;a<this.veilDiv_.length;a++)this.veilDiv_[a].style.display="none"},b.prototype.onKeyDown_=function(a){this.map_&&!this.hotKeyDown_&&this.isHotKeyDown_(a)&&(this.mapPosn_=h(this.map_.getDiv()),this.hotKeyDown_=!0,this.activatedByControl_=!1,this.setVeilVisibility_(),google.maps.event.trigger(this,"activate"))},b.prototype.getMousePoint_=function(a){var b=g(a),c=new google.maps.Point;return c.x=b.left-this.mapPosn_.left-this.borderWidths_.left,c.y=b.top-this.mapPosn_.top-this.borderWidths_.top,c.x=Math.min(c.x,this.mapWidth_),c.y=Math.min(c.y,this.mapHeight_),c.x=Math.max(c.x,0),c.y=Math.max(c.y,0),c},b.prototype.onMouseDown_=function(a){if(this.map_&&this.hotKeyDown_){this.mapPosn_=h(this.map_.getDiv()),this.dragging_=!0,this.startPt_=this.endPt_=this.getMousePoint_(a),this.boxDiv_.style.width=this.boxDiv_.style.height="0px";var b=this.prjov_.getProjection(),c=b.fromContainerPixelToLatLng(this.startPt_);google.maps.event.trigger(this,"dragstart",c)}},b.prototype.onMouseDownDocument_=function(){this.mouseDown_=!0},b.prototype.onMouseMove_=function(a){if(this.mousePosn_=g(a),this.dragging_){this.endPt_=this.getMousePoint_(a);var b=Math.min(this.startPt_.x,this.endPt_.x),c=Math.min(this.startPt_.y,this.endPt_.y),d=Math.abs(this.startPt_.x-this.endPt_.x),e=Math.abs(this.startPt_.y-this.endPt_.y),f=Math.max(0,d-(this.boxBorderWidths_.left+this.boxBorderWidths_.right)),i=Math.max(0,e-(this.boxBorderWidths_.top+this.boxBorderWidths_.bottom));this.veilDiv_[0].style.top="0px",this.veilDiv_[0].style.left="0px",this.veilDiv_[0].style.width=b+"px",this.veilDiv_[0].style.height=this.mapHeight_+"px",this.veilDiv_[1].style.top="0px",this.veilDiv_[1].style.left=b+d+"px",this.veilDiv_[1].style.width=this.mapWidth_-(b+d)+"px",this.veilDiv_[1].style.height=this.mapHeight_+"px",this.veilDiv_[2].style.top="0px",this.veilDiv_[2].style.left=b+"px",this.veilDiv_[2].style.width=d+"px",this.veilDiv_[2].style.height=c+"px",this.veilDiv_[3].style.top=c+e+"px",this.veilDiv_[3].style.left=b+"px",this.veilDiv_[3].style.width=d+"px",this.veilDiv_[3].style.height=this.mapHeight_-(c+e)+"px",this.boxDiv_.style.top=c+"px",this.boxDiv_.style.left=b+"px",this.boxDiv_.style.width=f+"px",this.boxDiv_.style.height=i+"px",this.boxDiv_.style.display="block",google.maps.event.trigger(this,"drag",new google.maps.Point(b,c+e),new google.maps.Point(b+d,c),this.prjov_.getProjection())}else this.mouseDown_||(this.mapPosn_=h(this.map_.getDiv()),this.setVeilVisibility_())},b.prototype.onMouseUp_=function(a){var b,c=this;if(this.mouseDown_=!1,this.dragging_){if(this.getMousePoint_(a).x===this.startPt_.x&&this.getMousePoint_(a).y===this.startPt_.y)return void this.onKeyUp_(a);var d=Math.min(this.startPt_.x,this.endPt_.x),e=Math.min(this.startPt_.y,this.endPt_.y),f=Math.abs(this.startPt_.x-this.endPt_.x),g=Math.abs(this.startPt_.y-this.endPt_.y),h=!0;h&&(d+=this.borderWidths_.left,e+=this.borderWidths_.top);var i=this.prjov_.getProjection(),j=i.fromContainerPixelToLatLng(new google.maps.Point(d,e+g)),k=i.fromContainerPixelToLatLng(new google.maps.Point(d+f,e)),l=new google.maps.LatLngBounds(j,k);if(this.noZoom_)this.boxDiv_.style.display="none";else{b=this.map_.getZoom(),this.map_.fitBounds(l),this.map_.getZoom()<b&&this.map_.setZoom(b);var m=i.fromLatLngToContainerPixel(j),n=i.fromLatLngToContainerPixel(k);h&&(m.x-=this.borderWidths_.left,m.y-=this.borderWidths_.top,n.x-=this.borderWidths_.left,n.y-=this.borderWidths_.top),this.boxDiv_.style.left=m.x+"px",this.boxDiv_.style.top=n.y+"px",this.boxDiv_.style.width=Math.abs(n.x-m.x)-(this.boxBorderWidths_.left+this.boxBorderWidths_.right)+"px",this.boxDiv_.style.height=Math.abs(n.y-m.y)-(this.boxBorderWidths_.top+this.boxBorderWidths_.bottom)+"px",setTimeout(function(){c.boxDiv_.style.display="none"},1e3)}this.dragging_=!1,this.onMouseMove_(a),google.maps.event.trigger(this,"dragend",l),this.isHotKeyDown_(a)||this.onKeyUp_(a)}},b.prototype.onKeyUp_=function(){var a,b,c,d,e,f,g,h,i=null;if(this.map_&&this.hotKeyDown_){for(this.hotKeyDown_=!1,this.dragging_&&(this.boxDiv_.style.display="none",this.dragging_=!1,b=Math.min(this.startPt_.x,this.endPt_.x),c=Math.min(this.startPt_.y,this.endPt_.y),d=Math.abs(this.startPt_.x-this.endPt_.x),e=Math.abs(this.startPt_.y-this.endPt_.y),f=this.prjov_.getProjection(),g=f.fromContainerPixelToLatLng(new google.maps.Point(b,c+e)),h=f.fromContainerPixelToLatLng(new google.maps.Point(b+d,c)),i=new google.maps.LatLngBounds(g,h)),a=0;a<this.veilDiv_.length;a++)this.veilDiv_[a].style.display="none";this.visualEnabled_&&(this.buttonDiv_.firstChild.style.left=-(2*this.visualSize_.width)+"px",this.buttonDiv_.title=this.visualTips_.off,this.buttonDiv_.style.display=""),google.maps.event.trigger(this,"deactivate",i)}},google.maps.Map.prototype.enableKeyDragZoom=function(a){this.dragZoom_=new b(this,a)},google.maps.Map.prototype.disableKeyDragZoom=function(){var a,b=this.dragZoom_;if(b){for(a=0;a<b.listeners_.length;++a)google.maps.event.removeListener(b.listeners_[a]);for(this.getDiv().removeChild(b.boxDiv_),a=0;a<b.veilDiv_.length;a++)this.getDiv().removeChild(b.veilDiv_[a]);b.visualEnabled_&&this.controls[b.visualPosition_].removeAt(b.controlIndex_),b.prjov_.setMap(null),this.dragZoom_=null}},google.maps.Map.prototype.keyDragZoomEnabled=function(){return null!==this.dragZoom_},google.maps.Map.prototype.getDragZoomObject=function(){return this.dragZoom_}}(),d.prototype.onAdd=function(){var a,b,c=this;this.div_=document.createElement("div"),this.div_.className=this.className_,this.visible_&&this.show(),this.getPanes().overlayMouseTarget.appendChild(this.div_),this.boundsChangedListener_=google.maps.event.addListener(this.getMap(),"bounds_changed",function(){b=a}),google.maps.event.addDomListener(this.div_,"mousedown",function(){a=!0,b=!1}),google.maps.event.addDomListener(this.div_,"click",function(d){if(a=!1,!b){var e,f,g=c.cluster_.getMarkerClusterer();google.maps.event.trigger(g,"click",c.cluster_),google.maps.event.trigger(g,"clusterclick",c.cluster_),g.getZoomOnClick()&&(f=g.getMaxZoom(),e=c.cluster_.getBounds(),g.getMap().fitBounds(e),setTimeout(function(){g.getMap().fitBounds(e),null!==f&&g.getMap().getZoom()>f&&g.getMap().setZoom(f+1)},100)),d.cancelBubble=!0,d.stopPropagation&&d.stopPropagation()}}),google.maps.event.addDomListener(this.div_,"mouseover",function(){var a=c.cluster_.getMarkerClusterer();google.maps.event.trigger(a,"mouseover",c.cluster_)}),google.maps.event.addDomListener(this.div_,"mouseout",function(){var a=c.cluster_.getMarkerClusterer();google.maps.event.trigger(a,"mouseout",c.cluster_)})},d.prototype.onRemove=function(){this.div_&&this.div_.parentNode&&(this.hide(),google.maps.event.removeListener(this.boundsChangedListener_),google.maps.event.clearInstanceListeners(this.div_),this.div_.parentNode.removeChild(this.div_),this.div_=null)},d.prototype.draw=function(){if(this.visible_){var a=this.getPosFromLatLng_(this.center_);this.div_.style.top=a.y+"px",this.div_.style.left=a.x+"px"}},d.prototype.hide=function(){this.div_&&(this.div_.style.display="none"),this.visible_=!1},d.prototype.show=function(){if(this.div_){var a="",b=this.backgroundPosition_.split(" "),c=parseInt(b[0].trim(),10),d=parseInt(b[1].trim(),10),e=this.getPosFromLatLng_(this.center_);this.div_.style.cssText=this.createCss(e),a="<img src='"+this.url_+"' style='position: absolute; top: "+d+"px; left: "+c+"px; ",this.cluster_.getMarkerClusterer().enableRetinaIcons_||(a+="clip: rect("+-1*d+"px, "+(-1*c+this.width_)+"px, "+(-1*d+this.height_)+"px, "+-1*c+"px);"),a+="'>",this.div_.innerHTML=a+"<div style='position: absolute;top: "+this.anchorText_[0]+"px;left: "+this.anchorText_[1]+"px;color: "+this.textColor_+";font-size: "+this.textSize_+"px;font-family: "+this.fontFamily_+";font-weight: "+this.fontWeight_+";font-style: "+this.fontStyle_+";text-decoration: "+this.textDecoration_+";text-align: center;width: "+this.width_+"px;line-height:"+this.height_+"px;'>"+this.sums_.text+"</div>",this.div_.title="undefined"==typeof this.sums_.title||""===this.sums_.title?this.cluster_.getMarkerClusterer().getTitle():this.sums_.title,this.div_.style.display=""}this.visible_=!0},d.prototype.useStyle=function(a){this.sums_=a;var b=Math.max(0,a.index-1);b=Math.min(this.styles_.length-1,b);var c=this.styles_[b];this.url_=c.url,this.height_=c.height,this.width_=c.width,this.anchorText_=c.anchorText||[0,0],this.anchorIcon_=c.anchorIcon||[parseInt(this.height_/2,10),parseInt(this.width_/2,10)],this.textColor_=c.textColor||"black",this.textSize_=c.textSize||11,this.textDecoration_=c.textDecoration||"none",this.fontWeight_=c.fontWeight||"bold",this.fontStyle_=c.fontStyle||"normal",this.fontFamily_=c.fontFamily||"Arial,sans-serif",this.backgroundPosition_=c.backgroundPosition||"0 0"},d.prototype.setCenter=function(a){this.center_=a},d.prototype.createCss=function(a){var b=[];return b.push("cursor: pointer;"),b.push("position: absolute; top: "+a.y+"px; left: "+a.x+"px;"),b.push("width: "+this.width_+"px; height: "+this.height_+"px;"),b.join("")},d.prototype.getPosFromLatLng_=function(a){var b=this.getProjection().fromLatLngToDivPixel(a);return b.x-=this.anchorIcon_[1],b.y-=this.anchorIcon_[0],b.x=parseInt(b.x,10),b.y=parseInt(b.y,10),b},e.prototype.getSize=function(){return this.markers_.length},e.prototype.getMarkers=function(){return this.markers_},e.prototype.getCenter=function(){return this.center_},e.prototype.getMap=function(){return this.map_},e.prototype.getMarkerClusterer=function(){return this.markerClusterer_},e.prototype.getBounds=function(){var a,b=new google.maps.LatLngBounds(this.center_,this.center_),c=this.getMarkers();for(a=0;a<c.length;a++)b.extend(c[a].getPosition());return b},e.prototype.remove=function(){this.clusterIcon_.setMap(null),this.markers_=[],delete this.markers_},e.prototype.addMarker=function(a){var b,c,d;if(this.isMarkerAlreadyAdded_(a))return!1;if(this.center_){if(this.averageCenter_){var e=this.markers_.length+1,f=(this.center_.lat()*(e-1)+a.getPosition().lat())/e,g=(this.center_.lng()*(e-1)+a.getPosition().lng())/e;this.center_=new google.maps.LatLng(f,g),this.calculateBounds_()}}else this.center_=a.getPosition(),this.calculateBounds_();if(a.isAdded=!0,this.markers_.push(a),c=this.markers_.length,d=this.markerClusterer_.getMaxZoom(),null!==d&&this.map_.getZoom()>d)a.getMap()!==this.map_&&a.setMap(this.map_);else if(c<this.minClusterSize_)a.getMap()!==this.map_&&a.setMap(this.map_);else if(c===this.minClusterSize_)for(b=0;c>b;b++)this.markers_[b].setMap(null);else a.setMap(null);return this.updateIcon_(),!0},e.prototype.isMarkerInClusterBounds=function(a){return this.bounds_.contains(a.getPosition())},e.prototype.calculateBounds_=function(){var a=new google.maps.LatLngBounds(this.center_,this.center_);this.bounds_=this.markerClusterer_.getExtendedBounds(a)},e.prototype.updateIcon_=function(){var a=this.markers_.length,b=this.markerClusterer_.getMaxZoom();if(null!==b&&this.map_.getZoom()>b)return void this.clusterIcon_.hide();if(a<this.minClusterSize_)return void this.clusterIcon_.hide();var c=this.markerClusterer_.getStyles().length,d=this.markerClusterer_.getCalculator()(this.markers_,c);this.clusterIcon_.setCenter(this.center_),this.clusterIcon_.useStyle(d),this.clusterIcon_.show()},e.prototype.isMarkerAlreadyAdded_=function(a){var b;if(this.markers_.indexOf)return-1!==this.markers_.indexOf(a);for(b=0;b<this.markers_.length;b++)if(a===this.markers_[b])return!0;return!1},f.prototype.onAdd=function(){var a=this;this.activeMap_=this.getMap(),this.ready_=!0,this.repaint(),this.listeners_=[google.maps.event.addListener(this.getMap(),"zoom_changed",function(){a.resetViewport_(!1),(this.getZoom()===(this.get("minZoom")||0)||this.getZoom()===this.get("maxZoom"))&&google.maps.event.trigger(this,"idle")}),google.maps.event.addListener(this.getMap(),"idle",function(){a.redraw_()})]},f.prototype.onRemove=function(){var a;for(a=0;a<this.markers_.length;a++)this.markers_[a].getMap()!==this.activeMap_&&this.markers_[a].setMap(this.activeMap_);for(a=0;a<this.clusters_.length;a++)this.clusters_[a].remove();for(this.clusters_=[],a=0;a<this.listeners_.length;a++)google.maps.event.removeListener(this.listeners_[a]);this.listeners_=[],this.activeMap_=null,this.ready_=!1},f.prototype.draw=function(){},f.prototype.setupStyles_=function(){var a,b;
 if(!(this.styles_.length>0))for(a=0;a<this.imageSizes_.length;a++)b=this.imageSizes_[a],this.styles_.push({url:this.imagePath_+(a+1)+"."+this.imageExtension_,height:b,width:b})},f.prototype.fitMapToMarkers=function(){var a,b=this.getMarkers(),c=new google.maps.LatLngBounds;for(a=0;a<b.length;a++)c.extend(b[a].getPosition());this.getMap().fitBounds(c)},f.prototype.getGridSize=function(){return this.gridSize_},f.prototype.setGridSize=function(a){this.gridSize_=a},f.prototype.getMinimumClusterSize=function(){return this.minClusterSize_},f.prototype.setMinimumClusterSize=function(a){this.minClusterSize_=a},f.prototype.getMaxZoom=function(){return this.maxZoom_},f.prototype.setMaxZoom=function(a){this.maxZoom_=a},f.prototype.getStyles=function(){return this.styles_},f.prototype.setStyles=function(a){this.styles_=a},f.prototype.getTitle=function(){return this.title_},f.prototype.setTitle=function(a){this.title_=a},f.prototype.getZoomOnClick=function(){return this.zoomOnClick_},f.prototype.setZoomOnClick=function(a){this.zoomOnClick_=a},f.prototype.getAverageCenter=function(){return this.averageCenter_},f.prototype.setAverageCenter=function(a){this.averageCenter_=a},f.prototype.getIgnoreHidden=function(){return this.ignoreHidden_},f.prototype.setIgnoreHidden=function(a){this.ignoreHidden_=a},f.prototype.getEnableRetinaIcons=function(){return this.enableRetinaIcons_},f.prototype.setEnableRetinaIcons=function(a){this.enableRetinaIcons_=a},f.prototype.getImageExtension=function(){return this.imageExtension_},f.prototype.setImageExtension=function(a){this.imageExtension_=a},f.prototype.getImagePath=function(){return this.imagePath_},f.prototype.setImagePath=function(a){this.imagePath_=a},f.prototype.getImageSizes=function(){return this.imageSizes_},f.prototype.setImageSizes=function(a){this.imageSizes_=a},f.prototype.getCalculator=function(){return this.calculator_},f.prototype.setCalculator=function(a){this.calculator_=a},f.prototype.getBatchSizeIE=function(){return this.batchSizeIE_},f.prototype.setBatchSizeIE=function(a){this.batchSizeIE_=a},f.prototype.getClusterClass=function(){return this.clusterClass_},f.prototype.setClusterClass=function(a){this.clusterClass_=a},f.prototype.getMarkers=function(){return this.markers_},f.prototype.getTotalMarkers=function(){return this.markers_.length},f.prototype.getClusters=function(){return this.clusters_},f.prototype.getTotalClusters=function(){return this.clusters_.length},f.prototype.addMarker=function(a,b){this.pushMarkerTo_(a),b||this.redraw_()},f.prototype.addMarkers=function(a,b){var c;for(c in a)a.hasOwnProperty(c)&&this.pushMarkerTo_(a[c]);b||this.redraw_()},f.prototype.pushMarkerTo_=function(a){if(a.getDraggable()){var b=this;google.maps.event.addListener(a,"dragend",function(){b.ready_&&(this.isAdded=!1,b.repaint())})}a.isAdded=!1,this.markers_.push(a)},f.prototype.removeMarker=function(a,b){var c=this.removeMarker_(a);return!b&&c&&this.repaint(),c},f.prototype.removeMarkers=function(a,b){var c,d,e=!1;for(c=0;c<a.length;c++)d=this.removeMarker_(a[c]),e=e||d;return!b&&e&&this.repaint(),e},f.prototype.removeMarker_=function(a){var b,c=-1;if(this.markers_.indexOf)c=this.markers_.indexOf(a);else for(b=0;b<this.markers_.length;b++)if(a===this.markers_[b]){c=b;break}return-1===c?!1:(a.setMap(null),this.markers_.splice(c,1),!0)},f.prototype.clearMarkers=function(){this.resetViewport_(!0),this.markers_=[]},f.prototype.repaint=function(){var a=this.clusters_.slice();this.clusters_=[],this.resetViewport_(!1),this.redraw_(),setTimeout(function(){var b;for(b=0;b<a.length;b++)a[b].remove()},0)},f.prototype.getExtendedBounds=function(a){var b=this.getProjection(),c=new google.maps.LatLng(a.getNorthEast().lat(),a.getNorthEast().lng()),d=new google.maps.LatLng(a.getSouthWest().lat(),a.getSouthWest().lng()),e=b.fromLatLngToDivPixel(c);e.x+=this.gridSize_,e.y-=this.gridSize_;var f=b.fromLatLngToDivPixel(d);f.x-=this.gridSize_,f.y+=this.gridSize_;var g=b.fromDivPixelToLatLng(e),h=b.fromDivPixelToLatLng(f);return a.extend(g),a.extend(h),a},f.prototype.redraw_=function(){this.createClusters_(0)},f.prototype.resetViewport_=function(a){var b,c;for(b=0;b<this.clusters_.length;b++)this.clusters_[b].remove();for(this.clusters_=[],b=0;b<this.markers_.length;b++)c=this.markers_[b],c.isAdded=!1,a&&c.setMap(null)},f.prototype.distanceBetweenPoints_=function(a,b){var c=6371,d=(b.lat()-a.lat())*Math.PI/180,e=(b.lng()-a.lng())*Math.PI/180,f=Math.sin(d/2)*Math.sin(d/2)+Math.cos(a.lat()*Math.PI/180)*Math.cos(b.lat()*Math.PI/180)*Math.sin(e/2)*Math.sin(e/2),g=2*Math.atan2(Math.sqrt(f),Math.sqrt(1-f)),h=c*g;return h},f.prototype.isMarkerInBounds_=function(a,b){return b.contains(a.getPosition())},f.prototype.addToClosestCluster_=function(a){var b,c,d,f,g=4e4,h=null;for(b=0;b<this.clusters_.length;b++)d=this.clusters_[b],f=d.getCenter(),f&&(c=this.distanceBetweenPoints_(f,a.getPosition()),g>c&&(g=c,h=d));h&&h.isMarkerInClusterBounds(a)?h.addMarker(a):(d=new e(this),d.addMarker(a),this.clusters_.push(d))},f.prototype.createClusters_=function(a){var b,c,d,e=this;if(this.ready_){0===a&&(google.maps.event.trigger(this,"clusteringbegin",this),"undefined"!=typeof this.timerRefStatic&&(clearTimeout(this.timerRefStatic),delete this.timerRefStatic)),d=this.getMap().getZoom()>3?new google.maps.LatLngBounds(this.getMap().getBounds().getSouthWest(),this.getMap().getBounds().getNorthEast()):new google.maps.LatLngBounds(new google.maps.LatLng(85.02070771743472,-178.48388434375),new google.maps.LatLng(-85.08136444384544,178.00048865625));var f=this.getExtendedBounds(d),g=Math.min(a+this.batchSize_,this.markers_.length);for(b=a;g>b;b++)c=this.markers_[b],!c.isAdded&&this.isMarkerInBounds_(c,f)&&(!this.ignoreHidden_||this.ignoreHidden_&&c.getVisible())&&this.addToClosestCluster_(c);g<this.markers_.length?this.timerRefStatic=setTimeout(function(){e.createClusters_(g)},0):(delete this.timerRefStatic,google.maps.event.trigger(this,"clusteringend",this))}},f.prototype.extend=function(a,b){return function(a){var b;for(b in a.prototype)this.prototype[b]=a.prototype[b];return this}.apply(a,[b])},f.CALCULATOR=function(a,b){for(var c=0,d="",e=a.length.toString(),f=e;0!==f;)f=parseInt(f/10,10),c++;return c=Math.min(c,b),{text:e,index:c,title:d}},f.BATCH_SIZE=2e3,f.BATCH_SIZE_IE=500,f.IMAGE_PATH="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclustererplus/images/m",f.IMAGE_EXTENSION="png",f.IMAGE_SIZES=[53,56,66,78,90],g(h,google.maps.OverlayView),h.getSharedCross=function(a){var b;return"undefined"==typeof h.getSharedCross.crossDiv&&(b=document.createElement("img"),b.style.cssText="position: absolute; z-index: 1000002; display: none;",b.style.marginLeft="-8px",b.style.marginTop="-9px",b.src=a,h.getSharedCross.crossDiv=b),h.getSharedCross.crossDiv},h.prototype.onAdd=function(){var a,b,c,d,e,f,g,i=this,j=!1,k=!1,l=20,m="url("+this.handCursorURL_+")",n=function(a){a.preventDefault&&a.preventDefault(),a.cancelBubble=!0,a.stopPropagation&&a.stopPropagation()},o=function(){i.marker_.setAnimation(null)};this.getPanes().overlayImage.appendChild(this.labelDiv_),this.getPanes().overlayMouseTarget.appendChild(this.eventDiv_),"undefined"==typeof h.getSharedCross.processed&&(this.getPanes().overlayImage.appendChild(this.crossDiv_),h.getSharedCross.processed=!0),this.listeners_=[google.maps.event.addDomListener(this.eventDiv_,"mouseover",function(a){(i.marker_.getDraggable()||i.marker_.getClickable())&&(this.style.cursor="pointer",google.maps.event.trigger(i.marker_,"mouseover",a))}),google.maps.event.addDomListener(this.eventDiv_,"mouseout",function(a){!i.marker_.getDraggable()&&!i.marker_.getClickable()||k||(this.style.cursor=i.marker_.getCursor(),google.maps.event.trigger(i.marker_,"mouseout",a))}),google.maps.event.addDomListener(this.eventDiv_,"mousedown",function(a){k=!1,i.marker_.getDraggable()&&(j=!0,this.style.cursor=m),(i.marker_.getDraggable()||i.marker_.getClickable())&&(google.maps.event.trigger(i.marker_,"mousedown",a),n(a))}),google.maps.event.addDomListener(document,"mouseup",function(b){var c;if(j&&(j=!1,i.eventDiv_.style.cursor="pointer",google.maps.event.trigger(i.marker_,"mouseup",b)),k){if(e){c=i.getProjection().fromLatLngToDivPixel(i.marker_.getPosition()),c.y+=l,i.marker_.setPosition(i.getProjection().fromDivPixelToLatLng(c));try{i.marker_.setAnimation(google.maps.Animation.BOUNCE),setTimeout(o,1406)}catch(f){}}i.crossDiv_.style.display="none",i.marker_.setZIndex(a),d=!0,k=!1,b.latLng=i.marker_.getPosition(),google.maps.event.trigger(i.marker_,"dragend",b)}}),google.maps.event.addListener(i.marker_.getMap(),"mousemove",function(d){var h;j&&(k?(d.latLng=new google.maps.LatLng(d.latLng.lat()-b,d.latLng.lng()-c),h=i.getProjection().fromLatLngToDivPixel(d.latLng),e&&(i.crossDiv_.style.left=h.x+"px",i.crossDiv_.style.top=h.y+"px",i.crossDiv_.style.display="",h.y-=l),i.marker_.setPosition(i.getProjection().fromDivPixelToLatLng(h)),e&&(i.eventDiv_.style.top=h.y+l+"px"),google.maps.event.trigger(i.marker_,"drag",d)):(b=d.latLng.lat()-i.marker_.getPosition().lat(),c=d.latLng.lng()-i.marker_.getPosition().lng(),a=i.marker_.getZIndex(),f=i.marker_.getPosition(),g=i.marker_.getMap().getCenter(),e=i.marker_.get("raiseOnDrag"),k=!0,i.marker_.setZIndex(1e6),d.latLng=i.marker_.getPosition(),google.maps.event.trigger(i.marker_,"dragstart",d)))}),google.maps.event.addDomListener(document,"keydown",function(a){k&&27===a.keyCode&&(e=!1,i.marker_.setPosition(f),i.marker_.getMap().setCenter(g),google.maps.event.trigger(document,"mouseup",a))}),google.maps.event.addDomListener(this.eventDiv_,"click",function(a){(i.marker_.getDraggable()||i.marker_.getClickable())&&(d?d=!1:(google.maps.event.trigger(i.marker_,"click",a),n(a)))}),google.maps.event.addDomListener(this.eventDiv_,"dblclick",function(a){(i.marker_.getDraggable()||i.marker_.getClickable())&&(google.maps.event.trigger(i.marker_,"dblclick",a),n(a))}),google.maps.event.addListener(this.marker_,"dragstart",function(){k||(e=this.get("raiseOnDrag"))}),google.maps.event.addListener(this.marker_,"drag",function(){k||e&&(i.setPosition(l),i.labelDiv_.style.zIndex=1e6+(this.get("labelInBackground")?-1:1))}),google.maps.event.addListener(this.marker_,"dragend",function(){k||e&&i.setPosition(0)}),google.maps.event.addListener(this.marker_,"position_changed",function(){i.setPosition()}),google.maps.event.addListener(this.marker_,"zindex_changed",function(){i.setZIndex()}),google.maps.event.addListener(this.marker_,"visible_changed",function(){i.setVisible()}),google.maps.event.addListener(this.marker_,"labelvisible_changed",function(){i.setVisible()}),google.maps.event.addListener(this.marker_,"title_changed",function(){i.setTitle()}),google.maps.event.addListener(this.marker_,"labelcontent_changed",function(){i.setContent()}),google.maps.event.addListener(this.marker_,"labelanchor_changed",function(){i.setAnchor()}),google.maps.event.addListener(this.marker_,"labelclass_changed",function(){i.setStyles()}),google.maps.event.addListener(this.marker_,"labelstyle_changed",function(){i.setStyles()})]},h.prototype.onRemove=function(){var a;for(this.labelDiv_.parentNode.removeChild(this.labelDiv_),this.eventDiv_.parentNode.removeChild(this.eventDiv_),a=0;a<this.listeners_.length;a++)google.maps.event.removeListener(this.listeners_[a])},h.prototype.draw=function(){this.setContent(),this.setTitle(),this.setStyles()},h.prototype.setContent=function(){var a=this.marker_.get("labelContent");"undefined"==typeof a.nodeType?(this.labelDiv_.innerHTML=a,this.eventDiv_.innerHTML=this.labelDiv_.innerHTML):(this.labelDiv_.innerHTML="",this.labelDiv_.appendChild(a),a=a.cloneNode(!0),this.eventDiv_.appendChild(a))},h.prototype.setTitle=function(){this.eventDiv_.title=this.marker_.getTitle()||""},h.prototype.setStyles=function(){var a,b;this.labelDiv_.className=this.marker_.get("labelClass"),this.eventDiv_.className=this.labelDiv_.className,this.labelDiv_.style.cssText="",this.eventDiv_.style.cssText="",b=this.marker_.get("labelStyle");for(a in b)b.hasOwnProperty(a)&&(this.labelDiv_.style[a]=b[a],this.eventDiv_.style[a]=b[a]);this.setMandatoryStyles()},h.prototype.setMandatoryStyles=function(){this.labelDiv_.style.position="absolute",this.labelDiv_.style.overflow="hidden","undefined"!=typeof this.labelDiv_.style.opacity&&""!==this.labelDiv_.style.opacity&&(this.labelDiv_.style.MsFilter='"progid:DXImageTransform.Microsoft.Alpha(opacity='+100*this.labelDiv_.style.opacity+')"',this.labelDiv_.style.filter="alpha(opacity="+100*this.labelDiv_.style.opacity+")"),this.eventDiv_.style.position=this.labelDiv_.style.position,this.eventDiv_.style.overflow=this.labelDiv_.style.overflow,this.eventDiv_.style.opacity=.01,this.eventDiv_.style.MsFilter='"progid:DXImageTransform.Microsoft.Alpha(opacity=1)"',this.eventDiv_.style.filter="alpha(opacity=1)",this.setAnchor(),this.setPosition(),this.setVisible()},h.prototype.setAnchor=function(){var a=this.marker_.get("labelAnchor");this.labelDiv_.style.marginLeft=-a.x+"px",this.labelDiv_.style.marginTop=-a.y+"px",this.eventDiv_.style.marginLeft=-a.x+"px",this.eventDiv_.style.marginTop=-a.y+"px"},h.prototype.setPosition=function(a){var b=this.getProjection().fromLatLngToDivPixel(this.marker_.getPosition());"undefined"==typeof a&&(a=0),this.labelDiv_.style.left=Math.round(b.x)+"px",this.labelDiv_.style.top=Math.round(b.y-a)+"px",this.eventDiv_.style.left=this.labelDiv_.style.left,this.eventDiv_.style.top=this.labelDiv_.style.top,this.setZIndex()},h.prototype.setZIndex=function(){var a=this.marker_.get("labelInBackground")?-1:1;"undefined"==typeof this.marker_.getZIndex()?(this.labelDiv_.style.zIndex=parseInt(this.labelDiv_.style.top,10)+a,this.eventDiv_.style.zIndex=this.labelDiv_.style.zIndex):(this.labelDiv_.style.zIndex=this.marker_.getZIndex()+a,this.eventDiv_.style.zIndex=this.labelDiv_.style.zIndex)},h.prototype.setVisible=function(){this.labelDiv_.style.display=this.marker_.get("labelVisible")&&this.marker_.getVisible()?"block":"none",this.eventDiv_.style.display=this.labelDiv_.style.display},g(i,google.maps.Marker),i.prototype.setMap=function(a){google.maps.Marker.prototype.setMap.apply(this,arguments),this.label.setMap(a)},a.InfoBox=b,a.Cluster=e,a.ClusterIcon=d,a.MarkerClusterer=f,a.MarkerLabel_=h,a.MarkerWithLabel=i})}}),function(a){function b(d){if(c[d])return c[d].exports;var e=c[d]={exports:{},id:d,loaded:!1};return a[d].call(e.exports,e,e.exports,b),e.loaded=!0,e.exports}var c={};return b.m=a,b.c=c,b.p="",b(0)}([function(a,c,d){b.module("uiGmapgoogle-maps.wrapped").service("uiGmapDataStructures",function(){return{Graph:d(1).Graph,Queue:d(1).Queue}})},function(a,b,c){(function(){a.exports={Graph:c(2),Heap:c(3),LinkedList:c(4),Map:c(5),Queue:c(6),RedBlackTree:c(7),Trie:c(8)}}).call(this)},function(a){(function(){var b,c={}.hasOwnProperty;b=function(){function a(){this._nodes={},this.nodeSize=0,this.edgeSize=0}return a.prototype.addNode=function(a){return this._nodes[a]?void 0:(this.nodeSize++,this._nodes[a]={_outEdges:{},_inEdges:{}})},a.prototype.getNode=function(a){return this._nodes[a]},a.prototype.removeNode=function(a){var b,d,e,f,g;if(d=this._nodes[a]){f=d._outEdges;for(e in f)c.call(f,e)&&this.removeEdge(a,e);g=d._inEdges;for(b in g)c.call(g,b)&&this.removeEdge(b,a);return this.nodeSize--,delete this._nodes[a],d}},a.prototype.addEdge=function(a,b,c){var d,e,f;return null==c&&(c=1),!this.getEdge(a,b)&&(e=this._nodes[a],f=this._nodes[b],e&&f)?(d={weight:c},e._outEdges[b]=d,f._inEdges[a]=d,this.edgeSize++,d):void 0},a.prototype.getEdge=function(a,b){var c,d;return c=this._nodes[a],d=this._nodes[b],c&&d?c._outEdges[b]:void 0},a.prototype.removeEdge=function(a,b){var c,d,e;return d=this._nodes[a],e=this._nodes[b],(c=this.getEdge(a,b))?(delete d._outEdges[b],delete e._inEdges[a],this.edgeSize--,c):void 0},a.prototype.getInEdgesOf=function(a){var b,d,e,f;e=this._nodes[a],d=[],f=null!=e?e._inEdges:void 0;for(b in f)c.call(f,b)&&d.push(this.getEdge(b,a));return d},a.prototype.getOutEdgesOf=function(a){var b,d,e,f;b=this._nodes[a],d=[],f=null!=b?b._outEdges:void 0;for(e in f)c.call(f,e)&&d.push(this.getEdge(a,e));return d},a.prototype.getAllEdgesOf=function(a){var b,c,d,e,f,g,h;if(c=this.getInEdgesOf(a),d=this.getOutEdgesOf(a),0===c.length)return d;for(e=this.getEdge(a,a),b=f=0,g=c.length;g>=0?g>f:f>g;b=g>=0?++f:--f)if(c[b]===e){h=[c[c.length-1],c[b]],c[b]=h[0],c[c.length-1]=h[1],c.pop();break}return c.concat(d)},a.prototype.forEachNode=function(a){var b,d,e;e=this._nodes;for(b in e)c.call(e,b)&&(d=e[b],a(d,b))},a.prototype.forEachEdge=function(a){var b,d,e,f,g,h;g=this._nodes;for(d in g)if(c.call(g,d)){e=g[d],h=e._outEdges;for(f in h)c.call(h,f)&&(b=h[f],a(b))}},a}(),a.exports=b}).call(this)},function(a){(function(){var b,c,d,e;b=function(){function a(a){var b,c,d,e,f,g;for(null==a&&(a=[]),this._data=[void 0],d=0,f=a.length;f>d;d++)c=a[d],null!=c&&this._data.push(c);if(this._data.length>1)for(b=e=2,g=this._data.length;g>=2?g>e:e>g;b=g>=2?++e:--e)this._upHeap(b);this.size=this._data.length-1}return a.prototype.add=function(a){return null!=a?(this._data.push(a),this._upHeap(this._data.length-1),this.size++,a):void 0},a.prototype.removeMin=function(){var a;if(1!==this._data.length)return this.size--,2===this._data.length?this._data.pop():(a=this._data[1],this._data[1]=this._data.pop(),this._downHeap(),a)},a.prototype.peekMin=function(){return this._data[1]},a.prototype._upHeap=function(a){var b,c;for(b=this._data[a];this._data[a]<this._data[d(a)]&&a>1;)c=[this._data[d(a)],this._data[a]],this._data[a]=c[0],this._data[d(a)]=c[1],a=d(a)},a.prototype._downHeap=function(){var a,b,d;for(a=1;c(a<this._data.length)&&(b=c(a),b<this._data.length-1&&this._data[e(a)]<this._data[b]&&(b=e(a)),this._data[b]<this._data[a]);)d=[this._data[a],this._data[b]],this._data[b]=d[0],this._data[a]=d[1],a=b},a}(),d=function(a){return a>>1},c=function(a){return a<<1},e=function(a){return(a<<1)+1},a.exports=b}).call(this)},function(a){(function(){var b;b=function(){function a(a){var b,c,d;for(null==a&&(a=[]),this.head={prev:void 0,value:void 0,next:void 0},this.tail={prev:void 0,value:void 0,next:void 0},this.size=0,c=0,d=a.length;d>c;c++)b=a[c],this.add(b)}return a.prototype.at=function(a){var b,c,d,e,f;if(-this.size<=a&&a<this.size){if(a=this._adjust(a),2*a<this.size)for(b=this.head,c=d=1;a>=d;c=d+=1)b=b.next;else for(b=this.tail,c=e=1,f=this.size-a-1;f>=e;c=e+=1)b=b.prev;return b}},a.prototype.add=function(a,b){var c,d,e,f,g;return null==b&&(b=this.size),-this.size<=b&&b<=this.size?(d={value:a},b=this._adjust(b),0===this.size?this.head=d:0===b?(e=[d,this.head,d],this.head.prev=e[0],d.next=e[1],this.head=e[2]):(c=this.at(b-1),f=[c.next,d,d,c],d.next=f[0],null!=(g=c.next)?g.prev=f[1]:void 0,c.next=f[2],d.prev=f[3]),b===this.size&&(this.tail=d),this.size++,a):void 0},a.prototype.removeAt=function(a){var b,c,d;return null==a&&(a=this.size-1),-this.size<=a&&a<this.size&&0!==this.size?(a=this._adjust(a),1===this.size?(c=this.head.value,this.head.value=this.tail.value=void 0):0===a?(c=this.head.value,this.head=this.head.next,this.head.prev=void 0):(b=this.at(a),c=b.value,b.prev.next=b.next,null!=(d=b.next)&&(d.prev=b.prev),a===this.size-1&&(this.tail=b.prev)),this.size--,c):void 0},a.prototype.remove=function(a){var b;if(null!=a){for(b=this.head;b&&b.value!==a;)b=b.next;if(b)return 1===this.size?this.head.value=this.tail.value=void 0:b===this.head?(this.head=this.head.next,this.head.prev=void 0):b===this.tail?(this.tail=this.tail.prev,this.tail.next=void 0):(b.prev.next=b.next,b.next.prev=b.prev),this.size--,a}},a.prototype.indexOf=function(a,b){var c,d;if(null==b&&(b=0),null==this.head.value&&!this.head.next||b>=this.size)return-1;for(b=Math.max(0,this._adjust(b)),c=this.at(b),d=b;c&&c.value!==a;)c=c.next,d++;return d===this.size?-1:d},a.prototype._adjust=function(a){return 0>a?this.size+a:a},a}(),a.exports=b}).call(this)},function(a){(function(){var b,c,d,e,f={}.hasOwnProperty;c="_mapId_",b=function(){function a(b){var c,d;this._content={},this._itemId=0,this._id=a._newMapId(),this.size=0;for(c in b)f.call(b,c)&&(d=b[c],this.set(c,d))}return a._mapIdTracker=0,a._newMapId=function(){return this._mapIdTracker++},a.prototype.hash=function(a,b){var f,g;return null==b&&(b=!1),g=d(a),e(a)?(f=c+this._id,b&&!a[f]&&(a[f]=this._itemId++),f+"_"+a[f]):g+"_"+a},a.prototype.set=function(a,b){return this.has(a)||this.size++,this._content[this.hash(a,!0)]=[b,a],b},a.prototype.get=function(a){var b;return null!=(b=this._content[this.hash(a)])?b[0]:void 0},a.prototype.has=function(a){return this.hash(a)in this._content},a.prototype["delete"]=function(a){var b;return b=this.hash(a),b in this._content?(delete this._content[b],e(a)&&delete a[c+this._id],this.size--,!0):!1},a.prototype.forEach=function(a){var b,c,d;d=this._content;for(b in d)f.call(d,b)&&(c=d[b],a(c[1],c[0]))},a}(),e=function(a){var b,c,e,f,g;for(b=["Boolean","Number","String","Undefined","Null","RegExp","Function"],e=d(a),f=0,g=b.length;g>f;f++)if(c=b[f],e===c)return!1;return!0},d=function(a){return Object.prototype.toString.apply(a).match(/\[object (.+)\]/)[1]},a.exports=b}).call(this)},function(a){(function(){var b;b=function(){function a(a){null==a&&(a=[]),this._content=a,this._dequeueIndex=0,this.size=this._content.length}return a.prototype.enqueue=function(a){return this.size++,this._content.push(a),a},a.prototype.dequeue=function(){var a;if(0!==this.size)return this.size--,a=this._content[this._dequeueIndex],this._dequeueIndex++,2*this._dequeueIndex>this._content.length&&(this._content=this._content.slice(this._dequeueIndex),this._dequeueIndex=0),a},a.prototype.peek=function(){return this._content[this._dequeueIndex]},a}(),a.exports=b}).call(this)},function(a){(function(){var b,c,d,e,f,g,h,i,j,k,l,m,n,o,p;c=0,d=1,e=2,h=3,f=1,b=2,g=function(){function a(a){var b,c,d;for(null==a&&(a=[]),this._root,this.size=0,c=0,d=a.length;d>c;c++)b=a[c],null!=b&&this.add(b)}return a.prototype.add=function(a){var g,l,m,n;if(null!=a){if(this.size++,m={value:a,_color:f},this._root){if(l=i(this._root,function(b){return a===b.value?c:a<b.value?b._left?d:(m._parent=b,b._left=m,h):b._right?e:(m._parent=b,b._right=m,h)}),null!=l)return}else this._root=m;for(g=m;;){if(g===this._root){g._color=b;break}if(g._parent._color===b)break;{if((null!=(n=p(g))?n._color:void 0)!==f){!k(g)&&k(g._parent)?(this._rotateLeft(g._parent),g=g._left):k(g)&&!k(g._parent)&&(this._rotateRight(g._parent),g=g._right),g._parent._color=b,j(g)._color=f,k(g)?this._rotateRight(j(g)):this._rotateLeft(j(g));break}g._parent._color=b,p(g)._color=b,j(g)._color=f,g=j(g)}}return a}},a.prototype.has=function(a){var b;return b=i(this._root,function(b){return a===b.value?c:a<b.value?d:e}),b?!0:!1},a.prototype.peekMin=function(){var a;return null!=(a=n(this._root))?a.value:void 0},a.prototype.peekMax=function(){var a;return null!=(a=m(this._root))?a.value:void 0},a.prototype.remove=function(a){var b;return(b=i(this._root,function(b){return a===b.value?c:a<b.value?d:e}))?(this._removeNode(this._root,b),this.size--,a):void 0},a.prototype.removeMin=function(){var a,b;return(a=n(this._root))?(b=a.value,this._removeNode(this._root,a),b):void 0},a.prototype.removeMax=function(){var a,b;return(a=m(this._root))?(b=a.value,this._removeNode(this._root,a),b):void 0},a.prototype._removeNode=function(a,c){var d,e,g,h,i,j,m,p,q,r;if(c._left&&c._right&&(e=n(c._right),c.value=e.value,c=e),e=c._left||c._right,e||(e={color:b,_right:void 0,_left:void 0,isLeaf:!0}),e._parent=c._parent,null!=(g=c._parent)&&(g[l(c)]=e),c._color===b)if(e._color===f)e._color=b,e._parent||(this._root=e);else for(;;){if(!e._parent){this._root=e.isLeaf?void 0:e;break}if(d=o(e),(null!=d?d._color:void 0)===f&&(e._parent._color=f,d._color=b,k(e)?this._rotateLeft(e._parent):this._rotateRight(e._parent)),d=o(e),e._parent._color!==b||d&&(d._color!==b||d._left&&d._left._color!==b||d._right&&d._right._color!==b)){if(!(e._parent._color!==f||d&&(d._color!==b||d._left&&(null!=(h=d._left)?h._color:void 0)!==b||d._right&&(null!=(i=d._right)?i._color:void 0)!==b))){null!=d&&(d._color=f),e._parent._color=b;break}if((null!=d?d._color:void 0)===b){!k(e)||d._right&&d._right._color!==b||(null!=(j=d._left)?j._color:void 0)!==f?k(e)||d._left&&d._left._color!==b||(null!=(p=d._right)?p._color:void 0)!==f||(d._color=f,null!=(q=d._right)&&(q._color=b),this._rotateLeft(d)):(d._color=f,null!=(m=d._left)&&(m._color=b),this._rotateRight(d));break}d=o(e),d._color=e._parent._color,k(e)?(d._right._color=b,this._rotateRight(e._parent)):(d._left._color=b,this._rotateLeft(e._parent))}else null!=d&&(d._color=f),e.isLeaf&&(e._parent[l(e)]=void 0),e=e._parent}return e.isLeaf&&null!=(r=e._parent)?r[l(e)]=void 0:void 0},a.prototype._rotateLeft=function(a){var b,c;return null!=(b=a._parent)&&(b[l(a)]=a._right),a._right._parent=a._parent,a._parent=a._right,a._right=a._right._left,a._parent._left=a,null!=(c=a._right)&&(c._parent=a),null==a._parent._parent?this._root=a._parent:void 0},a.prototype._rotateRight=function(a){var b,c;return null!=(b=a._parent)&&(b[l(a)]=a._left),a._left._parent=a._parent,a._parent=a._left,a._left=a._left._right,a._parent._right=a,null!=(c=a._left)&&(c._parent=a),null==a._parent._parent?this._root=a._parent:void 0},a}(),k=function(a){return a===a._parent._left},l=function(a){return k(a)?"_left":"_right"},i=function(a,b){var f,g,i;for(g=a,i=void 0;g;){if(f=b(g),f===c){i=g;break}if(f===d)g=g._left;else if(f===e)g=g._right;else if(f===h)break}return i},n=function(a){return i(a,function(a){return a._left?d:c})},m=function(a){return i(a,function(a){return a._right?e:c})},j=function(a){var b;return null!=(b=a._parent)?b._parent:void 0},p=function(a){return j(a)?k(a._parent)?j(a)._right:j(a)._left:void 0},o=function(a){return k(a)?a._parent._right:a._parent._left},a.exports=g}).call(this)},function(a,b,c){(function(){var b,d,e,f,g={}.hasOwnProperty;b=c(6),e="end",d=function(){function a(a){var b,c,d;for(null==a&&(a=[]),this._root={},this.size=0,c=0,d=a.length;d>c;c++)b=a[c],this.add(b)}return a.prototype.add=function(a){var b,c,d,f;if(null!=a){for(this.size++,b=this._root,d=0,f=a.length;f>d;d++)c=a[d],null==b[c]&&(b[c]={}),b=b[c];return b[e]=!0,a}},a.prototype.has=function(a){var b,c,d,f;if(null==a)return!1;for(b=this._root,d=0,f=a.length;f>d;d++){if(c=a[d],null==b[c])return!1;b=b[c]}return b[e]?!0:!1},a.prototype.longestPrefixOf=function(a){var b,c,d,e,f;if(null==a)return"";for(b=this._root,d="",e=0,f=a.length;f>e&&(c=a[e],null!=b[c]);e++)d+=c,b=b[c];return d},a.prototype.wordsWithPrefix=function(a){var c,d,f,h,i,j,k,l,m,n;if(null==a)return[];for(null!=a||(a=""),k=[],d=this._root,l=0,m=a.length;m>l;l++)if(f=a[l],d=d[f],null==d)return[];for(i=new b,i.enqueue([d,""]);0!==i.size;){n=i.dequeue(),h=n[0],c=n[1],h[e]&&k.push(a+c);for(f in h)g.call(h,f)&&(j=h[f],i.enqueue([j,c+f]))}return k},a.prototype.remove=function(a){var b,c,d,g,h,i,j,k;if(null!=a){for(b=this._root,g=[],h=0,j=a.length;j>h;h++){if(d=a[h],null==b[d])return;b=b[d],g.push([d,b])}if(b[e]){if(this.size--,delete b[e],f(b,1))return a;for(c=i=k=g.length-1;(1>=k?1>=i:i>=1)&&!f(g[c][1],1);c=1>=k?++i:--i)delete g[c-1][1][g[c][0]];return f(this._root[g[0][0]],1)||delete this._root[g[0][0]],a}}},a}(),f=function(a,b){var c,d;if(0===b)return!0;d=0;for(c in a)if(g.call(a,c)&&(d++,d>=b))return!0;return!1},a.exports=d}).call(this)}]),b.module("uiGmapgoogle-maps.extensions").service("uiGmapExtendMarkerClusterer",["uiGmapLodash",function(b){return{init:_.once(function(){(function(){var c={}.hasOwnProperty,d=function(a,b){function d(){this.constructor=a}for(var e in b)c.call(b,e)&&(a[e]=b[e]);return d.prototype=b.prototype,a.prototype=new d,a.__super__=b.prototype,a};a.NgMapCluster=function(c){function e(b){e.__super__.constructor.call(this,b),this.markers_=new a.PropMap}return d(e,c),e.prototype.addMarker=function(a){var b,c;if(this.isMarkerAlreadyAdded_(a)){var d=this.markers_.get(a.key);if(d.getPosition().lat()==a.getPosition().lat()&&d.getPosition().lon()==a.getPosition().lon())return!1}if(this.center_){if(this.averageCenter_){var e=this.markers_.length+1,f=(this.center_.lat()*(e-1)+a.getPosition().lat())/e,g=(this.center_.lng()*(e-1)+a.getPosition().lng())/e;this.center_=new google.maps.LatLng(f,g),this.calculateBounds_()}}else this.center_=a.getPosition(),this.calculateBounds_();return a.isAdded=!0,this.markers_.push(a),b=this.markers_.length,c=this.markerClusterer_.getMaxZoom(),null!==c&&this.map_.getZoom()>c?a.getMap()!==this.map_&&a.setMap(this.map_):b<this.minClusterSize_?a.getMap()!==this.map_&&a.setMap(this.map_):b===this.minClusterSize_?this.markers_.each(function(a){a.setMap(null)}):a.setMap(null),!0},e.prototype.isMarkerAlreadyAdded_=function(a){return b.isNullOrUndefined(this.markers_.get(a.key))},e.prototype.getBounds=function(){var a=new google.maps.LatLngBounds(this.center_,this.center_);return this.getMarkers().each(function(b){a.extend(b.getPosition())}),a},e.prototype.remove=function(){this.clusterIcon_.setMap(null),this.markers_=new PropMap,delete this.markers_},e}(Cluster),a.NgMapMarkerClusterer=function(b){function c(b,d,e){c.__super__.constructor.call(this,b,d,e),this.markers_=new a.PropMap}return d(c,b),c.prototype.clearMarkers=function(){this.resetViewport_(!0),this.markers_=new PropMap},c.prototype.removeMarker_=function(a){return this.markers_.get(a.key)?(a.setMap(null),this.markers_.remove(a.key),!0):!1},c.prototype.createClusters_=function(a){var b,c,d,e=this;if(this.ready_){0===a&&(google.maps.event.trigger(this,"clusteringbegin",this),"undefined"!=typeof this.timerRefStatic&&(clearTimeout(this.timerRefStatic),delete this.timerRefStatic)),d=this.getMap().getZoom()>3?new google.maps.LatLngBounds(this.getMap().getBounds().getSouthWest(),this.getMap().getBounds().getNorthEast()):new google.maps.LatLngBounds(new google.maps.LatLng(85.02070771743472,-178.48388434375),new google.maps.LatLng(-85.08136444384544,178.00048865625));var f=this.getExtendedBounds(d),g=Math.min(a+this.batchSize_,this.markers_.length),h=this.markers_.values();for(b=a;g>b;b++)c=h[b],!c.isAdded&&this.isMarkerInBounds_(c,f)&&(!this.ignoreHidden_||this.ignoreHidden_&&c.getVisible())&&this.addToClosestCluster_(c);if(g<this.markers_.length)this.timerRefStatic=setTimeout(function(){e.createClusters_(g)},0);else{for(b=0;b<this.clusters_.length;b++)this.clusters_[b].updateIcon_();delete this.timerRefStatic,google.maps.event.trigger(this,"clusteringend",this)}}},c.prototype.addToClosestCluster_=function(a){var b,c,d,e,f=4e4,g=null;for(b=0;b<this.clusters_.length;b++)d=this.clusters_[b],e=d.getCenter(),e&&(c=this.distanceBetweenPoints_(e,a.getPosition()),f>c&&(f=c,g=d));g&&g.isMarkerInClusterBounds(a)?g.addMarker(a):(d=new NgMapCluster(this),d.addMarker(a),this.clusters_.push(d))},c.prototype.redraw_=function(){this.createClusters_(0)},c.prototype.resetViewport_=function(a){var b;for(b=0;b<this.clusters_.length;b++)this.clusters_[b].remove();this.clusters_=[],this.markers_.each(function(b){b.isAdded=!1,a&&b.setMap(null)})},c.prototype.extend=function(a,b){return function(a){var b;for(b in a.prototype)"constructor"!==b&&(this.prototype[b]=a.prototype[b]);return this}.apply(a,[b])},c}(MarkerClusterer)}).call(this)})}}])}(window,angular);
-!function(e){void 0===e.fn.each2&&e.extend(e.fn,{each2:function(t){for(var s=e([0]),i=-1,n=this.length;++i<n&&(s.context=s[0]=this[i])&&!1!==t.call(s[0],i,s););return this}})}(jQuery),function(e,t){"use strict";function s(t){var s=e(document.createTextNode(""));t.before(s),s.before(t),s.remove()}function i(e){return e.replace(/[^\u0000-\u007E]/g,function(e){return H[e]||e})}function n(e,t){for(var s=0,i=t.length;s<i;s+=1)if(o(e,t[s]))return s;return-1}function o(e,s){return e===s||e!==t&&s!==t&&(null!==e&&null!==s&&(e.constructor===String?e+""==s+"":s.constructor===String&&s+""==e+""))}function a(t,s){var i,n,o;if(null===t||t.length<1)return[];for(n=0,o=(i=t.split(s)).length;n<o;n+=1)i[n]=e.trim(i[n]);return i}function c(e){return e.outerWidth(!1)-e.width()}function r(s){var i="keyup-change-value";s.on("keydown",function(){e.data(s,i)===t&&e.data(s,i,s.val())}),s.on("keyup",function(){var n=e.data(s,i);n!==t&&s.val()!==n&&(e.removeData(s,i),s.trigger("keyup-change"))})}function l(e,s,i){i=i||t;var n;return function(){var t=arguments;window.clearTimeout(n),n=window.setTimeout(function(){s.apply(i,t)},e)}}function h(e){e.preventDefault(),e.stopPropagation()}function u(e){e.preventDefault(),e.stopImmediatePropagation()}function d(t,s,i){var n,o,a=[];(n=t.attr("class"))&&e((n=""+n).split(" ")).each2(function(){0===this.indexOf("select2-")&&a.push(this)}),(n=s.attr("class"))&&e((n=""+n).split(" ")).each2(function(){0!==this.indexOf("select2-")&&(o=i(this))&&a.push(o)}),t.attr("class",a.join(" "))}function p(e,t,s,n){var o=i(e.toUpperCase()).indexOf(i(t.toUpperCase())),a=t.length;o<0?s.push(n(e)):(s.push(n(e.substring(0,o))),s.push("<span class='select2-match'>"),s.push(n(e.substring(o,o+a))),s.push("</span>"),s.push(n(e.substring(o+a,e.length))))}function f(e){var t={"\\":"&#92;","&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;","/":"&#47;"};return String(e).replace(/[&<>"'\/\\]/g,function(e){return t[e]})}function g(s){var i,n=null,o=s.quietMillis||100,a=s.url,c=this;return function(r){window.clearTimeout(i),i=window.setTimeout(function(){var i=s.data,o=a,l=s.transport||e.fn.select2.ajaxDefaults.transport,h={type:s.type||"GET",cache:s.cache||!1,jsonpCallback:s.jsonpCallback||t,dataType:s.dataType||"json"},u=e.extend({},e.fn.select2.ajaxDefaults.params,h);i=i?i.call(c,r.term,r.page,r.context):null,o="function"==typeof o?o.call(c,r.term,r.page,r.context):o,n&&"function"==typeof n.abort&&n.abort(),s.params&&(e.isFunction(s.params)?e.extend(u,s.params.call(c)):e.extend(u,s.params)),e.extend(u,{url:o,dataType:s.dataType,data:i,success:function(e){var t=s.results(e,r.page);r.callback(t)}}),n=l.call(c,u)},o)}}function m(t){var s,i,n=t,o=function(e){return""+e.text};e.isArray(n)&&(n={results:i=n}),!1===e.isFunction(n)&&(i=n,n=function(){return i});var a=n();return a.text&&(o=a.text,e.isFunction(o)||(s=a.text,o=function(e){return e[s]})),function(t){var s,i=t.term,a={results:[]};""!==i?(s=function(n,a){var c,r;if((n=n[0]).children){c={};for(r in n)n.hasOwnProperty(r)&&(c[r]=n[r]);c.children=[],e(n.children).each2(function(e,t){s(t,c.children)}),(c.children.length||t.matcher(i,o(c),n))&&a.push(c)}else t.matcher(i,o(n),n)&&a.push(n)},e(n().results).each2(function(e,t){s(t,a.results)}),t.callback(a)):t.callback(n())}}function v(s){var i=e.isFunction(s);return function(n){var o=n.term,a={results:[]},c=i?s(n):s;e.isArray(c)&&(e(c).each(function(){var e=this.text!==t,s=e?this.text:this;(""===o||n.matcher(o,s))&&a.results.push(e?this:{id:this,text:this})}),n.callback(a))}}function b(t,s){if(e.isFunction(t))return!0;if(!t)return!1;if("string"==typeof t)return!0;throw new Error(s+" must be a string, function, or falsy value")}function w(t){if(e.isFunction(t)){var s=Array.prototype.slice.call(arguments,1);return t.apply(null,s)}return t}function C(t){var s=0;return e.each(t,function(e,t){t.children?s+=C(t.children):s++}),s}function S(){var e=this;Array.prototype.forEach.call(arguments,function(t){e[t].remove(),e[t]=null})}function y(t,s){var i=function(){};return i.prototype=new t,i.prototype.constructor=i,i.prototype.parent=t.prototype,i.prototype=e.extend(i.prototype,s),i}if(window.Select2===t){var E,x,T,O,P,I,k,A={x:0,y:0},R={TAB:9,ENTER:13,ESC:27,SPACE:32,LEFT:37,UP:38,RIGHT:39,DOWN:40,SHIFT:16,CTRL:17,ALT:18,PAGE_UP:33,PAGE_DOWN:34,HOME:36,END:35,BACKSPACE:8,DELETE:46,isArrow:function(e){switch(e=e.which?e.which:e){case R.LEFT:case R.RIGHT:case R.UP:case R.DOWN:return!0}return!1},isControl:function(e){switch(e.which){case R.SHIFT:case R.CTRL:case R.ALT:return!0}return!!e.metaKey},isFunctionKey:function(e){return(e=e.which?e.which:e)>=112&&e<=123}},D="<div class='select2-measure-scrollbar'></div>",H={"Ⓐ":"A","Ａ":"A","À":"A","Á":"A","Â":"A","Ầ":"A","Ấ":"A","Ẫ":"A","Ẩ":"A","Ã":"A","Ā":"A","Ă":"A","Ằ":"A","Ắ":"A","Ẵ":"A","Ẳ":"A","Ȧ":"A","Ǡ":"A","Ä":"A","Ǟ":"A","Ả":"A","Å":"A","Ǻ":"A","Ǎ":"A","Ȁ":"A","Ȃ":"A","Ạ":"A","Ậ":"A","Ặ":"A","Ḁ":"A","Ą":"A","Ⱥ":"A","Ɐ":"A","Ꜳ":"AA","Æ":"AE","Ǽ":"AE","Ǣ":"AE","Ꜵ":"AO","Ꜷ":"AU","Ꜹ":"AV","Ꜻ":"AV","Ꜽ":"AY","Ⓑ":"B","Ｂ":"B","Ḃ":"B","Ḅ":"B","Ḇ":"B","Ƀ":"B","Ƃ":"B","Ɓ":"B","Ⓒ":"C","Ｃ":"C","Ć":"C","Ĉ":"C","Ċ":"C","Č":"C","Ç":"C","Ḉ":"C","Ƈ":"C","Ȼ":"C","Ꜿ":"C","Ⓓ":"D","Ｄ":"D","Ḋ":"D","Ď":"D","Ḍ":"D","Ḑ":"D","Ḓ":"D","Ḏ":"D","Đ":"D","Ƌ":"D","Ɗ":"D","Ɖ":"D","Ꝺ":"D","Ǳ":"DZ","Ǆ":"DZ","ǲ":"Dz","ǅ":"Dz","Ⓔ":"E","Ｅ":"E","È":"E","É":"E","Ê":"E","Ề":"E","Ế":"E","Ễ":"E","Ể":"E","Ẽ":"E","Ē":"E","Ḕ":"E","Ḗ":"E","Ĕ":"E","Ė":"E","Ë":"E","Ẻ":"E","Ě":"E","Ȅ":"E","Ȇ":"E","Ẹ":"E","Ệ":"E","Ȩ":"E","Ḝ":"E","Ę":"E","Ḙ":"E","Ḛ":"E","Ɛ":"E","Ǝ":"E","Ⓕ":"F","Ｆ":"F","Ḟ":"F","Ƒ":"F","Ꝼ":"F","Ⓖ":"G","Ｇ":"G","Ǵ":"G","Ĝ":"G","Ḡ":"G","Ğ":"G","Ġ":"G","Ǧ":"G","Ģ":"G","Ǥ":"G","Ɠ":"G","Ꞡ":"G","Ᵹ":"G","Ꝿ":"G","Ⓗ":"H","Ｈ":"H","Ĥ":"H","Ḣ":"H","Ḧ":"H","Ȟ":"H","Ḥ":"H","Ḩ":"H","Ḫ":"H","Ħ":"H","Ⱨ":"H","Ⱶ":"H","Ɥ":"H","Ⓘ":"I","Ｉ":"I","Ì":"I","Í":"I","Î":"I","Ĩ":"I","Ī":"I","Ĭ":"I","İ":"I","Ï":"I","Ḯ":"I","Ỉ":"I","Ǐ":"I","Ȉ":"I","Ȋ":"I","Ị":"I","Į":"I","Ḭ":"I","Ɨ":"I","Ⓙ":"J","Ｊ":"J","Ĵ":"J","Ɉ":"J","Ⓚ":"K","Ｋ":"K","Ḱ":"K","Ǩ":"K","Ḳ":"K","Ķ":"K","Ḵ":"K","Ƙ":"K","Ⱪ":"K","Ꝁ":"K","Ꝃ":"K","Ꝅ":"K","Ꞣ":"K","Ⓛ":"L","Ｌ":"L","Ŀ":"L","Ĺ":"L","Ľ":"L","Ḷ":"L","Ḹ":"L","Ļ":"L","Ḽ":"L","Ḻ":"L","Ł":"L","Ƚ":"L","Ɫ":"L","Ⱡ":"L","Ꝉ":"L","Ꝇ":"L","Ꞁ":"L","Ǉ":"LJ","ǈ":"Lj","Ⓜ":"M","Ｍ":"M","Ḿ":"M","Ṁ":"M","Ṃ":"M","Ɱ":"M","Ɯ":"M","Ⓝ":"N","Ｎ":"N","Ǹ":"N","Ń":"N","Ñ":"N","Ṅ":"N","Ň":"N","Ṇ":"N","Ņ":"N","Ṋ":"N","Ṉ":"N","Ƞ":"N","Ɲ":"N","Ꞑ":"N","Ꞥ":"N","Ǌ":"NJ","ǋ":"Nj","Ⓞ":"O","Ｏ":"O","Ò":"O","Ó":"O","Ô":"O","Ồ":"O","Ố":"O","Ỗ":"O","Ổ":"O","Õ":"O","Ṍ":"O","Ȭ":"O","Ṏ":"O","Ō":"O","Ṑ":"O","Ṓ":"O","Ŏ":"O","Ȯ":"O","Ȱ":"O","Ö":"O","Ȫ":"O","Ỏ":"O","Ő":"O","Ǒ":"O","Ȍ":"O","Ȏ":"O","Ơ":"O","Ờ":"O","Ớ":"O","Ỡ":"O","Ở":"O","Ợ":"O","Ọ":"O","Ộ":"O","Ǫ":"O","Ǭ":"O","Ø":"O","Ǿ":"O","Ɔ":"O","Ɵ":"O","Ꝋ":"O","Ꝍ":"O","Ƣ":"OI","Ꝏ":"OO","Ȣ":"OU","Ⓟ":"P","Ｐ":"P","Ṕ":"P","Ṗ":"P","Ƥ":"P","Ᵽ":"P","Ꝑ":"P","Ꝓ":"P","Ꝕ":"P","Ⓠ":"Q","Ｑ":"Q","Ꝗ":"Q","Ꝙ":"Q","Ɋ":"Q","Ⓡ":"R","Ｒ":"R","Ŕ":"R","Ṙ":"R","Ř":"R","Ȑ":"R","Ȓ":"R","Ṛ":"R","Ṝ":"R","Ŗ":"R","Ṟ":"R","Ɍ":"R","Ɽ":"R","Ꝛ":"R","Ꞧ":"R","Ꞃ":"R","Ⓢ":"S","Ｓ":"S","ẞ":"S","Ś":"S","Ṥ":"S","Ŝ":"S","Ṡ":"S","Š":"S","Ṧ":"S","Ṣ":"S","Ṩ":"S","Ș":"S","Ş":"S","Ȿ":"S","Ꞩ":"S","Ꞅ":"S","Ⓣ":"T","Ｔ":"T","Ṫ":"T","Ť":"T","Ṭ":"T","Ț":"T","Ţ":"T","Ṱ":"T","Ṯ":"T","Ŧ":"T","Ƭ":"T","Ʈ":"T","Ⱦ":"T","Ꞇ":"T","Ꜩ":"TZ","Ⓤ":"U","Ｕ":"U","Ù":"U","Ú":"U","Û":"U","Ũ":"U","Ṹ":"U","Ū":"U","Ṻ":"U","Ŭ":"U","Ü":"U","Ǜ":"U","Ǘ":"U","Ǖ":"U","Ǚ":"U","Ủ":"U","Ů":"U","Ű":"U","Ǔ":"U","Ȕ":"U","Ȗ":"U","Ư":"U","Ừ":"U","Ứ":"U","Ữ":"U","Ử":"U","Ự":"U","Ụ":"U","Ṳ":"U","Ų":"U","Ṷ":"U","Ṵ":"U","Ʉ":"U","Ⓥ":"V","Ｖ":"V","Ṽ":"V","Ṿ":"V","Ʋ":"V","Ꝟ":"V","Ʌ":"V","Ꝡ":"VY","Ⓦ":"W","Ｗ":"W","Ẁ":"W","Ẃ":"W","Ŵ":"W","Ẇ":"W","Ẅ":"W","Ẉ":"W","Ⱳ":"W","Ⓧ":"X","Ｘ":"X","Ẋ":"X","Ẍ":"X","Ⓨ":"Y","Ｙ":"Y","Ỳ":"Y","Ý":"Y","Ŷ":"Y","Ỹ":"Y","Ȳ":"Y","Ẏ":"Y","Ÿ":"Y","Ỷ":"Y","Ỵ":"Y","Ƴ":"Y","Ɏ":"Y","Ỿ":"Y","Ⓩ":"Z","Ｚ":"Z","Ź":"Z","Ẑ":"Z","Ż":"Z","Ž":"Z","Ẓ":"Z","Ẕ":"Z","Ƶ":"Z","Ȥ":"Z","Ɀ":"Z","Ⱬ":"Z","Ꝣ":"Z","ⓐ":"a","ａ":"a","ẚ":"a","à":"a","á":"a","â":"a","ầ":"a","ấ":"a","ẫ":"a","ẩ":"a","ã":"a","ā":"a","ă":"a","ằ":"a","ắ":"a","ẵ":"a","ẳ":"a","ȧ":"a","ǡ":"a","ä":"a","ǟ":"a","ả":"a","å":"a","ǻ":"a","ǎ":"a","ȁ":"a","ȃ":"a","ạ":"a","ậ":"a","ặ":"a","ḁ":"a","ą":"a","ⱥ":"a","ɐ":"a","ꜳ":"aa","æ":"ae","ǽ":"ae","ǣ":"ae","ꜵ":"ao","ꜷ":"au","ꜹ":"av","ꜻ":"av","ꜽ":"ay","ⓑ":"b","ｂ":"b","ḃ":"b","ḅ":"b","ḇ":"b","ƀ":"b","ƃ":"b","ɓ":"b","ⓒ":"c","ｃ":"c","ć":"c","ĉ":"c","ċ":"c","č":"c","ç":"c","ḉ":"c","ƈ":"c","ȼ":"c","ꜿ":"c","ↄ":"c","ⓓ":"d","ｄ":"d","ḋ":"d","ď":"d","ḍ":"d","ḑ":"d","ḓ":"d","ḏ":"d","đ":"d","ƌ":"d","ɖ":"d","ɗ":"d","ꝺ":"d","ǳ":"dz","ǆ":"dz","ⓔ":"e","ｅ":"e","è":"e","é":"e","ê":"e","ề":"e","ế":"e","ễ":"e","ể":"e","ẽ":"e","ē":"e","ḕ":"e","ḗ":"e","ĕ":"e","ė":"e","ë":"e","ẻ":"e","ě":"e","ȅ":"e","ȇ":"e","ẹ":"e","ệ":"e","ȩ":"e","ḝ":"e","ę":"e","ḙ":"e","ḛ":"e","ɇ":"e","ɛ":"e","ǝ":"e","ⓕ":"f","ｆ":"f","ḟ":"f","ƒ":"f","ꝼ":"f","ⓖ":"g","ｇ":"g","ǵ":"g","ĝ":"g","ḡ":"g","ğ":"g","ġ":"g","ǧ":"g","ģ":"g","ǥ":"g","ɠ":"g","ꞡ":"g","ᵹ":"g","ꝿ":"g","ⓗ":"h","ｈ":"h","ĥ":"h","ḣ":"h","ḧ":"h","ȟ":"h","ḥ":"h","ḩ":"h","ḫ":"h","ẖ":"h","ħ":"h","ⱨ":"h","ⱶ":"h","ɥ":"h","ƕ":"hv","ⓘ":"i","ｉ":"i","ì":"i","í":"i","î":"i","ĩ":"i","ī":"i","ĭ":"i","ï":"i","ḯ":"i","ỉ":"i","ǐ":"i","ȉ":"i","ȋ":"i","ị":"i","į":"i","ḭ":"i","ɨ":"i","ı":"i","ⓙ":"j","ｊ":"j","ĵ":"j","ǰ":"j","ɉ":"j","ⓚ":"k","ｋ":"k","ḱ":"k","ǩ":"k","ḳ":"k","ķ":"k","ḵ":"k","ƙ":"k","ⱪ":"k","ꝁ":"k","ꝃ":"k","ꝅ":"k","ꞣ":"k","ⓛ":"l","ｌ":"l","ŀ":"l","ĺ":"l","ľ":"l","ḷ":"l","ḹ":"l","ļ":"l","ḽ":"l","ḻ":"l","ſ":"l","ł":"l","ƚ":"l","ɫ":"l","ⱡ":"l","ꝉ":"l","ꞁ":"l","ꝇ":"l","ǉ":"lj","ⓜ":"m","ｍ":"m","ḿ":"m","ṁ":"m","ṃ":"m","ɱ":"m","ɯ":"m","ⓝ":"n","ｎ":"n","ǹ":"n","ń":"n","ñ":"n","ṅ":"n","ň":"n","ṇ":"n","ņ":"n","ṋ":"n","ṉ":"n","ƞ":"n","ɲ":"n","ŉ":"n","ꞑ":"n","ꞥ":"n","ǌ":"nj","ⓞ":"o","ｏ":"o","ò":"o","ó":"o","ô":"o","ồ":"o","ố":"o","ỗ":"o","ổ":"o","õ":"o","ṍ":"o","ȭ":"o","ṏ":"o","ō":"o","ṑ":"o","ṓ":"o","ŏ":"o","ȯ":"o","ȱ":"o","ö":"o","ȫ":"o","ỏ":"o","ő":"o","ǒ":"o","ȍ":"o","ȏ":"o","ơ":"o","ờ":"o","ớ":"o","ỡ":"o","ở":"o","ợ":"o","ọ":"o","ộ":"o","ǫ":"o","ǭ":"o","ø":"o","ǿ":"o","ɔ":"o","ꝋ":"o","ꝍ":"o","ɵ":"o","ƣ":"oi","ȣ":"ou","ꝏ":"oo","ⓟ":"p","ｐ":"p","ṕ":"p","ṗ":"p","ƥ":"p","ᵽ":"p","ꝑ":"p","ꝓ":"p","ꝕ":"p","ⓠ":"q","ｑ":"q","ɋ":"q","ꝗ":"q","ꝙ":"q","ⓡ":"r","ｒ":"r","ŕ":"r","ṙ":"r","ř":"r","ȑ":"r","ȓ":"r","ṛ":"r","ṝ":"r","ŗ":"r","ṟ":"r","ɍ":"r","ɽ":"r","ꝛ":"r","ꞧ":"r","ꞃ":"r","ⓢ":"s","ｓ":"s","ß":"s","ś":"s","ṥ":"s","ŝ":"s","ṡ":"s","š":"s","ṧ":"s","ṣ":"s","ṩ":"s","ș":"s","ş":"s","ȿ":"s","ꞩ":"s","ꞅ":"s","ẛ":"s","ⓣ":"t","ｔ":"t","ṫ":"t","ẗ":"t","ť":"t","ṭ":"t","ț":"t","ţ":"t","ṱ":"t","ṯ":"t","ŧ":"t","ƭ":"t","ʈ":"t","ⱦ":"t","ꞇ":"t","ꜩ":"tz","ⓤ":"u","ｕ":"u","ù":"u","ú":"u","û":"u","ũ":"u","ṹ":"u","ū":"u","ṻ":"u","ŭ":"u","ü":"u","ǜ":"u","ǘ":"u","ǖ":"u","ǚ":"u","ủ":"u","ů":"u","ű":"u","ǔ":"u","ȕ":"u","ȗ":"u","ư":"u","ừ":"u","ứ":"u","ữ":"u","ử":"u","ự":"u","ụ":"u","ṳ":"u","ų":"u","ṷ":"u","ṵ":"u","ʉ":"u","ⓥ":"v","ｖ":"v","ṽ":"v","ṿ":"v","ʋ":"v","ꝟ":"v","ʌ":"v","ꝡ":"vy","ⓦ":"w","ｗ":"w","ẁ":"w","ẃ":"w","ŵ":"w","ẇ":"w","ẅ":"w","ẘ":"w","ẉ":"w","ⱳ":"w","ⓧ":"x","ｘ":"x","ẋ":"x","ẍ":"x","ⓨ":"y","ｙ":"y","ỳ":"y","ý":"y","ŷ":"y","ỹ":"y","ȳ":"y","ẏ":"y","ÿ":"y","ỷ":"y","ẙ":"y","ỵ":"y","ƴ":"y","ɏ":"y","ỿ":"y","ⓩ":"z","ｚ":"z","ź":"z","ẑ":"z","ż":"z","ž":"z","ẓ":"z","ẕ":"z","ƶ":"z","ȥ":"z","ɀ":"z","ⱬ":"z","ꝣ":"z"};I=e(document),O=function(){var e=1;return function(){return e++}}(),I.on("mousemove",function(e){A.x=e.pageX,A.y=e.pageY}),x=y(E=y(Object,{bind:function(e){var t=this;return function(){e.apply(t,arguments)}},init:function(s){var i,o,a=".select2-results";this.opts=s=this.prepareOpts(s),this.id=s.id,s.element.data("select2")!==t&&null!==s.element.data("select2")&&s.element.data("select2").destroy(),this.container=this.createContainer(),this.liveRegion=e("<span>",{role:"status","aria-live":"polite"}).addClass("select2-hidden-accessible").appendTo(document.body),this.containerId="s2id_"+(s.element.attr("id")||"autogen"+O()),this.containerEventName=this.containerId.replace(/([.])/g,"_").replace(/([;&,\-\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|])/g,"\\$1"),this.container.attr("id",this.containerId),this.container.attr("title",s.element.attr("title")),this.body=e("body"),d(this.container,this.opts.element,this.opts.adaptContainerCssClass),this.container.attr("style",s.element.attr("style")),this.container.css(w(s.containerCss)),this.container.addClass(w(s.containerCssClass)),this.elementTabIndex=this.opts.element.attr("tabindex"),this.opts.element.data("select2",this).attr("tabindex","-1").before(this.container).on("click.select2",h),this.container.data("select2",this),this.dropdown=this.container.find(".select2-drop"),d(this.dropdown,this.opts.element,this.opts.adaptDropdownCssClass),this.dropdown.addClass(w(s.dropdownCssClass)),this.dropdown.data("select2",this),this.dropdown.on("click",h),this.results=i=this.container.find(a),this.search=o=this.container.find("input.select2-input"),this.queryCount=0,this.resultsPage=0,this.context=null,this.initContainer(),this.container.on("click",h),function(s){s.on("mousemove",function(s){var i=A;i!==t&&i.x===s.pageX&&i.y===s.pageY||e(s.target).trigger("mousemove-filtered",s)})}(this.results),this.dropdown.on("mousemove-filtered",a,this.bind(this.highlightUnderEvent)),this.dropdown.on("touchstart touchmove touchend",a,this.bind(function(e){this._touchEvent=!0,this.highlightUnderEvent(e)})),this.dropdown.on("touchmove",a,this.bind(this.touchMoved)),this.dropdown.on("touchstart touchend",a,this.bind(this.clearTouchMoved)),this.dropdown.on("click",this.bind(function(e){this._touchEvent&&(this._touchEvent=!1,this.selectHighlighted())})),function(e,t){var s=l(e,function(e){t.trigger("scroll-debounced",e)});t.on("scroll",function(e){n(e.target,t.get())>=0&&s(e)})}(80,this.results),this.dropdown.on("scroll-debounced",a,this.bind(this.loadMoreIfNeeded)),e(this.container).on("change",".select2-input",function(e){e.stopPropagation()}),e(this.dropdown).on("change",".select2-input",function(e){e.stopPropagation()}),e.fn.mousewheel&&i.mousewheel(function(e,t,s,n){var o=i.scrollTop();n>0&&o-n<=0?(i.scrollTop(0),h(e)):n<0&&i.get(0).scrollHeight-i.scrollTop()+n<=i.height()&&(i.scrollTop(i.get(0).scrollHeight-i.height()),h(e))}),r(o),o.on("keyup-change input paste",this.bind(this.updateResults)),o.on("focus",function(){o.addClass("select2-focused")}),o.on("blur",function(){o.removeClass("select2-focused")}),this.dropdown.on("mouseup",a,this.bind(function(t){e(t.target).closest(".select2-result-selectable").length>0&&(this.highlightUnderEvent(t),this.selectHighlighted(t))})),this.dropdown.on("click mouseup mousedown touchstart touchend focusin",function(e){e.stopPropagation()}),this.nextSearchTerm=t,e.isFunction(this.opts.initSelection)&&(this.initSelection(),this.monitorSource()),null!==s.maximumInputLength&&this.search.attr("maxlength",s.maximumInputLength);var c=s.element.prop("disabled");c===t&&(c=!1),this.enable(!c);var u=s.element.prop("readonly");u===t&&(u=!1),this.readonly(u),k=k||function(){var t=e(D);t.appendTo("body");var s={width:t.width()-t[0].clientWidth,height:t.height()-t[0].clientHeight};return t.remove(),s}(),this.autofocus=s.element.prop("autofocus"),s.element.prop("autofocus",!1),this.autofocus&&this.focus(),this.search.attr("placeholder",s.searchInputPlaceholder)},destroy:function(){var e=this.opts.element,s=e.data("select2");this.close(),this.propertyObserver&&(this.propertyObserver.disconnect(),this.propertyObserver=null),s!==t&&(s.container.remove(),s.liveRegion.remove(),s.dropdown.remove(),e.removeClass("select2-offscreen").removeData("select2").off(".select2").prop("autofocus",this.autofocus||!1),this.elementTabIndex?e.attr({tabindex:this.elementTabIndex}):e.removeAttr("tabindex"),e.show()),S.call(this,"container","liveRegion","dropdown","results","search")},optionToData:function(e){return e.is("option")?{id:e.prop("value"),text:e.text(),element:e.get(),css:e.attr("class"),disabled:e.prop("disabled"),locked:o(e.attr("locked"),"locked")||o(e.data("locked"),!0)}:e.is("optgroup")?{text:e.attr("label"),children:[],element:e.get(),css:e.attr("class")}:void 0},prepareOpts:function(s){var i,n,c,r,l=this;if("select"===(i=s.element).get(0).tagName.toLowerCase()&&(this.select=n=s.element),n&&e.each(["id","multiple","ajax","query","createSearchChoice","initSelection","data","tags"],function(){if(this in s)throw new Error("Option '"+this+"' is not allowed for Select2 when attached to a <select> element.")}),"function"!=typeof(s=e.extend({},{populateResults:function(i,n,o){var a,c=this.opts.id,r=this.liveRegion;(a=function(i,n,h){var u,d,p,f,g,m,v,b,w,C;for(u=0,d=(i=s.sortResults(i,n,o)).length;u<d;u+=1)f=!(g=!0===(p=i[u]).disabled)&&c(p)!==t,m=p.children&&p.children.length>0,(v=e("<li></li>")).addClass("select2-results-dept-"+h),v.addClass("select2-result"),v.addClass(f?"select2-result-selectable":"select2-result-unselectable"),g&&v.addClass("select2-disabled"),m&&v.addClass("select2-result-with-children"),v.addClass(l.opts.formatResultCssClass(p)),v.attr("role","presentation"),(b=e(document.createElement("div"))).addClass("select2-result-label"),b.attr("id","select2-result-label-"+O()),b.attr("role","option"),(C=s.formatResult(p,b,o,l.opts.escapeMarkup))!==t&&(b.html(C),v.append(b)),m&&((w=e("<ul></ul>")).addClass("select2-result-sub"),a(p.children,w,h+1),v.append(w)),v.data("select2-data",p),n.append(v);r.text(s.formatMatches(i.length))})(n,i,0)}},e.fn.select2.defaults,s)).id&&(c=s.id,s.id=function(e){return e[c]}),e.isArray(s.element.data("select2Tags"))){if("tags"in s)throw"tags specified as both an attribute 'data-select2-tags' and in options of Select2 "+s.element.attr("id");s.tags=s.element.data("select2Tags")}if(n?(s.query=this.bind(function(e){var s,n,o,a={results:[],more:!1},c=e.term;o=function(t,s){var i;t.is("option")?e.matcher(c,t.text(),t)&&s.push(l.optionToData(t)):t.is("optgroup")&&(i=l.optionToData(t),t.children().each2(function(e,t){o(t,i.children)}),i.children.length>0&&s.push(i))},s=i.children(),this.getPlaceholder()!==t&&s.length>0&&(n=this.getPlaceholderOption())&&(s=s.not(n)),s.each2(function(e,t){o(t,a.results)}),e.callback(a)}),s.id=function(e){return e.id}):"query"in s||("ajax"in s?((r=s.element.data("ajax-url"))&&r.length>0&&(s.ajax.url=r),s.query=g.call(s.element,s.ajax)):"data"in s?s.query=m(s.data):"tags"in s&&(s.query=v(s.tags),s.createSearchChoice===t&&(s.createSearchChoice=function(t){return{id:e.trim(t),text:e.trim(t)}}),s.initSelection===t&&(s.initSelection=function(t,i){var n=[];e(a(t.val(),s.separator)).each(function(){var t={id:this,text:this},i=s.tags;e.isFunction(i)&&(i=i()),e(i).each(function(){if(o(this.id,t.id))return t=this,!1}),n.push(t)}),i(n)}))),"function"!=typeof s.query)throw"query function not defined for Select2 "+s.element.attr("id");if("top"===s.createSearchChoicePosition)s.createSearchChoicePosition=function(e,t){e.unshift(t)};else if("bottom"===s.createSearchChoicePosition)s.createSearchChoicePosition=function(e,t){e.push(t)};else if("function"!=typeof s.createSearchChoicePosition)throw"invalid createSearchChoicePosition option must be 'top', 'bottom' or a custom function";return s},monitorSource:function(){var e,s,i=this.opts.element;i.on("change.select2",this.bind(function(e){!0!==this.opts.element.data("select2-change-triggered")&&this.initSelection()})),e=this.bind(function(){var e=i.prop("disabled");e===t&&(e=!1),this.enable(!e);var s=i.prop("readonly");s===t&&(s=!1),this.readonly(s),d(this.container,this.opts.element,this.opts.adaptContainerCssClass),this.container.addClass(w(this.opts.containerCssClass)),d(this.dropdown,this.opts.element,this.opts.adaptDropdownCssClass),this.dropdown.addClass(w(this.opts.dropdownCssClass))}),i.length&&i[0].attachEvent&&i.each(function(){this.attachEvent("onpropertychange",e)}),(s=window.MutationObserver||window.WebKitMutationObserver||window.MozMutationObserver)!==t&&(this.propertyObserver&&(delete this.propertyObserver,this.propertyObserver=null),this.propertyObserver=new s(function(t){t.forEach(e)}),this.propertyObserver.observe(i.get(0),{attributes:!0,subtree:!1}))},triggerSelect:function(t){var s=e.Event("select2-selecting",{val:this.id(t),object:t});return this.opts.element.trigger(s),!s.isDefaultPrevented()},triggerChange:function(t){t=t||{},t=e.extend({},t,{type:"change",val:this.val()}),this.opts.element.data("select2-change-triggered",!0),this.opts.element.trigger(t),this.opts.element.data("select2-change-triggered",!1),this.opts.element.click(),this.opts.blurOnChange&&this.opts.element.blur()},isInterfaceEnabled:function(){return!0===this.enabledInterface},enableInterface:function(){var e=this._enabled&&!this._readonly,t=!e;return e!==this.enabledInterface&&(this.container.toggleClass("select2-container-disabled",t),this.close(),this.enabledInterface=e,!0)},enable:function(e){e===t&&(e=!0),this._enabled!==e&&(this._enabled=e,this.opts.element.prop("disabled",!e),this.enableInterface())},disable:function(){this.enable(!1)},readonly:function(e){e===t&&(e=!1),this._readonly!==e&&(this._readonly=e,this.opts.element.prop("readonly",e),this.enableInterface())},opened:function(){return this.container.hasClass("select2-dropdown-open")},positionDropdown:function(){var t,s,i,n,o,a=this.dropdown,c=this.container.offset(),r=this.container.outerHeight(!1),l=this.container.outerWidth(!1),h=a.outerHeight(!1),u=e(window),d=u.width(),p=u.height(),f=u.scrollLeft()+d,g=u.scrollTop()+p,m=c.top+r,v=c.left,b=m+h<=g,C=c.top-h>=u.scrollTop(),S=a.outerWidth(!1),y=v+S<=f;a.hasClass("select2-drop-above")?(s=!0,!C&&b&&(i=!0,s=!1)):(s=!1,!b&&C&&(i=!0,s=!0)),i&&(a.hide(),c=this.container.offset(),r=this.container.outerHeight(!1),l=this.container.outerWidth(!1),h=a.outerHeight(!1),f=u.scrollLeft()+d,g=u.scrollTop()+p,m=c.top+r,y=(v=c.left)+(S=a.outerWidth(!1))<=f,a.show(),this.focusSearch()),this.opts.dropdownAutoWidth?(o=e(".select2-results",a)[0],a.addClass("select2-drop-auto-width"),a.css("width",""),(S=a.outerWidth(!1)+(o.scrollHeight===o.clientHeight?0:k.width))>l?l=S:S=l,h=a.outerHeight(!1),y=v+S<=f):this.container.removeClass("select2-drop-auto-width"),"static"!==this.body.css("position")&&(m-=(t=this.body.offset()).top,v-=t.left),y||(v=c.left+this.container.outerWidth(!1)-S),n={left:v,width:l},s?(n.top=c.top-h,n.bottom="auto",this.container.addClass("select2-drop-above"),a.addClass("select2-drop-above")):(n.top=m,n.bottom="auto",this.container.removeClass("select2-drop-above"),a.removeClass("select2-drop-above")),n=e.extend(n,w(this.opts.dropdownCss)),a.css(n)},shouldOpen:function(){var t;return!this.opened()&&(!1!==this._enabled&&!0!==this._readonly&&(t=e.Event("select2-opening"),this.opts.element.trigger(t),!t.isDefaultPrevented()))},clearDropdownAlignmentPreference:function(){this.container.removeClass("select2-drop-above"),this.dropdown.removeClass("select2-drop-above")},open:function(){return!!this.shouldOpen()&&(this.opening(),!0)},opening:function(){var t,i=this.containerEventName,n="scroll."+i,o="resize."+i,a="orientationchange."+i;this.container.addClass("select2-dropdown-open").addClass("select2-container-active"),this.clearDropdownAlignmentPreference(),this.dropdown[0]!==this.body.children().last()[0]&&this.dropdown.detach().appendTo(this.body),0==(t=e("#select2-drop-mask")).length&&((t=e(document.createElement("div"))).attr("id","select2-drop-mask").attr("class","select2-drop-mask"),t.hide(),t.appendTo(this.body),t.on("mousedown touchstart click",function(i){s(t);var n,o=e("#select2-drop");o.length>0&&((n=o.data("select2")).opts.selectOnBlur&&n.selectHighlighted({noFocus:!0}),n.close(),i.preventDefault(),i.stopPropagation())})),this.dropdown.prev()[0]!==t[0]&&this.dropdown.before(t),e("#select2-drop").removeAttr("id"),this.dropdown.attr("id","select2-drop"),t.show(),this.positionDropdown(),this.dropdown.show(),this.positionDropdown(),this.dropdown.addClass("select2-drop-active");var c=this;this.container.parents().add(window).each(function(){e(this).on(o+" "+n+" "+a,function(e){c.opened()&&c.positionDropdown()})})},close:function(){if(this.opened()){var t=this.containerEventName,s="scroll."+t,i="resize."+t,n="orientationchange."+t;this.container.parents().add(window).each(function(){e(this).off(s).off(i).off(n)}),this.clearDropdownAlignmentPreference(),e("#select2-drop-mask").hide(),this.dropdown.removeAttr("id"),this.dropdown.hide(),this.container.removeClass("select2-dropdown-open").removeClass("select2-container-active"),this.results.empty(),this.clearSearch(),this.search.removeClass("select2-active"),this.opts.element.trigger(e.Event("select2-close"))}},externalSearch:function(e){this.open(),this.search.val(e),this.updateResults(!1)},clearSearch:function(){},getMaximumSelectionSize:function(){return w(this.opts.maximumSelectionSize)},ensureHighlightVisible:function(){var t,s,i,n,o,a,c,r=this.results;(s=this.highlight())<0||(0!=s?(t=this.findHighlightableChoices().find(".select2-result-label"),n=(i=e(t[s])).offset().top+i.outerHeight(!0),s===t.length-1&&(c=r.find("li.select2-more-results")).length>0&&(n=c.offset().top+c.outerHeight(!0)),n>(o=r.offset().top+r.outerHeight(!0))&&r.scrollTop(r.scrollTop()+(n-o)),(a=i.offset().top-r.offset().top)<0&&"none"!=i.css("display")&&r.scrollTop(r.scrollTop()+a)):r.scrollTop(0))},findHighlightableChoices:function(){return this.results.find(".select2-result-selectable:not(.select2-disabled):not(.select2-selected)")},moveHighlight:function(t){for(var s=this.findHighlightableChoices(),i=this.highlight();i>-1&&i<s.length;){var n=e(s[i+=t]);if(n.hasClass("select2-result-selectable")&&!n.hasClass("select2-disabled")&&!n.hasClass("select2-selected")){this.highlight(i);break}}},highlight:function(t){var s,i,o=this.findHighlightableChoices();if(0===arguments.length)return n(o.filter(".select2-highlighted")[0],o.get());t>=o.length&&(t=o.length-1),t<0&&(t=0),this.removeHighlight(),(s=e(o[t])).addClass("select2-highlighted"),this.search.attr("aria-activedescendant",s.find(".select2-result-label").attr("id")),this.ensureHighlightVisible(),this.liveRegion.text(s.text()),(i=s.data("select2-data"))&&this.opts.element.trigger({type:"select2-highlight",val:this.id(i),choice:i})},removeHighlight:function(){this.results.find(".select2-highlighted").removeClass("select2-highlighted")},touchMoved:function(){this._touchMoved=!0},clearTouchMoved:function(){this._touchMoved=!1},countSelectableResults:function(){return this.findHighlightableChoices().length},highlightUnderEvent:function(t){var s=e(t.target).closest(".select2-result-selectable");if(s.length>0&&!s.is(".select2-highlighted")){var i=this.findHighlightableChoices();this.highlight(i.index(s))}else 0==s.length&&this.removeHighlight()},loadMoreIfNeeded:function(){var e=this.results,t=e.find("li.select2-more-results"),s=this.resultsPage+1,i=this,n=this.search.val(),o=this.context;0!==t.length&&t.offset().top-e.offset().top-e.height()<=this.opts.loadMorePadding&&(t.addClass("select2-active"),this.opts.query({element:this.opts.element,term:n,page:s,context:o,matcher:this.opts.matcher,callback:this.bind(function(a){i.opened()&&(i.opts.populateResults.call(this,e,a.results,{term:n,page:s,context:o}),i.postprocessResults(a,!1,!1),!0===a.more?(t.detach().appendTo(e).text(w(i.opts.formatLoadMore,s+1)),window.setTimeout(function(){i.loadMoreIfNeeded()},10)):t.remove(),i.positionDropdown(),i.resultsPage=s,i.context=a.context,this.opts.element.trigger({type:"select2-loaded",items:a}))})}))},tokenize:function(){},updateResults:function(s){function i(){l.removeClass("select2-active"),d.positionDropdown(),h.find(".select2-no-results,.select2-selection-limit,.select2-searching").length?d.liveRegion.text(h.text()):d.liveRegion.text(d.opts.formatMatches(h.find(".select2-result-selectable").length))}function n(e){h.html(e),i()}var a,c,r,l=this.search,h=this.results,u=this.opts,d=this,p=l.val(),f=e.data(this.container,"select2-last-term");if((!0===s||!f||!o(p,f))&&(e.data(this.container,"select2-last-term",p),!0===s||!1!==this.showSearchInput&&this.opened())){r=++this.queryCount;var g=this.getMaximumSelectionSize();if(!(g>=1&&(a=this.data(),e.isArray(a)&&a.length>=g&&b(u.formatSelectionTooBig,"formatSelectionTooBig"))))return l.val().length<u.minimumInputLength?(b(u.formatInputTooShort,"formatInputTooShort")?n("<li class='select2-no-results'>"+w(u.formatInputTooShort,l.val(),u.minimumInputLength)+"</li>"):n(""),void(s&&this.showSearch&&this.showSearch(!0))):void(u.maximumInputLength&&l.val().length>u.maximumInputLength?b(u.formatInputTooLong,"formatInputTooLong")?n("<li class='select2-no-results'>"+w(u.formatInputTooLong,l.val(),u.maximumInputLength)+"</li>"):n(""):(u.formatSearching&&0===this.findHighlightableChoices().length&&n("<li class='select2-searching'>"+w(u.formatSearching)+"</li>"),l.addClass("select2-active"),this.removeHighlight(),(c=this.tokenize())!=t&&null!=c&&l.val(c),this.resultsPage=1,u.query({element:u.element,term:l.val(),page:this.resultsPage,context:null,matcher:u.matcher,callback:this.bind(function(a){var c;r==this.queryCount&&(this.opened()?(this.context=a.context===t?null:a.context,this.opts.createSearchChoice&&""!==l.val()&&(c=this.opts.createSearchChoice.call(d,l.val(),a.results))!==t&&null!==c&&d.id(c)!==t&&null!==d.id(c)&&0===e(a.results).filter(function(){return o(d.id(this),d.id(c))}).length&&this.opts.createSearchChoicePosition(a.results,c),0===a.results.length&&b(u.formatNoMatches,"formatNoMatches")?n("<li class='select2-no-results'>"+w(u.formatNoMatches,l.val())+"</li>"):(h.empty(),d.opts.populateResults.call(this,h,a.results,{term:l.val(),page:this.resultsPage,context:null}),!0===a.more&&b(u.formatLoadMore,"formatLoadMore")&&(h.append("<li class='select2-more-results'>"+d.opts.escapeMarkup(w(u.formatLoadMore,this.resultsPage))+"</li>"),window.setTimeout(function(){d.loadMoreIfNeeded()},10)),this.postprocessResults(a,s),i(),this.opts.element.trigger({type:"select2-loaded",items:a}))):this.search.removeClass("select2-active"))})})));n("<li class='select2-selection-limit'>"+w(u.formatSelectionTooBig,g)+"</li>")}},cancel:function(){this.close()},blur:function(){this.opts.selectOnBlur&&this.selectHighlighted({noFocus:!0}),this.close(),this.container.removeClass("select2-container-active"),this.search[0]===document.activeElement&&this.search.blur(),this.clearSearch(),this.selection.find(".select2-search-choice-focus").removeClass("select2-search-choice-focus")},focusSearch:function(){!function(e){e[0]!==document.activeElement&&window.setTimeout(function(){var t,s=e[0],i=e.val().length;e.focus(),(s.offsetWidth>0||s.offsetHeight>0)&&s===document.activeElement&&(s.setSelectionRange?s.setSelectionRange(i,i):s.createTextRange&&((t=s.createTextRange()).collapse(!1),t.select()))},0)}(this.search)},selectHighlighted:function(e){if(this._touchMoved)this.clearTouchMoved();else{var t=this.highlight(),s=this.results.find(".select2-highlighted").closest(".select2-result").data("select2-data");s?(this.highlight(t),this.onSelect(s,e)):e&&e.noFocus&&this.close()}},getPlaceholder:function(){var e;return this.opts.element.attr("placeholder")||this.opts.element.attr("data-placeholder")||this.opts.element.data("placeholder")||this.opts.placeholder||((e=this.getPlaceholderOption())!==t?e.text():t)},getPlaceholderOption:function(){if(this.select){var s=this.select.children("option").first();if(this.opts.placeholderOption!==t)return"first"===this.opts.placeholderOption&&s||"function"==typeof this.opts.placeholderOption&&this.opts.placeholderOption(this.select);if(""===e.trim(s.text())&&""===s.val())return s}},initContainerWidth:function(){var s=function(){var s,i,n,o,a,c;if("off"===this.opts.width)return null;if("element"===this.opts.width)return 0===this.opts.element.outerWidth(!1)?"auto":this.opts.element.outerWidth(!1)+"px";if("copy"===this.opts.width||"resolve"===this.opts.width){if((s=this.opts.element.attr("style"))!==t)for(o=0,a=(i=s.split(";")).length;o<a;o+=1)if(c=i[o].replace(/\s/g,""),null!==(n=c.match(/^width:(([-+]?([0-9]*\.)?[0-9]+)(px|em|ex|%|in|cm|mm|pt|pc))/i))&&n.length>=1)return n[1];return"resolve"===this.opts.width?(s=this.opts.element.css("width")).indexOf("%")>0?s:0===this.opts.element.outerWidth(!1)?"auto":this.opts.element.outerWidth(!1)+"px":null}return e.isFunction(this.opts.width)?this.opts.width():this.opts.width}.call(this);null!==s&&this.container.css("width",s)}}),{createContainer:function(){return e(document.createElement("div")).attr({class:"select2-container"}).html(["<a href='javascript:void(0)' class='select2-choice' tabindex='-1'>","   <span class='select2-chosen'>&#160;</span><abbr class='select2-search-choice-edit-origin'><i class='fa                          fa-pencil'></i></abbr><abbr class='select2-search-choice-close'></abbr>","   <span class='select2-arrow' role='presentation'><b role='presentation'></b></span>","</a>","<label for='' class='select2-offscreen'></label>","<input class='select2-focusser select2-offscreen' type='text' aria-haspopup='true' role='button' />","<div class='select2-drop select2-display-none'>","   <div class='select2-search'>","       <label for='' class='select2-offscreen'></label>","       <input type='text' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' class='select2-input' role='combobox' aria-expanded='true'","       aria-autocomplete='list' />","   </div>","   <ul class='select2-results' role='listbox'>","   </ul>","</div>"].join(""))},enableInterface:function(){this.parent.enableInterface.apply(this,arguments)&&this.focusser.prop("disabled",!this.isInterfaceEnabled())},opening:function(){var s,i,n;this.opts.minimumResultsForSearch>=0&&this.showSearch(!0),this.parent.opening.apply(this,arguments),!1!==this.showSearchInput&&this.search.val(this.focusser.val()),this.opts.shouldFocusInput(this)&&(this.search.focus(),(s=this.search.get(0)).createTextRange?((i=s.createTextRange()).collapse(!1),i.select()):s.setSelectionRange&&(n=this.search.val().length,s.setSelectionRange(n,n))),""===this.search.val()&&this.nextSearchTerm!=t&&(this.search.val(this.nextSearchTerm),this.search.select()),this.focusser.prop("disabled",!0).val(""),this.updateResults(!0),this.opts.element.trigger(e.Event("select2-open"))},close:function(){this.opened()&&(this.parent.close.apply(this,arguments),this.focusser.prop("disabled",!1),this.opts.shouldFocusInput(this)&&this.focusser.focus())},focus:function(){this.opened()?this.close():(this.focusser.prop("disabled",!1),this.opts.shouldFocusInput(this)&&this.focusser.focus())},isFocused:function(){return this.container.hasClass("select2-container-active")},cancel:function(){this.parent.cancel.apply(this,arguments),this.focusser.prop("disabled",!1),this.opts.shouldFocusInput(this)&&this.focusser.focus()},destroy:function(){e("label[for='"+this.focusser.attr("id")+"']").attr("for",this.opts.element.attr("id")),this.parent.destroy.apply(this,arguments),S.call(this,"selection","focusser")},initContainer:function(){var t,i,n=this.container,o=this.dropdown,a=O();this.opts.minimumResultsForSearch<0?this.showSearch(!1):this.showSearch(!0),this.selection=t=n.find(".select2-choice"),this.focusser=n.find(".select2-focusser"),t.find(".select2-chosen").attr("id","select2-chosen-"+a),this.focusser.attr("aria-labelledby","select2-chosen-"+a),this.results.attr("id","select2-results-"+a),this.search.attr("aria-owns","select2-results-"+a),this.focusser.attr("id","s2id_autogen"+a),i=e("label[for='"+this.opts.element.attr("id")+"']"),this.focusser.prev().text(i.text()).attr("for",this.focusser.attr("id"));var c=this.opts.element.attr("title");this.opts.element.attr("title",c||i.text()),this.focusser.attr("tabindex",this.elementTabIndex),this.search.attr("id",this.focusser.attr("id")+"_search"),this.search.prev().text(e("label[for='"+this.focusser.attr("id")+"']").text()).attr("for",this.search.attr("id")),this.search.on("keydown",this.bind(function(e){if(this.isInterfaceEnabled())if(e.which!==R.PAGE_UP&&e.which!==R.PAGE_DOWN)switch(e.which){case R.UP:case R.DOWN:return this.moveHighlight(e.which===R.UP?-1:1),void h(e);case R.ENTER:return this.selectHighlighted(),void h(e);case R.TAB:return void this.selectHighlighted({noFocus:!0});case R.ESC:return this.cancel(e),void h(e)}else h(e)})),this.search.on("blur",this.bind(function(e){document.activeElement===this.body.get(0)&&window.setTimeout(this.bind(function(){this.opened()&&this.search.focus()}),0)})),this.focusser.on("keydown",this.bind(function(e){if(this.isInterfaceEnabled()&&e.which!==R.TAB&&!R.isControl(e)&&!R.isFunctionKey(e)&&e.which!==R.ESC)if(!1!==this.opts.openOnEnter||e.which!==R.ENTER){if(e.which==R.DOWN||e.which==R.UP||e.which==R.ENTER&&this.opts.openOnEnter){if(e.altKey||e.ctrlKey||e.shiftKey||e.metaKey)return;return this.open(),void h(e)}e.which!=R.DELETE&&e.which!=R.BACKSPACE||(this.opts.allowClear&&this.clear(),h(e))}else h(e)})),r(this.focusser),this.focusser.on("keyup-change input",this.bind(function(e){if(this.opts.minimumResultsForSearch>=0){if(e.stopPropagation(),this.opened())return;this.open()}})),t.on("mousedown touchstart","abbr",this.bind(function(t){this.isInterfaceEnabled()&&(e(t.currentTarget).hasClass("select2-search-choice-edit-origin")||e(t.currentTarget).hasClass("select2-search-choice-delete-origin")?(u(t),this.close(),this.selection.focus()):(this.clear(),u(t),this.close(),this.selection.focus()))})),t.on("mousedown touchstart",this.bind(function(i){s(t),this.container.hasClass("select2-container-active")||this.opts.element.trigger(e.Event("select2-focus")),this.opened()?this.close():this.isInterfaceEnabled()&&this.open(),h(i)})),o.on("mousedown touchstart",this.bind(function(){this.opts.shouldFocusInput(this)&&this.search.focus()})),t.on("focus",this.bind(function(e){h(e)})),this.focusser.on("focus",this.bind(function(){this.container.hasClass("select2-container-active")||this.opts.element.trigger(e.Event("select2-focus")),this.container.addClass("select2-container-active")})).on("blur",this.bind(function(){this.opened()||(this.container.removeClass("select2-container-active"),this.opts.element.trigger(e.Event("select2-blur")))})),this.search.on("focus",this.bind(function(){this.container.hasClass("select2-container-active")||this.opts.element.trigger(e.Event("select2-focus")),this.container.addClass("select2-container-active")})),this.initContainerWidth(),this.opts.element.addClass("select2-offscreen"),this.setPlaceholder()},clear:function(t){var s=this.selection.data("select2-data");if(s){var i=e.Event("select2-clearing");if(this.opts.element.trigger(i),i.isDefaultPrevented())return;var n=this.getPlaceholderOption();this.opts.element.val(n?n.val():""),this.selection.find(".select2-chosen").empty(),this.selection.removeData("select2-data"),this.setPlaceholder(),!1!==t&&(this.opts.element.trigger({type:"select2-removed",val:this.id(s),choice:s}),this.triggerChange({removed:s}))}},initSelection:function(){if(this.isPlaceholderOptionSelected())this.updateSelection(null),this.close(),this.setPlaceholder();else{var e=this;this.opts.initSelection.call(null,this.opts.element,function(s){s!==t&&null!==s&&(e.updateSelection(s),e.close(),e.setPlaceholder(),e.nextSearchTerm=e.opts.nextSearchTerm(s,e.search.val()))})}},isPlaceholderOptionSelected:function(){var e;return this.getPlaceholder()!==t&&((e=this.getPlaceholderOption())!==t&&e.prop("selected")||""===this.opts.element.val()||this.opts.element.val()===t||null===this.opts.element.val())},prepareOpts:function(){var t=this.parent.prepareOpts.apply(this,arguments),s=this;return"select"===t.element.get(0).tagName.toLowerCase()?t.initSelection=function(e,t){var i=e.find("option").filter(function(){return this.selected&&!this.disabled});t(s.optionToData(i))}:"data"in t&&(t.initSelection=t.initSelection||function(s,i){var n=s.val(),a=null;t.query({matcher:function(e,s,i){var c=o(n,t.id(i));return c&&(a=i),c},callback:e.isFunction(i)?function(){i(a)}:e.noop})}),t},getPlaceholder:function(){return this.select&&this.getPlaceholderOption()===t?t:this.parent.getPlaceholder.apply(this,arguments)},setPlaceholder:function(){var e=this.getPlaceholder();if(this.isPlaceholderOptionSelected()&&e!==t){if(this.select&&this.getPlaceholderOption()===t)return;this.selection.find(".select2-chosen").html(this.opts.escapeMarkup(e)),this.selection.addClass("select2-default"),this.container.removeClass("select2-allowclear")}},postprocessResults:function(e,t,s){var i=0,n=this;if(this.findHighlightableChoices().each2(function(e,t){if(o(n.id(t.data("select2-data")),n.opts.element.val()))return i=e,!1}),!1!==s&&(!0===t&&i>=0?this.highlight(i):this.highlight(0)),!0===t){var a=this.opts.minimumResultsForSearch;a>=0&&this.showSearch(C(e.results)>=a)}},showSearch:function(t){this.showSearchInput!==t&&(this.showSearchInput=t,this.dropdown.find(".select2-search").toggleClass("select2-search-hidden",!t),this.dropdown.find(".select2-search").toggleClass("select2-offscreen",!t),e(this.dropdown,this.container).toggleClass("select2-with-searchbox",t))},onSelect:function(e,t){if(this.triggerSelect(e)){var s=this.opts.element.val(),i=this.data();this.opts.element.val(this.id(e)),this.updateSelection(e),this.opts.element.trigger({type:"select2-selected",val:this.id(e),choice:e}),this.nextSearchTerm=this.opts.nextSearchTerm(e,this.search.val()),this.close(),t&&t.noFocus||!this.opts.shouldFocusInput(this)||this.focusser.focus(),o(s,this.id(e))||this.triggerChange({added:e,removed:i})}},updateSelection:function(e){var s,i,n=this.selection.find(".select2-chosen");this.selection.data("select2-data",e),n.empty(),null!==e&&(s=this.opts.formatSelection(e,n,this.opts.escapeMarkup)),s!==t&&n.append(s),(i=this.opts.formatSelectionCssClass(e,n))!==t&&n.addClass(i),this.selection.removeClass("select2-default"),this.opts.allowClear&&this.getPlaceholder()!==t&&this.container.addClass("select2-allowclear")},val:function(){var e,s=!1,i=null,n=this,o=this.data();if(0===arguments.length)return this.opts.element.val();if(e=arguments[0],arguments.length>1&&(s=arguments[1]),this.select)this.select.val(e).find("option").filter(function(){return this.selected}).each2(function(e,t){return i=n.optionToData(t),!1}),this.updateSelection(i),this.setPlaceholder(),s&&this.triggerChange({added:i,removed:o});else{if(!e&&0!==e)return void this.clear(s);if(this.opts.initSelection===t)throw new Error("cannot call val() if initSelection() is not defined");this.opts.element.val(e),this.opts.initSelection(this.opts.element,function(e){n.opts.element.val(e?n.id(e):""),n.updateSelection(e),n.setPlaceholder(),s&&n.triggerChange({added:e,removed:o})})}},clearSearch:function(){this.search.val(""),this.focusser.val("")},data:function(e){var s,i=!1;if(0===arguments.length)return(s=this.selection.data("select2-data"))==t&&(s=null),s;arguments.length>1&&(i=arguments[1]),e?(s=this.data(),this.opts.element.val(e?this.id(e):""),this.updateSelection(e),i&&this.triggerChange({added:e,removed:s})):this.clear(i)}}),T=y(E,{createContainer:function(){return e(document.createElement("div")).attr({class:"select2-container select2-container-multi"}).html(["<ul class='select2-choices'>","  <li class='select2-search-field'>","    <label for='' class='select2-offscreen'></label>","    <input type='text' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' class='select2-input'>","  </li>","</ul>","<div class='select2-drop select2-drop-multi select2-display-none'>","   <ul class='select2-results'>","   </ul>","</div>"].join(""))},prepareOpts:function(){var t=this.parent.prepareOpts.apply(this,arguments),s=this;return"select"===t.element.get(0).tagName.toLowerCase()?t.initSelection=function(e,t){var i=[];e.find("option").filter(function(){return this.selected&&!this.disabled}).each2(function(e,t){i.push(s.optionToData(t))}),t(i)}:"data"in t&&(t.initSelection=t.initSelection||function(s,i){var n=a(s.val(),t.separator),c=[];t.query({matcher:function(s,i,a){var r=e.grep(n,function(e){return o(e,t.id(a))}).length;return r&&c.push(a),r},callback:e.isFunction(i)?function(){for(var e=[],s=0;s<n.length;s++)for(var a=n[s],r=0;r<c.length;r++){var l=c[r];if(o(a,t.id(l))){e.push(l),c.splice(r,1);break}}i(e)}:e.noop})}),t},selectChoice:function(e){var t=this.container.find(".select2-search-choice-focus");t.length&&e&&e[0]==t[0]||(t.length&&this.opts.element.trigger("choice-deselected",t),t.removeClass("select2-search-choice-focus"),e&&e.length&&(this.close(),e.addClass("select2-search-choice-focus"),this.opts.element.trigger("choice-selected",e)))},destroy:function(){e("label[for='"+this.search.attr("id")+"']").attr("for",this.opts.element.attr("id")),this.parent.destroy.apply(this,arguments),S.call(this,"searchContainer","selection")},initContainer:function(){var t,s=".select2-choices";this.searchContainer=this.container.find(".select2-search-field"),this.selection=t=this.container.find(s);var i=this;this.selection.on("click",".select2-search-choice:not(.select2-locked)",function(t){i.search[0].focus(),i.selectChoice(e(this))}),this.search.attr("id","s2id_autogen"+O()),this.search.prev().text(e("label[for='"+this.opts.element.attr("id")+"']").text()).attr("for",this.search.attr("id")),this.search.on("input paste",this.bind(function(){this.isInterfaceEnabled()&&(this.opened()||this.open())})),this.search.attr("tabindex",this.elementTabIndex),this.keydowns=0,this.search.on("keydown",this.bind(function(s){if(this.isInterfaceEnabled()){++this.keydowns;var i=t.find(".select2-search-choice-focus"),n=i.prev(".select2-search-choice:not(.select2-locked)"),o=i.next(".select2-search-choice:not(.select2-locked)"),a=function(t){var s=0,i=0;if("selectionStart"in(t=e(t)[0]))s=t.selectionStart,i=t.selectionEnd-s;else if("selection"in document){t.focus();var n=document.selection.createRange();i=document.selection.createRange().text.length,n.moveStart("character",-t.value.length),s=n.text.length-i}return{offset:s,length:i}}(this.search);if(i.length&&(s.which==R.LEFT||s.which==R.RIGHT||s.which==R.BACKSPACE||s.which==R.DELETE||s.which==R.ENTER)){var c=i;return s.which==R.LEFT&&n.length?c=n:s.which==R.RIGHT?c=o.length?o:null:s.which===R.BACKSPACE?this.unselect(i.first())&&(this.search.width(10),c=n.length?n:o):s.which==R.DELETE?this.unselect(i.first())&&(this.search.width(10),c=o.length?o:null):s.which==R.ENTER&&(c=null),this.selectChoice(c),h(s),void(c&&c.length||this.open())}if((s.which===R.BACKSPACE&&1==this.keydowns||s.which==R.LEFT)&&0==a.offset&&!a.length)return this.selectChoice(t.find(".select2-search-choice:not(.select2-locked)").last()),void h(s);if(this.selectChoice(null),this.opened())switch(s.which){case R.UP:case R.DOWN:return this.moveHighlight(s.which===R.UP?-1:1),void h(s);case R.ENTER:return this.selectHighlighted(),void h(s);case R.TAB:return this.selectHighlighted({noFocus:!0}),void this.close();case R.ESC:return this.cancel(s),void h(s)}if(s.which!==R.TAB&&!R.isControl(s)&&!R.isFunctionKey(s)&&s.which!==R.BACKSPACE&&s.which!==R.ESC){if(s.which===R.ENTER){if(!1===this.opts.openOnEnter)return;if(s.altKey||s.ctrlKey||s.shiftKey||s.metaKey)return}this.open(),s.which!==R.PAGE_UP&&s.which!==R.PAGE_DOWN||h(s),s.which===R.ENTER&&h(s)}}})),this.search.on("keyup",this.bind(function(e){this.keydowns=0,this.resizeSearch()})),this.search.on("blur",this.bind(function(t){this.container.removeClass("select2-container-active"),this.search.removeClass("select2-focused"),this.selectChoice(null),this.opened()||this.clearSearch(),t.stopImmediatePropagation(),this.opts.element.trigger(e.Event("select2-blur"))})),this.container.on("click",s,this.bind(function(t){this.isInterfaceEnabled()&&(e(t.target).closest(".select2-search-choice").length>0||(this.selectChoice(null),this.clearPlaceholder(),this.container.hasClass("select2-container-active")||this.opts.element.trigger(e.Event("select2-focus")),this.open(),this.focusSearch(),t.preventDefault()))})),this.container.on("focus",s,this.bind(function(){this.isInterfaceEnabled()&&(this.container.hasClass("select2-container-active")||this.opts.element.trigger(e.Event("select2-focus")),this.container.addClass("select2-container-active"),this.dropdown.addClass("select2-drop-active"),this.clearPlaceholder())})),this.initContainerWidth(),this.opts.element.addClass("select2-offscreen"),this.clearSearch()},enableInterface:function(){this.parent.enableInterface.apply(this,arguments)&&this.search.prop("disabled",!this.isInterfaceEnabled())},initSelection:function(){if(""===this.opts.element.val()&&""===this.opts.element.text()&&(this.updateSelection([]),this.close(),this.clearSearch()),this.select||""!==this.opts.element.val()){var e=this;this.opts.initSelection.call(null,this.opts.element,function(s){s!==t&&null!==s&&(e.updateSelection(s),e.close(),e.clearSearch())})}},clearSearch:function(){var e=this.getPlaceholder(),s=this.getMaxSearchWidth();e!==t&&0===this.getVal().length&&!1===this.search.hasClass("select2-focused")?(this.search.val(e).addClass("select2-default"),this.search.width(s>0?s:this.container.css("width"))):this.search.val("").width(10)},clearPlaceholder:function(){this.search.hasClass("select2-default")&&this.search.val("").removeClass("select2-default")},opening:function(){this.clearPlaceholder(),this.resizeSearch(),this.parent.opening.apply(this,arguments),this.focusSearch(),""===this.search.val()&&this.nextSearchTerm!=t&&(this.search.val(this.nextSearchTerm),this.search.select()),this.updateResults(!0),this.opts.shouldFocusInput(this)&&this.search.focus(),this.opts.element.trigger(e.Event("select2-open"))},close:function(){this.opened()&&this.parent.close.apply(this,arguments)},focus:function(){this.close(),this.search.focus()},isFocused:function(){return this.search.hasClass("select2-focused")},updateSelection:function(t){var s=[],i=[],o=this;e(t).each(function(){n(o.id(this),s)<0&&(s.push(o.id(this)),i.push(this))}),t=i,this.selection.find(".select2-search-choice").remove(),e(t).each(function(){o.addSelectedChoice(this)}),o.postprocessResults()},tokenize:function(){var e=this.search.val();null!=(e=this.opts.tokenizer.call(this,e,this.data(),this.bind(this.onSelect),this.opts))&&e!=t&&(this.search.val(e),e.length>0&&this.open())},onSelect:function(e,s){this.triggerSelect(e)&&(this.addSelectedChoice(e),this.opts.element.trigger({type:"selected",val:this.id(e),choice:e}),this.nextSearchTerm=this.opts.nextSearchTerm(e,this.search.val()),this.clearSearch(),this.updateResults(),!this.select&&this.opts.closeOnSelect||this.postprocessResults(e,!1,!0===this.opts.closeOnSelect),this.opts.closeOnSelect?(this.close(),this.search.width(10)):this.countSelectableResults()>0?(this.search.width(10),this.resizeSearch(),this.getMaximumSelectionSize()>0&&this.val().length>=this.getMaximumSelectionSize()?this.updateResults(!0):this.nextSearchTerm!=t&&(this.search.val(this.nextSearchTerm),this.updateResults(),this.search.select()),this.positionDropdown()):(this.close(),this.search.width(10)),this.triggerChange({added:e}),s&&s.noFocus||this.focusSearch())},cancel:function(){this.close(),this.focusSearch()},addSelectedChoice:function(s){var i,n,o=!s.locked,a=e("<li class='select2-search-choice'>    <div></div>    <a href='#' class='select2-search-choice-close' tabindex='-1'></a>    <a href='#' class='select2-search-choice-edit' tabindex='-1'>&#9998;</a></li>"),c=e("<li class='select2-search-choice select2-locked'><div></div></li>"),r=o?a:c,l=this.id(s),u=this.getVal();(i=this.opts.formatSelection(s,r.find("div"),this.opts.escapeMarkup))!=t&&r.find("div").replaceWith("<div>"+i+"</div>"),(n=this.opts.formatSelectionCssClass(s,r.find("div")))!=t&&r.addClass(n),o&&r.find(".select2-search-choice-close").on("mousedown",h).on("click dblclick",this.bind(function(t){this.isInterfaceEnabled()&&(this.unselect(e(t.target)),this.selection.find(".select2-search-choice-focus").removeClass("select2-search-choice-focus"),h(t),this.close(),this.focusSearch())})).on("focus",this.bind(function(){this.isInterfaceEnabled()&&(this.container.addClass("select2-container-active"),this.dropdown.addClass("select2-drop-active"))})),r.data("select2-data",s),r.insertBefore(this.searchContainer),u.push(l),this.setVal(u)},unselect:function(t){var s,i,o=this.getVal();if(0===(t=t.closest(".select2-search-choice")).length)throw"Invalid argument: "+t+". Must be .select2-search-choice";if(s=t.data("select2-data")){var a=e.Event("select2-removing");if(a.val=this.id(s),a.choice=s,this.opts.element.trigger(a),a.isDefaultPrevented())return!1;for(;(i=n(this.id(s),o))>=0;)o.splice(i,1),this.setVal(o),this.select&&this.postprocessResults();return t.remove(),this.opts.element.trigger({type:"select2-removed",val:this.id(s),choice:s}),this.triggerChange({removed:s}),!0}},postprocessResults:function(e,t,s){var i=this.getVal(),o=this.results.find(".select2-result"),a=this.results.find(".select2-result-with-children"),c=this;o.each2(function(e,t){n(c.id(t.data("select2-data")),i)>=0&&(t.addClass("select2-selected"),t.find(".select2-result-selectable").addClass("select2-selected"))}),a.each2(function(e,t){t.is(".select2-result-selectable")||0!==t.find(".select2-result-selectable:not(.select2-selected)").length||t.addClass("select2-selected")}),-1==this.highlight()&&!1!==s&&c.highlight(0),!this.opts.createSearchChoice&&!o.filter(".select2-result:not(.select2-selected)").length>0&&(!e||e&&!e.more&&0===this.results.find(".select2-no-results").length)&&b(c.opts.formatNoMatches,"formatNoMatches")&&this.results.append("<li class='select2-no-results'>"+w(c.opts.formatNoMatches,c.search.val())+"</li>")},getMaxSearchWidth:function(){return this.selection.width()-c(this.search)},resizeSearch:function(){var t,s,i,n,o=c(this.search);t=function(t){if(!P){var s=t[0].currentStyle||window.getComputedStyle(t[0],null);(P=e(document.createElement("div")).css({position:"absolute",left:"-10000px",top:"-10000px",display:"none",fontSize:s.fontSize,fontFamily:s.fontFamily,fontStyle:s.fontStyle,fontWeight:s.fontWeight,letterSpacing:s.letterSpacing,textTransform:s.textTransform,whiteSpace:"nowrap"})).attr("class","select2-sizer"),e("body").append(P)}return P.text(t.val()),P.width()}(this.search)+10,s=this.search.offset().left,(n=(i=this.selection.width())-(s-this.selection.offset().left)-o)<t&&(n=i-o),n<40&&(n=i-o),n<=0&&(n=t),this.search.width(Math.floor(n))},getVal:function(){var e;return this.select?null===(e=this.select.val())?[]:e:(e=this.opts.element.val(),a(e,this.opts.separator))},setVal:function(t){var s;this.select?this.select.val(t):(s=[],e(t).each(function(){n(this,s)<0&&s.push(this)}),this.opts.element.val(0===s.length?"":s.join(this.opts.separator)))},buildChangeDetails:function(e,t){t=t.slice(0),e=e.slice(0);for(var s=0;s<t.length;s++)for(var i=0;i<e.length;i++)o(this.opts.id(t[s]),this.opts.id(e[i]))&&(t.splice(s,1),s>0&&s--,e.splice(i,1),i--);return{added:t,removed:e}},val:function(s,i){var n,o=this;if(0===arguments.length)return this.getVal();if((n=this.data()).length||(n=[]),!s&&0!==s)return this.opts.element.val(""),this.updateSelection([]),this.clearSearch(),void(i&&this.triggerChange({added:this.data(),removed:n}));if(this.setVal(s),this.select)this.opts.initSelection(this.select,this.bind(this.updateSelection)),i&&this.triggerChange(this.buildChangeDetails(n,this.data()));else{if(this.opts.initSelection===t)throw new Error("val() cannot be called if initSelection() is not defined");this.opts.initSelection(this.opts.element,function(t){var s=e.map(t,o.id);o.setVal(s),o.updateSelection(t),o.clearSearch(),i&&o.triggerChange(o.buildChangeDetails(n,o.data()))})}this.clearSearch()},onSortStart:function(){if(this.select)throw new Error("Sorting of elements is not supported when attached to <select>. Attach to <input type='hidden'/> instead.");this.search.width(0),this.searchContainer.hide()},onSortEnd:function(){var t=[],s=this;this.searchContainer.show(),this.searchContainer.appendTo(this.searchContainer.parent()),this.resizeSearch(),this.selection.find(".select2-search-choice").each(function(){t.push(s.opts.id(e(this).data("select2-data")))}),this.setVal(t),this.triggerChange()},data:function(t,s){var i,n,o=this;if(0===arguments.length)return this.selection.children(".select2-search-choice").map(function(){return e(this).data("select2-data")}).get();n=this.data(),t||(t=[]),i=e.map(t,function(e){return o.opts.id(e)}),this.setVal(i),this.updateSelection(t),this.clearSearch(),s&&this.triggerChange(this.buildChangeDetails(n,this.data()))}}),e.fn.select2=function(){var s,i,o,a,c,r=Array.prototype.slice.call(arguments,0),l=["val","destroy","opened","open","close","focus","isFocused","container","dropdown","onSortStart","onSortEnd","enable","disable","readonly","positionDropdown","data","search"],h=["opened","isFocused","container","dropdown"],u=["val","data"],d={search:"externalSearch"};return this.each(function(){if(0===r.length||"object"==typeof r[0])(s=0===r.length?{}:e.extend({},r[0])).element=e(this),"select"===s.element.get(0).tagName.toLowerCase()?c=s.element.prop("multiple"):(c=s.multiple||!1,"tags"in s&&(s.multiple=c=!0)),(i=c?new window.Select2.class.multi:new window.Select2.class.single).init(s);else{if("string"!=typeof r[0])throw"Invalid arguments to select2 plugin: "+r;if(n(r[0],l)<0)throw"Unknown method: "+r[0];if(a=t,(i=e(this).data("select2"))===t)return;if("container"===(o=r[0])?a=i.container:"dropdown"===o?a=i.dropdown:(d[o]&&(o=d[o]),a=i[o].apply(i,r.slice(1))),n(r[0],h)>=0||n(r[0],u)>=0&&1==r.length)return!1}}),a===t?this:a},e.fn.select2.defaults={width:"copy",loadMorePadding:0,closeOnSelect:!0,openOnEnter:!0,containerCss:{},dropdownCss:{},containerCssClass:"",dropdownCssClass:"",formatResult:function(e,t,s,i){var n=[];return p(e.text,s.term,n,i),n.join("")},formatSelection:function(e,s,i){return e?i(e.text):t},sortResults:function(e,t,s){return e},formatResultCssClass:function(e){return e.css},formatSelectionCssClass:function(e,s){return t},formatMatches:function(e){return e+" results are available, use up and down arrow keys to navigate."},formatNoMatches:function(){return"No matches found"},formatInputTooShort:function(e,t){var s=t-e.length;return"Please enter "+s+" or more character"+(1==s?"":"s")},formatInputTooLong:function(e,t){var s=e.length-t;return"Please delete "+s+" character"+(1==s?"":"s")},formatSelectionTooBig:function(e){return"You can only select "+e+" item"+(1==e?"":"s")},formatLoadMore:function(e){return"Loading more results…"},formatSearching:function(){return"Searching…"},minimumResultsForSearch:0,minimumInputLength:0,maximumInputLength:null,maximumSelectionSize:0,id:function(e){return e==t?null:e.id},matcher:function(e,t){return i(""+t).toUpperCase().indexOf(i(""+e).toUpperCase())>=0},separator:",",tokenSeparators:[],tokenizer:function(e,s,i,n){var a,c,r,l,h,u=e,d=!1;if(!n.createSearchChoice||!n.tokenSeparators||n.tokenSeparators.length<1)return t;for(;;){for(c=-1,r=0,l=n.tokenSeparators.length;r<l&&(h=n.tokenSeparators[r],!((c=e.indexOf(h))>=0));r++);if(c<0)break;if(a=e.substring(0,c),e=e.substring(c+h.length),a.length>0&&(a=n.createSearchChoice.call(this,a,s))!==t&&null!==a&&n.id(a)!==t&&null!==n.id(a)){for(d=!1,r=0,l=s.length;r<l;r++)if(o(n.id(a),n.id(s[r]))){d=!0;break}d||i(a)}}return u!==e?e:void 0},escapeMarkup:f,blurOnChange:!1,selectOnBlur:!1,adaptContainerCssClass:function(e){return e},adaptDropdownCssClass:function(e){return null},nextSearchTerm:function(e,s){return t},searchInputPlaceholder:"",createSearchChoicePosition:"top",shouldFocusInput:function(e){return!("ontouchstart"in window||navigator.msMaxTouchPoints>0)||!(e.opts.minimumResultsForSearch<0)}},e.fn.select2.ajaxDefaults={transport:e.ajax,params:{type:"GET",cache:!1,dataType:"json"}},window.Select2={query:{ajax:g,local:m,tags:v},util:{debounce:l,markMatch:p,escapeMarkup:f,stripDiacritics:i},class:{abstract:E,single:x,multi:T}}}}(jQuery);
+/*
+ Copyright 2012 Igor Vaynberg
+
+ Version: 3.4.8 Timestamp: Thu May  1 09:50:32 EDT 2014
+
+ This software is licensed under the Apache License, Version 2.0 (the "Apache License") or the GNU
+ General Public License version 2 (the "GPL License"). You may choose either license to govern your
+ use of this software only upon the condition that you accept all of the terms of either the Apache
+ License or the GPL License.
+
+ You may obtain a copy of the Apache License and the GPL License at:
+
+ http://www.apache.org/licenses/LICENSE-2.0
+ http://www.gnu.org/licenses/gpl-2.0.html
+
+ Unless required by applicable law or agreed to in writing, software distributed under the
+ Apache License or the GPL License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+ CONDITIONS OF ANY KIND, either express or implied. See the Apache License and the GPL License for
+ the specific language governing permissions and limitations under the Apache License and the GPL License.
+ */
+(function ($) {
+    if(typeof $.fn.each2 == "undefined") {
+        $.extend($.fn, {
+            /*
+             * 4-10 times faster .each replacement
+             * use it carefully, as it overrides jQuery context of element on each iteration
+             */
+            each2 : function (c) {
+                var j = $([0]), i = -1, l = this.length;
+                while (
+                    ++i < l
+                    && (j.context = j[0] = this[i])
+                    && c.call(j[0], i, j) !== false //"this"=DOM, i=index, j=jQuery object
+                    );
+                return this;
+            }
+        });
+    }
+})(jQuery);
+
+(function ($, undefined) {
+    "use strict";
+    /*global document, window, jQuery, console */
+
+    if (window.Select2 !== undefined) {
+        return;
+    }
+
+    var KEY, AbstractSelect2, SingleSelect2, MultiSelect2, nextUid, sizer,
+        lastMousePosition={x:0,y:0}, $document, scrollBarDimensions,
+
+        KEY = {
+            TAB: 9,
+            ENTER: 13,
+            ESC: 27,
+            SPACE: 32,
+            LEFT: 37,
+            UP: 38,
+            RIGHT: 39,
+            DOWN: 40,
+            SHIFT: 16,
+            CTRL: 17,
+            ALT: 18,
+            PAGE_UP: 33,
+            PAGE_DOWN: 34,
+            HOME: 36,
+            END: 35,
+            BACKSPACE: 8,
+            DELETE: 46,
+            isArrow: function (k) {
+                k = k.which ? k.which : k;
+                switch (k) {
+                    case KEY.LEFT:
+                    case KEY.RIGHT:
+                    case KEY.UP:
+                    case KEY.DOWN:
+                        return true;
+                }
+                return false;
+            },
+            isControl: function (e) {
+                var k = e.which;
+                switch (k) {
+                    case KEY.SHIFT:
+                    case KEY.CTRL:
+                    case KEY.ALT:
+                        return true;
+                }
+
+                if (e.metaKey) return true;
+
+                return false;
+            },
+            isFunctionKey: function (k) {
+                k = k.which ? k.which : k;
+                return k >= 112 && k <= 123;
+            }
+        },
+        MEASURE_SCROLLBAR_TEMPLATE = "<div class='select2-measure-scrollbar'></div>",
+
+        DIACRITICS = {"\u24B6":"A","\uFF21":"A","\u00C0":"A","\u00C1":"A","\u00C2":"A","\u1EA6":"A","\u1EA4":"A","\u1EAA":"A","\u1EA8":"A","\u00C3":"A","\u0100":"A","\u0102":"A","\u1EB0":"A","\u1EAE":"A","\u1EB4":"A","\u1EB2":"A","\u0226":"A","\u01E0":"A","\u00C4":"A","\u01DE":"A","\u1EA2":"A","\u00C5":"A","\u01FA":"A","\u01CD":"A","\u0200":"A","\u0202":"A","\u1EA0":"A","\u1EAC":"A","\u1EB6":"A","\u1E00":"A","\u0104":"A","\u023A":"A","\u2C6F":"A","\uA732":"AA","\u00C6":"AE","\u01FC":"AE","\u01E2":"AE","\uA734":"AO","\uA736":"AU","\uA738":"AV","\uA73A":"AV","\uA73C":"AY","\u24B7":"B","\uFF22":"B","\u1E02":"B","\u1E04":"B","\u1E06":"B","\u0243":"B","\u0182":"B","\u0181":"B","\u24B8":"C","\uFF23":"C","\u0106":"C","\u0108":"C","\u010A":"C","\u010C":"C","\u00C7":"C","\u1E08":"C","\u0187":"C","\u023B":"C","\uA73E":"C","\u24B9":"D","\uFF24":"D","\u1E0A":"D","\u010E":"D","\u1E0C":"D","\u1E10":"D","\u1E12":"D","\u1E0E":"D","\u0110":"D","\u018B":"D","\u018A":"D","\u0189":"D","\uA779":"D","\u01F1":"DZ","\u01C4":"DZ","\u01F2":"Dz","\u01C5":"Dz","\u24BA":"E","\uFF25":"E","\u00C8":"E","\u00C9":"E","\u00CA":"E","\u1EC0":"E","\u1EBE":"E","\u1EC4":"E","\u1EC2":"E","\u1EBC":"E","\u0112":"E","\u1E14":"E","\u1E16":"E","\u0114":"E","\u0116":"E","\u00CB":"E","\u1EBA":"E","\u011A":"E","\u0204":"E","\u0206":"E","\u1EB8":"E","\u1EC6":"E","\u0228":"E","\u1E1C":"E","\u0118":"E","\u1E18":"E","\u1E1A":"E","\u0190":"E","\u018E":"E","\u24BB":"F","\uFF26":"F","\u1E1E":"F","\u0191":"F","\uA77B":"F","\u24BC":"G","\uFF27":"G","\u01F4":"G","\u011C":"G","\u1E20":"G","\u011E":"G","\u0120":"G","\u01E6":"G","\u0122":"G","\u01E4":"G","\u0193":"G","\uA7A0":"G","\uA77D":"G","\uA77E":"G","\u24BD":"H","\uFF28":"H","\u0124":"H","\u1E22":"H","\u1E26":"H","\u021E":"H","\u1E24":"H","\u1E28":"H","\u1E2A":"H","\u0126":"H","\u2C67":"H","\u2C75":"H","\uA78D":"H","\u24BE":"I","\uFF29":"I","\u00CC":"I","\u00CD":"I","\u00CE":"I","\u0128":"I","\u012A":"I","\u012C":"I","\u0130":"I","\u00CF":"I","\u1E2E":"I","\u1EC8":"I","\u01CF":"I","\u0208":"I","\u020A":"I","\u1ECA":"I","\u012E":"I","\u1E2C":"I","\u0197":"I","\u24BF":"J","\uFF2A":"J","\u0134":"J","\u0248":"J","\u24C0":"K","\uFF2B":"K","\u1E30":"K","\u01E8":"K","\u1E32":"K","\u0136":"K","\u1E34":"K","\u0198":"K","\u2C69":"K","\uA740":"K","\uA742":"K","\uA744":"K","\uA7A2":"K","\u24C1":"L","\uFF2C":"L","\u013F":"L","\u0139":"L","\u013D":"L","\u1E36":"L","\u1E38":"L","\u013B":"L","\u1E3C":"L","\u1E3A":"L","\u0141":"L","\u023D":"L","\u2C62":"L","\u2C60":"L","\uA748":"L","\uA746":"L","\uA780":"L","\u01C7":"LJ","\u01C8":"Lj","\u24C2":"M","\uFF2D":"M","\u1E3E":"M","\u1E40":"M","\u1E42":"M","\u2C6E":"M","\u019C":"M","\u24C3":"N","\uFF2E":"N","\u01F8":"N","\u0143":"N","\u00D1":"N","\u1E44":"N","\u0147":"N","\u1E46":"N","\u0145":"N","\u1E4A":"N","\u1E48":"N","\u0220":"N","\u019D":"N","\uA790":"N","\uA7A4":"N","\u01CA":"NJ","\u01CB":"Nj","\u24C4":"O","\uFF2F":"O","\u00D2":"O","\u00D3":"O","\u00D4":"O","\u1ED2":"O","\u1ED0":"O","\u1ED6":"O","\u1ED4":"O","\u00D5":"O","\u1E4C":"O","\u022C":"O","\u1E4E":"O","\u014C":"O","\u1E50":"O","\u1E52":"O","\u014E":"O","\u022E":"O","\u0230":"O","\u00D6":"O","\u022A":"O","\u1ECE":"O","\u0150":"O","\u01D1":"O","\u020C":"O","\u020E":"O","\u01A0":"O","\u1EDC":"O","\u1EDA":"O","\u1EE0":"O","\u1EDE":"O","\u1EE2":"O","\u1ECC":"O","\u1ED8":"O","\u01EA":"O","\u01EC":"O","\u00D8":"O","\u01FE":"O","\u0186":"O","\u019F":"O","\uA74A":"O","\uA74C":"O","\u01A2":"OI","\uA74E":"OO","\u0222":"OU","\u24C5":"P","\uFF30":"P","\u1E54":"P","\u1E56":"P","\u01A4":"P","\u2C63":"P","\uA750":"P","\uA752":"P","\uA754":"P","\u24C6":"Q","\uFF31":"Q","\uA756":"Q","\uA758":"Q","\u024A":"Q","\u24C7":"R","\uFF32":"R","\u0154":"R","\u1E58":"R","\u0158":"R","\u0210":"R","\u0212":"R","\u1E5A":"R","\u1E5C":"R","\u0156":"R","\u1E5E":"R","\u024C":"R","\u2C64":"R","\uA75A":"R","\uA7A6":"R","\uA782":"R","\u24C8":"S","\uFF33":"S","\u1E9E":"S","\u015A":"S","\u1E64":"S","\u015C":"S","\u1E60":"S","\u0160":"S","\u1E66":"S","\u1E62":"S","\u1E68":"S","\u0218":"S","\u015E":"S","\u2C7E":"S","\uA7A8":"S","\uA784":"S","\u24C9":"T","\uFF34":"T","\u1E6A":"T","\u0164":"T","\u1E6C":"T","\u021A":"T","\u0162":"T","\u1E70":"T","\u1E6E":"T","\u0166":"T","\u01AC":"T","\u01AE":"T","\u023E":"T","\uA786":"T","\uA728":"TZ","\u24CA":"U","\uFF35":"U","\u00D9":"U","\u00DA":"U","\u00DB":"U","\u0168":"U","\u1E78":"U","\u016A":"U","\u1E7A":"U","\u016C":"U","\u00DC":"U","\u01DB":"U","\u01D7":"U","\u01D5":"U","\u01D9":"U","\u1EE6":"U","\u016E":"U","\u0170":"U","\u01D3":"U","\u0214":"U","\u0216":"U","\u01AF":"U","\u1EEA":"U","\u1EE8":"U","\u1EEE":"U","\u1EEC":"U","\u1EF0":"U","\u1EE4":"U","\u1E72":"U","\u0172":"U","\u1E76":"U","\u1E74":"U","\u0244":"U","\u24CB":"V","\uFF36":"V","\u1E7C":"V","\u1E7E":"V","\u01B2":"V","\uA75E":"V","\u0245":"V","\uA760":"VY","\u24CC":"W","\uFF37":"W","\u1E80":"W","\u1E82":"W","\u0174":"W","\u1E86":"W","\u1E84":"W","\u1E88":"W","\u2C72":"W","\u24CD":"X","\uFF38":"X","\u1E8A":"X","\u1E8C":"X","\u24CE":"Y","\uFF39":"Y","\u1EF2":"Y","\u00DD":"Y","\u0176":"Y","\u1EF8":"Y","\u0232":"Y","\u1E8E":"Y","\u0178":"Y","\u1EF6":"Y","\u1EF4":"Y","\u01B3":"Y","\u024E":"Y","\u1EFE":"Y","\u24CF":"Z","\uFF3A":"Z","\u0179":"Z","\u1E90":"Z","\u017B":"Z","\u017D":"Z","\u1E92":"Z","\u1E94":"Z","\u01B5":"Z","\u0224":"Z","\u2C7F":"Z","\u2C6B":"Z","\uA762":"Z","\u24D0":"a","\uFF41":"a","\u1E9A":"a","\u00E0":"a","\u00E1":"a","\u00E2":"a","\u1EA7":"a","\u1EA5":"a","\u1EAB":"a","\u1EA9":"a","\u00E3":"a","\u0101":"a","\u0103":"a","\u1EB1":"a","\u1EAF":"a","\u1EB5":"a","\u1EB3":"a","\u0227":"a","\u01E1":"a","\u00E4":"a","\u01DF":"a","\u1EA3":"a","\u00E5":"a","\u01FB":"a","\u01CE":"a","\u0201":"a","\u0203":"a","\u1EA1":"a","\u1EAD":"a","\u1EB7":"a","\u1E01":"a","\u0105":"a","\u2C65":"a","\u0250":"a","\uA733":"aa","\u00E6":"ae","\u01FD":"ae","\u01E3":"ae","\uA735":"ao","\uA737":"au","\uA739":"av","\uA73B":"av","\uA73D":"ay","\u24D1":"b","\uFF42":"b","\u1E03":"b","\u1E05":"b","\u1E07":"b","\u0180":"b","\u0183":"b","\u0253":"b","\u24D2":"c","\uFF43":"c","\u0107":"c","\u0109":"c","\u010B":"c","\u010D":"c","\u00E7":"c","\u1E09":"c","\u0188":"c","\u023C":"c","\uA73F":"c","\u2184":"c","\u24D3":"d","\uFF44":"d","\u1E0B":"d","\u010F":"d","\u1E0D":"d","\u1E11":"d","\u1E13":"d","\u1E0F":"d","\u0111":"d","\u018C":"d","\u0256":"d","\u0257":"d","\uA77A":"d","\u01F3":"dz","\u01C6":"dz","\u24D4":"e","\uFF45":"e","\u00E8":"e","\u00E9":"e","\u00EA":"e","\u1EC1":"e","\u1EBF":"e","\u1EC5":"e","\u1EC3":"e","\u1EBD":"e","\u0113":"e","\u1E15":"e","\u1E17":"e","\u0115":"e","\u0117":"e","\u00EB":"e","\u1EBB":"e","\u011B":"e","\u0205":"e","\u0207":"e","\u1EB9":"e","\u1EC7":"e","\u0229":"e","\u1E1D":"e","\u0119":"e","\u1E19":"e","\u1E1B":"e","\u0247":"e","\u025B":"e","\u01DD":"e","\u24D5":"f","\uFF46":"f","\u1E1F":"f","\u0192":"f","\uA77C":"f","\u24D6":"g","\uFF47":"g","\u01F5":"g","\u011D":"g","\u1E21":"g","\u011F":"g","\u0121":"g","\u01E7":"g","\u0123":"g","\u01E5":"g","\u0260":"g","\uA7A1":"g","\u1D79":"g","\uA77F":"g","\u24D7":"h","\uFF48":"h","\u0125":"h","\u1E23":"h","\u1E27":"h","\u021F":"h","\u1E25":"h","\u1E29":"h","\u1E2B":"h","\u1E96":"h","\u0127":"h","\u2C68":"h","\u2C76":"h","\u0265":"h","\u0195":"hv","\u24D8":"i","\uFF49":"i","\u00EC":"i","\u00ED":"i","\u00EE":"i","\u0129":"i","\u012B":"i","\u012D":"i","\u00EF":"i","\u1E2F":"i","\u1EC9":"i","\u01D0":"i","\u0209":"i","\u020B":"i","\u1ECB":"i","\u012F":"i","\u1E2D":"i","\u0268":"i","\u0131":"i","\u24D9":"j","\uFF4A":"j","\u0135":"j","\u01F0":"j","\u0249":"j","\u24DA":"k","\uFF4B":"k","\u1E31":"k","\u01E9":"k","\u1E33":"k","\u0137":"k","\u1E35":"k","\u0199":"k","\u2C6A":"k","\uA741":"k","\uA743":"k","\uA745":"k","\uA7A3":"k","\u24DB":"l","\uFF4C":"l","\u0140":"l","\u013A":"l","\u013E":"l","\u1E37":"l","\u1E39":"l","\u013C":"l","\u1E3D":"l","\u1E3B":"l","\u017F":"l","\u0142":"l","\u019A":"l","\u026B":"l","\u2C61":"l","\uA749":"l","\uA781":"l","\uA747":"l","\u01C9":"lj","\u24DC":"m","\uFF4D":"m","\u1E3F":"m","\u1E41":"m","\u1E43":"m","\u0271":"m","\u026F":"m","\u24DD":"n","\uFF4E":"n","\u01F9":"n","\u0144":"n","\u00F1":"n","\u1E45":"n","\u0148":"n","\u1E47":"n","\u0146":"n","\u1E4B":"n","\u1E49":"n","\u019E":"n","\u0272":"n","\u0149":"n","\uA791":"n","\uA7A5":"n","\u01CC":"nj","\u24DE":"o","\uFF4F":"o","\u00F2":"o","\u00F3":"o","\u00F4":"o","\u1ED3":"o","\u1ED1":"o","\u1ED7":"o","\u1ED5":"o","\u00F5":"o","\u1E4D":"o","\u022D":"o","\u1E4F":"o","\u014D":"o","\u1E51":"o","\u1E53":"o","\u014F":"o","\u022F":"o","\u0231":"o","\u00F6":"o","\u022B":"o","\u1ECF":"o","\u0151":"o","\u01D2":"o","\u020D":"o","\u020F":"o","\u01A1":"o","\u1EDD":"o","\u1EDB":"o","\u1EE1":"o","\u1EDF":"o","\u1EE3":"o","\u1ECD":"o","\u1ED9":"o","\u01EB":"o","\u01ED":"o","\u00F8":"o","\u01FF":"o","\u0254":"o","\uA74B":"o","\uA74D":"o","\u0275":"o","\u01A3":"oi","\u0223":"ou","\uA74F":"oo","\u24DF":"p","\uFF50":"p","\u1E55":"p","\u1E57":"p","\u01A5":"p","\u1D7D":"p","\uA751":"p","\uA753":"p","\uA755":"p","\u24E0":"q","\uFF51":"q","\u024B":"q","\uA757":"q","\uA759":"q","\u24E1":"r","\uFF52":"r","\u0155":"r","\u1E59":"r","\u0159":"r","\u0211":"r","\u0213":"r","\u1E5B":"r","\u1E5D":"r","\u0157":"r","\u1E5F":"r","\u024D":"r","\u027D":"r","\uA75B":"r","\uA7A7":"r","\uA783":"r","\u24E2":"s","\uFF53":"s","\u00DF":"s","\u015B":"s","\u1E65":"s","\u015D":"s","\u1E61":"s","\u0161":"s","\u1E67":"s","\u1E63":"s","\u1E69":"s","\u0219":"s","\u015F":"s","\u023F":"s","\uA7A9":"s","\uA785":"s","\u1E9B":"s","\u24E3":"t","\uFF54":"t","\u1E6B":"t","\u1E97":"t","\u0165":"t","\u1E6D":"t","\u021B":"t","\u0163":"t","\u1E71":"t","\u1E6F":"t","\u0167":"t","\u01AD":"t","\u0288":"t","\u2C66":"t","\uA787":"t","\uA729":"tz","\u24E4":"u","\uFF55":"u","\u00F9":"u","\u00FA":"u","\u00FB":"u","\u0169":"u","\u1E79":"u","\u016B":"u","\u1E7B":"u","\u016D":"u","\u00FC":"u","\u01DC":"u","\u01D8":"u","\u01D6":"u","\u01DA":"u","\u1EE7":"u","\u016F":"u","\u0171":"u","\u01D4":"u","\u0215":"u","\u0217":"u","\u01B0":"u","\u1EEB":"u","\u1EE9":"u","\u1EEF":"u","\u1EED":"u","\u1EF1":"u","\u1EE5":"u","\u1E73":"u","\u0173":"u","\u1E77":"u","\u1E75":"u","\u0289":"u","\u24E5":"v","\uFF56":"v","\u1E7D":"v","\u1E7F":"v","\u028B":"v","\uA75F":"v","\u028C":"v","\uA761":"vy","\u24E6":"w","\uFF57":"w","\u1E81":"w","\u1E83":"w","\u0175":"w","\u1E87":"w","\u1E85":"w","\u1E98":"w","\u1E89":"w","\u2C73":"w","\u24E7":"x","\uFF58":"x","\u1E8B":"x","\u1E8D":"x","\u24E8":"y","\uFF59":"y","\u1EF3":"y","\u00FD":"y","\u0177":"y","\u1EF9":"y","\u0233":"y","\u1E8F":"y","\u00FF":"y","\u1EF7":"y","\u1E99":"y","\u1EF5":"y","\u01B4":"y","\u024F":"y","\u1EFF":"y","\u24E9":"z","\uFF5A":"z","\u017A":"z","\u1E91":"z","\u017C":"z","\u017E":"z","\u1E93":"z","\u1E95":"z","\u01B6":"z","\u0225":"z","\u0240":"z","\u2C6C":"z","\uA763":"z"};
+
+    $document = $(document);
+
+    nextUid=(function() { var counter=1; return function() { return counter++; }; }());
+
+
+    function reinsertElement(element) {
+        var placeholder = $(document.createTextNode(''));
+
+        element.before(placeholder);
+        placeholder.before(element);
+        placeholder.remove();
+    }
+
+    function stripDiacritics(str) {
+        // Used 'uni range + named function' from http://jsperf.com/diacritics/18
+        function match(a) {
+            return DIACRITICS[a] || a;
+        }
+
+        return str.replace(/[^\u0000-\u007E]/g, match);
+    }
+
+    function indexOf(value, array) {
+        var i = 0, l = array.length;
+        for (; i < l; i = i + 1) {
+            if (equal(value, array[i])) return i;
+        }
+        return -1;
+    }
+
+    function measureScrollbar () {
+        var $template = $( MEASURE_SCROLLBAR_TEMPLATE );
+        $template.appendTo('body');
+
+        var dim = {
+            width: $template.width() - $template[0].clientWidth,
+            height: $template.height() - $template[0].clientHeight
+        };
+        $template.remove();
+
+        return dim;
+    }
+
+    /**
+     * Compares equality of a and b
+     * @param a
+     * @param b
+     */
+    function equal(a, b) {
+        if (a === b) return true;
+        if (a === undefined || b === undefined) return false;
+        if (a === null || b === null) return false;
+        // Check whether 'a' or 'b' is a string (primitive or object).
+        // The concatenation of an empty string (+'') converts its argument to a string's primitive.
+        if (a.constructor === String) return a+'' === b+''; // a+'' - in case 'a' is a String object
+        if (b.constructor === String) return b+'' === a+''; // b+'' - in case 'b' is a String object
+        return false;
+    }
+
+    /**
+     * Splits the string into an array of values, trimming each value. An empty array is returned for nulls or empty
+     * strings
+     * @param string
+     * @param separator
+     */
+    function splitVal(string, separator) {
+        var val, i, l;
+        if (string === null || string.length < 1) return [];
+        val = string.split(separator);
+        for (i = 0, l = val.length; i < l; i = i + 1) val[i] = $.trim(val[i]);
+        return val;
+    }
+
+    function getSideBorderPadding(element) {
+        return element.outerWidth(false) - element.width();
+    }
+
+    function installKeyUpChangeEvent(element) {
+        var key="keyup-change-value";
+        element.on("keydown", function () {
+            if ($.data(element, key) === undefined) {
+                $.data(element, key, element.val());
+            }
+        });
+        element.on("keyup", function () {
+            var val= $.data(element, key);
+            if (val !== undefined && element.val() !== val) {
+                $.removeData(element, key);
+                element.trigger("keyup-change");
+            }
+        });
+    }
+
+    $document.on("mousemove", function (e) {
+        lastMousePosition.x = e.pageX;
+        lastMousePosition.y = e.pageY;
+    });
+
+    /**
+     * filters mouse events so an event is fired only if the mouse moved.
+     *
+     * filters out mouse events that occur when mouse is stationary but
+     * the elements under the pointer are scrolled.
+     */
+    function installFilteredMouseMove(element) {
+        element.on("mousemove", function (e) {
+            var lastpos = lastMousePosition;
+            if (lastpos === undefined || lastpos.x !== e.pageX || lastpos.y !== e.pageY) {
+                $(e.target).trigger("mousemove-filtered", e);
+            }
+        });
+    }
+
+    /**
+     * Debounces a function. Returns a function that calls the original fn function only if no invocations have been made
+     * within the last quietMillis milliseconds.
+     *
+     * @param quietMillis number of milliseconds to wait before invoking fn
+     * @param fn function to be debounced
+     * @param ctx object to be used as this reference within fn
+     * @return debounced version of fn
+     */
+    function debounce(quietMillis, fn, ctx) {
+        ctx = ctx || undefined;
+        var timeout;
+        return function () {
+            var args = arguments;
+            window.clearTimeout(timeout);
+            timeout = window.setTimeout(function() {
+                fn.apply(ctx, args);
+            }, quietMillis);
+        };
+    }
+
+    function installDebouncedScroll(threshold, element) {
+        var notify = debounce(threshold, function (e) { element.trigger("scroll-debounced", e);});
+        element.on("scroll", function (e) {
+            if (indexOf(e.target, element.get()) >= 0) notify(e);
+        });
+    }
+
+    function focus($el) {
+        if ($el[0] === document.activeElement) return;
+
+        /* set the focus in a 0 timeout - that way the focus is set after the processing
+         of the current event has finished - which seems like the only reliable way
+         to set focus */
+        window.setTimeout(function() {
+            var el=$el[0], pos=$el.val().length, range;
+
+            $el.focus();
+
+            /* make sure el received focus so we do not error out when trying to manipulate the caret.
+             sometimes modals or others listeners may steal it after its set */
+            var isVisible = (el.offsetWidth > 0 || el.offsetHeight > 0);
+            if (isVisible && el === document.activeElement) {
+
+                /* after the focus is set move the caret to the end, necessary when we val()
+                 just before setting focus */
+                if(el.setSelectionRange)
+                {
+                    el.setSelectionRange(pos, pos);
+                }
+                else if (el.createTextRange) {
+                    range = el.createTextRange();
+                    range.collapse(false);
+                    range.select();
+                }
+            }
+        }, 0);
+    }
+
+    function getCursorInfo(el) {
+        el = $(el)[0];
+        var offset = 0;
+        var length = 0;
+        if ('selectionStart' in el) {
+            offset = el.selectionStart;
+            length = el.selectionEnd - offset;
+        } else if ('selection' in document) {
+            el.focus();
+            var sel = document.selection.createRange();
+            length = document.selection.createRange().text.length;
+            sel.moveStart('character', -el.value.length);
+            offset = sel.text.length - length;
+        }
+        return { offset: offset, length: length };
+    }
+
+    function killEvent(event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    function killEventImmediately(event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+    }
+
+    function measureTextWidth(e) {
+        if (!sizer){
+            var style = e[0].currentStyle || window.getComputedStyle(e[0], null);
+            sizer = $(document.createElement("div")).css({
+                position: "absolute",
+                left: "-10000px",
+                top: "-10000px",
+                display: "none",
+                fontSize: style.fontSize,
+                fontFamily: style.fontFamily,
+                fontStyle: style.fontStyle,
+                fontWeight: style.fontWeight,
+                letterSpacing: style.letterSpacing,
+                textTransform: style.textTransform,
+                whiteSpace: "nowrap"
+            });
+            sizer.attr("class","select2-sizer");
+            $("body").append(sizer);
+        }
+        sizer.text(e.val());
+        return sizer.width();
+    }
+
+    function syncCssClasses(dest, src, adapter) {
+        var classes, replacements = [], adapted;
+
+        classes = dest.attr("class");
+        if (classes) {
+            classes = '' + classes; // for IE which returns object
+            $(classes.split(" ")).each2(function() {
+                if (this.indexOf("select2-") === 0) {
+                    replacements.push(this);
+                }
+            });
+        }
+        classes = src.attr("class");
+        if (classes) {
+            classes = '' + classes; // for IE which returns object
+            $(classes.split(" ")).each2(function() {
+                if (this.indexOf("select2-") !== 0) {
+                    adapted = adapter(this);
+                    if (adapted) {
+                        replacements.push(adapted);
+                    }
+                }
+            });
+        }
+        dest.attr("class", replacements.join(" "));
+    }
+
+
+    function markMatch(text, term, markup, escapeMarkup) {
+        var match=stripDiacritics(text.toUpperCase()).indexOf(stripDiacritics(term.toUpperCase())),
+            tl=term.length;
+
+        if (match<0) {
+            markup.push(escapeMarkup(text));
+            return;
+        }
+
+        markup.push(escapeMarkup(text.substring(0, match)));
+        markup.push("<span class='select2-match'>");
+        markup.push(escapeMarkup(text.substring(match, match + tl)));
+        markup.push("</span>");
+        markup.push(escapeMarkup(text.substring(match + tl, text.length)));
+    }
+
+    function defaultEscapeMarkup(markup) {
+        var replace_map = {
+            '\\': '&#92;',
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;',
+            "/": '&#47;'
+        };
+
+        return String(markup).replace(/[&<>"'\/\\]/g, function (match) {
+            return replace_map[match];
+        });
+    }
+
+    /**
+     * Produces an ajax-based query function
+     *
+     * @param options object containing configuration parameters
+     * @param options.params parameter map for the transport ajax call, can contain such options as cache, jsonpCallback, etc. see $.ajax
+     * @param options.transport function that will be used to execute the ajax request. must be compatible with parameters supported by $.ajax
+     * @param options.url url for the data
+     * @param options.data a function(searchTerm, pageNumber, context) that should return an object containing query string parameters for the above url.
+     * @param options.dataType request data type: ajax, jsonp, other datatypes supported by jQuery's $.ajax function or the transport function if specified
+     * @param options.quietMillis (optional) milliseconds to wait before making the ajaxRequest, helps debounce the ajax function if invoked too often
+     * @param options.results a function(remoteData, pageNumber) that converts data returned form the remote request to the format expected by Select2.
+     *      The expected format is an object containing the following keys:
+     *      results array of objects that will be used as choices
+     *      more (optional) boolean indicating whether there are more results available
+     *      Example: {results:[{id:1, text:'Red'},{id:2, text:'Blue'}], more:true}
+     */
+    function ajax(options) {
+        var timeout, // current scheduled but not yet executed request
+            handler = null,
+            quietMillis = options.quietMillis || 100,
+            ajaxUrl = options.url,
+            self = this;
+
+        return function (query) {
+            window.clearTimeout(timeout);
+            timeout = window.setTimeout(function () {
+                var data = options.data, // ajax data function
+                    url = ajaxUrl, // ajax url string or function
+                    transport = options.transport || $.fn.select2.ajaxDefaults.transport,
+                    // deprecated - to be removed in 4.0  - use params instead
+                    deprecated = {
+                        type: options.type || 'GET', // set type of request (GET or POST)
+                        cache: options.cache || false,
+                        jsonpCallback: options.jsonpCallback||undefined,
+                        dataType: options.dataType||"json"
+                    },
+                    params = $.extend({}, $.fn.select2.ajaxDefaults.params, deprecated);
+
+                data = data ? data.call(self, query.term, query.page, query.context) : null;
+                url = (typeof url === 'function') ? url.call(self, query.term, query.page, query.context) : url;
+
+                if (handler && typeof handler.abort === "function") { handler.abort(); }
+
+                if (options.params) {
+                    if ($.isFunction(options.params)) {
+                        $.extend(params, options.params.call(self));
+                    } else {
+                        $.extend(params, options.params);
+                    }
+                }
+
+                $.extend(params, {
+                    url: url,
+                    dataType: options.dataType,
+                    data: data,
+                    success: function (data) {
+                        // TODO - replace query.page with query so users have access to term, page, etc.
+                        var results = options.results(data, query.page);
+                        query.callback(results);
+                    }
+                });
+                handler = transport.call(self, params);
+            }, quietMillis);
+        };
+    }
+
+    /**
+     * Produces a query function that works with a local array
+     *
+     * @param options object containing configuration parameters. The options parameter can either be an array or an
+     * object.
+     *
+     * If the array form is used it is assumed that it contains objects with 'id' and 'text' keys.
+     *
+     * If the object form is used it is assumed that it contains 'data' and 'text' keys. The 'data' key should contain
+     * an array of objects that will be used as choices. These objects must contain at least an 'id' key. The 'text'
+     * key can either be a String in which case it is expected that each element in the 'data' array has a key with the
+     * value of 'text' which will be used to match choices. Alternatively, text can be a function(item) that can extract
+     * the text.
+     */
+    function local(options) {
+        var data = options, // data elements
+            dataText,
+            tmp,
+            text = function (item) { return ""+item.text; }; // function used to retrieve the text portion of a data item that is matched against the search
+
+        if ($.isArray(data)) {
+            tmp = data;
+            data = { results: tmp };
+        }
+
+        if ($.isFunction(data) === false) {
+            tmp = data;
+            data = function() { return tmp; };
+        }
+
+        var dataItem = data();
+        if (dataItem.text) {
+            text = dataItem.text;
+            // if text is not a function we assume it to be a key name
+            if (!$.isFunction(text)) {
+                dataText = dataItem.text; // we need to store this in a separate variable because in the next step data gets reset and data.text is no longer available
+                text = function (item) { return item[dataText]; };
+            }
+        }
+
+        return function (query) {
+            var t = query.term, filtered = { results: [] }, process;
+            if (t === "") {
+                query.callback(data());
+                return;
+            }
+
+            process = function(datum, collection) {
+                var group, attr;
+                datum = datum[0];
+                if (datum.children) {
+                    group = {};
+                    for (attr in datum) {
+                        if (datum.hasOwnProperty(attr)) group[attr]=datum[attr];
+                    }
+                    group.children=[];
+                    $(datum.children).each2(function(i, childDatum) { process(childDatum, group.children); });
+                    if (group.children.length || query.matcher(t, text(group), datum)) {
+                        collection.push(group);
+                    }
+                } else {
+                    if (query.matcher(t, text(datum), datum)) {
+                        collection.push(datum);
+                    }
+                }
+            };
+
+            $(data().results).each2(function(i, datum) { process(datum, filtered.results); });
+            query.callback(filtered);
+        };
+    }
+
+    // TODO javadoc
+    function tags(data) {
+        var isFunc = $.isFunction(data);
+        return function (query) {
+            var t = query.term, filtered = {results: []};
+            var result = isFunc ? data(query) : data;
+            if ($.isArray(result)) {
+                $(result).each(function () {
+                    var isObject = this.text !== undefined,
+                        text = isObject ? this.text : this;
+                    if (t === "" || query.matcher(t, text)) {
+                        filtered.results.push(isObject ? this : {id: this, text: this});
+                    }
+                });
+                query.callback(filtered);
+            }
+        };
+    }
+
+    /**
+     * Checks if the formatter function should be used.
+     *
+     * Throws an error if it is not a function. Returns true if it should be used,
+     * false if no formatting should be performed.
+     *
+     * @param formatter
+     */
+    function checkFormatter(formatter, formatterName) {
+        if ($.isFunction(formatter)) return true;
+        if (!formatter) return false;
+        if (typeof(formatter) === 'string') return true;
+        throw new Error(formatterName +" must be a string, function, or falsy value");
+    }
+
+    function evaluate(val) {
+        if ($.isFunction(val)) {
+            var args = Array.prototype.slice.call(arguments, 1);
+            return val.apply(null, args);
+        }
+        return val;
+    }
+
+    function countResults(results) {
+        var count = 0;
+        $.each(results, function(i, item) {
+            if (item.children) {
+                count += countResults(item.children);
+            } else {
+                count++;
+            }
+        });
+        return count;
+    }
+
+    /**
+     * Default tokenizer. This function uses breaks the input on substring match of any string from the
+     * opts.tokenSeparators array and uses opts.createSearchChoice to create the choice object. Both of those
+     * two options have to be defined in order for the tokenizer to work.
+     *
+     * @param input text user has typed so far or pasted into the search field
+     * @param selection currently selected choices
+     * @param selectCallback function(choice) callback tho add the choice to selection
+     * @param opts select2's opts
+     * @return undefined/null to leave the current input unchanged, or a string to change the input to the returned value
+     */
+    function defaultTokenizer(input, selection, selectCallback, opts) {
+        var original = input, // store the original so we can compare and know if we need to tell the search to update its text
+            dupe = false, // check for whether a token we extracted represents a duplicate selected choice
+            token, // token
+            index, // position at which the separator was found
+            i, l, // looping variables
+            separator; // the matched separator
+
+        if (!opts.createSearchChoice || !opts.tokenSeparators || opts.tokenSeparators.length < 1) return undefined;
+
+        while (true) {
+            index = -1;
+
+            for (i = 0, l = opts.tokenSeparators.length; i < l; i++) {
+                separator = opts.tokenSeparators[i];
+                index = input.indexOf(separator);
+                if (index >= 0) break;
+            }
+
+            if (index < 0) break; // did not find any token separator in the input string, bail
+
+            token = input.substring(0, index);
+            input = input.substring(index + separator.length);
+
+            if (token.length > 0) {
+                token = opts.createSearchChoice.call(this, token, selection);
+                if (token !== undefined && token !== null && opts.id(token) !== undefined && opts.id(token) !== null) {
+                    dupe = false;
+                    for (i = 0, l = selection.length; i < l; i++) {
+                        if (equal(opts.id(token), opts.id(selection[i]))) {
+                            dupe = true; break;
+                        }
+                    }
+
+                    if (!dupe) selectCallback(token);
+                }
+            }
+        }
+
+        if (original!==input) return input;
+    }
+
+    function cleanupJQueryElements() {
+        var self = this;
+
+        Array.prototype.forEach.call(arguments, function (element) {
+            self[element].remove();
+            self[element] = null;
+        });
+    }
+
+    /**
+     * Creates a new class
+     *
+     * @param superClass
+     * @param methods
+     */
+    function clazz(SuperClass, methods) {
+        var constructor = function () {};
+        constructor.prototype = new SuperClass;
+        constructor.prototype.constructor = constructor;
+        constructor.prototype.parent = SuperClass.prototype;
+        constructor.prototype = $.extend(constructor.prototype, methods);
+        return constructor;
+    }
+
+    AbstractSelect2 = clazz(Object, {
+
+        // abstract
+        bind: function (func) {
+            var self = this;
+            return function () {
+                func.apply(self, arguments);
+            };
+        },
+
+        // abstract
+        init: function (opts) {
+            var results, search, resultsSelector = ".select2-results";
+
+            // prepare options
+            this.opts = opts = this.prepareOpts(opts);
+
+            this.id=opts.id;
+
+            // destroy if called on an existing component
+            if (opts.element.data("select2") !== undefined &&
+                opts.element.data("select2") !== null) {
+                opts.element.data("select2").destroy();
+            }
+
+            this.container = this.createContainer();
+
+            this.liveRegion = $("<span>", {
+                role: "status",
+                "aria-live": "polite"
+            })
+                .addClass("select2-hidden-accessible")
+                .appendTo(document.body);
+
+            this.containerId="s2id_"+(opts.element.attr("id") || "autogen"+nextUid());
+            this.containerEventName= this.containerId
+                .replace(/([.])/g, '_')
+                .replace(/([;&,\-\.\+\*\~':"\!\^#$%@\[\]\(\)=>\|])/g, '\\$1');
+            this.container.attr("id", this.containerId);
+
+            this.container.attr("title", opts.element.attr("title"));
+
+            this.body = $("body");
+
+            syncCssClasses(this.container, this.opts.element, this.opts.adaptContainerCssClass);
+
+            this.container.attr("style", opts.element.attr("style"));
+            this.container.css(evaluate(opts.containerCss));
+            this.container.addClass(evaluate(opts.containerCssClass));
+
+            this.elementTabIndex = this.opts.element.attr("tabindex");
+
+            // swap container for the element
+            this.opts.element
+                .data("select2", this)
+                .attr("tabindex", "-1")
+                .before(this.container)
+                .on("click.select2", killEvent); // do not leak click events
+
+            this.container.data("select2", this);
+
+            this.dropdown = this.container.find(".select2-drop");
+
+            syncCssClasses(this.dropdown, this.opts.element, this.opts.adaptDropdownCssClass);
+
+            this.dropdown.addClass(evaluate(opts.dropdownCssClass));
+            this.dropdown.data("select2", this);
+            this.dropdown.on("click", killEvent);
+
+            this.results = results = this.container.find(resultsSelector);
+            this.search = search = this.container.find("input.select2-input");
+
+            this.queryCount = 0;
+            this.resultsPage = 0;
+            this.context = null;
+
+            // initialize the container
+            this.initContainer();
+
+            this.container.on("click", killEvent);
+
+            installFilteredMouseMove(this.results);
+
+            this.dropdown.on("mousemove-filtered", resultsSelector, this.bind(this.highlightUnderEvent));
+            this.dropdown.on("touchstart touchmove touchend", resultsSelector, this.bind(function (event) {
+                this._touchEvent = true;
+                this.highlightUnderEvent(event);
+            }));
+            this.dropdown.on("touchmove", resultsSelector, this.bind(this.touchMoved));
+            this.dropdown.on("touchstart touchend", resultsSelector, this.bind(this.clearTouchMoved));
+
+            // Waiting for a click event on touch devices to select option and hide dropdown
+            // otherwise click will be triggered on an underlying element
+            this.dropdown.on('click', this.bind(function (event) {
+                if (this._touchEvent) {
+                    this._touchEvent = false;
+                    this.selectHighlighted();
+                }
+            }));
+
+            installDebouncedScroll(80, this.results);
+            this.dropdown.on("scroll-debounced", resultsSelector, this.bind(this.loadMoreIfNeeded));
+
+            // do not propagate change event from the search field out of the component
+            $(this.container).on("change", ".select2-input", function(e) {e.stopPropagation();});
+            $(this.dropdown).on("change", ".select2-input", function(e) {e.stopPropagation();});
+
+            // if jquery.mousewheel plugin is installed we can prevent out-of-bounds scrolling of results via mousewheel
+            if ($.fn.mousewheel) {
+                results.mousewheel(function (e, delta, deltaX, deltaY) {
+                    var top = results.scrollTop();
+                    if (deltaY > 0 && top - deltaY <= 0) {
+                        results.scrollTop(0);
+                        killEvent(e);
+                    } else if (deltaY < 0 && results.get(0).scrollHeight - results.scrollTop() + deltaY <= results.height()) {
+                        results.scrollTop(results.get(0).scrollHeight - results.height());
+                        killEvent(e);
+                    }
+                });
+            }
+
+            installKeyUpChangeEvent(search);
+            search.on("keyup-change input paste", this.bind(this.updateResults));
+            search.on("focus", function () { search.addClass("select2-focused"); });
+            search.on("blur", function () { search.removeClass("select2-focused");});
+
+            this.dropdown.on("mouseup", resultsSelector, this.bind(function (e) {
+                if ($(e.target).closest(".select2-result-selectable").length > 0) {
+                    this.highlightUnderEvent(e);
+                    this.selectHighlighted(e);
+                }
+            }));
+
+            // trap all mouse events from leaving the dropdown. sometimes there may be a modal that is listening
+            // for mouse events outside of itself so it can close itself. since the dropdown is now outside the select2's
+            // dom it will trigger the popup close, which is not what we want
+            // focusin can cause focus wars between modals and select2 since the dropdown is outside the modal.
+            this.dropdown.on("click mouseup mousedown touchstart touchend focusin", function (e) { e.stopPropagation(); });
+
+            this.nextSearchTerm = undefined;
+
+            if ($.isFunction(this.opts.initSelection)) {
+                // initialize selection based on the current value of the source element
+                this.initSelection();
+
+                // if the user has provided a function that can set selection based on the value of the source element
+                // we monitor the change event on the element and trigger it, allowing for two way synchronization
+                this.monitorSource();
+            }
+
+            if (opts.maximumInputLength !== null) {
+                this.search.attr("maxlength", opts.maximumInputLength);
+            }
+
+            var disabled = opts.element.prop("disabled");
+            if (disabled === undefined) disabled = false;
+            this.enable(!disabled);
+
+            var readonly = opts.element.prop("readonly");
+            if (readonly === undefined) readonly = false;
+            this.readonly(readonly);
+
+            // Calculate size of scrollbar
+            scrollBarDimensions = scrollBarDimensions || measureScrollbar();
+
+            this.autofocus = opts.element.prop("autofocus");
+            opts.element.prop("autofocus", false);
+            if (this.autofocus) this.focus();
+
+            this.search.attr("placeholder", opts.searchInputPlaceholder);
+        },
+
+        // abstract
+        destroy: function () {
+            var element=this.opts.element, select2 = element.data("select2");
+
+            this.close();
+
+            if (this.propertyObserver) {
+                this.propertyObserver.disconnect();
+                this.propertyObserver = null;
+            }
+
+            if (select2 !== undefined) {
+                select2.container.remove();
+                select2.liveRegion.remove();
+                select2.dropdown.remove();
+                element
+                    .removeClass("select2-offscreen")
+                    .removeData("select2")
+                    .off(".select2")
+                    .prop("autofocus", this.autofocus || false);
+                if (this.elementTabIndex) {
+                    element.attr({tabindex: this.elementTabIndex});
+                } else {
+                    element.removeAttr("tabindex");
+                }
+                element.show();
+            }
+
+            cleanupJQueryElements.call(this,
+                "container",
+                "liveRegion",
+                "dropdown",
+                "results",
+                "search"
+            );
+        },
+
+        // abstract
+        optionToData: function(element) {
+            if (element.is("option")) {
+                return {
+                    id:element.prop("value"),
+                    text:element.text(),
+                    element: element.get(),
+                    css: element.attr("class"),
+                    disabled: element.prop("disabled"),
+                    locked: equal(element.attr("locked"), "locked") || equal(element.data("locked"), true)
+                };
+            } else if (element.is("optgroup")) {
+                return {
+                    text:element.attr("label"),
+                    children:[],
+                    element: element.get(),
+                    css: element.attr("class")
+                };
+            }
+        },
+
+        // abstract
+        prepareOpts: function (opts) {
+            var element, select, idKey, ajaxUrl, self = this;
+
+            element = opts.element;
+
+            if (element.get(0).tagName.toLowerCase() === "select") {
+                this.select = select = opts.element;
+            }
+
+            if (select) {
+                // these options are not allowed when attached to a select because they are picked up off the element itself
+                $.each(["id", "multiple", "ajax", "query", "createSearchChoice", "initSelection", "data", "tags"], function () {
+                    if (this in opts) {
+                        throw new Error("Option '" + this + "' is not allowed for Select2 when attached to a <select> element.");
+                    }
+                });
+            }
+
+            opts = $.extend({}, {
+                populateResults: function(container, results, query) {
+                    var populate, id=this.opts.id, liveRegion=this.liveRegion;
+
+                    populate=function(results, container, depth) {
+
+                        var i, l, result, selectable, disabled, compound, node, label, innerContainer, formatted;
+
+                        results = opts.sortResults(results, container, query);
+
+                        for (i = 0, l = results.length; i < l; i = i + 1) {
+
+                            result=results[i];
+
+                            disabled = (result.disabled === true);
+                            selectable = (!disabled) && (id(result) !== undefined);
+
+                            compound=result.children && result.children.length > 0;
+
+                            node=$("<li></li>");
+                            node.addClass("select2-results-dept-"+depth);
+                            node.addClass("select2-result");
+                            node.addClass(selectable ? "select2-result-selectable" : "select2-result-unselectable");
+                            if (disabled) { node.addClass("select2-disabled"); }
+                            if (compound) { node.addClass("select2-result-with-children"); }
+                            node.addClass(self.opts.formatResultCssClass(result));
+                            node.attr("role", "presentation");
+
+                            label=$(document.createElement("div"));
+                            label.addClass("select2-result-label");
+                            label.attr("id", "select2-result-label-" + nextUid());
+                            label.attr("role", "option");
+
+                            formatted=opts.formatResult(result, label, query, self.opts.escapeMarkup);
+                            if (formatted!==undefined) {
+                                label.html(formatted);
+                                node.append(label);
+                            }
+
+
+                            if (compound) {
+
+                                innerContainer=$("<ul></ul>");
+                                innerContainer.addClass("select2-result-sub");
+                                populate(result.children, innerContainer, depth+1);
+                                node.append(innerContainer);
+                            }
+
+                            node.data("select2-data", result);
+                            container.append(node);
+                        }
+
+                        liveRegion.text(opts.formatMatches(results.length));
+                    };
+
+                    populate(results, container, 0);
+                }
+            }, $.fn.select2.defaults, opts);
+
+            if (typeof(opts.id) !== "function") {
+                idKey = opts.id;
+                opts.id = function (e) { return e[idKey]; };
+            }
+
+            if ($.isArray(opts.element.data("select2Tags"))) {
+                if ("tags" in opts) {
+                    throw "tags specified as both an attribute 'data-select2-tags' and in options of Select2 " + opts.element.attr("id");
+                }
+                opts.tags=opts.element.data("select2Tags");
+            }
+
+            if (select) {
+                opts.query = this.bind(function (query) {
+                    var data = { results: [], more: false },
+                        term = query.term,
+                        children, placeholderOption, process;
+
+                    process=function(element, collection) {
+                        var group;
+                        if (element.is("option")) {
+                            if (query.matcher(term, element.text(), element)) {
+                                collection.push(self.optionToData(element));
+                            }
+                        } else if (element.is("optgroup")) {
+                            group=self.optionToData(element);
+                            element.children().each2(function(i, elm) { process(elm, group.children); });
+                            if (group.children.length>0) {
+                                collection.push(group);
+                            }
+                        }
+                    };
+
+                    children=element.children();
+
+                    // ignore the placeholder option if there is one
+                    if (this.getPlaceholder() !== undefined && children.length > 0) {
+                        placeholderOption = this.getPlaceholderOption();
+                        if (placeholderOption) {
+                            children=children.not(placeholderOption);
+                        }
+                    }
+
+                    children.each2(function(i, elm) { process(elm, data.results); });
+
+                    query.callback(data);
+                });
+                // this is needed because inside val() we construct choices from options and there id is hardcoded
+                opts.id=function(e) { return e.id; };
+            } else {
+                if (!("query" in opts)) {
+
+                    if ("ajax" in opts) {
+                        ajaxUrl = opts.element.data("ajax-url");
+                        if (ajaxUrl && ajaxUrl.length > 0) {
+                            opts.ajax.url = ajaxUrl;
+                        }
+                        opts.query = ajax.call(opts.element, opts.ajax);
+                    } else if ("data" in opts) {
+                        opts.query = local(opts.data);
+                    } else if ("tags" in opts) {
+                        opts.query = tags(opts.tags);
+                        if (opts.createSearchChoice === undefined) {
+                            opts.createSearchChoice = function (term) { return {id: $.trim(term), text: $.trim(term)}; };
+                        }
+                        if (opts.initSelection === undefined) {
+                            opts.initSelection = function (element, callback) {
+                                var data = [];
+                                $(splitVal(element.val(), opts.separator)).each(function () {
+                                    var obj = { id: this, text: this },
+                                        tags = opts.tags;
+                                    if ($.isFunction(tags)) tags=tags();
+                                    $(tags).each(function() { if (equal(this.id, obj.id)) { obj = this; return false; } });
+                                    data.push(obj);
+                                });
+
+                                callback(data);
+                            };
+                        }
+                    }
+                }
+            }
+            if (typeof(opts.query) !== "function") {
+                throw "query function not defined for Select2 " + opts.element.attr("id");
+            }
+
+            if (opts.createSearchChoicePosition === 'top') {
+                opts.createSearchChoicePosition = function(list, item) { list.unshift(item); };
+            }
+            else if (opts.createSearchChoicePosition === 'bottom') {
+                opts.createSearchChoicePosition = function(list, item) { list.push(item); };
+            }
+            else if (typeof(opts.createSearchChoicePosition) !== "function")  {
+                throw "invalid createSearchChoicePosition option must be 'top', 'bottom' or a custom function";
+            }
+
+            return opts;
+        },
+
+        /**
+         * Monitor the original element for changes and update select2 accordingly
+         */
+        // abstract
+        monitorSource: function () {
+            var el = this.opts.element, sync, observer;
+
+            el.on("change.select2", this.bind(function (e) {
+                if (this.opts.element.data("select2-change-triggered") !== true) {
+                    this.initSelection();
+                }
+            }));
+
+            sync = this.bind(function () {
+
+                // sync enabled state
+                var disabled = el.prop("disabled");
+                if (disabled === undefined) disabled = false;
+                this.enable(!disabled);
+
+                var readonly = el.prop("readonly");
+                if (readonly === undefined) readonly = false;
+                this.readonly(readonly);
+
+                syncCssClasses(this.container, this.opts.element, this.opts.adaptContainerCssClass);
+                this.container.addClass(evaluate(this.opts.containerCssClass));
+
+                syncCssClasses(this.dropdown, this.opts.element, this.opts.adaptDropdownCssClass);
+                this.dropdown.addClass(evaluate(this.opts.dropdownCssClass));
+
+            });
+
+            // IE8-10 (IE9/10 won't fire propertyChange via attachEventListener)
+            if (el.length && el[0].attachEvent) {
+                el.each(function() {
+                    this.attachEvent("onpropertychange", sync);
+                });
+            }
+
+            // safari, chrome, firefox, IE11
+            observer = window.MutationObserver || window.WebKitMutationObserver|| window.MozMutationObserver;
+            if (observer !== undefined) {
+                if (this.propertyObserver) { delete this.propertyObserver; this.propertyObserver = null; }
+                this.propertyObserver = new observer(function (mutations) {
+                    mutations.forEach(sync);
+                });
+                this.propertyObserver.observe(el.get(0), { attributes:true, subtree:false });
+            }
+        },
+
+        // abstract
+        triggerSelect: function(data) {
+            var evt = $.Event("select2-selecting", { val: this.id(data), object: data });
+            this.opts.element.trigger(evt);
+            return !evt.isDefaultPrevented();
+        },
+
+        /**
+         * Triggers the change event on the source element
+         */
+        // abstract
+        triggerChange: function (details) {
+
+            details = details || {};
+            details= $.extend({}, details, { type: "change", val: this.val() });
+            // prevents recursive triggering
+            this.opts.element.data("select2-change-triggered", true);
+            this.opts.element.trigger(details);
+            this.opts.element.data("select2-change-triggered", false);
+
+            // some validation frameworks ignore the change event and listen instead to keyup, click for selects
+            // so here we trigger the click event manually
+            this.opts.element.click();
+
+            // ValidationEngine ignores the change event and listens instead to blur
+            // so here we trigger the blur event manually if so desired
+            if (this.opts.blurOnChange)
+                this.opts.element.blur();
+        },
+
+        //abstract
+        isInterfaceEnabled: function()
+        {
+            return this.enabledInterface === true;
+        },
+
+        // abstract
+        enableInterface: function() {
+            var enabled = this._enabled && !this._readonly,
+                disabled = !enabled;
+
+            if (enabled === this.enabledInterface) return false;
+
+            this.container.toggleClass("select2-container-disabled", disabled);
+            this.close();
+            this.enabledInterface = enabled;
+
+            return true;
+        },
+
+        // abstract
+        enable: function(enabled) {
+            if (enabled === undefined) enabled = true;
+            if (this._enabled === enabled) return;
+            this._enabled = enabled;
+
+            this.opts.element.prop("disabled", !enabled);
+            this.enableInterface();
+        },
+
+        // abstract
+        disable: function() {
+            this.enable(false);
+        },
+
+        // abstract
+        readonly: function(enabled) {
+            if (enabled === undefined) enabled = false;
+            if (this._readonly === enabled) return;
+            this._readonly = enabled;
+
+            this.opts.element.prop("readonly", enabled);
+            this.enableInterface();
+        },
+
+        // abstract
+        opened: function () {
+            return this.container.hasClass("select2-dropdown-open");
+        },
+
+        // abstract
+        positionDropdown: function() {
+            var $dropdown = this.dropdown,
+                offset = this.container.offset(),
+                height = this.container.outerHeight(false),
+                width = this.container.outerWidth(false),
+                dropHeight = $dropdown.outerHeight(false),
+                $window = $(window),
+                windowWidth = $window.width(),
+                windowHeight = $window.height(),
+                viewPortRight = $window.scrollLeft() + windowWidth,
+                viewportBottom = $window.scrollTop() + windowHeight,
+                dropTop = offset.top + height,
+                dropLeft = offset.left,
+                enoughRoomBelow = dropTop + dropHeight <= viewportBottom,
+                enoughRoomAbove = (offset.top - dropHeight) >= $window.scrollTop(),
+                dropWidth = $dropdown.outerWidth(false),
+                enoughRoomOnRight = dropLeft + dropWidth <= viewPortRight,
+                aboveNow = $dropdown.hasClass("select2-drop-above"),
+                bodyOffset,
+                above,
+                changeDirection,
+                css,
+                resultsListNode;
+
+            // always prefer the current above/below alignment, unless there is not enough room
+            if (aboveNow) {
+                above = true;
+                if (!enoughRoomAbove && enoughRoomBelow) {
+                    changeDirection = true;
+                    above = false;
+                }
+            } else {
+                above = false;
+                if (!enoughRoomBelow && enoughRoomAbove) {
+                    changeDirection = true;
+                    above = true;
+                }
+            }
+
+            //if we are changing direction we need to get positions when dropdown is hidden;
+            if (changeDirection) {
+                $dropdown.hide();
+                offset = this.container.offset();
+                height = this.container.outerHeight(false);
+                width = this.container.outerWidth(false);
+                dropHeight = $dropdown.outerHeight(false);
+                viewPortRight = $window.scrollLeft() + windowWidth;
+                viewportBottom = $window.scrollTop() + windowHeight;
+                dropTop = offset.top + height;
+                dropLeft = offset.left;
+                dropWidth = $dropdown.outerWidth(false);
+                enoughRoomOnRight = dropLeft + dropWidth <= viewPortRight;
+                $dropdown.show();
+
+                // fix so the cursor does not move to the left within the search-textbox in IE
+                this.focusSearch();
+            }
+
+            if (this.opts.dropdownAutoWidth) {
+                resultsListNode = $('.select2-results', $dropdown)[0];
+                $dropdown.addClass('select2-drop-auto-width');
+                $dropdown.css('width', '');
+                // Add scrollbar width to dropdown if vertical scrollbar is present
+                dropWidth = $dropdown.outerWidth(false) + (resultsListNode.scrollHeight === resultsListNode.clientHeight ? 0 : scrollBarDimensions.width);
+                dropWidth > width ? width = dropWidth : dropWidth = width;
+                dropHeight = $dropdown.outerHeight(false);
+                enoughRoomOnRight = dropLeft + dropWidth <= viewPortRight;
+            }
+            else {
+                this.container.removeClass('select2-drop-auto-width');
+            }
+
+            //console.log("below/ droptop:", dropTop, "dropHeight", dropHeight, "sum", (dropTop+dropHeight)+" viewport bottom", viewportBottom, "enough?", enoughRoomBelow);
+            //console.log("above/ offset.top", offset.top, "dropHeight", dropHeight, "top", (offset.top-dropHeight), "scrollTop", this.body.scrollTop(), "enough?", enoughRoomAbove);
+
+            // fix positioning when body has an offset and is not position: static
+            if (this.body.css('position') !== 'static') {
+                bodyOffset = this.body.offset();
+                dropTop -= bodyOffset.top;
+                dropLeft -= bodyOffset.left;
+            }
+
+            if (!enoughRoomOnRight) {
+                dropLeft = offset.left + this.container.outerWidth(false) - dropWidth;
+            }
+
+            css =  {
+                left: dropLeft,
+                width: width
+            };
+
+            if (above) {
+                css.top = offset.top - dropHeight;
+                css.bottom = 'auto';
+                this.container.addClass("select2-drop-above");
+                $dropdown.addClass("select2-drop-above");
+            }
+            else {
+                css.top = dropTop;
+                css.bottom = 'auto';
+                this.container.removeClass("select2-drop-above");
+                $dropdown.removeClass("select2-drop-above");
+            }
+            css = $.extend(css, evaluate(this.opts.dropdownCss));
+
+            $dropdown.css(css);
+        },
+
+        // abstract
+        shouldOpen: function() {
+            var event;
+
+            if (this.opened()) return false;
+
+            if (this._enabled === false || this._readonly === true) return false;
+
+            event = $.Event("select2-opening");
+            this.opts.element.trigger(event);
+            return !event.isDefaultPrevented();
+        },
+
+        // abstract
+        clearDropdownAlignmentPreference: function() {
+            // clear the classes used to figure out the preference of where the dropdown should be opened
+            this.container.removeClass("select2-drop-above");
+            this.dropdown.removeClass("select2-drop-above");
+        },
+
+        /**
+         * Opens the dropdown
+         *
+         * @return {Boolean} whether or not dropdown was opened. This method will return false if, for example,
+         * the dropdown is already open, or if the 'open' event listener on the element called preventDefault().
+         */
+        // abstract
+        open: function () {
+
+            if (!this.shouldOpen()) return false;
+
+            this.opening();
+
+            return true;
+        },
+
+        /**
+         * Performs the opening of the dropdown
+         */
+        // abstract
+        opening: function() {
+            var cid = this.containerEventName,
+                scroll = "scroll." + cid,
+                resize = "resize."+cid,
+                orient = "orientationchange."+cid,
+                mask;
+
+            this.container.addClass("select2-dropdown-open").addClass("select2-container-active");
+
+            this.clearDropdownAlignmentPreference();
+
+            if(this.dropdown[0] !== this.body.children().last()[0]) {
+                this.dropdown.detach().appendTo(this.body);
+            }
+
+            // create the dropdown mask if doesn't already exist
+            mask = $("#select2-drop-mask");
+            if (mask.length == 0) {
+                mask = $(document.createElement("div"));
+                mask.attr("id","select2-drop-mask").attr("class","select2-drop-mask");
+                mask.hide();
+                mask.appendTo(this.body);
+                mask.on("mousedown touchstart click", function (e) {
+                    // Prevent IE from generating a click event on the body
+                    reinsertElement(mask);
+
+                    var dropdown = $("#select2-drop"), self;
+                    if (dropdown.length > 0) {
+                        self=dropdown.data("select2");
+                        if (self.opts.selectOnBlur) {
+                            self.selectHighlighted({noFocus: true});
+                        }
+                        self.close();
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }
+                });
+            }
+
+            // ensure the mask is always right before the dropdown
+            if (this.dropdown.prev()[0] !== mask[0]) {
+                this.dropdown.before(mask);
+            }
+
+            // move the global id to the correct dropdown
+            $("#select2-drop").removeAttr("id");
+            this.dropdown.attr("id", "select2-drop");
+
+            // show the elements
+            mask.show();
+
+            this.positionDropdown();
+            this.dropdown.show();
+            this.positionDropdown();
+
+            this.dropdown.addClass("select2-drop-active");
+
+            // attach listeners to events that can change the position of the container and thus require
+            // the position of the dropdown to be updated as well so it does not come unglued from the container
+            var that = this;
+            this.container.parents().add(window).each(function () {
+                $(this).on(resize+" "+scroll+" "+orient, function (e) {
+                    if (that.opened()) that.positionDropdown();
+                });
+            });
+
+
+        },
+
+        // abstract
+        close: function () {
+            if (!this.opened()) return;
+
+            var cid = this.containerEventName,
+                scroll = "scroll." + cid,
+                resize = "resize."+cid,
+                orient = "orientationchange."+cid;
+
+            // unbind event listeners
+            this.container.parents().add(window).each(function () { $(this).off(scroll).off(resize).off(orient); });
+
+            this.clearDropdownAlignmentPreference();
+
+            $("#select2-drop-mask").hide();
+            this.dropdown.removeAttr("id"); // only the active dropdown has the select2-drop id
+            this.dropdown.hide();
+            this.container.removeClass("select2-dropdown-open").removeClass("select2-container-active");
+            this.results.empty();
+
+
+            this.clearSearch();
+            this.search.removeClass("select2-active");
+            this.opts.element.trigger($.Event("select2-close"));
+        },
+
+        /**
+         * Opens control, sets input value, and updates results.
+         */
+        // abstract
+        externalSearch: function (term) {
+            this.open();
+            this.search.val(term);
+            this.updateResults(false);
+        },
+
+        // abstract
+        clearSearch: function () {
+
+        },
+
+        //abstract
+        getMaximumSelectionSize: function() {
+            return evaluate(this.opts.maximumSelectionSize);
+        },
+
+        // abstract
+        ensureHighlightVisible: function () {
+            var results = this.results, children, index, child, hb, rb, y, more;
+
+            index = this.highlight();
+
+            if (index < 0) return;
+
+            if (index == 0) {
+
+                // if the first element is highlighted scroll all the way to the top,
+                // that way any unselectable headers above it will also be scrolled
+                // into view
+
+                results.scrollTop(0);
+                return;
+            }
+
+            children = this.findHighlightableChoices().find('.select2-result-label');
+
+            child = $(children[index]);
+
+            hb = child.offset().top + child.outerHeight(true);
+
+            // if this is the last child lets also make sure select2-more-results is visible
+            if (index === children.length - 1) {
+                more = results.find("li.select2-more-results");
+                if (more.length > 0) {
+                    hb = more.offset().top + more.outerHeight(true);
+                }
+            }
+
+            rb = results.offset().top + results.outerHeight(true);
+            if (hb > rb) {
+                results.scrollTop(results.scrollTop() + (hb - rb));
+            }
+            y = child.offset().top - results.offset().top;
+
+            // make sure the top of the element is visible
+            if (y < 0 && child.css('display') != 'none' ) {
+                results.scrollTop(results.scrollTop() + y); // y is negative
+            }
+        },
+
+        // abstract
+        findHighlightableChoices: function() {
+            return this.results.find(".select2-result-selectable:not(.select2-disabled):not(.select2-selected)");
+        },
+
+        // abstract
+        moveHighlight: function (delta) {
+            var choices = this.findHighlightableChoices(),
+                index = this.highlight();
+
+            while (index > -1 && index < choices.length) {
+                index += delta;
+                var choice = $(choices[index]);
+                if (choice.hasClass("select2-result-selectable") && !choice.hasClass("select2-disabled") && !choice.hasClass("select2-selected")) {
+                    this.highlight(index);
+                    break;
+                }
+            }
+        },
+
+        // abstract
+        highlight: function (index) {
+            var choices = this.findHighlightableChoices(),
+                choice,
+                data;
+
+            if (arguments.length === 0) {
+                return indexOf(choices.filter(".select2-highlighted")[0], choices.get());
+            }
+
+            if (index >= choices.length) index = choices.length - 1;
+            if (index < 0) index = 0;
+
+            this.removeHighlight();
+
+            choice = $(choices[index]);
+            choice.addClass("select2-highlighted");
+
+            // ensure assistive technology can determine the active choice
+            this.search.attr("aria-activedescendant", choice.find(".select2-result-label").attr("id"));
+
+            this.ensureHighlightVisible();
+
+            this.liveRegion.text(choice.text());
+
+            data = choice.data("select2-data");
+            if (data) {
+                this.opts.element.trigger({ type: "select2-highlight", val: this.id(data), choice: data });
+            }
+        },
+
+        removeHighlight: function() {
+            this.results.find(".select2-highlighted").removeClass("select2-highlighted");
+        },
+
+        touchMoved: function() {
+            this._touchMoved = true;
+        },
+
+        clearTouchMoved: function() {
+            this._touchMoved = false;
+        },
+
+        // abstract
+        countSelectableResults: function() {
+            return this.findHighlightableChoices().length;
+        },
+
+        // abstract
+        highlightUnderEvent: function (event) {
+            var el = $(event.target).closest(".select2-result-selectable");
+            if (el.length > 0 && !el.is(".select2-highlighted")) {
+                var choices = this.findHighlightableChoices();
+                this.highlight(choices.index(el));
+            } else if (el.length == 0) {
+                // if we are over an unselectable item remove all highlights
+                this.removeHighlight();
+            }
+        },
+
+        // abstract
+        loadMoreIfNeeded: function () {
+            var results = this.results,
+                more = results.find("li.select2-more-results"),
+                below, // pixels the element is below the scroll fold, below==0 is when the element is starting to be visible
+                page = this.resultsPage + 1,
+                self=this,
+                term=this.search.val(),
+                context=this.context;
+
+            if (more.length === 0) return;
+            below = more.offset().top - results.offset().top - results.height();
+
+            if (below <= this.opts.loadMorePadding) {
+                more.addClass("select2-active");
+                this.opts.query({
+                    element: this.opts.element,
+                    term: term,
+                    page: page,
+                    context: context,
+                    matcher: this.opts.matcher,
+                    callback: this.bind(function (data) {
+
+                        // ignore a response if the select2 has been closed before it was received
+                        if (!self.opened()) return;
+
+
+                        self.opts.populateResults.call(this, results, data.results, {term: term, page: page, context:context});
+                        self.postprocessResults(data, false, false);
+
+                        if (data.more===true) {
+                            more.detach().appendTo(results).text(evaluate(self.opts.formatLoadMore, page+1));
+                            window.setTimeout(function() { self.loadMoreIfNeeded(); }, 10);
+                        } else {
+                            more.remove();
+                        }
+                        self.positionDropdown();
+                        self.resultsPage = page;
+                        self.context = data.context;
+                        this.opts.element.trigger({ type: "select2-loaded", items: data });
+                    })});
+            }
+        },
+
+        /**
+         * Default tokenizer function which does nothing
+         */
+        tokenize: function() {
+
+        },
+
+        /**
+         * @param initial whether or not this is the call to this method right after the dropdown has been opened
+         */
+        // abstract
+        updateResults: function (initial) {
+            var search = this.search,
+                results = this.results,
+                opts = this.opts,
+                data,
+                self = this,
+                input,
+                term = search.val(),
+                lastTerm = $.data(this.container, "select2-last-term"),
+                // sequence number used to drop out-of-order responses
+                queryNumber;
+
+            // prevent duplicate queries against the same term
+            if (initial !== true && lastTerm && equal(term, lastTerm)) return;
+
+            $.data(this.container, "select2-last-term", term);
+
+            // if the search is currently hidden we do not alter the results
+            if (initial !== true && (this.showSearchInput === false || !this.opened())) {
+                return;
+            }
+
+            function postRender() {
+                search.removeClass("select2-active");
+                self.positionDropdown();
+                if (results.find('.select2-no-results,.select2-selection-limit,.select2-searching').length) {
+                    self.liveRegion.text(results.text());
+                }
+                else {
+                    self.liveRegion.text(self.opts.formatMatches(results.find('.select2-result-selectable').length));
+                }
+            }
+
+            function render(html) {
+                results.html(html);
+                postRender();
+            }
+
+            queryNumber = ++this.queryCount;
+
+            var maxSelSize = this.getMaximumSelectionSize();
+            if (maxSelSize >=1) {
+                data = this.data();
+                if ($.isArray(data) && data.length >= maxSelSize && checkFormatter(opts.formatSelectionTooBig, "formatSelectionTooBig")) {
+                    render("<li class='select2-selection-limit'>" + evaluate(opts.formatSelectionTooBig, maxSelSize) + "</li>");
+                    return;
+                }
+            }
+
+            if (search.val().length < opts.minimumInputLength) {
+                if (checkFormatter(opts.formatInputTooShort, "formatInputTooShort")) {
+                    render("<li class='select2-no-results'>" + evaluate(opts.formatInputTooShort, search.val(), opts.minimumInputLength) + "</li>");
+                } else {
+                    render("");
+                }
+                if (initial && this.showSearch) this.showSearch(true);
+                return;
+            }
+
+            if (opts.maximumInputLength && search.val().length > opts.maximumInputLength) {
+                if (checkFormatter(opts.formatInputTooLong, "formatInputTooLong")) {
+                    render("<li class='select2-no-results'>" + evaluate(opts.formatInputTooLong, search.val(), opts.maximumInputLength) + "</li>");
+                } else {
+                    render("");
+                }
+                return;
+            }
+
+            if (opts.formatSearching && this.findHighlightableChoices().length === 0) {
+                render("<li class='select2-searching'>" + evaluate(opts.formatSearching) + "</li>");
+            }
+
+            search.addClass("select2-active");
+
+            this.removeHighlight();
+
+            // give the tokenizer a chance to pre-process the input
+            input = this.tokenize();
+            if (input != undefined && input != null) {
+                search.val(input);
+            }
+
+            this.resultsPage = 1;
+
+            opts.query({
+                element: opts.element,
+                term: search.val(),
+                page: this.resultsPage,
+                context: null,
+                matcher: opts.matcher,
+                callback: this.bind(function (data) {
+                    var def; // default choice
+
+                    // ignore old responses
+                    if (queryNumber != this.queryCount) {
+                        return;
+                    }
+
+                    // ignore a response if the select2 has been closed before it was received
+                    if (!this.opened()) {
+                        this.search.removeClass("select2-active");
+                        return;
+                    }
+
+                    // save context, if any
+                    this.context = (data.context===undefined) ? null : data.context;
+                    // create a default choice and prepend it to the list
+                    if (this.opts.createSearchChoice && search.val() !== "") {
+                        def = this.opts.createSearchChoice.call(self, search.val(), data.results);
+                        if (def !== undefined && def !== null && self.id(def) !== undefined && self.id(def) !== null) {
+                            if ($(data.results).filter(
+                                    function () {
+                                        return equal(self.id(this), self.id(def));
+                                    }).length === 0) {
+                                this.opts.createSearchChoicePosition(data.results, def);
+                            }
+                        }
+                    }
+
+                    if (data.results.length === 0 && checkFormatter(opts.formatNoMatches, "formatNoMatches")) {
+                        render("<li class='select2-no-results'>" + evaluate(opts.formatNoMatches, search.val()) + "</li>");
+                        return;
+                    }
+
+                    results.empty();
+                    self.opts.populateResults.call(this, results, data.results, {term: search.val(), page: this.resultsPage, context:null});
+
+                    if (data.more === true && checkFormatter(opts.formatLoadMore, "formatLoadMore")) {
+                        results.append("<li class='select2-more-results'>" + self.opts.escapeMarkup(evaluate(opts.formatLoadMore, this.resultsPage)) + "</li>");
+                        window.setTimeout(function() { self.loadMoreIfNeeded(); }, 10);
+                    }
+
+                    this.postprocessResults(data, initial);
+
+                    postRender();
+
+                    this.opts.element.trigger({ type: "select2-loaded", items: data });
+                })});
+        },
+
+        // abstract
+        cancel: function () {
+            this.close();
+        },
+
+        // abstract
+        blur: function () {
+            // if selectOnBlur == true, select the currently highlighted option
+            if (this.opts.selectOnBlur)
+                this.selectHighlighted({noFocus: true});
+
+            this.close();
+            this.container.removeClass("select2-container-active");
+            // synonymous to .is(':focus'), which is available in jquery >= 1.6
+            if (this.search[0] === document.activeElement) { this.search.blur(); }
+            this.clearSearch();
+            this.selection.find(".select2-search-choice-focus").removeClass("select2-search-choice-focus");
+        },
+
+        // abstract
+        focusSearch: function () {
+            focus(this.search);
+        },
+
+        // abstract
+        selectHighlighted: function (options) {
+            if (this._touchMoved) {
+                this.clearTouchMoved();
+                return;
+            }
+            var index=this.highlight(),
+                highlighted=this.results.find(".select2-highlighted"),
+                data = highlighted.closest('.select2-result').data("select2-data");
+
+            if (data) {
+                this.highlight(index);
+                this.onSelect(data, options);
+            } else if (options && options.noFocus) {
+                this.close();
+            }
+        },
+
+        // abstract
+        getPlaceholder: function () {
+            var placeholderOption;
+            return this.opts.element.attr("placeholder") ||
+                this.opts.element.attr("data-placeholder") || // jquery 1.4 compat
+                this.opts.element.data("placeholder") ||
+                this.opts.placeholder ||
+                ((placeholderOption = this.getPlaceholderOption()) !== undefined ? placeholderOption.text() : undefined);
+        },
+
+        // abstract
+        getPlaceholderOption: function() {
+            if (this.select) {
+                var firstOption = this.select.children('option').first();
+                if (this.opts.placeholderOption !== undefined ) {
+                    //Determine the placeholder option based on the specified placeholderOption setting
+                    return (this.opts.placeholderOption === "first" && firstOption) ||
+                        (typeof this.opts.placeholderOption === "function" && this.opts.placeholderOption(this.select));
+                } else if ($.trim(firstOption.text()) === "" && firstOption.val() === "") {
+                    //No explicit placeholder option specified, use the first if it's blank
+                    return firstOption;
+                }
+            }
+        },
+
+        /**
+         * Get the desired width for the container element.  This is
+         * derived first from option `width` passed to select2, then
+         * the inline 'style' on the original element, and finally
+         * falls back to the jQuery calculated element width.
+         */
+        // abstract
+        initContainerWidth: function () {
+            function resolveContainerWidth() {
+                var style, attrs, matches, i, l, attr;
+
+                if (this.opts.width === "off") {
+                    return null;
+                } else if (this.opts.width === "element"){
+                    return this.opts.element.outerWidth(false) === 0 ? 'auto' : this.opts.element.outerWidth(false) + 'px';
+                } else if (this.opts.width === "copy" || this.opts.width === "resolve") {
+                    // check if there is inline style on the element that contains width
+                    style = this.opts.element.attr('style');
+                    if (style !== undefined) {
+                        attrs = style.split(';');
+                        for (i = 0, l = attrs.length; i < l; i = i + 1) {
+                            attr = attrs[i].replace(/\s/g, '');
+                            matches = attr.match(/^width:(([-+]?([0-9]*\.)?[0-9]+)(px|em|ex|%|in|cm|mm|pt|pc))/i);
+                            if (matches !== null && matches.length >= 1)
+                                return matches[1];
+                        }
+                    }
+
+                    if (this.opts.width === "resolve") {
+                        // next check if css('width') can resolve a width that is percent based, this is sometimes possible
+                        // when attached to input type=hidden or elements hidden via css
+                        style = this.opts.element.css('width');
+                        if (style.indexOf("%") > 0) return style;
+
+                        // finally, fallback on the calculated width of the element
+                        return (this.opts.element.outerWidth(false) === 0 ? 'auto' : this.opts.element.outerWidth(false) + 'px');
+                    }
+
+                    return null;
+                } else if ($.isFunction(this.opts.width)) {
+                    return this.opts.width();
+                } else {
+                    return this.opts.width;
+                }
+            }
+            var width = resolveContainerWidth.call(this);
+            if (width !== null) {
+                this.container.css("width", width);
+            }
+        }
+    });
+
+    SingleSelect2 = clazz(AbstractSelect2, {
+
+        // single
+
+        createContainer: function () {
+            var container = $(document.createElement("div")).attr({
+                "class": "select2-container"
+            }).html([
+                "<a href='javascript:void(0)' class='select2-choice' tabindex='-1'>",
+                "   <span class='select2-chosen'>&#160;</span><abbr class='select2-search-choice-edit-origin'><i class='fa                          fa-pencil'></i></abbr><abbr class='select2-search-choice-close'></abbr>",
+                "   <span class='select2-arrow' role='presentation'><b role='presentation'></b></span>",
+                "</a>",
+                "<label for='' class='select2-offscreen'></label>",
+                "<input class='select2-focusser select2-offscreen' type='text' aria-haspopup='true' role='button' />",
+                "<div class='select2-drop select2-display-none'>",
+                "   <div class='select2-search'>",
+                "       <label for='' class='select2-offscreen'></label>",
+                "       <input type='text' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' class='select2-input' role='combobox' aria-expanded='true'",
+                "       aria-autocomplete='list' />",
+                "   </div>",
+                "   <ul class='select2-results' role='listbox'>",
+                "   </ul>",
+                "</div>"].join(""));
+            return container;
+        },
+
+        // single
+        enableInterface: function() {
+            if (this.parent.enableInterface.apply(this, arguments)) {
+                this.focusser.prop("disabled", !this.isInterfaceEnabled());
+            }
+        },
+
+        // single
+        opening: function () {
+            var el, range, len;
+
+            if (this.opts.minimumResultsForSearch >= 0) {
+                this.showSearch(true);
+            }
+
+            this.parent.opening.apply(this, arguments);
+
+            if (this.showSearchInput !== false) {
+                // IE appends focusser.val() at the end of field :/ so we manually insert it at the beginning using a range
+                // all other browsers handle this just fine
+
+                this.search.val(this.focusser.val());
+            }
+            if (this.opts.shouldFocusInput(this)) {
+                this.search.focus();
+                // move the cursor to the end after focussing, otherwise it will be at the beginning and
+                // new text will appear *before* focusser.val()
+                el = this.search.get(0);
+                if (el.createTextRange) {
+                    range = el.createTextRange();
+                    range.collapse(false);
+                    range.select();
+                } else if (el.setSelectionRange) {
+                    len = this.search.val().length;
+                    el.setSelectionRange(len, len);
+                }
+            }
+
+            // initializes search's value with nextSearchTerm (if defined by user)
+            // ignore nextSearchTerm if the dropdown is opened by the user pressing a letter
+            if(this.search.val() === "") {
+                if(this.nextSearchTerm != undefined){
+                    this.search.val(this.nextSearchTerm);
+                    this.search.select();
+                }
+            }
+
+            this.focusser.prop("disabled", true).val("");
+            this.updateResults(true);
+            this.opts.element.trigger($.Event("select2-open"));
+        },
+
+        // single
+        close: function () {
+            if (!this.opened()) return;
+            this.parent.close.apply(this, arguments);
+
+            this.focusser.prop("disabled", false);
+
+            if (this.opts.shouldFocusInput(this)) {
+                this.focusser.focus();
+            }
+        },
+
+        // single
+        focus: function () {
+            if (this.opened()) {
+                this.close();
+            } else {
+                this.focusser.prop("disabled", false);
+                if (this.opts.shouldFocusInput(this)) {
+                    this.focusser.focus();
+                }
+            }
+        },
+
+        // single
+        isFocused: function () {
+            return this.container.hasClass("select2-container-active");
+        },
+
+        // single
+        cancel: function () {
+            this.parent.cancel.apply(this, arguments);
+            this.focusser.prop("disabled", false);
+
+            if (this.opts.shouldFocusInput(this)) {
+                this.focusser.focus();
+            }
+        },
+
+        // single
+        destroy: function() {
+            $("label[for='" + this.focusser.attr('id') + "']")
+                .attr('for', this.opts.element.attr("id"));
+            this.parent.destroy.apply(this, arguments);
+
+            cleanupJQueryElements.call(this,
+                "selection",
+                "focusser"
+            );
+        },
+
+        // single
+        initContainer: function () {
+
+            var selection,
+                container = this.container,
+                dropdown = this.dropdown,
+                idSuffix = nextUid(),
+                elementLabel;
+
+            if (this.opts.minimumResultsForSearch < 0) {
+                this.showSearch(false);
+            } else {
+                this.showSearch(true);
+            }
+
+            this.selection = selection = container.find(".select2-choice");
+
+            this.focusser = container.find(".select2-focusser");
+
+            // add aria associations
+            selection.find(".select2-chosen").attr("id", "select2-chosen-"+idSuffix);
+            this.focusser.attr("aria-labelledby", "select2-chosen-"+idSuffix);
+            this.results.attr("id", "select2-results-"+idSuffix);
+            this.search.attr("aria-owns", "select2-results-"+idSuffix);
+
+            // rewrite labels from original element to focusser
+            this.focusser.attr("id", "s2id_autogen"+idSuffix);
+
+            elementLabel = $("label[for='" + this.opts.element.attr("id") + "']");
+
+            this.focusser.prev()
+                .text(elementLabel.text())
+                .attr('for', this.focusser.attr('id'));
+
+            // Ensure the original element retains an accessible name
+            var originalTitle = this.opts.element.attr("title");
+            this.opts.element.attr("title", (originalTitle || elementLabel.text()));
+
+            this.focusser.attr("tabindex", this.elementTabIndex);
+
+            // write label for search field using the label from the focusser element
+            this.search.attr("id", this.focusser.attr('id') + '_search');
+
+            this.search.prev()
+                .text($("label[for='" + this.focusser.attr('id') + "']").text())
+                .attr('for', this.search.attr('id'));
+
+            this.search.on("keydown", this.bind(function (e) {
+                if (!this.isInterfaceEnabled()) return;
+
+                if (e.which === KEY.PAGE_UP || e.which === KEY.PAGE_DOWN) {
+                    // prevent the page from scrolling
+                    killEvent(e);
+                    return;
+                }
+
+                switch (e.which) {
+                    case KEY.UP:
+                    case KEY.DOWN:
+                        this.moveHighlight((e.which === KEY.UP) ? -1 : 1);
+                        killEvent(e);
+                        return;
+                    case KEY.ENTER:
+                        this.selectHighlighted();
+                        killEvent(e);
+                        return;
+                    case KEY.TAB:
+                        this.selectHighlighted({noFocus: true});
+                        return;
+                    case KEY.ESC:
+                        this.cancel(e);
+                        killEvent(e);
+                        return;
+                }
+            }));
+
+            this.search.on("blur", this.bind(function(e) {
+                // a workaround for chrome to keep the search field focussed when the scroll bar is used to scroll the dropdown.
+                // without this the search field loses focus which is annoying
+                if (document.activeElement === this.body.get(0)) {
+                    window.setTimeout(this.bind(function() {
+                        if (this.opened()) {
+                            this.search.focus();
+                        }
+                    }), 0);
+                }
+            }));
+
+            this.focusser.on("keydown", this.bind(function (e) {
+                if (!this.isInterfaceEnabled()) return;
+
+                if (e.which === KEY.TAB || KEY.isControl(e) || KEY.isFunctionKey(e) || e.which === KEY.ESC) {
+                    return;
+                }
+
+                if (this.opts.openOnEnter === false && e.which === KEY.ENTER) {
+                    killEvent(e);
+                    return;
+                }
+
+                if (e.which == KEY.DOWN || e.which == KEY.UP
+                    || (e.which == KEY.ENTER && this.opts.openOnEnter)) {
+
+                    if (e.altKey || e.ctrlKey || e.shiftKey || e.metaKey) return;
+
+                    this.open();
+                    killEvent(e);
+                    return;
+                }
+
+                if (e.which == KEY.DELETE || e.which == KEY.BACKSPACE) {
+                    if (this.opts.allowClear) {
+                        this.clear();
+                    }
+                    killEvent(e);
+
+                }
+            }));
+
+
+            installKeyUpChangeEvent(this.focusser);
+            this.focusser.on("keyup-change input", this.bind(function(e) {
+                if (this.opts.minimumResultsForSearch >= 0) {
+                    e.stopPropagation();
+                    if (this.opened()) return;
+                    this.open();
+                }
+            }));
+
+            selection.on("mousedown touchstart", "abbr", this.bind(function (e) {
+                if (!this.isInterfaceEnabled()) return;
+                if(!$(e.currentTarget).hasClass( "select2-search-choice-edit-origin" ) && !$(e.currentTarget).hasClass("select2-search-choice-delete-origin")) {
+                    this.clear();
+                    killEventImmediately(e);
+                    this.close();
+                    this.selection.focus();
+                } else {
+                    killEventImmediately(e);
+                    this.close();
+                    this.selection.focus();
+                }
+            }));
+
+            selection.on("mousedown touchstart", this.bind(function (e) {
+                // Prevent IE from generating a click event on the body
+                reinsertElement(selection);
+
+                if (!this.container.hasClass("select2-container-active")) {
+                    this.opts.element.trigger($.Event("select2-focus"));
+                }
+
+                if (this.opened()) {
+                    this.close();
+                } else if (this.isInterfaceEnabled()) {
+                    this.open();
+                }
+
+                killEvent(e);
+            }));
+
+            dropdown.on("mousedown touchstart", this.bind(function() {
+                if (this.opts.shouldFocusInput(this)) {
+                    this.search.focus();
+                }
+            }));
+
+            selection.on("focus", this.bind(function(e) {
+                killEvent(e);
+            }));
+
+            this.focusser.on("focus", this.bind(function(){
+                if (!this.container.hasClass("select2-container-active")) {
+                    this.opts.element.trigger($.Event("select2-focus"));
+                }
+                this.container.addClass("select2-container-active");
+            })).on("blur", this.bind(function() {
+                if (!this.opened()) {
+                    this.container.removeClass("select2-container-active");
+                    this.opts.element.trigger($.Event("select2-blur"));
+                }
+            }));
+            this.search.on("focus", this.bind(function(){
+                if (!this.container.hasClass("select2-container-active")) {
+                    this.opts.element.trigger($.Event("select2-focus"));
+                }
+                this.container.addClass("select2-container-active");
+            }));
+
+            this.initContainerWidth();
+            this.opts.element.addClass("select2-offscreen");
+            this.setPlaceholder();
+
+        },
+
+        // single
+        clear: function(triggerChange) {
+            var data=this.selection.data("select2-data");
+            if (data) { // guard against queued quick consecutive clicks
+                var evt = $.Event("select2-clearing");
+                this.opts.element.trigger(evt);
+                if (evt.isDefaultPrevented()) {
+                    return;
+                }
+                var placeholderOption = this.getPlaceholderOption();
+                this.opts.element.val(placeholderOption ? placeholderOption.val() : "");
+                this.selection.find(".select2-chosen").empty();
+                this.selection.removeData("select2-data");
+                this.setPlaceholder();
+
+                if (triggerChange !== false){
+                    this.opts.element.trigger({ type: "select2-removed", val: this.id(data), choice: data });
+                    this.triggerChange({removed:data});
+                }
+            }
+        },
+
+        /**
+         * Sets selection based on source element's value
+         */
+        // single
+        initSelection: function () {
+            var selected;
+            if (this.isPlaceholderOptionSelected()) {
+                this.updateSelection(null);
+                this.close();
+                this.setPlaceholder();
+            } else {
+                var self = this;
+                this.opts.initSelection.call(null, this.opts.element, function(selected){
+                    if (selected !== undefined && selected !== null) {
+                        self.updateSelection(selected);
+                        self.close();
+                        self.setPlaceholder();
+                        self.nextSearchTerm = self.opts.nextSearchTerm(selected, self.search.val());
+                    }
+                });
+            }
+        },
+
+        isPlaceholderOptionSelected: function() {
+            var placeholderOption;
+            if (this.getPlaceholder() === undefined) return false; // no placeholder specified so no option should be considered
+            return ((placeholderOption = this.getPlaceholderOption()) !== undefined && placeholderOption.prop("selected"))
+                || (this.opts.element.val() === "")
+                || (this.opts.element.val() === undefined)
+                || (this.opts.element.val() === null);
+        },
+
+        // single
+        prepareOpts: function () {
+            var opts = this.parent.prepareOpts.apply(this, arguments),
+                self=this;
+
+            if (opts.element.get(0).tagName.toLowerCase() === "select") {
+                // install the selection initializer
+                opts.initSelection = function (element, callback) {
+                    var selected = element.find("option").filter(function() { return this.selected && !this.disabled });
+                    // a single select box always has a value, no need to null check 'selected'
+                    callback(self.optionToData(selected));
+                };
+            } else if ("data" in opts) {
+                // install default initSelection when applied to hidden input and data is local
+                opts.initSelection = opts.initSelection || function (element, callback) {
+                    var id = element.val();
+                    //search in data by id, storing the actual matching item
+                    var match = null;
+                    opts.query({
+                        matcher: function(term, text, el){
+                            var is_match = equal(id, opts.id(el));
+                            if (is_match) {
+                                match = el;
+                            }
+                            return is_match;
+                        },
+                        callback: !$.isFunction(callback) ? $.noop : function() {
+                            callback(match);
+                        }
+                    });
+                };
+            }
+
+            return opts;
+        },
+
+        // single
+        getPlaceholder: function() {
+            // if a placeholder is specified on a single select without a valid placeholder option ignore it
+            if (this.select) {
+                if (this.getPlaceholderOption() === undefined) {
+                    return undefined;
+                }
+            }
+
+            return this.parent.getPlaceholder.apply(this, arguments);
+        },
+
+        // single
+        setPlaceholder: function () {
+            var placeholder = this.getPlaceholder();
+
+            if (this.isPlaceholderOptionSelected() && placeholder !== undefined) {
+
+                // check for a placeholder option if attached to a select
+                if (this.select && this.getPlaceholderOption() === undefined) return;
+
+                this.selection.find(".select2-chosen").html(this.opts.escapeMarkup(placeholder));
+
+                this.selection.addClass("select2-default");
+
+                this.container.removeClass("select2-allowclear");
+            }
+        },
+
+        // single
+        postprocessResults: function (data, initial, noHighlightUpdate) {
+            var selected = 0, self = this, showSearchInput = true;
+
+            // find the selected element in the result list
+
+            this.findHighlightableChoices().each2(function (i, elm) {
+                if (equal(self.id(elm.data("select2-data")), self.opts.element.val())) {
+                    selected = i;
+                    return false;
+                }
+            });
+
+            // and highlight it
+            if (noHighlightUpdate !== false) {
+                if (initial === true && selected >= 0) {
+                    this.highlight(selected);
+                } else {
+                    this.highlight(0);
+                }
+            }
+
+            // hide the search box if this is the first we got the results and there are enough of them for search
+
+            if (initial === true) {
+                var min = this.opts.minimumResultsForSearch;
+                if (min >= 0) {
+                    this.showSearch(countResults(data.results) >= min);
+                }
+            }
+        },
+
+        // single
+        showSearch: function(showSearchInput) {
+            if (this.showSearchInput === showSearchInput) return;
+
+            this.showSearchInput = showSearchInput;
+
+            this.dropdown.find(".select2-search").toggleClass("select2-search-hidden", !showSearchInput);
+            this.dropdown.find(".select2-search").toggleClass("select2-offscreen", !showSearchInput);
+            //add "select2-with-searchbox" to the container if search box is shown
+            $(this.dropdown, this.container).toggleClass("select2-with-searchbox", showSearchInput);
+        },
+
+        // single
+        onSelect: function (data, options) {
+
+            if (!this.triggerSelect(data)) { return; }
+
+            var old = this.opts.element.val(),
+                oldData = this.data();
+
+            this.opts.element.val(this.id(data));
+            this.updateSelection(data);
+
+            this.opts.element.trigger({ type: "select2-selected", val: this.id(data), choice: data });
+
+            this.nextSearchTerm = this.opts.nextSearchTerm(data, this.search.val());
+            this.close();
+
+            if ((!options || !options.noFocus) && this.opts.shouldFocusInput(this)) {
+                this.focusser.focus();
+            }
+
+            if (!equal(old, this.id(data))) {
+                this.triggerChange({ added: data, removed: oldData });
+            }
+        },
+
+        // single
+        updateSelection: function (data) {
+
+            var container=this.selection.find(".select2-chosen"), formatted, cssClass;
+
+            this.selection.data("select2-data", data);
+
+            container.empty();
+            if (data !== null) {
+                formatted=this.opts.formatSelection(data, container, this.opts.escapeMarkup);
+            }
+            if (formatted !== undefined) {
+                container.append(formatted);
+            }
+            cssClass=this.opts.formatSelectionCssClass(data, container);
+            if (cssClass !== undefined) {
+                container.addClass(cssClass);
+            }
+
+            this.selection.removeClass("select2-default");
+
+            if (this.opts.allowClear && this.getPlaceholder() !== undefined) {
+                this.container.addClass("select2-allowclear");
+            }
+        },
+
+        // single
+        val: function () {
+            var val,
+                triggerChange = false,
+                data = null,
+                self = this,
+                oldData = this.data();
+
+            if (arguments.length === 0) {
+                return this.opts.element.val();
+            }
+
+            val = arguments[0];
+
+            if (arguments.length > 1) {
+                triggerChange = arguments[1];
+            }
+
+            if (this.select) {
+                this.select
+                    .val(val)
+                    .find("option").filter(function() { return this.selected }).each2(function (i, elm) {
+                    data = self.optionToData(elm);
+                    return false;
+                });
+                this.updateSelection(data);
+                this.setPlaceholder();
+                if (triggerChange) {
+                    this.triggerChange({added: data, removed:oldData});
+                }
+            } else {
+                // val is an id. !val is true for [undefined,null,'',0] - 0 is legal
+                if (!val && val !== 0) {
+                    this.clear(triggerChange);
+                    return;
+                }
+                if (this.opts.initSelection === undefined) {
+                    throw new Error("cannot call val() if initSelection() is not defined");
+                }
+                this.opts.element.val(val);
+                this.opts.initSelection(this.opts.element, function(data){
+                    self.opts.element.val(!data ? "" : self.id(data));
+                    self.updateSelection(data);
+                    self.setPlaceholder();
+                    if (triggerChange) {
+                        self.triggerChange({added: data, removed:oldData});
+                    }
+                });
+            }
+        },
+
+        // single
+        clearSearch: function () {
+            this.search.val("");
+            this.focusser.val("");
+        },
+
+        // single
+        data: function(value) {
+            var data,
+                triggerChange = false;
+
+            if (arguments.length === 0) {
+                data = this.selection.data("select2-data");
+                if (data == undefined) data = null;
+                return data;
+            } else {
+                if (arguments.length > 1) {
+                    triggerChange = arguments[1];
+                }
+                if (!value) {
+                    this.clear(triggerChange);
+                } else {
+                    data = this.data();
+                    this.opts.element.val(!value ? "" : this.id(value));
+                    this.updateSelection(value);
+                    if (triggerChange) {
+                        this.triggerChange({added: value, removed:data});
+                    }
+                }
+            }
+        }
+    });
+
+    MultiSelect2 = clazz(AbstractSelect2, {
+
+        // multi
+        createContainer: function () {
+            var container = $(document.createElement("div")).attr({
+                "class": "select2-container select2-container-multi"
+            }).html([
+                "<ul class='select2-choices'>",
+                "  <li class='select2-search-field'>",
+                "    <label for='' class='select2-offscreen'></label>",
+                "    <input type='text' autocomplete='off' autocorrect='off' autocapitalize='off' spellcheck='false' class='select2-input'>",
+                "  </li>",
+                "</ul>",
+                "<div class='select2-drop select2-drop-multi select2-display-none'>",
+                "   <ul class='select2-results'>",
+                "   </ul>",
+                "</div>"].join(""));
+            return container;
+        },
+
+        // multi
+        prepareOpts: function () {
+            var opts = this.parent.prepareOpts.apply(this, arguments),
+                self=this;
+
+            // TODO validate placeholder is a string if specified
+
+            if (opts.element.get(0).tagName.toLowerCase() === "select") {
+                // install the selection initializer
+                opts.initSelection = function (element, callback) {
+
+                    var data = [];
+
+                    element.find("option").filter(function() { return this.selected && !this.disabled }).each2(function (i, elm) {
+                        data.push(self.optionToData(elm));
+                    });
+                    callback(data);
+                };
+            } else if ("data" in opts) {
+                // install default initSelection when applied to hidden input and data is local
+                opts.initSelection = opts.initSelection || function (element, callback) {
+                    var ids = splitVal(element.val(), opts.separator);
+                    //search in data by array of ids, storing matching items in a list
+                    var matches = [];
+                    opts.query({
+                        matcher: function(term, text, el){
+                            var is_match = $.grep(ids, function(id) {
+                                return equal(id, opts.id(el));
+                            }).length;
+                            if (is_match) {
+                                matches.push(el);
+                            }
+                            return is_match;
+                        },
+                        callback: !$.isFunction(callback) ? $.noop : function() {
+                            // reorder matches based on the order they appear in the ids array because right now
+                            // they are in the order in which they appear in data array
+                            var ordered = [];
+                            for (var i = 0; i < ids.length; i++) {
+                                var id = ids[i];
+                                for (var j = 0; j < matches.length; j++) {
+                                    var match = matches[j];
+                                    if (equal(id, opts.id(match))) {
+                                        ordered.push(match);
+                                        matches.splice(j, 1);
+                                        break;
+                                    }
+                                }
+                            }
+                            callback(ordered);
+                        }
+                    });
+                };
+            }
+
+            return opts;
+        },
+
+        // multi
+        selectChoice: function (choice) {
+
+            var selected = this.container.find(".select2-search-choice-focus");
+            if (selected.length && choice && choice[0] == selected[0]) {
+
+            } else {
+                if (selected.length) {
+                    this.opts.element.trigger("choice-deselected", selected);
+                }
+                selected.removeClass("select2-search-choice-focus");
+                if (choice && choice.length) {
+                    this.close();
+                    choice.addClass("select2-search-choice-focus");
+                    this.opts.element.trigger("choice-selected", choice);
+                }
+            }
+        },
+
+        // multi
+        destroy: function() {
+            $("label[for='" + this.search.attr('id') + "']")
+                .attr('for', this.opts.element.attr("id"));
+            this.parent.destroy.apply(this, arguments);
+
+            cleanupJQueryElements.call(this,
+                "searchContainer",
+                "selection"
+            );
+        },
+
+        // multi
+        initContainer: function () {
+
+            var selector = ".select2-choices", selection;
+
+            this.searchContainer = this.container.find(".select2-search-field");
+            this.selection = selection = this.container.find(selector);
+
+            var _this = this;
+            this.selection.on("click", ".select2-search-choice:not(.select2-locked)", function (e) {
+                //killEvent(e);
+                _this.search[0].focus();
+                _this.selectChoice($(this));
+            });
+
+            // rewrite labels from original element to focusser
+            this.search.attr("id", "s2id_autogen"+nextUid());
+
+            this.search.prev()
+                .text($("label[for='" + this.opts.element.attr("id") + "']").text())
+                .attr('for', this.search.attr('id'));
+
+            this.search.on("input paste", this.bind(function() {
+                if (!this.isInterfaceEnabled()) return;
+                if (!this.opened()) {
+                    this.open();
+                }
+            }));
+
+            this.search.attr("tabindex", this.elementTabIndex);
+
+            this.keydowns = 0;
+            this.search.on("keydown", this.bind(function (e) {
+                if (!this.isInterfaceEnabled()) return;
+
+                ++this.keydowns;
+                var selected = selection.find(".select2-search-choice-focus");
+                var prev = selected.prev(".select2-search-choice:not(.select2-locked)");
+                var next = selected.next(".select2-search-choice:not(.select2-locked)");
+                var pos = getCursorInfo(this.search);
+
+                if (selected.length &&
+                    (e.which == KEY.LEFT || e.which == KEY.RIGHT || e.which == KEY.BACKSPACE || e.which == KEY.DELETE || e.which == KEY.ENTER)) {
+                    var selectedChoice = selected;
+                    if (e.which == KEY.LEFT && prev.length) {
+                        selectedChoice = prev;
+                    }
+                    else if (e.which == KEY.RIGHT) {
+                        selectedChoice = next.length ? next : null;
+                    }
+                    else if (e.which === KEY.BACKSPACE) {
+                        if (this.unselect(selected.first())) {
+                            this.search.width(10);
+                            selectedChoice = prev.length ? prev : next;
+                        }
+                    } else if (e.which == KEY.DELETE) {
+                        if (this.unselect(selected.first())) {
+                            this.search.width(10);
+                            selectedChoice = next.length ? next : null;
+                        }
+                    } else if (e.which == KEY.ENTER) {
+                        selectedChoice = null;
+                    }
+
+                    this.selectChoice(selectedChoice);
+                    killEvent(e);
+                    if (!selectedChoice || !selectedChoice.length) {
+                        this.open();
+                    }
+                    return;
+                } else if (((e.which === KEY.BACKSPACE && this.keydowns == 1)
+                        || e.which == KEY.LEFT) && (pos.offset == 0 && !pos.length)) {
+
+                    this.selectChoice(selection.find(".select2-search-choice:not(.select2-locked)").last());
+                    killEvent(e);
+                    return;
+                } else {
+                    this.selectChoice(null);
+                }
+
+                if (this.opened()) {
+                    switch (e.which) {
+                        case KEY.UP:
+                        case KEY.DOWN:
+                            this.moveHighlight((e.which === KEY.UP) ? -1 : 1);
+                            killEvent(e);
+                            return;
+                        case KEY.ENTER:
+                            this.selectHighlighted();
+                            killEvent(e);
+                            return;
+                        case KEY.TAB:
+                            this.selectHighlighted({noFocus:true});
+                            this.close();
+                            return;
+                        case KEY.ESC:
+                            this.cancel(e);
+                            killEvent(e);
+                            return;
+                    }
+                }
+
+                if (e.which === KEY.TAB || KEY.isControl(e) || KEY.isFunctionKey(e)
+                    || e.which === KEY.BACKSPACE || e.which === KEY.ESC) {
+                    return;
+                }
+
+                if (e.which === KEY.ENTER) {
+                    if (this.opts.openOnEnter === false) {
+                        return;
+                    } else if (e.altKey || e.ctrlKey || e.shiftKey || e.metaKey) {
+                        return;
+                    }
+                }
+
+                this.open();
+
+                if (e.which === KEY.PAGE_UP || e.which === KEY.PAGE_DOWN) {
+                    // prevent the page from scrolling
+                    killEvent(e);
+                }
+
+                if (e.which === KEY.ENTER) {
+                    // prevent form from being submitted
+                    killEvent(e);
+                }
+
+            }));
+
+            this.search.on("keyup", this.bind(function (e) {
+                    this.keydowns = 0;
+                    this.resizeSearch();
+                })
+            );
+
+            this.search.on("blur", this.bind(function(e) {
+                this.container.removeClass("select2-container-active");
+                this.search.removeClass("select2-focused");
+                this.selectChoice(null);
+                if (!this.opened()) this.clearSearch();
+                e.stopImmediatePropagation();
+                this.opts.element.trigger($.Event("select2-blur"));
+            }));
+
+            this.container.on("click", selector, this.bind(function (e) {
+                if (!this.isInterfaceEnabled()) return;
+                if ($(e.target).closest(".select2-search-choice").length > 0) {
+                    // clicked inside a select2 search choice, do not open
+                    return;
+                }
+                this.selectChoice(null);
+                this.clearPlaceholder();
+                if (!this.container.hasClass("select2-container-active")) {
+                    this.opts.element.trigger($.Event("select2-focus"));
+                }
+                this.open();
+                this.focusSearch();
+                e.preventDefault();
+            }));
+
+            this.container.on("focus", selector, this.bind(function () {
+                if (!this.isInterfaceEnabled()) return;
+                if (!this.container.hasClass("select2-container-active")) {
+                    this.opts.element.trigger($.Event("select2-focus"));
+                }
+                this.container.addClass("select2-container-active");
+                this.dropdown.addClass("select2-drop-active");
+                this.clearPlaceholder();
+            }));
+
+            this.initContainerWidth();
+            this.opts.element.addClass("select2-offscreen");
+
+            // set the placeholder if necessary
+            this.clearSearch();
+        },
+
+        // multi
+        enableInterface: function() {
+            if (this.parent.enableInterface.apply(this, arguments)) {
+                this.search.prop("disabled", !this.isInterfaceEnabled());
+            }
+        },
+
+        // multi
+        initSelection: function () {
+            var data;
+            if (this.opts.element.val() === "" && this.opts.element.text() === "") {
+                this.updateSelection([]);
+                this.close();
+                // set the placeholder if necessary
+                this.clearSearch();
+            }
+            if (this.select || this.opts.element.val() !== "") {
+                var self = this;
+                this.opts.initSelection.call(null, this.opts.element, function(data){
+                    if (data !== undefined && data !== null) {
+                        self.updateSelection(data);
+                        self.close();
+                        // set the placeholder if necessary
+                        self.clearSearch();
+                    }
+                });
+            }
+        },
+
+        // multi
+        clearSearch: function () {
+            var placeholder = this.getPlaceholder(),
+                maxWidth = this.getMaxSearchWidth();
+
+            if (placeholder !== undefined  && this.getVal().length === 0 && this.search.hasClass("select2-focused") === false) {
+                this.search.val(placeholder).addClass("select2-default");
+                // stretch the search box to full width of the container so as much of the placeholder is visible as possible
+                // we could call this.resizeSearch(), but we do not because that requires a sizer and we do not want to create one so early because of a firefox bug, see #944
+                this.search.width(maxWidth > 0 ? maxWidth : this.container.css("width"));
+            } else {
+                this.search.val("").width(10);
+            }
+        },
+
+        // multi
+        clearPlaceholder: function () {
+            if (this.search.hasClass("select2-default")) {
+                this.search.val("").removeClass("select2-default");
+            }
+        },
+
+        // multi
+        opening: function () {
+            this.clearPlaceholder(); // should be done before super so placeholder is not used to search
+            this.resizeSearch();
+
+            this.parent.opening.apply(this, arguments);
+
+            this.focusSearch();
+
+            // initializes search's value with nextSearchTerm (if defined by user)
+            // ignore nextSearchTerm if the dropdown is opened by the user pressing a letter
+            if(this.search.val() === "") {
+                if(this.nextSearchTerm != undefined){
+                    this.search.val(this.nextSearchTerm);
+                    this.search.select();
+                }
+            }
+
+            this.updateResults(true);
+            if (this.opts.shouldFocusInput(this)) {
+                this.search.focus();
+            }
+            this.opts.element.trigger($.Event("select2-open"));
+        },
+
+        // multi
+        close: function () {
+            if (!this.opened()) return;
+            this.parent.close.apply(this, arguments);
+        },
+
+        // multi
+        focus: function () {
+            this.close();
+            this.search.focus();
+        },
+
+        // multi
+        isFocused: function () {
+            return this.search.hasClass("select2-focused");
+        },
+
+        // multi
+        updateSelection: function (data) {
+            var ids = [], filtered = [], self = this;
+
+            // filter out duplicates
+            $(data).each(function () {
+                if (indexOf(self.id(this), ids) < 0) {
+                    ids.push(self.id(this));
+                    filtered.push(this);
+                }
+            });
+            data = filtered;
+
+            this.selection.find(".select2-search-choice").remove();
+            $(data).each(function () {
+                self.addSelectedChoice(this);
+            });
+            self.postprocessResults();
+        },
+
+        // multi
+        tokenize: function() {
+            var input = this.search.val();
+            input = this.opts.tokenizer.call(this, input, this.data(), this.bind(this.onSelect), this.opts);
+            if (input != null && input != undefined) {
+                this.search.val(input);
+                if (input.length > 0) {
+                    this.open();
+                }
+            }
+
+        },
+
+        // multi
+        onSelect: function (data, options) {
+
+            if (!this.triggerSelect(data)) { return; }
+
+            this.addSelectedChoice(data);
+
+            this.opts.element.trigger({ type: "selected", val: this.id(data), choice: data });
+
+            // keep track of the search's value before it gets cleared
+            this.nextSearchTerm = this.opts.nextSearchTerm(data, this.search.val());
+
+            this.clearSearch();
+            this.updateResults();
+
+            if (this.select || !this.opts.closeOnSelect) this.postprocessResults(data, false, this.opts.closeOnSelect===true);
+
+            if (this.opts.closeOnSelect) {
+                this.close();
+                this.search.width(10);
+            } else {
+                if (this.countSelectableResults()>0) {
+                    this.search.width(10);
+                    this.resizeSearch();
+                    if (this.getMaximumSelectionSize() > 0 && this.val().length >= this.getMaximumSelectionSize()) {
+                        // if we reached max selection size repaint the results so choices
+                        // are replaced with the max selection reached message
+                        this.updateResults(true);
+                    } else {
+                        // initializes search's value with nextSearchTerm and update search result
+                        if(this.nextSearchTerm != undefined){
+                            this.search.val(this.nextSearchTerm);
+                            this.updateResults();
+                            this.search.select();
+                        }
+                    }
+                    this.positionDropdown();
+                } else {
+                    // if nothing left to select close
+                    this.close();
+                    this.search.width(10);
+                }
+            }
+
+            // since its not possible to select an element that has already been
+            // added we do not need to check if this is a new element before firing change
+            this.triggerChange({ added: data });
+
+            if (!options || !options.noFocus)
+                this.focusSearch();
+        },
+
+        // multi
+        cancel: function () {
+            this.close();
+            this.focusSearch();
+        },
+
+        addSelectedChoice: function (data) {
+            var enableChoice = !data.locked,
+                enabledItem = $(
+                    "<li class='select2-search-choice'>" +
+                    "    <div></div>" +
+                    "    <a href='#' class='select2-search-choice-close' tabindex='-1'></a>" +
+                    "    <a href='#' class='select2-search-choice-edit' tabindex='-1'>&#9998;</a>" +
+                    "    <a href='#' class='select2-search-choice-remove' tabindex='-1'></a>" +
+                    "</li>"),
+                disabledItem = $(
+                    "<li class='select2-search-choice select2-locked'>" +
+                    "<div></div>" +
+                    "</li>");
+            var choice = enableChoice ? enabledItem : disabledItem,
+                id = this.id(data),
+                val = this.getVal(),
+                formatted,
+                cssClass;
+
+            formatted=this.opts.formatSelection(data, choice.find("div"), this.opts.escapeMarkup);
+            if (formatted != undefined) {
+                choice.find("div").replaceWith("<div>"+formatted+"</div>");
+            }
+            cssClass=this.opts.formatSelectionCssClass(data, choice.find("div"));
+            if (cssClass != undefined) {
+                choice.addClass(cssClass);
+            }
+
+            if(enableChoice){
+                choice.find(".select2-search-choice-close")
+                    .on("mousedown", killEvent)
+                    .on("click dblclick", this.bind(function (e) {
+                        if (!this.isInterfaceEnabled()) return;
+
+                        this.unselect($(e.target));
+                        this.selection.find(".select2-search-choice-focus").removeClass("select2-search-choice-focus");
+                        killEvent(e);
+                        this.close();
+                        this.focusSearch();
+                    })).on("focus", this.bind(function () {
+                    if (!this.isInterfaceEnabled()) return;
+                    this.container.addClass("select2-container-active");
+                    this.dropdown.addClass("select2-drop-active");
+                }));
+
+            }
+
+            choice.data("select2-data", data);
+            choice.insertBefore(this.searchContainer);
+
+            val.push(id);
+            this.setVal(val);
+        },
+
+        // multi
+        unselect: function (selected) {
+            var val = this.getVal(),
+                data,
+                index;
+            selected = selected.closest(".select2-search-choice");
+
+            if (selected.length === 0) {
+                throw "Invalid argument: " + selected + ". Must be .select2-search-choice";
+            }
+
+            data = selected.data("select2-data");
+
+            if (!data) {
+                // prevent a race condition when the 'x' is clicked really fast repeatedly the event can be queued
+                // and invoked on an element already removed
+                return;
+            }
+
+            var evt = $.Event("select2-removing");
+            evt.val = this.id(data);
+            evt.choice = data;
+            this.opts.element.trigger(evt);
+
+            if (evt.isDefaultPrevented()) {
+                return false;
+            }
+
+            while((index = indexOf(this.id(data), val)) >= 0) {
+                val.splice(index, 1);
+                this.setVal(val);
+                if (this.select) this.postprocessResults();
+            }
+
+            selected.remove();
+
+            this.opts.element.trigger({ type: "select2-removed", val: this.id(data), choice: data });
+            this.triggerChange({ removed: data });
+
+            return true;
+        },
+
+        // multi
+        postprocessResults: function (data, initial, noHighlightUpdate) {
+            var val = this.getVal(),
+                choices = this.results.find(".select2-result"),
+                compound = this.results.find(".select2-result-with-children"),
+                self = this;
+
+            choices.each2(function (i, choice) {
+                var id = self.id(choice.data("select2-data"));
+                if (indexOf(id, val) >= 0) {
+                    choice.addClass("select2-selected");
+                    // mark all children of the selected parent as selected
+                    choice.find(".select2-result-selectable").addClass("select2-selected");
+                }
+            });
+
+            compound.each2(function(i, choice) {
+                // hide an optgroup if it doesn't have any selectable children
+                if (!choice.is('.select2-result-selectable')
+                    && choice.find(".select2-result-selectable:not(.select2-selected)").length === 0) {
+                    choice.addClass("select2-selected");
+                }
+            });
+
+            if (this.highlight() == -1 && noHighlightUpdate !== false){
+                self.highlight(0);
+            }
+
+            //If all results are chosen render formatNoMatches
+            if(!this.opts.createSearchChoice && !choices.filter('.select2-result:not(.select2-selected)').length > 0){
+                if(!data || data && !data.more && this.results.find(".select2-no-results").length === 0) {
+                    if (checkFormatter(self.opts.formatNoMatches, "formatNoMatches")) {
+                        this.results.append("<li class='select2-no-results'>" + evaluate(self.opts.formatNoMatches, self.search.val()) + "</li>");
+                    }
+                }
+            }
+
+        },
+
+        // multi
+        getMaxSearchWidth: function() {
+            return this.selection.width() - getSideBorderPadding(this.search);
+        },
+
+        // multi
+        resizeSearch: function () {
+            var minimumWidth, left, maxWidth, containerLeft, searchWidth,
+                sideBorderPadding = getSideBorderPadding(this.search);
+
+            minimumWidth = measureTextWidth(this.search) + 10;
+
+            left = this.search.offset().left;
+
+            maxWidth = this.selection.width();
+            containerLeft = this.selection.offset().left;
+
+            searchWidth = maxWidth - (left - containerLeft) - sideBorderPadding;
+
+            if (searchWidth < minimumWidth) {
+                searchWidth = maxWidth - sideBorderPadding;
+            }
+
+            if (searchWidth < 40) {
+                searchWidth = maxWidth - sideBorderPadding;
+            }
+
+            if (searchWidth <= 0) {
+                searchWidth = minimumWidth;
+            }
+
+            this.search.width(Math.floor(searchWidth));
+        },
+
+        // multi
+        getVal: function () {
+            var val;
+            if (this.select) {
+                val = this.select.val();
+                return val === null ? [] : val;
+            } else {
+                val = this.opts.element.val();
+                return splitVal(val, this.opts.separator);
+            }
+        },
+
+        // multi
+        setVal: function (val) {
+            var unique;
+            if (this.select) {
+                this.select.val(val);
+            } else {
+                unique = [];
+                // filter out duplicates
+                $(val).each(function () {
+                    if (indexOf(this, unique) < 0) unique.push(this);
+                });
+                this.opts.element.val(unique.length === 0 ? "" : unique.join(this.opts.separator));
+            }
+        },
+
+        // multi
+        buildChangeDetails: function (old, current) {
+            var current = current.slice(0),
+                old = old.slice(0);
+
+            // remove intersection from each array
+            for (var i = 0; i < current.length; i++) {
+                for (var j = 0; j < old.length; j++) {
+                    if (equal(this.opts.id(current[i]), this.opts.id(old[j]))) {
+                        current.splice(i, 1);
+                        if(i>0){
+                            i--;
+                        }
+                        old.splice(j, 1);
+                        j--;
+                    }
+                }
+            }
+
+            return {added: current, removed: old};
+        },
+
+
+        // multi
+        val: function (val, triggerChange) {
+            var oldData, self=this;
+
+            if (arguments.length === 0) {
+                return this.getVal();
+            }
+
+            oldData=this.data();
+            if (!oldData.length) oldData=[];
+
+            // val is an id. !val is true for [undefined,null,'',0] - 0 is legal
+            if (!val && val !== 0) {
+                this.opts.element.val("");
+                this.updateSelection([]);
+                this.clearSearch();
+                if (triggerChange) {
+                    this.triggerChange({added: this.data(), removed: oldData});
+                }
+                return;
+            }
+
+            // val is a list of ids
+            this.setVal(val);
+
+            if (this.select) {
+                this.opts.initSelection(this.select, this.bind(this.updateSelection));
+                if (triggerChange) {
+                    this.triggerChange(this.buildChangeDetails(oldData, this.data()));
+                }
+            } else {
+                if (this.opts.initSelection === undefined) {
+                    throw new Error("val() cannot be called if initSelection() is not defined");
+                }
+
+                this.opts.initSelection(this.opts.element, function(data){
+                    var ids=$.map(data, self.id);
+                    self.setVal(ids);
+                    self.updateSelection(data);
+                    self.clearSearch();
+                    if (triggerChange) {
+                        self.triggerChange(self.buildChangeDetails(oldData, self.data()));
+                    }
+                });
+            }
+            this.clearSearch();
+        },
+
+        // multi
+        onSortStart: function() {
+            if (this.select) {
+                throw new Error("Sorting of elements is not supported when attached to <select>. Attach to <input type='hidden'/> instead.");
+            }
+
+            // collapse search field into 0 width so its container can be collapsed as well
+            this.search.width(0);
+            // hide the container
+            this.searchContainer.hide();
+        },
+
+        // multi
+        onSortEnd:function() {
+
+            var val=[], self=this;
+
+            // show search and move it to the end of the list
+            this.searchContainer.show();
+            // make sure the search container is the last item in the list
+            this.searchContainer.appendTo(this.searchContainer.parent());
+            // since we collapsed the width in dragStarted, we resize it here
+            this.resizeSearch();
+
+            // update selection
+            this.selection.find(".select2-search-choice").each(function() {
+                val.push(self.opts.id($(this).data("select2-data")));
+            });
+            this.setVal(val);
+            this.triggerChange();
+        },
+
+        // multi
+        data: function(values, triggerChange) {
+            var self=this, ids, old;
+            if (arguments.length === 0) {
+                return this.selection
+                    .children(".select2-search-choice")
+                    .map(function() { return $(this).data("select2-data"); })
+                    .get();
+            } else {
+                old = this.data();
+                if (!values) { values = []; }
+                ids = $.map(values, function(e) { return self.opts.id(e); });
+                this.setVal(ids);
+                this.updateSelection(values);
+                this.clearSearch();
+                if (triggerChange) {
+                    this.triggerChange(this.buildChangeDetails(old, this.data()));
+                }
+            }
+        }
+    });
+
+    $.fn.select2 = function () {
+
+        var args = Array.prototype.slice.call(arguments, 0),
+            opts,
+            select2,
+            method, value, multiple,
+            allowedMethods = ["val", "destroy", "opened", "open", "close", "focus", "isFocused", "container", "dropdown", "onSortStart", "onSortEnd", "enable", "disable", "readonly", "positionDropdown", "data", "search"],
+            valueMethods = ["opened", "isFocused", "container", "dropdown"],
+            propertyMethods = ["val", "data"],
+            methodsMap = { search: "externalSearch" };
+
+        this.each(function () {
+            if (args.length === 0 || typeof(args[0]) === "object") {
+                opts = args.length === 0 ? {} : $.extend({}, args[0]);
+                opts.element = $(this);
+
+                if (opts.element.get(0).tagName.toLowerCase() === "select") {
+                    multiple = opts.element.prop("multiple");
+                } else {
+                    multiple = opts.multiple || false;
+                    if ("tags" in opts) {opts.multiple = multiple = true;}
+                }
+
+                select2 = multiple ? new window.Select2["class"].multi() : new window.Select2["class"].single();
+                select2.init(opts);
+            } else if (typeof(args[0]) === "string") {
+
+                if (indexOf(args[0], allowedMethods) < 0) {
+                    throw "Unknown method: " + args[0];
+                }
+
+                value = undefined;
+                select2 = $(this).data("select2");
+                if (select2 === undefined) return;
+
+                method=args[0];
+
+                if (method === "container") {
+                    value = select2.container;
+                } else if (method === "dropdown") {
+                    value = select2.dropdown;
+                } else {
+                    if (methodsMap[method]) method = methodsMap[method];
+
+                    value = select2[method].apply(select2, args.slice(1));
+                }
+                if (indexOf(args[0], valueMethods) >= 0
+                    || (indexOf(args[0], propertyMethods) >= 0 && args.length == 1)) {
+                    return false; // abort the iteration, ready to return first matched value
+                }
+            } else {
+                throw "Invalid arguments to select2 plugin: " + args;
+            }
+        });
+        return (value === undefined) ? this : value;
+    };
+
+    // plugin defaults, accessible to users
+    $.fn.select2.defaults = {
+        width: "copy",
+        loadMorePadding: 0,
+        closeOnSelect: true,
+        openOnEnter: true,
+        containerCss: {},
+        dropdownCss: {},
+        containerCssClass: "",
+        dropdownCssClass: "",
+        formatResult: function(result, container, query, escapeMarkup) {
+            var markup=[];
+            markMatch(result.text, query.term, markup, escapeMarkup);
+            return markup.join("");
+        },
+        formatSelection: function (data, container, escapeMarkup) {
+            return data ? escapeMarkup(data.text) : undefined;
+        },
+        sortResults: function (results, container, query) {
+            return results;
+        },
+        formatResultCssClass: function(data) {return data.css;},
+        formatSelectionCssClass: function(data, container) {return undefined;},
+        formatMatches: function (matches) { return matches + " results are available, use up and down arrow keys to navigate."; },
+        formatNoMatches: function () { return "No matches found"; },
+        formatInputTooShort: function (input, min) { var n = min - input.length; return "Please enter " + n + " or more character" + (n == 1? "" : "s"); },
+        formatInputTooLong: function (input, max) { var n = input.length - max; return "Please delete " + n + " character" + (n == 1? "" : "s"); },
+        formatSelectionTooBig: function (limit) { return "You can only select " + limit + " item" + (limit == 1 ? "" : "s"); },
+        formatLoadMore: function (pageNumber) { return "Loading more results…"; },
+        formatSearching: function () { return "Searching…"; },
+        minimumResultsForSearch: 0,
+        minimumInputLength: 0,
+        maximumInputLength: null,
+        maximumSelectionSize: 0,
+        id: function (e) { return e == undefined ? null : e.id; },
+        matcher: function(term, text) {
+            return stripDiacritics(''+text).toUpperCase().indexOf(stripDiacritics(''+term).toUpperCase()) >= 0;
+        },
+        separator: ",",
+        tokenSeparators: [],
+        tokenizer: defaultTokenizer,
+        escapeMarkup: defaultEscapeMarkup,
+        blurOnChange: false,
+        selectOnBlur: false,
+        adaptContainerCssClass: function(c) { return c; },
+        adaptDropdownCssClass: function(c) { return null; },
+        nextSearchTerm: function(selectedObject, currentSearchTerm) { return undefined; },
+        searchInputPlaceholder: '',
+        createSearchChoicePosition: 'top',
+        shouldFocusInput: function (instance) {
+            // Attempt to detect touch devices
+            var supportsTouchEvents = (('ontouchstart' in window) ||
+                (navigator.msMaxTouchPoints > 0));
+
+            // Only devices which support touch events should be special cased
+            if (!supportsTouchEvents) {
+                return true;
+            }
+
+            // Never focus the input if search is disabled
+            if (instance.opts.minimumResultsForSearch < 0) {
+                return false;
+            }
+
+            return true;
+        }
+    };
+
+    $.fn.select2.ajaxDefaults = {
+        transport: $.ajax,
+        params: {
+            type: "GET",
+            cache: false,
+            dataType: "json"
+        }
+    };
+
+    // exports
+    window.Select2 = {
+        query: {
+            ajax: ajax,
+            local: local,
+            tags: tags
+        }, util: {
+            debounce: debounce,
+            markMatch: markMatch,
+            escapeMarkup: defaultEscapeMarkup,
+            stripDiacritics: stripDiacritics
+        }, "class": {
+            "abstract": AbstractSelect2,
+            "single": SingleSelect2,
+            "multi": MultiSelect2
+        }
+    };
+
+}(jQuery));
+
 angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelect2', ['uiSelect2Config', '$timeout', function (uiSelect2Config, $timeout) {
     var options = {};
     if (uiSelect2Config) {
