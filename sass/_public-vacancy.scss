@@ -478,12 +478,12 @@
 		.btn-primary-new {
 			@include btn-primary-new();
 
-			font-size: 18px;
+			font-size: 15px;
 
 			margin-bottom: 15px;
-			padding: 10px 37px;
+			padding: 10px 22px;
 			&.apply-via {
-				font-size: 14px;
+				font-size: 12px;
 
 				padding: 10px 20px;
 				&.linkedin {

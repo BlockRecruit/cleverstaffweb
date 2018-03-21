@@ -22296,9 +22296,9 @@ html body#tinymce.mce-content-body {
     border: 1px solid #00b549;
     border-radius: 25px;
     background-color: #00b549;
-    font-size: 18px;
+    font-size: 15px;
     margin-bottom: 15px;
-    padding: 10px 37px; }
+    padding: 10px 22px; }
     .block-public .apply-buttons .btn-primary-new:hover {
       color: #00b549;
       border: 1px solid #00b549;
@@ -22306,7 +22306,7 @@ html body#tinymce.mce-content-body {
     .block-public .apply-buttons .btn-primary-new:focus {
       outline: none; }
     .block-public .apply-buttons .btn-primary-new.apply-via {
-      font-size: 14px;
+      font-size: 12px;
       padding: 10px 20px; }
       .block-public .apply-buttons .btn-primary-new.apply-via.linkedin {
         border: 1px solid #0274b3;
