@@ -11613,7 +11613,9 @@ angular.module('services.mailing',[]
         } else {
             return true
         }
-    }
+    };
+
+
     service.saveSubscribersList = function (topic, internal, Name, Mail, candidates, savedRecipientsSource, goToEditor) {
         let savedMailing = JSON.parse($localStorage.get('subscriberListParams'));
         let mailingText = savedMailing&&savedMailing.text?savedMailing.text:'...';
@@ -12127,25 +12129,50 @@ angular.module('services.mailing',[]
     };
 
 
+    function isSecondStepHasChanges(savedParams, currentParams) {
+        for(propName in currentParams) {
+            if(currentParams[propName] !== savedParams[propName])
+                return true
+        }
+        return false
+    };
+
+
     service.editorChangeStep = function (text, topic, fromName, fromMail, step) {
         let htmlText = text ;
         return $q((resolve,reject) => {
-            service.updateCompaignFromEditor(htmlText, topic, fromName, fromMail).then(
-                result => {
-                    notificationService.success($filter('translate')('Changes are saved'));
-                    resolve(result);
-                    if(step == 'details') {
-                        service.setStep('mailing-details');
-                    } else {
-                        if(step == 'preview')
-                        service.setStep('mailing-preview');
+            let savedDetails = JSON.parse($localStorage.get('subscriberListParams'));
+            if(isSecondStepHasChanges(savedDetails, {
+                    text: text,
+                    subject: topic,
+                    fromName: fromName,
+                    fromMail: fromMail
+                })) {
+                service.updateCompaignFromEditor(htmlText, topic, fromName, fromMail).then(
+                    result => {
+                        notificationService.success($filter('translate')('Changes are saved'));
+                        resolve(result);
+                        if(step == 'details') {
+                            service.setStep('mailing-details');
+                        } else {
+                            if(step == 'preview')
+                                service.setStep('mailing-preview');
+                        }
+                    },
+                    error => {
+                        reject(error);
+                        console.log('Error: /service.editorToDetails ' + error.status + ' ' + error.statusText);
                     }
-                },
-                error => {
-                    reject(error);
-                    console.log('Error: /service.editorToDetails ' + error.status + ' ' + error.statusText);
+                )
+            } else {
+                resolve('no changes');
+                if(step == 'details') {
+                    service.setStep('mailing-details');
+                } else {
+                    if(step == 'preview')
+                        service.setStep('mailing-preview');
                 }
-            )
+            }
         })
     };
 
