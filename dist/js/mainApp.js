@@ -3008,6 +3008,10 @@ directive('appVersion', ['version', function(version) {
                                             $('a.select2-search-choice-edit').off().on('click',function (e) {
                                                 $scope.editTagName(e.currentTarget);
                                             });
+                                            $('a.select2-search-choice-remove').attr("title", $filter('translate')('Remove tag from account'));
+                                            $('a.select2-search-choice-remove').off().on('click',function (e) {
+                                                console.log('here');
+                                            });
                                         });
                                     }
                                 });
@@ -3019,6 +3023,10 @@ directive('appVersion', ['version', function(version) {
                                     $('a.select2-search-choice-edit').attr("title", $filter('translate')('Edit tag for all candidates'));
                                     $('a.select2-search-choice-edit').off().on('click',function (e) {
                                         $scope.editTagName(e.currentTarget);
+                                    });
+                                    $('a.select2-search-choice-remove').attr("title", $filter('translate')('Remove tag from account'));
+                                    $('a.select2-search-choice-remove').off().on('click',function (e) {
+                                        console.log('here');
                                     });
                                 }
                             }
@@ -3039,6 +3047,10 @@ directive('appVersion', ['version', function(version) {
                         $('a.select2-search-choice-edit').attr("title", $filter('translate')('Edit tag for all candidates'));
                         $('a.select2-search-choice-edit').off().on('click',function (e) {
                             $scope.editTagName(e.currentTarget);
+                        });
+                        $('a.select2-search-choice-remove').attr("title", $filter('translate')('Remove tag from account'));
+                        $('a.select2-search-choice-remove').off().on('click',function (e) {
+                            console.log('here');
                         });
                     },5000);
                 }
