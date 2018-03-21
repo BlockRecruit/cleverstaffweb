@@ -11588,8 +11588,33 @@ angular.module('services.mailing',[]
         });
     };
 
-
-    service.saveSubscribersList = function (topic, internal, Name, Mail, candidates, goToEditor) {
+    
+    function isFirstStepHasChanges(allParams) {
+        let currentCandidatesList = [];
+        allParams.candidates.forEach(candidate => {
+            if(candidate.mailing) {
+                currentCandidatesList.push({
+                    email: candidate.candidateId.email,
+                    firstName: candidate.candidateId.firstName,
+                    lastName: candidate.candidateId.lastName,
+                    localId: candidate.candidateId.localId
+                });
+            }
+        });
+        console.log('new, saved, current',allParams.candidates,allParams.savedMailing.subscribers, currentCandidatesList);
+        if(allParams.savedMailing) {
+            if(!angular.equals(allParams.savedRecipientsSource, allParams.recipientsSource))
+                return true;
+            if(allParams.internalName !== allParams.savedMailing.internalName)
+                return true;
+            if(!angular.equals(allParams.savedMailing.subscribers,currentCandidatesList))
+                return true;
+            return false
+        } else {
+            return true
+        }
+    }
+    service.saveSubscribersList = function (topic, internal, Name, Mail, candidates, savedRecipientsSource, goToEditor) {
         let savedMailing = JSON.parse($localStorage.get('subscriberListParams'));
         let mailingText = savedMailing&&savedMailing.text?savedMailing.text:'...';
         $rootScope.loading = true;
@@ -11607,7 +11632,19 @@ angular.module('services.mailing',[]
             paramsObject.subscriberListId = existedList.subscriberLists[0].subscriberListId;
             updateList();
         } else  {
-            saveNewList();
+            if(isFirstStepHasChanges({
+                    internalName:internal,
+                    candidates: candidates, 
+                    savedMailing: savedMailing, 
+                    savedRecipientsSource: savedRecipientsSource, 
+                    recipientsSource: recipientsSource
+            })) {
+                saveNewList();
+            } else {
+                $rootScope.loading = false;
+                if(goToEditor)
+                    service.setStep('mailing-editor');
+            }
         }
         function saveNewList() {
             service.setList(paramsObject, function (resp) {
@@ -11675,16 +11712,6 @@ angular.module('services.mailing',[]
                 notificationService.error(error)
             });
         }
-    };
-
-    service.verifyEmails = function(candidates) {
-        let incorrectMails = [];
-        candidates.forEach((candidate)=> {
-            if(candidate.candidateId.email.indexOf('@') == -1) {
-                incorrectMails.push(candidate.candidateId.email)
-            }
-        });
-        return incorrectMails
     };
 
 
@@ -46562,6 +46589,7 @@ component.component('mDetails', {
     controller: function ($location, $scope, $rootScope, $localStorage, notificationService, $filter, $uibModal, $http, $state, Mailing, vacancyStages, Person) {
         $scope.candidatesForMailing = $localStorage.get('candidatesForMailing')?JSON.parse($localStorage.get('candidatesForMailing')):[];
         let olderAvailableStep = $localStorage.get('stepClickable');
+        let recipientsSource = JSON.parse($localStorage.get('mailingRecipientsSource'));
         $scope.newRecipient = {};
         $scope.editFromName = false;
         $scope.topic = '';
@@ -46722,7 +46750,7 @@ component.component('mDetails', {
                     angular.forEach($scope.candidatesForMailing, (candidate)=>{
                         if(candidate.mailing) {
                             if(candidate.candidateId.email) {
-                                if(candidate.candidateId.email.indexOf('@') == -1 && candidate.mailing) {
+                                if(!Mailing.emailValidation(candidate.candidateId.email)) {
                                     candidate.wrongEmail = true;
                                     incorrectEmails = true;
                                 }
@@ -46737,10 +46765,10 @@ component.component('mDetails', {
                     }
                     if(!incorrectEmails) {
                         if(toThePreview) {
-                            Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing);
+                            Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource);
                             Mailing.toThePreview();
                         } else {
-                            Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, true);
+                            Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource, true);
                         }
                     } else {
                         notificationService.error($filter('translate')('Wrong emails'))

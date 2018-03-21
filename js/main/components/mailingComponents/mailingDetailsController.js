@@ -3,6 +3,7 @@ component.component('mDetails', {
     controller: function ($location, $scope, $rootScope, $localStorage, notificationService, $filter, $uibModal, $http, $state, Mailing, vacancyStages, Person) {
         $scope.candidatesForMailing = $localStorage.get('candidatesForMailing')?JSON.parse($localStorage.get('candidatesForMailing')):[];
         let olderAvailableStep = $localStorage.get('stepClickable');
+        let recipientsSource = JSON.parse($localStorage.get('mailingRecipientsSource'));
         $scope.newRecipient = {};
         $scope.editFromName = false;
         $scope.topic = '';
@@ -163,7 +164,7 @@ component.component('mDetails', {
                     angular.forEach($scope.candidatesForMailing, (candidate)=>{
                         if(candidate.mailing) {
                             if(candidate.candidateId.email) {
-                                if(candidate.candidateId.email.indexOf('@') == -1 && candidate.mailing) {
+                                if(!Mailing.emailValidation(candidate.candidateId.email)) {
                                     candidate.wrongEmail = true;
                                     incorrectEmails = true;
                                 }
@@ -178,10 +179,10 @@ component.component('mDetails', {
                     }
                     if(!incorrectEmails) {
                         if(toThePreview) {
-                            Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing);
+                            Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource);
                             Mailing.toThePreview();
                         } else {
-                            Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, true);
+                            Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource, true);
                         }
                     } else {
                         notificationService.error($filter('translate')('Wrong emails'))

@@ -208,8 +208,33 @@ angular.module('services.mailing',[]
         });
     };
 
-
-    service.saveSubscribersList = function (topic, internal, Name, Mail, candidates, goToEditor) {
+    
+    function isFirstStepHasChanges(allParams) {
+        let currentCandidatesList = [];
+        allParams.candidates.forEach(candidate => {
+            if(candidate.mailing) {
+                currentCandidatesList.push({
+                    email: candidate.candidateId.email,
+                    firstName: candidate.candidateId.firstName,
+                    lastName: candidate.candidateId.lastName,
+                    localId: candidate.candidateId.localId
+                });
+            }
+        });
+        console.log('new, saved, current',allParams.candidates,allParams.savedMailing.subscribers, currentCandidatesList);
+        if(allParams.savedMailing) {
+            if(!angular.equals(allParams.savedRecipientsSource, allParams.recipientsSource))
+                return true;
+            if(allParams.internalName !== allParams.savedMailing.internalName)
+                return true;
+            if(!angular.equals(allParams.savedMailing.subscribers,currentCandidatesList))
+                return true;
+            return false
+        } else {
+            return true
+        }
+    }
+    service.saveSubscribersList = function (topic, internal, Name, Mail, candidates, savedRecipientsSource, goToEditor) {
         let savedMailing = JSON.parse($localStorage.get('subscriberListParams'));
         let mailingText = savedMailing&&savedMailing.text?savedMailing.text:'...';
         $rootScope.loading = true;
@@ -227,7 +252,19 @@ angular.module('services.mailing',[]
             paramsObject.subscriberListId = existedList.subscriberLists[0].subscriberListId;
             updateList();
         } else  {
-            saveNewList();
+            if(isFirstStepHasChanges({
+                    internalName:internal,
+                    candidates: candidates, 
+                    savedMailing: savedMailing, 
+                    savedRecipientsSource: savedRecipientsSource, 
+                    recipientsSource: recipientsSource
+            })) {
+                saveNewList();
+            } else {
+                $rootScope.loading = false;
+                if(goToEditor)
+                    service.setStep('mailing-editor');
+            }
         }
         function saveNewList() {
             service.setList(paramsObject, function (resp) {
@@ -295,16 +332,6 @@ angular.module('services.mailing',[]
                 notificationService.error(error)
             });
         }
-    };
-
-    service.verifyEmails = function(candidates) {
-        let incorrectMails = [];
-        candidates.forEach((candidate)=> {
-            if(candidate.candidateId.email.indexOf('@') == -1) {
-                incorrectMails.push(candidate.candidateId.email)
-            }
-        });
-        return incorrectMails
     };
 
 

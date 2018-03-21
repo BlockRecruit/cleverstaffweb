@@ -456,18 +456,16 @@
 						.col-lg-10 {
 							padding-left: 0;
 						}
-						.interviewEdit {
-							.manyCandidates {
-								& > .boldTxt {
-									@include bold();
-									.blueLink {
-										color: $theme-link-color;
-									}
+						.manyCandidates {
+							& > .boldTxt {
+								@include bold();
+								.blueLink {
+									color: $theme-link-color;
 								}
 							}
-							.menuCandidate {
-								display: block;
-							}
+						}
+						.menuCandidate {
+							display: block;
 						}
 					}
 					#commentAdd {
