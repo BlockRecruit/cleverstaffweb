@@ -784,7 +784,8 @@
 						}
 						.education,
 						.currentWorkPlace,
-						.currentPosition {
+						.currentPosition,
+						.custom-field {
 							line-height: 26px;
 							span {
 								@include bold();
@@ -795,6 +796,13 @@
 
 									color: #b8b8b8;
 								}
+							}
+							span ~ span {
+								font-weight: 500;
+
+								display: inline;
+
+								white-space: normal;
 							}
 						}
 						.customFields {
@@ -961,6 +969,13 @@
 								&:last-child {
 									margin-bottom: 0;
 								}
+							}
+						}
+						.show-for-print {
+							word-break: break-all;
+							i {
+								position: relative;
+								top: -1px;
 							}
 						}
 					}
