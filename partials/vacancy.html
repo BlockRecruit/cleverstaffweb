@@ -1037,9 +1037,9 @@
                                 <span>{{candidate.position}}</span>
                             </td>
                             <td class="empty-fields" ng-show="candidate.emptyFields">
-                                <i tooltip-class="customClass" uib-tooltip="{{'salary' | translate}}"
-                                   ng-if="candidate.emptyFields.indexOf('region') !== -1"  class="fa fa-map-marker" aria-hidden="true"></i>
                                 <i tooltip-class="customClass" uib-tooltip="{{'lives_in' | translate}}"
+                                   ng-if="candidate.emptyFields.indexOf('region') !== -1"  class="fa fa-map-marker" aria-hidden="true"></i>
+                                <i tooltip-class="customClass" uib-tooltip="{{'salary' | translate}}"
                                    ng-if="candidate.emptyFields.indexOf('salary') !== -1" class="fa fa-usd" aria-hidden="true"></i>
                             </td>
                             <td class="scorePersent">

@@ -77,6 +77,10 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
             }
         };
 
+        $scope.closeModal = function() {
+            $scope.modalInstance.close();
+        };
+
         function getSuggestions() {
             $rootScope.loading = true;
             vacancySuggestions.getSuggestions({"vacancyId": $scope.vacancy.vacancyId})
