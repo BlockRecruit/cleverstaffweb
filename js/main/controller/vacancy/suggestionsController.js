@@ -5,7 +5,9 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
         $scope.candidates = [];
         $scope.vacancyEmptyRequiredFields = [];
         $scope.candidatesEmptyRequiredFields = [];
+
         $scope.suggestionTab = 'exactMatching';
+        $scope.suggestionTitle = "";
 
         $scope.SuggestionsSortCriteria = 'scorePersent';
         $scope.reverseSort = true;
@@ -27,10 +29,11 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
             $scope.suggestionTab = tab;
             if(tab === 'exactMatching') {
                 $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
-                console.log($scope.suggestedCandidates);
+                $scope.suggestionTitle = setSuggestionTitle();
             } else {
                 $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, false);
                 getCandidatesEmptyFields();
+                $scope.suggestionTitle = setSuggestionTitle();
             }
         };
 
@@ -85,11 +88,12 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
             $rootScope.loading = true;
             vacancySuggestions.getSuggestions({"vacancyId": $scope.vacancy.vacancyId})
                 .then(resp => {
-                    $scope.candidates = resp['objects'];
-                    $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
-                    $scope.suggestionTab = 'exactMatching';
                     $rootScope.loading = false;
+                    setInitialData(resp);
                     $scope.$apply();
+                }, error => {
+                    $rootScope.loading = false;
+                    notificationService.error(error.message);
                 });
         }
 
@@ -148,6 +152,19 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
                     if(checkRequiredFieldsCompletion($scope.vacancy).invalid) $scope.$parent.VacanciesInfCandidTaskHistClientFunc('candidate');
                 });
             }
+        }
+
+        function setSuggestionTitle() {
+            let title = $scope.suggestionTab === 'exactMatching' ? "Exact matches not found, view candidates in the tab 'Probably Suitable'"
+                                                                 : "Probably suitable matches not found, view candidates in the tab 'Exact matching'";
+            return $filter('translate')(title);
+        }
+
+        function setInitialData(data) {
+            $scope.candidates = data['objects'];
+            $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
+            $scope.suggestionTab = 'exactMatching';
+            $scope.suggestionTitle = setSuggestionTitle();
         }
     }
 ]);

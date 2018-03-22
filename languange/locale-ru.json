@@ -2928,5 +2928,8 @@
   "Fill in the information necessary for the selection of candidates":"Заполните поля, необходимые для подбора кандидатов",
   "Exact matching":"Точное совпадение",
   "Probably suitable":"Вероятно подходящие",
-  "Fields required for filling":"Поля, необходимые для заполнения"
+  "Fields required for filling":"Поля, необходимые для заполнения",
+  "Fill all fields":"Заполните все поля",
+  "Exact matches not found, view candidates in the tab 'Probably Suitable'":"Точных совпадений не найдено, посмотрите кандидатов во вкладке \"Вероятно подходящие\"",
+  "Probably suitable matches not found, view candidates in the tab 'Exact matching'":"Вероятно подходящих кандидатов не найдено, посмотрите кандидатов во вкладке \"Точное совпадение\""
 }

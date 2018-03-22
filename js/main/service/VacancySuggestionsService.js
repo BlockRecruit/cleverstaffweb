@@ -16,7 +16,13 @@ angular.module('services.vacancySuggestions', [
 
         vacancySuggestions.getSuggestions = function(params) {
             return new Promise((resolve, reject) => {
-               vacancySuggestions.getAdvices(params, response => resolve(response),error => reject(error));
+               vacancySuggestions.getAdvices(params, response => {
+                   if(response.status === 'ok'){
+                       resolve(response)
+                   } else {
+                       reject(response);
+                   }
+               },error => reject(error));
             });
         };
 

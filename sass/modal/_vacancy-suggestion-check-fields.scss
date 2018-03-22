@@ -51,6 +51,9 @@
 					&.error {
 						border-color: #e86863;
 					}
+					&.region {
+						width: 260px;
+					}
 				}
 				select.currency {
 					position: relative;

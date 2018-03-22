@@ -22,7 +22,7 @@
             </div>
             <div class="field" ng-if="vacancyEmptyRequiredFields.indexOf('region') !== -1">
                 <label for="pac-input">{{'Country and city' | translate}}*</label>
-                <input id="pac-input" placeholder="{{'Enter the address'|translate}}"
+                <input id="pac-input" class="region" placeholder="{{'Enter the address'|translate}}"
                        ng-model="regionInput" googleplace>
             </div>
         </form>
