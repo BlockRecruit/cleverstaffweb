@@ -824,9 +824,17 @@
 	a {
 		cursor: pointer;
 	}
+	.main-info {
+		margin-bottom: 14px;
+		.row {
+			padding: 0 0 6px 0;
+		}
+		p {
+			margin: 0;
+		}
+	}
 	.row {
 		margin: 0;
-		padding: 0 0 25px 0;
 
 		background-color: white;
 		h3 {
@@ -858,14 +866,10 @@
 		&.email-text {
 			.text-block-wrapper {
 				overflow-y: auto;
+				width: 95%;
 				max-height: 144px;
 
-				border: 1px solid $theme-light-grey;
 				border-radius: 5px;
-				.text-block {
-					width: 90%;
-					margin: 15px auto;
-				}
 			}
 		}
 		&.sender,
@@ -873,7 +877,12 @@
 			margin-top: 20px;
 			padding-top: 15px;
 		}
+		&.sender {
+			margin-top: 13px;
+		}
 		&.recipients {
+			margin-bottom: 20px;
+			padding-top: 0;
 			padding-bottom: 15px;
 
 			border-radius: 5px;
@@ -947,20 +956,31 @@
 				}
 			}
 		}
-		.charts-header {
-			padding-top: 25px;
-			padding-bottom: 0;
-			h4 {
-				padding-bottom: 5px;
-				padding-left: 35px;
-			}
-		}
+
 		.charts {
 			display: flex;
+			padding-top: 25px;
+			padding-bottom: 25px;
 
 			justify-content: space-between;
 			& > div {
 				width: 45%;
+			}
+		}
+		.slide-list {
+			position: absolute;
+			z-index: 1000;
+			top: 47px;
+			left: 133px;
+
+			display: block;
+			width: 450px;
+			max-width: 1231px;
+			&.read {
+				left: 23%;
+			}
+			&.undelivered {
+				left: 58%;
 			}
 		}
 		.slide-list-wrapper {
@@ -978,24 +998,40 @@
 			&.show {
 				visibility: visible;
 				height: auto;
-				margin: 10px;
 
 				border: 1px solid #ccc;
 			}
+			.candidates-list-wrapper {
+				overflow-y: auto;
+				max-height: 200px;
+			}
 		}
 		.statistics-top {
+			position: relative;
+			& > div {
+				position: initial;
+			}
 			.header {
 				background-color: #e3f2dd;
 			}
 			.count {
-				&.clickable {
-					cursor: pointer;
-					text-decoration: underline;
+				z-index: 10;
+				.toggle-button {
+					font-weight: normal;
+
+					width: 75px;
+
+					text-align: left;
 
 					color: #337ab7;
-					&:hover {
-						color: #23527c;
+					& > span {
+						font-weight: normal;
+
+						color: $theme-dark;
 					}
+				}
+				&.clickable {
+					cursor: pointer;
 				}
 			}
 		}

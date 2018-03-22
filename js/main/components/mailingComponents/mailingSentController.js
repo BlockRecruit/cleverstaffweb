@@ -80,8 +80,15 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
     };
 
 
-    $scope.readerListToggle = function (sliderType) {
-        $scope.opensListFlag[sliderType] = !$scope.opensListFlag[sliderType];
+    $scope.readerListToggle = function (event) {
+        for(let key in $scope.opensListFlag) {
+            console.log(key,document.getElementsByClassName(key)[0],event.target, $.contains(document.getElementsByClassName(key)[0],event.target))
+            if($.contains(document.getElementsByClassName(key)[0],event.target)) {
+                $scope.opensListFlag[key] = !$scope.opensListFlag[key];
+            } else {
+                $scope.opensListFlag[key] = false;
+            }
+        }
     };
 
 
@@ -180,7 +187,7 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
                 }
             },
             "title":{
-                "text":$translate.instant('statistics'),
+                "text":$translate.instant('Email delivery statistics'),
                 "fontColor": "#8e99a9",
                 "align": "left",
                 "offsetX": 10,

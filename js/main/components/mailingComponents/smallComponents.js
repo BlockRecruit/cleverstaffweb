@@ -41,9 +41,11 @@ component.component('sentMailingStatus',{
                         <div class="col-lg-6" translate="full_name"></div>
                         <div class="col-lg-6" translate="email"></div>
                     </div>
-                    <div class="row" ng-repeat="candidate in $ctrl.candidatesList">
-                        <div class="col-lg-6" ><a href="!#/candidates/{{candidate.localId}}" target="_blank" ng-bind="candidate.name"></a></div>
-                        <div ng-bind="candidate.email" class="col-lg-6"></div>
+                    <div class="candidates-list-wrapper">
+                        <div class="row" ng-repeat="candidate in $ctrl.candidatesList">
+                            <div class="col-lg-6" ><a href="!#/candidates/{{candidate.localId}}" target="_blank" ng-bind="candidate.name"></a></div>
+                            <div ng-bind="candidate.email" class="col-lg-6"></div>
+                        </div>
                     </div>
                </div>`,
     controllerAs: '$ctrl'

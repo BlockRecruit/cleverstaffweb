@@ -3001,7 +3001,6 @@
   "The price of mailing is":"Стоимость рассылки составляет {{price}}$",
   "User won`t be able to create, send and view created mailings.":"Пользователь не сможет создавать, отправлять или просматривать созданные рассылки",
   "Mailings are hidden for the user":"Модуль рассылок скрыт от пользователя",
-  "Mailings are available for the user":"Модуль рассылок доступен для пользователя",
   "letter": {
     "plural" : ["письма","писем"],
     "single": ["письмо"]
@@ -3042,5 +3041,7 @@
   "limitedAccess" : "Ограниченный доступ",
   "freeAccess": "Бесплатный доступ",
   "Select the role of the new user":"Выберите роль нового пользователя",
-  "New user invite":"Пригласить нового пользователя"
+  "New user invite":"Пригласить нового пользователя",
+  "was sent to candidate": "была отправлена кандидату",
+  "Email delivery statistics": "Статистика по отправке писем"
 }

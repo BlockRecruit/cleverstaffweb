@@ -47381,8 +47381,15 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
     };
 
 
-    $scope.readerListToggle = function (sliderType) {
-        $scope.opensListFlag[sliderType] = !$scope.opensListFlag[sliderType];
+    $scope.readerListToggle = function (event) {
+        for(let key in $scope.opensListFlag) {
+            console.log(key,document.getElementsByClassName(key)[0],event.target, $.contains(document.getElementsByClassName(key)[0],event.target))
+            if($.contains(document.getElementsByClassName(key)[0],event.target)) {
+                $scope.opensListFlag[key] = !$scope.opensListFlag[key];
+            } else {
+                $scope.opensListFlag[key] = false;
+            }
+        }
     };
 
 
@@ -47481,7 +47488,7 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
                 }
             },
             "title":{
-                "text":$translate.instant('statistics'),
+                "text":$translate.instant('Email delivery statistics'),
                 "fontColor": "#8e99a9",
                 "align": "left",
                 "offsetX": 10,
@@ -47840,9 +47847,11 @@ component.component('sentMailingStatus',{
                         <div class="col-lg-6" translate="full_name"></div>
                         <div class="col-lg-6" translate="email"></div>
                     </div>
-                    <div class="row" ng-repeat="candidate in $ctrl.candidatesList">
-                        <div class="col-lg-6" ><a href="!#/candidates/{{candidate.localId}}" target="_blank" ng-bind="candidate.name"></a></div>
-                        <div ng-bind="candidate.email" class="col-lg-6"></div>
+                    <div class="candidates-list-wrapper">
+                        <div class="row" ng-repeat="candidate in $ctrl.candidatesList">
+                            <div class="col-lg-6" ><a href="!#/candidates/{{candidate.localId}}" target="_blank" ng-bind="candidate.name"></a></div>
+                            <div ng-bind="candidate.email" class="col-lg-6"></div>
+                        </div>
                     </div>
                </div>`,
     controllerAs: '$ctrl'

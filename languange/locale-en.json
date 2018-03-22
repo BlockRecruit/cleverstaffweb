@@ -2419,7 +2419,6 @@
   "The price of mailing is":"The price of mailing is {{price}}$",
   "User won`t be able to create, send and view created mailings.":"User won`t be able to create, send and view created mailings.",
   "Mailings are hidden for the user":"Mailings are hidden for the user",
-  "Mailings are available for the user":"Mailings are available for the user",
   "letter": {
     "plural" : ["letters"],
     "single": ["letter"]
@@ -2449,5 +2448,7 @@
   "limitedAccess" : "Limited access",
   "freeAccess": "Free access",
   "Select the role of the new user":"Select the role of the new user",
-  "New user invite":"Invite new user"
+  "New user invite":"Invite new user",
+  "was sent to candidate": "was sent to candidate",
+  "Email delivery statistics": "Email delivery statistics"
 }
