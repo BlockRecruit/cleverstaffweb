@@ -602,7 +602,7 @@
                     </h4>
                 </div>
                 <div class="col-lg-9 text-right links hidden-xs hidden-sm">
-                    <div class="col-lg-3" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'salesmanager'">
+                    <div class="header-button" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'salesmanager'">
                         <a ng-show="vacancy.testIds.length > 0" ng-click="$root.sendTestFromVacancyStage(activeName, 'longlist', dataForVacancy)" title="{{'Send test' | translate}}">
                             {{'Send test' | translate}}
                             <i class="fa fa-check-square-o" aria-hidden="true"></i>
@@ -612,7 +612,7 @@
                             <i class="fa fa-check-square-o" aria-hidden="true"></i>
                         </a>
                     </div>
-                    <div class="col-lg-3" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y')">
+                    <div class="header-button" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y')">
                         <a ng-click="exportToExcel()" ng-show="$root.hideTariff" title="{{'Export to Excel' | translate}}">
                             {{'Export to Excel' | translate}}
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>
@@ -622,7 +622,7 @@
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>
                         </button>
                     </div>
-                    <div class="col-lg-3" ng-show="$root.me.recrutRole != 'salesmanager'">
+                    <div class="header-button" ng-show="$root.me.recrutRole != 'salesmanager'">
                         <a id="export_in_excel" class="hidden" href="">
                         </a>
                         <a ng-click="sendCandidatesToClient()">
@@ -634,7 +634,7 @@
                             <!--<i class="fa fa-envelope" aria-hidden="true"></i>-->
                         <!--</a>-->
                     </div>
-                    <div class="mailing col-lg-3" ng-show="$root.me.orgParams.enableMailing !== 'false' && $root.me.personParams.enableMailing !== 'false' && ($root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter')"
+                    <div class="mailing header-button" ng-show="$root.me.orgParams.enableMailing !== 'false' && $root.me.personParams.enableMailing !== 'false' && ($root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter')"
                          ng-class="{'col-lg-4': !($root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y'))}">
                         <a href="" ng-click="toCreateMailing()">
                             <span translate="Create email campaign"></span>

@@ -310,10 +310,13 @@
 				.links {
 					display: flex;
 					margin-top: 10px;
-					padding: 0;
-					padding-right: 25px;
 
 					justify-content: space-between;
+					div {
+						display: flex;
+
+						justify-content: space-between;
+					}
 					.send-test {
 						& > a {
 							& > i {
@@ -355,7 +358,7 @@
 							font-size: 9px;
 
 							position: absolute;
-							right: -36px;
+							right: -33px;
 							bottom: 15px;
 
 							margin-left: 2px;
@@ -1089,6 +1092,13 @@
 @media (max-width: $screen-sm) {
 	.no-hover-sm {
 		opacity: 1!important;
+	}
+}
+
+@media (max-width: 1200px) {
+	.block-vacancy .vacancy-statuses .status-info .header .links {
+		margin-top: 0;
+		margin-bottom: 5px;
 	}
 }
 
