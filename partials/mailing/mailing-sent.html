@@ -76,7 +76,7 @@
                 <div  class="count opened" ng-class="{'clickable': readers.length > 0}">
                     <span ng-bind="readers.length"></span>
                     <span class="toggle-button" ng-show="!opensListFlag.opened && readers.length > 0"><span>(</span>{{"Show"|translate}}<span>)</span></span>
-                    <span class="toggle-button" ng-show="opensListFlag.opened && readers.length > 0"><span>(</span>{{"Hide_1"|translate}}<span>)</span></span>
+                    <span class="toggle-button" ng-show="opensListFlag.opened && readers.length > 0"><span>(</span>{{"hide"|translate}}<span>)</span></span>
                 </div>
                 <slide-statistic-list ng-if="statistics.opens > 0" class="slide-list read" candidates-list="readers" toggle-flag="opensListFlag.opened"></slide-statistic-list>
             </div>
@@ -86,7 +86,7 @@
                     <span>
                         <span ng-bind="notReceived.length"></span>
                     <span class="toggle-button" ng-show="!opensListFlag.undelivered && notReceived.length > 0"> ({{"Show"|translate}})</span>
-                    <span class="toggle-button" ng-show="opensListFlag.undelivered && notReceived.length > 0"> ({{"Hide_1"|translate}})</span>
+                    <span class="toggle-button" ng-show="opensListFlag.undelivered && notReceived.length > 0"> ({{"hide"|translate}})</span>
                     </span>
                 </div>
                 <slide-statistic-list ng-if="statistics.undelivered > 0" class="slide-list undelivered" candidates-list="notReceived" toggle-flag="opensListFlag.undelivered"></slide-statistic-list>
