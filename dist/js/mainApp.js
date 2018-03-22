@@ -4997,6 +4997,45 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             }
         };
     }])
+    .filter('dateFormat7', ["$filter", "$translate", function ($filter, $translate) {
+        return function (date, withHour, withUTC) {
+
+            function createDateAsUTC(datLong) {
+                if (datLong != undefined) {
+                    var date = new Date(datLong);
+                    return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+                }
+            }
+
+            if (withUTC == true) {
+                date = createDateAsUTC(date);
+            }
+            var hour = "";
+            var dateToday = new Date().getTime();
+            var lang = $translate.use();
+            var dateMD = "";
+            var dateMDY = "";
+            if (lang == 'ru' || lang == 'ua') {
+                dateMD = "dd-MM-yyyy ";
+                dateMDY = "dd-MM-yyyy ";
+            } else if (lang == 'en') {
+                dateMD = "MM-dd-yyyy ";
+                dateMDY = "MM-dd-yyyy ";
+            }
+            if (withHour === true) {
+                if (lang == 'en') {
+                    hour = "h:mm:ss a";
+                } else {
+                    hour = "H:mm:ss";
+                }
+            }
+            if (angular.equals($filter('date')(dateToday, 'y'), $filter('date')(date, 'y'))) {
+                return $filter('date')(date, dateMD + hour);
+            } else {
+                return $filter('date')(date, dateMDY + hour);
+            }
+        };
+    }])
     .filter('salaryFormat', ["$filter", function ($filter) {
         return function (salaryFrom, salaryTo) {
             var res = "";
