@@ -26,7 +26,7 @@
                      <div class="deadline">
                         {{'Deadline' | translate}}:
                         <br>
-                        <span ng-class="{'deadline-finish': deadline <= $root.nowDate}">{{vacancy.dateFinish}}</span>
+                        <span ng-class="{'deadline-finish': deadline <= $root.nowDate}">{{vacancy.dateFinish|dateFormat3}}</span>
                     </div>
                 </div>
                 <div class="clearfix"></div>
