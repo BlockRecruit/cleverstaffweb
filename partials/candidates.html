@@ -175,7 +175,6 @@
                                         </option>
                                         <option value="false">{{'Unavailable Email and/or Skype'|translate}}</option>
                                     </select>
-                                    <span class="new-label">New</span>
                                 </div>
                             </form>
                         </div>
@@ -1702,8 +1701,8 @@
                             <span ng-show="candidatePreview.db">, {{candidatePreview.db|ageOfDate}}</span>
                         </div>
                         <div style="margin-bottom: 10px;">
-                            {{candidatePreview.position}}
-                            <span ng-show="candidatePreview != undefined && candidatePreview.salary">,
+                            {{candidatePreview.position}}<span ng-show="candidatePreview != undefined && candidatePreview.salary">,</span>
+                            <span ng-show="candidatePreview != undefined && candidatePreview.salary">
                                 <span ng-show="candidatePreview.salary != 0">{{candidatePreview.salary}} {{candidatePreview.currency}}</span>
                             </span>
 

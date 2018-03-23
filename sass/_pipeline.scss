@@ -21,6 +21,9 @@
 		&.description-link {
 			display: block;
 			margin-bottom: 15px;
+			&:focus {
+				outline: none;
+			}
 		}
 	}
 	.table {

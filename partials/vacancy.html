@@ -710,7 +710,7 @@
                            ng-show="responsible.userId && (responsible.userId == candidate.creatorId)">
                             <!--<img src="images/sprite/testprofile.png" class="img-circle" width="30" height="30">-->
                             <!--{{responsible.fullName}}-->
-                            <div class="responsible-initials" title="{{::responsible.cutFullName}}">
+                            <div class="responsible-initials" title="{{'This candidate is added'|translate}} {{::responsible.cutFullName}}">
                                 <span>{{getFirstLetters(responsible.fullName)}}</span>
                             </div>
                         </a>
