@@ -11601,7 +11601,6 @@ angular.module('services.mailing',[]
                 });
             }
         });
-        console.log('new, saved, current',allParams.candidates,allParams.savedMailing.subscribers, currentCandidatesList);
         if(allParams.savedMailing) {
             if(!angular.equals(allParams.savedRecipientsSource, allParams.recipientsSource))
                 return true;
