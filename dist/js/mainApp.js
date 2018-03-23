@@ -12127,6 +12127,7 @@ angular.module('services.mailing',[]
         return regForValidation.test(email)
     };
 
+
     function isSecondStepHasChanges(savedParams, currentParams) {
         for(propName in currentParams) {
             if(currentParams[propName] !== savedParams[propName])
@@ -34695,6 +34696,8 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                         } else {
                             Person.getPerson({userId: $routeParams.id}, function(resp) {
                                 $rootScope.loading = false;
+                                $scope.user = resp.object;
+                                console.log($scope.user.personParams);
                                 console.log('resp.recrutRole',resp.object.recrutRole,$scope.newRole);
                                 if($scope.newRole == resp.object.recrutRole) {
                                     $scope.user.recrutRole = $scope.newRole;
@@ -35135,18 +35138,18 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         };
 
         $scope.enableMailingService = function(user) {
-            console.log(user);
             Mailing.enableMailingService({
                 userId: user.userId,
-                enableMailing: !$scope.hideMailingService
+                enableMailing: !($scope.user.personParams.enableMailing === 'true')
             }).then(resp => {
-                        if(!$scope.hideMailingService) {
-                            notificationService.success($filter('translate')('Mailings are available for the user') + ' ' + user.fullName)
-                        } else {
-                            notificationService.success($filter('translate')('Mailings are hidden for the user') + ' ' + user.fullName);
-                        }
-                    },
-                    error => console.error(error.message)); // add notify
+                Person.getPerson({userId: $routeParams.id}, function(resp) {
+                    $scope.user = resp.object;
+                });
+                if(!$scope.user.personParams.enableMailing) {
+                    notificationService.success($filter('translate')('Mailings are available for the user') + ' ' + user.fullName)
+                } else {
+                    notificationService.success($filter('translate')('Mailings are hidden for the user') + ' ' + user.fullName);
+                }}, error => console.error(error.message));
         };
 
         $scope.getCompanyParams = function() {
@@ -47633,26 +47636,31 @@ component.component('saved',{
                         });
                     }
                     Mailing.getAllCompaigns($scope.requestParams, function(response) {
-                        $rootScope.loading = false;
-                        $scope.objectSize =  response['object'] != undefined ? response['object']['page']['totalElements'] : 0;
-                        params.total(response['object']['page']['totalElements']);
-                        $scope.paginationParams = {
-                            currentPage: $scope.requestParams.page.number,
-                            totalCount: $scope.objectSize
-                        };
-                        let pagesCount = response['object']['page']['totalPages'];
-                        if(pagesCount == $scope.requestParams.page.number + 1) {
-                            $('#show_more').hide();
+                        if(response.status === 'ok') {
+                            $rootScope.loading = false;
+                            $scope.objectSize =  response['object'] != undefined ? response['object']['page']['totalElements'] : 0;
+                            params.total(response['object']['page']['totalElements']);
+                            $scope.paginationParams = {
+                                currentPage: $scope.requestParams.page.number,
+                                totalCount: $scope.objectSize
+                            };
+                            let pagesCount = response['object']['page']['totalPages'];
+                            if(pagesCount == $scope.requestParams.page.number + 1) {
+                                $('#show_more').hide();
+                            } else {
+                                $('#show_more').show();
+                            }
+                            if(page) {
+                                $scope.savedMailings = $scope.savedMailings.concat(response['object']['page']['content'])
+                            } else {
+                                $scope.savedMailings = response['object']['page']['content'];
+                            }
+                            $defer.resolve($scope.savedMailings);
+                            $scope.a.searchNumber = $scope.tableParams.page();
                         } else {
-                            $('#show_more').show();
+                            $rootScope.loading = false;
+                            notificationService.error(response.message);
                         }
-                        if(page) {
-                            $scope.savedMailings = $scope.savedMailings.concat(response['object']['page']['content'])
-                        } else {
-                            $scope.savedMailings = response['object']['page']['content'];
-                        }
-                        $defer.resolve($scope.savedMailings);
-                        $scope.a.searchNumber = $scope.tableParams.page();
                     });
                 }
                 getMailings();

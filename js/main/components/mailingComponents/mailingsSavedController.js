@@ -37,26 +37,31 @@ component.component('saved',{
                         });
                     }
                     Mailing.getAllCompaigns($scope.requestParams, function(response) {
-                        $rootScope.loading = false;
-                        $scope.objectSize =  response['object'] != undefined ? response['object']['page']['totalElements'] : 0;
-                        params.total(response['object']['page']['totalElements']);
-                        $scope.paginationParams = {
-                            currentPage: $scope.requestParams.page.number,
-                            totalCount: $scope.objectSize
-                        };
-                        let pagesCount = response['object']['page']['totalPages'];
-                        if(pagesCount == $scope.requestParams.page.number + 1) {
-                            $('#show_more').hide();
+                        if(response.status === 'ok') {
+                            $rootScope.loading = false;
+                            $scope.objectSize =  response['object'] != undefined ? response['object']['page']['totalElements'] : 0;
+                            params.total(response['object']['page']['totalElements']);
+                            $scope.paginationParams = {
+                                currentPage: $scope.requestParams.page.number,
+                                totalCount: $scope.objectSize
+                            };
+                            let pagesCount = response['object']['page']['totalPages'];
+                            if(pagesCount == $scope.requestParams.page.number + 1) {
+                                $('#show_more').hide();
+                            } else {
+                                $('#show_more').show();
+                            }
+                            if(page) {
+                                $scope.savedMailings = $scope.savedMailings.concat(response['object']['page']['content'])
+                            } else {
+                                $scope.savedMailings = response['object']['page']['content'];
+                            }
+                            $defer.resolve($scope.savedMailings);
+                            $scope.a.searchNumber = $scope.tableParams.page();
                         } else {
-                            $('#show_more').show();
+                            $rootScope.loading = false;
+                            notificationService.error(response.message);
                         }
-                        if(page) {
-                            $scope.savedMailings = $scope.savedMailings.concat(response['object']['page']['content'])
-                        } else {
-                            $scope.savedMailings = response['object']['page']['content'];
-                        }
-                        $defer.resolve($scope.savedMailings);
-                        $scope.a.searchNumber = $scope.tableParams.page();
                     });
                 }
                 getMailings();
