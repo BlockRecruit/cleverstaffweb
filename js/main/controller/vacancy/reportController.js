@@ -404,7 +404,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                                 value: value
                             });
                         });
-                        $scope.detailInterviewInfo =vacancyInterviewDetalInfo;
+                        $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
                         angular.forEach($scope.detailInterviewInfo, function(value){
                             angular.forEach($scope.customStages, function(resp){
                                 if(value.key == resp.customInterviewStateId){
@@ -413,8 +413,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                             })
                         });
                     }
+                    initSalesFunnel(dateFrom, dateTo);
                 });
-            initSalesFunnel(dateFrom, dateTo);
 
             zingchart.exec('myChartDiv', 'reload');
         };

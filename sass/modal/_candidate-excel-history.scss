@@ -79,13 +79,8 @@
 		margin-top: 20px;
 
 		align-items: center;
-		.btn-new.no-border {
-			margin-left: 5px;
-			padding: 8px 15px;
-
-			color: #3f3d3d;
-			border: none;
-			background: none;
+		.btn-primary-new {
+			@include btn-primary-new();
 		}
 	}
 }

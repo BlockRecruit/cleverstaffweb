@@ -52,7 +52,7 @@
                     <span class="warning">{{'Once you pass the test, your answers will be sent to a recruiter. You have only one attempt to pass the test' | translate}}</span>
                 </div>
 
-                <button class="btn-new apply small send-test" ng-click="startTestFunc('first_test')">{{'Start the test' | translate }}</button>
+                <button class="btn-primary-new apply small send-test" ng-click="startTestFunc('first_test')">{{'Start the test' | translate }}</button>
             </div>
 
             <div class="block-info question"   ng-show="currentTab == 'first_test' && hideTest && firstTestQuestion && !showEndMessage">
@@ -101,8 +101,8 @@
                     </div>
                 </div>
                 <div class="buttons-wrap">
-                    <button class="btn-new cancel small next-question" ng-class="{'left-side' : currentLang === 'ru'}" ng-show="firstPage && firstPage != 1" ng-click="nextTestQuestion('prev')">{{'Go back' | translate}}</button>
-                    <button class="btn-new small next-question" ng-click="nextTestQuestion('next')">
+                    <button class="btn-primary-new cancel next-question" ng-class="{'left-side' : currentLang === 'ru'}" ng-show="firstPage && firstPage != 1" ng-click="nextTestQuestion('prev')">{{'Go back' | translate}}</button>
+                    <button class="btn-primary-new small next-question" ng-click="nextTestQuestion('next')">
                         <span ng-show="firstPage && firstPage === firstTestQuestion.allPageCount">{{'Finish the test' | translate}}</span>
                         <span ng-show="firstPage && firstPage !== firstTestQuestion.allPageCount">{{'Next question' | translate}}</span>
                     </button>
@@ -117,8 +117,8 @@
                 </div>
 
                 <div class="buttons-wrap" ng-class="{'in-column' : currentLang === 'ru'}">
-                    <button class="btn-new cancel small next-question" ng-click="previousTestQuestion()">{{'Go back' | translate}}</button>
-                    <button class="btn-new small next-question" ng-click="endTestTimeOrSubmit('done')">{{'Save and finish the test' | translate}}</button>
+                    <button class="btn-primary-new cancel next-question" ng-click="previousTestQuestion()">{{'Go back' | translate}}</button>
+                    <button class="btn-primary-new small next-question" ng-click="endTestTimeOrSubmit('done')">{{'Save and finish the test' | translate}}</button>
                 </div>
             </div>
 

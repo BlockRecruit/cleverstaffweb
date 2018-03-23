@@ -43,7 +43,7 @@
     <meta name="description" content="CleverStaff Recruitment Software and Applicant Tracking System">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <link rel="stylesheet" href="../external/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../external/css/main.min.css?b9">
+    <link rel="stylesheet" href="../external/css/main.min.css?b10">
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Регистрация | CleverStaff | Профессиональная система для подбора персонала"/>
     <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
@@ -451,7 +451,8 @@
                     <input type="email" class="float-left google-form-width" id="google_mail" name="login" readonly value="" disabled="">
                 </div>
                 <div class="form-gr">
-                    <input type="email" class="float-left google-form-width" id="google_name" name="firstName" value="" placeholder="Введите имя *">
+                    <input type="email" class="float-left google-form-width" id="google_name" oninput="this.value = this.value.replace(/[^A-Za-zА-Яа-яЁё '`-]/g, ''); " name="firstName" value="" placeholder="Введите имя *">
+                    <div class="error-google-name hidden"></div>
                 </div>
                 <div class="form-gr">
                     <div class="ui labeled icon input">
@@ -544,7 +545,7 @@
 <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/ApiKey.js?b4"></script>
 <script src="//apis.google.com/js/client.js"></script>
-<script src="../external/js/script.min.js?b16"></script>
+<script src="../external/js/script.min.js?b17"></script>
 <script src="//platform.linkedin.com/in.js?async=true"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 </body>
