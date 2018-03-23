@@ -41005,6 +41005,7 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
                     $scope.$apply();
                 }, error => {
                     $rootScope.loading = false;
+                    $scope.suggestionTitle = setSuggestionTitle();
                     $scope.$apply();
                     notificationService.error(error.message);
                 });
