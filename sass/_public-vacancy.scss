@@ -475,6 +475,10 @@
 		}
 	}
 	.apply-buttons {
+		display: flex;
+		flex-direction: column;
+
+		align-items: center;
 		.btn-primary-new {
 			@include btn-primary-new();
 
