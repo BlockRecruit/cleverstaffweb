@@ -634,7 +634,7 @@
                             <!--<i class="fa fa-envelope" aria-hidden="true"></i>-->
                         <!--</a>-->
                     </div>
-                    <div class="mailing header-button" ng-show="$root.me.orgParams.enableMailing !== 'false' && $root.me.personParams.enableMailing !== 'false' && ($root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter')"
+                    <div class="mailing header-button" ng-if="$root.me.orgParams.enableMailing !== 'false' && $root.me.personParams.enableMailing !== 'false' && ($root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter')"
                          ng-class="{'col-lg-4': !($root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y'))}">
                         <a href="" ng-click="toCreateMailing()">
                             <span translate="Create email campaign"></span>

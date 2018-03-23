@@ -202,6 +202,8 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                         } else {
                             Person.getPerson({userId: $routeParams.id}, function(resp) {
                                 $rootScope.loading = false;
+                                $scope.user = resp.object;
+                                console.log($scope.user.personParams);
                                 console.log('resp.recrutRole',resp.object.recrutRole,$scope.newRole);
                                 if($scope.newRole == resp.object.recrutRole) {
                                     $scope.user.recrutRole = $scope.newRole;
@@ -642,18 +644,18 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         };
 
         $scope.enableMailingService = function(user) {
-            console.log(user);
             Mailing.enableMailingService({
                 userId: user.userId,
-                enableMailing: !$scope.hideMailingService
+                enableMailing: !($scope.user.personParams.enableMailing === 'true')
             }).then(resp => {
-                        if(!$scope.hideMailingService) {
-                            notificationService.success($filter('translate')('Mailings are available for the user') + ' ' + user.fullName)
-                        } else {
-                            notificationService.success($filter('translate')('Mailings are hidden for the user') + ' ' + user.fullName);
-                        }
-                    },
-                    error => console.error(error.message)); // add notify
+                Person.getPerson({userId: $routeParams.id}, function(resp) {
+                    $scope.user = resp.object;
+                });
+                if(!$scope.user.personParams.enableMailing) {
+                    notificationService.success($filter('translate')('Mailings are available for the user') + ' ' + user.fullName)
+                } else {
+                    notificationService.success($filter('translate')('Mailings are hidden for the user') + ' ' + user.fullName);
+                }}, error => console.error(error.message));
         };
 
         $scope.getCompanyParams = function() {
