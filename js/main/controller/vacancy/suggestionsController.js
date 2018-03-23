@@ -5,6 +5,7 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
         $scope.candidates = [];
         $scope.vacancyEmptyRequiredFields = [];
         $scope.candidatesEmptyRequiredFields = [];
+        $scope.suggestionsLength = { exact: null, suitable: null };
 
         $scope.suggestionTab = 'exactMatching';
         $scope.suggestionTitle = "";
@@ -30,10 +31,12 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
             if(tab === 'exactMatching') {
                 $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
                 $scope.suggestionTitle = setSuggestionTitle();
+                $scope.suggestionsLength.exact = $scope.suggestedCandidates.length;
             } else {
                 $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, false);
                 getCandidatesEmptyFields();
                 $scope.suggestionTitle = setSuggestionTitle();
+                $scope.suggestionsLength.suitable = $scope.suggestedCandidates.length;
             }
         };
 
@@ -93,6 +96,7 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
                     $scope.$apply();
                 }, error => {
                     $rootScope.loading = false;
+                    $scope.$apply();
                     notificationService.error(error.message);
                 });
         }
