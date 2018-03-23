@@ -160,31 +160,21 @@ component.component('mDetails', {
                         notificationService.error($filter('translate')('Count of recipients should be less than 1000'));
                         return
                     }
-                    let incorrectEmails = false;
-                    angular.forEach($scope.candidatesForMailing, (candidate)=>{
-                        if(candidate.mailing) {
-                            if(candidate.candidateId.email) {
-                                if(!Mailing.emailValidation(candidate.candidateId.email)) {
-                                    candidate.wrongEmail = true;
-                                    incorrectEmails = true;
-                                }
+                    let sortedCandidates = Mailing.sortCandidatesList($scope.candidatesForMailing);
+                    if(!sortedCandidates.haveIncorrectEmails) {
+                        if(!sortedCandidates.haveDuplicates) {
+                            if(toThePreview) {
+                                Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource);
+                                Mailing.toThePreview();
                             } else {
-                                candidate.wrongEmail = true;
-                                incorrectEmails = true;
+                                Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource, true);
                             }
-                        }
-                    });
-                    if(!$scope.$$phase && !$rootScope.$$phase) {
-                        $scope.$apply();
-                    }
-                    if(!incorrectEmails) {
-                        if(toThePreview) {
-                            Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource);
-                            Mailing.toThePreview();
                         } else {
-                            Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource, true);
+                            $scope.candidatesForMailing = sortedCandidates.candidatesList;
+                            notificationService.error($filter('translate')('Duplicates'))
                         }
                     } else {
+                        $scope.candidatesForMailing = sortedCandidates.candidatesList;
                         notificationService.error($filter('translate')('Wrong emails'))
                     }
 

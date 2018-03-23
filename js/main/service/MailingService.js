@@ -815,6 +815,7 @@ angular.module('services.mailing',[]
         });
     };
 
+
     service.getCompaignPrice = function(params) {
         return new Promise((resolve, reject) => {
             service.getCompaignPriceForMailing(params, resp => {
@@ -827,6 +828,7 @@ angular.module('services.mailing',[]
         });
     };
 
+
     service.enableMailingService = function(params) {
         return new Promise((resolve, reject) => {
             service.enableMailing(params, resp => {
@@ -837,6 +839,28 @@ angular.module('services.mailing',[]
                 }
             });
         });
+    };
+
+    service.sortCandidatesList = function (candidatesList) {
+        let incorrectEmails = false;
+        angular.forEach(candidatesList, (candidate)=>{
+            if(candidate.mailing) {
+                if(candidate.candidateId.email) {
+                    if(!service.emailValidation(candidate.candidateId.email)) {
+                        candidate.wrongEmail = true;
+                        incorrectEmails = true;
+                    }
+                } else {
+                    candidate.wrongEmail = true;
+                    incorrectEmails = true;
+                }
+            }
+        });
+
+        return {
+            candidatesList: candidatesList,
+            haveIncorrectEmails: incorrectEmails
+        }
     };
 
     function subscriberListParamsPrepared(internal, candidates) {
