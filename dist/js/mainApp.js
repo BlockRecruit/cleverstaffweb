@@ -40940,12 +40940,10 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
             if(tab === 'exactMatching') {
                 $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
                 $scope.suggestionTitle = setSuggestionTitle();
-                $scope.suggestionsLength.exact = $scope.suggestedCandidates.length;
             } else {
                 $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, false);
                 getCandidatesEmptyFields();
                 $scope.suggestionTitle = setSuggestionTitle();
-                $scope.suggestionsLength.suitable = $scope.suggestedCandidates.length;
             }
         };
 
@@ -41074,11 +41072,13 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
             return $filter('translate')(title);
         }
 
-        function setInitialData(data) {
+        function setInitialData(data = []) {
             $scope.candidates = data['objects'];
             $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
             $scope.suggestionTab = 'exactMatching';
             $scope.suggestionTitle = setSuggestionTitle();
+            $scope.suggestionsLength.exact = filterCandidatesByMatching($scope.candidates, true).length;
+            $scope.suggestionsLength.suitable = filterCandidatesByMatching($scope.candidates, false).length;
         }
     }
 ]);
