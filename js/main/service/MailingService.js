@@ -743,7 +743,7 @@ angular.module('services.mailing',[]
 
 
     service.emailValidation = function (email) {
-        let regForValidation =  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,15})+$/;
+        let regForValidation =  /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
         return regForValidation.test(email)
     };
 
