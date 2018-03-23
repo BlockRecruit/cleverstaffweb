@@ -543,22 +543,27 @@
                                         {{contact| limitTo: 30}}
                                         <span ng-show="contact.length > 30">...</span>
                                     </a>
-                                    <i class="fa fa-star"  style="position: relative;top: -4px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'mail'"></i>
+                                    <i class="fa fa-star"  style="position: relative;top: -1px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'mail'"></i>
                                 </span>
                                 <div class="preferable-contact hidden show-for-print" ng-repeat="contact in multipleContacts['email'] track by $index">
                                     <i class="fa fa-envelope" aria-hidden="true"></i>
                                     {{contact}}
+                                    <i class="fa fa-star"  style="position: relative;top: -1px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'mail'"></i>
                                 </div>
-                                <i class="fa fa-star"  style="position: relative;top: -4px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'mail'"></i>
                             </div>
                             <div class="skype leftBlock" ng-show="(candidate.contacts|filter:type = 'skype').length > 0">
-                                <span class="preferable-contact" style="position: relative;" ng-repeat=" contact in candidate.contacts|filter:type = 'Skype'" title="{{contact.value}}">
+                                <span class="preferable-contact not-for-print" style="position: relative;" ng-repeat=" contact in candidate.contacts|filter:type = 'skype'" title="{{contact.value}}">
                                     <i class="fa fa-skype"  aria-hidden="true"></i>
                                     <span>{{contact.value | limitTo: 30}}
                                          <span ng-show="contact.value.length > 30">...</span>
                                         <i class="fa fa-star" style="top: 3px !important;"  title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'skype'"></i>
                                     </span>
                                 </span>
+                                <div class="preferable-contact hidden show-for-print" ng-repeat="contact in candidate.contacts|filter:type = 'skype'">
+                                    <i class="fa fa-skype" aria-hidden="true"></i>
+                                    {{contact.value}}
+                                    <i class="fa fa-star" style="position: relative;top: 0;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'skype'"></i>
+                                </div>
                             </div>
                             <div class="linkedin leftBlock" ng-show="(candidate.contacts|filter:type = 'linkedin').length > 0">
                                 <span class="preferable-contact not-for-print" ng-repeat="contact in ::multipleContacts['linkedin'] track by $index" title="{{contact}}">
@@ -577,8 +582,8 @@
                                 <div class="preferable-contact hidden show-for-print" ng-repeat="contact in multipleContacts['linkedin'] track by $index">
                                     <i class="fa fa-linkedin" aria-hidden="true"></i>
                                     {{contact}}
+                                    <i class="fa fa-star" style="position: relative;top: -1px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'linkedin'"></i>
                                 </div>
-                                <i class="fa fa-star" style="position: relative;top: -4px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'linkedin'"></i>
                             </div>
                             <div class="homepage leftBlock">
                                 <span class="preferable-contact" ng-repeat="contact in multipleContacts['telegram'] track by $index"  title="{{contact}}">
@@ -592,8 +597,8 @@
                                     <div class="preferable-contact hidden show-for-print" ng-repeat="contact in multipleContacts['telegram'] track by $index">
                                         <i class="fa fa-home" aria-hidden="true"></i>
                                         {{contact}}
+                                        <i class="fa fa-star"  style="position: relative;top: -1px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'telegram'"></i>
                                     </div>
-                                    <i class="fa fa-star"  style="position: relative;top: -4px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'telegram'"></i>
                                 </span>
                             </div>
                             <div class="facebook leftBlock" ng-show="(candidate.contacts|filter:type = 'facebook').length > 0">
@@ -606,9 +611,8 @@
                                     <div class="preferable-contact hidden show-for-print" ng-repeat="contact in multipleContacts['facebook'] track by $index">
                                         <i class="fa fa-facebook" aria-hidden="true"></i>
                                         {{contact}}
+                                        <i class="fa fa-star"  style="position: relative;top: -1px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'facebook'"></i>
                                     </div>
-                                    <i class="fa fa-star"  style="position: relative;top: -4px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'facebook'"></i>
-
                                 </span>
                             </div>
                             <div class="googleplus leftBlock" ng-show="(candidate.contacts|filter:type = 'googleplus').length > 0">
@@ -623,8 +627,8 @@
                                      <div class="preferable-contact hidden show-for-print" ng-repeat="contact in multipleContacts['googleplus'] track by $index">
                                          <i class="fa fa-google-plus" aria-hidden="true"></i>
                                          {{contact}}
+                                         <i class="fa fa-star"  style="position: relative;top: -1px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'google'"></i>
                                      </div>
-                                     <i class="fa fa-star"  style="position: relative;top: -4px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'google'"></i>
                                 </span>
                             </div>
                             <div class="github leftBlock" ng-show="(candidate.contacts|filter:type = 'github').length > 0">
@@ -639,8 +643,8 @@
                                      <div class="preferable-contact hidden show-for-print" ng-repeat="contact in multipleContacts['github'] track by $index">
                                         <i class="fa fa-github" aria-hidden="true"></i>
                                         {{contact}}
+                                         <i class="fa fa-star"  style="position: relative;top: -1px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'github'"></i>
                                      </div>
-                                     <i class="fa fa-star"  style="position: relative;top: -4px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'github'"></i>
                                 </span>
                             </div>
                             <div class="homepage leftBlock">
@@ -653,8 +657,8 @@
                                     <div class="preferable-contact hidden show-for-print" ng-repeat="contact in multipleContacts['homepage'] track by $index">
                                        <i class="fa fa-home" aria-hidden="true"></i>
                                        {{contact}}
+                                        <i class="fa fa-star"  style="position: relative;top: -1px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'home'"></i>
                                     </div>
-                                    <i class="fa fa-star"  style="position: relative;top: -4px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'home'"></i>
                                 </span>
                             </div>
                             <div class="leftBlock">
