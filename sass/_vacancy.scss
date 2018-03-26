@@ -315,7 +315,7 @@
 					div {
 						display: flex;
 
-						justify-content: space-between;
+						justify-content: center;
 					}
 					.send-test {
 						& > a {
@@ -365,6 +365,9 @@
 
 							color: red;
 						}
+					}
+					&.space-around {
+						justify-content: space-around;
 					}
 				}
 				a {

@@ -601,7 +601,8 @@
                         {{activeCustomStageName}}
                     </h4>
                 </div>
-                <div class="col-lg-9 text-right links hidden-xs hidden-sm">
+                <div class="col-lg-9 text-right links hidden-xs hidden-sm"
+                     ng-class="{'space-around': $root.me.orgParams.enableMailing === 'false' || $root.me.personParams.enableMailing === 'false' && $root.me.personParams.enableDownloadToExcel === 'N'}">
                     <div class="header-button" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'salesmanager'">
                         <a ng-show="vacancy.testIds.length > 0" ng-click="$root.sendTestFromVacancyStage(activeName, 'longlist', dataForVacancy)" title="{{'Send test' | translate}}">
                             {{'Send test' | translate}}
