@@ -138,7 +138,7 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
             if(reader.status == 'open') {
                 readers.push({
                     email: reader.subscriber.email,
-                    name: reader.subscriber.firstName + reader.subscriber.lastName,
+                    name: reader.subscriber.firstName + ' ' + reader.subscriber.lastName,
                     localId: reader.subscriber.localId
                 });
             }
@@ -153,7 +153,7 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
             if(reader.status == 'undelivered') {
                 notReceived.push({
                     email: reader.subscriber.email,
-                    name: reader.subscriber.firstName + reader.subscriber.lastName,
+                    name: reader.subscriber.firstName + ' ' + reader.subscriber.lastName,
                     localId: reader.subscriber.localId
                 });
             }

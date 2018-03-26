@@ -75,8 +75,8 @@
                 <div translate="Read"></div>
                 <div  class="count opened" ng-class="{'clickable': readers.length > 0}">
                     <span ng-bind="readers.length"></span>
-                    <span class="toggle-button" ng-show="!opensListFlag.opened && readers.length > 0"><span>(</span>{{"Show"|translate}}<span>)</span></span>
-                    <span class="toggle-button" ng-show="opensListFlag.opened && readers.length > 0"><span>(</span>{{"hide"|translate}}<span>)</span></span>
+                    <span class="toggle-button" ng-show="!opensListFlag.opened && readers.length > 0">({{"Show"|translate}})</span>
+                    <span class="toggle-button" ng-show="opensListFlag.opened && readers.length > 0">({{"hide"|translate}})</span>
                 </div>
                 <slide-statistic-list ng-if="statistics.opens > 0" class="slide-list read" candidates-list="readers" toggle-flag="opensListFlag.opened"></slide-statistic-list>
             </div>

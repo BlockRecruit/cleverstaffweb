@@ -12123,7 +12123,7 @@ angular.module('services.mailing',[]
 
 
     service.emailValidation = function (email) {
-        let regForValidation =  /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+        let regForValidation =  /^[a-zA-Z0-9а-яёА-ЯЁ.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9а-яёА-ЯЁ](?:[a-zA-Z0-9а-яёА-ЯЁ]{0,61}[a-zA-Z0-9а-яёА-ЯЁ])?(?:\.[a-zA-Z0-9а-яёА-ЯЁ](?:[a-zA-Z0-9а-яёА-ЯЁ]{0,61}[a-zA-Z0-9а-яёА-ЯЁ])?)*$/;
         return regForValidation.test(email)
     };
 
@@ -47454,7 +47454,7 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
             if(reader.status == 'open') {
                 readers.push({
                     email: reader.subscriber.email,
-                    name: reader.subscriber.firstName + reader.subscriber.lastName,
+                    name: reader.subscriber.firstName + ' ' + reader.subscriber.lastName,
                     localId: reader.subscriber.localId
                 });
             }
@@ -47469,7 +47469,7 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
             if(reader.status == 'undelivered') {
                 notReceived.push({
                     email: reader.subscriber.email,
-                    name: reader.subscriber.firstName + reader.subscriber.lastName,
+                    name: reader.subscriber.firstName + ' ' + reader.subscriber.lastName,
                     localId: reader.subscriber.localId
                 });
             }
