@@ -52,6 +52,7 @@ component.component('mDetails', {
             }
             if(Mailing.emailValidation(newEmail)) {
                 candidate.email = newEmail;
+                candidate.mailing = true;
                 editCandidate(candidate);
             } else {
                 notificationService.error($filter('translate')('wrong_email'));
@@ -161,8 +162,8 @@ component.component('mDetails', {
                         return
                     }
                     let sortedCandidates = Mailing.sortCandidatesList($scope.candidatesForMailing);
-                    if(!sortedCandidates.haveIncorrectEmails) {
-                        if(!sortedCandidates.haveDuplicates) {
+                    if(!sortedCandidates.isIncorrectEmails) {
+                        if(!sortedCandidates.isDuplicatedEmails) {
                             if(toThePreview) {
                                 Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource);
                                 Mailing.toThePreview();
@@ -171,7 +172,7 @@ component.component('mDetails', {
                             }
                         } else {
                             $scope.candidatesForMailing = sortedCandidates.candidatesList;
-                            notificationService.error($filter('translate')('Duplicates'))
+                            notificationService.error($filter('translate')('Mailing duplicated emails'))
                         }
                     } else {
                         $scope.candidatesForMailing = sortedCandidates.candidatesList;
@@ -229,8 +230,10 @@ component.component('mDetails', {
                 if(obj.candidateId.localId == candidate.localId) {
                     obj.candidateId.fullName = candidate.fullName;
                     obj.candidateId.contacts = candidate.contacts;
-                    if(obj.wrongEmail)
+                    if(obj.wrongEmail) {
                         delete obj.wrongEmail;
+                        obj.mailing = candidate.mailing;
+                    }
                     return true
                 }
                 return false
@@ -299,6 +302,5 @@ component.component('mDetails', {
         };
 
         $scope.openMailingInfoModal();
-
     }
 });

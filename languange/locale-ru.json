@@ -3043,5 +3043,6 @@
   "Select the role of the new user":"Выберите роль нового пользователя",
   "New user invite":"Пригласить нового пользователя",
   "was sent to candidate": "была отправлена кандидату",
-  "Email delivery statistics": "Статистика по отправке писем"
+  "Email delivery statistics": "Статистика по отправке писем",
+  "Mailing duplicated emails": "В списке есть кандидаты с одинаковым email-ом"
 }

@@ -12123,7 +12123,7 @@ angular.module('services.mailing',[]
 
 
     service.emailValidation = function (email) {
-        let regForValidation =  /^[a-zA-Z0-9а-яёА-ЯЁ.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9а-яёА-ЯЁ](?:[a-zA-Z0-9а-яёА-ЯЁ]{0,61}[a-zA-Z0-9а-яёА-ЯЁ])?(?:\.[a-zA-Z0-9а-яёА-ЯЁ](?:[a-zA-Z0-9а-яёА-ЯЁ]{0,61}[a-zA-Z0-9а-яёА-ЯЁ])?)*$/;
+        let regForValidation =  /^[a-zA-Z0-9а-яёА-ЯЁ.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9а-яёА-ЯЁ](?:[a-zA-Z0-9а-яёА-ЯЁ.!#$%&'*+\/=?^_`{|}~-]{0,61}[a-zA-Z0-9а-яёА-ЯЁ])?(?:\.[a-zA-Z0-9а-яёА-ЯЁ](?:[a-zA-Z0-9а-яёА-ЯЁ]{0,61}[a-zA-Z0-9а-яёА-ЯЁ])?)*$/;
         return regForValidation.test(email)
     };
 
@@ -12222,23 +12222,68 @@ angular.module('services.mailing',[]
 
     service.sortCandidatesList = function (candidatesList) {
         let incorrectEmails = false;
+        //find not valid-----------------
         angular.forEach(candidatesList, (candidate)=>{
             if(candidate.mailing) {
                 if(candidate.candidateId.email) {
                     if(!service.emailValidation(candidate.candidateId.email)) {
                         candidate.wrongEmail = true;
+                        candidate.mailing = false;
                         incorrectEmails = true;
                     }
                 } else {
                     candidate.wrongEmail = true;
+                    candidate.mailing = false;
                     incorrectEmails = true;
                 }
             }
         });
-
+        //sort by name (for duplicates search) and validity-----------------
+        candidatesList.sort((prev,next) => {
+            if(prev.wrongEmail && !next.wrongEmail)
+                return -1;
+            if(!prev.wrongEmail && next.wrongEmail)
+                return 1;
+            if((prev.wrongEmail && next.wrongEmail) || (!prev.wrongEmail && !next.wrongEmail)) {
+                if(prev.candidateId.email > next.candidateId.email)
+                    return 1;
+                if(prev.candidateId.email < next.candidateId.email)
+                    return -1;
+            }
+        });
+        let duplicateGroupId = 0;
+        let duplicatedEmail = '';
+        let duplicatesExist = false;
+        //find duplicates-----------------
+        for(let i = 0; i < candidatesList.length - 1; i++) {
+            if(!candidatesList[i].wrongEmail) {
+                if(candidatesList[i].candidateId.email == candidatesList[i + 1].candidateId.email) {
+                    duplicatesExist = true;
+                    if(duplicatedEmail !== candidatesList[i].candidateId.email)
+                        duplicateGroupId++;
+                    candidatesList[i+1].duplicateGroupId = candidatesList[i].duplicateGroupId = duplicateGroupId;
+                    duplicatedEmail = candidatesList[i].candidateId.email;
+                }
+            }
+        }
+        console.log('candidatesList',candidatesList)
+        //sort validity->duplicates->other -----------------
+        candidatesList.sort((prev,next) => {
+            if(prev.wrongEmail && !next.wrongEmail)
+                return -1;
+            if(!prev.wrongEmail && next.wrongEmail)
+                return 1;
+            //----
+            if(prev.duplicateGroupId === undefined && next.duplicateGroupId !== undefined)
+                return 1;
+            if(prev.duplicateGroupId !== undefined && next.duplicateGroupId === undefined)
+                return -1;
+            return prev.duplicateGroupId - next.duplicateGroupId
+        });
         return {
             candidatesList: candidatesList,
-            haveIncorrectEmails: incorrectEmails
+            isIncorrectEmails: incorrectEmails,
+            isDuplicatedEmails: duplicatesExist
         }
     };
 
@@ -46690,6 +46735,7 @@ component.component('mDetails', {
             }
             if(Mailing.emailValidation(newEmail)) {
                 candidate.email = newEmail;
+                candidate.mailing = true;
                 editCandidate(candidate);
             } else {
                 notificationService.error($filter('translate')('wrong_email'));
@@ -46799,8 +46845,8 @@ component.component('mDetails', {
                         return
                     }
                     let sortedCandidates = Mailing.sortCandidatesList($scope.candidatesForMailing);
-                    if(!sortedCandidates.haveIncorrectEmails) {
-                        if(!sortedCandidates.haveDuplicates) {
+                    if(!sortedCandidates.isIncorrectEmails) {
+                        if(!sortedCandidates.isDuplicatedEmails) {
                             if(toThePreview) {
                                 Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource);
                                 Mailing.toThePreview();
@@ -46809,7 +46855,7 @@ component.component('mDetails', {
                             }
                         } else {
                             $scope.candidatesForMailing = sortedCandidates.candidatesList;
-                            notificationService.error($filter('translate')('Duplicates'))
+                            notificationService.error($filter('translate')('Mailing duplicated emails'))
                         }
                     } else {
                         $scope.candidatesForMailing = sortedCandidates.candidatesList;
@@ -46867,8 +46913,10 @@ component.component('mDetails', {
                 if(obj.candidateId.localId == candidate.localId) {
                     obj.candidateId.fullName = candidate.fullName;
                     obj.candidateId.contacts = candidate.contacts;
-                    if(obj.wrongEmail)
+                    if(obj.wrongEmail) {
                         delete obj.wrongEmail;
+                        obj.mailing = candidate.mailing;
+                    }
                     return true
                 }
                 return false
@@ -46937,7 +46985,6 @@ component.component('mDetails', {
         };
 
         $scope.openMailingInfoModal();
-
     }
 });
 controller.controller('mailingEditorController', ['$scope', '$rootScope','$localStorage', 'notificationService','$filter', '$uibModal', 'Mailing', ]);

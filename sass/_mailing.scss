@@ -217,6 +217,18 @@
 							background-color: $theme-light-red;
 						}
 					}
+					&.duplicates {
+						background-color: #f5f5a9;
+						&.first-duplicate {
+							border-top: 5px solid #f0f0f0;
+						}
+						&.last-duplicate {
+							border-bottom: 5px solid #f0f0f0;
+						}
+						&:hover {
+							background-color: #f5f5a9;
+						}
+					}
 					&:hover {
 						background-color: $theme-subtitle-background;
 						.send {

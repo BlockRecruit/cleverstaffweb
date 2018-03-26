@@ -743,7 +743,7 @@ angular.module('services.mailing',[]
 
 
     service.emailValidation = function (email) {
-        let regForValidation =  /^[a-zA-Z0-9а-яёА-ЯЁ.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9а-яёА-ЯЁ](?:[a-zA-Z0-9а-яёА-ЯЁ]{0,61}[a-zA-Z0-9а-яёА-ЯЁ])?(?:\.[a-zA-Z0-9а-яёА-ЯЁ](?:[a-zA-Z0-9а-яёА-ЯЁ]{0,61}[a-zA-Z0-9а-яёА-ЯЁ])?)*$/;
+        let regForValidation =  /^[a-zA-Z0-9а-яёА-ЯЁ.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9а-яёА-ЯЁ](?:[a-zA-Z0-9а-яёА-ЯЁ.!#$%&'*+\/=?^_`{|}~-]{0,61}[a-zA-Z0-9а-яёА-ЯЁ])?(?:\.[a-zA-Z0-9а-яёА-ЯЁ](?:[a-zA-Z0-9а-яёА-ЯЁ]{0,61}[a-zA-Z0-9а-яёА-ЯЁ])?)*$/;
         return regForValidation.test(email)
     };
 
@@ -842,23 +842,68 @@ angular.module('services.mailing',[]
 
     service.sortCandidatesList = function (candidatesList) {
         let incorrectEmails = false;
+        //find not valid-----------------
         angular.forEach(candidatesList, (candidate)=>{
             if(candidate.mailing) {
                 if(candidate.candidateId.email) {
                     if(!service.emailValidation(candidate.candidateId.email)) {
                         candidate.wrongEmail = true;
+                        candidate.mailing = false;
                         incorrectEmails = true;
                     }
                 } else {
                     candidate.wrongEmail = true;
+                    candidate.mailing = false;
                     incorrectEmails = true;
                 }
             }
         });
-
+        //sort by name (for duplicates search) and validity-----------------
+        candidatesList.sort((prev,next) => {
+            if(prev.wrongEmail && !next.wrongEmail)
+                return -1;
+            if(!prev.wrongEmail && next.wrongEmail)
+                return 1;
+            if((prev.wrongEmail && next.wrongEmail) || (!prev.wrongEmail && !next.wrongEmail)) {
+                if(prev.candidateId.email > next.candidateId.email)
+                    return 1;
+                if(prev.candidateId.email < next.candidateId.email)
+                    return -1;
+            }
+        });
+        let duplicateGroupId = 0;
+        let duplicatedEmail = '';
+        let duplicatesExist = false;
+        //find duplicates-----------------
+        for(let i = 0; i < candidatesList.length - 1; i++) {
+            if(!candidatesList[i].wrongEmail) {
+                if(candidatesList[i].candidateId.email == candidatesList[i + 1].candidateId.email) {
+                    duplicatesExist = true;
+                    if(duplicatedEmail !== candidatesList[i].candidateId.email)
+                        duplicateGroupId++;
+                    candidatesList[i+1].duplicateGroupId = candidatesList[i].duplicateGroupId = duplicateGroupId;
+                    duplicatedEmail = candidatesList[i].candidateId.email;
+                }
+            }
+        }
+        console.log('candidatesList',candidatesList)
+        //sort validity->duplicates->other -----------------
+        candidatesList.sort((prev,next) => {
+            if(prev.wrongEmail && !next.wrongEmail)
+                return -1;
+            if(!prev.wrongEmail && next.wrongEmail)
+                return 1;
+            //----
+            if(prev.duplicateGroupId === undefined && next.duplicateGroupId !== undefined)
+                return 1;
+            if(prev.duplicateGroupId !== undefined && next.duplicateGroupId === undefined)
+                return -1;
+            return prev.duplicateGroupId - next.duplicateGroupId
+        });
         return {
             candidatesList: candidatesList,
-            haveIncorrectEmails: incorrectEmails
+            isIncorrectEmails: incorrectEmails,
+            isDuplicatedEmails: duplicatesExist
         }
     };
 

@@ -33,7 +33,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="candidate in candidatesForMailing track by $index" ng-class="{'wrongEmail': candidate.wrongEmail}">
+                    <tr ng-repeat="candidate in candidatesForMailing track by $index"
+                        ng-class="{
+                                    'wrongEmail': candidate.wrongEmail,
+                                    'duplicates': candidate.candidateId.email && !candidate.wrongEmail && ((candidatesForMailing[$index+1] && (candidatesForMailing[$index+1].candidateId.email === candidate.candidateId.email)) || (candidatesForMailing[$index-1] && (candidatesForMailing[$index-1].candidateId.email === candidate.candidateId.email))),
+                                    'first-duplicate':  ($index === 0 || candidatesForMailing[$index-1].candidateId.email !== candidate.candidateId.email),
+                                    'last-duplicate':  ($last || candidatesForMailing[$index+1].candidateId.email !== candidate.candidateId.email)
+                                   }">
 
                         <td class="received clickable">
                             <input type="checkbox" ng-model="candidate.mailing" ng-click="candidateCheckbox(candidate)">
