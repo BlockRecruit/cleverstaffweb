@@ -35100,7 +35100,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
 
         };
         $scope.setExcelRecruiter = function(name, value) {
-            $http.get(serverAddress + '/employee/setDownloadingToExcelEnable?userId=' + $scope.user.userId + "&enable=" + value).success(
+            $http.get(serverAddress + '/employee/setDownloadingToExcelEnable?userId=' + $scope.user.userId + "&enable=" + value).then(
                 function(resp) {
                     if (!$scope.user.personParams) {
                         $scope.user.personParams = {};
