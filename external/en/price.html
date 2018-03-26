@@ -1,30 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>.async-hide { opacity: 0 !important} </style>
+    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+    })(window,document.documentElement,'async-hide','dataLayer',4000,
+        {'GTM-PHXZMBX':true});</script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
     <script>
-        if (document.domain === 'cleverstaff.net') {
+        if (document.domain !== 'cleverstaff.net') {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
 
             gtag('config', 'UA-52127049-1');
+
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-52127049-1', {
+                'cookieDomain': document.domain
+            });
+            ga('require', 'GTM-PHXZMBX');
+            ga('send', 'pageview');
         }
     </script>
     <!-- end of gtag -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
-    <title>Pricing | CleverStaff | ATS & Recruitment Software</title>
+    <title>Tariffs and prices | CleverStaff | Single system for recruiting</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Unlimited vacancies & candidates | integrations with LinkedIn and email | customizable recruiting workflow & other functions in Plan for your Business.">
-    <meta name="keywords" content="applicant tracking, recruitment automation, applicant tracking system, Recruitment service, ATS, recruitment software, hr module, Resume parsing, database search, job workflow stages, candidates suggestion, cv parsing">
+    <meta name="description" content="Rates Cleverstaff Customizable stages of recruiting and other tools for your business at an affordable price.">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <link rel="stylesheet" href="external/css/bootstrap.min.css">
-    <link rel="stylesheet" href="external/css/main.min.css?b6">
+    <link rel="stylesheet" href="external/css/main.min.css?b10">
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Plans & Pricing | CleverStaff | All-in-One ATS & Recruiting Software"/>
-    <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
+    <meta property="og:title" content="Tariffs and prices | CleverStaff | Single system for recruiting"/>
+    <meta property="og:description" content="Rates Cleverstaff Customizable stages of recruiting and other tools for your business at an affordable price"/>
     <meta property="og:image" content="https://dev.cleverstaff.net/images/sprite/for_preview_1080-1080.jpg"/>
     <meta property="og:image:width" content="1080" />
     <meta property="og:image:height" content="1080" />
@@ -57,7 +79,7 @@
                         <li><a href="why.html">Why</a></li>
                         <li><a href="features.html">Features</a></li>
                         <li class="active menu"><a href="#home">Pricing</a></li>
-                        <li><a href="https://cleverstaff.net/news/" target="_blank">Blog</a></li>
+                        <li><a href="https://cleverstaff.net/news/">Blog</a></li>
                     </ul>
                     <a class="signinButtonEng btn btn-default navbar-btn loginBtn adaptiveMenu pull-left">Start</a>
                     <div class="dropdown pull-right adaptiveMenu">
@@ -81,7 +103,7 @@
                             <li><a href="why.html">Why</a></li>
                             <li><a href="features.html">Features</a></li>
                             <li class="active menu"><a href="#home">Pricing</a></li>
-                            <li><a href="https://cleverstaff.net/news/" target="_blank">Blog</a></li>
+                            <li><a href="https://cleverstaff.net/news/">Blog</a></li>
                         </ul>
                         <div class="dropdown pull-right adaptiveMenuShow float-none-mob">
                             <button class="btn btn-primary dropdown-toggle"
@@ -103,7 +125,7 @@
         <div class="row">
             <div class="col-md-12 text-center priceHeader big-tittle">
                 <h1>Affordable Pricing for Your Business Needs</h1>
-                <a href="#need-demo-modal" data-toggle="modal"  data-params="demo" onclick="tariffFunc('demo');" class="orangeBtnBorder demoParams">I Need a Demo</a>
+                <a href="#need-demo-modal" data-toggle="modal"  data-analytics="presentation" data-params="demo" onclick="tariffFunc('demo');" class="orangeBtnBorder demoParams">I Need a Demo</a>
             </div>
         </div>
         <div class="priceCheer"></div>
@@ -155,7 +177,7 @@
                             <!--<span>10% discount for 4 month prepayment</span>-->
                             <!--<span>20% discount for 12 month prepayment</span>-->
                         <!--</div>-->
-                        <a href="#need-demo-modal" data-toggle="modal" onclick="tariffFunc('corporate');"
+                        <a href="#need-demo-modal" data-toggle="modal" data-analytics="presentation" onclick="tariffFunc('corporate');"
                            class="btn btn-default navbar-btn loginBtn" style="margin-top: 34px">
                             Request Pricing Quote
                         </a>
@@ -177,6 +199,7 @@
                            onclick="tariffFunc('enterprise');"
                            class="orangeBtn priceOrangeBtn enterprizeGetOfferOne"
                            data-toggle="modal"
+                           data-analytics="enterprise"
                            data-params="enterprise">Get an Offer</a>
                     </div>
                 </div>
@@ -214,14 +237,84 @@
         <div class="container">
             <div class="row">
                 <h2 class="text-center wow fadeInUp">Plans Comparison</h2>
-                <div class="prices-block pull-right">
-                    <div class="col-md-1 text-center pull-right plans enterPrizeTable wow fadeInUp">Enterprise</div>
-                    <div class="col-md-1 text-center pull-right plans corporateTable corporateTableEn wow fadeInUp">Corporate</div>
-                    <div class="col-md-1 text-center pull-right plans teamWorkTable wow fadeInUp">Team work</div>
-                    <div class="col-md-1 text-center pull-right plans oneRecrTable wow fadeInUp">1 Recruiter</div>
-                </div>
+                <!--<div class="prices-block pull-right">-->
+                    <!--<div class="col-md-1 text-center pull-right plans enterPrizeTable wow fadeInUp">Enterprise</div>-->
+                    <!--<div class="col-md-1 text-center pull-right plans corporateTable corporateTableEn wow fadeInUp">Corporate</div>-->
+                    <!--<div class="col-md-1 text-center pull-right plans teamWorkTable wow fadeInUp">Team work</div>-->
+                    <!--<div class="col-md-1 text-center pull-right plans oneRecrTable wow fadeInUp">1 Recruiter</div>-->
+                <!--</div>-->
                 <div class="hide-block pull-right"></div>
                 <div class="clearfix"></div>
+                <table class="table table-bordered titleTable2 hideBlock">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td></td>
+                        <td class="text-center plans plans-for-ru oneRecrTable">
+                            <button type="button">
+                                <img src="/external/img/man-white.png" width="25" height="25"/>
+                            </button>
+                            <span class="clickedOneRecr clickedStyle">1 Recruiter</span>
+                            <span class="oneRecrTableText">1 Recruiter</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru teamWorkTable">
+                            <button type="button">
+                                <img src="/external/img/team-white.png" width="25" height="25"/>
+                            </button>
+                            <span class="clickedTeamWork clickedStyle">Team work</span>
+                            <span class="teamWorkTableText">Team work</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru corporateTable">
+                            <button type="button">
+                                <img src="/external/img/city_white.png" width="25" height="25"/>
+                            </button>
+                            <span class="clickedCorporate clickedStyle">Corporate</span>
+                            <span class="corporateTableText">Corporate</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru enterPrizeTable">
+                            <button type="button">
+                                <img src="/external/img/settings_white.png" width="25" height="25"/>
+                            </button>
+                            <span class="clickedEnterPrize clickedStyle">Enterprise</span>
+                            <span class="enterPrizeTableText">Enterprise</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered titleTable prices-block" style="position: fixed;display: none;">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td></td>
+                        <td class="text-center plans plans-for-ru oneRecrTable">
+                            <button type="button">
+                                <img src="/external/img/man-white.png" width="25" height="25"/>
+                            </button>
+                            <span class="clickedOneRecr clickedStyle">1 Recruiter</span>
+                            <span class="oneRecrTableText">1 Recruiter</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru teamWorkTable">
+                            <button type="button">
+                                <img src="/external/img/team-white.png" width="25" height="25"/>
+                            </button>
+                            <span class="clickedTeamWork clickedStyle">Team work</span>
+                            <span class="teamWorkTableText">Team work</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru corporateTable">
+                            <button type="button">
+                                <img src="/external/img/city_white.png" width="25" height="25"/>
+                            </button>
+                            <span class="clickedCorporate clickedStyle">Corporate</span>
+                            <span class="corporateTableText">Corporate</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru enterPrizeTable">
+                            <button type="button">
+                                <img src="/external/img/settings_white.png" width="25" height="25"/>
+                            </button>
+                            <span class="clickedEnterPrize clickedStyle">Enterprise</span>
+                            <span class="enterPrizeTableText">Enterprise</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
                 <table class="table styleHeaderTable wow fadeInUp">
                     <tbody>
                     <tr>
@@ -230,7 +323,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered wow fadeInUp">
+                <table class="table firstTable table-before-support-block table-bordered wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Database import</td>
@@ -298,7 +391,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered no-border-top wow fadeInUp">
+                <table class="table table-bordered table-before-support-block no-border-top wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Custom job workflow stages</td>
@@ -387,7 +480,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered no-border-top wow fadeInUp">
+                <table class="table table-bordered table-before-support-block no-border-top wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Integration with Google Calendar</td>
@@ -483,10 +576,10 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered no-padding-mob no-border-top wow fadeInUp">
+                <table class="table table-bordered superFunc table-before-support-block no-padding-mob no-border-top wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
-                        <td class="title">Full database control</td>
+                        <td class="title customWidth">Full database control</td>
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
@@ -537,7 +630,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered no-border-top wow fadeInUp">
+                <table class="table table-bordered support no-border-top wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Onboarding assistance</td>
@@ -551,7 +644,7 @@
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                         <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
                         <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
-                        <td class="goldSuccess text-center">$2000 / year</td>
+                        <td class="goldSuccess text-center wordWrap">$2000 / year</td>
                     </tr>
                     <tr>
                         <td class="title">Data import in 3 days</td>
@@ -592,7 +685,7 @@
                         <li><a href="why.html">Why?</a></li>
                         <li><a href="features.html">Features</a></li>
                         <li class="menu"><a href="#home" class="active-link">Pricing</a></li>
-                        <li><a href="https://cleverstaff.net/news/" target="_blank">Blog</a></li>
+                        <li><a href="https://cleverstaff.net/news/">Blog</a></li>
                         <li><a href="api.html" target="_blank">API</a></li>
                         <li><a href="privacy.html" target="_blank">Privacy Policy</a></li>
                         <li><a href="terms.html" target="_blank">Public Agreement</a></li>
@@ -681,7 +774,7 @@
                 <div class="form-gr">
                     <label for="ex1_usersCount" class="usersCountForm pull-left">The number of recruiters in your company *</label>
                     <div class="clearfix"></div>
-                    <select name="numberOfRecruiters" id="ex1_usersCount" class="float-left">
+                    <select name="numberOfRecruiters" id="ex1_usersCount" class="float-left webkit-fix">
                         <option value>The number of recruiters in your company *</option>
                         <option value="1">1</option>
                         <option value="2-4">2-4</option>
@@ -750,7 +843,7 @@
 
 <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/ApiKey.js?b1"></script>
-<script src="external/js/script.min.js?b13"></script>
+<script src="external/js/script.min.js?b16"></script>
 <script src="external/js/jquery.jcarousellite.min.js?b1"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 
@@ -790,22 +883,6 @@
         fbq('init', '980245322007471');
         fbq('track', 'PageView');
         <!-- End Facebook Pixel Code -->
-
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-52127049-1', {
-            'cookieDomain': document.domain
-        });
-        ga('send', 'pageview');
     }
 </script>
 <!-- Facebook Pixel Code -->

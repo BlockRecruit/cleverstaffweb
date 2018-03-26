@@ -1,9 +1,12 @@
 .block-candidate {
+	position: relative;
+
 	width: 95%;
 	margin: 0 auto;
 	.breadcrumb {
 		margin: 0;
 	}
+
 	.candidate-information {
 		@include bt-margins-from-side();
 		.fullName-position {
@@ -55,6 +58,7 @@
 		.candidate-profile-rezume {
 			@include bt-margins-from-side();
 
+			margin-bottom: 20px;
 			padding: 0 15px;
 			a {
 				outline: none;
@@ -577,12 +581,8 @@
 					border-radius: 5px;
 					background-color: $theme-white;
 					& > ul {
-						//<<<<<<< HEAD
 						display: inline-block;
 						width: 49%;
-						//=======
-						//						display: -webkit-inline-box;
-						//>>>>>>> 3034-merge-duplicates
 						margin-bottom: 0;
 						padding: 0;
 
@@ -693,9 +693,14 @@
 					border-top-left-radius: 5px;
 					border-top-right-radius: 5px;
 					background-color: $theme-white;
+					.left-col {
+						span,
+						a {
+							line-height: 26px;
+						}
+					}
 					& > div {
 						.leftBlock {
-							display: flex;
 							a {
 								line-height: 26px;
 								i {
@@ -889,9 +894,6 @@
 								color: #ffc100 !important;
 							}
 						}
-						.leftBlock {
-							display: flex;
-						}
 						.phone {
 							span {
 								margin: 0;
@@ -916,9 +918,30 @@
 								color: $theme-dark;
 							}
 							i {
+								display: inline-block;
 								margin-right: 6px;
 
 								color: $theme-dark-green;
+							}
+						}
+						.homepage,
+						.phone,
+						.github,
+						.googleplus,
+						.facebook,
+						.email,
+						.linkedin,
+						.skype,
+						.linkedProfiles {
+							//margin-bottom: 8px;
+							.preferable-contact {
+								//line-height: 16px !important;
+								//
+								//display: block;
+								//margin-bottom: 8px;
+								&:last-child {
+									margin-bottom: 0;
+								}
 							}
 						}
 					}
@@ -999,6 +1022,7 @@
 					}
 				}
 				.activity {
+					overflow: hidden;
 					margin: 0 -15px;
 					padding: 1px 30px;
 
@@ -1069,6 +1093,8 @@
 						padding: 0;
 
 						border-bottom: 1px solid $theme-border-color-base;
+						border-bottom-right-radius: 5px;
+						border-bottom-left-radius: 5px;
 						background-color: $theme-white;
 
 						& > .pull-left {
@@ -1232,6 +1258,8 @@
 						margin-left: 0;
 						padding: 8px;
 
+						border-top-left-radius: 5px;
+						border-top-right-radius: 5px;
 						background-color: $theme-subtitle-background;
 						.title-header {
 							@include bold();
@@ -1245,6 +1273,14 @@
 
 							margin-left: 15px;
 						}
+						img {
+							width: auto;
+							height: 31px;
+							&:hover {
+								cursor: pointer;
+								transform: scale(1.1,1.1);
+							}
+						}
 						.comments-wrap {
 							display: flex;
 							flex-direction: row;
@@ -1255,7 +1291,7 @@
 					}
 				}
 				.history-outer {
-					margin-top: 16px;
+					margin: 16px 0;
 					padding: 0;
 					.event {
 						@include flex-centered-verticaly();
@@ -1308,9 +1344,6 @@
 						}
 						&:not(.last-action) {
 							border: 0;
-						}
-						.text-in-block {
-							word-break: break-all;
 						}
 						.textField {
 							& > .field {
@@ -1375,6 +1408,14 @@
 							@include button-green-styling();
 
 							margin-left: 15px;
+						}
+						img {
+							width: auto;
+							height: 31px;
+							&:hover {
+								cursor: pointer;
+								transform: scale(1.1,1.1);
+							}
 						}
 						.show-comments {
 							display: inline-block;
@@ -1462,6 +1503,57 @@
 		}
 	}
 }
+
+.main-block {
+	position: relative;
+	z-index: 99;
+	.leftBlockArrow {
+		position: fixed;
+		z-index: -9999;
+		top: 0;
+		left: 0;
+
+		height: 100%;
+
+		background-color: rgb(227, 227, 227);
+		.fa:hover {
+			transform: scale(1.5);
+		}
+	}
+	.rightBlockArrow {
+		position: fixed;
+		z-index: -9999;
+		top: 0;
+		right: 0;
+
+		height: 100%;
+
+		background-color: rgb(227, 227, 227);
+		.fa:hover {
+			transform: scale(1.5);
+		}
+	}
+}
+
+.nextElements {
+	z-index: -9999;
+	&.fa-chevron-left {
+		font-size: 30px;
+
+		position: fixed;
+		top: 50%;
+		left: 3px;
+	}
+	&.fa-chevron-right {
+		font-size: 30px;
+
+		position: fixed;
+		top: 50%;
+		right: 3px;
+	}
+}
+
+
 @media (min-width: $screen-md) {
 	.candidate-profile-rezume .centerBar .profile-menu {
 		display: inline-block!important;
@@ -1603,6 +1695,10 @@
 							&:hover {
 								cursor: pointer;
 							}
+						}
+						& > img.sendEmail {
+							width: 45px;
+							height: 25px;
 						}
 						& .find-button {
 							padding: 5px 15px 10px;

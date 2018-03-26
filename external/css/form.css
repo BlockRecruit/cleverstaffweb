@@ -31,7 +31,8 @@
 .error-orgName,
 .error-usersCount,
 .error-password,
-.error-terms{
+.error-terms,
+.error-google-name{
     color: red;
     margin-top: 20px;
 }
@@ -177,6 +178,7 @@ input, select, textarea:focus{
 }
 .displayTable .phone .phoneNumber{
     -moz-appearance: textfield;
+    width: 100%;
 }
 .select2-container{
     width: 145px!important;

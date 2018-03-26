@@ -2,7 +2,7 @@ body {
 	padding-bottom: 0;
 }
 
-.block-company-public-vacancies {
+.block-public {
 	position: relative;
 
 	overflow-x: hidden;
@@ -114,10 +114,10 @@ body {
 				align-items: center;
 				& img {
 					display: inline-block;
-					width: 27px;
+					width: 21px;
 					margin-right: 10px;
 					&.fb {
-						width: 25px;
+						width: 21px;
 					}
 				}
 				& a {
@@ -351,12 +351,11 @@ body {
 			display: inline-block;
 
 			vertical-align: middle;
-			.btn-modern {
-				font-size: 16px;
+			.btn-primary-new {
+				@include btn-primary-new();
 
 				height: 26px;
-				margin-bottom: 0;
-				padding: 0 23px;
+				padding: 1px 23px;
 			}
 		}
 		.mCSB_inside > .mCSB_container {

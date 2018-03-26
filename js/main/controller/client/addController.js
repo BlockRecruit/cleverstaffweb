@@ -32,11 +32,14 @@ controller.controller('ClientAddController', ["FileInit", "$scope", "Service", "
         };
         FileInit.initFileOption($scope, "client");
         $scope.callbackFile = function(resp, names) {
+            $rootScope.loading = false;
             $scope.client.logoId = resp;
             $scope.hideModalAddPhoto();
         };
-        FileInit.addPhotoByReference($scope, $scope.callbackFile);
-        $scope.removePhoto = function() {
+        $scope.addPhotoByReference = function (photoUrl) {
+            $rootScope.loading = true;
+            FileInit.addPhotoByReference(photoUrl, $scope.callbackFile);
+        };        $scope.removePhoto = function() {
             $scope.client.logoId = undefined;
             $scope.progressUpdate();
         };
@@ -110,6 +113,7 @@ controller.controller('ClientAddController', ["FileInit", "$scope", "Service", "
                     if (angular.equals(resp.status, "ok")) {
                         Client.all(Client.searchOptions(), function (response) {
                             $rootScope.clientsForInvite = response.objects;
+                            console.log('a');
                         });
                         notificationService.success($filter('translate')("client_save_1") + " " + $scope.client.name + $filter('translate')("client_save_2"));
                         $location.path("/clients/" + resp.object.localId);
@@ -157,5 +161,14 @@ controller.controller('ClientAddController', ["FileInit", "$scope", "Service", "
                 }
             });
         };
+
+
+        $scope.getClientsAmount = function() {
+            Client.all(Client.searchOptions(), function (response) {
+                $rootScope.objectSize = response['objects'] ? response['total'] : 0;
+            });
+        };
+
         $scope.getFullCustomFields();
+        $scope.getClientsAmount();
     }]);

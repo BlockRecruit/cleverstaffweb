@@ -13,7 +13,7 @@ controller.controller('pipelineController', ["$rootScope", "$scope", "notificati
                    $scope.stagesOnVacancy = resp.objects[0].lastActiveState;
                    angular.forEach($scope.vacancies, function(data,key){
                        if(data.deadline){
-                           if(differenceBetweenTwoDates(data.deadline, new Date()) < -5){
+                           if(differenceBetweenTwoDates(data.deadline, new Date()) <= 3){
                                data.strongWarning = true;
                            }
                        }
@@ -23,11 +23,11 @@ controller.controller('pipelineController', ["$rootScope", "$scope", "notificati
                                   case 1:
                                       data.lastActiveStage = dat;
                                       data.lastActiveStage.differenceInDays = differenceBetweenTwoDates(new Date(), data.lastActiveStage.lastAction);
-                                      if(data.deadline){
+                                      // if(data.deadline){
                                           if(differenceBetweenTwoDates(data.lastActiveStage.lastAction, new Date()) < -5){
                                               data.warning = true;
                                           }
-                                      }
+                                      // }
                                       break;
                                   case 2:
                                       data.previousActiveStage = dat;
@@ -58,7 +58,7 @@ controller.controller('pipelineController', ["$rootScope", "$scope", "notificati
         $scope.showPipelineDescr = function(){
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/pipeline-descr.html?b=1',
+                templateUrl: '../partials/modal/pipeline-descr.html?b=2',
                 size: '',
                 resolve: function(){
 

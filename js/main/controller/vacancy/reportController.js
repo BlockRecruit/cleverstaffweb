@@ -11,6 +11,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         Vacancy.one({"localId": $routeParams.id}, function(resp) {
             $scope.vacancy = resp.object;
+
             $("#dateFrom").datetimepicker({
                 format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
                 startView: 2,
@@ -22,23 +23,20 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             });
 
             $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
+
             $("#dateTo").datetimepicker({
                 format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
                 startView: 2,
                 minView: 2,
                 autoclose: true,
-                endDate: $scope.vacancy.dateFinish != undefined ? new Date($scope.vacancy.dateFinish) : new Date(),
+                endDate: new Date(),
                 weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
                 language: $translate.use()
             });
 
-            if ($scope.vacancy.dateFinish != undefined) {
-                $("#dateTo").datetimepicker("setDate", new Date($scope.vacancy.dateFinish));
-            } else {
-                var d = new Date();
-                d.setHours(0, 0, 0, 0);
-                $("#dateTo").datetimepicker("setDate", d);
-            }
+            var d = new Date();
+            d.setHours(0, 0, 0, 0);
+            $("#dateTo").datetimepicker("setDate", d);
 
             let stagesString = [];
 
@@ -362,7 +360,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                                 value: value
                             });
                         });
-                        $scope.detailInterviewInfo =vacancyInterviewDetalInfo;
+                        $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
                         angular.forEach($scope.detailInterviewInfo, function(value){
                             angular.forEach($scope.customStages, function(resp){
                                 if(value.key == resp.customInterviewStateId){

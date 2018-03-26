@@ -12,20 +12,12 @@
             }
         };
 
-        let showBlocks =  (event) => {
-            let targetDataID = event.target.dataset, blockShow;
-
-            if(targetDataID && targetDataID['show']){
-                blockShow = angular.element('#' + targetDataID['show'])[0];
-                CustomReportEditService.showBlocks(blockShow);
-                return;
-            }
-            CustomReportEditService.hiddenBlocks();
+        let showCurrentBlock =  (event) => {
+            CustomReportEditService.showBlocks.call(null, event);
         };
 
         let _parentClick = event => {
-            showBlocks(event,$scope);
-            CustomReportEditService.moveCircleForVacancies.call(this);
+            showCurrentBlock(event,$scope);
         };
 
         CustomReportEditService.buildReport.call(this, $scope);
@@ -49,8 +41,8 @@
         this.saveCustomReport           = CustomReportEditService.saveCustomReport;
         this.showOrHideCandidates       = CustomReportEditService.showOrHideCandidates;
         this.selectDateRange            = CustomReportEditService.selectDateRange;
+        this.selectAllVacancies         = CustomReportEditService.selectAllVacancies;
         this.filterVacancy              = filterVacancy;
-        this.showBlocks                 = showBlocks;
         this.parentClick                = _parentClick;
     }catch(error){
         console.log(error, 'error')

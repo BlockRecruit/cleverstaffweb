@@ -1,0 +1,24 @@
+<div class="invite-hiring-manager">
+    <div class="modal-header">
+        <span class="close-modal" ng-click="$root.closeModal()">✖</span>
+        <h4>{{'Invite user with a role'|translate}}<br> Hiring Manager</h4>
+    </div>
+    <div class="modal-body">
+        <p>{{'Enter_new_users_email_1' | translate}}</p>
+        <div class="email">
+            <input type="text" ng-model="$root.inviteUser.email" required class="form-control user-email" placeholder="{{'email_invitation_user'|translate}}">
+        </div>
+        <div class="vacancy-autocompleter">
+            <input class="vacancy-autocompleter" type="hidden" vacancy-autocompleter id="vacancyToAddAutocompleaterModal">
+            <i class="fa fa-info-circle tooltip-icon" tooltip-placement="top-right" tooltip-class="tooltip-dark" uib-tooltip-html="$root.tooltips.hmInvite" aria-hidden="true"></i>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn-primary-new accent" ng-click="$root.addInvite()"
+                ng-disabled="!(!inviteForm.email.$error.email && !inviteForm.email.$error.required)"
+                ng-show="$root.inviteUser.role == 'admin' || $root.inviteUser.role == 'recruter'
+               || $root.inviteUser.role == 'salesmanager' || $root.inviteUser.role == 'freelancer'
+               || $root.inviteUser.role == 'researcher' || ($root.inviteUser.role == 'client' && $root.hideTariff)">
+            {{'invite' | translate}}</button>
+    </div>
+</div>

@@ -12,10 +12,10 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
         $scope.serverAddress = serverAddress;
         $scope.loader = false;
         $scope.isSearched = false;
+        $scope.validNewClient = true;
         $scope.client = {logoId: null};
         $scope.industries = Service.getIndustries();
-
-
+        localStorage.setItem("isAddCandidates", false);
     $scope.status = [
         {value: "future", name: "future"},
         {value: "in_work", name: "in work"},
@@ -60,7 +60,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
     $scope.clickSearch = function() {
         $scope.tableParams.$params.page = 1;
 
-        if($scope.searchClients.searchParamWord.$invalid){
+        if($scope.searchParam.words && $scope.searchParam.words.length == 1){
             notificationService.error($filter('translate')('Enter more data for search'));
             return;
         }
@@ -94,7 +94,8 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             });
             $('#cs-region-filter-select, #cs-region-filter-select-for-linkedin').html(optionsHtml);
             $('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
-        });
+        })
+
         $scope.setSearchedRegion = function(){
             $scope.searchParam.regionIdCity = null;
             var obj = JSON.parse($scope.searchParam.regionId);
@@ -179,6 +180,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                     }
                     Client.all(Client.searchOptions(), function(response) {
                         $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
+                        console.log($rootScope.objectSize);
                         if(page) {
                             $scope.clients = $scope.clients.concat(response['objects'])
                         } else {
@@ -230,6 +232,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
     };
     $scope.addShortClient = function(){
         if($scope.shortAddClient.$valid){
+            $scope.validNewClient = true;
             Client.add($scope.client, function(resp) {
                 if(resp.status =='ok'){
                     $scope.tableParams.reload();
@@ -240,6 +243,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             });
         }else{
             notificationService.error($filter('translate')('Please fill in all fields'));
+            $scope.validNewClient = false;
         }
     };
         $scope.getFirstLetters = function(str){

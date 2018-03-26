@@ -1,95 +1,153 @@
 <div class="invite-new-user">
-    <div class="modal-header" ng-hide="$root.inviteUserBlock">
-        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
-        <h4 class="modal-title" ng-show="$root.activePage == 'Company users' || $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'">{{'invitation_user'|translate}}</h4>
-        <h4 class="modal-title" ng-show="$root.activePage == 'Reports' || $root.activePage == 'Pipeline' || $root.activePage == 'Vacancy report' || $root.activePage == 'Statistics client' || $root.activePage == 'Reports constructor'">{{'Invite a Hiring manager'|translate}}</h4>
+
+    <div class="modal-header">
+        <h3>{{'New user invite' | translate}}</h3>
+        <span class="close-modal" ng-click="$root.closeModal()">✖</span>
     </div>
-    <div class="modal-body" ng-hide="$root.inviteUserBlock">
-        <p ng-show="($root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'Company users' || $root.activePage == 'News') && otherDate >= nowDate">
-            <b>{{'Invite colleagues'|translate}}</b>{{'so they could help you test the software and open all CleverStaff features'|translate}}
-            <br>
-            <b>{{'Invite Hiring managers'|translate}}</b> {{'and let them see & track their vacancies and candidates'|translate}}
-        </p>
-        <p ng-show="($root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'Company users' || $root.activePage == 'News') && otherDate < nowDate">
-            <b>{{'Invite colleagues'|translate}} {{'$25/mo per user'|translate}}</b>{{'so they could help you hire better & faster'|translate}}
-            <br>
-            <b>{{'Invite Hiring managers'|translate}} {{'free user, unlimited number'|translate}}</b> {{'and let them see & track their vacancies and candidates'|translate}}
-        </p>
-        <div class="inviteHM" ng-show="$root.activePage == 'Report all'">
-            <p>
-                <b>{{'Invite Hiring managers_1'|translate}}</b> {{'and let them see & track'|translate}} <b>{{'only'|translate}}</b> {{'vacancies and candidates they are responsible for. It’s a free option'|translate}}
-            </p>
-            <p><b>{{'Options available for Hiring managers'|translate}}</b></p>
-            <ul>
-                <li>
-                    <span>{{'Vacancies'|translate}}</span> -- {{'changes tracking, writing comments, setting & completing tasks'|translate}}
-                </li>
-                <li>
-                    <span>{{'Candidates'|translate}}</span> -- {{'candidates lists’ tracking for each stage, stages changing, choosing right candidates and declining inappropriate ones, writing comments, setting & completing tasks'|translate}}
-                </li>
-            </ul>
+
+    <div class="modal-body">
+
+        <div class="step">
+            <span class="step-number">1.&nbsp{{'Enter_new_users_email' | translate}}</span>
+            <div class="user-data">
+                <input type="text" ng-model="$root.inviteUser.email" required class="form-control" placeholder="{{'email_invitation_user'|translate}}">
+            </div>
         </div>
-        <p ng-show="$root.activePage == 'Activity' || $root.activePage == 'Company users' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'">
-            {{"Enter_new_users_email"|translate}}
-        </p>
-        <p ng-show="$root.activePage == 'Reports' || $root.activePage == 'Pipeline' || $root.activePage == 'Vacancy report' || $root.activePage == 'Statistics client' || $root.activePage == 'Reports constructor'">
-            {{"Enter_new_users_email_1"|translate}}
-        </p>
-        <input type="text" ng-model="$root.inviteUser.email" required class="form-control" placeholder="{{'email_invitation_user'|translate}}">
-        <!--<input type="radio" ng-model="$root.inviteUser.role" value="client">-->
-        <div class="roleInviteUser" ng-show="$root.activePage == 'Company users' || $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'">
-            <span>{{'role'|translate}}</span>
-            <div class="checkboxes">
-                <div class="checkbox-outer" ng-repeat="role in $root.userRole">
-                    <input ng-click="$root.inviteUser.role = role.value" type="radio" ng-checked="$root.inviteUser.role == role.value" value="">
-                        <span ng-switch="role.value">
-                            <span ng-switch-when="client">{{role.name.toLowerCase()|spellcheck}}</span>
-                            <span ng-switch-default>{{role.name}}</span>
-                        </span>
-                        <span ng-show='role.value == "recruter"' class='grey'> - {{"Able to manage clients, vacancies and candidates"|translate}}. {{"Paid user" | translate}}.</span>
-                        <span ng-show='role.value == "admin"' class='grey'> - {{"Full control on a company account. Able to manage users, clients, vacancies, and candidates"|translate}}. {{"Paid user" | translate}}.</span>
-                        <span ng-show='role.value == "salesmanager"' class='grey'> - {{"Able to manage clients and vacancies he/she is responsible for"|translate}}. {{"Paid user" | translate}}.</span>
-                        <span ng-show='role.value == "client"' class='grey'>
-                            <span>- {{"Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number"|translate}}.</span>
-                        </span>
-                        <span ng-show='role.value == "freelancer"' class='grey'>
-                            <span>
-                                - {{"Cannot see the full database. Able to manage only clients, vacancies, and candidates he/she is responsible for"|translate}}. {{"Paid user" | translate}}.
-                            </span>
-                        </span>
-                    <span ng-show='role.value == "researcher"' class='grey'> - {{"Cannot see the full database and other users. Able to see only vacancies he/she responsible for and candidates he/she added"|translate}}. {{"Paid user" | translate}}.</span>
+
+        <div class="step">
+            <span class="step-number">2.&nbsp{{'Select the role of the new user' | translate}}</span>
+
+            <div class="user-roles" ng-repeat="roles in $root.userRoles track by $index">
+
+                <div class="access">
+                    <span>{{roles.type | translate}}</span>
+                </div>
+
+                <div class="user-role" ng-repeat="role in roles.roles track by $index"
+                                       ng-class="{'selected' : $root.inviteUser.role == role.value}"
+                                       ng-click="selectUserRole(role)"
+                                       tooltip-class="tooltip-dark" uib-tooltip-html="$root.tooltips.userInvite.{{role.value}}">
+                    <input class="custom" type="radio"  name="user-role" id="{{role.value}}"
+                           ng-click="$root.inviteUser.role = role.value"
+                           ng-checked="$root.inviteUser.role == role.value">
+                    <label class="invite" for="{{role.value}}"></label>
+                    <div class="role-settings-wrap">
+                        <span class="role-name">{{role.name}}</span>
+                        <span class="role-type">{{role.type | userTypes}}</span>
+                    </div>
+                </div>
+
+                <div class="vacancy-autocompleter" ng-show="$root.inviteUser.role === roles.roles[0].value && roles.roles[0].value === 'client'">
+                    <input type="hidden" vacancy-autocompleter id="vacancyToAddAutocompleaterModal">
+                    <i class="fa fa-info-circle tooltip-icon" tooltip-placement="top-right" tooltip-class="tooltip-dark" uib-tooltip-html="$root.tooltips.hmInvite" aria-hidden="true"></i>
                 </div>
             </div>
-            <!--<form class="form-inline-position" ng-show='$root.inviteUser.role == "client"'>-->
-                <!--<div class="select">-->
-                    <!--<select ng-model="$root.inviteUser.clientId" class="form-control">-->
-                        <!--<option value="" ng-selected="true">{{'chose_customer'|translate}}</option>-->
-                        <!--<option value="{{client.clientId}}" ng-repeat="client in $root.clientsForInvite">-->
-                            <!--{{client.name}}-->
-                        <!--</option>-->
-                    <!--</select>-->
-                <!--</div>-->
-            <!--</form>-->
+
         </div>
     </div>
-    <div class="modal-footer" ng-hide="$root.inviteUserBlock">
-        <div class="text-center button">
-            <a type="button" class="btn btn-primary cancel" ng-show="$root.activePage == 'Company users' || $root.activePage == 'Report all'" ng-click="$root.closeModal()">{{'cancel' | translate}}</a>
-            <a type="button" class="btn btn-primary cancel" ng-show="$root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'" ng-click="$root.closeNavModal()">{{'cancel' | translate}}</a>
-            <a type="button" class="btn btn-primary accept"
-               ng-disabled="!(!inviteForm.email.$error.email && !inviteForm.email.$error.required)"
-               ng-click="$root.addInvite()" ng-show="$root.inviteUser.role == 'admin' || $root.inviteUser.role == 'recruter'
-               || $root.inviteUser.role == 'salesmanager' || $root.inviteUser.role == 'freelancer' || $root.inviteUser.role == 'researcher' || ($root.inviteUser.role == 'client' && $root.hideTariff)">{{'invite' | translate}}</a>
-            <button id="disabledBtn" ng-click="$root.disabledBtnFuncUserModal();" ng-show="$root.inviteUser.role == 'client' && !$root.hideTariff"
-                    type="button" class="btn btn-default disabled">
-                {{'invite' | translate}}
-            </button>
-        </div>
+
+    <div class="modal-footer">
+        <button class="btn-primary-new cancel" ng-click="$root.closeModal()">{{'cancel_2' | translate}}</button>
+        <button class="btn-primary-new accent" ng-click="$root.addInvite()"
+                ng-disabled="!(!inviteForm.email.$error.email && !inviteForm.email.$error.required)"
+                ng-show="$root.inviteUser.role == 'admin' || $root.inviteUser.role == 'recruter'
+               || $root.inviteUser.role == 'salesmanager' || $root.inviteUser.role == 'freelancer' ||
+               $root.inviteUser.role == 'researcher' || ($root.inviteUser.role == 'client' && $root.hideTariff)">
+            {{'invite' | translate}}</button>
     </div>
-    <div class="modal-header" ng-show="$root.inviteUserBlock"><h4>{{'The invitation was not sent to this email'|translate}}</h4></div>
-    <div class="modal-body" ng-show="$root.inviteUserBlock">
-        <p>{{'The user with this email already exists at your company account.'|translate}}
-        {{'You could activate this user via switcher on the left part of this page.'|translate}}</p>
-    </div>
-    <div class="modal-footer" ng-show="$root.inviteUserBlock"></div>
 </div>
+
+
+<!--<div class="invite-new-user">-->
+    <!--<div class="modal-header" ng-hide="$root.inviteUserBlock">-->
+        <!--<i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>-->
+        <!--<h4 class="modal-title" ng-show="$root.activePage == 'Company users' || $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'">{{'invitation_user'|translate}}</h4>-->
+        <!--<h4 class="modal-title" ng-show="$root.activePage == 'Reports' || $root.activePage == 'Pipeline' || $root.activePage == 'Vacancy report' || $root.activePage == 'Statistics client' || $root.activePage == 'Reports constructor'">{{'Invite a Hiring manager'|translate}}</h4>-->
+    <!--</div>-->
+    <!--<div class="modal-body" ng-hide="$root.inviteUserBlock">-->
+        <!--<p ng-show="($root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'Company users' || $root.activePage == 'News') && otherDate >= nowDate">-->
+            <!--<b>{{'Invite colleagues'|translate}}</b>{{'so they could help you test the software and open all CleverStaff features'|translate}}-->
+            <!--<br>-->
+            <!--<b>{{'Invite Hiring managers'|translate}}</b> {{'and let them see & track their vacancies and candidates'|translate}}-->
+        <!--</p>-->
+        <!--<p ng-show="($root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'Company users' || $root.activePage == 'News') && otherDate < nowDate">-->
+            <!--<b>{{'Invite colleagues'|translate}} {{'$25/mo per user'|translate}}</b>{{'so they could help you hire better & faster'|translate}}-->
+            <!--<br>-->
+            <!--<b>{{'Invite Hiring managers'|translate}} {{'free user, unlimited number'|translate}}</b> {{'and let them see & track their vacancies and candidates'|translate}}-->
+        <!--</p>-->
+        <!--<div class="inviteHM" ng-show="$root.activePage == 'Report all'">-->
+            <!--<p>-->
+                <!--<b>{{'Invite Hiring managers_1'|translate}}</b> {{'and let them see & track'|translate}} <b>{{'only'|translate}}</b> {{'vacancies and candidates they are responsible for. It’s a free option'|translate}}-->
+            <!--</p>-->
+            <!--<p><b>{{'Options available for Hiring managers'|translate}}</b></p>-->
+            <!--<ul>-->
+                <!--<li>-->
+                    <!--<span>{{'Vacancies'|translate}}</span> &#45;&#45; {{'changes tracking, writing comments, setting & completing tasks'|translate}}-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<span>{{'Candidates'|translate}}</span> &#45;&#45; {{'candidates lists’ tracking for each stage, stages changing, choosing right candidates and declining inappropriate ones, writing comments, setting & completing tasks'|translate}}-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <!--<p ng-show="$root.activePage == 'Activity' || $root.activePage == 'Company users' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'">-->
+            <!--{{"Enter_new_users_email"|translate}}-->
+        <!--</p>-->
+        <!--<p ng-show="$root.activePage == 'Reports' || $root.activePage == 'Pipeline' || $root.activePage == 'Vacancy report' || $root.activePage == 'Statistics client' || $root.activePage == 'Reports constructor'">-->
+            <!--{{"Enter_new_users_email_1"|translate}}-->
+        <!--</p>-->
+        <!--<input type="text" ng-model="$root.inviteUser.email" required class="form-control" placeholder="{{'email_invitation_user'|translate}}">-->
+        <!--<div class="addVacancy" ng-show="$root.activePage == 'Reports' || $root.activePage == 'Pipeline' || $root.activePage == 'Vacancy report' || $root.activePage == 'Statistics client' || $root.activePage == 'Reports constructor'">-->
+            <!--<input type="hidden" vacancy-autocompleter id="vacancyToAddAutocompleaterModal">-->
+            <!--<i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="top-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.hmInvite" aria-hidden="true"></i>-->
+        <!--</div>-->
+        <!--&lt;!&ndash;<input type="radio" ng-model="$root.inviteUser.role" value="client">&ndash;&gt;-->
+        <!--<div class="roleInviteUser" ng-show="$root.activePage == 'Company users' || $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'">-->
+            <!--<span>{{'role'|translate}}</span>-->
+            <!--<div class="checkboxes">-->
+                <!--<div class="checkbox-outer" ng-repeat="role in $root.userRole">-->
+                    <!--<input ng-click="$root.inviteUser.role = role.value" type="radio" ng-checked="$root.inviteUser.role == role.value" value="">-->
+                        <!--<span ng-switch="role.value">-->
+                            <!--<span ng-switch-when="client">{{role.name.toLowerCase()|spellcheck}}</span>-->
+                            <!--<span ng-switch-default>{{role.name}}</span>-->
+                        <!--</span>-->
+                        <!--<span ng-show='role.value == "recruter"' class='grey'> - {{"Able to manage clients, vacancies and candidates"|translate}}. {{"Paid user" | translate}}.</span>-->
+                        <!--<span ng-show='role.value == "admin"' class='grey'> - {{"Full control on a company account. Able to manage users, clients, vacancies, and candidates"|translate}}. {{"Paid user" | translate}}.</span>-->
+                        <!--<span ng-show='role.value == "salesmanager"' class='grey'> - {{"Able to manage clients and vacancies he/she is responsible for"|translate}}. {{"Paid user" | translate}}.</span>-->
+                        <!--<span ng-show='role.value == "client"' class='grey'>-->
+                            <!--<span>- {{"Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number"|translate}}.</span>-->
+                        <!--</span>-->
+                        <!--<div ng-show='$root.inviteUser.role == "client" && role.value == "client"'>-->
+                            <!--<input type="hidden" vacancy-autocompleter id="vacancyToAddAutocompleaterModal">-->
+                            <!--<i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.hmInvite" aria-hidden="true"></i>-->
+                        <!--</div>-->
+                        <!--<span ng-show='role.value == "freelancer"' class='grey'>-->
+                            <!--<span>-->
+                                <!-- - {{"Cannot see the full database. Able to manage only clients, vacancies, and candidates he/she is responsible for"|translate}}. {{"Paid user" | translate}}.-->
+                            <!--</span>-->
+                        <!--</span>-->
+                    <!--<span ng-show='role.value == "researcher"' class='grey'> - {{"Cannot see the full database and other users. Able to see only vacancies he/she responsible for and candidates he/she added"|translate}}. {{"Paid user" | translate}}.</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="modal-footer" ng-hide="$root.inviteUserBlock">-->
+        <!--<div class="text-center button">-->
+            <!--<a type="button" class="btn btn-primary cancel" ng-show="$root.activePage == 'Company users' || $root.activePage == 'Report all'" ng-click="$root.closeModal()">{{'cancel' | translate}}</a>-->
+            <!--<a type="button" class="btn btn-primary cancel" ng-show="$root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'" ng-click="$root.closeNavModal()">{{'cancel' | translate}}</a>-->
+            <!--<a type="button" class="btn btn-primary accept"-->
+               <!--ng-disabled="!(!inviteForm.email.$error.email && !inviteForm.email.$error.required)"-->
+               <!--ng-click="$root.addInvite()" ng-show="$root.inviteUser.role == 'admin' || $root.inviteUser.role == 'recruter'-->
+               <!--|| $root.inviteUser.role == 'salesmanager' || $root.inviteUser.role == 'freelancer' || $root.inviteUser.role == 'researcher' || ($root.inviteUser.role == 'client' && $root.hideTariff)">{{'invite' | translate}}</a>-->
+            <!--<button id="disabledBtn" ng-click="$root.disabledBtnFuncUserModal();" ng-show="$root.inviteUser.role == 'client' && !$root.hideTariff"-->
+                    <!--type="button" class="btn btn-default disabled">-->
+                <!--{{'invite' | translate}}-->
+            <!--</button>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="modal-header" ng-show="$root.inviteUserBlock"><h4>{{'The invitation was not sent to this email'|translate}}</h4></div>-->
+    <!--<div class="modal-body" ng-show="$root.inviteUserBlock">-->
+        <!--<p>{{'The user with this email already exists at your company account.'|translate}}-->
+        <!--{{'You could activate this user via switcher on the left part of this page.'|translate}}</p>-->
+    <!--</div>-->
+    <!--<div class="modal-footer" ng-show="$root.inviteUserBlock"></div>-->
+<!--</div>-->

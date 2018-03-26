@@ -20,6 +20,8 @@
 		@include bt-margins-from-side();
 		& > .fullName-position {
 			float: none;
+			margin-top: -5px;
+			margin-bottom: 15px;
 			& > span {
 				@include bold();
 
@@ -30,29 +32,10 @@
 
 					color: #777;
 				}
-			}
-		}
-	}
-	.profile-menu {
-		float: none;
-		width: 98%;
-		margin: 0 auto;
-		margin-top: 10px;
-		margin-bottom: 10px;
-
-		border-radius: 5px;
-		background-color: $theme-white;
-		& > ul {
-			line-height: 50px;
-
-			display: inline-flex;
-			margin-bottom: 0;
-			padding: 0;
-
-			list-style-type: none;
-			& > li {
-				padding-right: 50px;
 				& > a {
+					font-size: 14px;
+					font-weight: 500;
+
 					text-decoration: none;
 
 					color: $theme-dark;
@@ -60,7 +43,7 @@
 						color: #fdd14a;
 					}
 					& > i {
-						margin-right: 10px;
+						margin: 0 10px;
 
 						color: $theme-button-color;
 					}
@@ -68,6 +51,41 @@
 			}
 		}
 	}
+	//.profile-menu {
+	//	float: none;
+	//	width: 98%;
+	//	margin: 0 auto;
+	//	margin-top: 10px;
+	//	margin-bottom: 10px;
+	//
+	//	border-radius: 5px;
+	//	background-color: $theme-white;
+	//	& > ul {
+	//		line-height: 50px;
+	//
+	//		display: inline-flex;
+	//		margin-bottom: 0;
+	//		padding: 0;
+	//
+	//		list-style-type: none;
+	//		& > li {
+	//			padding-right: 50px;
+	//			& > a {
+	//				text-decoration: none;
+	//
+	//				color: $theme-dark;
+	//				&:hover {
+	//					color: #fdd14a;
+	//				}
+	//				& > i {
+	//					margin-right: 10px;
+	//
+	//					color: $theme-button-color;
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
 	.employee-profile-rezume {
 		@include bt-margins-from-side();
 
@@ -323,16 +341,19 @@
 
 			border-radius: 5px;
 			.main-info {
-				padding: 15px;
+				padding: 15px 0;
 
 				border-bottom: 1px solid $theme-light-grey;
 				border-top-left-radius: 5px;
 				border-top-right-radius: 5px;
 				background-color: $theme-white;
 				.dateOfWork {
-					height: 50px;
+					height: 30px;
 					& > .dateOfWorkBold {
 						@include bold;
+					}
+					&.info {
+						height: 28px;
 					}
 				}
 				a {
@@ -375,7 +396,7 @@
 				}
 			}
 			.history-outer {
-				margin-top: 30px;
+				margin: 30px 0;
 				padding: 0;
 				.event {
 					@include flex-centered-verticaly();

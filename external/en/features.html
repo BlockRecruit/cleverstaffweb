@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>.async-hide { opacity: 0 !important} </style>
+    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+    })(window,document.documentElement,'async-hide','dataLayer',4000,
+        {'GTM-PHXZMBX':true});</script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
     <script>
@@ -10,21 +16,37 @@
             gtag('js', new Date());
 
             gtag('config', 'UA-52127049-1');
+
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-52127049-1', {
+                'cookieDomain': document.domain
+            });
+            ga('require', 'GTM-PHXZMBX');
+            ga('send', 'pageview');
         }
     </script>
     <!-- end of gtag -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
-    <title>Features | CleverStaff | All-in-One ATS & Recruiting Software</title>
+    <title>Features and functions CleverStaff | Single system for recruiting</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Grow your database, take applicant tracking system & automate recruitment process in one recruitment software.">
-    <meta name="keywords" content="applicant tracking, recruitment automation, applicant tracking system, Recruitment service, ATS, recruitment software">
+    <meta name="description" content="Manage the database, applicants and selection. Automate the selection process. With a single system for recruiting.">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <link rel="stylesheet" href="external/css/bootstrap.min.css">
-    <link rel="stylesheet" href="external/css/main.min.css?b6">
+    <link rel="stylesheet" href="external/css/main.min.css?b10">
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Features | CleverStaff | All-in-One ATS & Recruiting Software"/>
-    <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
+    <meta property="og:title" content="Features and functions CleverStaff | Single system for recruiting"/>
+    <meta property="og:description" content="Manage the database, applicants and selection. Automate the selection process. With a single system for recruiting."/>
     <meta property="og:image" content="https://dev.cleverstaff.net/images/sprite/for_preview_1080-1080.jpg"/>
     <meta property="og:image:width" content="1080" />
     <meta property="og:image:height" content="1080" />
@@ -57,7 +79,7 @@
                         <li><a href="why.html">Why</a></li>
                         <li class="active menu"><a href="#home">Features</a></li>
                         <li><a href="price.html">Pricing</a></li>
-                        <li><a href="https://cleverstaff.net/news/" target="_blank">Blog</a></li>
+                        <li><a href="https://cleverstaff.net/news/">Blog</a></li>
                     </ul>
                     <a class="signinButtonEng btn btn-default navbar-btn loginBtn adaptiveMenu pull-left">Start</a>
                     <div class="dropdown pull-right adaptiveMenu">
@@ -81,7 +103,7 @@
                             <li><a href="why.html">Why</a></li>
                             <li class="active menu"><a href="#home">Features</a></li>
                             <li><a href="price.html">Pricing</a></li>
-                            <li><a href="https://cleverstaff.net/news/" target="_blank">Blog</a></li>
+                            <li><a href="https://cleverstaff.net/news/">Blog</a></li>
                         </ul>
                         <div class="dropdown pull-right adaptiveMenuShow float-none-mob">
                             <button class="btn btn-primary dropdown-toggle"
@@ -105,7 +127,7 @@
                 <h1>Customizable Features That Work Your Way</h1>
                 <a class="orangeBtn isIe">Start 7 day Trial</a>
                 <span class="or-features en-font-size">or</span>
-                <a href="#need-demo-modal" data-toggle="modal" class="orangeBtn presentation">Let’s schedule a demo</a>
+                <a href="#need-demo-modal" data-analytics="presentation" data-toggle="modal" class="orangeBtn presentation">Let’s schedule a demo</a>
             </div>
             <span class="flower-feature"></span>
             <span class="man"></span>
@@ -124,11 +146,11 @@
                     <h3 class="text-center wow fadeInUp">Find & add candidates in seconds. Integrate in 1 click.</h3>
                     <div class="tabsCs wow fadeInUp">
                         <ul class="nav nav-tabs">
-                            <li class="active text-center gif-1"><a data-toggle="tab" href="#addCandidate">Resume parsing technology</a></li>
-                            <li class="text-center gif-2"><a data-toggle="tab" href="#menu1">Email sync & CV uploads</a></li>
-                            <li class="text-center gif-3"><a data-toggle="tab" href="#menu2">Bulk database import</a></li>
-                            <li class="text-center gif-4"><a data-toggle="tab" href="#menu3">LinkedIn integration</a></li>
-                            <li class="text-center gif-5"><a data-toggle="tab" href="#menu4">Local job boards integration</a></li>
+                            <li class="active text-center gif-1" data-toggle="tab" href="#addCandidate"><a>Resume parsing technology</a></li>
+                            <li class="text-center gif-2" data-toggle="tab" href="#menu1"><a>Email sync & CV uploads</a></li>
+                            <li class="text-center gif-3" data-toggle="tab" href="#menu2"><a>Bulk database import</a></li>
+                            <li class="text-center gif-4" data-toggle="tab" href="#menu3"><a>LinkedIn integration</a></li>
+                            <li class="text-center gif-5" data-toggle="tab" href="#menu4"><a>Local job boards integration</a></li>
                         </ul>
                         <div class="tab-content text-center">
                             <div id="addCandidate" onclick="switchFunc('.gif-2', '#menu1');" class="tab-pane gif-1 fade in active">
@@ -171,9 +193,9 @@
                     <h3 class="text-center">One place to estimate, track, and discuss candidates.</h3>
                     <div class="tabsCs">
                         <ul class="nav nav-tabs">
-                            <li class="active text-center gif-1"><a data-toggle="tab" href="#step">Custom job workflow stages</a></li>
-                            <li class="text-center gif-2"><a data-toggle="tab" href="#integration">Customizable templates for auto-emails</a></li>
-                            <li class="text-center gif-3"><a data-toggle="tab" href="#customizable">Integration with Google Calendar & Outlook Calendar</a></li>
+                            <li class="active text-center gif-1" data-toggle="tab" href="#step"><a>Custom job workflow stages</a></li>
+                            <li class="text-center gif-2" data-toggle="tab" href="#integration"><a>Customizable templates for auto-emails</a></li>
+                            <li class="text-center gif-3" data-toggle="tab" href="#customizable"><a>Integration with Google Calendar & Outlook Calendar</a></li>
                         </ul>
                         <div class="tab-content text-center">
                             <div id="step" onclick="switchFunc('.gif-2', '#customizable');" class="tab-pane gif-1 fade in active">
@@ -203,9 +225,9 @@
                     <h3 class="text-center">Forget about routine and save up to 45% of time.</h3>
                     <div class="tabsCs">
                         <ul class="nav nav-tabs">
-                            <li class="active text-center gif-1"><a data-toggle="tab" href="#search">Appropriate candidates' suggestions</a></li>
-                            <li class="text-center gif-2"><a data-toggle="tab" href="#reports">Quick vacancies reports</a></li>
-                            <li class="text-center gif-3"><a data-toggle="tab" href="#funnel">Recruiting funnel</a></li>
+                            <li class="active text-center gif-1" data-toggle="tab" href="#search"><a>Appropriate candidates' suggestions</a></li>
+                            <li class="text-center gif-2" data-toggle="tab" href="#reports"><a>Quick vacancies reports</a></li>
+                            <li class="text-center gif-3" data-toggle="tab" href="#funnel"><a>Recruiting funnel</a></li>
                         </ul>
                         <div class="tab-content text-center">
                             <div id="search" onclick="switchFunc('.gif-2', '#reports');" class="tab-pane gif-1 fade in active">
@@ -486,7 +508,7 @@
                         <li><a href="why.html">Why?</a></li>
                         <li class="menu"><a href="#home" class="active-link">Features</a></li>
                         <li><a href="price.html">Pricing</a></li>
-                        <li><a href="https://cleverstaff.net/news/" target="_blank">Blog</a></li>
+                        <li><a href="https://cleverstaff.net/news/">Blog</a></li>
                         <li><a href="api.html" target="_blank">API</a></li>
                         <li><a href="privacy.html" target="_blank">Privacy Policy</a></li>
                         <li><a href="terms.html" target="_blank">Public Agreement</a></li>
@@ -571,7 +593,7 @@
                 </div>
                 <div class="form-gr">
                     <label for="ex1_usersCount" class="usersCountForm pull-left">How many recruiters in your company?</label>
-                    <select name="numberOfRecruiters" id="ex1_usersCount" class="float-left">
+                    <select name="numberOfRecruiters" id="ex1_usersCount" class="float-left webkit-fix">
                         <option value>The number of recruiters in your company *</option>
                         <option value="1">1</option>
                         <option value="2-4">2-4</option>
@@ -640,7 +662,7 @@
 
 <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/ApiKey.js?b1"></script>
-<script src="external/js/script.min.js?b14"></script>
+<script src="external/js/script.min.js?b17"></script>
 <script src="external/js/jquery.jcarousellite.min.js?b1"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 
@@ -696,21 +718,6 @@
         <!-- End Facebook Pixel Code -->
 
         // GA
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-52127049-1', {
-            'cookieDomain': document.domain
-        });
-        ga('send', 'pageview');
     }
 </script>
 <noscript><img height="1" width="1" style="display:none" alt="FB" src="https://www.facebook.com/tr?id=980245322007471&ev=PageView&noscript=1" /></noscript>

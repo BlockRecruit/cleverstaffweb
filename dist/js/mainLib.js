@@ -5980,10 +5980,12 @@ angular.module('ui.tinymce', [])
         return {
             priority: 10,
             scope: {
-                disabledMce: '='
+                disabledMce: '=',
+                resizable: '='
             },
             require: 'ngModel',
             link: function (scope, elm, attrs, ngModel) {
+                console.log('scope.resizable',scope.resizable)
                 var expression, options, tinyInstance,
                     updateView = function () {
                         ngModel.$setViewValue(elm.val());
@@ -6070,6 +6072,7 @@ angular.module('ui.tinymce', [])
                     },
                     mode: 'exact',
                     theme: "modern",
+                    resize: scope.resizable === true ? true : false,
                     readonly: 0,
                     height: 300,
                     language: lang != undefined || lang != null ? lang : "ru",
@@ -6078,7 +6081,7 @@ angular.module('ui.tinymce', [])
                         format: {title: 'Format', items: 'underline strikethrough superscript subscript | formats | removeformat'},
                         insert: {title: 'Insert', items: 'media image | charmap hr insertdatetime'}
                     },
-                    statusbar: false,
+                    statusbar: scope.resizable === true ? true : false,
                     theme_advanced_resizing: true,
                     plugins: plugin,
                     fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt",
@@ -6086,6 +6089,7 @@ angular.module('ui.tinymce', [])
                     image_advtab: true,
                     toolbar_items_size: 'small',
                     relative_urls: false,
+                    link_assume_external_targets: true,
 
                     elements: attrs.id,
                     content_css: "/dist/css/tinymce.css"

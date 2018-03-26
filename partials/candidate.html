@@ -1,15 +1,16 @@
-<div class="controller-view">
+<div class="controller-view main-block" ng-mouseover="nextOrPrevElements($event)" ng-click="nextElement($event)">
     <div class="block-candidate">
-        <div ng-show="$root.stageUrl" class="breadcrumbs">
-            <!--<ol  class="breadcrumb hidden-xs hidden-sm">-->
-                <!--<li><a href="#/vacancies">{{'vacancies'|translate}}</a></li>-->
-                <!--<li><a href="#{{$root.stageUrl.url}}" ng-bind="$root.stageUrl.name"></a></li>-->
-                <!--<li>-->
-                    <!--<a href="#{{$root.stageUrl.url}}" ng-bind="$root.stageUrl.stage|translate"></a>-->
-                <!--</li>-->
-            <!--</ol>-->
+        <div ng-if="$root.stageUrl && $root.isAddCandidates && currentIndex" class="breadcrumbs">
+            <ol  class="breadcrumb hidden-xs hidden-sm">
+                <li><a href="#/vacancies">{{'vacancies'|translate}}</a></li>
+                <li><a href="#{{$root.stageUrl.url}}" ng-bind="$root.stageUrl.name"></a></li>
+                <li>
+                    <a href="#{{$root.stageUrl.url}}" ng-bind="$root.stageUrl.stage|translate"></a>
+                </li>
+            </ol>
         </div>
-        <div class="container-fluid nav-candidate hidden-lg hidden-md" ng-show="currentTab == 'profile' || currentTab == 'task' || currentTab == 'history'">
+        <div class="container-fluid nav-candidate hidden-lg hidden-md"
+             ng-show="currentTab == 'profile' || currentTab == 'task' || currentTab == 'history'">
             <div class="second-navbar">
                 <ul class="nav navbar-nav col-sm-10 col-xs-12">
                     <li class="hidden-lg hidden-md col-sm-3 col-sm-offset-3 col-xs-3">
@@ -24,10 +25,13 @@
                 </ul>
             </div>
         </div>
-        <div ng-show="currentTab == 'profile'" class="row candidate-information">
-            <div class="col-lg-12 fullName-position" ng-style="$root.stageUrl && {margin:'0px'}">
+        <div ng-show="currentTab == 'profile'"
+             ng-style="$root.isAddCandidates? null:{'margin-top':'11px'}"
+             class="row candidate-information">
+            <div class="col-lg-12 fullName-position"  style="margin-top: 0px;   " ng-style="$root.stageUrl && {margin:'0px'}">
                 <div class="col-lg-7">
                     <span>{{candidate.fullName}}, <span>{{candidate.position}}</span></span>
+                    <span style="font-weight: normal" ng-if="$root.isAddCandidates && currentIndex">({{currentIndex + "/" + candidateLength}})</span>
                 </div>
                 <div class="col-lg-6 hidden-xs hidden-sm last-comment-item" ng-show="lastMessage">
                     <div class="col-lg-6 text-right">
@@ -97,9 +101,14 @@
                             <!--alt="{{'edit_profile'|translate}}">-->
                             <img ng-click="showModalAddCommentToCandidate('md');"
                                  ng-show="$root.me.recrutRole != 'client'"
-                                 class="action-button"
+                                 class="action-button pull-right"
                                  src="../images/sprite/addMessage.svg"
                                  alt="{{'add_comment'|translate}}">
+                            <img ng-click="showCandidateSentEmail('md');"
+                                 ng-show="$root.me.recrutRole != 'client'"
+                                 class="action-button sendEmail"
+                                 src="../images/sprite/sendEmail.svg"
+                                 alt="{{'Send email'|translate}}">
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-lg-12 participate-in-job not-for-print">
@@ -414,9 +423,9 @@
                         <!--class="addVacancy-icon-tablet">-->
                         <!--<a href="" ng-click="showModalAddCommentToCandidate('md');" class="pull-right move-bot"><i class="fa fa-pencil" aria-hidden="true"></i>{{'add_comment'|translate}}</a>-->
                     </div>
-                    <div class="main-info col-lg-12">
-                        <div class="col-lg-6">
-                            <div class="leftBlock">
+                    <div class="main-info col-lg-12 clearfix">
+                        <div class="col-lg-6 left-col">
+                            <div class="leftBlock clearfix">
                                 <a ng-click="showRegion2Map = !showRegion2Map" class="phone" ng-show="candidate.region.displayFullName">
                                     <i class="fa fa-map-marker" aria-hidden="true"></i>
                                     {{candidate.region.displayFullName}}
@@ -428,32 +437,32 @@
                                     </ui-gmap-marker>
                                 </ui-gmap-google-map>
                             </div>
-                            <div class="leftBlock">
+                            <div class="leftBlock clearfix">
                                 <a ng-show="candidate != undefined && candidate.db" title="{{'date_of_birth'|translate}}" class="phone">
                                     <i class="fa fa-calendar" aria-hidden="true"></i>
                                     {{candidate.db|ageOfDate}} ({{(candidate.db|dateFormat).trim()}})
                                 </a>
                             </div>
-                            <div class="leftBlock">
+                            <div class="leftBlock clearfix">
                                 <a ng-show="candidate != undefined && candidate.salary" title="{{'desired_salary'|translate}}" class="phone">
                                     <i class="fa fa-usd" aria-hidden="true"></i>
                                     {{candidate.salary| numberSpacing}} {{candidate.currency}}
                                 </a>
                             </div>
-                            <div class="leftBlock">
+                            <div class="leftBlock clearfix">
                                 <a ng-show="candidate.expirence" class="phone">
                                     <span>{{'experience'|translate}}:</span>
                                     <span ng-show="candidate.expirence">{{'experience_assoc.' + candidate.expirence|translate}}</span>
                                 </a>
                             </div>
-                            <div class="leftBlock">
+                            <div class="leftBlock clearfix">
                                 <a ng-show="candidate.readyRelocate && candidate.relatedRegions" class="phone relocate">
                                     <span>{{'ready_to_relocate'|translate}}:</span>
                                     <div class="clearfix" ng-if="candidate.relatedRegions.length > 1"></div>
                                     <span class="relocateRegions" ng-repeat="region in candidate.relatedRegions"><i class="fa fa-map-marker" aria-hidden="true"></i>{{region.displayFullName}}&nbsp;<br/></span>
                                 </a>
                             </div>
-                            <div class="leftBlock">
+                            <div class="leftBlock clearfix">
                                 <a ng-show="candidate.languages.length > 0" class="phone noneNowrap">
                                     <span class="pull-left">{{'languages'|translate}}:</span>
                                     <div class="pull-left newLang">
@@ -461,13 +470,13 @@
                                     </div>
                                 </a>
                             </div>
-                            <div class="leftBlock">
+                            <div class="leftBlock clearfix">
                                 <a ng-show="candidate.industry" class="phone">
                                     <span>{{'industry'|translate}}:</span>
                                     <span>{{'industries_assoc.' + candidate.industry|translate}}</span>
                                 </a>
                             </div>
-                            <div class="leftBlock">
+                            <div class="leftBlock clearfix">
                                 <a ng-show="candidate.employmentType" class="phone">
                                     <span>{{'employment_type'|translate}}:</span>
                                 <span ng-repeat="emplType in candidate.employmentType.split(',') track by $index">
@@ -475,25 +484,25 @@
                                 </span>
                                 </a>
                             </div>
-                            <div class="leftBlock">
+                            <div class="leftBlock clearfix">
                                 <a ng-show="candidate.education" class="phone">
                                     <span>{{'education'|translate}}:</span>
                                     <span id="candidateEducation"></span>
                                 </a>
                             </div>
-                            <div class="leftBlock">
+                            <div class="leftBlock clearfix">
                                 <a ng-show="candidate.currentWorkPlace" class="phone">
                                     <span>{{'Current company'|translate}}:</span>
                                     <span>{{candidate.currentWorkPlace}}</span>
                                 </a>
                             </div>
-                            <div class="leftBlock">
+                            <div class="leftBlock clearfix">
                                 <a ng-show="candidate.currentPosition" class="phone">
                                     <span>{{'Current position'|translate}}:</span>
                                     <span>{{candidate.currentPosition}}</span>
                                 </a>
                             </div>
-                            <div class="customFields">
+                            <div class="customFields clearfix">
                                 <a ng-show="fieldValue.fieldValue != undefined" ng-repeat="fieldValue in candidate.customFields" class="phone custom-field">
                                     <span ng-show="fieldValue.state == 'A'">{{fieldValue.title}}:</span>
                                     <span ng-show="(fieldValue.type == 'string' || fieldValue.type == 'select') && fieldValue.state == 'A'">{{fieldValue.fieldValue.value}}</span>
@@ -506,12 +515,22 @@
                             <!--</a>-->
                         </div>
                         <div class="col-lg-6 right-column">
-                            <div class="phone leftBlock"ng-show="(candidate.contacts|filter:type = 'mphone').length > 0">
-                                <span ng-repeat=" contact in candidate.contacts|filter:type = 'mphone'" title="{{::contact.value}}">
-                                    <span class="preferable-contact" ng-repeat="phone in ::contact.value.split(',') track by $index">
-                                        <i class="fa fa-phone" aria-hidden="true"></i>
-                                            {{::phone}}
-                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact === 'phone'"></i>
+                            <div class="phone leftBlock" ng-show="(candidate.contacts|filter:type = 'mphone').length > 0">
+                                <span ng-repeat="contact in candidate.contacts|filter:type = 'mphone'">
+                                    <span class="preferable-contact" ng-if="contact.valueList[0]">
+                                         <i class="fa fa-phone" aria-hidden="true"></i>
+                                        {{contact.valueList[0]}}
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'phone'"></i>
+                                    </span>
+                                    <span class="preferable-contact" ng-if="contact.valueList[1]">
+                                         <i class="fa fa-phone" aria-hidden="true"></i>
+                                        {{contact.valueList[1]}}
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'phone2'"></i>
+                                    </span>
+                                    <span class="preferable-contact" ng-if="contact.valueList[2]">
+                                         <i class="fa fa-phone" aria-hidden="true"></i>
+                                        {{contact.valueList[2]}}
+                                        <i class="fa fa-star" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'phone3'"></i>
                                     </span>
                                 </span>
                             </div>
@@ -524,7 +543,7 @@
                                         {{contact| limitTo: 30}}
                                         <span ng-show="contact.length > 30">...</span>
                                     </a>
-                                    <i class="fa fa-star"  style="position: relative;top: -4px;" title="{{'Preferable contact method'|translate}}" ng-show="candidate.preferableContact == 'mail'"></i>
+                                    <i class="fa fa-star"  style="position: relative;top: -4px;" title="{{'Preferable contact method'|translate}}" ng-if="candidate.preferableContact == 'mail'"></i>
                                 </span>
                             </div>
                             <div class="skype leftBlock" ng-show="(candidate.contacts|filter:type = 'skype').length > 0">
@@ -550,6 +569,24 @@
                                          <i class="fa fa-linkedin" aria-hidden="true"></i>
                                                {{::contact | limitTo: 30}}
                                             <span ng-show="contact.length > 30">...</span>
+                                     </a>
+                                </span>
+                            </div>
+                            <div class="homepage leftBlock">
+                                <span class="preferable-contact" ng-repeat="contact in multipleContacts['telegram'] track by $index"  title="{{contact}}">
+                                    <span  class="not-for-print" target="_blank" href="{{contact}}">
+                                       <img width="12px" src="../../images/sprite/vectorpaint.svg" alt="telegram">
+                                       <a style="position: relative;display: inline;" target="_blank" href="{{::contact|makeLink}}">
+                                           {{::contact|cutName:true:30}}
+                                            <i class="fa fa-star" title="{{'Preferable contact method'|translate}}"  ng-show="candidate.preferableContact == 'telegram'"></i>
+                                       </a>
+                                    </span>
+                                     <a  class="hidden show-for-print" target="_blank" href="{{contact}}">
+                                         <i class="fa fa-home" aria-hidden="true"></i>
+                                         <span style="position: relative;">
+                                             {{::contact|cutName:true:30}}
+                                             <i class="fa fa-star " title='{{"Preferable contact method |  Предпочтительный метод контакта"}}'  ng-show="candidate.preferableContact == 'telegram'"></i>
+                                         </span>
                                      </a>
                                 </span>
                             </div>
@@ -743,11 +780,12 @@
                                     <label class="" ng-click="showCommentsSwitch()" for="cmn-toggle-9"></label>
                                     <label ng-click="showDetails()" ng-class="{grey: onlyComments}" class="floatLeft not-for-print">{{'Show details'|translate}}</label>
                                 </div>
-                                <a href="" ng-click="showModalAddCommentToCandidate('md');" class="add_comment pull-right not-for-print">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                                    {{'add_comment'|translate}}
-                                    <!--<img src="/images/sprite/addMessage.svg" alt="{{'add_comment'|translate}}">-->
-                                </a>
+                                <img ng-click="showModalAddCommentToCandidate('md');"
+                                     ng-show="$root.me.recrutRole != 'client'"
+                                     class="action-button pull-right"
+                                     src="../images/sprite/addMessage.svg"
+                                     alt="{{'add_comment'|translate}}"
+                                     title="{{'add_comment'|translate}}">
                             </div>
                         </div>
                         <div class="row event last-action"
@@ -1033,8 +1071,8 @@
                                     </a>
                                     <div class="clearfix"></div>
                                 </div>
-                                <div class="add_comment mobile pull-right">
-                                    <img ng-click="showModalAddCommentToCandidate('md');" src="/images/sprite/addMessage.svg" alt="{{'add_comment'|translate}}">
+                                <div class=" mobile pull-right">
+                                    <img ng-click="showModalAddCommentToCandidate('md');" src="/images/sprite/addMessage.svg" alt="{{'add_comment'|translate}}" title="{{'add_comment'|translate}}">
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="clearfix"></div>

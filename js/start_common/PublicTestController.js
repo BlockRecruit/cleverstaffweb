@@ -1,13 +1,17 @@
 controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAddress', 'Service', 'Company',
     'notificationService', '$routeParams', 'Test', "$interval", "$timeout", "$localStorage", "$location", "$filter", "$translate", "$window",
     function ($scope, $rootScope, serverAddress, Service, Company, notificationService, $routeParams, Test, $interval, $timeout, $localStorage, $location, $filter, $translate, $window) {
+        $scope.loaded = false;
         $scope.showStartTest = true;
         $scope.showStartTest2 = true;
         $scope.showFirstTest = false;
         $scope.currentTab = 'start_test';
         $scope.hideTest = true;
-        $scope.showThanksMessage = false;
+        $scope.showEndMessage = false;
         $scope.saveAnswersTest = false;
+        $scope.endTestMsg = null;
+        $scope.serverAddress = serverAddress;
+        $scope.checkPreviousAnswers = false;
         $scope.inHover = function(){
             $scope.showHover = true;
         };
@@ -17,22 +21,41 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
         $timeout(function() {
             $scope.getTestFunc();
         });
+
+        function getOrgLogo(orgId) {
+            console.log('hello',orgId);
+            Service.getOrgLogoId({orgId: orgId}, function (resp) {
+                console.log(serverAddress);
+                console.log(resp);
+                if (resp.status && resp.status === 'ok') {
+                    $scope.companyInfo.logo = resp.object;
+                }
+            });
+        }
+
         $scope.getTestFunc = function () {
             Test.openTest({
                 appointmentId: $routeParams.id
             },function(resp){
+                $scope.startTestFunc();
                 $scope.showFirstTest = true;
+                $scope.loaded = true;
                 if(resp.message == 'This test is already passed. If you want to pass it one more time, please contact the recruiter who sent you the test link.'){
-                    $('.publicTest2, .publicTest3').hide();
+                    // $('.publicTest2, .publicTest3').hide();
                     $scope.showStartTest = true;
                     $scope.showStartTest2 = false;
+                    $scope.endTestMsg = resp.message;
+                    $scope.showEndMessage = true;
                 }
                 if(resp.message == 'This test is inactive now. Please contact the rectuiter if you want to pass the test.'){
-                    $('.publicTest2, .publicTest3').hide();
+                    // $('.publicTest2, .publicTest3').hide();
                     $scope.showStartTest = false;
                     $scope.showStartTest2 = true;
+                    $scope.endTestMsg = resp.message;
+                    $scope.showEndMessage = true;
                 }
                 if(resp.status == 'ok'){
+                    getOrgLogo(resp.object.orgId);
                     if($localStorage.get("currentTab") == 'first_test'){
                         if (performance.navigation.type == 1) {
                             setTimeout(function(){
@@ -42,14 +65,19 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                             console.info( "This page is not reloaded");
                         }
                     }
+                    $scope.showEndMessage = false;
                     $scope.showStartTest = false;
                     $scope.showStartTest2 = false;
                     $rootScope.title = resp.object.testName;
-                    $scope.companyName = resp.companyName;
+                    $scope.companyInfo = {
+                        name : resp.companyName,
+                        fb : resp.companyFacebookPage,
+                        website : resp.companyWebSite
+                    };
                     $scope.getTestCandidate = resp.object;
                     $scope.currentLang = $translate.use();
                     if($scope.currentLang == undefined){
-                        $window.location.reload();
+                        console.log('lang');
                     }
                     if($scope.getTestCandidate.timeLimit == '3600' || $scope.getTestCandidate.timeLimit == '7200' || $scope.getTestCandidate.timeLimit == '10800' || $scope.getTestCandidate.timeLimit == '14400' || $scope.getTestCandidate.timeLimit == '18000' || $scope.getTestCandidate.timeLimit == '21600' || $scope.getTestCandidate.timeLimit == '25200' || $scope.getTestCandidate.timeLimit == '28800'|| $scope.getTestCandidate.timeLimit == '32400' || $scope.getTestCandidate.timeLimit == '36000' || $scope.getTestCandidate.timeLimit == '39600' || $scope.getTestCandidate.timeLimit == '43200' || $scope.getTestCandidate.timeLimit == '46800' || $scope.getTestCandidate.timeLimit == '54000' || $scope.getTestCandidate.timeLimit == '57600' || $scope.getTestCandidate.timeLimit == '61200' || $scope.getTestCandidate.timeLimit == '64800' || $scope.getTestCandidate.timeLimit == '68400' || $scope.getTestCandidate.timeLimit == '72000' || $scope.getTestCandidate.timeLimit == '75600' || $scope.getTestCandidate.timeLimit == '79200' || $scope.getTestCandidate.timeLimit == '82800' || $scope.getTestCandidate.timeLimit == '86400'){
                         $('.min').hide();
@@ -64,8 +92,13 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                         $('.hour').hide();
                     }
                 }else{
+                    getOrgLogo(resp.object.orgId);
                     $rootScope.title = resp.object.testName;
-                    $scope.companyName = resp.companyName;
+                    $scope.companyInfo = {
+                        name : resp.companyName,
+                        fb : resp.companyFacebookPage,
+                        website : resp.companyWebSite
+                    };
                     $scope.getTestCandidate = resp.object;
                     $scope.currentLang = $translate.use();
                     if($scope.currentLang == undefined){
@@ -105,8 +138,8 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
         $scope.$watch('countdown', function(countdown){
             if (countdown === 0 || countdown < 0){
                 $scope.stopTimer();
-                $scope.nextTestQuestion();
-                $scope.getNextQuestion();
+                // $scope.nextTestQuestion();
+                // $scope.getNextQuestion();
                 $scope.endTestTimeOrSubmit();
             }
         });
@@ -122,20 +155,32 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
             }
         };
         $scope.startTestFunc = function (tab) {
-            $scope.currentTab = tab;
+            $scope.currentTab = tab || "start_test";
             Test.startTest({
                 appointmentId: $routeParams.id
             },function(resp){
                 if(resp.status == 'ok'){
+                    if(!tab) {
+                        if(resp.object.question.num > 1 || resp.object.answer) {
+                            $scope.startTestFunc('first_test');
+                            return;
+                        }
+                        $scope.checkPreviousAnswers = true;
+                        return;
+                    }
+
+                    if(resp.object.answer) setRightAnswer(resp);
+
                     $scope.firstTestQuestion = resp;
                     if(resp.object.question.imageId != undefined){
-                        $scope.imageId = serverAddress + "/getapp?id=" + resp.object.question.imageId + "&d=true";
+                        $scope.imageId = serverAddress + "/getPublicFile/" + resp.object.question.imageId;
                     }
                     $scope.initialCountdown = $scope.firstTestQuestion.timeLeft;
                     if($scope.initialCountdown > 0){
                         $scope.timer();
                     }
-                    $scope.firstPage = 1;
+                    $scope.firstPage = resp.object.question.num;
+                    $scope.checkPreviousAnswers = true;
                 }else{
                     notificationService.error(resp.message);
                 }
@@ -150,7 +195,7 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
             }
         };
         $scope.checkOneAnswer = function (text) {
-            $scope.checkAnswerText = [text];
+            $scope.checkAnswerText = text;
         };
         $scope.textAnswer = function (text) {
             $scope.textAnswers = text;
@@ -163,8 +208,8 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                     text: $scope.textAnswers
                 },function(resp){
                     $scope.variantsAnswer = [];
-                    $scope.checkAnswerText = undefined;
-                    $scope.textAnswers = undefined;
+                    $scope.checkAnswerText = null;
+                    $scope.textAnswers = null;
                     if(next == 'next'){
                         $scope.getNextQuestion();
                     }else if(next == 'prev'){
@@ -187,11 +232,10 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                     }
                 })
             }else if( $scope.checkAnswerText != undefined){
-                console.log($scope.checkAnswerText);
                 Test.saveAnswer({
                     questionId: $scope.firstTestQuestion.object.question.id,
                     appointmentId: $routeParams.id,
-                    variantsArray: $scope.checkAnswerText
+                    variantsArray: [$scope.checkAnswerText]
                 },function(resp){
                     $scope.variantsAnswer = [];
                     $scope.checkAnswerText = undefined;
@@ -202,9 +246,17 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                         $scope.previousTestQuestion();
                     }
                 })
-            }
-            else{
-                notificationService.error($filter('translate')('Enter your answer first'));
+            } else if(next == 'prev') {
+                $scope.variantsAnswer = [];
+                $scope.checkAnswerText = undefined;
+                $scope.textAnswers = undefined;
+                $scope.previousTestQuestion();
+            } else{
+                if($scope.firstTestQuestion.object.question.answerType === 'task_question') {
+                    notificationService.error($filter('translate')('Enter your answer first text'));
+                } else {
+                    notificationService.error($filter('translate')('Enter your answer first'));
+                }
             }
         };
         $scope.previousTestQuestion = function(){
@@ -215,37 +267,9 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
             },function(resp){
                 if(resp.status == 'ok'){
                     $scope.firstTestQuestion = resp;
-                    $scope.imageId = serverAddress + "/getapp?id=" + resp.object.question.imageId + "&d=true";
+                    $scope.imageId = serverAddress + "/getPublicFile/" + resp.object.question.imageId;
                     -$scope.firstPage;
-                    var rightAnswer = {};
-                    angular.copy(resp.object.answer, rightAnswer);
-                    if(rightAnswer != null){
-                        if(rightAnswer.variantsArray != undefined){
-                            $scope.variantsAnswer = [];
-                            angular.forEach(rightAnswer.variantsArray, function (val) {
-                                var answer = {};
-                                angular.copy(resp.object.question, answer);
-                                if(answer.answerType == 'few_answers'){
-                                    $scope.variantsAnswer = [];
-                                    angular.forEach(rightAnswer.variantsArray, function (val) {
-                                        $scope.variantsAnswer.push(val);
-                                        $scope.checkAnswerText = undefined;
-                                        $scope.textAnswers = undefined;
-                                    });
-                                }else if(answer.answerType == 'one_answer'){
-                                    $scope.checkAnswerText = [];
-                                    angular.forEach(rightAnswer.variantsArray, function (val) {
-                                        $scope.checkAnswerText = [val];
-                                        $scope.variantsAnswer = undefined;
-                                        $scope.textAnswers = undefined;
-                                    });
-                                }
-                            });
-                        }else if(rightAnswer.text != undefined){
-                            $scope.textAnswers = rightAnswer.text;
-                            $('#answersText').val($scope.textAnswers);
-                        }
-                    }
+                    setRightAnswer(resp);
                     $scope.hideTest = true;
                     $scope.saveAnswersTest = false;
                 }else{
@@ -256,7 +280,7 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
         $scope.endTestTimeOrSubmit = function(done){
             $('.publicTest3').hide();
             $scope.hideTest = false;
-            $scope.showThanksMessage = true;
+            $scope.showEndMessage = true;
             $scope.saveAnswersTest = false;
             Test.endAppointment({
                 status: 'partly_done' ? done : 'partly_done',
@@ -265,7 +289,6 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                 if(resp.status == 'ok'){
 
                 }else{
-                    notificationService.error(resp.message);
                 }
             })
         };
@@ -281,7 +304,7 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                 }
                 if(resp.status == 'ok'){
                     $scope.firstTestQuestion = resp;
-                    $scope.imageId = serverAddress + "/getapp?id=" + resp.object.question.imageId + "&d=true";
+                    $scope.imageId = serverAddress + "/getPublicFile/" + resp.object.question.imageId;
                     +$scope.firstPage;
                     $('#answersText').val('');
                     var rightAnswer = {};
@@ -294,13 +317,13 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                                 $scope.variantsAnswer = [];
                                 angular.forEach(rightAnswer.variantsArray, function (val) {
                                     $scope.variantsAnswer.push(val);
-                                    $scope.checkAnswerText = undefined;
+                                    $scope.checkAnswerText = null;
                                     $scope.textAnswers = undefined;
                                 });
                             }else if(answer.answerType == 'one_answer'){
-                                $scope.checkAnswerText = [];
+                                $scope.checkAnswerText = null;
                                 angular.forEach(rightAnswer.variantsArray, function (val) {
-                                    $scope.checkAnswerText = [val];
+                                    $scope.checkAnswerText = val;
                                     $scope.variantsAnswer = undefined;
                                     $scope.textAnswers = undefined;
                                 });
@@ -310,13 +333,57 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                             $scope.variantsAnswer = undefined;
                             $scope.checkAnswerText = undefined;
                             $('#answersText').val($scope.textAnswers);
+                        } else {
                         }
+                    } else {
+                        $scope.checkAnswerText = null;
                     }
                 }else{
                     notificationService.error(resp.message);
                 }
             })
         };
+
+        function setRightAnswer(resp) {
+            var rightAnswer = {};
+            angular.copy(resp.object.answer, rightAnswer);
+            if(rightAnswer != null){
+                if(rightAnswer.variantsArray != undefined){
+                    $scope.variantsAnswer = [];
+                    angular.forEach(rightAnswer.variantsArray, function (val) {
+                        var answer = {};
+                        angular.copy(resp.object.question, answer);
+                        if(answer.answerType == 'few_answers'){
+                            $scope.variantsAnswer = [];
+                            angular.forEach(rightAnswer.variantsArray, function (val) {
+                                $scope.variantsAnswer.push(val);
+                                $scope.checkAnswerText = undefined;
+                                $scope.textAnswers = undefined;
+                            });
+                        }else if(answer.answerType == 'one_answer'){
+                            $scope.checkAnswerText = [];
+                            angular.forEach(rightAnswer.variantsArray, function (val) {
+                                $scope.checkAnswerText = [val];
+                                $scope.variantsAnswer = undefined;
+                                $scope.textAnswers = undefined;
+                            });
+                        }
+                    });
+                }else if(rightAnswer.text != undefined){
+                    $scope.textAnswers = rightAnswer.text;
+                    $('#answersText').val($scope.textAnswers);
+                }
+            }
+        }
+        $scope.showModalImage = function() {
+            $('#question-modal').removeClass('hidden');
+            $('#question-modal').addClass('visible');
+        };
+        $scope.closeModalImage = function() {
+            $('#question-modal').removeClass('visible');
+            $('#question-modal').addClass('hidden');
+        };
+
     }]
 );
 /*** Created by вик on 31.05.2017.*/

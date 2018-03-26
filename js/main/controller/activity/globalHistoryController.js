@@ -1,6 +1,7 @@
 controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope", "Service", "Person", "Company", "notificationService", "$filter", "$translate", "$uibModal", "vacancyStages","Action","CacheCandidates",
     function($scope, $rootScope, Service, Person, Company, notificationService, $filter, $translate, $uibModal, vacancyStages, Action, CacheCandidates) {
     $scope.showHistory = true;
+    localStorage.setItem("isAddCandidates", JSON.stringify(false));
     $scope.loading = true;
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
@@ -99,7 +100,12 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
         $scope.changeCommentFlag = function(history){
             history.editCommentFlag = !history.editCommentFlag;
             $scope.editComment = history.descr;
+            history.showAllCandidates = false;
             console.log('history.editCommentFlag');
+        };
+        $scope.openMenuWithCandidates = function(history){
+            history.showAllCandidates = !history.showAllCandidates;
+            history.editCommentFlag = false;
         };
 
         $scope.showDeleteComment = function(resp) {

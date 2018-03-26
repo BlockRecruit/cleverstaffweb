@@ -46,6 +46,17 @@ h3{
 body {
     background-position: top center;
 }
+
+body .visible,
+body .visible-block {
+    opacity: 1;
+    display: inline-block;
+    position: static;
+}
+
+body .visible-block {
+    display: block;
+}
 /*header*/
 header {
     position: fixed;
@@ -539,9 +550,17 @@ a:focus {
 .tabsCs .nav-tabs li{
     padding: 15px 0 15px 15px;
     width: 213px;
+    min-height: 70px;
+}
+.tabsCs .nav-tabs li a.less-padding {
+    padding: 0 11px;
 }
 .tabsCs .nav-tabs li:last-child{
     width: 255px;
+}
+
+.tabsCs .nav-tabs li:hover {
+    cursor: pointer;
 }
 .tabsCs .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{
     border: none;
@@ -1383,6 +1402,7 @@ footer{
     top: 150px;
     outline:none;
 }
+
 .orangeBtnBorder:hover {
     text-decoration: none;
     background-color: #ED7D3B;
@@ -1784,7 +1804,7 @@ footer{
 .fixed-plans{
     position: fixed;
     top: 80px;
-    margin-left: 420px;
+    /*margin-left: 420px;*/
     z-index: 15;
 }
 .oneRecrTable{
@@ -1792,21 +1812,83 @@ footer{
     color: #fff;
     border-radius: 12px 0 0 0;
 }
+.oneRecrTable img{
+    display: none;
+}
+.oneRecrTable button, .teamWorkTable button, .corporateTable button, .enterPrizeTable button{
+    background: none;
+    box-shadow: none;
+    border: none;
+    outline: none;
+}
+.clickedStyle{
+    box-shadow: 0 0 10px 0 #808080;
+    border-radius: 5px;
+    position: absolute;
+    margin: 38px 0 0 -70px;
+    color: #808080;
+    background-color: #fff;
+    height: 40px;
+    width: 91px;
+    line-height: 35px;
+    font-size: 12px;
+    padding: 5px;
+    z-index: 1;
+}
+.clickedStyle::after{
+    content: '';
+    position: absolute;
+    left: 33px;
+    bottom: 40px;
+    border: 10px solid transparent;
+    border-bottom: 10px solid #fff;
+}
+.clickedCorporate{
+    margin: 38px 0 0 -80px;
+    width: 120px;
+}
+.clickedCorporate::after{
+    left: 45px;
+}
+.clickedOneRecr, .clickedTeamWork, .clickedEnterPrize, .clickedCorporate{
+    opacity: 0;
+}
 .teamWorkTable{
     background-color: #58A44B;
     color: #fff;
 }
+.teamWorkTable img{
+    display: none;
+}
 .corporateTable{
     background-color: #EE7D3B;
     color: #fff;
+}
+.corporateTable img{
+    display: none;
 }
 .enterPrizeTable{
     background-color: #464646;
     color: #F2D479;
     border-radius: 0 12px 0 0;
 }
+.enterPrizeTable img{
+    display: none;
+}
+.table td:first-child{
+    width: 420px;
+}
 .table td:not(:first-child){
     width: 180px;
+    vertical-align: middle;
+}
+#oneRecrTable, #teamWorkTable, #corporateTable, #enterPrizeTable{
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+.support .wordWrap{
+    word-break: break-all;
 }
 .fa-minus{
     color: #9D9BA0;
@@ -1815,6 +1897,16 @@ footer{
 .fa-check{
     color: #62B452;
     font-size: 20px;
+}
+.titleTable, .titleTable2{
+    border: none;
+    margin: 0;
+}
+.titleTable td{
+    border: none!important;
+}
+.titleTable2 td{
+    border: none!important;
 }
 .styleHeaderTable{
     border-bottom: 2px solid #B1EBB4;
@@ -2280,8 +2372,6 @@ footer{
     left: 10px;
 }
 /*features end*/
-
-
 /*modal*/
 .thanks{
     padding-left: 0!important;
@@ -2318,6 +2408,14 @@ footer{
 }
 .thanks-modal-signin{
     height: 155px;
+}
+select.webkit-fix {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("https://image.flaticon.com/icons/svg/60/60781.svg");
+    background-position: 97% 50%;
+    background-repeat: no-repeat;
+    background-size: 10px;
 }
 .close{
     background: url(../img/svg/im_close-x.svg);
@@ -2361,10 +2459,100 @@ footer{
     border-radius: 12px;
 }
 /*modal end*/
+/*@media screen and (min-width: 991px) {*/
+    /*.support td:first-child{*/
+        /*width: 401px!important;*/
+    /*}*/
+    /*.support td:not(:first-child){*/
+        /*width: 180px!important;*/
+    /*}*/
+/*}*/
+/*@media screen and (min-width: 1200px) {*/
+    /*.support td:first-child{*/
+        /*width: 337px!important;*/
+    /*}*/
+/*}*/
+
+/*404 error*/
+.error404{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #e3f2dd;
+}
+.error404 #banner-load{
+    position: relative;
+    margin: 10px 0 15px 0;
+    z-index: 2;
+}
+.error404 #banner-load img{
+    max-width: 650px;
+    height: auto;
+}
+.error404 .imgTittle{
+    display: inline-block;
+    margin: 10px 0;
+}
+.error404 .CSLanding, .CSWeb{
+    margin-top: 25px
+}
+.error404 .CSLanding a, .CSWeb a{
+    color: #646465;
+    text-decoration: none;
+}
+.error404 .CSLanding a:hover, .CSWeb a:hover{
+    color: #9CCE95;
+    text-decoration: none;
+}
+.background-animations .position{
+    position: absolute;
+}
+.background-animations .cloud-1 {
+    top: 29%;
+    left: 11%;
+}
+.background-animations .cloud-2 {
+    top: 110px;
+    left: 22%;
+}
+.background-animations .cloud-3 {
+    top: 9%;
+    right: 15%;
+}
+.background-animations .cloud-4 {
+    top: 100px;
+    right: 23%;
+}
+.background-animations .plane-2 {
+    top: 23%;
+    right: 12%;
+}
+.background-animations .person-3 {
+    top: 54.5%;
+    right: 0;
+}
+.background-animations .planes {
+    top: 50%;
+    left: 3%;
+}
+.background-animations .person-1 {
+    bottom: 0.8%;
+    left: 10%;
+}
+.background-animations .person-2 {
+    right: 9%;
+    bottom: 1%;
+}
+.background-animations .flowers {
+    left: 0px;
+    bottom: 0px;
+}
+/*404 error end*/
 
 @media screen and (max-width: 1199px) {
     .tabsCs .nav-tabs li {
-        padding: 5px 0 0px 0px;
+        padding: 5px 0 0 0;
         width: 192px;
         height: 67px;
     }
@@ -2429,7 +2617,7 @@ footer{
         margin-right: 10px;
     }
     .kingsChoise{
-        margin-top: 0px;
+        margin-top: 0;
         clear: both;
     }
     .carouselBlock{
@@ -2534,10 +2722,15 @@ footer{
     .little-padding-btn{
         padding: 10px 7px;
     }
-    .fixed-plans{
-        width: initial;
-        margin-left: 216px;
-    }
+    /*.table td:first-child{*/
+        /*width: 12em;*/
+    /*}*/
+    /*.titleTable td:first-child{*/
+        /*width: 197px!important;*/
+    /*}*/
+    /*.titleTable td:not(:first-child){*/
+        /*width: 186px;*/
+    /*}*/
     .hide-block{
         height: 50px!important;
     }
@@ -2763,15 +2956,49 @@ footer{
         position: relative;
         right: -60px;
     }
-    .tablePrise .plans{
-        width: 157px;
-    }
+    /*.tablePrise .plans{*/
+        /*width: 132px;*/
+    /*}*/
+    /*.titleTable2 td:first-child{*/
+        /*width: 168px;*/
+    /*}*/
+    /*.titleTable2 td:not(:first-child){*/
+        /*!*width: 132px;*!*/
+        /*width: 138px;*/
+    /*}*/
+    /*.titleTable td:first-child{*/
+        /*width: 168px!important;*/
+    /*}*/
+    /*.titleTable td:not(:first-child){*/
+        /*!*width: 132px;*!*/
+        /*width: 138px;*/
+    /*}*/
     .fixed-plans{
-        margin-left: 88px;
-        width: initial;
+        width: 53.6em;
+        padding-right: 30px;
     }
     .no-border a {
         padding: 10px;
+        width: 100px;
+    }
+    .oneRecrTableText, .teamWorkTableText , .corporateTableText, .enterPrizeTableText{
+        display: none;
+    }
+    .oneRecrTable img{
+        display: block;
+        margin: 0 auto;
+    }
+    .teamWorkTable img{
+        display: block;
+        margin: 0 auto;
+    }
+    .corporateTable img{
+        display: block;
+        margin: 0 auto;
+    }
+    .enterPrizeTable img{
+        display: block;
+        margin: 0 auto;
     }
     .tarif{
         height: 360px;
@@ -2780,11 +3007,11 @@ footer{
         margin-top: 24px;
     }
     .padding-block-ru:first-child p{
-        margin-top: 0px;
+        margin-top: 0;
         padding: 25px 0;
     }
     .padding-block-ru:nth-child(3) p{
-        margin-top: 0px;
+        margin-top: 0;
     }
     .lstChild{
         margin-top: 0;
@@ -2799,7 +3026,7 @@ footer{
         margin-bottom: -20px;
     }
     .corporate .discount-ru {
-        margin-bottom: 0px;
+        margin-bottom: 0;
     }
     .discount + .padding-bottom-ru{
         padding-bottom: 11px !important;
@@ -2976,7 +3203,7 @@ footer{
         top: 3px;
     }
     .manSay{
-        left: 0px;
+        left: 0;
         bottom: 80px;
     }
     .cheer{
@@ -2987,7 +3214,7 @@ footer{
         width: 140px;
         height: 134px;
         bottom: -50px;
-        left: 0px;
+        left: 0;
     }
     .cloudContact2{
         right: 45px;
@@ -3042,7 +3269,9 @@ footer{
     }
     .no-border a {
         border: none;
-        padding: 10px 17px;
+        padding: 5px 0;
+        width: 120px;
+        border-radius: 10px;
     }
     .paddingBtn{
         padding: 10px!important;
@@ -3050,12 +3279,52 @@ footer{
     .no-padding{
         padding: 0!important;
     }
-    .tablePrise .plans{
-        width: 137px;
+    /*.tablePrise .plans{*/
+        /*width: 135px;*/
+    /*}*/
+    /*.titleTable td:first-child{*/
+        /*width: 169px;*/
+    /*}*/
+    /*.titleTable td:not(:first-child){*/
+        /*!*width: 135px;*!*/
+        /*width: 19.3%;*/
+    /*}*/
+    /*!*.titleTable td:nth-child(4){*!*/
+        /*!*width: 150px;*!*/
+    /*!*}*!*/
+    /*.titleTable2 td:first-child{*/
+        /*width: 168px;*/
+    /*}*/
+    /*.titleTable2 td:not(:first-child){*/
+        /*!*width: 134px;*!*/
+        /*width: 19.3%;*/
+    /*}*/
+    /*.titleTable2 td:nth-child(4){*/
+        /*width: 150px;*/
+    /*}*/
+    .table-before-support-block td:first-child{
+        width: 46%!important;
     }
+    .superFunc td:first-child{
+        word-break: break-all;
+    }
+    /*.titleTable td:first-child{*/
+        /*width: 375px!important;*/
+    /*}*/
+    /*.titleTable2 td:first-child{*/
+        /*width: 375px!important;*/
+    /*}*/
     .fixed-plans{
-        margin-left: -30px;
         width: 100%;
+        padding-right: 30px;
+    }
+    .display-none{
+        display: none;
+    }
+    .mobBtn{
+        display: block;
+        width: 375px;
+        float: right;
     }
     /*price end*/
 
@@ -3141,6 +3410,12 @@ footer{
         width: 111px;
         padding: 10px 0;
     }
+    /*.titleTable td:not(:first-child){*/
+        /*width: 18.5%;*/
+    /*}*/
+    /*.titleTable2 td:not(:first-child){*/
+        /*width: 18.5%;*/
+    /*}*/
     .hide-block{
         height: 39px!important;
     }
@@ -3213,18 +3488,30 @@ footer{
         margin: 10px 30px;
     }
 }
+@media screen and (max-width: 550px) {
+    .error404 #banner-load img{
+        width: 320px;
+    }
+}
 
 @media screen and (max-width: 500px) {
     .tablePrise .plans{
         width: 95px;
     }
+    /*.titleTable td:first-child{*/
+        /*!*width: 135px;*!*/
+        /*width: 130px;*/
+    /*}*/
+    /*.titleTable2 td:first-child{*/
+        /*width: 168px;*/
+    /*}*/
     .firstStyleHeaderTable{
         font-size: 17px;
         vertical-align: inherit!important;
     }
     .secondStyleHeaderTable{
         vertical-align: inherit!important;
-        top: 0px;
+        top: 0;
     }
     .styleHeaderTable h4{
         width: 150px;
@@ -3268,6 +3555,7 @@ footer{
         padding: 5px 0px;
         width: 123px;
         border-radius: 10px;
+        font-size: 10px;
     }
     .mobBtn{
         display: block;
@@ -3385,6 +3673,9 @@ footer{
     .vertaMedia,
     .svitlaSystem,
     .intersog,
+    .recruit,
+    .avon,
+    .rsm,
     .redFire,
     .indigoLogo,
     .gordost, .kingsChoise{
@@ -3428,7 +3719,7 @@ footer{
     .rocket{
         width: 140px;
         height: 134px;
-        bottom: 0px;
+        bottom: 0;
         left: -43px;
     }
     .cloudContact2{
@@ -3486,19 +3777,19 @@ footer{
         padding: 10px;
         margin-top: 0;
     }
-    .tablePrise .plans{
-        width: 50px;
-        word-break: break-word;
-    }
+    /*.tablePrise .plans{*/
+        /*width: 50px;*/
+        /*word-break: break-word;*/
+    /*}*/
     .hide-block{
         height: 60px!important;
     }
-    .plans-for-ru{
-        width: 71px!important;
-    }
+    /*.plans-for-ru{*/
+        /*width: 63px!important;*/
+    /*}*/
     .no-border a {
         border: none;
-        padding: 5px 0px;
+        padding: 5px 0;
         width: 84px;
         border-radius: 10px;
     }
@@ -3513,20 +3804,29 @@ footer{
     }
     .secondStyleHeaderTable{
         vertical-align: inherit!important;
-        top: 0px;
+        top: 0;
     }
-    .tablePrise .enterPrizeTable{
-        padding-bottom: 30px;
+    .table-before-support-block td:first-child{
+        width: 38%!important;
     }
+    /*.table-before-support-block td:first-child{*/
+        /*width: 257px!important;*/
+    /*}*/
+    /*.firstTable td:first-child{*/
+        /*width: 435px!important;*/
+    /*}*/
+    /*.tablePrise .enterPrizeTable{*/
+        /*padding-bottom: 30px;*/
+    /*}*/
     .tablePrise .corporateTable{
         padding-bottom: 10px;
     }
     .corporateTableEn{
         padding-bottom: 30px!important;
     }
-    .tablePrise .teamWorkTable{
-        padding-bottom: 30px;
-    }
+    /*.tablePrise .teamWorkTable{*/
+        /*padding-bottom: 30px;*/
+    /*}*/
     .styleHeaderTable h4{
         width: 117px;
     }
@@ -3546,11 +3846,11 @@ footer{
         padding: 8px 0;
     }
     .priceMan{
-        left: -20px!important;
+        /*left: -20px!important;*/
         top: 165px;
     }
     .priceFlower{
-        left: 18px!important;
+        /*left: 18px!important;*/
         top: 155px;
     }
     .priceGraf {
@@ -3560,6 +3860,13 @@ footer{
     .padding-block-ru, .mrgTopMob:first-child{
         margin-top: 40px;
     }
+    /*.titleTable td:first-child{*/
+        /*!*width: 135px;*!*/
+        /*width: 130px;*/
+    /*}*/
+    /*.titleTable2 td:first-child{*/
+        /*width: 168px;*/
+    /*}*/
     /*prize end*/
 
 
@@ -3685,6 +3992,18 @@ footer{
     -o-transition: all 0.3s;
     transition: all 0.3s;
     outline: none;
+}
+@media screen and (max-width: 320px) {
+    .table-before-support-block td:first-child{
+        width: 40%!important;
+    }
+    .titleTable .plans, .titleTable2 .plans {
+        width: 16px !important;
+    }
+    .titleTable .plans img, .titleTable2 .plans img {
+        width: 16px;
+        height: 16px;
+    }
 }
 @media print {
     .terms-content .button-block {

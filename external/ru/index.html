@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <style>.async-hide { opacity: 0 !important} </style>
+    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+    })(window,document.documentElement,'async-hide','dataLayer',4000,
+        {'GTM-PHXZMBX':true});</script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
     <script>
@@ -10,20 +16,38 @@
             gtag('js', new Date());
 
             gtag('config', 'UA-52127049-1');
+
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-52127049-1', {
+                'cookieDomain': document.domain
+            });
+            ga('require', 'GTM-PHXZMBX');
+            ga('send', 'pageview');
         }
     </script>
     <!-- end of gtag -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
-    <title>CleverStaff - Единая система для подбора персонала</title>
+    <title>Cleverstaff - Система подбора персонала</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CleverStaff Recruitment Software and Applicant Tracking System">
+    <meta name="description" content="Профессиональная система для подбора персонала. Облачная и серверная версии">
     <link rel="stylesheet" href="../external/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../external/css/main.min.css?b6">
+    <link rel="stylesheet" href="../external/css/main.min.css?b11">
+    <link rel="amphtml" href="amp.html">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="CleverStaff | Единая система для профессионального подбора персонала"/>
-    <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
+    <meta property="og:title" content="Cleverstaff - Система подбора персонала"/>
+    <meta property="og:description" content="Профессиональная система для подбора персонала. Облачная и серверная версии"/>
     <meta property="og:image" content="https://dev.cleverstaff.net/images/sprite/for_preview_1080-1080.jpg"/>
     <meta property="og:image:width" content="1080" />
     <meta property="og:image:height" content="1080" />
@@ -61,7 +85,7 @@
                         <li><a href="why.html">Почему</a></li>
                         <li><a href="features.html">Возможности</a></li>
                         <li><a href="price.html">Цены</a></li>
-                        <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                        <li><a href="https://cleverstaff.net/blog/">Блог</a></li>
                     </ul>
                     <a class="signinButton btn btn-default navbar-btn loginBtn adaptiveMenu pull-left">Начать</a>
                     <div class="dropdown pull-right adaptiveMenu">
@@ -85,7 +109,7 @@
                             <li><a href="why.html">Почему</a></li>
                             <li><a href="features.html">Возможности</a></li>
                             <li><a href="price.html">Цены</a></li>
-                            <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                            <li><a href="https://cleverstaff.net/blog/">Блог</a></li>
                         </ul>
                         <div class="dropdown pull-right adaptiveMenuShow float-none-mob">
                             <button class="btn btn-primary dropdown-toggle"
@@ -109,12 +133,12 @@
                 <span class="tasks"></span>
             </div>
             <div class="col-md-8 text-center">
-                <h1 class="big-tittle">Единая система для профессионального <br>подбора персонала</h1>
+                <h1 class="big-tittle">Профессиональная система <br> для подбора персонала</h1>
                 <h4 class="big-tittle">Серверная и Облачная версии</h4>
                 <span class="arrow main-page-ru"></span>
                 <a class="orangeBtn orange-btn" data-params="freeOrStart">Начать Бесплатно</a>
                 <span class="or-index">ИЛИ</span>
-                <a href="#need-demo-modal" data-toggle="modal"  data-params="demo" onclick="tariffFunc('demo');" class="btn demoParams orangeBtnBorder main-page">Запросить презентацию</a>
+                <a href="#need-demo-modal" data-toggle="modal"  data-analytics="presentation" data-params="demo" onclick="tariffFunc('demo');" class="btn demoParams orangeBtnBorder main-page">Запросить презентацию</a>
             </div>
             <div class="col-md-2">
                 <span class="cloud-sec"></span>
@@ -151,11 +175,11 @@
                     <h3 class="text-center wow fadeInUp">Ключевые Возможности</h3>
                     <div class="tabsCs wow fadeInUp">
                         <ul class="nav nav-tabs">
-                            <li class="active text-center gif-1"><a data-toggle="tab" href="#addCandidate">Добавляйте кандидатов в 1 клик</a></li>
-                            <li class="text-center gif-2"><a data-toggle="tab" href="#menu1">Рекомендации подходящих кандидатов</a></li>
-                            <li class="text-center gif-3"><a data-toggle="tab" href="#menu2">Быстрые отчеты по вакансиям</a></li>
-                            <li class="text-center gif-4"><a data-toggle="tab" href="#menu3">Технология парсинга резюме</a></li>
-                            <li class="text-center gif-5"><a data-toggle="tab" href="#menu4">Настраиваемые шаблоны писем</a></li>
+                            <li class="active text-center gif-1" data-toggle="tab" href="#addCandidate"><a>Добавляйте кандидатов в 1 клик</a></li>
+                            <li class="text-center gif-2" data-toggle="tab" href="#menu1"><a class="less-padding">Рекомендации подходящих кандидатов</a></li>
+                            <li class="text-center gif-3" data-toggle="tab" href="#menu2"><a>Быстрые отчеты по вакансиям</a></li>
+                            <li class="text-center gif-4" data-toggle="tab" href="#menu3"><a>Технология парсинга резюме</a></li>
+                            <li class="text-center gif-5" data-toggle="tab" href="#menu4"><a>Настраиваемые шаблоны писем</a></li>
                         </ul>
                         <div class="tab-content text-center">
                             <div id="addCandidate" onclick="switchFunc('.gif-2', '#menu1');" class="tab-pane gif-1 fade in active">
@@ -196,8 +220,8 @@
                 <h3 class="text-center wow fadeInUp">Выберите Версию, Подходящую Вашей Компании</h3>
                 <div class="tabsCs versionCompany">
                     <ul class="nav nav-tabs">
-                        <li class="active text-center"><a data-toggle="tab" href="#enterprise">Серверная</a></li>
-                        <li class="text-center"><a data-toggle="tab" href="#cloud">Облачная</a></li>
+                        <li class="active text-center" data-toggle="tab" href="#enterprise"><a>Серверная</a></li>
+                        <li class="text-center" data-toggle="tab" href="#cloud"><a>Облачная</a></li>
                     </ul>
                     <div class="tab-content text-center wow fadeInUp">
                         <div id="enterprise" class="tab-pane fade in active">
@@ -522,7 +546,7 @@
                         <li><a href="why.html">Почему?</a></li>
                         <li><a href="features.html">Возможности</a></li>
                         <li><a href="price.html">Цены</a></li>
-                        <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                        <li><a href="https://cleverstaff.net/blog/">Блог</a></li>
                         <li><a href="../api.html" target="_blank">API</a></li>
                         <li><a href="../privacy.html" target="_blank">Privacy Policy</a></li>
                         <li><a href="terms.html" target="_blank">Public Agreement</a></li>
@@ -611,7 +635,7 @@
                 <div class="form-gr">
                     <label for="ex1_usersCount" class="usersCountForm pull-left">Количество рекрутеров в вашей компании? *</label>
                     <div class="clearfix"></div>
-                    <select name="numberOfRecruiters" id="ex1_usersCount" class="float-left">
+                    <select name="numberOfRecruiters" id="ex1_usersCount" class="float-left webkit-fix">
                         <option value>Количество рекрутеров в вашей компании? *</option>
                         <option value="1">1</option>
                         <option value="2-4">2-4</option>
@@ -643,7 +667,7 @@
                 <input type="hidden" class="" name="country" value="null">
                 <div class="clearfix"></div>
                 <div class="form-last text-center">
-                    <input id="askQuestionSubmit2" data-toggle="modal" class="feedback orangeBtn border-width" name="send" type="button" value="Отправить">
+                    <input id="askQuestionSubmit3" data-toggle="modal" class="feedback orangeBtn border-width" name="send" type="button" value="Отправить">
                 </div>
             </form>
             <span class="close" data-dismiss="modal"></span>
@@ -683,7 +707,7 @@
 
 <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/ApiKey.js?b1"></script>
-<script type="text/javascript" src="../external/js/script.min.js?b12"></script>
+<script type="text/javascript" src="../external/js/script.min.js?b16"></script>
 <script src="../external/js/jquery.jcarousellite.min.js?b1"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 
@@ -711,7 +735,7 @@
             $('.rusIcon').css('display', 'inline-block');
         }
         if (localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'en') {
-            window.location.replace('/index.html');
+            window.location.replace(`/index.html${window.location.search}`);
         }
 
         var lang = localStorage.getItem("NG_TRANSLATE_LANG_KEY");
@@ -722,7 +746,8 @@
             if (q === "auth") {
                 window.location.replace("/" + "?q=" + q);
             } else {
-                window.location.replace("/index.html");
+                window.location.replace(`/index.html${window.location.search}`);
+                // window.location.replace('/index.html');
             }
         }
     });
@@ -753,7 +778,6 @@
                     }]
                 });
             document.head.appendChild(LDJson);
-            console.log(document.head);
             // end of google corporate data + logo
             // Hubspot tracking code;
             var script = document.createElement('script');
@@ -764,21 +788,6 @@
             document.head.appendChild(script);
 
             // GA
-            (function (i, s, o, g, r, a, m) {
-                i['GoogleAnalyticsObject'] = r;
-                i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
-                a = s.createElement(o),
-                    m = s.getElementsByTagName(o)[0];
-                a.async = 1;
-                a.src = g;
-                m.parentNode.insertBefore(a, m)
-            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-            ga('create', 'UA-52127049-1', {
-                'cookieDomain': document.domain
-            });
-            ga('send', 'pageview');
 
             <!-- Facebook Pixel Code -->
             !function(f,b,e,v,n,t,s)

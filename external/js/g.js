@@ -214,9 +214,9 @@ function signinSocial(social, code) {
             authSuccess(messages.send);
         },
         success: function(data) {
-            localStorage.otherSessionsRemoves = data.object.otherSessionsRemoves;
             $(".enter_forgot_pass").hide();
-            if (data.object.personId !== undefined) {
+            if (data.object && data.object.personId !== undefined) {
+                localStorage.otherSessionsRemoves = data.object.otherSessionsRemoves;
                 if (!isIE()) {
                     authSuccess(messages.redirect);
                     sendGA('signin_success');

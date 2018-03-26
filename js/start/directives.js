@@ -616,6 +616,51 @@ angular.module('RecruitingAppStart.directives', [])
                 }
             }
         }
+    }]).directive('toggleCompanyBlock', ['$timeout', function($timeout){
+        return {
+            restrict: "A",
+            link: function(scope, element, attrs) {
+                let logo, nameWrap, linksWrap, name, siteLink, fbLink,
+                    id = '#' + attrs.id,
+                    timeout;
+
+                $timeout(() => {
+                    nameWrap = $(id + ' .name_wrap');
+                    name = $(id +  ' .name_wrap h2');
+
+                    linksWrap = $(id + ' .info--site:eq(0)');
+                    siteLink = $(id + ' .info--site .site-link');
+                    fbLink = $(id + ' .info--site .fb-link');
+
+                    console.log($(id));
+                    console.log(logo);
+                });
+
+                element.on({
+                    mouseenter: () => showBlock(),
+                    mouseleave: () => hideBlock()
+                });
+
+                function showBlock() {
+                    logo = $(id + ' .logo');
+
+                    clearTimeout(timeout);
+
+                    if(linksWrap.width() - siteLink.width() <= 44.64 || linksWrap.width() - fbLink.width() <= 44.64 || nameWrap.width() <= name.width()) {
+                        let adaptiveImgWidth = logo.height();
+                        logo.height(adaptiveImgWidth);
+                        timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
+                        element.addClass('hovered');
+                    }
+                }
+
+                function hideBlock() {
+                    nameWrap.css('white-space', 'nowrap');
+                    element.removeClass('hovered');
+                    clearTimeout(timeout);
+                }
+            }
+        }
     }]);
 
 function similar_text(first, second, percent) {

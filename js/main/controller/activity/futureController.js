@@ -5,6 +5,7 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
     $rootScope.loading = true;
     $rootScope.showAchieves = true;
     $scope.activeVacancy = null;
+        localStorage.setItem("isAddCandidates", false);
         Task.task($scope, $rootScope, $location, $translate, $uibModal, $route);
         //if(localStorage.showAchieves == 'true'){
         //    $scope.showAchieves = true;
@@ -447,7 +448,7 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
     $scope.achievePopup();
     $scope.getPlugin = function() {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
-            window.open("https://chrome.google.com/webstore/detail/cleverstaff-extension/komohkkfnbgjojbglkikdfbkjpefkjem");
+            window.open("https://chrome.google.com/webstore/detail/recruiters-integration-to/ibfoabadoicmplbdpmchomcagkpmfama");
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
             window.open("/extension/CleverstaffExtension4Firefox.xpi");

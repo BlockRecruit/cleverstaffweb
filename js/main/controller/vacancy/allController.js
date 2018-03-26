@@ -1,7 +1,9 @@
 controller.controller('vacanciesController', ["localStorageService", "$scope", "Vacancy", "ngTableParams", "$location", "Client", "$rootScope", "$filter", "Service",
-    "ScopeService", "Company", "notificationService", "serverAddress", "$timeout", "Person", "$uibModal", "$anchorScroll",
+    "ScopeService", "Company", "notificationService", "serverAddress", "$timeout", "Person", "$uibModal", "$anchorScroll", "Candidate",
     function(localStorageService, $scope, Vacancy, ngTableParams, $location, Client, $rootScope, $filter, Service, ScopeService, Company, notificationService,
-             serverAddress, $timeout, Person, $uibModal, $anchorScroll) {
+             serverAddress, $timeout, Person, $uibModal, $anchorScroll, Candidate) {
+    localStorage.removeItem('getAllCandidates');
+    localStorage.removeItem('currentPage');
     $scope.vacanciesFound = null;
     $rootScope.searchCheckVacancy = $rootScope.searchCheckVacancy == undefined ? false : $rootScope.searchCheckVacancy;
     $scope.onlyMe = $rootScope.onlyMe;
@@ -23,6 +25,13 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
     $scope.chosenStatuses = [];
     $scope.currentStatus = null;
     $scope.isSearched = false;
+    $rootScope.setCurrent = true;
+    localStorage.setItem('setCurrent', true);
+    localStorage.setItem('currentPage','vacancies');
+    $rootScope.currentElementPos = true;
+    Candidate.candidateLastRequestParams = null;
+    Candidate.getCandidate = [];
+    Vacancy.getCandidate = [];
     $rootScope.changeStateObject = {status: "", comment: "", placeholder: null};
     $rootScope.closeModal = function(){
         $scope.modalInstance.close();
@@ -168,7 +177,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
             $scope.updateSearchStatuses();
         };
         $scope.clickSearch = function() {
-        if($scope.searchVacancies.searchParamWord.$invalid){
+        if($scope.searchParam.words && $scope.searchParam.words.length == 1){
             notificationService.error($filter('translate')('Enter more data for search'));
             return;
         }
@@ -189,12 +198,14 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                 $scope.searchParam['responsibleId'] ||
                 $scope.searchParam['personId'] ||
                 $scope.searchParam['words']) {
-                if ($scope.searchParam['salaryName']) {
+                if ($scope.searchParam['salaryName'] && $scope.searchParam['salaryName']!='null') {
                     angular.forEach($scope.salaryObject, function(resp){
                         if(resp.name == $scope.searchParam.salaryName){
                             $scope.searchParam['salary'] = resp;
                         }
                     });
+                } else {
+                    $scope.searchParam['salary'] = null;
                 }
                 if ($("#clientAutocompleater").select2('data') !== null) {
                     $scope.searchParam['clientId'] =$("#clientAutocompleater").select2('data').id;
@@ -226,31 +237,36 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                     }
                 }
                 if (ScopeService.isInit()) {
-                    var activeParam = ScopeService.getActiveScopeObject();
-                    $scope.activeScopeParam = activeParam;
-                    Vacancy.setOptions("page", {number: (params.$params.page - 1), count: params.$params.count});
-                    localStorage.countVacancy = params.$params.count;
-                    $scope.searchParam.pages.count = params.$params.count;
-                    $scope.searchParam.personId = $scope.searchParam.personId == 'null' ? null: $scope.searchParam.personId;
-                    Vacancy.setOptions("personId", $scope.searchParam.personId != undefined ? $scope.searchParam.personId : activeParam.name == 'onlyMy' ? $rootScope.userId : null);
-                    Vacancy.setOptions("salaryFrom", $scope.searchParam['salary'] ? $scope.searchParam['salary'].salaryFrom : null);
-                    Vacancy.setOptions("salaryTo", $scope.searchParam['salary'] ? $scope.searchParam['salary']["salaryTo"] : null);
-                    Vacancy.setOptions("state", isNotBlank($scope.searchParam['status']) && $scope.chosenStatuses.length == 1 ? $scope.searchParam['status'] : null);
-                    Vacancy.setOptions("states", $scope.chosenStatuses.length > 1 ? $scope.chosenStatuses : null);
-                    Vacancy.setOptions("words", $scope.searchParam['words'] ? $scope.searchParam['words'] : null);
-                    Vacancy.setOptions("clientId", isNotBlank($scope.searchParam['clientId']) ? $scope.searchParam['clientId'] : null);
-                    Vacancy.setOptions("responsibleId", isNotBlank($scope.searchParam['responsibleId']) ? $scope.searchParam['responsibleId'] : null);
-                    if ($scope.searchParam['regionId']) {
-                        var json = JSON.parse($scope.searchParam['regionId']);
-                        if (json.type == 'country') {
-                            Vacancy.setOptions("country", json.value);
-                        } else if (json.type == 'city') {
-                            Vacancy.setOptions("city", json.value);
+
+
+                    function setVacancyParam() {
+                        var activeParam = ScopeService.getActiveScopeObject();
+                        $scope.activeScopeParam = activeParam;
+                        Vacancy.setOptions("page", {number: (params.$params.page - 1), count: params.$params.count});
+                        localStorage.countVacancy = params.$params.count;
+                        $scope.searchParam.pages.count = params.$params.count;
+                        $scope.searchParam.personId = $scope.searchParam.personId == 'null' ? null: $scope.searchParam.personId;
+                        Vacancy.setOptions("personId", $scope.searchParam.personId != undefined ? $scope.searchParam.personId : activeParam.name == 'onlyMy' ? $rootScope.userId : null);
+                        Vacancy.setOptions("salaryFrom", $scope.searchParam['salary'] ? $scope.searchParam['salary'].salaryFrom : null);
+                        Vacancy.setOptions("salaryTo", $scope.searchParam['salary'] ? $scope.searchParam['salary']["salaryTo"] : null);
+                        Vacancy.setOptions("state", isNotBlank($scope.searchParam['status']) && $scope.chosenStatuses.length == 1 ? $scope.searchParam['status'] : null);
+                        Vacancy.setOptions("states", $scope.chosenStatuses.length > 1 ? $scope.chosenStatuses : null);
+                        Vacancy.setOptions("words", $scope.searchParam['words'] ? $scope.searchParam['words'] : null);
+                        Vacancy.setOptions("clientId", isNotBlank($scope.searchParam['clientId']) ? $scope.searchParam['clientId'] : null);
+                        Vacancy.setOptions("responsibleId", isNotBlank($scope.searchParam['responsibleId']) ? $scope.searchParam['responsibleId'] : null);
+                        if ($scope.searchParam['regionId']) {
+                            var json = JSON.parse($scope.searchParam['regionId']);
+                            if (json.type == 'country') {
+                                Vacancy.setOptions("country", json.value);
+                            } else if (json.type == 'city') {
+                                Vacancy.setOptions("city", json.value);
+                            }
+                        } else {
+                            Vacancy.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
+                            Vacancy.setOptions("city", activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null);
                         }
-                    } else {
-                        Vacancy.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
-                        Vacancy.setOptions("city", activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null);
                     }
+
 
                     function getVacancies(page, count) {
                         if(page || count) {
@@ -289,7 +305,6 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
 
 
                             response['objects'] = sortVacanciesByUserID(response['objects']);
-                            console.log( response['objects'] , ' response[\'objects\'] ')
                             if(page) {
                                 $scope.vacancies = $scope.vacancies.concat(response['objects'])
                             } else {
@@ -306,8 +321,11 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
 
                         });
                     }
+
+                    setVacancyParam();
                     getVacancies();
                     $scope.showMore = function () {
+                        setVacancyParam();
                         $scope.isShowMore = true;
                         Service.dynamicTableLoading(params.total(), currentPage, $scope.tableParams.count(), getVacancies)
                     };
@@ -621,16 +639,6 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                     }
                 });
             }
-
-            // data.forEach((item,index) => {
-            //     item['responsibles'].forEach(j => {
-            //         if(userID == j.personId){
-            //             data.splice(index, 1);
-            //             newData.push(item)
-            //         }
-            //     });
-            // });
-            console.log(newData, 'newData')
            return newData.concat(data);
         }
 

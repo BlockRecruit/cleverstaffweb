@@ -80,6 +80,11 @@
 
 		margin-top: 15px;
 		padding: 0 15px;
+		.mce-path {
+			& > div {
+				visibility: hidden;
+			}
+		}
 		a {
 			outline: none;
 		}
@@ -385,6 +390,7 @@
 						.alert {
 							margin-top: 10px;
 							margin-bottom: 0;
+							padding: 5px;
 						}
 						& > .pull-left {
 							width: 74%;
@@ -769,9 +775,30 @@
 
 							position: absolute;
 							right: 4px;
-							bottom: 3px;
+							//bottom: 3px;
+
+							margin-top: -18px;
+							//position: relative;
+							//right: 4px;
+							//bottom: 17px;
 
 							color: #ffc100;
+						}
+						.duplicatePhone,
+						.duplicatePhone2,
+						.duplicatePhone3 {
+							margin: 5px 0 7px 0;
+						}
+						.addPhone {
+							font-size: 16px;
+
+							position: absolute;
+							right: -16px;
+							bottom: 2px;
+
+							cursor: pointer;
+
+							color: $theme-green;
 						}
 					}
 					.with-border {
@@ -1009,6 +1036,7 @@
 					}
 					.skillsBlock {
 						display: inline-block;
+						width: 100%;
 						label {
 							display: block;
 						}
@@ -1070,7 +1098,6 @@
 					}
 					.tinyMCE-for-block {
 						border-right: 1px solid #e3e3e3;
-						border-left: 1px solid #e3e3e3;
 					}
 				}
 				& > .description-add {
@@ -1140,10 +1167,9 @@
 						}
 					}
 					.tinyMCE-for-block {
-						height: 330px!important;
+						min-height: 330px!important;
 
 						border-right: 1px solid #e3e3e3;
-						border-left: 1px solid #e3e3e3;
 					}
 					.form-description {
 						display: block;

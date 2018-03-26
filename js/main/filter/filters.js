@@ -486,13 +486,8 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
     }])
     .filter('clientsCountFormat', ["$filter", function ($filter) {
         return function (count) {
-            if (count == 1) {
-                return count;
-            } else if (count == undefined) {
-                return 0;
-            } else {
-                return count;
-            }
+            if(count) return count;
+            return 0;
         };
     }])
     .filter('ageOfDate', ['$filter', function ($filter) {
@@ -507,7 +502,7 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                 }
                 var cases = [2, 0, 1, 1, 1, 2];
                 var translate = $filter('translate');
-                return age + " " + [translate('year'), translate('years'), translate('age_1')][(age % 100 > 4 && age % 100 < 20) ? 2 : cases[(age % 10 < 5) ? age % 10 : 5]];
+                return age + " " + [translate('years old1'), translate('years old2'), translate('age_1')][(age % 100 > 4 && age % 100 < 20) ? 2 : cases[(age % 10 < 5) ? age % 10 : 5]];
 
             }
         };
@@ -967,7 +962,18 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
            });
            return result.join("");
        }
-    });
+    }).filter('userTypes', ['$filter', function($filter) {
+        return function(access) {
+            switch (access) {
+                case 'full-access':
+                    return $filter('translate')('Paid_user');
+                case 'limited-access':
+                    return $filter('translate')('Paid_user');
+                case 'free-access':
+                    return $filter('translate')('Free_user');
+            }
+        }
+    }]);
 function linkify3(text) {
     if (text) {
         text = text.replace(

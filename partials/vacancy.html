@@ -26,7 +26,7 @@
 
     <div class="container-fluid nav-vacancy">
         <div>
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav mobile">
                 <li class="dropdown pull-left">
                     <a class=""
                        ng-click="VacanciesInfCandidTaskHistClientFunc('information')"
@@ -45,9 +45,8 @@
                     <a ng-click="VacanciesInfCandidTaskHistClientFunc('task') "
                        ng-class="{'selected' : currentTab == 'task'}">
                         {{'Tasks'|translate}}
-                            <span class="counter">
-                               {{totalTasksNumber}}
-                           </span>
+                        <span class="counter ">{{totalTasksNumber}}</span>
+                        </span>
                     </a>
                 </li>
                 <li class="pull-left">
@@ -130,7 +129,8 @@
                                 <span class="inlineLang" ng-repeat="lang in vacancy.languages">{{lang.name}} <span translate="{{lang.level}}"></span></span>
                             </div>
                         </div>
-                        <div class="customFields col-lg-12" ng-show="fieldValue.fieldValue != undefined" ng-repeat="fieldValue in vacancy.customFields" class="phone">
+                        <div class="clearfix"></div>
+                        <div class="customFields col-lg-12" ng-show="fieldValue.fieldValue != undefined" ng-repeat="fieldValue in vacancy.customFields">
                             <span class="title" ng-show="fieldValue.state == 'A'">{{fieldValue.title}}:</span>
                             <span ng-show="(fieldValue.type == 'string' || fieldValue.type == 'select') && fieldValue.state == 'A'">{{fieldValue.fieldValue.value}}</span>
                             <span ng-show="fieldValue.type == 'date' && fieldValue.state == 'A'">{{fieldValue.fieldValue.dateTimeValue|dateFormat}}</span>
@@ -162,14 +162,14 @@
                                             <option ng-repeat="person in persons| responsibleWithout:vacancy.responsiblesPerson"
                                                     ng-show="state.value != 'deleted'
                                                      && state.value != vacancy.status"
-                                                    ng-if="person.cutFullName == $root.me.cutFullName"
+                                                    ng-if="person.userId == $root.me.userId"
                                                     value="{{person.userId}}">
                                                 ({{'Me' | translate}}) {{person.cutFullName}}
                                             </option>
                                             <option ng-repeat="person in persons | orderBy:['status', 'cutFullName'] | responsibleWithout:vacancy.responsiblesPerson"
                                                     ng-show="state.value != 'deleted'
                                                      && state.value != vacancy.status"
-                                                    ng-if="person.cutFullName != $root.me.cutFullName && person.status == 'A'"
+                                                    ng-if="person.userId != $root.me.userId && person.status == 'A'"
                                                     ng-class="{disable: (person.status != 'A')}"
                                                     value="{{person.userId}}">
                                                 {{person.cutFullName}}
@@ -269,6 +269,17 @@
                         </span>
                 </a>
                 <div class="clearfix"></div>
+                <div class="wrap-switcher" ng-if="$root.me.recrutRole === 'admin' || isResponsiblePerson">
+                    <span style="vertical-align: top;">{{"Hide from all public vacancies list:"|translate}}</span>
+                    <span class="switch" style="display: inline-block;">
+                        <input  id="cmn-toggle-10"
+                                class="cmn-toggle cmn-toggle-round upcomingScopeSwticher"
+                                ng-click="hiddenOrShowVacanciesOnThePublicListVacancies(accessVacancies,vacancy.vacancyId)"
+                                ng-model="accessVacancies"
+                                type="checkbox">
+                        <label  class="" style="margin: 0px 0px 0px 8px;" for="cmn-toggle-10"></label>
+                    </span>
+                </div>
                 <div class="social hidden-xs hidden-sm"
                      ng-if="vacancy.descr.length > 30 && (vacancy.status != 'payment' && vacancy.status != 'canceled' && vacancy.status != 'completed')">
                     <h4>
@@ -324,7 +335,7 @@
                            title="{{'Delete_job_of_your_page_in_facebook'|translate}}"></i>
                     </div>
                     <div class="text-center button">
-                        <a type="button" class="btn btn-primary" ng-click="showShareFbPages()">
+                        <a style="background-color: #00B549;" type="button" class="btn btn-primary" ng-click="showShareFbPages()">
                             <span ng-show="vacancy.publish.length == 0">
                                 {{'Share_on_the_company_page_in_Facebook'|translate}}
                             </span>
@@ -405,11 +416,7 @@
                     {{'Stages' | translate }}
                 </h4>
                 <div class="pull-right settings">
-                    <a ng-click="candidateInVacancy('extra_status',$event)" title="{{'Setting the stage' | translate}}" id="openSettings">
-                    </a>
-                </div>
-                <div class="show-list hidden-xs hidden-sm">
-                    <a href="" ng-click="showSearchCandidateFunc()">{{'Show a list' | translate}}</a>
+                    <i ng-click="candidateInVacancy('extra_status',$event)" class="fa fa-cog" aria-hidden="true" title="{{'Setting the stage' | translate}}" id="openSettings"></i>
                 </div>
                 <div class="clearfix"></div>
                 <div class="sortableOptions">
@@ -515,7 +522,7 @@
                      ng-class="{'moveble' : status.movable == true && showMoveble == true,
                      'active': activeName == status.value || activeCustomStageName == status.name}"
                      ng-if="status.type == 'refuse'" class="decline status">
-                    <a href="">{{status.value|translate}}</a>
+                    <a href="" class="stage-position">{{status.value|translate}}</a>
                        <span class="counter">
                           {{status.count}}
                        </span>
@@ -532,28 +539,28 @@
                     <div class="clearfix"></div>
                 </div>
             </div>
-            <div class="text-center hidden-xs hidden-sm" ng-show="$root.me.recrutRole != 'client' && showMoveble">
-                <a type="button" ng-click="candidateInVacancy('extra_status')" class="btn btn-primary">
-                    {{'save' | translate}}
-                </a>
+            <!--<div class="text-center hidden-xs hidden-sm" ng-show="$root.me.recrutRole != 'client' && showMoveble">-->
                 <!--<a type="button" ng-click="candidateInVacancy('extra_status')" class="btn btn-primary">-->
-                    <!--{{'Setting the stage' | translate}}-->
+                    <!--{{'save' | translate}}-->
                 <!--</a>-->
-                <!--<span class="clarification" ng-show="$root.me.recrutRole == 'admin'">-->
-                    <!--{{'For account Admins only'|translate}}-->
-                <!--</span>-->
-            </div>
-            <div class="text-center" ng-show="activeName == 'extra_status' && $root.me.recrutRole == 'admin' && showMoveble">
-                <a type="button" ng-click="saveStagesForAllVacancies()" title="{{'Make the current set of stages as default for new vacancies' | translate}}" class="btn btn-primary default">
-                    {{'Make default' | translate}}
-                </a>
-                <br/>
-                <!--<span class="thin">*{{'This feature is only available to administratorzs' | translate}}</span>-->
-            </div>
+                <!--&lt;!&ndash;<a type="button" ng-click="candidateInVacancy('extra_status')" class="btn btn-primary">&ndash;&gt;-->
+                    <!--&lt;!&ndash;{{'Setting the stage' | translate}}&ndash;&gt;-->
+                <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<span class="clarification" ng-show="$root.me.recrutRole == 'admin'">&ndash;&gt;-->
+                    <!--&lt;!&ndash;{{'For account Admins only'|translate}}&ndash;&gt;-->
+                <!--&lt;!&ndash;</span>&ndash;&gt;-->
+            <!--</div>-->
+            <!--<div class="text-center" ng-show="activeName == 'extra_status' && $root.me.recrutRole == 'admin' && showMoveble">-->
+                <!--<a type="button" ng-click="saveStagesForAllVacancies()" title="{{'Make the current set of stages as default for new vacancies' | translate}}" class="btn btn-primary default">-->
+                    <!--{{'Make default' | translate}}-->
+                <!--</a>-->
+                <!--<br/>-->
+                <!--&lt;!&ndash;<span class="thin">*{{'This feature is only available to administratorzs' | translate}}</span>&ndash;&gt;-->
+            <!--</div>-->
         </div>
         <div class="col-lg-9 status-info no-padding-sm" ng-class="{'col-lg-12' : showSearchCandidate}"
              ng-show="(!visiable || $root.me.recrutRole !== 'client') && (activeName != 'extra_status' && activeName != 'recalls')">
-            <div class="sorting" ng-show="tableParams.data.length > 1">
+            <div class="sorting pull-left" ng-show="tableParams.data.length > 1">
                 <label>
                     {{'Sort by'|translate}}:
                 </label>
@@ -572,8 +579,19 @@
                     </option>
                 </select>
             </div>
+            <div class="show-list pull-right hidden-xs hidden-sm">
+                <a href="" type="button" class="btn btn-primary" ng-show="!showSearchCandidate" ng-click="showSearchCandidateFunc()">{{'Show a list' | translate}}</a>
+                <a href="" type="button" class="btn btn-primary" ng-show="showSearchCandidate" ng-click="hideSearchCandidateFunc()">{{'Сandidates in stages' | translate}}</a>
+            </div>
+            <div class="changeStatusBtn pull-right" ng-show="candidatesAddToVacancyIds.length > 0" ng-class="{'hidden-xs': showSearchCandidate || candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview' || candidate.state == 'hr_interview' || candidate.state == 'interview_with_the_boss' || candidate.state == 'interview_with_the_client')}">
+                <a href="" class="btn btn-success no-hover-sm" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidatesAddToVacancyIds);">
+                    {{'change_status_1' | translate}} ({{candidatesAddToVacancyIds.length}})
+                </a>
+            </div>
+            <div class="clearfix"></div>
             <div class="row header" ng-show="!showSearchCandidate">
-                <div class="col-lg-4">
+                <div class="col-lg-4 blockStage">
+                    <input ng-click="pushAllCandidatesToVacancy()" ng-hide="((showTable === 'not available' || showTable === undefined && $scope.loadingCandidates == false) && !noCandidatesInThisVacancy) || activeName == 'approved' || dataForVacancy.length < 2" ng-checked="checkAllCandidates == true" type="checkbox"/>
                     <h4 ng-show="!activeCustomStageName">{{activeName | translate}}</h4>
                     <h4 ng-show="activeCustomStageName">
                         {{activeCustomStageName}}
@@ -590,7 +608,7 @@
                             <i class="fa fa-check-square-o" aria-hidden="true"></i>
                         </a>
                     </div>
-                    <div class="col-lg-4" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'salesmanager' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y')">
+                    <div class="col-lg-4" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && (($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y')">
                         <a ng-click="exportToExcel()" ng-show="$root.hideTariff" title="{{'Export to Excel' | translate}}">
                             {{'Export to Excel' | translate}}
                             <i class="fa fa-file-excel-o" aria-hidden="true"></i>
@@ -629,6 +647,9 @@
                         {{'region'|translate}}
                         <i class="fa fa-sort pull-right" aria-hidden="true"></i>
                     </th>
+                    <th>
+
+                    </th>
                     <th ng-show="!showSearchCandidate">
                         {{'stage'|translate}}
                         <i class="fa fa-sort pull-right" aria-hidden="true"></i>
@@ -644,7 +665,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="candidate in dataForVacancy" ng-class="{'archived': candidate.candidateId.status == 'archived'}">
+                <tr ng-repeat="candidate in dataForVacancy" ng-class="{'archived': candidate.candidateId.status == 'archived', 'add_color': candidate.added == true, 'deleted': candidate.candidateId.status == 'archived' && dataForVacancy.length == 1}">
+                    <td class="checklist" ng-if="candidate.state != 'approved' && candidate.candidateId.status != 'archived' && activeName != null && dataForVacancy.length > 1">
+                        <input ng-click="pushCandidateToVacancy(candidate)" type="checkbox" ng-model="candidate.added"/>
+                    </td>
+                    <td class="checklist" ng-if="candidate.candidateId.status == 'archived' && activeName != null"></td>
                     <td class="number" data-title="'№'" once-text="(tableParams.page() - 1) * tableParams.count() + $index + 1"></td>
                     <td class="preview text-center width-for-table-eye hidden-xs" priview="" pageid="candidate" candidate="candidate.candidateId">
                         <div>
@@ -658,9 +683,10 @@
                         <!--</div>-->
                     <!--</td>-->
                     <td class="name" data-title="'Name'">
-                        <a href="#/candidates/{{::candidate.candidateId.localId}}" ng-click="$event.stopPropagation();">{{::candidate.candidateId.fullName}}</a>
+                        <a ng-href="#/candidates/{{candidate.candidateId.localId}}" ng-click="routeOnCandidate($event,candidate.candidateId.localId,'candidate');" ng-context-menu="menuOptions">{{::candidate.candidateId.fullName}}</a>
                     </td>
-
+                    <!--<td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}"></td>-->
+                    <!--<td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}" colspan="2"></td>-->
                     <td class="date" ng-if="candidate.candidateId.status != 'archived'">
                         <span ng-click="openChangeVacancyInterviewDate(candidate);$event.stopPropagation();">
                             {{::candidate.dateInterview|dateFormat:true}}
@@ -672,9 +698,12 @@
                               ng-click="openChangeVacancyInterviewDate(candidate);$event.stopPropagation();"
                               class="set-interview">{{'Set interview time' | translate}} <i class="fa fa-calendar" aria-hidden="true"></i></span>
                     </td>
-                    <td class="button-outer" ng-if="candidate.candidateId.status != 'archived'" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidate);" ng-class="{'hidden-xs': showSearchCandidate ||candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview'
+                    <td class="checklist" ng-if="candidate.candidateId.status != 'archived' && candidatesAddToVacancyIds.length > 0"></td>
+                    <td class="button-outer" ng-if="candidate.candidateId.status != 'archived' && candidatesAddToVacancyIds.length == 0" ng-click="$event.stopPropagation();openVacancyCandidateChangeStatus(candidate);" ng-class="{'hidden-xs': showSearchCandidate ||candidate.isInterview || (candidate.state == 'interview' || candidate.state == 'tech_interview'
                     || candidate.state == 'hr_interview' || candidate.state == 'interview_with_the_boss' || candidate.state == 'interview_with_the_client')}">
-                        <a href="" class="btn btn-success no-hover-sm">{{'change_status' | translate}}</a>
+                        <a href="" class="btn btn-success no-hover-sm">
+                            {{'change_status' | translate}}
+                        </a>
                     </td>
                     <td class="responsible hidden-xs" ng-if="candidate.candidateId.status != 'archived'" ng-click="$event.stopPropagation()">
                         <a ng-repeat="responsible in persons" href="#/users/{{::responsible.userId}}"
@@ -692,10 +721,9 @@
                     <!--<td class="comment">-->
                         <!--<span>{{candidate.comment}}</span>-->
                     <!--</td>-->
-                    <td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}"></td>
-                    <td class="add-comment-text text-right hidden-xs" ng-if="candidate.candidateId.status != 'archived'">
+                    <td class="add-comment-text text-right hidden-xs" colspan="2" ng-if="candidate.candidateId.status != 'archived'">
                         <span title="{{::candidate.dm | dateFormat2}}" ng-click="showModalAddCommentToCandidate(candidate);$event.stopPropagation();" ng-show="activeName != 'approved'" class="comment text-left pull-left">
-                            {{candidate.comment | limitTo:80}}
+                            {{candidate.comment | limitTo:60}}
                             <span class="comment" ng-show="candidate.comment.length > 53 && activeName != 'approved'">...</span>
                         </span>
                         <a href="#/company/employee/add/{{::candidate.candidateId.localId}}" ng-click="$event.stopPropagation();"
@@ -708,7 +736,7 @@
                             {{'our employee'|translate}}!
                         </a>
                     </td>
-                    <!--<td></td>-->
+                    <td ng-if="candidate.candidateId.status == 'archived' && activeName == null"></td>
                     <!--<td class="add-comment-text text-right hidden-xs delete" ng-if="candidate.candidateId.status != 'archived'" title="{{'Remove Candidate' | translate}} {{'from vacancy' | translate}}" ng-click="showDeleteInterview(candidate);$event.stopPropagation();">-->
                         <!---->
                     <!--</td>-->
@@ -718,11 +746,11 @@
                         <button class="restore-candidate" translate="Restore" ng-click="restoreCandidate(candidate.candidateId.candidateId, candidate.candidateId.localId, candidate.candidateId.fullName)">
                         </button>
                     </td>
-                    <td ng-if="candidate.candidateId.status == 'archived'" colspan="2" class="text-left hidden-xs">
+                    <td ng-if="candidate.candidateId.status == 'archived'" class="text-center hidden-xs" colspan="3">
                         <span translate="Remove from this vacancy" class="remove-from-vacancy" ng-click="showDeleteInterview(candidate);$event.stopPropagation();">
                         </span>
                     </td>
-                    <td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}" style="width: 6%;">
+                    <td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}" class="text-right" style="width: 7%;">
                         <i ng-show="activeName != 'approved'" ng-click="showModalAddCommentToCandidate(candidate);$event.stopPropagation();" title="{{'Edit comment' | translate}}" class="fa fa-pencil" aria-hidden="true"></i>
                         <i class="fa fa-times delete" aria-hidden="true"  title="{{'Remove Candidate' | translate}} {{'from vacancy' | translate}}" ng-click="showDeleteInterview(candidate);$event.stopPropagation();"></i>
                     </td>
@@ -785,129 +813,146 @@
             </h4>
         </div>
         <div class="col-lg-9 stages-option" ng-show="activeName == 'extra_status'">
-            <div class="alert alert-danger col-lg-12" style="margin: 0 auto;" ng-show="extraStatusObj.show">
-                <div ng-switch="extraStatusObj.messageText">
+            <div class="stages">
+                <div class="alert alert-danger col-lg-12" style="margin: 0 auto;" ng-show="extraStatusObj.show">
+                    <div ng-switch="extraStatusObj.messageText">
                     <span ng-switch-when="deleteStatus"
                           translate="You can not remove this status because it is there are candidates."></span>
-                    <span ng-switch-when="deleteRefuse"
-                          translate="You can not remove this refuse because it is there are candidates."></span>
-                    <span ng-switch-when="ItyoSimle"
-                          translate="You can not remove this status because it is there are candidates."></span>
-                    <span ng-switch-when="SimpleToIt"
-                          translate="You can not remove this status because it is there are candidates.">Невозможно изменить. Не получится убрать этап, на котором уже есть кандидаты.</span>
-                    <span ng-switch-when="existsInOtherVacancy">
+                        <span ng-switch-when="deleteRefuse"
+                              translate="You can not remove this refuse because it is there are candidates."></span>
+                        <span ng-switch-when="ItyoSimle"
+                              translate="You can not remove this status because it is there are candidates."></span>
+                        <span ng-switch-when="SimpleToIt"
+                              translate="You can not remove this status because it is there are candidates.">Невозможно изменить. Не получится убрать этап, на котором уже есть кандидаты.</span>
+                        <span ng-switch-when="existsInOtherVacancy">
                         {{'This status is used in the vacancy' | translate}}
                         <a target="_blank" href=#/vacancies/{{existInVacancyErrorVacancy.localId}}">
                             {{existInVacancyErrorVacancy.position}}</a>,
                         {{'it can not be removed' | translate}}.
                     </span>
+                    </div>
+                    <i ng-click="extraStatusObj.show = false" class="fa fa-times pull-right" aria-hidden="true"></i>
                 </div>
-                <i ng-click="extraStatusObj.show = false" class="fa fa-times pull-right" aria-hidden="true"></i>
-            </div>
-            <div class="alert alert-success" ng-show="extraStatusObjSucces.show">
-                {{'settings applied'|translate}}
-            </div>
-            <div class="col-lg-4 resize" style="padding: 0px; width: 30%;">
-                <h4>{{'Additional stages'|translate}}</h4>
+                <!--<div class="alert alert-success" ng-show="extraStatusObjSucces.show">-->
+                <!--{{'settings applied'|translate}}-->
+                <!--</div>-->
+                <div class="col-lg-4 resize" style="padding: 0 0 15px 0; width: 30%;">
+                    <h4>{{'Additional stages'|translate}}</h4>
 
-                <div class="stages">
-                    <div class="stage unlock clearfix clearfix"
-                         ng-repeat="status in VacancyStatus | vacancyStatusInCheckFilter:'simpleVacancy' track by $index"
-                         ng-show="status.value != 'no_contacts' && status.value != 'notafit' && status.value != 'declinedoffer' &&
+                    <div class="stages">
+                        <div class="stage unlock clearfix clearfix"
+                             ng-repeat="status in VacancyStatus | vacancyStatusInCheckFilter:'simpleVacancy' track by $index"
+                             ng-show="status.value != 'no_contacts' && status.value != 'notafit' && status.value != 'declinedoffer' &&
                          status.value != 'no_response' && status.value != 'accepted_counter_offer' && status.value != 'found_another_job'
                          && status.value != 'is_not_looking_for_job'">
-                        <label>
-                            <input ng-checked="status.added" type="checkbox" ng-click="changeInterviewStatus(status, status.value, 'simpleVacancy', $event)" name="{{status.value}}">
-                            {{'interview_status_assoc.' + status.value|translate}}
-                        </label>
-                        <!--<span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"-->
-                              <!--class="pull-right unlock">-->
-                                <!--<i class="fa" aria-hidden="true" style="color: #ffc100"-->
-                                   <!--ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"-->
-                                   <!--ng-click="settingAccess($event, status)"-->
-                                   <!--title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"-->
-                                <!--&gt;</i>-->
-                        <!--</span>-->
+                            <label>
+                                <input ng-checked="status.added" type="checkbox" ng-click="changeInterviewStatus(status, status.value, 'simpleVacancy', $event)" name="{{status.value}}">
+                                {{'interview_status_assoc.' + status.value|translate}}
+                            </label>
+                            <!--<span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"-->
+                            <!--class="pull-right unlock">-->
+                            <!--<i class="fa" aria-hidden="true" style="color: #ffc100"-->
+                            <!--ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"-->
+                            <!--ng-click="settingAccess($event, status)"-->
+                            <!--title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"-->
+                            <!--&gt;</i>-->
+                            <!--</span>-->
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4 resize" style="width: 36.33333%;padding-right: 0px;">
-                <h4> {{'Company stages'|translate}}</h4>
+                <div class="col-lg-4 resize" style="width: 36.33333%;padding-right: 0px;">
+                    <h4> {{'Company stages'|translate}}</h4>
 
-                <div class="stages">
-                    <div class="stage unlock clearfix"
-                         ng-repeat="status in customStages track by $index"
-                         ng-show="status.type != 'refuse'">
-                        <input ng-checked="status.added" type="checkbox" ng-click="changeCustomInterviewStatus(status, status.value, 'simpleVacancy', $event)" name="{{status.value}}">
-                        <i class="fa fa-comments-o" aria-hidden="true" ng-show="status.type == 'interview'"></i>
-                        {{status.value|translate}}
-                        <i class="fa fa-pencil" aria-hidden="true" title="{{'Edit candidate' | translate}}"
-                           ng-click="showEditStage(status);$event.stopPropagation()"
-                           ng-show="$root.me.recrutRole == 'admin'"></i>
-                        <i class="fa fa-times" aria-hidden="true" title="{{'Delete' | translate}}"
-                           ng-show="$root.me.recrutRole == 'admin'"
-                           ng-click="deleteCustomStageFromCompany(status);$event.stopPropagation()"></i>
-                        <!--<span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"-->
-                              <!--class="pull-right unlock">-->
-                                <!--<i class="fa" aria-hidden="true" style="color: #ffc100"-->
-                                   <!--ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"-->
-                                   <!--ng-click="settingAccess($event, status)"-->
-                                   <!--title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"></i>-->
-                        <!--</span>-->
+                    <div class="stages">
+                        <div class="stage unlock clearfix"
+                             ng-repeat="status in customStages track by $index"
+                             ng-show="status.type != 'refuse'">
+                            <input ng-checked="status.added" type="checkbox" ng-click="changeCustomInterviewStatus(status, status.value, 'simpleVacancy', $event)" name="{{status.value}}">
+                            <i class="fa fa-comments-o" aria-hidden="true" ng-show="status.type == 'interview'"></i>
+                            <span class="stage-position">{{status.value|translate}}</span>
+                            <i class="fa fa-pencil" aria-hidden="true" title="{{'Edit candidate' | translate}}"
+                               ng-click="showEditStage(status);$event.stopPropagation()"
+                               ng-show="$root.me.recrutRole == 'admin'"></i>
+                            <i class="fa fa-times" aria-hidden="true" title="{{'Delete' | translate}}"
+                               ng-show="$root.me.recrutRole == 'admin'"
+                               ng-click="deleteCustomStageFromCompany(status);$event.stopPropagation()"></i>
+                            <!--<span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"-->
+                            <!--class="pull-right unlock">-->
+                            <!--<i class="fa" aria-hidden="true" style="color: #ffc100"-->
+                            <!--ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"-->
+                            <!--ng-click="settingAccess($event, status)"-->
+                            <!--title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"></i>-->
+                            <!--</span>-->
+                        </div>
                     </div>
+                    <a href=""
+                       ng-show="$root.me.recrutRole == 'admin'"
+                       ng-click="showAddStage()">
+                        {{'Add new custom stage' | translate}}
+                    </a>
                 </div>
-                <a href=""
-                   ng-show="$root.me.recrutRole == 'admin'"
-                   ng-click="showAddStage()">
-                    {{'Add new custom stage' | translate}}
-                </a>
-            </div>
-            <div class="col-lg-4 clearfix resize" style="padding-right: 0px;">
-                <h4> {{'Reasons for refusal'|translate}}</h4>
+                <div class="col-lg-4 clearfix resize" style="padding-right: 0px;">
+                    <h4> {{'Reasons for refusal'|translate}}</h4>
 
-                <div class="stages">
-                    <div class="stage unlock clearfix"
-                         ng-repeat="status in VacancyStatus| vacancyStatusInCheckFilter:'simpleVacancy' track by $index"
-                         ng-show="status.value == 'no_contacts' || status.value == 'notafit' || status.value == 'declinedoffer' ||
+                    <div class="stages">
+                        <div class="stage unlock clearfix"
+                             ng-repeat="status in VacancyStatus| vacancyStatusInCheckFilter:'simpleVacancy' track by $index"
+                             ng-show="status.value == 'no_contacts' || status.value == 'notafit' || status.value == 'declinedoffer' ||
                          status.value == 'no_response' || status.value == 'accepted_counter_offer' || status.value == 'found_another_job'
                          || status.value == 'is_not_looking_for_job'">
-                        <label>
-                            <input ng-checked="status.added" type="checkbox" ng-click="changeInterviewStatus(status, status.value, 'simpleVacancy')" name="{{status.value}}">
-                            {{status.value|translate}}
-                        </label>
-                        <!--<span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"-->
-                              <!--class="pull-right unlock">-->
-                                <!--<i class="fa" aria-hidden="true" style="color: #ffc100"-->
-                                   <!--ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"-->
-                                   <!--ng-click="settingAccess($event, status)"-->
-                                   <!--title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"></i>-->
-                        <!--</span>-->
+                            <label>
+                                <input ng-checked="status.added" type="checkbox" ng-click="changeInterviewStatus(status, status.value, 'simpleVacancy')" name="{{status.value}}">
+                                {{status.value|translate}}
+                            </label>
+                            <!--<span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"-->
+                            <!--class="pull-right unlock">-->
+                            <!--<i class="fa" aria-hidden="true" style="color: #ffc100"-->
+                            <!--ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"-->
+                            <!--ng-click="settingAccess($event, status)"-->
+                            <!--title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"></i>-->
+                            <!--</span>-->
+                        </div>
+                        <div class="stage unlock clearfix"
+                             ng-repeat="status in customStages track by $index"
+                             ng-show="status.type == 'refuse'">
+                            <input ng-checked="status.added" type="checkbox" ng-click="changeCustomInterviewStatus(status, status.value, 'simpleVacancy')" name="{{status.value}}">
+                            <spna class="stage-position"> {{status.value|translate}}</spna>
+                            <i class="fa fa-pencil" aria-hidden="true" title="{{'Edit candidate' | translate}}"
+                               ng-click="showEditRefuseStage(status);$event.stopPropagation()"
+                               ng-show="$root.me.recrutRole == 'admin'"></i>
+                            <i class="fa fa-times" aria-hidden="true" title="{{'Delete' | translate}}"
+                               ng-show="$root.me.recrutRole == 'admin'"
+                               ng-click="deleteCustomStageFromCompany(status);$event.stopPropagation()"></i>
+                            <!--<span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"-->
+                            <!--class="pull-right unlock">-->
+                            <!--<i class="fa" aria-hidden="true" style="color: #ffc100"-->
+                            <!--ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"-->
+                            <!--ng-click="settingAccess($event, status)"-->
+                            <!--title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"></i>-->
+                            <!--</span>-->
+                        </div>
                     </div>
-                    <div class="stage unlock clearfix"
-                         ng-repeat="status in customStages track by $index"
-                         ng-show="status.type == 'refuse'">
-                        <input ng-checked="status.added" type="checkbox" ng-click="changeCustomInterviewStatus(status, status.value, 'simpleVacancy')" name="{{status.value}}">
-                        {{status.value|translate}}
-                        <i class="fa fa-pencil" aria-hidden="true" title="{{'Edit candidate' | translate}}"
-                           ng-click="showEditRefuseStage(status);$event.stopPropagation()"
-                           ng-show="$root.me.recrutRole == 'admin'"></i>
-                        <i class="fa fa-times" aria-hidden="true" title="{{'Delete' | translate}}"
-                           ng-show="$root.me.recrutRole == 'admin'"
-                           ng-click="deleteCustomStageFromCompany(status);$event.stopPropagation()"></i>
-                        <!--<span ng-show="$root.me.recrutRole === 'admin' || $root.me.recrutRole === 'client'"-->
-                              <!--class="pull-right unlock">-->
-                                <!--<i class="fa" aria-hidden="true" style="color: #ffc100"-->
-                                   <!--ng-class="{'fa-lock': status.hidden && status.added, 'fa-unlock': !status.hidden && status.added}"-->
-                                   <!--ng-click="settingAccess($event, status)"-->
-                                   <!--title="{{(status.hidden)? 'Candidates on this stage are invisible for a Hiring manager role':'Candidates on this stage are visible for a Hiring manager role'|translate}}"></i>-->
-                        <!--</span>-->
-                    </div>
+                    <a href=""
+                       ng-show="$root.me.recrutRole == 'admin'"
+                       ng-click="showAddRefuseStage()">
+                        {{'Add the cause of refuse' | translate}}
+                    </a>
                 </div>
-                <a href=""
-                   ng-show="$root.me.recrutRole == 'admin'"
-                   ng-click="showAddRefuseStage()">
-                    {{'Add the cause of refuse' | translate}}
-                </a>
+                <div class="clearfix"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="active-buttons" ng-show="activeName == 'extra_status'">
+                <div class="set-to-default img-wrap">
+                    <img src="/images/sprite/default.svg" alt="">
+                    <span type="button" ng-click="saveStagesForAllVacancies()"
+                          title="{{'Make the current set of stages as default for new vacancies' | translate}}">
+                    {{'Make default' | translate}}
+                </span>
+                </div>
+                <div class="save img-wrap">
+                    <img class="save" src="/images/sprite/save.svg" alt="">
+                    <span type="button" ng-click="candidateInVacancy('extra_status')">{{'save' | translate}}</span>
+                </div>
             </div>
         </div>
         <div class="not-access pull-left col-lg-9 clearfix"   ng-show="noAccess && $root.me.recrutRole === 'client' && !visiable">

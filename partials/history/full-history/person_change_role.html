@@ -1,15 +1,16 @@
-<div class="col-lg-2" title="{{history.dm|dateFormat:true}}">
+<div class="col-lg-2" title="{{::history.dm|dateFormat:true}}">
     <div class="time-comment">
-        {{history.dm|dateFormat:false}}
+        {{::history.dm|dateFormat:false}}
     </div>
-    <a href="#/users/{{history.person.userId}}" class="text-left user">
+    <a href="#/users/{{::history.person.userId}}" class="text-left user">
         <span once-text="history.person.firstName"></span>
         <span once-text="history.person.lastName"></span>
     </a>
 </div>
 <div class="col-lg-10">
     {{'user2'|translate}}
-    <a href="#/users/{{history.targetPerson.userId}}" once-text="history.targetPerson.cutFullName"></a>
+    <a href="#/users/{{::history.targetPerson.userId}}" once-text="history.targetPerson.cutFullName"></a>
     <span ng-if="true">{{'history_info.person change role'|translate}}</span>
-    {{history.stateNew|translate}}
+    <span ng-if="::history.stateNew == 'client'">Hiring manager</span>
+    <span ng-if="::history.stateNew != 'client'" translate="{{history.stateNew}}">Hiring manager</span>
 </div>

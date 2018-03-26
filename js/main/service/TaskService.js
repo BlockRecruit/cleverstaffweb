@@ -205,6 +205,7 @@ angular.module('services.task', [
                         $rootScope.closeModal();
                         $scope.urlTaskId = null;
                         $location.$$absUrl = $location.$$absUrl.split("&")[0];
+                        notificationService.success($filter('translate')('Task deleted'));
                         //$scope.$apply();
                     }else{
                         notificationService.error(resp.message);

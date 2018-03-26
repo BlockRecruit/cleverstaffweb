@@ -32,6 +32,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             }
         );
 
+
         $scope.toggleLocationSelect = function() {
             $scope.hideSearchLocations = !$scope.hideSearchLocations;
         };
@@ -116,9 +117,10 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
             $scope.hideSearchPositions = true;
             $scope.errorHandler.vacanciesFilter.positionError = false;
             $('.positions-wrap input.vacancy-position').val("");
+            selectedPosition = null;
         };
 
-         function getAllVacancyForCompany(){
+        (function getAllVacancyForCompany(){
             let string = $routeParams.nameAlias.replace('-vacancies', '');
             Company.getAllOpenVacancies(string)
                 .then((resp) => {
@@ -135,7 +137,7 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
                 }, (err) => {
                     console.error(err);
                 });
-        }
+        })();
 
         function checkAutoCompletePosition() {
             let inputPosition = $('.positions-wrap input.vacancy-position'),
@@ -171,8 +173,8 @@ controller.controller('PublicCompanyController', ['$scope', '$rootScope', 'serve
         function resetLocation() {
             $('.locations-wrap span.location').text($filter('translate')('Location'));
             $scope.errorHandler.vacanciesFilter.locationError = false;
+            selectedLocation = null;
         }
 
-        getAllVacancyForCompany();
     }]
 );

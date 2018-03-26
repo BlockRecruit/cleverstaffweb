@@ -31,6 +31,14 @@
 					&:hover {
 						text-decoration: none;
 					}
+					&.disabled {
+						.fa-chevron-left,
+						.fa-chevron-right {
+							cursor: default;
+
+							color: $theme-light-grey;
+						}
+					}
 					.fa-chevron-left,
 					.fa-chevron-right {
 						cursor: pointer;
@@ -111,6 +119,14 @@
 			}
 			&:hover {
 				background-color: #a3e8a7;
+			}
+			&.disabled {
+				cursor: default;
+
+				color: $theme-light-grey;
+				&:hover {
+					background-color: white;
+				}
 			}
 		}
 		.reset-button {
@@ -209,6 +225,9 @@
 			background-color: white;
 			&:hover {
 				background-color: #a3e8a7;
+			}
+			&.ellipsis {
+				background-color: #eee;
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-<div class="container-fluid block-company-public-vacancies">
+<div class="container-fluid block-company-public-vacancies block-public">
     <div class="row">
         <div class="col-xs-12 text-center relative">
             <div class="company-info">
@@ -36,12 +36,12 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="vacancies-intro">
-                <h2 ng-show="orgParams.size == 0">{{'We_do_not_have_open_vacancies_at_this_time'|translate}}.</h2>
-                <h2 ng-show="orgParams.size != 0">{{'Our vacancies'|translate}}</h2>
+                <h2 ng-show="!orgParams.objects.length && loaded">{{'We do not have open vacancies at this time'|translate}}.</h2>
+                <h2 ng-show="orgParams.objects.length">{{'Our vacancies'|translate}}</h2>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" ng-show="orgParams.objects.length">
         <div class="col-xs-12">
             <div class="vacancies-filter">
 
@@ -78,7 +78,7 @@
                 </div>
 
                 <div class="filter-button" ng-show="showFilterSettings">
-                    <button class="btn-modern apply" ng-click="showFilteredVacancies()">{{'Show' | translate}}</button>
+                    <button class="btn-primary-new apply" ng-click="showFilteredVacancies()">{{'Show' | translate}}</button>
                 </div>
 
             </div>
@@ -87,7 +87,7 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <div class="vacancies" ng-show="orgParams.size > 0 && (orgParams.objects | filter: filter).length > 0">
+            <div class="vacancies" ng-show="(orgParams.objects | filter: filter).length > 0">
                 <div class="vacancy" ng-repeat="publicVacancy in orgParams.objects | filter: filter">
                     <a ng-href="{{$location.$$host}}/i#/vacancy-{{publicVacancy.localId}}">
                         <div class="col-xs-12 col-sm-4 vacancy__name--wrap">
@@ -97,9 +97,11 @@
                             <span class="vacancy__location" ng-show="publicVacancy.region.fullName">{{publicVacancy.region.fullName}}</span>
                         </div>
                         <div class="col-xs-12 col-sm-4 text-right vacancy__salary--wrap">
-                            <div class="emp-salary" ng-show="publicVacancy.employmentType || publicVacancy.salaryFrom && publicVacancy.salaryTo">
-                                <span class="vacancy__salary" ng-show="publicVacancy.salaryFrom && publicVacancy.salaryTo">
-                                    {{publicVacancy.salaryFrom}}-{{publicVacancy.salaryTo}} {{publicVacancy.currency}}
+                            <div class="emp-salary" ng-show="publicVacancy.employmentType || publicVacancy.salaryFrom || publicVacancy.salaryTo">
+                                <span class="vacancy__salary" ng-show="publicVacancy.salaryFrom || publicVacancy.salaryTo">
+                                    <span ng-if="publicVacancy.salaryFrom && !publicVacancy.salaryTo">{{publicVacancy.salaryFrom}}+ {{publicVacancy.currency}}</span>
+                                    <span ng-if="!publicVacancy.salaryFrom && publicVacancy.salaryTo">{{'up to' | translate}} {{publicVacancy.salaryTo}} {{publicVacancy.currency}}</span>
+                                    <span ng-if="publicVacancy.salaryFrom && publicVacancy.salaryTo">{{publicVacancy.salaryFrom}}-{{publicVacancy.salaryTo}} {{publicVacancy.currency}}</span>
                                     <span ng-if="publicVacancy.employmentType">,</span>
                                 </span>
                                 <span class="vacancy__employment" uib-tooltip="{{publicVacancy.employmentType | translate}}" ng-show="publicVacancy.employmentType">
@@ -139,5 +141,4 @@
         <img class="person-1 position" src="/images/sprite/public-vacancy/person-1.png" alt="" ng-if="loaded">
         <img class="person-2 position" src="/images/sprite/public-vacancy/person-2.png" alt="" ng-if="loaded">
     </div>
-    <!--<div id="scrollup"><img alt="Прокрутить вверх" src="/images/sprite/up_racket.png"></div>-->
 </div>

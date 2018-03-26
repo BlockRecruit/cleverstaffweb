@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>.async-hide { opacity: 0 !important} </style>
+    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+    })(window,document.documentElement,'async-hide','dataLayer',4000,
+        {'GTM-PHXZMBX':true});</script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
     <script>
@@ -10,22 +16,38 @@
             gtag('js', new Date());
 
             gtag('config', 'UA-52127049-1');
+
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)}, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-52127049-1', {
+                'cookieDomain': document.domain
+            });
+            ga('require', 'GTM-PHXZMBX');
+            ga('send', 'pageview');
         }
     </script>
     <!-- end of gtag -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
-    <title>Sign In | CleverStaff | All-in-One ATS & Recruiting Software</title>
+    <title>Sign In | CleverStaff | Professional Software for Applicant Tracking and Recruitment Automation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="CleverStaff Recruitment Software and Applicant Tracking System">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <link rel="stylesheet" href="external/css/bootstrap.min.css">
-    <link rel="stylesheet" href="external/css/main.min.css?b7">
+    <link rel="stylesheet" href="external/css/main.min.css?b10">
     <script src="external/js/wow.min.js"></script>
     <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
     <script type="text/javascript" src="../../js/ApiKey.js?b1"></script>
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Sign In | CleverStaff | All-in-One ATS & Recruiting Software"/>
+    <meta property="og:title" content="Sign In | CleverStaff | Professional Software for Applicant Tracking and Recruitment Automation"/>
     <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
     <meta property="og:image" content="https://dev.cleverstaff.net/images/sprite/for_preview_1080-1080.jpg"/>
     <meta property="og:image:width" content="1080" />
@@ -105,10 +127,10 @@
                         <li><a href="why.html">Why?</a></li>
                         <li><a href="features.html">Features</a></li>
                         <li><a href="price.html">Pricing</a></li>
-                        <li><a href="https://cleverstaff.net/news/" target="_blank">Blog</a></li>
-                        <li><a href="api.html" target="_blank" target="_blank">API</a></li>
-                        <li><a href="privacy.html" target="_blank" target="_blank">Privacy Policy</a></li>
-                        <li><a href="terms.html" target="_blank" target="_blank">Public Agreement</a></li>
+                        <li><a href="https://cleverstaff.net/news/">Blog</a></li>
+                        <li><a href="api.html" target="_blank">API</a></li>
+                        <li><a href="privacy.html" target="_blank">Privacy Policy</a></li>
+                        <li><a href="terms.html" target="_blank">Public Agreement</a></li>
                     </ul>
                 </div>
                 <div class="col-xs-8 col-sm-4 col-md-4">
@@ -198,9 +220,9 @@
         </div>
     </div>
 </div>
-<script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="../../js/ApiKey.js?b1"></script>
-<script src="external/js/script.min.js?b15"></script>
+<script src="/lib/jquery/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="/js/ApiKey.js?b1"></script>
+<script src="/external/js/script.min.js?b18"></script>
 <script type="text/javascript">
     function isIE() {
         var ua = window.navigator.userAgent;
@@ -294,20 +316,6 @@
 <!-- /Yandex.Metrika counter -->
 <script type="text/javascript">
     if (document.domain === 'cleverstaff.net') {
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                        (i[r].q = i[r].q || []).push(arguments)}, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                    m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-52127049-1', {
-            'cookieDomain': document.domain
-        });
-        ga('send', 'pageview');
     }
     var userTimeZoneOffset = new Date().getTimezoneOffset();
 

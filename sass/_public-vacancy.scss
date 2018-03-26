@@ -1,4 +1,4 @@
-.block-company-public-vacancy {
+.block-public {
 	position: relative;
 
 	overflow-x: hidden;
@@ -50,10 +50,10 @@
 			justify-content: flex-start;
 			align-items: center;
 			& img {
-				width: 27px;
+				width: 21px;
 				margin-right: 5px;
 				&.fb {
-					width: 25px;
+					width: 21px;
 
 					align-self: center;
 				}
@@ -90,7 +90,7 @@
 			}
 		}
 	}
-	& .vacancies-intro {
+	& .block-intro {
 		display: block;
 		margin: 50px auto 20px;
 
@@ -123,7 +123,7 @@
 			}
 		}
 	}
-	& .vacancy-info {
+	& .block-info {
 		position: relative;
 		z-index: 100;
 
@@ -152,9 +152,10 @@
 					padding-left: 37px;
 
 					background-image: url("/images/sprite/public-vacancy/vacancy-empType.svg");
-					background-size: 26px;
+					background-size: 23px;
 				}
 				&.location {
+					display: flex;
 					min-height: 25px;
 
 					text-align: right;
@@ -204,7 +205,7 @@
 				}
 			}
 		}
-		.vacancy-description {
+		.block-accent {
 			padding: 25px 20px;
 
 			word-break: break-word;
@@ -445,6 +446,8 @@
 		.cloud-4.ng-enter,
 		.cloud-3.ng-enter,
 		.plane-2.ng-enter,
+		.finger-up.ng-enter,
+		.plane-2.ng-enter,
 		.person-3.ng-enter,
 		.person-2.ng-enter {
 			transition: 0.65s linear all;
@@ -455,12 +458,15 @@
 		.cloud-1.ng-enter.ng-enter-active,
 		.calendar-2.ng-enter.ng-enter-active,
 		.plane.ng-enter.ng-enter-active,
+		.plane-2.ng-enter.ng-enter-active,
 		.person-1.ng-enter.ng-enter-active,
 		.cloud-2.ng-enter.ng-enter-active,
 		.cloud-4.ng-enter.ng-enter-active,
 		.cloud-3.ng-enter.ng-enter-active,
 		.calendar.ng-enter.ng-enter-active,
 		.spiral-line.ng-enter.ng-enter-active,
+		.flower.ng-enter.ng-enter-active,
+		.finger-up.ng-enter.ng-enter-active,
 		.person-3.ng-enter.ng-enter-active,
 		.person-2.ng-enter.ng-enter-active {
 			transform: translateY(0);
@@ -468,35 +474,33 @@
 			opacity: 1;
 		}
 	}
-}
+	.apply-buttons {
+		display: flex;
+		flex-direction: column;
 
-.btn-modern {
-	font-family: "Helvetica-Regular";
-	font-size: 18px;
+		align-items: center;
+		.btn-primary-new {
+			@include btn-primary-new();
 
-	margin-bottom: 15px;
-	padding: 10px 37px;
+			font-size: 15px;
 
-	transition: all 0.3s;
-	text-align: center;
+			margin-bottom: 15px;
+			padding: 10px 22px;
+			&.apply-via {
+				font-size: 12px;
 
-	color: #fff;
-	border: 1px solid #00b549;
-	border-radius: 25px;
-	background-color: #00b549;
-	&.apply:hover {
-		color: #00b549;
-		border: 1px solid #00b549;
-		background-color: #fff;
-	}
-	&:focus {
-		border: none;
-		outline: none;
-	}
-	&.apply-via {
-		font-size: 14px;
-
-		padding: 10px 20px;
+				padding: 10px 20px;
+				&.linkedin {
+					border: 1px solid #0274b3;
+					background-color: #0274b3;
+					&:hover {
+						color: #0274b3;
+						border: 1px solid #0274b3;
+						background-color: #fff;
+					}
+				}
+			}
+		}
 		.fa-linkedin {
 			font-size: 13px;
 
@@ -506,23 +510,14 @@
 			border: 1px solid #fff;
 			background-color: #3590c2;
 		}
-		&.linkedin {
-			border: 1px solid #0274b3;
-			background-color: #0274b3;
-			&:hover {
-				color: #0274b3;
-				border: 1px solid #0274b3;
-				background-color: #fff;
-			}
-		}
 	}
 }
 
 @media (min-width: 1700px) {
-	.btn-modern {
+	.btn-primary-new {
 		font-size: 20px;
 	}
-	.btn-modern.apply-via {
+	.btn-primary-new.apply-via {
 		font-size: 16px;
 	}
 }
@@ -573,24 +568,24 @@
 		padding: 15px 50px 30px 50px;
 	}
 	.block-company-public-vacancy .fa {
-		display: inline-block; // fix for vacancy-information.scss
+		display: inline-block; // fix for block-information.scss
 	}
 }
 
 @media (max-width: $screen-sm) {
-	.block-company-public-vacancy .vacancy-info .info--main span {
+	.block-company-public-vacancy .block-info .info--main span {
 		text-align: center;
 		&.location {
 			text-align: center;
 		}
 	}
-	.block-company-public-vacancy .vacancy-info .info--main span.salary,
-	.block-company-public-vacancy .vacancy-info .info--main span.location {
+	.block-company-public-vacancy .block-info .info--main span.salary,
+	.block-company-public-vacancy .block-info .info--main span.location {
 		display: block;
 
 		text-align: left;
 	}
-	.block-company-public-vacancy .vacancy-info .info-additional > span.languages .lang {
+	.block-company-public-vacancy .block-info .info-additional > span.languages .lang {
 		display: block;
 		margin-left: 0;
 	}
@@ -600,10 +595,10 @@
 	.block-company-public-vacancy .wrapper-social-icons .social-icons {
 		display: none;
 	}
-	.block-company-public-vacancy .vacancy-info {
+	.block-company-public-vacancy .block-info {
 		padding: 16px 0 30px 0;
 	}
-	.block-company-public-vacancy .vacancy-info .vacancy-description {
+	.block-company-public-vacancy .block-info .block-accent {
 		padding: 25px 8px;
 	}
 }

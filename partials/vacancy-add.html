@@ -7,7 +7,7 @@
     <!--</div>-->
     <h3 ng-show="$root.activePage != 'Vacancy edit'">{{'New vacancy' | translate}}</h3>
     <h3 ng-show="$root.activePage == 'Vacancy edit'">{{vacancy.position}}</h3>
-    <div class="row main-info">
+    <div class="row main-info" ng-show="!$root.loading">
         <form name="vacancyForm" ng-submit="submitForm()" novalidate>
             <div class="col-lg-6">
                 <div class="col-lg-7 input-outer">
@@ -95,10 +95,10 @@
                     || vacancyForm.salaryTo.$error.max && !vacancyForm.salaryTo.$pristine" translate="Unacceptably large number">
                     </div>
                     <div class="alert alert-danger"
-                         ng-if="(vacancyForm.salaryFrom.$invalid && !vacancyForm.salaryFrom.$pristine && !vacancyForm.salaryFrom.$error.max) || (vacancyForm.salaryTo.$invalid && !vacancyForm.salaryTo.$pristine && !vacancyForm.salaryFrom.$error.max)"
+                         ng-if="(vacancyForm.salaryFrom.$invalid && !vacancyForm.salaryFrom.$pristine && !vacancyForm.salaryFrom.$error.max) || (vacancyForm.salaryTo.$invalid && !vacancyForm.salaryTo.$pristine && !vacancyForm.salaryTo.$error.max)"
                          ng-bind="'enter valid data greater than zero'|translate">
                     </div>
-                    {{vacancyForm.salaryFrom.$error.max}}
+                    <!--{{vacancyForm.salaryFrom.$error.max}}-->
                 </div>
                 <div class="col-lg-5 input-outer">
                     <span class="title">{{'budget'|translate}}</span>
@@ -224,6 +224,7 @@
                 </div>
                 <div class="item col-lg-7 edit celendar" ng-show="$root.me.recrutRole == 'admin'">
                     <a ng-show="allObjCustomField.length > 0 || vacancy.customFields.length > 0"
+                       style="margin-left: 4px;"
                        href="#/company/custom-fields" class="find-button">
                         {{'Add/Edit custom field'|translate}}
                     </a>

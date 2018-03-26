@@ -214,6 +214,19 @@
 				}
 			}
 		}
+		.exchange-version {
+			border-radius: 5px;
+		}
+		.exchange-input {
+			position: relative;
+			.fa-info-circle {
+				position: absolute;
+				top: 10px;
+				right: -25px;
+
+				color: $theme-link-color;
+			}
+		}
 		.add-email {
 			max-width: 600px;
 			input,
@@ -223,6 +236,15 @@
 			.wrong-email {
 				border-color: red;
 				background-color: rgb(255, 246, 247);
+			}
+			.exchange {
+				label {
+					font-weight: normal;
+
+					margin-left: 5px;
+
+					vertical-align: middle;
+				}
 			}
 			.wrong-email-notification {
 				margin-top: 5px;

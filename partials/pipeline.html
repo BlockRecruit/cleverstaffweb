@@ -1,11 +1,10 @@
 <div class="container-fluid block-pipeline">
     <h3 class="pull-left">
         Pipeline
-        <span class="new-label">beta</span>
     </h3>
     <div class="clearfix"></div>
     <a class="description-link" href="" ng-click="showPipelineDescr()">{{'Show the report description' | translate}}</a>
-    <table class="table" columns="10" second-columns="8" id="table-1" fixed-header-table Table>
+    <table class="table" columns="10" second-columns="8" id="table-1" vacancies="vacancies" fixed-header-table Table>
         <tbody>
         <tr class="main-header text-center" id="main-header">
             <td rowspan="2" style="width: 95px">{{'Client' | translate}}</td>
@@ -29,22 +28,20 @@
             <td style="width: 56px" translate="Count2"></td>
             <td style="width: 84px">{{'Last date' | translate}}</td>
         </tr>
-        <tr ng-repeat="vacancy in vacancies">
+        <tr ng-repeat="vacancy in vacancies" ng-class="{'Warning':vacancy.warning && !vacancy.approved.candidates && !vacancy.strongWarning,
+                                                        'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,
+                                                        'green':vacancy.approved.candidates > 0}">
             <td><span ng-show="vacancies[$index - 1].client != vacancy.client">{{vacancy.client}}</span></td>
-            <td>
-                <a ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates,'green':vacancy.approved.candidates > 0}" href="#/vacancies/{{vacancy.vacancyId}}">
-                    {{vacancy.position}}
-                </a>
-            </td>
+            <td><a href="#/vacancies/{{vacancy.vacancyId}}">{{vacancy.position}}</a></td>
             <td>{{vacancy.region}}</td>
             <td>
-                <a ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates}" href="#/users/responsible.localId" ng-repeat="responsible in vacancy.responsibles">
+                <a href="#/users/responsible.localId" ng-repeat="responsible in vacancy.responsibles">
                     {{responsible.cutFullName}}
                     <br/>
                 </a>
             </td>
             <td class="text-center">{{vacancy.vacancyCreated | dateFormat2}}</td>
-            <td class="text-center"><span ng-class="{'strongWarning':vacancy.strongWarning && !vacancy.approved.candidates}">{{vacancy.deadline | dateFormat2}}</span></td>
+            <td class="text-center"><span>{{vacancy.deadline | dateFormat2}}</span></td>
             <td>{{vacancy.lastActiveStage.stage | translate}}</td>
             <td>
                 <span>
@@ -54,21 +51,22 @@
                     {{vacancy.lastActiveStage.candidates}}
                 </span>
                 <br/>
-                <span ng-class="{'Warning':vacancy.warning}" ng-show="vacancy.lastActiveStage.differenceInDays" class="grey">{{vacancy.lastActiveStage.differenceInDays}} {{'days ago' | translate}}</span>
+                <span ng-show="vacancy.lastActiveStage.differenceInDays">{{vacancy.lastActiveStage.differenceInDays}} {{'days ago' | translate}}</span>
             </td>
-            <td class="grey">{{vacancy.previousActiveStage.stage | translate}}</td>
-            <td class="grey">
+            <td>{{vacancy.previousActiveStage.stage | translate}}</td>
+            <td>
                 <span ng-show="vacancy.previousActiveStage.lastDayCandidates">+</span>
                 {{vacancy.previousActiveStage.lastDayCandidates}}
                 <span ng-show="vacancy.previousActiveStage.lastDayCandidates">{{'from2' | translate}}</span>
                 {{vacancy.previousActiveStage.candidates}}
                 <br/>
-                <span class="grey">{{vacancy.previousActiveStage.lastAction | dateFormat2}}</span>
+                <span>{{vacancy.previousActiveStage.lastAction | dateFormat2}}</span>
             </td>
-            <td class="text-center"><span ng-class="{'green':vacancy.approved.candidates > 0}">{{vacancy.approved.candidates}}</span></td>
+            <td class="text-center">
+                <span>{{vacancy.approved.candidates}}</span></td>
             <td class="text-center">{{vacancy.approved.lastAction | dateFormat2}}</td>
-            <td class="grey text-center">{{vacancy.refusal.candidates}}</td>
-            <td class="grey text-center">{{vacancy.refusal.lastAction | dateFormat2}}</td>
+            <td class="text-center">{{vacancy.refusal.candidates}}</td>
+            <td class="text-center">{{vacancy.refusal.lastAction | dateFormat2}}</td>
         </tr>
         </tbody>
     </table>

@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <style>.async-hide { opacity: 0 !important} </style>
+    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+    })(window,document.documentElement,'async-hide','dataLayer',4000,
+        {'GTM-PHXZMBX':true});</script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
     <script>
@@ -10,21 +16,37 @@
             gtag('js', new Date());
 
             gtag('config', 'UA-52127049-1');
+
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-52127049-1', {
+                'cookieDomain': document.domain
+            });
+            ga('require', 'GTM-PHXZMBX');
+            ga('send', 'pageview');
         }
     </script>
     <!-- end of gtag -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
-    <title>Почему CleverStaff? | Единая система для рекрутинга</title>
+    <title>Выбор системы для подбора персонала | Единая система для рекрутинга</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Решение проблем рекрутинга с CleverStaff. Моментальный старт. Перенос базы за секунды. Почувствуйте разницу.">
-    <meta name="keywords" content="ATS, система для рекрутинга, cleverstaff, программа для рекрутинга">
+    <meta name="description" content="Решение проблем рекрутинга с CleverStaff. Почувствуйте разницу - Моментальный старт, перенос базы за секунды.">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <link rel="stylesheet" href="../external/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../external/css/main.min.css?b5">
+    <link rel="stylesheet" href="../external/css/main.min.css?b8">
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Почему CleverStaff? | Единая система для профессионального подбора персонала"/>
-    <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
+    <meta property="og:title" content="Выбор системы для подбора персонала | Единая система для рекрутинга"/>
+    <meta property="og:description" content="Решение проблем рекрутинга с CleverStaff. Почувствуйте разницу - Моментальный старт, перенос базы за секунды."/>
     <meta property="og:image" content="https://dev.cleverstaff.net/images/sprite/for_preview_1080-1080.jpg"/>
     <meta property="og:image:width" content="1080" />
     <meta property="og:image:height" content="1080" />
@@ -54,7 +76,7 @@
                         <li class="active menu"><a href="#home">Почему</a></li>
                         <li><a href="features.html">Возможности</a></li>
                         <li><a href="price.html">Цены</a></li>
-                        <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                        <li><a href="https://cleverstaff.net/blog/">Блог</a></li>
                     </ul>
                     <a class="signinButton btn btn-default navbar-btn loginBtn adaptiveMenu pull-left">Начать</a>
                     <div class="dropdown pull-right adaptiveMenu">
@@ -78,7 +100,7 @@
                             <li class="active menu"><a href="#home">Почему</a></li>
                             <li><a href="features.html">Возможности</a></li>
                             <li><a href="price.html">Цены</a></li>
-                            <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                            <li><a href="https://cleverstaff.net/blog/">Блог</a></li>
                         </ul>
                         <div class="dropdown pull-right adaptiveMenuShow float-none-mob">
                             <button class="btn btn-primary dropdown-toggle"
@@ -191,7 +213,7 @@
                         <li class="active menu"><a href="#home">Почему?</a></li>
                         <li><a href="features.html">Возможности</a></li>
                         <li><a href="price.html">Цены</a></li>
-                        <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                        <li><a href="https://cleverstaff.net/blog/">Блог</a></li>
                         <li><a href="../api.html" target="_blank">API</a></li>
                         <li><a href="../privacy.html" target="_blank">Privacy Policy</a></li>
                         <li><a href="terms.html" target="_blank">Public Agreement</a></li>
@@ -248,25 +270,10 @@
         document.head.appendChild(LDJson);
         console.log(document.head);
         // end of google corporate data + logo
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-52127049-1', {
-            'cookieDomain': document.domain
-        });
-        ga('send', 'pageview');
     }
 </script>
 <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
 <script src="../../js/ApiKey.js?b1"></script>
-<script src="../external/js/script.min.js?b9"></script>
+<script src="../external/js/script.min.js?b11"></script>
 </body>
 </html>

@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <style>.async-hide { opacity: 0 !important} </style>
+    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+    })(window,document.documentElement,'async-hide','dataLayer',4000,
+        {'GTM-PHXZMBX':true});</script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
     <script>
@@ -10,21 +16,37 @@
             gtag('js', new Date());
 
             gtag('config', 'UA-52127049-1');
+
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-52127049-1', {
+                'cookieDomain': document.domain
+            });
+            ga('require', 'GTM-PHXZMBX');
+            ga('send', 'pageview');
         }
     </script>
     <!-- end of gtag -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
-    <title>Цены | CleverStaff | Единая система для рекрутинга</title>
+    <title>Тарифы и цены | CleverStaff | Единая система для рекрутинга</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Неограниченная база вакансий и кандидатов | интеграция с LinkedIn и почтой | Настраиваемые этапы рекрутинга и другие инструменты в тарифном плане для Вашего бизнеса.">
-    <meta name="keywords" content="управление базой данных, автоматизация рекрутнга, программа для рекрутинга, HR-модуль, контроль базы данных, технология парсинга резюме, настраиваемая воронка рекрутинга">
+    <meta name="description" content="Тарифы Cleverstaff Настраиваемые этапы рекрутинга и другие инструменты для Вашего бизнеса по доступной цене.">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <link rel="stylesheet" href="../external/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../external/css/main.min.css?b5">
+    <link rel="stylesheet" href="../external/css/main.min.css?b9">
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Цены и Тарифы | CleverStaff | Единая система для профессионального подбора персонала"/>
-    <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
+    <meta property="og:title" content="Тарифы и цены | CleverStaff | Единая система для рекрутинга"/>
+    <meta property="og:description" content="Тарифы Cleverstaff Настраиваемые этапы рекрутинга и другие инструменты для Вашего бизнеса по доступной цене."/>
     <meta property="og:image" content="https://dev.cleverstaff.net/images/sprite/for_preview_1080-1080.jpg"/>
     <meta property="og:image:width" content="1080" />
     <meta property="og:image:height" content="1080" />
@@ -43,7 +65,7 @@
             </div>
         </div>
         <div class="corner-ribbon-info">
-            <img src="../external/img/responsive-design.png" alt="Адаптивный интерфейс">
+            <img src="/external/img/responsive-design.png" alt="Адаптивный интерфейс">
             <p><strong>Адаптивный интерфейс</strong></p>
             <p>Внутренние страницы системы с ключевыми функциями адаптируются под  мобильные устройства: телефоны, планшеты, экраны всех размеров.</p>
             <p>Это значит, что вы сможете работать в системе с любого удобного вам устройства ;)</p>
@@ -58,7 +80,7 @@
                         <li><a href="why.html">Почему</a></li>
                         <li><a href="features.html">Возможности</a></li>
                         <li class="active menu"><a href="#home">Цены</a></li>
-                        <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                        <li><a href="https://cleverstaff.net/blog/">Блог</a></li>
                     </ul>
                     <a class="signinButton btn btn-default navbar-btn loginBtn adaptiveMenu pull-left">Начать</a>
                     <div class="dropdown pull-right adaptiveMenu">
@@ -82,7 +104,7 @@
                             <li><a href="why.html">Почему</a></li>
                             <li><a href="features.html">Возможности</a></li>
                             <li class="active menu"><a href="#home">Цены</a></li>
-                            <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                            <li><a href="https://cleverstaff.net/blog/">Блог</a></li>
                         </ul>
                         <div class="dropdown pull-right adaptiveMenuShow float-none-mob">
                             <button class="btn btn-primary dropdown-toggle"
@@ -104,7 +126,7 @@
         <div class="row">
             <div class="col-md-12 text-center priceHeader big-tittle">
                 <h1 class="no-margin-ru">Тарифы, которые подходят вашему бизнесу</h1>
-                <a href="#need-demo-modal" data-toggle="modal" onclick="tariffFunc('demo');"  data-params="demo" class="orangeBtnBorder no-margin-padding-ru demoParams">Проведите Мне Презентацию</a>
+                <a href="#need-demo-modal" data-toggle="modal" onclick="tariffFunc('demo');"  data-analytics="presentation" data-params="demo" class="orangeBtnBorder no-margin-padding-ru demoParams">Проведите Мне Презентацию</a>
             </div>
         </div>
         <div class="priceCheer"></div>
@@ -158,7 +180,7 @@
                             <!--<span>10% скидка при предоплате за 4 месяца</span>-->
                             <!--<span>20% скидка при предоплате за 12 месяцев</span>-->
                         <!--</div>-->
-                        <a href="#need-demo-modal" data-toggle="modal" onclick="tariffFunc('corporate');"
+                        <a href="#need-demo-modal" data-toggle="modal" data-analytics="presentation" onclick="tariffFunc('corporate');"
                            class="btn btn-default navbar-btn loginBtn"  style="margin-top: 25px">
                             Запросить цену
                         </a>
@@ -180,6 +202,7 @@
                            onclick="tariffFunc('enterprise');"
                            class="orangeBtn priceOrangeBtn enterprizeGetOfferOne"
                            data-toggle="modal"
+                           data-analytics="enterprise"
                            data-params="enterprise">Получить предложение</a>
                     </div>
                 </div>
@@ -217,14 +240,84 @@
         <div class="container">
             <div class="row">
                 <h2 class="text-center wow fadeInUp">Сравнение Тарифов</h2>
-                <div class="prices-block pull-right">
-                    <div class="col-md-1 text-center pull-right plans plans-for-ru enterPrizeTable wow fadeInUp">Премиум</div>
-                    <div class="col-md-1 text-center pull-right plans plans-for-ru corporateTable wow fadeInUp">Корпоративный</div>
-                    <div class="col-md-1 text-center pull-right plans plans-for-ru teamWorkTable wow fadeInUp">Команда</div>
-                    <div class="col-md-1 text-center pull-right plans plans-for-ru oneRecrTable wow fadeInUp">1 Рекрутер</div>
-                </div>
+                <!--<div class="prices-block pull-right hidden" style="display: none">-->
+                    <!--<div class="col-md-1 text-center pull-right plans plans-for-ru enterPrizeTable wow fadeInUp">Премиум</div>-->
+                    <!--<div class="col-md-1 text-center pull-right plans plans-for-ru corporateTable wow fadeInUp">Корпоративный</div>-->
+                    <!--<div class="col-md-1 text-center pull-right plans plans-for-ru teamWorkTable wow fadeInUp">Команда</div>-->
+                    <!--<div class="col-md-1 text-center pull-right plans plans-for-ru oneRecrTable wow fadeInUp">1 Рекрутер</div>-->
+                <!--</div>-->
                 <div class="hide-block pull-right"></div>
                 <div class="clearfix"></div>
+                <table class="table table-bordered titleTable2 hideBlock">
+                    <tbody class="hiddenBorderLeft">
+                        <tr>
+                            <td></td>
+                            <td class="text-center plans plans-for-ru oneRecrTable">
+                                <button type="button">
+                                    <img src="/external/img/man-white.png" width="25" height="25"/>
+                                </button>
+                                <span class="clickedOneRecr clickedStyle">1 Рекрутер</span>
+                                <span class="oneRecrTableText">1 Рекрутер</span>
+                            </td>
+                            <td class="text-center plans plans-for-ru teamWorkTable">
+                                <button type="button">
+                                    <img src="/external/img/team-white.png" width="25" height="25"/>
+                                </button>
+                                <span class="clickedTeamWork clickedStyle">Команда</span>
+                                <span class="teamWorkTableText">Команда</span>
+                            </td>
+                            <td class="text-center plans plans-for-ru corporateTable">
+                                <button type="button">
+                                    <img src="/external/img/city_white.png" width="25" height="25"/>
+                                </button>
+                                <span class="clickedCorporate clickedStyle">Корпоративный</span>
+                                <span class="corporateTableText">Корпоративный</span>
+                            </td>
+                            <td class="text-center plans plans-for-ru enterPrizeTable">
+                                <button type="button">
+                                    <img src="/external/img/settings_white.png" width="25" height="25"/>
+                                </button>
+                                <span class="clickedEnterPrize clickedStyle">Премиум</span>
+                                <span class="enterPrizeTableText">Премиум</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table table-bordered titleTable prices-block" style="position: fixed;display: none;">
+                    <tbody class="hiddenBorderLeft">
+                    <tr>
+                        <td></td>
+                        <td class="text-center plans plans-for-ru oneRecrTable">
+                            <button type="button">
+                                <img src="/external/img/man-white.png" width="25" height="25"/>
+                            </button>
+                            <span class="clickedOneRecr clickedStyle">1 Рекрутер</span>
+                            <span class="oneRecrTableText">1 Рекрутер</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru teamWorkTable">
+                            <button type="button">
+                                <img src="/external/img/team-white.png" width="25" height="25"/>
+                            </button>
+                            <span class="clickedTeamWork clickedStyle">Команда</span>
+                            <span class="teamWorkTableText">Команда</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru corporateTable">
+                            <button type="button">
+                                <img src="/external/img/city_white.png" width="25" height="25"/>
+                            </button>
+                            <span class="clickedCorporate clickedStyle">Корпоративный</span>
+                            <span class="corporateTableText">Корпоративный</span>
+                        </td>
+                        <td class="text-center plans plans-for-ru enterPrizeTable">
+                            <button type="button">
+                                <img src="/external/img/settings_white.png" width="25" height="25"/>
+                            </button>
+                            <span class="clickedEnterPrize clickedStyle">Премиум</span>
+                            <span class="enterPrizeTableText">Премиум</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
                 <table class="table styleHeaderTable wow fadeInUp">
                     <tbody>
                     <tr>
@@ -233,7 +326,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered wow fadeInUp">
+                <table class="table firstTable table-before-support-block table-bordered wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Импорт базы</td>
@@ -301,7 +394,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered wow fadeInUp">
+                <table class="table table-bordered table-before-support-block wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Настраиваемые этапы подбора</td>
@@ -390,7 +483,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered wow fadeInUp">
+                <table class="table table-bordered table-before-support-block wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Интеграция с Google и Outlook Calendar</td>
@@ -486,10 +579,10 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered no-padding-mob wow fadeInUp">
+                <table class="table superFunc table-bordered table-before-support-block no-padding-mob wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
-                        <td class="title">Полный контроль базы данных</td>
+                        <td class="title customWidth">Полный контроль базы данных</td>
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
@@ -540,7 +633,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <table class="table table-bordered wow fadeInUp">
+                <table class="table support table-bordered wow fadeInUp">
                     <tbody class="hiddenBorderLeft">
                     <tr>
                         <td class="title">Помощь и поддержка при адаптации</td>
@@ -554,7 +647,7 @@
                         <td class="firstColumn text-center"><i class="fa fa-minus" aria-hidden="true"></i></td>
                         <td class="success text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
                         <td class="active text-center"><i class="fa fa-check" aria-hidden="true"></i></td>
-                        <td class="goldSuccess text-center">$2000 / год</td>
+                        <td class="goldSuccess wordWrap text-center">$2000 / год</td>
                     </tr>
                     <tr>
                         <td class="title">Импорт базы данных за 3 дня</td>
@@ -595,7 +688,7 @@
                         <li><a href="why.html">Почему?</a></li>
                         <li><a href="features.html">Возможности</a></li>
                         <li class="active-link menu"><a href="#home">Цены</a></li>
-                        <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                        <li><a href="https://cleverstaff.net/blog/">Блог</a></li>
                         <li><a href="../api.html" target="_blank">API</a></li>
                         <li><a href="../privacy.html" target="_blank">Privacy Policy</a></li>
                         <li><a href="terms.html" target="_blank">Public Agreement</a></li>
@@ -684,7 +777,7 @@
                 <div class="form-gr">
                     <label for="ex1_usersCount" class="usersCountForm pull-left">Количество рекрутеров в вашей компании? *</label>
                     <div class="clearfix"></div>
-                    <select name="numberOfRecruiters" id="ex1_usersCount" class="float-left">
+                    <select name="numberOfRecruiters" id="ex1_usersCount" class="float-left webkit-fix">
                         <option value>Количество рекрутеров в вашей компании? *</option>
                         <option value="1">1</option>
                         <option value="2-4">2-4</option>
@@ -753,7 +846,7 @@
 
 <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/ApiKey.js?b1"></script>
-<script src="../external/js/script.min.js?b11"></script>
+<script src="../external/js/script.min.js?b14"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 <script type="text/javascript">
     if (document.domain === 'cleverstaff.net') {
@@ -791,22 +884,6 @@
         fbq('init', '980245322007471');
         fbq('track', 'PageView');
         <!-- End Facebook Pixel Code -->
-
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-52127049-1', {
-            'cookieDomain': document.domain
-        });
-        ga('send', 'pageview');
     }
 </script>
 <noscript><img height="1" width="1" style="display:none" alt="FB"

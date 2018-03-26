@@ -234,8 +234,8 @@
                                 </div>
                                 <div class="item">
                                     <label>{{'desired_salary'|translate}}</label>
-                                    <input class="pull-left" placeholder="" name="salary" ng-model="candidate.salary" type="text"
-                                           ng-change="progressUpdate()" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                    <input class="pull-left" placeholder="" name="salary" ng-model="candidate.salary" ng-model-options="{debounce: 1000}" type="text"
+                                           ng-change="progressUpdate()" oninput="this.value = this.value.replace(/[^0-9]/g, '');" ng-class="{'error': candidate.salary > 2147483647}">
                                     <select class="select2-container form-control input-lg select2  select14 widthSelectInput"
                                             ng-model="candidate.currency" ng-init="candidate.currency = 'USD'"
                                             ng-options="currency.value as currency.value for currency in currency">
@@ -243,6 +243,9 @@
                                     </select>
                                     <div class="alert alert-danger" ng-show="candidateForm.salary.$invalid && !candidateForm.salary.$pristine && candidateForm.salary.$error.required == true">
                                         {{'enter_salary'|translate}}.
+                                    </div>
+                                    <div class="alert alert-danger" ng-show="candidate.salary >= 2147483647">
+                                        {{'Too much Desired Salary salary value'|translate}}.
                                     </div>
                                 </div>
                                 <div class="item">
@@ -452,15 +455,40 @@
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 contactCandidate">
-                                <div class="item">
+                                <div class="item phoneBlock">
                                     <label>{{'phone'|translate}}</label>
                                     <!--<input placeholder="" ng-model="contacts.mphone" type="text" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && contacts.mphone.length > 0}">-->
-                                    <input placeholder="" ng-model="contacts.mphone" type="text" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error':duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone.length > 0}">
-                                    <i class="phone icon"></i>
-                                    <i class="fa absolute-right"
-                                       ng-attr-title='{{(candidate.preferableContact == "phone")? "Unmark as preferable contact method":"Mark as preferrable contact method"|translate}}'
-                                       ng-class="{'fa-star-o': candidate.preferableContact !== 'phone', 'fa-star' : candidate.preferableContact == 'phone'}"
-                                       ng-click="selectFavoriteContacts(this,'phone', $event)"></i>
+                                    <div class="duplicatePhone">
+                                        <input placeholder="" class="phoneInput" ng-model="contacts.mphone" oninput="this.value = this.value.replace(/[^+0-9]/g, '');" type="text" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error': (duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone.length > 0) || !phoneError}">
+                                        <i class="phone icon"></i>
+                                        <i class="fa absolute-right"
+                                           ng-attr-title='{{(candidate.preferableContact == "phone")? "Unmark as preferable contact method":"Mark as preferrable contact method"|translate}}'
+                                           ng-class="{'fa-star-o': candidate.preferableContact !== 'phone', 'fa-star' : candidate.preferableContact == 'phone'}"
+                                           ng-click="selectFavoriteContacts(this,'phone', $event)">
+                                            <div class="clearfix"></div>
+                                        </i>
+                                    </div>
+                                    <div class="duplicatePhone2" ng-show="secondPhoneInput">
+                                        <input placeholder="" class="phoneInput" ng-model="contacts.mphone2" oninput="this.value = this.value.replace(/[^+0-9]/g, '');" type="text" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error': (duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone2.length > 0) || !phoneError2}">
+                                        <i class="phone icon"></i>
+                                        <i class="fa absolute-right"
+                                           ng-attr-title='{{(candidate.preferableContact == "phone2")? "Unmark as preferable contact method":"Mark as preferrable contact method"|translate}}'
+                                           ng-class="{'fa-star-o': candidate.preferableContact !== 'phone2', 'fa-star' : candidate.preferableContact == 'phone2'}"
+                                           ng-click="selectFavoriteContacts(this, 'phone2', $event)">
+                                            <div class="clearfix"></div>
+                                        </i>
+                                    </div>
+                                    <div class="duplicatePhone3" ng-show="thirdPhoneInput">
+                                        <input placeholder="" class="phoneInput" ng-model="contacts.mphone3" oninput="this.value = this.value.replace(/[^+0-9]/g, '');" type="text" ng-model-options="{debounce: 500}" ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()" ng-class="{'error': (duplicatesByNameAndContacts.length > 0 && dublicetesTypeMphone && contacts.mphone3.length > 0) || !phoneError3}">
+                                        <i class="phone icon"></i>
+                                        <i class="fa absolute-right"
+                                           ng-attr-title='{{(candidate.preferableContact == "phone3")? "Unmark as preferable contact method":"Mark as preferrable contact method"|translate}}'
+                                           ng-class="{'fa-star-o': candidate.preferableContact !== 'phone3', 'fa-star' : candidate.preferableContact == 'phone3'}"
+                                           ng-click="selectFavoriteContacts(this, 'phone3', $event)">
+                                            <div class="clearfix"></div>
+                                        </i>
+                                    </div>
+                                    <i class="fa fa-plus addPhone" title="{{'Add another phone number'|translate}}" ng-click="addInputPhone()" ng-show="btnToAddPhone"></i>
                                 </div>
                                 <div class="item">
                                     <label>Email</label>
@@ -491,6 +519,15 @@
                                        title='{{(candidate.preferableContact == "linkedin")? "Unmark as preferable contact method" : "Mark as preferrable contact method" |translate}}'
                                        ng-class="{'fa-star-o':candidate.preferableContact !== 'linkedin','fa-star':candidate.preferableContact == 'linkedin'}"
                                        ng-click="selectFavoriteContacts(this,'linkedin', $event)"></i>
+                                </div>
+                                <div class="item">
+                                    <label>{{::"Telegram"}}</label>
+                                    <input placeholder="" ng-model="contacts.telegram" ng-model-options="{debounce: 500}" type="text" ng-change="progressUpdate()">
+                                    <i class="fa absolute-right"
+                                       style="bottom: 2px"
+                                       title='{{(candidate.preferableContact == "telegram")? "Unmark as preferable contact method"  : "Mark as preferrable contact method" |translate}}'
+                                       ng-class="{'fa-star-o':candidate.preferableContact !== 'telegram','fa-star':candidate.preferableContact == 'telegram'}"
+                                       ng-click="selectFavoriteContacts(this,'telegram', $event)"></i>
                                 </div>
                                 <div class="item">
                                     <label>Facebook</label>
@@ -577,14 +614,14 @@
                                 <div class="col-lg-7">
                                     <div class="field skillsBlock floatRight">
                                         <label class="form-description">{{'Skills with text'|translate}}</label>
-                                        <textarea id="tinymceTwo" ui-tinymce ng-model="candidate.coreSkills" ng-model-options="{debounce:500}" ng-change="progressUpdate()"></textarea>
+                                        <textarea id="tinymceTwo" ui-tinymce resizable="true" ng-model="candidate.coreSkills" ng-model-options="{debounce:500}" ng-change="progressUpdate()"></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-12 description-add">
                                 <div class="field big_tinymce">
                                     <label class="form-description">{{'description'|translate}}</label>
-                                    <textarea id="tinymce" ui-tinymce ng-model="candidate.descr" ng-model-options="{debounce:500}" ng-change="progressUpdate()"></textarea>
+                                    <textarea id="tinymce" ui-tinymce  resizable="true" ng-model="candidate.descr" ng-model-options="{debounce:500}" ng-change="progressUpdate()"></textarea>
                                 </div>
                                 <div class="text-center">
                                     <a type="button" ng-click="saveCandidate()" class="btn btn-primary">

@@ -1,0 +1,239 @@
+.logo2{
+    background: url("../img/svg/people.svg") no-repeat;
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    margin-left: 15px;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    display: none;
+}
+header nav .loginBtn{
+    background-color: #fff;
+    color: #00B549;
+}
+header nav .loginBtn:hover {
+    background-color: #00B549;
+    border: 1px solid #00B549;
+    color: #fff;
+}
+.google-icon{
+    background: url(../img/svg/btn_google.svg);
+    background-color: #fcfcfc;
+    height: 34px;
+    width: 135px;
+    font-weight: 500;
+    color: #646465;
+    border: 1px solid #ccc;
+    background-position: 8px 7px;
+    background-size: 18px 18px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    padding-top: 6px;
+    padding-left: 10px;
+    border-radius: 35px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+.google-icon:hover {
+    transition: all .3s;
+    background-color: #f4f4f4;
+}
+.fb-icon{
+    height: 34px;
+    width: 135px;
+    background-color: #4267b2;
+    position: relative;
+    color: white;
+    border-radius: 35px;
+    padding-top: 6px;
+    padding-left: 25px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: middle;
+}
+.fb-icon:hover {
+    transition: all .3s;
+    background-color: #365899;
+}
+.fb-icon i {
+    position: absolute;
+    top: 5px;
+    left: 14px;
+    color: white;
+    font-size: 22px;
+}
+.manGo{
+    background: url(../img/svg/im_run_man.svg);
+    height: 140px;
+    width: 148px;
+    background-size: contain;
+    position: absolute;
+    top: 100px;
+    left: -160px;
+    transition: all 1.7s;
+    -moz-transition: all 1.7s;
+    -webkit-transition: all 1.7s;
+    -o-transition: all 1.7s;
+    opacity: 0;
+}
+.tasks{
+    top: 355px;
+}
+.chat{
+    right: 1000px;
+    top: 560px;
+}
+.tasks-second{
+    background: url(../img/tasks.png);
+    height: 68px;
+    width: 80px;
+    background-size: contain;
+    position: absolute;
+    top: 233px;
+    right: -40px;
+    transform: rotate(25deg);
+    -moz-transform: rotate(25deg);
+    -ms-transform: rotate(25deg);
+    -webkit-transform: rotate(25deg);
+    -o-transform: rotate(25deg);
+    transition: all 1.7s;
+    -moz-transition: all 1.7s;
+    -webkit-transition: all 1.7s;
+    -o-transition: all 1.7s;
+    opacity: 0;
+}
+.flower-signup{
+    background: url(../img/flower.png);
+    height: 68px;
+    width: 43px;
+    background-size: contain;
+    position: absolute;
+    top: 560px;
+    right: 0;
+    transition: all 1.7s;
+    -moz-transition: all 1.7s;
+    -webkit-transition: all 1.7s;
+    -o-transition: all 1.7s;
+    opacity: 0;
+}
+.puzzle-signup{
+    background: url(../img/puzzle.png);
+    height: 58px;
+    width: 43px;
+    background-size: contain;
+    position: absolute;
+    top: 400px;
+    right: 0;
+    transform: rotate(20deg);
+    -moz-transform: rotate(20deg);
+    -ms-transform: rotate(20deg);
+    -webkit-transform: rotate(20deg);
+    -o-transform: rotate(20deg);
+    transition: all 1.7s;
+    -moz-transition: all 1.7s;
+    -webkit-transition: all 1.7s;
+    -o-transition: all 1.7s;
+    opacity: 0;
+}
+.error{
+    transition: all .2s;
+    color: red;
+}
+.form-gr label {
+    margin-left: 0px;
+}
+@media screen and (max-width: 1199px) {
+    .manGo{
+        left: 170px!important;
+    }
+}
+@media screen and (max-width: 991px) {
+    .cloud {
+        top: 5px;
+    }
+    .manGo{
+        top: 50px;
+        left: 110px!important;
+    }
+    .flower-signup{
+        right: 20px!important;
+    }
+    .puzzle-signup{
+        right: 45px;
+    }
+    .tasks-second{
+        top: 205px;
+        right: 15px;
+    }
+}
+@media screen and (max-width: 767px) {
+    .manGo{
+        top: 50px;
+        left: -20px!important;
+    }
+    .puzzle-signup{
+        right: 45px;
+    }
+    .tasks-second{
+        top: 205px;
+        right: 5px!important;
+    }
+}
+@media screen and (max-width: 600px) {
+    header nav .loginBtn{
+        margin-left: 0;
+        margin-right: 0;
+        font-size: inherit;
+    }
+    .logo{
+        width: 190px;
+        height: 39px;
+    }
+    .container-fluid{
+        padding: 0;
+    }
+    #home h4{
+        margin: 0;
+    }
+    .manGo{
+        left: -50px!important;
+        top: 30px;
+    }
+    .tasks-second{
+        right: 0;
+    }
+    .flower-signup{
+        right: 0!important;
+    }
+    .puzzle-signup{
+        right: 0;
+    }
+}
+@media screen and (max-width: 440px) {
+    .logo{
+        display: none;
+    }
+    .logo2{
+        display: block;
+    }
+    .orangeBtn {
+        padding: 10px 0px;
+    }
+    .manGo{
+        top: 150px;
+    }
+    .float-left{
+        margin: 0;
+        width: 100%;
+    }
+    .disp-block{
+        display: block;
+    }
+}

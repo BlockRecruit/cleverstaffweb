@@ -11,5 +11,6 @@
     {{'user2'|translate}}
     <a href="#/users/{{history.targetPerson.userId}}" once-text="history.targetPerson.cutFullName"></a>
     <span ng-if="true">{{'history_info.person change role'|translate}}</span>
-    {{history.stateNew|translate}}
+    <span ng-if="::history.stateNew == 'client'">Hiring manager</span>
+    <span ng-if="::history.stateNew != 'client'" translate="{{history.stateNew}}">Hiring manager</span>
 </div>

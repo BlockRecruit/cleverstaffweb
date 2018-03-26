@@ -1,5 +1,6 @@
 function ClientOneController(serverAddress, $scope, $routeParams, $location, Client, Service, Contacts, Vacancy, $rootScope, notificationService,
                              $filter, ngTableParams,Person, Action, Task, CacheCandidates, File, FileInit, $translate, $uibModal, $route, Mail, $localStorage) {
+    delete $rootScope.candidate;
     $scope.status = Client.getState();
     $scope.contactLimit = 3;
     $scope.vacancyCounter = 0;
@@ -88,7 +89,9 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
 
             }
         });
+
         $rootScope.changeResponsibleInClient.id = user.userId;
+        $rootScope.changeResponsibleInClient.name = firstName + " " + lastName;
         $rootScope.changeResponsibleInClient.text = $filter('translate')('Do you want to remove the responsible')
         + " " + firstName + " " + lastName;
     };
@@ -486,10 +489,14 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
         $rootScope.addVacancyClientId = id;
         $location.path("/vacancy/add/");
     };
-
+    $scope.openMenuWithCandidates = function(history){
+        history.showAllCandidates = !history.showAllCandidates;
+        history.editCommentFlag = false;
+    };
     $scope.changeCommentFlag = function(history){
         history.editCommentFlag = !history.editCommentFlag;
         $scope.editComment = history.descr;
+        history.showAllCandidates = false;
     };
     $scope.changeComment = function(action, comment){
         Action.editAction({"comment": comment, "actionId": action.actionId}, function(resp){

@@ -25,6 +25,9 @@ body.modal-open-public-vacancy-form {
 
 		border-radius: 0;
 		background: none;
+		.btn-primary-new {
+			@include btn-primary-new();
+		}
 	}
 	.recallForm {
 		input,
@@ -32,18 +35,19 @@ body.modal-open-public-vacancy-form {
 			display: inline-block;
 			max-width: 45%;
 			height: 28px;
-			margin-bottom: 15px;
+			margin-bottom: 10px;
 			padding: 5px 10px;
 
 			color: #000;
 			border: 1px solid #c2bcbc;
 			border-radius: 13px;
 			outline: none;
-			&.margin-right {
-				margin-right: 9%;
-			}
+			//&.margin-right {
+			//	margin-right: 9%;
+			//}
 			&.error {
 				border: 1px solid #dd514c;
+				background-color: rgb(255, 246, 247);
 			}
 		}
 		textarea {
@@ -66,14 +70,40 @@ body.modal-open-public-vacancy-form {
 				cursor: pointer;
 			}
 		}
-		.recallForm__error {
+		.error_block {
+			display: block;
+			.recallForm__error {
+				font-size: 11px;
+				line-height: 10px;
+
+				display: inline-block;
+				width: 45%;
+				max-height: 20px;
+				margin-bottom: 9px;
+
+				white-space: nowrap;
+				& span {
+					padding: 5px 10px;
+
+					color: #a94442;
+					border-radius: 13px;
+				}
+			}
+			.email {
+				clear: both;
+			}
+			.phone {
+				clear: right;
+			}
+		}
+		.message {
 			font-size: 11px;
-			line-height: 10px;
+			line-height: 20px;
 
 			display: inline-block;
 			width: 45%;
 			max-height: 20px;
-			margin-bottom: 15px;
+			margin-left: 18px;
 
 			white-space: nowrap;
 			& span {
@@ -81,15 +111,18 @@ body.modal-open-public-vacancy-form {
 
 				color: #a94442;
 				border-radius: 13px;
-				background-color: #f2dede;
-			}
-			&.margin-right {
-				margin-right: 9%;
 			}
 		}
 		input::-webkit-outer-spin-button,
 		input::-webkit-inner-spin-button {
 			-webkit-appearance: none;
+		}
+		.error_form {
+			display: inline-block;
+			width: 100%;
+			.recallForm__error {
+				margin-bottom: 5px;
+			}
 		}
 	}
 	.closeModal {
@@ -117,7 +150,7 @@ body.modal-open-public-vacancy-form {
 
 		text-align: center;
 	}
-	.btn-modern {
+	.btn-primary-new {
 		display: block;
 		float: none!important;
 		margin: 15px auto 0;

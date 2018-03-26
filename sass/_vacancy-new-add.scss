@@ -48,7 +48,7 @@
 			}
 			textarea {
 				overflow: hidden;
-				width: 419px;
+				//width: 419px;
 				height: 42px;
 				min-height: 42px;
 				margin-top: 3px;
@@ -72,6 +72,10 @@
 
 				&.error {
 					@include error-input-styling();
+				}
+				&::-webkit-outer-spin-button,
+				&::-webkit-inner-spin-button {
+					-webkit-appearance: none;
 				}
 			}
 			.select2-input {
@@ -179,7 +183,8 @@
 				padding: 0;
 			}
 			.alert {
-				margin: 15px 0 0 0 ;
+				max-width: 94%;
+				margin: 15px auto 0;
 			}
 			.padding-right {
 				padding-right: 0;

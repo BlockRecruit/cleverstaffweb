@@ -891,42 +891,16 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             });
         });
 
-          $(window).scroll(function(){
-              if($('.vacancy-info').offset() && $(window).scrollTop() >= $('.vacancy-info').offset().top - 10) {
-                  $('.apply-buttons').addClass("fixed")
-              } else {
-                  if($('.apply-buttons').hasClass("fixed")) {
-                      $('.apply-buttons').removeClass("fixed");
-                  }
+        $(window).scroll(function(){
+          if($('.vacancy-info').offset() && $(window).scrollTop() >= $('.vacancy-info').offset().top - 10) {
+              $('.apply-buttons').addClass("fixed")
+          } else {
+              if($('.apply-buttons').hasClass("fixed")) {
+                  $('.apply-buttons').removeClass("fixed");
               }
-      });
+          }
+        });
 
-          let timeout;
-          $scope.companyInfoHoverIn = function() {
-              let logo = $('.logo:eq( 1 )'),
-                  companyInfo = $('.comp-abs'),
-                  nameWrap = $('.name_wrap'),
-                  infoSite = $('.info--site:eq(2)'),
-                  name = $('.block-company-public-vacancy .companyInfo h2:eq(1)'),
-                  site = $('.info--site:eq(2) a'),
-                  fb = $('.info--site:eq(3) a');
-
-              clearTimeout(timeout);
-
-              if(infoSite.width() - site.width() <= 44.64 || infoSite.width() - fb.width() <= 44.64 || nameWrap.width() <= name.width()) {
-                  $scope.adaptiveImgWidth = logo.height();
-                  logo.height($scope.adaptiveImgWidth);
-                  timeout = setTimeout(() => nameWrap.css('white-space', 'normal'),300);
-                  companyInfo.addClass('hovered');
-              }
-          };
-
-          $scope.companyInfoHoverOut = function() {
-              let nameWrap = $('.name_wrap');
-              nameWrap.css('white-space', 'nowrap');
-              $('.comp-abs').removeClass('hovered');
-              clearTimeout(timeout);
-          };
 
         $scope.share = function (sourse) {
             if ($scope.companyLogo != undefined && $scope.companyLogo !== '') {
@@ -1054,6 +1028,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             $scope.message = 'def';
             $scope.filesForRecall.push({name: var2, attId: var1})
         };
+
         $scope.callbackFileError = function () {
             $scope.message = 'error_file';
         };
@@ -1069,7 +1044,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $rootScope.publicLink = $location.$$protocol + "://" + $location.$$host + ":8080/i#/" + $scope.companyParams.nameAlias + "-vacancies";
             });
         };
-        $scope.getCompanyParams();
+        // $scope.getCompanyParams();
         $scope.orgName = null;
         $scope.loadStatusForPublicVacancy = false;
         Service.publicVacancy({id: vacancyId, host: document.referrer}, function (resp) {
@@ -1089,10 +1064,10 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $scope.companyPublicInfo.fb = $scope.vacancy.linkToCompanyFaceBookPage;
                 $scope.companyPublicInfo.companyWebSite = $scope.vacancy.linkToCompanySite;
                 $scope.companyPublicInfo.orgName = $scope.vacancy.orgName;
-                $scope.loadStatusForPublicVacancy = true;
                 $scope.vacancyFound = true;
                 //$location.hash('');
                 $location.search($filter('transliteration')(resp.object.position.replace(/\W+/g, '_'))).replace();
+                $scope.loadStatusForPublicVacancy = true;
                 //setTimeout(function(){
                 //    if (performance.navigation.type == 1) {
                 //        $location.$$absUrl
@@ -1105,11 +1080,11 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 //        history.pushState(null, "", $location.$$protocol + "://" + $location.$$host + "/i#" + $location.$$path + "?" + deleteTenSpaces);
                 //    }
                 //}, 1000);
-                Service.getOrgLogoId({orgId: resp.object.orgId}, function (logoResp) {
-                    if (logoResp.status && logoResp.status === 'ok') {
-                        $scope.companyLogo = logoResp.object;
-                    }
-                });
+                // Service.getOrgLogoId({orgId: resp.object.orgId}, function (logoResp) {
+                //     if (logoResp.status && logoResp.status === 'ok') {
+                //         $scope.companyLogo = logoResp.object;
+                //     }
+                // });
             }
         }, function () {
         });
@@ -1124,11 +1099,17 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             });
         };
         $scope.showErrorEmailMessage = false;
+        $scope.incorrectPhoneNumber = false;
         $('#email2').on('input', function () {
             $scope.request.email = $(this).val();
             $scope.changeEmail();
             $scope.$apply();
         });
+        $rootScope.changeEmail = function(email){
+            if(email.length > 0){
+                $scope.showErrorEmailMessage = false;
+            }
+        };
         $scope.showErrorPhoneMessage = false;
         $('#phone').on('input', function () {
             $scope.showErrorPhoneMessage = false;
@@ -1141,9 +1122,22 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $scope.showErrorEmailMessage = true;
             } else $scope.showErrorEmailMessage = $scope.request.email.length == 0;
         };
-        $scope.changePhone = function () {
-            $scope.recallForm.phone.$invalid = false;
+          $scope.enterPhoneNumber = false;
+          $scope.changePhone = function (phone) {
+            //$scope.recallForm.phone.$invalid = false;
+            if(phone == undefined){
+                $scope.enterPhoneNumber = true;
+                $scope.incorrectPhoneNumber = false;
+                $scope.showErrorPhoneMessage = true;
+            }else if(phone.length > 0){
+                $scope.showErrorPhoneMessage = false;
+            }
         };
+          $scope.$watch('request.phone', function (newVal, oldVal) {
+              if(newVal != undefined && oldVal != newVal){
+                  $scope.showErrorPhoneMessage = false;
+              }
+          });
 
         $scope.showModalInfoAboutVacancy = function() {
           $scope.modalInstance = $uibModal.open({
@@ -1160,6 +1154,8 @@ controller.controller('mainController' ,function($scope, $location, $window) {
 
         $scope.showRecallFromModal = function() {
             $scope.showErrorEmailMessage = false;
+            $scope.showErrorPhoneMessage = false;
+            $scope.showErrorCvFileMessage = false;
             $('body').addClass('modal-open-public-vacancy-form');
             $scope.modalInstance = $uibModal.open({
                 animation: true,
@@ -1171,9 +1167,9 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 }
             });
         };
-
         $scope.sendRequest = function (recallForm) {
             $scope.recallForm = recallForm;
+            $scope.showErrorCvFileMessage = true;
           if ($scope.recallForm.$valid) {
                 if ($scope.request.email != undefined && $scope.request.email.length == 0) {
                     $scope.request.email = "";
@@ -1181,6 +1177,8 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 if (validEmail($scope.request.email)) {
                     $scope.showErrorEmailMessage = true;
                     return;
+                }else{
+                    $scope.showErrorEmailMessage = false;
                 }
                 if ($scope.filesForRecall.length != 0) {
                     angular.forEach($scope.filesForRecall, function (resp) {
@@ -1195,61 +1193,68 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 }
                 $scope.request.lang = $translate.use();
                 $scope.request.email = $('#email2').val();
-              $scope.request.phone = String($scope.request.phone);
+                $scope.request.phone = String($scope.request.phone);
                 if ($scope.request.phone == undefined || $scope.request.phone.match(/^[\(\)\s\-\+\d]{9,20}$/) == null) {
                     $scope.showErrorPhoneMessage = true;
+                    $scope.enterPhoneNumber = false;
+                    $scope.incorrectPhoneNumber = true;
                     return false;
+                }else{
+                    $scope.showErrorPhoneMessage = false;
                 }
-                Service.addCandidate($scope.request, function (resp) {
-                    if (resp.status && resp.status === 'error' && resp.message) {
+                if($scope.filesForRecall.length == 0){
+                    $scope.showErrorCvFileMessage = true;
+                }else{
+                    Service.addCandidate($scope.request, function (resp) {
+                        if (resp.status && resp.status === 'error' && resp.message) {
+                            $scope.message = "error";
+                        } else {
+                            $scope.message = "success";
+                            $scope.request = {
+                                name: "",
+                                lastName: "",
+                                phone: "",
+                                message: "",
+                                vacancyId: $scope.vacancyId,
+                                fileId: null
+                            };
+                            // $("#email2").val("");
+                            $scope.filesForRecall = [];
+                            $scope.recallForm.name.$pristine = true;
+                            $scope.recallForm.last_name.$pristine = true;
+                            $scope.recallForm.phone.$pristine = true;
+                            $scope.recallForm.phone.$invalid = false;
+                            $scope.recallForm.email2.$invalid = false;
+                            $scope.recallForm.email2.$pristine = false;
+                            $scope.showErrorEmailMessage = false;
+                            $('body').removeClass('modal-open-public-vacancy-form');
+                            $rootScope.closeModal();
+                            $scope.showModalInfoAboutVacancy();
+                        }
+
+                    }, function (resp) {
                         $scope.message = "error";
-                    } else {
-                        $scope.message = "success";
-                        $scope.request = {
-                            name: "",
-                            lastName: "",
-                            phone: "",
-                            message: "",
-                            vacancyId: $scope.vacancyId,
-                            fileId: null
-                        };
-                        // $("#email2").val("");
-                        $scope.filesForRecall = [];
-                        $scope.recallForm.name.$pristine = true;
-                        $scope.recallForm.last_name.$pristine = true;
-                        $scope.recallForm.phone.$pristine = true;
-                        $scope.recallForm.phone.$invalid = false;
-                        $scope.recallForm.email2.$invalid = false;
-                        $scope.recallForm.email2.$pristine = false;
-                        $scope.showErrorEmailMessage = false;
-                        $('body').removeClass('modal-open-public-vacancy-form');
-                        $rootScope.closeModal();
-                        $scope.showModalInfoAboutVacancy();
-                    }
-
-                }, function (resp) {
-                    $scope.message = "error";
-                });
-
+                    });
+                }
             } else {
-
                 $scope.recallForm.name.$pristine = false;
                 $scope.recallForm.last_name.$pristine = false;
                 if (validEmail($scope.request.email)) {
                     $scope.showErrorEmailMessage = true;
                 }
                 $scope.recallForm.phone.$pristine = false;
-
+                if($scope.request.phone == null || $scope.request.phone.length == 0){
+                    $scope.enterPhoneNumber = true;
+                }else if($scope.request.phone.length < 9 || $scope.request.phone.length > 20){
+                    $scope.showErrorPhoneMessage = true;
+                    $scope.incorrectPhoneNumber = true;
+                    $scope.enterPhoneNumber = false;
+                }else{
+                    $scope.incorrectPhoneNumber = true;
+                    $scope.enterPhoneNumber = false;
+                }
             }
         };
-        //function myFunction(e) {
-        //    setTimeout(function () {
-        //        console.log('1')
-        //        $window.history.back();
-        //        this.removeEventListener('hashchange', arguments.callee, false);
-        //    }, 0)
-        //};
-        //$window.addEventListener("hashchange", myFunction)
     }])
     .controller('PublicVacancyAddController', function($rootScope, $scope, $filter, $location, $translate, Service, notificationService) {
         $rootScope.hasJS = true;

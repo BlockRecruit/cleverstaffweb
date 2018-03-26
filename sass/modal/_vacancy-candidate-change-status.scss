@@ -15,8 +15,6 @@
 			@include bold();
 
 			font-size: 18px;
-
-			text-transform: lowercase;
 		}
 	}
 	.modal-body {
@@ -137,5 +135,10 @@
 		.cancel {
 			@include button-styling-cancel();
 		}
+	}
+}
+@media (max-width: 475px) {
+	.candidate-add-in-vacancy .modal-footer .mobileVer {
+		margin-top: 10px;
 	}
 }

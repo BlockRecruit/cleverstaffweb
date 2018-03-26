@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <style>.async-hide { opacity: 0 !important} </style>
+    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+    })(window,document.documentElement,'async-hide','dataLayer',4000,
+        {'GTM-PHXZMBX':true});</script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
     <script>
@@ -10,21 +16,37 @@
             gtag('js', new Date());
 
             gtag('config', 'UA-52127049-1');
+
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-52127049-1', {
+                'cookieDomain': document.domain
+            });
+            ga('require', 'GTM-PHXZMBX');
+            ga('send', 'pageview');
         }
     </script>
     <!-- end of gtag -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
-    <title>Возможности | CleverStaff | Единая система для рекрутинга</title>
+    <title>Возможности и функции CleverStaff | Единая система для рекрутинга</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Управляйте базой данных, соискателями и подбором. Автоматизируйте процес подбора персонала. С единой системой для рекрутинга.">
-    <meta name="keywords" content="ATS, система для рекрутинга, cleverstaff, программа для рекрутинга">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <link rel="stylesheet" href="../external/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../external/css/main.min.css?b6">
+    <link rel="stylesheet" href="../external/css/main.min.css?b10">
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Возможности | CleverStaff | Единая система для профессионального подбора персонала"/>
-    <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
+    <meta property="og:title" content="Возможности и функции CleverStaff | Единая система для рекрутинга"/>
+    <meta property="og:description" content="Управляйте базой данных, соискателями и подбором. Автоматизируйте процесс подбора персонала. С единой системой для рекрутинга."/>
     <meta property="og:image" content="https://dev.cleverstaff.net/images/sprite/for_preview_1080-1080.jpg"/>
     <meta property="og:image:width" content="1080" />
     <meta property="og:image:height" content="1080" />
@@ -42,7 +64,7 @@
             </div>
         </div>
         <div class="corner-ribbon-info">
-            <img src="../external/img/responsive-design.png" alt="Адаптивный интерфейс">
+            <img src="/external/img/responsive-design.png" alt="Адаптивный интерфейс">
             <p><strong>Адаптивный интерфейс</strong></p>
             <p>Внутренние страницы системы с ключевыми функциями адаптируются под  мобильные устройства: телефоны, планшеты, экраны всех размеров.</p>
             <p>Это значит, что вы сможете работать в системе с любого удобного вам устройства ;)</p>
@@ -57,7 +79,7 @@
                         <li><a href="why.html">Почему</a></li>
                         <li class="active menu"><a href="#home">Возможности</a></li>
                         <li><a href="price.html">Цены</a></li>
-                        <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                        <li><a href="https://cleverstaff.net/blog/">Блог</a></li>
                     </ul>
                     <a class="signinButton btn btn-default navbar-btn loginBtn adaptiveMenu pull-left">Начать</a>
                     <div class="dropdown pull-right adaptiveMenu">
@@ -81,7 +103,7 @@
                             <li><a href="why.html">Почему</a></li>
                             <li class="active menu"><a href="#home">Возможности</a></li>
                             <li><a href="price.html">Цены</a></li>
-                            <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                            <li><a href="https://cleverstaff.net/blog/">Блог</a></li>
                         </ul>
                         <div class="dropdown pull-right adaptiveMenuShow float-none-mob">
                             <button class="btn btn-primary dropdown-toggle"
@@ -105,7 +127,7 @@
                 <h1>Функции, настраиваемые под ваш стиль работы</h1>
                 <a class="orangeBtn isIe">Начать бесплатно</a>
                 <span class="or-features">ИЛИ</span>
-                <a href="#need-demo-modal" data-toggle="modal" class="orangeBtn presentation">Проведите мне презентацию</a>
+                <a href="#need-demo-modal" data-analytics="presentation" data-toggle="modal" class="orangeBtn presentation">Проведите мне презентацию</a>
             </div>
             <span class="flower-feature"></span>
             <span class="man"></span>
@@ -124,11 +146,11 @@
                     <h3 class="text-center wow fadeInUp">Моментально находите и добавляйте кандидатов. Интеграции в 1 клик.</h3>
                     <div class="tabsCs wow fadeInUp">
                         <ul class="nav nav-tabs">
-                            <li class="active text-center gif-1"><a data-toggle="tab" href="#addCandidate">Технология парсинга резюме</a></li>
-                            <li class="text-center gif-2"><a data-toggle="tab" href="#menu1">Интеграция с почтой и загрузка резюме из неё</a></li>
-                            <li class="text-center gif-3"><a data-toggle="tab" href="#menu2">Массовая загрузка базы</a></li>
-                            <li class="text-center gif-4"><a data-toggle="tab" href="#menu3">Интеграция с LinkedIn</a></li>
-                            <li class="text-center gif-5"><a data-toggle="tab" href="#menu4">Интеграция с сайтами поиска работы</a></li>
+                            <li class="active text-center gif-1" data-toggle="tab" href="#addCandidate"><a>Технология парсинга резюме</a></li>
+                            <li class="text-center gif-2" data-toggle="tab" href="#menu1"><a>Интеграция с почтой и загрузка резюме из неё</a></li>
+                            <li class="text-center gif-3" data-toggle="tab" href="#menu2"><a>Массовая загрузка базы</a></li>
+                            <li class="text-center gif-4" data-toggle="tab" href="#menu3"><a>Интеграция с LinkedIn</a></li>
+                            <li class="text-center gif-5" data-toggle="tab" href="#menu4"><a>Интеграция с сайтами поиска работы</a></li>
                         </ul>
                         <div class="tab-content text-center">
                             <div id="addCandidate" onclick="switchFunc('.gif-2', '#menu1');" class="tab-pane gif-1 fade in active">
@@ -173,9 +195,9 @@
                     <h3 class="text-center">Одно место для оценки, заданий и обсуждения кандидатов.</h3>
                     <div class="tabsCs">
                         <ul class="nav nav-tabs">
-                            <li class="active text-center gif-1"><a data-toggle="tab" href="#step">Настраиваемые этапы подбора</a></li>
-                            <li class="text-center gif-2"><a data-toggle="tab" href="#integration">Настраиваемые шаблоны писем</a></li>
-                            <li class="text-center gif-3"><a data-toggle="tab" href="#customizable">Интеграция с Google и Outlook Calendar</a></li>
+                            <li class="active text-center gif-1" data-toggle="tab" href="#step"><a>Настраиваемые этапы подбора</a></li>
+                            <li class="text-center gif-2" data-toggle="tab" href="#integration"><a>Настраиваемые шаблоны писем</a></li>
+                            <li class="text-center gif-3" data-toggle="tab" href="#customizable"><a>Интеграция с Google и Outlook Calendar</a></li>
                         </ul>
                         <div class="tab-content text-center">
                             <div id="step" onclick="switchFunc('.gif-2', '#customizable');" class="tab-pane gif-1 fade in active">
@@ -204,9 +226,9 @@
                     <h2 class="text-center">Автоматизация рекрутинга</h2>
                     <div class="tabsCs">
                         <ul class="nav nav-tabs">
-                            <li class="active text-center gif-1"><a data-toggle="tab" href="#search">Предложения и рейтинги кандидатов</a></li>
-                            <li class="text-center gif-2"><a data-toggle="tab" href="#reports">Быстрые отчеты по вакансиям</a></li>
-                            <li class="text-center gif-3"><a data-toggle="tab" href="#funnel">Воронка рекрутинга</a></li>
+                            <li class="active text-center gif-1" data-toggle="tab" href="#search"><a>Предложения и рейтинги кандидатов</a></li>
+                            <li class="text-center gif-2" data-toggle="tab" href="#reports"><a>Быстрые отчеты по вакансиям</a></li>
+                            <li class="text-center gif-3" data-toggle="tab" href="#funnel"><a>Воронка рекрутинга</a></li>
                         </ul>
                         <div class="tab-content text-center">
                             <div id="search" onclick="switchFunc('.gif-2', '#reports');" class="tab-pane gif-1 fade in active">
@@ -456,7 +478,7 @@
                         <li><a href="why.html">Почему?</a></li>
                         <li class="active-link menu"><a href="#home">Возможности</a></li>
                         <li><a href="price.html">Цены</a></li>
-                        <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                        <li><a href="https://cleverstaff.net/blog/">Блог</a></li>
                         <li><a href="../api.html" target="_blank">API</a></li>
                         <li><a href="../privacy.html" target="_blank">Privacy Policy</a></li>
                         <li><a href="terms.html" target="_blank">Public Agreement</a></li>
@@ -541,7 +563,7 @@
                 </div>
                 <div class="form-gr">
                     <label for="ex1_usersCount" class="usersCountForm pull-left">Выберите количество рекрутеров</label>
-                    <select name="numberOfRecruiters" id="ex1_usersCount" class="float-left">
+                    <select name="numberOfRecruiters" id="ex1_usersCount" class="float-left webkit-fix">
                         <option value>Количество рекрутеров в вашей компании? *</option>
                         <option value="1">1</option>
                         <option value="2-4">2-4</option>
@@ -599,8 +621,8 @@
             <h4 class="modal-title">
                 Internet Explorer не подходит для работы в CleverStaff, перейдите в Chrome или Firefox
             </h4>
-            <img src="../external/img/chrome.png" width="50" height="50" class="imgBrower" alt="Chrome"/>
-            <img src="../external/img/firefox.png" width="50" height="50" class="imgBrower" alt="Firefox"/>
+            <img src="/external/img/chrome.png" width="50" height="50" class="imgBrower" alt="Chrome"/>
+            <img src="/external/img/firefox.png" width="50" height="50" class="imgBrower" alt="Firefox"/>
             <span class="close" data-dismiss="modal"></span>
         </div>
     </div>
@@ -611,7 +633,7 @@
 
 <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/ApiKey.js?b2"></script>
-<script src="../external/js/script.min.js?b10"></script>
+<script src="../external/js/script.min.js?b13"></script>
 <script src="../external/js/jquery.jcarousellite.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 <script type="text/javascript">
@@ -664,22 +686,6 @@
         fbq('init', '980245322007471');
         fbq('track', 'PageView');
         <!-- End Facebook Pixel Code -->
-
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                    (i[r].q = i[r].q || []).push(arguments)
-                }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-52127049-1', {
-            'cookieDomain': document.domain
-        });
-        ga('send', 'pageview');
     }
 </script>
 <!-- Facebook Pixel Code -->

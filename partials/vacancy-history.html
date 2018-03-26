@@ -17,20 +17,13 @@
                 <!--{{'Show details'|translate}}-->
             <!--</a>-->
         <!--</div>-->
-        <div class="col-lg-12">
+        <div class="col-lg-12 flex-align">
             <span class="title-header pull-left">
                 {{'Activity_Log'|translate}}
             </span>
-            <a href="" ng-click="showModalAddCommentToVacancy('md');" class="add_comment pull-right">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-                {{'add_comment'|translate}}
+            <a href="" title="{{'add_comment'|translate}}" ng-click="showModalAddCommentToVacancy('md');" class="add_comment pull-right">
+                <img src="../images/sprite/addMessage.svg" alt="Add Comment">
             </a>
-            <!--<div class="switch">-->
-                <!--<label ng-click="showComments()" ng-class="{grey: !onlyComments}" class="floatLeft">{{'Show comments only'|translate}}</label>-->
-                <!--<input id="cmn-toggle-9" ng-class="{checked: !onlyComments}" class="cmn-toggle cmn-toggle-round showCommentSwitcher" type="checkbox">-->
-                <!--<label class="" ng-click="showCommentsSwitch()" for="cmn-toggle-9"></label>-->
-                <!--<label ng-click="showDetails()" ng-class="{grey: onlyComments}" class="floatLeft">{{'Show details'|translate}}</label>-->
-            <!--</div>-->
             <div class="col-lg-2 col-md-2 hidden-xs hidden-sm">
                 <select class="switch-history-type" ng-model="::historyType.value" ng-change="changeHistoryType()">
                     <option value="all_actions">{{'all_actions'|translate}}</option>

@@ -42,6 +42,13 @@ angular.module('services.vacancy', [
                 param: "changeInterview"
             }
         },
+        editInterviews: {
+            method: "POST",
+            headers: {'Content-type': 'application/json; charset=UTF-8'},
+            params: {
+                param: "changeInterviews"
+            }
+        },
         addInterview: {
             method: "POST",
             headers: {'Content-type': 'application/json; charset=UTF-8'},
@@ -225,6 +232,12 @@ angular.module('services.vacancy', [
             params:{
                 param:'getVacanciesForReport'
             }
+        },
+        changeVacanciesForCandidatesAccess :{
+            method:"POST",
+            params:{
+                param:'changeVacanciesForCandidatesAccess'
+            }
         }
     });
 
@@ -243,6 +256,8 @@ angular.module('services.vacancy', [
             vacancy.openHideState(params, resp => resolve(resp),error => reject(error));
         });
     };
+
+    vacancy.requestChangeVacanciesForCandidatesAccess =  (access, vacancyId) => vacancy.changeVacanciesForCandidatesAccess({vacancyId,vacanciesForCandidatesAccess:(access)?"privateAccess":"publicAccess"}, resp => console.log(resp));
 
     vacancy.interviewStatusNew = function() {
         return [
@@ -716,6 +731,8 @@ angular.module('services.vacancy', [
 
     };
 
+    vacancy.languageLevelData = ['_undefined', 'Basic', 'Pre_Intermediate', 'Intermediate', 'Upper_Intermediate', 'Advanced', 'Native'];
+
     vacancy.getInterviewStatus = function() {
         return [
             {name: "Long list", value: "longlist"},
@@ -740,9 +757,9 @@ angular.module('services.vacancy', [
             {value: "open", name: "open"},
             {value: "expects", name: "wait"},
             {value: "inwork", name: "in work"},
-            {value: "replacement", name: "replacement"},
             {value: "payment", name: "payment"},
             {value: "completed", name: "completed"},
+            {value: "replacement", name: "replacement"},
             {value: "canceled", name: "canceled"},
             {value: "deleted", name: "deleted"}
         ];
@@ -766,6 +783,7 @@ angular.module('services.vacancy', [
     vacancy.setOptions = function(name, value) {
         options[name] = value;
     };
+
     vacancy.init = function() {
         options = {
             "state": null,
@@ -788,6 +806,22 @@ angular.module('services.vacancy', [
     };
     vacancy.init();
     vacancy.getAllVacansies = (params) => $q((resolve, reject) =>vacancy.getVacanciesForReport(params, response => resolve(response), error => reject(error)));
+    vacancy.requestGetCandidatesInStages = function (params) {
+        $rootScope.loading = true;
+        return new Promise((resolve, reject) => {
+            vacancy.getCandidatesInStages(params, (response) => {
+                console.log('!!!!!!!!!!!!!!')
+                vacancy.candidateLastRequestParams = params;
+                vacancy.getCandidate = response.objects.map(item => item.candidateId.localId);
+                localStorage.setItem('candidateLastRequestParams', JSON.stringify(params));
+                localStorage.setItem('getAllCandidates', JSON.stringify(vacancy.getCandidate));
+                resolve(response, params);
+            },() =>{
+                reject();
+            });
+        });
+    };
+
     return vacancy;
 }
 ]);

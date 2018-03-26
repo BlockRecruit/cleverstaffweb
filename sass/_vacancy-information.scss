@@ -287,7 +287,7 @@
 			}
 			.public-link {
 				display: inline-block;
-				margin-right: 15px;
+				margin: 0 15px 15px 0;
 
 				color: $theme-dark;
 				i {
@@ -329,6 +329,9 @@
 						text-decoration: underline;
 					}
 				}
+			}
+			.wrap-switcher {
+				margin-bottom: 15px;
 			}
 			.social {
 				padding: 15px;
@@ -414,6 +417,20 @@
 		}
 	}
 }
+.send-vacancy-by-email {
+	.modal-footer {
+		clear: both;
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			@include button-styling();
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+	}
+}
 
 .fa {
 	position: relative;
@@ -455,5 +472,30 @@
 .block-vacancy-descr {
 	.short-info-bg {
 		background-color: rgba(227, 227, 227, 0.12) !important;
+	}
+}
+
+
+@media (max-width: $screen-xs) {
+	.fa .tooltip-inner-info {
+		top: 20px;
+		left: -176px;
+
+		width: 220px;
+	}
+	.block-vacancy-descr.main-info .paddingZero .input-outer {
+		padding: 5px 8px 5px 8px;
+	}
+	.block-vacancy-descr.main-info .short-info .public-link {
+		margin-top: 12px;
+	}
+	.block-vacancy-descr.main-info .short-info .send-vacancy {
+		margin: 0;
+	}
+	.block-vacancy .vacancy-statuses .statuses .settings {
+		display: none;
+	}
+	.block-vacancy-descr.main-info .upper-info > div div.customFields {
+		line-height: 35px;
 	}
 }

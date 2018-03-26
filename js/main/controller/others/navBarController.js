@@ -33,7 +33,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.inviteHiringManager = function(){
         $rootScope.modalInstance = $uibModal.open({
             animation: true,
-            templateUrl: 'partials/modal/invite-new-user.html?b5',
+            templateUrl: 'partials/modal/invite-hiring-manager.html?b=1',
             size: '',
             resolve: function(){
 
@@ -50,7 +50,16 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     Service.getRegions2(function (resp) {
         $scope.regions = resp;
-        var optionsHtml = '<option ng-selected="true" value="" selected style="color:#999">'+$filter('translate')('choose_region')+'</option>';
+        let lang = localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+        let translate ;
+
+        if(lang == 'ru'){
+            translate =  "Выберите регион";
+        }else{
+            translate =  "Choose region";
+        }
+
+        var optionsHtml = `<option ng-selected="true" value="" selected style="color:#999">${translate}</option>`;
         angular.forEach($scope.regions, function (value) {
             optionsHtml += "<option style='color: #000000' value='" + (value.id).replace(/\'/gi,"") + "'>" + value.name + "</option>";
         });
@@ -244,6 +253,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             $("#notice_element_icon").css({"background-color": "rgba(0, 0, 0, 0)"});
             $(document).off('mouseup')
         }
+        localStorage.setItem("isAddCandidates", false);
     };
     //$scope.toggleNoticeMenu = function(){
     //    $('body').click(function (e) {
@@ -317,33 +327,42 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 notificationService.error($filter('translate')('need role'));
             } else if ($rootScope.inviteUser.email == null) {
                 notificationService.error($filter('translate')('wrong_email'));
+            }else if($rootScope.inviteUser.role == 'client' && ($rootScope.VacancyAddedInCandidate == null || $rootScope.VacancyAddedInCandidate == undefined)){
+                notificationService.error($filter('translate')('Hiring manager must be responsible for the vacancy.Please select a vacancy'));
             } else {
+                if($rootScope.VacancyAddedInCandidate != undefined){
+                    $rootScope.inviteUser.vacancyId = $rootScope.VacancyAddedInCandidate.vacancyId;
+                }
                 isBlock(function (resp) {
                     if (resp && resp.status == 'N') {
                         $rootScope.inviteUserBlock = true;
                         $rootScope.errorMessageType = "inviteBlockUser";
                         $location.path("/users/" + resp.userId);
                         // $rootScope.closeNavModal();
-                        $rootScope.inviteUser.email = "";
+                        $rootScope.VacancyAddedInCandidate.vacancyId = null;
+                        $rootScope.inviteUser.vacancyId = null;
                     } else if (resp && resp.status == 'A') {
                         notificationService.error("<a href='#/users/" + resp.userId + "'>" + resp.fullName + "</a> (" + resp.login + ") " + $filter("translate")("has already working in your account"));
                         $rootScope.closeNavModal();
-                        $rootScope.inviteUser.email = "";
+                        $rootScope.VacancyAddedInCandidate.vacancyId = null;
+                        $rootScope.inviteUser.vacancyId = null;
                     } else {
                         Person.inviteUser({
                             email: $rootScope.inviteUser.email,
                             role: $rootScope.inviteUser.role,
-                            //clientId: $rootScope.inviteUser.clientId,
+                            vacancyId: $rootScope.inviteUser.role == 'client' ? $rootScope.inviteUser.vacancyId : null,
                             lang: $translate.use()
                         }, function (resp) {
                             if (resp.status && angular.equals(resp.status, "error")) {
                                 notificationService.error(resp.message);
                                 //$('.addUserInvite.modal').modal('hide');
-                                //$rootScope.inviteUser.email = "";
+                                $rootScope.VacancyAddedInCandidate.vacancyId = null;
+                                $rootScope.inviteUser.vacancyId = null;
                             } else {
                                 notificationService.success($filter('translate')('user_was_invite_1') + $rootScope.inviteUser.email + $filter('translate')('user_was_invite_2'));
                                 $rootScope.closeNavModal();
-                                $rootScope.inviteUser.email = "";
+                                $rootScope.VacancyAddedInCandidate.vacancyId = null;
+                                $rootScope.inviteUser.vacancyId = null;
                                 if ($location.path() == '/company/users') {
                                     $route.reload();
                                 }
@@ -366,15 +385,32 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     // Client.all(Client.searchOptions(), function (response) {
     //     $rootScope.clientsForInvite = response.objects;
     // });
-
-    $rootScope.userRole = [
-        {"name": "Recruiter", "value": "recruter"},
-        {"name": "Admin", "value": "admin"},
-        {"name": "Sales Manager", "value": "salesmanager"},
-        {"name": "Client", "value": "client"},
-        {"name": "Freelancer", "value": "freelancer"},
-        {"name": "Researcher", "value": "researcher"}
+    $rootScope.userRoles = [
+        {
+            type: "fullAccess",
+            roles: [
+                {"name": "Admin", "value": "admin", "type" : "full-access"},
+                {"name": "Recruiter", "value": "recruter", "type": 'full-access'}
+            ]
+        },
+        {
+            type: "limitedAccess",
+            roles: [
+                {"name": "Freelancer", "value": "freelancer", "type": 'limited-access'},
+                {"name": "Researcher", "value": "researcher", "type": 'limited-access'},
+            ]
+        },
+        {
+            type: "freeAccess",
+            roles: [
+                {"name": "Hiring Manager", "value": "client", "type": 'free-access'}
+            ]
+        }
     ];
+
+    $rootScope.selectUserRole = function(role) {
+        $rootScope.inviteUser.role = role.value;
+    };
 
     myIntervalFunction();
     $scope.scopeStyle = {'max-width': "160px"};
@@ -1189,9 +1225,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.getPlugin = function(status) {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
             if(status == 'old'){
-                $window.open("//chrome.google.com/webstore/detail/cleverstaff-extension/mefmhdnojajocbdcpcajdjnbccggbnha");
+                $window.open("https://chrome.google.com/webstore/detail/recruiters-integration-to/ibfoabadoicmplbdpmchomcagkpmfama");
             }else{
-                $window.open("//chrome.google.com/webstore/detail/cleverstaff-extension/komohkkfnbgjojbglkikdfbkjpefkjem");
+                $window.open("https://chrome.google.com/webstore/detail/recruiters-integration-to/ibfoabadoicmplbdpmchomcagkpmfama");
             }
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
@@ -1436,8 +1472,10 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                         $('.modal').css('opacity','1');
                                     }
                                 });
+
                                 $rootScope.news = resp.objects;
                                 FB.XFBML.parse();
+
                                 $rootScope.modalInstance = $uibModal.open({
                                     animation: true,
                                     backdrop: 'static',

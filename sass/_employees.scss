@@ -116,7 +116,7 @@
 				select {
 					@include select-styling();
 
-					height: 34px;
+					height: 30px;
 				}
 			}
 		}
@@ -136,6 +136,8 @@
 		}
 		input {
 			@include input-styling();
+
+			height: 30px;
 		}
 		.select {
 			select {

@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <style>.async-hide { opacity: 0 !important} </style>
+    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+    })(window,document.documentElement,'async-hide','dataLayer',4000,
+        {'GTM-PHXZMBX':true});</script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
     <script>
@@ -10,19 +16,36 @@
             gtag('js', new Date());
 
             gtag('config', 'UA-52127049-1');
+
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', 'UA-52127049-1', {
+                'cookieDomain': document.domain
+            });
+            ga('require', 'GTM-PHXZMBX');
+            ga('send', 'pageview');
         }
     </script>
     <!-- end of gtag -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="UTF-8">
-    <title>Регистрация | CleverStaff | Единая система для профессионального подбора персонала</title>
+    <title>Регистрация | CleverStaff | Профессиональная система для подбора персонала</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="CleverStaff Recruitment Software and Applicant Tracking System">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <link rel="stylesheet" href="../external/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../external/css/main.min.css?b6">
+    <link rel="stylesheet" href="../external/css/main.min.css?b10">
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Регистрация | CleverStaff | Единая система для профессионального подбора персонала"/>
+    <meta property="og:title" content="Регистрация | CleverStaff | Профессиональная система для подбора персонала"/>
     <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
     <meta property="og:image" content="https://dev.cleverstaff.net/images/sprite/for_preview_1080-1080.jpg"/>
     <meta property="og:image:width" content="1080" />
@@ -94,21 +117,6 @@
                 fbq('track', 'PageView');
             <!-- End Facebook Pixel Code -->
 
-            (function (i, s, o, g, r, a, m) {
-                i['GoogleAnalyticsObject'] = r;
-                i[r] = i[r] || function () {
-                            (i[r].q = i[r].q || []).push(arguments)
-                        }, i[r].l = 1 * new Date();
-                a = s.createElement(o),
-                        m = s.getElementsByTagName(o)[0];
-                a.async = 1;
-                a.src = g;
-                m.parentNode.insertBefore(a, m)
-            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-            ga('create', 'UA-52127049-1', {
-                'cookieDomain': document.domain
-            });
-            ga('send', 'pageview');
             <!-- Yandex.Metrika counter -->
             var yaParams = {/*Тут параметри візиту*/};
             (function (d, w, c) {
@@ -170,7 +178,7 @@
             <a href="/ru/index.html" class="logo2 pull-left"></a>
             <nav class="navbar pull-right">
                 <div class="container-fluid">
-                    <a href="index.html" class="btn btn-default navbar-btn loginBtn">Вернуться на сайт <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                    <a href="/ru/index.html" class="btn btn-default navbar-btn loginBtn">Вернуться на сайт <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
                 </div>
             </nav>
         </div>
@@ -187,7 +195,7 @@
                 <h1>Создайте Свой аккаунт CleverStaff</h1>
                 <h4><span class="disp-block">Зарегистрироваться с помощью</span></h4>
                 <div class="social-signin">
-                    <span class="google-icon" onclick="signupGoogle()"data-toggle="modal">Google</span>
+                    <span class="google-icon" onclick="signupGoogle()" data-toggle="modal">Google</span>
                     <span class="fb-icon" onclick="signupFacebook()" data-toggle="modal"><i class="fa fa-facebook-official" aria-hidden="true"></i>Facebook</span>
                 </div>
                 <h3 class="or">ИЛИ</h3>
@@ -206,7 +214,7 @@
                                 <select class="countryCustom" name="countryCustom"></select>
                             </div>
                             <div class="phone pull-right">
-                                <input id="ex1_number" class="float-left phoneNumber pull-right" oninput="this.value = this.value.replace(/[^0-9]/g, ''); " type="number" name="phone" placeholder="Телефон (назначить демо)">
+                                <input id="ex1_number" class="float-left phoneNumber pull-right" style="position: relative; opacity: 0.8;" oninput="this.value = this.value.replace(/[^0-9]/g, ''); " type="number" name="phone" placeholder="Телефон (назначить демо)">
                             </div>
                             <div class="error-phone hidden"></div>
                         </div>
@@ -224,7 +232,7 @@
                         </div>
                         <div class="form-gr">
                             <label for="usersCount" class="usersCountForm pull-left">Выберите количество рекрутеров</label>
-                            <select name="usersCount" id="usersCount" class="float-left">
+                            <select name="usersCount" id="usersCount" class="float-left webkit-fix">
                                 <option value>Выберите количество рекрутеров *</option>
                                 <option value="1">1</option>
                                 <option value="2-4">2-4</option>
@@ -297,7 +305,7 @@
                         <li><a href="why.html">Почему?</a></li>
                         <li><a href="features.html">Возможности</a></li>
                         <li><a href="price.html">Цены</a></li>
-                        <li><a href="https://cleverstaff.net/blog/" target="_blank">Блог</a></li>
+                        <li><a href="https://cleverstaff.net/blog/">Блог</a></li>
                         <li><a href="../api.html" target="_blank" target="_blank">API</a></li>
                         <li><a href="../privacy.html" target="_blank" target="_blank">Privacy Policy</a></li>
                         <li><a href="terms.html" target="_blank" target="_blank">Public Agreement</a></li>
@@ -341,7 +349,7 @@
         <div class="modal-body">
             <form action="/hr/person/registration/facebook" method="post" id="signupFacebookForm" class="question-form">
                 <div class="form-gr">
-                    <input type="email" class="float-left google-form-width" id="facebook_mail" name="login" readonly placeholder="Введите почту *">
+                    <input type="email" class="float-left google-form-width" id="facebook_mail" name="login" placeholder="Введите почту *">
                 </div>
                 <div class="form-gr">
                     <input type="text" class="float-left google-form-width" id="facebook_name" name="firstName" placeholder="Введите имя *">
@@ -443,7 +451,8 @@
                     <input type="email" class="float-left google-form-width" id="google_mail" name="login" readonly value="" disabled="">
                 </div>
                 <div class="form-gr">
-                    <input type="email" class="float-left google-form-width" id="google_name" name="firstName" value="" placeholder="Введите имя *">
+                    <input type="email" class="float-left google-form-width" id="google_name" oninput="this.value = this.value.replace(/[^A-Za-zА-Яа-яЁё '`-]/g, ''); " name="firstName" value="" placeholder="Введите имя *">
+                    <div class="error-google-name hidden"></div>
                 </div>
                 <div class="form-gr">
                     <div class="ui labeled icon input">
@@ -536,7 +545,7 @@
 <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/ApiKey.js?b4"></script>
 <script src="//apis.google.com/js/client.js"></script>
-<script src="../external/js/script.min.js?b14"></script>
+<script src="../external/js/script.min.js?b17"></script>
 <script src="//platform.linkedin.com/in.js?async=true"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 </body>

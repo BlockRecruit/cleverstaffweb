@@ -1,8 +1,8 @@
-<div class="container-fluid block-company-public-vacancy">
+<div class="container-fluid block-company-public-vacancy block-public">
   <div class="hidden-lg hidden-md companyInfo" ng-if="vacancy.status != 'payment' && vacancy.status != 'completed' && vacancy.status != 'deleted' && vacancy.status != 'canceled' && vacancy.descr.length > 30">
     <div ng-if="companyLogo || companyPublicInfo.companyWebSite || companyPublicInfo.fb || companyPublicInfo.orgName">
 
-      <img class="logo" ng-if="companyLogo" ng-src="{{serverAddress}}/getlogo?id={{companyLogo}}" alt=""/>
+      <img class="logo" ng-if="vacancy.companyLogo" ng-src="{{serverAddress}}/getlogo?id={{vacancy.companyLogo}}" alt=""/>
       <div class="info">
         <h2 class="cutElementTextWidth">{{companyPublicInfo.orgName}}</h2>
 
@@ -20,7 +20,7 @@
     </div>
   </div>
 
-  <div class="vacancies-intro" ng-if="vacancy.status != 'payment' && vacancy.status != 'completed' && vacancy.status != 'deleted' && vacancy.status != 'canceled' && vacancy.descr.length > 30">
+  <div class="block-intro" ng-if="vacancy.status != 'payment' && vacancy.status != 'completed' && vacancy.status != 'deleted' && vacancy.status != 'canceled' && vacancy.descr.length > 30">
     <div class="text-center intro-text">
       <span class="vacancy">{{'Vacancy' | translate}}</span>
       <h2>{{vacancy.position}}</h2>
@@ -28,18 +28,18 @@
   </div>
 
   <div class="row" ng-if="vacancy.status != 'payment' && vacancy.status != 'completed' && vacancy.status != 'deleted' && vacancy.status != 'canceled' && vacancy.descr.length > 30">
-    <div class="col-lg-2 col-md-3 hidden-sm hidden-xs companyInfo comp-abs" ng-mouseenter="companyInfoHoverIn()" ng-mouseleave="companyInfoHoverOut()">
+    <div class="col-lg-2 col-md-3 hidden-sm hidden-xs companyInfo comp-abs" id="toggle-company-block" toggle-company-block>
 
       <div ng-if="companyLogo || companyPublicInfo.companyWebSite || companyPublicInfo.fb || companyPublicInfo.orgName">
 
-        <img class="logo" ng-if="companyLogo" ng-src="{{serverAddress}}/getlogo?id={{companyLogo}}" alt=""/>
+        <img class="logo" ng-if="vacancy.companyLogo" ng-src="{{serverAddress}}/getlogo?id={{vacancy.companyLogo}}" alt=""/>
         <div class="info">
           <div class="name_wrap cutElementTextWidth">
             <h2 class="" ng-class="{'no-margin-bottom' : !companyPublicInfo.companyWebSite && !companyPublicInfo.fb}">{{companyPublicInfo.orgName}}</h2>
           </div>
           <div class="info--site" ng-show="companyPublicInfo.companyWebSite">
             <img src="/images/sprite/public-vacancy/website.svg" alt="">
-            <a class="cutElementTextWidth" href="{{companyPublicInfo.companyWebSite}}" target="_blank">{{companyPublicInfo.companyWebSite}}</a>
+            <a class="cutElementTextWidth site-link" href="{{companyPublicInfo.companyWebSite}}" target="_blank">{{companyPublicInfo.companyWebSite}}</a>
           </div>
 
           <div class="info--site" ng-show="companyPublicInfo.fb">
@@ -54,7 +54,7 @@
     <div class="col-lg-2 col-md-3 hidden-sm hidden-xs width-for-absolute"></div>
 
     <div class="col-lg-8 col-md-9 col-xs-12 vacancy-info-wrap">
-      <div class="vacancy-info">
+      <div class="block-info">
             <div class="info--main">
 
               <div class="col-xs-12 col-sm-4 text-left" ng-if="vacancy.employmentType">
@@ -83,14 +83,14 @@
               <span class="languages" ng-if="vacancy.languages.length">
                   <span class="lang" ng-repeat="lang in vacancy.languages">
                     {{lang.name}}
-                    <span class="level">({{lang.level | translate}})<span ng-if="vacancy.languages.length >=2">;</span></span>
+                    <span class="level">{{lang.level | translate}}<span ng-if="vacancy.languages.length >=2">;</span></span>
                   </span>
               </span>
             </div>
 
             <div class="clearfix"></div>
 
-            <div class="vacancy-description" ng-if="vacancy.descr">
+            <div class="block-accent" ng-if="vacancy.descr">
               <span class="content-description" id="descr" description-treatment description="vacancy.descr"></span>
             </div>
 
@@ -108,8 +108,8 @@
 
     <div class="col-lg-2 col-xs-12">
       <div class="apply-buttons text-center">
-          <button class="btn-modern apply" ng-click="showRecallFromModal()">{{'Apply now' | translate}}</button>
-          <button class="btn-modern apply-via linkedin" ng-click="addRecallFromLinkedIn()">{{'Apply via' | translate}} <i class="fa fa-linkedin" aria-hidden="true"></i></button>
+          <button class="btn-primary-new" ng-click="showRecallFromModal()">{{'Apply now' | translate}}</button>
+          <button class="btn-primary-new apply-via linkedin" ng-click="addRecallFromLinkedIn()">{{'Apply via' | translate}} <i class="fa fa-linkedin" aria-hidden="true"></i></button>
       </div>
     </div>
 
@@ -126,7 +126,7 @@
     </div>
 
   </div>
-  <div class="row text-center" ng-if="vacancy.status == 'deleted' || vacancy.status == 'canceled' || vacancy.descr.length <= 30 || vacancy.status == 'payment' || vacancy.status == 'completed'">
+  <div class="row text-center" ng-if="loadStatusForPublicVacancy && (vacancy.status == 'deleted' || vacancy.status == 'canceled' || vacancy.descr.length <= 30 || vacancy.status == 'payment' || vacancy.status == 'completed' || !vacancy.descr)">
     <div class="no-description-message">
 
       <div class="circles">
@@ -135,7 +135,7 @@
         <div class="circle"></div>
       </div>
 
-      <div class="message" ng-if="vacancy.descr.length <= 30 && vacancy.status != 'deleted' && vacancy.status != 'canceled'">
+      <div class="message" ng-if="vacancy.descr.length <= 30 && vacancy.status != 'deleted' && vacancy.status != 'canceled' || !vacancy.descr">
         <span>{{'Unfortunately'|translate}}, <br> {{'this vacancy'| translate}} <br> <span class="vacancy-position">{{vacancy.position}}</span> {{'is currently unavailable because its description has not been completed yet'|translate}}</span>
         <img src="/images/sprite/public-vacancy/smile.png" alt="">
       </div>
