@@ -1,0 +1,6 @@
+<div class="open-promo-logo">
+    <div class="modal-body text-center">
+        <img ng-show="$root.promoLogo != undefined" ng-src="{{$root.serverAddress}}/getapp?id={{$root.promoLogo}}&d=" alt=""/>
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+    </div>
+</div>
