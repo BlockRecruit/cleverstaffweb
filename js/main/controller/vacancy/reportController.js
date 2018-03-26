@@ -49,28 +49,29 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             $scope.notDeclinedStages = stagesString.slice(stagesString[0], stagesString.indexOf('approved') + 1);
             $scope.declinedStages = stagesString.slice(stagesString.indexOf('approved') + 1, stagesString.length);
 
-
-            Statistic.getVacancyInterviewDetalInfo(
-                {
-                    "vacancyId": $scope.vacancy.vacancyId,
-                    withCandidatesHistory: true
-                }, function(detailResp) {
-                if (detailResp != undefined) {
-                    var vacancyInterviewDetalInfo = [];
-                    angular.forEach(detailResp.vacancyInterviewDetalInfo, function(value, key){
-                        vacancyInterviewDetalInfo.push({
-                            key: key,
-                            value: value
+            getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true})
+                .then(resp => {
+                        let vacancyInterviewDetalInfo = [];
+                        angular.forEach(resp.vacancyInterviewDetalInfo, function(value, key){
+                            vacancyInterviewDetalInfo.push({
+                                key: key,
+                                value: value
+                            });
                         });
-                    });
 
-                    $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
-                }
+                        $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
 
-                let stages = validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages);
+                    let stages = validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages);
 
-                initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages, "myChartDiv",  null, null, null);
-            });
+                    initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages);
+                    drawFunnel($scope.funnelMap, funnelConfig($scope.funnelMap), "myChartDiv",  null, null, null);
+
+                    // validateStages
+                    // initSalesFunnel
+                    // funnelConfig
+                    // drawFunnel
+                    //
+                }, error => notificationService.error(error.message));
         });
 
         function validatedStages(allStages, notDeclinedStages, declinedStages) {
@@ -94,10 +95,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 });
             });
 
-            return { allStages: allStages, declinedStages:declinedStages, notDeclinedStages: notDeclinedStages }
+            return { allStages, declinedStages, notDeclinedStages }
         }
 
-        function initSalesFunnel(stages, notDeclinedStages, declinedStages, id, dateFrom, dateTo, assignObj) {
+        function initSalesFunnel(stages, notDeclinedStages, declinedStages) {
 
             let funnelMap = [];
             $scope.hasFunnelChart = false;
@@ -114,21 +115,16 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
                 });
 
-                angular.forEach(notDeclinedStages, (notDeclinedStage) => {
+                angular.forEach(notDeclinedStages, notDeclinedStage => {
                     let missingStage = true;
 
                     angular.forEach(funnelMap, (stage,index) => {
                         if(missingStage) {
-                            if(funnelMap[index].key === notDeclinedStage) {
-                                missingStage = false;
-                            } else {
-                                missingStage = true;
-                            }
+                            missingStage = !(funnelMap[index].key === notDeclinedStage);
 
                             if(index === funnelMap.length - 1 && missingStage) {
                                 funnelMap[index+1] = { key: notDeclinedStage, value: 0 };
                             }
-
                         }
                     });
                 });
@@ -138,7 +134,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 return;
             }
 
-            drawFunnel(funnelMap, funnelConfig(funnelMap), id, assignObj);
+            $scope.funnelMap = funnelMap;
         }
 
         function funnelConfig(funnelMap) {
@@ -171,7 +167,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 lastCount = stage.value;
             });
 
-            return { chartHeight: chartHeight, series: series, values: values, values2: values2, values3: values3, values4: values4 }
+            return { chartHeight, series, values, values2, values3, values4, values5 }
         }
 
         function drawFunnel(funnelMap, config, id, assignObj) {
@@ -196,9 +192,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 },
                 "scale-y-4": {
                     "values": values4, "item": {fontSize: 12,"offset-x": 107}
-                },
-                "plot": {
-                    // "offset-x": '60px'
                 },
                 plotarea: {
                     margin: '40px 0 0 20%'
@@ -257,13 +250,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 }
             };
 
-
-
             if(assignObj) {
-                console.log('mychart',myChart);
-                let result = Object.assign(myChart, assignObj);
-                console.log('result', result);
+                Object.assign(myChart, assignObj);
             }
+
             zingchart.render({
                 id: id,
                 data: myChart,
@@ -276,67 +266,76 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         $scope.setStatisticsType = function(type) {
             $scope.statisticsType = type;
             if(type === 'default') return;
-            let values = $scope.detailInterviewInfo.slice(0, 5); // response data
 
-            let ALLCANDIDATES = ["16","8","8","8","8","8","8","8"]; // get from values
-            let stages = validatedStages(values, $scope.notDeclinedStages, $scope.declinedStages);
+            getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true})
+                .then(resp => {
+                    let userValues = [];
 
-            let userSeries = [{"values": [140]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]}]; // candidates amounth --> get from values
-            let USERCANDIDATES = [];
+                    angular.forEach(resp.vacancyInterviewDetalInfo, function(value, key){
+                        userValues.push({
+                            key: key,
+                            value: value
+                        });
+                    });
+                    let stages = validatedStages(userValues, $scope.notDeclinedStages, $scope.declinedStages);
 
-            userSeries.forEach((item) => {
-                USERCANDIDATES.push(String(item.values[0]));
-            });
-                console.log(userSeriesToDisplay);
+                    console.log(stages);
+                    let userSeries = [{"values": [140]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]}]; // candidates amounth --> get from values
+                    let USERCANDIDATES = [];
 
-            let obj = {
-                // "series": userSeries,
-                "scale-y-2": {"values": ALLCANDIDATES, "item": {fontSize: 12,"offset-x": -60}},
-                "scale-y-5": {"values": USERCANDIDATES, "item": {fontSize: 12,"offset-x": 200}},
-                labels: [
-                    {
-                        text: $filter('translate')('USER NAME'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        // offsetX: $translate.use() != 'en' ?  775 : 785,
-                        offsetX: $translate.use() != 'en' ?  1095 : 1105,
-                        offsetY: 0
-                    },
-                    {
-                        text: $filter('translate')('Relative conversion'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        // offsetX: $translate.use() != 'en' ?  775 : 785,
-                        offsetX: $translate.use() != 'en' ?  895 : 905,
-                        offsetY: 0
-                    },
-                    {
-                        text: $filter('translate')('Absolute conversion'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        // offsetX: 870,
-                        offsetX: 990,
-                        offsetY: 0
-                    },
-                    {
-                        text: $filter('translate')('Candidates'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        // offsetX: $translate.use() != 'en' ? 700 : 710,
-                        offsetX: $translate.use() != 'en' ? 815 : 825,
-                        offsetY: 0
-                    },
-                    {
-                        text: $filter('translate')('status'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        offsetX: 210,
-                        offsetY: 0
-                    }
-                ]
-            };
+                    userSeries.forEach((item) => {
+                        USERCANDIDATES.push(String(item.values[0]));
+                    });
 
-            initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages, "myChartDiv2", null, null, obj);
+                    let obj = {
+                        // "series": userSeries,
+                        "scale-y-5": {"values": USERCANDIDATES, "item": {fontSize: 12,"offset-x": 200}},
+                        labels: [
+                            {
+                                text: $filter('translate')('User name'),
+                                fontWeight: "bold",
+                                fontSize: 12,
+                                // offsetX: $translate.use() != 'en' ?  775 : 785,
+                                offsetX: $translate.use() != 'en' ?  1095 : 1105,
+                                offsetY: 0
+                            },
+                            {
+                                text: $filter('translate')('Relative conversion'),
+                                fontWeight: "bold",
+                                fontSize: 12,
+                                // offsetX: $translate.use() != 'en' ?  775 : 785,
+                                offsetX: $translate.use() != 'en' ?  895 : 905,
+                                offsetY: 0
+                            },
+                            {
+                                text: $filter('translate')('Absolute conversion'),
+                                fontWeight: "bold",
+                                fontSize: 12,
+                                // offsetX: 870,
+                                offsetX: 990,
+                                offsetY: 0
+                            },
+                            {
+                                text: $filter('translate')('Candidates'),
+                                fontWeight: "bold",
+                                fontSize: 12,
+                                // offsetX: $translate.use() != 'en' ? 700 : 710,
+                                offsetX: $translate.use() != 'en' ? 815 : 825,
+                                offsetY: 0
+                            },
+                            {
+                                text: $filter('translate')('status'),
+                                fontWeight: "bold",
+                                fontSize: 12,
+                                offsetX: 210,
+                                offsetY: 0
+                            }
+                        ]
+                    };
+
+                    initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages);
+                    drawFunnel($scope.funnelMap, funnelConfig($scope.funnelMap), "myChartDiv2", obj);
+                }, error => notificationService.error(error.message));
         };
 
         $scope.updateData = function() {
@@ -372,8 +371,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 });
 
             let stages = validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages);
+            initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages);
+            drawFunnel($scope.funnelMap, funnelConfig($scope.funnelMap), "myChartDiv", null);
 
-            initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages, "myChartDiv2", null, null);
+            $scope.statisticsType = 'default';
 
             zingchart.exec('myChartDiv', 'reload');
         };
@@ -389,21 +390,17 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             dateFrom.setHours(0, 0, 0, 0);
             dateTo.setHours(0, 0, 0, 0);
             dateTo.setDate(dateTo.getDate() + 1);
-            Statistic.getVacancyInterviewDetalInfoFile({
+            getVacancyDetailInfo({
                 "vacancyId": $scope.vacancy.vacancyId,
                 "from": dateFrom,
                 "to": dateTo,
                 withCandidatesHistory: true
-            },function(resp){
-                if(resp.status == 'ok'){
-                    pdfId = resp.object;
-                    $('#downloadPDF')[0].href = '/hr/' + 'getapp?id=' + pdfId;
-                    $('#downloadPDF')[0].click();
-                    $scope.downloadPDFisPressed = false;
-                }else{
-                    notificationService.error(resp.message);
-                }
-            });
+            }).then(resp => {
+                pdfId = resp.object;
+                $('#downloadPDF')[0].href = '/hr/' + 'getapp?id=' + pdfId;
+                $('#downloadPDF')[0].click();
+                $scope.downloadPDFisPressed = false;
+            }, error => notificationService.error(error.message));
         };
         Vacancy.all(Vacancy.searchOptions(), function(response) {
             $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
@@ -417,7 +414,19 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         $scope.getCompanyParams();
         $scope.toBottom = function () {
             $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-        }
-    }
+        };
 
-]);
+        function getVacancyDetailInfo(params) {
+            $rootScope.loading = true;
+            return new Promise((resolve, reject) => {
+                Statistic.getVacancyInterviewDetalInfo(params, resp => {
+                    $rootScope.loading = false;
+                    if(resp.vacancyInterviewDetalInfo) {
+                        resolve(resp);
+                    } else {
+                        reject(resp);
+                    }
+                }, error => reject(error));
+            });
+        }
+}]);

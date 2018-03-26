@@ -40654,6 +40654,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
     function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $routeParams, notificationService, $filter,
              $translate, Person, Statistic, vacancyStages, Company) {
         var chartHeight = 0;
+        $scope.statisticsType = 'default';
         $scope.lang = $translate;
         vacancyStages.get(function(resp){
             $scope.customStages = resp.object.interviewStates;
@@ -40699,340 +40700,296 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             $scope.notDeclinedStages = stagesString.slice(stagesString[0], stagesString.indexOf('approved') + 1);
             $scope.declinedStages = stagesString.slice(stagesString.indexOf('approved') + 1, stagesString.length);
 
-
-            Statistic.getVacancyInterviewDetalInfo(
-                {
-                    "vacancyId": $scope.vacancy.vacancyId,
-                    withCandidatesHistory: true
-                }, function(detailResp) {
-                if (detailResp != undefined) {
-                    var vacancyInterviewDetalInfo = [];
-                    angular.forEach(detailResp.vacancyInterviewDetalInfo, function(value, key){
-                        vacancyInterviewDetalInfo.push({
-                            key: key,
-                            value: value
-                        });
-                    });
-
-                    $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
-
-                    angular.forEach($scope.customStages, function(resp){
-                        angular.forEach($scope.detailInterviewInfo, function(value){
-                            if(value.key === resp.customInterviewStateId){
-                                value.key = resp.name;
-                            }
+            getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true})
+                .then(resp => {
+                        let vacancyInterviewDetalInfo = [];
+                        angular.forEach(resp.vacancyInterviewDetalInfo, function(value, key){
+                            vacancyInterviewDetalInfo.push({
+                                key: key,
+                                value: value
+                            });
                         });
 
-                        angular.forEach($scope.declinedStages, function(value, index){
-                            if(value === resp.customInterviewStateId){
-                                $scope.declinedStages[index] = resp.name;
-                            }
-                        });
+                        $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
 
-                        angular.forEach($scope.notDeclinedStages, function(value, index){
-                            if(value === resp.customInterviewStateId){
-                                $scope.notDeclinedStages[index] = resp.name;
-                            }
-                        });
-                    });
-                }
-                initSalesFunnel(null, null);
-            });
+                    let stages = validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages);
+
+                    initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages);
+                    drawFunnel($scope.funnelMap, funnelConfig($scope.funnelMap), "myChartDiv",  null, null, null);
+
+                    // validateStages
+                    // initSalesFunnel
+                    // funnelConfig
+                    // drawFunnel
+                    //
+                }, error => notificationService.error(error.message));
         });
 
-        function initSalesFunnel(dateFrom, dateTo) {
-            $scope.funnelMap = [];
+        function validatedStages(allStages, notDeclinedStages, declinedStages) {
+            angular.forEach($scope.customStages, function(resp){
+                angular.forEach(allStages, function(value){
+                    if(value.key === resp.customInterviewStateId) {
+                        value.key = resp.name;
+                    }
+                });
+
+                angular.forEach(declinedStages, function(value, index){
+                    if(value === resp.customInterviewStateId){
+                        declinedStages[index] = resp.name;
+                    }
+                });
+
+                angular.forEach(notDeclinedStages, function(value, index){
+                    if(value === resp.customInterviewStateId){
+                        notDeclinedStages[index] = resp.name;
+                    }
+                });
+            });
+
+            return { allStages, declinedStages, notDeclinedStages }
+        }
+
+        function initSalesFunnel(stages, notDeclinedStages, declinedStages) {
+
+            let funnelMap = [];
             $scope.hasFunnelChart = false;
 
-            if ($scope.detailInterviewInfo) {
-                angular.forEach($scope.detailInterviewInfo, (stage,index) => {
-                    $scope.funnelMap[index] = { key: stage.key, value: stage.value.length };
+            if (stages) {
+                angular.forEach(stages, (stage,index) => {
+                    funnelMap[index] = { key: stage.key, value: stage.value.length };
 
-                    angular.forEach($scope.declinedStages, (declinedStage) => {
+                    angular.forEach(declinedStages, (declinedStage) => {
                         if(declinedStage === stage.key) {
-                            $scope.funnelMap.splice(index,1);
+                            funnelMap.splice(index,1);
                         }
                     });
 
                 });
 
-                angular.forEach($scope.notDeclinedStages, (notDeclinedStage) => {
+                angular.forEach(notDeclinedStages, notDeclinedStage => {
                     let missingStage = true;
 
-                    angular.forEach($scope.funnelMap, (stage,index) => {
-                        // console.log($scope.funnelMap[index].key, notDeclinedStage);
+                    angular.forEach(funnelMap, (stage,index) => {
                         if(missingStage) {
-                            // console.log($scope.funnelMap[index].key, notDeclinedStage);
-                            if($scope.funnelMap[index].key === notDeclinedStage) {
-                                console.log('exist',notDeclinedStage);
-                                missingStage = false;
-                            } else {
-                                missingStage = true;
-                            }
+                            missingStage = !(funnelMap[index].key === notDeclinedStage);
 
-                            if(index === $scope.funnelMap.length - 1 && missingStage) {
-                                console.log("not-exist",notDeclinedStage);
-                                $scope.funnelMap[index+1] = { key: notDeclinedStage, value: 0 };
+                            if(index === funnelMap.length - 1 && missingStage) {
+                                funnelMap[index+1] = { key: notDeclinedStage, value: 0 };
                             }
-
                         }
                     });
-                    console.log('-------------------');
                 });
-
-
-                if(!$scope.funnelMap[0]) {
-                    return;
-                }
             }
-            // $scope.funnelMap.map((item) => {
-            //     console.log(item);
-            // });
-            console.log($scope.funnelMap);
 
-            var myChart = {};
-            if ($scope.detailInterviewInfo) {
-                $scope.hasFunnelChart = true;
-                chartHeight = 30*($scope.funnelMap.length + 1);
-                var series = [];
-                var values = [];
-                var values2 = [];
-                var values3 = [];
-                var values4 = [];
-                var lastCount = null;
+            if(!funnelMap[0]) {
+                return;
+            }
 
-                angular.forEach($scope.funnelMap, function(stage) {
-                    console.log(stage.value,stage.key);
-                    series.push({
-                        "values": [stage.value]
-                    });
-                    values.push($filter('translate')(stage.key));
-                    values2.push(stage.value.toString());
-                    if (lastCount == null) {
-                        values3.push('100%');
-                    } else {
-                        values3.push((stage.value != 0 ? Math.round(stage.value / lastCount * 100) : 0) + '%');
-                    }
-                    if(lastCount == null) {
-                        values4.push('100%');
-                    } else{
-                        values4.push((stage.value != 0 ? Math.round(stage.value / $scope.funnelMap[0].value * 100) : 0) + '%');
-                    }
-                    lastCount = stage.value;
+            $scope.funnelMap = funnelMap;
+        }
+
+        function funnelConfig(funnelMap) {
+            $scope.hasFunnelChart = true;
+            chartHeight = 30*(funnelMap.length + 1);
+            let series = [],
+                values = [],
+                values2 = [],
+                values3 = [],
+                values4 = [],
+                values5 = [],
+                lastCount = null;
+
+            angular.forEach(funnelMap, function(stage) {
+                series.push({
+                    "values": [stage.value]
                 });
 
-                myChart = {
-                    "type": "funnel",
-                    "width":'900px',
-                    "series": series,
-                    tooltip: {visible: true, shadow: 0},
-                    "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 75}},
-                    "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": -60}},
-                    "scale-y-3": {
-                        "values": values3, "item": {fontSize: 12,"offset-x": 25}
+                values.push($filter('translate')(stage.key));
+                values2.push(stage.value.toString());
+
+                if (!lastCount) {
+                    values3.push('100%');
+                    values4.push('100%');
+                } else {
+                    values3.push((stage.value != 0 ? Math.round(stage.value / lastCount * 100) : 0) + '%');
+                    values4.push((stage.value != 0 ? Math.round(stage.value / funnelMap[0].value * 100) : 0) + '%');
+                }
+
+                lastCount = stage.value;
+            });
+
+            return { chartHeight, series, values, values2, values3, values4, values5 }
+        }
+
+        function drawFunnel(funnelMap, config, id, assignObj) {
+            console.log(arguments);
+
+            let myChart = {},
+                chartHeight = config.chartHeight,
+                series = config.series,
+                values = config.values,
+                values2 = config.values2,
+                values3 = config.values3,
+                values4 = config.values4;
+
+            myChart = {
+                "type": "funnel",
+                "width":'900px',
+                "series": series,
+                tooltip: {visible: true, shadow: 0},
+                "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 75}},
+                "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": -60}},
+                "scale-y-3": {
+                    "values": values3, "item": {fontSize: 12,"offset-x": 25}
+                },
+                "scale-y-4": {
+                    "values": values4, "item": {fontSize: 12,"offset-x": 107}
+                },
+                plotarea: {
+                    margin: '40px 0 0 20%'
+                },
+                "scale-x": {"values": [""]},
+                labels: [
+                    {
+                    text: $filter('translate')('Relative conversion'),
+                    fontWeight: "bold",
+                    fontSize: 12,
+                    // offsetX: $translate.use() != 'en' ?  775 : 785,
+                    offsetX: $translate.use() != 'en' ?  895 : 905,
+                    offsetY: 0
                     },
-                    "scale-y-4": {
-                        "values": values4, "item": {fontSize: 12,"offset-x": 107}
-                    },
-                    "plot": {
-                        // "offset-x": '60px'
-                    },
-                    plotarea: {
-                        margin: '40px 0 0 20%'
-                    },
-                    "scale-x": {"values": [""]},
-                    labels: [{
-                        text: $filter('translate')('Relative conversion'),
+                    {
+                        text: $filter('translate')('Absolute conversion'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        // offsetX: $translate.use() != 'en' ?  775 : 785,
-                        offsetX: $translate.use() != 'en' ?  895 : 905,
+                        // offsetX: 870,
+                        offsetX: 990,
                         offsetY: 0
                     },
-                        {
-                            text: $filter('translate')('Absolute conversion'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            // offsetX: 870,
-                            offsetX: 990,
-                            offsetY: 0
-                        },
-                        {
-                            text: $filter('translate')('Candidates'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            // offsetX: $translate.use() != 'en' ? 700 : 710,
-                            offsetX: $translate.use() != 'en' ? 815 : 825,
-                            offsetY: 0
-                        },
-                        {
-                            text: $filter('translate')('status'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: 210,
-                            offsetY: 0
-                        }
-                    ],
-                    "backgroundColor": "#FFFFFF",
-                    "gui": {
-                        "behaviors": [
-                            {"id": "DownloadPDF", "enabled": "none"},
-                            {"id": "Reload", "enabled": "none"},
-                            {"id": "Print", "enabled": "none"},
-                            {"id": "DownloadSVG", "enabled": "none"},
-                            {"id": "LogScale", "enabled": "none"},
-                            {"id": "About", "enabled": "none"},
-                            {"id": "FullScreen", "enabled": "none"},
-                            {"id": "BugReport", "enabled": "none"},
-                            {"id": "ViewSource", "enabled": "none"},
-                            {"id": "FullScreen", "enabled": "none"},
-                            {
-                                "id": "FullScreen", "enabled": "none"
-                            }
-                        ]
+                    {
+                        text: $filter('translate')('Candidates'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        // offsetX: $translate.use() != 'en' ? 700 : 710,
+                        offsetX: $translate.use() != 'en' ? 815 : 825,
+                        offsetY: 0
+                    },
+                    {
+                        text: $filter('translate')('status'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        offsetX: 210,
+                        offsetY: 0
                     }
-                };
-            } else {
-                chartHeight = 350;
-                myChart = {
-                    "type": "funnel",
-                    "width":'410px',
-                    "series": [
+                ],
+                "backgroundColor": "#FFFFFF",
+                "gui": {
+                    "behaviors": [
+                        {"id": "DownloadPDF", "enabled": "none"},
+                        {"id": "Reload", "enabled": "none"},
+                        {"id": "Print", "enabled": "none"},
+                        {"id": "DownloadSVG", "enabled": "none"},
+                        {"id": "LogScale", "enabled": "none"},
+                        {"id": "About", "enabled": "none"},
+                        {"id": "FullScreen", "enabled": "none"},
+                        {"id": "BugReport", "enabled": "none"},
+                        {"id": "ViewSource", "enabled": "none"},
+                        {"id": "FullScreen", "enabled": "none"},
                         {
-                            "values": [$scope.funnelMap['longlist']]
-                        }, {
-                            "values": [$scope.funnelMap['shortlist']]
-                        }, {
-                            "values": [$scope.funnelMap['interview']]
-                        }, {
-                            "values": [$scope.funnelMap['approved']]
+                            "id": "FullScreen", "enabled": "none"
                         }
-                    ],
-                    "tooltip": {
-                        "visible": true
-                    },
-                    "scale-y": {
-                        "values": [$filter('translate')('long_list'),
-                            $filter('translate')('short_list'),
-                            $filter('translate')('interview'),
-                            $filter('translate')('approved')],
-                        "item": {
-                            fontSize: 12,
-                            "offset-x": 35
-                        }
-                    },
-                    "scale-y-2": {
-                        "values": [$scope.funnelMap['longlist'] + '',
-                            $scope.funnelMap['shortlist'] + '',
-                            $scope.funnelMap['interview'] + '',
-                            $scope.funnelMap['approved'] + ''],
-                        "item": {
-                            fontSize: 12,
-                            "offset-x": 0
-                        }
-                    },
-                    "scale-y-3": {
-                        "values": ['100%',
-                            Math.round($scope.funnelMap['shortlist'] / $scope.funnelMap['longlist'] * 100) + '%',
-                            ($scope.funnelMap['shortlist'] != 0 ? Math.round($scope.funnelMap['interview'] / $scope.funnelMap['shortlist'] * 100) : 0) + '%',
-                            ($scope.funnelMap['interview'] != 0 ? Math.round($scope.funnelMap['approved'] / $scope.funnelMap['interview'] * 100) : 0) + '%'],
-                        "item": {
-                            fontSize: 12,
-                            "offset-x": -10
-                        }
-                    },
-                    "scale-y-4": {
-                        "values": ['100%',
-                            Math.round($scope.funnelMap['shortlist'] / $scope.funnelMap['longlist'] * 100) + '%',
-                            ($scope.funnelMap['interview'] != 0 ? Math.round($scope.funnelMap['interview'] / $scope.funnelMap['longlist'] * 100) : 0) + '%',
-                            ($scope.funnelMap['approved'] != 0 ? Math.round($scope.funnelMap['approved'] / $scope.funnelMap['longlist'] * 100) : 0) + '%'],
-                        "item": {
-                            fontSize: 12,
-                            "offset-x": 115
-                        }
-                    },
-                    "scale-x": {
-                        "values": [""]
-                    },
-                    labels: [
-                        {
-                            text: $filter('translate')('Relative conversion'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: 570,
-                            offsetY: 20
-                        },
-                        {
-                            text: $filter('translate')('Absolute conversion'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: 570,
-                            offsetY: 20
-                        },
-                        {
-                            text: $filter('translate')('Count'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: $translate.use() != 'en' ? 485 : 505,
-                            offsetY: 20
-                        },
-                        {
-                            text: $filter('translate')('status'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: 80,
-                            offsetY: 20
-                        }
-                    ],
-                    "backgroundColor": "#FFFFFF",
-                    "gui": {
-                        "behaviors": [
-                            {
-                                "id": "DownloadPDF",
-                                "enabled": "none"
-                            }, {
-                                "id": "Reload",
-                                "enabled": "none"
-                            }, {
-                                "id": "Print",
-                                "enabled": "none"
-                            }, {
-                                "id": "DownloadSVG",
-                                "enabled": "none"
-                            }, {
-                                "id": "LogScale",
-                                "enabled": "none"
-                            }, {
-                                "id": "About",
-                                "enabled": "none"
-                            }, {
-                                "id": "FullScreen",
-                                "enabled": "none"
-                            }, {
-                                "id": "BugReport",
-                                "enabled": "none"
-                            }, {
-                                "id": "ViewSource",
-                                "enabled": "none"
-                            }, {
-                                "id": "FullScreen",
-                                "enabled": "none"
-                            }, {
-                                "id": "FullScreen",
-                                "enabled": "none"
-                            }
-                        ]
-                    }
-                };
+                    ]
+                }
+            };
+
+            if(assignObj) {
+                console.log('here', assignObj);
+                Object.assign(myChart, assignObj);
             }
+
             zingchart.render({
-                id: "myChartDiv",
+                id: id,
                 data: myChart,
                 height: chartHeight,
                 width: 1290,
                 output: "html5"
             });
         }
+
+        $scope.setStatisticsType = function(type) {
+            $scope.statisticsType = type;
+            if(type === 'default') return;
+
+            getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true})
+                .then(resp => {
+                    let userValues = [];
+
+                    angular.forEach(resp.vacancyInterviewDetalInfo, function(value, key){
+                        userValues.push({
+                            key: key,
+                            value: value
+                        });
+                    });
+                    let stages = validatedStages(userValues, $scope.notDeclinedStages, $scope.declinedStages);
+
+                    console.log(stages);
+                    let userSeries = [{"values": [140]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]},{"values": [8]}]; // candidates amounth --> get from values
+                    let USERCANDIDATES = [];
+
+                    userSeries.forEach((item) => {
+                        USERCANDIDATES.push(String(item.values[0]));
+                    });
+
+                    let obj = {
+                        // "series": userSeries,
+                        "scale-y-5": {"values": USERCANDIDATES, "item": {fontSize: 12,"offset-x": 200}},
+                        labels: [
+                            {
+                                text: $filter('translate')('User name'),
+                                fontWeight: "bold",
+                                fontSize: 12,
+                                // offsetX: $translate.use() != 'en' ?  775 : 785,
+                                offsetX: $translate.use() != 'en' ?  1095 : 1105,
+                                offsetY: 0
+                            },
+                            {
+                                text: $filter('translate')('Relative conversion'),
+                                fontWeight: "bold",
+                                fontSize: 12,
+                                // offsetX: $translate.use() != 'en' ?  775 : 785,
+                                offsetX: $translate.use() != 'en' ?  895 : 905,
+                                offsetY: 0
+                            },
+                            {
+                                text: $filter('translate')('Absolute conversion'),
+                                fontWeight: "bold",
+                                fontSize: 12,
+                                // offsetX: 870,
+                                offsetX: 990,
+                                offsetY: 0
+                            },
+                            {
+                                text: $filter('translate')('Candidates'),
+                                fontWeight: "bold",
+                                fontSize: 12,
+                                // offsetX: $translate.use() != 'en' ? 700 : 710,
+                                offsetX: $translate.use() != 'en' ? 815 : 825,
+                                offsetY: 0
+                            },
+                            {
+                                text: $filter('translate')('status'),
+                                fontWeight: "bold",
+                                fontSize: 12,
+                                offsetX: 210,
+                                offsetY: 0
+                            }
+                        ]
+                    };
+
+                    initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages);
+                    drawFunnel($scope.funnelMap, funnelConfig($scope.funnelMap), "myChartDiv2", obj);
+                }, error => notificationService.error(error.message));
+        };
 
         $scope.updateData = function() {
             var dateFrom = $('#dateFrom').datetimepicker('getDate') != null ? $('#dateFrom').datetimepicker('getDate') : null;
@@ -41064,8 +41021,13 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                             })
                         });
                     }
-                    initSalesFunnel(dateFrom, dateTo);
                 });
+
+            let stages = validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages);
+            initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages);
+            drawFunnel($scope.funnelMap, funnelConfig($scope.funnelMap), "myChartDiv", null);
+
+            $scope.statisticsType = 'default';
 
             zingchart.exec('myChartDiv', 'reload');
         };
@@ -41081,21 +41043,17 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             dateFrom.setHours(0, 0, 0, 0);
             dateTo.setHours(0, 0, 0, 0);
             dateTo.setDate(dateTo.getDate() + 1);
-            Statistic.getVacancyInterviewDetalInfoFile({
+            getVacancyDetailInfo({
                 "vacancyId": $scope.vacancy.vacancyId,
                 "from": dateFrom,
                 "to": dateTo,
                 withCandidatesHistory: true
-            },function(resp){
-                if(resp.status == 'ok'){
-                    pdfId = resp.object;
-                    $('#downloadPDF')[0].href = '/hr/' + 'getapp?id=' + pdfId;
-                    $('#downloadPDF')[0].click();
-                    $scope.downloadPDFisPressed = false;
-                }else{
-                    notificationService.error(resp.message);
-                }
-            });
+            }).then(resp => {
+                pdfId = resp.object;
+                $('#downloadPDF')[0].href = '/hr/' + 'getapp?id=' + pdfId;
+                $('#downloadPDF')[0].click();
+                $scope.downloadPDFisPressed = false;
+            }, error => notificationService.error(error.message));
         };
         Vacancy.all(Vacancy.searchOptions(), function(response) {
             $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
@@ -41109,13 +41067,22 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         $scope.getCompanyParams();
         $scope.toBottom = function () {
             $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+        };
+
+        function getVacancyDetailInfo(params) {
+            $rootScope.loading = true;
+            return new Promise((resolve, reject) => {
+                Statistic.getVacancyInterviewDetalInfo(params, resp => {
+                    $rootScope.loading = false;
+                    if(resp.vacancyInterviewDetalInfo) {
+                        resolve(resp);
+                    } else {
+                        reject(resp);
+                    }
+                }, error => reject(error));
+            });
         }
-    }
-
-]);
-
-
-
+}]);
 
 function deleteUnnecessaryFields(object) {
     if (object) {
