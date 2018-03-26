@@ -302,7 +302,7 @@
 			}
 			.promoImg {
 				display: inline-block;
-				margin-right: 15px;
+				margin-right: 10px;
 
 				color: $theme-dark;
 				i {
@@ -312,6 +312,86 @@
 					text-decoration: none;
 					span {
 						text-decoration: underline;
+					}
+				}
+			}
+			#owner_photo_wrap {
+				display: inline;
+				width: 100%;
+				#wrapperForPng {
+					img {
+						max-width: 100%;
+					}
+					#cancel {
+						@include button-styling-cancel();
+
+						font-weight: normal;
+
+						margin-top: 15px;
+						padding: 3px 4px;
+					}
+					#download {
+						@include button-green-styling();
+
+						font-weight: normal;
+
+						margin-top: 15px;
+						margin-left: 12px;
+						padding: 3px 4px;
+					}
+				}
+				#cropper-wrap {
+					margin-top: 20px;
+
+					text-align: center;
+
+					border-radius: 5px;
+					.cropper-container {
+						margin-left: -16px;
+					}
+					#close {
+						@include button-styling-cancel();
+
+						font-weight: normal;
+
+						padding: 3px 9px;
+					}
+					#cropp {
+						@include button-green-styling();
+
+						font-weight: normal;
+
+						padding: 3px 9px;
+					}
+					#img-wrapper {
+						margin-bottom: 20px;
+					}
+				}
+				.imgForPromo {
+					display: inline;
+					width: 60px;
+					height: 60px;
+
+					cursor: pointer;
+				}
+				&:hover .deletePromoLogo {
+					opacity: 1;
+				}
+				.deletePromoLogo {
+					position: relative;
+					top: -60px;
+					left: 44px;
+
+					display: block;
+					width: 16px;
+					height: 16px;
+
+					opacity: 0;
+					i {
+						height: 14px;
+						margin: 0;
+
+						background-color: #fff;
 					}
 				}
 			}

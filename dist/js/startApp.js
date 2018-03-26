@@ -3797,8 +3797,7 @@ angular.module('services.candidate', [
             "position": null,
             "salary": null,
             "sex": null,
-            "candidateGroupId" : null,
-            "withPersonalContacts" : null
+            "candidateGroupId" : null
         };
     };
 

@@ -2584,6 +2584,123 @@ directive('appVersion', ['version', function(version) {
             }
         }]
     )
+    .directive('addPromoLogo', ["$rootScope", "Vacancy", "notificationService", "$filter", function ($rootScope, Vacancy, notificationService, $filter) {
+        return {
+            restrict: 'AE',
+            link: function ($scope, elem, attr, ctrl) {
+
+                elem.on('click', function () {
+                    if ($rootScope.me.recrutRole == 'admin') {
+                        $("#the-file-input").click();
+                    } else {
+                        notificationService.error($filter('translate')('Only admin can set logo'));
+                    }
+                });
+
+                var Cropper = window.Cropper;
+
+                $("#the-file-input").unbind('change').change(function() {
+                    renderImage(this.files[0]);
+                });
+
+                renderImage = function (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (event) {
+                        var the_url = event.target.result;
+                        var logoImg = new Image();
+                        logoImg.src = the_url;
+                        logoImg.onload = function () {
+                            $('#logo-button').hide();
+                            if(logoImg.width > 290 && logoImg.height > 290){
+                                if($("#cropper-wrap").length == 0) {
+                                    $("#owner_photo_wrap").prepend('<div id="cropper-wrap"> <div id="img-wrapper"> </div> <button id="close">' + $filter("translate")("Close") + '</button> <button id="cropp">' + $filter("translate")("Accept_1") + '</button> <div id="wrapper"></div>  </div> <div id="wrapperForPng"></div>');
+                                    $("#owner_photo_wrap").find('img').hide();
+                                    $("#owner_photo_bubble_wrap").hide();
+                                    $('#wrapperForPng').hide();
+                                }
+                                $('#img-wrapper').html("<img id='image' src='" + the_url + "'>");
+                                cropperFunc();
+                            } else if(logoImg.width == 290 && logoImg.height == 290){
+                                Vacancy.uploadPromoLogo(the_url).then(function (data) {
+                                    $scope.callbackAddPromoLogo(data.data.object);
+                                    $('#logo-button').show();
+                                }, function (error) {
+                                    notificationService.error(error.data.message);
+                                    $('#logo-button').show();
+                                });
+                            } else {
+                                $('#logo-button').show();
+                                notificationService.error($filter('translate')('Please choose image 290 x 290 px or larger'));
+                            }
+                        }
+
+                    };
+                    reader.readAsDataURL(file);
+                };
+
+                function cropperFunc() {
+                    var image = document.getElementById('image');
+                    var cropper = new Cropper(image, {
+                        aspectRatio: 1 / 1,
+                        movable: false,
+                        zoomable: false
+                    });
+
+                    $('#cropp').on('click',function () {
+                        var canvasImg = image.cropper.getCroppedCanvas();
+                        var ctx = canvasImg.getContext('2d');
+
+                        var canvasCopy = document.createElement("canvas");
+                        var copyContext = canvasCopy.getContext("2d");
+                        canvasCopy.width = 290;
+                        canvasCopy.height = 290;
+                        copyContext.drawImage(canvasImg, 0, 0, 290, 290);
+                        canvasImg.width = 290;
+                        canvasImg.height = 290;
+                        ctx.drawImage(canvasCopy, 0, 0, canvasImg.width, canvasImg.height,  0, 0,  canvasCopy.width, canvasCopy.height);
+                        $scope.dataUrl = canvasImg.toDataURL();
+                        $('#wrapperForPng').show();
+                        $('#wrapperForPng').html("<img  src='" + $scope.dataUrl + "' > <button id='cancel'>" + $filter('translate')('cancel') + "</button><button id='download'>" + $filter('translate')('save') + "</button>");
+                        $('#cropper-wrap').hide();
+                        $('#cancel').on('click', function () {
+                            $('#cropper-wrap').show();
+                            $('#wrapperForPng').find('img').remove();
+                            $('#cancel').remove();
+                            $('#download').remove();
+                        });
+                        $('#download').on('click', function () {
+                            Vacancy.uploadPromoLogo($scope.dataUrl).then(function (data) {
+                                $scope.callbackAddPromoLogo(data.data.object);
+                                $('#company-logo').show();
+                                cropper.destroy();
+                                $('#cropper-wrap').remove();
+                                $('#wrapperForPng').remove();
+                                $("#the-file-input").val('');
+                                $("#owner_photo_wrap").find('img').show();
+                                $("#owner_photo_bubble_wrap").show();
+                                $(".block-company .img-section img").prop('href','$rootScope.promoLogoLink');
+                                $('#logo-button').show();
+                            }, function (error) {
+                                notificationService.error(error.data.message);
+                            });
+
+                        });
+                    });
+                    $('#close').on('click', function () {
+                        cropper.destroy();
+                        $('#cropper-wrap').remove();
+                        $('#wrapperForPng').remove();
+                        $("#the-file-input").val('');
+                        $("#owner_photo_wrap").find('img').show();
+                        $("#owner_photo_bubble_wrap").show();
+                        if($rootScope.promoLogo == undefined) {
+                            $("#logo-button").show();
+                        }
+                    });
+                }
+            }
+        }
+    }])
     .directive('clickAnywhereButHere', function($document) {
         return {
             restrict: 'A',
@@ -7741,8 +7858,8 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             property.forEach(item  => {
                 if(data.indexOf(item.value) !== -1 || data.indexOf(item.customInterviewStateId) !== -1){
                     item.added = true;
-            }
-        });
+                }
+            });
             return property;
         }
 
@@ -13200,7 +13317,7 @@ angular.module('services.company', [
 
 angular.module('services.vacancy', [
     'ngResource'
-]).factory('Vacancy', ['$resource', 'serverAddress','$rootScope','$q', function($resource, serverAddress, $rootScope, $q) {
+]).factory('Vacancy', ['$resource', 'serverAddress','$rootScope','$q', '$http', function($resource, serverAddress, $rootScope, $q, $http) {
     var options;
     var vacancy = $resource(serverAddress + '/vacancy/:param', {param: "@param"}, {
         all: {
@@ -13437,6 +13554,18 @@ angular.module('services.vacancy', [
             method:"POST",
             params:{
                 param:'changeVacanciesForCandidatesAccess'
+            }
+        },
+        saveImg:{
+            method:"POST",
+            params:{
+                param:'saveImg'
+            }
+        },
+        removeImg:{
+            method:"POST",
+            params:{
+                param:'removeImg'
             }
         }
     });
@@ -14019,6 +14148,24 @@ angular.module('services.vacancy', [
             },() =>{
                 reject();
             });
+        });
+    };
+    vacancy.uploadPromoLogo = function(fileUp){
+        var FD  = new FormData();
+        var blobBin = atob(fileUp.split(',')[1]);
+        var array = [];
+        for(var i = 0; i < blobBin.length; i++) {
+            array.push(blobBin.charCodeAt(i));
+        }
+        var file=new Blob([new Uint8Array(array)], {type: 'image/png'});
+        FD.append('image', file);
+        return $http({
+            url: serverAddress + "/vacancy/saveImg/" + $rootScope.vacancy.vacancyId,
+            method: 'POST',
+            data: FD,
+            withCredentials: true,
+            headers: { 'Content-Type': undefined},
+            transformRequest: angular.identity
         });
     };
 
@@ -37301,6 +37448,19 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.statusAssoc = Vacancy.getStatusAssociated();
         $rootScope.statusInter = Vacancy.getInterviewStatus();
 
+        $scope.callbackAddPromoLogo = function(photo) {
+            if(photo != undefined){
+                $('#owner_photo_wrap').css('width', '13%');
+                $rootScope.promoLogo = photo;
+                if($rootScope.promoLogo != undefined){
+                    $rootScope.promoLogoLink = $location.$$protocol + "://" + $location.$$host + $scope.serverAddress + "/getlogo?id=" + $rootScope.promoLogo + "&d=true";
+                }else{
+                    $rootScope.promoLogoLink = "https://cleverstaff.net/images/sprite/vacancy-new.jpg";
+                }
+            }else{
+                $('#owner_photo_wrap').css('width', '100%');
+            }
+        };
 
         $scope.numberOfCandidatesInDifferentStates = function () {
             var totalCount = 0;
@@ -37850,6 +38010,19 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                     Vacancy.one({"localId": $scope.vacancy.localId}, function (resp) {
                                         $scope.vacancy = resp.object;
                                         $rootScope.vacancy = resp.object;
+                                        if($scope.vacancy != undefined){
+                                            $rootScope.promoLogo = $scope.vacancy.imageId;
+                                            if($rootScope.promoLogo != undefined){
+                                                $rootScope.promoLogoLink = $location.$$protocol + "://" + $location.$$host + $scope.serverAddress + "/getlogo?id=" + $rootScope.promoLogo + "&d=true";
+                                            }else{
+                                                $rootScope.promoLogoLink = "https://cleverstaff.net/images/sprite/vacancy-new.jpg";
+                                            }
+                                            if($scope.vacancy.imageId != undefined){
+                                                $('#owner_photo_wrap').css('width', '13%');
+                                            }else{
+                                                $('#owner_photo_wrap').css('width', '100%');
+                                            }
+                                        }
                                         $scope.recalls = resp.object.recalls;
                                         if($scope.showTable !== 'recalls') {
                                             if($scope.dataForVacancy.length == 1 && $scope.a.searchNumber > 1) {
