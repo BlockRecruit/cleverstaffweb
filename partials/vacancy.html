@@ -257,7 +257,7 @@
                 </a>
                 <div id="owner_photo_wrap" class="pull-left">
                     <input id="the-file-input" accept="image/*" type="file" style="display:none">
-                    <img ng-if="$root.promoLogo != undefined" class="imgForPromo" ng-click="openPromoLogo($root.promoLogo);" ng-src="{{$root.serverAddress}}/getapp?id={{$root.promoLogo}}&d=" alt=""/>
+                    <img ng-if="$root.promoLogo != undefined" class="imgForPromo" ng-click="openPromoLogo();" ng-src="{{$root.serverAddress}}/getapp?id={{$root.promoLogo}}&d=" alt=""/>
                     <span ng-if="$root.promoLogo != undefined" class="deletePromoLogo">
                         <i class="fa fa-times pull-right" ng-click="removePromoLogo()" title="{{'remove_logo'|translate}}"></i>
                     </span>

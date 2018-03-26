@@ -39475,13 +39475,21 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             })
         };
 
-        $scope.openPromoLogo = function (candidate) {
+        $scope.openPromoLogo = function () {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/open-promo-logo.html',
                 size: '',
                 resolve: function () {
 
+                }
+            });
+        };
+        $scope.removePromoLogo = function () {
+            Vacancy.removeImg({"vacancyId": $scope.vacancy.vacancyId}, function (resp) {
+                if (resp.status == "ok") {
+                    notificationService.success($filter('translate')('Logo of the vacancy') + ' ' + $scope.vacancy.position + ' ' + $filter('translate')('was removed'));
+                    $scope.updateVacancy();
                 }
             });
         };
