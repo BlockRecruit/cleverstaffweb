@@ -612,11 +612,11 @@ $(document).ready(function () {
                         if (!isIE()) {
                             socialSuccess("google", messages.redirect);
                             if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'ru'){
-                                window.location.replace("/finishreg");
+                                window.location.replace("/finishreg-social");
                             }else if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'en'){
-                                window.location.replace("/finishregeng");
+                                window.location.replace("/finishregeng-social");
                             } else {
-                                window.location.replace("/finishreg");
+                                window.location.replace("/finishreg-social");
                             }
                         } else {
                             downloadNewBrowser();
@@ -798,11 +798,11 @@ $(document).ready(function () {
                         if (!isIE()) {
                             socialSuccess("facebook", messages.redirect);
                             if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'ru'){
-                                window.location.replace("/finishreg");
+                                window.location.replace("/finishreg-social");
                             }else if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'en'){
-                                window.location.replace("/finishregeng");
+                                window.location.replace("/finishregeng-social");
                             } else {
-                                window.location.replace("/finishreg");
+                                window.location.replace("/finishreg-social");
                             }
                         } else {
                             downloadNewBrowser();
