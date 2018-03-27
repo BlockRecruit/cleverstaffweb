@@ -1009,7 +1009,7 @@
 			transition-property: opacity, visibility;
 
 			opacity: 0;
-			border: none;
+			border: 1px solid #ccc;
 			border-radius: 5px;
 			.row {
 				padding-bottom: 2px;
@@ -1020,7 +1020,6 @@
 				transition-property: opacity, visibility;
 
 				opacity: 1;
-				border: 1px solid #ccc;
 			}
 			.candidates-list-wrapper {
 				overflow-y: auto;
