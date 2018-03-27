@@ -7829,7 +7829,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             this.data.interviewStatuses   = filterSelectedItems(this.selectStages, 'interviewStatuses');
             this.data.vacancyFields       = filterSelectedItems(this.fieldsList, 'vacancyFields');
             this.data.сustomVacancyFields = filterSelectedItems(this.fieldsList, 'сustomVacancyFields');
-            console.log( this.fieldsVacancyLis, ' this.fieldsVacancyLis')
             this.data.vacancyIds          = this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId);
         }
 
@@ -42986,6 +42985,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         ];
 
         function resetAngularContext() {
+            console.log('work!!');
             $rootScope.loading = false;
             $scope.$apply();
         }
@@ -43284,43 +43284,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                     }
                     return false;
                 })
-                .then(resp =>{
-                    if(resp) {
-                        var arrayCustom = [];
-                        angular.forEach(resp.object, function (r) {
-                            angular.forEach($scope.inVacancyStatuses, function (res) {
-                                if (res.value == r.item) {
-                                    res.count = r.count;
-                                }
-                            });
-                            angular.forEach($scope.customStages, function (customS) {
-                                if (customS.customInterviewStateId == r.item) {
-                                    customS.count = r.count;
-                                }
-                            });
-                        });
-                        angular.forEach($scope.inVacancyStatuses, function (res) {
-                            if (res.count != 0) {
-                                arrayCustom.push(res.value);
-                                $scope.activeInVacancyStatuses.push(res);
-                            } else {
-                                res.added = false;
-                            }
-                        });
-                        angular.forEach($scope.customStages, function (res) {
-                            if (res.count != 0) {
-                                arrayCustom.push(res.customInterviewStateId);
-                                res.added = true;
-                                $scope.customStagesActive.push(res);
-                            } else {
-                                res.added = false;
-                            }
-                        });
-                        $scope.inVacancysStatusesParam = arrayCustom;
-                    }
-                    return true;
-
-                })
+                .then(setCountAndCandidatesInStages)
                 .then(resp => {
                     if($scope.firstTimeLoading != 1 && $scope.startVacancyDate && $scope.endDate){
                         Promise.all([
@@ -43771,7 +43735,8 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
         $scope.selectedVacancy = function (vacancyID) {
             vacancyID.check = !vacancyID.check;
-            reloadCountCandidatesInStatuses()
+            reloadCountCandidatesInStatuses();
+            reloadCountAndCandidatesInStages();
         };
 
         $scope.selectDateRange = function (event, dateRange, isUpdate) {
@@ -43944,7 +43909,6 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             let listCheckStatuses = $scope._vacancyStatuses.filter(item => item.added).map(status => status.item),
                 max = $scope.fieldsVacancyList.length, i = 0;
 
-            console.log($scope.fieldsVacancyList, '$scope.fieldsVacancyList')
            for(;i < max;i++){
                let searchNeedVacansy = false,
                    elem = $scope.fieldsVacancyList[i];
@@ -43963,6 +43927,91 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                }
            }
 
+        }
+
+        function reloadCountAndCandidatesInStages(){
+            Stat.requestGetCountInterviewForActualVacancyStatistic({
+                "from":$scope.startVacancyDate,
+                "to":$scope.endDate,
+                "vacancyStatuses":$scope._vacancyStatuses.filter(item => item.added).map(status => status.item),
+                "interviewCreatorIds": $scope.choosenPersons,
+                "vacancyIds": $scope.fieldsVacancyList.filter(item => item.check).map(vacancy => vacancy.vacancyId)
+            })
+            .then(updateCountCandidateInStages)
+            .then(resetAngularContext);
+        }
+
+        function updateCountCandidateInStages(resp) {
+            let data = resp.object;
+            updateStandartStages(data);
+            updateCustomStages(data);
+        }
+        
+        function updateStandartStages(data) {
+            if(!data.length) return;
+
+            $scope.inVacancyStatuses.forEach(stage => data.forEach(updateStage => {
+                if(stage.value == updateStage['item']){
+                    stage.added = true;
+                    stage.count = updateStage.count;
+                }else {
+                    stage.added = false;
+                    stage.count = 0;
+                }
+            }));
+        }
+
+        function updateCustomStages(data) {
+            console.log(data, 'data');
+            console.log($scope.customStages, ' $scope.customStages.');
+            if(!data.length) return;
+
+            $scope.customStages.forEach(stage => data.forEach(updateStage => {
+                if(stage.value == updateStage['item']){
+                    stage.added = true;
+                    stage.count = updateStage.count;
+                }else {
+                    stage.added = false;
+                    stage.count = 0;
+                }
+            }));
+        }
+
+        function setCountAndCandidatesInStages(resp) {
+            if(resp) {
+                var arrayCustom = [];
+                angular.forEach(resp.object, function (r) {
+                    angular.forEach($scope.inVacancyStatuses, function (res) {
+                        if (res.value == r.item) {
+                            res.count = r.count;
+                        }
+                    });
+                    angular.forEach($scope.customStages, function (customS) {
+                        if (customS.customInterviewStateId == r.item) {
+                            customS.count = r.count;
+                        }
+                    });
+                });
+                angular.forEach($scope.inVacancyStatuses, function (res) {
+                    if (res.count != 0) {
+                        arrayCustom.push(res.value);
+                        $scope.activeInVacancyStatuses.push(res);
+                    } else {
+                        res.added = false;
+                    }
+                });
+                angular.forEach($scope.customStages, function (res) {
+                    if (res.count != 0) {
+                        arrayCustom.push(res.customInterviewStateId);
+                        res.added = true;
+                        $scope.customStagesActive.push(res);
+                    } else {
+                        res.added = false;
+                    }
+                });
+                $scope.inVacancysStatusesParam = arrayCustom;
+            }
+            return true;
         }
     }
 ]);
