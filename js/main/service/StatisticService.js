@@ -1,6 +1,6 @@
  angular.module('services.statistic', [
     'ngResource'
-]).factory('Statistic', ['$resource', 'serverAddress', function($resource, serverAddress) {
+]).factory('Statistic', ['$resource', 'serverAddress', '$rootScope', function($resource, serverAddress, $rootScope) {
     var service = $resource(serverAddress + '/stat/:action', {action: "@action"}, {
         getOrgInfo: {
             method: "GET",
@@ -59,6 +59,8 @@
     };
 
      service.getVacancyDetailInfo = function(params) {
+         $rootScope.loading = true;
+
          return new Promise((resolve, reject) => {
              service.getVacancyInterviewDetalInfo(params, resp => {
                  if(resp.vacancyInterviewDetalInfo) {
@@ -69,11 +71,16 @@
                              value: value
                          });
                      });
+                     $rootScope.loading = false;
                      resolve(vacancyInterviewDetalInfo);
                  } else {
+                     $rootScope.loading = false;
                      reject(resp);
                  }
-             }, error => reject(error));
+             }, error => {
+                 $rootScope.loading = false;
+                 reject(error);
+             });
          });
      };
 

@@ -199,6 +199,9 @@
 					font-family: "Helvetica-Bold";
 					font-size: 14px;
 				}
+				&.active {
+					background-color: #dbd8d8;
+				}
 				&:hover {
 					cursor: pointer;
 

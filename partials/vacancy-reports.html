@@ -58,14 +58,11 @@
             </div>
             <div class="col-xs-12 no-padding">
                 <div class="funnel-types">
-                    <div class="funnel-type" ng-click="setStatisticsType('default')">
-                        <h5>General Statistics</h5>
+                    <div class="funnel-type" ng-class="{'active': statistics.type === 'default'}" ng-click="setStatistics('default')">
+                        <h5>{{'General Statistics' | translate}}</h5>
                     </div>
-                    <!--<div class="funnel-type"  ng-click="setStatisticsType('responsible')">-->
-                        <!--<h5>Statistics for {{responsible.name}}</h5>-->
-                    <!--</div>-->
-                    <div class="funnel-type" ng-repeat="user in funnelActionUsersList track by $index" ng-click="setStatisticsType('userFunnel', user)">
-                        <h5>Statistics for {{user.name}}</h5>
+                    <div class="funnel-type" ng-class="{'active': statistics.user === user}" ng-repeat="user in funnelActionUsersList track by $index" ng-click="setStatistics('userFunnel', user)">
+                        <h5>{{user.name}}</h5>
                     </div>
                 </div>
             </div>
@@ -75,12 +72,13 @@
                         <div class="ui vertically divided grid ">
                             <div class="sixteen wide column funnel-header">
                                 <span class="text-center">{{'Recruiting funnel'|translate}}</span>
+                                <span ng-show="statistics.user.name">({{statistics.user.name}})</span>
                             </div>
                         </div>
-                        <div class="myChartFunnel" ng-show="statisticsType === 'default' && hasFunnelChart">
+                        <div class="myChartFunnel" ng-show="statistics.type === 'default' && hasFunnelChart">
                             <div id="myChartDiv" class="text-center"></div>
                         </div>
-                        <div class="myChartFunnel" ng-show="statisticsType === 'userFunnel' && hasFunnelChart">
+                        <div class="myChartFunnel" ng-show="statistics.type === 'userFunnel' && hasFunnelChart">
                             <div id="myChartDiv2" class="text-center"></div>
                         </div>
 
