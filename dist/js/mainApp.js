@@ -40753,21 +40753,13 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true})
                 .then(vacancyInterviewDetalInfo => {
                     $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
-
                     $scope.vacancyFunnelMap = initSalesFunnel(validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages));
-                    drawFunnel(funnelConfig($scope.vacancyFunnelMap), "myChartDiv",  null);
+                    drawFunnel({config:funnelConfig($scope.vacancyFunnelMap), id:"myChartDiv",  assignObj:null});
                     $scope.$apply();
                 }, error => notificationService.error(error.message));
         });
 
         /* -- general funnel
-            1. - validateStages  --- transform custom stages names like 1erg234erfwf43 to valid custom names
-            2. - initSalesFunnel --- add non-existing required vacancy stages, and removing refusals
-            3. - funnelConfig    --- parsing data from request format to zingchart data format, calculating ABS and REL conversion
-            4. - drawFunnel      --- drawing funnel
-        */
-
-        /* -- users funnel
             1. - validateStages  --- transform custom stages names like 1erg234erfwf43 to valid custom names
             2. - initSalesFunnel --- add non-existing required vacancy stages, and removing refusals
             3. - funnelConfig    --- parsing data from request format to zingchart data format, calculating ABS and REL conversion
@@ -40865,7 +40857,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             return { chartHeight, series, stages, candidateSeries, RelConversion, AbsConversion, values5 }
         }
 
-        function drawFunnel(config, id, assignObj) {
+        function drawFunnel({config, id, assignObj}) {
+            console.log(config, id, assignObj);
 
             let myChart = {},
                 chartHeight = config.chartHeight,
@@ -40978,6 +40971,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
             if(getUserActionsFunnelCache(user)) {
                 console.log(getUserActionsFunnelCache(user));
+                console.log({...getUserActionsFunnelCache(user)});
                 drawFunnel({...getUserActionsFunnelCache(user)});
                 return;
             }
@@ -40994,7 +40988,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                         username: user.name
                     };
 
-                    drawFunnel(funnelConfig(userFunnelMap), "myChartDiv2", userActionsFunnelConfig(userActionsFunnelData, user));
+                    drawFunnel({config:funnelConfig(userFunnelMap), id:"myChartDiv2", assignObj:userActionsFunnelConfig(userActionsFunnelData, user)});
 
                     setUserActionsFunnelCache({config:funnelConfig(userFunnelMap), id:"myChartDiv2", assignObj:userActionsFunnelConfig(userActionsFunnelData), user: user});
                 }, error => notificationService.error(error.message));
@@ -41097,7 +41091,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
 
                     $scope.vacancyFunnelMap = initSalesFunnel(validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages));
-                    drawFunnel(funnelConfig($scope.vacancyFunnelMap), "myChartDiv", null);
+                    drawFunnel({config:funnelConfig($scope.vacancyFunnelMap), id:"myChartDiv", assignObj:null});
 
                     $scope.statistics = {type : 'default', user: {}};
                     $scope.$apply();
