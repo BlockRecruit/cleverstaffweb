@@ -6972,13 +6972,33 @@ angular.module('services.notice', [
                     params: {
                         param: "deleteOutlookCalendar"
                     }
+                },
+                filteredPersons: {
+                    method: "DELETE",
+                    params: {
+                        param: "getFilteredPersons"
+                    }
                 }
 
             });
+
+
      person.requestGetAllPersons = function () {
          $rootScope.loading = true;
          return new Promise((resolve, reject) => {
              person.getAllPersons(resp => resolve(resp, resp['request'] = 'AllPersons'),error => reject(error));
+         });
+     };
+
+     person.getFilteredPersons = function(params) {
+         return new Promise((resolve, reject) => {
+             person.filteredPersons(params, resp => {
+                 if(resp.status === 'ok') {
+                     resolve(resp)
+                 } else {
+                     reject(resp);
+                 }
+             }, error => reject(error));
          });
      };
 

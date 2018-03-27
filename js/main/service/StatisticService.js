@@ -58,5 +58,24 @@
             return service.parameters[key];
     };
 
+     service.getVacancyDetailInfo = function(params) {
+         return new Promise((resolve, reject) => {
+             service.getVacancyInterviewDetalInfo(params, resp => {
+                 if(resp.vacancyInterviewDetalInfo) {
+                     let vacancyInterviewDetalInfo = [];
+                     angular.forEach(resp.vacancyInterviewDetalInfo, function(value, key) {
+                         vacancyInterviewDetalInfo.push({
+                             key: key,
+                             value: value
+                         });
+                     });
+                     resolve(vacancyInterviewDetalInfo);
+                 } else {
+                     reject(resp);
+                 }
+             }, error => reject(error));
+         });
+     };
+
     return service;
 }]);
