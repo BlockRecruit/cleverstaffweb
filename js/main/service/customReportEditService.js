@@ -335,8 +335,8 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             let i = '', mass = [];
 
             if(type === 'vacancyStatuses' || type === 'interviewStatuses'){
-                data = data.filter(item => item.added);
-                data = data.map(item => item.customInterviewStateId || item.value);
+                data = data.filter(item => item.added || item.check);
+                data = data.map(item => item.customInterviewStateId || item.value || item['item']);
             }else if(type === 'vacancyFields'){
                 data = data.filter(item => item.visible && !item.id);
                 data = data.forEach(item => {
@@ -371,7 +371,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
             createFinishDataBeforeSave.call(this);
             change = isChanged(CustomReportsService.data, this.data);
-
+            console.log(change);
             this.change = change;
             return true;
         }
