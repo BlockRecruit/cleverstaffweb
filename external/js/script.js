@@ -798,11 +798,11 @@ $(document).ready(function () {
                         if (!isIE()) {
                             socialSuccess("facebook", messages.redirect);
                             if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'ru'){
-                                window.location.replace("/finishreg-social");
+                                window.location.replace("/finishreg");
                             }else if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'en'){
-                                window.location.replace("/finishregeng-social");
+                                window.location.replace("/finishregeng");
                             } else {
-                                window.location.replace("/finishreg-social");
+                                window.location.replace("/finishreg");
                             }
                         } else {
                             downloadNewBrowser();
@@ -3654,27 +3654,15 @@ function getPopupParams() {
     return 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left;
 }
 function signupFacebook() {
-    resetMessage();
-    FB.login(function(response) {
-        if (response.authResponse) {
-            var code = response.authResponse.accessToken; //get access token
-            FB.api('/me?fields=email,name', function(user) {
-                try {
-                    if (document.domain === 'cleverstaff.net') fbq('track', 'Registration');
-                } catch(err) {
-                    console.error("Facebook Pixel" ,err);
-                }
-                console.log(user);
-                $("#facebook_mail").val(user.email);
-                $("#facebook_name").val(user.name);
-                $("#facebook_code").val(code);
-                $("#signupFacebook").modal('show');
-            });
-        } else {
-        }
-    }, {
-        scope: 'email'
-    });
+    socialSuccess("facebook", messages.redirect);
+    localStorage.setItem("socialSuccess", "true");
+    if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'ru'){
+        window.location.replace("/finishreg");
+    }else if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'en'){
+        window.location.replace("/finishregeng");
+    } else {
+        window.location.replace("/finishreg");
+    }
 }
 (function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
