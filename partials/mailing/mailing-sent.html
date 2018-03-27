@@ -65,7 +65,10 @@
         </div>
     </div>
     <!-- Analytics -->
-    <div class="row statistics" ng-show="statistics.sent > 0 && statistics.sent >= readers.length && statistics.sent >= notReceived.length">
+    <div class="row not-yet" ng-if="currentDate - sendDate <= 600000">
+        <h4 translate="Email delivery statistics will appear in a few minutes" class="text-left"></h4>
+    </div>
+    <div class="row statistics" ng-show="statistics.sent > 0 && statistics.sent >= readers.length && statistics.sent >= notReceived.length && currentDate - sendDate > 600000">
         <div class="col-lg-12 statistics-top">
             <div class="col-lg-4">
                 <div translate="Sent_stat"></div>
@@ -78,7 +81,7 @@
                     <span class="toggle-button" ng-show="!opensListFlag.opened && readers.length > 0">({{"Show"|translate}})</span>
                     <span class="toggle-button" ng-show="opensListFlag.opened && readers.length > 0">({{"hide"|translate}})</span>
                 </div>
-                <slide-statistic-list ng-if="statistics.opens > 0" class="slide-list read" candidates-list="readers" toggle-flag="opensListFlag.opened"></slide-statistic-list>
+                <slide-statistic-list ng-if="statistics.opens > 0" class="slide-list read prevent-toggle" candidates-list="readers" toggle-flag="opensListFlag.opened"></slide-statistic-list>
             </div>
             <div class="col-lg-4">
                 <div translate="Not delivered"></div>
@@ -89,7 +92,7 @@
                     <span class="toggle-button" ng-show="opensListFlag.undelivered && notReceived.length > 0"> ({{"hide"|translate}})</span>
                     </span>
                 </div>
-                <slide-statistic-list ng-if="statistics.undelivered > 0" class="slide-list undelivered" candidates-list="notReceived" toggle-flag="opensListFlag.undelivered"></slide-statistic-list>
+                <slide-statistic-list ng-if="statistics.undelivered > 0" class="slide-list undelivered prevent-toggle" candidates-list="notReceived" toggle-flag="opensListFlag.undelivered"></slide-statistic-list>
             </div>
         </div>
         <div class="col-lg-12">

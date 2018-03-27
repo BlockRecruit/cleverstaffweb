@@ -3044,5 +3044,6 @@
   "New user invite":"Пригласить нового пользователя",
   "was sent to candidate": "была отправлена кандидату",
   "Email delivery statistics": "Статистика по отправке писем",
-  "Mailing duplicated emails": "В списке есть кандидаты с одинаковым email-ом"
+  "Mailing duplicated emails": "В списке есть кандидаты с одинаковым email-ом",
+  "Email delivery statistics will appear in a few minutes": "Статистика по отправке писем появится через несколько минут"
 }

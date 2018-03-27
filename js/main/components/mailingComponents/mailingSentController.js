@@ -6,6 +6,7 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
     $scope.readers = [];
     $scope.notRecieved = [];
     $scope.statistics = {};
+    $scope.currentDate = new Date().getTime();
     $scope.opensListFlag = {
       opened: false,
       undelivered: false
@@ -33,6 +34,7 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
     Mailing.getAnalytics({compaignIds: [$scope.sentMailing.compaignId]},function (resp) {
         let respObj = resp.object[0];
         if(resp.status != 'error') {
+            $scope.sendDate = respObj.sendDate;
             statistics.common = getCommonStatistics(respObj);
             statistics.undelivered = getUndeliveredStatistics(respObj);
             $scope.readers = getReadersList(respObj.compaignEntries);
@@ -81,12 +83,27 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
 
 
     $scope.readerListToggle = function (event) {
-        for(let key in $scope.opensListFlag) {
-            console.log(key,document.getElementsByClassName(key)[0],event.target, $.contains(document.getElementsByClassName(key)[0],event.target))
-            if($.contains(document.getElementsByClassName(key)[0],event.target)) {
-                $scope.opensListFlag[key] = !$scope.opensListFlag[key];
-            } else {
-                $scope.opensListFlag[key] = false;
+        let toggleButtonClicked = false;
+        let clickOnDropList = false;
+        //do nothing, if clicked on droplist element:
+        [...document.getElementsByTagName("slide-statistic-list")].forEach(elemDropList => {
+           if($.contains(elemDropList, event.target)) {
+               clickOnDropList = true;
+           }
+        });
+        if(!clickOnDropList) {
+            //toggle slider on showHide button:
+            for(let key in $scope.opensListFlag) {
+                if($.contains(document.getElementsByClassName(key)[0],event.target)) {
+                    $scope.opensListFlag[key] = !$scope.opensListFlag[key];
+                    toggleButtonClicked = true;
+                }
+            }
+            //hide all if click on any other place:
+            if(!toggleButtonClicked) {
+                for(let key in $scope.opensListFlag) {
+                    $scope.opensListFlag[key] = false;
+                }
             }
         }
     };

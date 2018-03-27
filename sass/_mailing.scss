@@ -939,6 +939,10 @@
 			}
 		}
 	}
+	.not-yet {
+		margin-top: 25px;
+		padding: 5px 15px;
+	}
 	.statistics {
 		margin-top: 25px;
 		padding-top: 25px;
@@ -998,19 +1002,24 @@
 		.slide-list-wrapper {
 			font-weight: normal;
 
-			visibility: hidden;
 			overflow: hidden;
-			height: 0;
 
+			transition-delay: 0s, 1s;
+			transition-duration: 1s, 2s;
+			transition-property: opacity, visibility;
+
+			opacity: 0;
 			border: none;
 			border-radius: 5px;
 			.row {
 				padding-bottom: 2px;
 			}
 			&.show {
-				visibility: visible;
-				height: auto;
+				transition-delay: 0s, 0s;
+				transition-duration: 1s, 0s;
+				transition-property: opacity, visibility;
 
+				opacity: 1;
 				border: 1px solid #ccc;
 			}
 			.candidates-list-wrapper {

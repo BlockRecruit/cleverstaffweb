@@ -2452,5 +2452,6 @@
   "New user invite":"Invite new user",
   "was sent to candidate": "was sent to candidate",
   "Email delivery statistics": "Email delivery statistics",
-  "Mailing duplicated emails": "There are candidates with the same email in the list"
+  "Mailing duplicated emails": "There are candidates with the same email in the list",
+  "Email delivery statistics will appear in a few minutes": "Email delivery statistics will appear in a few minutes"
 }
