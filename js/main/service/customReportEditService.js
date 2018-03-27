@@ -296,7 +296,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         function isChanged(startData, finishData) {
             let index, i, change = true;
-
+            console.log(startData, finishData);
             for(i in startData){
                 index = Object.getOwnPropertyNames(finishData).sort().indexOf(i);
 
@@ -391,7 +391,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             console.log(fieldsVacancyList, responseData);
             responseData.forEach(item => {
                 index = fieldsVacancyList.indexOf(item.vacancyId);
-                console.log(index, 'index')
                 if(index !== -1){
                     item.check = true;
                 }

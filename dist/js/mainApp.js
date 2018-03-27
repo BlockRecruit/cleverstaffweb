@@ -7798,7 +7798,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         function isChanged(startData, finishData) {
             let index, i, change = true;
-
+            console.log(startData, finishData);
             for(i in startData){
                 index = Object.getOwnPropertyNames(finishData).sort().indexOf(i);
 
@@ -7893,7 +7893,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             console.log(fieldsVacancyList, responseData);
             responseData.forEach(item => {
                 index = fieldsVacancyList.indexOf(item.vacancyId);
-                console.log(index, 'index')
                 if(index !== -1){
                     item.check = true;
                 }
@@ -43287,6 +43286,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                        return updateListVacansies($scope.startVacancyDate,$scope.endDate);
                     }else {return Promise.reject()}
                 })
+                .then(setListVacancies, () => true)
                 .then(resp => {
                     if($scope.startVacancyDate && $scope.endDate){
                         $scope.firstTimeLoading = $scope.firstTimeLoading + 1;
@@ -43346,7 +43346,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                                 "interviewCreatorIds": $scope.choosenPersons,
                                 "vacancyFields": $scope.checkListFields,
                                 "withCandidates": $scope.withCandidates,
-                                "vacancyIds": $scope.fieldsVacancyList.filter(item => item.check).map(item.vacancyId)
+                                "vacancyIds": $scope.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId)
                             }, false),
                             CustomField.requestGetFieldsTitles()
                         ])
@@ -43893,8 +43893,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         }
 
         function updateListVacansies(startDate,endDate) {
-            Vacancy.getAllVacansies({from:startDate,to:endDate})
-                .then(setListVacancies);
+            return Vacancy.getAllVacansies({from:startDate,to:endDate})
         }
 
         function setListVacancies(resp) {
@@ -43919,6 +43918,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             listVacancies  = null;
             $scope.fieldsVacancyList = responseData;
             $rootScope.loading = false;
+            return true;
         }
 
         function reloadCountCandidatesInStatuses(){
