@@ -78,9 +78,10 @@
                         <div class="enter-job-title">{{"enter job title"|translate}}</div>
                         <div><input type="text"  ng-init="query=''" ng-model="query"></div>
                         <div style="display: flex;flex-direction: row;justify-content: flex-start;align-items: center; margin: 10px 0px; ">
-                            <span class="switch" ng-click="selectAllVacancies()">
+                            <span class="switch">
                                 <input  id="cmn-toggle-10"
                                         ng-model="chooseListFieldsVacancies"
+                                        ng-change="selectAllVacancies($event)"
                                         class="cmn-toggle cmn-toggle-round upcomingScopeSwticher"
                                         type="checkbox">
                                 <label   for="cmn-toggle-10"></label>

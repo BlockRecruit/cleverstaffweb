@@ -952,10 +952,11 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             showBlocks(event);
         };
 
-        $scope.selectAllVacancies = function () {
+        $scope.selectAllVacancies = function (event) {
             let _fieldsVacancyList = $scope.fieldsVacancyList;
             _fieldsVacancyList.forEach(item => item.check = $scope.chooseListFieldsVacancies);
             reloadCountCandidatesInStatuses();
+            reloadCountAndCandidatesInStages();
         };
 
         function isClickInDataShowBlock(element, id) {
@@ -1105,6 +1106,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
         function updateCountCandidateInStages(resp) {
             let data = resp.object;
+            resetAllStages();
             updateStandartStages(data);
             updateCustomStages(data);
         }
@@ -1113,30 +1115,27 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             if(!data.length) return;
 
             $scope.inVacancyStatuses.forEach(stage => data.forEach(updateStage => {
-                if(stage.value == updateStage['item']){
+                if(stage.value == updateStage['item'] && !stage.added){
                     stage.added = true;
                     stage.count = updateStage.count;
-                }else {
-                    stage.added = false;
-                    stage.count = 0;
                 }
             }));
         }
 
         function updateCustomStages(data) {
-            console.log(data, 'data');
-            console.log($scope.customStages, ' $scope.customStages.');
             if(!data.length) return;
 
-            $scope.customStages.forEach(stage => data.forEach(updateStage => {
-                if(stage.value == updateStage['item']){
-                    stage.added = true;
-                    stage.count = updateStage.count;
-                }else {
-                    stage.added = false;
-                    stage.count = 0;
+            $scope.customStages.forEach(customStage => data.forEach(updateStage => {
+                if(customStage.customInterviewStateId == updateStage['item']){
+                    customStage.added = true;
+                    customStage.count = updateStage.count;
                 }
             }));
+        }
+
+        function resetAllStages(){
+            $scope.inVacancyStatuses.forEach(item => item.added = false);
+            $scope.customStages.forEach(item => item.added = false);
         }
 
         function setCountAndCandidatesInStages(resp) {
