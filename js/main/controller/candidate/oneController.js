@@ -1694,8 +1694,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             history.editCommentFlag = !history.editCommentFlag;
             $scope.editComment = history.descr;
         };
-        $scope.changeComment = function(action){
-            Action.editAction({"comment": action.descr, "actionId": action.actionId}, function(resp){
+        $scope.changeComment = function(action, comment){
+            Action.editAction({"comment": comment, "actionId": action.actionId}, function(resp){
                 if (resp.status && angular.equals(resp.status, "error")) {
                     notificationService.error(resp.message);
                 }
