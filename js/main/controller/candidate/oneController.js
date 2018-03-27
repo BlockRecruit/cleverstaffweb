@@ -1694,24 +1694,19 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             history.editCommentFlag = !history.editCommentFlag;
             $scope.editComment = history.descr;
         };
-        $scope.changeComment = function(action, comment){
-            if(comment && comment.length > 0) {
-                Action.editAction({"comment": comment, "actionId": action.actionId}, function(resp){
-                    if (resp.status && angular.equals(resp.status, "error")) {
-                        notificationService.error(resp.message);
-                    }
-                    else {
-                        action.editCommentFlag = false;
-                        action.descr = resp.object.descr;
-                        action.new_komment = '';
-                        action.dateEdit = resp.object.dateEdit;
-                        notificationService.success($filter('translate')('Comment changed'));
-                    }
-                });
-            } else {
-                notificationService.error($filter('translate')('enter a comment'))
-            }
-
+        $scope.changeComment = function(action){
+            Action.editAction({"comment": action.descr, "actionId": action.actionId}, function(resp){
+                if (resp.status && angular.equals(resp.status, "error")) {
+                    notificationService.error(resp.message);
+                }
+                else {
+                    action.editCommentFlag = false;
+                    action.descr = resp.object.descr;
+                    action.new_komment = '';
+                    action.dateEdit = resp.object.dateEdit;
+                    notificationService.success($filter('translate')('Comment changed'));
+                }
+            });
         };
 
         $scope.showDeleteComment = function(resp) {
