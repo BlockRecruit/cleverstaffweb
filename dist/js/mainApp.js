@@ -11437,7 +11437,7 @@ angular.module('services.pay', [
                     }
                 },
                 filteredPersons: {
-                    method: "DELETE",
+                    method: "POST",
                     params: {
                         param: "getFilteredPersons"
                     }
@@ -40695,6 +40695,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         var chartHeight = 0;
         $scope.statisticsType = 'default';
         $scope.lang = $translate;
+        $scope.funnelActionUsersList = [];
         vacancyStages.get(function(resp){
             $scope.customStages = resp.object.interviewStates;
         });
@@ -40748,6 +40749,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
                     $scope.vacancyFunnelMap = initSalesFunnel(stages.allStages, stages.notDeclinedStages, stages.declinedStages);
                     drawFunnel($scope.vacancyFunnelMap, funnelConfig($scope.vacancyFunnelMap), "myChartDiv",  null, null, null);
+                    $scope.$apply();
                 }, error => notificationService.error(error.message));
         });
 
@@ -40943,11 +40945,19 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             });
         }
 
-        $scope.setStatisticsType = function(type) {
+        $scope.setStatisticsType = function(type = 'default', user) {
             $scope.statisticsType = type;
             if(type === 'default') return;
 
-            setActionUserFunnel();
+            setActionUserFunnel(user);
+        };
+
+        $scope.pushUserInFunnelActionUsersList = function(user) {
+            if(user.selected) {
+                $scope.funnelActionUsersList.push(user);
+            } else {
+                $scope.funnelActionUsersList.splice($scope.funnelActionUsersList.indexOf(user));
+            }
         };
 
         $scope.updateData = function() {
@@ -41021,12 +41031,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             });
         };
         $scope.getCompanyParams();
-        $scope.toBottom = function () {
-            $("html, body").animate({ scrollTop: $(document).height() }, 1000);
-        };
 
-        function setActionUserFunnel(userId) {
-            Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true, userId: "fc56bbf757874506962932d838fddb73"})
+
+        function setActionUserFunnel(user) {
+            Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true, userId: user.userId})
                 .then(actionUserValues => {
 
                     let stages = validatedStages(actionUserValues, $scope.notDeclinedStages, $scope.declinedStages);
@@ -41036,7 +41044,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     const actionUserFunnelData = {
                         candidateSeriesToDisplay: funnelConfig($scope.vacancyFunnelMap).candidateSeries,
                         userSeries: funnelConfig($scope.userFunnelMap).series,
-                        userSeriesToDisplay: funnelConfig($scope.userFunnelMap).candidateSeries
+                        userSeriesToDisplay: funnelConfig($scope.userFunnelMap).candidateSeries,
+                        username: user.name
                     };
 
                     drawFunnel($scope.userFunnelMap, funnelConfig($scope.userFunnelMap), "myChartDiv2", ActionUserFunnelConfig(actionUserFunnelData));
@@ -41047,14 +41056,14 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             return {
                 "series": actionUserFunnelData.userSeries,
                 "scale-y-2": {"values": actionUserFunnelData.candidateSeriesToDisplay, "item": {fontSize: 12, "offset-x": -60}},
-                "scale-y-5": {"values": actionUserFunnelData.userSeriesToDisplay, "item": {fontSize: 12,"offset-x": 200}},
+                "scale-y-5": {"values": actionUserFunnelData.userSeriesToDisplay, "item": {fontSize: 12,"offset-x": 190}},
                 labels: [
                     {
-                        text: $filter('translate')('User name'),
+                        text: $filter('translate')(actionUserFunnelData.username),
                         fontWeight: "bold",
                         fontSize: 12,
                         // offsetX: $translate.use() != 'en' ?  775 : 785,
-                        offsetX: $translate.use() != 'en' ?  1095 : 1105,
+                        offsetX: $translate.use() != 'en' ?  1070 : 1065,
                         offsetY: 0
                     },
                     {
@@ -41092,30 +41101,13 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             };
         }
 
-        // function getVacancyDetailInfo(params) {
-        //     $rootScope.loading = true;
-        //         vacancyReport.getVacancyDetailInfo(params, resp => {
-        //             $rootScope.loading = false;
-        //                 let vacancyInterviewDetalInfo = [];
-        //                 angular.forEach(resp.vacancyInterviewDetalInfo, function(value, key) {
-        //                     vacancyInterviewDetalInfo.push({
-        //                         key: key,
-        //                         value: value
-        //                     });
-        //                 });
-        //         }, error => {
-        //             $rootScope.loading = false;
-        //             notificationService.error(error.message);
-        //         });
-        // }
-
         function getActionUsers() {
             Person.getFilteredPersons(
                 {
                     vacancyId: $scope.vacancy.vacancyId,
                     types:["interview_add", "interview_add_from_advice", "interview_edit", "interview_remove"]
                 }).then(resp => {
-                    $scope.actionUsers = resp;
+                    $scope.actionUsers = resp.object;
                 }, error => notificationService.error(error.message));
         }
 }]);

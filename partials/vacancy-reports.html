@@ -43,9 +43,9 @@
                         <label for="cmn-toggle-9"></label>
                     </div>
                     <div class="responsible-list" ng-show="showUserReports">
-                        <div class="responsible" ng-repeat="user in [{i:1},{i:2},{i:3},{i:4},{i:5}]">
-                            <label for="{{user.i}}">user-1</label>
-                            <input id="{{user.i}}" type="checkbox">
+                        <div class="responsible" ng-repeat="user in actionUsers track by $index">
+                            <label for="'user'-{{$index}}">{{user.name}}</label>
+                            <input id="'user'-{{$index}}" ng-click="pushUserInFunnelActionUsersList(user)" ng-model="user.selected" type="checkbox">
                         </div>
                     </div>
                 </div>
@@ -61,12 +61,12 @@
                     <div class="funnel-type" ng-click="setStatisticsType('default')">
                         <h5>General Statistics</h5>
                     </div>
-                    <div class="funnel-type"  ng-click="setStatisticsType('responsible')">
-                        <h5>Statistics for {{responsible.name}}</h5>
-                    </div>
-                    <!--<div class="funnel-type" ng-repeat="responsible in responsibles" ng-click="setStatisticsType(responsible.id)">-->
+                    <!--<div class="funnel-type"  ng-click="setStatisticsType('responsible')">-->
                         <!--<h5>Statistics for {{responsible.name}}</h5>-->
                     <!--</div>-->
+                    <div class="funnel-type" ng-repeat="user in funnelActionUsersList track by $index" ng-click="setStatisticsType('userFunnel', user)">
+                        <h5>Statistics for {{user.name}}</h5>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-12 funnelPanel">
@@ -80,7 +80,7 @@
                         <div class="myChartFunnel" ng-show="statisticsType === 'default' && hasFunnelChart">
                             <div id="myChartDiv" class="text-center"></div>
                         </div>
-                        <div class="myChartFunnel" ng-show="statisticsType === 'responsible' && hasFunnelChart">
+                        <div class="myChartFunnel" ng-show="statisticsType === 'userFunnel' && hasFunnelChart">
                             <div id="myChartDiv2" class="text-center"></div>
                         </div>
 

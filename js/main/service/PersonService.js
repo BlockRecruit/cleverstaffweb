@@ -310,7 +310,7 @@
                     }
                 },
                 filteredPersons: {
-                    method: "DELETE",
+                    method: "POST",
                     params: {
                         param: "getFilteredPersons"
                     }
