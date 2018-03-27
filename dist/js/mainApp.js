@@ -12228,12 +12228,10 @@ angular.module('services.mailing',[]
                 if(candidate.candidateId.email) {
                     if(!service.emailValidation(candidate.candidateId.email)) {
                         candidate.wrongEmail = true;
-                        candidate.mailing = false;
                         incorrectEmails = true;
                     }
                 } else {
                     candidate.wrongEmail = true;
-                    candidate.mailing = false;
                     incorrectEmails = true;
                 }
             }
