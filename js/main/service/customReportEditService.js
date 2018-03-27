@@ -8,149 +8,149 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             };
 
         function resetDefaultData() {
-                fieldsListStart = [
-                    {value:"client",visible:false},
-                    {value:"salary",visible:false},
-                    {value:"location",visible:false},
-                    {value:"responsibles",visible:false},
-                    {value:"status",visible:false},
-                    {value:"dc",visible:false},
-                    {value:"dateFinish",visible:false},
-                    {value:"numberOfPositions",visiable:false},
-                    {value:"datePayment",visible:false},
-                    {value:"budget",visible:false},
-                    {value:"employmentType",visible:false},
-                    {value:"candidatesAdded",visible:false},
-                    {value:"candidatesInWork",visible:false},
-                    {value:"candidatesApproved",visible:false},
-                    {value:"candidatesRefused",visible:false},
-                    {value:"daysInWork",visible:false}];
+            fieldsListStart = [
+                {value:"client",visible:false},
+                {value:"salary",visible:false},
+                {value:"location",visible:false},
+                {value:"responsibles",visible:false},
+                {value:"status",visible:false},
+                {value:"dc",visible:false},
+                {value:"dateFinish",visible:false},
+                {value:"numberOfPositions",visiable:false},
+                {value:"datePayment",visible:false},
+                {value:"budget",visible:false},
+                {value:"employmentType",visible:false},
+                {value:"candidatesAdded",visible:false},
+                {value:"candidatesInWork",visible:false},
+                {value:"candidatesApproved",visible:false},
+                {value:"candidatesRefused",visible:false},
+                {value:"daysInWork",visible:false}];
 
-                vacancyStatuses =[
-                    {
-                        value: "open",
-                        added: false,
-                        count: 0
-                    },
-                    {
-                        value: "expects",
-                        added: false,
-                        count: 0
-                    },
-                    {
-                        value: "inwork",
-                        added: false,
-                        count: 0
-                    },
-                    {
-                        value: "payment",
-                        added: false,
-                        count: 0
-                    },
-                    {
-                        value: "completed",
-                        added: false,
-                        count: 0
-                    },
-                    {
-                        value: "canceled",
-                        added: false,
-                        count: 0
-                    }
-                ],
-            inVacancyStatuses =[
+            vacancyStatuses =[
                 {
-                    value: "longlist",
+                    value: "open",
                     added: false,
                     count: 0
                 },
                 {
-                    value: "shortlist",
+                    value: "expects",
                     added: false,
                     count: 0
                 },
                 {
-                    value: "test_task",
+                    value: "inwork",
                     added: false,
                     count: 0
                 },
                 {
-                    value: "interview",
+                    value: "payment",
                     added: false,
                     count: 0
                 },
                 {
-                    value: "interview_with_the_boss",
+                    value: "completed",
                     added: false,
                     count: 0
                 },
                 {
-                    value: "security_check",
+                    value: "canceled",
                     added: false,
                     count: 0
-                },
-                {
-                    value: "tech_screen",
-                    added: false,
-                    count: 0
-                },
-                {
-                    value: "hr_interview",
-                    added: false,
-                    count: 0
-                },
-                {
-                    value: "tech_interview",
-                    added: false,
-                    count: 0
-                },
-                {
-                    value: "interview_with_the_client",
-                    added: false,
-                    count: 0
-                },
-                {
-                    value: "sent_offer",
-                    added: false,
-                    count: 0
-                },
-                {
-                    value: "accept_offer",
-                    added: false,
-                    count: 0
-                },
-                {
-                    value: "approved",
-                    added: false,
-                    count: 0
-                },
-                {
-                    value: "notafit",
-                    added: false,
-                    count: 0,
-                    type: "refuse"
-                },
-                {
-                    value: "declinedoffer",
-                    added: false,
-                    count: 0,
-                    type: "refuse"
-                },
-                {
-                    value: "no_response",
-                    added: false,
-                    count: 0,
-                    type: "refuse"
-                },
-                {
-                    value: "no_contacts",
-                    added: false,
-                    count: 0,
-                    type: "refuse"
                 }
             ],
+                inVacancyStatuses =[
+                    {
+                        value: "longlist",
+                        added: false,
+                        count: 0
+                    },
+                    {
+                        value: "shortlist",
+                        added: false,
+                        count: 0
+                    },
+                    {
+                        value: "test_task",
+                        added: false,
+                        count: 0
+                    },
+                    {
+                        value: "interview",
+                        added: false,
+                        count: 0
+                    },
+                    {
+                        value: "interview_with_the_boss",
+                        added: false,
+                        count: 0
+                    },
+                    {
+                        value: "security_check",
+                        added: false,
+                        count: 0
+                    },
+                    {
+                        value: "tech_screen",
+                        added: false,
+                        count: 0
+                    },
+                    {
+                        value: "hr_interview",
+                        added: false,
+                        count: 0
+                    },
+                    {
+                        value: "tech_interview",
+                        added: false,
+                        count: 0
+                    },
+                    {
+                        value: "interview_with_the_client",
+                        added: false,
+                        count: 0
+                    },
+                    {
+                        value: "sent_offer",
+                        added: false,
+                        count: 0
+                    },
+                    {
+                        value: "accept_offer",
+                        added: false,
+                        count: 0
+                    },
+                    {
+                        value: "approved",
+                        added: false,
+                        count: 0
+                    },
+                    {
+                        value: "notafit",
+                        added: false,
+                        count: 0,
+                        type: "refuse"
+                    },
+                    {
+                        value: "declinedoffer",
+                        added: false,
+                        count: 0,
+                        type: "refuse"
+                    },
+                    {
+                        value: "no_response",
+                        added: false,
+                        count: 0,
+                        type: "refuse"
+                    },
+                    {
+                        value: "no_contacts",
+                        added: false,
+                        count: 0,
+                        type: "refuse"
+                    }
+                ],
                 singleton.editReport = angular.copy(CustomReportsService.data);
-                singleton.dateRange = ['currentWeek','previousWeek','currentMonth', 'previousMonth', 'currentYear', 'previousYear', 'customRange'];
+            singleton.dateRange = ['currentWeek','previousWeek','currentMonth', 'previousMonth', 'currentYear', 'previousYear', 'customRange'];
         }
 
         function concatCastomOrStandartFields(custom, standart) {
@@ -167,8 +167,8 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             property.forEach(item  => {
                 if(data.indexOf(item.value) !== -1 || data.indexOf(item.customInterviewStateId) !== -1){
                     item.added = true;
-            }
-        });
+                }
+            });
             return property;
         }
 
@@ -200,17 +200,18 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         function checkCount(data, property) {
             property.forEach(i => {
-               data.forEach(j => {
-                   if(j.item === i.value || j.item === i.customInterviewStateId){
-                       i.count = j.count;
-                   }
-               });
+                data.forEach(j => {
+                    if(j.item === i.value || j.item === i.customInterviewStateId){
+                        i.count = j.count;
+                    }
+                });
             });
         }
 
         function checkCountStatuses(data) {
             data.forEach(item => item.check = true);
             this.vacancyStatuses = data;
+            return true;
         }
 
         function concatStages(data){
@@ -339,7 +340,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             }else if(type === 'vacancyFields'){
                 data = data.filter(item => item.visible && !item.id);
                 data = data.forEach(item => {
-                        mass.push(item.value);
+                    mass.push(item.value);
                 });
                 return mass;
             }else if(type === 'сustomVacancyFields'){
@@ -370,7 +371,9 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
             createFinishDataBeforeSave.call(this);
             change = isChanged(CustomReportsService.data, this.data);
+
             this.change = change;
+            return true;
         }
 
 
@@ -477,9 +480,9 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         function selectAllVacancies($scope) {
             let _fieldsVacancyList = this.fieldsVacancyList;
-                _fieldsVacancyList.forEach(item => item.check = this.chooseListFieldsVacancies);
-                console.log($scope, '$scope')
+            _fieldsVacancyList.forEach(item => item.check = this.chooseListFieldsVacancies);
             reloadCountCandidatesInStatuses.apply(this, [$scope]);
+            reloadCountAndCandidatesInStages.apply(this, [$scope]);
             checkOnChange.call(this)
         }
 
@@ -493,15 +496,51 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             };
 
             return  Stat.requestGetCountVacancyForActualVacancyStatistic(requestData)
-                .then((resp) => {
-                    checkCountStatuses.call(this, resp.object);
-                    resetAngularContext($scope);
-                });
         }
 
         function updateListVacansies(startDate,endDate) {
             Vacancy.getAllVacansies({from:startDate,to:endDate})
                 .then(setListVacancies);
+        }
+
+        function reloadCountAndCandidatesInStages(){
+            return Stat.requestGetCountInterviewForActualVacancyStatistic({
+                "from": this.data.dateFrom,
+                "to": this.data.dateTo,
+                "vacancyStatuses":this.vacancyStatuses.filter(item => item.check).map(status => status.item),
+                "interviewCreatorIds": this.choosenPersons,
+                "vacancyIds": this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId)
+            })
+        }
+
+        function updateCountCandidateInStages(resp) {
+            let data = resp.object;
+            resetAllStages.call(this, data);
+            updateStages.apply(this, [data, 'Standard']);
+            updateStages.apply(this, [data, 'Refuse']);
+            updateStages.apply(this, [data, 'Company']);
+            return true;
+        }
+
+        function updateStages(data, type) {
+            if(!data.length) return;
+
+            this.allStages[type].forEach(stage => data.forEach(updateStage => {
+                if(stage.value == updateStage['item'] && !stage.added){
+                    stage.added = true;
+                    stage.count = updateStage.count;
+                }
+            }));
+        }
+
+        function resetAllStages(data){
+            let allStages = this.allStages;
+
+            for(typeStage in allStages){
+                allStages[typeStage].forEach(stage => {
+                    stage.added = false;
+                });
+            }
         }
 
 
@@ -511,7 +550,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         }
 
         function updateListVacanciesWithStatuses(){
-            console.log(this, 'this')
             let listCheckStatuses = this.vacancyStatuses.filter(item => item.check).map(status => status.item),
                 max = this.fieldsVacancyList.length, i = 0;
 
@@ -548,37 +586,37 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             this.timeMaxZone2 = false;
             resetDefaultData();
 
-                Promise.all(
-                    [
-                        Stat.requestGetCountVacancyForActualVacancyStatistic({
-                            from: singleton.editReport.dateFrom,
-                            interviewCreatorIds: [],
-                            to: singleton.editReport.dateTo,
-                            vacancyIds:singleton.editReport.vacancyIds || []
-                        }),
-                        Stat.requestGetCountInterviewForActualVacancyStatistic({
-                            from: singleton.editReport.dateFrom,
-                            interviewCreatorIds: [],
-                            to: singleton.editReport.dateTo
-                        }),
-                        vacancyStages.requestVacancyStages(),
-                        Person.requestGetAllPersons(),
-                        CustomField.requestGetFieldsTitles(),
-                    ]).then(data => {
-                        data.forEach(item => {
-                            _dataProcessing.apply(this, [data, item]);
-                        });
-                        CustomReportsService.getDate.apply(this, [singleton.editReport, $scope, true]);
-                        this.fieldsList = checkPropertyFyelds(this.fieldsList, fieldsListStart);
-                        this.fieldsList = checkPropertyFyelds(this.data.сustomVacancyFields, this.fieldsList);
-                        return true;
-                     })
-                    .then(resp => Vacancy.getAllVacansies({from:singleton.editReport.dateFrom,to:singleton.editReport.dateTo}))
-                    .then(resp => {
-                        this.fieldsVacancyList = checkPropertiesListVacancies(this.data.vacancyIds, resp.objects)
-                        $rootScope.loading = false;
-                        $scope.$apply();
-                    });
+            Promise.all(
+                [
+                    Stat.requestGetCountVacancyForActualVacancyStatistic({
+                        from: singleton.editReport.dateFrom,
+                        interviewCreatorIds: [],
+                        to: singleton.editReport.dateTo,
+                        vacancyIds:singleton.editReport.vacancyIds || []
+                    }),
+                    Stat.requestGetCountInterviewForActualVacancyStatistic({
+                        from: singleton.editReport.dateFrom,
+                        interviewCreatorIds: [],
+                        to: singleton.editReport.dateTo
+                    }),
+                    vacancyStages.requestVacancyStages(),
+                    Person.requestGetAllPersons(),
+                    CustomField.requestGetFieldsTitles(),
+                ]).then(data => {
+                data.forEach(item => {
+                    _dataProcessing.apply(this, [data, item]);
+                });
+                CustomReportsService.getDate.apply(this, [singleton.editReport, $scope, true]);
+                this.fieldsList = checkPropertyFyelds(this.fieldsList, fieldsListStart);
+                this.fieldsList = checkPropertyFyelds(this.data.сustomVacancyFields, this.fieldsList);
+                return true;
+            })
+                .then(resp => Vacancy.getAllVacansies({from:singleton.editReport.dateFrom,to:singleton.editReport.dateTo}))
+                .then(resp => {
+                    this.fieldsVacancyList = checkPropertiesListVacancies(this.data.vacancyIds, resp.objects)
+                    $rootScope.loading = false;
+                    $scope.$apply();
+                });
         };
 
         singleton.selectValue = function (status) {
@@ -589,8 +627,13 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         singleton.selectValueVacancyFields = function ($scope, status) {
             status.check = !status.check;
-            reloadCountCandidatesInStatuses.apply(this, [$scope, status]);
-            checkOnChange.call(this)
+
+            reloadCountCandidatesInStatuses.apply(this, [$scope, status])
+                .then((resp) => checkCountStatuses.call(this, resp.object))
+                .then(reloadCountAndCandidatesInStages.bind(this, $scope, status))
+                .then(updateCountCandidateInStages.bind(this))
+                .then(checkOnChange.bind(this))
+                .then(resetAngularContext.bind(this, $scope));
         };
 
         singleton.changeNameOrDescription = function (scope) {
@@ -636,7 +679,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                 this.selectStages.push(data[type][index]);
             }
 
-           isAllCheck = isAllStagesChecked(this.allStages[type]);
+            isAllCheck = isAllStagesChecked(this.allStages[type]);
 
             if(isAllCheck){
                 setTimeout(()=>{
