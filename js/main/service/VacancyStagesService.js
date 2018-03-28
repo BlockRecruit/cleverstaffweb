@@ -28,11 +28,13 @@ angular.module('services.vacancyStages', [
                     }
                 }
             });
+
         vacancyStages.requestVacancyStages = function (params){
             $rootScope.loading = true;
             return new Promise((resolve, reject) => {
                 vacancyStages.get(params, resp => resolve(resp, resp.request = 'stageFull'),error => reject(error));
             });
         };
+
         return vacancyStages;
     }]);

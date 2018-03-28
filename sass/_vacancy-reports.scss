@@ -182,7 +182,7 @@
 			margin-bottom: 10px;
 
 			flex-wrap: wrap;
-			justify-content: space-between;
+			justify-content: flex-start;
 			align-items: center;
 			.funnel-type {
 				position: relative;
@@ -190,7 +190,7 @@
 				display: flex;
 				width: 200px;
 				height: 50px;
-				margin-right: 10px;
+				margin: 0 10px 10px 0;
 				padding: 5px;
 
 				transition: 0.2s all ease;
@@ -203,23 +203,26 @@
 				align-items: center;
 				justify-content: center;
 				&.general {
-					min-width: 48%;
+					min-width: 35%;
 				}
 				h5 {
 					font-family: "Helvetica-Medium";
 					font-size: 14px;
 				}
 				.close {
+					font-size: 8px;
+
 					position: absolute;
 					top: 5px;
 					right: 5px;
 
+					width: 18px;
+					height: 18px;
 					padding: 5px;
 
 					color: #fff;
 					border-radius: 50%;
-					background-color: #ccc;
-					font-size: 7px;
+					background-color: #635e5e;
 					&:hover {
 						background-color: #eae5e5;
 					}
@@ -229,8 +232,6 @@
 				}
 				&:hover {
 					cursor: pointer;
-
-					background-color: #faf7f7;
 				}
 			}
 		}

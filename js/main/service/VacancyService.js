@@ -822,6 +822,22 @@ angular.module('services.vacancy', [
         });
     };
 
+    vacancy.getAllVacanciesAmount = function() {
+        return new Promise((resolve, reject) => {
+            vacancy.all(vacancy.searchOptions(), response => {
+                resolve(response);
+            }, error => reject(error));
+        });
+    };
+
+    vacancy.getVacancy = function(params) {
+        return new Promise((resolve, reject) => {
+            vacancy.one(params, response => {
+                resolve(response);
+            }, error => reject(error));
+        });
+    };
+
     return vacancy;
 }
 ]);

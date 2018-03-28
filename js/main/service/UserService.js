@@ -160,6 +160,12 @@ angular.module('services.company', [
             return data;
         };
 
+        company.params = function() {
+            return new Promise((resolve, reject) => {
+                company.getParams(resp => resolve(resp), error => reject(error));
+            });
+        };
+
     company.init();
     return company;
 }]);

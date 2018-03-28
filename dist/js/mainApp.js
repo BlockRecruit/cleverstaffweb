@@ -13240,6 +13240,12 @@ angular.module('services.company', [
             return data;
         };
 
+        company.params = function() {
+            return new Promise((resolve, reject) => {
+                company.getParams(resp => resolve(resp), error => reject(error));
+            });
+        };
+
     company.init();
     return company;
 }]);
@@ -14068,6 +14074,22 @@ angular.module('services.vacancy', [
         });
     };
 
+    vacancy.getAllVacanciesAmount = function() {
+        return new Promise((resolve, reject) => {
+            vacancy.all(vacancy.searchOptions(), response => {
+                resolve(response);
+            }, error => reject(error));
+        });
+    };
+
+    vacancy.getVacancy = function(params) {
+        return new Promise((resolve, reject) => {
+            vacancy.one(params, response => {
+                resolve(response);
+            }, error => reject(error));
+        });
+    };
+
     return vacancy;
 }
 ]);
@@ -14101,12 +14123,14 @@ angular.module('services.vacancyStages', [
                     }
                 }
             });
+
         vacancyStages.requestVacancyStages = function (params){
             $rootScope.loading = true;
             return new Promise((resolve, reject) => {
                 vacancyStages.get(params, resp => resolve(resp, resp.request = 'stageFull'),error => reject(error));
             });
         };
+
         return vacancyStages;
     }]);
 
@@ -40699,45 +40723,87 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
     "$routeParams", "notificationService", "$filter", "$translate", 'Person', "Statistic", "vacancyStages", "Company",
     function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $routeParams, notificationService, $filter,
              $translate, Person, Statistic, vacancyStages, Company) {
-        var chartHeight = 0;
+
         $scope.statistics = {type: 'default', user: {}};
         $scope.funnelActionUsersList = [];
 
+        /* -- funnel general algorithm
+            1. - parseCustomStagesNames  --- transform custom stages id`s to valid custom names
+            2. - validateStages --- add non-existing required vacancy stages, and removing refusals
+            3. - funnelConfig    --- parsing data from request format to zingchart data format, calculating ABS and REL conversion
+            4. - drawFunnel      --- drawing funnel
+        */
 
-        $scope.lang = $translate;
-        vacancyStages.get(function(resp){
-            $scope.customStages = resp.object.interviewStates;
-        });
+        $scope.setStatistics = function(type = 'default', user = {}) {
+            $scope.statistics = {type, user};
+            if(type === 'default') return;
 
-        Vacancy.one({"localId": $routeParams.id}, function(resp) {
-            $scope.vacancy = resp.object;
+            setUserActionsFunnel(user);
+        };
 
-            $("#dateFrom").datetimepicker({
-                format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
-                startView: 2,
-                minView: 2,
-                autoclose: true,
-                startDate: $scope.vacancy.dc != undefined ? new Date($scope.vacancy.dc) : new Date(),
-                weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
-                language: $translate.use()
+        $scope.addUserInFunnelActionUsersList = function(userIndex) {
+            let isMissing = true,
+                actionUser = $scope.actionUsers[userIndex] || null;
+
+            $scope.funnelActionUsersList.forEach(user => {
+                if(angular.equals(user,actionUser)) isMissing = false;
             });
 
-            $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
+            if(isMissing && actionUser) {
+                $scope.funnelActionUsersList.push(actionUser);
+                updateMainFunnel(actionUser);
+            }
+        };
 
-            $("#dateTo").datetimepicker({
-                format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
-                startView: 2,
-                minView: 2,
-                autoclose: true,
-                endDate: new Date(),
-                weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
-                language: $translate.use()
-            });
+        $scope.removeUserInFunnelActionUsersList = function(user) {
+            $scope.funnelActionUsersList.splice($scope.funnelActionUsersList.indexOf(user),1);
+            updateMainFunnel(user);
 
-            var d = new Date();
-            d.setHours(0, 0, 0, 0);
-            $("#dateTo").datetimepicker("setDate", d);
+            if($scope.statistics.user === user) {
+                $scope.statistics = {type: 'default', user: {}};
+            }
+        };
 
+        $scope.updateData = function() {
+            var dateFrom = $('#dateFrom').datetimepicker('getDate') != null ? $('#dateFrom').datetimepicker('getDate') : null;
+            var dateTo = $('#dateTo').datetimepicker('getDate') != null ? $('#dateTo').datetimepicker('getDate') : null;
+            dateFrom.setHours(0, 0, 0, 0);
+            dateTo.setHours(0, 0, 0, 0);
+            dateTo.setDate(dateTo.getDate() + 1);
+
+            Statistic.getVacancyDetailInfo({"vacancyId": $scope.vacancy.vacancyId, "from": dateFrom, "to": dateTo, withCandidatesHistory: true})
+                .then(vacancyInterviewDetalInfo => {
+                    $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
+
+                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages));
+                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap), id:"myChartDiv", assignObj:null});
+
+                    $scope.statistics = {type : 'default', user: {}};
+                    $scope.$apply();
+
+                    zingchart.exec('myChartDiv', 'reload');
+                }, error => notificationService.error(error.message));
+        };
+
+        $scope.downloadPDF = function(){
+            $scope.downloadPDFisPressed = !$scope.downloadPDFisPressed;
+
+            let dateFrom = $('#dateFrom').datetimepicker('getDate')  ? $('#dateFrom').datetimepicker('getDate') : null,
+                dateTo   = $('#dateTo').datetimepicker('getDate')  ? $('#dateTo').datetimepicker('getDate') : null;
+            dateFrom.setHours(0, 0, 0, 0);
+            dateTo.setHours(0, 0, 0, 0);
+            dateTo.setDate(dateTo.getDate() + 1);
+
+            Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, "from": dateFrom, "to": dateTo, withCandidatesHistory: true})
+                .then(resp => {
+                    pdfId = resp.object;
+                    $('#downloadPDF')[0].href = '/hr/' + 'getapp?id=' + pdfId;
+                    $('#downloadPDF')[0].click();
+                    $scope.downloadPDFisPressed = false;
+                }, error => notificationService.error(error.message));
+        };
+
+        function setStages() {
             let stagesString = [];
 
             if($scope.vacancy && $scope.vacancy['interviewStatus']) {
@@ -40748,23 +40814,29 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
             $scope.notDeclinedStages = stagesString.slice(stagesString[0], stagesString.indexOf('approved') + 1);
             $scope.declinedStages = stagesString.slice(stagesString.indexOf('approved') + 1, stagesString.length);
+        }
 
-            getActionUsers();
+        function initMainFunnel() {
             Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true})
                 .then(vacancyInterviewDetalInfo => {
                     $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
-                    $scope.vacancyFunnelMap = initSalesFunnel(parseCustomStagesNames($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages));
-                    drawFunnel({config:funnelConfig($scope.vacancyFunnelMap), id:"myChartDiv",  assignObj:null});
+                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages));
+                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap), id:"myChartDiv",  assignObj:null});
                     $scope.$apply();
                 }, error => notificationService.error(error.message));
-        });
+        }
 
-        /* -- general funnel
-            1. - validateStages  --- transform custom stages names like 1erg234erfwf43 to valid custom names
-            2. - initSalesFunnel --- add non-existing required vacancy stages, and removing refusals
-            3. - funnelConfig    --- parsing data from request format to zingchart data format, calculating ABS and REL conversion
-            4. - drawFunnel      --- drawing funnel
-        */
+        function updateMainFunnel(user) {
+            let obj = {};
+
+            console.log($scope.funnelActionUsersList);
+
+            setUserActionsFunnel(user);
+            setTimeout(() => {
+                console.log(getUserActionsFunnelCache(user));
+            },2000);
+            // drawFunnel({config:setFunnelData($scope.vacancyFunnelMap), id:"myChartDiv",  assignObj:obj});
+        }
 
         function parseCustomStagesNames(allStages, notDeclinedStages, declinedStages) {
             angular.forEach($scope.customStages, function(resp){
@@ -40790,7 +40862,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             return { allStages, declinedStages, notDeclinedStages }
         }
 
-        function initSalesFunnel({allStages, notDeclinedStages, declinedStages}) {
+        function validateStages({allStages, notDeclinedStages, declinedStages}) {
             let funnelMap = [];
             $scope.hasFunnelChart = false;
 
@@ -40824,7 +40896,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             return funnelMap[0] ? funnelMap : null;
         }
 
-        function funnelConfig(funnelMap) {
+        function setFunnelData(funnelMap) {
             $scope.hasFunnelChart = true;
             chartHeight = 30*(funnelMap.length + 1);
             let series = [],
@@ -40950,30 +41022,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             });
         }
 
-        $scope.setStatistics = function(type = 'default', user = {}) {
-            $scope.statistics = {type, user};
-            if(type === 'default') return;
-
-            setUserActionsFunnel(user);
-        };
-
-        $scope.pushUserInFunnelActionUsersList = function(userIndex) {
-            let isMissing = true,
-                actionUser = $scope.actionUsers[userIndex] || null;
-
-            $scope.funnelActionUsersList.forEach(user => {
-               if(angular.equals(user,actionUser)) isMissing = false;
-            });
-
-            if(isMissing && actionUser) {
-                $scope.funnelActionUsersList.push(actionUser);
-            }
-        };
-
-        $scope.removeUserInFunnelActionUsersList = function(user) {
-            $scope.funnelActionUsersList.splice($scope.funnelActionUsersList.indexOf(user),1);
-        };
-
         function setUserActionsFunnel(user) {
             userActionsFunnelConfig.usersFunnelCache = userActionsFunnelConfig.usersFunnelCache || [];
 
@@ -40985,18 +41033,25 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true, personId: user.userId})
                 .then(usersActionValues => {
 
-                    let userFunnelMap = initSalesFunnel(parseCustomStagesNames(usersActionValues, $scope.notDeclinedStages, $scope.declinedStages));
+                    let userFunnelMap = validateStages(parseCustomStagesNames(usersActionValues, $scope.notDeclinedStages, $scope.declinedStages));
 
                     const userActionsFunnelData = {
-                        candidateSeriesToDisplay: funnelConfig($scope.vacancyFunnelMap).candidateSeries,
-                        userSeries: funnelConfig(userFunnelMap).series,
-                        userSeriesToDisplay: funnelConfig(userFunnelMap).candidateSeries,
+                        userSeries: setFunnelData(userFunnelMap).series,
+                        userSeriesArray: setFunnelData(userFunnelMap).candidateSeries,
+                        candidateSeriesArray: setFunnelData($scope.vacancyFunnelMap).candidateSeries,
+                        userSeriesToDisplay: function() {
+                            return this.userSeriesArray.map((userSeries, index) => {
+                                let percent = Math.round((userSeries / (this.candidateSeriesArray[index])) * 100) || 0;
+
+                                return `${userSeries}(${this.candidateSeriesArray[index]})/${percent}%`;
+                            });
+                        },
                         username: user.name
                     };
 
-                    drawFunnel({config:funnelConfig(userFunnelMap), id:"myChartDiv2", assignObj:userActionsFunnelConfig(userActionsFunnelData, user)});
+                    drawFunnel({config:setFunnelData(userFunnelMap), id:"myChartDiv2", assignObj:userActionsFunnelConfig(userActionsFunnelData, user)});
+                    setUserActionsFunnelCache({config:setFunnelData(userFunnelMap), id:"myChartDiv2", assignObj:userActionsFunnelConfig(userActionsFunnelData), user: user});
 
-                    setUserActionsFunnelCache({config:funnelConfig(userFunnelMap), id:"myChartDiv2", assignObj:userActionsFunnelConfig(userActionsFunnelData), user: user});
                 }, error => notificationService.error(error.message));
         }
 
@@ -41015,121 +41070,83 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         function userActionsFunnelConfig(userActionsFunnelData) {
             return {
                 "series": userActionsFunnelData.userSeries,
-                "scale-y-2": {"values": userActionsFunnelData.userSeriesToDisplay, "item": {fontSize: 12,"offset-x": -60}},
+                "scale-y-2": {"values": userActionsFunnelData.userSeriesToDisplay(), "item": {fontSize: 12,"offset-x": -85}},
                 // "scale-y-2": {"values": userActionsFunnelData.candidateSeriesToDisplay, "item": {fontSize: 12, "offset-x": -60}},
                 // "scale-y-5": {"values": userActionsFunnelData.userSeriesToDisplay, "item": {fontSize: 12,"offset-x": 190}},
-                labels: [
-                    {
-                        text: $filter('translate')(userActionsFunnelData.username),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        offsetX: $translate.use() != 'en' ?  1070 : 1065,
-                        offsetY: 0
-                    },
-                    {
-                        text: $filter('translate')('Relative conversion'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        // offsetX: $translate.use() != 'en' ?  775 : 785,
-                        offsetX: $translate.use() != 'en' ?  895 : 905,
-                        offsetY: 0
-                    },
-                    {
-                        text: $filter('translate')('Absolute conversion'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        // offsetX: 870,
-                        offsetX: 990,
-                        offsetY: 0
-                    },
-                    {
-                        text: $filter('translate')('Candidates'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        // offsetX: $translate.use() != 'en' ? 700 : 710,
-                        offsetX: $translate.use() != 'en' ? 815 : 825,
-                        offsetY: 0
-                    },
-                    {
-                        text: $filter('translate')('Stages'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        offsetX: 210,
-                        offsetY: 0
-                    }
-                ]
             };
         }
 
-        function getActionUsers() {
-            Person.getFilteredPersons(
-                {
-                    vacancyId: $scope.vacancy.vacancyId,
-                    types:["interview_add", "interview_add_from_advice", "interview_edit", "interview_remove"]
-                }).then(resp => {
-                    $scope.actionUsers = resp.object;
-                }, error => notificationService.error(error.message));
+        function getActionUsers(vacancyId) {
+            Person.getFilteredPersons({vacancyId: vacancyId, types:["interview_add", "interview_add_from_advice", "interview_edit", "interview_remove"]})
+                .then(response => {
+                    $scope.actionUsers = response.object;
+                }, error => notificationService.error(error))
         }
 
-        function getAllVacanciesAmount() {
-            Vacancy.all(Vacancy.searchOptions(), function(response) {
-                $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
+        function getAllVacanciesAmount(response) {
+            $rootScope.objectSize = response['objects'] ? response['total'] : 0;
+        }
+
+        function getCompanyParams(response){
+            $scope.companyParams = response.object;
+            $rootScope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/" + $scope.companyParams.nameAlias + "-vacancies";
+        }
+
+        function setDateTimePickers() {
+            $("#dateFrom").datetimepicker({
+                format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
+                startView: 2,
+                minView: 2,
+                autoclose: true,
+                startDate: $scope.vacancy.dc != undefined ? new Date($scope.vacancy.dc) : new Date(),
+                weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                language: $translate.use()
             });
-        }
 
-        function getCompanyParams(){
-            Company.getParams(function(resp){
-                $scope.companyParams = resp.object;
-                $rootScope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/" + $scope.companyParams.nameAlias + "-vacancies";
+            $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
+
+            $("#dateTo").datetimepicker({
+                format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
+                startView: 2,
+                minView: 2,
+                autoclose: true,
+                endDate: new Date(),
+                weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                language: $translate.use()
             });
+
+            let d = new Date();
+            d.setHours(0, 0, 0, 0);
+            $("#dateTo").datetimepicker("setDate", d);
         }
 
-
-        $scope.updateData = function() {
-            var dateFrom = $('#dateFrom').datetimepicker('getDate') != null ? $('#dateFrom').datetimepicker('getDate') : null;
-            var dateTo = $('#dateTo').datetimepicker('getDate') != null ? $('#dateTo').datetimepicker('getDate') : null;
-            dateFrom.setHours(0, 0, 0, 0);
-            dateTo.setHours(0, 0, 0, 0);
-            dateTo.setDate(dateTo.getDate() + 1);
-
-            Statistic.getVacancyDetailInfo({"vacancyId": $scope.vacancy.vacancyId, "from": dateFrom, "to": dateTo, withCandidatesHistory: true})
-                .then(vacancyInterviewDetalInfo => {
-                    $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
-
-                    $scope.vacancyFunnelMap = initSalesFunnel(parseCustomStagesNames($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages));
-                    drawFunnel({config:funnelConfig($scope.vacancyFunnelMap), id:"myChartDiv", assignObj:null});
-
-                    $scope.statistics = {type : 'default', user: {}};
-                    $scope.$apply();
-
-                    zingchart.exec('myChartDiv', 'reload');
-                }, error => notificationService.error(error.message));
-        };
-
-        $scope.dawnloadPDF = function(){
-            $scope.downloadPDFisPressed = !$scope.downloadPDFisPressed;
-
-            let dateFrom = $('#dateFrom').datetimepicker('getDate')  ? $('#dateFrom').datetimepicker('getDate') : null,
-                dateTo   = $('#dateTo').datetimepicker('getDate')  ? $('#dateTo').datetimepicker('getDate') : null;
-            dateFrom.setHours(0, 0, 0, 0);
-            dateTo.setHours(0, 0, 0, 0);
-            dateTo.setDate(dateTo.getDate() + 1);
-
-            Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, "from": dateFrom, "to": dateTo, withCandidatesHistory: true})
-                .then(resp => {
-                    pdfId = resp.object;
-                    $('#downloadPDF')[0].href = '/hr/' + 'getapp?id=' + pdfId;
-                    $('#downloadPDF')[0].click();
-                    $scope.downloadPDFisPressed = false;
-                }, error => notificationService.error(error.message));
-        };
-
-        function initData() {
-            getCompanyParams();
-            getAllVacanciesAmount();
+        function getVacancyStages(response) {
+            $scope.customStages = response.object.interviewStates;
         }
 
-        initData();
+        function getVacancy(response) {
+            $scope.vacancy = response;
+        }
+
+        function Main() {
+            Promise.all([
+                Vacancy.getAllVacanciesAmount(),
+                Vacancy.getVacancy({localId: $routeParams.id}),
+                vacancyStages.requestVacancyStages(),
+                Company.params()
+            ]).then(([vacanciesAmount, vacancy, vacancyStages, companyParams]) => {
+                getAllVacanciesAmount(vacanciesAmount);
+                getVacancyStages(vacancyStages);
+                getCompanyParams(companyParams);
+                getVacancy(vacancy.object);
+                getActionUsers(vacancy.object.vacancyId);
+                setDateTimePickers(vacancy.object);
+                setStages();
+                initMainFunnel();
+            }, error => notificationService.error(error.message));
+        }
+
+        Main();
 }]);
 
 function deleteUnnecessaryFields(object) {

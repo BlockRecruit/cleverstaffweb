@@ -47,7 +47,7 @@
                             <option disabled selected="selected" value="">{{'choose_user2' | translate}}</option>
                             <option value="{{$index}}" ng-repeat="user in actionUsers track by $index">{{user.name}}</option>
                         </select>
-                        <button class="btn-add" ng-click="pushUserInFunnelActionUsersList(userIndex)">+</button>
+                        <button class="btn-add" ng-click="addUserInFunnelActionUsersList(userIndex)">+</button>
                     </div>
                 </div>
                     <div class="field update">
@@ -60,10 +60,11 @@
                     <div class="funnel-type general" ng-class="{'active': statistics.type === 'default'}" ng-click="setStatistics('default')">
                         <h5>{{'General Statistics' | translate}}</h5>
                     </div>
-                    <div class="funnel-type" ng-class="{'active': statistics.user === user}" ng-repeat="user in funnelActionUsersList track by $index" ng-click="setStatistics('userFunnel', user)">
+                    <div class="funnel-type" ng-class="{'active': statistics.user === user}"
+                         ng-repeat="user in funnelActionUsersList track by $index" ng-click="setStatistics('userFunnel', user)">
                         <h5>{{user.name}}</h5>
                         <!--<i class="fa fa-times close" aria-hidden="true"></i>-->
-                        <span class="close">✖</span>
+                        <span class="close" ng-click="removeUserInFunnelActionUsersList(user);$event.stopPropagation();">✖</span>
                     </div>
                 </div>
             </div>
@@ -100,7 +101,7 @@
                 <div>
                     <a style="display: none;" id="downloadPDF"></a>
                     <div class="text-center">
-                        <a type="button" ng-click="dawnloadPDF()" class="btn btn-primary accept">
+                        <a type="button" ng-click="downloadPDF()" class="btn btn-primary accept">
                             <span ng-show="!downloadPDFisPressed">{{'Download PDF' | translate}}</span>
                             <i ng-show="downloadPDFisPressed" class="fa fa-spinner fa-spin" aria-hidden="true"></i>
                         </a>
