@@ -41011,6 +41011,7 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
 
         function filterCandidatesByMatching(candidates, exactMatching) {
              return candidates.filter(candidate => {
+                 console.log(candidate, candidate.exactlyAppropriate === exactMatching)
                  return candidate.exactlyAppropriate === exactMatching;
              });
         }
