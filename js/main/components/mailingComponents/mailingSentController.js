@@ -34,7 +34,7 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
     Mailing.getAnalytics({compaignIds: [$scope.sentMailing.compaignId]},function (resp) {
         let respObj = resp.object[0];
         if(resp.status != 'error') {
-            $scope.sendDate = respObj.sendDate;
+            $scope.sendDate = respObj.compaign.sendDate;
             statistics.common = getCommonStatistics(respObj);
             statistics.undelivered = getUndeliveredStatistics(respObj);
             $scope.readers = getReadersList(respObj.compaignEntries);
