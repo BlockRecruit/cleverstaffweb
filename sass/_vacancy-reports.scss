@@ -51,8 +51,8 @@
 
 				background: none;
 
-				align-items: center;
-				justify-content: space-between;
+				align-self: flex-start;
+				justify-content: flex-start;
 				h4 {
 					font-size: 14px;
 					font-weight: 600;
@@ -70,35 +70,32 @@
 				}
 			}
 
-			.update,
+			//.update,
 			.dateFrom {
 				display: flex;
 				flex-direction: row;
+				height: 125px;
 				min-height: 66px;
 				padding: 10px;
 
+				border: 1px solid #ccc;
+				border-radius: 5px;
 				background-color: #fff;
 
 				justify-content: center;
 				align-items: center;
 			}
 			.update {
-				margin-left: auto;
-				& > a {
-					display: block;
-				}
+				margin: 0 auto;
 				.btn-primary {
 					@include button-styling();
+
+					padding: 15px 40px;
 				}
 			}
 			& > .dateFrom {
-				margin-right: auto;
-
-				cursor: pointer;
-
+				margin-right: 20px;
 				& > .field {
-					& > label {
-					}
 					& > #dateFrom,
 					#dateTo {
 						@include input-styling();
@@ -121,10 +118,12 @@
 			& > .filter {
 				display: flex;
 				flex-direction: column;
-				min-width: 31%;
-				margin: 0 auto;
+				min-width: 27%;
+				margin-right: 20px;
 				padding: 20px 10px;
 
+				border: 1px solid #ccc;
+				border-radius: 5px;
 				background-color: #fff;
 
 				justify-content: center;
@@ -144,15 +143,18 @@
 					}
 				}
 				.responsible-list {
-					animation: zoom;
-					animation-duration: 0.3s;
 					display: flex;
 					flex-direction: row;
 					width: 90%;
+					max-width: 340px;
 					height: 30px;
+
+					animation: zoom;
+					animation-duration: 0.3s;
 
 					justify-content: space-between;
 					.btn-add {
+						font-size: 24px;
 						line-height: 15px;
 
 						display: block;
@@ -177,36 +179,58 @@
 		.funnel-types {
 			display: flex;
 			flex-direction: row;
+			margin-bottom: 10px;
 
 			flex-wrap: wrap;
 			justify-content: space-between;
 			align-items: center;
 			.funnel-type {
-				min-width: 48%;
-				margin: 0 0 10px auto;
+				position: relative;
+
+				display: flex;
+				width: 200px;
+				height: 50px;
+				margin-right: 10px;
 				padding: 5px;
 
 				transition: 0.2s all ease;
 				text-align: center;
 
-				background-color: #fff;
-				&:nth-child(odd) {
-					margin: 0 auto 10px 0;
-					&:last-child {
-						margin: 0 auto 10px;
-					}
+				border: 1px solid #ccc;
+				border-radius: 5px;
+				background-color: #f1f1f1;
+
+				align-items: center;
+				justify-content: center;
+				&.general {
+					min-width: 48%;
 				}
 				h5 {
-					font-family: "Helvetica-Bold";
+					font-family: "Helvetica-Medium";
 					font-size: 14px;
 				}
+				.close {
+					position: absolute;
+					top: 5px;
+					right: 5px;
+
+					padding: 5px;
+
+					color: #fff;
+					border-radius: 50%;
+					background-color: #ccc;
+					font-size: 7px;
+					&:hover {
+						background-color: #eae5e5;
+					}
+				}
 				&.active {
-					background-color: #dbd8d8;
+					background-color: #fff;
 				}
 				&:hover {
 					cursor: pointer;
 
-					background-color: #dbd8d8;
+					background-color: #faf7f7;
 				}
 			}
 		}

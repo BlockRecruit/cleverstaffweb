@@ -261,7 +261,16 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         };
 
         $scope.pushUserInFunnelActionUsersList = function(userIndex) {
-            $scope.funnelActionUsersList.push($scope.actionUsers[userIndex]);
+            let isMissing = true,
+                actionUser = $scope.actionUsers[userIndex] || null;
+
+            $scope.funnelActionUsersList.forEach(user => {
+               if(angular.equals(user,actionUser)) isMissing = false;
+            });
+
+            if(isMissing && actionUser) {
+                $scope.funnelActionUsersList.push(actionUser);
+            }
         };
 
         $scope.removeUserInFunnelActionUsersList = function(user) {
@@ -302,7 +311,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         function setUserActionsFunnelCache(cache) {
             if(!getUserActionsFunnelCache(cache.user)) {
-                console.log('push', cache);
                 userActionsFunnelConfig.usersFunnelCache.push(cache);
             }
         }
