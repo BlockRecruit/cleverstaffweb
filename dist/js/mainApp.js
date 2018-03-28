@@ -7710,10 +7710,26 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             });
         }
 
-        function checkCountStatuses(data) {
-            data.forEach(item => item.check = true);
-            this.vacancyStatuses = data;
+        function updateStatuses(data) {
+            this.vacancyStatuses.forEach(i =>{
+                let searchStatus = false;
+
+                data.forEach(j => {
+                    if(i.item === j.item){
+                        searchStatus = true;
+                        return;
+                    }
+                });
+
+                i.check = searchStatus;
+            }) ;
             return true;
+        }
+
+        function checkCountStatuses(data, property) {
+            console.log(data, property, "data, property");
+            property.forEach(j => data.forEach(i => (i["item"] === j)? i.check = true : null));
+            data.forEach(i => !i.check? i.check = false : null);
         }
 
         function concatStages(data){
@@ -7755,7 +7771,11 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                 requestCountStages = data.filter(item => item.request === "stagesOrCount");
 
             if (item.request === 'statusesOrCount') {
-                checkCountStatuses.call(this, respData);
+                checkCountStatuses(respData, singleton.editReport.vacancyStatuses);
+                // checkProperty(singleton.editReport.vacancyStatuses, vacancyStatuses);
+                console.log(respData, 'respData');
+
+                this.vacancyStatuses = respData;
             } else if (item.request === 'stageFull') {
                 allStages = respData.interviewStates.filter(item => item.status !== 'D');
                 allStages = concatStages(allStages);
@@ -7991,11 +8011,10 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             let requestData = {
                 "from": this.data.dateFrom,
                 "to": this.data.dateTo,
-                "vacancyStatuses":this.vacancyStatuses.filter(item => item.check).map(status => status.item),
+                // "vacancyStatuses":this.vacancyStatuses.filter(item => item.check).map(status => status.item),
                 "interviewCreatorIds": this.choosenPersons,
                 "vacancyIds": this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId)
             };
-
             return  Stat.requestGetCountVacancyForActualVacancyStatistic(requestData)
         }
 
@@ -8008,7 +8027,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             return Stat.requestGetCountInterviewForActualVacancyStatistic({
                 "from": this.data.dateFrom,
                 "to": this.data.dateTo,
-                "vacancyStatuses":this.vacancyStatuses.filter(item => item.check).map(status => status.item),
+                // "vacancyStatuses":this.vacancyStatuses.filter(item => item.check).map(status => status.item),
                 "interviewCreatorIds": this.choosenPersons,
                 "vacancyIds": this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId)
             })
@@ -8098,7 +8117,8 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                     Stat.requestGetCountInterviewForActualVacancyStatistic({
                         from: singleton.editReport.dateFrom,
                         interviewCreatorIds: [],
-                        to: singleton.editReport.dateTo
+                        to: singleton.editReport.dateTo,
+                        vacancyIds:singleton.editReport.vacancyIds || []
                     }),
                     vacancyStages.requestVacancyStages(),
                     Person.requestGetAllPersons(),
@@ -8106,6 +8126,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                 ]).then(data => {
                 data.forEach(item => {
                     _dataProcessing.apply(this, [data, item]);
+                    $scope.$apply();
                 });
                 CustomReportsService.getDate.apply(this, [singleton.editReport, $scope, true]);
                 this.fieldsList = checkPropertyFyelds(this.fieldsList, fieldsListStart);
@@ -8130,7 +8151,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             status.check = !status.check;
 
             reloadCountCandidatesInStatuses.apply(this, [$scope, status])
-                .then((resp) => checkCountStatuses.call(this, resp.object))
+                .then((resp) => updateStatuses.apply(this, [resp.object]))
                 .then(reloadCountAndCandidatesInStages.bind(this, $scope, status))
                 .then(updateCountCandidateInStages.bind(this))
                 .then(checkOnChange.bind(this))

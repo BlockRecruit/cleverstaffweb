@@ -350,7 +350,7 @@
                            ng-repeat="status in editReport.vacancyStatuses track by $index"
                            ng-click="editReport.selectValue(status)">
                             <button class="ui icon button" ng-class="{'checkmark': (status.check)}">
-                                <i class="fa fa-check-square checkmark" ng-class="{'checkmark': (status.check)}"  ng-checked="true" aria-hidden="true" checked="checked"></i>
+                                <i class="fa fa-check-square" ng-class="{'checkmark': (status.check)}"  ng-checked="true" aria-hidden="true" checked="checked"></i>
                             </button>
                             <span>
                                 {{status.item|translate}}
