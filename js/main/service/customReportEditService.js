@@ -596,7 +596,8 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                     Stat.requestGetCountInterviewForActualVacancyStatistic({
                         from: singleton.editReport.dateFrom,
                         interviewCreatorIds: [],
-                        to: singleton.editReport.dateTo
+                        to: singleton.editReport.dateTo,
+                        vacancyIds:singleton.editReport.vacancyIds || []
                     }),
                     vacancyStages.requestVacancyStages(),
                     Person.requestGetAllPersons(),
