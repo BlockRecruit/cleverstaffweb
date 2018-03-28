@@ -3809,15 +3809,23 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             })
         };
 
-        $scope.openPromoLogo = function () {
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: '../partials/modal/open-promo-logo.html',
-                size: '',
-                resolve: function () {
-
-                }
-            });
+        //$scope.openPromoLogo = function () {
+        //    $scope.modalInstance = $uibModal.open({
+        //        animation: true,
+        //        templateUrl: '../partials/modal/open-promo-logo.html',
+        //        size: '',
+        //        resolve: function () {
+        //
+        //        }
+        //    });
+        //};
+        $scope.openPromoLogo = function() {
+            $('#question-modal').removeClass('hidden');
+            $('#question-modal').addClass('visible');
+        };
+        $scope.closeModalImage = function() {
+            $('#question-modal').removeClass('visible');
+            $('#question-modal').addClass('hidden');
         };
         $scope.removePromoLogo = function () {
             Vacancy.removeImg({"vacancyId": $scope.vacancy.vacancyId}, function (resp) {

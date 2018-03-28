@@ -2611,7 +2611,7 @@ directive('appVersion', ['version', function(version) {
                         logoImg.src = the_url;
                         logoImg.onload = function () {
                             $('#logo-button').hide();
-                            if(logoImg.width > 290 && logoImg.height > 290){
+                            if(logoImg.width > 200 && logoImg.height > 200){
                                 if($("#cropper-wrap").length == 0) {
                                     $("#owner_photo_wrap").prepend('<div id="cropper-wrap"> <div id="img-wrapper"> </div> <button id="close">' + $filter("translate")("Close") + '</button> <button id="cropp">' + $filter("translate")("Accept_1") + '</button> <div id="wrapper"></div>  </div> <div id="wrapperForPng"></div>');
                                     $("#owner_photo_wrap").find('img').hide();
@@ -2620,7 +2620,7 @@ directive('appVersion', ['version', function(version) {
                                 }
                                 $('#img-wrapper').html("<img id='image' src='" + the_url + "'>");
                                 cropperFunc();
-                            } else if(logoImg.width == 290 && logoImg.height == 290){
+                            } else if(logoImg.width == 200 && logoImg.height == 200){
                                 Vacancy.uploadPromoLogo(the_url).then(function (data) {
                                     $scope.callbackAddPromoLogo(data.data.object);
                                     $('#logo-button').show();
@@ -2630,7 +2630,7 @@ directive('appVersion', ['version', function(version) {
                                 });
                             } else {
                                 $('#logo-button').show();
-                                notificationService.error($filter('translate')('Please choose image 290 x 290 px or larger'));
+                                notificationService.error($filter('translate')('Please choose image 200 x 200 px or larger'));
                             }
                         }
 
@@ -2641,7 +2641,7 @@ directive('appVersion', ['version', function(version) {
                 function cropperFunc() {
                     var image = document.getElementById('image');
                     var cropper = new Cropper(image, {
-                        aspectRatio: 1 / 1,
+                        aspectRatio: false,
                         movable: false,
                         zoomable: false
                     });
@@ -39475,15 +39475,23 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             })
         };
 
-        $scope.openPromoLogo = function () {
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: '../partials/modal/open-promo-logo.html',
-                size: '',
-                resolve: function () {
-
-                }
-            });
+        //$scope.openPromoLogo = function () {
+        //    $scope.modalInstance = $uibModal.open({
+        //        animation: true,
+        //        templateUrl: '../partials/modal/open-promo-logo.html',
+        //        size: '',
+        //        resolve: function () {
+        //
+        //        }
+        //    });
+        //};
+        $scope.openPromoLogo = function() {
+            $('#question-modal').removeClass('hidden');
+            $('#question-modal').addClass('visible');
+        };
+        $scope.closeModalImage = function() {
+            $('#question-modal').removeClass('visible');
+            $('#question-modal').addClass('hidden');
         };
         $scope.removePromoLogo = function () {
             Vacancy.removeImg({"vacancyId": $scope.vacancy.vacancyId}, function (resp) {

@@ -1047,6 +1047,10 @@
     </div>
     <div ng-show="currentTab == 'task'" ng-include="'partials/vacancy-task.html'"></div>
     <div ng-show="currentTab == 'history'" ng-include="'partials/vacancy-history.html'"></div>
+    <div id="cover-picture-modal" class="cover-picture-modal">
+        <span class="close" ng-click="closeModalImage()">&times;</span>
+        <img class="modal-content" ng-src="{{$root.serverAddress}}/getapp?id={{$root.promoLogo}}&d=">
+    </div>
 </div>
 
 <div id="candidate_preview" ng-class="{'less-width': !candidatePreview.photo || !candidatePreviewAdditional}">

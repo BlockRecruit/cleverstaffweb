@@ -14891,7 +14891,7 @@ input.cmn-toggle-round:checked + label:after {
             text-decoration: underline; }
       .block-vacancy-descr.main-info .short-info #owner_photo_wrap {
         display: inline;
-        max-width: 160px; }
+        max-width: 350px; }
         .block-vacancy-descr.main-info .short-info #owner_photo_wrap #wrapperForPng img {
           width: 100%;
           height: auto; }
