@@ -37,16 +37,20 @@
                     </div>
                 </div>
                 <div class="filter">
-                    <span>{{'Show reports by users' | translate}}</span>
                     <div class="switch">
+                        <span>{{'Show reports by users' | translate}}</span>
                         <input id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round" type="checkbox" ng-model="showUserReports">
                         <label for="cmn-toggle-9"></label>
                     </div>
                     <div class="responsible-list" ng-show="showUserReports">
-                        <div class="responsible" ng-repeat="user in actionUsers track by $index">
-                            <label for="'user'-{{$index}}">{{user.name}}</label>
-                            <input id="'user'-{{$index}}" ng-click="pushUserInFunnelActionUsersList(user)" ng-model="user.selected" type="checkbox">
-                        </div>
+                        <select name="" id="" class="responsible-list" ng-model="selectedUser">
+                            <option value="{{user}}" ng-repeat="user in actionUsers track by $index">{{user.name}}</option>
+                        </select>
+                        <button class="btn-add" ng-click="pushUserInFunnelActionUsersList(selectedUser)">+</button>
+                        <!--<div class="responsible" ng-repeat="user in actionUsers track by $index">-->
+                            <!--<label for="'user'-{{$index}}">{{user.name}}</label>-->
+                            <!--<input id="'user'-{{$index}}" ng-click="pushUserInFunnelActionUsersList(user)" ng-model="user.selected" type="checkbox">-->
+                        <!--</div>-->
                     </div>
                 </div>
                 <div class="update">

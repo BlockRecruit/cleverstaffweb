@@ -40753,7 +40753,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true})
                 .then(vacancyInterviewDetalInfo => {
                     $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
-                    $scope.vacancyFunnelMap = initSalesFunnel(validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages));
+                    $scope.vacancyFunnelMap = initSalesFunnel(parseCustomStagesNames($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages));
                     drawFunnel({config:funnelConfig($scope.vacancyFunnelMap), id:"myChartDiv",  assignObj:null});
                     $scope.$apply();
                 }, error => notificationService.error(error.message));
@@ -40766,7 +40766,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             4. - drawFunnel      --- drawing funnel
         */
 
-        function validatedStages(allStages, notDeclinedStages, declinedStages) {
+        function parseCustomStagesNames(allStages, notDeclinedStages, declinedStages) {
             angular.forEach($scope.customStages, function(resp){
                 angular.forEach(allStages, function(value){
                     if(value.key === resp.customInterviewStateId) {
@@ -40858,7 +40858,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         }
 
         function drawFunnel({config, id, assignObj}) {
-            console.log(config, id, assignObj);
 
             let myChart = {},
                 chartHeight = config.chartHeight,
@@ -40959,19 +40958,25 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         };
 
         $scope.pushUserInFunnelActionUsersList = function(user) {
-            if(user.selected) {
-                $scope.funnelActionUsersList.push(user);
-            } else {
-                $scope.funnelActionUsersList.splice($scope.funnelActionUsersList.indexOf(user));
-            }
+            user = JSON.parse(user);
+            let isMissing = true;
+            $scope.funnelActionUsersList.forEach((listUser, index, arr) => {
+                if(!angular.equals(listUser, user) && index === arr.length - 1 && isMissing) {
+                    $scope.funnelActionUsersList.push(user);
+                } else if(angular.equals(listUser, user)) {
+                    isMissing = false;
+                }
+            });
+        };
+
+        $scope.removeUserInFunnelActionUsersList = function(user) {
+            $scope.funnelActionUsersList.splice($scope.funnelActionUsersList.indexOf(user),1);
         };
 
         function setUserActionsFunnel(user) {
             userActionsFunnelConfig.usersFunnelCache = userActionsFunnelConfig.usersFunnelCache || [];
 
             if(getUserActionsFunnelCache(user)) {
-                console.log(getUserActionsFunnelCache(user));
-                console.log({...getUserActionsFunnelCache(user)});
                 drawFunnel({...getUserActionsFunnelCache(user)});
                 return;
             }
@@ -40979,7 +40984,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true, personId: user.userId})
                 .then(usersActionValues => {
 
-                    let userFunnelMap = initSalesFunnel(validatedStages(usersActionValues, $scope.notDeclinedStages, $scope.declinedStages));
+                    let userFunnelMap = initSalesFunnel(parseCustomStagesNames(usersActionValues, $scope.notDeclinedStages, $scope.declinedStages));
 
                     const userActionsFunnelData = {
                         candidateSeriesToDisplay: funnelConfig($scope.vacancyFunnelMap).candidateSeries,
@@ -41010,8 +41015,9 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         function userActionsFunnelConfig(userActionsFunnelData) {
             return {
                 "series": userActionsFunnelData.userSeries,
-                "scale-y-2": {"values": userActionsFunnelData.candidateSeriesToDisplay, "item": {fontSize: 12, "offset-x": -60}},
-                "scale-y-5": {"values": userActionsFunnelData.userSeriesToDisplay, "item": {fontSize: 12,"offset-x": 190}},
+                "scale-y-2": {"values": userActionsFunnelData.userSeriesToDisplay, "item": {fontSize: 12,"offset-x": -60}},
+                // "scale-y-2": {"values": userActionsFunnelData.candidateSeriesToDisplay, "item": {fontSize: 12, "offset-x": -60}},
+                // "scale-y-5": {"values": userActionsFunnelData.userSeriesToDisplay, "item": {fontSize: 12,"offset-x": 190}},
                 labels: [
                     {
                         text: $filter('translate')(userActionsFunnelData.username),
@@ -41090,7 +41096,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 .then(vacancyInterviewDetalInfo => {
                     $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
 
-                    $scope.vacancyFunnelMap = initSalesFunnel(validatedStages($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages));
+                    $scope.vacancyFunnelMap = initSalesFunnel(parseCustomStagesNames($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages));
                     drawFunnel({config:funnelConfig($scope.vacancyFunnelMap), id:"myChartDiv", assignObj:null});
 
                     $scope.statistics = {type : 'default', user: {}};
