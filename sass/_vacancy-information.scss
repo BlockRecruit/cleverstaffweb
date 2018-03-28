@@ -302,9 +302,12 @@
 					}
 				}
 			}
+			.no-padding {
+				padding: 0;
+			}
 			.promoImg {
 				display: inline-block;
-				margin-right: 10px;
+				margin-top: 10px;
 
 				color: $theme-dark;
 				i {
@@ -319,10 +322,11 @@
 			}
 			#owner_photo_wrap {
 				display: inline;
-				width: 100%;
+				max-width: 160px;
 				#wrapperForPng {
 					img {
-						max-width: 100%;
+						width: 100%;
+						height: auto;
 					}
 					#cancel {
 						@include button-styling-cancel();
@@ -371,8 +375,8 @@
 				}
 				.imgForPromo {
 					display: inline;
-					width: 60px;
-					height: 60px;
+					width: 100%;
+					height: auto;
 
 					cursor: pointer;
 				}

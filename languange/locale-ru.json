@@ -2435,7 +2435,7 @@
   "You can add/remove, swap, and customize all your vacancy stages, except Long list and Hired, in the Stages block on a vacancy page": "Вы можете добавлять/удалять, менять местами и настраивать все этапы, кроме 'Найденные' и 'Вышел на работу', на странице вакансии в блоке 'Этапы'.",
   "Recruiting funnel shows the conversion between the stages. Vacancy stages with the lowest conversion are the zone of growth. Thus recruiting funnel helps to identify bottlenecks and to focus on them": "Самое интересное, что показывает воронка рекрутинга, – это конверсия между этапами. Хорошая конверсия экономит много времени, потому что для закрытия вакансии нужно находить меньше кандидатов и меньше с ними работать. Этапы с низкой конверсией – это зона роста продуктивности работы.",
   "It is useful to compare the recruiting funnel different recruiters to funnel recruiting of the company": "Полезно сравнивать воронки рекрутинга разных рекрутеров и всей компании. Станет видно кто более эффективен и на каких этапах. Им стоит поделиться опытом с остальными.",
-  "Add promo image": "Добавить промо-изображение",
+  "Add promo image": "Добавить обложку",
   "Show the report description": "Показать описание отчёта",
   "The Pipeline report helps you define problem vacancies, bottlenecks, and enhance the work on them in advance. The report illustrates": "Отчёт Pipeline помогает определить проблемные вакансии и заблаговременно усилить работу по ним. Он показывает",
   "active vacancies ('New' and 'In progress' status) with responsible recruiters": "активные вакансии (в статусах 'Новая' и 'В работе') c ответственными",
@@ -2926,6 +2926,7 @@
   "Task deleted":"Задача удалена",
   "Сandidates in stages": "Кандидаты на этапах",
   "Invite user with a role" :"Пригласить пользователя с ролью",
-  "Logo of the vacancy": "Логотип вакансии",
-  "was removed": "удален"
+  "Logo of the vacancy": "Обложка вакансии",
+  "was removed": "удален",
+  "cover_picture": "Обложка вакансии"
 }

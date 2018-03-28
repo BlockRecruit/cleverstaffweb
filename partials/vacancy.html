@@ -249,19 +249,6 @@
                         {{'Go to public vacancy'|translate}}
                     </span>
                 </a>
-                <a class="promoImg" add-promo-logo ng-if="$root.promoLogo == undefined" href="" id="logo-button">
-                    <i class="fa fa-picture-o" aria-hidden="true"></i>
-                    <span>
-                        {{'Add promo image'|translate}}
-                    </span>
-                </a>
-                <div id="owner_photo_wrap" class="pull-left">
-                    <input id="the-file-input" accept="image/*" type="file" style="display:none">
-                    <img ng-if="$root.promoLogo != undefined" class="imgForPromo" ng-click="openPromoLogo();" ng-src="{{$root.serverAddress}}/getapp?id={{$root.promoLogo}}&d=" alt=""/>
-                    <span ng-if="$root.promoLogo != undefined" class="deletePromoLogo">
-                        <i class="fa fa-times pull-right" ng-click="removePromoLogo()" title="{{'remove_logo'|translate}}"></i>
-                    </span>
-                </div>
                 <a class="send-vacancy pull-left" href="" ng-show="vacancy.descr.length > 30" ng-click="showSendEmailTemplateModal()">
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                         <span>
@@ -282,39 +269,58 @@
                 </div>
                 <div class="social hidden-xs hidden-sm"
                      ng-if="vacancy.descr.length > 30 && (vacancy.status != 'payment' && vacancy.status != 'canceled' && vacancy.status != 'completed')">
-                    <h4>
-                        {{"Social Networks"|translate}}
-                    </h4>
+                    <div class="col-lg-7 no-padding">
+                        <h4>
+                            {{"Social Networks"|translate}}
+                        </h4>
                     <span ng-show="vacancy.descr.length > 30 && (isResponsiblePerson == true) && (vacancy.status != 'payment' && vacancy.status != 'canceled' && vacancy.status != 'completed')"
                           translate="Get applicants from Social Networks. Share this vacancy on your"></span>
                     <span ng-show="vacancy.descr.length > 30 && (isResponsiblePerson == false || isResponsiblePerson == undefined) && (vacancy.status != 'payment' && vacancy.status != 'canceled' && vacancy.status != 'completed')"
                           translate="Help your colleague to find candidates for this vacancy. Share it on your"></span>
-                    <div class="social-links">
-                        <i class="fa fa-linkedin linkedin" id="shareButton1" ng-click="share('linkedin')"
-                           aria-hidden="true"></i>
-                        <i class="fa fa-facebook facebook" id="shareButton2" ng-click="share('facebook')"
-                           aria-hidden="true"></i>
-                        <a target="blank"
-                           ng-href="http://twitter.com/intent/tweet?url={{publicLink| escape}}&text={{'Vacancy'| translate}} {{publicName}}&hashtags=cleverstaff"
-                           ng-click="addPublish('twitter')">
-                            <i class="fa fa-twitter twitter" aria-hidden="true"></i>
-                        </a>
-                        <a target="_blank"
-                           ng-click="addPublish('vk')"
-                           ng-href="http://vk.com/share.php?url={{publicLink| escape}}&title={{'Vacancy'| translate}} {{publicName}}&image={{publicImgLink| escape}}&noparse=false&description={{publicDescr| cut:true:300:'...'}}">
-                            <i class="fa fa-vk vk" aria-hidden="true"></i>
-                        </a>
+                        <div class="social-links">
+                            <i class="fa fa-linkedin linkedin" id="shareButton1" ng-click="share('linkedin')"
+                               aria-hidden="true"></i>
+                            <i class="fa fa-facebook facebook" id="shareButton2" ng-click="share('facebook')"
+                               aria-hidden="true"></i>
+                            <a target="blank"
+                               ng-href="http://twitter.com/intent/tweet?url={{publicLink| escape}}&text={{'Vacancy'| translate}} {{publicName}}&hashtags=cleverstaff"
+                               ng-click="addPublish('twitter')">
+                                <i class="fa fa-twitter twitter" aria-hidden="true"></i>
+                            </a>
+                            <a target="_blank"
+                               ng-click="addPublish('vk')"
+                               ng-href="http://vk.com/share.php?url={{publicLink| escape}}&title={{'Vacancy'| translate}} {{publicName}}&image={{publicImgLink| escape}}&noparse=false&description={{publicDescr| cut:true:300:'...'}}">
+                                <i class="fa fa-vk vk" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div class="statistic">
+                            <span class="grey">{{'Posts in Social Networks'| translate}}:</span>
+                            <strong>{{vacancy.publishingCount}}</strong>
+                            <br/>
+                            <span class="grey">{{'Unique visits'| translate}}:</span>
+                            <strong>{{vacancy.visitsCount}}</strong>
+                            <br/>
+                            <span class="grey">{{'Applied candidates'| translate}}:</span>
+                            <strong>{{vacancy.recallsCount}}</strong>
+                        </div>
                     </div>
-                    <div class="statistic">
-                        <span class="grey">{{'Posts in Social Networks'| translate}}:</span>
-                        <strong>{{vacancy.publishingCount}}</strong>
-                        <br/>
-                        <span class="grey">{{'Unique visits'| translate}}:</span>
-                        <strong>{{vacancy.visitsCount}}</strong>
-                        <br/>
-                        <span class="grey">{{'Applied candidates'| translate}}:</span>
-                        <strong>{{vacancy.recallsCount}}</strong>
+                    <div class="col-lg-5 no-padding">
+                        <a class="promoImg" add-promo-logo ng-if="$root.promoLogo == undefined" href="" id="logo-button">
+                            <i class="fa fa-picture-o" aria-hidden="true"></i>
+                            <span>
+                                {{'Add promo image'|translate}}
+                            </span>
+                        </a>
+                        <h4 ng-if="$root.promoLogo != undefined">{{'cover_picture'|translate}}</h4>
+                        <div id="owner_photo_wrap" class="text-center">
+                            <input id="the-file-input" accept="image/*" type="file" style="display:none">
+                            <img ng-if="$root.promoLogo != undefined" class="imgForPromo" ng-click="openPromoLogo();" ng-src="{{$root.serverAddress}}/getapp?id={{$root.promoLogo}}&d=" alt=""/>
+                            <span ng-if="$root.promoLogo != undefined" class="deletePromoLogo">
+                                <i class="fa fa-times pull-right" ng-click="removePromoLogo()" title="{{'remove_logo'|translate}}"></i>
+                            </span>
+                        </div>
                     </div>
+                    <div class="clearfix"></div>
                 </div>
                 <div class="social hidden-xs hidden-sm" ng-if="vacancy.descr == undefined || vacancy.descr.length < 30">
                     <h4>
