@@ -27,7 +27,7 @@
             <textarea class="editCommentArea" ng-model="editComment"></textarea>
         </div>
         <div class="buttons flex-position">
-            <div class="btn cancel" ng-click="history.editCommentFlag = false">
+            <div class="btn cancel" ng-click="history.editCommentFlag = false;editComment = history.descr">
                 {{'cancel'|translate}}
             </div>
             <div class="btn accept" ng-click="changeComment(history, editComment)">
