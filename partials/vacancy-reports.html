@@ -43,10 +43,10 @@
                         <label for="cmn-toggle-9"></label>
                     </div>
                     <div class="responsible-list" ng-show="showUserReports">
-                        <select name="" id="" class="responsible-list" ng-model="selectedUser">
-                            <option value="{{user}}" ng-repeat="user in actionUsers track by $index">{{user.name}}</option>
+                        <select name="" id="" class="responsible-list" ng-model="userIndex">
+                            <option value="{{$index}}" ng-repeat="user in actionUsers track by $index">{{user.name}}</option>
                         </select>
-                        <button class="btn-add" ng-click="pushUserInFunnelActionUsersList(selectedUser)">+</button>
+                        <button class="btn-add" ng-click="pushUserInFunnelActionUsersList(userIndex)">+</button>
                         <!--<div class="responsible" ng-repeat="user in actionUsers track by $index">-->
                             <!--<label for="'user'-{{$index}}">{{user.name}}</label>-->
                             <!--<input id="'user'-{{$index}}" ng-click="pushUserInFunnelActionUsersList(user)" ng-model="user.selected" type="checkbox">-->

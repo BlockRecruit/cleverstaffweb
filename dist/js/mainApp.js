@@ -40957,16 +40957,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             setUserActionsFunnel(user);
         };
 
-        $scope.pushUserInFunnelActionUsersList = function(user) {
-            user = JSON.parse(user);
-            let isMissing = true;
-            $scope.funnelActionUsersList.forEach((listUser, index, arr) => {
-                if(!angular.equals(listUser, user) && index === arr.length - 1 && isMissing) {
-                    $scope.funnelActionUsersList.push(user);
-                } else if(angular.equals(listUser, user)) {
-                    isMissing = false;
-                }
-            });
+        $scope.pushUserInFunnelActionUsersList = function(userIndex) {
+            $scope.funnelActionUsersList.push($scope.actionUsers[userIndex]);
         };
 
         $scope.removeUserInFunnelActionUsersList = function(user) {
