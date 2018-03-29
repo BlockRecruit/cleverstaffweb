@@ -24,6 +24,12 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             let isMissing = true,
                 actionUser = $scope.actionUsers[userIndex] || null;
 
+            console.log($scope.funnelActionUsersList.length);
+            if($scope.funnelActionUsersList.length >= 5) {
+                notificationService.error($filter('translate')('You select up to 5 users'));
+                return;
+            }
+
             $scope.funnelActionUsersList.forEach(user => {
                 if(angular.equals(user,actionUser)) isMissing = false;
             });
@@ -36,7 +42,9 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         $scope.removeUserInFunnelActionUsersList = function(user) {
             $scope.funnelActionUsersList.splice($scope.funnelActionUsersList.indexOf(user),1);
+
             updateMainFunnel(user);
+            clearUserActionsFunnelCache(user);
 
             if($scope.statistics.user === user) {
                 $scope.statistics = {type: 'default', user: {}};
@@ -55,7 +63,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
 
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages));
-                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap), id:"myChartDiv", assignObj:null});
+                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv", assignObj:null});
 
                     $scope.statistics = {type : 'default', user: {}};
                     $scope.$apply();
@@ -82,6 +90,42 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 }, error => notificationService.error(error.message));
         };
 
+
+        function setUserActionsFunnel(user) {
+            if(getUserActionsFunnelCache(user)) {
+                drawFunnel({...getUserActionsFunnelCache(user)});
+                return;
+            }
+
+            return Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true, personId: user.userId})
+                .then(usersActionValues => {
+
+                    let userFunnelMap = validateStages(parseCustomStagesNames(usersActionValues, $scope.notDeclinedStages, $scope.declinedStages));
+
+                    const userActionsFunnelData = {
+                        userSeries: setFunnelData(userFunnelMap).series,
+                        userSeriesArray: setFunnelData(userFunnelMap).candidateSeries,
+                        candidateSeriesArray: setFunnelData($scope.vacancyFunnelMap).candidateSeries,
+                        userSeriesToDisplay: function() {
+                            return this.userSeriesArray.map((userSeries, index) => {
+                                let percent = Math.round((userSeries / (this.candidateSeriesArray[index])) * 100) || 0;
+
+                                return `${userSeries}(${this.candidateSeriesArray[index]})/${percent}%`;
+                            });
+                        },
+                        username: user.name
+                    },
+                    finalFunnelObject = {config:setFunnelData(userFunnelMap), id:"myChartDiv2", assignObj:userActionsFunnelConfig(userActionsFunnelData), user:user};
+
+                    drawFunnel(finalFunnelObject);
+                    setUserActionsFunnelCache(finalFunnelObject);
+                    $scope.statistics = {type: 'default', user: {}};
+                    $scope.$apply();
+
+                    return Promise.resolve(finalFunnelObject);
+                }, error => notificationService.error(error.message));
+        }
+
         function setStages() {
             let stagesString = [];
 
@@ -100,21 +144,43 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 .then(vacancyInterviewDetalInfo => {
                     $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages));
-                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap), id:"myChartDiv",  assignObj:null});
+                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '1000px'), id:"myChartDiv",  assignObj:null});
                     $scope.$apply();
                 }, error => notificationService.error(error.message));
         }
 
         function updateMainFunnel(user) {
-            let obj = {};
+            userActionsFunnelConfig.usersFunnelCache = userActionsFunnelConfig.usersFunnelCache || [];
 
-            console.log($scope.funnelActionUsersList);
+            let graphset = zingchart.exec('myChartDiv', 'getdata').graphset,
+                username = user.name.split(' ').join('<br>'),
+                labelOffsetX = graphset[0].labels[graphset[0].labels.length - 1].static ? 85 + graphset[0].labels[graphset[0].labels.length - 1]['offset-x'] :
+                                                                                     graphset[0].labels[graphset[0].labels.length - 1]['offset-x'] + 60,
+                scaleYOffsetX = graphset[0]["scale-y-" + graphset[0].labels.length]['item']['static'] ? graphset[0]["scale-y-" + (graphset[0].labels.length)]['item']['offset-x'] + 80:
+                                                                                                          graphset[0]["scale-y-" + (graphset[0].labels.length)]['item']['offset-x'] + 60;
 
-            setUserActionsFunnel(user);
-            setTimeout(() => {
-                console.log(getUserActionsFunnelCache(user));
-            },2000);
-            // drawFunnel({config:setFunnelData($scope.vacancyFunnelMap), id:"myChartDiv",  assignObj:obj});
+            if(!getUserActionsFunnelCache(user)) {
+                setUserActionsFunnel(user)
+                    .then(resp => {
+                        graphset[0].labels.push({
+                            text: username,
+                            fontWeight: "bold",
+                            fontSize: 12,
+                            offsetX: labelOffsetX,
+                            offsetY: 0
+                        });
+                        graphset[0]["scale-y-" + graphset[0].labels.length] = {"values": resp.config.candidateSeries, "item": {fontSize: 12,"offset-x": scaleYOffsetX}};
+
+                        drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset[0]});
+                    }, error => console.error(error));
+            } else {
+                delete graphset[0]["scale-y-" + graphset[0].labels.length];
+                graphset[0].labels.forEach((label, index) => {
+                    if(label.text === username) graphset[0].labels.splice(index, 1);
+                });
+
+                drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset[0]});
+            }
         }
 
         function parseCustomStagesNames(allStages, notDeclinedStages, declinedStages) {
@@ -175,9 +241,9 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             return funnelMap[0] ? funnelMap : null;
         }
 
-        function setFunnelData(funnelMap) {
+        function setFunnelData(funnelMap, funnelWidth = '750px', chartWidth = '1100px') {
             $scope.hasFunnelChart = true;
-            chartHeight = 30*(funnelMap.length + 1);
+            let chartHeight = 30*(funnelMap.length + 1);
             let series = [],
                 stages = [],
                 candidateSeries = [],
@@ -205,7 +271,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 lastCount = stage.value;
             });
 
-            return { chartHeight, series, stages, candidateSeries, RelConversion, AbsConversion, values5 }
+            return { chartHeight, series, stages, candidateSeries, RelConversion, AbsConversion, values5, funnelWidth, chartWidth }
         }
 
         function drawFunnel({config, id, assignObj}) {
@@ -216,11 +282,13 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 values = config.stages,
                 values2 = config.candidateSeries,
                 values3 = config.RelConversion,
-                values4 = config.AbsConversion;
+                values4 = config.AbsConversion,
+                funnelWidth = config.funnelWidth,
+                chartWidth = config.chartWidth;
 
             myChart = {
                 "type": "funnel",
-                "width":'900px',
+                "width": funnelWidth,
                 "series": series,
                 tooltip: {visible: true, shadow: 0},
                 "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 75}},
@@ -229,43 +297,40 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     "values": values3, "item": {fontSize: 12,"offset-x": 25}
                 },
                 "scale-y-4": {
-                    "values": values4, "item": {fontSize: 12,"offset-x": 107}
+                    "values": values4, "item": {fontSize: 12,"offset-x": 107, static: true}
                 },
                 plotarea: {
-                    margin: '40px 0 0 20%'
+                    margin: '40px 0 0 0'
                 },
                 "scale-x": {"values": [""]},
                 labels: [
                     {
-                    text: $filter('translate')('Relative conversion'),
-                    fontWeight: "bold",
-                    fontSize: 12,
-                    // offsetX: $translate.use() != 'en' ?  775 : 785,
-                    offsetX: $translate.use() != 'en' ?  895 : 905,
-                    offsetY: 0
-                    },
-                    {
-                        text: $filter('translate')('Absolute conversion'),
+                        text: $filter('translate')('Stages'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        // offsetX: 870,
-                        offsetX: 990,
+                        offsetX: 20,
                         offsetY: 0
                     },
                     {
                         text: $filter('translate')('Candidates'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        // offsetX: $translate.use() != 'en' ? 700 : 710,
-                        offsetX: $translate.use() != 'en' ? 815 : 825,
+                        offsetX: $translate.use() != 'en' ? 515 : 825,
                         offsetY: 0
                     },
                     {
-                        text: $filter('translate')('Stages'),
+                        text: $filter('translate')('Relative conversion'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: 210,
+                        offsetX: $translate.use() != 'en' ?  595 : 905,
                         offsetY: 0
+                    },                    {
+                        text: $filter('translate')('Absolute conversion'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        offsetX: 690,
+                        offsetY: 0,
+                        static: true
                     }
                 ],
                 "backgroundColor": "#FFFFFF",
@@ -296,42 +361,9 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 id: id,
                 data: myChart,
                 height: chartHeight,
-                width: 1290,
+                width: chartWidth,
                 output: "html5"
             });
-        }
-
-        function setUserActionsFunnel(user) {
-            userActionsFunnelConfig.usersFunnelCache = userActionsFunnelConfig.usersFunnelCache || [];
-
-            if(getUserActionsFunnelCache(user)) {
-                drawFunnel({...getUserActionsFunnelCache(user)});
-                return;
-            }
-
-            Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true, personId: user.userId})
-                .then(usersActionValues => {
-
-                    let userFunnelMap = validateStages(parseCustomStagesNames(usersActionValues, $scope.notDeclinedStages, $scope.declinedStages));
-
-                    const userActionsFunnelData = {
-                        userSeries: setFunnelData(userFunnelMap).series,
-                        userSeriesArray: setFunnelData(userFunnelMap).candidateSeries,
-                        candidateSeriesArray: setFunnelData($scope.vacancyFunnelMap).candidateSeries,
-                        userSeriesToDisplay: function() {
-                            return this.userSeriesArray.map((userSeries, index) => {
-                                let percent = Math.round((userSeries / (this.candidateSeriesArray[index])) * 100) || 0;
-
-                                return `${userSeries}(${this.candidateSeriesArray[index]})/${percent}%`;
-                            });
-                        },
-                        username: user.name
-                    };
-
-                    drawFunnel({config:setFunnelData(userFunnelMap), id:"myChartDiv2", assignObj:userActionsFunnelConfig(userActionsFunnelData, user)});
-                    setUserActionsFunnelCache({config:setFunnelData(userFunnelMap), id:"myChartDiv2", assignObj:userActionsFunnelConfig(userActionsFunnelData), user: user});
-
-                }, error => notificationService.error(error.message));
         }
 
         function getUserActionsFunnelCache(user) {
@@ -346,12 +378,48 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             }
         }
 
+        function clearUserActionsFunnelCache(user) {
+            userActionsFunnelConfig.usersFunnelCache.forEach((cache, index) => {
+                if(cache.user.userId === user.userId) {
+                    userActionsFunnelConfig.usersFunnelCache.splice(index,1);
+                }
+            });
+        }
+
         function userActionsFunnelConfig(userActionsFunnelData) {
             return {
                 "series": userActionsFunnelData.userSeries,
                 "scale-y-2": {"values": userActionsFunnelData.userSeriesToDisplay(), "item": {fontSize: 12,"offset-x": -85}},
-                // "scale-y-2": {"values": userActionsFunnelData.candidateSeriesToDisplay, "item": {fontSize: 12, "offset-x": -60}},
-                // "scale-y-5": {"values": userActionsFunnelData.userSeriesToDisplay, "item": {fontSize: 12,"offset-x": 190}},
+                "labels": [
+                    {
+                        text: $filter('translate')('Relative conversion'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        offsetX: $translate.use() != 'en' ?  745 : 765,
+                        offsetY: 0
+                    },
+                    {
+                        text: $filter('translate')('Absolute conversion'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        offsetX: $translate.use() != 'en' ?  845 : 840,
+                        offsetY: 0
+                    },
+                    {
+                        text: $filter('translate')('Candidates'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        offsetX: $translate.use() != 'en' ? 660 : 670,
+                        offsetY: 0
+                    },
+                    {
+                        text: $filter('translate')('Stages'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        offsetX: 20,
+                        offsetY: 0
+                    }
+                ]
             };
         }
 

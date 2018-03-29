@@ -39,9 +39,7 @@
 			.funnel-header {
 				font-size: 20px;
 
-				margin-bottom: 10px;
-
-				text-align: center;
+				margin: 0 0 10px 350px;
 			}
 			&.report-info {
 				display: flex;
@@ -279,12 +277,12 @@
 		& > .funnelPanel {
 			& > div {
 				.myChartFunnel {
-					.text-center {
+					.center {
 						display: table;
 						margin: 0 auto;
-						svg {
-							padding-left: 110px;
-						}
+					}
+					svg {
+						padding-left: 160px;
 					}
 				}
 				& > .text-center {

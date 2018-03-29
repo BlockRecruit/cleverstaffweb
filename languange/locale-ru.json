@@ -2935,5 +2935,6 @@
   "Invite user with a role" :"Пригласить пользователя с ролью",
   "Enter more data for search":"Введите больше символов для поиска",
   "Show reports by users":"Показать статистику по пользователям",
-  "General Statistics":"Общая статистика"
+  "General Statistics":"Общая статистика",
+  "You select up to 5 users":"Вы можете выбрать максимум 5 пользователей"
 }
