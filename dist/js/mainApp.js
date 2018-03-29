@@ -47835,6 +47835,22 @@ component.component('sent', {
                         } else {
                             $scope.sentMailings = response['object']['page']['content'];
                         }
+                        $scope.sentMailings.forEach((mailing) => {
+                            mailing.sent = 0;
+                            mailing.undelivered = 0;
+                            mailing.opens = 0;
+                            mailing.compaignEntries.forEach(entry => {
+                                mailing.sent++;
+                                switch (entry.status) {
+                                    case "undelivered":
+                                        mailing.undelivered++;
+                                        break;
+                                    case "open":
+                                        mailing.opens++;
+                                        break;
+                                }
+                            });
+                        });
                         $defer.resolve($scope.sentMailings);
                         $scope.a.searchNumber = $scope.tableParams.page();
                     });
