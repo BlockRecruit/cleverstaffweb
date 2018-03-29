@@ -7713,6 +7713,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         function updateStatuses(data) {
             let vacancyIds = this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId);
+            console.log(this.vacancyStatuses, data, 'this.vacancyStatuses, data');
             if(!vacancyIds.length){
                 return Promise.reject(data);
             }
@@ -7723,6 +7724,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                 data.forEach(j => {
                     if(i.item === j.item){
                         searchStatus = true;
+                        i.count = j.count;
                         return;
                     }
                 });
@@ -8018,11 +8020,9 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         function reloadCountCandidatesInStatuses($scope){
             let vacancyIds = this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId);
 
-
             let requestData = {
                 "from": this.data.dateFrom,
                 "to": this.data.dateTo,
-                // "vacancyStatuses":this.vacancyStatuses.filter(item => item.check).map(status => status.item),
                 "interviewCreatorIds": this.choosenPersons,
                 "vacancyIds": vacancyIds
             };
@@ -8038,7 +8038,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             return Stat.requestGetCountInterviewForActualVacancyStatistic({
                 "from": this.data.dateFrom,
                 "to": this.data.dateTo,
-                // "vacancyStatuses":this.vacancyStatuses.filter(item => item.check).map(status => status.item),
                 "interviewCreatorIds": this.choosenPersons,
                 "vacancyIds": this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId)
             })
@@ -8055,8 +8054,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         function updateStages(data, type) {
             if(!data.length) return;
-            console.log(this.allStages, 'this.allStages');
-            console.log(data, 'data');
+
             this.allStages[type].forEach(stage => data.forEach(updateStage => {
                 if(stage.value == updateStage['item'] || stage.customInterviewStateId == updateStage['item']){
                     stage.added = true;
@@ -8162,7 +8160,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         singleton.selectValueVacancyFields = function ($scope, status) {
             status.check = !status.check;
-            // (resp) => checkCountStatuses(resp, singleton.editReport.vacancyStatuses)
+
             reloadCountCandidatesInStatuses.apply(this, [$scope, status])
                 .then((resp) => updateStatuses.apply(this, [resp.object]))
                 .then((resp) => true,  (resp) => checkCountStatuses.call(this, resp, CustomReportsService.data.vacancyStatuses))
@@ -43335,27 +43333,17 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 })
                 .then(resp =>{
                     if(resp) {
-                        var array = [];
                         $scope.totalVacancyStatusesCount = resp.object;
 
                         setCountCadidateInStatuses($scope.totalVacancyStatusesCount)
 
                         if ($scope.firstTimeLoading == 1) {
-                            angular.forEach($scope._vacancyStatuses, function (res) {
-                                if (res.count != 0 && (res.item != 'canceled' && res.item != 'expects')) {
-                                    res.added = true;
-                                    array.push(res.item);
-                                } else {
-                                    res.added = false
-                                }
-                            });
-                            console.log(array, 'array')
-
+                            updateStatuses();
 
                             return Stat.requestGetCountInterviewForActualVacancyStatistic({
                                 "from": $scope.startVacancyDate,
                                 "to": $scope.endDate,
-                                "vacancyStatuses":array,
+                                "vacancyStatuses":$scope._vacancyStatuses.filter(item => item.added).map(status => status.item),
                                 "interviewCreatorIds": $scope.choosenPersons
                             });
                         }
@@ -43489,6 +43477,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
         $scope.changeVacancyStatuses = function(status){
             status.added = !status.added;
+            $scope.cloneVacancyStatuses = angular.copy($scope._vacancyStatuses);
             updateListVacanciesWithStatuses(status);
         };
 
@@ -43813,8 +43802,13 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
         $scope.selectedVacancy = function (vacancyID) {
             vacancyID.check = !vacancyID.check;
-            reloadCountCandidatesInStatuses();
-            reloadCountAndCandidatesInStages();
+
+            reloadCountCandidatesInStatuses()
+                .then((resp) => setCountCadidateInStatuses(resp.object))
+                .then(updateStatuses)
+                .then(reloadCountAndCandidatesInStages)
+                .then(updateCountCandidateInStages)
+                .then(resetAngularContext);
         };
 
         $scope.selectDateRange = function (event, dateRange, isUpdate) {
@@ -43874,6 +43868,17 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
             reloadCountCandidatesInStatuses();
             reloadCountAndCandidatesInStages();
         };
+
+        function  updateStatuses() {
+            angular.forEach($scope._vacancyStatuses, function (res) {
+                if (res.count != 0 && (res.item != 'canceled' && res.item != 'expects')) {
+                    res.added = true;
+                } else {
+                    res.added = false
+                }
+            });
+            return true;
+        }
 
         function isClickInDataShowBlock(element, id) {
             while(!element.classList.contains('block-constructor-reports')){
@@ -43964,14 +43969,12 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 "interviewCreatorIds": $scope.choosenPersons,
                 "vacancyIds": $scope.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId)
             }
+
             return  Stat.requestGetCountVacancyForActualVacancyStatistic(requestData)
-                .then((resp) => {
-                    setCountCadidateInStatuses(resp.object);
-                    resetAngularContext();
-                });
         }
 
         function setCountCadidateInStatuses(totalVacancyStatusesCount) {
+            let vacancyIds = $scope.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId);
             $scope._vacancyStatuses = totalVacancyStatusesCount;
 
             $scope._vacancyStatuses.forEach(item => {
@@ -43982,6 +43985,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
                 }
                 item.visible = true;
             });
+            return true;
         }
 
         function updateListVacanciesWithStatuses(status){
@@ -44009,15 +44013,13 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         }
 
         function reloadCountAndCandidatesInStages(){
-            Stat.requestGetCountInterviewForActualVacancyStatistic({
+         return Stat.requestGetCountInterviewForActualVacancyStatistic({
                 "from":$scope.startVacancyDate,
                 "to":$scope.endDate,
                 "vacancyStatuses":$scope._vacancyStatuses.filter(item => item.added).map(status => status.item),
                 "interviewCreatorIds": $scope.choosenPersons,
                 "vacancyIds": $scope.fieldsVacancyList.filter(item => item.check).map(vacancy => vacancy.vacancyId)
             })
-            .then(updateCountCandidateInStages)
-            .then(resetAngularContext);
         }
 
         function updateCountCandidateInStages(resp) {

@@ -211,6 +211,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         function updateStatuses(data) {
             let vacancyIds = this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId);
+            console.log(this.vacancyStatuses, data, 'this.vacancyStatuses, data');
             if(!vacancyIds.length){
                 return Promise.reject(data);
             }
@@ -221,6 +222,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                 data.forEach(j => {
                     if(i.item === j.item){
                         searchStatus = true;
+                        i.count = j.count;
                         return;
                     }
                 });
@@ -516,11 +518,9 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         function reloadCountCandidatesInStatuses($scope){
             let vacancyIds = this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId);
 
-
             let requestData = {
                 "from": this.data.dateFrom,
                 "to": this.data.dateTo,
-                // "vacancyStatuses":this.vacancyStatuses.filter(item => item.check).map(status => status.item),
                 "interviewCreatorIds": this.choosenPersons,
                 "vacancyIds": vacancyIds
             };
@@ -536,7 +536,6 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
             return Stat.requestGetCountInterviewForActualVacancyStatistic({
                 "from": this.data.dateFrom,
                 "to": this.data.dateTo,
-                // "vacancyStatuses":this.vacancyStatuses.filter(item => item.check).map(status => status.item),
                 "interviewCreatorIds": this.choosenPersons,
                 "vacancyIds": this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId)
             })
@@ -659,7 +658,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         singleton.selectValueVacancyFields = function ($scope, status) {
             status.check = !status.check;
-            // (resp) => checkCountStatuses(resp, singleton.editReport.vacancyStatuses)
+
             reloadCountCandidatesInStatuses.apply(this, [$scope, status])
                 .then((resp) => updateStatuses.apply(this, [resp.object]))
                 .then((resp) => true,  (resp) => checkCountStatuses.call(this, resp, CustomReportsService.data.vacancyStatuses))
