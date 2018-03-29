@@ -759,11 +759,15 @@
 								&:first-child {
 									font-weight: normal;
 
+									display: inline-block;
+
 									color: #b8b8b8;
 								}
 							}
 							span ~ span {
 								font-weight: 500;
+
+								display: inline-block;
 
 								white-space: normal;
 							}
@@ -776,6 +780,29 @@
 								line-height: 26px;
 
 								display: block;
+							}
+						}
+						.education,
+						.currentWorkPlace,
+						.currentPosition,
+						.custom-field {
+							line-height: 26px;
+							span {
+								@include bold();
+								&:first-child {
+									font-weight: normal;
+
+									display: inline-block;
+
+									color: #b8b8b8;
+								}
+							}
+							span ~ span {
+								font-weight: 500;
+
+								display: inline;
+
+								white-space: normal;
 							}
 						}
 						.customFields {
@@ -942,6 +969,13 @@
 								&:last-child {
 									margin-bottom: 0;
 								}
+							}
+						}
+						.show-for-print {
+							word-break: break-all;
+							i {
+								position: relative;
+								top: -1px;
 							}
 						}
 					}
@@ -1751,6 +1785,29 @@
 	}
 	.candidate-profile-rezume .leftBar > .candidate-foto > div > img {
 		width: 280px;
+	}
+	.results {
+		display: none;
+	}
+	.ui-pnotify {
+		display: none!important;
+	}
+	.linkedProfiles {
+		display: none;
+	}
+	.counter-candidate {
+		display: none;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .main-info > div a.phone .newLang {
+		width: 65%;
+	}
+	.left-col {
+		float: left;
+		width: 50%;
+	}
+	.right-column {
+		float: right;
+		width: 50%;
 	}
 }
 
