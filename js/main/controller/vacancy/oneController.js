@@ -1877,7 +1877,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         $scope.share = function (sourse) {
-            var link = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-" + $scope.vacancy.localId;
+            var link = $location.$$protocol + "://" + $location.$$host + "/i/vacancy-" + $scope.vacancy.localId;
             if (frontMode === 'demo') {
                 link = $location.$$protocol + "://" + $location.$$host + "/di#/vacancy-" + $scope.vacancy.localId;
             }
@@ -1973,7 +1973,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         caption: '',
                                         description: $scope.publicDescr,
                                         link: link,
-                                        picture: $scope.publicImgLink,
+                                        picture: $scope.publicImgLink
                                     },
                                     function (response) {
                                     console.log(response);
@@ -3809,23 +3809,23 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             })
         };
 
-        //$scope.openPromoLogo = function () {
-        //    $scope.modalInstance = $uibModal.open({
-        //        animation: true,
-        //        templateUrl: '../partials/modal/open-promo-logo.html',
-        //        size: '',
-        //        resolve: function () {
-        //
-        //        }
-        //    });
-        //};
+        $scope.cropPromoLogo = function () {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/open-promo-logo.html',
+                size: 'lg',
+                resolve: function () {
+
+                }
+            });
+        };
         $scope.openPromoLogo = function() {
-            $('#question-modal').removeClass('hidden');
-            $('#question-modal').addClass('visible');
+            $('#cover-picture-modal').removeClass('hidden');
+            $('#cover-picture-modal').addClass('visible');
         };
         $scope.closeModalImage = function() {
-            $('#question-modal').removeClass('visible');
-            $('#question-modal').addClass('hidden');
+            $('#cover-picture-modal').removeClass('visible');
+            $('#cover-picture-modal').addClass('hidden');
         };
         $scope.removePromoLogo = function () {
             Vacancy.removeImg({"vacancyId": $scope.vacancy.vacancyId}, function (resp) {

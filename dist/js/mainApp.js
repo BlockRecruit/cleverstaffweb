@@ -2584,7 +2584,7 @@ directive('appVersion', ['version', function(version) {
             }
         }]
     )
-    .directive('addPromoLogo', ["$rootScope", "Vacancy", "notificationService", "$filter", function ($rootScope, Vacancy, notificationService, $filter) {
+    .directive('addPromoLogo', ["$rootScope", "Vacancy", "notificationService", "$filter", "$uibModal", function ($rootScope, Vacancy, notificationService, $filter, $uibModal) {
         return {
             restrict: 'AE',
             link: function ($scope, elem, attr, ctrl) {
@@ -2592,11 +2592,11 @@ directive('appVersion', ['version', function(version) {
                 elem.on('click', function () {
                     if ($rootScope.me.recrutRole == 'admin') {
                         $("#the-file-input").click();
+                        $scope.cropPromoLogo();
                     } else {
                         notificationService.error($filter('translate')('Only admin can set logo'));
                     }
                 });
-
                 var Cropper = window.Cropper;
 
                 $("#the-file-input").unbind('change').change(function() {
@@ -2613,8 +2613,8 @@ directive('appVersion', ['version', function(version) {
                             $('#logo-button').hide();
                             if(logoImg.width > 200 && logoImg.height > 200){
                                 if($("#cropper-wrap").length == 0) {
-                                    $("#owner_photo_wrap").prepend('<div id="cropper-wrap"> <div id="img-wrapper"> </div> <button id="close">' + $filter("translate")("Close") + '</button> <button id="cropp">' + $filter("translate")("Accept_1") + '</button> <div id="wrapper"></div>  </div> <div id="wrapperForPng"></div>');
-                                    $("#owner_photo_wrap").find('img').hide();
+                                    $("#crop-block").prepend('<div id="cropper-wrap"> <div id="img-wrapper"> </div> <button id="close">' + $filter("translate")("Close") + '</button> <button id="cropp">' + $filter("translate")("Accept_1") + '</button> <div id="wrapper"></div>  </div> <div id="wrapperForPng"></div>');
+                                    $("#crop-block").find('img').hide();
                                     $("#owner_photo_bubble_wrap").hide();
                                     $('#wrapperForPng').hide();
                                 }
@@ -2630,14 +2630,13 @@ directive('appVersion', ['version', function(version) {
                                 });
                             } else {
                                 $('#logo-button').show();
+                                $rootScope.closeModal();
                                 notificationService.error($filter('translate')('Please choose image 200 x 200 px or larger'));
                             }
                         }
-
                     };
                     reader.readAsDataURL(file);
                 };
-
                 function cropperFunc() {
                     var image = document.getElementById('image');
                     var cropper = new Cropper(image, {
@@ -2645,18 +2644,17 @@ directive('appVersion', ['version', function(version) {
                         movable: false,
                         zoomable: false
                     });
-
+                    console.log(cropper);
                     $('#cropp').on('click',function () {
                         var canvasImg = image.cropper.getCroppedCanvas();
                         var ctx = canvasImg.getContext('2d');
-
                         var canvasCopy = document.createElement("canvas");
                         var copyContext = canvasCopy.getContext("2d");
-                        canvasCopy.width = 290;
-                        canvasCopy.height = 290;
-                        copyContext.drawImage(canvasImg, 0, 0, 290, 290);
-                        canvasImg.width = 290;
-                        canvasImg.height = 290;
+                        canvasCopy.width = cropper.cropBoxData.width;
+                        canvasCopy.height = cropper.cropBoxData.height;
+                        copyContext.drawImage(canvasImg, 0, 0, canvasCopy.width, canvasCopy.height);
+                        canvasImg.width = cropper.cropBoxData.width;
+                        canvasImg.height = cropper.cropBoxData.height;
                         ctx.drawImage(canvasCopy, 0, 0, canvasImg.width, canvasImg.height,  0, 0,  canvasCopy.width, canvasCopy.height);
                         $scope.dataUrl = canvasImg.toDataURL();
                         $('#wrapperForPng').show();
@@ -2676,14 +2674,13 @@ directive('appVersion', ['version', function(version) {
                                 $('#cropper-wrap').remove();
                                 $('#wrapperForPng').remove();
                                 $("#the-file-input").val('');
-                                $("#owner_photo_wrap").find('img').show();
-                                $("#owner_photo_bubble_wrap").show();
-                                $(".block-company .img-section img").prop('href','$rootScope.promoLogoLink');
+                                $("#crop-block").find('img').show();
                                 $('#logo-button').show();
+                                notificationService.success($filter('translate')('picture_was_added'));
                             }, function (error) {
                                 notificationService.error(error.data.message);
                             });
-
+                            $rootScope.closeModal();
                         });
                     });
                     $('#close').on('click', function () {
@@ -2691,11 +2688,11 @@ directive('appVersion', ['version', function(version) {
                         $('#cropper-wrap').remove();
                         $('#wrapperForPng').remove();
                         $("#the-file-input").val('');
-                        $("#owner_photo_wrap").find('img').show();
-                        $("#owner_photo_bubble_wrap").show();
+                        $("#crop-block").find('img').show();
                         if($rootScope.promoLogo == undefined) {
                             $("#logo-button").show();
                         }
+                        $rootScope.closeModal();
                     });
                 }
             }
@@ -37543,7 +37540,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         $scope.share = function (sourse) {
-            var link = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-" + $scope.vacancy.localId;
+            var link = $location.$$protocol + "://" + $location.$$host + "/i/vacancy-" + $scope.vacancy.localId;
             if (frontMode === 'demo') {
                 link = $location.$$protocol + "://" + $location.$$host + "/di#/vacancy-" + $scope.vacancy.localId;
             }
@@ -37639,7 +37636,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         caption: '',
                                         description: $scope.publicDescr,
                                         link: link,
-                                        picture: $scope.publicImgLink,
+                                        picture: $scope.publicImgLink
                                     },
                                     function (response) {
                                     console.log(response);
@@ -39475,23 +39472,23 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             })
         };
 
-        //$scope.openPromoLogo = function () {
-        //    $scope.modalInstance = $uibModal.open({
-        //        animation: true,
-        //        templateUrl: '../partials/modal/open-promo-logo.html',
-        //        size: '',
-        //        resolve: function () {
-        //
-        //        }
-        //    });
-        //};
+        $scope.cropPromoLogo = function () {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/open-promo-logo.html',
+                size: 'lg',
+                resolve: function () {
+
+                }
+            });
+        };
         $scope.openPromoLogo = function() {
-            $('#question-modal').removeClass('hidden');
-            $('#question-modal').addClass('visible');
+            $('#cover-picture-modal').removeClass('hidden');
+            $('#cover-picture-modal').addClass('visible');
         };
         $scope.closeModalImage = function() {
-            $('#question-modal').removeClass('visible');
-            $('#question-modal').addClass('hidden');
+            $('#cover-picture-modal').removeClass('visible');
+            $('#cover-picture-modal').addClass('hidden');
         };
         $scope.removePromoLogo = function () {
             Vacancy.removeImg({"vacancyId": $scope.vacancy.vacancyId}, function (resp) {

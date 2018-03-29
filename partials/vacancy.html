@@ -316,8 +316,15 @@
                             <input id="the-file-input" accept="image/*" type="file" style="display:none">
                             <img ng-if="$root.promoLogo != undefined" class="imgForPromo" ng-click="openPromoLogo();" ng-src="{{$root.serverAddress}}/getapp?id={{$root.promoLogo}}&d=" alt=""/>
                             <span ng-if="$root.promoLogo != undefined" class="deletePromoLogo">
-                                <i class="fa fa-times pull-right" ng-click="removePromoLogo()" title="{{'remove_logo'|translate}}"></i>
+                                <i class="fa fa-times pull-right" ng-click="removePromoLogo()" title="{{'remove_picture'|translate}}"></i>
                             </span>
+                            <div class="question-image" ng-if="$root.promoLogo != undefined">
+                                <span>
+                                    <img ng-click="openPromoLogo()" class="zoom" src="/images/sprite/public-test/zoom.svg" alt="">
+                                    {{'Click on the picture to enlarge' | translate}}
+                                </span>
+                            </div>
+
                         </div>
                     </div>
                     <div class="clearfix"></div>

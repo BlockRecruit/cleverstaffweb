@@ -2342,5 +2342,7 @@
   "Logo of the vacancy":"Logo of the vacancy",
   "was removed": "was removed",
   "cover_picture": "Cover picture",
-  "Please choose image 200 x 200 px or larger": "Please choose image 200 x 200 px or larger"
+  "Please choose image 200 x 200 px or larger": "Please choose image 200 x 200 px or larger",
+  "remove_picture": "Remove picture",
+  "picture_was_added": "Picture was added"
 }

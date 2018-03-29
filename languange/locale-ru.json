@@ -2927,7 +2927,9 @@
   "Сandidates in stages": "Кандидаты на этапах",
   "Invite user with a role" :"Пригласить пользователя с ролью",
   "Logo of the vacancy": "Обложка вакансии",
-  "was removed": "удален",
+  "was removed": "удалена",
   "cover_picture": "Обложка вакансии",
-  "Please choose image 200 x 200 px or larger": "Выберите изображение размером 200x200 px или больше"
+  "Please choose image 200 x 200 px or larger": "Выберите изображение размером 200x200 px или больше",
+  "remove_picture": "Удалить обложку",
+  "picture_was_added": "Обложка добавлена"
 }
