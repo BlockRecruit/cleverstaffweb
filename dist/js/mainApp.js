@@ -7504,6 +7504,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
     try{
         let vacancyStatuses,
             fieldsListStart,
+            cloneVacancyStatuses,
             activeBlocks = [],
             singleton = {
                 editReport: {}
@@ -7711,6 +7712,11 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         }
 
         function updateStatuses(data) {
+            let vacancyIds = this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId);
+            if(!vacancyIds.length){
+                return Promise.reject(data);
+            }
+
             this.vacancyStatuses.forEach(i =>{
                 let searchStatus = false;
 
@@ -7728,8 +7734,13 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         function checkCountStatuses(data, property) {
             console.log(data, property, "data, property");
+
+            data.forEach(i => i.check = false);
+
             property.forEach(j => data.forEach(i => (i["item"] === j)? i.check = true : null));
             data.forEach(i => !i.check? i.check = false : null);
+
+            this.vacancyStatuses = data;
         }
 
         function concatStages(data){
@@ -7771,11 +7782,8 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
                 requestCountStages = data.filter(item => item.request === "stagesOrCount");
 
             if (item.request === 'statusesOrCount') {
-                checkCountStatuses(respData, singleton.editReport.vacancyStatuses);
+                checkCountStatuses.call(this, respData, singleton.editReport.vacancyStatuses);
                 // checkProperty(singleton.editReport.vacancyStatuses, vacancyStatuses);
-                console.log(respData, 'respData');
-
-                this.vacancyStatuses = respData;
             } else if (item.request === 'stageFull') {
                 allStages = respData.interviewStates.filter(item => item.status !== 'D');
                 allStages = concatStages(allStages);
@@ -8002,18 +8010,21 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         function selectAllVacancies($scope) {
             let _fieldsVacancyList = this.fieldsVacancyList;
             _fieldsVacancyList.forEach(item => item.check = this.chooseListFieldsVacancies);
-            reloadCountCandidatesInStatuses.apply(this, [$scope]);
-            reloadCountAndCandidatesInStages.apply(this, [$scope]);
+            // reloadCountCandidatesInStatuses.apply(this, [$scope]);
+            // reloadCountAndCandidatesInStages.apply(this, [$scope]);
             checkOnChange.call(this)
         }
 
         function reloadCountCandidatesInStatuses($scope){
+            let vacancyIds = this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId);
+
+
             let requestData = {
                 "from": this.data.dateFrom,
                 "to": this.data.dateTo,
                 // "vacancyStatuses":this.vacancyStatuses.filter(item => item.check).map(status => status.item),
                 "interviewCreatorIds": this.choosenPersons,
-                "vacancyIds": this.fieldsVacancyList.filter(item => item.check).map(item => item.vacancyId)
+                "vacancyIds": vacancyIds
             };
             return  Stat.requestGetCountVacancyForActualVacancyStatistic(requestData)
         }
@@ -8044,9 +8055,10 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         function updateStages(data, type) {
             if(!data.length) return;
-
+            console.log(this.allStages, 'this.allStages');
+            console.log(data, 'data');
             this.allStages[type].forEach(stage => data.forEach(updateStage => {
-                if(stage.value == updateStage['item'] && !stage.added){
+                if(stage.value == updateStage['item'] || stage.customInterviewStateId == updateStage['item']){
                     stage.added = true;
                     stage.count = updateStage.count;
                 }
@@ -8143,15 +8155,17 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         singleton.selectValue = function (status) {
             status.check = !status.check;
+            cloneVacancyStatuses = angular.copy(this.vacancyStatuses);
             updateListVacanciesWithStatuses.call(this)
             checkOnChange.call(this)
         };
 
         singleton.selectValueVacancyFields = function ($scope, status) {
             status.check = !status.check;
-
+            // (resp) => checkCountStatuses(resp, singleton.editReport.vacancyStatuses)
             reloadCountCandidatesInStatuses.apply(this, [$scope, status])
                 .then((resp) => updateStatuses.apply(this, [resp.object]))
+                .then((resp) => true,  (resp) => checkCountStatuses.call(this, resp, CustomReportsService.data.vacancyStatuses))
                 .then(reloadCountAndCandidatesInStages.bind(this, $scope, status))
                 .then(updateCountCandidateInStages.bind(this))
                 .then(checkOnChange.bind(this))
