@@ -907,11 +907,9 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam.personNameWhoSearching = null;
         $scope.tableParams.reload();
     };
-
     $scope.hideDetailElement = function () {
         $scope.showMessageAboutChangeTypeOfOtherSiteSearch = false;
     };
-
     $scope.showDetail = function () {
         $scope.showMessageAboutChangeTypeOfOtherSiteSearch = true;
         $scope.showMessageAboutChangeTypeOfOtherSiteSearchmouseover = true
@@ -1274,7 +1272,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.searchLangs = '';
     $scope.chosenLangs = ['null','null','null'];
     $scope.currentLang = 'null';
-
     $scope.addSearchLang = function (lang) {
         let i = 0, max = $scope.chosenLangs.length;
 
@@ -1581,7 +1578,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $scope.getPlugin = function () {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
-            $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
+            $window.open("https://chrome.google.com/webstore/detail/recruiters-integration-to/ibfoabadoicmplbdpmchomcagkpmfama");
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
             $window.open("/extension/CleverstaffExtension4Firefox.xpi");

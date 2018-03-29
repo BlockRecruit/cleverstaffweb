@@ -33,7 +33,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.inviteHiringManager = function(){
         $rootScope.modalInstance = $uibModal.open({
             animation: true,
-            templateUrl: 'partials/modal/invite-hiring-manager.html',
+            templateUrl: 'partials/modal/invite-hiring-manager.html?b=1',
             size: '',
             resolve: function(){
 
@@ -1225,9 +1225,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.getPlugin = function(status) {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
             if(status == 'old'){
-                $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
+                $window.open("https://chrome.google.com/webstore/detail/recruiters-integration-to/ibfoabadoicmplbdpmchomcagkpmfama");
             }else{
-                $window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
+                $window.open("https://chrome.google.com/webstore/detail/recruiters-integration-to/ibfoabadoicmplbdpmchomcagkpmfama");
             }
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");

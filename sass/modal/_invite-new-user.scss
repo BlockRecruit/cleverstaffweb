@@ -1,9 +1,12 @@
 .invite-new-user {
+	letter-spacing: 0.16px;
 	.modal-header {
 		position: relative;
 
 		text-align: center;
 		h3 {
+			font-family: "Helvetica-Heavy";
+
 			margin: 0;
 		}
 		.close-modal {
@@ -31,6 +34,8 @@
 			.step-number {
 				display: block;
 				margin-bottom: 10px;
+
+				letter-spacing: 0.383px;
 			}
 			.user-data {
 				input {
@@ -76,8 +81,11 @@
 					label.invite {
 						height: 12px;
 					}
+					.custom[type="radio"]:not(:checked) + label:before {
+						border: 2px solid $theme-green;
+					}
 					.role-settings-wrap {
-						text-align: right;
+						margin: 0 auto;
 						span {
 							display: block;
 							&.role-name {
@@ -85,13 +93,16 @@
 								font-size: 15px;
 
 								text-align: center;
+								letter-spacing: 0.6px;
 								text-transform: uppercase;
 
 								color: #333;
 							}
 							&.role-type {
-								font-family: "Helvetica-Regular";
+								font-family: "Helvetica-Light";
 								font-size: 13px;
+
+								text-align: center;
 
 								color: #b8b8b8;
 							}
@@ -138,8 +149,8 @@
 					position: relative;
 
 					display: flex;
-					min-width: 230px;
-					max-width: 230px;
+					min-width: 233px;
+					max-width: 233px;
 					margin-bottom: 13px;
 
 					align-items: center;
@@ -150,7 +161,7 @@
 						top: calc(50% - 12px);
 						right: -25px;
 
-						color: #0096f5;
+						color: #ccc;
 					}
 				}
 			}
@@ -161,16 +172,31 @@
 	}
 	.modal-footer {
 		text-align: center;
+
+		border-top: none;
 		button {
-			font-family: "Helvetica-Heavy";
-			font-size: 14px;
+			@include btn-primary-new();
 
-			min-width: 180px;
+			min-width: 195px;
 
+			letter-spacing: 1px;
 			text-transform: uppercase;
 			&.cancel {
+				@include btn-cancel();
+
+				font-family: "Helvetica-Heavy";
+				font-size: 16px;
+
 				margin-right: 25px;
-				padding: 8px 20px;
+				padding: 10px 20px;
+			}
+			&.accent {
+				@include btn-accent();
+
+				font-family: "Helvetica-Heavy";
+				font-size: 16px;
+
+				padding: 10px 20px;
 			}
 		}
 	}

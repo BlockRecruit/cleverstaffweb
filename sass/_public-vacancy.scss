@@ -474,35 +474,33 @@
 			opacity: 1;
 		}
 	}
-}
+	.apply-buttons {
+		display: flex;
+		flex-direction: column;
 
-.btn-modern {
-	font-family: "Helvetica-Regular";
-	font-size: 18px;
+		align-items: center;
+		.btn-primary-new {
+			@include btn-primary-new();
 
-	margin-bottom: 15px;
-	padding: 10px 37px;
+			font-size: 15px;
 
-	transition: all 0.3s;
-	text-align: center;
+			margin-bottom: 15px;
+			padding: 10px 22px;
+			&.apply-via {
+				font-size: 12px;
 
-	color: #fff;
-	border: 1px solid #00b549;
-	border-radius: 25px;
-	background-color: #00b549;
-	&.apply:hover {
-		color: #00b549;
-		border: 1px solid #00b549;
-		background-color: #fff;
-	}
-	&:focus {
-		border: none;
-		outline: none;
-	}
-	&.apply-via {
-		font-size: 14px;
-
-		padding: 10px 20px;
+				padding: 10px 20px;
+				&.linkedin {
+					border: 1px solid #0274b3;
+					background-color: #0274b3;
+					&:hover {
+						color: #0274b3;
+						border: 1px solid #0274b3;
+						background-color: #fff;
+					}
+				}
+			}
+		}
 		.fa-linkedin {
 			font-size: 13px;
 
@@ -512,23 +510,14 @@
 			border: 1px solid #fff;
 			background-color: #3590c2;
 		}
-		&.linkedin {
-			border: 1px solid #0274b3;
-			background-color: #0274b3;
-			&:hover {
-				color: #0274b3;
-				border: 1px solid #0274b3;
-				background-color: #fff;
-			}
-		}
 	}
 }
 
 @media (min-width: 1700px) {
-	.btn-modern {
+	.btn-primary-new {
 		font-size: 20px;
 	}
-	.btn-modern.apply-via {
+	.btn-primary-new.apply-via {
 		font-size: 16px;
 	}
 }

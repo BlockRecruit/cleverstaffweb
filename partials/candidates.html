@@ -650,12 +650,12 @@
                                      title="{{'This candidate added to'|translate}}{{::user.countActiveVacancy}}{{'active vacancies'|translate}}">
                                     {{::user.countActiveVacancy}}
                                 </span>
-                                <span data-title="'PREVIEW'" priview pageid="candidate_pages" candidate="user"
+                                <span data-title="'PREVIEW'" ng-if="$root.me.recrutRole != 'client'" priview pageid="candidate_pages" candidate="user"
                                       class="preview-candidate hidden-xs">
                                     <i show-preview-candidate candidate="user" title="{{'Profile preview'|translate}}" class="fa fa-address-card-o text_change"
                                        aria-hidden="true"></i>
                                 </span>
-                                <span ng-repeat="file in user.files| orderBy:'-url'" class="hidden-xs user-files user-files-block" ng-if="user.files.length <= 1">
+                                <span ng-repeat="file in user.files| orderBy:'-url'" class="hidden-xs user-files user-files-block" ng-if="user.files.length <= 1 && $root.me.recrutRole != 'client'">
                                     <a ng-href="{{::serverAddress}}/getapp/{{::file.fileId}}/{{::file.fileName}}"
                                        ng-show="file.fileId"
                                        ng-show="user.files"
@@ -668,7 +668,7 @@
                                            aria-hidden="true"></i>
                                     </span>
                                 </span>
-                                <i ng-if="user.files.length > 1" ng-click="showUserFiles(user)" ng-class="{'arrow-up' : clickedUser === user, 'arrow-down':clickedUser !== user}" class="fa fa-paperclip user-files-toggle for-files"  aria-hidden="true"></i>
+                                <i ng-if="user.files.length > 1 && $root.me.recrutRole != 'client'" ng-click="showUserFiles(user)" ng-class="{'arrow-up' : clickedUser === user, 'arrow-down':clickedUser !== user}" class="fa fa-paperclip user-files-toggle for-files"  aria-hidden="true"></i>
                                 <div class="user-files toggle for-files" ng-show="clickedUser === user">
                                     <span ng-repeat="file in user.files| orderBy: '!showGDocs'" ng-class="{'half-width' : !file.showGDocs}" class="file for-files">
                                         <a ng-href="{{::serverAddress}}/getapp/{{::file.fileId}}/{{::file.fileName}}"

@@ -448,7 +448,7 @@ controller.controller('ActivityFutureController', ["$scope", "$translate", "$roo
     $scope.achievePopup();
     $scope.getPlugin = function() {
         if (navigator.saysWho.indexOf("Chrome") != -1) {
-            window.open("https://chrome.google.com/webstore/detail/ats-extension/ibfoabadoicmplbdpmchomcagkpmfama");
+            window.open("https://chrome.google.com/webstore/detail/recruiters-integration-to/ibfoabadoicmplbdpmchomcagkpmfama");
         } else if (navigator.saysWho.indexOf("Firefox") != -1) {
             //$window.open("https://addons.mozilla.org/firefox/addon/cleverstaff_extension");
             window.open("/extension/CleverstaffExtension4Firefox.xpi");

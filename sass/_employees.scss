@@ -136,6 +136,8 @@
 		}
 		input {
 			@include input-styling();
+
+			height: 30px;
 		}
 		.select {
 			select {

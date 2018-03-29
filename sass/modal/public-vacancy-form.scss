@@ -25,6 +25,9 @@ body.modal-open-public-vacancy-form {
 
 		border-radius: 0;
 		background: none;
+		.btn-primary-new {
+			@include btn-primary-new();
+		}
 	}
 	.recallForm {
 		input,
@@ -147,7 +150,7 @@ body.modal-open-public-vacancy-form {
 
 		text-align: center;
 	}
-	.btn-modern {
+	.btn-primary-new {
 		display: block;
 		float: none!important;
 		margin: 15px auto 0;
