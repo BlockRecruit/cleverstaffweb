@@ -31,19 +31,33 @@
 			}
 			&.report-info {
 				margin-bottom: 15px;
-				h4 {
-					font-size: 14px;
-					font-weight: 600;
+				.col-lg-3 {
+					padding-left: 0;
+					h4 {
+						font-size: 14px;
+						font-weight: 600;
 
-					margin: 0 0 5px 0;
-				}
-				.resp-preson {
-					display: inline-block;
-					span {
-						position: relative;
-						left: -3px;
+						margin: 0 0 5px 0;
+					}
+					.deadline {
+						@include bold();
 
-						margin-right: 5px;
+						font-size: 14px;
+						.deadline-finish {
+							color: $theme-red;
+						}
+						span {
+							font-weight: 500;
+						}
+					}
+					.resp-preson {
+						display: inline-block;
+						span {
+							position: relative;
+							left: -3px;
+
+							margin-right: 5px;
+						}
 					}
 				}
 			}
