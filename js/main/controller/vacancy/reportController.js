@@ -167,7 +167,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                             fontWeight: "bold",
                             fontSize: 12,
                             offsetX: labelOffsetX,
-                            offsetY: 0
+                            offsetY: 0,
+                            "background-color":"blue #29A2CC"
                         });
                         graphset[0]["scale-y-" + graphset[0].labels.length] = {"values": resp.config.candidateSeries, "item": {fontSize: 12,"offset-x": scaleYOffsetX}};
 
