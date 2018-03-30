@@ -40746,7 +40746,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 actionUser = $scope.actionUsers[userIndex] || null;
 
             if($scope.funnelActionUsersList.length >= 4) {
-                notificationService.error($filter('translate')('You select up to 5 users'));
+                notificationService.error($filter('translate')('You select up to 4 users'));
                 return;
             }
 
@@ -40881,8 +40881,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             userActionsFunnelConfig.usersFunnelCache = userActionsFunnelConfig.usersFunnelCache || [];
 
             let graphset = zingchart.exec('myChartDiv', 'getdata').graphset;
-            console.log('graphset',graphset);
-            // console.log("scale-y-" + graphset[0].labels.length,graphset[0]["scale-y-" + graphset[0].labels.length]);
 
             let username = user.name.split(' ').join('<br>'),
                 scaleYOffsetX = graphset[0]["scale-y-" + (graphset[0].labels.length)]['item']['offset-x'] + 87,
@@ -40922,20 +40920,15 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 console.log(graphset[0]);
 
                 for(let i = deletedIndex; i < graphset[0].labels.length; i++) {
-                    console.log("scale-y-" + (i+2),graphset[0]["scale-y-" + (i + 2)]['item']['offset-x']);
-                    let tmp = graphset[0]["scale-y-" + (i + 2)];
-                    graphset[0]["scale-y-" + (i + 1)] = tmp;
-                    graphset[0]["scale-y-" + (i + 2)] = graphset[0]["scale-y-" + (i + 3)] || {};
+                    graphset[0]["scale-y-" + (i + 1)] = graphset[0]["scale-y-" + (i + 2)];
+                    // graphset[0]["scale-y-" + (i + 2)] = graphset[0]["scale-y-" + (i + 3)] || {};
                     if(graphset[0]["scale-y-" + (i + 3)]) {
                         graphset[0]["scale-y-" + (i + 2)] = graphset[0]["scale-y-" + (i + 3)] || {};
                     }
-                    // graphset[0]["scale-y-" + (i + 2)] = graphset[0]["scale-y-" + (i + 3)] || {};
                 }
 
-                // console.log(graphset[0]);
 
                 for(let i = deletedIndex; i < graphset[0].labels.length; i++) {
-                    // console.log("scale-y-" + (i+2),graphset[0]["scale-y-" + (i + 2)]['item']['offset-x']);
                     graphset[0]["scale-y-" + (i + 1)]['item']['offset-x'] -= 85;
                     graphset[0].labels[i]['offset-x'] -= 85;
                 }
