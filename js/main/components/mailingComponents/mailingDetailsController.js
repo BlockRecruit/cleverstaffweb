@@ -97,12 +97,7 @@ component.component('mDetails', {
                 preparedCandidate.mailing = true;
                 if(preparedCandidate) {
                     $scope.candidatesForMailing.unshift(preparedCandidate);
-                    Mailing.updateSubList(Mailing.getInternal(), $scope.candidatesForMailing).then((response) => {
-                        $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
-                        notificationService.success($filter('translate')('Recipient added'));
-                    }, (error) => {
-                        notificationService.error(error.message);
-                    });
+                    $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
                     $scope.modalInstance.close();
                 } else {
                     console.log('preparedCandidate is:',preparedCandidate)

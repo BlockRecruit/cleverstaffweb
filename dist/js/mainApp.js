@@ -46774,12 +46774,7 @@ component.component('mDetails', {
                 preparedCandidate.mailing = true;
                 if(preparedCandidate) {
                     $scope.candidatesForMailing.unshift(preparedCandidate);
-                    Mailing.updateSubList(Mailing.getInternal(), $scope.candidatesForMailing).then((response) => {
-                        $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
-                        notificationService.success($filter('translate')('Recipient added'));
-                    }, (error) => {
-                        notificationService.error(error.message);
-                    });
+                    $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
                     $scope.modalInstance.close();
                 } else {
                     console.log('preparedCandidate is:',preparedCandidate)
@@ -47472,7 +47467,7 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
         let toggleButtonClicked = false;
         let clickOnDropList = false;
         //do nothing, if clicked on droplist element:
-        [...document.getElementsByTagName("slide-statistic-list")].forEach(elemDropList => {
+        [...document.getElementsByClassName(".prevent-toggle")].forEach(elemDropList => {
            if($.contains(elemDropList, event.target)) {
                clickOnDropList = true;
            }
