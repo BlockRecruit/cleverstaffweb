@@ -40745,8 +40745,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             let isMissing = true,
                 actionUser = $scope.actionUsers[userIndex] || null;
 
-            console.log($scope.funnelActionUsersList.length);
-            if($scope.funnelActionUsersList.length >= 5) {
+            if($scope.funnelActionUsersList.length >= 4) {
                 notificationService.error($filter('translate')('You select up to 5 users'));
                 return;
             }
@@ -40873,12 +40872,13 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         function updateMainFunnel(user) {
             userActionsFunnelConfig.usersFunnelCache = userActionsFunnelConfig.usersFunnelCache || [];
 
-            let graphset = zingchart.exec('myChartDiv', 'getdata').graphset,
-                username = user.name.split(' ').join('<br>'),
-                labelOffsetX = graphset[0].labels[graphset[0].labels.length - 1].static ? 85 + graphset[0].labels[graphset[0].labels.length - 1]['offset-x'] :
-                                                                                     graphset[0].labels[graphset[0].labels.length - 1]['offset-x'] + 60,
-                scaleYOffsetX = graphset[0]["scale-y-" + graphset[0].labels.length]['item']['static'] ? graphset[0]["scale-y-" + (graphset[0].labels.length)]['item']['offset-x'] + 80:
-                                                                                                          graphset[0]["scale-y-" + (graphset[0].labels.length)]['item']['offset-x'] + 60;
+            let graphset = zingchart.exec('myChartDiv', 'getdata').graphset;
+            console.log('graphset',graphset);
+            // console.log("scale-y-" + graphset[0].labels.length,graphset[0]["scale-y-" + graphset[0].labels.length]);
+
+            let username = user.name.split(' ').join('<br>'),
+                scaleYOffsetX = graphset[0]["scale-y-" + (graphset[0].labels.length)]['item']['offset-x'] + 87,
+                labelOffsetX = 85 + graphset[0].labels[graphset[0].labels.length - 1]['offset-x'];
 
             if(!getUserActionsFunnelCache(user)) {
                 setUserActionsFunnel(user)
@@ -40888,17 +40888,45 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                             fontWeight: "bold",
                             fontSize: 12,
                             offsetX: labelOffsetX,
-                            offsetY: 0
+                            offsetY: 0,
+                            "border-width":1,
+                            "border-color":"lightgray",
+                            "border-radius":"5px",
+                            "height":"100%",
+                            "vertical-align":"top",
+                            "padding":"10%"
                         });
-                        graphset[0]["scale-y-" + graphset[0].labels.length] = {"values": resp.config.candidateSeries, "item": {fontSize: 12,"offset-x": scaleYOffsetX}};
+                        graphset[0]["scale-y-" + graphset[0].labels.length] = {"values": resp.config.candidateSeries, "item": {fontSize: 12,"offset-x": scaleYOffsetX, textAlign: "center"}};
 
                         drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset[0]});
                     }, error => console.error(error));
             } else {
-                delete graphset[0]["scale-y-" + graphset[0].labels.length];
+
+                let deletedIndex;
                 graphset[0].labels.forEach((label, index) => {
-                    if(label.text === username) graphset[0].labels.splice(index, 1);
+                    if(label.text === username) {
+                        deletedIndex = index;
+                        delete graphset[0]["scale-y-" + (index + 1)];
+                        graphset[0].labels.splice(index, 1);
+                    }
                 });
+
+                console.log(graphset[0]);
+
+                for(let i = deletedIndex; i < graphset[0].labels.length; i++) {
+                    console.log("scale-y-" + (i+2),graphset[0]["scale-y-" + (i + 2)]['item']['offset-x']);
+                    let tmp = graphset[0]["scale-y-" + (i + 2)];
+                    graphset[0]["scale-y-" + (i + 1)] = tmp;
+                    graphset[0]["scale-y-" + (i + 2)] = graphset[0]["scale-y-" + (i + 3)] || {};
+                }
+
+                // console.log(graphset[0]);
+
+                for(let i = deletedIndex; i < graphset[0].labels.length; i++) {
+                    // console.log("scale-y-" + (i+2),graphset[0]["scale-y-" + (i + 2)]['item']['offset-x']);
+                    graphset[0]["scale-y-" + (i + 1)]['item']['offset-x'] -= 85;
+                    graphset[0].labels[i]['offset-x'] -= 85;
+                }
 
                 drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset[0]});
             }
