@@ -40918,6 +40918,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     let tmp = graphset[0]["scale-y-" + (i + 2)];
                     graphset[0]["scale-y-" + (i + 1)] = tmp;
                     graphset[0]["scale-y-" + (i + 2)] = graphset[0]["scale-y-" + (i + 3)] || {};
+                    if(graphset[0]["scale-y-" + (i + 3)]) {
+                        graphset[0]["scale-y-" + (i + 2)] = graphset[0]["scale-y-" + (i + 3)] || {};
+                    }
+                    // graphset[0]["scale-y-" + (i + 2)] = graphset[0]["scale-y-" + (i + 3)] || {};
                 }
 
                 // console.log(graphset[0]);
