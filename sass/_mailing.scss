@@ -258,6 +258,7 @@
 						}
 						&.email {
 							width: 44%;
+							padding-left: 60px;
 						}
 						&.full-name {
 							width: 40%;
@@ -367,8 +368,12 @@
 				margin: 10px 0;
 				margin-top: 25px;
 			}
+			.top-buttons-block {
+				margin-left: 30px;
+			}
 			.empty-emails {
-				margin: 11px 30px 0 0;
+				margin: 0;
+				margin-top: 11px;
 				padding: 6px 12px;
 			}
 		}

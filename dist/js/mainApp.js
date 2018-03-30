@@ -4767,7 +4767,8 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                     dropdownCssClass: "bigdrop"
                 }).on("change", function(e) {
                     $scope.vacancy = e.added;
-                    statusListForming($scope.vacancy.id, $scope.vacancy.interviewStatus)
+                    $scope.emptyEmails.count = 0;
+                    statusListForming($scope.vacancy.id, $scope.vacancy.interviewStatus);
                 });
 
                 function setSelect2Vacancy() {
@@ -4932,6 +4933,7 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                     if(candidates && candidates.length > 0) {
                         scope.candidates = candidatesToTable(result);
                         $localStorage.set('candidatesForMailing', scope.candidates);
+                        scope.$parent.emptyEmails.count = 0;
                     } else {
                         notificationService.error($filter('translate')('No active candidates on this stage'));
                     }
