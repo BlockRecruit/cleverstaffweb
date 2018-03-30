@@ -100,10 +100,10 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
                 });
         }
 
-        function filterCandidatesByMatching(candidates, exactMatching) {
+        function filterCandidatesByMatching(candidates, matching) {
              return candidates.filter(candidate => {
-                 console.log(candidate, candidate.exactlyAppropriate === exactMatching);
-                 return candidate.exactlyAppropriate === exactMatching;
+                 console.log(candidate.fullName,candidate.exactlyAppropriate, matching);
+                 return candidate.exactlyAppropriate === matching;
              });
         }
 
@@ -111,7 +111,6 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
             const candidateRequiredFields = vacancySuggestions.getCandidateRequiredFields($scope.vacancy);
             $scope.suggestedCandidates.forEach(candidate => {
                 candidate.emptyFields = checkRequiredFieldsCompletion(candidate, candidateRequiredFields).emptyFields;
-                console.log(candidate.emptyFields);
             });
         }
 
