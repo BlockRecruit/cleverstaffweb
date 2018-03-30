@@ -2623,7 +2623,7 @@ directive('appVersion', ['version', function(version) {
                 }
             }
         }
-    }).directive('originAutocompleter', ["$filter", "serverAddress", function($filter, serverAddress) {
+    }).directive('originAutocompleter', ["$filter", "serverAddress", "$rootScope", "$translate", function($filter, serverAddress, $rootScope, $translate) {
         return {
             restrict: 'EA',
             replace: true,
