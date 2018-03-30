@@ -9,7 +9,7 @@
 </div>
 <div class="col-lg-10">
     <a class="pull-right" title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href=""
-       ng-click="history.editCommentFlag = !history.editCommentFlag">
+       ng-click="changeCommentFlag(history)">
         <i class="fa fa-pencil" aria-hidden="true"></i>
     </a>
     <span>{{'history_info.candidate'|translate}}</span>
@@ -32,12 +32,12 @@
     <span ng-show="!history.editCommentFlag" ng-bind-html="history.descr|textForNotice:false"></span>
     <div class="textField" ng-show="history.editCommentFlag">
         <div class="field">
-            <textarea class="editCommentArea" ng-model="history.descr"></textarea>
+            <textarea class="editCommentArea" ng-model="editComment"></textarea>
         </div>
-        <div class="btn cancel" ng-click="history.editCommentFlag = false">
+        <div class="btn cancel" ng-click="history.editCommentFlag = false;editComment = history.descr">
             {{'cancel'|translate}}
         </div>
-        <div class="btn accept" ng-click="changeComment(history)">
+        <div class="btn accept" ng-click="changeComment(history, editComment)">
             {{'save'|translate}}
         </div>
     </div>

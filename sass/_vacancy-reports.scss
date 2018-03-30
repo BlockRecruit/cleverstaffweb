@@ -31,19 +31,33 @@
 			}
 			&.report-info {
 				margin-bottom: 15px;
-				h4 {
-					font-size: 14px;
-					font-weight: 600;
+				.col-lg-3 {
+					padding-left: 0;
+					h4 {
+						font-size: 14px;
+						font-weight: 600;
 
-					margin: 0 0 5px 0;
-				}
-				.resp-preson {
-					display: inline-block;
-					span {
-						position: relative;
-						left: -3px;
+						margin: 0 0 5px 0;
+					}
+					.deadline {
+						@include bold();
 
-						margin-right: 5px;
+						font-size: 14px;
+						.deadline-finish {
+							color: $theme-red;
+						}
+						span {
+							font-weight: 500;
+						}
+					}
+					.resp-preson {
+						display: inline-block;
+						span {
+							position: relative;
+							left: -3px;
+
+							margin-right: 5px;
+						}
 					}
 				}
 			}
@@ -57,33 +71,29 @@
 				}
 			}
 			& > .dateFrom {
-				margin-top: 5px;
-
-				cursor: pointer;
-				& > .field {
-					& > label {
-					}
-					& > #dateFrom,
-					#dateTo {
-						@include input-styling();
-						@include border-radius();
-
-						clear: both;
-						width: 300px;
-
-						cursor: pointer;
-
-						background-image: url("../images/sprite/calendar.png");
-						background-repeat: no-repeat;
-						background-position: right center;
-					}
-					&:first-child {
-						margin-right: 15px;
-					}
+				& > label {
 				}
-				& > .pull-left:last-child {
+				& > #dateFrom,
+				#dateTo {
+					@include input-styling();
+					@include border-radius();
+
+					clear: both;
+					width: 95%;
+
+					cursor: pointer;
+
+					background-image: url("../images/sprite/calendar.png");
+					background-repeat: no-repeat;
+					background-position: right center;
+				}
+				&:first-child {
+					margin-right: 15px;
+				}
+				.search {
+					@include button-styling();
+
 					margin-top: 21px;
-					margin-left: 15px;
 				}
 			}
 		}
@@ -154,5 +164,20 @@
 				}
 			}
 		}
+	}
+}
+@media (max-width: 768px) {
+	.report-info .dateFrom {
+		clear: both;
+	}
+	.report-info .dateFrom #dateFrom,
+	#dateTo {
+		width: 300px!important;
+	}
+}
+@media (max-width: $screen-xs) {
+	.report-info .dateFrom #dateFrom,
+	#dateTo {
+		width: 100%!important;
 	}
 }
