@@ -1022,7 +1022,7 @@
                                 </div>
                             </td>
                             <td class="name" data-title="'Name'">
-                                <a href="#/candidates/{{::candidate.localId}}" ng-click="$event.stopPropagation();">{{::candidate.fullName}}
+                                <a href="#/candidates/{{candidate.localId}}" ng-click="$event.stopPropagation();">{{candidate.fullName}}
                                     <span ng-if="candidate.db">, {{candidate.db | ageOfDate}}</span>
                                 </a>
                             </td>

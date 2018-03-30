@@ -40937,10 +40937,13 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
 
         $scope.setSuggestionTab = function(tab) {
             $scope.suggestionTab = tab;
+
             if(tab === 'exactMatching') {
                 $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
                 $scope.suggestionTitle = setSuggestionTitle();
+                console.log($scope.suggestedCandidates);
             } else {
+                console.log($scope.suggestedCandidates);
                 $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, false);
                 getCandidatesEmptyFields();
                 $scope.suggestionTitle = setSuggestionTitle();
@@ -41010,10 +41013,9 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
         }
 
         function filterCandidatesByMatching(candidates, matching) {
-             return candidates.filter(candidate => {
-                 console.log(candidate.fullName,candidate.exactlyAppropriate, matching);
-                 return candidate.exactlyAppropriate === matching;
-             });
+            return candidates.filter(candidate => {
+                return candidate.exactlyAppropriate === matching;
+            });
         }
 
         function getCandidatesEmptyFields() {
@@ -41074,11 +41076,11 @@ controller.controller('vacancySuggestionController', ["$rootScope", "$scope", "V
 
         function setInitialData(data = []) {
             $scope.candidates = data['objects'];
-            $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
             $scope.suggestionTab = 'exactMatching';
             $scope.suggestionTitle = setSuggestionTitle();
             $scope.suggestionsLength.exact = filterCandidatesByMatching($scope.candidates, true).length;
             $scope.suggestionsLength.suitable = filterCandidatesByMatching($scope.candidates, false).length;
+            $scope.suggestedCandidates = filterCandidatesByMatching($scope.candidates, true);
         }
     }
 ]);
