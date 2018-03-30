@@ -3524,20 +3524,20 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
         $scope.exportToExcel = function () {
             $scope.loadingExcel = true;
-            $scope.paramForExcell.interviewState = $scope.activeName;
-            Candidate.createExcel($scope.paramForExcell, function (resp) {
-                if (resp.status == 'ok') {
-                    var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
-                    $('#export_in_excel')[0].href = sr + 'getapp?id=' + resp.object;
-                    $('#export_in_excel')[0].click();
-                }
-                if (resp.code == 'emptyExportExcel') {
-                    notificationService.error($filter('translate')('No candidates for export according to criteria'));
-                    $scope.loadingExcel = false;
-                }
-                $scope.loadingExcel = false;
-
-            });
+            // $scope.paramForExcell.interviewState = $scope.activeName;
+            // Candidate.createExcel($scope.paramForExcell, function (resp) {
+            //     if (resp.status == 'ok') {
+            //         var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
+            //         $('#export_in_excel')[0].href = sr + 'getapp?id=' + resp.object;
+            //         $('#export_in_excel')[0].click();
+            //     }
+            //     if (resp.code == 'emptyExportExcel') {
+            //         notificationService.error($filter('translate')('No candidates for export according to criteria'));
+            //         $scope.loadingExcel = false;
+            //     }
+            //     $scope.loadingExcel = false;
+            //
+            // });
         };
 
         $scope.roundMinutes = function(date) {
