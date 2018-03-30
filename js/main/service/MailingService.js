@@ -266,12 +266,12 @@ angular.module('services.mailing',[]
             }
         }
         function saveNewList() {
+            paramsObject.fromName = Name;
+            paramsObject.fromMail = Mail;
+            paramsObject.subject = topic;
+            paramsObject.internalName = internal;
+            paramsObject.compaignId = existedList?existedList.compaignId:null;
             service.setList(paramsObject, function (resp) {
-                paramsObject.fromName = Name;
-                paramsObject.fromMail = Mail;
-                paramsObject.subject = topic;
-                paramsObject.internalName = internal;
-                paramsObject.compaignId = existedList?existedList.compaignId:null;
                 if(resp.object && resp.object.subscriberListId) {
                     paramsObject.subscriberLists = [{subscriberListId: resp.object.subscriberListId}];
                     $localStorage.set('subscriberListParams', JSON.stringify(paramsObject));
