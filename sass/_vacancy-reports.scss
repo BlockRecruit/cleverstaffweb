@@ -71,33 +71,29 @@
 				}
 			}
 			& > .dateFrom {
-				margin-top: 5px;
-
-				cursor: pointer;
-				& > .field {
-					& > label {
-					}
-					& > #dateFrom,
-					#dateTo {
-						@include input-styling();
-						@include border-radius();
-
-						clear: both;
-						width: 300px;
-
-						cursor: pointer;
-
-						background-image: url("../images/sprite/calendar.png");
-						background-repeat: no-repeat;
-						background-position: right center;
-					}
-					&:first-child {
-						margin-right: 15px;
-					}
+				& > label {
 				}
-				& > .pull-left:last-child {
+				& > #dateFrom,
+				#dateTo {
+					@include input-styling();
+					@include border-radius();
+
+					clear: both;
+					width: 95%;
+
+					cursor: pointer;
+
+					background-image: url("../images/sprite/calendar.png");
+					background-repeat: no-repeat;
+					background-position: right center;
+				}
+				&:first-child {
+					margin-right: 15px;
+				}
+				.search {
+					@include button-styling();
+
 					margin-top: 21px;
-					margin-left: 15px;
 				}
 			}
 		}
@@ -168,5 +164,20 @@
 				}
 			}
 		}
+	}
+}
+@media (max-width: 768px) {
+	.report-info .dateFrom {
+		clear: both;
+	}
+	.report-info .dateFrom #dateFrom,
+	#dateTo {
+		width: 300px!important;
+	}
+}
+@media (max-width: $screen-xs) {
+	.report-info .dateFrom #dateFrom,
+	#dateTo {
+		width: 100%!important;
 	}
 }

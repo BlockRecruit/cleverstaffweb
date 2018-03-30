@@ -726,6 +726,9 @@
 							}
 							&.phone {
 								color: $theme-dark;
+								.floaft-left {
+									float: left;
+								}
 								.newLang {
 									width: 60%;
 									margin-left: 15px;
@@ -783,6 +786,7 @@
 							}
 						}
 						.industry,
+						.employmentType,
 						.education,
 						.currentWorkPlace,
 						.currentPosition,
@@ -1799,8 +1803,26 @@
 	.counter-candidate {
 		display: none;
 	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .main-info > .left-col .leftBlock .phone .boldForPrint,
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .main-info > .left-col .customFields .phone .boldForPrint {
+		@include bold();
+	}
 	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .main-info > div a.phone .newLang {
-		width: 65%;
+		width: 100%;
+		margin-left: 0;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .coreSkills .item-in-table .content-header-description {
+		margin-top: 5px;
+		margin-left: 15px;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .coreSkills .item-in-table .skillsName {
+		margin-left: 5px;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .coreSkills {
+		border: none;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .main-info > div a.phone .floaft-left {
+		float: none;
 	}
 	.left-col {
 		float: left;

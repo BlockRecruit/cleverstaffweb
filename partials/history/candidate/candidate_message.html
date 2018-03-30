@@ -10,11 +10,11 @@
 <div class="col-lg-10 show-for-print">
     <a title="{{'Delete comment' | translate}}" ng-show="($root.me.fullName == history.person.fullName || $root.me.recrutRole === 'admin') && history.descr" href=""
        ng-click="showDeleteComment(history)" class="removeMessage pull-right">
-        <i class="fa fa-times" aria-hidden="true"></i>
+        <i class="fa fa-times not-for-print" aria-hidden="true"></i>
     </a>
     <a title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href=""
        ng-click="changeCommentFlag(history)" class="editMessage pull-right">
-        <i class="fa fa-pencil" aria-hidden="true"></i>
+        <i class="fa fa-pencil not-for-print" aria-hidden="true"></i>
     </a>
     <span class="comment">{{'history_info.message_to_candidate'|translate}}</span>
     <a href="#/candidates/{{history.candidate.localId}}">

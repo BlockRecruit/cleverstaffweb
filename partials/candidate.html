@@ -451,60 +451,60 @@
                             </div>
                             <div class="leftBlock clearfix">
                                 <a ng-show="candidate.expirence" class="phone">
-                                    <span>{{'experience'|translate}}:</span>
+                                    <span class="boldForPrint">{{'experience'|translate}}:</span>
                                     <span ng-show="candidate.expirence">{{'experience_assoc.' + candidate.expirence|translate}}</span>
                                 </a>
                             </div>
                             <div class="leftBlock clearfix">
                                 <a ng-show="candidate.readyRelocate && candidate.relatedRegions" class="phone relocate">
-                                    <span>{{'ready_to_relocate'|translate}}:</span>
+                                    <span class="boldForPrint">{{'ready_to_relocate'|translate}}:</span>
                                     <div class="clearfix" ng-if="candidate.relatedRegions.length > 1"></div>
                                     <span class="relocateRegions" ng-repeat="region in candidate.relatedRegions"><i class="fa fa-map-marker" aria-hidden="true"></i>{{region.displayFullName}}&nbsp;<br/></span>
                                 </a>
                             </div>
                             <div class="leftBlock clearfix">
                                 <a ng-show="candidate.languages.length > 0" class="phone noneNowrap">
-                                    <span class="pull-left">{{'languages'|translate}}:</span>
-                                    <div class="pull-left newLang">
+                                    <span class="floaft-left boldForPrint">{{'languages'|translate}}:</span>
+                                    <div class="floaft-left newLang">
                                         <span class="inlineLang" ng-repeat="lang in candidate.languages">{{lang.name}} <span translate="{{lang.level}}"></span></span>
                                     </div>
                                 </a>
                             </div>
                             <div class="leftBlock clearfix">
                                 <div ng-show="candidate.industry" class="phone industry">
-                                    <span>{{'industry'|translate}}:</span>
+                                    <span class="boldForPrint">{{'industry'|translate}}:</span>
                                     {{'industries_assoc.' + candidate.industry|translate}}
                                 </div>
                             </div>
                             <div class="leftBlock clearfix">
-                                <a ng-show="candidate.employmentType" class="phone">
-                                    <span>{{'employment_type'|translate}}:</span>
-                                <span ng-repeat="emplType in candidate.employmentType.split(',') track by $index">
-                                    {{emplType.trim() | translate}}
-                                </span>
-                                </a>
+                                <div ng-show="candidate.employmentType" class="phone employmentType">
+                                    <span class="boldForPrint">{{'employment_type'|translate}}:</span>
+                                    <span ng-repeat="emplType in candidate.employmentType.split(',') track by $index">
+                                        {{emplType.trim() | translate}}{{$last ? '' : ','}}
+                                    </span>
+                                </div>
                             </div>
                             <div class="leftBlock clearfix">
                                 <div ng-show="candidate.education" class="phone education">
-                                    <span>{{'education'|translate}}:</span>
+                                    <span class="boldForPrint">{{'education'|translate}}:</span>
                                     {{candidate.education}}
                                 </div>
                             </div>
                             <div class="leftBlock clearfix">
                                 <div ng-show="candidate.currentWorkPlace" class="phone currentWorkPlace">
-                                    <span>{{'Current company'|translate}}:</span>
+                                    <span class="boldForPrint">{{'Current company'|translate}}:</span>
                                     {{candidate.currentWorkPlace}}
                                 </div>
                             </div>
                             <div class="leftBlock clearfix">
                                 <div ng-show="candidate.currentPosition" class="phone currentPosition">
-                                    <span>{{'Current position'|translate}}:</span>
+                                    <span class="boldForPrint">{{'Current position'|translate}}:</span>
                                     {{candidate.currentPosition}}
                                 </div>
                             </div>
                             <div class="customFields clearfix">
                                 <div ng-show="fieldValue.fieldValue != undefined" ng-repeat="fieldValue in candidate.customFields" class="phone custom-field">
-                                    <span ng-show="fieldValue.state == 'A'">{{fieldValue.title}}:</span>
+                                    <span ng-show="fieldValue.state == 'A'" class="boldForPrint">{{fieldValue.title}}:</span>
                                     <span ng-show="(fieldValue.type == 'string' || fieldValue.type == 'select') && fieldValue.state == 'A'">{{fieldValue.fieldValue.value}}</span>
                                     <span ng-show="fieldValue.type == 'date' && fieldValue.state == 'A'">{{fieldValue.fieldValue.dateTimeValue|dateFormat}}</span>
                                     <span ng-show="fieldValue.type == 'datetime' && fieldValue.state == 'A'">{{fieldValue.fieldValue.dateTimeValue|dateFormat2:true}}</span>
@@ -723,7 +723,7 @@
                             <span class="candidateCoreSkills"></span>
                         </div>
                         <div class="description" ng-show="candidate.descr">
-                            <h4 ng-click="toggleDescriptionFunc()" title="{{'Show full description' | translate}}">{{'description'|translate}}<i class="fa fa-chevron-down" ng-class="toggleDescription ? 'fa-chevron-down' : 'fa-chevron-up'"></i> </h4>
+                            <h4 ng-click="toggleDescriptionFunc()" title="{{'Show full description' | translate}}">{{'description'|translate}}<i class="fa fa-chevron-down not-for-print" ng-class="toggleDescription ? 'fa-chevron-down' : 'fa-chevron-up'"></i> </h4>
                             <div description-treatment description="candidate.descr" class="content-description showAfter"></div>
                             <a ng-show="toggleDescription" ng-click="toggleDescriptionFunc()" class="">{{'Show full description' | translate}}</a>
                             <a ng-show="!toggleDescription" ng-click="toggleDescriptionFunc()" class="not-for-print hide-description">{{'Hide full description' | translate}}</a>
