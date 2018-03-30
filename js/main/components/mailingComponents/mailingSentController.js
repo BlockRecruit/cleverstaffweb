@@ -40,8 +40,8 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
             $scope.readers = getReadersList(respObj.compaignEntries);
             $scope.notReceived = getNotReceivedList(respObj.compaignEntries);
             $scope.statistics = {
-              opens: statistics.common.opens,
-              sent: statistics.common.sent,
+              opens: respObj.compaign.opens,
+              sent: respObj.compaign.sent,
               undelivered: statistics.common.undelivered
             };
             chartRendering(statistics.common, statistics.undelivered);
@@ -113,20 +113,33 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
         let commonStat = statParams.compaign;
         let detailedStat = statParams.compaignEntries;
         let undeliveredCount = 0;
+        let notOpened = 0;
         let opens = 0;
+        let delivered = 0;
         detailedStat.forEach(entry => {
-            if(entry.status == 'undelivered')
-                undeliveredCount++;
-            if(entry.status == 'open')
-                opens++;
+            switch (entry.status) {
+                case "open": {
+                    opens++;
+                    delivered++;
+                }
+                    break;
+                case "undelivered":
+                    undeliveredCount++;
+                    break;
+                case "unchecked": {
+                    delivered++;
+                    notOpened++;
+                }
+
+                    break;
+            }
         });
-        let delivered = (commonStat.sent!==undefined && commonStat.undelivered!==undefined)?(commonStat.sent - undeliveredCount):0;
         return {
             sent: detailedStat?detailedStat.length:0,
             opens: opens,
             undelivered: undeliveredCount,
-            delivered:delivered,
-            notOpened: delivered - opens
+            delivered: delivered,
+            notOpened: notOpened
         }
     }
 
@@ -156,7 +169,8 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
                 readers.push({
                     email: reader.subscriber.email,
                     name: reader.subscriber.firstName + ' ' + reader.subscriber.lastName,
-                    localId: reader.subscriber.localId
+                    localId: reader.subscriber.localId,
+                    opensCount: reader.opens
                 });
             }
         });

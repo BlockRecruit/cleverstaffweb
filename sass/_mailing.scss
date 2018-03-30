@@ -367,6 +367,10 @@
 				margin: 10px 0;
 				margin-top: 25px;
 			}
+			.empty-emails {
+				margin: 11px 30px 0 0;
+				padding: 6px 12px;
+			}
 		}
 	}
 	.mailing-editor-block {
@@ -927,7 +931,7 @@
 			@include button-styling-cancel();
 		}
 		&.go-back {
-			margin-top: 35px;
+			margin: 35px 0;
 
 			text-align: center;
 
@@ -956,8 +960,11 @@
 
 			justify-content: space-between;
 			div {
+				font-weight: normal;
+
 				text-align: center;
-				&.col-lg-4 {
+				text-overflow: ellipsis;
+				&.statistics-types {
 					width: 30%;
 					height: fit-content;
 					padding: 5px;
@@ -985,18 +992,44 @@
 		}
 		.slide-list {
 			position: absolute;
-			z-index: 1000;
+			z-index: -1;
 			top: 47px;
 			left: 133px;
 
 			display: block;
 			width: 450px;
 			max-width: 1231px;
+
+			transition-delay: 0s, 1s;
+			transition-duration: 1s, 0s;
+			transition-property: opacity, z-index;
+
+			opacity: 0;
 			&.read {
-				left: 23%;
+				left: 16%;
+
+				width: 550px;
 			}
 			&.undelivered {
 				left: 58%;
+			}
+			&.show {
+				z-index: 1000;
+
+				transition-delay: 0s, 0s;
+				transition-duration: 1s, 0s;
+				transition-property: opacity, visibility;
+
+				opacity: 1;
+			}
+			.first-cell {
+				padding-left: 0;
+			}
+			.last-cell {
+				padding-right: 0;
+			}
+			.with-scroll {
+				padding-right: 26px;
 			}
 		}
 		.slide-list-wrapper {
@@ -1004,26 +1037,16 @@
 
 			overflow: hidden;
 
-			transition-delay: 0s, 1s;
-			transition-duration: 1s, 2s;
-			transition-property: opacity, visibility;
-
-			opacity: 0;
 			border: 1px solid #ccc;
 			border-radius: 5px;
 			.row {
 				padding-bottom: 2px;
 			}
-			&.show {
-				transition-delay: 0s, 0s;
-				transition-duration: 1s, 0s;
-				transition-property: opacity, visibility;
-
-				opacity: 1;
-			}
 			.candidates-list-wrapper {
 				overflow-y: auto;
 				max-height: 200px;
+
+				background-color: white;
 			}
 		}
 		.statistics-top {

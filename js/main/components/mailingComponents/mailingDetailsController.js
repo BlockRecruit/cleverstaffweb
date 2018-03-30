@@ -10,6 +10,22 @@ component.component('mDetails', {
         $scope.allChecked = true;
         $scope.vacancy = {};
         let regForMailSplit = /[\s,;]+/;
+        $scope.emptyEmails = {
+            count: 0,
+            translateType: 0,
+            getTranslateType: function () {
+                if(this.count !== 1) {
+                    let remainder = this.count%10;
+                    if(remainder > 1 && remainder < 5) {
+                        return 1
+                    } else {
+                        return 2
+                    }
+                } else {
+                    return 0
+                }
+            }
+        };
 
         $scope.mailingDetails = Mailing.getMailingDetails();
 
@@ -40,9 +56,6 @@ component.component('mDetails', {
                 }
             }
         };
-
-
-
 
 
         $scope.saveCandidateContacts = function (candidate, newEmail) {
@@ -121,11 +134,25 @@ component.component('mDetails', {
         };
 
 
-        $scope.confirmDelete = function () {
+        $scope.deleteCandidatesWithoutEmails = function () {
+            _.remove($scope.candidatesForMailing, function (obj) {
+                return (!obj.candidateId.email || obj.candidateId.email.trim().length === 0 );
+            });
+            $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
+            $scope.emptyEmails.count = 0;
+            if($scope.candidatesForMailing.length === 1) {
+                notificationService.success($filter('translate')('Candidate removed'));
+            } else {
+                notificationService.success($filter('translate')('Candidates removed'));
+            }
+        };
+
+
+        $scope.confirmDelete = function (candidateObj) {
             if($scope.candidatesForMailing.length > 1) {
                 let beforeDeleting = angular.copy($scope.candidatesForMailing);
                 _.remove($scope.candidatesForMailing, function (obj) {
-                    return (obj.candidateId.localId == $scope.candidateForDelete.localId) && obj.candidateId.localId && obj.candidateId.localId;
+                    return (obj.candidateId.localId == candidateObj.localId) && obj.candidateId.localId && obj.candidateId.localId;
                 });
                 $scope.modalInstance.close();
                 $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
@@ -156,7 +183,7 @@ component.component('mDetails', {
                 notificationService.error($filter('translate')('You should fill all obligatory fields.'))
             } else {
                 $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
-                if($scope.candidatesForMailing && $scope.candidatesForMailing.some(function (candidate) {return candidate.mailing})) {
+                if($scope.candidatesForMailing) {
                     if($scope.candidatesForMailing.length > 1000) {
                         notificationService.error($filter('translate')('Count of recipients should be less than 1000'));
                         return
@@ -175,6 +202,8 @@ component.component('mDetails', {
                             notificationService.error($filter('translate')('Mailing duplicated emails'))
                         }
                     } else {
+                        $scope.emptyEmails.count = sortedCandidates.emptyEmails;
+                        $scope.emptyEmails.translateType = $scope.emptyEmails.getTranslateType();
                         $scope.candidatesForMailing = sortedCandidates.candidatesList;
                         notificationService.error($filter('translate')('Wrong emails'))
                     }

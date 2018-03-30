@@ -2453,5 +2453,12 @@
   "was sent to candidate": "was sent to candidate",
   "Email delivery statistics": "Email delivery statistics",
   "Mailing duplicated emails": "There are candidates with the same email in the list",
-  "Email delivery statistics will appear in a few minutes": "Email delivery statistics will appear in a few minutes"
+  "Email delivery statistics will appear in a few minutes": "Email delivery statistics will appear in a few minutes",
+  "openings": "Openings",
+  "There are candidates in the list without email": "There are {{count}} candidates in the list without email.",
+  "There are candidates in the list without email _1": "There are {{count}} candidates in the list without email.",
+  "There are candidate in the list without email": "There are candidate in the list without email.",
+  "Delete him": "Delete them",
+  "Delete them": "Delete them",
+  "Candidates removed": "Candidates removed"
 }

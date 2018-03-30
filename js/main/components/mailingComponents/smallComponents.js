@@ -31,20 +31,38 @@ component.component('sentMailingStatus',{
     },
     controllerAs: '$ctrl'
 
-}).component('slideStatisticList',{
+}).component('slideStatisticListCol2',{
     bindings:{
-        candidatesList: '<',
-        toggleFlag: '='
+        candidatesList: '<'
     },
-    template: `<div class="slide-list-wrapper" ng-class="{'show': $ctrl.toggleFlag}">
+    template: `<div class="slide-list-wrapper">
                     <div class="header row">
-                        <div class="col-lg-6" translate="full_name"></div>
-                        <div class="col-lg-6" translate="email"></div>
+                        <div class="col-lg-6 first-cell" translate="full_name"></div>
+                        <div class="col-lg-6 last-cell" translate="email" ng-class="{'with-scroll': $ctrl.candidatesList.length >= 10}"></div>
                     </div>
                     <div class="candidates-list-wrapper">
                         <div class="row" ng-repeat="candidate in $ctrl.candidatesList">
-                            <div class="col-lg-6" ><a href="!#/candidates/{{candidate.localId}}" target="_blank" ng-bind="candidate.name"></a></div>
-                            <div ng-bind="candidate.email" class="col-lg-6"></div>
+                            <div class="col-lg-6 first-cell" ><a href="!#/candidates/{{candidate.localId}}" target="_blank" ng-bind="candidate.name"></a></div>
+                            <div ng-bind="candidate.email" class="col-lg-6 last-cell"></div>
+                        </div>
+                    </div>
+               </div>`,
+    controllerAs: '$ctrl'
+}).component('slideStatisticListCol3',{
+    bindings:{
+        candidatesList: '<'
+    },
+    template: `<div class="slide-list-wrapper">
+                    <div class="header row">
+                        <div class="col-lg-4 first-cell" translate="full_name"></div>
+                        <div class="col-lg-4" translate="email"></div>
+                        <div class="col-lg-4 last-cell" translate="openings" ng-class="{'with-scroll': $ctrl.candidatesList.length >= 10}"></div>
+                    </div>
+                    <div class="candidates-list-wrapper">
+                        <div class="row" ng-repeat="candidate in $ctrl.candidatesList">
+                            <div class="col-lg-4 first-cell" ><a href="!#/candidates/{{candidate.localId}}" target="_blank" ng-bind="candidate.name"></a></div>
+                            <div ng-bind="candidate.email" class="col-lg-4"></div>
+                            <div class="col-lg-4 last-cell" ng-bind="candidate.opensCount"></div>
                         </div>
                     </div>
                </div>`,

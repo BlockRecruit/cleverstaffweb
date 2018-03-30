@@ -11592,14 +11592,12 @@ angular.module('services.mailing',[]
     function isFirstStepHasChanges(allParams) {
         let currentCandidatesList = [];
         allParams.candidates.forEach(candidate => {
-            if(candidate.mailing) {
-                currentCandidatesList.push({
-                    email: candidate.candidateId.email,
-                    firstName: candidate.candidateId.firstName,
-                    lastName: candidate.candidateId.lastName,
-                    localId: candidate.candidateId.localId
-                });
-            }
+            currentCandidatesList.push({
+                email: candidate.candidateId.email,
+                firstName: candidate.candidateId.firstName,
+                lastName: candidate.candidateId.lastName,
+                localId: candidate.candidateId.localId
+            });
         });
         if(allParams.savedMailing) {
             if(!angular.equals(allParams.savedRecipientsSource, allParams.recipientsSource))
@@ -11749,9 +11747,7 @@ angular.module('services.mailing',[]
         $localStorage.remove('stepClickable');
         $localStorage.set('mailingRecipientsSource', JSON.stringify(mailingSource));
         angular.forEach(candidates, function (candidate) {
-            if(candidate.mailing) {
-                candidatesForMailing.push(candidate);
-            }
+            candidatesForMailing.push(candidate);
         });
         $scope.toTheMailing = function () {
             service.setStep("mailing-details");
@@ -12222,18 +12218,18 @@ angular.module('services.mailing',[]
 
     service.sortCandidatesList = function (candidatesList) {
         let incorrectEmails = false;
+        let emptyEmails = 0;
         //find not valid-----------------
         angular.forEach(candidatesList, (candidate)=>{
-            if(candidate.mailing) {
-                if(candidate.candidateId.email) {
-                    if(!service.emailValidation(candidate.candidateId.email)) {
-                        candidate.wrongEmail = true;
-                        incorrectEmails = true;
-                    }
-                } else {
+            if(candidate.candidateId.email) {
+                if(!service.emailValidation(candidate.candidateId.email)) {
                     candidate.wrongEmail = true;
                     incorrectEmails = true;
                 }
+            } else {
+                candidate.wrongEmail = true;
+                incorrectEmails = true;
+                emptyEmails++;
             }
         });
         //sort by name (for duplicates search) and validity-----------------
@@ -12264,7 +12260,6 @@ angular.module('services.mailing',[]
                 }
             }
         }
-        console.log('candidatesList',candidatesList)
         //sort validity->duplicates->other -----------------
         candidatesList.sort((prev,next) => {
             if(prev.wrongEmail && !next.wrongEmail)
@@ -12281,7 +12276,8 @@ angular.module('services.mailing',[]
         return {
             candidatesList: candidatesList,
             isIncorrectEmails: incorrectEmails,
-            isDuplicatedEmails: duplicatesExist
+            isDuplicatedEmails: duplicatesExist,
+            emptyEmails: emptyEmails
         }
     };
 
@@ -12291,14 +12287,12 @@ angular.module('services.mailing',[]
             subscribers: []
         };
         candidates.forEach(function (o) {
-            if(o.mailing) {
-                let neededFields = {};
-                neededFields.firstName = o.candidateId.fullName.split(' ')[0];
-                neededFields.lastName = o.candidateId.fullName.split(' ')[1]?o.candidateId.fullName.split(' ')[1]:'';
-                neededFields.email = o.candidateId.email;
-                neededFields.localId = o.candidateId.localId;
-                prepared.subscribers.push(neededFields);
-            }
+            let neededFields = {};
+            neededFields.firstName = o.candidateId.fullName.split(' ')[0];
+            neededFields.lastName = o.candidateId.fullName.split(' ')[1]?o.candidateId.fullName.split(' ')[1]:'';
+            neededFields.email = o.candidateId.email;
+            neededFields.localId = o.candidateId.localId;
+            prepared.subscribers.push(neededFields);
         });
         return prepared
     }
@@ -46691,6 +46685,22 @@ component.component('mDetails', {
         $scope.allChecked = true;
         $scope.vacancy = {};
         let regForMailSplit = /[\s,;]+/;
+        $scope.emptyEmails = {
+            count: 0,
+            translateType: 0,
+            getTranslateType: function () {
+                if(this.count !== 1) {
+                    let remainder = this.count%10;
+                    if(remainder > 1 && remainder < 5) {
+                        return 1
+                    } else {
+                        return 2
+                    }
+                } else {
+                    return 0
+                }
+            }
+        };
 
         $scope.mailingDetails = Mailing.getMailingDetails();
 
@@ -46721,9 +46731,6 @@ component.component('mDetails', {
                 }
             }
         };
-
-
-
 
 
         $scope.saveCandidateContacts = function (candidate, newEmail) {
@@ -46802,11 +46809,25 @@ component.component('mDetails', {
         };
 
 
-        $scope.confirmDelete = function () {
+        $scope.deleteCandidatesWithoutEmails = function () {
+            _.remove($scope.candidatesForMailing, function (obj) {
+                return (!obj.candidateId.email || obj.candidateId.email.trim().length === 0 );
+            });
+            $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
+            $scope.emptyEmails.count = 0;
+            if($scope.candidatesForMailing.length === 1) {
+                notificationService.success($filter('translate')('Candidate removed'));
+            } else {
+                notificationService.success($filter('translate')('Candidates removed'));
+            }
+        };
+
+
+        $scope.confirmDelete = function (candidateObj) {
             if($scope.candidatesForMailing.length > 1) {
                 let beforeDeleting = angular.copy($scope.candidatesForMailing);
                 _.remove($scope.candidatesForMailing, function (obj) {
-                    return (obj.candidateId.localId == $scope.candidateForDelete.localId) && obj.candidateId.localId && obj.candidateId.localId;
+                    return (obj.candidateId.localId == candidateObj.localId) && obj.candidateId.localId && obj.candidateId.localId;
                 });
                 $scope.modalInstance.close();
                 $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
@@ -46837,7 +46858,7 @@ component.component('mDetails', {
                 notificationService.error($filter('translate')('You should fill all obligatory fields.'))
             } else {
                 $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
-                if($scope.candidatesForMailing && $scope.candidatesForMailing.some(function (candidate) {return candidate.mailing})) {
+                if($scope.candidatesForMailing) {
                     if($scope.candidatesForMailing.length > 1000) {
                         notificationService.error($filter('translate')('Count of recipients should be less than 1000'));
                         return
@@ -46856,6 +46877,8 @@ component.component('mDetails', {
                             notificationService.error($filter('translate')('Mailing duplicated emails'))
                         }
                     } else {
+                        $scope.emptyEmails.count = sortedCandidates.emptyEmails;
+                        $scope.emptyEmails.translateType = $scope.emptyEmails.getTranslateType();
                         $scope.candidatesForMailing = sortedCandidates.candidatesList;
                         notificationService.error($filter('translate')('Wrong emails'))
                     }
@@ -47401,8 +47424,8 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
             $scope.readers = getReadersList(respObj.compaignEntries);
             $scope.notReceived = getNotReceivedList(respObj.compaignEntries);
             $scope.statistics = {
-              opens: statistics.common.opens,
-              sent: statistics.common.sent,
+              opens: respObj.compaign.opens,
+              sent: respObj.compaign.sent,
               undelivered: statistics.common.undelivered
             };
             chartRendering(statistics.common, statistics.undelivered);
@@ -47474,20 +47497,33 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
         let commonStat = statParams.compaign;
         let detailedStat = statParams.compaignEntries;
         let undeliveredCount = 0;
+        let notOpened = 0;
         let opens = 0;
+        let delivered = 0;
         detailedStat.forEach(entry => {
-            if(entry.status == 'undelivered')
-                undeliveredCount++;
-            if(entry.status == 'open')
-                opens++;
+            switch (entry.status) {
+                case "open": {
+                    opens++;
+                    delivered++;
+                }
+                    break;
+                case "undelivered":
+                    undeliveredCount++;
+                    break;
+                case "unchecked": {
+                    delivered++;
+                    notOpened++;
+                }
+
+                    break;
+            }
         });
-        let delivered = (commonStat.sent!==undefined && commonStat.undelivered!==undefined)?(commonStat.sent - undeliveredCount):0;
         return {
             sent: detailedStat?detailedStat.length:0,
             opens: opens,
             undelivered: undeliveredCount,
-            delivered:delivered,
-            notOpened: delivered - opens
+            delivered: delivered,
+            notOpened: notOpened
         }
     }
 
@@ -47517,7 +47553,8 @@ controller.controller('mailingSentController',['$scope', '$rootScope', '$filter'
                 readers.push({
                     email: reader.subscriber.email,
                     name: reader.subscriber.firstName + ' ' + reader.subscriber.lastName,
-                    localId: reader.subscriber.localId
+                    localId: reader.subscriber.localId,
+                    opensCount: reader.opens
                 });
             }
         });
@@ -47935,20 +47972,38 @@ component.component('sentMailingStatus',{
     },
     controllerAs: '$ctrl'
 
-}).component('slideStatisticList',{
+}).component('slideStatisticListCol2',{
     bindings:{
-        candidatesList: '<',
-        toggleFlag: '='
+        candidatesList: '<'
     },
-    template: `<div class="slide-list-wrapper" ng-class="{'show': $ctrl.toggleFlag}">
+    template: `<div class="slide-list-wrapper">
                     <div class="header row">
-                        <div class="col-lg-6" translate="full_name"></div>
-                        <div class="col-lg-6" translate="email"></div>
+                        <div class="col-lg-6 first-cell" translate="full_name"></div>
+                        <div class="col-lg-6 last-cell" translate="email" ng-class="{'with-scroll': $ctrl.candidatesList.length >= 10}"></div>
                     </div>
                     <div class="candidates-list-wrapper">
                         <div class="row" ng-repeat="candidate in $ctrl.candidatesList">
-                            <div class="col-lg-6" ><a href="!#/candidates/{{candidate.localId}}" target="_blank" ng-bind="candidate.name"></a></div>
-                            <div ng-bind="candidate.email" class="col-lg-6"></div>
+                            <div class="col-lg-6 first-cell" ><a href="!#/candidates/{{candidate.localId}}" target="_blank" ng-bind="candidate.name"></a></div>
+                            <div ng-bind="candidate.email" class="col-lg-6 last-cell"></div>
+                        </div>
+                    </div>
+               </div>`,
+    controllerAs: '$ctrl'
+}).component('slideStatisticListCol3',{
+    bindings:{
+        candidatesList: '<'
+    },
+    template: `<div class="slide-list-wrapper">
+                    <div class="header row">
+                        <div class="col-lg-4 first-cell" translate="full_name"></div>
+                        <div class="col-lg-4" translate="email"></div>
+                        <div class="col-lg-4 last-cell" translate="openings" ng-class="{'with-scroll': $ctrl.candidatesList.length >= 10}"></div>
+                    </div>
+                    <div class="candidates-list-wrapper">
+                        <div class="row" ng-repeat="candidate in $ctrl.candidatesList">
+                            <div class="col-lg-4 first-cell" ><a href="!#/candidates/{{candidate.localId}}" target="_blank" ng-bind="candidate.name"></a></div>
+                            <div ng-bind="candidate.email" class="col-lg-4"></div>
+                            <div class="col-lg-4 last-cell" ng-bind="candidate.opensCount"></div>
                         </div>
                     </div>
                </div>`,

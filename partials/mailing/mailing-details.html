@@ -16,14 +16,21 @@
                 <button class="cancel-button" history-back translate="cancel"></button>
                 <button class="orange-button" ng-click="toTheEditor()" ng-show="candidatesForMailing.length > 0" translate="Next"></button>
             </div>
+            <div class="pull-right empty-emails alert alert-danger" ng-translate="there is some candidates without email" ng-show="emptyEmails.count > 0">
+                <span translate="There are candidate in the list without email" ng-show="emptyEmails.translateType === 0"></span>
+                <span translate="There are candidates in the list without email" translate-values="{count: emptyEmails.count}" ng-show="emptyEmails.translateType === 1"></span>
+                <span translate="There are candidates in the list without email _1" translate-values="{count: emptyEmails.count}" ng-show="emptyEmails.translateType === 2"></span>
+                <a href="" translate="Delete him" ng-click="deleteCandidatesWithoutEmails()" ng-show="emptyEmails.translateType === 0"></a>
+                <a href="" translate="Delete them" ng-click="deleteCandidatesWithoutEmails()" ng-show="emptyEmails.translateType !== 0"></a>
+            </div>
         </div>
         <div class="col-lg-12 outer-block">
             <table class="table" id="mainTable" >
                 <thead>
                     <tr>
-                        <th>
-                            <input type="checkbox" ng-model="allChecked" ng-change="checkAll()">
-                        </th>
+                        <!--<th>-->
+                            <!--<input type="checkbox" ng-model="allChecked" ng-change="checkAll()">-->
+                        <!--</th>-->
                         <th class="full-name" translate="full_name">
                         </th>
                         <th class="email" translate="email">
@@ -41,9 +48,9 @@
                                     'last-duplicate':  ($last || candidatesForMailing[$index+1].candidateId.email !== candidate.candidateId.email)
                                    }">
 
-                        <td class="received clickable">
-                            <input type="checkbox" ng-model="candidate.mailing" ng-click="candidateCheckbox(candidate)">
-                        </td>
+                        <!--<td class="received clickable">-->
+                            <!--<input type="checkbox" ng-model="candidate.mailing" ng-click="candidateCheckbox(candidate)">-->
+                        <!--</td>-->
                         <td class="recipient">
                             <span ng-if="!candidate.editable" data-title="'PREVIEW'" priview pageid="candidate_pages" candidate="candidate.candidateId" class="preview-candidate-mailing">
                                     <i  candidate="user" title="{{'Profile preview'|translate}}" class="fa fa-address-card-o text_change" aria-hidden="true"></i>
@@ -57,7 +64,7 @@
                             <input ng-if="candidate.editable" class="form-control" ng-init="candidate.candidateId.emailNew = candidate.candidateId.email" ng-model="candidate.candidateId.emailNew" type="text" maxlength="100">
                         </td>
                         <td class="send ">
-                            <a title="{{'Delete'|translate}}" href="" ng-hide="candidate.editable" ng-click="deleteCandidates(candidate.candidateId)" class="pull-right ng-scope edit-test">
+                            <a title="{{'Delete'|translate}}" href="" ng-hide="candidate.editable" ng-click="confirmDelete(candidate.candidateId)" class="pull-right ng-scope edit-test">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                             <a href="" class="pull-right ng-binding edit-test" ng-hide="candidate.editable" title="{{'Edit'| translate}}" ng-click="candidate.editable = true">

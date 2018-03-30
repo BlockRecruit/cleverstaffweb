@@ -212,14 +212,12 @@ angular.module('services.mailing',[]
     function isFirstStepHasChanges(allParams) {
         let currentCandidatesList = [];
         allParams.candidates.forEach(candidate => {
-            if(candidate.mailing) {
-                currentCandidatesList.push({
-                    email: candidate.candidateId.email,
-                    firstName: candidate.candidateId.firstName,
-                    lastName: candidate.candidateId.lastName,
-                    localId: candidate.candidateId.localId
-                });
-            }
+            currentCandidatesList.push({
+                email: candidate.candidateId.email,
+                firstName: candidate.candidateId.firstName,
+                lastName: candidate.candidateId.lastName,
+                localId: candidate.candidateId.localId
+            });
         });
         if(allParams.savedMailing) {
             if(!angular.equals(allParams.savedRecipientsSource, allParams.recipientsSource))
@@ -369,9 +367,7 @@ angular.module('services.mailing',[]
         $localStorage.remove('stepClickable');
         $localStorage.set('mailingRecipientsSource', JSON.stringify(mailingSource));
         angular.forEach(candidates, function (candidate) {
-            if(candidate.mailing) {
-                candidatesForMailing.push(candidate);
-            }
+            candidatesForMailing.push(candidate);
         });
         $scope.toTheMailing = function () {
             service.setStep("mailing-details");
@@ -842,18 +838,18 @@ angular.module('services.mailing',[]
 
     service.sortCandidatesList = function (candidatesList) {
         let incorrectEmails = false;
+        let emptyEmails = 0;
         //find not valid-----------------
         angular.forEach(candidatesList, (candidate)=>{
-            if(candidate.mailing) {
-                if(candidate.candidateId.email) {
-                    if(!service.emailValidation(candidate.candidateId.email)) {
-                        candidate.wrongEmail = true;
-                        incorrectEmails = true;
-                    }
-                } else {
+            if(candidate.candidateId.email) {
+                if(!service.emailValidation(candidate.candidateId.email)) {
                     candidate.wrongEmail = true;
                     incorrectEmails = true;
                 }
+            } else {
+                candidate.wrongEmail = true;
+                incorrectEmails = true;
+                emptyEmails++;
             }
         });
         //sort by name (for duplicates search) and validity-----------------
@@ -884,7 +880,6 @@ angular.module('services.mailing',[]
                 }
             }
         }
-        console.log('candidatesList',candidatesList)
         //sort validity->duplicates->other -----------------
         candidatesList.sort((prev,next) => {
             if(prev.wrongEmail && !next.wrongEmail)
@@ -901,7 +896,8 @@ angular.module('services.mailing',[]
         return {
             candidatesList: candidatesList,
             isIncorrectEmails: incorrectEmails,
-            isDuplicatedEmails: duplicatesExist
+            isDuplicatedEmails: duplicatesExist,
+            emptyEmails: emptyEmails
         }
     };
 
@@ -911,14 +907,12 @@ angular.module('services.mailing',[]
             subscribers: []
         };
         candidates.forEach(function (o) {
-            if(o.mailing) {
-                let neededFields = {};
-                neededFields.firstName = o.candidateId.fullName.split(' ')[0];
-                neededFields.lastName = o.candidateId.fullName.split(' ')[1]?o.candidateId.fullName.split(' ')[1]:'';
-                neededFields.email = o.candidateId.email;
-                neededFields.localId = o.candidateId.localId;
-                prepared.subscribers.push(neededFields);
-            }
+            let neededFields = {};
+            neededFields.firstName = o.candidateId.fullName.split(' ')[0];
+            neededFields.lastName = o.candidateId.fullName.split(' ')[1]?o.candidateId.fullName.split(' ')[1]:'';
+            neededFields.email = o.candidateId.email;
+            neededFields.localId = o.candidateId.localId;
+            prepared.subscribers.push(neededFields);
         });
         return prepared
     }
