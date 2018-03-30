@@ -25,7 +25,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 actionUser = $scope.actionUsers[userIndex] || null;
 
             if($scope.funnelActionUsersList.length >= 4) {
-                notificationService.error($filter('translate')('You select up to 5 users'));
+                notificationService.error($filter('translate')('You select up to 4 users'));
                 return;
             }
 
@@ -80,13 +80,21 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             dateTo.setHours(0, 0, 0, 0);
             dateTo.setDate(dateTo.getDate() + 1);
 
-            Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, "from": dateFrom, "to": dateTo, withCandidatesHistory: true})
-                .then(resp => {
+            Statistic.getVacancyInterviewDetalInfoFile({
+                "vacancyId": $scope.vacancy.vacancyId,
+                "from": dateFrom,
+                "to": dateTo,
+                withCandidatesHistory: true
+            },function(resp){
+                if(resp.status == 'ok'){
                     pdfId = resp.object;
                     $('#downloadPDF')[0].href = '/hr/' + 'getapp?id=' + pdfId;
                     $('#downloadPDF')[0].click();
                     $scope.downloadPDFisPressed = false;
-                }, error => notificationService.error(error.message));
+                }else{
+                    notificationService.error(resp.message);
+                }
+            });
         };
 
 
@@ -109,7 +117,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                             return this.userSeriesArray.map((userSeries, index) => {
                                 let percent = Math.round((userSeries / (this.candidateSeriesArray[index])) * 100) || 0;
 
-                                return `${userSeries}(${this.candidateSeriesArray[index]})/${percent}%`;
+                                return `${userSeries}(${this.candidateSeriesArray[index]}) / ${percent}%`;
                             });
                         },
                         username: user.name
@@ -175,7 +183,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                             "vertical-align":"top",
                             "padding":"10%"
                         });
-                        graphset[0]["scale-y-" + graphset[0].labels.length] = {"values": resp.config.candidateSeries, "item": {fontSize: 12,"offset-x": scaleYOffsetX, textAlign: "center"}};
+                        graphset[0]["scale-y-" + graphset[0].labels.length] = {"values": resp.config.candidateSeries, "item": {fontSize: 12,"offset-x": scaleYOffsetX}};
 
                         drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset[0]});
                     }, error => console.error(error));
@@ -323,13 +331,13 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 "width": funnelWidth,
                 "series": series,
                 tooltip: {visible: true, shadow: 0},
-                "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 75}},
-                "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": -60}},
+                "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 65}},
+                "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": -50}},
                 "scale-y-3": {
-                    "values": values3, "item": {fontSize: 12,"offset-x": 25}
+                    "values": values3, "item": {fontSize: 12,"offset-x": 35}
                 },
                 "scale-y-4": {
-                    "values": values4, "item": {fontSize: 12,"offset-x": 107, static: true}
+                    "values": values4, "item": {fontSize: 12,"offset-x": 117, static: true}
                 },
                 plotarea: {
                     margin: '40px 0 0 0'
@@ -340,27 +348,27 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                         text: $filter('translate')('Stages'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: 20,
+                        offsetX: 10,
                         offsetY: 0
                     },
                     {
                         text: $filter('translate')('Candidates'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: $translate.use() != 'en' ? 515 : 825,
+                        offsetX: $translate.use() != 'en' ? 525 : 825,
                         offsetY: 0
                     },
                     {
                         text: $filter('translate')('Relative conversion'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: $translate.use() != 'en' ?  595 : 905,
+                        offsetX: $translate.use() != 'en' ?  605 : 905,
                         offsetY: 0
                     },                    {
                         text: $filter('translate')('Absolute conversion'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: 690,
+                        offsetX: 700,
                         offsetY: 0,
                         static: true
                     }
@@ -421,34 +429,34 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         function userActionsFunnelConfig(userActionsFunnelData) {
             return {
                 "series": userActionsFunnelData.userSeries,
-                "scale-y-2": {"values": userActionsFunnelData.userSeriesToDisplay(), "item": {fontSize: 12,"offset-x": -85}},
+                "scale-y-2": {"values": userActionsFunnelData.userSeriesToDisplay(), "item": {fontSize: 12,"offset-x": -70}, "placement":"opposite"},
                 "labels": [
                     {
                         text: $filter('translate')('Relative conversion'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: $translate.use() != 'en' ?  745 : 765,
+                        offsetX: $translate.use() != 'en' ?  755 : 765,
                         offsetY: 0
                     },
                     {
                         text: $filter('translate')('Absolute conversion'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: $translate.use() != 'en' ?  845 : 840,
+                        offsetX: $translate.use() != 'en' ?  855 : 840,
                         offsetY: 0
                     },
                     {
                         text: $filter('translate')('Candidates'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: $translate.use() != 'en' ? 660 : 670,
+                        offsetX: $translate.use() != 'en' ? 680 : 670,
                         offsetY: 0
                     },
                     {
                         text: $filter('translate')('Stages'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: 20,
+                        offsetX: 10,
                         offsetY: 0
                     }
                 ]

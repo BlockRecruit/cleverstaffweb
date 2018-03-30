@@ -16,8 +16,7 @@
             <div class="col-xs-12 responsible">
                 <h4>{{'Responsible' | translate}}:</h4>
                 <div ng-repeat="respPerson in vacancy.responsiblesPerson" class="resp-preson">
-                    <a href="#/users/{{respPerson.responsible.userId}}">{{respPerson.responsible.cutFullName}}</a>
-                    <span ng-hide="$last">,</span>
+                    <a href="#/users/{{respPerson.responsible.userId}}">{{respPerson.responsible.cutFullName}}<span ng-hide="$last">,&nbsp</span></a>
                 </div>
             </div>
         </div>
@@ -36,7 +35,7 @@
                         <div class="clearfix"></div>
                     </div>
                 </div>
-                <div class="filter">
+                <div class="filter" ng-if="vacancyFunnelMap">
                     <div class="switch">
                         <span>{{'Show reports by users' | translate}}</span>
                         <input id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round" type="checkbox" ng-model="showUserReports">
@@ -57,13 +56,12 @@
             </div>
             <div class="col-xs-12 no-padding">
                 <div class="funnel-types">
-                    <div class="funnel-type general" ng-class="{'active': statistics.type === 'default'}" ng-click="setStatistics('default')">
+                    <div class="funnel-type general" ng-if="vacancyFunnelMap" ng-class="{'active': statistics.type === 'default', 'full-width': !funnelActionUsersList.length}" ng-click="setStatistics('default')">
                         <h5>{{'General Statistics' | translate}}</h5>
                     </div>
                     <div class="funnel-type" ng-class="{'active': statistics.user === user}"
                          ng-repeat="user in funnelActionUsersList track by $index" ng-click="setStatistics('userFunnel', user)">
                         <h5>{{user.name}}</h5>
-                        <!--<i class="fa fa-times close" aria-hidden="true"></i>-->
                         <span class="close" ng-click="removeUserInFunnelActionUsersList(user);$event.stopPropagation();">✖</span>
                     </div>
                 </div>
@@ -72,7 +70,7 @@
                 <div id="funnel">
                     <div style="min-height:150px">
                         <div class="ui vertically divided grid ">
-                            <div class="sixteen wide column funnel-header">
+                            <div class="sixteen wide column funnel-header" ng-if="vacancyFunnelMap">
                                 <span class="text-center">{{'Recruiting funnel'|translate}}</span>
                                 <span ng-show="statistics.user.name">({{statistics.user.name}})</span>
                             </div>
@@ -86,7 +84,7 @@
 
                         <div class="ui vertically divided grid ">
                             <div class="sixteen wide column" style="padding-left:0px;padding-right:0px">
-                                <div style="padding:6px;text-align: center;" ng-show="!hasFunnelChart">
+                                <div style="padding:6px;text-align: center;" ng-show="!hasFunnelChart || !vacancyFunnelMap">
                                     ({{'No data for display'|translate}})
                                 </div>
                                 <p>{{'The recruiting funnel is based on the number of candidates on vacancy and on transitions between statuses'|translate}}</p>
