@@ -472,7 +472,7 @@
                         </li>
                         <li ng-show="staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null"
                             class="pivot">{{'by experience'|translate}}: {{'experience_assoc.' +
-                            staticSearchParam[0].experience|translate}}
+                            staticSearchParam[0].experience.value|translate}}
                             <i ng-click="closeSearchTags('experience');clickSearch();" class="fa fa-times"
                                aria-hidden="true"></i>
                         </li>

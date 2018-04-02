@@ -719,6 +719,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam.position = null;
         $scope.searchParam.candidateGroups = null;
         $scope.searchParam.candidateGroupIds = 'null';
+        $scope.searchParam.candidateGroupId = 'null';
         $scope.searchParam.searchFullTextType = null;
         $scope.searchParam.responsibleId = 'null';
         $scope.searchParam.personId = Candidate.searchOptions().personId;
@@ -959,7 +960,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageFrom'].text)).getTime() : null);
                 Candidate.setOptions("dateFrom", $scope.searchParam['ageTo'].text ?
                     new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageTo'].text)).getTime() : null);
-                Candidate.setOptions("state", isNotBlank($scope.searchParam['status'].value) ? $scope.searchParam['status'].value : null);
+                Candidate.setOptions("state", $scope.searchParam['status'].value ? $scope.searchParam['status'].value : null);
                 Candidate.setOptions("words", isNotBlank($scope.searchParam['words']) ? $scope.searchParam['words'] : null);
                 Candidate.setOptions("salaryTo", $scope.searchParam['salary'] ? $scope.searchParam['salary'] : null);
                 Candidate.setOptions("sex", isNotBlank($scope.searchParam['sex'].text) ? $scope.searchParam['sex'].value : null);
@@ -967,7 +968,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("responsibleId", isNotBlank($scope.searchParam['responsibleId']) ? $scope.searchParam['responsibleId'] : null);
                 Candidate.setOptions("industry", isNotBlank($scope.searchParam['industry']) ? $scope.searchParam['industry'] : null);
                 Candidate.setOptions("candidateGroupIds", $scope.searchParam['candidateGroupIds'] ? $scope.searchParam['candidateGroupIds'] : null);
-                Candidate.setOptions("experience", isNotBlank($scope.searchParam['experience']) ? $scope.searchParam['experience'] : null);
+                Candidate.setOptions("experience", $scope.searchParam['experience'] ? $scope.searchParam['experience'].value : null);
                 Candidate.setOptions("languages", $scope.searchParam['languages'].value ? $scope.searchParam['languages'].value : []);
                 Candidate.setOptions("searchFullTextType", isNotBlank($scope.searchParam['searchFullTextType']) ? $scope.searchParam['searchFullTextType'] : null);
                 Candidate.setOptions("sort", isNotBlank($scope.filterForChange) ? $scope.filterForChange : null);
