@@ -400,6 +400,7 @@
   "empty_search_contacts": "Ничего не найдено",
   "Vacancy stages have been changed": "Последовательность этапов изменена",
   "interview_status_assoc": {
+    "applied_people": "Отклики",
     "longlist": "Найденные",
     "shortlist": "Отобранные",
     "interview": "Собеседование",

@@ -213,6 +213,7 @@
   },
   "Vacancy stages have been changed": "Vacancy stages changed",
   "interview_status_assoc": {
+    "applied_people": "Applied People",
     "longlist": "Long List",
     "approved": "Hired",
     "sent_offer": "Offer Sent",
