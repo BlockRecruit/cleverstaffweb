@@ -2342,5 +2342,6 @@
   "Task deleted":"Task deleted",
   "New user invite":"Invite new user",
   "Сandidates in stages": "Сandidates in stages",
-  "Invite user with a role" :"Invite user with a role"
+  "Invite user with a role" :"Invite user with a role",
+  "The filter allows you to pick the users who performed any activities on vacancies.": "The filter allows you to pick the users who performed any activities on vacancies."
 }

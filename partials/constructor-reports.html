@@ -241,6 +241,7 @@
                             <span class="item">
                                 <h4 ng-show="!leastChosen">
                                     {{'By all users' | translate}}
+                                    <i class="fa fa-info-circle tooltip-icon" ng-click="$event.stopPropagation();$event.preventDefault();" title="" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.filterCostructorInfo" aria-hidden="true"></i>
                                 </h4>
                                 <span ng-show="leastChosen">
                                     {{'By users' | translate}}:
