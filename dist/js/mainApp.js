@@ -40822,6 +40822,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         function setUserActionsFunnel(user) {
             if(getUserActionsFunnelCache(user)) {
                 drawFunnel({...getUserActionsFunnelCache(user)});
+                $scope.detailInterviewInfo = getUserActionsFunnelCache(user).usersActionValues;
                 return;
             }
 
@@ -40843,7 +40844,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                         },
                         username: user.name
                     },
-                    finalFunnelObject = {config:setFunnelData(userFunnelMap), id:"myChartDiv2", assignObj:userActionsFunnelConfig(userActionsFunnelData), user:user};
+                    finalFunnelObject = {config:setFunnelData(userFunnelMap), id:"myChartDiv2", assignObj:userActionsFunnelConfig(userActionsFunnelData), usersActionValues:usersActionValues, user:user};
 
                     drawFunnel(finalFunnelObject);
                     setUserActionsFunnelCache(finalFunnelObject);
@@ -40880,16 +40881,16 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         function updateMainFunnel(user) {
             userActionsFunnelConfig.usersFunnelCache = userActionsFunnelConfig.usersFunnelCache || [];
 
-            let graphset = zingchart.exec('myChartDiv', 'getdata').graphset;
+            let graphset = zingchart.exec('myChartDiv', 'getdata').graphset[0];
 
             let username = user.name.split(' ').join('<br>'),
-                scaleYOffsetX = graphset[0]["scale-y-" + (graphset[0].labels.length)]['item']['offset-x'] + 87,
-                labelOffsetX = 85 + graphset[0].labels[graphset[0].labels.length - 1]['offset-x'];
+                scaleYOffsetX = graphset["scale-y-" + (graphset.labels.length)]['item']['offset-x'] + 87,
+                labelOffsetX = 85 + graphset.labels[graphset.labels.length - 1]['offset-x'];
 
             if(!getUserActionsFunnelCache(user)) {
                 setUserActionsFunnel(user)
                     .then(resp => {
-                        graphset[0].labels.push({
+                        graphset.labels.push({
                             text: username,
                             fontWeight: "bold",
                             fontSize: 12,
@@ -40900,41 +40901,50 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                             "border-radius":"5px",
                             "height":"100%",
                             "vertical-align":"top",
-                            "padding":"10%"
+                            "padding":"10%",
+                            "width":"80px"
                         });
-                        graphset[0]["scale-y-" + graphset[0].labels.length] = {"values": resp.config.candidateSeries, "item": {fontSize: 12,"offset-x": scaleYOffsetX}};
+                        graphset["scale-y-" + graphset.labels.length] = {"values": resp.config.candidateSeries, "item": {fontSize: 12,"offset-x": scaleYOffsetX}};
 
-                        drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset[0]});
+                        drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset});
                     }, error => console.error(error));
             } else {
 
                 let deletedIndex;
-                graphset[0].labels.forEach((label, index) => {
+                graphset.labels.forEach((label, index) => {
                     if(label.text === username) {
                         deletedIndex = index;
-                        delete graphset[0]["scale-y-" + (index + 1)];
-                        graphset[0].labels.splice(index, 1);
+                        delete graphset["scale-y-" + (index + 1)];
+                        graphset.labels.splice(index, 1);
                     }
                 });
 
-                console.log(graphset[0]);
+                console.log(graphset);
 
-                for(let i = deletedIndex; i < graphset[0].labels.length; i++) {
-                    graphset[0]["scale-y-" + (i + 1)] = graphset[0]["scale-y-" + (i + 2)];
-                    // graphset[0]["scale-y-" + (i + 2)] = graphset[0]["scale-y-" + (i + 3)] || {};
-                    if(graphset[0]["scale-y-" + (i + 3)]) {
-                        graphset[0]["scale-y-" + (i + 2)] = graphset[0]["scale-y-" + (i + 3)] || {};
+                for(let i = deletedIndex; i < graphset.labels.length; i++) {
+                    graphset["scale-y-" + (i + 1)] = graphset["scale-y-" + (i + 2)];
+                    graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)] || {};
+                    if(graphset["scale-y-" + (i + 3)]) {
+                        graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)] || {};
                     }
                 }
 
 
-                for(let i = deletedIndex; i < graphset[0].labels.length; i++) {
-                    graphset[0]["scale-y-" + (i + 1)]['item']['offset-x'] -= 85;
-                    graphset[0].labels[i]['offset-x'] -= 85;
+                for(let i = deletedIndex; i < graphset.labels.length; i++) {
+                    graphset["scale-y-" + (i + 1)]['item']['offset-x'] -= 85;
+                    graphset.labels[i]['offset-x'] -= 85;
                 }
 
-                drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset[0]});
+                drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset});
             }
+        }
+
+        function addUserColumn() {
+
+        }
+
+        function removeUserColumn() {
+
         }
 
         function parseCustomStagesNames(allStages, notDeclinedStages, declinedStages) {
@@ -41014,7 +41024,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 stages.push($filter('translate')(stage.key));
                 candidateSeries.push(stage.value.toString());
 
-                if (!lastCount) {
+                if (!lastCount && lastCount !== 0) {
                     RelConversion.push('100%');
                     AbsConversion.push('100%');
                 } else {
