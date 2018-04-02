@@ -80,7 +80,7 @@ component.component('editor', {
                 notificationService.error($filter('translate')('You should fill all obligatory fields.'))
             } else {
                 $rootScope.loader = true;
-                if($scope.emailText) {
+                if(step === "details" || $scope.emailText) {
                     Mailing.editorChangeStep($scope.emailText, $scope.topic, $scope.fromName, $scope.fromMail, step).then(results => {
                         $rootScope.loader = false;
                         if(step == 'save') {

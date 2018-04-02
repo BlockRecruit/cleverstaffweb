@@ -406,7 +406,7 @@ angular.module('services.mailing',[]
             newMailing.stageName = recipientsSource.stageName;
         }
         function saveNewList(resolve, reject) {
-            service.setList({name: newMailing.name,
+            service.setList({name: newMailing.name || "listName",
                 subscribers: newMailing.subscribers,
                 vacancyId: newMailing.vacancyId,
                 vacancyName: newMailing.vacancyName,
@@ -758,9 +758,18 @@ angular.module('services.mailing',[]
 
 
     service.editorChangeStep = function (text, topic, fromName, fromMail, step) {
-        let htmlText = text ;
+        text = text?text:"";
+        topic = topic?topic:"";
+        fromName = fromName?fromName:"";
+        fromMail = fromMail?fromMail:"";
+        let htmlText = text;
         return $q((resolve,reject) => {
             let savedDetails = JSON.parse($localStorage.get('subscriberListParams'));
+            if(text.trim() && topic.trim() && fromName.trim() && service.emailValidation(fromMail)) {
+                $localStorage.set('stepClickable', 3);
+            } else {
+                $localStorage.set('stepClickable', 2);
+            }
             if(isSecondStepHasChanges(savedDetails, {
                     text: text,
                     subject: topic,
@@ -772,11 +781,6 @@ angular.module('services.mailing',[]
                         notificationService.success($filter('translate')('Changes are saved'));
                         resolve(result);
                         if(step == 'details') {
-                            if(text.trim() && topic.trim() && fromName.trim() && service.emailValidation(fromMail)) {
-                                $localStorage.set('stepClickable', 3);
-                            } else {
-                                $localStorage.set('stepClickable', 2);
-                            }
                             service.setStep('mailing-details');
                         } else {
                             if(step == 'preview')

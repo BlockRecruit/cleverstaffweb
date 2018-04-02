@@ -332,7 +332,7 @@ component.component('mDetails', {
                 toPreview();
             });
         } else {
-            $('#step_3').removeClass('clickable');
+            $('#step_3').removeClass('clickable').unbind();
         }
     }
 });
