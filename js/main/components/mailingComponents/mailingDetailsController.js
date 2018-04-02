@@ -282,15 +282,6 @@ component.component('mDetails', {
             $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
         }
 
-        $('#step_1').unbind();
-        $('#step_2').unbind().on('click',() => {
-            $scope.toTheEditor();
-        });
-        if(olderAvailableStep == 3) {
-            $('#step_3').addClass('clickable').unbind().on('click', () => {
-                toPreview();
-            });
-        }
 
         //Get custom stages for vacancyAutocompleter
         if(!$rootScope.customStages) {
@@ -331,5 +322,17 @@ component.component('mDetails', {
         };
 
         $scope.openMailingInfoModal();
+
+        $('#step_1').unbind();
+        $('#step_2').unbind().on('click',() => {
+            $scope.toTheEditor();
+        });
+        if(olderAvailableStep == 3) {
+            $('#step_3').addClass('clickable').unbind().on('click', () => {
+                toPreview();
+            });
+        } else {
+            $('#step_3').removeClass('clickable');
+        }
     }
 });

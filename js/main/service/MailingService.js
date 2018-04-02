@@ -665,7 +665,11 @@ angular.module('services.mailing',[]
                     $localStorage.set('candidatesForMailing', candidatesForMailing);
                     $localStorage.set('subscriberListParams', subscriberListParams);
                     $localStorage.set('currentStep', JSON.stringify("mailing-details"));
-                    $localStorage.set('stepClickable', 3);
+                    if(mailingForEdit.subject.trim() && mailingForEdit.html.trim() && mailingForEdit.fromName.trim() && mailingForEdit.fromMail.trim()) {
+                        $localStorage.set('stepClickable', 3);
+                    } else {
+                        $localStorage.set('stepClickable', 2);
+                    }
                     $location.url('/mailing');
                 }
             });
@@ -768,6 +772,11 @@ angular.module('services.mailing',[]
                         notificationService.success($filter('translate')('Changes are saved'));
                         resolve(result);
                         if(step == 'details') {
+                            if(text.trim() && topic.trim() && fromName.trim() && service.emailValidation(fromMail)) {
+                                $localStorage.set('stepClickable', 3);
+                            } else {
+                                $localStorage.set('stepClickable', 2);
+                            }
                             service.setStep('mailing-details');
                         } else {
                             if(step == 'preview')
