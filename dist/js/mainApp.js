@@ -12220,6 +12220,7 @@ angular.module('services.mailing',[]
 
     service.sortCandidatesList = function (candidatesList) {
         let incorrectEmails = false;
+        let isChangesNotSaved = false;
         let emptyEmails = 0;
         //find not valid-----------------
         angular.forEach(candidatesList, (candidate)=>{
@@ -12227,6 +12228,10 @@ angular.module('services.mailing',[]
                 if(!service.emailValidation(candidate.candidateId.email)) {
                     candidate.wrongEmail = true;
                     incorrectEmails = true;
+                } else {
+                    if(candidate.editable) {
+                        isChangesNotSaved = true
+                    }
                 }
             } else {
                 candidate.wrongEmail = true;
@@ -12279,7 +12284,8 @@ angular.module('services.mailing',[]
             candidatesList: candidatesList,
             isIncorrectEmails: incorrectEmails,
             isDuplicatedEmails: duplicatesExist,
-            emptyEmails: emptyEmails
+            emptyEmails: emptyEmails,
+            isChangesNotSaved: isChangesNotSaved
         }
     };
 
@@ -46863,11 +46869,16 @@ component.component('mDetails', {
                     let sortedCandidates = Mailing.sortCandidatesList($scope.candidatesForMailing);
                     if(!sortedCandidates.isIncorrectEmails) {
                         if(!sortedCandidates.isDuplicatedEmails) {
-                            if(toThePreview) {
-                                Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource);
-                                Mailing.toThePreview();
+                            if(!sortedCandidates.isChangesNotSaved) {
+                                if(toThePreview) {
+                                    Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource);
+                                    Mailing.toThePreview();
+                                } else {
+                                    Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource, true);
+                                }
                             } else {
-                                Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource, true);
+                                $scope.changesNotSaved = true;
+                                notificationService.error($filter('translate')('Please save the changes'))
                             }
                         } else {
                             $scope.candidatesForMailing = sortedCandidates.candidatesList;

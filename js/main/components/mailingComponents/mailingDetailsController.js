@@ -186,11 +186,16 @@ component.component('mDetails', {
                     let sortedCandidates = Mailing.sortCandidatesList($scope.candidatesForMailing);
                     if(!sortedCandidates.isIncorrectEmails) {
                         if(!sortedCandidates.isDuplicatedEmails) {
-                            if(toThePreview) {
-                                Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource);
-                                Mailing.toThePreview();
+                            if(!sortedCandidates.isChangesNotSaved) {
+                                if(toThePreview) {
+                                    Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource);
+                                    Mailing.toThePreview();
+                                } else {
+                                    Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource, true);
+                                }
                             } else {
-                                Mailing.saveSubscribersList($scope.topic, Mailing.getInternal(), $scope.fromName, $scope.fromMail, $scope.candidatesForMailing, recipientsSource, true);
+                                $scope.changesNotSaved = true;
+                                notificationService.error($filter('translate')('Please save the changes'))
                             }
                         } else {
                             $scope.candidatesForMailing = sortedCandidates.candidatesList;

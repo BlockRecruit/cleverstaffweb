@@ -217,6 +217,9 @@
 							background-color: $theme-light-red;
 						}
 					}
+					&.changesNotSaved {
+						background-color: #f0f8ff;
+					}
 					&.duplicates {
 						background-color: #f5f5a9;
 						&.first-duplicate {

@@ -3052,5 +3052,6 @@
   "There are candidate in the list without email": "В списке 1 кандидат без Email-а.",
   "Delete him": "Удалить его",
   "Delete them": "Удалить их",
-  "Candidates removed": "Кандидаты удалены"
+  "Candidates removed": "Кандидаты удалены",
+  "Please save the changes": "Пожалуйста сохраните изменения"
 }

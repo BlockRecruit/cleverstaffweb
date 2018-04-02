@@ -838,6 +838,7 @@ angular.module('services.mailing',[]
 
     service.sortCandidatesList = function (candidatesList) {
         let incorrectEmails = false;
+        let isChangesNotSaved = false;
         let emptyEmails = 0;
         //find not valid-----------------
         angular.forEach(candidatesList, (candidate)=>{
@@ -845,6 +846,10 @@ angular.module('services.mailing',[]
                 if(!service.emailValidation(candidate.candidateId.email)) {
                     candidate.wrongEmail = true;
                     incorrectEmails = true;
+                } else {
+                    if(candidate.editable) {
+                        isChangesNotSaved = true
+                    }
                 }
             } else {
                 candidate.wrongEmail = true;
@@ -897,7 +902,8 @@ angular.module('services.mailing',[]
             candidatesList: candidatesList,
             isIncorrectEmails: incorrectEmails,
             isDuplicatedEmails: duplicatesExist,
-            emptyEmails: emptyEmails
+            emptyEmails: emptyEmails,
+            isChangesNotSaved: isChangesNotSaved
         }
     };
 

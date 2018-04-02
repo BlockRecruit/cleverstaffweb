@@ -43,6 +43,7 @@
                     <tr ng-repeat="candidate in candidatesForMailing track by $index"
                         ng-class="{
                                     'wrongEmail': candidate.wrongEmail,
+                                    'changesNotSaved': candidate.editable && changesNotSaved,
                                     'duplicates': candidate.candidateId.email && !candidate.wrongEmail && ((candidatesForMailing[$index+1] && (candidatesForMailing[$index+1].candidateId.email === candidate.candidateId.email)) || (candidatesForMailing[$index-1] && (candidatesForMailing[$index-1].candidateId.email === candidate.candidateId.email))),
                                     'first-duplicate':  ($index === 0 || candidatesForMailing[$index-1].candidateId.email !== candidate.candidateId.email),
                                     'last-duplicate':  ($last || candidatesForMailing[$index+1].candidateId.email !== candidate.candidateId.email)
@@ -52,7 +53,7 @@
                             <!--<input type="checkbox" ng-model="candidate.mailing" ng-click="candidateCheckbox(candidate)">-->
                         <!--</td>-->
                         <td class="recipient">
-                            <span ng-if="!candidate.editable" data-title="'PREVIEW'" priview pageid="candidate_pages" candidate="candidate.candidateId" class="preview-candidate-mailing">
+                            <span data-title="'PREVIEW'" priview pageid="candidate_pages" candidate="candidate.candidateId" class="preview-candidate-mailing">
                                     <i  candidate="user" title="{{'Profile preview'|translate}}" class="fa fa-address-card-o text_change" aria-hidden="true"></i>
                             </span>
                             <a href="!#/candidates/{{candidate.candidateId.localId}}" target="_blank">{{candidate.candidateId.fullName|limitTo:40}}{{candidate.candidateId.fullName.length > 40 ? '...':''}}</a>
