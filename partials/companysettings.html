@@ -39,13 +39,16 @@
                     </a>
                     <div class="showBtn">
                         <label class="company-label" for="company-settings">{{'Account name' | translate}}</label>
-                        <input class="form-control company-settings" id="company-settings" ng-model="newOrgName" ng-init="newOrgName=$root.me.orgName" type="text" ng-readonly="$root.me.recrutRole != 'admin'"/>
-                        <a type="button"
-                           ng-click="changeOrgName()"
-                           ng-show="$root.me.recrutRole === 'admin'"
-                           class="btn btn-primary save-button pull-right">
-                            {{'save'|translate}}
-                        </a>
+                        <div class="showBtn-inner">
+                            <input class="form-control company-settings" id="company-settings" ng-model="newOrgName" ng-init="newOrgName=$root.me.orgName" type="text" ng-readonly="$root.me.recrutRole != 'admin'"/>
+                            <a type="button"
+                               style="display: block;"
+                               ng-click="changeOrgName()"
+                               ng-show="$root.me.recrutRole === 'admin'"
+                               class="btn btn-primary save-button ">
+                                {{'save'|translate}}
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="changeWebSiteOrFb">
