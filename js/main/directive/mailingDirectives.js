@@ -279,7 +279,7 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                 function setTable(result) {
                     let candidates = candidatesToTable(result);
                     if(candidates && candidates.length > 0) {
-                        scope.candidates = scope.candidates.concat(candidatesToTable(result));
+                        scope.candidates = candidates;
                         $localStorage.set('candidatesForMailing', scope.candidates);
                         scope.$parent.emptyEmails.count = 0;
                     } else {
