@@ -485,6 +485,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $("#descr").html(resp.object.descr);
                     $scope.vacancy = resp.object;
                     $rootScope.vacancy = resp.object;
+                    $scope.socialLink = $location.$$protocol + "://" + $location.$$host + "/i/vacancy-" + $scope.vacancy.localId;
                     if($scope.vacancy != undefined){
                         $rootScope.promoLogo = $scope.vacancy.imageId;
                         if($rootScope.promoLogo != undefined){

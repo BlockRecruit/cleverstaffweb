@@ -280,8 +280,12 @@
                         <div class="social-links">
                             <i class="fa fa-linkedin linkedin" id="shareButton1" ng-click="share('linkedin')"
                                aria-hidden="true"></i>
-                            <i class="fa fa-facebook facebook" id="shareButton2" ng-click="share('facebook')"
-                               aria-hidden="true"></i>
+                            <!--<i class="fa fa-facebook facebook" id="shareButton2" ng-click="share('facebook')"-->
+                               <!--aria-hidden="true"></i>-->
+                            <a id="shareButton2" target="_self" ng-href="https://www.facebook.com/dialog/feed?app_id={{facebookAppId}}&display=popup&amp;caption={{publicDescr}}&link={{socialLink}}">
+                                <i class="fa fa-facebook facebook"
+                                   aria-hidden="true"></i>
+                            </a>
                             <a target="blank"
                                ng-href="http://twitter.com/intent/tweet?url={{publicLink| escape}}&text={{'Vacancy'| translate}} {{publicName}}&hashtags=cleverstaff"
                                ng-click="addPublish('twitter')">
