@@ -19763,31 +19763,29 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.initSearchParam();
 
     $rootScope.excelExportType = 'candidates';
-    $scope.loadingExcel = false;
-    $scope.exportToExcel = function () {
-        $scope.criteriaForExcel.withCommentsAndHistory = $rootScope.excelExportType === 'all';
-        $rootScope.loading = true;
-        if($scope.loadingExcel == false){
-            $scope.loadingExcel = true;
-            $rootScope.closeModal();
-            if($scope.criteriaForExcel.words == null) {
-                $scope.criteriaForExcel.searchFullTextType = null;
-            }
-            Candidate.createExcel($scope.criteriaForExcel, function (resp) {
-                if (resp.status == 'ok') {
-                    var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
-                    $('#export_in_excel')[0].href = sr + 'getapp?id=' + resp.object;
-                    $('#export_in_excel')[0].click();
-                }
-                if (resp.code == 'emptyExportExcel') {
-                    notificationService.error($filter('translate')('No candidates for export according to criteria'));
-                    $scope.loadingExcel = false;
-                }
-                $scope.loadingExcel = false;
-                $rootScope.loading = false;
+    $rootScope.loadingExcel = false;
 
-            });
+    $scope.exportToExcel = function () {
+
+        if($rootScope.loadingExcel) return;
+
+        $rootScope.loadingExcel = true;
+
+        if($scope.criteriaForExcel.words == null) {
+            $scope.criteriaForExcel.searchFullTextType = null;
         }
+
+        Candidate.createExcel($scope.criteriaForExcel, function (resp) {
+            if(resp.status == 200){
+                notificationService.error( "Кандидаты готовы для экспорта");
+                $rootScope.loadingExcel = false;
+            }
+
+            if (resp.code == 'emptyExportExcel') {
+                notificationService.success($filter('translate')('No candidates for export according to criteria'));
+                $rootScope.loadingExcel = false;
+            }
+        });
     };
 
 
@@ -30396,6 +30394,7 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
     function ($localStorage, frontMode, googleService, serverAddress, $rootScope, $scope, $routeParams, Vacancy,
               $location, Candidate, notificationService, $translate, $filter, $window) {
         $scope.serverAddress = serverAddress;
+
         Candidate.getSearchHistoryAdmin({type: 'cleverstaff_excel'}, function (resp) {
             if (angular.equals(resp.status, "ok")) {
                 $scope.history = resp.objects;
@@ -30403,10 +30402,12 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
                 $scope.historyTotalExcel = resp.total;
             }
         });
+
         $rootScope.changeSearchType = function(param){
             $window.location.replace('/!#/candidates');
             $rootScope.changeSearchTypeNotFromCandidates = param;
         };
+
         $scope.getMoreHistoryExcel = function() {
             Candidate.getSearchHistoryAdmin({
                 type: 'cleverstaff_excel',
@@ -30421,6 +30422,17 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
                 }
             });
         };
+
+        function downloadExel(id, button) {
+            var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
+
+            if(id){
+                $('#export_in_excel')[0].href = sr + 'getapp?id=' + id;
+                $('#export_in_excel')[0].click();
+            }
+        }
+
+        $scope.downloadExel = downloadExel;
     }]);
 
 controller.controller('FeedbackController',["$localStorage", "serverAddress", "$rootScope", "$scope", "Person", "notificationService", "$location", "$filter",
@@ -39043,20 +39055,20 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
         $scope.exportToExcel = function () {
             $scope.loadingExcel = true;
-            $scope.paramForExcell.interviewState = $scope.activeName;
-            Candidate.createExcel($scope.paramForExcell, function (resp) {
-                if (resp.status == 'ok') {
-                    var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
-                    $('#export_in_excel')[0].href = sr + 'getapp?id=' + resp.object;
-                    $('#export_in_excel')[0].click();
-                }
-                if (resp.code == 'emptyExportExcel') {
-                    notificationService.error($filter('translate')('No candidates for export according to criteria'));
-                    $scope.loadingExcel = false;
-                }
-                $scope.loadingExcel = false;
-
-            });
+            // $scope.paramForExcell.interviewState = $scope.activeName;
+            // Candidate.createExcel($scope.paramForExcell, function (resp) {
+            //     if (resp.status == 'ok') {
+            //         var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
+            //         $('#export_in_excel')[0].href = sr + 'getapp?id=' + resp.object;
+            //         $('#export_in_excel')[0].click();
+            //     }
+            //     if (resp.code == 'emptyExportExcel') {
+            //         notificationService.error($filter('translate')('No candidates for export according to criteria'));
+            //         $scope.loadingExcel = false;
+            //     }
+            //     $scope.loadingExcel = false;
+            //
+            // });
         };
 
         $scope.roundMinutes = function(date) {

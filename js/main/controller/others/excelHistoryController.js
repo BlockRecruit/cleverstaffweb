@@ -3,6 +3,7 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
     function ($localStorage, frontMode, googleService, serverAddress, $rootScope, $scope, $routeParams, Vacancy,
               $location, Candidate, notificationService, $translate, $filter, $window) {
         $scope.serverAddress = serverAddress;
+
         Candidate.getSearchHistoryAdmin({type: 'cleverstaff_excel'}, function (resp) {
             if (angular.equals(resp.status, "ok")) {
                 $scope.history = resp.objects;
@@ -10,10 +11,12 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
                 $scope.historyTotalExcel = resp.total;
             }
         });
+
         $rootScope.changeSearchType = function(param){
             $window.location.replace('/!#/candidates');
             $rootScope.changeSearchTypeNotFromCandidates = param;
         };
+
         $scope.getMoreHistoryExcel = function() {
             Candidate.getSearchHistoryAdmin({
                 type: 'cleverstaff_excel',
@@ -28,4 +31,15 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
                 }
             });
         };
+
+        function downloadExel(id, button) {
+            var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
+
+            if(id){
+                $('#export_in_excel')[0].href = sr + 'getapp?id=' + id;
+                $('#export_in_excel')[0].click();
+            }
+        }
+
+        $scope.downloadExel = downloadExel;
     }]);

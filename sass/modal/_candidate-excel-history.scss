@@ -9,6 +9,15 @@
 
 	border-radius: 9px;
 	background-color: #e3f2dd;
+	.exporting {
+		@include flex(row, flex-start, center);
+
+		width: 100%;
+		padding: 15px 22px;
+
+		border-radius: 10px;
+		background-color: #eff7ee;
+	}
 	.intro {
 		margin: 0 auto 25px;
 

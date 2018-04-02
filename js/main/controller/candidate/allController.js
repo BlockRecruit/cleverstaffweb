@@ -788,31 +788,29 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.initSearchParam();
 
     $rootScope.excelExportType = 'candidates';
-    $scope.loadingExcel = false;
-    $scope.exportToExcel = function () {
-        $scope.criteriaForExcel.withCommentsAndHistory = $rootScope.excelExportType === 'all';
-        $rootScope.loading = true;
-        if($scope.loadingExcel == false){
-            $scope.loadingExcel = true;
-            $rootScope.closeModal();
-            if($scope.criteriaForExcel.words == null) {
-                $scope.criteriaForExcel.searchFullTextType = null;
-            }
-            Candidate.createExcel($scope.criteriaForExcel, function (resp) {
-                if (resp.status == 'ok') {
-                    var sr = $rootScope.frontMode == "war" ? "/hr/" : "/hrdemo/";
-                    $('#export_in_excel')[0].href = sr + 'getapp?id=' + resp.object;
-                    $('#export_in_excel')[0].click();
-                }
-                if (resp.code == 'emptyExportExcel') {
-                    notificationService.error($filter('translate')('No candidates for export according to criteria'));
-                    $scope.loadingExcel = false;
-                }
-                $scope.loadingExcel = false;
-                $rootScope.loading = false;
+    $rootScope.loadingExcel = false;
 
-            });
+    $scope.exportToExcel = function () {
+
+        if($rootScope.loadingExcel) return;
+
+        $rootScope.loadingExcel = true;
+
+        if($scope.criteriaForExcel.words == null) {
+            $scope.criteriaForExcel.searchFullTextType = null;
         }
+
+        Candidate.createExcel($scope.criteriaForExcel, function (resp) {
+            if(resp.status == 200){
+                notificationService.error( "Кандидаты готовы для экспорта");
+                $rootScope.loadingExcel = false;
+            }
+
+            if (resp.code == 'emptyExportExcel') {
+                notificationService.success($filter('translate')('No candidates for export according to criteria'));
+                $rootScope.loadingExcel = false;
+            }
+        });
     };
 
 
