@@ -108,9 +108,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             return Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true, personId: user.userId})
                 .then(usersActionValues => {
 
-                    let userFunnelMap = validateStages(parseCustomStagesNames(usersActionValues, $scope.notDeclinedStages, $scope.declinedStages));
-
-                    const userActionsFunnelData = {
+                    const userFunnelMap = validateStages(parseCustomStagesNames(usersActionValues, $scope.notDeclinedStages, $scope.declinedStages)),
+                        userActionsFunnelData = {
                         userSeries: setFunnelData(userFunnelMap).series,
                         userSeriesArray: setFunnelData(userFunnelMap).candidateSeries,
                         candidateSeriesArray: setFunnelData($scope.vacancyFunnelMap).candidateSeries,
@@ -188,7 +187,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                         drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset});
                     }, error => console.error(error));
             } else {
-
                 let deletedIndex;
                 graphset.labels.forEach((label, index) => {
                     if(label.text === username) {
@@ -198,16 +196,23 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     }
                 });
 
-                console.log(graphset);
+                // for(let i = deletedIndex; i < graphset.labels.length; i++) {
+                //     graphset["scale-y-" + (i + 1)] = graphset["scale-y-" + (i + 2)];
+                //     graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)] || {};
+                //     if(graphset["scale-y-" + (i + 3)]) {
+                //         graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)];
+                //     }
+                // }
 
                 for(let i = deletedIndex; i < graphset.labels.length; i++) {
-                    graphset["scale-y-" + (i + 1)] = graphset["scale-y-" + (i + 2)];
+                    let tmp = graphset["scale-y-" + (i + 2)];
+                    graphset["scale-y-" + (i + 1)] = tmp;
                     graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)] || {};
                     if(graphset["scale-y-" + (i + 3)]) {
                         graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)] || {};
                     }
+                    // graphset[0]["scale-y-" + (i + 2)] = graphset[0]["scale-y-" + (i + 3)] || {};
                 }
-
 
                 for(let i = deletedIndex; i < graphset.labels.length; i++) {
                     graphset["scale-y-" + (i + 1)]['item']['offset-x'] -= 85;
@@ -219,11 +224,11 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         }
 
         function addUserColumn() {
-
+            // remove from update funnel method
         }
 
         function removeUserColumn() {
-
+            // remove from update funnel method
         }
 
         function parseCustomStagesNames(allStages, notDeclinedStages, declinedStages) {
@@ -518,7 +523,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             $scope.vacancy = response;
         }
 
-        function Main() {
+        function Init() {
             Promise.all([
                 Vacancy.getAllVacanciesAmount(),
                 Vacancy.getVacancy({localId: $routeParams.id}),
@@ -536,5 +541,5 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             }, error => notificationService.error(error.message));
         }
 
-        Main();
+        Init();
 }]);
