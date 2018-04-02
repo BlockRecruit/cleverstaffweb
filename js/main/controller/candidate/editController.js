@@ -941,7 +941,13 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             Candidate.removeOriginAll({
                 origin: $scope.removableSource
             },function (resp) {
-                console.log('done!')
+                if(resp.status != "error") {
+                    $scope.modalInstance.close();
+                    notificationService.success($filter("translate")("Origin removed"));
+                    $scope.setOriginAutocompleterValue();
+                } else {
+                    notificationService.error(resp.message);
+                }
             });
         };
 

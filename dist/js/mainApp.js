@@ -2632,7 +2632,7 @@ directive('appVersion', ['version', function(version) {
                     if (val != undefined) {
                         $(element[0]).select2("data", {id: val, text: val});
                     } else {
-                        $(element[0]).select2("data", {id: '', text: ''});
+                        $(element[0]).select2("data", null).trigger("change");;
                     }
                     $('.select2-search-choice-edit-origin').off().on('click', function (e) {
                         $scope.editOriginName();
@@ -2697,6 +2697,9 @@ directive('appVersion', ['version', function(version) {
                             $('.select2-search-choice-edit-origin').off().on('click', function (e) {
                                 $scope.editOriginName();
                             }).attr("title", $filter('translate')('Edit source for all candidates'));
+                            $('.select2-search-choice-delete-origin').off().on('click', function (e) {
+                                $scope.removeSource();
+                            }).attr("title", $filter('translate')('Delete source for all candidates'));
                         }).on("select2-close", function(e) {
                             console.log("CLOSE!");
                             if (inputText.length > 0) {
@@ -22223,7 +22226,13 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             Candidate.removeOriginAll({
                 origin: $scope.removableSource
             },function (resp) {
-                console.log('done!')
+                if(resp.status != "error") {
+                    $scope.modalInstance.close();
+                    notificationService.success($filter("translate")("Origin removed"));
+                    $scope.setOriginAutocompleterValue();
+                } else {
+                    notificationService.error(resp.message);
+                }
             });
         };
 
