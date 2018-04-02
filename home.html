@@ -190,17 +190,17 @@
                 </ul>
                 <span class="active-page">{{$root.notFormatedTitle}}</span>
                 <div class="trial" ng-if="(digit > 0 && digit <= 14)">
-                    <span ng-show="digit != 1">{{"Only"|translate}}</span><span ng-show="digit == 1">{{"Only_1"|translate}}</span><span ng-bind="digit" class="digit"></span><span>{{(digit >= 5 && digit <= 14)? "days_1Trial" : (digit < 5 && digit > 1)? "daysTrial" : (digit === 0)? "dayTrial": "dayTrial" | translate}}</span>
-                    <i class="fa fa-info-circle tooltip-icon"  ng-mouseover="HoverBlockTrialShow()"  ng-mouseleave="HoverBlockTrialHidden()" aria-hidden="true">
+                        <span class="trial-info" ng-mouseover="HoverBlockTrialShow()"  ng-mouseleave="HoverBlockTrialHidden()">
                         <div class="hoverExtension" style="font-family:'Open Sans', Arial, Verdana, sans-serif" ng-show="hoverBlockTrial">
-                            <p>{{"All features are unlimited within your trial. You could invite unlimited number of users to test the system."|translate}}</p>
-                            <p>{{"If your account will not be paid until trial end date"|translate}}</p>
+                            <p translate="All features are unlimited within your trial. You could invite unlimited number of users to test the system."></p>
+                            <p translate="If your account will not be paid until trial end date"></p>
                             <ul>
-                                <li>{{"it will be automatically changed to ‘1 RECRUITER’ plan with limited features;"|translate}}</li>
-                                <li>{{"all invited users will be blocked until account is paid."|translate}}</li>
+                                <li translate="it will be automatically changed to ‘1 RECRUITER’ plan with limited features;"></li>
+                                <li translate="all invited users will be blocked until account is paid."></li>
                             </ul>
                         </div>
-                    </i>
+                    </span>
+                    <span ng-show="digit != 1">{{"Only"|translate}}</span><span ng-show="digit == 1">{{"Only_1"|translate}}</span><span ng-bind="digit" class="digit"></span><span>{{(digit >= 5 && digit <= 14)? "days_1Trial" : (digit < 5 && digit > 1)? "daysTrial" : (digit === 0)? "dayTrial": "dayTrial" | translate}}</span>
                 </div>
                 <ul class="nav information navbar-nav navbar-right pull-right margin-bot">
                     <li class="payMoney hidden-xs hidden-sm" ng-show="$root.me.recrutRole == 'admin'">
