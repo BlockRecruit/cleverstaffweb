@@ -1188,11 +1188,7 @@ directive('appVersion', ['version', function(version) {
                                 $('#photo-preview').css('width', '33%');
                             }
                         };
-                        if ($location.$$host == '127.0.0.1') {
-                            img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
-                        } else {
-                            img.src = $location.$$protocol + '://' + $location.$$host + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
-                        }
+                        img.src = $location.$$protocol + '://' + $location.$$host + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
                     };
                         $rootScope.imgWidthPreviewFunc();
                         if (!$rootScope.candidatePreview.db && !$rootScope.candidatePreview.expirence && !$rootScope.candidatePreview.languages && !$rootScope.candidatePreview.employmentType && !$rootScope.candidatePreview.salary && !$rootScope.candidatePreview.contacts) {
@@ -6415,7 +6411,7 @@ angular.module('services.candidate', [
                     $scope.fastCandLoading = false;
                     $rootScope.loading = false;
                     setTimeout(function(){
-                        $scope.imgWidthFunc();
+                        $scope.imgWidthFunc(file.object.photo);
                     }, 3000);
                     if(data.data.status != 'error' ){
                         $location.path("candidate/add");
@@ -6446,7 +6442,7 @@ angular.module('services.candidate', [
                 file.$upload(serverAddress + '/candidate/addPhoto', file).then(function(data) {
                     $scope.callbackAddPhoto(data.data.objects[0]);
                     setTimeout(function(){
-                        $scope.imgWidthFunc();
+                        $scope.imgWidthFunc(data.data.objects[0]);
                     }, 2000);
                 });
             },
@@ -18126,23 +18122,19 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 266){
+                }else if(width >= 201){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto'});
                 }else{
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
-            if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
-            }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
-            }
+           img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
         };
     $scope.callbackAddPhoto = function(photo) {
         $rootScope.loading = false;
         $scope.candidate.photo = photo;
         $scope.photoLink = $scope.serverAddress + "/getapp?id=" + photo + "&d=true";
-        $scope.imgWidthFunc();
+        $scope.imgWidthFunc(photo);
         Candidate.progressUpdate($scope, true);
         $rootScope.closeModal();
     };
@@ -19093,17 +19085,13 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
             }else if(width >= 350){
                 $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-            }else if(width >= 266){
+            }else if(width >= 201){
                 $('#page-avatar').css({'width': '100%', 'height': 'auto'});
             }else{
                 $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
             }
         };
-        if($location.$$host == '127.0.0.1'){
-            img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
-        }else{
-            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
-        }
+        img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
     };
     $rootScope.closeModal = function(){
         $scope.modalInstance.close();
@@ -21917,15 +21905,13 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+                }else if(width >= 201){
+                    $('#page-avatar').css({'width': '100%', 'height': 'auto'});
                 }else{
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
-            if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
         };
         $scope.callbackAddPhoto = function(photo) {
             $rootScope.loading = false;
@@ -23976,11 +23962,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
-            if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
         };
         $scope.callbackAddPhoto = function(photo) {
             $rootScope.loading = false;
@@ -25007,20 +24989,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 $scope.changeStatus = $scope.candidate.status;
                 cascadeStages();
 
-                var img = new Image();
-                img.onload = function() {
-                    var width = this.width;
-                    if(width >= 290){
-                        $('.photoWidth').css({'width': '100%', 'height': 'auto'});
-                    }else{
-                        $('.photoWidth').css({'width': 'inherit', 'display': 'block', 'margin': '0 auto'});
-                    }
-                };
-                if($location.$$host == '127.0.0.1'){
-                    img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-                }else{
-                    img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-                }
+                $scope.imgWidthFunc();
                 $rootScope.newTask.candidateId = $scope.candidate.candidateId;
                 angular.forEach($scope.candidate.interviews, function(value){
                     value.vacancyId.interviewStatusNotTouchable = value.vacancyId.interviewStatus;
@@ -25402,7 +25371,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             });
             //$rootScope.persons = $scope.persons;
         });
-        $scope.imgWidthFunc = function(){
+        $scope.imgWidthFunc = function(id){
             var img = new Image();
             img.onload = function() {
                 var width = this.width;
@@ -25414,17 +25383,13 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 266){
+                }else if(width >= 201){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto'});
                 }else{
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
-            if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
         };
         $scope.pathName = "candidate";
         $scope.callbackFile = function (resp, name) {

@@ -220,23 +220,19 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 266){
+                }else if(width >= 201){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto'});
                 }else{
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
-            if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
-            }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
-            }
+           img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
         };
     $scope.callbackAddPhoto = function(photo) {
         $rootScope.loading = false;
         $scope.candidate.photo = photo;
         $scope.photoLink = $scope.serverAddress + "/getapp?id=" + photo + "&d=true";
-        $scope.imgWidthFunc();
+        $scope.imgWidthFunc(photo);
         Candidate.progressUpdate($scope, true);
         $rootScope.closeModal();
     };

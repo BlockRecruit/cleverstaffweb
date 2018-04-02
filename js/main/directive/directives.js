@@ -1188,11 +1188,7 @@ directive('appVersion', ['version', function(version) {
                                 $('#photo-preview').css('width', '33%');
                             }
                         };
-                        if ($location.$$host == '127.0.0.1') {
-                            img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
-                        } else {
-                            img.src = $location.$$protocol + '://' + $location.$$host + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
-                        }
+                        img.src = $location.$$protocol + '://' + $location.$$host + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
                     };
                         $rootScope.imgWidthPreviewFunc();
                         if (!$rootScope.candidatePreview.db && !$rootScope.candidatePreview.expirence && !$rootScope.candidatePreview.languages && !$rootScope.candidatePreview.employmentType && !$rootScope.candidatePreview.salary && !$rootScope.candidatePreview.contacts) {
