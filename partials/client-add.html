@@ -26,7 +26,7 @@
                 <div class="row client-add-profile-rezume no-padding-sm">
                     <div class="col-lg-3 leftBar hidden-xs hidden-sm">
                         <div class="col-lg-12 client-add-foto" id="owner_photo_wrap">
-                            <div id="page_avatar" ng-if="client.logoId" ng-show="client.logoId">
+                            <div id="page-avatar" ng-if="client.logoId" ng-show="client.logoId">
                                 <img src="{{serverAddress}}/getapp?id={{client.logoId}}&d={{$root.me.personId}}" alt=""/>
                                 <div ng-show="$root.me.recrutRole == 'admin' && $root.companyLogo!=undefined" id="owner_photo_bubble_wrap_for_one_option">
                                     <div id="owner_photo_bubble">
