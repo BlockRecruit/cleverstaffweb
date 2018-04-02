@@ -5027,6 +5027,45 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
             }
         };
     }])
+    .filter('dateFormat7', ["$filter", "$translate", function ($filter, $translate) {
+        return function (date, withHour, withUTC) {
+
+            function createDateAsUTC(datLong) {
+                if (datLong != undefined) {
+                    var date = new Date(datLong);
+                    return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+                }
+            }
+
+            if (withUTC == true) {
+                date = createDateAsUTC(date);
+            }
+            var hour = "";
+            var dateToday = new Date().getTime();
+            var lang = $translate.use();
+            var dateMD = "";
+            var dateMDY = "";
+            if (lang == 'ru' || lang == 'ua') {
+                dateMD = "dd-MM-yyyy ";
+                dateMDY = "dd-MM-yyyy ";
+            } else if (lang == 'en') {
+                dateMD = "MM-dd-yyyy ";
+                dateMDY = "MM-dd-yyyy ";
+            }
+            if (withHour === true) {
+                if (lang == 'en') {
+                    hour = "h:mm:ss a";
+                } else {
+                    hour = "H:mm:ss";
+                }
+            }
+            if (angular.equals($filter('date')(dateToday, 'y'), $filter('date')(date, 'y'))) {
+                return $filter('date')(date, dateMD + hour);
+            } else {
+                return $filter('date')(date, dateMDY + hour);
+            }
+        };
+    }])
     .filter('salaryFormat', ["$filter", function ($filter) {
         return function (salaryFrom, salaryTo) {
             var res = "";
@@ -14825,7 +14864,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=66'
+        suffix: '.json?b=67'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -25967,23 +26006,18 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $scope.editComment = history.descr;
         };
         $scope.changeComment = function(action, comment){
-            if(comment && comment.length > 0) {
-                Action.editAction({"comment": comment, "actionId": action.actionId}, function(resp){
-                    if (resp.status && angular.equals(resp.status, "error")) {
-                        notificationService.error(resp.message);
-                    }
-                    else {
-                        action.editCommentFlag = false;
-                        action.descr = resp.object.descr;
-                        action.new_komment = '';
-                        action.dateEdit = resp.object.dateEdit;
-                        notificationService.success($filter('translate')('Comment changed'));
-                    }
-                });
-            } else {
-                notificationService.error($filter('translate')('enter a comment'))
-            }
-
+            Action.editAction({"comment": comment, "actionId": action.actionId}, function(resp){
+                if (resp.status && angular.equals(resp.status, "error")) {
+                    notificationService.error(resp.message);
+                }
+                else {
+                    action.editCommentFlag = false;
+                    action.descr = resp.object.descr;
+                    action.new_komment = '';
+                    action.dateEdit = resp.object.dateEdit;
+                    notificationService.success($filter('translate')('Comment changed'));
+                }
+            });
         };
 
         $scope.showDeleteComment = function(resp) {
@@ -40853,7 +40887,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         Vacancy.one({"localId": $routeParams.id}, function(resp) {
             $scope.vacancy = resp.object;
-
+            $scope.deadline = new Date($scope.vacancy.dateFinish).getTime();
             $("#dateFrom").datetimepicker({
                 format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
                 startView: 2,
