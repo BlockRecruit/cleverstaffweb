@@ -4514,7 +4514,8 @@ function setCustomSelect(){
             placeholder:"@",
             method:"=",
             $scope:"=",
-            event:"="
+            event:"=",
+            new:"@"
         },
         template = `
         <div class="select clearfix">
@@ -4524,6 +4525,7 @@ function setCustomSelect(){
                     <li ng-repeat="item in data track by $index" ng-click="method(item, $scope, $event, $index)" ng-class="{disable: (item.status == 'N')}">{{item.text|translate}}</li>
                 </ul>
             </div>
+             <span class="new-label" ng-show="new" style="right: 0px;">new</span>
         </div>`;
     return {
         restrict,

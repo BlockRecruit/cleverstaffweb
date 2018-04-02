@@ -4514,7 +4514,8 @@ function setCustomSelect(){
             placeholder:"@",
             method:"=",
             $scope:"=",
-            event:"="
+            event:"=",
+            new:"@"
         },
         template = `
         <div class="select clearfix">
@@ -4524,6 +4525,7 @@ function setCustomSelect(){
                     <li ng-repeat="item in data track by $index" ng-click="method(item, $scope, $event, $index)" ng-class="{disable: (item.status == 'N')}">{{item.text|translate}}</li>
                 </ul>
             </div>
+             <span class="new-label" ng-show="new" style="right: 0px;">new</span>
         </div>`;
     return {
         restrict,
@@ -19770,7 +19772,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam.position = null;
         $scope.searchParam.candidateGroups = null;
         $scope.searchParam.candidateGroupIds = 'null';
-        $scope.searchParam.candidateGroupId = 'null';
         $scope.searchParam.searchFullTextType = null;
         $scope.searchParam.responsibleId = 'null';
         $scope.searchParam.personId = Candidate.searchOptions().personId;
@@ -19783,7 +19784,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         };
         $scope.searchParam.origin = null;
         $scope.searchParam.skills = [];
-        $scope.searchParam.withPersonalContacts.value = null;
+        $scope.searchParam.withPersonalContacts.value = false;
         $scope.setSkillAutocompleterValueForSearch('');
         $scope.setOriginAutocompleterValue("source");
         resetLanguagesSearCriterion();
@@ -19844,7 +19845,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             candidateGroupIds: null,
             searchFullTextType: null,
             withPersonalContacts: {
-                value:null,
+                value:false,
                 text:''
             },
             responsibleId: null,
@@ -19878,7 +19879,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             sortOrder: 'DESC',
             words: null,
             position: null,
-            withPersonalContacts: null,
+            withPersonalContacts: false,
             searchCs: true,
             candidateGroups: null,
             searchExternal: false,
@@ -20011,7 +20012,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageFrom'].text)).getTime() : null);
                 Candidate.setOptions("dateFrom", $scope.searchParam['ageTo'].text ?
                     new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageTo'].text)).getTime() : null);
-                Candidate.setOptions("state", $scope.searchParam['status'].value ? $scope.searchParam['status'].value : null);
+                Candidate.setOptions("state", isNotBlank($scope.searchParam['status'].value) ? $scope.searchParam['status'].value : null);
                 Candidate.setOptions("words", isNotBlank($scope.searchParam['words']) ? $scope.searchParam['words'] : null);
                 Candidate.setOptions("salaryTo", $scope.searchParam['salary'] ? $scope.searchParam['salary'] : null);
                 Candidate.setOptions("sex", isNotBlank($scope.searchParam['sex'].text) ? $scope.searchParam['sex'].value : null);
@@ -20019,12 +20020,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("responsibleId", isNotBlank($scope.searchParam['responsibleId']) ? $scope.searchParam['responsibleId'] : null);
                 Candidate.setOptions("industry", isNotBlank($scope.searchParam['industry']) ? $scope.searchParam['industry'] : null);
                 Candidate.setOptions("candidateGroupIds", $scope.searchParam['candidateGroupIds'] ? $scope.searchParam['candidateGroupIds'] : null);
-                Candidate.setOptions("experience", $scope.searchParam['experience'] ? $scope.searchParam['experience'].value : null);
+                Candidate.setOptions("experience", isNotBlank($scope.searchParam['experience']) ? $scope.searchParam['experience'] : null);
                 Candidate.setOptions("languages", $scope.searchParam['languages'].value ? $scope.searchParam['languages'].value : []);
                 Candidate.setOptions("searchFullTextType", isNotBlank($scope.searchParam['searchFullTextType']) ? $scope.searchParam['searchFullTextType'] : null);
                 Candidate.setOptions("sort", isNotBlank($scope.filterForChange) ? $scope.filterForChange : null);
                 Candidate.setOptions("sortOrder", $scope.filterForChange == 'alphabetically' ? 'ASC' : 'DESC');
-                Candidate.setOptions("withPersonalContacts", $scope.searchParam['withPersonalContacts'].value == null ? null : $scope.searchParam['withPersonalContacts'].value);
+                Candidate.setOptions("withPersonalContacts", $scope.searchParam['withPersonalContacts'].value);
                 Candidate.setOptions("skills",$scope.searchParam.skills.name ? [{name: $scope.getSkillAutocompleterValueForSearch(),type: $scope.searchParam.skills.type}] : null);
                 Candidate.setOptions("origin", isNotBlank($scope.searchParam['origin']) ? $scope.searchParam['origin'] : null);
                 $scope.criteriaForExcel = angular.copy(Candidate.searchOptions());
@@ -20285,8 +20286,9 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 text:''
             };
         }else if(param == 'withPersonalContacts'){
-            $scope.staticSearchParam[0].withPersonalContacts = null;
-            $scope.searchParam.withPersonalContacts.value = null;
+
+            $scope.staticSearchParam[0].withPersonalContacts = false;
+            $scope.searchParam.withPersonalContacts.value = false;
         }else if(param == 'origin'){
             $scope.staticSearchParam[0].origin = null;
             $scope.searchParam.origin = null;
@@ -20441,7 +20443,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 languages: $scope.searchParam.languages,
                 skills: $scope.searchParam.skills,
                 origin: $scope.searchParam.origin,
-                withPersonalContacts: $scope.searchParam.withPersonalContacts.value == null? null : $scope.searchParam.withPersonalContacts.value
+                withPersonalContacts: $scope.searchParam.withPersonalContacts.value
             });
             $scope.staticSearchParam = array;
             if ($scope.searchParam['name'] ||
