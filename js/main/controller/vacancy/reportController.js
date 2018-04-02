@@ -5,6 +5,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         $scope.statistics = {type: 'default', user: {}};
         $scope.funnelActionUsersList = [];
+        $scope.vacancyGeneralHistory = [];
 
         /* -- funnel general algorithm
             1. - parseCustomStagesNames  --- transform custom stages id`s to valid custom names
@@ -15,7 +16,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         $scope.setStatistics = function(type = 'default', user = {}) {
             $scope.statistics = {type, user};
-            if(type === 'default') return;
+            if(type === 'default') {
+                $scope.vacancyHistory = $scope.vacancyGeneralHistory;
+                return;
+            }
 
             setUserActionsFunnel(user);
         };
@@ -59,10 +63,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
             Statistic.getVacancyDetailInfo({"vacancyId": $scope.vacancy.vacancyId, "from": dateFrom, "to": dateTo, withCandidatesHistory: true})
                 .then(vacancyInterviewDetalInfo => {
-                    $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
+                    $scope.vacancyHistory = vacancyInterviewDetalInfo;
 
-                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages));
-                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv", assignObj:null});
+                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.vacancyHistory, $scope.notDeclinedStages, $scope.declinedStages));
+                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv"});
 
                     $scope.statistics = {type : 'default', user: {}};
                     $scope.$apply();
@@ -101,14 +105,14 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         function setUserActionsFunnel(user) {
             if(getUserActionsFunnelCache(user)) {
                 drawFunnel({...getUserActionsFunnelCache(user)});
-                $scope.detailInterviewInfo = getUserActionsFunnelCache(user).usersActionValues;
+                $scope.vacancyHistory = getUserActionsFunnelCache(user).usersActionData;
                 return;
             }
 
             return Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true, personId: user.userId})
-                .then(usersActionValues => {
+                .then(usersActionData => {
 
-                    const userFunnelMap = validateStages(parseCustomStagesNames(usersActionValues, $scope.notDeclinedStages, $scope.declinedStages)),
+                    const userFunnelMap = validateStages(parseCustomStagesNames(usersActionData, $scope.notDeclinedStages, $scope.declinedStages)),
                         userActionsFunnelData = {
                         userSeries: setFunnelData(userFunnelMap).series,
                         userSeriesArray: setFunnelData(userFunnelMap).candidateSeries,
@@ -122,7 +126,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                         },
                         username: user.name
                     },
-                    finalFunnelObject = {config:setFunnelData(userFunnelMap), id:"myChartDiv2", assignObj:userActionsFunnelConfig(userActionsFunnelData), usersActionValues:usersActionValues, user:user};
+                    finalFunnelObject = {config:setFunnelData(userFunnelMap), id:"myChartDiv2", assignObj:userActionsFunnelConfig(userActionsFunnelData), usersActionData:usersActionData, user:user};
 
                     drawFunnel(finalFunnelObject);
                     setUserActionsFunnelCache(finalFunnelObject);
@@ -147,11 +151,14 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         }
 
         function initMainFunnel() {
+            userActionsFunnelConfig.usersFunnelCache = userActionsFunnelConfig.usersFunnelCache || [];
+
             Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true})
                 .then(vacancyInterviewDetalInfo => {
-                    $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
-                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.detailInterviewInfo, $scope.notDeclinedStages, $scope.declinedStages));
-                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '1000px'), id:"myChartDiv",  assignObj:null});
+                    $scope.vacancyHistory = vacancyInterviewDetalInfo;
+                    $scope.vacancyGeneralHistory = vacancyInterviewDetalInfo;
+                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(vacancyInterviewDetalInfo, $scope.notDeclinedStages, $scope.declinedStages));
+                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '1000px'), id:"myChartDiv"});
                     $scope.$apply();
                 }, error => notificationService.error(error.message));
         }
@@ -161,74 +168,69 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
             let graphset = zingchart.exec('myChartDiv', 'getdata').graphset[0];
 
-            let username = user.name.split(' ').join('<br>'),
-                scaleYOffsetX = graphset["scale-y-" + (graphset.labels.length)]['item']['offset-x'] + 87,
-                labelOffsetX = 85 + graphset.labels[graphset.labels.length - 1]['offset-x'];
+            const username = user.name.split(' ').join('<br>'),
+                labelOffset = 85,
+                scaleOffset = 85,
+                scaleX = graphset["scale-y-" + (graphset.labels.length)]['item'].static ? graphset["scale-y-" + (graphset.labels.length)]['item']['offset-x'] + 95 :
+                         graphset["scale-y-" + (graphset.labels.length)]['item']['offset-x'] + scaleOffset,
+                labelX = graphset.labels[graphset.labels.length - 1]['offset-x'] + labelOffset;
 
             if(!getUserActionsFunnelCache(user)) {
                 setUserActionsFunnel(user)
                     .then(resp => {
-                        graphset.labels.push({
-                            text: username,
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: labelOffsetX,
-                            offsetY: 0,
-                            "border-width":1,
-                            "border-color":"lightgray",
-                            "border-radius":"5px",
-                            "height":"100%",
-                            "vertical-align":"top",
-                            "padding":"10%",
-                            "width":"80px"
-                        });
-                        graphset["scale-y-" + graphset.labels.length] = {"values": resp.config.candidateSeries, "item": {fontSize: 12,"offset-x": scaleYOffsetX}};
-
-                        drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset});
+                        const columnToAdd = addUserColumn({graphset, user, username, scaleX, labelX, candidateSeries: resp.config.candidateSeries});
+                        drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:columnToAdd});
                     }, error => console.error(error));
             } else {
-                let deletedIndex;
-                graphset.labels.forEach((label, index) => {
-                    if(label.text === username) {
-                        deletedIndex = index;
-                        delete graphset["scale-y-" + (index + 1)];
-                        graphset.labels.splice(index, 1);
-                    }
-                });
-
-                // for(let i = deletedIndex; i < graphset.labels.length; i++) {
-                //     graphset["scale-y-" + (i + 1)] = graphset["scale-y-" + (i + 2)];
-                //     graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)] || {};
-                //     if(graphset["scale-y-" + (i + 3)]) {
-                //         graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)];
-                //     }
-                // }
-
-                for(let i = deletedIndex; i < graphset.labels.length; i++) {
-                    let tmp = graphset["scale-y-" + (i + 2)];
-                    graphset["scale-y-" + (i + 1)] = tmp;
-                    graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)] || {};
-                    if(graphset["scale-y-" + (i + 3)]) {
-                        graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)] || {};
-                    }
-                    // graphset[0]["scale-y-" + (i + 2)] = graphset[0]["scale-y-" + (i + 3)] || {};
-                }
-
-                for(let i = deletedIndex; i < graphset.labels.length; i++) {
-                    graphset["scale-y-" + (i + 1)]['item']['offset-x'] -= 85;
-                    graphset.labels[i]['offset-x'] -= 85;
-                }
-
-                drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset});
+                const columnToRemove = removeUserColumn({graphset, username, scaleOffset, labelOffset});
+                drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:columnToRemove});
             }
         }
 
-        function addUserColumn() {
-            // remove from update funnel method
+        function addUserColumn({graphset, user, username, scaleX, labelX, candidateSeries}) {
+            graphset.labels.push({
+                text: username,
+                fontWeight: "bold",
+                fontSize: 12,
+                offsetX: labelX,
+                offsetY: 0,
+                "border-width":1,
+                "border-color":"lightgray",
+                "border-radius":"5px",
+                "height":"100%",
+                "vertical-align":"top",
+                "padding":"10%",
+                "width":"80px"
+            });
+            graphset["scale-y-" + graphset.labels.length] = {"values": candidateSeries, "item": {fontSize: 12,"offset-x": scaleX}};
+
+            return graphset;
         }
 
-        function removeUserColumn() {
-            // remove from update funnel method
+        function removeUserColumn({graphset, user, username, scaleOffset, labelOffset}) {
+            let removedColumnIndex;
+            graphset.labels.forEach((label, index) => {
+                if(label.text === username) {
+                    removedColumnIndex = index;
+                    delete graphset["scale-y-" + (index + 1)];
+                    graphset.labels.splice(index, 1);
+                }
+            });
+
+            for(let i = removedColumnIndex; i < graphset.labels.length; i++) {
+                graphset["scale-y-" + (i + 1)] = graphset["scale-y-" + (i + 2)];
+                graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)];
+                // if(graphset["scale-y-" + (i + 3)]) {
+                //     graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)];
+                // }
+            }
+
+            for(let i = removedColumnIndex; i < graphset.labels.length; i++) {
+                graphset["scale-y-" + (i + 1)]['item']['offset-x'] -= scaleOffset;
+                graphset.labels[i]['offset-x'] -= labelOffset;
+            }
+
+            return graphset;
         }
 
         function parseCustomStagesNames(allStages, notDeclinedStages, declinedStages) {
@@ -322,7 +324,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             return { chartHeight, series, stages, candidateSeries, RelConversion, AbsConversion, values5, funnelWidth, chartWidth }
         }
 
-        function drawFunnel({config, id, assignObj}) {
+        function drawFunnel({config, id, assignObj = {}}) {
 
             let myChart = {},
                 chartHeight = config.chartHeight,
