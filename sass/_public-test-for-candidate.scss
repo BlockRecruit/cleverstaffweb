@@ -251,6 +251,8 @@
 		.btn-primary-new {
 			@include btn-primary-new();
 
+			margin-bottom: 10px;
+
 			&.cancel {
 				@include btn-cancel();
 
