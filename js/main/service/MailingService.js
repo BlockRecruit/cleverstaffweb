@@ -749,7 +749,7 @@ angular.module('services.mailing',[]
 
 
     function isSecondStepHasChanges(savedParams, currentParams) {
-        for(propName in currentParams) {
+        for(let propName in currentParams) {
             if(currentParams[propName] !== savedParams[propName])
                 return true
         }
