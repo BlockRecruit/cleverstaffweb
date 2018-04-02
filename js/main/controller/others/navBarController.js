@@ -1311,13 +1311,19 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         // notificationService.error($filter('translate')('unknownEmail'));'
                         $rootScope.errorSignin = $filter('translate')('unknownEmail');
                         console.log('if', $filter('translate')('unknownEmail'));
-                    }else{
-                        // notificationService.error(resp.message);
+                    }else if(resp.code === 'manyAuth'){
+                        Person.getAuthBlockTime()
+                            .then(resp => {
+                                console.log(resp);
+                            }, error => {
+                                console.error(error);
+                            });
+
+                    } else {
                         $rootScope.errorSignin = resp.message;
                     }
                 }else{
                     location.reload();
-                    console.log('все ОК');
                     $rootScope.errorSignin = false;
                 }
             });

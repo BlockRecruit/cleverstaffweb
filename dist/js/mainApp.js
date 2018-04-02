@@ -11474,6 +11474,12 @@ angular.module('services.pay', [
                     params: {
                         param: "deleteOutlookCalendar"
                     }
+                },
+                authBlockTime : {
+                    method: "GET",
+                    params: {
+                        param: "getAuthBlockTime "
+                    }
                 }
 
             });
@@ -11484,6 +11490,11 @@ angular.module('services.pay', [
          });
      };
 
+     person.getAuthBlockTime = function() {
+       return new Promise((resolve, reject) => {
+          person.authBlockTime(resp => resolve(resp), error => reject(error));
+       });
+     };
      return person;
  }]);
 angular.module('services.scope', []).factory('ScopeService', ['$rootScope', 'localStorageService', function($rootScope, localStorageService) {
@@ -31815,13 +31826,19 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         // notificationService.error($filter('translate')('unknownEmail'));'
                         $rootScope.errorSignin = $filter('translate')('unknownEmail');
                         console.log('if', $filter('translate')('unknownEmail'));
-                    }else{
-                        // notificationService.error(resp.message);
+                    }else if(resp.code === 'manyAuth'){
+                        Person.getAuthBlockTime()
+                            .then(resp => {
+                                console.log(resp);
+                            }, error => {
+                                console.error(error);
+                            });
+
+                    } else {
                         $rootScope.errorSignin = resp.message;
                     }
                 }else{
                     location.reload();
-                    console.log('все ОК');
                     $rootScope.errorSignin = false;
                 }
             });

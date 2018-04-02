@@ -6972,6 +6972,12 @@ angular.module('services.notice', [
                     params: {
                         param: "deleteOutlookCalendar"
                     }
+                },
+                authBlockTime : {
+                    method: "GET",
+                    params: {
+                        param: "getAuthBlockTime "
+                    }
                 }
 
             });
@@ -6982,6 +6988,11 @@ angular.module('services.notice', [
          });
      };
 
+     person.getAuthBlockTime = function() {
+       return new Promise((resolve, reject) => {
+          person.authBlockTime(resp => resolve(resp), error => reject(error));
+       });
+     };
      return person;
  }]);
  angular.module('services.transliteration', []).factory('transliteration', function() {

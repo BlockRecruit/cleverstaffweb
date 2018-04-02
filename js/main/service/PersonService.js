@@ -308,6 +308,12 @@
                     params: {
                         param: "deleteOutlookCalendar"
                     }
+                },
+                authBlockTime : {
+                    method: "GET",
+                    params: {
+                        param: "getAuthBlockTime "
+                    }
                 }
 
             });
@@ -318,5 +324,10 @@
          });
      };
 
+     person.getAuthBlockTime = function() {
+       return new Promise((resolve, reject) => {
+          person.authBlockTime(resp => resolve(resp), error => reject(error));
+       });
+     };
      return person;
  }]);
