@@ -1,8 +1,8 @@
 <div class="excel-history">
     <div class="intro">
         <h2>{{'Export to Excel' | translate }}</h2>
-        <span ng-if="$root.me.recrutRole == 'admin'">({{'up to 30 000 profiles' | translate}})</span>
-        <span ng-if="$root.me.recrutRole == 'recruter'">({{'up to 10 000 profiles' | translate}})</span>
+        <span ng-if="$root.me.recrutRole == 'admin' && !loadingExcel">({{'up to 30 000 profiles' | translate}})</span>
+        <span ng-if="$root.me.recrutRole == 'recruter' && !loadingExcel">({{'up to 10 000 profiles' | translate}})</span>
         <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
     </div>
     <div class="export">
