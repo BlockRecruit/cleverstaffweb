@@ -36148,7 +36148,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $("#descr").html(resp.object.descr);
                     $scope.vacancy = resp.object;
                     $rootScope.vacancy = resp.object;
-                    $scope.socialLink = $location.$$protocol + "://" + $location.$$host + "/i/vacancy-" + $scope.vacancy.localId;
                     if($scope.vacancy != undefined){
                         $rootScope.promoLogo = $scope.vacancy.imageId;
                         if($rootScope.promoLogo != undefined){
@@ -37609,13 +37608,13 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                             clearInterval(setinterval)
                         }
                 },1000);
-
-                    if (response.status === 'connected') {
+                    console.log(response);
+                    if (response.status === 'connected' || response.status === 'unknown') {
                         console.log(response);
                         FB.ui({
                                 method: 'feed',
                                 name: $filter('translate')('Vacancy') + ' ' + $scope.vacancy.position,
-                                caption: $scope.publicDescr,
+                                caption: '',
                                 description: $scope.publicDescr,
                                 link: link,
                                 picture: $scope.publicImgLink
@@ -37634,7 +37633,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 FB.ui({
                                         method: 'feed',
                                         name: $filter('translate')('Vacancy') + ' ' + $scope.vacancy.position,
-                                        caption: $scope.publicDescr,
+                                        caption: '',
                                         description: $scope.publicDescr,
                                         link: link,
                                         picture: $scope.publicImgLink
