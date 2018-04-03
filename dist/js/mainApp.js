@@ -5187,7 +5187,7 @@ angular.module('ui.tinymce', [])
                         ngModel.$viewValue = currentInstance.getContent();
                         let currentModel = ngModel.$viewValue;
                         let lastP = currentModel.lastIndexOf("</p>");
-                        currentModel = currentModel.slice(0,lastP) + "{" + personsParam + "}" +  currentModel.slice(lastP,currentModel.length);
+                        currentModel = currentModel.slice(0,lastP) + "[" + personsParam + "]" +  currentModel.slice(lastP,currentModel.length);
                         ngModel.$setViewValue(currentModel);
                         currentInstance.setContent(ngModel.$viewValue || '');
                     }
