@@ -8,6 +8,9 @@
 		}
 	}
 	.modal-body {
+		.fa-times {
+			@include close-item();
+		}
 		& > .taskText {
 			& > .form-control {
 				height: 200px;

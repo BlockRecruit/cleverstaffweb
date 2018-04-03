@@ -66,6 +66,9 @@ body.modal-open-public-vacancy-form {
 			& img:hover {
 				cursor: pointer;
 			}
+			.fa-times {
+				@include close-item();
+			}
 		}
 		.error_block {
 			display: block;

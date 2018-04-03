@@ -26096,12 +26096,14 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 $rootScope.editResumeFile = file;
             };
             $rootScope.changeCandidateFromExistingResume = function(){
+                $rootScope.loading = true;
                 Candidate.updateFromFile({
                     candidateId: $rootScope.candidateForUpdateResume.candidateId,
                     fileId: $rootScope.editResumeFile.fileId
                 },function(resp){
                     if(resp.status == 'ok'){
                         $scope.updateCandidate();
+                        $rootScope.loading = false;
                         $rootScope.closeModal();
                     }else{
                         notificationService.error(resp.message);
