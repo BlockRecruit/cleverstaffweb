@@ -687,7 +687,10 @@
                     </td>
                     <!--<td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}"></td>-->
                     <!--<td ng-class="{'ng-hide': candidate.candidateId.status == 'archived'}" colspan="2"></td>-->
-                    <td class="date" ng-if="candidate.candidateId.status != 'archived'">
+                    <td class="date text-center" ng-if="candidate.state == 'approved'">
+                        {{candidate.dateEmployee|dateFormat}}
+                    </td>
+                    <td class="date" ng-if="candidate.candidateId.status != 'archived' && candidate.state != 'approved'">
                         <span ng-click="openChangeVacancyInterviewDate(candidate);$event.stopPropagation();">
                             {{::candidate.dateInterview|dateFormat:true}}
                             <i ng-if="candidate.dateInterview" class="fa fa-pencil" aria-hidden="true"></i>
