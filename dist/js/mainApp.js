@@ -20027,7 +20027,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("searchFullTextType", isNotBlank($scope.searchParam['searchFullTextType']) ? $scope.searchParam['searchFullTextType'] : null);
                 Candidate.setOptions("sort", isNotBlank($scope.filterForChange) ? $scope.filterForChange : null);
                 Candidate.setOptions("sortOrder", $scope.filterForChange == 'alphabetically' ? 'ASC' : 'DESC');
-                Candidate.setOptions("withPersonalContacts", $scope.searchParam['withPersonalContacts'].value);
+                Candidate.setOptions("withPersonalContacts", $scope.searchParam['withPersonalContacts'].value? $scope.searchParam['withPersonalContacts'].value : null);
                 Candidate.setOptions("skills",$scope.searchParam.skills.name ? [{name: $scope.getSkillAutocompleterValueForSearch(),type: $scope.searchParam.skills.type}] : null);
                 Candidate.setOptions("origin", isNotBlank($scope.searchParam['origin']) ? $scope.searchParam['origin'] : null);
                 $scope.criteriaForExcel = angular.copy(Candidate.searchOptions());
@@ -21090,21 +21090,13 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     };
 
     $scope.selectLanguagesLevel = (item, $scope, event, $index) => {
-
         $scope.level = $filter('translate')(item.text);
-        languagetLevelDataForTranslates.forEach((obj, index) => {
-            if(obj.$scope == $scope){
-                languagetLevelDataForTranslates.splice(index, 1);
-            }
-        });
-
-        console.log(languagetLevelDataForTranslates);
+        languagetLevelDataForTranslates.forEach((obj, index) => (obj.$scope == $scope)? languagetLevelDataForTranslates.splice(index, 1):null);
         languagetLevelDataForTranslates.push({$scope,item});
         $scope.searchLevelLanguage($scope.chosenLang, item.text, $index, $scope);
     };
 
     $rootScope.$on('$translateChangeSuccess', translate);
-
 
     FileInit.initFileExcellUpload($rootScope, $scope, "candidate", {allowedType: ["xls", "xlsx"]}, $filter);
 
@@ -21129,7 +21121,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 $scope.searchParam[data].text = $filter('translate')($scope.searchParam[data].translate);
             }
         }
-
     }
 }
 controller.controller('CandidateController', ["$localStorage", "$translate", "Service", "$scope", "ngTableParams",
