@@ -1361,6 +1361,12 @@
 
 						padding: 10px;
 						padding-top: 0;
+						.dropdown-content {
+							top: 115%;
+							li {
+								cursor: pointer;
+							}
+						}
 						input {
 							position: relative;
 							top: 8px;
