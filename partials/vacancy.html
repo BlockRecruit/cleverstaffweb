@@ -998,15 +998,15 @@
                             <tr>
                                 <th>№</th>
                                 <th></th>
-                                <th><a href="#">{{'Candidates' | translate}}</a></th>
+                                <th><span>{{'Candidates' | translate}}</span></th>
                                 <th ng-click="sortCandidatesBy('salary')" class="salary">
                                     <div class="flex-inline">
-                                        <a>{{'desired_salary' | translate}}</a>
+                                        <span>{{'desired_salary' | translate}}</span>
                                         <i ng-if="'salary' === SuggestionsSortCriteria" ng-class="{'fa-caret-up': reverseSort, 'fa-caret-down': !reverseSort}" class="fa" aria-hidden="true"></i>
                                     </div>
                                 </th>
                                 <th></th>
-                                <th><a href="#">{{'desired position' | translate}}</a></th>
+                                <th><span>{{'desired position' | translate}}</span></th>
                                 <th ng-show="suggestionTab === 'suitableMatching'" class="emptyFields">{{'Fields required for filling' | translate}}</th>
                                 <th class="scorePersent" ng-click="sortCandidatesBy('scorePersent')">
                                     <img tooltip-class="tooltip-outer" uib-tooltip="{{'Relevancy of the candidate' | translate}}" src="/images/sprite/matching.svg" alt="">
@@ -1022,7 +1022,7 @@
                                 </div>
                             </td>
                             <td class="name" data-title="'Name'">
-                                <a href="#/candidates/{{candidate.localId}}" ng-click="$event.stopPropagation();">{{candidate.fullName}}
+                                <a href="#/candidates/{{candidate.localId}}" target="_blank" ng-click="$event.stopPropagation();">{{candidate.fullName}}
                                     <span ng-if="candidate.db">, {{candidate.db | ageOfDate}}</span>
                                 </a>
                             </td>
