@@ -6976,7 +6976,7 @@ angular.module('services.notice', [
                 authBlockTime : {
                     method: "GET",
                     params: {
-                        param: "getAuthBlockTime "
+                        param: "getAuthBlockTime"
                     }
                 }
 

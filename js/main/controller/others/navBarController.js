@@ -1318,7 +1318,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                             }, error => {
                                 console.error(error);
                             });
-
+                            $rootScope.errorSignin = `You are trying to log in too often. It looks like you are trying to use the same account for different users. It contradicts our user agreement. Please try again in minutes.`
                     } else {
                         $rootScope.errorSignin = resp.message;
                     }
