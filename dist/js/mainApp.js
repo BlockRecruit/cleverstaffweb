@@ -19805,7 +19805,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             searchType: "AllWords",
             salary: null,
             status: {
-                value:'',
+                value:'null',
                 text:''
             },
             sex: {
@@ -20008,7 +20008,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("experience", $scope.searchParam.experience);
                 Candidate.setOptions("searchWordsInPosition", $scope.searchParam.searchWordsInPosition);
                 Candidate.setOptions("requiredAllContainsWords", $scope.searchParam.requiredAllContainsWords);
-                Candidate.setOptions("dateTo", $scope.searchParam['ageFrom'].text ?
+                Candidate.setOptions("dateTo", $scope.searchParam['ageFrom'] && $scope.searchParam['ageFrom'].text ?
                     new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageFrom'].text)).getTime() : null);
                 Candidate.setOptions("dateFrom", $scope.searchParam['ageTo'].text ?
                     new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageTo'].text)).getTime() : null);
@@ -20052,7 +20052,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                             if(response.status === "error") {
                                 notificationService.error(response.message);
                             } else {
-                                $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
+                                // $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
                                 $rootScope.objectSize = response['objects'] ? response['total'] : 0;
                                 localStorage.setItem('objectSize',  $rootScope.objectSize);
                                 $rootScope.objectSizeCand = $rootScope.objectSize;
@@ -20208,6 +20208,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     };
 
     $scope.closeSearchTags = function (param){
+
         if(param == 'industry'){
             $scope.staticSearchParam[0].industry = 'null';
             $scope.searchParam.industry = null;
@@ -20286,10 +20287,13 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 text:''
             };
         }else if(param == 'withPersonalContacts'){
+            $scope.searchParam.withPersonalContacts = {
+                value: false,
+                text:''
+            }
+        }
 
-            $scope.staticSearchParam[0].withPersonalContacts = false;
-            $scope.searchParam.withPersonalContacts.value = false;
-        }else if(param == 'origin'){
+        else if(param == 'origin'){
             $scope.staticSearchParam[0].origin = null;
             $scope.searchParam.origin = null;
             $scope.setOriginAutocompleterValue('source');
@@ -21071,8 +21075,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
 
     $scope.selectResponsible = selectResponsible;
-    $scope.selectStatus = item => $scope.searchParam.status = {text:$filter('translate')(item.text), value:item.text};
-    $scope.selectWithPersonalContacts = item => $scope.searchParam.withPersonalContacts = item;
+    $scope.selectStatus = item => $scope.searchParam.status = {text:$filter('translate')(item.text), value:item.value};
+    $scope.selectWithPersonalContacts = item => $scope.searchParam.withPersonalContacts =  {text:$filter('translate')(item.text), value:item.value};
     $scope.selectPersonSex = item => $scope.searchParam.sex = item;
     $scope.selectPersonAge = item => (item.value)? $scope.searchParam.ageFrom = item:$scope.searchParam.ageTo = item;
     $scope.selectEmploymentType = item => $scope.searchParam.employmentType = {text:$filter('translate')(item.text), value:item.text};;
