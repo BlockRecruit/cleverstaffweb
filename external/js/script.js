@@ -1142,6 +1142,7 @@ $(document).ready(function () {
             enter_loading = true;
             resetError();
             var res = $("#enter_form").serializeObject();
+            res.utms = localStorage.getItem("UTMS");
             res.login = res.login.toLowerCase();
             res.timeZoneOffset = userTimeZoneOffset;
             res.lang = localStorage.getItem("NG_TRANSLATE_LANG_KEY");
@@ -1230,6 +1231,7 @@ $(document).ready(function () {
                             $($('input[name=login]')).css('border','2px solid #61B452');
                             $($('input[name=password]')).css('border','2px solid #61B452');
                             $($('#txthdnPassword')).css('border','2px solid #61B452');
+                            localStorage.removeItem("UTMS");
                             if (data.recrutRole == 'client') {
                                 window.location.replace("/!#/vacancies");
                             } else {
