@@ -4655,7 +4655,6 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
         restrict: 'EA',
         replace: true,
         link: function(scope, element, attrs) {
-            console.log('elem', $(element[0]))
             if ($(element[0])) {
                 element.select2({
                     placeholder: $filter('translate')('select candidate'),
@@ -4695,7 +4694,6 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                     dropdownCssClass: "bigdrop"
                 }).on('change', (e) => {
                     if(e.added) {
-                        console.log('scope.$parent',scope.$parent.candidatesForMailing)
                         scope.$parent.newRecipient = e.added;
                     }
                 });
@@ -4777,7 +4775,6 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                         Mailing.getVacancyParams(recipientsSource.localId).then((result) => {
                             $(element[0]).select2("data", {id: result.vacancyId, text: result.position});
                             statusListForming(result.vacancyId, result.statuses).then((result) => {
-                                console.log("$scope.VacancyStatusFiltered",$scope.VacancyStatusFiltered)
                                 $scope.VacancyStatusFiltered.some((status)=> {
                                     if(status.value == recipientsSource.state) {
                                         recipientsSource.fullState = status;
@@ -5001,6 +4998,214 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
             }
         }
 }]);
+
+angular.module('ui.tinymce', [])
+    .value('uiTinymceConfig', {})
+    .directive('uiTinymceMailing', ['uiTinymceConfig', '$translate', function (uiTinymceConfig, $translate) {
+        uiTinymceConfig = uiTinymceConfig || {};
+        var generatedIds = 0;
+        return {
+            priority: 10,
+            scope: {
+                disabledMce: '=',
+                resizable: '='
+            },
+            require: 'ngModel',
+            link: function (scope, elm, attrs, ngModel) {
+                var expression, options, tinyInstance,
+                    updateView = function () {
+                        ngModel.$setViewValue(elm.val());
+                        if (scope.tinymceChanged != undefined) {
+                            scope.tinymceChanged(elm.val());
+                        }
+                        if (!scope.$root.$$phase) {
+                            scope.$apply();
+                        }
+
+                    };
+
+                // generate an ID if not present
+                if (!attrs.id) {
+                    attrs.$set('id', 'uiTinymce' + generatedIds++);
+                }
+
+                if (attrs.uiTinymce) {
+                    expression = scope.$eval(attrs.uiTinymce);
+                } else {
+                    expression = {};
+                }
+
+                // make config'ed setup method available
+                if (expression.setup) {
+                    var configSetup = expression.setup;
+                    delete expression.setup;
+                }
+
+                var plugin = [];
+                if (!scope.tinyMcePlugin) {
+                    plugin = [
+                        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                        "searchreplace visualblocks visualchars code fullscreen",
+                        "insertdatetime media nonbreaking save table directionality",
+                        "template paste textcolor  "
+                    ];
+                } else {
+                    plugin = scope.tinyMcePlugin;
+                }
+                var lang = localStorage.getItem('NG_TRANSLATE_LANG_KEY');
+
+                options = {
+                    // Update model when calling setContent (such as from the source editor popup)
+                    setup: function (ed) {
+                        var args;
+                        ed.on('init', function (args) {
+                            ngModel.$render();
+                            ngModel.$setPristine();
+                        });
+                        // Update model on button click
+                        ed.on('ExecCommand', function (e) {
+                            ed.save();
+                            updateView();
+                        });
+                        // Update model on keypress
+                        ed.on('KeyUp', function (e) {
+                            ed.save();
+                            updateView();
+                        });
+                        // Update model on change, i.e. copy/pasted text, plugins altering content
+                        ed.on('SetContent', function (e) {
+                            if (!e.initial && ngModel.$viewValue !== e.content) {
+                                ed.save();
+                                updateView();
+                            }
+                        });
+                        ed.on('blur', function (e) {
+                            elm.blur();
+                        });
+                        // Update model when an object has been resized (table, image)
+                        ed.on('ObjectResized', function (e) {
+                            ed.save();
+                            updateView();
+                        });
+                        ed.on('change', function(e) {
+                            ngModel.$viewValue = tinyInstance.getContent();
+                            ed.save();
+                            updateView();
+                        });
+                        if (configSetup) {
+                            configSetup(ed);
+                        }
+                    },
+                    mode: 'exact',
+                    theme: "modern",
+                    resize: scope.resizable === true ? true : false,
+                    readonly: 0,
+                    height: 300,
+                    language: lang != undefined || lang != null ? lang : "ru",
+                    browser_spellcheck: true,
+                    menu: {
+                        format: {title: 'Format', items: 'underline strikethrough superscript subscript | formats | removeformat'},
+                        insert: {title: 'Insert', items: 'media image | charmap hr insertdatetime'}
+                    },
+                    statusbar: scope.resizable === true ? true : false,
+                    theme_advanced_resizing: true,
+                    plugins: plugin,
+                    fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt",
+                    toolbar1: "undo redo | bold italic forecolor backcolor fontsizeselect | bullist numlist outdent indent | table | link",
+                    image_advtab: true,
+                    toolbar_items_size: 'small',
+                    relative_urls: false,
+                    link_assume_external_targets: true,
+
+                    elements: attrs.id,
+                    content_css: "/dist/css/tinymce.css"
+                };
+                // extend options with initial uiTinymceConfig and options from directive attribute value
+                angular.extend(options, uiTinymceConfig, expression);
+                setTimeout(function () {
+                    tinymce.init(options);
+                });
+
+                ngModel.$render = function () {
+                    if (!tinyInstance) {
+                        tinyInstance = tinymce.get(attrs.id);
+                    }
+                    if (tinyInstance) {
+                        tinyInstance.setContent(ngModel.$viewValue || '');
+                        personalDataField();
+                    }
+                };
+
+                scope.$on('$destroy', function () {
+                    if (!tinyInstance) {
+                        tinyInstance = tinymce.get(attrs.id);
+                    }
+                    if (tinyInstance) {
+                        tinyInstance.remove();
+                        tinyInstance = null;
+                    }
+                });
+
+
+                function personalDataField() {
+                    let customButton = $("#custom_mceu_1");
+                    if(customButton.length === 0) {
+                        const tinyMceBody = $(".mce-tinymce[role='application']");
+                        const $personalizedInfoButton = $("<div id=\"custom_mceu_1\" class=\"mce-widget mce-btn mce-menubtn mce-flow-layout-item mce-first mce-btn-has-text mce-toolbar-item\" tabindex=\"-1\" aria-haspopup=\"true\" aria-expanded=\"false\"><button id=\"custom_mceu_1-open\"  type=\"button\" tabindex=\"-1\"><span class=\"mce-txt\">" + $translate.instant('Personalization') + "</span> <i class=\"mce-caret\"></i></button></div>");
+                        const $personalizedInfoMenu = $("<div id=\"custom_mceu_1-body\" class=\"mce-container-body mce-stack-layout mce-menu\"  style=\"width: 161.391px;display: none\"><div id=\"custom_mceu_2\" class=\"mce-menu-item mce-menu-item-normal mce-stack-layout-item mce-first\" tabindex=\"-1\" >&nbsp;<span id=\"custom_mceu_1-text\" class=\"mce-text\">" + $translate.instant('name') + "</span></div><div id=\"custom_mceu_3\" class=\"mce-menu-item mce-menu-item-normal mce-stack-layout-item\" tabindex=\"-1\" >&nbsp;<span id=\"custom_mceu_2-text\" class=\"mce-text\">" + $translate.instant('last_name') +"</span></div><div id=\"custom_mceu_4\" class=\"mce-menu-item mce-menu-item-normal mce-stack-layout-item\" tabindex=\"-1\" >&nbsp;<span id=\"mceu_30-text\" class=\"mce-text\">Email</span></div></div>");
+
+                        if($("#custom_mceu_1-body").length === 0) {
+                            $('#mailing_editor_page').append($personalizedInfoMenu);
+                        }
+                        tinyMceBody.find(".mce-menubar[role='menubar']").children().first().append($personalizedInfoButton);
+                    }
+                    let showMenuFlag = false;
+                    $('#mailing_editor_page').on("click",(event) => {
+                        customButton = $("#custom_mceu_1")
+                        let menuBody = $("#custom_mceu_1-body");
+                        if($.contains(document.getElementById("custom_mceu_1"),event.target)) {
+                            customButtonClick(menuBody);
+                        } else {
+                            menuBody.css("display","none");
+                            showMenuFlag = false;
+                            switch (true) {
+                                case document.getElementById("custom_mceu_2") == event.target ||$.contains(document.getElementById("custom_mceu_2"),event.target)  :
+                                    customMenuClick("first_name");
+                                    break;
+                                case document.getElementById("custom_mceu_3") == event.target ||$.contains(document.getElementById("custom_mceu_3"),event.target) :
+                                    customMenuClick("last_name");
+                                    break;
+                                case document.getElementById("custom_mceu_4") == event.target || $.contains(document.getElementById("custom_mceu_4"),event.target) :
+                                    customMenuClick("email");
+                                    break;
+                            }
+                        }
+                    });
+
+                    function customMenuClick(personsParam) {
+                        let currentInstance = tinymce.get(attrs.id);
+                        ngModel.$viewValue = currentInstance.getContent();
+                        let currentModel = ngModel.$viewValue;
+                        let lastP = currentModel.lastIndexOf("</p>");
+                        currentModel = currentModel.slice(0,lastP) + "{" + personsParam + "}" +  currentModel.slice(lastP,currentModel.length);
+                        ngModel.$setViewValue(currentModel);
+                        currentInstance.setContent(ngModel.$viewValue || '');
+                    }
+
+                    function customButtonClick(menuBody) {
+                        menuBody.css({
+                            "left": customButton.offset().left,
+                            "top": customButton.offset().top + 30
+                        });
+                        showMenuFlag ? menuBody.css("display","none"): menuBody.css("display","block");
+                        showMenuFlag = !showMenuFlag;
+                    }
+
+                };
+
+            }
+        };
+    }]);
 'use strict';
 
 /* Filters */
@@ -47129,7 +47334,6 @@ component.component('editor', {
                 }
             }
         };
-
 
         Mailing.makeStepClickable(3);
         $('#step_3').unbind().on('click', $scope.toPreview);

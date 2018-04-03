@@ -96,7 +96,6 @@ component.component('editor', {
             }
         };
 
-
         Mailing.makeStepClickable(3);
         $('#step_3').unbind().on('click', $scope.toPreview);
         $('#step_2').unbind();
