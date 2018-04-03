@@ -2038,13 +2038,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $scope.selectLanguagesLevel = (item, $scope, event, $index) => {
         $scope.level = $filter('translate')(item.text);
-        languagetLevelDataForTranslates.forEach((obj, index) => (obj.$scope == $scope)? languagetLevelDataForTranslates.splice(index, 1));
+        languagetLevelDataForTranslates.forEach((obj, index) => (obj.$scope == $scope)? languagetLevelDataForTranslates.splice(index, 1):null);
         languagetLevelDataForTranslates.push({$scope,item});
         $scope.searchLevelLanguage($scope.chosenLang, item.text, $index, $scope);
     };
 
     $rootScope.$on('$translateChangeSuccess', translate);
-
 
     FileInit.initFileExcellUpload($rootScope, $scope, "candidate", {allowedType: ["xls", "xlsx"]}, $filter);
 
