@@ -133,7 +133,9 @@
                         <!--</select>-->
                         <i class="fa fa-info-circle extension" ng-click="$event.stopPropagation()" ng-mouseover="inHover()" ng-mouseleave="outHover()"></i>
                     </div>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 item pull-left" ng-show="searchParam.regionId.value">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 item pull-left"
+                         style="top: -6px;"
+                         ng-show="searchParam.regionId.value">
                         <custom-select model="searchParam.regionIdCity.text" method="selectRegionIdCity" style="width: 90%;" placeholder="{{'city'}}" data="city"></custom-select>
                         <!--<select ng-class="{'greyColor': searchParam.regionIdCity == 'null'}" class="form-control"-->
                                 <!--ng-model="searchParam.regionIdCity"-->

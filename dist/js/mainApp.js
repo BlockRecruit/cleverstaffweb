@@ -4506,7 +4506,7 @@ directive('appVersion', ['version', function(version) {
         }
     }])
     .directive("customSelect",setCustomSelect);
-function setCustomSelect(){
+function setCustomSelect($rootScope){
     let restrict  = "EACM",
         scope = {
             data:"=",
@@ -19076,6 +19076,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     localStorage.removeItem('candidatesInStagesVac');
     localStorage.removeItem('getAllCandidates');
     Candidate.getCandidate = [];
+    let languagetLevelDataForTranslates = [];
     vacancyStages.get(function (resp) {
         $scope.customStages = resp.object.interviewStates;
         $rootScope.customStages = resp.object.interviewStates;
@@ -19741,6 +19742,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $rootScope.clear = function () {
         Candidate.setOptions("sort", 'dm');
+        languagetLevelDataForTranslates = [];
         $scope.searchParam.searchType = "AllWords";
         $scope.searchParam.name = null;
         $scope.searchParam.regionId = {
@@ -21075,21 +21077,34 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
 
     $scope.selectResponsible = selectResponsible;
-    $scope.selectStatus = item => $scope.searchParam.status = {text:$filter('translate')(item.text), value:item.value};
-    $scope.selectWithPersonalContacts = item => $scope.searchParam.withPersonalContacts =  {text:$filter('translate')(item.text), value:item.value};
-    $scope.selectPersonSex = item => $scope.searchParam.sex = item;
+    $scope.selectStatus = item => $scope.searchParam.status = {text:$filter('translate')(item.text), value:item.value, translate:item.text};
+    $scope.selectWithPersonalContacts = item => $scope.searchParam.withPersonalContacts =  {text:$filter('translate')(item.text), value:item.value, translate:item.text};
+    $scope.selectPersonSex = item => {$scope.searchParam.sex = {text:$filter('translate')(item.text), value:item.value, translate:item.text};};
     $scope.selectPersonAge = item => (item.value)? $scope.searchParam.ageFrom = item:$scope.searchParam.ageTo = item;
-    $scope.selectEmploymentType = item => $scope.searchParam.employmentType = {text:$filter('translate')(item.text), value:item.text};;
+    $scope.selectEmploymentType = item => $scope.searchParam.employmentType = {text:$filter('translate')(item.text), value:item.text, translate:item.text};
     $scope.selectExperience = item => $scope.searchParam.experience = item;
     $scope.selectRegionIdCity = item => $scope.searchParam.regionIdCity  = item;
     $scope.selectLanguages = item => {
         $scope.searchParam.languages  = item
         $scope.addSearchLang(item['text']);
     };
+
     $scope.selectLanguagesLevel = (item, $scope, event, $index) => {
+
         $scope.level = $filter('translate')(item.text);
+        languagetLevelDataForTranslates.forEach((obj, index) => {
+            if(obj.$scope == $scope){
+                languagetLevelDataForTranslates.splice(index, 1);
+            }
+        });
+
+        console.log(languagetLevelDataForTranslates);
+        languagetLevelDataForTranslates.push({$scope,item});
         $scope.searchLevelLanguage($scope.chosenLang, item.text, $index, $scope);
     };
+
+    $rootScope.$on('$translateChangeSuccess', translate);
+
 
     FileInit.initFileExcellUpload($rootScope, $scope, "candidate", {allowedType: ["xls", "xlsx"]}, $filter);
 
@@ -21099,6 +21114,22 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam.languages = [];
         $scope.currentLang = 'null';
         $scope.level = '_undefined';
+        languagetLevelDataForTranslates = [];
+    }
+
+    function translate() {
+        if(languagetLevelDataForTranslates.length){
+            languagetLevelDataForTranslates.forEach(elem => {
+                elem['$scope']['level'] = $translate.instant(elem['item']['value']);
+            });
+        }
+
+        for(let data in $scope.searchParam){
+            if($scope.searchParam[data] && $scope.searchParam[data].text){
+                $scope.searchParam[data].text = $filter('translate')($scope.searchParam[data].translate);
+            }
+        }
+
     }
 }
 controller.controller('CandidateController', ["$localStorage", "$translate", "Service", "$scope", "ngTableParams",

@@ -4506,7 +4506,7 @@ directive('appVersion', ['version', function(version) {
         }
     }])
     .directive("customSelect",setCustomSelect);
-function setCustomSelect(){
+function setCustomSelect($rootScope){
     let restrict  = "EACM",
         scope = {
             data:"=",
