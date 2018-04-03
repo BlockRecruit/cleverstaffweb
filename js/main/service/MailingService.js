@@ -665,7 +665,7 @@ angular.module('services.mailing',[]
                     $localStorage.set('candidatesForMailing', candidatesForMailing);
                     $localStorage.set('subscriberListParams', subscriberListParams);
                     $localStorage.set('currentStep', JSON.stringify("mailing-details"));
-                    if(mailingForEdit.subject.trim() && mailingForEdit.html.trim() && mailingForEdit.fromName.trim() && mailingForEdit.fromMail.trim()) {
+                    if(mailingForEdit.subject.trim() && mailingForEdit.html.trim() && mailingForEdit.fromName.trim() && mailingForEdit.fromEmail.trim()) {
                         $localStorage.set('stepClickable', 3);
                     } else {
                         $localStorage.set('stepClickable', 2);
