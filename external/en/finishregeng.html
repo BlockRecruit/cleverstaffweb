@@ -185,7 +185,7 @@
     </div>
 </div>
 <div class="container block-finishreg">
-    <div class="alert alert-success col-lg-8 center-block text-center">
+    <div id="textBlock" class="alert alert-success col-lg-8 center-block text-center">
         <strong>Congratulations!</strong>
         <br/>
         <br/>
@@ -204,6 +204,26 @@
     </div>
 </div>
 
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded",function () {
+        if(localStorage.getItem('socialSuccess')) {
+            console.log('document.getElementById(\'textBlock\')',document.getElementById('textBlock'));
+            document.getElementById('textBlock').innerHTML = '<strong>Congratulations!</strong>\n' +
+                '        <br/>\n' +
+                '        <br/>\n' +
+                '        You created a CleverStaff account.\n' +
+                '        <br/>\n' +
+                '        <br/>';
+            setTimeout(function () {
+                window.location.replace('/!#/organizer');
+            },4500);
+        }
+    });
+    window.onunload = function () {
+        localStorage.removeItem("socialSuccess");
+    }
+</script>
 
 <!-- build:js(.) scripts/vendor.js -->
 <!-- bower:js -->
