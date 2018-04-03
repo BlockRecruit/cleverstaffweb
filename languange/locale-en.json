@@ -2348,5 +2348,7 @@
   "Show reports by users":"Show reports by users",
   "General Statistics":"General Statistics",
   "Statistics for":"",
-  "You select up to 4 users":"You select up to 4 users"
+  "You select up to 4 users":"You select up to 4 users",
+  "Relative":"Relative",
+  "Absolute":"Absolute"
 }

@@ -46,7 +46,7 @@
                             <option disabled selected="selected" value="">{{'choose_user2' | translate}}</option>
                             <option value="{{$index}}" ng-repeat="user in actionUsers track by $index">{{user.name}}</option>
                         </select>
-                        <button class="btn-add" ng-click="addUserInFunnelActionUsersList(userIndex)">+</button>
+                        <button class="btn-add" ng-click="addUserInFunnelUsersList(userIndex)">+</button>
                     </div>
                 </div>
                     <div class="field update">
@@ -62,7 +62,7 @@
                     <div class="funnel-type" ng-class="{'active': statistics.user === user}"
                          ng-repeat="user in funnelActionUsersList track by $index" ng-click="setStatistics('userFunnel', user)">
                         <h5>{{user.name}}</h5>
-                        <span class="close" ng-click="removeUserInFunnelActionUsersList(user);$event.stopPropagation();">✖</span>
+                        <span class="close" ng-click="removeUserInFunnelUsersList(user);$event.stopPropagation();">✖</span>
                     </div>
                 </div>
             </div>

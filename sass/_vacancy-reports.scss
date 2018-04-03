@@ -68,11 +68,10 @@
 				}
 			}
 
-			//.update,
 			.dateFrom {
 				display: flex;
 				flex-direction: row;
-				height: 125px;
+				height: 95px;
 				min-height: 66px;
 				padding: 10px;
 
@@ -117,6 +116,7 @@
 				display: flex;
 				flex-direction: column;
 				min-width: 27%;
+				height: 95px;
 				margin-right: 20px;
 				padding: 20px 10px;
 
@@ -285,7 +285,7 @@
 						margin: 0 auto;
 					}
 					svg {
-						padding-left: 160px;
+						//padding-left: 160px;
 					}
 				}
 				& > .text-center {

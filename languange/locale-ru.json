@@ -2936,5 +2936,8 @@
   "Enter more data for search":"Введите больше символов для поиска",
   "Show reports by users":"Показать статистику по пользователям",
   "General Statistics":"Общая статистика",
-  "You select up to 4 users":"Вы можете выбрать максимум 4 пользователей"
+  "You select up to 4 users":"Вы можете выбрать максимум 4 пользователей",
+  "Absolute":"Абсолютная",
+  "Relative":"Относительная",
+  "Amount_2":"Количество"
 }

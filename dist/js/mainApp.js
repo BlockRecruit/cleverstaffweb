@@ -40727,6 +40727,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         $scope.statistics = {type: 'default', user: {}};
         $scope.funnelActionUsersList = [];
         $scope.vacancyGeneralHistory = [];
+        userFunnelConfig.usersFunnelCache = userFunnelConfig.usersFunnelCache || [];
 
         /* -- funnel general algorithm
             1. - parseCustomStagesNames  --- transform custom stages id`s to valid custom names
@@ -40742,10 +40743,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 return;
             }
 
-            setUserActionsFunnel(user);
+            setUserFunnel(user);
         };
 
-        $scope.addUserInFunnelActionUsersList = function(userIndex) {
+        $scope.addUserInFunnelUsersList = function(userIndex) {
             let isMissing = true,
                 actionUser = $scope.actionUsers[userIndex] || null;
 
@@ -40764,7 +40765,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             }
         };
 
-        $scope.removeUserInFunnelActionUsersList = function(user) {
+        $scope.removeUserInFunnelUsersList = function(user) {
             $scope.funnelActionUsersList.splice($scope.funnelActionUsersList.indexOf(user),1);
 
             updateMainFunnel(user);
@@ -40776,8 +40777,9 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         };
 
         $scope.updateData = function() {
-            var dateFrom = $('#dateFrom').datetimepicker('getDate') != null ? $('#dateFrom').datetimepicker('getDate') : null;
-            var dateTo = $('#dateTo').datetimepicker('getDate') != null ? $('#dateTo').datetimepicker('getDate') : null;
+            const dateFrom = $('#dateFrom').datetimepicker('getDate') ? $('#dateFrom').datetimepicker('getDate') : null,
+                  dateTo = $('#dateTo').datetimepicker('getDate') ? $('#dateTo').datetimepicker('getDate') : null;
+
             dateFrom.setHours(0, 0, 0, 0);
             dateTo.setHours(0, 0, 0, 0);
             dateTo.setDate(dateTo.getDate() + 1);
@@ -40785,14 +40787,11 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             Statistic.getVacancyDetailInfo({"vacancyId": $scope.vacancy.vacancyId, "from": dateFrom, "to": dateTo, withCandidatesHistory: true})
                 .then(vacancyInterviewDetalInfo => {
                     $scope.vacancyHistory = vacancyInterviewDetalInfo;
-
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.vacancyHistory, $scope.notDeclinedStages, $scope.declinedStages));
-                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv"});
-
+                    updateUsers();
+                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '1000px'), id:"myChartDiv"});
                     $scope.statistics = {type : 'default', user: {}};
                     $scope.$apply();
-
-                    zingchart.exec('myChartDiv', 'reload');
                 }, error => notificationService.error(error.message));
         };
 
@@ -40822,8 +40821,15 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             });
         };
 
+        function updateUsers() {
+            $scope.funnelActionUsersList.forEach(user => {
+                updateMainFunnel(user); // if user exist - removes it`s column to funnel
+                clearUserActionsFunnelCache(user); // removing user from cache
+                updateMainFunnel(user);// if user is not existing - adding it column to funnel
+            });
+        }
 
-        function setUserActionsFunnel(user) {
+        function setUserFunnel(user) {
             if(getUserActionsFunnelCache(user)) {
                 drawFunnel({...getUserActionsFunnelCache(user)});
                 $scope.vacancyHistory = getUserActionsFunnelCache(user).usersActionData;
@@ -40840,17 +40846,23 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                         candidateSeriesArray: setFunnelData($scope.vacancyFunnelMap).candidateSeries,
                         userSeriesToDisplay: function() {
                             return this.userSeriesArray.map((userSeries, index) => {
-                                let percent = Math.round((userSeries / (this.candidateSeriesArray[index])) * 100) || 0;
-
-                                return `${userSeries}(${this.candidateSeriesArray[index]}) / ${percent}%`;
+                                return `${userSeries}(${this.candidateSeriesArray[index]})`;
                             });
                         },
-                        username: user.name
+                        userPercentToDisplay : function() {
+                            return this.userSeriesArray.map((userSeries, index) => {
+                                return String(Math.round((userSeries / (this.candidateSeriesArray[index])) * 100) || 0);
+                            });
+                        },
+                        RelConversion: setFunnelData(userFunnelMap).RelConversion,
+                        AbsConversion: setFunnelData(userFunnelMap).AbsConversion,
+                        username: user.name,
                     },
-                    finalFunnelObject = {config:setFunnelData(userFunnelMap), id:"myChartDiv2", assignObj:userActionsFunnelConfig(userActionsFunnelData), usersActionData:usersActionData, user:user};
+                    finalFunnelObject = {config:setFunnelData(userFunnelMap), id:"myChartDiv2", assignObj:userFunnelConfig(userActionsFunnelData), usersActionData:usersActionData, user:user};
+
 
                     drawFunnel(finalFunnelObject);
-                    setUserActionsFunnelCache(finalFunnelObject);
+                    setUserFunnelCache(finalFunnelObject);
                     $scope.statistics = {type: 'default', user: {}};
                     $scope.$apply();
 
@@ -40872,8 +40884,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         }
 
         function initMainFunnel() {
-            userActionsFunnelConfig.usersFunnelCache = userActionsFunnelConfig.usersFunnelCache || [];
-
             Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true})
                 .then(vacancyInterviewDetalInfo => {
                     $scope.vacancyHistory = vacancyInterviewDetalInfo;
@@ -40885,30 +40895,30 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         }
 
         function updateMainFunnel(user) {
-            userActionsFunnelConfig.usersFunnelCache = userActionsFunnelConfig.usersFunnelCache || [];
-
-            let graphset = zingchart.exec('myChartDiv', 'getdata').graphset[0];
-
-            const username = user.name.split(' ').join('<br>'),
+            const graphset = zingchart.exec('myChartDiv', 'getdata').graphset[0],
+                username = user.name.split(' ').join('<br>'),
                 labelOffset = 85,
-                scaleOffset = 85,
-                scaleX = graphset["scale-y-" + (graphset.labels.length)]['item'].static ? graphset["scale-y-" + (graphset.labels.length)]['item']['offset-x'] + 95 :
-                         graphset["scale-y-" + (graphset.labels.length)]['item']['offset-x'] + scaleOffset,
-                labelX = graphset.labels[graphset.labels.length - 1]['offset-x'] + labelOffset;
+                scaleOffset = 85;
 
             if(!getUserActionsFunnelCache(user)) {
-                setUserActionsFunnel(user)
+                setUserFunnel(user)
                     .then(resp => {
-                        const columnToAdd = addUserColumn({graphset, user, username, scaleX, labelX, candidateSeries: resp.config.candidateSeries});
+                        const columnToAdd = addUserColumn({username, scaleOffset, labelOffset, candidateSeries: resp.config.candidateSeries});
                         drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:columnToAdd});
                     }, error => console.error(error));
             } else {
-                const columnToRemove = removeUserColumn({graphset, username, scaleOffset, labelOffset});
+                const columnToRemove = removeUserColumn({username, scaleOffset, labelOffset});
                 drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:columnToRemove});
             }
         }
 
-        function addUserColumn({graphset, user, username, scaleX, labelX, candidateSeries}) {
+        function addUserColumn({username, scaleOffset, labelOffset, candidateSeries}) {
+            let graphset = zingchart.exec('myChartDiv', 'getdata').graphset[0];
+
+            const scaleX = graphset["scale-y-" + (graphset.labels.length)]['item'].static ? graphset["scale-y-" + (graphset.labels.length)]['item']['offset-x'] + 95 :
+                           graphset["scale-y-" + (graphset.labels.length)]['item']['offset-x'] + scaleOffset,
+                  labelX = graphset.labels[graphset.labels.length - 1]['offset-x'] + labelOffset;
+
             graphset.labels.push({
                 text: username,
                 fontWeight: "bold",
@@ -40928,7 +40938,9 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             return graphset;
         }
 
-        function removeUserColumn({graphset, user, username, scaleOffset, labelOffset}) {
+        function removeUserColumn({username, scaleOffset, labelOffset}) {
+            let graphset = zingchart.exec('myChartDiv', 'getdata').graphset[0];
+
             let removedColumnIndex;
             graphset.labels.forEach((label, index) => {
                 if(label.text === username) {
@@ -40941,9 +40953,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             for(let i = removedColumnIndex; i < graphset.labels.length; i++) {
                 graphset["scale-y-" + (i + 1)] = graphset["scale-y-" + (i + 2)];
                 graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)];
-                // if(graphset["scale-y-" + (i + 3)]) {
-                //     graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)];
-                // }
             }
 
             for(let i = removedColumnIndex; i < graphset.labels.length; i++) {
@@ -41012,7 +41021,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             return funnelMap[0] ? funnelMap : null;
         }
 
-        function setFunnelData(funnelMap, funnelWidth = '750px', chartWidth = '1100px') {
+        function setFunnelData(funnelMap, funnelWidth = '750px', chartWidth = '1300px') {
             $scope.hasFunnelChart = true;
             let chartHeight = 30*(funnelMap.length + 1);
             let series = [],
@@ -41058,6 +41067,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 chartWidth = config.chartWidth;
 
             myChart = {
+                // title: {
+                //     text: 'Voronka',
+                //     fontSize: 14
+                // },
                 "type": "funnel",
                 "width": funnelWidth,
                 "series": series,
@@ -41065,13 +41078,26 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 65}},
                 "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": -50}},
                 "scale-y-3": {
-                    "values": values3, "item": {fontSize: 12,"offset-x": 35}
+                    "values": values3, "item": {fontSize: 12,"offset-x": 35},
+                    tooltip: {
+                        text: ' ',
+                        backgroundColor: 'rgba(94, 253, 12, 0.1)',
+                        borderColor: '#00b549',
+                        borderRadius: 5,
+                        borderWidth: 1,
+                        fontColor: '#000',
+                        padding: '5px 10px',
+                        fontSize: 14,
+                        width:'90%',
+                        height:'27px',
+                        offsetY:15,
+                    }
                 },
                 "scale-y-4": {
                     "values": values4, "item": {fontSize: 12,"offset-x": 117, static: true}
                 },
                 plotarea: {
-                    margin: '40px 0 0 0'
+                    margin: '40px 0 0 100px'
                 },
                 "scale-x": {"values": [""]},
                 labels: [
@@ -41079,7 +41105,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                         text: $filter('translate')('Stages'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: 10,
+                        offsetX: 110,
                         offsetY: 0
                     },
                     {
@@ -41138,63 +41164,102 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         }
 
         function getUserActionsFunnelCache(user) {
-            return userActionsFunnelConfig.usersFunnelCache.filter(cache => {
+            return userFunnelConfig.usersFunnelCache.filter(cache => {
                 return cache.user.userId === user.userId;
             })[0];
         }
 
-        function setUserActionsFunnelCache(cache) {
+        function setUserFunnelCache(cache) {
             if(!getUserActionsFunnelCache(cache.user)) {
-                userActionsFunnelConfig.usersFunnelCache.push(cache);
+                userFunnelConfig.usersFunnelCache.push(cache);
             }
         }
 
         function clearUserActionsFunnelCache(user) {
-            userActionsFunnelConfig.usersFunnelCache.forEach((cache, index) => {
+            userFunnelConfig.usersFunnelCache.forEach((cache, index) => {
                 if(cache.user.userId === user.userId) {
-                    userActionsFunnelConfig.usersFunnelCache.splice(index,1);
+                    userFunnelConfig.usersFunnelCache.splice(index,1);
                 }
             });
         }
 
-        function userActionsFunnelConfig(userActionsFunnelData) {
+        function userFunnelConfig(userActionsFunnelData) {
             return {
                 "series": userActionsFunnelData.userSeries,
-                "scale-y-2": {"values": userActionsFunnelData.userSeriesToDisplay(), "item": {fontSize: 12,"offset-x": -70}, "placement":"opposite"},
+                "scale-y-2": {"values": userActionsFunnelData.userSeriesToDisplay(), "item": {fontSize: 12,"offset-x": -55}},
+                "scale-y-3": {
+                    "values": userActionsFunnelData.userPercentToDisplay(),
+                    "item": {fontSize: 12,"offset-x": 5},
+                    tooltip: {
+                        text: 'Percent: %v %',
+                        backgroundColor: '#fff',
+                        borderColor: '#00b549',
+                        borderRadius: 5,
+                        borderWidth: 1,
+                        fontColor: '#000',
+                        padding: '5px 10px',
+                        fontSize: 14
+                    }},
+                "scale-y-4": {"values": userActionsFunnelData.RelConversion, "item": {fontSize: 12,"offset-x": 65}},
+                "scale-y-5": {"values": userActionsFunnelData.AbsConversion, "item": {fontSize: 12,"offset-x": 147}},
+                plotarea: {
+                    margin: '60px 0 0 100px'
+                },
                 "labels": [
                     {
-                        text: $filter('translate')('Relative conversion'),
+                        text: $filter('translate')('Conversion'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: $translate.use() != 'en' ?  755 : 765,
+                        offsetX: $translate.use() != 'en' ?  845 : 765,
                         offsetY: 0
                     },
                     {
-                        text: $filter('translate')('Absolute conversion'),
+                        text: $filter('translate')('Relative'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: $translate.use() != 'en' ?  855 : 840,
-                        offsetY: 0
+                        offsetX: $translate.use() != 'en' ?  795 : 765,
+                        offsetY: 20
+                    },
+                    {
+                        text: $filter('translate')('Absolute'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        offsetX: $translate.use() != 'en' ?  895 : 840,
+                        offsetY: 20
                     },
                     {
                         text: $filter('translate')('Candidates'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: $translate.use() != 'en' ? 680 : 670,
+                        offsetX: $translate.use() != 'en' ? 700 : 670,
                         offsetY: 0
+                    },
+                    {
+                        text: $filter('translate')('Amount_2'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        offsetX: $translate.use() != 'en' ? 680 : 670,
+                        offsetY: 20
+                    },
+                    {
+                        text: '%',
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        offsetX: $translate.use() != 'en' ? 760 : 670,
+                        offsetY: 20
                     },
                     {
                         text: $filter('translate')('Stages'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: 10,
+                        offsetX: 110,
                         offsetY: 0
                     }
                 ]
             };
         }
 
-        function getActionUsers(vacancyId) {
+        function getUsersForFunnel(vacancyId) {
             Person.getFilteredPersons({vacancyId: vacancyId, types:["interview_add", "interview_add_from_advice", "interview_edit", "interview_remove"]})
                 .then(response => {
                     $scope.actionUsers = response.object;
@@ -41257,7 +41322,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 getVacancyStages(vacancyStages);
                 getCompanyParams(companyParams);
                 getVacancy(vacancy.object);
-                getActionUsers(vacancy.object.vacancyId);
+                getUsersForFunnel(vacancy.object.vacancyId);
                 setDateTimePickers(vacancy.object);
                 setStages();
                 initMainFunnel();
