@@ -205,7 +205,7 @@
                 <ul class="nav information navbar-nav navbar-right pull-right margin-bot">
                     <li class="payMoney hidden-xs hidden-sm" ng-show="$root.me.recrutRole == 'admin'">
                         <a href="#/pay" class="payment" ng-class="{'low-low-balance': paidFor!==undefined && paidFor <= 4 && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free'),'low-balance': paidFor!==undefined && paidFor <= 7}">
-                            <i class="fa fa-usd"></i>
+                            <span class="coins"></span>
                             <span ng-show="!$root.paidTillDateBilling && $root.companyParams.paidTillDate && paidFor > 7">{{'up to'|translate}}&nbsp;{{$root.companyParams.paidTillDate}}</span>
                             <span ng-show="$root.paidTillDateBilling && paidFor > 7 && !(digit > 0 && digit <= 14)">{{'up to'|translate}}&nbsp;{{$root.paidTillDateBilling}}</span>
                             <span ng-show="paidFor > 4 && paidFor <= 7 && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free')" translate="Days left" translate-values="{days_left: paidFor}" ></span>
