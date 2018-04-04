@@ -974,10 +974,10 @@
             <div class="row">
                 <ul>
                     <li ng-class="{'active': suggestionTab === 'exactMatching'}" ng-click="setSuggestionTab('exactMatching')">
-                        <a href="">{{'Exact matching' | translate}} {{suggestionsLength.exact}}</a>
+                        <a href="">{{'Exact matching' | translate}} <span class="counter">{{suggestionsLength.exact}}</span></a>
                     </li>
                     <li ng-class="{'active': suggestionTab === 'suitableMatching'}" ng-click="setSuggestionTab('suitableMatching')">
-                        <a href="">{{'Probably suitable' | translate}} {{suggestionsLength.suitable}}</a>
+                        <a href="">{{'Probably suitable' | translate}} <span class="counter">{{suggestionsLength.suitable}}</span></a>
                     </li>
                 </ul>
             </div>

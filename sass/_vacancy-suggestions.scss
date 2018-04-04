@@ -98,9 +98,12 @@
 					font-size: 14px;
 					font-weight: bold;
 
-					text-decoration: underline;
-
 					color: #000;
+					&.counter {
+						font-size: 10px;
+
+						color: #666;
+					}
 				}
 			}
 			td {
