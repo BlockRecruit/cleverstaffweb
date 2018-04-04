@@ -14863,7 +14863,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=70'
+        suffix: '.json?b=71'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -38055,7 +38055,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     }
                     if (changeObj.status) {
                         if ($rootScope.showEmployedFields) {
-                            console.log(changeObj);
                             Vacancy[neededRequest]({
                                 "personId": $scope.personId,
                                 "vacancyId": $scope.vacancy.vacancyId,
