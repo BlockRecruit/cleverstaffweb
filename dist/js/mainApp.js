@@ -27701,10 +27701,9 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             notificationService.error($filter('translate')('Enter more data for search'));
             return;
         }
-
         if($scope.searchParam.state.length == 0 && $scope.searchParam.words.length == 0 &&
             $scope.searchParam.name == null && $scope.searchParam.responsible == 'null' &&
-            $scope.searchParam.industry == 'null' && $scope.searchParam.regionIdCity == 'null'){
+            $scope.searchParam.industry == 'null' && $scope.searchParam.regionId == 'null' && $scope.searchParam.regionIdCity == 'null'){
             notificationService.error($filter('translate')('Enter the data'));
         }else{
             $scope.loader = true;
@@ -27788,6 +27787,10 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                             Client.setOptions("city", json.value);
                         }
                     }else{
+                        var jsonCity = JSON.parse($scope.searchParam['regionIdCity']);
+                        if (jsonCity == null) {
+                            Client.setOptions("city", null);
+                        }
                         var json = JSON.parse($scope.searchParam['regionId']);
                         Client.setOptions("country", json.value);
                     }
