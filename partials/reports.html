@@ -1,52 +1,84 @@
-<div class="container-fluid">
-    <div class="block-my-reports">
-        <h4 ng-bind="'My Reports'|translate"></h4>
-        </span>
-        <p>
-            <span class="slogan" ng-bind='"Cannot find the appropriate report? Build it yourself at "|translate'></span>
-            <a ng-if="!$root.hideTariff" ng-click="$root.disabledBtnFunc();" href="" style="position: relative;">{{"Custom report designer"|translate}}.
-                <span class="new-label" style="right: -18px; top: 0px; font-weight: 600;">beta</span>
-            </a>
-            <a ng-if="$root.hideTariff" href="#/constructor-reports" style="position: relative;">{{"Custom report designer"|translate}}.
-                <span class="new-label" style="right: -18px; top: 0px; font-weight: 600;">beta</span>
-            </a>
-        </p>
-        <table class="col-md-12 table" style="margin-top: 12px; table-layout: fixed; width: 100%;">
-            <thead>
-            <tr>
-                <th ng-bind="'My Reports'|translate"></th>
-                <th ng-bind="'Short description'|translate"></th>
-                <th></th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr class="hover" ng-mouseover="showFirst = true" ng-click="myReportsCtrl.changeLocationAllVacancies('/reports/reportall')" ng-mouseleave="showFirst = false">
-                <td><a href="#/reports/reportall" ng-bind="'Report on vacancies'|translate"></a></td>
-                <td ng-bind="'description'|translate"></td>
-                <td class="text-right">
-                </td>
-            </tr>
-            <tr class="hover"
-                ng-repeat="report in myReportsCtrl.customReports track by $index"
-                ng-click="myReportsCtrl.changeLocation('/reports/custom-reports', report, $event)"
-                ng-mouseover="show = true"
-                ng-mouseleave="show = false">
-                <td><a href="#/reports/custom-reports"
-                       ng-bind="::report.name"
-                       ng-click="myReportsCtrl.getReport($event, report)"></a></td>
-                <td ng-bind="report.descr || 'description'|translate"></td>
-                <td class="text-right">
-                    <div ng-show="show && $root.me.recrutRole === 'admin'">
-                        <a href="#/reports/edit-reports" ng-click="myReportsCtrl.getReport($event, report)">
-                            <i class="fa fa-pencil" title="{{'Edit report parameters'|translate}}"></i>
-                        </a>
-                        <i class="fa fa-times" ng-click="myReportsCtrl.remove(report.customVacancyReportId, this, $event)" title="{{'Delete report'|translate}}"></i>
+<div class="block-my-reports">
+    <div class="row non-margin">
+        <div class="col-lg-5 block-list-reports">
+            <div class="block-list-reports-inner">
+                <section ng-show="(($root.me.recrutRole == 'freelancer' || $root.me.recrutRole == 'client') && (block.title === 'Pipeline report' || block.title === 'Funnel and vacancy report')) || ($root.me.recrutRole !== 'freelancer' && $root.me.recrutRole !== 'client')"
+                         ng-click="myReportsCtrl['changeLocation'](block.href, null, null)"
+                         ng-repeat="block in myReportsCtrl['reportsBlocks'] track by $index">
+                    <a  class="block-report"
+                        href="{{::('#' + block.href)}}">
+                        <div class="border"></div>
+                        <div class="block-img">
+                            <img class="logo-img" src="{{::block.src}}">
+                        </div>
+                        <div class="block-text">
+                            <h3 class="title">{{block.title|translate}}</h3>
+                            <div class="description">{{block.description|translate}}</div>
+                            <div class="open-report">
+                                <span>{{"Go to report"|translate}}</span>
+                                <i class="fa fa-angle-right"></i>
+                            </div>
+                        </div>
+                    </a>
+                </section>
+            </div>
+        </div>
+        <div class="col-lg-7 block-custom-reports"
+             ng-show="(($root.me.recrutRole == 'freelancer' || $root.me.recrutRole == 'client') && (block.title === 'Pipeline report' || block.title ===  'Funnel and vacancy report')) || ($root.me.recrutRole !== 'freelancer' && $root.me.recrutRole !== 'client')">
+            <a class="logo-custom-reports"
+               href="#/constructor-reports"
+                 ng-click="myReportsCtrl.changeLocation('/constructor-reports', null, null)">
+                <div class="wrap-img">
+                    <img  src="images/reports-img/constructor1.png" alt="constructor-report">
+                </div>
+                <div class="logo-custom-reports-content">
+                    <div>
+                        <h3 class="title">
+                            <p style="margin: 0px;">{{"Design custom report"|translate}}</p>
+                        </h3>
                     </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                    <div class="content-description">
+                        <p class="description">{{"Did not find the right report"|translate}}</p>
+                        <p class="description">{{"Build your own in Report Designer"|translate}}</p>
+                    </div>
+                    <div class="build-custom-reports">
+                        <span>
+                            {{"Build your report"|translate}}
+                            <i class="fa fa-angle-right open-custom-report"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="wrap-img">
+                    <img  src="images/reports-img/constructor2.png" alt="constructor-report">
+                </div>
+
+            </a>
+            <div class="custom-reports">
+                <div class="custom-reports-inner">
+                    <h3 class="title">
+                        <span>{{"My Reports"|translate}}</span>
+                    </h3>
+                </div>
+                <div class="custom-reports-list">
+                    <div class="cuurent-report" ng-repeat="report in myReportsCtrl['customReports']">
+                        <a class="report-name"
+                           ng-click="myReportsCtrl.getReport($event, report)"
+                           href="#/reports/custom-reports">{{::report.name}}</a>
+                        <span class="marker-group">
+                            <a href="#/reports/edit-reports" ng-click="myReportsCtrl.getReport($event, report)">
+                                <i class="fa fa-pencil" title="{{'Edit report parameters'|translate}}"></i>
+                            </a>
+                            <i class="fa fa-times" ng-click="myReportsCtrl['remove'](report.customVacancyReportId, this, $event)" title="{{'Delete report'|translate}}"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="show-more" ng-click="myReportsCtrl['showMore']()">{{(myReportsCtrl['isShowMore'])? "Show more reports" : "Show fewer reports" |translate}} <i class="fa fa-angle-down" style="margin: 0px;"></i></div>
+            </div>
+            <div class="invite" ng-show="$root.me.recrutRole === 'admin'">
+                <span ng-click="myReportsCtrl['inviteHiringManager']()" class="btn btn-invite-hm"><img src="images/reports-img/invite-hm.png" alt="invite_hm">{{"Invite Hiring manager"|translate}}</span>
+            </div>
+        </div>
     </div>
 </div>
+
 

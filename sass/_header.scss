@@ -643,8 +643,11 @@ body {
 
 		background-color: $theme-white;
 		.nav {
+			display: flex;
 			float: left;
-			margin: 9px 0;
+			margin: 4px 0;
+
+			align-items: center;
 			li {
 				float: left;
 				a {
