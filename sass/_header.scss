@@ -49,6 +49,8 @@ body {
 }
 
 .trial {
+	@include top-menu-font();
+
 	display: flex;
 	height: 30px;
 	margin: 0 30px;
@@ -323,13 +325,10 @@ body {
 
 				align-items: center;
 				span {
-					font-family: "Helvetica-Normal", Arial, Verdana, sans-serif;
-					font-size: 16px;
-					font-weight: normal;
+					@include top-menu-font();
 
 					margin-left: 9px;
 
-					letter-spacing: 0.6px;
 					text-transform: uppercase;
 				}
 				i {
@@ -533,22 +532,25 @@ body {
 				&#open-notice-button {
 					width: 45px;
 					height: 45px;
+					margin-right: 8px;
 					padding: 0;
 
-					color: #fff;
-					border-radius: 30px;
+					border: none;
+					border-radius: 45px;
+					background-color: transparent;
 					&:hover {
 						background-color: #32393f;
 					}
 					.notices-icon {
+						display: inline-block;
 						width: 30px;
 						height: 30px;
 						margin: 0 auto;
 
 						background-image: url(../../images/sprite/icons/sprite.png?1);
 						background-repeat: no-repeat;
-						background-position: -1.8% 93%;
-						background-size: 165px auto;
+						background-position: -2.7% 94%;
+						background-size: 155px auto;
 					}
 					.label {
 						top: -2px;
@@ -573,12 +575,14 @@ body {
 				}
 			}
 			.payMoney {
+				@include top-menu-font();
+
 				padding: 0 30px 0 0;
 			}
 			.showFeedbackMenu {
 				.btn-group {
 					height: 30px;
-					padding-right: 12px;
+					padding-right: 17px;
 					button {
 						font-size: 13px;
 
@@ -656,16 +660,26 @@ body {
 				}
 			}
 			.profile {
-				font-size: 13px;
-
-				margin-top: 7px;
-				padding-top: 7px;
+				width: 45px;
+				height: 45px;
+				padding: 0;
 
 				border: none;
-				background-color: inherit;
-				img {
-					margin-top: -7px;
-					margin-right: 10px;
+				border-radius: 30px;
+				background-color: transparent;
+				&:hover {
+					background-color: #32393f;
+				}
+				.profile-button-icon {
+					display: inline-block;
+					width: 30px;
+					height: 30px;
+					margin: 0 auto;
+
+					background-image: url(../../images/sprite/icons/sprite.png?1);
+					background-repeat: no-repeat;
+					background-position: 26.8% 88%;
+					background-size: 165px auto;
 				}
 			}
 			.dropdown-menu {

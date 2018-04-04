@@ -428,3 +428,11 @@
 		background-color: #fff;
 	}
 }
+
+@mixin top-menu-font() {
+	font-family: "Helvetica-Normal";
+	font-size: 16px;
+	font-weight: normal;
+
+	letter-spacing: 0.6px;
+}
