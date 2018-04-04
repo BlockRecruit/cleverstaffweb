@@ -58,6 +58,10 @@
 
 				background-color: $theme-white;
 				& > .checkoutTable {
+					@include flex(row, space-between, flex-start);
+					.block-download {
+						@include flex(column, flex-start, flex-start);
+					}
 					&:not(:first-child) {
 						margin-top: 15px;
 					}
