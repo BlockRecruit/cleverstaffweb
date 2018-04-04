@@ -1315,10 +1315,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         Person.getAuthBlockTime()
                             .then(resp => {
                                 console.log(resp);
+                                $rootScope.errorSignin = `You are trying to log in too often. It looks like you are trying to use the same account for different users. It contradicts our user agreement. Please try again in ${resp.object} minutes.`;
                             }, error => {
+                                $rootScope.errorSignin = `You are trying to log in too often. It looks like you are trying to use the same account for different users. It contradicts our user agreement. Please try again in 15 minutes.`;
                                 console.error(error);
                             });
-                            $rootScope.errorSignin = `You are trying to log in too often. It looks like you are trying to use the same account for different users. It contradicts our user agreement. Please try again in minutes.`
                     } else {
                         $rootScope.errorSignin = resp.message;
                     }
