@@ -27781,18 +27781,22 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                 }
                 $scope.searchParam.pages.count = params.$params.count;
                 if ($scope.searchParam['regionId'] && $scope.searchParam['regionId'] != 'null') {
-                    if($scope.searchParam['regionIdCity'] && $scope.searchParam['regionIdCity'] != 'null'){
-                        var json = JSON.parse($scope.searchParam['regionIdCity']);
-                        if (json && json.type) {
-                            Client.setOptions("city", json.value);
-                        }
-                    }else{
+                    if($scope.searchParam['regionIdCity'] == null || $scope.searchParam['regionIdCity'] == 'null'){
                         var jsonCity = JSON.parse($scope.searchParam['regionIdCity']);
                         if (jsonCity == null) {
                             Client.setOptions("city", null);
                         }
                         var json = JSON.parse($scope.searchParam['regionId']);
                         Client.setOptions("country", json.value);
+                    }else{
+                        if($scope.searchParam['regionIdCity'] && $scope.searchParam['regionIdCity'] != 'null'){
+                            var json = JSON.parse($scope.searchParam['regionIdCity']);
+                            if (json && json.type) {
+                                Client.setOptions("city", json.value);
+                            }
+                            var jsonCity = JSON.parse($scope.searchParam['regionId']);
+                            Client.setOptions("country", jsonCity.value);
+                        }
                     }
                 } else {
                     Client.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
