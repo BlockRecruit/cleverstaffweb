@@ -52,6 +52,7 @@ body {
 	display: flex;
 	height: 30px;
 	margin: 0 30px;
+
 	color: #fff;
 	border: 1px solid;
 	border-radius: 5px;
@@ -66,8 +67,8 @@ body {
 		border-right: 1px solid;
 		background-image: url(../../images/sprite/icons/sprite.png?1);
 		background-repeat: no-repeat;
-		background-position: 71% 96%;
-		background-size: 175px auto;
+		background-position: 93.4% 97%;
+		background-size: 165px auto;
 		.hoverExtension {
 			@include border-radius();
 
@@ -251,7 +252,7 @@ body {
 		justify-content: space-between;
 		align-items: center;
 
-		& > ul {
+		.flex-ul {
 			display: flex;
 			height: 65px !important;
 			& > li {
@@ -264,6 +265,11 @@ body {
 					align-items: stretch;
 				}
 			}
+		}
+		& > .right-block {
+			display: flex;
+
+			align-items: center;
 		}
 		@media (max-width: 1085px) {
 			span.active-page {
@@ -505,8 +511,8 @@ body {
 
 						background-image: url(../../images/sprite/icons/sprite.png?1);
 						background-repeat: no-repeat;
-						background-position: 52.1% 96%;
-						background-size: 175px auto;
+						background-position: 73% 96%;
+						background-size: 165px auto;
 					}
 					&.low-balance {
 						span {
@@ -522,6 +528,31 @@ body {
 						span {
 							color: #d9534f;
 						}
+					}
+				}
+				&#open-notice-button {
+					width: 45px;
+					height: 45px;
+					padding: 0;
+
+					color: #fff;
+					border-radius: 30px;
+					&:hover {
+						background-color: #32393f;
+					}
+					.notices-icon {
+						width: 30px;
+						height: 30px;
+						margin: 0 auto;
+
+						background-image: url(../../images/sprite/icons/sprite.png?1);
+						background-repeat: no-repeat;
+						background-position: -1.8% 93%;
+						background-size: 165px auto;
+					}
+					.label {
+						top: -2px;
+						right: -4px;
 					}
 				}
 			}
@@ -542,22 +573,25 @@ body {
 				}
 			}
 			.payMoney {
-				padding: 0 20px 0 0;
+				padding: 0 30px 0 0;
 			}
 			.showFeedbackMenu {
 				.btn-group {
-					margin: 3px 4px;
-					margin-top: 4px;
+					height: 30px;
+					padding-right: 12px;
 					button {
-						@include border-radius();
-
 						font-size: 13px;
 
-						padding: 9px;
-						padding-top: 10px;
+						width: 30px;
+						height: 30px;
 
-						border: none;
-						background: inherit;
+						border: 1px solid white;
+						border-radius: 5px;
+						background-color: transparent;
+						background-image: url(../../images/sprite/icons/sprite.png?1);
+						background-repeat: no-repeat;
+						background-position: 49.6% 97%;
+						background-size: 150px auto;
 					}
 					.boldText {
 						@include bold();
