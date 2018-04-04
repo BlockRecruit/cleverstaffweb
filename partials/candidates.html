@@ -413,7 +413,7 @@
                 <div class="col-lg-12 criterionSearchCandidate" ng-class="{'limited': limitReached === true}" ng-show="searchParam.searchCs">
                     <div ng-show="(staticSearchParam[0].words || (staticSearchParam[0].regionId.value == searchParam.regionId.value && staticSearchParam[0].regionId.value && staticSearchParam[0].regionId) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
                             (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType.value) ||
-                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex.value != null) || (staticSearchParam[0].status != 'null' && staticSearchParam[0].status) || (staticSearchParam[0].ageFrom.text) || (staticSearchParam[0].ageTo.text) || (staticSearchParam[0].languages.value  && staticSearchParam[0].languages.text.length) || (staticSearchParam[0].responsibleId != 'null') ||
+                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex.value != null) || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom.text) || (staticSearchParam[0].ageTo.text) || (staticSearchParam[0].languages.value  && staticSearchParam[0].languages.text.length) || (staticSearchParam[0].responsibleId != 'null') ||
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || (staticSearchParam[0].withPersonalContacts === true) ) && !limitReached">
                         <span class="count">{{'found'|translate}} <span>{{objectSize}}</span></span>
                         {{'criteria'|translate}}:
@@ -422,7 +422,7 @@
                         <!--start main criterials-->
                         <li class="firstPivot" ng-show="!(staticSearchParam[0].words || staticSearchParam[0].regionId.value || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
                             (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType.value) ||
-                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex.value != null)  || (staticSearchParam[0].ageFrom.text) || (staticSearchParam[0].ageTo.text) || (staticSearchParam[0].languages.value && staticSearchParam[0].languages.text.length) || (staticSearchParam[0].responsibleId != 'null') ||
+                            (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex.value != null)  || (staticSearchParam[0].ageFrom.text) || (staticSearchParam[0].ageTo.text)|| staticSearchParam[0].status !== 'null' || (staticSearchParam[0].languages.value && staticSearchParam[0].languages.text.length) || (staticSearchParam[0].responsibleId != 'null') ||
                             (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || (staticSearchParam[0].withPersonalContacts))">
                             <span ng-show="!objectSize">{{'There are no candidates in your vacancies yet.'|translate}}</span>
                             <span ng-show="objectSize">
@@ -498,7 +498,7 @@
                             <span ng-show="!staticSearchParam[0].sex.value">{{'female'|translate}}</span>
                             <i ng-click="closeSearchTags('sex');clickSearch();" class="fa fa-times" aria-hidden="true"></i>
                         </li>
-                        <li ng-show="staticSearchParam[0].status != 'null' && staticSearchParam[0].status.length" class="pivot">{{'Status'|translate}}:
+                        <li ng-show="staticSearchParam[0].status != 'null'" class="pivot">{{'Status'|translate}}:
                             {{'candidate_status_assoc.' + staticSearchParam[0].status|translate}}
                             <i ng-click="closeSearchTags('status');clickSearch();" class="fa fa-times"
                                aria-hidden="true"></i>
