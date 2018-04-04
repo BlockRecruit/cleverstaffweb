@@ -2462,5 +2462,10 @@
   "Delete them": "Delete them",
   "Candidates removed": "Candidates removed",
   "Please save the changes": "Please save the changes",
-  "Personalization": "Personalization"
+  "Personalization": "Personalization",
+  "Mailings":"Mailings",
+  "With the help of mailings you can send letters to candidates, get the reports on emails delivery and views":"With the help of mailings you can send letters to candidates, get the reports on emails delivery and views",
+  "Customizable templates with variables allow you to send personalized emails and the analytics will show the effectiveness of your mailings.":"Customizable templates with variables allow you to send personalized emails and the analytics will show the effectiveness of your mailings.",
+  "You can even implement the A/B test and determine which letters work best.":"You can even implement the A/B test and determine which letters work best.",
+  "The cost of each letter is 0.01 USD (100 letters - 1 USD). Unlimited tariff - $ 300/month or $ 3000/year.":"The cost of each letter is 0.01 USD (100 letters - 1 USD). Unlimited tariff - $ 300/month or $ 3000/year."
 }
