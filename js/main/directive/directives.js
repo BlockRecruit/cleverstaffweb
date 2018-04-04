@@ -3351,10 +3351,12 @@ directive('appVersion', ['version', function(version) {
                             }
                             if($(element[0]).select2("data")) {
                                 $(element[0]).select2("data", {id: inputText, text: removeExtraSpaces($(element[0]).select2("data").text)});
-                                $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
+                                if($scope.searchParam)
+                                    $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
                                 $scope.setPositionAutocompleterValue($scope.searchParam.position);
                             }
-                            $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
+                            if($scope.searchParam)
+                                $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
                         }).on("select2-selecting", function(e) {
                             inputText = "";
                         }).on("select2-open", function() {

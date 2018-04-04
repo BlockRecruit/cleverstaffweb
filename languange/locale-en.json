@@ -2340,6 +2340,8 @@
   "Сandidates in stages": "Сandidates in stages",
   "Invite user with a role" :"Invite user with a role",
   "Yes, remove everywhere": "Yes, remove everywhere",
-  "Are you sure you want to remove this source? It will also be removed from other candidate profiles": "Are you sure you want to remove {{source_name}} source? It will also be removed from other candidate profiles",
-  "Origin removed": "Origin removed"
+  "Are you sure you want to remove this source?": "Are you sure you want to remove {{source_name}} source?",
+  "It will also be removed from other candidate profiles": "It will also be removed from other candidate profiles.",
+  "Origin removed": "Origin removed",
+  "Delete source for all candidates": "Delete source for all candidates"
 }

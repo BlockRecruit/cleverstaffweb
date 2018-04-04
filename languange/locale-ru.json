@@ -2927,6 +2927,8 @@
   "Сandidates in stages": "Кандидаты на этапах",
   "Invite user with a role" :"Пригласить пользователя с ролью",
   "Yes, remove everywhere": "Да, удалить везде",
-  "Are you sure you want to remove this source? It will also be removed from other candidate profiles": "Уверены, что хотите удалить источник {{source_name}}. Он также будет удален из профилей других кандидатов",
-  "Origin removed": "Источник удален"
+  "Are you sure you want to remove this source?": "Уверены, что хотите удалить источник {{source_name}}?",
+  "It will also be removed from other candidate profiles": "Он также будет удален из профилей других кандидатов.",
+  "Origin removed": "Источник удален",
+  "Delete source for all candidates": "Удалить источник для всех кандидатов"
 }

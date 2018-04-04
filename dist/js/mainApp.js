@@ -22231,8 +22231,12 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     notificationService.success($filter("translate")("Origin removed"));
                     $scope.setOriginAutocompleterValue();
                 } else {
+                    $scope.modalInstance.close();
                     notificationService.error(resp.message);
                 }
+            }, function (err) {
+                $scope.modalInstance.close();
+                notificationService.error(err);
             });
         };
 
