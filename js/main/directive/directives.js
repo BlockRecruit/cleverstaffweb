@@ -4504,7 +4504,39 @@ directive('appVersion', ['version', function(version) {
 
             }
         }
-    }]);
+    }])
+    .directive("customSelect",setCustomSelect);
+function setCustomSelect($rootScope){
+    let restrict  = "EACM",
+        scope = {
+            data:"=",
+            model:"=",
+            placeholder:"@",
+            method:"=",
+            $scope:"=",
+            event:"=",
+            new:"@"
+        },
+        template = `
+        <div class="select clearfix">
+            <input type="text" ng-model="model" placeholder="{{placeholder|translate}}" readonly class="form-control col-lg-12 select-input-field">
+            <div class="dropdown-content" style="z-index: -999">
+                <ul>
+                    <li ng-repeat="item in data track by $index" ng-click="method(item, $scope, $event, $index)" ng-class="{disable: (item.status == 'N')}">{{item.text|translate}}</li>
+                </ul>
+            </div>
+             <span class="new-label" ng-show="new" style="right: 0px;">new</span>
+        </div>`;
+    return {
+        restrict,
+        scope,
+        template,
+        link(scope, element, attrs){
+
+        }
+    }
+};
+
 function similar_text(first, second, percent) {
     if (first === null || second === null || typeof first === 'undefined' || typeof second === 'undefined') {
         return 0;
