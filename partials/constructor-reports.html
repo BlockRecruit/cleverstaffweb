@@ -234,7 +234,10 @@
                                 <button class="ui icon button">
                                     <i class="fa fa-check-square" ng-class="{'checkmark': (field.visiable == true)}"> </i>
                                 </button>
-                                <span>{{field.value |translate}}</span>
+                                <span translate="{{field.value}}"></span>
+                                <span ng-if="field.value === 'candidatesInWork'">
+                                    <i class="fa fa-info-circle profilesMerge" tooltip-move data-tooltip="Number of candidates for which there were actions for the selected period" aria-hidden="true"></i>
+                                </span>
                             </li>
                         </ul>
                         <div class="clearfix"></div>

@@ -4501,7 +4501,39 @@ directive('appVersion', ['version', function(version) {
             }
         }
     }])
-    .directive("customSelect",setCustomSelect);
+    .directive("customSelect",setCustomSelect)
+    .directive("tooltipMove", tooltipMove);
+
+function tooltipMove($filter){
+    let restrict  = "EACM"
+    return {
+        restrict,
+        link(scope, element, attrs){
+            element[0].addEventListener('mouseenter', showToolTip.bind(element[0], $filter));
+            element[0].addEventListener('mouseleave', hiddenToolTip);
+        }
+    }
+}
+
+function showToolTip($filter, event) {
+        let text,
+        tooltipContent = document.createElement('div');
+
+    if(this.dataset && this.dataset.tooltip){
+        text = this.dataset.tooltip;
+        tooltipContent.classList.add('info-content');
+        tooltipContent.classList.add('tooltip-hint');
+        tooltipContent.innerHTML = $filter('translate')(text);
+        this.after(tooltipContent);
+    }
+}
+
+function hiddenToolTip() {
+    console.log('exit');
+    let allToolTips = document.querySelectorAll('.tooltip-hint');
+        allToolTips.forEach(tooltip => tooltip.remove());
+}
+
 function setCustomSelect($rootScope){
     let restrict  = "EACM",
         scope = {
@@ -13055,6 +13087,7 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "exchangeHost":  $sce.trustAsHtml($filter('translate')('The Exchange server URL')),
                     "exchangeDomain":  $sce.trustAsHtml($filter('translate')('Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address')),
                     "hmInvite":  $sce.trustAsHtml($filter('translate')('Hiring Manager will be responsible for this vacancy after registration in account.')),
+                    "reportWithCandidatesActions":  $sce.trustAsHtml($filter('translate')('Number of candidates for which there were actions for the selected period')),
                     "userInvite": {
                         "admin" : $sce.trustAsHtml($filter('translate')('Full control on a company account. Able to manage users, clients, vacancies, and candidates. Paid user')),
                         "recruter" : $sce.trustAsHtml($filter('translate')('Able to manage clients, vacancies and candidates. Paid user')),
@@ -45164,10 +45197,9 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
         $scope.selectAllVacancies = function () {
             let _fieldsVacancyList = $scope.fieldsVacancyList;
-
-            _fieldsVacancyList.forEach(item => item.visiable = $scope.chooseListFieldsVacancies);
-            // ($scope.chooseListFieldsVacancies)?  $scope.selectVacancy = _fieldsVacancyList.filter(item => item.visiable) : $scope.selectVacancy = [];
+                _fieldsVacancyList.forEach(item => item.visiable = $scope.chooseListFieldsVacancies);
         };
+
 
         function isClickInDataShowBlock(element, id) {
             while(!element.classList.contains('block-constructor-reports')){
