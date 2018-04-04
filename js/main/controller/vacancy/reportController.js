@@ -344,40 +344,21 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 values4 = config.AbsConversion,
                 funnelWidth = config.funnelWidth,
                 chartWidth = config.chartWidth;
-
+            // "guide":{
+            //     "lineWidth":"1px",
+            //         "line-gap-size":"5000px",
+            //         "lineSegmentSize":"450px",
+            // }},
             myChart = {
-                // title: {
-                //     text: 'Voronka',
-                //     fontSize: 14
-                // },
                 "type": "funnel",
                 "width": funnelWidth,
                 "series": series,
                 tooltip: {visible: true, shadow: 0},
-                "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 65}},
-                "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": -50}},
-                "scale-y-3": {
-                    "values": values3, "item": {fontSize: 12,"offset-x": 35},
-                    tooltip: {
-                        text: ' ',
-                        backgroundColor: 'rgba(94, 253, 12, 0.1)',
-                        borderColor: '#00b549',
-                        borderRadius: 5,
-                        borderWidth: 1,
-                        fontColor: '#000',
-                        padding: '5px 10px',
-                        fontSize: 14,
-                        width:'90%',
-                        height:'27px',
-                        offsetY:15,
-                    }
-                },
-                "scale-y-4": {
-                    "values": values4, "item": {fontSize: 12,"offset-x": 117, static: true}
-                },
-                plotarea: {
-                    margin: '40px 0 0 100px'
-                },
+                "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 50}},
+                "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": -5}},
+                "scale-y-3": {"values": values3, "item": {fontSize: 12,"offset-x": 100}},
+                "scale-y-4": {"values": values4, "item": {fontSize: 12,"offset-x": 200, static: true}},
+                plotarea: { margin: '100px 0 0 100px' },
                 "scale-x": {"values": [""]},
                 labels: [
                     {
@@ -388,24 +369,41 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                         offsetY: 0
                     },
                     {
+                        text:$filter('translate')('Conversion for vacancy'),
+                        fontSize: 14,
+                        color:"#707070",
+                        offsetX: $translate.use() != 'en' ? 568 : 825,
+                        offsetY: 0,
+                        "border-width":1,
+                        "border-color":"lightgray",
+                        "border-radius":"5px",
+                        "height":"100%",
+                        "vertical-align":"top",
+                        "padding":"20px 48px",
+                    },
+                    {
                         text: $filter('translate')('Candidates'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: $translate.use() != 'en' ? 525 : 825,
-                        offsetY: 0
+                        offsetX: $translate.use() != 'en' ? 575 : 825,
+                        offsetY: 50,
+                        "border-top":"1px solid lightgray",
+                        "border-color":"lightgray",
+                        "padding":"7px 214px 0 0",
+                        "margin":"0 -20px 0 0"
                     },
                     {
                         text: $filter('translate')('Relative conversion'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: $translate.use() != 'en' ?  605 : 905,
-                        offsetY: 0
+                        offsetX: $translate.use() != 'en' ?  665 : 905,
+                        offsetY: 55
                     },                    {
                         text: $filter('translate')('Absolute conversion'),
                         fontWeight: "bold",
                         fontSize: 12,
-                        offsetX: 700,
-                        offsetY: 0,
+                        offsetX: 770,
+                        offsetY: 55,
                         static: true
                     }
                 ],
@@ -469,16 +467,17 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 "scale-y-3": {
                     "values": userActionsFunnelData.userPercentToDisplay(),
                     "item": {fontSize: 12,"offset-x": 5},
-                    tooltip: {
-                        text: 'Percent: %v %',
-                        backgroundColor: '#fff',
-                        borderColor: '#00b549',
-                        borderRadius: 5,
-                        borderWidth: 1,
-                        fontColor: '#000',
-                        padding: '5px 10px',
-                        fontSize: 14
-                    }},
+                    // tooltip: {
+                    //     text: 'Percent: %v %',
+                    //     backgroundColor: '#fff',
+                    //     borderColor: '#00b549',
+                    //     borderRadius: 5,
+                    //     borderWidth: 1,
+                    //     fontColor: '#000',
+                    //     padding: '5px 10px',
+                    //     fontSize: 14
+                    // }
+                    },
                 "scale-y-4": {"values": userActionsFunnelData.RelConversion, "item": {fontSize: 12,"offset-x": 65}},
                 "scale-y-5": {"values": userActionsFunnelData.AbsConversion, "item": {fontSize: 12,"offset-x": 147}},
                 plotarea: {
