@@ -72,7 +72,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="show-more" ng-click="myReportsCtrl['showMore']()">{{(myReportsCtrl['isShowMore'])? "Show more reports" : "Show fewer reports" |translate}} <i class="fa fa-angle-down"></i></div>
+                <div class="show-more" ng-click="myReportsCtrl['showMore']()">{{(myReportsCtrl['isShowMore'])? "Show more reports" : "Show fewer reports" |translate}} <i class="fa fa-angle-down" style="margin: 0px;"></i></div>
             </div>
             <div class="invite" ng-show="$root.me.recrutRole === 'admin'">
                 <span ng-click="myReportsCtrl['inviteHiringManager']()" class="btn btn-invite-hm"><img src="images/reports-img/invite-hm.png" alt="invite_hm">{{"Invite Hiring manager"|translate}}</span>
