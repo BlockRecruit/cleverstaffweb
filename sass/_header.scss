@@ -253,7 +253,9 @@ body {
 
 		justify-content: space-between;
 		align-items: center;
-
+		.fa-bars {
+			font-size: 26px;
+		}
 		.flex-ul {
 			display: flex;
 			height: 65px !important;
@@ -274,24 +276,15 @@ body {
 			align-items: center;
 		}
 		@media (max-width: 1085px) {
+			.navigation {
+				display: none;
+			}
 			span.active-page {
 				display: inline-block;
 				margin-top: 0;
 			}
-			.fa {
-				display: inline-block;
-				&.fa-bars {
-					font-size: 26px;
-
-					margin-top: -2px;
-				}
-			}
 			a.mobile-notices {
 				margin-top: 0;
-			}
-			.navbar-toggle {
-				margin: 0;
-				margin-top: 5px;
 			}
 		}
 		@media (max-width: $screen-xs) {
@@ -1131,9 +1124,7 @@ ul.nav.navbar-nav {
 	}
 }
 @media (max-width: 1200px) {
-	.navbar .nav.navigation a span {
-		margin-left: 0;
-	}
+
 }
 
 @media (max-width: 1085px) {

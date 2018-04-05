@@ -243,18 +243,12 @@
                                 <div id="arrowFeedback"></div>
                             </div>
                         </li>
-                        <li>
-                            <a href="" class="hidden-xs" id="open-notice-button" ng-click="openNoticeMenu();">
+                        <li class="hidden-xs">
+                            <a href="" id="open-notice-button" ng-click="openNoticeMenu();">
                                 <span class="notices-icon"></span>
                                 <span class="label label-danger" ng-if="$root.newNoticeCount > 0" ng-bind="$root.newNoticeCount"></span>
                             </a>
                             <notices-dir></notices-dir>
-                            <a class="mobile-notices hidden-lg hidden-md hidden-sm" href="#/notices">
-                                <i class="fa fa-bell-o"></i>
-                                <span class="label label-danger" ng-if="$root.newNoticeCount > 0">
-                                {{$root.newNoticeCount}}
-                            </span>
-                            </a>
                         </li>
                         <li>
                             <div class="btn-group" uib-dropdown>
