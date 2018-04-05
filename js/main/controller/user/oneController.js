@@ -32,7 +32,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             });
         };
         $scope.enableViewClients = function(user) {
-            if(user.personParams.clientAccessLevel == 'full'){
+            if(user.personParams.clientAccessLevel == 'full' || !user.personParams.clientAccessLevel){
                 $scope.setPersonParam('clientAccessLevel', 'hide');
             }else{
                 $scope.setPersonParam('clientAccessLevel', 'full');

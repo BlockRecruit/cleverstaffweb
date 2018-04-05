@@ -1188,11 +1188,7 @@ directive('appVersion', ['version', function(version) {
                                 $('#photo-preview').css('width', '33%');
                             }
                         };
-                        if ($location.$$host == '127.0.0.1') {
-                            img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
-                        } else {
-                            img.src = $location.$$protocol + '://' + $location.$$host + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
-                        }
+                        img.src = $location.$$protocol + '://' + $location.$$host + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
                     };
                         $rootScope.imgWidthPreviewFunc();
                         if (!$rootScope.candidatePreview.db && !$rootScope.candidatePreview.expirence && !$rootScope.candidatePreview.languages && !$rootScope.candidatePreview.employmentType && !$rootScope.candidatePreview.salary && !$rootScope.candidatePreview.contacts) {
@@ -4504,7 +4500,39 @@ directive('appVersion', ['version', function(version) {
 
             }
         }
-    }]);
+    }])
+    .directive("customSelect",setCustomSelect);
+function setCustomSelect($rootScope){
+    let restrict  = "EACM",
+        scope = {
+            data:"=",
+            model:"=",
+            placeholder:"@",
+            method:"=",
+            $scope:"=",
+            event:"=",
+            new:"@"
+        },
+        template = `
+        <div class="select clearfix">
+            <input type="text" ng-model="model" placeholder="{{placeholder|translate}}" readonly class="form-control col-lg-12 select-input-field">
+            <div class="dropdown-content" style="z-index: -999">
+                <ul>
+                    <li ng-repeat="item in data track by $index" ng-click="method(item, $scope, $event, $index)" ng-class="{disable: (item.status == 'N')}">{{item.text|translate}}</li>
+                </ul>
+            </div>
+             <span class="new-label" ng-show="new" style="right: 0px;">new</span>
+        </div>`;
+    return {
+        restrict,
+        scope,
+        template,
+        link(scope, element, attrs){
+
+        }
+    }
+};
+
 function similar_text(first, second, percent) {
     if (first === null || second === null || typeof first === 'undefined' || typeof second === 'undefined') {
         return 0;

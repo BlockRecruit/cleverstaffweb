@@ -9,6 +9,14 @@
 		padding-right: 0;
 		padding-left: 0;
 	}
+	.return-on-report-page {
+		margin: 36px 0;
+		margin-bottom: 30px;
+		padding: 0;
+		& > a {
+			@include return-on-report-page-btn();
+		}
+	}
 	.img-section {
 		padding: 15px;
 
@@ -117,12 +125,12 @@
 
 				display: inline-block;
 				margin: 15px 0;
+				margin-top: 0;
 			}
 			.col-lg-6 {
 				padding-left: 0;
 			}
 			.links {
-				margin-top: 12px;
 				padding-right: 0;
 				div {
 					display: inline-block;
