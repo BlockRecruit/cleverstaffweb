@@ -8,7 +8,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         $scope.vacancyGeneralHistory = [];
         userFunnelConfig.usersFunnelCache = userFunnelConfig.usersFunnelCache || [];
 
-        const activeFunnelLabelsLength = 4; // amount of funnel columns with data
+        let activeColumnsLength = 5; // amount of funnel columns with data
 
         /* -- funnel general algorithm
             1. - parseCustomStagesNames  --- transform custom stages id`s to valid custom names
@@ -186,7 +186,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     .then(resp => {
                         const columnToAdd = addUserColumn({username, scaleOffset, labelOffset, candidateSeries: resp.config.candidateSeries});
                         drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:columnToAdd});
-                        checkForTotalCandidatesColumn({scaleOffset, labelOffset})
+                        // checkForTotalCandidatesColumn({scaleOffset, labelOffset})
                     }, error => console.error(error));
             } else {
                 const columnToRemove = removeUserColumn({username, scaleOffset, labelOffset});
@@ -197,11 +197,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         function addUserColumn({username, scaleOffset, labelOffset, candidateSeries}) {
             let graphset = zingchart.exec('myChartDiv', 'getdata').graphset[0];
 
-            // const scaleX = graphset["scale-y-" + (graphset.labels.length)]['item'].static ? graphset["scale-y-" + (graphset.labels.length)]['item']['offset-x'] + 135 :
-            //                graphset["scale-y-" + (graphset.labels.length)]['item']['offset-x'] + scaleOffset,
-                  let labelX = graphset.labels[graphset.labels.length - 1].static ? graphset.labels[graphset.labels.length - 1]['offset-x'] + 125 :
-                           graphset.labels[graphset.labels.length - 1]['offset-x'] + labelOffset;
-            let scaleX = -13131313;
+            const scaleX = graphset["scale-y-" + (activeColumnsLength)]['item'].static ? graphset["scale-y-" + (activeColumnsLength)]['item']['offset-x'] + 135 :
+                           graphset["scale-y-" + (activeColumnsLength)]['item']['offset-x'] + scaleOffset;
+                  let labelX = graphset.labels[activeColumnsLength].static ? graphset.labels[activeColumnsLength]['offset-x'] + 125 :
+                           graphset.labels[activeColumnsLength]['offset-x'] + labelOffset;
             graphset.labels.push({
                 text: username,
                 fontWeight: "bold",
@@ -216,13 +215,14 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 "padding":"10%",
                 "width":"80px"
             });
-            graphset["scale-y-" + graphset.labels.length] = {"values": candidateSeries, "item": {fontSize: 12,"offset-x": scaleX},
+            graphset["scale-y-" + (activeColumnsLength)] = {"values": candidateSeries, "item": {fontSize: 12,"offset-x": scaleX},
                      "guide":{
                          "lineWidth":"1px",
                          "line-gap-size":"5000px",
                          "lineSegmentSize":"450px"
                      }};
 
+            activeColumnsLength++;
             return graphset;
         }
 
@@ -238,16 +238,18 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 }
             });
 
-            for(let i = removedColumnIndex; i < graphset.labels.length; i++) {
+            console.log(graphset);
+            for(let i = removedColumnIndex; i < activeColumnsLength; i++) {
                 graphset["scale-y-" + (i + 1)] = graphset["scale-y-" + (i + 2)];
                 graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)];
             }
 
-            for(let i = removedColumnIndex; i < graphset.labels.length; i++) {
+            for(let i = removedColumnIndex; i < activeColumnsLength; i++) {
                 graphset["scale-y-" + (i + 1)]['item']['offset-x'] -= scaleOffset;
                 graphset.labels[i]['offset-x'] -= labelOffset;
             }
 
+            activeColumnsLength--;
             return graphset;
         }
 
@@ -406,7 +408,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 50}, "guide":guide.guide},
                 "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": 5}, "guide":guide.guide},
                 "scale-y-3": {"values": values3, "item": {fontSize: 12,"offset-x": 95}, "guide":guide.guide},
-                "scale-y-4": {"values": values4, "item": {fontSize: 12,"offset-x": 190, static: true}, "guide":guide.guide},
+                "scale-y-4": {"values": values4, "item": {fontSize: 12,"offset-x": 190,}, "guide":guide.guide},
                 "scale-y-5": {"values": [],"item": {fontSize: 12,"offset-x": 190, static: true}, "guide":guide.guide},
                 plotarea: { margin: '100px 0 0 100px' },
                 "scale-x": {"values": [""]},
