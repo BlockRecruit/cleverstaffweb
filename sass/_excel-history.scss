@@ -4,6 +4,18 @@
 		.statuses {
 			padding: 0 15px;
 		}
+		.reload {
+			text-align: right;
+			&-inner {
+				display: inline-block;
+				padding: 5px 15px;
+
+				cursor: pointer;
+
+				border: 1px solid #666;
+				border-radius: 5px;
+			}
+		}
 		.candidates-search-table {
 			.breadcrumbs {
 				margin-top: 20px;
@@ -62,6 +74,20 @@
 					.block-download {
 						@include flex(column, center, flex-end);
 					}
+					.not-download-btn {
+						font-weight: bold;
+
+						padding: 5px 15px;
+
+						text-align: center;
+
+						color: rgb(159, 159, 159);
+						border: 1px solid rgb(159, 159, 159);
+						border-radius: 10px;
+						&:hover {
+							color: rgb(159, 159, 159);
+						}
+					}
 					.download-btn {
 						font-weight: bold;
 
@@ -76,7 +102,7 @@
 						}
 					}
 					&:not(:first-child) {
-						margin-top: 40px;
+						margin-top: 20px;
 					}
 					& > div {
 						.criterionOuter {

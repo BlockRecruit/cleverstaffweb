@@ -4,13 +4,19 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
               $location, Candidate, notificationService, $translate, $filter, $window) {
         $scope.serverAddress = serverAddress;
 
-        Candidate.getSearchHistoryAdmin({type: 'cleverstaff_excel'}, function (resp) {
-            if (angular.equals(resp.status, "ok")) {
-                $scope.history = resp.objects;
-                $scope.historyLimitExcel = resp.size;
-                $scope.historyTotalExcel = resp.total;
-            }
-        });
+        $scope.buildListExecl = function () {
+            $rootScope.loading = true;
+            Candidate.getSearchHistoryAdmin({type: 'cleverstaff_excel'}, function (resp) {
+                if (angular.equals(resp.status, "ok")) {
+                    $scope.history = resp.objects;
+                    $scope.historyLimitExcel = resp.size;
+                    $scope.historyTotalExcel = resp.total;
+                    $rootScope.loading = false;
+                }
+            });
+        };
+
+        $scope.buildListExecl();
 
         $rootScope.changeSearchType = function(param){
             $window.location.replace('/!#/candidates');

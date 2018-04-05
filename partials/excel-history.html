@@ -15,7 +15,12 @@
                     </ol>
                 </div>
                 <h3 class="text-center">{{'History exports to excel' | translate}}</h3>
-                <div class="col-lg-6 col-lg-offset-3 blockCheckoutTable">
+                <div class="col-lg-6 col-lg-offset-3 blockCheckoutTable" ng-show="!$root.loading">
+                    <div class="reload">
+                        <div class="reload-inner" ng-click="buildListExecl()">
+                            <img src="/images/sprite/reload.png" alt="reload" title='{{"Update log of exports to Excel"|translate}}'>
+                        </div>
+                    </div>
                     <div ng-repeat="history in history" class="checkoutTable" style="line-height: 1.5em; padding: 0px;background-color: rgba(245, 222, 179, 0);box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0);">
                         <div>
                             <div style="margin-bottom: 15px; padding: 5px 0px;">
@@ -68,16 +73,19 @@
                             </div>
                         </div>
                         <div class="block-download">
-                            <a class="download-btn" ng-href="{{serverAddress}}/getapp?id={{history.fileId}}" style="color: #00BAFF; margin-bottom: 15px;">
+                            <a class="not-download-btn" ng-show="history.status == 'Processing'"  style=" margin-bottom: 15px;">
                                 {{"Export in Excel"|translate}}
                             </a>
-                            <div style="color: rgb(159, 159, 159);padding-right: 15px;">
+                            <a class="download-btn"  ng-show="history.status !== 'Processing'" ng-href="{{serverAddress}}/getapp?id={{history.fileId}}" style="color: #00BAFF; margin-bottom: 15px;">
+                                {{"Export in Excel"|translate}}
+                            </a>
+                            <div style="color: rgb(159, 159, 159);padding-right: 15px;" ng-show="history.status !== 'Processing'">
                                 {{'candidates'|translate}}: {{history.foundCount}}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-lg-offset-3 historyBtn">
+                <div class="col-lg-6 col-lg-offset-3 historyBtn" ng-show="!$root.loading">
                     <button class="btn more-history" ng-click="getMoreHistoryExcel()" ng-show="historyTotalExcel > historyLimitExcel">
                         {{'Show more'|translate}} <i class="fa fa-caret-down" aria-hidden="true"></i>
                     </button>

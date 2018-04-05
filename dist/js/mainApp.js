@@ -19764,6 +19764,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $rootScope.excelExportType = 'candidates';
     $rootScope.loadingExcel = false;
+    $rootScope.buildExcel = false;
 
     $scope.exportToExcel = function () {
 
@@ -19776,20 +19777,24 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         }
 
         Candidate.createExcel($scope.criteriaForExcel, function (resp) {
-            if(resp.status == 200){
-                notificationService.error( "Кандидаты готовы для экспорта");
-                $rootScope.loadingExcel = false;
+            if(resp.status == 'ok'){
+                notificationService.success( "Кандидаты готовы для экспорта");
+                $rootScope.buildExcel = true;
             }
 
             if (resp.code == 'emptyExportExcel') {
                 notificationService.success($filter('translate')('No candidates for export according to criteria'));
-                $rootScope.loadingExcel = false;
             }
         });
     };
 
 
     $scope.toExcelHistory = function () {
+      if($rootScope.buildExcel){
+          $rootScope.buildExcel = false;
+          $rootScope.loadingExcel = false;
+      }
+
         $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: '../partials/modal/candidate-excel-history.html',
@@ -30395,13 +30400,19 @@ controller.controller('excelHistoryController', ["$localStorage", "frontMode", "
               $location, Candidate, notificationService, $translate, $filter, $window) {
         $scope.serverAddress = serverAddress;
 
-        Candidate.getSearchHistoryAdmin({type: 'cleverstaff_excel'}, function (resp) {
-            if (angular.equals(resp.status, "ok")) {
-                $scope.history = resp.objects;
-                $scope.historyLimitExcel = resp.size;
-                $scope.historyTotalExcel = resp.total;
-            }
-        });
+        $scope.buildListExecl = function () {
+            $rootScope.loading = true;
+            Candidate.getSearchHistoryAdmin({type: 'cleverstaff_excel'}, function (resp) {
+                if (angular.equals(resp.status, "ok")) {
+                    $scope.history = resp.objects;
+                    $scope.historyLimitExcel = resp.size;
+                    $scope.historyTotalExcel = resp.total;
+                    $rootScope.loading = false;
+                }
+            });
+        };
+
+        $scope.buildListExecl();
 
         $rootScope.changeSearchType = function(param){
             $window.location.replace('/!#/candidates');

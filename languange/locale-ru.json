@@ -219,7 +219,8 @@
     "": "",
     "completed": "Выполнена",
     "open": "Не выполнена",
-    "deleted": "Удалена"
+    "deleted": "Удалена",
+    "Processing":"Обработка"
   },
   "add_tO_interview": "Добавление на собеседование",
   "candidate_2": "кандидата",
@@ -2929,5 +2930,6 @@
   "Task deleted":"Задача удалена",
   "Сandidates in stages": "Кандидаты на этапах",
   "Invite user with a role" :"Пригласить пользователя с ролью",
-  "Export in Excel":"Выгрузить в Excel"
+  "Export in Excel":"Выгрузить в Excel",
+  "Update log of exports to Excel":"Обновить историю экспорта"
 }
