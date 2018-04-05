@@ -64,10 +64,9 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             notificationService.error($filter('translate')('Enter more data for search'));
             return;
         }
-
         if($scope.searchParam.state.length == 0 && $scope.searchParam.words.length == 0 &&
             $scope.searchParam.name == null && $scope.searchParam.responsible == 'null' &&
-            $scope.searchParam.industry == 'null' && $scope.searchParam.regionIdCity == 'null'){
+            $scope.searchParam.industry == 'null' && $scope.searchParam.regionId == 'null' && $scope.searchParam.regionIdCity == 'null'){
             notificationService.error($filter('translate')('Enter the data'));
         }else{
             $scope.loader = true;
@@ -145,14 +144,22 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                 }
                 $scope.searchParam.pages.count = params.$params.count;
                 if ($scope.searchParam['regionId'] && $scope.searchParam['regionId'] != 'null') {
-                    if($scope.searchParam['regionIdCity'] && $scope.searchParam['regionIdCity'] != 'null'){
-                        var json = JSON.parse($scope.searchParam['regionIdCity']);
-                        if (json && json.type) {
-                            Client.setOptions("city", json.value);
+                    if($scope.searchParam['regionIdCity'] == null || $scope.searchParam['regionIdCity'] == 'null'){
+                        var jsonCity = JSON.parse($scope.searchParam['regionIdCity']);
+                        if (jsonCity == null) {
+                            Client.setOptions("city", null);
                         }
-                    }else{
                         var json = JSON.parse($scope.searchParam['regionId']);
                         Client.setOptions("country", json.value);
+                    }else{
+                        if($scope.searchParam['regionIdCity'] && $scope.searchParam['regionIdCity'] != 'null'){
+                            var json = JSON.parse($scope.searchParam['regionIdCity']);
+                            if (json && json.type) {
+                                Client.setOptions("city", json.value);
+                            }
+                            var jsonCity = JSON.parse($scope.searchParam['regionId']);
+                            Client.setOptions("country", jsonCity.value);
+                        }
                     }
                 } else {
                     Client.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);

@@ -18,10 +18,10 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <LINK REL="SHORTCUT ICON" HREF="images/sprite/favicon.png?b3">
-    <link rel="stylesheet" href="dist/css/styles.css?b290">
+    <link rel="stylesheet" href="dist/css/styles.css?b296">
     <link rel="stylesheet" type="text/css" media="print" href="dist/css/print.css" />
     <!--<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>-->
-    <script type="text/javascript" src="dist/js/mainLib.js?b260"></script>
+    <script type="text/javascript" src="dist/js/mainLib.js?b266"></script>
 
 
     <!--<link  href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">-->
@@ -179,18 +179,10 @@
                     </li>
                     <li class="dropdown reports"  ng-if="$root.me!= undefined &&  $root.me.recrutRole!='salesmanager' && $root.me.recrutRole!='researcher'" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/reports"
-                           ng-show="$root.me.recrutRole !== 'freelancer' && $root.me.recrutRole!='client'"
                            ng-class="{'active': $root.activePage == 'Pipeline' || $root.activePage == 'Statistics client' || $root.activePage == 'Report all' || $root.activePage == 'Vacancy report' || $root.activePage == 'Reports' || $root.activePage ==  'Reports constructor' ||  $root.activePage == 'Custom Reports'|| $root.activePage == 'Edit Reports'}">
                             <i class="fa fa-bar-chart"></i>
                             <span>{{'Reports'| translate}}</span>
                         </a>
-                        <a href="#/reports/pipeline"
-                           ng-show="$root.me.recrutRole == 'freelancer' || $root.me.recrutRole == 'client'"
-                           ng-class="{'active': $root.activePage == 'Pipeline' || $root.activePage == 'Statistics client' || $root.activePage == 'Report all' || $root.activePage == 'Vacancy report' || $root.activePage == 'Reports' || $root.activePage ==  'Reports constructor' ||  $root.activePage == 'Custom Reports'|| $root.activePage == 'Edit Reports'}">
-                            <i class="fa fa-bar-chart"></i>
-                            <span>{{'Reports'| translate}}</span>
-                        </a>
-
                     </li>
                 </ul>
                 <span class="active-page">{{$root.notFormatedTitle}}</span>
@@ -443,7 +435,7 @@
                     </li>
                 </ul>
 
-                <ul class="nav navbar-nav col-lg-4 col-md-3 hidden-sm hidden-xs text-right">
+                <ul class="nav navbar-nav col-lg-4 col-md-3 hidden-sm hidden-xs text-right" style="justify-content: flex-end">
                     <li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"
                         id="drop_down_scope" uib-dropdown is-open="status.isopen">
                         <a href="" uib-dropdown-toggle title="{{'scope'|translate}}">
@@ -682,7 +674,7 @@
                         </a>
                     </li>
                 </ul>
-                <ul class="nav navbar-nav col-lg-5 col-md-4 hidden-sm hidden-xs text-right text-right">
+                <ul class="nav navbar-nav col-lg-5 col-md-4 hidden-sm hidden-xs text-right text-right" style="justify-content: flex-end">
                     <li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"
                         id="drop_down_scope" uib-dropdown is-open="status.isopen">
                         <a href="" uib-dropdown-toggle title="{{'scope'|translate}}">
@@ -798,7 +790,7 @@
                         <!--</button>-->
                     </li>
                 </ul>
-                <ul class="nav navbar-nav col-lg-6 col-md-6 hidden-xs hidden-sm text-right">
+                <ul class="nav navbar-nav col-lg-6 col-md-6 hidden-xs hidden-sm text-right" style="justify-content: flex-end">
                     <li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"
                         id="drop_down_scope" uib-dropdown is-open="status.isopen">
                         <a href="" uib-dropdown-toggle title="{{'scope'|translate}}">
@@ -1023,61 +1015,6 @@
                 </ul>
             </div>
         </div>
-        <!--Navbar for Reorpts-->
-        <div ng-show="$root.activePage == 'Pipeline' ||  $root.activePage == 'Statistics client' || $root.activePage == 'Report all'|| $root.activePage == 'Vacancy report' || $root.activePage == 'Reports'  || $root.activePage == 'Custom reports' || $root.activePage == 'Reports constructor' ||  $root.activePage == 'Edit Reports' || $root.activePage == 'Custom Reports'" class="container-fluid second-navbar">            <div class="second-navbar">
-                <ul class="nav navbar-nav col-lg-9">
-                    <li class="hidden-xs hidden-sm" ng-if="$root.me.recrutRole!='client' && $root.me.recrutRole!='freelancer'">
-                        <a href="#/reports" ng-class="{'selected': $root.activePage == 'Reports'}" ng-show="$root.hideTariff && $root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'client' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'salesmanager'">
-                            {{'My Reports'|translate}}
-                        </a>
-                    </li>
-                    <li class="hidden-sm hidden-xs">
-                        <a href="#/reports/pipeline" ng-class="{'selected': $root.activePage == 'Pipeline'}" ng-show="$root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'salesmanager'">
-                            {{'Pipeline'|translate}}
-                        </a>
-                    </li>
-                    <li class="hidden-sm hidden-xs">
-                        <a href="#/reports/vacancy" id="showVacancies" ng-class="{'selected': $root.activePage == 'Vacancy report'}" ng-show="$root.hideTariff && ($root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'client'|| $root.me.recrutRole == 'freelancer') ">{{'Vacancy report & recruitment funnel'|translate}}</a>
-                        <button id="disabledBtn-2" ng-click="$root.disabledBtnFunc();" ng-show="!$root.hideTariff"
-                                type="button" class="btn btn-default disabled less-margin">
-                            {{'Vacancy report'|translate}}
-                        </button>
-                    </li>
-                    <li class="hidden-sm hidden-xs">
-                        <a href="#/reports/statistics" ng-class="{'selected': $root.activePage == 'Statistics client'}" ng-show="$root.hideTariff && ($root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter') ">{{'User statistics'|translate}}</a>
-                        <button id="disabledBtn-2" ng-click="$root.disabledBtnFunc();" ng-show="!$root.hideTariff"
-                                type="button" class="btn btn-default disabled">
-                            {{'User statistics'|translate}}
-                        </button>
-                    </li>
-                    <li class="hidden-sm hidden-xs"  ng-if='$root.me.recrutRole==="admin" && !$root.blockUser'>
-                        <a href class="btn btn-primary inviteUserClient" ng-class="{'blocked-user' : !$root.hideTariff}" ng-click="inviteHiringManager();">{{'Invite Hiring manager'|translate}}</a>
-                    </li>
-
-                </ul>
-            <ul class="nav navbar-nav col-lg-3"  style="display: flex;justify-content: flex-end;">
-                <li class="hidden-xs hidden-sm"
-                    ng-if="$root.me.recrutRole!='client' && $root.me.recrutRole!='freelancer'">
-                    <a href="#/constructor-reports"
-                       ng-class="{'selected': $root.activePage == 'Reports constructor'}"
-                       style="position: relative;"
-                       ng-show="$root.hideTariff && $root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'client' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'salesmanager'">
-                        {{'Design custom report'|translate}}
-                        <span class="new-label" style="right: -17px; top: 0px; font-weight: 600;">beta</span>
-                    </a>
-                    <a href=""
-                       class="disabled"
-                       ng-class="{'selected': $root.activePage == 'Reports constructor'}"
-                       style="position: relative;"
-                       ng-click="$root.disabledBtnFunc();"
-                       ng-show="!$root.hideTariff && $root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'client' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'salesmanager'">
-                        {{'Design custom report'|translate}}
-                        <span class="new-label" style="right: -22px; top: 0px; font-weight: 600;">beta</span>
-                    </a>
-                </li>
-            </ul>
-            </div>
-        </div>
         <!--Navbar for mail integration-->
         <div ng-show="$root.activePage == 'Integration with email' " class="container-fluid second-navbar">
             <div class="second-navbar">
@@ -1227,7 +1164,7 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZul9dW5-r5WVV1479hAgVxM5Z75C-ykM&libraries=places"></script>
     <script type="text/javascript" src="lib/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b370"></script>
+    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b377"></script>
 
     <!--ЗPignation in TAble-->
     <script type="text/ng-template" id="custom/pager">

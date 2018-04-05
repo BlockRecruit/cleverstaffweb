@@ -1188,11 +1188,7 @@ directive('appVersion', ['version', function(version) {
                                 $('#photo-preview').css('width', '33%');
                             }
                         };
-                        if ($location.$$host == '127.0.0.1') {
-                            img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
-                        } else {
-                            img.src = $location.$$protocol + '://' + $location.$$host + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
-                        }
+                        img.src = $location.$$protocol + '://' + $location.$$host + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
                     };
                         $rootScope.imgWidthPreviewFunc();
                         if (!$rootScope.candidatePreview.db && !$rootScope.candidatePreview.expirence && !$rootScope.candidatePreview.languages && !$rootScope.candidatePreview.employmentType && !$rootScope.candidatePreview.salary && !$rootScope.candidatePreview.contacts) {
@@ -6415,7 +6411,7 @@ angular.module('services.candidate', [
                     $scope.fastCandLoading = false;
                     $rootScope.loading = false;
                     setTimeout(function(){
-                        $scope.imgWidthFunc();
+                        $scope.imgWidthFunc(file.object.photo);
                     }, 3000);
                     if(data.data.status != 'error' ){
                         $location.path("candidate/add");
@@ -6446,7 +6442,7 @@ angular.module('services.candidate', [
                 file.$upload(serverAddress + '/candidate/addPhoto', file).then(function(data) {
                     $scope.callbackAddPhoto(data.data.objects[0]);
                     setTimeout(function(){
-                        $scope.imgWidthFunc();
+                        $scope.imgWidthFunc(data.data.objects[0]);
                     }, 2000);
                 });
             },
@@ -11518,6 +11514,78 @@ angular.module('services.pay', [
 
      return person;
  }]);
+angular.module('services.employee', [
+    'ngResource'
+]).factory('reportsService', ['$rootScope', '$resource', 'serverAddress','$uibModal','$location', '$window', function($rootScope, $resource, serverAddress, $uibModal, $location, $window ) {
+    let reportsData = {};
+        reportsData.reportsBlocks = [
+            {
+                src:"images/reports-img/voronka.png",
+                title:"Funnel and vacancy report",
+                description:"The recruitment funnel displays the conversion of candidates in vacancies and helps to identify the bottlenecks or forgotten candidates.",
+                href:"/reports/vacancy"
+            },
+            {
+                src:"images/reports-img/statistika.png",
+                title:" User statistics",
+                description:"Displays the effectiveness of recruiters in numbers and percentages for the chosen period.",
+                href:"/reports/statistics"
+            },
+            {
+                src:"images/reports-img/pipeline.png",
+                title:"Pipeline report",
+                description:"Displays problem vacancies and responsible employees and helps to determine which areas need to be strengthened.",
+                href:"/reports/pipeline"
+            }
+        ];
+
+        function inviteHiringManager() {
+            $rootScope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'partials/modal/invite-hiring-manager.html',
+                size: '',
+                resolve: function(){
+
+                }
+            });
+            $rootScope.modalInstance.opened.then(function(){
+                $rootScope.inviteUser.role = 'client';
+            });
+            $rootScope.modalInstance.closed.then(function() {
+                $rootScope.inviteUser.role = null;
+                $rootScope.inviteUser.email = null;
+            });
+        }
+        
+        function replaceClassName(nameFirst, newNameSecond, element) {
+            element.classList.toggle(nameFirst);
+            element.classList.add(newNameSecond);
+        }
+
+        function showMore() {
+            let defaultHeightBlockReportsList = getComputedStyle(document.querySelector('.custom-reports-list'))['maxHeight'],
+                blockReportsList = document.querySelector('.custom-reports-list'),
+                blockShowMore = document.querySelector('.show-more');
+
+            this.showMore  = function () {
+                let scrollHeightBlockReportsList = blockReportsList.scrollHeight;
+
+                (blockReportsList.classList.contains('show'))? blockReportsList.style.maxHeight = defaultHeightBlockReportsList : blockReportsList.style.maxHeight = scrollHeightBlockReportsList + 'px';
+
+                blockReportsList.classList.toggle('show');
+                blockShowMore.classList.toggle('border-bottom');
+                this.isShowMore = !this.isShowMore;
+                replaceClassName('fa-angle-down', 'fa-angle-up', blockShowMore.querySelector('.fa'));
+            }
+        }
+
+        reportsData.showMore = showMore;
+        reportsData.inviteHiringManager = inviteHiringManager;
+
+    return reportsData;
+}]);
+
+
 angular.module('services.scope', []).factory('ScopeService', ['$rootScope', 'localStorageService', function($rootScope, localStorageService) {
     var currentControllerUpdateFunc = null;
     var defaultScopeIsInitialized = false;
@@ -12992,8 +13060,9 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                         "recruter" : $sce.trustAsHtml($filter('translate')('Able to manage clients, vacancies and candidates. Paid user')),
                         "freelancer" : $sce.trustAsHtml($filter('translate')('Cannot see the full database. Able to manage only clients, vacancies, and candidates he/she is responsible for. Paid user')),
                         "researcher" : $sce.trustAsHtml($filter('translate')('Cannot see the full database and other users. Able to see only vacancies he/she responsible for and candidates he/she added')),
-                        "client" : $sce.trustAsHtml($filter('translate')('Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number')),
-                    }
+                        "client" : $sce.trustAsHtml($filter('translate')('Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number'))
+                    },
+                    "filterCostructorInfo": $sce.trustAsHtml($filter('translate')('The filter allows you to pick the users who performed any activities on vacancies.'))
                 };
                 $rootScope.tooltips = options;
             });
@@ -14866,7 +14935,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=70'
+        suffix: '.json?b=72'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -18126,23 +18195,19 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 266){
+                }else if(width >= 201){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto'});
                 }else{
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
-            if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
-            }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
-            }
+           img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
         };
     $scope.callbackAddPhoto = function(photo) {
         $rootScope.loading = false;
         $scope.candidate.photo = photo;
         $scope.photoLink = $scope.serverAddress + "/getapp?id=" + photo + "&d=true";
-        $scope.imgWidthFunc();
+        $scope.imgWidthFunc(photo);
         Candidate.progressUpdate($scope, true);
         $rootScope.closeModal();
     };
@@ -19093,17 +19158,13 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
             }else if(width >= 350){
                 $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-            }else if(width >= 266){
+            }else if(width >= 201){
                 $('#page-avatar').css({'width': '100%', 'height': 'auto'});
             }else{
                 $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
             }
         };
-        if($location.$$host == '127.0.0.1'){
-            img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
-        }else{
-            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
-        }
+        img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
     };
     $rootScope.closeModal = function(){
         $scope.modalInstance.close();
@@ -21917,15 +21978,13 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+                }else if(width >= 201){
+                    $('#page-avatar').css({'width': '100%', 'height': 'auto'});
                 }else{
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
-            if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
         };
         $scope.callbackAddPhoto = function(photo) {
             $rootScope.loading = false;
@@ -23976,11 +24035,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
-            if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
         };
         $scope.callbackAddPhoto = function(photo) {
             $rootScope.loading = false;
@@ -25007,20 +25062,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 $scope.changeStatus = $scope.candidate.status;
                 cascadeStages();
 
-                var img = new Image();
-                img.onload = function() {
-                    var width = this.width;
-                    if(width >= 290){
-                        $('.photoWidth').css({'width': '100%', 'height': 'auto'});
-                    }else{
-                        $('.photoWidth').css({'width': 'inherit', 'display': 'block', 'margin': '0 auto'});
-                    }
-                };
-                if($location.$$host == '127.0.0.1'){
-                    img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-                }else{
-                    img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-                }
+                $scope.imgWidthFunc();
                 $rootScope.newTask.candidateId = $scope.candidate.candidateId;
                 angular.forEach($scope.candidate.interviews, function(value){
                     value.vacancyId.interviewStatusNotTouchable = value.vacancyId.interviewStatus;
@@ -25402,7 +25444,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             });
             //$rootScope.persons = $scope.persons;
         });
-        $scope.imgWidthFunc = function(){
+        $scope.imgWidthFunc = function(id){
             var img = new Image();
             img.onload = function() {
                 var width = this.width;
@@ -25414,17 +25456,13 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 266){
+                }else if(width >= 201){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto'});
                 }else{
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
-            if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
         };
         $scope.pathName = "candidate";
         $scope.callbackFile = function (resp, name) {
@@ -27735,10 +27773,9 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             notificationService.error($filter('translate')('Enter more data for search'));
             return;
         }
-
         if($scope.searchParam.state.length == 0 && $scope.searchParam.words.length == 0 &&
             $scope.searchParam.name == null && $scope.searchParam.responsible == 'null' &&
-            $scope.searchParam.industry == 'null' && $scope.searchParam.regionIdCity == 'null'){
+            $scope.searchParam.industry == 'null' && $scope.searchParam.regionId == 'null' && $scope.searchParam.regionIdCity == 'null'){
             notificationService.error($filter('translate')('Enter the data'));
         }else{
             $scope.loader = true;
@@ -27816,14 +27853,22 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                 }
                 $scope.searchParam.pages.count = params.$params.count;
                 if ($scope.searchParam['regionId'] && $scope.searchParam['regionId'] != 'null') {
-                    if($scope.searchParam['regionIdCity'] && $scope.searchParam['regionIdCity'] != 'null'){
-                        var json = JSON.parse($scope.searchParam['regionIdCity']);
-                        if (json && json.type) {
-                            Client.setOptions("city", json.value);
+                    if($scope.searchParam['regionIdCity'] == null || $scope.searchParam['regionIdCity'] == 'null'){
+                        var jsonCity = JSON.parse($scope.searchParam['regionIdCity']);
+                        if (jsonCity == null) {
+                            Client.setOptions("city", null);
                         }
-                    }else{
                         var json = JSON.parse($scope.searchParam['regionId']);
                         Client.setOptions("country", json.value);
+                    }else{
+                        if($scope.searchParam['regionIdCity'] && $scope.searchParam['regionIdCity'] != 'null'){
+                            var json = JSON.parse($scope.searchParam['regionIdCity']);
+                            if (json && json.type) {
+                                Client.setOptions("city", json.value);
+                            }
+                            var jsonCity = JSON.parse($scope.searchParam['regionId']);
+                            Client.setOptions("country", jsonCity.value);
+                        }
                     }
                 } else {
                     Client.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
@@ -33366,7 +33411,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             });
         };
         $scope.enableViewClients = function(user) {
-            if(user.personParams.clientAccessLevel == 'full'){
+            if(user.personParams.clientAccessLevel == 'full' || !user.personParams.clientAccessLevel){
                 $scope.setPersonParam('clientAccessLevel', 'hide');
             }else{
                 $scope.setPersonParam('clientAccessLevel', 'full');
@@ -37906,6 +37951,12 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         $rootScope.toChangeStatusInterview = function (status, candidate, withChooseStatus) {
+            if (status == 'approved') {
+                $rootScope.showEmployedFields = true;
+                $rootScope.probationaryPeriod = null;
+            } else {
+                $rootScope.showEmployedFields = false;
+            }
             if (status == undefined) {
                 $rootScope.changeStatusOfInterviewInVacancy.status =null;
                 //$rootScope.changeStatusOfInterviewInVacancy.status = {
@@ -38017,13 +38068,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 $rootScope.candnotify.fullName = candidate[0].fullName;
                 $rootScope.candnotify.send = false;
             }
-
-            if (status == 'approved') {
-                $rootScope.showEmployedFields = true;
-                $rootScope.probationaryPeriod = null;
-            } else {
-                $rootScope.showEmployedFields = false;
-            }
             $('.changeStatusOfInterviewInVacancy.modal').modal('show');
         };
 
@@ -38091,7 +38135,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 "personId": $scope.personId,
                                 "vacancyId": $scope.vacancy.vacancyId,
                                 "recallId": neededRequest == 'addInterview'?$rootScope.changeStatusOfInterviewInVacancy.candidate.recallId:null,
-                                "candidateId": changeObj.candidate.candidateId.candidateId,
+                                "candidateId": changeObj.candidate.length == 1 ? changeObj.candidate[0].candidateId : changeObj.candidate.candidateId.candidateId,
                                 "interviewId": changeObj.candidate.interviewId,
                                 "interviewState": changeObj.status.customInterviewStateId ? changeObj.status.customInterviewStateId : changeObj.status.value,
                                 "comment": changeObj.comment,
@@ -40044,9 +40088,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
         $scope.menuOptions = [
             [$filter('translate')('Open in new tab'), function ($itemScope) {
-                console.log($location,'location');
                 let url = $location.$$protocol + '://' + $location.$$host +'/!#' + '/candidates/' + $itemScope.candidate.candidateId.localId;
-
                 $window.open(url, "_blank");
             }]];
 
@@ -45316,9 +45358,8 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
 
 function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter, translateWords,
-                       $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService) {
+                       $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, reportsService, $window) {
     try {
-
         Stat.requestGetCustomVacancyReports()
             .then((resp) => {
                 this.customReports = resp['objects'];
@@ -45326,17 +45367,20 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
                 $scope.$apply();
             });
 
-        this.changeLocation = (path,report, event) => {
-            this.getReport(event, report);
+        reportsService.showMore.call(this);
+
+        this.changeLocation = (path, report, event) => {
+            (report)? this.getReport(event, report) : null;
             $location.path(path);
         };
 
-        this.changeLocationAllVacancies = (path) => {
-            $location.path(path);
-        };
-        this.getReport    = CustomReportsService.getReport;
-        this.remove       = CustomReportsService.remove;
-        this.removeReport = CustomReportsService.removeReport;
+        this.isShowMore          = true;
+        this.getReport           = CustomReportsService.getReport;
+        this.remove              = CustomReportsService.remove;
+        this.removeReport        = CustomReportsService.removeReport;
+        this.removeReport        = CustomReportsService.removeReport;
+        this.reportsBlocks       = reportsService.reportsBlocks;
+        this.inviteHiringManager = reportsService.inviteHiringManager;
         localStorage.setItem("isAddCandidates", false);
     }catch(erorr){
         console.log('Ошибка в customReports', erorr);
@@ -45345,6 +45389,6 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
 controller
     .controller("MyReportsCtrl", ["$rootScope", "$scope", "Vacancy", "Service", "$location",
         "$routeParams", "notificationService", "$filter", "translateWords", "$translate",
-        "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService", MyReportsCtrl]);
+        "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService","reportsService","$window", MyReportsCtrl]);
 
 

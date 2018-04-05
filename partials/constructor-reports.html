@@ -1,5 +1,13 @@
 <div class="block-constructor-reports" ng-click="parentClick($event)">
-    <header style="position: relative;">
+    <div class="col-lg-12 return-on-report-page">
+        <a href="#/reports"
+           class="hidden-xs hidden-sm"
+           style="position: relative;">
+            <img style="position: relative;top: -1px;" src="images/reports-img/long-arrow.png" alt="">
+            {{"go back to reports menu"|translate}}
+        </a>
+    </div>
+    <header style="position: relative; clear: both;">
         <h3 class="title">{{"Design custom report"| translate}}</h3>
         <p class="description">{{"Custom reports designer allows you build your own reports with appropriate parameters."|translate}}</p>
         <p class="description">{{"Only users with the Admin role are able to save the custom report parameters."|translate}}</p>
@@ -241,6 +249,7 @@
                             <span class="item">
                                 <h4 ng-show="!leastChosen">
                                     {{'By all users' | translate}}
+                                    <i class="fa fa-info-circle tooltip-icon" ng-click="$event.stopPropagation();$event.preventDefault();" title="" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.filterCostructorInfo" aria-hidden="true"></i>
                                 </h4>
                                 <span ng-show="leastChosen">
                                     {{'By users' | translate}}:
