@@ -117,7 +117,7 @@ body {
 	.first-navbar {
 		display: flex;
 		height: 65px;
-		padding: 0 30px;
+		padding: 0 20px 0 30px;
 	}
 	.responsive-nav {
 		position: absolute;
@@ -496,10 +496,11 @@ body {
 					padding-top: 8px;
 				}
 				&.payment {
-					font-size: 12px;
+					@include top-menu-font();
 
 					height: 30px;
 					padding: 0;
+					padding-right: 5px;
 
 					border: 1px solid white;
 					border-radius: 5px;
@@ -507,16 +508,13 @@ body {
 						display: inline-block;
 						width: 30px;
 						height: 30px;
+						margin-right: 30px;
 
+						border-right: 1px solid;
 						background-image: url(../../images/sprite/icons/sprite.png?1);
 						background-repeat: no-repeat;
 						background-position: 73% 96%;
 						background-size: 165px auto;
-					}
-					&.low-balance {
-						span {
-							font-size: 13px;
-						}
 					}
 					&.low-low-balance {
 						color: $theme-red;
