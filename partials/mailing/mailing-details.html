@@ -56,8 +56,8 @@
                             <span data-title="'PREVIEW'" priview pageid="candidate_pages" candidate="candidate.candidateId" class="preview-candidate-mailing">
                                     <i  candidate="user" title="{{'Profile preview'|translate}}" class="fa fa-address-card-o text_change" aria-hidden="true"></i>
                             </span>
-                            <a href="!#/candidates/{{candidate.candidateId.localId}}" target="_blank">{{candidate.candidateId.fullName|limitTo:40}}{{candidate.candidateId.fullName.length > 40 ? '...':''}}</a>
-                            <!--<input ng-if="candidate.editable" class="form-control" ng-model="candidate.candidateId.fullName" type="text" maxlength="100">-->
+                            <a href="!#/candidates/{{candidate.candidateId.localId}}" target="_blank" ng-if="!candidate.editable">{{candidate.candidateId.fullName|limitTo:40}}{{candidate.candidateId.fullName.length > 40 ? '...':''}}</a>
+                            <input ng-if="candidate.editable" class="form-control" ng-model="candidate.candidateId.fullName" type="text" maxlength="100">
                         </td>
                         <td class="email">
                             <span ng-if="!candidate.editable && candidate.candidateId.email" ng-bind="candidate.candidateId.email" ng-click="candidate.editable = true"></span>
