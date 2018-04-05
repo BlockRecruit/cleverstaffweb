@@ -1,4 +1,4 @@
-angular.module('services.employee', [
+angular.module('services.reportsService', [
     'ngResource'
 ]).factory('reportsService', ['$rootScope', '$resource', 'serverAddress','$uibModal','$location', '$window', function($rootScope, $resource, serverAddress, $uibModal, $location, $window ) {
     let reportsData = {};

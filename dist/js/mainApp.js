@@ -13134,7 +13134,7 @@ angular.module('services.pay', [
 
      return person;
  }]);
-angular.module('services.employee', [
+angular.module('services.reportsService', [
     'ngResource'
 ]).factory('reportsService', ['$rootScope', '$resource', 'serverAddress','$uibModal','$location', '$window', function($rootScope, $resource, serverAddress, $uibModal, $location, $window ) {
     let reportsData = {};
@@ -15869,6 +15869,7 @@ angular.module('services', [
         'services.translateWords',
         'services.CustomReportsService',
         'services.CustomReportEditService',
+        'services.reportsService',
         'services.slider',
         'services.mailing'
     ]
