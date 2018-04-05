@@ -666,6 +666,7 @@
   "vacancy_save_1": "Вакансия ",
   "vacancy_save_2": " сохранена",
   "vacancy not found": "Вакансия не найдена",
+  "vacancy not found": "Вакансия не найдена",
   "User not found": "Пользователь не найден",
   "need role": "Необходима роль",
   "role change": "Роль изменена",
@@ -2914,7 +2915,6 @@
   "work": "Работает",
   "Searching": "Поиск...",
   "Add another phone number": "Добавить еще один номер телефона",
-  "Hide from all public vacancies list:":"Скрыть из публичного списка вакансий:",
   "Paid_user":"Платный пользователь",
   "Free_user":"Бесплатный пользователь",
   "fullAccess" : "Полный доступ",
@@ -2926,11 +2926,8 @@
   "Please attach your CV file": "Прикрепите файл резюме",
   "Hide from all public vacancies list:":"Скрыть из публичного списка вакансий:",
   "Name has been changed":"Имя было изменено",
-  "New user invite":"Пригласить нового пользователя",
-  "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email.",
-  "Please attach your CV file": "Прикрепите файл резюме",
-  "Hide from all public vacancies list:":"Скрыть из публичного списка вакансий:",
   "Task deleted":"Задача удалена",
   "Сandidates in stages": "Кандидаты на этапах",
-  "Invite user with a role" :"Пригласить пользователя с ролью"
+  "Invite user with a role" :"Пригласить пользователя с ролью",
+  "Export in Excel":"Выгрузить в Excel"
 }
