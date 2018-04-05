@@ -275,7 +275,7 @@ body {
 
 			align-items: center;
 		}
-		@media (max-width: 1085px) {
+		@media (max-width: 1200px) {
 			.navigation {
 				display: none;
 			}
@@ -1123,13 +1123,44 @@ ul.nav.navbar-nav {
 		padding: 0;
 	}
 }
-@media (max-width: 1200px) {
+@media (min-width:1200px) and (max-width:1350px) {
+	.navbar .first-navbar {
+		padding: 0 10px 0 15px;
+	}
+	.navbar .navbar-header {
+		margin-right: 15px;
+	}
+	.trial span:not(.trial-info) {
+		display: none;
+	}
+	.trial .trial-info {
+		border-right: none;
+		background-position: 94.4% 97%;
+	}
+	.trial {
+		& > span {
+			margin: 0;
+		}
+	}
+	.navbar .nav.information a.payment {
+		padding-right: 0;
+		& > span:not(.coins) {
+			display: none;
+		}
+		& > .coins {
+			margin-right: 0;
 
+			border-right: none;
+		}
+	}
 }
 
-@media (max-width: 1085px) {
-	.navbar-brand {
-		margin-top: 0;
+@media (min-width:1200px) and (max-width:1280px) {
+	.trial {
+		margin-right: 15px;
+	}
+	.navbar .nav.information .payMoney {
+		padding: 0 15px 0 0;
 	}
 }
 
