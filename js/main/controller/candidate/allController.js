@@ -1065,11 +1065,13 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
         }
     };
+
     $scope.$watch('filterForChange', function (newVal, oldVal) {
         if(newVal != undefined && oldVal != newVal){
             $scope.changeFilter(newVal);
         }
     });
+
     Person.getAllPersons(function (resp) {
         let obj, person;
         $scope.persons = [];
