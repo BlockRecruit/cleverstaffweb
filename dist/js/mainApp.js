@@ -40729,15 +40729,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         $scope.vacancyGeneralHistory = [];
         userFunnelConfig.usersFunnelCache = userFunnelConfig.usersFunnelCache || [];
 
-        let activeColumnsLength = 4; // amount of funnel columns with data
-
-        /* -- funnel general algorithm
-            1. - parseCustomStagesNames  --- transform custom stages id`s to valid custom names
-            2. - validateStages --- add non-existing required vacancy stages, and removing refusals
-            3. - funnelConfig    --- parsing data from request format to zingchart data format, calculating ABS and REL conversion
-            4. - drawFunnel      --- drawing funnel
-        */
-
         $scope.setStatistics = function(type = 'default', user = {}) {
             $scope.statistics = {type, user};
             if(type === 'default') {
@@ -40891,7 +40882,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.vacancyHistory = vacancyInterviewDetalInfo;
                     $scope.vacancyGeneralHistory = vacancyInterviewDetalInfo;
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(vacancyInterviewDetalInfo, $scope.notDeclinedStages, $scope.declinedStages));
-                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '1000px'), id:"myChartDiv"});
+                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '600px'), id:"mainFunnel"});
                     $scope.$apply();
                 }, error => notificationService.error(error.message));
         }
@@ -40907,7 +40898,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     .then(resp => {
                         const columnToAdd = addUserColumn({username, scaleOffset, labelOffset, candidateSeries: resp.config.candidateSeries});
                         drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:columnToAdd});
-                        totalCandidatesColumn({scaleOffset, labelOffset})
                     }, error => console.error(error));
             } else {
                 const columnToRemove = removeUserColumn({username, scaleOffset, labelOffset});
@@ -40972,54 +40962,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
             activeColumnsLength--;
             return graphset;
-        }
-
-        function totalCandidatesColumn({scaleOffset, labelOffset}) {
-
-            if($scope.funnelActionUsersList.length !== 1) {
-                if($scope.funnelActionUsersList.length === 2) {
-                    const columnToRemove = removeUserColumn({name:$filter('translate')('Total in vacancy'), scaleOffset, labelOffset});
-                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:columnToRemove});
-                    activeColumnsLength++;
-                }
-                return;
-            }
-
-            let graphset = zingchart.exec('myChartDiv', 'getdata').graphset[0];
-
-            const labelX = graphset.labels[activeColumnsLength]['offset-x'] + labelOffset,
-                scaleX = graphset["scale-y-" + activeColumnsLength]['item']['offset-x'] + scaleOffset;
-            totalCandidatesColumn.index = totalCandidatesColumn.index || activeColumnsLength + 1;
-
-
-            // if($scope.funnelActionUsersList.length === 1) {
-                graphset.labels[activeColumnsLength + 1] = {
-                    text: $filter('translate')('Total in vacancy'),
-                    fontWeight: "bold",
-                    fontSize: 12,
-                    offsetX: labelX,
-                    offsetY: 48,
-                    "border-width":1,
-                    "border-color":"lightgray",
-                    "border-radius":"5px",
-                    "height":"100%",
-                    "vertical-align":"top",
-                    "padding":"10%",
-                    "width":"80px"
-                };
-                graphset["scale-y-9"] = {"values": graphset['scale-y-2']['values'], "item": {fontSize: 12,"offset-x": scaleX},
-                    "guide":{
-                        "lineWidth":"1px",
-                        "line-gap-size":"5000px",
-                        "lineSegmentSize":"450px"
-                    }};
-                drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset});
-            // } else {
-            //     graphset["scale-y-9"]['item']['offset-x'] += scaleOffset;
-            //     graphset.labels[totalCandidatesColumn.index]['offset-x'] += labelOffset;
-            //     drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset});
-            // }
-            console.log(graphset);
         }
 
         function parseCustomStagesNames(allStages, notDeclinedStages, declinedStages) {
@@ -41127,9 +41069,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
             const guide = {
                 "guide":{
-                        "lineWidth":"1px",
-                        "line-gap-size":"5000px",
-                        "lineSegmentSize":"450px"
+                    "line-color":"none"
+                    // "lineWidth":"1px",
+                    // "line-gap-size":"5000px",
+                    // "lineSegmentSize":"450px",
                 }
             };
             myChart = {
@@ -41138,9 +41081,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 "series": series,
                 tooltip: {visible: true, shadow: 0},
                 "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 50}, "guide":guide.guide},
-                "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": 5}, "guide":guide.guide},
-                "scale-y-3": {"values": values3, "item": {fontSize: 12,"offset-x": 95}, "guide":guide.guide},
-                "scale-y-4": {"values": values4, "item": {fontSize: 12,"offset-x": 190, static: true}, "guide":guide.guide},
                 plotarea: { margin: '100px 0 0 100px' },
                 "scale-x": {"values": [""]},
                 labels: [
@@ -41151,44 +41091,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                         offsetX: 100,
                         offsetY: 55
                     },
-                    {
-                        text:$filter('translate')('Conversion for vacancy'),
-                        fontSize: 14,
-                        color:"#707070",
-                        offsetX: $translate.use() != 'en' ? 570 : 825,
-                        offsetY: 0,
-                        "border-width":1,
-                        "border-color":"lightgray",
-                        "border-radius":"5px",
-                        "height":"100%",
-                        "vertical-align":"top",
-                        "padding":"20px 48px",
-                    },
-                    {
-                        text: $filter('translate')('Candidates'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        offsetX: $translate.use() != 'en' ? 560 : 825,
-                        offsetY: 50,
-                        "border-top":"1px solid lightgray",
-                        "border-color":"lightgray",
-                        "padding":"7px 207px 0 12px",
-                        "margin":"0 0 0 10px"
-                    },
-                    {
-                        text: $filter('translate')('Relative conversion'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        offsetX: $translate.use() != 'en' ?  665 : 905,
-                        offsetY: 55
-                    },                    {
-                        text: $filter('translate')('Absolute conversion'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        offsetX: 770,
-                        offsetY: 55,
-                        static: true
-                    }
                 ],
                 "backgroundColor": "#FFFFFF",
                 "gui": {

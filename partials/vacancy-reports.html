@@ -75,10 +75,33 @@
                                 <span ng-show="statistics.user.name">({{statistics.user.name}})</span>
                             </div>
                         </div>
-                        <div class="myChartFunnel" ng-show="statistics.type === 'default' && hasFunnelChart">
-                            <div id="myChartDiv"></div>
+                        <div class="funnel" ng-show="statistics.type === 'default' && hasFunnelChart">
+                            <div id="mainFunnel"></div>
+                            <table class="funnel-table">
+                                <caption translate="Conversion for vacancy"></caption>
+                                <tr>
+                                    <th translate="Candidates"></th>
+                                    <th translate="Relative conversion"></th>
+                                    <th translate="Absolute conversion"></th>
+                                </tr>
+                                <tr>
+                                    <td>34</td>
+                                    <td>100%</td>
+                                    <td>100%</td>
+                                </tr>
+                                <tr>
+                                    <td>34</td>
+                                    <td>100%</td>
+                                    <td>100%</td>
+                                </tr>
+                                <tr>
+                                    <td>34</td>
+                                    <td>100%</td>
+                                    <td>100%</td>
+                                </tr>
+                            </table>
                         </div>
-                        <div class="myChartFunnel" ng-show="statistics.type === 'userFunnel' && hasFunnelChart">
+                        <div class="funnel" ng-show="statistics.type === 'userFunnel' && hasFunnelChart">
                             <div id="myChartDiv2"></div>
                         </div>
 

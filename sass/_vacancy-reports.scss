@@ -279,13 +279,46 @@
 		}
 		& > .funnelPanel {
 			& > div {
-				.myChartFunnel {
-					.center {
-						display: table;
-						margin: 0 auto;
-					}
-					svg {
-						//padding-left: 160px;
+				.funnel {
+					display: flex;
+					flex-direction: row;
+					padding: 8px;
+
+					justify-content: center;
+					align-items: flex-start;
+					.funnel-table {
+						tbody {
+							border: 1px solid #ccc;
+							border-top: none;
+							tr {
+								th {
+									font-size: 13px;
+
+									padding: 8px;
+
+									text-align: center;
+									vertical-align: top;
+								}
+								td {
+									padding: 8px;
+
+									text-align: center;
+								}
+							}
+						}
+						caption {
+							font-family: "Helvetica-Regular";
+							font-size: 15px;
+
+							padding: 20px 0;
+
+							text-align: center;
+							text-transform: uppercase;
+
+							color: #666;
+							border: 1px solid #ccc;
+							border-radius: 5px 5px 0 0;
+						}
 					}
 				}
 				& > .text-center {
