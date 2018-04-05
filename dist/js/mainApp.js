@@ -11514,7 +11514,7 @@ angular.module('services.pay', [
 
      return person;
  }]);
-angular.module('services.employee', [
+angular.module('services.reportsService', [
     'ngResource'
 ]).factory('reportsService', ['$rootScope', '$resource', 'serverAddress','$uibModal','$location', '$window', function($rootScope, $resource, serverAddress, $uibModal, $location, $window ) {
     let reportsData = {};
@@ -14248,6 +14248,7 @@ angular.module('services', [
         'services.translateWords',
         'services.CustomReportsService',
         'services.CustomReportEditService',
+        'services.reportsService',
         'services.slider'
     ]
 );
@@ -20183,11 +20184,13 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
         }
     };
+
     $scope.$watch('filterForChange', function (newVal, oldVal) {
         if(newVal != undefined && oldVal != newVal){
             $scope.changeFilter(newVal);
         }
     });
+
     Person.getAllPersons(function (resp) {
         let obj, person;
         $scope.persons = [];
