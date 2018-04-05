@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Error 404. Page is not found</title>
+    <link rel="shortcut icon" href="/images/sprite/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/external/css/main.min.css?b1">
+</head>
+<body class="error404">
+<br><br>
+<div align="center">
+    <table><tr><td width="600px">
+        <div id="message" align=center>
+            Error 404. Page is not found
+            <br>
+            by the way, look how <h3 class="imgTittle">Integration with LinkedIn</h3> works in CleverStaff
+            <div id="banner-load"></div>
+            <span class="CSLanding">
+                <a href="/">Home</a>&nbsp;|&nbsp;<a href="https://cleverstaff.net/news/">Blog</a>&nbsp;|&nbsp;<a href="../signup.html">Sign up</a><br><br>
+            </span>
+            <span class="CSWeb" style="display: none;">
+                <a href="/!#/organizer">Organizer</a>&nbsp;|&nbsp;<a href="/!#/vacancies">Vacancies</a>&nbsp;|&nbsp;<a href="/!#/candidates">Candidates</a><br><br>
+            </span>
+        </div>
+    </td></tr></table>
+</div>
+<div class="background-animations">
+    <img class="cloud-1 position" src="/images/sprite/public-vacancy/cloud.png" alt="">
+    <img class="cloud-2 position" src="/images/sprite/public-vacancy/cloud.png" alt="">
+    <img class="cloud-3 position" src="/images/sprite/public-vacancy/cloud.png" alt="">
+    <img class="cloud-4 position" src="/images/sprite/public-vacancy/cloud.png" alt="">
+    <img class="plane-2 position" src="/images/sprite/public-vacancy/plane-2.png" alt="">
+    <img class="person-3 position" src="/images/sprite/public-vacancy/person-3.png" alt="">
+    <img class="planes position" src="/images/sprite/public-vacancy/plane.png" alt="">
+    <img class="person-1 position" src="/images/sprite/public-vacancy/person-1.png" alt="">
+    <img class="person-2 position" src="/images/sprite/public-vacancy/person-2.png" alt="">
+    <img class="flowers position" src="/images/sprite/public-vacancy/flower.png" alt="">
+</div>
+<script src="/lib/jquery/jquery-2.0.3.min.js"></script>
+<script type="application/javascript">
+    var images = ['Linkedin_integration.gif', 'Resume_parsing.gif', 'Archive_import.gif', 'Customizable_auto-emails.gif', 'Custom_job_workflow_stages.gif', 'Local_job_boards_integration.gif', 'Integration_HD.gif', 'Integration_with_Calendar.gif', 'Quick_vacancies_reports.gif', 'Recruiting_funnel.gif'];
+    var imagesTittle = images[Math.floor(Math.random() * images.length)];
+    $('.imgTittle')[0].innerText = imagesTittle.replace(/\.*/g,"").replace(/_/g," ").replace(/gif/g,"");
+    $('<img class="fade-in" src="/external/img/gif/' + imagesTittle + '">').appendTo('#banner-load');
+    var request = new XMLHttpRequest();
+    request.open('GET', '/hr/person/authping', true);
+    var redirectLogin = false;
+    request.send();
+    var CSWeb = document.getElementsByClassName('CSWeb');
+    CSWeb[0].style.display = 'none';
+    var CSLanding = document.getElementsByClassName('CSLanding');
+    CSLanding[0].style.display = 'block';
+    request.onload = function () {
+        if (request.status >= 200 && request.status < 400) {
+            resp = request.responseText;
+            var data = JSON.parse(resp);
+            if (data.status == 'ok') {
+                redirectLogin = true;
+                var CSWeb = document.getElementsByClassName('CSWeb');
+                CSWeb[0].style.display = 'block';
+                var CSLanding = document.getElementsByClassName('CSLanding');
+                CSLanding[0].style.display = 'none';
+            }
+            event.preventDefault();
+        }
+    };
+</script>
+</body>
+</html>

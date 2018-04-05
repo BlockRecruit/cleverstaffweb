@@ -726,6 +726,9 @@
 							}
 							&.phone {
 								color: $theme-dark;
+								.floaft-left {
+									float: left;
+								}
 								.newLang {
 									width: 60%;
 									margin-left: 15px;
@@ -759,11 +762,15 @@
 								&:first-child {
 									font-weight: normal;
 
+									display: inline-block;
+
 									color: #b8b8b8;
 								}
 							}
 							span ~ span {
 								font-weight: 500;
+
+								display: inline-block;
 
 								white-space: normal;
 							}
@@ -776,6 +783,31 @@
 								line-height: 26px;
 
 								display: block;
+							}
+						}
+						.industry,
+						.employmentType,
+						.education,
+						.currentWorkPlace,
+						.currentPosition,
+						.custom-field {
+							line-height: 26px;
+							span {
+								@include bold();
+								&:first-child {
+									font-weight: normal;
+
+									display: inline-block;
+
+									color: #b8b8b8;
+								}
+							}
+							span ~ span {
+								font-weight: 500;
+
+								display: inline;
+
+								white-space: normal;
 							}
 						}
 						.customFields {
@@ -942,6 +974,13 @@
 								&:last-child {
 									margin-bottom: 0;
 								}
+							}
+						}
+						.show-for-print {
+							word-break: break-all;
+							i {
+								position: relative;
+								top: -1px;
 							}
 						}
 					}
@@ -1344,9 +1383,6 @@
 						}
 						&:not(.last-action) {
 							border: 0;
-						}
-						.text-in-block {
-							word-break: break-all;
 						}
 						.textField {
 							& > .field {
@@ -1754,6 +1790,47 @@
 	}
 	.candidate-profile-rezume .leftBar > .candidate-foto > div > img {
 		width: 280px;
+	}
+	.results {
+		display: none;
+	}
+	.ui-pnotify {
+		display: none!important;
+	}
+	.linkedProfiles {
+		display: none;
+	}
+	.counter-candidate {
+		display: none;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .main-info > .left-col .leftBlock .phone .boldForPrint,
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .main-info > .left-col .customFields .phone .boldForPrint {
+		@include bold();
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .main-info > div a.phone .newLang {
+		width: 100%;
+		margin-left: 0;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .coreSkills .item-in-table .content-header-description {
+		margin-top: 5px;
+		margin-left: 15px;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .coreSkills .item-in-table .skillsName {
+		margin-left: 5px;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .coreSkills {
+		border: none;
+	}
+	.block-candidate .candidate-information .candidate-profile-rezume .centerBar .main-info > div a.phone .floaft-left {
+		float: none;
+	}
+	.left-col {
+		float: left;
+		width: 50%;
+	}
+	.right-column {
+		float: right;
+		width: 50%;
 	}
 }
 

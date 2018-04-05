@@ -1,7 +1,7 @@
 <div class="invite-hiring-manager">
     <div class="modal-header">
         <span class="close-modal" ng-click="$root.closeModal()">✖</span>
-        <h4>{{'Invite a Hiring manager'|translate}}</h4>
+        <h4>{{'Invite user with a role'|translate}}<br> Hiring Manager</h4>
     </div>
     <div class="modal-body">
         <p>{{'Enter_new_users_email_1' | translate}}</p>
@@ -14,7 +14,13 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn-new attention" ng-click="$root.addInvite()"
+        <button class="btn-new cancel"
+                style="text-transform: uppercase;
+                       min-width: 180px;
+                       padding: 8px 20px;
+                       font-weight: bold;"
+                ng-click="$root.closeModal()">{{'cancel_2' | translate}}</button>
+        <button class="btn-primary-new accent" ng-click="$root.addInvite()"
                 ng-disabled="!(!inviteForm.email.$error.email && !inviteForm.email.$error.required)"
                 ng-show="$root.inviteUser.role == 'admin' || $root.inviteUser.role == 'recruter'
                || $root.inviteUser.role == 'salesmanager' || $root.inviteUser.role == 'freelancer'

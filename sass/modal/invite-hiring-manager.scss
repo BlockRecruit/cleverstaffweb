@@ -3,8 +3,12 @@
 		position: relative;
 
 		text-align: center;
-		h3 {
+		h4 {
+			font-family: "Helvetica-Heavy";
+
 			margin: 0;
+
+			text-transform: uppercase;
 		}
 		.close-modal {
 			line-height: 30px;
@@ -40,6 +44,8 @@
 				top: 3px;
 
 				margin-left: 5px;
+
+				color: #ccc;
 			}
 		}
 		.user-email {
@@ -48,14 +54,26 @@
 	}
 	.modal-footer {
 		text-align: center;
-		button {
-			font-family: "Helvetica-Heavy";
-			font-size: 14px;
+		button.btn-primary-new {
+			@include btn-primary-new();
+
+			font-size: 16px;
 
 			min-width: 180px;
 
 			text-transform: uppercase;
+			&.accent {
+				@include btn-accent();
+
+				font-family: "Helvetica-Heavy";
+
+				padding: 8px 20px;
+			}
 			&.cancel {
+				@include btn-cancel();
+
+				font-family: "Helvetica-Heavy";
+
 				margin-right: 25px;
 				padding: 8px 20px;
 			}

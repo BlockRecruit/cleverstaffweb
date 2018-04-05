@@ -14,26 +14,34 @@
         </h3>
         <div class="row">
             <div class="col-lg-12 report-info">
-                <h4>{{'Responsible' | translate}}:</h4>
-                <div ng-repeat="respPerson in vacancy.responsiblesPerson" class="resp-preson">
-                    <!--<img src="../images/sprite/test-client.png" alt="">-->
-                    <a href="#/users/{{respPerson.responsible.userId}}">{{respPerson.responsible.cutFullName}}</a>
-                    <span ng-hide="$last">,</span>
+                <div class="col-lg-3 col-md-3 col-sm-4" ng-show="vacancy.responsiblesPerson">
+                    <h4>{{'Responsible' | translate}}:</h4>
+                    <div ng-repeat="respPerson in vacancy.responsiblesPerson" class="resp-preson">
+                        <!--<img src="../images/sprite/test-client.png" alt="">-->
+                        <a href="#/users/{{respPerson.responsible.userId}}">{{respPerson.responsible.cutFullName}}</a>
+                        <span ng-hide="$last">,</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-4" ng-show="vacancy.dateFinish">
+                     <div class="deadline">
+                        {{'Deadline' | translate}}:
+                        <br>
+                        <span ng-class="{'deadline-finish': deadline <= $root.nowDate}">{{vacancy.dateFinish|dateFormat7}}</span>
+                    </div>
                 </div>
                 <div class="clearfix"></div>
-                <div class="pull-left dateFrom">
-                    <div class="field pull-left">
-                        <label class="pull-left">{{'Date from' | translate}}</label>
-                        <input id="dateFrom" class="datePicker pull-left" readonly placeholder="{{'day/month/year'|translate}}" type="text">
-                    </div>
-                    <div class="field pull-left">
-                        <label class="pull-left">{{'date to' | translate}}</label>
-                        <input id="dateTo" class="datePicker pull-left" readonly placeholder="{{'day/month/year'|translate}}" type="text">
-                    </div>
-                    <div class="field pull-left">
-                        <label class="btn btn-primary search pull-right ng-binding" ng-click="updateData()">{{'Update data' | translate}}</label>
-                    </div>
+                <div class="col-lg-3 col-md-3 col-sm-4 dateFrom">
+                    <label class="pull-left">{{'Date from' | translate}}</label>
+                    <input id="dateFrom" class="datePicker pull-left" readonly placeholder="{{'day/month/year'|translate}}" type="text">
                 </div>
+                <div class="col-lg-3 col-md-3 col-sm-4 dateFrom">
+                    <label class="pull-left">{{'date to' | translate}}</label>
+                    <input id="dateTo" class="datePicker pull-left" readonly placeholder="{{'day/month/year'|translate}}" type="text">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-4 dateFrom">
+                    <label class="btn btn-primary search" ng-click="updateData()">{{'Update data' | translate}}</label>
+                </div>
+                <div class="clearfix"></div>
             </div>
             <div class="col-lg-12 funnelPanel">
                 <div id="funnel">

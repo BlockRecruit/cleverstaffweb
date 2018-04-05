@@ -33,7 +33,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             });
         };
         $scope.enableViewClients = function(user) {
-            if(user.personParams.clientAccessLevel == 'full'){
+            if(user.personParams.clientAccessLevel == 'full' || !user.personParams.clientAccessLevel){
                 $scope.setPersonParam('clientAccessLevel', 'hide');
             }else{
                 $scope.setPersonParam('clientAccessLevel', 'full');
@@ -728,9 +728,13 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         };
         $scope.checkKeyFunc = function(event){
             if(event.keyCode === 13){
-                $scope.showForm = true;
-                $('#changeNameInput').blur()
+                event.preventDefault();
+                return false;
             }
+        };
+        $scope.hideForm = function() {
+            $scope.showForm = true;
+            $scope.changedName = $scope.user.firstName;
         };
         $scope.changeUserFirstName = function (){
             if($scope.changedName.length > 0){
@@ -743,6 +747,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                             $scope.user = resp.object;
                             $rootScope.updateMe();
                         });
+                        notificationService.success($filter('translate')('Name has been changed'));
                     }else{
                         notificationService.error(resp.message);
                     }

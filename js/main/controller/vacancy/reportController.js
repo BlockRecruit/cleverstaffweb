@@ -10,7 +10,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         Vacancy.one({"localId": $routeParams.id}, function(resp) {
             $scope.vacancy = resp.object;
-
+            $scope.deadline = new Date($scope.vacancy.dateFinish).getTime();
             $("#dateFrom").datetimepicker({
                 format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
                 startView: 2,
@@ -404,7 +404,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                                 value: value
                             });
                         });
-                        $scope.detailInterviewInfo =vacancyInterviewDetalInfo;
+                        $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
                         angular.forEach($scope.detailInterviewInfo, function(value){
                             angular.forEach($scope.customStages, function(resp){
                                 if(value.key == resp.customInterviewStateId){
@@ -413,8 +413,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                             })
                         });
                     }
+                    initSalesFunnel(dateFrom, dateTo);
                 });
-            initSalesFunnel(dateFrom, dateTo);
 
             zingchart.exec('myChartDiv', 'reload');
         };

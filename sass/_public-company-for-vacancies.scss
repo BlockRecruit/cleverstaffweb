@@ -351,11 +351,10 @@ body {
 			display: inline-block;
 
 			vertical-align: middle;
-			.btn-modern {
-				font-size: 16px;
+			.btn-primary-new {
+				@include btn-primary-new();
 
 				height: 26px;
-				margin-bottom: 0;
 				padding: 1px 23px;
 			}
 		}

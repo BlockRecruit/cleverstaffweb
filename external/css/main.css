@@ -1271,7 +1271,7 @@ a:focus {
 #block_10 ul{
     list-style-type: none;
     padding-left: 0;
-    margin: 35px 0 0;
+    margin: 10px 0 0;
 }
 #block_10 ul li a{
     color: #646465;
@@ -1833,7 +1833,8 @@ footer{
     line-height: 35px;
     font-size: 12px;
     padding: 5px;
-    z-index: 1;
+    z-index: -1;
+    transition: .1s ease-in-out;
 }
 .clickedStyle::after{
     content: '';
@@ -1850,8 +1851,15 @@ footer{
 .clickedCorporate::after{
     left: 45px;
 }
-.clickedOneRecr, .clickedTeamWork, .clickedEnterPrize, .clickedCorporate{
+.clickedOneRecr, .clickedTeamWork, .clickedEnterPrize, .clickedCorporate, .clickedPotok, .clickedCs, .clickedPayFree, .clickedSaveClient, .clickedWithoutIntegration{
     opacity: 0;
+}
+.clickedPayFree, .clickedSaveClient, .clickedWithoutIntegration{
+    /*display: none;*/
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 100;
+    letter-spacing: 0;
+    color: #666;
 }
 .teamWorkTable{
     background-color: #58A44B;
@@ -2484,6 +2492,382 @@ select.webkit-fix {
         /*width: 337px!important;*/
     /*}*/
 /*}*/
+
+/*404 error*/
+.error404{
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #e3f2dd;
+}
+.error404 #banner-load{
+    position: relative;
+    margin: 10px 0 15px 0;
+    z-index: 2;
+}
+.error404 #banner-load img{
+    max-width: 650px;
+    height: auto;
+}
+.error404 .imgTittle{
+    display: inline-block;
+    margin: 10px 0;
+}
+.error404 .CSLanding, .CSWeb{
+    margin-top: 25px
+}
+.error404 .CSLanding a, .CSWeb a{
+    color: #646465;
+    text-decoration: none;
+}
+.error404 .CSLanding a:hover, .CSWeb a:hover{
+    color: #9CCE95;
+    text-decoration: none;
+}
+.background-animations .position{
+    position: absolute;
+}
+.background-animations .cloud-1 {
+    top: 29%;
+    left: 11%;
+}
+.background-animations .cloud-2 {
+    top: 110px;
+    left: 22%;
+}
+.background-animations .cloud-3 {
+    top: 9%;
+    right: 15%;
+}
+.background-animations .cloud-4 {
+    top: 100px;
+    right: 23%;
+}
+.background-animations .plane-2 {
+    top: 23%;
+    right: 12%;
+}
+.background-animations .person-3 {
+    top: 54.5%;
+    right: 0;
+}
+.background-animations .planes {
+    top: 50%;
+    left: 3%;
+}
+.background-animations .person-1 {
+    bottom: 0.8%;
+    left: 10%;
+}
+.background-animations .person-2 {
+    right: 9%;
+    bottom: 1%;
+}
+.background-animations .flowers {
+    left: 0px;
+    bottom: 0px;
+}
+/*404 error end*/
+/*compare start*/
+#home .potok-tittle h1{
+    font-size: 51px;
+    color: rgb(102, 102, 102);
+    line-height: 1.626;
+    margin-bottom: 0;
+    letter-spacing: 2px;
+}
+#home .potok-tittle h1 .padding-left {
+    padding-left: 35px;
+}
+#home .potok-tittle h1 img{
+    margin-top: -10px;
+}
+#home .potok-tittle h1:after{
+    content: '?';
+    position: absolute;
+}
+#home .potok-tittle .why-we{
+    padding: 0 20px;
+}
+#home .potok-tittle .cs{
+    color: #444446;
+}
+#block_2 .key-differences h2{
+    font-family: 'Helv-3-Light';
+    font-size: 30px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+#block_2 .key-differences .titleTable td:first-child{
+    width: 47%;
+}
+#block_2 .key-differences .titleTable .text{
+    font-size: 22px;
+}
+#block_2 .key-differences .titleTable .positionText{
+    margin: 14px 0 0 -44px;
+}
+#block_2 .key-differences .content td:first-child{
+    width: 47%;
+}
+.potokTable{
+    background-color: #9C9A9F;
+    color: #fff;
+    border-radius: 12px 0 0 0;
+}
+.potokTable img, .csTable img{
+    display: none;
+}
+.csTable{
+    background-color: #58A44B;
+    color: #fff;
+    border-radius: 0 12px 0 0;
+}
+#block_2 .key-differences .fixed-tab{
+    position: fixed;
+    top: 80px;
+    z-index: 9;
+}
+#block_2 .key-differences .content .ic-problem{
+    background: url(../img/svg/ic_proplem.svg);
+    width: 19px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+#block_2 .key-differences .content .ic-solution{
+    background: url(../img/svg/ic_solution.svg);
+    width: 26px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+#block_2 .key-differences .content .rectangle{
+    background: url(../img/rectangle.png) no-repeat;
+    width: 8px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    background-size: contain;
+}
+#block_2 .key-differences .content .num-three{
+    background: url(../img/3.png);
+    width: 21px;
+    height: 22px;
+    display: inline-block;
+    vertical-align: middle;
+}
+#block_2 .key-differences .content .num-five{
+    background: url(../img/5.png);
+    width: 24px;
+    height: 22px;
+    display: inline-block;
+    vertical-align: middle;
+}
+#block_2 .key-differences .content .num-one{
+    background: url(../img/1.png);
+    width: 21px;
+    height: 22px;
+    display: inline-block;
+    vertical-align: middle;
+}
+#block_2 .key-differences .content .num-four{
+    background: url(../img/4.png);
+    width: 23px;
+    height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+}
+#block_2 .key-differences .content{
+    border-collapse: initial;
+    border: none;
+    margin: 0;
+}
+#block_2 .key-differences .content tr:not(:last-child) td{
+    border-right: 0;
+    border-bottom: 0;
+    vertical-align: middle;
+}
+#block_2 .key-differences .content tr:last-child td{
+    border-right: 0;
+}
+#block_2 .key-differences .content tr td:last-child{
+    border-right: 1px solid #ccc;
+}
+#block_2 .key-differences .content .saveClientInSystem:hover .clickedSaveClient,
+#block_2 .key-differences .content .withoutIntegration:hover .clickedWithoutIntegration,
+#block_2 .key-differences .content .four-pay-1-free:hover .clickedPayFree{
+    display: inline-block;
+    opacity: 1;
+    z-index: 1;
+}
+#block_2 .key-differences .content .segoe{
+    font-size: 20px;
+    font-family: "Segoe Print";
+    font-weight: 600;
+    color: rgb(156, 154, 159);
+    cursor: context-menu;
+    letter-spacing: 2px;
+}
+#block_2 .key-differences .content .segoe-3:before{
+    content: '3 ';
+    position: inherit;
+    font-size: 24px;
+    letter-spacing: -3px;
+}
+#block_2 .key-differences .content .segoe-5:before{
+    content: '5 ';
+    position: inherit;
+    font-size: 24px;
+    letter-spacing: -3px;
+}
+#block_2 .key-differences .content .segoe-8:before{
+    content: '8 ';
+    position: inherit;
+    font-size: 24px;
+    letter-spacing: -3px;
+}
+#block_2 .key-differences .content .segoe-15:before{
+    content: '15 ';
+    font-size: 24px;
+    position: relative;
+    left: 5px;
+}
+#block_2 .key-differences .content .border-radius-table .border-radius-first{
+    border-radius: 12px 0 0 0;
+}
+#block_2 .key-differences .content .border-radius-table .title{
+    color: rgb(102, 102, 102);
+}
+#block_2 .key-differences .content .border-radius-table .border-radius-last{
+    border-radius: 0 0 0 12px;
+}
+#block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{
+    margin: 40px 0 0 -130px;
+    width: 195px;
+}
+#block_2 .key-differences .content .border-radius-table .clickedStyleSaveClient{
+    margin: 30px 0 0 -205px;
+    width: auto;
+}
+#block_2 .key-differences .content .border-radius-table .clickedStyleWithoutIntegration{
+    margin: 30px 0 0 -160px;
+    width: auto;
+}
+#block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab:after{
+    left: 80px;
+}
+#block_2 .key-differences .content .border-radius-table .clickedStyleSaveClient:after{
+    left: 160px;
+}
+#block_2 .key-differences .content .border-radius-table .clickedStyleWithoutIntegration:after{
+    left: 115px;
+}
+#block_2 .key-differences .content .border-radius-table .four-pay-1-free:hover,
+#block_2 .key-differences .content .border-radius-table .saveClientInSystem:hover,
+#block_2 .key-differences .content .border-radius-table .withoutIntegration:hover{
+    cursor: pointer;
+}
+#block_2 .key-differences .lastTable{
+    border: none;
+}
+#block_2 .key-differences .lastTable td:first-child{
+    width: 47%;
+    border: none;
+}
+#block_2 .key-differences .lastTable .greyColor{
+    border-radius: 0 0 0 12px;
+    border: none;
+}
+#block_2 .key-differences .lastTable .greenColor{
+    border-radius: 0 0 12px 0;
+    border: none;
+}
+.try-new-recruitment-experience{
+    background-color: rgb(247, 247, 247)!important;
+}
+#block_3 .main-advantages h2{
+    font-family: 'Helv-3-Light';
+    font-size: 30px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+#block_3 .main-advantages h2 .etc{
+    font-weight: 600;
+}
+#block_3 .main-advantages .advantages{
+    color: rgb(51, 51, 51);
+    line-height: 1.438;
+}
+#block_3 .main-advantages img{
+    display: block;
+    margin: 30px auto 25px;
+}
+#block_3 .main-advantages .bigMarginTop{
+    margin-top: 95px;
+}
+#block_3 .main-advantages p{
+    margin: 10px 0;
+    font-size: 20px;
+    color: rgb(51, 51, 51);
+    letter-spacing: 1px;
+}
+#block_3 .main-advantages .advantagesCs{
+    margin-top: 40px;
+}
+#block_3 .main-advantages .advantagesCs h2{
+    font-family: 'Helv-3-Light';
+    font-size: 20px;
+    color: rgb(153, 153, 153);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+#block_3 .main-advantages h2 span{
+    font-weight: 600;
+}
+#block_3 .main-advantages .plane{
+    width: 44px;
+    height: 28px;
+    left: 310px;
+    bottom: 140px;
+}
+#block_3 .main-advantages .linePlane{
+    width: 98px;
+    height: 140px;
+    left: 225px;
+    bottom: 0;
+}
+#block_3 .main-advantages .chat_2, #block_3 .main-advantages .linePlane, #block_3 .main-advantages .plane{
+   opacity: 0.5;
+}
+#block_3 .main-advantages .task_4{
+    bottom: 135px;
+}
+#block_3 .main-advantages .clock_3{
+    bottom: 245px;
+}
+#block_3 .main-advantages .lupa {
+    background: url(../img/lupa.png);
+    width: 42px;
+    height: 42px;
+    background-size: cover;
+    position: absolute;
+    top: 350px;
+    left: 40px;
+}
+#block_3 .main-advantages .setting {
+    background: url(../img/setting.png);
+    width: 71px;
+    height: 68px;
+    background-size: cover;
+    position: absolute;
+    bottom: 115px;
+    left: 30px;
+}
+/*compare end*/
 @media screen and (max-width: 1199px) {
     .tabsCs .nav-tabs li {
         padding: 5px 0 0 0;
@@ -2656,15 +3040,6 @@ select.webkit-fix {
     .little-padding-btn{
         padding: 10px 7px;
     }
-    /*.table td:first-child{*/
-        /*width: 12em;*/
-    /*}*/
-    /*.titleTable td:first-child{*/
-        /*width: 197px!important;*/
-    /*}*/
-    /*.titleTable td:not(:first-child){*/
-        /*width: 186px;*/
-    /*}*/
     .hide-block{
         height: 50px!important;
     }
@@ -2697,6 +3072,51 @@ select.webkit-fix {
         margin-top: 60px;
     }
     /*features end*/
+    /*compare potok start*/
+    #home .potok-tittle h1{
+        font-size: 36px;
+        line-height: 1.3;
+    }
+    #home .potok-tittle h1 img{
+        width: 150px;
+        height: 50px;
+    }
+    #home .potok-tittle .teacher{
+        bottom: 10px;
+    }
+    #home .potok-tittle .settings{
+        bottom: 30px;
+    }
+    #block_2 .key-differences h2{
+        font-size: 24px;
+    }
+    #block_3 .main-advantages h2{
+        font-size: 24px;
+    }
+    #block_2 .key-differences .content .segoe-3:after{
+        margin: -20px 0 0 80px;
+    }
+    #block_2 .key-differences .content .segoe-5:after{
+        margin: -18px 0 0 75px;
+    }
+    #block_2 .key-differences .content .segoe-8:after{
+        margin: -20px 0 0 70px;
+    }
+    #block_2 .key-differences .content .segoe-15:after{
+        margin: -18px 0 0 65px;
+    }
+    #block_3 .main-advantages .plane{
+        left: 200px;
+        bottom: 5px;
+    }
+    #block_3 .main-advantages .linePlane{
+        left: 80px;
+        bottom: -90px;
+    }
+    #block_10 .paddingZero{
+        padding: 0;
+    }
+    /*compare potok end*/
 }
 @media screen and (max-width: 991px) {
     .mailing span.bold {
@@ -2898,23 +3318,6 @@ select.webkit-fix {
         position: relative;
         right: -60px;
     }
-    /*.tablePrise .plans{*/
-        /*width: 132px;*/
-    /*}*/
-    /*.titleTable2 td:first-child{*/
-        /*width: 168px;*/
-    /*}*/
-    /*.titleTable2 td:not(:first-child){*/
-        /*!*width: 132px;*!*/
-        /*width: 138px;*/
-    /*}*/
-    /*.titleTable td:first-child{*/
-        /*width: 168px!important;*/
-    /*}*/
-    /*.titleTable td:not(:first-child){*/
-        /*!*width: 132px;*!*/
-        /*width: 138px;*/
-    /*}*/
     .fixed-plans{
         width: 53.6em;
         padding-right: 30px;
@@ -3028,6 +3431,32 @@ select.webkit-fix {
         margin-top: 60px;
     }
     /*features end*/
+    /*compare potok start*/
+    #home .potok-tittle .teacher{
+        bottom: 10px;
+        left: 30px!important;
+    }
+    #home .potok-tittle .settings{
+        bottom: 30px;
+        right: 30px!important;
+    }
+    #block_2 .key-differences .content .segoe-3:after{
+        margin: -20px 0 0 55px;
+    }
+    #block_2 .key-differences .content .segoe-5:after{
+        margin: -18px 0 0 45px;
+    }
+    #block_2 .key-differences .content .segoe-8:after{
+        margin: -20px 0 0 45px;
+    }
+    #block_2 .key-differences .content .segoe-15:after{
+        margin: -18px 0 0 35px;
+    }
+    #block_3 .main-advantages .bigImg{
+        width: 100%;
+        height: auto;
+    }
+    /*compare potok end*/
 }
 @media screen and (max-width: 767px) {
     .menuLanding .navbar{
@@ -3221,41 +3650,12 @@ select.webkit-fix {
     .no-padding{
         padding: 0!important;
     }
-    /*.tablePrise .plans{*/
-        /*width: 135px;*/
-    /*}*/
-    /*.titleTable td:first-child{*/
-        /*width: 169px;*/
-    /*}*/
-    /*.titleTable td:not(:first-child){*/
-        /*!*width: 135px;*!*/
-        /*width: 19.3%;*/
-    /*}*/
-    /*!*.titleTable td:nth-child(4){*!*/
-        /*!*width: 150px;*!*/
-    /*!*}*!*/
-    /*.titleTable2 td:first-child{*/
-        /*width: 168px;*/
-    /*}*/
-    /*.titleTable2 td:not(:first-child){*/
-        /*!*width: 134px;*!*/
-        /*width: 19.3%;*/
-    /*}*/
-    /*.titleTable2 td:nth-child(4){*/
-        /*width: 150px;*/
-    /*}*/
     .table-before-support-block td:first-child{
         width: 46%!important;
     }
     .superFunc td:first-child{
         word-break: break-all;
     }
-    /*.titleTable td:first-child{*/
-        /*width: 375px!important;*/
-    /*}*/
-    /*.titleTable2 td:first-child{*/
-        /*width: 375px!important;*/
-    /*}*/
     .fixed-plans{
         width: 100%;
         padding-right: 30px;
@@ -3345,6 +3745,82 @@ select.webkit-fix {
         padding-bottom: 76px;
     }
     /*features end*/
+    /*compare potok start*/
+    #home .potok-tittle .teacher{
+        left: 5px!important;
+        bottom: -75px!important;
+    }
+    #home .potok-tittle .settings{
+        bottom: -40px;
+    }
+    #block_2 .key-differences .titleTable td:first-child {
+        width: 218px;
+    }
+    #block_2 .key-differences .content td:first-child {
+        width: 30.2%;
+    }
+    #block_2 .key-differences .content td:not(:first-child) {
+        width: 25%;
+    }
+    #block_2 .key-differences .lastTable td:first-child {
+        width: 37.7%;
+    }
+    .potokTable img{
+        display: block;
+        margin: 0 auto;
+    }
+    .csTable img{
+        display: block;
+        margin: 0 auto;
+    }
+    .potokTableText, .csTableText{
+        display: none;
+    }
+    #block_2 .key-differences .content .segoe{
+        font-size: 16px;
+    }
+    #block_2 .key-differences .content .segoe-3:after{
+        margin: 0;
+        position: inherit;
+    }
+    #block_2 .key-differences .content .segoe-5:after{
+        margin: 0;
+        position: inherit;
+    }
+    #block_2 .key-differences .content .segoe-8:after{
+        margin: 0;
+        position: inherit;
+    }
+    #block_2 .key-differences .content .segoe-15:after{
+        margin: 0;
+        position: inherit;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{
+        margin: 40px 0 0 -131px;
+    }
+    #block_3 .main-advantages .bigImg{
+        width: initial;
+    }
+    #block_3 .main-advantages .bigMarginTop{
+        margin-top: 20px;
+    }
+    #block_3 .main-advantages .task_4{
+        right: -30px;
+        bottom: 142px;
+    }
+    #block_3 .main-advantages .chat_2{
+        top: 160px;
+    }
+    #block_3 .main-advantages .lupa{
+        top: 610px;
+    }
+    #block_10 .contacts .col-xs-12 h4{
+        margin-top: 35px;
+    }
+    #block_10 .paddingZero{
+        padding: 0 15px;
+    }
+    /*compare potok end*/
 }
 /*for table prize*/
 @media screen and (max-width: 600px) {
@@ -3422,6 +3898,23 @@ select.webkit-fix {
         padding-bottom: 40px;
     }
     /*features end*/
+    /*compare potok start*/
+    #block_2 .key-differences .titleTable td:first-child {
+        width: 47%;
+    }
+    #block_2 .key-differences .content td:first-child {
+        width: 47%;
+    }
+    #block_2 .key-differences .lastTable td:first-child {
+        width: 47%;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{
+        margin: 40px 0 0 -160px;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab:after{
+        left: 95px;
+    }
+    /*compare potok end*/
 }
 
 @media screen and (max-width: 563px) {
@@ -3434,19 +3927,15 @@ select.webkit-fix {
     .error404 #banner-load img{
         width: 320px;
     }
+    #home .potok-tittle h1 .padding-left{
+        padding-left: 0;
+    }
 }
 
 @media screen and (max-width: 500px) {
     .tablePrise .plans{
         width: 95px;
     }
-    /*.titleTable td:first-child{*/
-        /*!*width: 135px;*!*/
-        /*width: 130px;*/
-    /*}*/
-    /*.titleTable2 td:first-child{*/
-        /*width: 168px;*/
-    /*}*/
     .firstStyleHeaderTable{
         font-size: 17px;
         vertical-align: inherit!important;
@@ -3504,6 +3993,19 @@ select.webkit-fix {
         width: 375px;
         float: right;
     }
+    /*potok*/
+    #home .potok-tittle .teacher{
+        left: 0!important;
+        bottom: -45px!important;
+    }
+    #home .potok-tittle .settings{
+        right: 0!important;
+        bottom: -30px!important;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{
+        margin: 40px 0 0 -170px;
+    }
+    /*potok end*/
 }
 /*for table prize end*/
 @media screen and (max-width: 440px) {
@@ -3698,15 +4200,6 @@ select.webkit-fix {
         -webkit-transform: rotate(43deg);
         -o-transform: rotate(43deg);
     }
-    #block_10 .col-xs-4{
-        padding: 0;
-    }
-    #block_10 .col-xs-8{
-        padding: 0;
-    }
-    #block_10 .col-xs-12{
-        padding: 0;
-    }
     footer{
         padding: 0 20px;
     }
@@ -3719,16 +4212,9 @@ select.webkit-fix {
         padding: 10px;
         margin-top: 0;
     }
-    /*.tablePrise .plans{*/
-        /*width: 50px;*/
-        /*word-break: break-word;*/
-    /*}*/
     .hide-block{
         height: 60px!important;
     }
-    /*.plans-for-ru{*/
-        /*width: 63px!important;*/
-    /*}*/
     .no-border a {
         border: none;
         padding: 5px 0;
@@ -3751,24 +4237,12 @@ select.webkit-fix {
     .table-before-support-block td:first-child{
         width: 38%!important;
     }
-    /*.table-before-support-block td:first-child{*/
-        /*width: 257px!important;*/
-    /*}*/
-    /*.firstTable td:first-child{*/
-        /*width: 435px!important;*/
-    /*}*/
-    /*.tablePrise .enterPrizeTable{*/
-        /*padding-bottom: 30px;*/
-    /*}*/
     .tablePrise .corporateTable{
         padding-bottom: 10px;
     }
     .corporateTableEn{
         padding-bottom: 30px!important;
     }
-    /*.tablePrise .teamWorkTable{*/
-        /*padding-bottom: 30px;*/
-    /*}*/
     .styleHeaderTable h4{
         width: 117px;
     }
@@ -3788,11 +4262,9 @@ select.webkit-fix {
         padding: 8px 0;
     }
     .priceMan{
-        /*left: -20px!important;*/
         top: 165px;
     }
     .priceFlower{
-        /*left: 18px!important;*/
         top: 155px;
     }
     .priceGraf {
@@ -3802,15 +4274,6 @@ select.webkit-fix {
     .padding-block-ru, .mrgTopMob:first-child{
         margin-top: 40px;
     }
-    /*.titleTable td:first-child{*/
-        /*!*width: 135px;*!*/
-        /*width: 130px;*/
-    /*}*/
-    /*.titleTable2 td:first-child{*/
-        /*width: 168px;*/
-    /*}*/
-    /*prize end*/
-
 
     /*Why*/
 
@@ -3879,6 +4342,65 @@ select.webkit-fix {
         width: 290px;
     }
     /*features end*/
+    /*compare potok start*/
+    #home {
+        margin-top: 80px;
+    }
+    #home .potok-tittle h1 .nowrap{
+        white-space: nowrap;
+    }
+    #home .potok-tittle h1 img {
+        width: 120px;
+        height: 40px;
+        margin-top: -3px;
+    }
+    #home .potok-tittle .teacher{
+        bottom: -60px!important;
+        width: 75px;
+        height: 90px;
+    }
+    #home .potok-tittle .settings{
+        right: 0!important;
+        bottom: -30px!important;
+    }
+    #block_2 .key-differences .content .ic-problem{
+        width: 15px;
+        height: 16px;
+    }
+    #block_2 .key-differences .content .ic-solution{
+        width: 20px;
+        height: 15px;
+    }
+    #block_2 .key-differences .content .segoe{
+        font-size: 16px;
+        padding: 0;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{
+        margin: 40px 0 0 -180px;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab:after{
+        left: 105px;
+    }
+    #block_2 .key-differences h2{
+        font-size: 23px;
+    }
+    #block_3 .main-advantages h2{
+        font-size: 23px;
+    }
+    #block_3 .main-advantages h2 .etc{
+        display: block;
+    }
+    #block_3 .main-advantages .bigImg{
+        width: 100%;
+    }
+    #block_3 .main-advantages .setting{
+        bottom: 140px;
+        left: 10px;
+    }
+    #block_10 .contacts .first-block{
+        padding-right: 0;
+    }
+    /*compare potok end*/
 }
     /*Terms*/
 .title {
@@ -3935,6 +4457,36 @@ select.webkit-fix {
     transition: all 0.3s;
     outline: none;
 }
+@media screen and (min-width: 373px) and (max-width: 380px) {
+    #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{
+        margin: 40px 0 0 -180px;
+    }
+}
+@media screen and (max-width: 372px) {
+    #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{
+        margin: 5px 0 0 -145px;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedSaveClient{
+        line-height: 20px;
+        margin: 30px 0 0 -160px;
+        width: 80%;
+        height: 50px;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedSaveClient:after{
+        left: 120px;
+        bottom: 50px;
+    }
+}
+@media screen and (max-width: 340px) {
+    #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{
+        margin: 30px 0 0 -170px;
+    }
+}
+@media screen and (max-width: 332px) {
+    #block_2 .key-differences .content .border-radius-table .clickedWithoutIntegration{
+        margin: 30px 0 0 -155px;
+    }
+}
 @media screen and (max-width: 320px) {
     .table-before-support-block td:first-child{
         width: 40%!important;
@@ -3945,6 +4497,15 @@ select.webkit-fix {
     .titleTable .plans img, .titleTable2 .plans img {
         width: 16px;
         height: 16px;
+    }
+    #block_3 .main-advantages h2{
+        font-size: 19px;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedSaveClient{
+        margin: 30px 0 0 -160px;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedWithoutIntegration{
+        margin: 30px 0 0 -155px;
     }
 }
 @media print {
