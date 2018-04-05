@@ -40729,7 +40729,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         $scope.vacancyGeneralHistory = [];
         userFunnelConfig.usersFunnelCache = userFunnelConfig.usersFunnelCache || [];
 
-        let activeColumnsLength = 5; // amount of funnel columns with data
+        let activeColumnsLength = 4; // amount of funnel columns with data
 
         /* -- funnel general algorithm
             1. - parseCustomStagesNames  --- transform custom stages id`s to valid custom names
@@ -40907,7 +40907,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     .then(resp => {
                         const columnToAdd = addUserColumn({username, scaleOffset, labelOffset, candidateSeries: resp.config.candidateSeries});
                         drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:columnToAdd});
-                        // checkForTotalCandidatesColumn({scaleOffset, labelOffset})
+                        totalCandidatesColumn({scaleOffset, labelOffset})
                     }, error => console.error(error));
             } else {
                 const columnToRemove = removeUserColumn({username, scaleOffset, labelOffset});
@@ -40919,9 +40919,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             let graphset = zingchart.exec('myChartDiv', 'getdata').graphset[0];
 
             const scaleX = graphset["scale-y-" + (activeColumnsLength)]['item'].static ? graphset["scale-y-" + (activeColumnsLength)]['item']['offset-x'] + 135 :
-                           graphset["scale-y-" + (activeColumnsLength)]['item']['offset-x'] + scaleOffset;
-                  let labelX = graphset.labels[activeColumnsLength].static ? graphset.labels[activeColumnsLength]['offset-x'] + 125 :
+                           graphset["scale-y-" + (activeColumnsLength)]['item']['offset-x'] + scaleOffset,
+                labelX = graphset.labels[activeColumnsLength].static ? graphset.labels[activeColumnsLength]['offset-x'] + 125 :
                            graphset.labels[activeColumnsLength]['offset-x'] + labelOffset;
+
             graphset.labels.push({
                 text: username,
                 fontWeight: "bold",
@@ -40933,40 +40934,39 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 "border-radius":"5px",
                 "height":"100%",
                 "vertical-align":"top",
-                "padding":"10%",
+                "padding":"10% 10% 10px 10%",
                 "width":"80px"
             });
-            graphset["scale-y-" + (activeColumnsLength)] = {"values": candidateSeries, "item": {fontSize: 12,"offset-x": scaleX},
+            graphset["scale-y-" + (activeColumnsLength + 1)] = {"values": candidateSeries, "item": {fontSize: 12,"offset-x": scaleX},
                      "guide":{
                          "lineWidth":"1px",
                          "line-gap-size":"5000px",
-                         "lineSegmentSize":"450px"
+                         "lineSegmentSize":"0px"
                      }};
 
             activeColumnsLength++;
             return graphset;
         }
 
-        function removeUserColumn({username, scaleOffset, labelOffset}) {
+        function removeUserColumn({name, scaleOffset, labelOffset}) {
             let graphset = zingchart.exec('myChartDiv', 'getdata').graphset[0];
 
             let removedColumnIndex;
             graphset.labels.forEach((label, index) => {
-                if(label.text === username) {
+                if(label.text === name) {
                     removedColumnIndex = index;
-                    delete graphset["scale-y-" + (index + 1)];
+                    delete graphset["scale-y-" + (index)];
                     graphset.labels.splice(index, 1);
                 }
             });
 
-            console.log(graphset);
             for(let i = removedColumnIndex; i < activeColumnsLength; i++) {
+                graphset["scale-y-" + (i)] = graphset["scale-y-" + (i + 1)];
                 graphset["scale-y-" + (i + 1)] = graphset["scale-y-" + (i + 2)];
-                graphset["scale-y-" + (i + 2)] = graphset["scale-y-" + (i + 3)];
             }
 
             for(let i = removedColumnIndex; i < activeColumnsLength; i++) {
-                graphset["scale-y-" + (i + 1)]['item']['offset-x'] -= scaleOffset;
+                graphset["scale-y-" + (i)]['item']['offset-x'] -= scaleOffset;
                 graphset.labels[i]['offset-x'] -= labelOffset;
             }
 
@@ -40974,15 +40974,26 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             return graphset;
         }
 
-        function checkForTotalCandidatesColumn({scaleOffset, labelOffset}) {
-                let graphset = zingchart.exec('myChartDiv', 'getdata').graphset[0];
+        function totalCandidatesColumn({scaleOffset, labelOffset}) {
 
-            const labelX = graphset.labels[graphset.labels.length - 1]['offset-x'] + labelOffset,
-                scaleX = graphset["scale-y-" + graphset.labels.length]['item']['offset-x'] + scaleOffset;
+            if($scope.funnelActionUsersList.length !== 1) {
+                if($scope.funnelActionUsersList.length === 2) {
+                    const columnToRemove = removeUserColumn({name:$filter('translate')('Total in vacancy'), scaleOffset, labelOffset});
+                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:columnToRemove});
+                    activeColumnsLength++;
+                }
+                return;
+            }
+
+            let graphset = zingchart.exec('myChartDiv', 'getdata').graphset[0];
+
+            const labelX = graphset.labels[activeColumnsLength]['offset-x'] + labelOffset,
+                scaleX = graphset["scale-y-" + activeColumnsLength]['item']['offset-x'] + scaleOffset;
+            totalCandidatesColumn.index = totalCandidatesColumn.index || activeColumnsLength + 1;
 
 
-            if($scope.funnelActionUsersList.length === 1) {
-                graphset.labels.push({
+            // if($scope.funnelActionUsersList.length === 1) {
+                graphset.labels[activeColumnsLength + 1] = {
                     text: $filter('translate')('Total in vacancy'),
                     fontWeight: "bold",
                     fontSize: 12,
@@ -40995,19 +41006,19 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     "vertical-align":"top",
                     "padding":"10%",
                     "width":"80px"
-                });
-                graphset["scale-y-" + graphset.labels.length + 1] = {"values": graphset['scale-y-2']['values'], "item": {fontSize: 12,"offset-x": scaleX},
+                };
+                graphset["scale-y-9"] = {"values": graphset['scale-y-2']['values'], "item": {fontSize: 12,"offset-x": scaleX},
                     "guide":{
                         "lineWidth":"1px",
                         "line-gap-size":"5000px",
                         "lineSegmentSize":"450px"
                     }};
                 drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset});
-            } else {
-                graphset["scale-y-" + graphset.labels.length]['item']['offset-x'] += scaleOffset;
-                graphset.labels[graphset.labels.length - 1]['offset-x'] += labelOffset;
-                drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset});
-            }
+            // } else {
+            //     graphset["scale-y-9"]['item']['offset-x'] += scaleOffset;
+            //     graphset.labels[totalCandidatesColumn.index]['offset-x'] += labelOffset;
+            //     drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:graphset});
+            // }
             console.log(graphset);
         }
 
@@ -41130,7 +41141,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": 5}, "guide":guide.guide},
                 "scale-y-3": {"values": values3, "item": {fontSize: 12,"offset-x": 95}, "guide":guide.guide},
                 "scale-y-4": {"values": values4, "item": {fontSize: 12,"offset-x": 190, static: true}, "guide":guide.guide},
-                "scale-y-5": {"values": [],"item": {fontSize: 12,"offset-x": 190, static: true}, "guide":guide.guide},
                 plotarea: { margin: '100px 0 0 100px' },
                 "scale-x": {"values": [""]},
                 labels: [
