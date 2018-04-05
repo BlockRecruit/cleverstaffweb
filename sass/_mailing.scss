@@ -269,12 +269,13 @@
 						&.recipient {
 							font-weight: normal;
 
-							width: 16%;
+							width: 17%;
 							padding-right: 20px;
 
 							text-align: right;
 
 							color: #666;
+
 							&:hover {
 								text-decoration: underline;
 							}
@@ -309,6 +310,10 @@
 
 								color: #fdd14a;
 							}
+						}
+						.form-control {
+							display: inline-block;
+							width: 90%;
 						}
 					}
 					.send {
