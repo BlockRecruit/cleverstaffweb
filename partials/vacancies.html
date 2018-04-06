@@ -135,7 +135,8 @@
                         <div class="col-lg-12">
                             <table class="table" id="mainTable" ng-table="tableParams"
                                    ng-show="vacanciesFound"
-                                   template-pagination="custom/pager">
+                                   template-pagination="custom/pager"
+                                   loader-directive loading="loaders" loader-name="vacancies">
                                 <thead>
                                 <tr>
                                     <th>

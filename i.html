@@ -33,6 +33,12 @@
 <!-- builddist:section githubRibbon -->
 <!-- /builddist -->
 
+<div ng-show="$root.loading" class="loader-container">
+    <div class="loader" ng-if="$root.loadingNoBlock"></div>
+    <div class="loader-outer" ng-if="$root.loadingBlock">
+        <div class="loader"></div>
+    </div>
+</div>
 <!-- Fixed navbar -->
 <div class="navbar navbar-static-top" ng-cloak ng-show="$root.activeController != 'PublicCompanyController' && $root.activeController != 'PublicVacancyController' && $root.activeController != 'PublicTestController'  && $root.activeController">
     <div class="container-fluid">

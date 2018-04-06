@@ -2,7 +2,7 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
     function($scope, $rootScope, Service, Person, Company, notificationService, $filter, $translate, $uibModal, vacancyStages, Action, CacheCandidates) {
     $scope.showHistory = true;
     localStorage.setItem("isAddCandidates", JSON.stringify(false));
-    $scope.loading = true;
+    $rootScope.loading = true;
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -45,7 +45,7 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
 
                 $scope.historyLimit = 20;
                 $scope.historyTotal = res.total;
-                $scope.loading = false;
+                $rootScope.loading = false;
             });
         };
         $scope.updateHistory();
@@ -68,7 +68,7 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
             "page": {"number": 0, "count": $scope.historyLimit *= 2}
         }, function(res) {
             $scope.history = res.objects;
-            $scope.loading = false;
+            $rootScope.loading = false;
 
         }, function(error) {
         });

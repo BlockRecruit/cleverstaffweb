@@ -3214,7 +3214,177 @@ directive('appVersion', ['version', function(version) {
                 }
             }
         }]
-    ).directive('ngContextMenu', function ($parse) {
+    ).directive('loaderDirective', ['$compile', '$q', '$timeout', '$window', '$rootScope', function($compile, $q, $timeout, $window, $rootScope) {
+            //return {
+                //restrict: 'EA',
+                ////replace: true,
+                //transclude: true,
+                ////bindToController: true,
+                //scope: {
+                //    loading: '=',
+                //    loaderName: '='
+                //},
+                //template: '<div class="loader-container" ng-show="loading.indexOf(loaderName) != -1"><div class="loader-outer"><div class="loader"></div></div></div>',
+                function link(scope, element, attrs) {
+                    console.log(scope);
+                    console.log(element);
+                    console.log(attrs);
+
+                    scope.loading = true;
+                    var directiveId = 'loaderContainer';
+
+                    var targetElement;
+                    var paneElement;
+                    var spinnerImage;
+                    var loader;
+                    var throttledPosition;
+
+                    function init(element) {
+                        targetElement = element;
+
+                        //paneElement = angular.element('<div>');
+                        paneElement = angular.element.find('.loader-container');
+                        //paneElement = angular.element('.loader-container');
+                        console.log($(paneElement), 'paneElement');
+                        //if (attrs['id']) {
+                        //    $(paneElement).attr('data-target-id', attrs['id']);
+                        //}
+                        //$(paneElement).attr('ng-if', '$root.loading');
+                        $(paneElement).css({
+                            'left': 330,
+                            'top': 300,
+                            'width': 918,
+                            'height': 250,
+                            'position': 'absolute'
+                        });
+
+                        //spinnerImage = angular.element('<div>');
+                        spinnerImage = angular.element.find('.loader-outer');
+                        $(spinnerImage).appendTo(paneElement);
+                        $(spinnerImage).css({
+                            //    'left': 330,
+                            //    'top': 400,
+                            'width': 918,
+                            'height': 250,
+                            'position': 'initial'
+                        });
+
+                        //loader = angular.element('<div>');
+                        loader = angular.element.find('.loader');
+                        $(loader).css({
+                            'position': 'absolute',
+                            'left': 380,
+                            'top': 255
+                        });
+                        $(loader).appendTo(spinnerImage);
+
+                        //angular.element('body').append(paneElement);
+
+                        setZIndex();
+                        //console.log($rootScope);
+
+                        //$timeout(position, 100);
+                        //$timeout(position, 200);
+                        //$timeout(position, 300);
+
+                        throttledPosition = _.throttle(position, 50);
+                        angular.element($window).scroll(throttledPosition);
+                        angular.element($window).resize(throttledPosition);
+                    }
+
+                    function updateVisibility(isVisible) {
+                        //console.log(isVisible);
+                        if (isVisible) {
+                            hide();
+                        } else {
+                            if(attrs.loaderName == 'history'){
+                                $(paneElement).removeAttr( 'style' );
+                                $(spinnerImage).removeAttr( 'style' );
+                                $(loader).removeAttr( 'style' );
+                            }
+                            show();
+                        }
+                    }
+
+                    function setZIndex() {
+                        var paneZIndex = 1060;
+
+                        $(paneElement).css('zIndex', paneZIndex).find('.loader-outer').css('zIndex', paneZIndex + 1);
+                    }
+console.log($rootScope.activePage);
+                    function position() {
+                        //console.log(targetElement);
+                        //console.log($(window).scrollTop());
+                        if((attrs.loaderName == 'candidates' || attrs.loaderName == 'vacancies' || attrs.loaderName == 'clients') && attrs.loaderName != 'history'){
+                        //if(($rootScope.activePage == 'Candidates' || $rootScope.activePage == 'Vacancies' || $rootScope.activePage == 'Clients') && attrs.loaderName != 'history'){
+                            $(paneElement).css({
+                                'left': targetElement.offset().left,
+                                //'top': targetElement.offset().top - $(window).scrollTop(),
+                                'top': 400,
+                                //'width': targetElement.outerWidth(),
+                                //'height': targetElement.outerHeight(),
+                                'width': targetElement == undefined ? 918 : targetElement[0].clientWidth,
+                                'height': targetElement == undefined ? 1000 : targetElement[0].clientHeight - 30,
+                                'position': 'absolute'
+                            });
+                            $(spinnerImage).css({
+                                'left': 330,
+                                'top': $(window).scrollTop() >= 0 && $(window).scrollTop() < 380 ? targetElement[0].clientTop : $(window)[0].screenTop + 150,
+                                'width': targetElement == undefined ? 918 : targetElement[0].clientWidth,
+                                'height': targetElement == undefined ? 1000 : targetElement[0].clientHeight - 30,
+                                'position': 'initial'
+                            });
+                            $(loader).css({
+                                'top': $(window).scrollTop() >= 0 && $(window).scrollTop() < 380 ? $(window).scrollTop() + 150 : $(window).scrollTop(),
+                                'position': 'absolute'
+                            });
+                        }else{
+                            console.log('tyttttttttttttttttttttAAAAAAAAAAAAAAAAAA');
+                        }
+                    }
+
+                    function show() {
+                        //$(paneElement).show();
+                        scope.loading = true;
+                        //console.log($rootScope, 'show');
+                    }
+
+                    function hide() {
+                        //$(paneElement).hide();
+                        scope.loading = false;
+                        //console.log($rootScope, 'hide');
+                        //position();
+                    }
+
+                    init(element);
+
+                    scope.$watch(attrs.loaderName, function (newVal) {
+                        //console.log(newVal);
+                        updateVisibility(newVal);
+                    });
+
+                    scope.$on('$destroy', function cleanup() {
+                        //$(paneElement).remove();
+                        $(paneElement).removeAttr( 'style' );
+                        $(spinnerImage).removeAttr( 'style' );
+                        $(loader).removeAttr( 'style' );
+                        $(window).off('scroll', throttledPosition);
+                        $(window).off('resize', throttledPosition);
+                    });
+                }
+                return {
+                    //restrict: 'EA',
+                    ////replace: true,
+                    //transclude: true,
+                    ////bindToController: true,
+                    //scope: {
+                    //    loading: '=',
+                    //    loaderName: '='
+                    //},
+                    //template: '<div class="loader-container" ng-show="loading.indexOf(loaderName) != -1"><div class="loader-outer"><div class="loader"></div></div></div>',
+                    link: link
+                };
+    }]).directive('ngContextMenu', function ($parse) {
         var renderContextMenu = function ($scope, event, options) {
             if (!$) { var $ = angular.element; }
             $(event.currentTarget).addClass('context');

@@ -2841,7 +2841,8 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 }
             });
         };
-            $scope.accessPreson = false;
+        $scope.accessPreson = false;
+        $rootScope.loading = false;
         $scope.sendRequest = function (recallForm, accessPreson) {
             $scope.recallForm = recallForm;
             $scope.showErrorCvFileMessage = true;
@@ -2882,6 +2883,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 if($scope.filesForRecall.length == 0){
                     $scope.showErrorCvFileMessage = true;
                 }else{
+                    $rootScope.loading = true;
                     Service.addCandidate($scope.request, function (resp) {
                         if (resp.status && resp.status === 'error' && resp.message) {
                             $scope.message = "error";
@@ -2905,6 +2907,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                             $scope.recallForm.email2.$pristine = false;
                             $scope.showErrorEmailMessage = false;
                             $('body').removeClass('modal-open-public-vacancy-form');
+                            $rootScope.loading = false;
                             $rootScope.closeModal();
                             $scope.showModalInfoAboutVacancy();
                         }

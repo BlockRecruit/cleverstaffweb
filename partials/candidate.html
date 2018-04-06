@@ -802,10 +802,12 @@
                                      title="{{'add_comment'|translate}}">
                             </div>
                         </div>
+                        <!--<loader-directive loading="loaders" loader-name="candidates"></loader-directive>-->
                         <div class="row event last-action"
                              ng-repeat="history in history"
                              ng-switch="history.type"
-                             ng-class="{'not-for-print': history.type != 'candidate_message'}">
+                             ng-class="{'not-for-print': history.type != 'candidate_message'}"
+                             loader-directive loading="loaders" loader-name="history">
                             <div class="col-lg-12 hidden " ng-switch-default></div>
                             <div class="col-lg-12 not-for-print" ng-switch-when="candidate_remove_candidate_link">
                                 <ng-include src="'partials/history/candidate/candidate_remove_candidate_link.html'"></ng-include>

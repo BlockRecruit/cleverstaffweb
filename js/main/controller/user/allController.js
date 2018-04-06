@@ -1,6 +1,7 @@
 controller.controller('usersController', ["$localStorage", "$translate", "$scope", "ngTableParams", "Person", "$rootScope", "$filter", "$location",
     "notificationService", "Service", "Company", "Vacancy", "ScopeService", "$uibModal",
     function ($localStorage, $translate, $scope, ngTableParams, Person, $rootScope, $filter, $location, notificationService, Service, Company, Vacancy, ScopeService, $uibModal) {
+        $rootScope.loading = true;
         $scope.personAll = [];
         $scope.usersFoundInv = false;
         $scope.personAllDisable = [];
@@ -185,6 +186,7 @@ controller.controller('usersController', ["$localStorage", "$translate", "$scope
                             if (resp[key].status !== 'A' && resp[key].status !== 'D') {
                                 $scope.invAll.push(resp[key]);
                                 $scope.usersFoundInv = true;
+                                $rootScope.loading = false;
                             }
                         });
                         $defer.resolve($filter('orderBy')($scope.invAll, params.orderBy()));

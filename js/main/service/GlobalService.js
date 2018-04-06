@@ -1239,7 +1239,6 @@ angular.module('services.globalService', [
             pagesCount = Math.ceil(total/pagesPerOneLoad);
                 if(currentPage < pagesCount - 1) {
                     $rootScope.loading = true;
-                    currentPage++;
                     updateData(currentPage);
                 }
 

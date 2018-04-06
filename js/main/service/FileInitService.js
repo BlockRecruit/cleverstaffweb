@@ -49,7 +49,8 @@
                         }
                     }).catch(function(data) {
 
-                        $scope.loading = false;
+                        $rootScope.loading = false;
+                        $rootScope.loadingNoBlock = false;
 
 //                            data.response= JSON.parse(data.response);
                         if (data.response[0].code == 'type') {

@@ -3214,7 +3214,177 @@ directive('appVersion', ['version', function(version) {
                 }
             }
         }]
-    ).directive('ngContextMenu', function ($parse) {
+    ).directive('loaderDirective', ['$compile', '$q', '$timeout', '$window', '$rootScope', function($compile, $q, $timeout, $window, $rootScope) {
+            //return {
+                //restrict: 'EA',
+                ////replace: true,
+                //transclude: true,
+                ////bindToController: true,
+                //scope: {
+                //    loading: '=',
+                //    loaderName: '='
+                //},
+                //template: '<div class="loader-container" ng-show="loading.indexOf(loaderName) != -1"><div class="loader-outer"><div class="loader"></div></div></div>',
+                function link(scope, element, attrs) {
+                    console.log(scope);
+                    console.log(element);
+                    console.log(attrs);
+
+                    scope.loading = true;
+                    var directiveId = 'loaderContainer';
+
+                    var targetElement;
+                    var paneElement;
+                    var spinnerImage;
+                    var loader;
+                    var throttledPosition;
+
+                    function init(element) {
+                        targetElement = element;
+
+                        //paneElement = angular.element('<div>');
+                        paneElement = angular.element.find('.loader-container');
+                        //paneElement = angular.element('.loader-container');
+                        console.log($(paneElement), 'paneElement');
+                        //if (attrs['id']) {
+                        //    $(paneElement).attr('data-target-id', attrs['id']);
+                        //}
+                        //$(paneElement).attr('ng-if', '$root.loading');
+                        $(paneElement).css({
+                            'left': 330,
+                            'top': 300,
+                            'width': 918,
+                            'height': 250,
+                            'position': 'absolute'
+                        });
+
+                        //spinnerImage = angular.element('<div>');
+                        spinnerImage = angular.element.find('.loader-outer');
+                        $(spinnerImage).appendTo(paneElement);
+                        $(spinnerImage).css({
+                            //    'left': 330,
+                            //    'top': 400,
+                            'width': 918,
+                            'height': 250,
+                            'position': 'initial'
+                        });
+
+                        //loader = angular.element('<div>');
+                        loader = angular.element.find('.loader');
+                        $(loader).css({
+                            'position': 'absolute',
+                            'left': 380,
+                            'top': 255
+                        });
+                        $(loader).appendTo(spinnerImage);
+
+                        //angular.element('body').append(paneElement);
+
+                        setZIndex();
+                        //console.log($rootScope);
+
+                        //$timeout(position, 100);
+                        //$timeout(position, 200);
+                        //$timeout(position, 300);
+
+                        throttledPosition = _.throttle(position, 50);
+                        angular.element($window).scroll(throttledPosition);
+                        angular.element($window).resize(throttledPosition);
+                    }
+
+                    function updateVisibility(isVisible) {
+                        //console.log(isVisible);
+                        if (isVisible) {
+                            hide();
+                        } else {
+                            if(attrs.loaderName == 'history'){
+                                $(paneElement).removeAttr( 'style' );
+                                $(spinnerImage).removeAttr( 'style' );
+                                $(loader).removeAttr( 'style' );
+                            }
+                            show();
+                        }
+                    }
+
+                    function setZIndex() {
+                        var paneZIndex = 1060;
+
+                        $(paneElement).css('zIndex', paneZIndex).find('.loader-outer').css('zIndex', paneZIndex + 1);
+                    }
+console.log($rootScope.activePage);
+                    function position() {
+                        //console.log(targetElement);
+                        //console.log($(window).scrollTop());
+                        if((attrs.loaderName == 'candidates' || attrs.loaderName == 'vacancies' || attrs.loaderName == 'clients') && attrs.loaderName != 'history'){
+                        //if(($rootScope.activePage == 'Candidates' || $rootScope.activePage == 'Vacancies' || $rootScope.activePage == 'Clients') && attrs.loaderName != 'history'){
+                            $(paneElement).css({
+                                'left': targetElement.offset().left,
+                                //'top': targetElement.offset().top - $(window).scrollTop(),
+                                'top': 400,
+                                //'width': targetElement.outerWidth(),
+                                //'height': targetElement.outerHeight(),
+                                'width': targetElement == undefined ? 918 : targetElement[0].clientWidth,
+                                'height': targetElement == undefined ? 1000 : targetElement[0].clientHeight - 30,
+                                'position': 'absolute'
+                            });
+                            $(spinnerImage).css({
+                                'left': 330,
+                                'top': $(window).scrollTop() >= 0 && $(window).scrollTop() < 380 ? targetElement[0].clientTop : $(window)[0].screenTop + 150,
+                                'width': targetElement == undefined ? 918 : targetElement[0].clientWidth,
+                                'height': targetElement == undefined ? 1000 : targetElement[0].clientHeight - 30,
+                                'position': 'initial'
+                            });
+                            $(loader).css({
+                                'top': $(window).scrollTop() >= 0 && $(window).scrollTop() < 380 ? $(window).scrollTop() + 150 : $(window).scrollTop(),
+                                'position': 'absolute'
+                            });
+                        }else{
+                            console.log('tyttttttttttttttttttttAAAAAAAAAAAAAAAAAA');
+                        }
+                    }
+
+                    function show() {
+                        //$(paneElement).show();
+                        scope.loading = true;
+                        //console.log($rootScope, 'show');
+                    }
+
+                    function hide() {
+                        //$(paneElement).hide();
+                        scope.loading = false;
+                        //console.log($rootScope, 'hide');
+                        //position();
+                    }
+
+                    init(element);
+
+                    scope.$watch(attrs.loaderName, function (newVal) {
+                        //console.log(newVal);
+                        updateVisibility(newVal);
+                    });
+
+                    scope.$on('$destroy', function cleanup() {
+                        //$(paneElement).remove();
+                        $(paneElement).removeAttr( 'style' );
+                        $(spinnerImage).removeAttr( 'style' );
+                        $(loader).removeAttr( 'style' );
+                        $(window).off('scroll', throttledPosition);
+                        $(window).off('resize', throttledPosition);
+                    });
+                }
+                return {
+                    //restrict: 'EA',
+                    ////replace: true,
+                    //transclude: true,
+                    ////bindToController: true,
+                    //scope: {
+                    //    loading: '=',
+                    //    loaderName: '='
+                    //},
+                    //template: '<div class="loader-container" ng-show="loading.indexOf(loaderName) != -1"><div class="loader-outer"><div class="loader"></div></div></div>',
+                    link: link
+                };
+    }]).directive('ngContextMenu', function ($parse) {
         var renderContextMenu = function ($scope, event, options) {
             if (!$) { var $ = angular.element; }
             $(event.currentTarget).addClass('context');
@@ -9283,7 +9453,8 @@ angular.module('services.employee', [
                         }
                     }).catch(function(data) {
 
-                        $scope.loading = false;
+                        $rootScope.loading = false;
+                        $rootScope.loadingNoBlock = false;
 
 //                            data.response= JSON.parse(data.response);
                         if (data.response[0].code == 'type') {
@@ -11096,7 +11267,6 @@ angular.module('services.globalService', [
             pagesCount = Math.ceil(total/pagesPerOneLoad);
                 if(currentPage < pagesCount - 1) {
                     $rootScope.loading = true;
-                    currentPage++;
                     updateData(currentPage);
                 }
 
@@ -11924,6 +12094,7 @@ angular.module('services.pay', [
 
             });
      person.requestGetAllPersons = function () {
+         $rootScope.loading = true;
          return new Promise((resolve, reject) => {
              person.getAllPersons(resp => resolve(resp, resp['request'] = 'AllPersons'),error => reject(error));
          });
@@ -17211,7 +17382,7 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
     function($scope, $rootScope, Service, Person, Company, notificationService, $filter, $translate, $uibModal, vacancyStages, Action, CacheCandidates) {
     $scope.showHistory = true;
     localStorage.setItem("isAddCandidates", JSON.stringify(false));
-    $scope.loading = true;
+    $rootScope.loading = true;
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -17254,7 +17425,7 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
 
                 $scope.historyLimit = 20;
                 $scope.historyTotal = res.total;
-                $scope.loading = false;
+                $rootScope.loading = false;
             });
         };
         $scope.updateHistory();
@@ -17277,7 +17448,7 @@ controller.controller('ActivityGlobalHistoryController', ["$scope", "$rootScope"
             "page": {"number": 0, "count": $scope.historyLimit *= 2}
         }, function(res) {
             $scope.history = res.objects;
-            $scope.loading = false;
+            $rootScope.loading = false;
 
         }, function(error) {
         });
@@ -19604,6 +19775,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     localStorage.removeItem('stageUrl');
     localStorage.removeItem('candidatesInStagesVac');
     localStorage.removeItem('getAllCandidates');
+    $scope.loaders = ["candidates", "uploadsCV"];
     Candidate.getCandidate = [];
     let languagetLevelDataForTranslates = [];
     vacancyStages.get(function (resp) {
@@ -28954,6 +29126,7 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
                              $filter, ngTableParams,Person, Action, Task, CacheCandidates, File, FileInit, $translate, $uibModal, $route, Mail, $localStorage) {
     delete $rootScope.candidate;
     $scope.status = Client.getState();
+    $rootScope.loading = false;
     $scope.contactLimit = 3;
     $scope.vacancyCounter = 0;
     $scope.historyLimit = 20;
@@ -29088,6 +29261,7 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
     };
 
     $scope.updateClient = function () {
+        $rootScope.loading = true;
         $scope.showAddedLinks = false;
         $scope.showAddedFiles = false;
         Client.one({"localId": $routeParams.id}, function(resp) {
@@ -29101,6 +29275,7 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
                 $rootScope.newTask.clientId = $rootScope.client.clientId;
                 $scope.updateTasks(true);
                 $rootScope.title = resp.object.name + " | CleverStaff";
+                $rootScope.loading = false;
                 if($scope.client.files){
                     if($scope.client.files.length != undefined && $scope.client.files.length != 0){
                         angular.forEach($scope.client.files, function (val) {
@@ -33855,6 +34030,7 @@ controller.controller('recallController', ["$localStorage", "frontMode", "google
 controller.controller('usersController', ["$localStorage", "$translate", "$scope", "ngTableParams", "Person", "$rootScope", "$filter", "$location",
     "notificationService", "Service", "Company", "Vacancy", "ScopeService", "$uibModal",
     function ($localStorage, $translate, $scope, ngTableParams, Person, $rootScope, $filter, $location, notificationService, Service, Company, Vacancy, ScopeService, $uibModal) {
+        $rootScope.loading = true;
         $scope.personAll = [];
         $scope.usersFoundInv = false;
         $scope.personAllDisable = [];
@@ -34039,6 +34215,7 @@ controller.controller('usersController', ["$localStorage", "$translate", "$scope
                             if (resp[key].status !== 'A' && resp[key].status !== 'D') {
                                 $scope.invAll.push(resp[key]);
                                 $scope.usersFoundInv = true;
+                                $rootScope.loading = false;
                             }
                         });
                         $defer.resolve($filter('orderBy')($scope.invAll, params.orderBy()));
@@ -35765,7 +35942,8 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
             // notificationService.error($filter('translate')('Enter the data'));
         }else{
             $rootScope.loading = true;
-            if ($scope.searchParam['status'] ||
+            if ($scope.searchParam['salaryName'] ||
+                $scope.searchParam['status'] ||
                 $("#clientAutocompleater").select2('data') !== null ||
                 $scope.searchParam['regionId'] ||
                 $scope.searchParam['responsibleId'] ||
@@ -41038,6 +41216,58 @@ controller.controller('pipelineController', ["$rootScope", "$scope", "notificati
 
         $scope.buildPipelineReport();
 
+        $rootScope.loading = true;
+        Stat.getStatisticsByVacancies(function(resp){
+           if(resp.status == 'ok'){
+               $scope.vacancies = resp.object.positionReport;
+               //Stat.countCandidateByVacancyAndLastActiveDate(function(res){
+                   $scope.stagesOnVacancy = resp.objects[0].lastActiveState;
+                   angular.forEach($scope.vacancies, function(data,key){
+                       if(data.deadline){
+                           if(differenceBetweenTwoDates(data.deadline, new Date()) <= 3){
+                               data.strongWarning = true;
+                           }
+                       }
+                       angular.forEach($scope.stagesOnVacancy, function(dat){
+                           if(dat.vacancyId == data.vacancyId){
+                              switch(dat.num){
+                                  case 1:
+                                      data.lastActiveStage = dat;
+                                      data.lastActiveStage.differenceInDays = differenceBetweenTwoDates(new Date(), data.lastActiveStage.lastAction);
+                                      // if(data.deadline){
+                                          if(differenceBetweenTwoDates(data.lastActiveStage.lastAction, new Date()) < -5){
+                                              data.warning = true;
+                                          }
+                                      // }
+                                      break;
+                                  case 2:
+                                      data.previousActiveStage = dat;
+                                      break;
+                              }
+                           }
+                       });
+                   });
+               //});
+               //Stat.countCandidateByRefusalAndApprovedReasonsAndLastActiveDate(function(ref){
+                   var refuses = resp.objects[0].refusal;
+               var approved = resp.objects[0].approved;
+                   angular.forEach($scope.vacancies, function(data,key){
+                       angular.forEach(approved, function(dat){
+                           if(dat.vacancyId == data.vacancyId){
+                               data.approved = dat
+                           }
+                       });
+                       angular.forEach(refuses, function(dat){
+                           if(dat.vacancyId == data.vacancyId){
+                               data.refusal = dat
+                           }
+                       });
+                   });
+               //});
+               $rootScope.loading = false;
+               $rootScope.loadingNoBlock = false;
+           }
+        });
         $scope.showPipelineDescr = function(){
             $scope.modalInstance = $uibModal.open({
                 animation: true,

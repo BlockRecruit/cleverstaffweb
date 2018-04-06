@@ -88,12 +88,15 @@
 <div ng-cloak class="blurBackground" style="margin: auto">
     <div ng-show="$root.loading" class="loader-container">
         <!--<div class="modal-backdrop in loading-screen"></div>-->
+        <!--<div class="loader" ng-if="$root.loadingNoBlock"></div>-->
+        <!--<div class="loader-outer" ng-if="$root.loadingBlock">-->
+            <!--<div class="loader"></div>-->
+        <!--</div> -->
         <div class="loader-outer">
             <div class="loader"></div>
         </div>
     </div>
-    <div class="navbar navbar-static-top" ng-class="{'overModal': $root.me.orgs.length > 1 && !$root.hideTariff}"
-         ng-show="$root.activePage !== 'Invoice generation'">
+    <div class="navbar navbar-static-top" ng-controller="NavbarController" ng-class="{'overModal': $root.me.orgs.length > 1 && !$root.hideTariff}">
         <div class="container-fluid">
             <div class="navbar-header pull-left">
                 <a href="#/organizer" class="navbar-brand">

@@ -2,6 +2,7 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
                              $filter, ngTableParams,Person, Action, Task, CacheCandidates, File, FileInit, $translate, $uibModal, $route, Mail, $localStorage) {
     delete $rootScope.candidate;
     $scope.status = Client.getState();
+    $rootScope.loading = false;
     $scope.contactLimit = 3;
     $scope.vacancyCounter = 0;
     $scope.historyLimit = 20;
@@ -136,6 +137,7 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
     };
 
     $scope.updateClient = function () {
+        $rootScope.loading = true;
         $scope.showAddedLinks = false;
         $scope.showAddedFiles = false;
         Client.one({"localId": $routeParams.id}, function(resp) {
@@ -149,6 +151,7 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
                 $rootScope.newTask.clientId = $rootScope.client.clientId;
                 $scope.updateTasks(true);
                 $rootScope.title = resp.object.name + " | CleverStaff";
+                $rootScope.loading = false;
                 if($scope.client.files){
                     if($scope.client.files.length != undefined && $scope.client.files.length != 0){
                         angular.forEach($scope.client.files, function (val) {

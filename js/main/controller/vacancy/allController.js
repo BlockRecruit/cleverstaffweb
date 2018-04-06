@@ -189,7 +189,8 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
             // notificationService.error($filter('translate')('Enter the data'));
         }else{
             $rootScope.loading = true;
-            if ($scope.searchParam['status'] ||
+            if ($scope.searchParam['salaryName'] ||
+                $scope.searchParam['status'] ||
                 $("#clientAutocompleater").select2('data') !== null ||
                 $scope.searchParam['regionId'] ||
                 $scope.searchParam['responsibleId'] ||
