@@ -47288,18 +47288,24 @@ component.component('mDetails', {
         };
 
 
-        $scope.saveCandidateContacts = function (candidate, newEmail) {
+        $scope.saveCandidateContacts = function (candidate, newEmail, newName) {
             if(!candidate.localId) {
                 notificationService.error('There is no candidate Id. This mailing is broken. Please, create new mailing');
                 return
             }
-            if(Mailing.emailValidation(newEmail)) {
-                candidate.email = newEmail;
-                candidate.mailing = true;
-                editCandidate(candidate);
+            if(newName.trim().length > 0) {
+                if(Mailing.emailValidation(newEmail)) {
+                    candidate.email = newEmail;
+                    candidate.fullName = newName;
+                    candidate.mailing = true;
+                    editCandidate(candidate);
+                } else {
+                    notificationService.error($filter('translate')('wrong_email'));
+                }
             } else {
-                notificationService.error($filter('translate')('wrong_email'));
+                notificationService.error($filter('translate')('Please enter the name of the recipient'));
             }
+
         };
 
 

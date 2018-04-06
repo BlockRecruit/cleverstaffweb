@@ -57,7 +57,7 @@
                                     <i  candidate="user" title="{{'Profile preview'|translate}}" class="fa fa-address-card-o text_change" aria-hidden="true"></i>
                             </span>
                             <a href="!#/candidates/{{candidate.candidateId.localId}}" target="_blank" ng-if="!candidate.editable">{{candidate.candidateId.fullName|limitTo:40}}{{candidate.candidateId.fullName.length > 40 ? '...':''}}</a>
-                            <input ng-if="candidate.editable" class="form-control" ng-model="candidate.candidateId.fullName" type="text" maxlength="100">
+                            <input ng-if="candidate.editable" class="form-control" ng-init="candidate.candidateId.fullNameNew = candidate.candidateId.fullName" ng-model="candidate.candidateId.fullNameNew" type="text" maxlength="100">
                         </td>
                         <td class="email">
                             <span ng-if="!candidate.editable && candidate.candidateId.email" ng-bind="candidate.candidateId.email" ng-click="candidate.editable = true"></span>
@@ -71,7 +71,7 @@
                             <a href="" class="pull-right ng-binding edit-test" ng-hide="candidate.editable" title="{{'Edit'| translate}}" ng-click="candidate.editable = true">
                                 <i class="fa fa-pencil" title="{{'Edit'|translate}}" aria-hidden="true"></i>
                             </a>
-                            <button class="save-button btn" ng-click="saveCandidateContacts(candidate.candidateId, candidate.candidateId.emailNew)" ng-class="{'show-item': candidate.editable}" translate="save"></button>
+                            <button class="save-button btn" ng-click="saveCandidateContacts(candidate.candidateId, candidate.candidateId.emailNew, candidate.candidateId.fullNameNew)" ng-class="{'show-item': candidate.editable}" translate="save"></button>
                             <button class="cancel-button btn" ng-click="cancelSavingCandidateContacts(candidate.candidateId.localId)" ng-show="candidate.editable" translate="cancel"></button>
                         </td>
                     </tr>

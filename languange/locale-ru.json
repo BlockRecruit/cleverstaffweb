@@ -3087,5 +3087,6 @@
   "With the help of mailings you can send letters to candidates, get the reports on emails delivery and views":"С помощью рассылок вы можете массово отправлять письма кандидатам,а также смотреть отчёты о доставке и просмотрах писем.",
   "Customizable templates with variables allow you to send personalized emails and the analytics will show the effectiveness of your mailings.":"Настраиваемые шаблоны с переменными позволят вам отправлять персонализированные письма, а аналитика покажет эффективность писем.",
   "You can even implement the A/B test and determine which letters work best.":"Вы даже сможете реализовать A/B тест и определить какие письма лучше работают.",
-  "The cost of each letter is 0.01 USD (100 letters - 1 USD). Unlimited tariff - $ 300/month or $ 3000/year.":"Стоимость каждого письма составляет 0,01 USD (100 писем - 1 USD). Безлимитный тариф - 300 долларов в месяц или 3000 долларов в год. Для подключения безлимитного тарифа обращайтесь в службу поддержки."
+  "The cost of each letter is 0.01 USD (100 letters - 1 USD). Unlimited tariff - $ 300/month or $ 3000/year.":"Стоимость каждого письма составляет 0,01 USD (100 писем - 1 USD). Безлимитный тариф - 300 долларов в месяц или 3000 долларов в год. Для подключения безлимитного тарифа обращайтесь в службу поддержки.",
+  "Please enter the name of the recipient": "Пожалуйста введите имя получателя"
 }
