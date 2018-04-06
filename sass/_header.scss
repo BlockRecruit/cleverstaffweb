@@ -815,6 +815,43 @@ body {
 					&:focus {
 						background-color: transparent;
 					}
+					&.inviteUserClient {
+						@include button-styling-cancel();
+
+						font-family: "Helvetica-Normal";
+						font-weight: normal;
+
+						margin-left: 10px;
+
+						border: none;
+						&.blocked-user {
+							margin-left: 30px;
+						}
+						&:hover {
+							border: none;
+						}
+					}
+				}
+				&.invite-button {
+					border: none;
+					background: transparent;
+					a {
+					}
+				}
+				.inviteUserClientHideTariff {
+					@include center-block;
+					@include button-styling-cancel();
+
+					font-family: "Helvetica-Normal";
+					font-weight: normal;
+
+					margin: 4px 0 0 10px;
+					&:hover {
+						border: none;
+					}
+					&:focus {
+						outline: none;
+					}
 				}
 			}
 		}
@@ -853,31 +890,7 @@ body {
 				border: 1px solid #ccc;
 			}
 		}
-		.inviteUserClientHideTariff {
-			@include center-block;
-			@include button-styling();
 
-			margin: 4px 0 0 10px;
-			&:hover {
-				border: none;
-			}
-			&:focus {
-				outline: none;
-			}
-		}
-		.inviteUserClient {
-			@include button-green-styling();
-
-			margin: 3px 0 0 10px;
-
-			border: none;
-			&.blocked-user {
-				margin-left: 30px;
-			}
-			&:hover {
-				border: none;
-			}
-		}
 		#disabledBtn,
 		#disabledBtn-2,
 		#disabledBtn-3 {
