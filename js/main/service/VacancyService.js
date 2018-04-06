@@ -807,8 +807,6 @@ angular.module('services.vacancy', [
             "words": null,
             "position": null,
             "clientId": null,
-            "salaryFrom": null,
-            "salaryTo": null
         };
     };
     vacancy.init();

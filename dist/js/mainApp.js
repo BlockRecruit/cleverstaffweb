@@ -14147,8 +14147,6 @@ angular.module('services.vacancy', [
             "words": null,
             "position": null,
             "clientId": null,
-            "salaryFrom": null,
-            "salaryTo": null
         };
     };
     vacancy.init();
@@ -34837,7 +34835,6 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
     }
     $scope.searchParam = {
         searchCs: true,
-        salary: "",
         status: "",
         regionId: null,
         words: "",
@@ -34863,7 +34860,6 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
         }else if ($rootScope.previousLocation == '/clients/:id' && $rootScope.allClientsVacancies == true){
             $scope.searchParam = {
                 searchCs: true,
-                salary: "",
                 status: "",
                 regionId: null,
                 words: "",
@@ -34921,8 +34917,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
             notificationService.error($filter('translate')('Enter more data for search'));
             return;
         }
-        if($scope.searchParam['salaryName'] == null && $scope.searchParam.states == null &&
-            $scope.searchParam.state == null && $("#clientAutocompleater").select2('data') == null &&
+        if($scope.searchParam.states == null && $scope.searchParam.state == null && $("#clientAutocompleater").select2('data') == null &&
             $scope.searchParam.words.length == 0 && $scope.searchParam.name == null &&
             $scope.searchParam.position == null && $scope.searchParam.candidateGroups == null &&
             $scope.searchParam.regionId == null && $scope.searchParam.candidateGroupIds == null &&
@@ -34931,22 +34926,12 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
             notificationService.error($filter('translate')('Enter the data'));
         }else{
             $rootScope.loading = true;
-            if ($scope.searchParam['salaryName'] ||
-                $scope.searchParam['status'] ||
+            if ($scope.searchParam['status'] ||
                 $("#clientAutocompleater").select2('data') !== null ||
                 $scope.searchParam['regionId'] ||
                 $scope.searchParam['responsibleId'] ||
                 $scope.searchParam['personId'] ||
                 $scope.searchParam['words']) {
-                if ($scope.searchParam['salaryName'] && $scope.searchParam['salaryName']!='null') {
-                    angular.forEach($scope.salaryObject, function(resp){
-                        if(resp.name == $scope.searchParam.salaryName){
-                            $scope.searchParam['salary'] = resp;
-                        }
-                    });
-                } else {
-                    $scope.searchParam['salary'] = null;
-                }
                 if ($("#clientAutocompleater").select2('data') !== null) {
                     $scope.searchParam['clientId'] =$("#clientAutocompleater").select2('data').id;
                     $scope.searchParam['clientName'] = $("#clientAutocompleater").select2('data').name
@@ -34987,8 +34972,6 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                         $scope.searchParam.pages.count = params.$params.count;
                         $scope.searchParam.personId = $scope.searchParam.personId == 'null' ? null: $scope.searchParam.personId;
                         Vacancy.setOptions("personId", $scope.searchParam.personId != undefined ? $scope.searchParam.personId : activeParam.name == 'onlyMy' ? $rootScope.userId : null);
-                        Vacancy.setOptions("salaryFrom", $scope.searchParam['salary'] ? $scope.searchParam['salary'].salaryFrom : null);
-                        Vacancy.setOptions("salaryTo", $scope.searchParam['salary'] ? $scope.searchParam['salary']["salaryTo"] : null);
                         Vacancy.setOptions("state", isNotBlank($scope.searchParam['status']) && $scope.chosenStatuses.length == 1 ? $scope.searchParam['status'] : null);
                         Vacancy.setOptions("states", $scope.chosenStatuses.length > 1 ? $scope.chosenStatuses : null);
                         Vacancy.setOptions("words", $scope.searchParam['words'] ? $scope.searchParam['words'] : null);
