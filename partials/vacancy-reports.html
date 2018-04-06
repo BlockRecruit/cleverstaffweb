@@ -69,12 +69,12 @@
             <div class="col-lg-12 funnelPanel">
                 <div id="funnel">
                     <div style="min-height:150px">
-                        <div class="ui vertically divided grid ">
-                            <div class="sixteen wide column funnel-header" ng-if="vacancyFunnelMap">
-                                <span class="text-center">{{'Recruiting funnel'|translate}}</span>
-                                <span ng-show="statistics.user.name">({{statistics.user.name}})</span>
-                            </div>
-                        </div>
+                        <!--<div class="ui vertically divided grid ">-->
+                            <!--<div class="sixteen wide column funnel-header" ng-if="vacancyFunnelMap">-->
+                                <!--<span class="text-center">{{'Recruiting funnel'|translate}}</span>-->
+                                <!--<span ng-show="statistics.user.name">({{statistics.user.name}})</span>-->
+                            <!--</div>-->
+                        <!--</div>-->
                         <div class="funnel" ng-show="statistics.type === 'default' && hasFunnelChart">
                             <div id="mainFunnel"></div>
                             <table class="funnel-table">
@@ -84,22 +84,19 @@
                                     <th translate="Relative conversion"></th>
                                     <th translate="Absolute conversion"></th>
                                 </tr>
-                                <tr>
-                                    <td>34</td>
-                                    <td>100%</td>
-                                    <td>100%</td>
-                                </tr>
-                                <tr>
-                                    <td>34</td>
-                                    <td>100%</td>
-                                    <td>100%</td>
-                                </tr>
-                                <tr>
-                                    <td>34</td>
-                                    <td>100%</td>
-                                    <td>100%</td>
+                                <tr ng-repeat="candidateSeries in mainFunnel.data.candidateSeries track by $index">
+                                    <td><span>{{candidateSeries}}</span></td>
+                                    <td><span>{{mainFunnel.data.AbsConversion[$index]}}</span></td>
+                                    <td><span>{{mainFunnel.data.RelConversion[$index]}}</span></td>
                                 </tr>
                             </table>
+                            <!--<table class="funnel-table users-table">-->
+                                <!--<caption translate="Кандидаты по пользователям"></caption>-->
+                                <!--<tr ng-repeat="user in []"></tr>-->
+                                <!--<tr ng-repeat="item in [1,2,3,4,5,6,7,8,9,10,11]">-->
+                                    <!--<td></td>-->
+                                <!--</tr>-->
+                            <!--</table>-->
                         </div>
                         <div class="funnel" ng-show="statistics.type === 'userFunnel' && hasFunnelChart">
                             <div id="myChartDiv2"></div>

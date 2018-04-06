@@ -6,6 +6,9 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         $scope.statistics = {type: 'default', user: {}};
         $scope.funnelActionUsersList = [];
         $scope.vacancyGeneralHistory = [];
+        $scope.mainFunnel = {};
+        $scope.usersColumn = [];
+
         userFunnelConfig.usersFunnelCache = userFunnelConfig.usersFunnelCache || [];
 
         $scope.setStatistics = function(type = 'default', user = {}) {
@@ -161,26 +164,25 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.vacancyHistory = vacancyInterviewDetalInfo;
                     $scope.vacancyGeneralHistory = vacancyInterviewDetalInfo;
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(vacancyInterviewDetalInfo, $scope.notDeclinedStages, $scope.declinedStages));
-                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '600px'), id:"mainFunnel"});
+                    $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
+                    console.log($scope.mainFunnel.data);
+                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '565px'), id:"mainFunnel"});
                     $scope.$apply();
                 }, error => notificationService.error(error.message));
         }
 
         function updateMainFunnel(user) {
-            const graphset = zingchart.exec('myChartDiv', 'getdata').graphset[0],
-                username = user.name.split(' ').join('<br>'),
-                labelOffset = 85,
-                scaleOffset = 85;
-
             if(!getUserActionsFunnelCache(user)) {
                 setUserFunnel(user)
-                    .then(resp => {
-                        const columnToAdd = addUserColumn({username, scaleOffset, labelOffset, candidateSeries: resp.config.candidateSeries});
-                        drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:columnToAdd});
+                    .then(userData => {
+                        console.log(userData.config.candidateSeries);
+                        $scope.usersColumn.push(userData.config.candidateSeries)
+                        // const columnToAdd = addUserColumn({username, scaleOffset, labelOffset, candidateSeries: resp.config.candidateSeries});
+                        // drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:columnToAdd});
                     }, error => console.error(error));
             } else {
-                const columnToRemove = removeUserColumn({username, scaleOffset, labelOffset});
-                drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:columnToRemove});
+                // const columnToRemove = removeUserColumn({username, scaleOffset, labelOffset});
+                // drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:columnToRemove});
             }
         }
 
@@ -303,7 +305,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         function setFunnelData(funnelMap, funnelWidth = '750px', chartWidth = '1300px') {
             $scope.hasFunnelChart = true;
-            let chartHeight = 30*(funnelMap.length + 1);
+            let chartHeight = Math.floor(30*(funnelMap.length + 1));
             let series = [],
                 stages = [],
                 candidateSeries = [],
@@ -346,20 +348,12 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 funnelWidth = config.funnelWidth,
                 chartWidth = config.chartWidth;
 
-            const guide = {
-                "guide":{
-                    "line-color":"none"
-                    // "lineWidth":"1px",
-                    // "line-gap-size":"5000px",
-                    // "lineSegmentSize":"450px",
-                }
-            };
             myChart = {
                 "type": "funnel",
                 "width": funnelWidth,
                 "series": series,
                 tooltip: {visible: true, shadow: 0},
-                "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 50}, "guide":guide.guide},
+                "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 50}},
                 plotarea: { margin: '100px 0 0 100px' },
                 "scale-x": {"values": [""]},
                 labels: [
@@ -421,19 +415,12 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         }
 
         function userFunnelConfig(userActionsFunnelData) {
-            const guide = {
-                "guide":{
-                    "lineWidth":"1px",
-                    "line-gap-size":"5000px",
-                    "lineSegmentSize":"450px"
-                }
-            };
             return {
                 "series": userActionsFunnelData.userSeries,
-                "scale-y-2": {"values": userActionsFunnelData.userSeriesToDisplay(), "item": {fontSize: 12,"offset-x": -55}, "guide":guide.guide},
-                "scale-y-3": {"values": userActionsFunnelData.userPercentToDisplay(), "item": {fontSize: 12,"offset-x": 5},"guide":guide.guide},
-                "scale-y-4": {"values": userActionsFunnelData.RelConversion, "item": {fontSize: 12,"offset-x": 65},"guide":guide.guide},
-                "scale-y-5": {"values": userActionsFunnelData.AbsConversion, "item": {fontSize: 12,"offset-x": 147},"guide":guide.guide},
+                "scale-y-2": {"values": userActionsFunnelData.userSeriesToDisplay(), "item": {fontSize: 12,"offset-x": -55}},
+                "scale-y-3": {"values": userActionsFunnelData.userPercentToDisplay(), "item": {fontSize: 12,"offset-x": 5}},
+                "scale-y-4": {"values": userActionsFunnelData.RelConversion, "item": {fontSize: 12,"offset-x": 65}},
+                "scale-y-5": {"values": userActionsFunnelData.AbsConversion, "item": {fontSize: 12,"offset-x": 147}},
                 plotarea: {
                     margin: '60px 0 0 100px'
                 },
