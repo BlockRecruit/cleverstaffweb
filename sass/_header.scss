@@ -293,7 +293,7 @@ body {
 			.nav.information .profile .profile-button-icon {
 				background-position: 25.8% 88%;
 			}
-			.nav.information a#open-notice-button .notices-icon {
+			.nav.information a.notice-button .notices-icon {
 				background-position: -3% 94%;
 			}
 		}
@@ -327,6 +327,10 @@ body {
 				border-top-right-radius: 5px;
 
 				align-items: center;
+				&:focus {
+					outline: none;
+					background-color: transparent;
+				}
 				span {
 					@include top-menu-font();
 
@@ -530,7 +534,7 @@ body {
 						}
 					}
 				}
-				&#open-notice-button {
+				&.notice-button {
 					width: 45px;
 					height: 45px;
 					margin-right: 8px;
@@ -759,21 +763,44 @@ body {
 
 		align-items: flex-end;
 		&.container-fluid {
+			height: 60px;
+
 			border-bottom: 1px solid #ccc;
 		}
 		.nav {
 			display: flex;
 			float: left;
+			height: 45px;
 			margin: 0;
 
-			align-items: center;
+			align-items: stretch;
 			li {
-				float: left;
+				display: flex;
+				margin-bottom: -1px;
+				margin-left: 10px;
+
+				border: 1px solid #ccc;
+				background-color: $theme-second-nav-tab;
+
+				align-items: center;
+				&:hover {
+					background-color: $theme-substrate;
+					a {
+						background-color: $theme-substrate;
+					}
+				}
+				&.selected {
+					border-bottom-color: $theme-substrate;
+					background-color: $theme-substrate;
+					&.news-tab {
+						border-bottom-color: $theme-subtitle-background;
+						background-color: $theme-subtitle-background;
+					}
+				}
 				a {
 					position: relative;
 
 					color: $theme-grey;
-					border: 1px solid #ccc;
 					border-bottom: none;
 					.new-label {
 						font-size: 9px;
@@ -783,6 +810,10 @@ body {
 						right: -15px;
 
 						color: red;
+					}
+					&:hover,
+					&:focus {
+						background-color: transparent;
 					}
 				}
 			}
@@ -813,13 +844,7 @@ body {
 			&.no-margin {
 				margin-left: 0;
 			}
-			&:hover {
-				border: 2px solid #ffe9a6;
-				background-color: #fff;
-			}
-			&.selected {
-				background-color: #ffe9a6 ;
-			}
+
 			&.disabled {
 				@include disabled-button();
 
@@ -1111,19 +1136,19 @@ ul.nav.navbar-nav {
 			width: 159.59px;
 		}
 		&.vacancies {
-			width: 141.52px;
+			width: 143.52px;
 		}
 		&.candidates {
 			width: 155.92px;
 		}
 		&.clients {
-			width: 151.7px;
+			width: 155.7px;
 		}
 		&.users {
 			width: 126.13px;
 		}
 		&.reports {
-			width: 119.44px;
+			width: 115.44px;
 		}
 	}
 }
@@ -1201,5 +1226,16 @@ ul.nav.navbar-nav {
 @media (max-width: $screen-xs) {
 	.trial {
 		padding: 5px 7px;
+	}
+	.navbar .second-navbar.container-fluid {
+		height: auto;
+	}
+	.navbar .second-navbar .nav {
+		height: auto;
+
+		flex-wrap: wrap;
+		li {
+			flex-grow: 1;
+		}
 	}
 }

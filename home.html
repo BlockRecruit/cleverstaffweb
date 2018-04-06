@@ -243,11 +243,17 @@
                             </div>
                         </li>
                         <li class="hidden-xs">
-                            <a href="" id="open-notice-button" ng-click="openNoticeMenu();">
+                            <a href="" class="notice-button" id="open-notice-button" ng-click="openNoticeMenu();">
                                 <span class="notices-icon"></span>
                                 <span class="label label-danger" ng-if="$root.newNoticeCount > 0" ng-bind="$root.newNoticeCount"></span>
                             </a>
                             <notices-dir></notices-dir>
+                        </li>
+                        <li class="hidden-sm hidden-md hidden-lg">
+                            <a href="#/notices" class="notice-button">
+                                <span class="notices-icon"></span>
+                                <span class="label label-danger" ng-if="$root.newNoticeCount > 0" ng-bind="$root.newNoticeCount"></span>
+                            </a>
                         </li>
                         <li>
                             <div class="btn-group" uib-dropdown>
@@ -394,14 +400,14 @@
         <div class="container-fluid second-navbar hidden-sm hidden-xs" ng-show="$root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'">
             <div class="second-navbar">
                 <ul class="nav navbar-nav col-lg-8 col-md-9 col-sm-12 col-xs-12">
-                    <li class="dropdown">
-                        <a class="no-margin" href="#/organizer" ng-class="{'selected': $root.activePage == 'Activity'}">{{'activity' | translate}}</a>
+                    <li class="dropdown" ng-class="{'selected': $root.activePage == 'Activity'}">
+                        <a class="no-margin" href="#/organizer">{{'activity' | translate}}</a>
                     </li>
-                    <li class=>
-                        <a  ng-class="{'selected': $root.activePage == 'Activity Calendar'}" href="#/organizer/calendar">{{'calendar'|translate}}</a>
+                    <li class="dropdown" ng-class="{'selected': $root.activePage == 'Activity Calendar'}">
+                        <a   href="#/organizer/calendar">{{'calendar'|translate}}</a>
                     </li>
-                    <li class="dropdown">
-                        <a href="#/news" ng-class="{'selected': $root.activePage == 'News'}">{{'User news'|translate}}</a>
+                    <li class="dropdown news-tab" ng-class="{'selected': $root.activePage == 'News'}">
+                        <a href="#/news" >{{'User news'|translate}}</a>
                     </li>
                     <li class="dropdown" ng-show="otherDate >= nowDate && $root.me.recrutRole == 'admin'">
                         <a href class="btn btn-primary inviteUserClientHideTariff"
@@ -515,14 +521,14 @@
         <div ng-show="$root.activePage == 'Vacancies' || $root.activePage == 'Vacancy add' || $root.activePage == 'Vacancy edit'" class="container-fluid second-navbar">
             <div class="second-navbar">
                 <ul class="nav vacancy-second-header navbar-nav col-lg-9 col-md-12">
-                    <li class="dropdown">
-                        <a class="no-margin" href="#/vacancies" ng-hide="!searchParam.words && !$root.objectSize && $root.me.recrutRole === 'client'" ng-class="{'selected': $root.activePage == 'Vacancies'}">{{'Active vacancies'|translate}}</a>
+                    <li class="dropdown" ng-class="{'selected': $root.activePage == 'Vacancies'}">
+                        <a class="no-margin" href="#/vacancies" ng-hide="!searchParam.words && !$root.objectSize && $root.me.recrutRole === 'client'" translate="Active vacancies"></a>
+                    </li>
+                    <li ng-class="{'selected': $root.activePage == 'Vacancy add'}">
+                        <a href="#/vacancy/add" ng-hide="!searchParam.words && !$root.objectSize && $root.me.recrutRole === 'client'" translate="New vacancy"></a>
                     </li>
                     <li>
-                        <a href="#/vacancy/add" ng-hide="!searchParam.words && !$root.objectSize && $root.me.recrutRole === 'client'" ng-class="{'selected': $root.activePage == 'Vacancy add'}">{{'New vacancy'|translate}}</a>
-                    </li>
-                    <li>
-                        <a target="_blank" ng-href="{{$root.publicLink}}">{{'Open_vacancies_for_company'|translate}}</a>
+                        <a target="_blank" ng-href="{{$root.publicLink}}" translate="Open_vacancies_for_company"></a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav col-lg-3 hidden-md hidden-sm hidden-xs text-right">
@@ -632,22 +638,22 @@
               $root.activePage == 'Send test candidate to email from vacancy' || $root.activePage == 'Send test candidate to email from candidate')">
             <div class="second-navbar">
                 <ul class="nav navbar-nav col-lg-7 col-md-8 col-sm-12 col-xs-12 col-sm-offset-3 col-xs-offset-1 text-center">
-                    <li class="dropdown">
+                    <li class="dropdown" ng-class="{'selected': $root.activePage == 'Candidates'}">
                         <a class="no-margin"
-                           ng-class="{'selected': $root.activePage == 'Candidates'}" href="#/candidates">
+                            href="#/candidates">
                             {{'our_base'|translate}}
                             <span class="counter">{{$root.objectSizeCand}}</span>
                         </a>
                     </li>
-                    <li class="hidden-sm hidden-xs">
-                        <a ng-class="{'selected': $root.activePage == 'Candidate add'}" ng-show="$root.me.recrutRole != 'client'" href="#/candidate/add">
+                    <li class="hidden-sm hidden-xs" ng-class="{'selected': $root.activePage == 'Candidate add'}">
+                        <a  ng-show="$root.me.recrutRole != 'client'" href="#/candidate/add">
                             {{'new'|translate}}
                             <span style="text-transform: lowercase;">{{'candidate'|translate}}</span>
                         </a>
                     </li>
-                    <li class="hidden-sm hidden-xs">
+                    <li class="hidden-sm hidden-xs" ng-class="{'selected': $root.activePage == 'Tests and forms'}">
                         <a ng-click="$root.changeSearchType('add')"
-                           ng-class="{'selected': $root.activePage == 'Tests and forms'}" ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter'" href="#/candidate/tests">
+                            ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter'" href="#/candidate/tests">
                             {{'Tests and forms'|translate}}
                         </a>
                     </li>
@@ -754,18 +760,14 @@
         <div  ng-show="$root.activePage == 'Clients' || $root.activePage == 'Client add' || $root.activePage == 'Client edit'" class="container-fluid second-navbar">
             <div class="second-navbar client-second-header">
                 <ul class="nav navbar-nav col-lg-6 col-md-6">
-                    <li class="dropdown">
-                        <a class="no-margin" ng-class="{'selected': $root.activePage == 'Clients'}" href="#/clients">
+                    <li class="dropdown" ng-class="{'selected': $root.activePage == 'Clients'}">
+                        <a class="no-margin"  href="#/clients">
                             {{'Clients'|translate}}
                             <span class="counter">{{$root.objectSize|clientsCountFormat}}</span>
                         </a>
                     </li>
-                    <li class="dropdown">
-                        <a ng-click="$root.toAdd()" ng-class="{'selected': $root.activePage == 'Client add'}" href="" ng-show="($root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'client')">{{'New client'|translate}}</a>
-                        <!--<button id="disabledBtn-3" ng-click="$root.disabledBtnFunc();" ng-show="!$root.hideTariff"-->
-                                <!--type="button" class="btn btn-default disabled">-->
-                            <!--{{'New client'|translate}}-->
-                        <!--</button>-->
+                    <li class="dropdown" ng-class="{'selected': $root.activePage == 'Client add'}">
+                        <a ng-click="$root.toAdd()"  href="" ng-show="($root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'client')">{{'New client'|translate}}</a>
                     </li>
                 </ul>
                 <ul class="nav navbar-nav col-lg-6 col-md-6 hidden-xs hidden-sm text-right" style="justify-content: flex-end">
@@ -870,27 +872,31 @@
         <div ng-show="$root.activePage == 'Users' || $root.activePage == 'Company History' || $root.activePage == 'Company settings' || $root.activePage == 'Company users' || $root.activePage == 'Company employees' || $root.activePage == 'Employee add' || $root.activePage == 'Department Catalog' || $root.activePage == 'Employee User' || $root.activePage == 'Employee Edit User' || $root.activePage == 'Custom fields'" class="container-fluid second-navbar">
             <div class="second-navbar">
                 <ul class="nav navbar-nav col-lg-9">
-                    <li>
-                        <a class="no-margin" href="#/company/users" ng-class="{'selected': $root.activePage == 'Company users'}">{{'users'|translate}}</a>
+                    <li ng-class="{'selected': $root.activePage == 'Company users'}">
+                        <a class="no-margin" href="#/company/users" >{{'users'|translate}}</a>
                     </li>
-                    <li class="hidden-sm hidden-xs">
-                        <a href="#/company/history" ng-class="{'selected': $root.activePage == 'Company History'}">{{'history_of_action'|translate}}</a>
+                    <li class="hidden-sm hidden-xs" ng-class="{'selected': $root.activePage == 'Company History'}">
+                        <a href="#/company/history" >{{'history_of_action'|translate}}</a>
                     </li>
-                    <li ng-show="$root.me.personParams.enableEmployee == 'Y' && $root.me.orgParams.enableEmployee == 'Y' && $root.hideTariff">
-                        <a href="#/company/employees" ng-class="{'selected': $root.activePage == 'Company employees' || $root.activePage == 'Employee add' || $root.activePage == 'Employee User' || $root.activePage == 'Employee Edit User' || $root.activePage == 'Department Catalog'}">
+                    <li ng-show="$root.me.personParams.enableEmployee == 'Y' && $root.me.orgParams.enableEmployee == 'Y' && $root.hideTariff"
+                        ng-class="{'selected': $root.activePage == 'Company employees' || $root.activePage == 'Employee add' || $root.activePage == 'Employee User' || $root.activePage == 'Employee Edit User' || $root.activePage == 'Department Catalog'}">
+                        <a href="#/company/employees" >
                             {{'employees' | translate}}
                         </a>
                     </li>
-                    <li ng-show="$root.me.orgParams.enableEmployee == 'Y' && !$root.hideTariff && $root.me.recrutRole == 'admin'">
-                        <a class="disabled" href="#/hr-module-info" ng-class="{'selected': $root.activePage == 'Company employees' || $root.activePage == 'Employee add' || $root.activePage == 'Employee User' || $root.activePage == 'Employee Edit User' || $root.activePage == 'Department Catalog'}">
+                    <li ng-show="$root.me.orgParams.enableEmployee == 'Y' && !$root.hideTariff && $root.me.recrutRole == 'admin'"
+                        ng-class="{'selected': $root.activePage == 'Company employees' || $root.activePage == 'Employee add' || $root.activePage == 'Employee User' || $root.activePage == 'Employee Edit User' || $root.activePage == 'Department Catalog'}">
+                        <a class="disabled" href="#/hr-module-info">
                             {{'hr-module'|translate}}
                         </a>
                     </li>
-                    <li class="hidden-sm hidden-xs" ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'salesmanager'">
-                        <a href="#/company/settings" ng-class="{'selected': $root.activePage == 'Company settings'}">{{'Account settings' | translate}}</a>
+                    <li class="hidden-sm hidden-xs" ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter' || $root.me.recrutRole == 'salesmanager'"
+                        ng-class="{'selected': $root.activePage == 'Company settings'}">
+                        <a href="#/company/settings">{{'Account settings' | translate}}</a>
                     </li>
-                    <li ng-show="$root.me.recrutRole == 'admin'">
-                        <a href="#/company/custom-fields" ng-class="{'selected': $root.activePage == 'Custom fields'}">
+                    <li ng-show="$root.me.recrutRole == 'admin'"
+                        ng-class="{'selected': $root.activePage == 'Custom fields'}">
+                        <a href="#/company/custom-fields" >
                             {{'Custom fields' | translate}}
                         </a>
                     </li>
@@ -997,8 +1003,8 @@
         <div ng-show="$root.activePage == 'Integration with email' " class="container-fluid second-navbar">
             <div class="second-navbar">
                 <ul class="nav navbar-nav col-lg-9">
-                    <li class="hidden-sm hidden-xs">
-                        <a href="#/email-integration" ng-class="{'selected': $root.activePage == 'Integration with email'}" >{{'Integration with email'|translate}}</a>
+                    <li class="hidden-sm hidden-xs" ng-class="{'selected': $root.activePage == 'Integration with email'}">
+                        <a href="#/email-integration">{{'Integration with email'|translate}}</a>
                     </li>
                 </ul>
             </div>
@@ -1187,56 +1193,6 @@
             </div>
         </div>
     </script>
-
-    <!-- BEGIN JIVOSITE CODE {literal} -->
-    <!--<script type='text/javascript'>-->
-        <!--if (document.domain === 'cleverstaff.net') {-->
-            <!--(function () {-->
-                <!--var widget_id = '3Wcsg5wr0p';-->
-                <!--var s = document.createElement('script');-->
-                <!--s.type = 'text/javascript';-->
-                <!--s.async = true;-->
-                <!--s.src = '//code.jivosite.com/script/geo-widget/' + widget_id;-->
-                <!--var ss = document.getElementsByTagName('script')[0];-->
-                <!--ss.parentNode.insertBefore(s, ss);-->
-            <!--})();-->
-        <!--} else {-->
-            <!--(function () {-->
-                <!--var widget_id = 'URUqoezRVZ';-->
-                <!--var s = document.createElement('script');-->
-                <!--s.type = 'text/javascript';-->
-                <!--s.async = true;-->
-                <!--s.src = '//code.jivosite.com/script/geo-widget/' + widget_id;-->
-                <!--var ss = document.getElementsByTagName('script')[0];-->
-                <!--ss.parentNode.insertBefore(s, ss);-->
-            <!--})();-->
-        <!--}-->
-        <!--function jivo_onOpen() {-->
-            <!--if (window.mylogin) {-->
-                <!--var timerId = setInterval(function () {-->
-                    <!--$('#jivo_container').contents().find("#email").val(window.mylogin);-->
-                    <!--if ($('#jivo_container').contents().find("#email").val() === window.mylogin) {-->
-                        <!--$('#jivo_container').contents().find("#email").prop('disabled', true);-->
-                        <!--clearInterval(timerId);-->
-                    <!--}-->
-                <!--}, 500);-->
-            <!--}-->
-            <!--$('#jivo_container').contents().find("#message").keydown(function (event) {-->
-                <!--if (event.keyCode == 10 || event.keyCode == 13) {-->
-                    <!--$('#jivo_container').contents().find("#message").val($('#jivo_container').contents().find("#message").val() + '\n');-->
-                    <!--return false;-->
-                <!--}-->
-            <!--});-->
-        <!--}-->
-    <!--</script>-->
-    <!--{/literal} END JIVOSITE CODE -->
-    <!--<div class="supportCS" ng-click="$root.supportChat()">-->
-        <!--<span class="pull-right jivochat">jivochat</span>-->
-        <!--<i class="fa fa-envelope-o pull-left" aria-hidden="true"></i>-->
-        <!--<span class="pull-left sendMessage">-->
-            <!--Send us a message-->
-        <!--</span>-->
-    <!--</div>-->
 </div>
 <div class="backdrop-custom-fields"></div>
 </body>
