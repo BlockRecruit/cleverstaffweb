@@ -40728,7 +40728,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         $scope.funnelActionUsersList = [];
         $scope.vacancyGeneralHistory = [];
         $scope.mainFunnel = {};
-        $scope.usersColumn = [];
+        $scope.usersColumn = {users: [], dataArray: []};
 
         userFunnelConfig.usersFunnelCache = userFunnelConfig.usersFunnelCache || [];
 
@@ -40896,74 +40896,22 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             if(!getUserActionsFunnelCache(user)) {
                 setUserFunnel(user)
                     .then(userData => {
-                        console.log(userData.config.candidateSeries);
-                        $scope.usersColumn.push(userData.config.candidateSeries)
-                        // const columnToAdd = addUserColumn({username, scaleOffset, labelOffset, candidateSeries: resp.config.candidateSeries});
-                        // drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:columnToAdd});
+                        console.log(userData);
+                        $scope.usersColumn.users.push(userData.user);
+                        $scope.usersColumn.dataArray.push(userData.config.candidateSeries);
+                        $scope.$apply();
+                        console.log('column',$scope.usersColumn);
                     }, error => console.error(error));
             } else {
-                // const columnToRemove = removeUserColumn({username, scaleOffset, labelOffset});
-                // drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '100%'), id:"myChartDiv",  assignObj:columnToRemove});
             }
         }
 
         function addUserColumn({username, scaleOffset, labelOffset, candidateSeries}) {
-            let graphset = zingchart.exec('myChartDiv', 'getdata').graphset[0];
 
-            const scaleX = graphset["scale-y-" + (activeColumnsLength)]['item'].static ? graphset["scale-y-" + (activeColumnsLength)]['item']['offset-x'] + 135 :
-                           graphset["scale-y-" + (activeColumnsLength)]['item']['offset-x'] + scaleOffset,
-                labelX = graphset.labels[activeColumnsLength].static ? graphset.labels[activeColumnsLength]['offset-x'] + 125 :
-                           graphset.labels[activeColumnsLength]['offset-x'] + labelOffset;
-
-            graphset.labels.push({
-                text: username,
-                fontWeight: "bold",
-                fontSize: 12,
-                offsetX: labelX,
-                offsetY: 48,
-                "border-width":1,
-                "border-color":"lightgray",
-                "border-radius":"5px",
-                "height":"100%",
-                "vertical-align":"top",
-                "padding":"10% 10% 10px 10%",
-                "width":"80px"
-            });
-            graphset["scale-y-" + (activeColumnsLength + 1)] = {"values": candidateSeries, "item": {fontSize: 12,"offset-x": scaleX},
-                     "guide":{
-                         "lineWidth":"1px",
-                         "line-gap-size":"5000px",
-                         "lineSegmentSize":"0px"
-                     }};
-
-            activeColumnsLength++;
-            return graphset;
         }
 
         function removeUserColumn({name, scaleOffset, labelOffset}) {
-            let graphset = zingchart.exec('myChartDiv', 'getdata').graphset[0];
 
-            let removedColumnIndex;
-            graphset.labels.forEach((label, index) => {
-                if(label.text === name) {
-                    removedColumnIndex = index;
-                    delete graphset["scale-y-" + (index)];
-                    graphset.labels.splice(index, 1);
-                }
-            });
-
-            for(let i = removedColumnIndex; i < activeColumnsLength; i++) {
-                graphset["scale-y-" + (i)] = graphset["scale-y-" + (i + 1)];
-                graphset["scale-y-" + (i + 1)] = graphset["scale-y-" + (i + 2)];
-            }
-
-            for(let i = removedColumnIndex; i < activeColumnsLength; i++) {
-                graphset["scale-y-" + (i)]['item']['offset-x'] -= scaleOffset;
-                graphset.labels[i]['offset-x'] -= labelOffset;
-            }
-
-            activeColumnsLength--;
-            return graphset;
         }
 
         function parseCustomStagesNames(allStages, notDeclinedStages, declinedStages) {

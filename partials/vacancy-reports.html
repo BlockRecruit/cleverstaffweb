@@ -76,27 +76,33 @@
                             <!--</div>-->
                         <!--</div>-->
                         <div class="funnel" ng-show="statistics.type === 'default' && hasFunnelChart">
-                            <div id="mainFunnel"></div>
+                            <!--<div id="mainFunnel"></div>-->
                             <table class="funnel-table">
                                 <caption translate="Conversion for vacancy"></caption>
-                                <tr>
-                                    <th translate="Candidates"></th>
-                                    <th translate="Relative conversion"></th>
-                                    <th translate="Absolute conversion"></th>
-                                </tr>
-                                <tr ng-repeat="candidateSeries in mainFunnel.data.candidateSeries track by $index">
-                                    <td><span>{{candidateSeries}}</span></td>
-                                    <td><span>{{mainFunnel.data.AbsConversion[$index]}}</span></td>
-                                    <td><span>{{mainFunnel.data.RelConversion[$index]}}</span></td>
-                                </tr>
+                                <tbody>
+                                    <tr>
+                                        <th translate="Candidates"></th>
+                                        <th translate="Relative conversion"></th>
+                                        <th translate="Absolute conversion"></th>
+                                    </tr>
+                                    <tr ng-repeat="candidateSeries in mainFunnel.data.candidateSeries track by $index">
+                                        <td><span>{{candidateSeries}}</span></td>
+                                        <td><span>{{mainFunnel.data.AbsConversion[$index]}}</span></td>
+                                        <td><span>{{mainFunnel.data.RelConversion[$index]}}</span></td>
+                                    </tr>
+                                </tbody>
                             </table>
-                            <!--<table class="funnel-table users-table">-->
-                                <!--<caption translate="Кандидаты по пользователям"></caption>-->
-                                <!--<tr ng-repeat="user in []"></tr>-->
-                                <!--<tr ng-repeat="item in [1,2,3,4,5,6,7,8,9,10,11]">-->
-                                    <!--<td></td>-->
-                                <!--</tr>-->
-                            <!--</table>-->
+                            <table class="funnel-table users-table">
+                                <caption translate="Кандидаты по пользователям"></caption>
+                                <tbody>
+                                    <tr>
+                                        <th ng-repeat="user in usersColumn.users" ng-bind="user.name"></th>
+                                    </tr>
+                                    <tr ng-repeat="column in usersColumn.dataArray[0] track by $index">
+                                        <td ng-repeat="series in usersColumn.dataArray[0] track by $index" ng-bind="series"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="funnel" ng-show="statistics.type === 'userFunnel' && hasFunnelChart">
                             <div id="myChartDiv2"></div>
