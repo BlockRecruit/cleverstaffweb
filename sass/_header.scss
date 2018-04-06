@@ -113,7 +113,6 @@ body {
 	color: $theme-white;
 	border: 0;
 	background-color: $theme-top-menu;
-	box-shadow: -1px 2px 22px -2px rgba(204,204,204,1);;
 	.first-navbar {
 		display: flex;
 		height: 65px;
@@ -157,28 +156,28 @@ body {
 							background-size: 142px auto;
 						}
 						&.sprite-calendar {
-							width: 22px;
-							height: 19px;
+							width: 19px;
+							height: 18px;
 
-							background-position: 56% 87%;
+							background-position: 0 41%;
 						}
 						&.sprite-vacancy {
 							width: 21px;
 							height: 18px;
 
-							background-position: 17% 1%;
+							background-position: 17% 37%;
 						}
 						&.sprite-candidates {
 							width: 21px;
-							height: 19px;
+							height: 17px;
 
-							background-position: 36% 0;
+							background-position: 36% 40%;
 						}
 						&.sprite-clients {
 							width: 23px;
-							height: 19px;
+							height: 18px;
 
-							background-position: 57% 2%;
+							background-position: 57% 39%;
 						}
 						&.sprite-company {
 							width: 20px;
@@ -269,6 +268,9 @@ body {
 					align-items: stretch;
 				}
 			}
+			.navbar-toggle {
+				margin-right: 0;
+			}
 		}
 		& > .right-block {
 			display: flex;
@@ -285,6 +287,14 @@ body {
 			}
 			a.mobile-notices {
 				margin-top: 0;
+			}
+		}
+		@media (max-width: 1085px) {
+			.nav.information .profile .profile-button-icon {
+				background-position: 25.8% 88%;
+			}
+			.nav.information a#open-notice-button .notices-icon {
+				background-position: -3% 94%;
 			}
 		}
 		@media (max-width: $screen-xs) {
@@ -378,7 +388,7 @@ body {
 					border-top-right-radius: 0;
 				}
 				&.active {
-					color: #333;
+					color: $theme-top-menu-hover;
 					background-color: $theme-substrate;
 					i {
 						font-size: 17px;
@@ -669,7 +679,7 @@ body {
 
 					background-image: url(../../images/sprite/icons/sprite.png?1);
 					background-repeat: no-repeat;
-					background-position: 26.8% 88%;
+					background-position: 26.3% 88%;
 					background-size: 165px auto;
 				}
 			}
@@ -746,18 +756,25 @@ body {
 		width: 100%;
 
 		background-color: $theme-substrate;
+
+		align-items: flex-end;
+		&.container-fluid {
+			border-bottom: 1px solid #ccc;
+		}
 		.nav {
 			display: flex;
 			float: left;
-			margin: 4px 0;
+			margin: 0;
 
 			align-items: center;
 			li {
 				float: left;
 				a {
-					font-size: 13px;
-
 					position: relative;
+
+					color: $theme-grey;
+					border: 1px solid #ccc;
+					border-bottom: none;
 					.new-label {
 						font-size: 9px;
 
@@ -789,14 +806,10 @@ body {
 			}
 		}
 		a {
-			@include bold();
+			@include top-menu-font();
 
 			margin-left: 2px;
 			padding: 4px;
-
-			color: #202021;
-			border: 2px solid $theme-white;
-			border-radius: 5px;
 			&.no-margin {
 				margin-left: 0;
 			}
