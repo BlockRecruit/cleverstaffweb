@@ -29,11 +29,15 @@
              ng-style="$root.isAddCandidates? null:{'margin-top':'11px'}"
              class="row candidate-information">
             <div class="col-lg-12 fullName-position"  style="margin-top: 0px;   " ng-style="$root.stageUrl && {margin:'0px'}">
-                <div class="col-lg-7">
+                <div class="col-lg-8">
                     <span>{{candidate.fullName}}, <span>{{candidate.position}}</span></span>
                     <span class="counter-candidate" style="font-weight: normal" ng-if="$root.isAddCandidates && currentIndex">({{currentIndex + "/" + candidateLength}})</span>
+                    <div class="remove-candidate" ng-if="candidate.status === 'archived' && ($root.me.recrutRole === 'admin' || $root.me.recrutRole === 'recruter')">
+                        <span translate="The candidate is in the status Deleted. To completely remove a candidate from the system, click here"></span>
+                        <span class="active-link" ng-click="deleteCandidateFromSystemModal()" translate="here"></span>
+                    </div>
                 </div>
-                <div class="col-lg-6 hidden-xs hidden-sm last-comment-item" ng-show="lastMessage">
+                <div class="col-lg-4 hidden-xs hidden-sm last-comment-item" ng-show="lastMessage">
                     <div class="col-lg-6 text-right">
                         <span class="title">{{'Last comment'| translate}}</span>
                         <a href="#/users/{{lastMessage.personId}}">{{lastMessage.person.fullName}}</a>

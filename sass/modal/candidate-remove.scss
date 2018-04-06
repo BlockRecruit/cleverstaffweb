@@ -1,0 +1,41 @@
+.candidate-remove {
+	.modal-body {
+		span {
+			font-weight: bold;
+		}
+		.item.taskText {
+			textarea {
+				height: 100px;
+				max-height: 380px;
+
+				resize: vertical;
+			}
+		}
+		.delete-candidate {
+			display: flex;
+			flex-direction: row;
+			margin-top: 10px;
+
+			justify-content: flex-start;
+			align-items: center;
+			label {
+				margin: 0 8px 0 10px;
+			}
+			i {
+				font-size: 14px;
+
+				position: relative;
+				top: 1px;
+
+				color: #0096f5;
+			}
+			.tooltip-outer {
+				width: auto;
+				max-width: 300px;
+			}
+		}
+		.bold {
+			font-weight: bold;
+		}
+	}
+}

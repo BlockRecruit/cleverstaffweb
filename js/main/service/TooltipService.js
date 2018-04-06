@@ -47,7 +47,8 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                         "researcher" : $sce.trustAsHtml($filter('translate')('Cannot see the full database and other users. Able to see only vacancies he/she responsible for and candidates he/she added')),
                         "client" : $sce.trustAsHtml($filter('translate')('Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number'))
                     },
-                    "filterCostructorInfo": $sce.trustAsHtml($filter('translate')('The filter allows you to pick the users who performed any activities on vacancies.'))
+                    "filterCostructorInfo": $sce.trustAsHtml($filter('translate')('The filter allows you to pick the users who performed any activities on vacancies.')),
+                    "deleteCandidateFromSystem": $sce.trustAsHtml($filter('translate')('If you select this option, the candidate will be removed from the system. All comments, tasks and history of actions will be erased'))
                 };
                 $rootScope.tooltips = options;
             });

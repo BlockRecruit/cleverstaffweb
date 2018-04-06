@@ -857,6 +857,12 @@
                                    ng-if="user.status != 'archived'" class="pull-right">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
+                                <a title="{{'Delete from a system'|translate}}" href=""
+                                   ng-click="deleteCandidateFromSystemModal(user);$event.stopPropagation();"
+                                   ng-if="user.status === 'archived'"
+                                   class="pull-right">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </a>
                                 <!--<a title="{{'Edit post' | translate}}"-->
                                 <!--ng-href="#/candidates/{{user.localId}}" class="first pull-right">-->
                                 <!--<i class="fa fa-pencil" aria-hidden="true"></i>-->

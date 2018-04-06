@@ -15,6 +15,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.checkAllCandidates = false;
     $scope.showTagsForMass = false;
     $scope.previousFlag = true;
+    $scope.deleteFromSystem = false;
     $scope.placeholder = $filter('translate')('by position');
     $rootScope.candidatesAddToVacancyIds = $scope.candidatesAddToVacancyIds;
     $rootScope.currentElementPos = true;
@@ -1467,17 +1468,51 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $location.path("candidate/add/zip");
     };
     $scope.deleteCandidate = function (candidate) {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: '../partials/modal/candidate-remove.html',
-            size: ''
-        });
         $rootScope.changeStateInCandidate.status = "archived";
         $rootScope.changeStateInCandidate.fullName = candidate.fullName;
         $rootScope.changeStateInCandidate.candidate = candidate;
         $rootScope.changeStateInCandidate.placeholder = $filter('translate')('Write a comment why you want remove this candidate');
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/candidate-remove.html',
+            size: '',
+            scope: $scope
+        });
     };
-    $rootScope.saveStatusOfCandidate = function () {
+    $scope.deleteCandidateFromSystemModal = function(candidate) {
+        $rootScope.changeStateInCandidate.fullName = candidate.fullName;
+        $rootScope.changeStateInCandidate.candidate = candidate;
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/candidate-remove-from-system.html',
+            size: '',
+            scope: $scope,
+            resolve: function(){}
+        });
+    };
+    $scope.deleteCandidateFromSystem = function() {
+        Candidate.deleteCandidateFromSystem({
+                candidateId:$rootScope.changeStateInCandidate.candidate.candidateId,
+                comment: $rootScope.changeStateInCandidate.comment
+        }).then((resp) => {
+                $scope.tableParams.reload();
+                $scope.closeModal();
+                $rootScope.changeStateInCandidate.comment = '';
+                notificationService.success($filter('translate')('Candidate name has been removed from the database', { name:  $rootScope.changeStateInCandidate.candidate.fullName}));
+            }, error => {
+                $scope.closeModal();
+                $rootScope.changeStateInCandidate.comment = '';
+                notificationService.error(error.message);
+            });
+    };
+
+    $rootScope.saveStatusOfCandidate = function (deleteFromSystem) {
+        if(deleteFromSystem) {
+            $scope.deleteCandidateFromSystem();
+            return;
+        }
         if ($rootScope.changeStateInCandidate.status != "") {
             Candidate.changeState({
                 candidateId: $rootScope.changeStateInCandidate.candidate.candidateId,
@@ -1494,12 +1529,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     }
                 }
             });
-            //    function (err) {
-            //    //notificationService.error($filter('translate')('service temporarily unvailable'));
-            //});
             $rootScope.closeModal();
             $rootScope.changeStateInCandidate.status = "";
             $rootScope.changeStateInCandidate.comment = "";
+            $rootScope.deleteCandidateFromSystem = false;
         }
     };
     $scope.selectRegion = function (val) {
