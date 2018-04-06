@@ -11,6 +11,7 @@
                ng-bind="'Delete Report'|translate"
                ng-click="editReport.remove(editReport.data.customVacancyReportId, this)"></a>
             <a class="btn save"
+               style="padding: 3px 12px;"
                ng-click="editReport.saveCustomReport(this)"
                ng-show="!editReport.change && !editReport.timeMaxZone && !editReport.timeMaxZone2"
                ng-bind="'save'|translate"></a>
@@ -367,6 +368,7 @@
                ng-click="editReport.remove(editReport.data.customVacancyReportId, this)"
                ng-bind="'Delete Report'|translate"></a>
             <a class="btn save"
+               style="padding:3px 12px ;"
                ng-click="editReport.saveCustomReport(this)"
                ng-show="!editReport.change"
                ng-bind="'save'|translate"></a>
