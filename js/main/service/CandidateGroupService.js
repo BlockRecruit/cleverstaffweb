@@ -40,10 +40,27 @@ angular.module('services.candidateGroup', [
                 params: {
                     param : "remove"
                 }
+            },
+            removeGroup : {
+                method : "GET",
+                headers : {'Content-type' : 'application/json'},
+                params: {
+                    param : "removeGroup"
+                }
             }
-
-
         });
+
+    candidateGroup.removeGroupFromAccount = function(params) {
+        return new Promise((resolve, reject) => {
+            candidateGroup.removeGroup(params, resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            }, error => reject(error));
+        });
+    };
 
     return candidateGroup;
 }]);

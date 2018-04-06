@@ -1,0 +1,20 @@
+<div class="tag-remove">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">
+            {{'Are you sure want to delete tag from account?'|translate: {tagName: $root.tagForEdit.name} }}
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="item taskText">
+            <p translate="After deleting tag, it will be removed from all candidates"></p>
+            <span></span>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();">{{'cancel'|translate}}</a>
+            <a type="button" class="btn btn-primary accept"  ng-click="removeTagFromAccount();">{{'Delete'|translate}}</a>
+        </div>
+    </div>
+</div>

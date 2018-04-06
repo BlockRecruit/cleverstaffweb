@@ -3004,13 +3004,15 @@ directive('appVersion', ['version', function(version) {
                                                 candidateGroups.push(res.object);
                                                 notificationService.success($filter('translate')('Tag added'));
                                             }
+                                            $('a.select2-search-choice-close').attr("title", $filter('translate')('Remove tag from candidate'));
+
                                             $('a.select2-search-choice-edit').attr("title", $filter('translate')('Edit tag for all candidates'));
                                             $('a.select2-search-choice-edit').off().on('click',function (e) {
                                                 $scope.editTagName(e.currentTarget);
                                             });
                                             $('a.select2-search-choice-remove').attr("title", $filter('translate')('Remove tag from account'));
                                             $('a.select2-search-choice-remove').off().on('click',function (e) {
-                                                console.log('here');
+                                                $scope.removeTag(e.currentTarget);
                                             });
                                         });
                                     }
@@ -3026,7 +3028,8 @@ directive('appVersion', ['version', function(version) {
                                     });
                                     $('a.select2-search-choice-remove').attr("title", $filter('translate')('Remove tag from account'));
                                     $('a.select2-search-choice-remove').off().on('click',function (e) {
-                                        console.log('here');
+                                        $scope.removeTag(e.currentTarget);
+                                        console.log('second-remove');
                                     });
                                 }
                             }
@@ -3044,13 +3047,15 @@ directive('appVersion', ['version', function(version) {
                         }
                     };
                     setTimeout(function () {
+                        $('a.select2-search-choice-close').attr("title", $filter('translate')('Remove tag from candidate'));
+
                         $('a.select2-search-choice-edit').attr("title", $filter('translate')('Edit tag for all candidates'));
                         $('a.select2-search-choice-edit').off().on('click',function (e) {
                             $scope.editTagName(e.currentTarget);
                         });
                         $('a.select2-search-choice-remove').attr("title", $filter('translate')('Remove tag from account'));
                         $('a.select2-search-choice-remove').off().on('click',function (e) {
-                            console.log('here');
+                            $scope.removeTag(e.currentTarget);
                         });
                     },5000);
                 }
@@ -3671,6 +3676,8 @@ directive('appVersion', ['version', function(version) {
                                         //});
                                     }
                                 });
+                                $('a.select2-search-choice-close').attr("title", $filter('translate')('Remove tag from candidate'));
+
                                 $('a.select2-search-choice-edit').attr("title", $filter('translate')('Edit tag for all candidates'));
                                 $('a.select2-search-choice-edit').off().on('click',function (e) {
                                     $scope.editTagName(e.currentTarget);

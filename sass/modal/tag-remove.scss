@@ -1,0 +1,17 @@
+.tag-remove {
+	p {
+		font-weight: bold;
+	}
+	a.accept {
+		&:hover {
+			color: #202021;
+			background-color: #fdd14a;
+		}
+	}
+	a.cancel {
+		&:hover {
+			color: #202021;
+			background-color: #e3e3e3;
+		}
+	}
+}

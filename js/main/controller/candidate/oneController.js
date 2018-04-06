@@ -7,6 +7,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.serverAddress = serverAddress;
         $rootScope.objectSize = null;
         $rootScope.isAddCandidates =  JSON.parse(localStorage.getItem("isAddCandidates"));
+        $rootScope.tagForEdit = {};
         $localStorage.remove("candidateForTest");
 
         if($location.$$absUrl.indexOf('&task=') != -1) {F
@@ -985,23 +986,68 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             });
 
         };
-        $scope.editTagName = function (tagObject) {
-            $rootScope.tagForEdit = {};
-            $rootScope.tagForEdit.name = $(tagObject).parent().children().first().html();
-            $scope.oldTagName = $rootScope.tagForEdit.name;
-            angular.forEach($scope.candidate.groups, function (group) {
-                if(group.name == $rootScope.tagForEdit.name) {
-                    $rootScope.tagForEdit.id = group.candidateGroupId;
-                    $scope.modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: '../partials/modal/tag-name-edit.html',
-                        size: '',
-                        resolve: {
+        $scope.removeTag = function(currentTarget) {
+            $rootScope.tagForEdit.name =  $(currentTarget).parent().children().first().html();
+            const selectedTag = findSelectedTag($rootScope.tagForEdit.name);
 
+            if(selectedTag) {
+                $rootScope.tagForEdit.id = selectedTag.candidateGroupId;
+                $scope.modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '../partials/modal/tag-remove.html',
+                    size: '',
+                    scope: $scope,
+                    resolve: {}
+                });
+            }
+        };
+        $scope.editTagName = function (currentTarget) {
+            $rootScope.tagForEdit.name = $(currentTarget).parent().children().first().html();
+            $scope.oldTagName = $rootScope.tagForEdit.name;
+            const selectedTag = findSelectedTag($rootScope.tagForEdit.name);
+
+            if(selectedTag) {
+                $rootScope.tagForEdit.id = selectedTag.candidateGroupId;
+                $scope.modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: '../partials/modal/tag-name-edit.html',
+                    size: '',
+                    resolve: {
+
+                    }
+                });
+            }
+        };
+        function findSelectedTag(name) {
+            return $scope.candidate.groups.filter(group => {
+                return group.name === name;
+            })[0];
+        }
+        $scope.removeTagFromAccount = function() {
+            $rootScope.loading = true;
+            CandidateGroup.removeGroupFromAccount({id: $rootScope.tagForEdit.id})
+                .then(resp => {
+                    $rootScope.loading = false;
+                    let beforeEdit = $scope.getSelect2Group().split(",");
+                    let ul = $('ul.select2-choices li div');
+                    angular.forEach(ul, (li,index) => {
+                        if(li.innerHTML === $rootScope.tagForEdit.name) {
+                            $(`ul.select2-choices li:eq(${index})`).remove();
                         }
                     });
-                }
-            });
+                    // angular.forEach(beforeEdit, function (tagName, index) {
+                    //     if( tagName == $rootScope.tagForEdit.name) {
+                    //         beforeEdit.splice(index,1);
+                    //         $scope.setSelect2Group(beforeEdit);
+                    //     }
+                    // });
+                    $scope.closeModal();
+                    notificationService.success($filter('translate')('Tags removed'));
+                }, error => {
+                    $scope.closeModal();
+                    $rootScope.loading = false;
+                    notificationService.error(error.message)
+                });
         };
         $rootScope.saveEditTagName = function () {
             var newGroupList = $scope.getSelect2Group().split(",");
@@ -1026,12 +1072,6 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                                 });
                             }
                         });
-                        // $('.select2-search-choice').each(function () {
-                        //     if($(this).children().first().html() == $scope.oldTagName) {
-                        //         $(this).children().first().text($rootScope.tagForEdit.name)
-                        //     }
-                        //
-                        // })
                     }else {
                         notificationService.error(resp.message);
                     }
