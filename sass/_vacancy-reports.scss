@@ -318,7 +318,7 @@
 							font-size: 15px;
 
 							overflow: hidden;
-							max-height: 50px;
+							height: 60px;
 							padding: 14px 0;
 
 							text-align: center;
@@ -339,7 +339,32 @@
 									td {
 										width: 70px;
 
-										border-right: 1px solid #ccc;
+										border: none;
+
+										&:nth-child(1) table tbody,
+										&:nth-child(2) table tbody,
+										&:nth-child(3) table tbody,
+										&:nth-child(4) table tbody {
+											border-bottom: none;
+											border-left: none;
+										}
+										&:last-child table tbody {
+											border: none;
+										}
+									}
+								}
+								.user-column-table {
+									tbody {
+										tr {
+											th {
+												height: 48px;
+
+												border: none;
+											}
+											td {
+												border: none;
+											}
+										}
 									}
 								}
 							}

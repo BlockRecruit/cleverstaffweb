@@ -1,7 +1,8 @@
 controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileInit", "Vacancy", "Service", "$location", "Client",
-    "$routeParams", "notificationService", "$filter", "$translate", 'Person', "Statistic", "vacancyStages", "Company",
+    "$routeParams", "notificationService", "$filter", "$translate", 'Person', "Statistic", "vacancyStages", "Company", "vacancyReport",
     function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $routeParams, notificationService, $filter,
-             $translate, Person, Statistic, vacancyStages, Company) {
+             $translate, Person, Statistic, vacancyStages, Company, vacancyReport) {
+
 
         $scope.statistics = {type: 'default', user: {}};
         $scope.funnelActionUsersList = [];
@@ -165,7 +166,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.vacancyGeneralHistory = vacancyInterviewDetalInfo;
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(vacancyInterviewDetalInfo, $scope.notDeclinedStages, $scope.declinedStages));
                     $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
-                    console.log($scope.mainFunnel.data);
+                    let arr = $scope.mainFunnel.data.candidateSeries.map(series => {
+                       return Number(series);
+                    });
+                    vacancyReport.funnel('canvas', arr);
                     drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '565px'), id:"mainFunnel"});
                     $scope.$apply();
                 }, error => notificationService.error(error.message));
@@ -175,13 +179,14 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             if(!getUserActionsFunnelCache(user)) {
                 setUserFunnel(user)
                     .then(userData => {
-                        console.log(userData);
                         $scope.usersColumn.users.push(userData.user);
                         $scope.usersColumn.dataArray.push(userData.config.candidateSeries);
                         $scope.$apply();
-                        console.log('column',$scope.usersColumn);
                     }, error => console.error(error));
             } else {
+                const index = $scope.usersColumn.users.indexOf(user);
+                $scope.usersColumn.users.splice(index,1);
+                $scope.usersColumn.dataArray.splice(index, 1);
             }
         }
 
@@ -497,4 +502,5 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         }
 
         Init();
+
 }]);

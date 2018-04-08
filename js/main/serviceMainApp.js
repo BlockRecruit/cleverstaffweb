@@ -21,6 +21,7 @@ angular.module('services', [
         'services.employee',
         'services.action',
         'services.vacancyStages',
+        'services.vacancyReport',
         'services.reportAll',
         'services.task',
         'services.file',
