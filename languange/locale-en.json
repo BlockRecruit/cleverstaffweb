@@ -2352,5 +2352,7 @@
   "Relative":"Relative",
   "Absolute":"Absolute",
   "Total in vacancy":"Total in <br> vacancy",
-  "Candidates by users":"Candidates by users"
+  "Candidates by users":"Candidates by users",
+  "Amount by user":"Amount <br> {{name}}",
+  "Percent of total amount":"% of total <br> amount"
 }

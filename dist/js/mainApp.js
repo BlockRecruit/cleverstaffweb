@@ -13253,20 +13253,21 @@ angular.module('services.company', [
 angular.module('services.vacancyReport', [
     'ngResource',
     'ngCookies'
-]).factory('vacancyReport', ['$resource', 'serverAddress', '$filter', '$localStorage', 'notificationService','$rootScope',
-    function ($resource, serverAddress, $filter, $localStorage, notificationService, $rootScope) {
-
+]).factory('vacancyReport', [function () {
         let report = {};
 
-        let array = [8,1,1,1,1,1,1,1,1,1,1,1];
 
         report.funnel = function(id, arr) {
-            array = arr;
+            const array = arr;
             const canvas = document.getElementById(id),
                 ctx = canvas.getContext('2d');
+                ctx.translate(0.5, 0.5);
+
+            canvas.width = 400;
 
             let width = canvas.width;
-            let height = 25;
+            let height = 30;
+
             canvas.height = array.length * height;
 
             class chartBlocks {
@@ -13289,12 +13290,14 @@ angular.module('services.vacancyReport', [
                             x: this.blocks[i - 1] ? this.blocks[i - 1].x - this.blocksWidth[i]/2 + this.blocksWidth[i - 1]/2 : canvas.width/2 - this.width/2,
                             y: i * this.height,
                             width: this.blocksWidth[i],
-                            height: this.height - 3
+                            height: this.height - 1
                         };
 
-                        const block = new chartBlock(blockData.x , blockData.y, blockData.width, blockData.height,this.blocksWidth[i + 1]);
-                        block.draw();
-                        this.addBlock(block);
+                        if(blockData.width && blockData.height) {
+                            const block = new chartBlock(blockData.x , blockData.y, blockData.width, blockData.height,this.blocksWidth[i + 1], i);
+                            block.draw();
+                            this.addBlock(block);
+                        }
                     }
                 }
 
@@ -13318,23 +13321,32 @@ angular.module('services.vacancyReport', [
             }
 
             class chartBlock {
-                constructor(x, y, width, height, nextBlockWidth) {
+                constructor(x, y, width, height, nextBlockWidth, index) {
                     this.x = x;
                     this.y = y;
                     this.width = width;
                     this.height = height;
                     this.nextBlockWidth = nextBlockWidth || 0;
+                    this.index = index;
                 }
 
                 draw() {
-                    const x = [];
+                    let x = [];
+
                     x[0] = this.x;
                     x[1] = x[0] + this.width;
                     x[2] = x[1] - (this.width - this.nextBlockWidth)/2;
                     x[3] = x[2] - this.nextBlockWidth;
                     ctx.beginPath();
 
-                    ctx.fillStyle = getRndColor();
+                    ctx.fillStyle = this.getRndColor();
+                    ctx.strokeStyle = this.getRndColor();
+
+                    x = x.map(coord => {
+                        return parseInt(coord) + 0.5;
+                    });
+
+                    this.y = parseInt(this.y) + 0.5;
                     ctx.moveTo(x[0],this.y);
                     ctx.lineTo(x[1],this.y);
                     ctx.lineTo(x[2],this.y + this.height);
@@ -13344,15 +13356,14 @@ angular.module('services.vacancyReport', [
                     ctx.stroke();
                     ctx.fill();
                 }
-            }
 
+                getRndColor() {
+                    const colors = ['#29a2cc','#d31e1e','#7ca82b','#ef8535','#a14bc9','#a05f18',
+                                    '#265e96','#6b7075','#96c245','#b5a603','#492658','#515e82',
+                                    '#791f47','#525f82','#7a2149','#bba33b','#e66508','#980826'];
 
-            function getRndColor() {
-                let r = 255*Math.random()|0,
-                    g = 255*Math.random()|0,
-                    b = 255*Math.random()|0;
-                console.log(r,g,b);
-                return 'rgb(' + r + ',' + g + ',' + b + ')';
+                    return colors[this.index % colors.length];
+                }
             }
 
             const blocks = new chartBlocks(array,width,height);
@@ -40844,11 +40855,15 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         $scope.mainFunnel = {};
         $scope.usersColumn = {users: [], dataArray: []};
 
-        userFunnelConfig.usersFunnelCache = userFunnelConfig.usersFunnelCache || [];
+        setFunnelData.usersDataCache = setFunnelData.usersDataCache || [];
 
         $scope.setStatistics = function(type = 'default', user = {}) {
             $scope.statistics = {type, user};
             if(type === 'default') {
+                let arr = $scope.mainFunnel.data.candidateSeries.map(series => {
+                    return Number(series);
+                });
+                vacancyReport.funnel('mainFunnel', arr);
                 $scope.vacancyHistory = $scope.vacancyGeneralHistory;
                 return;
             }
@@ -40879,7 +40894,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             $scope.funnelActionUsersList.splice($scope.funnelActionUsersList.indexOf(user),1);
 
             updateMainFunnel(user);
-            clearUserActionsFunnelCache(user);
+            clearUserActionsFunnelCache({user});
 
             if($scope.statistics.user === user) {
                 $scope.statistics = {type: 'default', user: {}};
@@ -40899,7 +40914,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.vacancyHistory = vacancyInterviewDetalInfo;
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.vacancyHistory, $scope.notDeclinedStages, $scope.declinedStages));
                     updateUsers();
-                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '1000px'), id:"myChartDiv"});
                     $scope.statistics = {type : 'default', user: {}};
                     $scope.$apply();
                 }, error => notificationService.error(error.message));
@@ -40934,49 +40948,48 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         function updateUsers() {
             $scope.funnelActionUsersList.forEach(user => {
                 updateMainFunnel(user); // if user exist - removes it`s column to funnel
-                clearUserActionsFunnelCache(user); // removing user from cache
+                clearUserActionsFunnelCache({user}); // removing user from cache
                 updateMainFunnel(user);// if user is not existing - adding it column to funnel
             });
         }
 
         function setUserFunnel(user) {
-            if(getUserActionsFunnelCache(user)) {
-                drawFunnel({...getUserActionsFunnelCache(user)});
-                $scope.vacancyHistory = getUserActionsFunnelCache(user).usersActionData;
+            if(getUserActionsFunnelCache({user})) {
+                vacancyReport.funnel('userFunnel', getUserActionsFunnelCache({user}).userFunnelData.userSeries());
+                $scope.userFunnelData = getUserActionsFunnelCache({user}).userFunnelData;
+                $scope.vacancyHistory = getUserActionsFunnelCache({user}).userHistory;
                 return;
             }
 
             return Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true, personId: user.userId})
                 .then(usersActionData => {
 
-                    const userFunnelMap = validateStages(parseCustomStagesNames(usersActionData, $scope.notDeclinedStages, $scope.declinedStages)),
-                        userActionsFunnelData = {
-                        userSeries: setFunnelData(userFunnelMap).series,
-                        userSeriesArray: setFunnelData(userFunnelMap).candidateSeries,
-                        candidateSeriesArray: setFunnelData($scope.vacancyFunnelMap).candidateSeries,
-                        userSeriesToDisplay: function() {
-                            return this.userSeriesArray.map((userSeries, index) => {
-                                return `${userSeries}(${this.candidateSeriesArray[index]})`;
+                    const userFunnelMap = validateStages(parseCustomStagesNames(usersActionData, $scope.notDeclinedStages, $scope.declinedStages));
+
+                    let userFunnelData = {
+                        userSeries: function() {
+                            return setFunnelData(userFunnelMap).candidateSeries.map(series => {
+                               return Number(series);
                             });
                         },
-                        userPercentToDisplay : function() {
-                            return this.userSeriesArray.map((userSeries, index) => {
-                                return String(Math.round((userSeries / (this.candidateSeriesArray[index])) * 100) || 0);
+                        vacancySeries: setFunnelData($scope.vacancyFunnelMap).candidateSeries,
+                        userPercentSeries : function() {
+                            return this.userSeries().map((userSeries, index) => {
+                                return String(Math.round((userSeries / (this.vacancySeries[index])) * 100) || 0);
                             });
                         },
-                        RelConversion: setFunnelData(userFunnelMap).RelConversion,
-                        AbsConversion: setFunnelData(userFunnelMap).AbsConversion,
-                        username: user.name,
-                    },
-                    finalFunnelObject = {config:setFunnelData(userFunnelMap), id:"myChartDiv2", assignObj:userFunnelConfig(userActionsFunnelData), usersActionData:usersActionData, user:user};
+                        relConversion: setFunnelData(userFunnelMap).RelConversion,
+                        absConversion: setFunnelData(userFunnelMap).AbsConversion
+                    };
+                    setUserFunnelCache({userFunnelData, userHistory: usersActionData, user});
 
+                    $scope.userFunnelData = getUserActionsFunnelCache({user}).userFunnelData;
+                    vacancyReport.funnel('userFunnel', userFunnelData.userSeries());
 
-                    drawFunnel(finalFunnelObject);
-                    setUserFunnelCache(finalFunnelObject);
                     $scope.statistics = {type: 'default', user: {}};
                     $scope.$apply();
 
-                    return Promise.resolve(finalFunnelObject);
+                    return Promise.resolve({candidateSeries: setFunnelData(userFunnelMap).candidateSeries, user});
                 }, error => notificationService.error(error.message));
         }
 
@@ -41003,33 +41016,25 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     let arr = $scope.mainFunnel.data.candidateSeries.map(series => {
                        return Number(series);
                     });
-                    vacancyReport.funnel('canvas', arr);
-                    drawFunnel({config:setFunnelData($scope.vacancyFunnelMap, '600px', '565px'), id:"mainFunnel"});
+                    vacancyReport.funnel('mainFunnel', arr);
                     $scope.$apply();
                 }, error => notificationService.error(error.message));
         }
 
         function updateMainFunnel(user) {
-            if(!getUserActionsFunnelCache(user)) {
+            if(!getUserActionsFunnelCache({user})) {
                 setUserFunnel(user)
                     .then(userData => {
                         $scope.usersColumn.users.push(userData.user);
-                        $scope.usersColumn.dataArray.push(userData.config.candidateSeries);
+                        $scope.usersColumn.dataArray.push(userData.candidateSeries);
                         $scope.$apply();
                     }, error => console.error(error));
             } else {
                 const index = $scope.usersColumn.users.indexOf(user);
                 $scope.usersColumn.users.splice(index,1);
                 $scope.usersColumn.dataArray.splice(index, 1);
+                $scope.vacancyHistory = $scope.vacancyGeneralHistory;
             }
-        }
-
-        function addUserColumn({username, scaleOffset, labelOffset, candidateSeries}) {
-
-        }
-
-        function removeUserColumn({name, scaleOffset, labelOffset}) {
-
         }
 
         function parseCustomStagesNames(allStages, notDeclinedStages, declinedStages) {
@@ -41067,9 +41072,11 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     angular.forEach(declinedStages, (declinedStage) => {
                         if(declinedStage === stage.key) {
                             funnelMap.splice(index,1);
+                            allStages.splice(index,1);
+                            console.log('splice', index);
                         }
                     });
-
+                    console.log(`index ${index} `,funnelMap[index]);
                 });
 
                 angular.forEach(notDeclinedStages, notDeclinedStage => {
@@ -41087,6 +41094,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 });
             }
 
+            // console.log('not',notDeclinedStages);
+            // console.log('declined',declinedStages);
+            // console.log('map',funnelMap);
+            // console.log('all',allStages);
             return funnelMap[0] ? funnelMap : null;
         }
 
@@ -41123,146 +41134,24 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             return { chartHeight, series, stages, candidateSeries, RelConversion, AbsConversion, values5, funnelWidth, chartWidth }
         }
 
-        function drawFunnel({config, id, assignObj = {}}) {
-
-            let myChart = {},
-                chartHeight = config.chartHeight,
-                series = config.series,
-                values = config.stages,
-                values2 = config.candidateSeries,
-                values3 = config.RelConversion,
-                values4 = config.AbsConversion,
-                funnelWidth = config.funnelWidth,
-                chartWidth = config.chartWidth;
-
-            myChart = {
-                "type": "funnel",
-                "width": funnelWidth,
-                "series": series,
-                tooltip: {visible: true, shadow: 0},
-                "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 50}},
-                plotarea: { margin: '100px 0 0 100px' },
-                "scale-x": {"values": [""]},
-                labels: [
-                    {
-                        text: $filter('translate')('Stages'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        offsetX: 100,
-                        offsetY: 55
-                    },
-                ],
-                "backgroundColor": "#FFFFFF",
-                "gui": {
-                    "behaviors": [
-                        {"id": "DownloadPDF", "enabled": "none"},
-                        {"id": "Reload", "enabled": "none"},
-                        {"id": "Print", "enabled": "none"},
-                        {"id": "DownloadSVG", "enabled": "none"},
-                        {"id": "LogScale", "enabled": "none"},
-                        {"id": "About", "enabled": "none"},
-                        {"id": "FullScreen", "enabled": "none"},
-                        {"id": "BugReport", "enabled": "none"},
-                        {"id": "ViewSource", "enabled": "none"},
-                        {"id": "FullScreen", "enabled": "none"},
-                        {
-                            "id": "FullScreen", "enabled": "none"
-                        }
-                    ]
-                }
-            };
-
-            zingchart.render({
-                id: id,
-                data: Object.assign(myChart, assignObj),
-                height: chartHeight,
-                width: chartWidth,
-                output: "html5"
-            });
-        }
-
-        function getUserActionsFunnelCache(user) {
-            return userFunnelConfig.usersFunnelCache.filter(cache => {
+        function getUserActionsFunnelCache({user}) {
+            return setFunnelData.usersDataCache.filter(cache => {
                 return cache.user.userId === user.userId;
             })[0];
         }
 
-        function setUserFunnelCache(cache) {
-            if(!getUserActionsFunnelCache(cache.user)) {
-                userFunnelConfig.usersFunnelCache.push(cache);
+        function setUserFunnelCache({userFunnelData, userHistory, user}) {
+            if(!getUserActionsFunnelCache({user})) {
+                setFunnelData.usersDataCache.push({userFunnelData, userHistory, user});
             }
         }
 
-        function clearUserActionsFunnelCache(user) {
-            userFunnelConfig.usersFunnelCache.forEach((cache, index) => {
+        function clearUserActionsFunnelCache({user}) {
+            setFunnelData.usersDataCache.forEach((cache, index) => {
                 if(cache.user.userId === user.userId) {
-                    userFunnelConfig.usersFunnelCache.splice(index,1);
+                    setFunnelData.usersDataCache.splice(index,1);
                 }
             });
-        }
-
-        function userFunnelConfig(userActionsFunnelData) {
-            return {
-                "series": userActionsFunnelData.userSeries,
-                "scale-y-2": {"values": userActionsFunnelData.userSeriesToDisplay(), "item": {fontSize: 12,"offset-x": -55}},
-                "scale-y-3": {"values": userActionsFunnelData.userPercentToDisplay(), "item": {fontSize: 12,"offset-x": 5}},
-                "scale-y-4": {"values": userActionsFunnelData.RelConversion, "item": {fontSize: 12,"offset-x": 65}},
-                "scale-y-5": {"values": userActionsFunnelData.AbsConversion, "item": {fontSize: 12,"offset-x": 147}},
-                plotarea: {
-                    margin: '60px 0 0 100px'
-                },
-                "labels": [
-                    {
-                        text: $filter('translate')('Conversion'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        offsetX: $translate.use() != 'en' ?  845 : 765,
-                        offsetY: 0
-                    },
-                    {
-                        text: $filter('translate')('Relative'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        offsetX: $translate.use() != 'en' ?  795 : 765,
-                        offsetY: 20
-                    },
-                    {
-                        text: $filter('translate')('Absolute'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        offsetX: $translate.use() != 'en' ?  895 : 840,
-                        offsetY: 20
-                    },
-                    {
-                        text: $filter('translate')('Candidates'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        offsetX: $translate.use() != 'en' ? 700 : 670,
-                        offsetY: 0
-                    },
-                    {
-                        text: $filter('translate')('Amount_2'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        offsetX: $translate.use() != 'en' ? 680 : 670,
-                        offsetY: 20
-                    },
-                    {
-                        text: '%',
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        offsetX: $translate.use() != 'en' ? 760 : 670,
-                        offsetY: 20
-                    },
-                    {
-                        text: $filter('translate')('Stages'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        offsetX: 110,
-                        offsetY: 0
-                    }
-                ]
-            };
         }
 
         function getUsersForFunnel(vacancyId) {
