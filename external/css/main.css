@@ -3106,6 +3106,11 @@ select.webkit-fix {
     }
     /*compare potok end*/
 }
+@media screen and (min-width:992px) and (max-width:1199px) {
+    .teamWork .mrgTop {
+        margin-top: 55px;
+    }
+}
 @media screen and (max-width: 991px) {
     .adaptiveMenu{
         display: none!important;
