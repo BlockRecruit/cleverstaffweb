@@ -2093,7 +2093,8 @@ directive('appVersion', ['version', function(version) {
                         $(element[0]).select2("data", {id: id, text: val});
                     }
                 };
-                let translatedPositions = false;
+                let translatedPositions = false,
+                    inputText = null;
 
                 $rootScope.$on('$translateChangeSuccess', function () {
                     initSelect2();
@@ -2109,6 +2110,14 @@ directive('appVersion', ['version', function(version) {
                             placeholder: $translate.instant('client'),
                             minimumInputLength: 0,
                             allowClear: true,
+                            createSearchChoice: function(term, data) {
+                                if ($(data).filter(function() {
+                                        return this.text.localeCompare(term) === 0;
+                                    }).length === 0) {
+                                    inputText = term;
+                                    return {id: term, text: term};
+                                }
+                            },
                             ajax: {
                                 url: serverAddress + "/client/autocompleteClients",
                                 dataType: 'json',
@@ -2125,7 +2134,6 @@ directive('appVersion', ['version', function(version) {
                                     var status = "";
                                     var realName = "";
                                     if (data['objects'] !== undefined) {
-                                        console.log(data['objects']);
                                         angular.forEach(data['objects'], function(item) {
                                             results.push({
                                                 id: item.clientId,
@@ -2140,8 +2148,10 @@ directive('appVersion', ['version', function(version) {
                                 }
                             },
                             dropdownCssClass: "bigdrop"
+                        }).on("select2-close", function(e) {
+                            $scope.searchParam.clientId = $(element[0]).select2("data").text;
                         }).on("change", function(e) {
-
+                            $scope.searchParam.clientId = $(element[0]).select2("data") ? $(element[0]).select2("data").text : null;
                         }).on("select2-opening", function(e){
                             setTimeout(function () {
                                 $('#select2-drop .select2-results .select2-searching')[0].innerText = $filter("translate")("Searching");
@@ -3354,15 +3364,12 @@ directive('appVersion', ['version', function(version) {
                     }
                     function removeExtraSpaces(string) {
                         let str = string.split('');
-                        // console.log(str);
                         for( let i = 0; i < str.length; i++) {
                             if( str[i] === " " && str[i+1] === " " && i !== 0 && i !== str.length - 1  || (str[i] === " " && i === str.length - 1)) {
-                                // console.log(str[i],str[i+1],"spliced");
                                 str.splice(i,1);
                                 i--;
                             }
                         }
-                        // console.log(str);
                         return str.join('');
                     }
                 }
