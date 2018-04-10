@@ -1,55 +1,55 @@
 .open-promo-logo {
 	.modal-body {
-		#crop-block {
-			max-width: 100%;
-			#wrapperForPng {
-				img {
-					width: 100%;
-					height: auto;
+		.preview-logo-vacancy {
+			width: 20%;
+			#crop-block {
+				#wrapperForPng {
+					margin-bottom: 10px;
+					img {
+						display: block;
+						margin: 0 auto;
+					}
+					#cancel {
+						@include button-styling-cancel();
+
+						font-weight: normal;
+
+						margin-top: 15px;
+						padding: 3px 4px;
+					}
+					#download {
+						@include button-green-styling();
+
+						font-weight: normal;
+
+						margin-top: 15px;
+						margin-left: 12px;
+						padding: 3px 4px;
+					}
 				}
-				#cancel {
-					@include button-styling-cancel();
+				#cropper-wrap {
+					margin: 10px 0;
 
-					font-weight: normal;
+					text-align: center;
 
-					margin-top: 15px;
-					padding: 3px 4px;
-				}
-				#download {
-					@include button-green-styling();
+					border-radius: 5px;
+					#close {
+						@include button-styling-cancel();
 
-					font-weight: normal;
+						font-weight: normal;
 
-					margin-top: 15px;
-					margin-left: 12px;
-					padding: 3px 4px;
-				}
-			}
-			#cropper-wrap {
-				margin-top: 20px;
+						padding: 3px 9px;
+					}
+					#cropp {
+						@include button-green-styling();
 
-				text-align: center;
+						font-weight: normal;
 
-				border-radius: 5px;
-				.cropper-container {
-					margin: 0 auto;
-				}
-				#close {
-					@include button-styling-cancel();
-
-					font-weight: normal;
-
-					padding: 3px 9px;
-				}
-				#cropp {
-					@include button-green-styling();
-
-					font-weight: normal;
-
-					padding: 3px 9px;
-				}
-				#img-wrapper {
-					margin-bottom: 20px;
+						padding: 3px 9px;
+					}
+					#img-wrapper {
+						margin: 0 auto 20px auto;
+					}
 				}
 			}
 		}

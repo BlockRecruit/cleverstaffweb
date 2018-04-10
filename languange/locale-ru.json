@@ -2931,5 +2931,6 @@
   "cover_picture": "Обложка вакансии",
   "Please choose image 200 x 200 px or larger": "Выберите изображение размером 200x200 px или больше",
   "remove_picture": "Удалить обложку",
-  "picture_was_added": "Обложка добавлена"
+  "picture_was_added": "Добавлена обложка на вакансию",
+  "was_added_vacancy_picture": ""
 }

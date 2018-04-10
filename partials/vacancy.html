@@ -305,7 +305,7 @@
                         </div>
                     </div>
                     <div class="col-lg-5 no-padding">
-                        <a class="promoImg" add-promo-logo ng-if="$root.promoLogo == undefined" href="" id="logo-button">
+                        <a class="promoImg pull-right" add-promo-logo ng-if="$root.promoLogo == undefined" href="" id="logo-button">
                             <i class="fa fa-picture-o" aria-hidden="true"></i>
                             <span>
                                 {{'Add promo image'|translate}}
@@ -1057,6 +1057,10 @@
     <div id="cover-picture-modal" class="cover-picture-modal">
         <span class="close" ng-click="closeModalImage()">&times;</span>
         <img class="modal-content" ng-src="{{$root.serverAddress}}/getapp?id={{$root.promoLogo}}&d=">
+    </div>
+    <div id="crop-picture-modal" class="crop-picture-modal">
+        <span class="close" id="close-modal-crop" ng-click="closeModalCrop()">&times;</span>
+        <div class="preview-logo-vacancy text-center" id="crop-block"></div>
     </div>
 </div>
 

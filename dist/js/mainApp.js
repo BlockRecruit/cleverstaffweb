@@ -2584,7 +2584,7 @@ directive('appVersion', ['version', function(version) {
             }
         }]
     )
-    .directive('addPromoLogo', ["$rootScope", "Vacancy", "notificationService", "$filter", "$uibModal", function ($rootScope, Vacancy, notificationService, $filter, $uibModal) {
+    .directive('addPromoLogo', ["$rootScope", "Vacancy", "notificationService", "$filter", function ($rootScope, Vacancy, notificationService, $filter) {
         return {
             restrict: 'AE',
             link: function ($scope, elem, attr, ctrl) {
@@ -2592,7 +2592,6 @@ directive('appVersion', ['version', function(version) {
                 elem.on('click', function () {
                     if ($rootScope.me.recrutRole == 'admin') {
                         $("#the-file-input").click();
-                        $scope.cropPromoLogo();
                     } else {
                         notificationService.error($filter('translate')('Only admin can set logo'));
                     }
@@ -2630,7 +2629,7 @@ directive('appVersion', ['version', function(version) {
                                 });
                             } else {
                                 $('#logo-button').show();
-                                $rootScope.closeModal();
+                                $scope.closeModalCrop();
                                 notificationService.error($filter('translate')('Please choose image 200 x 200 px or larger'));
                             }
                         }
@@ -2638,8 +2637,13 @@ directive('appVersion', ['version', function(version) {
                     reader.readAsDataURL(file);
                 };
                 function cropperFunc() {
+                    $scope.cropPromoLogo();
                     var image = document.getElementById('image');
+                    console.log(image);
                     var cropper = new Cropper(image, {
+                        //autoCropArea: 0.5,
+                        //cropBoxMovable: false,
+                        //autoCrop: false,
                         aspectRatio: false,
                         movable: false,
                         zoomable: false
@@ -2676,11 +2680,11 @@ directive('appVersion', ['version', function(version) {
                                 $("#the-file-input").val('');
                                 $("#crop-block").find('img').show();
                                 $('#logo-button').show();
-                                notificationService.success($filter('translate')('picture_was_added'));
+                                notificationService.success($filter('translate')('picture_was_added') + ' ' + $rootScope.vacancy.position + ' ' + $filter('translate')('was_added_vacancy_picture'));
                             }, function (error) {
                                 notificationService.error(error.data.message);
                             });
-                            $rootScope.closeModal();
+                            $scope.closeModalCrop();
                         });
                     });
                     $('#close').on('click', function () {
@@ -2692,7 +2696,18 @@ directive('appVersion', ['version', function(version) {
                         if($rootScope.promoLogo == undefined) {
                             $("#logo-button").show();
                         }
-                        $rootScope.closeModal();
+                        $scope.closeModalCrop();
+                    });
+                    $('#close-modal-crop').on('click', function () {
+                        cropper.destroy();
+                        $('#cropper-wrap').remove();
+                        $('#wrapperForPng').remove();
+                        $("#the-file-input").val('');
+                        $("#crop-block").find('img').show();
+                        if($rootScope.promoLogo == undefined) {
+                            $("#logo-button").show();
+                        }
+                        $scope.closeModalCrop();
                     });
                 }
             }
@@ -39472,15 +39487,24 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             })
         };
 
-        $scope.cropPromoLogo = function () {
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: '../partials/modal/open-promo-logo.html',
-                size: 'lg',
-                resolve: function () {
-
-                }
-            });
+        //$scope.cropPromoLogo = function () {
+        //    $scope.modalInstance = $uibModal.open({
+        //        animation: true,
+        //        templateUrl: '../partials/modal/open-promo-logo.html',
+        //        backdrop: 'static',
+        //        size: 'md',
+        //        resolve: function () {
+        //
+        //        }
+        //    });
+        //};
+        $scope.cropPromoLogo = function() {
+            $('#crop-picture-modal').removeClass('hidden');
+            $('#crop-picture-modal').addClass('visible');
+        };
+        $scope.closeModalCrop = function() {
+            $('#crop-picture-modal').removeClass('visible');
+            $('#crop-picture-modal').addClass('hidden');
         };
         $scope.openPromoLogo = function() {
             $('#cover-picture-modal').removeClass('hidden');
