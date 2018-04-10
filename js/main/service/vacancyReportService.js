@@ -4,7 +4,6 @@ angular.module('services.vacancyReport', [
 ]).factory('vacancyReport', [function () {
         let report = {};
 
-
         report.funnel = function(id, arr) {
             const array = arr;
             const canvas = document.getElementById(id),
@@ -18,105 +17,138 @@ angular.module('services.vacancyReport', [
 
             canvas.height = array.length * height;
 
-            class chartBlocks {
-                constructor(data, width, height) {
-                    this.data = data;
-                    this.width = width;
-                    this.height = height;
-                    this.blocks = [];
-                    this.blocksWidth = [];
-                    this.dataAmmount = null;
-                    this.getBlocksWidth();
-                    this.getBlocksSumm();
-                    this.drawBLocks();
+            new chartBars(canvas, array, width, height).init();
+        };
+
+
+    class chartBars {
+        constructor(c, data, width, height) {
+            this.c = c;
+            this.ctx = c.getContext('2d');
+            this.data = data;
+            this.width = width;
+            this.height = height;
+            this.bars = [];
+            this.barsWidth = [];
+        }
+
+        drawBars() {
+            for(let i = 0; i < this.data.length; i++) {
+                let barProps = {
+                    c: this.c,
+                    ctx: this.ctx,
+                    x: this.bars[i - 1] ? this.bars[i - 1].x - this.barsWidth[i]/2 + this.barsWidth[i - 1]/2 : this.c.width/2 - this.width/2,
+                    y: i * this.height,
+                    width: this.barsWidth[i],
+                    height: this.height - 1,
+                    nextBlockWidth: this.barsWidth[i + 1],
+                    index: i
+                };
+
+                if(barProps.width && barProps.height) {
+                    const bar = new chartBar({...barProps});
+                    bar.draw();
+                    this.addBar(bar);
                 }
+            }
+        }
 
-                drawBLocks() {
-                    let blockData = {};
-                    for(let i = 0; i < this.data.length; i++) {
-                        blockData = {
-                            x: this.blocks[i - 1] ? this.blocks[i - 1].x - this.blocksWidth[i]/2 + this.blocksWidth[i - 1]/2 : canvas.width/2 - this.width/2,
-                            y: i * this.height,
-                            width: this.blocksWidth[i],
-                            height: this.height - 1
-                        };
+        addBar(bar) {
+            this.bars.push(bar);
+        }
 
-                        if(blockData.width && blockData.height) {
-                            const block = new chartBlock(blockData.x , blockData.y, blockData.width, blockData.height,this.blocksWidth[i + 1], i);
-                            block.draw();
-                            this.addBlock(block);
-                        }
+        getBarsWidth() {
+            this.barsWidth = this.data.map((element,i) => {
+                return this.data[i]/this.data[0] * this.width;
+            });
+            return this.barsWidth;
+        }
+
+        hover(self) {
+            const c = document.getElementById('buffer'),
+                ctx = c.getContext('2d');
+
+            c.width = 400;
+            c.height = 30 * this.bars.length;
+            this.c.onmousemove = function (e) {
+
+                let rect = this.getBoundingClientRect(),
+                    x = e.clientX - rect.left,
+                    y = e.clientY - rect.top,
+                    i = 0, r;
+
+                while (r = self.bars[i++]) {
+                    console.log(rect);
+                    if(self.ctx.isPointInPath(x, y)) {
+                        ctx.rect(x - 10, y - self.bars[i - 1].height, 20, 20);
+                        ctx.strokeStyle = "#fff";
+                        ctx.fillStyle = self.bars[i - 1].color;
+                        ctx.lineWidth = "2";
+                        ctx.stroke();
+                        ctx.fill();
+                        console.log('in');
+                        break;
                     }
                 }
 
-                addBlock(block) {
-                    this.blocks.push(block);
-                }
+            };
+        }
 
-                getBlocksSumm() {
-                    this.dataAmmount = this.data.reduce((prev, element) => {
-                        return prev += element;
-                    });
-                    return this.dataAmmount;
-                }
+        init() {
+            this.getBarsWidth();
+            this.drawBars();
+            this.hover(this);
+        }
+    }
 
-                getBlocksWidth() {
-                    this.blocksWidth = this.data.map((element,i) => {
-                        return this.data[i]/this.data[0] * this.width;
-                    });
-                    return this.blocksWidth;
-                }
-            }
+    class chartBar {
+        constructor({c, ctx, x, y, width, height, nextBlockWidth, index}) {
+            this.c = c;
+            this.ctx = ctx;
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.nextBlockWidth = nextBlockWidth || 0;
+            this.index = index;
+            this.color = this.getRndColor();
+        }
 
-            class chartBlock {
-                constructor(x, y, width, height, nextBlockWidth, index) {
-                    this.x = x;
-                    this.y = y;
-                    this.width = width;
-                    this.height = height;
-                    this.nextBlockWidth = nextBlockWidth || 0;
-                    this.index = index;
-                }
+        draw() {
+            let x = [];
 
-                draw() {
-                    let x = [];
+            x[0] = this.x;
+            x[1] = x[0] + this.width;
+            x[2] = x[1] - (this.width - this.nextBlockWidth)/2;
+            x[3] = x[2] - this.nextBlockWidth;
+            this.ctx.beginPath();
 
-                    x[0] = this.x;
-                    x[1] = x[0] + this.width;
-                    x[2] = x[1] - (this.width - this.nextBlockWidth)/2;
-                    x[3] = x[2] - this.nextBlockWidth;
-                    ctx.beginPath();
+            this.ctx.fillStyle = this.color;
+            this.ctx.strokeStyle = this.color;
 
-                    ctx.fillStyle = this.getRndColor();
-                    ctx.strokeStyle = this.getRndColor();
+            x = x.map(coord => {
+                return parseInt(coord) + 0.5;
+            });
 
-                    x = x.map(coord => {
-                        return parseInt(coord) + 0.5;
-                    });
+            this.y = parseInt(this.y) + 0.5;
+            this.ctx.moveTo(x[0],this.y);
+            this.ctx.lineTo(x[1],this.y);
+            this.ctx.lineTo(x[2],this.y + this.height);
+            this.ctx.lineTo(x[3],this.y + this.height);
+            this.ctx.closePath();
 
-                    this.y = parseInt(this.y) + 0.5;
-                    ctx.moveTo(x[0],this.y);
-                    ctx.lineTo(x[1],this.y);
-                    ctx.lineTo(x[2],this.y + this.height);
-                    ctx.lineTo(x[3],this.y + this.height);
-                    ctx.closePath();
+            this.ctx.stroke();
+            this.ctx.fill();
+        }
 
-                    ctx.stroke();
-                    ctx.fill();
-                }
+        getRndColor() {
+            const colors = ['#29a2cc','#d31e1e','#7ca82b','#ef8535','#a14bc9','#a05f18',
+                '#265e96','#6b7075','#96c245','#b5a603','#492658','#515e82',
+                '#791f47','#525f82','#7a2149','#bba33b','#e66508','#980826'];
 
-                getRndColor() {
-                    const colors = ['#29a2cc','#d31e1e','#7ca82b','#ef8535','#a14bc9','#a05f18',
-                                    '#265e96','#6b7075','#96c245','#b5a603','#492658','#515e82',
-                                    '#791f47','#525f82','#7a2149','#bba33b','#e66508','#980826'];
-
-                    return colors[this.index % colors.length];
-                }
-            }
-
-            const blocks = new chartBlocks(array,width,height);
-        };
-
+            return colors[this.index % colors.length];
+        }
+    }
 
         return report;
     }]);

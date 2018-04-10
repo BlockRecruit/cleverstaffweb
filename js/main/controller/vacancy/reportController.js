@@ -15,10 +15,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         $scope.setStatistics = function(type = 'default', user = {}) {
             $scope.statistics = {type, user};
             if(type === 'default') {
-                let arr = $scope.mainFunnel.data.candidateSeries.map(series => {
-                    return Number(series);
-                });
-                vacancyReport.funnel('mainFunnel', arr);
+                vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
                 $scope.vacancyHistory = $scope.vacancyGeneralHistory;
                 return;
             }
@@ -60,15 +57,18 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             const dateFrom = $('#dateFrom').datetimepicker('getDate') ? $('#dateFrom').datetimepicker('getDate') : null,
                   dateTo = $('#dateTo').datetimepicker('getDate') ? $('#dateTo').datetimepicker('getDate') : null;
 
-            dateFrom.setHours(0, 0, 0, 0);
-            dateTo.setHours(0, 0, 0, 0);
-            dateTo.setDate(dateTo.getDate() + 1);
+            if(dateFrom && dateTo) {
+                dateFrom.setHours(0, 0, 0, 0);
+                dateTo.setHours(0, 0, 0, 0);
+                dateTo.setDate(dateTo.getDate() + 1);
+            }
 
             Statistic.getVacancyDetailInfo({"vacancyId": $scope.vacancy.vacancyId, "from": dateFrom, "to": dateTo, withCandidatesHistory: true})
                 .then(vacancyInterviewDetalInfo => {
                     $scope.vacancyHistory = vacancyInterviewDetalInfo;
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.vacancyHistory, $scope.notDeclinedStages, $scope.declinedStages));
                     $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
+                    vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
                     $scope.statistics = {type : 'default', user: {}};
                     updateUsers();
                     $scope.$apply();
@@ -80,16 +80,21 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
             let dateFrom = $('#dateFrom').datetimepicker('getDate')  ? $('#dateFrom').datetimepicker('getDate') : null,
                 dateTo   = $('#dateTo').datetimepicker('getDate')  ? $('#dateTo').datetimepicker('getDate') : null;
-            dateFrom.setHours(0, 0, 0, 0);
-            dateTo.setHours(0, 0, 0, 0);
-            dateTo.setDate(dateTo.getDate() + 1);
 
+            if(dateTo && dateFrom) {
+                dateFrom.setHours(0, 0, 0, 0);
+                dateTo.setHours(0, 0, 0, 0);
+                dateTo.setDate(dateTo.getDate() + 1);
+            }
+
+            $rootScope.loading = true;
             Statistic.getVacancyInterviewDetalInfoFile({
                 "vacancyId": $scope.vacancy.vacancyId,
                 "from": dateFrom,
                 "to": dateTo,
                 withCandidatesHistory: true
             },function(resp){
+                $rootScope.loading = false;
                 if(resp.status == 'ok'){
                     pdfId = resp.object;
                     $('#downloadPDF')[0].href = '/hr/' + 'getapp?id=' + pdfId;
@@ -169,10 +174,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.vacancyGeneralHistory = vacancyInterviewDetalInfo;
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(vacancyInterviewDetalInfo, $scope.notDeclinedStages, $scope.declinedStages));
                     $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
-                    let arr = $scope.mainFunnel.data.candidateSeries.map(series => {
-                       return Number(series);
-                    });
-                    vacancyReport.funnel('mainFunnel', arr);
+                    vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
                     $scope.$apply();
                 }, error => notificationService.error(error.message));
         }
@@ -268,7 +270,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 });
 
                 stages.push($filter('translate')(stage.key));
-                candidateSeries.push(stage.value.toString());
+                candidateSeries.push(+(stage.value));
 
                 if (!lastCount && lastCount !== 0) {
                     RelConversion.push('100%');
@@ -333,7 +335,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             }).on('changeDate', function (date) {
                 if(date.date > $("#dateTo").datetimepicker("getDate")) {
                     let d = new Date();
-                    console.log('here-2');
                     d.setHours(0, 0, 0, 0);
                     $("#dateTo").datetimepicker("setDate", new Date(d.getFullYear(),d.getMonth(),d.getDate()));
                 }
@@ -359,10 +360,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
             let d = new Date();
             d.setHours(0, 0, 0, 0);
-
-            $("#dateTo").datetimepicker("setDate", d);
-            // $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
-            console.log(new Date($scope.vacancy.dc) === d);
+            $("#dateTo").datetimepicker("setDate", new Date(d.getFullYear(),d.getMonth(),d.getDate()));
+            $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
         }
 
         function getVacancyStages(response) {
@@ -385,8 +384,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 getCompanyParams(companyParams);
                 getVacancy(vacancy.object);
                 getUsersForFunnel(vacancy.object.vacancyId);
-                setDateTimePickers(vacancy.object);
                 setStages();
+                setDateTimePickers();
                 initMainFunnel();
             }, error => notificationService.error(error.message));
         }

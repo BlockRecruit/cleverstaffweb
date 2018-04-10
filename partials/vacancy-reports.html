@@ -91,7 +91,8 @@
                             <div class="funnel-chart">
                                 <h5 translate="Recruiting funnel"></h5>
                                 <canvas ng-show="statistics.type === 'default'" id="mainFunnel"></canvas>
-                                <canvas ng-show="statistics.type === 'userFunnel'" id="userFunnel"></canvas>
+                                <canvas ng-show="statistics.type === 'userFunnel'" class="abs" id="userFunnel"></canvas>
+                                <canvas id="buffer" style="position: absolute; top: 28px;"></canvas>
                             </div>
                             <table class="funnel-table" ng-show="statistics.type === 'default' && hasFunnelChart">
                                 <caption translate="Conversion for vacancy" class="conversion"></caption>
