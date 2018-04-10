@@ -146,7 +146,7 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                             Vacancy.getCounts({vacancyId: vacancyId}, (resp) => {
                                 candidatesCount = resp.object;
                                 var sortedStages = [];
-                                var array = statuses.split(',');
+                                var array = statuses?statuses.split(','):[];
                                 var VacancyStatus = Vacancy.interviewStatusNew();
                                 var i = 0;
                                 angular.forEach(array, function(resp) {

@@ -3780,7 +3780,6 @@ directive('appVersion', ['version', function(version) {
         };
     }).directive('clickOnEnter', function () {
         return function (scope, element, attrs) {
-            console.log('here', attrs.clickOnEnter);
             element.bind("keydown keypress", function (event) {
                 if(event.which === 13) {
                     $(attrs.clickOnEnter).click();

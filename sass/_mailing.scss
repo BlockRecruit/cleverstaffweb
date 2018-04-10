@@ -261,7 +261,6 @@
 						}
 						&.email {
 							width: 44%;
-							padding-left: 60px;
 						}
 						&.full-name {
 							width: 40%;
@@ -290,7 +289,7 @@
 						}
 						&.email {
 							& > span {
-								padding: 7px 55px;
+								padding: 7px 55px 7px 0;
 							}
 						}
 						.no-email {

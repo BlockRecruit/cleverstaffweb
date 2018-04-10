@@ -332,10 +332,14 @@ component.component('mDetails', {
         $('#step_1').unbind();
         $('#step_2').unbind().on('click',() => {
             $scope.toTheEditor();
+            if(!$rootScope.$$phase)
+                $scope.$apply();
         });
         if(olderAvailableStep == 3) {
             $('#step_3').addClass('clickable').unbind().on('click', () => {
                 toPreview();
+                if(!$rootScope.$$phase)
+                    $scope.$apply();
             });
         } else {
             $('#step_3').removeClass('clickable').unbind();

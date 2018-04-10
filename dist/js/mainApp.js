@@ -3780,7 +3780,6 @@ directive('appVersion', ['version', function(version) {
         };
     }).directive('clickOnEnter', function () {
         return function (scope, element, attrs) {
-            console.log('here', attrs.clickOnEnter);
             element.bind("keydown keypress", function (event) {
                 if(event.which === 13) {
                     $(attrs.clickOnEnter).click();
@@ -4825,7 +4824,7 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                             Vacancy.getCounts({vacancyId: vacancyId}, (resp) => {
                                 candidatesCount = resp.object;
                                 var sortedStages = [];
-                                var array = statuses.split(',');
+                                var array = statuses?statuses.split(','):[];
                                 var VacancyStatus = Vacancy.interviewStatusNew();
                                 var i = 0;
                                 angular.forEach(array, function(resp) {
@@ -47562,10 +47561,14 @@ component.component('mDetails', {
         $('#step_1').unbind();
         $('#step_2').unbind().on('click',() => {
             $scope.toTheEditor();
+            if(!$rootScope.$$phase)
+                $scope.$apply();
         });
         if(olderAvailableStep == 3) {
             $('#step_3').addClass('clickable').unbind().on('click', () => {
                 toPreview();
+                if(!$rootScope.$$phase)
+                    $scope.$apply();
             });
         } else {
             $('#step_3').removeClass('clickable').unbind();
