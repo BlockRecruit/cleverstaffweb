@@ -8109,9 +8109,9 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         }
 
         function getDataShowElement(target) {
-            let element = target;
+            let element = target, currentLastBlockData = ['block-custom-report-edit', 'block-custom-reports'];
 
-            while(!element.classList.contains('block-custom-report-edit')){
+            while(element && !currentLastBlockData.some(itemClass => element.classList.contains(itemClass))){
                 if(element.dataset.show){
                     return element.dataset;
                 }
@@ -8121,7 +8121,8 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         }
 
         function isClickInDataShowBlock(element, id) {
-            while(!element.classList.contains('block-custom-report-edit')){
+            let currentLastBlockData = ['block-custom-report-edit', 'block-custom-reports'];
+            while(element && !currentLastBlockData.some(itemClass => element.classList.contains(itemClass))){
                 if(element.classList.contains('active') || (id && element.id === id)){
                     return true;
                 }
@@ -45318,14 +45319,15 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         try {
             let updateReport = () => CustomReportsService.buildReport.call(this, $scope);
             let showBlocks =  (event) => {
-                let targetDataID = event.target.dataset, blockShow;
-
-                if(targetDataID && targetDataID['show']){
-                    blockShow = angular.element('#' + targetDataID['show'])[0];
-                    CustomReportEditService.showBlocks(blockShow);
-                    return;
-                }
-                CustomReportEditService.hiddenBlocks();
+                // let targetDataID = event.target.dataset, blockShow;
+                //
+                // if(targetDataID && targetDataID['show']){
+                //     blockShow = angular.element('#' + targetDataID['show'])[0];
+                console.log(event, 'event');
+                CustomReportEditService.showBlocks(event);
+                //     return;
+                // }
+                // // CustomReportEditService.hiddenBlocks();
             };
 
             this.dataReport        = CustomReportsService.data;

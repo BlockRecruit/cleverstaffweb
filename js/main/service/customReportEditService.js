@@ -468,9 +468,9 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         }
 
         function getDataShowElement(target) {
-            let element = target;
+            let element = target, currentLastBlockData = ['block-custom-report-edit', 'block-custom-reports'];
 
-            while(!element.classList.contains('block-custom-report-edit')){
+            while(element && !currentLastBlockData.some(itemClass => element.classList.contains(itemClass))){
                 if(element.dataset.show){
                     return element.dataset;
                 }
@@ -480,7 +480,9 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         }
 
         function isClickInDataShowBlock(element, id) {
-            while(!element.classList.contains('block-custom-report-edit')){
+            let currentLastBlockData = ['block-custom-report-edit', 'block-custom-reports'];
+
+            while(element && !currentLastBlockData.some(itemClass => element.classList.contains(itemClass))){
                 if(element.classList.contains('active') || (id && element.id === id)){
                     return true;
                 }
