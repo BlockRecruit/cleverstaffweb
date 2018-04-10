@@ -63,7 +63,7 @@ component.component('mDetails', {
                 notificationService.error('There is no candidate Id. This mailing is broken. Please, create new mailing');
                 return
             }
-            if(newName.trim().length > 0) {
+            if(newName && newName.trim().length > 0) {
                 if(Mailing.emailValidation(newEmail)) {
                     candidate.email = newEmail;
                     candidate.fullName = newName;
