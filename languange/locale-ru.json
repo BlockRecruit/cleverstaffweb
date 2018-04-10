@@ -2931,5 +2931,7 @@
   "Сandidates in stages": "Кандидаты на этапах",
   "Invite user with a role" :"Пригласить пользователя с ролью",
   "Export in Excel":"Выгрузить в Excel",
-  "Update log of exports to Excel":"Обновить историю экспорта"
+  "Update log of exports to Excel":"Обновить историю экспорта",
+  "Preparing the candidates for the export, you can download it in Export history when the export completes":"Идет подготовка кандидатов для выгрузки в Excel, по окончанию вы можете скачать его в",
+  "Export history":"Истории экспорта"
 }

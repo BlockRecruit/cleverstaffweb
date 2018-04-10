@@ -24,14 +24,14 @@
             <a ng-click="viewExcelHistory()" href="#/excelHistory" >{{'Export History' | translate}}</a>
         </div>
     </div>
-    <div class="exporting" ng-if="$root.loadingExcel">
+    <div class="exporting" ng-show="$root.loadingExcel">
         <div class="export-image" style="margin-right: 13px;">
             <img src="/images/sprite/excel-history.png" alt="{{'Export to Excel' | translate }}">
         </div>
-        <span>Идет подготовка кандидатов для выгрузки в Excel, по окончанию Вы можете скачать его в
-            <a ng-href="{{$root.buildExcel ? '#/excelHistory' : '#/candidates'}}"
-               ng-style="{'color': !$root.buildExcel ? '#a6afb6':'#337ab7'}">Истории экспорта</a>
-        </span>
+       <span>
+           {{"Preparing the candidates for the export, you can download it in Export history when the export completes"|translate}}
+           <a ng-href="{{$root.buildExcel? '#/excelHistory' : '#/candidates'}}" ng-style="{'color': !$root.buildExcel ? '#a6afb6':'#337ab7'}">{{"Export history"|translate}} <a/>
+       </span>
     </div>
     <div class="buttons-wrap">
         <button class="btn-primary-new" ng-click="(!$root.loadingExcel)? exportToExcel() : $root.closeModal()">{{(!$root.loadingExcel)?'export':'Close'| translate}}</button>
