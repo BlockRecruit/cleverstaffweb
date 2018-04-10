@@ -68,8 +68,9 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 .then(vacancyInterviewDetalInfo => {
                     $scope.vacancyHistory = vacancyInterviewDetalInfo;
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.vacancyHistory, $scope.notDeclinedStages, $scope.declinedStages));
-                    updateUsers();
+                    $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
                     $scope.statistics = {type : 'default', user: {}};
+                    updateUsers();
                     $scope.$apply();
                 }, error => notificationService.error(error.message));
         };
@@ -325,26 +326,43 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 startView: 2,
                 minView: 2,
                 autoclose: true,
-                startDate: $scope.vacancy.dc != undefined ? new Date($scope.vacancy.dc) : new Date(),
+                startDate: $scope.vacancy.dc ? new Date($scope.vacancy.dc) : new Date(),
+                endDate: new Date(),
                 weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
                 language: $translate.use()
+            }).on('changeDate', function (date) {
+                if(date.date > $("#dateTo").datetimepicker("getDate")) {
+                    let d = new Date();
+                    console.log('here-2');
+                    d.setHours(0, 0, 0, 0);
+                    $("#dateTo").datetimepicker("setDate", new Date(d.getFullYear(),d.getMonth(),d.getDate()));
+                }
             });
-
-            $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
 
             $("#dateTo").datetimepicker({
                 format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
                 startView: 2,
                 minView: 2,
                 autoclose: true,
+                startDate: $scope.vacancy.dc ? new Date($scope.vacancy.dc) : new Date(),
                 endDate: new Date(),
                 weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
                 language: $translate.use()
+            }).on('changeDate', function (date) {
+                if(date.date < $("#dateFrom").datetimepicker("getDate")) {
+                    console.log('yep');
+                    let d = new Date();
+                    d.setHours(0, 0, 0, 0);
+                    $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
+                }
             });
 
             let d = new Date();
             d.setHours(0, 0, 0, 0);
+
             $("#dateTo").datetimepicker("setDate", d);
+            // $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
+            console.log(new Date($scope.vacancy.dc) === d);
         }
 
         function getVacancyStages(response) {

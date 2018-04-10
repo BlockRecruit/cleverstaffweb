@@ -2351,7 +2351,7 @@
   "You select up to 4 users":"You select up to 4 users",
   "Relative":"Relative",
   "Absolute":"Absolute",
-  "Total in vacancy":"Total in <br> vacancy",
+  "Total in vacancy":"Total on <br> stage",
   "Candidates by users":"Candidates by users",
   "Amount by user":"Amount <br> {{name}}",
   "Percent of total amount":"% of total <br> amount"

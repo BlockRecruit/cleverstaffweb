@@ -2941,7 +2941,7 @@
   "Relative":"Относительная",
   "Amount_2":"Количество",
   "Conversion for vacancy":"Конверсия по вакансии",
-  "Total in vacancy":"Всего по <br> вакансии",
+  "Total in vacancy":"Всего на <br> этапе",
   "Candidates by users":"Кандидаты по пользователям",
   "Amount by user":"Количество <br> {{name}}",
   "Percent of total amount":"% от общего <br> количества"

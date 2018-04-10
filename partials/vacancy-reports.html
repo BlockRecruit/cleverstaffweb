@@ -35,7 +35,7 @@
                         <div class="clearfix"></div>
                     </div>
                 </div>
-                <div class="filter" ng-if="vacancyFunnelMap">
+                <div class="filter" ng-show="vacancyFunnelMap">
                     <div class="switch">
                         <span>{{'Show reports by users' | translate}}</span>
                         <input id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round" type="checkbox" ng-model="showUserReports">
@@ -49,12 +49,12 @@
                         <button class="btn-add" ng-click="addUserInFunnelUsersList(userIndex)">+</button>
                     </div>
                 </div>
-                    <div class="field update">
-                        <button class="btn btn-primary search pull-right" ng-click="updateData()">{{'Update data' | translate}}</button>
-                    </div>
-                    <div class="clearfix"></div>
+                <div class="field update">
+                    <button class="btn btn-primary search pull-right" ng-click="updateData()">{{'Update data' | translate}}</button>
+                </div>
+                <div class="clearfix"></div>
             </div>
-            <div class="col-xs-12 no-padding">
+            <div class="col-xs-12 no-padding" ng-if="vacancyFunnelMap">
                 <div class="funnel-types">
                     <div class="funnel-type general" ng-if="vacancyFunnelMap" ng-class="{'active': statistics.type === 'default', 'full-width': !funnelActionUsersList.length}" ng-click="setStatistics('default')">
                         <h5>{{'General Statistics' | translate}}</h5>
@@ -66,7 +66,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12 funnelPanel">
+            <div class="col-lg-12 funnelPanel" ng-show="vacancyFunnelMap">
                 <div id="funnel">
                     <div style="min-height:150px">
                         <div class="funnel">

@@ -406,7 +406,7 @@
 							position: absolute;
 							bottom: -2px;
 
-							width: 585px;
+							width: calc(100% - 165px + 585px);
 
 							border-top: 0.1em dashed #ccc;
 							&.last {
@@ -447,5 +447,12 @@
 	}
 	.no-padding {
 		padding: 0;
+	}
+}
+
+@media screen and (max-width:1330px) {
+	.block-vacancy-reports > .row > .col-lg-12 > .filter,
+	.block-vacancy-reports > .row > .col-lg-12 .dateFrom {
+		height: 120px;
 	}
 }
