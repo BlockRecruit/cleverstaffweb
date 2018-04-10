@@ -2363,7 +2363,7 @@
   "Changes saved": "Changes saved",
   "_Invited user":"Invited users",
   "No recipients": "No recipients",
-  "Wrong emails": "Wrong recipients email",
+  "Wrong emails": "There are recipients with empty or not valid emails in the list. Please fill the emails in or remove such recipients from this list",
   "Adding recipients from a vacancy": "Adding recipients from a vacancy",
   "Select the vacancy and the stage. Candidates from the selected stage will become the recipients of the mailing. Only candidates with e-mail will be added": "Select the vacancy and the stage. Candidates from the selected stage will become the recipients of the mailing. Only candidates with e-mail will be added",
   "You have not sent mailings yet": "You have not sent mailings yet.",
