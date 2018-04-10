@@ -3209,6 +3209,52 @@ select.webkit-fix {
     }
     /*compare potok end*/
 }
+@media screen and (min-width:992px) and (max-width:1199px) {
+    .teamWork .mrgTop {
+        margin-top: 55px;
+    }
+    .tarif {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: stretch;
+    }
+    .tarif .loginBtn {
+        display: block;
+        max-width: 100%;
+    }
+    .discount {
+        min-height: 35px;
+    }
+
+    .descr {
+        display: flex;
+        align-items: center;
+        min-height: 95px;
+    }
+    .lstChild {
+        margin-top: 52px;
+    }
+    .lstChild.lstChildRu {
+        margin-top: 106px;
+    }
+    .mrgTop {
+        margin-top: 107px;
+    }
+    .small-font {
+        font-size: 14px;
+    }
+    .discount.margin-top {
+        margin-top: 35px;
+    }
+    .howMuchMoney.padding {
+        padding-top: 0;
+        padding-bottom: 8px;
+    }
+    .tarif-ru.teamWork .mrgTop {
+        margin-top: 40px;
+    }
+}
 @media screen and (max-width: 991px) {
     .adaptiveMenu{
         display: none!important;
