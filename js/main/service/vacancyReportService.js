@@ -65,32 +65,37 @@ angular.module('services.vacancyReport', [
         }
 
         hover(self) {
-            const c = document.getElementById('buffer'),
-                ctx = c.getContext('2d');
+            let wrapper = document.getElementById("wrapper"),
+                buffer = document.getElementById("buffer"),
+                bufferCtx = buffer.getContext('2d');
 
-            c.width = 400;
-            c.height = 30 * this.bars.length;
-            this.c.onmousemove = function (e) {
+            buffer.width = 400;
+            buffer.height = this.bars.length * 30;
 
-                let rect = this.getBoundingClientRect(),
+            wrapper.onmousemove = function (e) {
+
+                let rect = self.c.getBoundingClientRect(),
                     x = e.clientX - rect.left,
                     y = e.clientY - rect.top,
                     i = 0, r;
 
                 while (r = self.bars[i++]) {
-                    console.log(rect);
+                    self.ctx.beginPath();
+                    self.ctx.rect(r.x, r.y, r.width, r.height);
+                    bufferCtx.clearRect(0,0, buffer.width, buffer.height);
                     if(self.ctx.isPointInPath(x, y)) {
-                        ctx.rect(x - 10, y - self.bars[i - 1].height, 20, 20);
-                        ctx.strokeStyle = "#fff";
-                        ctx.fillStyle = self.bars[i - 1].color;
-                        ctx.lineWidth = "2";
-                        ctx.stroke();
-                        ctx.fill();
-                        console.log('in');
+                        bufferCtx.beginPath();
+                        bufferCtx.rect(x - 10, y - self.bars[i - 1].height, 20, 20);
+                        bufferCtx.strokeStyle = "#fff";
+                        bufferCtx.fillStyle = self.bars[i - 1].color;
+                        bufferCtx.lineWidth = "2";
+                        bufferCtx.stroke();
+                        bufferCtx.fill();
                         break;
+                    } else {
+                        bufferCtx.clearRect(0,0, buffer.width, buffer.height);
                     }
                 }
-
             };
         }
 
