@@ -4501,7 +4501,39 @@ directive('appVersion', ['version', function(version) {
             }
         }
     }])
-    .directive("customSelect",setCustomSelect);
+    .directive("customSelect",setCustomSelect)
+    .directive("tooltipMove", tooltipMove);
+
+function tooltipMove($filter){
+    let restrict  = "EACM"
+    return {
+        restrict,
+        link(scope, element, attrs){
+            element[0].addEventListener('mouseenter', showToolTip.bind(element[0], $filter));
+            element[0].addEventListener('mouseleave', hiddenToolTip);
+        }
+    }
+}
+
+function showToolTip($filter, event) {
+        let text,
+        tooltipContent = document.createElement('div');
+
+    if(this.dataset && this.dataset.tooltip){
+        text = this.dataset.tooltip;
+        tooltipContent.classList.add('info-content');
+        tooltipContent.classList.add('tooltip-hint');
+        tooltipContent.innerHTML = $filter('translate')(text);
+        this.after(tooltipContent);
+    }
+}
+
+function hiddenToolTip() {
+    console.log('exit');
+    let allToolTips = document.querySelectorAll('.tooltip-hint');
+        allToolTips.forEach(tooltip => tooltip.remove());
+}
+
 function setCustomSelect($rootScope){
     let restrict  = "EACM",
         scope = {
