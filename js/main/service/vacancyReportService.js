@@ -37,6 +37,7 @@ angular.module('services.vacancyReport', [
                 let barProps = {
                     c: this.c,
                     ctx: this.ctx,
+                    value: this.data[i],
                     x: this.bars[i - 1] ? this.bars[i - 1].x - this.barsWidth[i]/2 + this.barsWidth[i - 1]/2 : this.c.width/2 - this.width/2,
                     y: i * this.height,
                     width: this.barsWidth[i],
@@ -68,6 +69,7 @@ angular.module('services.vacancyReport', [
             let wrapper = document.getElementById("wrapper"),
                 buffer = document.getElementById("buffer"),
                 bufferCtx = buffer.getContext('2d');
+                bufferCtx.translate(0.5, 0.5);
 
             buffer.width = 400;
             buffer.height = this.bars.length * 30;
@@ -85,12 +87,21 @@ angular.module('services.vacancyReport', [
                     bufferCtx.clearRect(0,0, buffer.width, buffer.height);
                     if(self.ctx.isPointInPath(x, y)) {
                         bufferCtx.beginPath();
-                        bufferCtx.rect(x - 10, y - self.bars[i - 1].height, 20, 20);
+                        bufferCtx.rect(x - 13, y - self.bars[i - 1].height - 10, 26, 26);
+
                         bufferCtx.strokeStyle = "#fff";
                         bufferCtx.fillStyle = self.bars[i - 1].color;
                         bufferCtx.lineWidth = "2";
+
+                        bufferCtx.font="16px f";
+                        bufferCtx.textAlign="center";
+                        bufferCtx.textBaseline = "middle";
+
                         bufferCtx.stroke();
                         bufferCtx.fill();
+                        bufferCtx.fillStyle = "#fff";
+                        bufferCtx.fillText(self.bars[i - 1].value,x,y - self.bars[i - 1].height + 13);
+
                         break;
                     } else {
                         bufferCtx.clearRect(0,0, buffer.width, buffer.height);
@@ -107,9 +118,10 @@ angular.module('services.vacancyReport', [
     }
 
     class chartBar {
-        constructor({c, ctx, x, y, width, height, nextBlockWidth, index}) {
+        constructor({c, ctx, value, x, y, width, height, nextBlockWidth, index}) {
             this.c = c;
             this.ctx = ctx;
+            this.value = value;
             this.x = x;
             this.y = y;
             this.width = width;
