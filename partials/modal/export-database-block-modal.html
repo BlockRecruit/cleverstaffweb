@@ -7,7 +7,12 @@
     </div>
     <div class="modal-body">
         <p>{{'This feature (resume archive download & database backup) is paid'|translate}}</p>
-        <p>{{'You can download archive with first 100 candidates for free to understand how it works'|translate}}</p>
+        <p>
+            {{'You can download archive with first 100 candidates for free to understand how it works'|translate}}
+            {{'You can download the archive on the'|translate}}
+            <a ng-click="$root.toArchiveHistory('null');$root.closeModal()" href="" class="no-margin-left-example">{{'Export log'|translate}}</a>
+            {{'page_1'|translate}}
+        </p>
         <p>{{'To download more candidates please pay for this feature: $500 / year'|translate}}</p>
     </div>
     <div class="modal-footer">
