@@ -2357,12 +2357,17 @@
   "Add another phone number": "Add another phone number",
   "Task deleted":"Task deleted",
   "Сandidates in stages": "Сandidates in stages",
-  "Invite user with a role" :"Invite user with a role",
   "The filter allows you to pick the users who performed any activities on vacancies.": "The filter allows you to pick the users who performed any activities on vacancies.",
   "The test has been sent to the candidate":"The test <a class='underline'>{{testName}}</a> has been sent to the candidate",
   "The test testname has been sent to the candidate name":"The test <a class='underline'>{{testName}}</a> has been sent to the candidate <a href={{href}}>{{candidateName}}</a>",
   "Number of candidates for which there were actions for the selected period": "Number of candidates for which there were actions for the selected period",
   "The candidate has been transferred to the stage":"The candidate has been transferred to the stage",
   "from_4": "from",
-  "for": "for"
+  "for": "for",
+  "Invite user with a role" :"Invite user with a role",
+  "Yes, remove everywhere": "Yes, remove everywhere",
+  "Are you sure you want to remove this source?": "Are you sure you want to remove {{source_name}} source?",
+  "It will also be removed from other candidate profiles": "It will also be removed from other candidate profiles.",
+  "Origin removed": "Origin removed",
+  "Delete source for all candidates": "Delete source for all candidates"
 }

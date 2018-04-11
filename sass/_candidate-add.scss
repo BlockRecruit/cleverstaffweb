@@ -572,18 +572,20 @@
 									color: $theme-dark;
 								}
 							}
-							.select2-search-choice-delete-origin {
-								font-size: 12px;
+							.select2-container .select2-choice abbr {
+								&.select2-search-choice-delete-origin {
+									font-size: 12px;
 
-								position: absolute;
-								top: 7px;
-								right: initial;
+									position: absolute;
+									top: 7px;
+									right: initial;
 
-								display: inline-block;
-								width: 12px;
-								height: 12px;
-								padding-top: 13px;
-								padding-left: 15px;
+									display: inline-block;
+									width: 12px;
+									height: 12px;
+									padding-top: 13px;
+									padding-left: 15px;
+								}
 							}
 						}
 						&.dateOfBirth {
