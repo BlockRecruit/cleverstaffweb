@@ -231,6 +231,9 @@
 						&:hover {
 							background-color: #f5f5a9;
 						}
+						.email {
+							font-weight: bold;
+						}
 					}
 					&:hover {
 						background-color: $theme-subtitle-background;
@@ -269,14 +272,17 @@
 							font-weight: normal;
 
 							width: 17%;
-							padding-right: 20px;
+							padding: 0 20px 4px 8px;
 
 							text-align: right;
 
 							color: #666;
-
-							&:hover {
-								text-decoration: underline;
+							img {
+								width: 37px;
+								height: 25px;
+								&:hover {
+									transform: scale(1.1);
+								}
 							}
 						}
 					}
@@ -617,34 +623,50 @@
 		.info-icons {
 			position: relative;
 
+			display: flex;
 			padding-right: 12px;
 			.mail-count {
-				display: inline-block;
+				height: 33px;
 				span {
 					font-family: "Helvetica-Medium";
 					font-size: 15px;
+					&.mail-count-icon {
+						display: inline-block;
+						width: 50px;
+						height: 33px;
+						margin-right: 15px;
 
-					position: relative;
-					top: 2px;
+						background-image: url(../../images/sprite/icons/mailing-info.png);
+						background-repeat: no-repeat;
+						background-position: -59px 0;
+						background-size: 110px;
+						.mail-count-value {
+							font-size: 12px;
 
-					display: inline-block;
-					margin-left: 3px;
+							position: absolute;
+							top: 17px;
+							left: 30px;
 
-					color: #0c96f5;
+							width: 16px;
+							height: 13px;
 
-					align-self: center;
-				}
-				img.brackets {
-					position: relative;
-					right: 5px;
+							text-align: center;
+
+							color: $theme-green;
+						}
+					}
 				}
 			}
-			img {
-				width: auto;
-				height: 21px;
-				&.mailing-info {
-					cursor: pointer;
-				}
+			span.mailing-info {
+				width: 51px;
+				height: 33px;
+
+				cursor: pointer;
+
+				background-image: url(../../images/sprite/icons/mailing-info.png);
+				background-repeat: no-repeat;
+				background-position: -3px 0;
+				background-size: 110px;
 			}
 		}
 	}
@@ -652,6 +674,9 @@
 		@include option-tab();
 
 		margin-bottom: 25px;
+		.orange-button {
+			margin-left: 30px;
+		}
 	}
 	table {
 		background-color: $theme-white;
@@ -832,6 +857,9 @@
 				}
 			}
 		}
+	}
+	.orange-button {
+		@include button-styling();
 	}
 }
 

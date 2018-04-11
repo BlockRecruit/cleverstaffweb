@@ -2985,7 +2985,7 @@
   "Choose candidates": "Выбор кандидатов",
   "No recipients": "Нет получателей",
   "Adding recipients from a vacancy": "Добавление получателей из вакансии",
-  "Wrong emails": "В списке есть адресаты с пустым или недействительным email. Добавьте email или удалите этих адресатов",
+  "Wrong emails": "В списке есть адресаты с пустым или недействительным полем email. Добавьте email или удалите этих адресатов",
   "Select the vacancy and the stage. Candidates from the selected stage will become the recipients of the mailing. Only candidates with e-mail will be added": "Выберите вакансию и этап. Кандидаты из выбранного этапа станут получателями рассылки. Будут добавленны только кандидаты с электронной почтой",
   "You have not sent mailings yet": "У вас сейчас нет отправленных рассылок.",
   "Sent mailing details": "Данный отправленной рассылки",

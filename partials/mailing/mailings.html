@@ -7,11 +7,11 @@
                     <h3 translate="My mailings"></h3>
                     <div class="info-icons">
                         <div class="mail-count" ng-if="+($root.me.orgParams.freeMailCount) && $root.me.orgParams.mailingTariff === 'defaultTariff'" title="{{'Number of free letters in account' | translate}}">
-                            <img src="/images/sprite/mailing-count.png" alt="">
-                            <span>{{$root.me.orgParams.freeMailCount}}</span>
-                            <img class="brackets" src="/images/sprite/brackets.png">
+                            <span class="mail-count-icon">
+                                <span class="mail-count-value">{{$root.me.orgParams.freeMailCount}}</span>
+                            </span>
                         </div>
-                        <img ng-click="mailingModal()" class="mailing-info" src="/images/sprite/mailing-info.png" title="{{'Information about mailings' | translate}}">
+                        <span ng-click="mailingModal()" class="mailing-info" title="{{'Information about mailings' | translate}}"></span>
                     </div>
                 </div>
             </div>
@@ -22,9 +22,7 @@
                     <div class="text-left">
                         <a ui-sref="mailings-saved" ui-sref-active="active"  translate="Prepared"></a>
                         <a ui-sref="mailings-sent" ui-sref-active="active" translate="Sent"></a>
-                    </div>
-                    <div class="text-right">
-                        <a ng-click="newMailing()" translate="New mailing"></a>
+                        <button ng-click="newMailing()" translate="New mailing" class="btn orange-button create-mailing "></button>
                     </div>
                 </div>
             </div>
