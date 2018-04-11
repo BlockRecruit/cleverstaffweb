@@ -41,9 +41,9 @@
                         <input id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round" type="checkbox" ng-model="showUserReports">
                         <label for="cmn-toggle-9"></label>
                     </div>
-                    <div class="responsible-list" ng-show="showUserReports">
+                    <div class="responsible-list">
                         <select name="" id="" class="responsible-list" ng-model="userIndex">
-                            <option disabled selected="selected" value="">{{'choose_user2' | translate}}</option>
+                            <option disabled selected="selected" value="" ng-selected="funnelActionUsers">{{'choose_user2' | translate}}</option>
                             <option value="{{$index}}" ng-repeat="user in actionUsers track by $index">{{user.name}}</option>
                         </select>
                         <button class="btn-add" ng-click="addUserInFunnelUsersList(userIndex)">+</button>
@@ -56,11 +56,11 @@
             </div>
             <div class="col-xs-12 no-padding" ng-if="vacancyFunnelMap">
                 <div class="funnel-types">
-                    <div class="funnel-type general" ng-if="vacancyFunnelMap" ng-class="{'active': statistics.type === 'default', 'full-width': !funnelActionUsersList.length}" ng-click="setStatistics('default')">
+                    <div class="funnel-type general" ng-if="vacancyFunnelMap" ng-class="{'active': statistics.type === 'default', 'full-width': !funnelActionUsers.length}" ng-click="setStatistics('default')">
                         <h5>{{'General Statistics' | translate}}</h5>
                     </div>
                     <div class="funnel-type" ng-class="{'active': statistics.user === user}"
-                         ng-repeat="user in funnelActionUsersList track by $index" ng-click="setStatistics('userFunnel', user)">
+                         ng-repeat="user in funnelActionUsers track by $index" ng-click="setStatistics('userFunnel', user)">
                         <h5>{{user.name}}</h5>
                         <span class="close" ng-click="removeUserInFunnelUsersList(user);$event.stopPropagation();">✖</span>
                     </div>

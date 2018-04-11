@@ -2,23 +2,23 @@ angular.module('services.vacancyReport', [
     'ngResource',
     'ngCookies'
 ]).factory('vacancyReport', [function () {
-        let report = {};
+    let report = {};
 
-        report.funnel = function(id, arr) {
-            const array = arr;
-            const canvas = document.getElementById(id),
-                ctx = canvas.getContext('2d');
-                ctx.translate(0.5, 0.5);
+    report.funnel = function(id, arr) {
+        const array = arr;
+        const canvas = document.getElementById(id),
+            ctx = canvas.getContext('2d');
+            ctx.translate(0.5, 0.5);
 
-            canvas.width = 400;
+        canvas.width = 400;
 
-            let width = canvas.width;
-            let height = 30;
+        let width = canvas.width;
+        let height = 30;
 
-            canvas.height = array.length * height;
+        canvas.height = array.length * height;
 
-            new chartBars(canvas, array, width, height).init();
-        };
+        new chartBars(canvas, array, width, height).init();
+    };
 
 
     class chartBars {
@@ -64,13 +64,14 @@ angular.module('services.vacancyReport', [
             this.barsWidth = this.data.map((element,i) => {
                 return this.data[i]/this.data[0] * this.width;
             });
-            return this.barsWidth;
         }
 
-        hover(self) {
+        hover() {
             let wrapper = document.getElementById("wrapper"),
                 buffer = document.getElementById("buffer"),
-                bufferCtx = buffer.getContext('2d');
+                bufferCtx = buffer.getContext('2d'),
+                self = this;
+
                 bufferCtx.translate(0.5, 0.5);
 
 
@@ -95,6 +96,7 @@ angular.module('services.vacancyReport', [
                     self.ctx.beginPath();
                     self.ctx.rect(r.x, r.y, r.width, r.height);
                     bufferCtx.clearRect(0,0, buffer.width, buffer.height);
+
                     if(self.ctx.isPointInPath(x, y)) {
                         bufferCtx.beginPath();
                         bufferCtx.rect(tooltip.x(), tooltip.y(), tooltip.width, tooltip.height);
@@ -123,7 +125,7 @@ angular.module('services.vacancyReport', [
         init() {
             this.getBarsWidth();
             this.drawBars();
-            this.hover(this);
+            this.hover();
         }
     }
 
@@ -154,7 +156,7 @@ angular.module('services.vacancyReport', [
             this.ctx.strokeStyle = this.color;
 
             x = x.map(coord => {
-                return parseInt(coord) + 0.5;
+                return parseInt(coord) + 0.5; // It was made in order to canvas API , to get a high quality image. Works with ctx.translate(0.5, 0.5);
             });
 
             this.y = parseInt(this.y) + 0.5;

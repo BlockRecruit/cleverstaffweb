@@ -13254,23 +13254,23 @@ angular.module('services.vacancyReport', [
     'ngResource',
     'ngCookies'
 ]).factory('vacancyReport', [function () {
-        let report = {};
+    let report = {};
 
-        report.funnel = function(id, arr) {
-            const array = arr;
-            const canvas = document.getElementById(id),
-                ctx = canvas.getContext('2d');
-                ctx.translate(0.5, 0.5);
+    report.funnel = function(id, arr) {
+        const array = arr;
+        const canvas = document.getElementById(id),
+            ctx = canvas.getContext('2d');
+            ctx.translate(0.5, 0.5);
 
-            canvas.width = 400;
+        canvas.width = 400;
 
-            let width = canvas.width;
-            let height = 30;
+        let width = canvas.width;
+        let height = 30;
 
-            canvas.height = array.length * height;
+        canvas.height = array.length * height;
 
-            new chartBars(canvas, array, width, height).init();
-        };
+        new chartBars(canvas, array, width, height).init();
+    };
 
 
     class chartBars {
@@ -13316,13 +13316,14 @@ angular.module('services.vacancyReport', [
             this.barsWidth = this.data.map((element,i) => {
                 return this.data[i]/this.data[0] * this.width;
             });
-            return this.barsWidth;
         }
 
-        hover(self) {
+        hover() {
             let wrapper = document.getElementById("wrapper"),
                 buffer = document.getElementById("buffer"),
-                bufferCtx = buffer.getContext('2d');
+                bufferCtx = buffer.getContext('2d'),
+                self = this;
+
                 bufferCtx.translate(0.5, 0.5);
 
 
@@ -13347,6 +13348,7 @@ angular.module('services.vacancyReport', [
                     self.ctx.beginPath();
                     self.ctx.rect(r.x, r.y, r.width, r.height);
                     bufferCtx.clearRect(0,0, buffer.width, buffer.height);
+
                     if(self.ctx.isPointInPath(x, y)) {
                         bufferCtx.beginPath();
                         bufferCtx.rect(tooltip.x(), tooltip.y(), tooltip.width, tooltip.height);
@@ -13375,7 +13377,7 @@ angular.module('services.vacancyReport', [
         init() {
             this.getBarsWidth();
             this.drawBars();
-            this.hover(this);
+            this.hover();
         }
     }
 
@@ -13406,7 +13408,7 @@ angular.module('services.vacancyReport', [
             this.ctx.strokeStyle = this.color;
 
             x = x.map(coord => {
-                return parseInt(coord) + 0.5;
+                return parseInt(coord) + 0.5; // It was made in order to canvas API , to get a high quality image. Works with ctx.translate(0.5, 0.5);
             });
 
             this.y = parseInt(this.y) + 0.5;
@@ -40909,7 +40911,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
 
         $scope.statistics = {type: 'default', user: {}};
-        $scope.funnelActionUsersList = [];
+        $scope.funnelActionUsers = [];
         $scope.vacancyGeneralHistory = [];
         $scope.mainFunnel = {};
         $scope.usersColumn = {users: [], dataArray: []};
@@ -40931,24 +40933,26 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             let isMissing = true,
                 actionUser = $scope.actionUsers[userIndex] || null;
 
-            if($scope.funnelActionUsersList.length >= 4) {
+            if($scope.funnelActionUsers.length >= 4) {
                 notificationService.error($filter('translate')('You select up to 4 users'));
                 return;
             }
 
-            $scope.funnelActionUsersList.forEach(user => {
+            $scope.funnelActionUsers.forEach(user => {
                 if(angular.equals(user,actionUser)) isMissing = false;
             });
 
             if(isMissing && actionUser) {
-                $scope.funnelActionUsersList.push(actionUser);
+                $scope.funnelActionUsers.push(actionUser);
+                $scope.actionUsers.splice(userIndex, 1);
                 updateMainFunnel(actionUser);
                 vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
             }
         };
 
         $scope.removeUserInFunnelUsersList = function(user) {
-            $scope.funnelActionUsersList.splice($scope.funnelActionUsersList.indexOf(user),1);
+            $scope.funnelActionUsers.splice($scope.funnelActionUsers.indexOf(user),1);
+            $scope.actionUsers.push(user);
 
             updateMainFunnel(user);
             clearUserActionsFunnelCache({user});
@@ -40968,6 +40972,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 dateTo.setDate(dateTo.getDate() + 1);
             }
 
+            $rootScope.loading = true;
             Statistic.getVacancyDetailInfo({"vacancyId": $scope.vacancy.vacancyId, "from": dateFrom, "to": dateTo, withCandidatesHistory: true})
                 .then(vacancyInterviewDetalInfo => {
                     $scope.vacancyHistory = vacancyInterviewDetalInfo;
@@ -41012,10 +41017,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         };
 
         function updateUsers() {
-            $scope.funnelActionUsersList.forEach(user => {
+            $scope.funnelActionUsers.forEach(user => {
                 updateMainFunnel(user); // if user exist - removes it`s column to funnel
                 clearUserActionsFunnelCache({user}); // removing user from cache
-                updateMainFunnel(user);// if user is not existing - adding it column to funnel
+                updateMainFunnel(user);// if user not exist - adding it column to funnel
             });
         }
 
@@ -41042,17 +41047,11 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 personId: user.userId,
                 "from": dateFrom,
                 "to": dateTo
-                })
-                .then(usersActionData => {
-
+                }).then(usersActionData => {
                     const userFunnelMap = validateStages(parseCustomStagesNames(usersActionData, $scope.notDeclinedStages, $scope.declinedStages));
 
                     let userFunnelData = {
-                        userSeries: function() {
-                            return setFunnelData(userFunnelMap).candidateSeries.map(series => {
-                               return Number(series);
-                            });
-                        },
+                        userSeries: function() { return setFunnelData(userFunnelMap).candidateSeries.map(series => Number(series)); },
                         vacancySeries: setFunnelData($scope.vacancyFunnelMap).candidateSeries,
                         userPercentSeries : function() {
                             return this.userSeries().map((userSeries, index) => {
@@ -41106,6 +41105,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                         $scope.usersColumn.users.push(userData.user);
                         $scope.usersColumn.dataArray.push(userData.candidateSeries);
                         $scope.$apply();
+                        $rootScope.loading = false;
                     }, error => console.error(error));
             } else {
                 const index = $scope.usersColumn.users.indexOf(user);
@@ -41175,20 +41175,13 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         function setFunnelData(funnelMap, funnelWidth = '750px', chartWidth = '1300px') {
             $scope.hasFunnelChart = true;
-            let chartHeight = Math.floor(30*(funnelMap.length + 1));
-            let series = [],
-                stages = [],
+            let stages = [],
                 candidateSeries = [],
                 RelConversion = [],
                 AbsConversion = [],
-                values5 = [],
                 lastCount = null;
 
             angular.forEach(funnelMap, function(stage) {
-                series.push({
-                    "values": [stage.value]
-                });
-
                 stages.push($filter('translate')(stage.key));
                 candidateSeries.push(+(stage.value));
 
@@ -41196,14 +41189,14 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     RelConversion.push('100%');
                     AbsConversion.push('100%');
                 } else {
-                    RelConversion.push((stage.value != 0 ? Math.round(stage.value / lastCount * 100) : 0) + '%');
-                    AbsConversion.push((stage.value != 0 ? Math.round(stage.value / funnelMap[0].value * 100) : 0) + '%');
+                    RelConversion.push((stage.value !== 0 ? Math.round(stage.value / lastCount * 100) : 0) + '%');
+                    AbsConversion.push((stage.value !== 0 ? Math.round(stage.value / funnelMap[0].value * 100) : 0) + '%');
                 }
 
                 lastCount = stage.value;
             });
 
-            return { chartHeight, series, stages, candidateSeries, RelConversion, AbsConversion, values5, funnelWidth, chartWidth }
+            return { stages, candidateSeries, RelConversion, AbsConversion }
         }
 
         function getUserActionsFunnelCache({user}) {
