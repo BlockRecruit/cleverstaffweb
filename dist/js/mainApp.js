@@ -22295,7 +22295,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         },0);
         $scope.saveCandidate = function() {
             var salaryBol;
-            $scope.candidate.position=$scope.getPositionAutocompleterValue();
+            $scope.candidate.position = $scope.getPositionAutocompleterValue();
             if ($scope.candidate.salary && $scope.candidate.salary >= 2147483647) {
                 salaryBol = false;
             } else {
@@ -22337,6 +22337,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     candidate.photo = $scope.candidate.photo;
                 }
                 candidate.contacts = [];
+                console.log($scope.contacts, 'saveCandidate');
                 if ($scope.contacts.email) {
                     candidate.contacts.push({type: "email", value: $scope.contacts.email});
                 }
@@ -22391,6 +22392,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
 
                 deleteUnnecessaryFields(candidate);
                 console.log(candidate);
+
                 Candidate.edit(candidate, function(val) {
                     if (angular.equals(val.status, "ok")) {
                         notificationService.success($filter('translate')('Candidate saved'));
