@@ -123,7 +123,22 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 return;
             }
 
-            return Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true, personId: user.userId})
+            const dateFrom = $('#dateFrom').datetimepicker('getDate') ? $('#dateFrom').datetimepicker('getDate') : null,
+                dateTo = $('#dateTo').datetimepicker('getDate') ? $('#dateTo').datetimepicker('getDate') : null;
+
+            if(dateFrom && dateTo) {
+                dateFrom.setHours(0, 0, 0, 0);
+                dateTo.setHours(0, 0, 0, 0);
+                dateTo.setDate(dateTo.getDate() + 1);
+            }
+
+            return Statistic.getVacancyDetailInfo({
+                "vacancyId": $scope.vacancy.vacancyId,
+                withCandidatesHistory: true,
+                personId: user.userId,
+                "from": dateFrom,
+                "to": dateTo
+                })
                 .then(usersActionData => {
 
                     const userFunnelMap = validateStages(parseCustomStagesNames(usersActionData, $scope.notDeclinedStages, $scope.declinedStages));
