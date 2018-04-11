@@ -43865,9 +43865,14 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         $scope.selectAllVacancies = function (event) {
             let _fieldsVacancyList = $scope.fieldsVacancyList;
             _fieldsVacancyList.forEach(item => item.check = $scope.chooseListFieldsVacancies);
-            reloadCountCandidatesInStatuses();
-            reloadCountAndCandidatesInStages();
-        };
+            reloadCountCandidatesInStatuses()
+                .then(resp => setCountCadidateInStatuses(resp.object))
+                .then(updateStatuses)
+                .then(reloadCountAndCandidatesInStages)
+                .then(updateCountCandidateInStages)
+                .then(resetAngularContext);
+
+    };
 
         function  updateStatuses() {
             angular.forEach($scope._vacancyStatuses, function (res) {
