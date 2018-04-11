@@ -190,7 +190,7 @@ controller.controller('recallController', ["$localStorage", "frontMode", "google
             });
             Vacancy.one({"id": $scope.recall.vacancyId}, function (resp) {
                 $scope.vacancy = resp.object;
-                $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-" + $scope.vacancy.localId;
+                $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i/vacancy-" + $scope.vacancy.localId;
                 $rootScope.staticEmailTemplate = {
                     candidateName: "John Dou",
                     vacancyLink: $scope.vacancy.position,

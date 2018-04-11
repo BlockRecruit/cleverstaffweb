@@ -902,7 +902,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     }, function (res) {
                         historyButton($scope, res, Service, CacheCandidates);
                     });
-                    $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-" + $scope.vacancy.localId;
+                    $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i/vacancy-" + $scope.vacancy.localId;
                     if (frontMode === 'demo') {
                         $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/di#/pv/" + $scope.vacancy.localId;
                     }
@@ -1945,9 +1945,9 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                             clearInterval(setinterval)
                         }
                 },1000);
-                    console.log(response);
+                    //console.log(response);
                     if (response.status === 'connected' || response.status === 'unknown') {
-                        console.log(response);
+                        //console.log(response);
                         FB.ui({
                                 method: 'feed',
                                 name: $filter('translate')('Vacancy') + ' ' + $scope.vacancy.position,
@@ -1957,7 +1957,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 picture: $scope.publicImgLink
                             },
                             function (response) {
-                                console.log(response);
+                                //console.log(response);
                                 if(response.error_message){
                                     notificationService.error($filter('translate')('Vacancy hasn\'t shared'));
                                 }
@@ -1976,7 +1976,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         picture: $scope.publicImgLink
                                     },
                                     function (response) {
-                                    console.log(response);
+                                    //console.log(response);
                                         if(response.error_message){
                                             notificationService.error($filter('translate')('Vacancy hasn\'t shared'));
                                         }
@@ -4282,7 +4282,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.getCompanyParams = function(){
             Company.getParams(function(resp){
                 $scope.companyParams = resp.object;
-                $rootScope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/" + $scope.companyParams.nameAlias + "-vacancies";
+                $rootScope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i/" + $scope.companyParams.nameAlias + "-vacancies";
             });
         };
         $scope.getCompanyParams();

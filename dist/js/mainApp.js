@@ -32443,7 +32443,7 @@ controller.controller('recallController', ["$localStorage", "frontMode", "google
             });
             Vacancy.one({"id": $scope.recall.vacancyId}, function (resp) {
                 $scope.vacancy = resp.object;
-                $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-" + $scope.vacancy.localId;
+                $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i/vacancy-" + $scope.vacancy.localId;
                 $rootScope.staticEmailTemplate = {
                     candidateName: "John Dou",
                     vacancyLink: $scope.vacancy.position,
@@ -36580,7 +36580,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     }, function (res) {
                         historyButton($scope, res, Service, CacheCandidates);
                     });
-                    $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-" + $scope.vacancy.localId;
+                    $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i/vacancy-" + $scope.vacancy.localId;
                     if (frontMode === 'demo') {
                         $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/di#/pv/" + $scope.vacancy.localId;
                     }
@@ -37623,9 +37623,9 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                             clearInterval(setinterval)
                         }
                 },1000);
-                    console.log(response);
+                    //console.log(response);
                     if (response.status === 'connected' || response.status === 'unknown') {
-                        console.log(response);
+                        //console.log(response);
                         FB.ui({
                                 method: 'feed',
                                 name: $filter('translate')('Vacancy') + ' ' + $scope.vacancy.position,
@@ -37635,7 +37635,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 picture: $scope.publicImgLink
                             },
                             function (response) {
-                                console.log(response);
+                                //console.log(response);
                                 if(response.error_message){
                                     notificationService.error($filter('translate')('Vacancy hasn\'t shared'));
                                 }
@@ -37654,7 +37654,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         picture: $scope.publicImgLink
                                     },
                                     function (response) {
-                                    console.log(response);
+                                    //console.log(response);
                                         if(response.error_message){
                                             notificationService.error($filter('translate')('Vacancy hasn\'t shared'));
                                         }
@@ -39960,7 +39960,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.getCompanyParams = function(){
             Company.getParams(function(resp){
                 $scope.companyParams = resp.object;
-                $rootScope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/" + $scope.companyParams.nameAlias + "-vacancies";
+                $rootScope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i/" + $scope.companyParams.nameAlias + "-vacancies";
             });
         };
         $scope.getCompanyParams();
@@ -42080,7 +42080,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                 Mail.getTemplateVacancy({vacancyId: $rootScope.VacancyAddedInCandidate.vacancyId,type:templateType},function(data){
                     $rootScope.fileForSave = [];
                     if(!$scope.publicLink) {
-                        $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-" + $rootScope.vacancyForAddCandidate;
+                        $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i/vacancy-" + $rootScope.vacancyForAddCandidate;
                     }
                     console.log($rootScope.candnotify, '$rootScope.candnotify')
                     $rootScope.emailTemplateInModal = data.object;
@@ -42142,7 +42142,7 @@ function createEmailTemplateFunc($scope,$rootScope,id, Mail, $location){
                 }
                 Mail.getTemplateVacancy({vacancyId: $rootScope.changedStatusVacancy.vacancyId,type:templateType},function(data){
                     console.log($rootScope.candnotify, '$rootScope.candnotify');
-                    $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/vacancy-"  + $rootScope.changedStatusVacancy.localId;
+                    $scope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i/vacancy-"  + $rootScope.changedStatusVacancy.localId;
                     $rootScope.fileForSave = [];
                     $rootScope.emailTemplateInModal = data.object;
                     $rootScope.emailTemplateInModal.text = $rootScope.emailTemplateInModal.text.replace(/\[\[candidate name\]\]/g, $rootScope.candnotify.fullName?$rootScope.candnotify.fullName:"");
