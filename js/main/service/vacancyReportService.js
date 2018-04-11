@@ -71,8 +71,9 @@ angular.module('services.vacancyReport', [
                 bufferCtx = buffer.getContext('2d');
                 bufferCtx.translate(0.5, 0.5);
 
+
             buffer.width = 400;
-            buffer.height = this.bars.length * 30;
+            buffer.height = (this.bars.length + 2) * 30;
 
             wrapper.onmousemove = function (e) {
 
@@ -81,13 +82,20 @@ angular.module('services.vacancyReport', [
                     y = e.clientY - rect.top,
                     i = 0, r;
 
+                let tooltip = {
+                    width: 26,
+                    height: 26,
+                    x: function() { return  x - this.width/2 },
+                    y: function() { return y - self.bars[0].height - this.height/2 + (2 *self.bars[0].height) }
+                };
+
                 while (r = self.bars[i++]) {
                     self.ctx.beginPath();
                     self.ctx.rect(r.x, r.y, r.width, r.height);
                     bufferCtx.clearRect(0,0, buffer.width, buffer.height);
                     if(self.ctx.isPointInPath(x, y)) {
                         bufferCtx.beginPath();
-                        bufferCtx.rect(x - 13, y - self.bars[i - 1].height - 10, 26, 26);
+                        bufferCtx.rect(tooltip.x(), tooltip.y(), tooltip.width, tooltip.height);
 
                         bufferCtx.strokeStyle = "#fff";
                         bufferCtx.fillStyle = self.bars[i - 1].color;
@@ -100,7 +108,7 @@ angular.module('services.vacancyReport', [
                         bufferCtx.stroke();
                         bufferCtx.fill();
                         bufferCtx.fillStyle = "#fff";
-                        bufferCtx.fillText(self.bars[i - 1].value,x,y - self.bars[i - 1].height + 13);
+                        bufferCtx.fillText(self.bars[i - 1].value, tooltip.x() + tooltip.width/2, tooltip.y() + tooltip.height/2);
 
                         break;
                     } else {

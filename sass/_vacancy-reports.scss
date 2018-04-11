@@ -304,6 +304,13 @@
 						}
 						canvas {
 							margin-top: 110px;
+							&#buffer {
+								position: absolute;
+								bottom: 50px;
+
+								margin: 0;
+								padding-bottom: 20px;
+							}
 						}
 					}
 					.funnel-table {
