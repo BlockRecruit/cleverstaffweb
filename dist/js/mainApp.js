@@ -14196,7 +14196,7 @@ angular.module('services.vacancy', [
             "page": {"number": 0, "count": 100},
             "words": null,
             "position": null,
-            "clientId": null,
+            "clientId": null
         };
     };
     vacancy.init();
@@ -35011,8 +35011,9 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
             $scope.searchParam.position == null && $scope.searchParam.candidateGroups == null &&
             $scope.searchParam.regionId == null && $scope.searchParam.candidateGroupIds == null &&
             $scope.searchParam.searchFullTextType == null && $scope.searchParam['responsibleId'] == null &&
-            $scope.searchParam['personId'] == 'null'){
-            notificationService.error($filter('translate')('Enter the data'));
+            $scope.searchParam['personId'] == 'null' && !$scope.searchParam.status){
+            $scope.tableParams.reload();
+            // notificationService.error($filter('translate')('Enter the data'));
         }else{
             $rootScope.loading = true;
             if ($scope.searchParam['status'] ||
