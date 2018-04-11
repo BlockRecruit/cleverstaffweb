@@ -139,12 +139,12 @@
 
 							justify-content: space-around;
 						}
-						.select2-search-choice-close {
+						.select2-search-choice-edit {
 							position: static;
 
 							margin: 0 5px;
 						}
-						.select2-search-choice-edit {
+						.select2-search-choice-close {
 							position: static;
 
 							display: inline-block;
@@ -157,7 +157,7 @@
 							width: 10px;
 							height: 12px;
 
-							background: url("../images/sprite/remove.png") center no-repeat;
+							background: url("/images/sprite/remove.png") center no-repeat;
 							background-size: 10px;
 						}
 					}

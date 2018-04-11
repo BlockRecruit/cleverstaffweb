@@ -1035,14 +1035,14 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             $(`ul.select2-choices li:eq(${index})`).remove();
                         }
                     });
-                    // angular.forEach(beforeEdit, function (tagName, index) {
-                    //     if( tagName == $rootScope.tagForEdit.name) {
-                    //         beforeEdit.splice(index,1);
-                    //         $scope.setSelect2Group(beforeEdit);
-                    //     }
-                    // });
+                    angular.forEach(beforeEdit, function (tagName, index) {
+                        if( tagName == $rootScope.tagForEdit.name) {
+                            beforeEdit.splice(index,1);
+                            $scope.setSelect2Group(beforeEdit);
+                        }
+                    });
                     $scope.closeModal();
-                    notificationService.success($filter('translate')('Tags removed'));
+                    notificationService.success($filter('translate')('Tag completely removed from system'));
                 }, error => {
                     $scope.closeModal();
                     $rootScope.loading = false;

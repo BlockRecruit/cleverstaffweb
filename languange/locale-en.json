@@ -2346,5 +2346,6 @@
   "Remove tag from account":"Remove tag from account",
   "Are you sure want to delete tag from account?":"Are you sure want to delete tag {{tagName}} from account?",
   "After deleting tag, it will be removed from all candidates":"After deleting tag, it will be removed from all candidates",
-  "Remove tag from candidate": "Remove tag from candidate"
+  "Remove tag from candidate": "Remove tag from candidate",
+  "Tag completely removed from system":"Tag completely removed from system"
 }

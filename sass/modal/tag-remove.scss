@@ -1,6 +1,9 @@
 .tag-remove {
-	p {
+	h4 {
 		font-weight: bold;
+	}
+	p {
+		font-weight: normal;
 	}
 	a.accept {
 		&:hover {

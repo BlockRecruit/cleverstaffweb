@@ -5921,8 +5921,8 @@ if(!(this.styles_.length>0))for(a=0;a<this.imageSizes_.length;a++)b=this.imageSi
                 enabledItem = $(
                     "<li class='select2-search-choice'>" +
                     "    <div></div>" +
-                    "    <a href='#' class='select2-search-choice-close' tabindex='-1'></a>" +
                     "    <a href='#' class='select2-search-choice-edit' tabindex='-1'>&#9998;</a>" +
+                    "    <a href='#' class='select2-search-choice-close' tabindex='-1'></a>" +
                     "    <a href='#' class='select2-search-choice-remove' tabindex='-1'></a>" +
                     "</li>"),
                 disabledItem = $(
