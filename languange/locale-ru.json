@@ -2951,5 +2951,9 @@
   "Number of candidates for which there were actions for the selected period": "Кол-во кандидатов, по которым были действия за указанный период",
   "Invite user with a role" :"Пригласить пользователя с ролью",
   "The filter allows you to pick the users who performed any activities on vacancies.": "Фильтр позволяет выбрать определенных пользователей, которые совершали какие-либо действия по вакансиям.",
+  "Invite user with a role" :"Пригласить пользователя с ролью",
+  "The test has been sent to the candidate":"Кандидату был отправлен тест <a class='underline'>{{testName}}</a>",
+  "The test testname has been sent to the candidate name":"Кандидату <a href={{href}}>{{candidateName}}</a> отправлен тест <a class='underline'>{{testName}}</a>",
+  "The filter allows you to pick the users who performed any activities on vacancies.": "Фильтр позволяет выбрать определенных пользователей, которые совершали какие-либо действия по вакансиям.",
   "The candidate has been transferred to the stage":"Кандидат переведён на этап"
 }
