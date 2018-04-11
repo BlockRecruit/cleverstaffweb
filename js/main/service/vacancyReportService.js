@@ -50,6 +50,8 @@ angular.module('services.vacancyReport', [
                     const bar = new chartBar({...barProps});
                     bar.draw();
                     this.addBar(bar);
+                } else {
+                    this.bars.push();
                 }
             }
         }
@@ -73,7 +75,7 @@ angular.module('services.vacancyReport', [
 
 
             buffer.width = 400;
-            buffer.height = (this.bars.length + 2) * 30;
+            buffer.height = (this.data.length + 2) * 30;
 
             wrapper.onmousemove = function (e) {
 
@@ -101,7 +103,7 @@ angular.module('services.vacancyReport', [
                         bufferCtx.fillStyle = self.bars[i - 1].color;
                         bufferCtx.lineWidth = "2";
 
-                        bufferCtx.font="16px f";
+                        bufferCtx.font="16px font";
                         bufferCtx.textAlign="center";
                         bufferCtx.textBaseline = "middle";
 

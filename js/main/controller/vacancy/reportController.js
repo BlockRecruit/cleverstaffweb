@@ -39,6 +39,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             if(isMissing && actionUser) {
                 $scope.funnelActionUsersList.push(actionUser);
                 updateMainFunnel(actionUser);
+                vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
             }
         };
 
@@ -49,7 +50,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             clearUserActionsFunnelCache({user});
 
             if($scope.statistics.user === user) {
-                $scope.statistics = {type: 'default', user: {}};
+                $scope.setStatistics('default');
             }
         };
 
@@ -69,7 +70,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.vacancyHistory, $scope.notDeclinedStages, $scope.declinedStages));
                     $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
                     vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
-                    $scope.statistics = {type : 'default', user: {}};
+                    $scope.setStatistics('default');
                     updateUsers();
                     $scope.$apply();
                 }, error => notificationService.error(error.message));
@@ -147,7 +148,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.userFunnelData = getUserActionsFunnelCache({user}).userFunnelData;
                     vacancyReport.funnel('userFunnel', userFunnelData.userSeries());
 
-                    $scope.statistics = {type: 'default', user: {}};
+                    $scope.setStatistics('default');
                     $scope.$apply();
 
                     return Promise.resolve({candidateSeries: setFunnelData(userFunnelMap).candidateSeries, user});

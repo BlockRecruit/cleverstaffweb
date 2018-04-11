@@ -13302,6 +13302,8 @@ angular.module('services.vacancyReport', [
                     const bar = new chartBar({...barProps});
                     bar.draw();
                     this.addBar(bar);
+                } else {
+                    this.bars.push();
                 }
             }
         }
@@ -13325,7 +13327,7 @@ angular.module('services.vacancyReport', [
 
 
             buffer.width = 400;
-            buffer.height = (this.bars.length + 2) * 30;
+            buffer.height = (this.data.length + 2) * 30;
 
             wrapper.onmousemove = function (e) {
 
@@ -13353,7 +13355,7 @@ angular.module('services.vacancyReport', [
                         bufferCtx.fillStyle = self.bars[i - 1].color;
                         bufferCtx.lineWidth = "2";
 
-                        bufferCtx.font="16px f";
+                        bufferCtx.font="16px font";
                         bufferCtx.textAlign="center";
                         bufferCtx.textBaseline = "middle";
 
@@ -40941,6 +40943,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             if(isMissing && actionUser) {
                 $scope.funnelActionUsersList.push(actionUser);
                 updateMainFunnel(actionUser);
+                vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
             }
         };
 
@@ -40951,7 +40954,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             clearUserActionsFunnelCache({user});
 
             if($scope.statistics.user === user) {
-                $scope.statistics = {type: 'default', user: {}};
+                $scope.setStatistics('default');
             }
         };
 
@@ -40971,7 +40974,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.vacancyHistory, $scope.notDeclinedStages, $scope.declinedStages));
                     $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
                     vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
-                    $scope.statistics = {type : 'default', user: {}};
+                    $scope.setStatistics('default');
                     updateUsers();
                     $scope.$apply();
                 }, error => notificationService.error(error.message));
@@ -41049,7 +41052,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.userFunnelData = getUserActionsFunnelCache({user}).userFunnelData;
                     vacancyReport.funnel('userFunnel', userFunnelData.userSeries());
 
-                    $scope.statistics = {type: 'default', user: {}};
+                    $scope.setStatistics('default');
                     $scope.$apply();
 
                     return Promise.resolve({candidateSeries: setFunnelData(userFunnelMap).candidateSeries, user});
