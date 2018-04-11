@@ -580,6 +580,7 @@
     "candidates_1": "кандидатов",
     "added_vacancy": "Добавлена вакансия",
     "edited_vacancy": "Изменена вакансия",
+    "edited_vacancy_short": "Вакансия",
     "remove": "Удален",
     "remove2": "удален",
     "removed": "Удален",
@@ -610,7 +611,9 @@
     "The candidate": "Профиль кандидата",
     "profile was edited by": "был отредактирован пользователем",
     "were moved from": "переведены с этапа",
-    "by": "пользователем"
+    "by": "пользователем",
+    "hide_tab": "скрыл вкладку",
+    "show_tab": "открыл вкладку"
   },
   "Remove Skill": "Удалить навык",
   "information": "Описание вакансии",
@@ -2942,18 +2945,14 @@
   "Build your report":"Построить свой отчет",
   "go back to reports menu":"Вернуться к меню отчетов",
   "Name has been changed":"Имя было изменено",
-  "New user invite":"Пригласить нового пользователя",
-  "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email.",
-  "Please attach your CV file": "Прикрепите файл резюме",
-  "Hide from all public vacancies list:":"Скрыть из публичного списка вакансий:",
   "Task deleted":"Задача удалена",
   "Сandidates in stages": "Кандидаты на этапах",
   "Number of candidates for which there were actions for the selected period": "Кол-во кандидатов, по которым были действия за указанный период",
   "Invite user with a role" :"Пригласить пользователя с ролью",
   "The filter allows you to pick the users who performed any activities on vacancies.": "Фильтр позволяет выбрать определенных пользователей, которые совершали какие-либо действия по вакансиям.",
-  "Invite user with a role" :"Пригласить пользователя с ролью",
   "The test has been sent to the candidate":"Кандидату был отправлен тест <a class='underline'>{{testName}}</a>",
   "The test testname has been sent to the candidate name":"Кандидату <a href={{href}}>{{candidateName}}</a> отправлен тест <a class='underline'>{{testName}}</a>",
-  "The filter allows you to pick the users who performed any activities on vacancies.": "Фильтр позволяет выбрать определенных пользователей, которые совершали какие-либо действия по вакансиям.",
-  "The candidate has been transferred to the stage":"Кандидат переведён на этап"
+  "The candidate has been transferred to the stage":"Кандидат переведён на этап",
+  "from_4": "от",
+  "for": "для"
 }

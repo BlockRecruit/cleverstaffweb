@@ -560,7 +560,9 @@
     "The candidate": "The candidate",
     "profile was edited by": "profile was edited by",
     "were moved from": "were moved from",
-    "by": "by"
+    "by": "by",
+    "hide_tab": "has hidden module",
+    "show_tab": "has unabled module"
   },
   "Remove Skill": "Remove skill",
   "information": "Vacancy details",
@@ -2357,10 +2359,10 @@
   "Сandidates in stages": "Сandidates in stages",
   "Invite user with a role" :"Invite user with a role",
   "The filter allows you to pick the users who performed any activities on vacancies.": "The filter allows you to pick the users who performed any activities on vacancies.",
-  "Invite user with a role" :"Invite user with a role",
   "The test has been sent to the candidate":"The test <a class='underline'>{{testName}}</a> has been sent to the candidate",
   "The test testname has been sent to the candidate name":"The test <a class='underline'>{{testName}}</a> has been sent to the candidate <a href={{href}}>{{candidateName}}</a>",
   "Number of candidates for which there were actions for the selected period": "Number of candidates for which there were actions for the selected period",
-  "The filter allows you to pick the users who performed any activities on vacancies.": "The filter allows you to pick the users who performed any activities on vacancies.",
-  "The candidate has been transferred to the stage":"The candidate has been transferred to the stage"
+  "The candidate has been transferred to the stage":"The candidate has been transferred to the stage",
+  "from_4": "from",
+  "for": "for"
 }
