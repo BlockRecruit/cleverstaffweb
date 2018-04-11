@@ -27777,6 +27777,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
     $scope.status = [
         {value: "future", name: "future"},
         {value: "in_work", name: "in work"},
+        {value: "on_hold", name: "on_hold"},
         {value: "all_done", name: "all done"},
         {value: "canceled", name: "canceled"},
         {value: "deleted", name: "deleted"}
