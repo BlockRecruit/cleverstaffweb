@@ -250,7 +250,7 @@
                                 </div>
                                 <div class="item">
                                     <label>{{'education'|translate}}</label>
-                                    <input name="education" ng-maxlength="100" placeholder="" ng-model="candidate.education" type="text" ng-change="progressUpdate()">
+                                    <input name="education" ng-maxlength="100" placeholder="" ng-model-options="{debounce: 100}" ng-model="candidate.education" type="text" ng-change="progressUpdate()">
                                     <div class="alert alert-danger"
                                          ng-show="candidateForm.education.$invalid && !candidateForm.education.$pristine && candidateForm.education.$error.maxlength == true">
                                         {{'text_should_be_no_longer_than_100_characters'|translate}}
