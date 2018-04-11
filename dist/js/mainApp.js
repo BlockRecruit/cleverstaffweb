@@ -8161,6 +8161,7 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
 
         function isClickInDataShowBlock(element, id) {
             let currentLastBlockData = ['block-custom-report-edit', 'block-custom-reports'];
+
             while(element && !currentLastBlockData.some(itemClass => element.classList.contains(itemClass))){
                 if(element.classList.contains('active') || (id && element.id === id)){
                     return true;
@@ -14975,7 +14976,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=74'
+        suffix: '.json?b=80'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
