@@ -258,3 +258,25 @@
 		}
 	}
 }
+.mailingServiceInfo {
+	.modal-header {
+		padding: 11px 15px;
+	}
+	h2 {
+		margin: 0 auto;
+	}
+	.modal-body {
+		ul {
+			margin-bottom: 0;
+			padding-left: 20px;
+		}
+		.no-list {
+			padding-left: 20px;
+		}
+	}
+	.modal-footer {
+		.accept:hover {
+			background-color: #fdd14a;
+		}
+	}
+}
