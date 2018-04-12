@@ -2760,8 +2760,8 @@ select.webkit-fix {
     position: relative;
     left: 5px;
 }
-#block_2 .key-differences .content .segoe-15-num:before{
-    content: '15';
+#block_2 .key-differences .content .segoe-20-num:before{
+    content: '20';
     font-size: 24px;
     position: relative;
     left: 5px;
