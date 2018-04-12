@@ -41296,17 +41296,19 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
 
                 for(let i = 0; i < tables.length; i++) {
-                    if(i === 0) stripeOffset = $(tables[i]).offset().left - $(tables[i]).outerWidth( true ) / 4;
+                    // if(i === 0) stripeOffset = $(tables[i]).offset().left - $(tables[i]).outerWidth( true ) / 4;
+                    // if(i === 0) stripeOffset = $(tables[i]).position().left;
+                    if(i === 0) stripeOffset = $(tables[i]).offset().left;
                     if($(tables[i]).width()) {
+                        console.log($(tables[i]).outerWidth( true ));
                         stripeWidth += $(tables[i]).outerWidth( true );
                     }
                 }
 
                 for(let i = 0; i < stripes.length; i++) {
-                    $(stripes[i]).outerWidth(stripeWidth).css("left", stripeOffset);
+                    // $(stripes[i]).outerWidth(stripeWidth).css("left", stripeOffset);
+                    $(stripes[i]).outerWidth(stripeWidth).position().left()stripeOffset);
                 }
-
-                console.log(stripeWidth, stripeOffset);
             }, 0);
         }
 
