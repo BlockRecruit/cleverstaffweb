@@ -806,7 +806,7 @@ angular.module('services.vacancy', [
             "page": {"number": 0, "count": 100},
             "words": null,
             "position": null,
-            "clientId": null,
+            "clientId": null
         };
     };
     vacancy.init();

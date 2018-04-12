@@ -2629,26 +2629,29 @@ directive('appVersion', ['version', function(version) {
                 }
             }
         }
-    }).directive('originAutocompleter', ["$filter", "serverAddress", "$translate", "$rootScope", function($filter, serverAddress, $translate, $rootScope) {
-            return {
-                restrict: 'EA',
-                replace: true,
-                link: function($scope, element, attrs) {
-                    $scope.setOriginAutocompleterValue = function(val) {
-                        if (val != undefined) {
-                            $(element[0]).select2("data", {id: val, text: val});
-                        } else {
-                            $(element[0]).select2("data", {id: '', text: ''});
-                        }
-                        $('.select2-search-choice-edit-origin').off().on('click', function (e) {
-                            $scope.editOriginName();
-                        }).attr("title", $filter('translate')('Edit source for all candidates'));
-                    };
-                    $scope.getOriginAutocompleterValue = function() {
-                        var object = $(element[0]).select2("data");
-                        return object != null ? object.text : null;
-                    };
-                    var inputText = "";
+    }).directive('originAutocompleter', ["$filter", "serverAddress", "$rootScope", "$translate", function($filter, serverAddress, $rootScope, $translate) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            link: function($scope, element, attrs) {
+                $scope.setOriginAutocompleterValue = function(val) {
+                    if (val != undefined) {
+                        $(element[0]).select2("data", {id: val, text: val});
+                    } else {
+                        $(element[0]).select2("data", null).trigger("change");;
+                    }
+                    $('.select2-search-choice-edit-origin').off().on('click', function (e) {
+                        $scope.editOriginName();
+                    }).attr("title", $filter('translate')('Edit source for all candidates'));
+                    $('.select2-search-choice-delete-origin').off().on('click', function (e) {
+                        $scope.removeSource();
+                    }).attr("title", $filter('translate')('Delete source for all candidates'));
+                };
+                $scope.getOriginAutocompleterValue = function() {
+                    var object = $(element[0]).select2("data");
+                    return object != null ? object.text : null;
+                };
+                var inputText = "";
 
                     let translatedPositions = false;
 
@@ -2700,6 +2703,9 @@ directive('appVersion', ['version', function(version) {
                             $('.select2-search-choice-edit-origin').off().on('click', function (e) {
                                 $scope.editOriginName();
                             }).attr("title", $filter('translate')('Edit source for all candidates'));
+                            $('.select2-search-choice-delete-origin').off().on('click', function (e) {
+                                $scope.removeSource();
+                            }).attr("title", $filter('translate')('Delete source for all candidates'));
                         }).on("select2-close", function(e) {
                             console.log("CLOSE!");
                             if (inputText.length > 0) {
@@ -3351,10 +3357,12 @@ directive('appVersion', ['version', function(version) {
                             }
                             if($(element[0]).select2("data")) {
                                 $(element[0]).select2("data", {id: inputText, text: removeExtraSpaces($(element[0]).select2("data").text)});
-                                $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
+                                if($scope.searchParam)
+                                    $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
                                 $scope.setPositionAutocompleterValue($scope.searchParam.position);
                             }
-                            $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
+                            if($scope.searchParam)
+                                $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
                         }).on("select2-selecting", function(e) {
                             inputText = "";
                         }).on("select2-open", function() {
@@ -6264,7 +6272,7 @@ angular.module('services.candidate', [
                 }
             },
             removeOriginAll: {
-                method: "POST",
+                method: "GET",
                 headers: {'Content-type': 'application/json; charset=UTF-8'},
                 params: {
                     param: "removeOriginAll"
@@ -14188,7 +14196,7 @@ angular.module('services.vacancy', [
             "page": {"number": 0, "count": 100},
             "words": null,
             "position": null,
-            "clientId": null,
+            "clientId": null
         };
     };
     vacancy.init();
@@ -22534,6 +22542,38 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         };
 
 
+        $scope.removeSource = function () {
+            $scope.removableSource = $scope.getOriginAutocompleterValue();
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/origin-remove.html',
+                scope: $scope,
+                size: '',
+                resolve: {
+
+                }
+            });
+        };
+
+        $scope.confirmDeleteOrigin = function () {
+            Candidate.removeOriginAll({
+                origin: $scope.removableSource
+            },function (resp) {
+                if(resp.status != "error") {
+                    $scope.modalInstance.close();
+                    notificationService.success($filter("translate")("Origin removed"));
+                    $scope.setOriginAutocompleterValue();
+                } else {
+                    $scope.modalInstance.close();
+                    notificationService.error(resp.message);
+                }
+            }, function (err) {
+                $scope.modalInstance.close();
+                notificationService.error(err);
+            });
+        };
+
+
         $rootScope.saveOriginName = function () {
             Candidate.editOriginAll({originOld: $scope.originOldName, originNew: $rootScope.originName}, function (resp) {
                 if(resp.status == "ok") {
@@ -27777,6 +27817,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
     $scope.status = [
         {value: "future", name: "future"},
         {value: "in_work", name: "in work"},
+        {value: "on_hold", name: "on_hold"},
         {value: "all_done", name: "all done"},
         {value: "canceled", name: "canceled"},
         {value: "deleted", name: "deleted"}
@@ -34970,8 +35011,9 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
             $scope.searchParam.position == null && $scope.searchParam.candidateGroups == null &&
             $scope.searchParam.regionId == null && $scope.searchParam.candidateGroupIds == null &&
             $scope.searchParam.searchFullTextType == null && $scope.searchParam['responsibleId'] == null &&
-            $scope.searchParam['personId'] == 'null'){
-            notificationService.error($filter('translate')('Enter the data'));
+            $scope.searchParam['personId'] == 'null' && !$scope.searchParam.status){
+            $scope.tableParams.reload();
+            // notificationService.error($filter('translate')('Enter the data'));
         }else{
             $rootScope.loading = true;
             if ($scope.searchParam['status'] ||
