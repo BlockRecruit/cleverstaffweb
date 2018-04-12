@@ -19952,7 +19952,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             candidateGroupIds: null,
             searchFullTextType: null,
             withPersonalContacts: {
-                value:false,
+                value:null,
                 text:''
             },
             responsibleId: null,
@@ -19986,7 +19986,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             sortOrder: 'DESC',
             words: null,
             position: null,
-            withPersonalContacts: false,
+            withPersonalContacts: null,
             searchCs: true,
             candidateGroups: null,
             searchExternal: false,
@@ -20132,7 +20132,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("searchFullTextType", isNotBlank($scope.searchParam['searchFullTextType']) ? $scope.searchParam['searchFullTextType'] : null);
                 Candidate.setOptions("sort", isNotBlank($scope.filterForChange) ? $scope.filterForChange : null);
                 Candidate.setOptions("sortOrder", $scope.filterForChange == 'alphabetically' ? 'ASC' : 'DESC');
-                Candidate.setOptions("withPersonalContacts", $scope.searchParam['withPersonalContacts'].value? $scope.searchParam['withPersonalContacts'].value : null);
+                Candidate.setOptions("withPersonalContacts", $scope.searchParam['withPersonalContacts'].value === null ? null: $scope.searchParam['withPersonalContacts'].value);
                 Candidate.setOptions("skills",$scope.searchParam.skills.name ? [{name: $scope.getSkillAutocompleterValueForSearch(),type: $scope.searchParam.skills.type}] : null);
                 Candidate.setOptions("origin", isNotBlank($scope.searchParam['origin']) ? $scope.searchParam['origin'] : null);
                 $scope.criteriaForExcel = angular.copy(Candidate.searchOptions());
@@ -20404,7 +20404,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             };
         }else if(param == 'withPersonalContacts'){
             $scope.searchParam.withPersonalContacts = {
-                value: false,
+                value: null,
                 text:''
             }
         }else if(param == 'origin'){

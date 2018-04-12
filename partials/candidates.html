@@ -418,16 +418,17 @@
                     <div ng-show="(staticSearchParam[0].words || (staticSearchParam[0].regionId.value == searchParam.regionId.value && staticSearchParam[0].regionId.value && staticSearchParam[0].regionId) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
                             (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType.value) ||
                             (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex.value != null) || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom.text) || (staticSearchParam[0].ageTo.text) || (staticSearchParam[0].languages.value  && staticSearchParam[0].languages.text.length) || (staticSearchParam[0].responsibleId != 'null') ||
-                            (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || (staticSearchParam[0].withPersonalContacts === true) ) && !limitReached">
+                            (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts !== null) && !limitReached">
                         <span class="count">{{'found'|translate}} <span>{{objectSize}}</span></span>
                         {{'criteria'|translate}}:
                     </div>
+                    ({{staticSearchParam[0].withPersonalContacts + ''}})
                     <ul class="pivots" ng-show="searchParam.searchCs">
                         <!--start main criterials-->
                         <li class="firstPivot" ng-show="!(staticSearchParam[0].words || staticSearchParam[0].regionId.value || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
                             (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType.value) ||
                             (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex.value != null)  || (staticSearchParam[0].ageFrom.text) || (staticSearchParam[0].ageTo.text)|| staticSearchParam[0].status !== 'null' || (staticSearchParam[0].languages.value && staticSearchParam[0].languages.text.length) || (staticSearchParam[0].responsibleId != 'null') ||
-                            (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || (staticSearchParam[0].withPersonalContacts))">
+                            (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0))  && staticSearchParam[0].withPersonalContacts === null">
                             <span ng-show="!objectSize">{{'There are no candidates in your vacancies yet.'|translate}}</span>
                             <span ng-show="objectSize">
                                 <span class="count">{{'total'|translate}}
@@ -544,7 +545,7 @@
                             <i ng-click="closeSearchTags('skillsName');  $scope.staticSearchParam[0].status = false;;" class="fa fa-times"
                                aria-hidden="true"></i>
                         </li>
-                        <li ng-show="staticSearchParam[0].withPersonalContacts" class="pivot">{{'Personal contacts'|translate}}:
+                        <li ng-show="staticSearchParam[0].withPersonalContacts !== null" class="pivot">{{'Personal contacts'|translate}}:
                             <span ng-show="staticSearchParam[0].withPersonalContacts">{{'Available'|translate}}</span>
                             <span ng-show="!staticSearchParam[0].withPersonalContacts">{{'Unavailable'|translate}}</span>
                             <i ng-click="closeSearchTags('withPersonalContacts');clickSearch()" class="fa fa-times"
@@ -577,7 +578,7 @@
                         <li ng-show="staticSearchParam[0].words || (staticSearchParam[0].regionId.value == searchParam.regionId.value && staticSearchParam[0].regionId.value) || (staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].salary) || (staticSearchParam[0].name) || (staticSearchParam[0].position) ||
                             (staticSearchParam[0].experience != 'null' && staticSearchParam[0].experience != null) || (staticSearchParam[0].candidateGroupIds != 'null' && staticSearchParam[0].candidateGroupIds.length > 0) || (staticSearchParam[0].employmentType != 'null' && staticSearchParam[0].employmentType.value) ||
                             (staticSearchParam[0].industry != 'null') || (staticSearchParam[0].sex.value != null) || (staticSearchParam[0].status != 'null') || (staticSearchParam[0].ageFrom.text) || (staticSearchParam[0].ageTo.text) || (staticSearchParam[0].languages != 'null' && staticSearchParam[0].languages.length) || (staticSearchParam[0].responsibleId != 'null') ||
-                            (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts || staticSearchParam[0].origin != null">
+                            (staticSearchParam[0].skills.name != null) || (staticSearchParam[0].skills.type == 'null' && staticSearchParam[0].skills.type.length > 0) || staticSearchParam[0].withPersonalContacts !== null || staticSearchParam[0].origin != null">
                             <span id="btnCl12" class="button_add ui item icon teal button" ng-click="cleanTags();">
                             <i class="fa fa-trash" aria-hidden="true"></i></span>
                         </li>
