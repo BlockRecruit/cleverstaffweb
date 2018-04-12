@@ -2284,7 +2284,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         }
 
         function removeCandidates(candidateID){
-
+            Person.requestRemoveUser(candidateID)
+                .then(resp => console.log(resp, 'resp'))
         }
 
         $scope.showModalRemoveCandidate = showModalRemoveCandidate;
