@@ -221,3 +221,12 @@
 		background: none!important;
 	}
 }
+
+@media screen and (max-width:610px) {
+	.invite-new-user .modal-body .step .user-roles {
+		justify-content: center;
+	}
+	.invite-new-user .modal-footer button.cancel {
+		margin: 0 auto;
+	}
+}
