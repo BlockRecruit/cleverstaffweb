@@ -11900,9 +11900,7 @@ angular.module('services.slider', [
     sliderElements.nextElement = function ($scope, event) {
         let element;
 
-        console.log(sliderElements.nextElement["cacheCurrentPosition"], 'sliderElements.nextElement["cacheCurrentPosition"]');
         sliderElements.nextElement["cacheCurrentPosition"] = +localStorage.getItem('numberPage');
-        console.log(sliderElements.nextElement["cacheCurrentPosition"], 'sliderElements.nextElement["cacheCurrentPosition"]');
 
         if(event.target.dataset.btn === 'right'){
             element =  iterator.next($scope);
@@ -26677,6 +26675,25 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.nextElement = sliderElements.nextElement.bind(null, $scope);
         $scope.candidateLength = $rootScope.objectSize || localStorage.getItem('objectSize');
         $scope.currentIndex = sliderElements.nextElement.cacheCurrentPosition + 1 ||  (+localStorage.getItem('numberPage')) +  1;
+
+        function showModalRemoveCandidate() {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/remove-candidate-full.html',
+                scope:$scope,
+                size: 'lg',
+                backdrop: 'static',
+                keyboard: false,
+            });
+        }
+
+        function removeCandidates(candidateID){
+
+        }
+
+        $scope.showModalRemoveCandidate = showModalRemoveCandidate;
+        $scope.removeCandidates = removeCandidates;
+
         ///////////////////////////////////////////////////////////////End of Sent Email candidate
     }]);
 
@@ -38918,7 +38935,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/vacancy-remove-candidate.html',
+                templateUrl: '../partials/modal/vacancy-remove-candidate-full.html',
                 size: '',
                 resolve: function(){
 

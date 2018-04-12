@@ -3088,7 +3088,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/vacancy-remove-candidate.html',
+                templateUrl: '../partials/modal/vacancy-remove-candidate-full.html',
                 size: '',
                 resolve: function(){
 

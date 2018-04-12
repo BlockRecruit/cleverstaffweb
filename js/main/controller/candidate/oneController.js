@@ -2275,7 +2275,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         function showModalRemoveCandidate() {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/remove-candidate.html',
+                templateUrl: '../partials/modal/remove-candidate-full.html',
                 scope:$scope,
                 size: 'lg',
                 backdrop: 'static',

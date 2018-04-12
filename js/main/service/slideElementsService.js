@@ -217,9 +217,7 @@ angular.module('services.slider', [
     sliderElements.nextElement = function ($scope, event) {
         let element;
 
-        console.log(sliderElements.nextElement["cacheCurrentPosition"], 'sliderElements.nextElement["cacheCurrentPosition"]');
         sliderElements.nextElement["cacheCurrentPosition"] = +localStorage.getItem('numberPage');
-        console.log(sliderElements.nextElement["cacheCurrentPosition"], 'sliderElements.nextElement["cacheCurrentPosition"]');
 
         if(event.target.dataset.btn === 'right'){
             element =  iterator.next($scope);
