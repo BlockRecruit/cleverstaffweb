@@ -1424,6 +1424,14 @@
 						.margin-top-1 {
 							margin-top: -17px;
 						}
+						a.underline {
+							text-decoration: underline;
+
+							color: #000;
+							&:hover {
+								color: #000;
+							}
+						}
 					}
 
 					.more-history {

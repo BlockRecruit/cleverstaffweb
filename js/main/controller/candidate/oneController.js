@@ -1498,6 +1498,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 } else {
                     changeObj.date = $('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate') != null ? $('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate') : customDate != undefined ? customDate : null;
                 }
+
+
                 if ($rootScope.showEmployedFields) {
                     Vacancy.editInterview({
                         "personId": $scope.personId,
@@ -1556,7 +1558,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             $('.changeStatusOfInterviewInVacancyPick').val("");
                             $scope.updateCandidate();
                             $scope.getLastEvent();
-                            notificationService.success($filter('translate')('candidate was added to the stage'));
+                            let changeStagesText ='The candidate has been transferred to the stage';
+
+                            notificationService.success(`${$filter('translate')(changeStagesText)} ${$filter('translate')(changeObj.status.value)}`);
                         } else if (resp.status == "error") {
                             $rootScope.clickedSaveStatusInterviewInVacancy = false;
                             notificationService.error(resp.message);
@@ -1639,7 +1643,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             $('.changeStatusOfInterviewInVacancyPick').val("");
                             $scope.updateCandidate();
                             $scope.getLastEvent();
-                            notificationService.success($filter('translate')('candidate was added to the stage'));
+                            let changeStagesText ='The candidate has been transferred to the stage';
+                            notificationService.success(`${$filter('translate')(changeStagesText)} ${$filter('translate')(changeObj.status.value)}`);
+
                         } else if (resp.status == "error") {
                             $rootScope.clickedSaveStatusInterviewInVacancy = false;
                             notificationService.error(resp.message);

@@ -1851,10 +1851,26 @@ footer{
 .clickedCorporate::after{
     left: 45px;
 }
-.clickedOneRecr, .clickedTeamWork, .clickedEnterPrize, .clickedCorporate, .clickedPotok, .clickedCs, .clickedPayFree, .clickedSaveClient, .clickedWithoutIntegration{
+.clickedOneRecr,
+.clickedTeamWork,
+.clickedEnterPrize,
+.clickedCorporate,
+.clickedPotok,
+.clickedCs,
+.clickedPayFree,
+.clickedSaveClient,
+.clickedWithoutIntegration,
+.clickedSearchCriteria,
+.clickedExportExcel,
+.clickedSettingStage{
     opacity: 0;
 }
-.clickedPayFree, .clickedSaveClient, .clickedWithoutIntegration{
+.clickedPayFree,
+.clickedSaveClient,
+.clickedWithoutIntegration,
+.clickedSearchCriteria,
+.clickedExportExcel,
+.clickedSettingStage{
     /*display: none;*/
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 100;
@@ -2571,15 +2587,20 @@ select.webkit-fix {
 #home .potok-tittle h1 img{
     margin-top: -10px;
 }
-#home .potok-tittle h1:after{
+#home .potok-tittle h1 .question-potok:after{
     content: '?';
     position: absolute;
 }
+/*#home .potok-tittle h1:after{*/
+    /*content: '?';*/
+    /*position: absolute;*/
+/*}*/
 #home .potok-tittle .why-we{
     padding: 0 20px;
 }
 #home .potok-tittle .cs{
     color: #444446;
+    font-family: 'Helv-3-Medium';
 }
 #block_2 .key-differences h2{
     font-family: 'Helv-3-Light';
@@ -2686,7 +2707,11 @@ select.webkit-fix {
 }
 #block_2 .key-differences .content .saveClientInSystem:hover .clickedSaveClient,
 #block_2 .key-differences .content .withoutIntegration:hover .clickedWithoutIntegration,
-#block_2 .key-differences .content .four-pay-1-free:hover .clickedPayFree{
+#block_2 .key-differences .content .four-pay-1-free:hover .clickedPayFree,
+#block_2 .key-differences .content .search-criteria-for-friendwork:hover .clickedSearchCriteria,
+#block_2 .key-differences .content .search-criteria-for-cs:hover .clickedSearchCriteria,
+#block_2 .key-differences .content .export-excel:hover .clickedExportExcel,
+#block_2 .key-differences .content .setting-stage:hover .clickedSettingStage{
     display: inline-block;
     opacity: 1;
     z-index: 1;
@@ -2699,6 +2724,12 @@ select.webkit-fix {
     cursor: context-menu;
     letter-spacing: 2px;
 }
+#block_2 .key-differences .content .segoe-2:before{
+    content: '2 ';
+    position: inherit;
+    font-size: 24px;
+    letter-spacing: -3px;
+}
 #block_2 .key-differences .content .segoe-3:before{
     content: '3 ';
     position: inherit;
@@ -2707,6 +2738,12 @@ select.webkit-fix {
 }
 #block_2 .key-differences .content .segoe-5:before{
     content: '5 ';
+    position: inherit;
+    font-size: 24px;
+    letter-spacing: -3px;
+}
+#block_2 .key-differences .content .segoe-6-num:before{
+    content: '6';
     position: inherit;
     font-size: 24px;
     letter-spacing: -3px;
@@ -2722,6 +2759,18 @@ select.webkit-fix {
     font-size: 24px;
     position: relative;
     left: 5px;
+}
+#block_2 .key-differences .content .segoe-20-num:before{
+    content: '20';
+    font-size: 24px;
+    position: relative;
+    left: 5px;
+}
+#block_2 .key-differences .content .segoe .pc{
+    display: block;
+}
+#block_2 .key-differences .content .segoe .phone{
+    display: none;
 }
 #block_2 .key-differences .content .border-radius-table .border-radius-first{
     border-radius: 12px 0 0 0;
@@ -2744,6 +2793,26 @@ select.webkit-fix {
     margin: 30px 0 0 -160px;
     width: auto;
 }
+#block_2 .key-differences .content .border-radius-table .clickedStyleSearchCriteriaForFriendWork{
+    margin: 40px 0 0 -160px;
+    width: 305px;
+    height: auto;
+    line-height: 20px;
+}
+#block_2 .key-differences .content .border-radius-table .clickedStyleSearchCriteriaForCs{
+    margin: 40px 0 0 -170px;
+    width: 305px;
+    height: auto;
+    line-height: 20px;
+}
+#block_2 .key-differences .content .border-radius-table .clickedStyleExportExcel{
+    margin: 35px 0 0 -110px;
+    width: auto;
+}
+#block_2 .key-differences .content .border-radius-table .clickedStyleSettingStage{
+    margin: 35px 0 0 -125px;
+    width: auto;
+}
 #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab:after{
     left: 80px;
 }
@@ -2753,9 +2822,27 @@ select.webkit-fix {
 #block_2 .key-differences .content .border-radius-table .clickedStyleWithoutIntegration:after{
     left: 115px;
 }
+#block_2 .key-differences .content .border-radius-table .clickedStyleSearchCriteriaForFriendWork:after{
+    left: 145px;
+    bottom: 70px;
+}
+#block_2 .key-differences .content .border-radius-table .clickedStyleSearchCriteriaForCs:after{
+    left: 145px;
+    bottom: 130px;
+}
+#block_2 .key-differences .content .border-radius-table .clickedStyleExportExcel:after{
+    left: 65px;
+}
+#block_2 .key-differences .content .border-radius-table .clickedStyleSettingStage:after{
+    left: 80px;
+}
 #block_2 .key-differences .content .border-radius-table .four-pay-1-free:hover,
 #block_2 .key-differences .content .border-radius-table .saveClientInSystem:hover,
-#block_2 .key-differences .content .border-radius-table .withoutIntegration:hover{
+#block_2 .key-differences .content .border-radius-table .withoutIntegration:hover,
+#block_2 .key-differences .content .border-radius-table .search-criteria-for-friendwork:hover,
+#block_2 .key-differences .content .border-radius-table .search-criteria-for-cs:hover,
+#block_2 .key-differences .content .border-radius-table .export-excel:hover,
+#block_2 .key-differences .content .border-radius-table .setting-stage:hover{
     cursor: pointer;
 }
 #block_2 .key-differences .lastTable{
@@ -3065,9 +3152,13 @@ select.webkit-fix {
         font-size: 36px;
         line-height: 1.3;
     }
-    #home .potok-tittle h1 img{
+    #home .potok-tittle h1 .logo-potok{
         width: 150px;
         height: 50px;
+    }
+    #home .potok-tittle h1 .logo-friendwork{
+        width: 185px;
+        height: 28px;
     }
     #home .potok-tittle .teacher{
         bottom: 10px;
@@ -3085,6 +3176,9 @@ select.webkit-fix {
         margin: -20px 0 0 80px;
     }
     #block_2 .key-differences .content .segoe-5:after{
+        margin: -18px 0 0 75px;
+    }
+    #block_2 .key-differences .content .segoe-6-num:after{
         margin: -18px 0 0 75px;
     }
     #block_2 .key-differences .content .segoe-8:after{
@@ -3432,6 +3526,12 @@ select.webkit-fix {
     #block_2 .key-differences .content .segoe-15:after{
         margin: -18px 0 0 35px;
     }
+    #block_2 .key-differences .content .border-radius-table .clickedStyleSearchCriteriaForCs{
+        margin: 40px 0 0 -220px;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedStyleSearchCriteriaForCs:after{
+        left: 195px;
+    }
     #block_3 .main-advantages .bigImg{
         width: 100%;
         height: auto;
@@ -3775,6 +3875,15 @@ select.webkit-fix {
         margin: 0;
         position: inherit;
     }
+    #block_2 .key-differences .content .segoeFontSizeNum{
+        font-size: 24px;
+    }
+    #block_2 .key-differences .content .segoe .pc{
+        display: none;
+    }
+    #block_2 .key-differences .content .segoe .phone{
+        display: block;
+    }
     #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{
         margin: 40px 0 0 -131px;
     }
@@ -3808,12 +3917,6 @@ select.webkit-fix {
         width: 111px;
         padding: 10px 0;
     }
-    /*.titleTable td:not(:first-child){*/
-        /*width: 18.5%;*/
-    /*}*/
-    /*.titleTable2 td:not(:first-child){*/
-        /*width: 18.5%;*/
-    /*}*/
     .hide-block{
         height: 39px!important;
     }
@@ -3893,6 +3996,12 @@ select.webkit-fix {
     }
     #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab:after{
         left: 95px;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedStyleSearchCriteriaForCs{
+        margin: 40px 0 0 -250px;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedStyleSearchCriteriaForCs:after{
+        left: 225px;
     }
     /*compare potok end*/
 }
@@ -3984,6 +4093,12 @@ select.webkit-fix {
     }
     #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{
         margin: 40px 0 0 -170px;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedStyleSearchCriteriaForCs{
+        margin: 40px 0 0 -275px;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedStyleSearchCriteriaForCs:after{
+        left: 250px;
     }
     /*potok end*/
 }
@@ -4329,11 +4444,15 @@ select.webkit-fix {
     #home .potok-tittle h1 .nowrap{
         white-space: nowrap;
     }
-    #home .potok-tittle h1 img {
+    #home .potok-tittle h1 .logo-potok {
         width: 120px;
         height: 40px;
         margin-top: -3px;
     }
+    /*#home .potok-tittle h1 .logo-friendwork {*/
+        /*width: 120px;*/
+        /*height: 40px;*/
+    /*}*/
     #home .potok-tittle .teacher{
         bottom: -60px!important;
         width: 75px;
@@ -4355,11 +4474,23 @@ select.webkit-fix {
         font-size: 16px;
         padding: 0;
     }
+    #block_2 .key-differences .content .segoe .phone{
+        letter-spacing: -1px;
+    }
+    #block_2 .key-differences .content .segoe-5{
+        letter-spacing: 0;
+    }
     #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{
         margin: 40px 0 0 -180px;
     }
     #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab:after{
         left: 105px;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedStyleSearchCriteriaForFriendWork{
+        margin: 40px 0 0 -185px;
+    }
+    #block_2 .key-differences .content .border-radius-table .clickedStyleSearchCriteriaForFriendWork:after{
+        left: 170px;
     }
     #block_2 .key-differences h2{
         font-size: 23px;
@@ -4444,7 +4575,7 @@ select.webkit-fix {
 }
 @media screen and (max-width: 372px) {
     #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{
-        margin: 5px 0 0 -145px;
+        margin: 40px 0 0 -175px;
     }
     #block_2 .key-differences .content .border-radius-table .clickedSaveClient{
         line-height: 20px;
@@ -4459,10 +4590,13 @@ select.webkit-fix {
 }
 @media screen and (max-width: 340px) {
     #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{
-        margin: 30px 0 0 -170px;
+        margin: 40px 0 0 -170px;
     }
 }
-@media screen and (max-width: 332px) {
+@media screen and (max-width: 336px) {
+    #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{
+        margin: 10px 0 0 -140px;
+    }
     #block_2 .key-differences .content .border-radius-table .clickedWithoutIntegration{
         margin: 30px 0 0 -155px;
     }
