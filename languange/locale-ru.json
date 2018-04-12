@@ -2945,18 +2945,10 @@
   "Build your own in Report Designer":"Постройте свой в Конструкторе отчетов!",
   "Build your report":"Построить свой отчет",
   "go back to reports menu":"Вернуться к меню отчетов",
-  "New user invite":"Пригласить нового пользователя",
-  "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email.",
-  "Please attach your CV file": "Прикрепите файл резюме",
-  "Please attach your CV file": "Прикрепите файл резюме",
-  "Hide from all public vacancies list:":"Скрыть из публичного списка вакансий:",
   "Name has been changed":"Имя было изменено",
-  "New user invite":"Пригласить нового пользователя",
-  "Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address": "Поле 'Домен/имя пользователя' необходимо заполнять <b>только</b> для тех случаев, когда вход в аккаунт осуществляется через 'Домен/имя пользователя', а не email.",
-  "Please attach your CV file": "Прикрепите файл резюме",
-  "Hide from all public vacancies list:":"Скрыть из публичного списка вакансий:",
   "Task deleted":"Задача удалена",
   "Сandidates in stages": "Кандидаты на этапах",
   "Invite user with a role" :"Пригласить пользователя с ролью",
-  "The filter allows you to pick the users who performed any activities on vacancies.": "Фильтр позволяет выбрать определенных пользователей, которые совершали какие-либо действия по вакансиям."
+  "The filter allows you to pick the users who performed any activities on vacancies.": "Фильтр позволяет выбрать определенных пользователей, которые совершали какие-либо действия по вакансиям.",
+  "Choose protocol smtp Secure": "Выберите протокол smtp Secure"
 }

@@ -2351,14 +2351,10 @@
   "Build your own in Report Designer":"Build your own in Report Designer!",
   "Build your report":"Build your report",
   "go back to reports menu":"Go back to reports menu",
-  "New user invite":"Invite new user",
-  "Add another phone number": "Add another phone number",
   "Name has been changed":"Name has been changed",
-  "New user invite":"Invite new user",
-  "Add another phone number": "Add another phone number",
   "Task deleted":"Task deleted",
-  "New user invite":"Invite new user",
   "Сandidates in stages": "Сandidates in stages",
   "Invite user with a role" :"Invite user with a role",
-  "The filter allows you to pick the users who performed any activities on vacancies.": "The filter allows you to pick the users who performed any activities on vacancies."
+  "The filter allows you to pick the users who performed any activities on vacancies.": "The filter allows you to pick the users who performed any activities on vacancies.",
+  "Choose protocol smtp Secure": "Choose protocol smtp Secure"
 }

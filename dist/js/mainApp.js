@@ -29945,7 +29945,7 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                         }
                                     });
                                 } else
-                                notificationService.error(resp.message);
+                                    notificationService.error(resp.message);
                             }else{
                                 $scope.updateCreatedEmails();
                                 $rootScope.closeModal();
@@ -29957,27 +29957,31 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                 }
             } else {
                 if($rootScope.editedEmail.host = 'email'){
-                    if($rootScope.editedEmail.email.length > 0 && $rootScope.editedEmail.password.length > 0) {
-                        Candidate.editEmailAccess($rootScope.editedEmail, function (resp) {
-                            if (resp.status == 'error') {
-                                if(resp.message == 'сouldNotGetRefreshTokenIntegration') {
-                                    $scope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/gmail-access.html',
-                                        scope: $scope,
-                                        resolve: {
-                                        }
-                                    });
-                                } else
-                                notificationService.error(resp.message);
-                            } else {
-                                $scope.updateCreatedEmails();
-                                $scope.editEmail = false;
-                                $rootScope.closeModal();
-                            }
-                        });
-                    }else {
-                        notificationService.error($filter('translate')('Please enter your password'));
+                    if($rootScope.editedEmail.smtp.secure == 'SSL' || $rootScope.editedEmail.smtp.secure == 'TLS'){
+                        if($rootScope.editedEmail.email.length > 0 && $rootScope.editedEmail.password.length > 0) {
+                            Candidate.editEmailAccess($rootScope.editedEmail, function (resp) {
+                                if (resp.status == 'error') {
+                                    if(resp.message == 'сouldNotGetRefreshTokenIntegration') {
+                                        $scope.modalInstance = $uibModal.open({
+                                            animation: true,
+                                            templateUrl: '../partials/modal/gmail-access.html',
+                                            scope: $scope,
+                                            resolve: {
+                                            }
+                                        });
+                                    } else
+                                        notificationService.error(resp.message);
+                                } else {
+                                    $scope.updateCreatedEmails();
+                                    $scope.editEmail = false;
+                                    $rootScope.closeModal();
+                                }
+                            });
+                        }else {
+                            notificationService.error($filter('translate')('Please enter your password'));
+                        }
+                    }else{
+                        notificationService.error($filter('translate')('Choose protocol smtp Secure'));
                     }
                 }
             }
