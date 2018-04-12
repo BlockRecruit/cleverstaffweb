@@ -270,6 +270,17 @@ $(document).ready(function(){
         var iphone7 = 375;
         var mini_phone = 320;
         if(window.location.pathname == '/ru/compare-potok.html' || window.location.pathname == '/ru/compare-friendwork.html'){
+            console.log(navigator);
+            console.log(navigator.userAgent);
+            console.log(navigator.userAgent.indexOf ('Chrome') != -1);
+            console.log(navigator.userAgent.indexOf ('Firefox') != -1);
+            if (navigator.userAgent.indexOf ('Chrome') != -1 || navigator.userAgent.indexOf ('Safari') != -1){
+                $('.firefox').css('display', 'none');
+                $('.chrome').css('display', 'block');
+            }else if (navigator.userAgent.indexOf ('Firefox')!= -1){
+                $('.chrome').css('display', 'none');
+                $('.firefox').css('display', 'block');
+            }
             var tablet_690 = 697;
             phone_or_tablet = 650;
             var phone_or_tablet_600 = 600;
