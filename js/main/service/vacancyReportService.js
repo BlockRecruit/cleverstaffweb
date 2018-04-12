@@ -5,19 +5,18 @@ angular.module('services.vacancyReport', [
     let report = {};
 
     report.funnel = function(id, arr) {
-        const array = arr;
         const canvas = document.getElementById(id),
-            ctx = canvas.getContext('2d');
-            ctx.translate(0.5, 0.5);
+              ctx = canvas.getContext('2d');
+              ctx.translate(0.5, 0.5);
 
         canvas.width = 400;
 
         let width = canvas.width;
         let height = 30;
 
-        canvas.height = array.length * height;
+        canvas.height = arr.length * height;
 
-        new chartBars(canvas, array, width, height).init();
+        new chartBars(canvas, arr, width, height).init();
     };
 
 
@@ -42,7 +41,7 @@ angular.module('services.vacancyReport', [
                     y: i * this.height,
                     width: this.barsWidth[i],
                     height: this.height - 1,
-                    nextBlockWidth: this.barsWidth[i + 1],
+                    nextBarWidth: this.barsWidth[i + 1],
                     index: i
                 };
 
@@ -66,7 +65,7 @@ angular.module('services.vacancyReport', [
             });
         }
 
-        hover() {
+        initBarsHover() {
             let wrapper = document.getElementById("wrapper"),
                 buffer = document.getElementById("buffer"),
                 bufferCtx = buffer.getContext('2d'),
@@ -125,12 +124,12 @@ angular.module('services.vacancyReport', [
         init() {
             this.getBarsWidth();
             this.drawBars();
-            this.hover();
+            this.initBarsHover();
         }
     }
 
     class chartBar {
-        constructor({c, ctx, value, x, y, width, height, nextBlockWidth, index}) {
+        constructor({c, ctx, value, x, y, width, height, nextBarWidth, index}) {
             this.c = c;
             this.ctx = ctx;
             this.value = value;
@@ -138,7 +137,7 @@ angular.module('services.vacancyReport', [
             this.y = y;
             this.width = width;
             this.height = height;
-            this.nextBlockWidth = nextBlockWidth || 0;
+            this.nextBarWidth = nextBarWidth || 0;
             this.index = index;
             this.color = this.getRndColor();
         }
@@ -148,8 +147,8 @@ angular.module('services.vacancyReport', [
 
             x[0] = this.x;
             x[1] = x[0] + this.width;
-            x[2] = x[1] - (this.width - this.nextBlockWidth)/2;
-            x[3] = x[2] - this.nextBlockWidth;
+            x[2] = x[1] - (this.width - this.nextBarWidth)/2;
+            x[3] = x[2] - this.nextBarWidth;
             this.ctx.beginPath();
 
             this.ctx.fillStyle = this.color;

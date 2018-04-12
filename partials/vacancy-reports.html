@@ -42,9 +42,9 @@
                         <label for="cmn-toggle-9"></label>
                     </div>
                     <div class="responsible-list">
-                        <select name="" id="" class="responsible-list" ng-model="userIndex">
-                            <option disabled selected="selected" value="" ng-selected="funnelActionUsers">{{'choose_user2' | translate}}</option>
+                        <select class="responsible-list" ng-model="userIndex">
                             <option value="{{$index}}" ng-repeat="user in actionUsers track by $index">{{user.name}}</option>
+                            <option disabled value="" ng-selected="!userIndex">{{'choose_user2' | translate}}</option>
                         </select>
                         <button class="btn-add" ng-click="addUserInFunnelUsersList(userIndex)">+</button>
                     </div>
@@ -80,11 +80,12 @@
                                             <div class="line"></div>
                                         </td>
                                     </tr>
-                                    <tr ng-repeat="stage in vacancyFunnelMap track by $index">
+                                    <tr ng-repeat="stage in vacancyFunnelMap track by $index" class="hover">
                                         <td>
                                             <span class="vertical-align">{{stage.key | translate}}</span>
                                             <div ng-class="{'last': $last}" class="line"></div>
                                         </td>
+                                        <td class="hover-stripe"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -102,10 +103,11 @@
                                         <th translate="Relative conversion"></th>
                                         <th translate="Absolute conversion"></th>
                                     </tr>
-                                    <tr ng-repeat="candidateSeries in mainFunnel.data.candidateSeries track by $index">
+                                    <tr ng-repeat="candidateSeries in mainFunnel.data.candidateSeries track by $index" class="hover">
                                         <td><span>{{candidateSeries}}</span></td>
                                         <td><span>{{mainFunnel.data.RelConversion[$index]}}</span></td>
                                         <td><span>{{mainFunnel.data.AbsConversion[$index]}}</span></td>
+                                        <td class="hover-stripe"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -118,8 +120,9 @@
                                                     <tr>
                                                         <th>{{user.name}}</th>
                                                     </tr>
-                                                    <tr ng-repeat="series in usersColumn.dataArray[$index] track by $index">
+                                                    <tr ng-repeat="series in usersColumn.dataArray[$index] track by $index" class="hover">
                                                         <td>{{series}}</td>
+                                                        <td class="hover-stripe"></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -130,8 +133,9 @@
                                                 <tr>
                                                     <th translate="Total in vacancy"></th>
                                                 </tr>
-                                                <tr ng-repeat="candidateSeries in mainFunnel.data.candidateSeries track by $index">
+                                                <tr ng-repeat="candidateSeries in mainFunnel.data.candidateSeries track by $index" class="hover">
                                                     <td>{{candidateSeries}}</td>
+                                                    <td class="hover-stripe"></td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -144,9 +148,10 @@
                                     <th translate="Relative conversion"></th>
                                     <th translate="Absolute conversion"></th>
                                 </tr>
-                                <tr ng-repeat="rel in userFunnelData.relConversion track by $index">
+                                <tr ng-repeat="rel in userFunnelData.relConversion track by $index" class="hover">
                                     <td><span>{{rel}}</span></td>
                                     <td><span>{{userFunnelData.absConversion[$index]}}</span></td>
+                                    <td class="hover-stripe"></td>
                                 </tr>
                             </table>
                             <table class="funnel-table user-table" ng-show="statistics.type === 'userFunnel'">
@@ -157,8 +162,9 @@
                                             <tr>
                                                 <th translate="Amount by user" translate-values='{ name: statistics.user.name}'></th>
                                             </tr>
-                                            <tr ng-repeat="userSeries in userFunnelData.userSeries() track by $index">
+                                            <tr ng-repeat="userSeries in userFunnelData.userSeries() track by $index" class="hover">
                                                 <td>{{userSeries}}</td>
+                                                <td class="hover-stripe"></td>
                                             </tr>
                                         </table>
                                     </td>
@@ -167,8 +173,9 @@
                                             <tr>
                                                 <th translate="Total in vacancy"></th>
                                             </tr>
-                                            <tr ng-repeat="vacancySeries in userFunnelData.vacancySeries track by $index">
+                                            <tr ng-repeat="vacancySeries in userFunnelData.vacancySeries track by $index" class="hover">
                                                 <td>{{vacancySeries}}</td>
+                                                <td class="hover-stripe"></td>
                                             </tr>
                                         </table>
                                     </td>
@@ -177,8 +184,9 @@
                                             <tr>
                                                 <th translate="Percent of total amount"></th>
                                             </tr>
-                                            <tr ng-repeat="percent in userFunnelData.userPercentSeries() track by $index">
+                                            <tr ng-repeat="percent in userFunnelData.userPercentSeries() track by $index" class="hover">
                                                 <td>{{percent}}%</td>
+                                                <td class="hover-stripe"></td>
                                             </tr>
                                         </table>
                                     </td>

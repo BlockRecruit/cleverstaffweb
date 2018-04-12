@@ -1,8 +1,7 @@
 controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileInit", "Vacancy", "Service", "$location", "Client",
-    "$routeParams", "notificationService", "$filter", "$translate", 'Person', "Statistic", "vacancyStages", "Company", "vacancyReport",
+    "$routeParams", "notificationService", "$filter", "$translate", 'Person', "Statistic", "vacancyStages", "Company", "vacancyReport", "$timeout",
     function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $routeParams, notificationService, $filter,
-             $translate, Person, Statistic, vacancyStages, Company, vacancyReport) {
-
+             $translate, Person, Statistic, vacancyStages, Company, vacancyReport, $timeout) {
 
         $scope.statistics = {type: 'default', user: {}};
         $scope.funnelActionUsers = [];
@@ -17,6 +16,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             if(type === 'default') {
                 vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
                 $scope.vacancyHistory = $scope.vacancyGeneralHistory;
+                getHoverLineWidth();
                 return;
             }
 
@@ -40,6 +40,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 $scope.funnelActionUsers.push(actionUser);
                 $scope.actionUsers.splice(userIndex, 1);
                 updateMainFunnel(actionUser);
+                $scope.userIndex = null;
                 vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
             }
         };
@@ -47,10 +48,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         $scope.removeUserInFunnelUsersList = function(user) {
             $scope.funnelActionUsers.splice($scope.funnelActionUsers.indexOf(user),1);
             $scope.actionUsers.push(user);
-
             updateMainFunnel(user);
-            clearUserActionsFunnelCache({user});
-
+            clearUserFunnelCache({user});
             if($scope.statistics.user === user) {
                 $scope.setStatistics('default');
             }
@@ -76,6 +75,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.setStatistics('default');
                     updateUsers();
                     $scope.$apply();
+                    getHoverLineWidth();
                 }, error => notificationService.error(error.message));
         };
 
@@ -113,16 +113,17 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         function updateUsers() {
             $scope.funnelActionUsers.forEach(user => {
                 updateMainFunnel(user); // if user exist - removes it`s column to funnel
-                clearUserActionsFunnelCache({user}); // removing user from cache
+                clearUserFunnelCache({user}); // removing user from cache
                 updateMainFunnel(user);// if user not exist - adding it column to funnel
             });
         }
 
         function setUserFunnel(user) {
-            if(getUserActionsFunnelCache({user})) {
-                vacancyReport.funnel('userFunnel', getUserActionsFunnelCache({user}).userFunnelData.userSeries());
-                $scope.userFunnelData = getUserActionsFunnelCache({user}).userFunnelData;
-                $scope.vacancyHistory = getUserActionsFunnelCache({user}).userHistory;
+            if(getUserFunnelCache({user})) {
+                vacancyReport.funnel('userFunnel', getUserFunnelCache({user}).userFunnelData.userSeries());
+                $scope.userFunnelData = getUserFunnelCache({user}).userFunnelData;
+                $scope.vacancyHistory = getUserFunnelCache({user}).userHistory;
+                getHoverLineWidth();
                 return;
             }
 
@@ -157,12 +158,11 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     };
                     setUserFunnelCache({userFunnelData, userHistory: usersActionData, user});
 
-                    $scope.userFunnelData = getUserActionsFunnelCache({user}).userFunnelData;
+                    $scope.userFunnelData = getUserFunnelCache({user}).userFunnelData;
                     vacancyReport.funnel('userFunnel', userFunnelData.userSeries());
-
                     $scope.setStatistics('default');
                     $scope.$apply();
-
+                    getHoverLineWidth();
                     return Promise.resolve({candidateSeries: setFunnelData(userFunnelMap).candidateSeries, user});
                 }, error => notificationService.error(error.message));
         }
@@ -188,23 +188,27 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(vacancyInterviewDetalInfo, $scope.notDeclinedStages, $scope.declinedStages));
                     $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
                     vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
+                    getHoverLineWidth();
                     $scope.$apply();
+                    getHoverLineWidth();
                 }, error => notificationService.error(error.message));
         }
 
         function updateMainFunnel(user) {
-            if(!getUserActionsFunnelCache({user})) {
+            if(!getUserFunnelCache({user})) {
                 setUserFunnel(user)
                     .then(userData => {
                         $scope.usersColumn.users.push(userData.user);
                         $scope.usersColumn.dataArray.push(userData.candidateSeries);
                         $scope.$apply();
+                        getHoverLineWidth();
                         $rootScope.loading = false;
                     }, error => console.error(error));
             } else {
                 const index = $scope.usersColumn.users.indexOf(user);
                 $scope.usersColumn.users.splice(index,1);
                 $scope.usersColumn.dataArray.splice(index, 1);
+                getHoverLineWidth();
                 $scope.vacancyHistory = $scope.vacancyGeneralHistory;
             }
         }
@@ -267,7 +271,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             return funnelMap[0] ? funnelMap : null;
         }
 
-        function setFunnelData(funnelMap, funnelWidth = '750px', chartWidth = '1300px') {
+        function setFunnelData(funnelMap) {
             $scope.hasFunnelChart = true;
             let stages = [],
                 candidateSeries = [],
@@ -293,19 +297,19 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             return { stages, candidateSeries, RelConversion, AbsConversion }
         }
 
-        function getUserActionsFunnelCache({user}) {
+        function getUserFunnelCache({user}) {
             return setFunnelData.usersDataCache.filter(cache => {
                 return cache.user.userId === user.userId;
             })[0];
         }
 
         function setUserFunnelCache({userFunnelData, userHistory, user}) {
-            if(!getUserActionsFunnelCache({user})) {
+            if(!getUserFunnelCache({user})) {
                 setFunnelData.usersDataCache.push({userFunnelData, userHistory, user});
             }
         }
 
-        function clearUserActionsFunnelCache({user}) {
+        function clearUserFunnelCache({user}) {
             setFunnelData.usersDataCache.forEach((cache, index) => {
                 if(cache.user.userId === user.userId) {
                     setFunnelData.usersDataCache.splice(index,1);
@@ -358,7 +362,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 language: $translate.use()
             }).on('changeDate', function (date) {
                 if(date.date < $("#dateFrom").datetimepicker("getDate")) {
-                    console.log('yep');
                     let d = new Date();
                     d.setHours(0, 0, 0, 0);
                     $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
@@ -377,6 +380,29 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         function getVacancy(response) {
             $scope.vacancy = response;
+        }
+
+        function getHoverLineWidth() {
+            $timeout(() => {
+                let tables = $('.funnel > table, .funnel > .funnel-chart'),
+                    stripes = $('.hover-stripe'),
+                    stripeWidth = 0,
+                    stripeOffset = 0;
+
+
+                for(let i = 0; i < tables.length; i++) {
+                    if(i === 0) stripeOffset = $(tables[i]).offset().left - $(tables[i]).outerWidth( true ) / 4;
+                    if($(tables[i]).width()) {
+                        stripeWidth += $(tables[i]).outerWidth( true );
+                    }
+                }
+
+                for(let i = 0; i < stripes.length; i++) {
+                    $(stripes[i]).outerWidth(stripeWidth).css("left", stripeOffset);
+                }
+
+                console.log(stripeWidth, stripeOffset);
+            }, 0);
         }
 
         function Init() {
