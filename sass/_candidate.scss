@@ -63,6 +63,23 @@
 			a {
 				outline: none;
 			}
+			.remove-candidate {
+				margin-top: 17px;
+				.remove-candidate-button {
+					font-weight: bold;
+
+					display: inline-block;
+					padding: 13px 16px;
+
+					color: black;
+					border-radius: 26.5px;
+					background-color: rgb(255, 193, 0);
+					img {
+						position: relative;
+						top: -1.5px;
+					}
+				}
+			}
 			.leftBar {
 				padding: 0;
 

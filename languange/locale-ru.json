@@ -2958,5 +2958,6 @@
   "Task deleted":"Задача удалена",
   "Сandidates in stages": "Кандидаты на этапах",
   "Invite user with a role" :"Пригласить пользователя с ролью",
-  "The filter allows you to pick the users who performed any activities on vacancies.": "Фильтр позволяет выбрать определенных пользователей, которые совершали какие-либо действия по вакансиям."
+  "The filter allows you to pick the users who performed any activities on vacancies.": "Фильтр позволяет выбрать определенных пользователей, которые совершали какие-либо действия по вакансиям.",
+  "Delete user":"Удалить пользователя"
 }
