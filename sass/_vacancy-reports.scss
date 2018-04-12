@@ -211,7 +211,8 @@
 					font-size: 14px;
 				}
 				.close {
-					font-size: 8px;
+					font-size: 10px;
+					line-height: 8px;
 
 					position: absolute;
 					top: 5px;
@@ -224,6 +225,7 @@
 					color: #fff;
 					border-radius: 50%;
 					background-color: #635e5e;
+					text-shadow: none;
 					&:hover {
 						background-color: #eae5e5;
 					}
@@ -314,7 +316,6 @@
 						}
 					}
 					.funnel-table {
-						margin-right: 30px;
 						margin-left: 10px;
 						tbody {
 							border: 1px solid #ccc;
@@ -363,9 +364,6 @@
 										display: block;
 									}
 								}
-								&:after {
-									content: "";
-								}
 							}
 						}
 						caption {
@@ -384,6 +382,7 @@
 							border-radius: 5px 5px 0 0;
 						}
 						&.users-table {
+							margin-left: 40px;
 							tbody {
 								tr {
 									th {
@@ -414,6 +413,9 @@
 									}
 								}
 							}
+						}
+						&.user-table {
+							margin-left: 30px;
 						}
 						&.no-caption {
 							min-width: 165px;

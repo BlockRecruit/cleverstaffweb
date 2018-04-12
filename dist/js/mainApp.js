@@ -40921,7 +40921,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             if(type === 'default') {
                 vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
                 $scope.vacancyHistory = $scope.vacancyGeneralHistory;
-                getHoverLineWidth();
+                getHoverStripeWidth();
                 return;
             }
 
@@ -40980,11 +40980,11 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.setStatistics('default');
                     updateUsers();
                     $scope.$apply();
-                    getHoverLineWidth();
+                    getHoverStripeWidth();
                 }, error => notificationService.error(error.message));
         };
 
-        $scope.downloadPDF = function(){
+        $scope.downloadPDF = function() {
             $scope.downloadPDFisPressed = !$scope.downloadPDFisPressed;
 
             let dateFrom = $('#dateFrom').datetimepicker('getDate')  ? $('#dateFrom').datetimepicker('getDate') : null,
@@ -41015,6 +41015,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             });
         };
 
+        $rootScope.$on('$translateChangeSuccess', function () {
+            getHoverStripeWidth();
+        });
+
         function updateUsers() {
             $scope.funnelActionUsers.forEach(user => {
                 updateMainFunnel(user); // if user exist - removes it`s column to funnel
@@ -41028,7 +41032,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 vacancyReport.funnel('userFunnel', getUserFunnelCache({user}).userFunnelData.userSeries());
                 $scope.userFunnelData = getUserFunnelCache({user}).userFunnelData;
                 $scope.vacancyHistory = getUserFunnelCache({user}).userHistory;
-                getHoverLineWidth();
+                getHoverStripeWidth();
                 return;
             }
 
@@ -41064,10 +41068,11 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     setUserFunnelCache({userFunnelData, userHistory: usersActionData, user});
 
                     $scope.userFunnelData = getUserFunnelCache({user}).userFunnelData;
+                    console.log($scope.userFunnelData);
                     vacancyReport.funnel('userFunnel', userFunnelData.userSeries());
                     $scope.setStatistics('default');
                     $scope.$apply();
-                    getHoverLineWidth();
+                    getHoverStripeWidth();
                     return Promise.resolve({candidateSeries: setFunnelData(userFunnelMap).candidateSeries, user});
                 }, error => notificationService.error(error.message));
         }
@@ -41093,9 +41098,9 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(vacancyInterviewDetalInfo, $scope.notDeclinedStages, $scope.declinedStages));
                     $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
                     vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
-                    getHoverLineWidth();
+                    getHoverStripeWidth();
                     $scope.$apply();
-                    getHoverLineWidth();
+                    getHoverStripeWidth();
                 }, error => notificationService.error(error.message));
         }
 
@@ -41106,14 +41111,14 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                         $scope.usersColumn.users.push(userData.user);
                         $scope.usersColumn.dataArray.push(userData.candidateSeries);
                         $scope.$apply();
-                        getHoverLineWidth();
+                        getHoverStripeWidth();
                         $rootScope.loading = false;
                     }, error => console.error(error));
             } else {
                 const index = $scope.usersColumn.users.indexOf(user);
                 $scope.usersColumn.users.splice(index,1);
                 $scope.usersColumn.dataArray.splice(index, 1);
-                getHoverLineWidth();
+                getHoverStripeWidth();
                 $scope.vacancyHistory = $scope.vacancyGeneralHistory;
             }
         }
@@ -41287,27 +41292,22 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             $scope.vacancy = response;
         }
 
-        function getHoverLineWidth() {
+        function getHoverStripeWidth() {
             $timeout(() => {
                 let tables = $('.funnel > table, .funnel > .funnel-chart'),
                     stripes = $('.hover-stripe'),
                     stripeWidth = 0,
                     stripeOffset = 0;
 
-
                 for(let i = 0; i < tables.length; i++) {
-                    // if(i === 0) stripeOffset = $(tables[i]).offset().left - $(tables[i]).outerWidth( true ) / 4;
-                    // if(i === 0) stripeOffset = $(tables[i]).position().left;
-                    if(i === 0) stripeOffset = $(tables[i]).offset().left;
+                    if(i === 0) stripeOffset = $(tables[i]).position().left;
                     if($(tables[i]).width()) {
-                        console.log($(tables[i]).outerWidth( true ));
                         stripeWidth += $(tables[i]).outerWidth( true );
                     }
                 }
 
                 for(let i = 0; i < stripes.length; i++) {
-                    // $(stripes[i]).outerWidth(stripeWidth).css("left", stripeOffset);
-                    $(stripes[i]).outerWidth(stripeWidth).position().left()stripeOffset);
+                    $(stripes[i]).outerWidth(stripeWidth).css("left", stripeOffset);
                 }
             }, 0);
         }

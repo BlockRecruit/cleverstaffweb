@@ -69,7 +69,7 @@
             <div class="col-lg-12 funnelPanel" ng-show="vacancyFunnelMap">
                 <div id="funnel">
                     <div style="min-height:150px">
-                        <div class="funnel">
+                        <div class="funnel" ng-hide="!userFunnelData.userSeries().length && statistics.type === 'userFunnel'">
                             <table class="funnel-table no-caption">
                                 <tbody>
                                     <tr>
@@ -120,8 +120,8 @@
                                                     <tr>
                                                         <th>{{user.name}}</th>
                                                     </tr>
-                                                    <tr ng-repeat="series in usersColumn.dataArray[$index] track by $index" class="hover">
-                                                        <td>{{series}}</td>
+                                                    <tr ng-repeat="series in usersColumn.dataArray[$index] track by $index | limitTo: 11" class="hover">
+                                                        <td>{{series || "0"}}</td>
                                                         <td class="hover-stripe"></td>
                                                     </tr>
                                                 </tbody>
@@ -192,6 +192,9 @@
                                     </td>
                                 </tr>
                             </table>
+                        </div>
+                        <div class="error" ng-show="!userFunnelData.userSeries().length && statistics.type === 'userFunnel'">
+                            <div class="msg">Sorry about that</div>
                         </div>
                     </div>
                 </div>
