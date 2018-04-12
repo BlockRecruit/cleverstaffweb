@@ -11,11 +11,12 @@
                         <span class="tariffs-text" translate="Tariffs"></span>
                     </button>
                     <span class="free-mailings" ng-if="+($root.me.orgParams.freeMailCount) && $root.me.orgParams.mailingTariff === 'defaultTariff'">
-                        <span translate="left free mailings"></span>
-                        <span ng-bind="$root.me.orgParams.freeMailCount" title="{{'Number of free letters in account' | translate}}"></span>
-                        <span translate="mailings left 1" ng-if="$root.me.orgParams.freeMailCount%10 === 1"></span>
-                        <span translate="mailings left 2" ng-if="$root.me.orgParams.freeMailCount%10 > 1 && $root.me.orgParams.freeMailCount%10 < 5"></span>
-                        <span translate="mailings left 3" ng-if="$root.me.orgParams.freeMailCount%10 > 4"></span>
+                        <span translate="You have left"></span>
+                        <span ng-bind="$root.me.orgParams.freeMailCount" title="{{'Number of free letters in account' | translate}}" class="count"></span>
+                        <i class="mailing-free-icon"></i>
+                        <span translate="free mailing left" ng-if="$root.me.orgParams.freeMailCount%10 === 1"></span>
+                        <span translate="free mailings left" ng-if="$root.me.orgParams.freeMailCount%10 > 1 && $root.me.orgParams.freeMailCount%10 < 5"></span>
+                        <span translate="free mailings left 1" ng-if="$root.me.orgParams.freeMailCount%10 > 4"></span>
                     </span>
                 </div>
             </div>

@@ -3089,5 +3089,9 @@
   "You can even implement the A/B test and determine which letters work best.":"Вы даже сможете реализовать A/B тест и определить какие письма лучше работают.",
   "The cost of each letter is 0.01 USD (100 letters - 1 USD). Unlimited tariff - $ 300/month or $ 3000/year.":"Стоимость каждого письма составляет 0,01 USD (100 писем - 1 USD). Безлимитный тариф - 300 долларов в месяц или 3000 долларов в год. Для подключения безлимитного тарифа обращайтесь в службу поддержки.",
   "Please enter the name of the recipient": "Пожалуйста введите имя получателя",
-  "Tariffs": "Тарифы"
+  "Tariffs": "Тарифы",
+  "You have left": "У вас осталось",
+  "free mailing left": "бесплатное письмо",
+  "free mailings left": "бесплатных письма",
+  "free mailings left 1": "бесплатных писем"
 }

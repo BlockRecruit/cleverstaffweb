@@ -2490,5 +2490,9 @@
   "You can even implement the A/B test and determine which letters work best.":"You can even implement the A/B test and determine which letters work best.",
   "The cost of each letter is 0.01 USD (100 letters - 1 USD). Unlimited tariff - $ 300/month or $ 3000/year.":"The cost of each letter is 0.01 USD (100 letters - 1 USD). Unlimited tariff - $ 300/month or $ 3000/year. If you want to upgrade to unlimited plan, please contact our technical support.",
   "Please enter the name of the recipient": "Please enter the name of the recipient",
-  "Tariffs": "Tariffs"
+  "Tariffs": "Rates",
+  "You have left": "You have",
+  "free mailing left": "free mailing left",
+  "free mailings left": "free mailings left",
+  "free mailings left 1": "free mailings left"
 }

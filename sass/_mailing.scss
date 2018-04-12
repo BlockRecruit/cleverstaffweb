@@ -625,10 +625,8 @@
 			padding-top: 3px;
 		}
 		.tariffs-button {
-			font-weight: bold;
-
 			display: flex;
-			height: 30px;
+			height: 31px;
 			margin: 0 50px;
 			padding: 0 8px;
 
@@ -641,7 +639,7 @@
 				outline: none;
 			}
 			&:hover {
-				background-color: #e1e1e1;
+				background-color: #e7e7e7;
 			}
 			.tariffs-icon {
 				display: inline-block;
@@ -650,10 +648,32 @@
 
 				background-image: url("/images/sprite/icons/mailing-info.svg");
 				background-repeat: no-repeat;
-				background-position: -35px 0;
-				background-size: 65px;
+				background-position: -32px 2px;
+				background-size: 60px;
 			}
 			.tariffs-text {
+				font-weight: bold;
+			}
+		}
+		.free-mailings {
+			display: flex;
+
+			align-items: center;
+			.count {
+				font-weight: bold;
+
+				margin: 0 5px;
+			}
+			.mailing-free-icon {
+				display: inline-block;
+				width: 22px;
+				height: 17px;
+				margin-right: 5px;
+
+				background-image: url("/images/sprite/icons/mailing-info.svg");
+				background-repeat: no-repeat;
+				background-position: -5px -4px;
+				background-size: 60px;
 			}
 		}
 	}
