@@ -5,14 +5,18 @@
             <div class="col-lg-12">
                 <div class="intro">
                     <h3 translate="My mailings"></h3>
-                    <div class="info-icons">
-                        <div class="mail-count" ng-if="+($root.me.orgParams.freeMailCount) && $root.me.orgParams.mailingTariff === 'defaultTariff'" title="{{'Number of free letters in account' | translate}}">
-                            <span class="mail-count-icon">
-                                <span class="mail-count-value">{{$root.me.orgParams.freeMailCount}}</span>
-                            </span>
-                        </div>
-                        <span ng-click="mailingModal()" class="mailing-info" title="{{'Information about mailings' | translate}}"></span>
-                    </div>
+                    <i class="fa fa-info-circle tooltip-icon" tooltip-placement="bottom-left" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.mailingMainInfo" aria-hidden="true"></i>
+                    <button class="tariffs-button" ng-click="mailingTariffInfoModal()" title="{{'Information about mailings' | translate}}">
+                        <i class="tariffs-icon"></i>
+                        <span class="tariffs-text" translate="Tariffs"></span>
+                    </button>
+                    <span class="free-mailings" ng-if="+($root.me.orgParams.freeMailCount) && $root.me.orgParams.mailingTariff === 'defaultTariff'">
+                        <span translate="left free mailings"></span>
+                        <span ng-bind="$root.me.orgParams.freeMailCount" title="{{'Number of free letters in account' | translate}}"></span>
+                        <span translate="mailings left 1" ng-if="$root.me.orgParams.freeMailCount%10 === 1"></span>
+                        <span translate="mailings left 2" ng-if="$root.me.orgParams.freeMailCount%10 > 1 && $root.me.orgParams.freeMailCount%10 < 5"></span>
+                        <span translate="mailings left 3" ng-if="$root.me.orgParams.freeMailCount%10 > 4"></span>
+                    </span>
                 </div>
             </div>
         </div>

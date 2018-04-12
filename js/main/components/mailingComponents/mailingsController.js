@@ -82,6 +82,17 @@ controller.controller('mailingsController', ['$scope', '$localStorage', '$rootSc
             });
         };
 
+        $scope.mailingTariffInfoModal = function() {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/mailing-tariff-info.html',
+                size: '',
+                scope: $scope,
+                backdrop: 'static',
+                resolve: function(){}
+            });
+        };
+
         function getFreeMailCount() {
             return new Promise((resolve, reject) => {
                 Person.getMe(resp => {

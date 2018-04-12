@@ -613,60 +613,47 @@
 		display: flex;
 		flex-direction: row;
 
-		justify-content: space-between;
+		justify-content: flex-start;
 		align-items: center;
 		h3 {
 			font-weight: bold;
 
 			margin-top: 10px;
 		}
-		.info-icons {
-			position: relative;
+		.fa-info-circle {
+			margin: 0 10px;
+			padding-top: 3px;
+		}
+		.tariffs-button {
+			font-weight: bold;
 
 			display: flex;
-			padding-right: 12px;
-			.mail-count {
-				height: 33px;
-				span {
-					font-family: "Helvetica-Medium";
-					font-size: 15px;
-					&.mail-count-icon {
-						display: inline-block;
-						width: 50px;
-						height: 33px;
-						margin-right: 15px;
+			height: 30px;
+			margin: 0 50px;
+			padding: 0 8px;
 
-						background-image: url(../../images/sprite/icons/mailing-info.png);
-						background-repeat: no-repeat;
-						background-position: -59px 0;
-						background-size: 110px;
-						.mail-count-value {
-							font-size: 12px;
+			border: 1px solid $theme-dark;
+			border-radius: 5px;
+			background: transparent;
 
-							position: absolute;
-							top: 17px;
-							left: 30px;
-
-							width: 16px;
-							height: 13px;
-
-							text-align: center;
-
-							color: $theme-green;
-						}
-					}
-				}
+			align-items: center;
+			&:focus {
+				outline: none;
 			}
-			span.mailing-info {
-				width: 51px;
-				height: 33px;
+			&:hover {
+				background-color: #e1e1e1;
+			}
+			.tariffs-icon {
+				display: inline-block;
+				width: 26px;
+				height: 26px;
 
-				cursor: pointer;
-
-				background-image: url(../../images/sprite/icons/mailing-info.png);
+				background-image: url("/images/sprite/icons/mailing-info.svg");
 				background-repeat: no-repeat;
-				background-position: -3px 0;
-				background-size: 110px;
+				background-position: -35px 0;
+				background-size: 65px;
+			}
+			.tariffs-text {
 			}
 		}
 	}

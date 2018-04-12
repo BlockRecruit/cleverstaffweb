@@ -14683,7 +14683,8 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                         "researcher" : $sce.trustAsHtml($filter('translate')('Cannot see the full database and other users. Able to see only vacancies he/she responsible for and candidates he/she added')),
                         "client" : $sce.trustAsHtml($filter('translate')('Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number'))
                     },
-                    "filterCostructorInfo": $sce.trustAsHtml($filter('translate')('The filter allows you to pick the users who performed any activities on vacancies.'))
+                    "filterCostructorInfo": $sce.trustAsHtml($filter('translate')('The filter allows you to pick the users who performed any activities on vacancies.')),
+                    "mailingMainInfo": $sce.trustAsHtml($filter('translate')('With the help of mailings you can send letters to candidates, get the reports on emails delivery and views')) + '</br>' + $sce.trustAsHtml($filter('translate')('Customizable templates with variables allow you to send personalized emails and the analytics will show the effectiveness of your mailings.'))+ '</br>' + $sce.trustAsHtml($filter('translate')('You can even implement the A/B test and determine which letters work best.'))
                 };
                 $rootScope.tooltips = options;
             });
@@ -47922,6 +47923,17 @@ controller.controller('mailingsController', ['$scope', '$localStorage', '$rootSc
                         value: false
                     });
                 }
+            });
+        };
+
+        $scope.mailingTariffInfoModal = function() {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/mailing-tariff-info.html',
+                size: '',
+                scope: $scope,
+                backdrop: 'static',
+                resolve: function(){}
             });
         };
 
