@@ -16,7 +16,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             if(type === 'default') {
                 vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
                 $scope.vacancyHistory = $scope.vacancyGeneralHistory;
-                getHoverStripeWidth();
                 return;
             }
 
@@ -50,6 +49,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             $scope.actionUsers.push(user);
             updateMainFunnel(user);
             clearUserFunnelCache({user});
+            getHoverStripeWidth();
             if($scope.statistics.user === user) {
                 $scope.setStatistics('default');
             }
@@ -75,7 +75,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.setStatistics('default');
                     updateUsers();
                     $scope.$apply();
-                    getHoverStripeWidth();
                 }, error => notificationService.error(error.message));
         };
 
@@ -114,6 +113,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             getHoverStripeWidth();
         });
 
+        $scope.$watchGroup(['mainFunnel.data', 'userFunnelData.userSeries', 'usersColumn.users', 'statistics'], function() {
+            getHoverStripeWidth();
+        });
+
         function updateUsers() {
             $scope.funnelActionUsers.forEach(user => {
                 updateMainFunnel(user); // if user exist - removes it`s column to funnel
@@ -124,10 +127,9 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         function setUserFunnel(user) {
             if(getUserFunnelCache({user})) {
-                vacancyReport.funnel('userFunnel', getUserFunnelCache({user}).userFunnelData.userSeries());
+                vacancyReport.funnel('userFunnel', getUserFunnelCache({user}).userFunnelData.userSeries);
                 $scope.userFunnelData = getUserFunnelCache({user}).userFunnelData;
                 $scope.vacancyHistory = getUserFunnelCache({user}).userHistory;
-                getHoverStripeWidth();
                 return;
             }
 
@@ -150,25 +152,26 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     const userFunnelMap = validateStages(parseCustomStagesNames(usersActionData, $scope.notDeclinedStages, $scope.declinedStages));
 
                     let userFunnelData = {
-                        userSeries: function() { return setFunnelData(userFunnelMap).candidateSeries.map(series => Number(series)); },
+                        userSeries: setFunnelData(userFunnelMap).candidateSeries,
                         vacancySeries: setFunnelData($scope.vacancyFunnelMap).candidateSeries,
                         userPercentSeries : function() {
-                            return this.userSeries().map((userSeries, index) => {
+                            return this.userSeries.map((userSeries, index) => {
                                 return String(Math.round((userSeries / (this.vacancySeries[index])) * 100) || 0);
                             });
                         },
                         relConversion: setFunnelData(userFunnelMap).RelConversion,
-                        absConversion: setFunnelData(userFunnelMap).AbsConversion
+                        absConversion: setFunnelData(userFunnelMap).AbsConversion,
+                        user: user
                     };
+
                     setUserFunnelCache({userFunnelData, userHistory: usersActionData, user});
 
                     $scope.userFunnelData = getUserFunnelCache({user}).userFunnelData;
-                    console.log($scope.userFunnelData);
-                    vacancyReport.funnel('userFunnel', userFunnelData.userSeries());
+
+                    vacancyReport.funnel('userFunnel', userFunnelData.userSeries);
                     $scope.setStatistics('default');
                     $scope.$apply();
-                    getHoverStripeWidth();
-                    return Promise.resolve({candidateSeries: setFunnelData(userFunnelMap).candidateSeries, user});
+                    return Promise.resolve(userFunnelData);
                 }, error => notificationService.error(error.message));
         }
 
@@ -193,27 +196,26 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(vacancyInterviewDetalInfo, $scope.notDeclinedStages, $scope.declinedStages));
                     $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
                     vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
-                    getHoverStripeWidth();
                     $scope.$apply();
-                    getHoverStripeWidth();
                 }, error => notificationService.error(error.message));
         }
 
         function updateMainFunnel(user) {
             if(!getUserFunnelCache({user})) {
                 setUserFunnel(user)
-                    .then(userData => {
-                        $scope.usersColumn.users.push(userData.user);
-                        $scope.usersColumn.dataArray.push(userData.candidateSeries);
+                    .then(userFunnelData => {
+                        let userData = angular.copy(userFunnelData);
+                        userData.userSeries.length = userData.userSeries.length || userData.vacancySeries.length;
+
+                        $scope.usersColumn.users.push(user);
+                        $scope.usersColumn.dataArray.push(userData.userSeries);
                         $scope.$apply();
-                        getHoverStripeWidth();
                         $rootScope.loading = false;
                     }, error => console.error(error));
             } else {
                 const index = $scope.usersColumn.users.indexOf(user);
                 $scope.usersColumn.users.splice(index,1);
                 $scope.usersColumn.dataArray.splice(index, 1);
-                getHoverStripeWidth();
                 $scope.vacancyHistory = $scope.vacancyGeneralHistory;
             }
         }

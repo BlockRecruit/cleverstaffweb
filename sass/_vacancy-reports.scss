@@ -364,6 +364,9 @@
 										display: block;
 									}
 								}
+								&:after {
+									content: "";
+								}
 							}
 						}
 						caption {
@@ -477,6 +480,17 @@
 	}
 	.no-padding {
 		padding: 0;
+	}
+	.error {
+		display: flex;
+		flex-direction: row;
+		min-height: 150px;
+
+		align-items: center;
+		justify-content: center;
+		.msg {
+			font-size: 16px;
+		}
 	}
 }
 

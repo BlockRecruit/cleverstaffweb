@@ -2354,5 +2354,6 @@
   "Total in vacancy":"Total on <br> stage",
   "Candidates by users":"Candidates by users",
   "Amount by user":"Amount <br> {{name}}",
-  "Percent of total amount":"% of total <br> amount"
+  "Percent of total amount":"% of total <br> amount",
+  "User did not add/change stages for candidates in the selected period for this vacancy":"User did not add/change stages for candidates in the selected period for this vacancy"
 }

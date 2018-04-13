@@ -2944,5 +2944,6 @@
   "Total in vacancy":"Всего на <br> этапе",
   "Candidates by users":"Кандидаты по пользователям",
   "Amount by user":"Количество <br> {{name}}",
-  "Percent of total amount":"% от общего <br> количества"
+  "Percent of total amount":"% от общего <br> количества",
+  "User did not add/change stages for candidates in the selected period for this vacancy":"Пользователь не добавлял и не переводил кандидатов по этой вакансии в указанный период"
 }
