@@ -1,6 +1,6 @@
 angular.module('services.mailing',[]
-).factory('Mailing', [ 'serverAddress', '$location', '$resource', '$q', '$state', 'notificationService','$translate', '$filter', '$rootScope','$window','$localStorage', 'Vacancy',
-    function (serverAddress, $location, $resource, $q, $state, notificationService, $translate, $filter, $rootScope, $window, $localStorage, Vacancy) {
+).factory('Mailing', [ 'serverAddress', '$location', '$resource', '$q', '$state', 'notificationService','$translate', '$filter', '$rootScope','$window','$localStorage', 'Vacancy', 'Person',
+    function (serverAddress, $location, $resource, $q, $state, notificationService, $translate, $filter, $rootScope, $window, $localStorage, Vacancy, Person) {
 
     let service = $resource(serverAddress + '/:service/:action', {service: "compaign", action: "@action"}, {
         setList: {
@@ -919,6 +919,16 @@ angular.module('services.mailing',[]
             isChangesNotSaved: isChangesNotSaved
         }
     };
+
+
+    service.getUserEmailsWithMailingEnabled = function () {
+        Person.personEmails({"type": "all"},(resp)=> {
+            console.log('resp', resp)
+        }, (error)=> {
+
+        });
+    };
+
 
     function subscriberListParamsPrepared(internal, candidates) {
         let prepared = {
