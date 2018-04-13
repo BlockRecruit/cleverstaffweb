@@ -58,58 +58,9 @@
                 'cookieDomain': document.domain
             });
             ga('send', 'pageview');
-            <!-- Yandex.Metrika counter -->
-            var yaParams = {/*Тут параметри візиту*/};
-            (function (d, w, c) {
-                (w[c] = w[c] || []).push(function () {
-                    try {
-                        w.yaCounter27135023 = new Ya.Metrika({
-                            id: 27135023,
-                            webvisor: false,
-                            clickmap: true,
-                            trackLinks: true,
-                            accurateTrackBounce: true,
-                            trackHash: true, params: window.yaParams || {}
-                        });
-                    } catch (e) {
-                    }
-                });
-                var n = d.getElementsByTagName("script")[0],
-                        s = d.createElement("script"),
-                        f = function () {
-                            n.parentNode.insertBefore(s, n);
-                        };
-                s.type = "text/javascript";
-                s.async = true;
-                s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
-                if (w.opera == "[object Opera]") {
-                    d.addEventListener("DOMContentLoaded", f, false);
-                } else {
-                    f();
-                }
-            })(document, window, "yandex_metrika_callbacks");
         }
-        function hasUrlParameterWithoutQ() {
-            var sPageURL = window.location.search.substring(1);
-            var sURLVariables = sPageURL.split('&');
-            for (var i = 0; i < sURLVariables.length; i++) {
-                var sParameterName = sURLVariables[i].split('=');
-                if (sParameterName[0] !== "q") {
-                    return true;
-                }
-            }
-            return false;
-        }
-        if (hasUrlParameterWithoutQ()) {
-            var sPageURL = window.location.search.substring(1);
-            if (sPageURL && sPageURL !== '') {
-                localStorage.setItem("UTMS", sPageURL);
-            }
-        }
+
     </script>
-    <noscript>
-        <div><img src="//mc.yandex.ru/watch/27135023" style="position:absolute; left:-9999px;" alt=""/></div>
-    </noscript>
 </head>
 <body>
 <div class="wrapper">

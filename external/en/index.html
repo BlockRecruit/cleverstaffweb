@@ -45,6 +45,7 @@
     <link rel="stylesheet" href="external/css/bootstrap.min.css">
     <link rel="stylesheet" href="external/css/main.min.css?b10">
     <link rel="amphtml" href="amp.html">
+    <link rel="canonical" href="https://cleverstaff.net/" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Cleverstaff - Applicant tracking system. All in one recruiting software."/>
     <meta property="og:description" content="All in one software for applicant tracking system & recruitment automation. Enterprise and cloud versions."/>
@@ -837,32 +838,6 @@
             fbq('track', 'PageView');
             <!-- End Facebook Pixel Code -->
 
-            (function (d, w, c) {
-                (w[c] = w[c] || []).push(function() {
-                    try {
-                        w.yaCounter27135023 = new Ya.Metrika({
-                            id:27135023,
-                            clickmap:true,
-                            trackLinks:true,
-                            accurateTrackBounce:true,
-                            webvisor:false,
-                            trackHash:true
-                        });
-                    } catch(e) { }
-                });
-
-                var n = d.getElementsByTagName("script")[0],
-                    s = d.createElement("script"),
-                    f = function () { n.parentNode.insertBefore(s, n); };
-                s.type = "text/javascript";
-                s.async = true;
-                s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-                if (w.opera == "[object Opera]") {
-                    d.addEventListener("DOMContentLoaded", f, false);
-                } else { f(); }
-            })(document, window, "yandex_metrika_callbacks");
-
             // adding Hubspot tracking code;
             var script = document.createElement('script');
             script.src = "//js.hs-scripts.com/3833222.js";
@@ -898,9 +873,22 @@
         makeCorsRequestNews();
     });
 </script>
+
+<!-- Код тега ремаркетинга Google -->
+
+<script type="text/javascript">
+    / <![CDATA[ /
+    var google_conversion_id = 964011751;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    / ]]> /
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
 <noscript>
-    <div><img src="https://mc.yandex.ru/watch/27135023" style="position:absolute; left:-9999px;" alt="yandex" /></div>
-    <img height="1" width="1" style="display:none" alt="image" src="https://www.facebook.com/tr?id=980245322007471&ev=PageView&noscript=1"/>
+    <div style="display:inline;">
+        <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/964011751/?guid=ON&amp;script=0"/>
+    </div>
 </noscript>
 </body>
 </html>

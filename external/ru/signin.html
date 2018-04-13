@@ -267,83 +267,22 @@
 <script type="text/javascript">
     enterForm('#enter_form', '#signinBtn');
 </script>
-<!-- Yandex.Metrika counter -->
+
+<!-- Код тега ремаркетинга Google -->
+
 <script type="text/javascript">
-    if (document.domain === 'cleverstaff.net') {
-        // google corporate data + logo
-        var LDJson = document.createElement('script');
-        LDJson.type = 'application/ld+json';
-        LDJson.text = JSON.stringify(
-            {
-                "@context": "http://schema.org",
-                "@type": "Organization",
-                "url": "https://cleverstaff.net/ru/signin.html",
-                "logo": "https://cdn-images-1.medium.com/fit/c/200/200/1*9hCuwXW2-5kCyJWV8EMKsw.png",
-                "contactPoint": [{
-                    "@type": "ContactPoint",
-                    "telephone": "+38-044-22-11-063",
-                    "contactType": "customer support",
-                    "availableLanguage": [
-                        "English",
-                        "Russian",
-                        "Ukrainian" ]
-                }]
-            });
-        document.head.appendChild(LDJson);
-        console.log(document.head);
-        // end of google corporate data + logo
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function() {
-                try {
-                    w.yaCounter27135023 = new Ya.Metrika({
-                        id:27135023,
-                        clickmap:true,
-                        trackLinks:true,
-                        accurateTrackBounce:true,
-                        webvisor:false,
-                        trackHash:true
-                    });
-                } catch(e) { }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                    s = d.createElement("script"),
-                    f = function () { n.parentNode.insertBefore(s, n); };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else { f(); }
-        })(document, window, "yandex_metrika_callbacks");
-    }
+    / <![CDATA[ /
+    var google_conversion_id = 964011751;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    / ]]> /
 </script>
-<noscript><div><img src="https://mc.yandex.ru/watch/27135023" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-<script type="text/javascript">
-    if (document.domain === 'cleverstaff.net') {
-
-    }
-    var userTimeZoneOffset = new Date().getTimezoneOffset();
-
-    function hasUrlParameterWithoutQ() {
-        var sPageURL = window.location.search.substring(1);
-        var sURLVariables = sPageURL.split('&');
-        for (var i = 0; i < sURLVariables.length; i++) {
-            var sParameterName = sURLVariables[i].split('=');
-            if (sParameterName[0] !== "q") {
-                return true;
-            }
-        }
-        return false;
-    }
-    if (hasUrlParameterWithoutQ()) {
-        var sPageURL = window.location.search.substring(1);
-        if (sPageURL && sPageURL !== '') {
-            localStorage.setItem("UTMS", sPageURL);
-        }
-    }
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
 </script>
+<noscript>
+    <div style="display:inline;">
+        <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/964011751/?guid=ON&amp;script=0"/>
+    </div>
+</noscript>
 </body>
 </html>
