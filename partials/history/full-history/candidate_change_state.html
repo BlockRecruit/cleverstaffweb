@@ -7,7 +7,7 @@
         <span once-text="history.person.lastName"></span>
     </a>
 </div>
-<div class="col-lg-10 margin-top-status">
+<div class="col-lg-10 margin-top-status" ng-if="history.candidate">
     <a title="{{'Delete comment' | translate}}" ng-show="($root.me.fullName == history.person.fullName || $root.me.recrutRole === 'admin') && history.descr" href=""
        ng-click="showDeleteComment(history)" class="pull-right removeMessage">
         <i class="fa fa-times" aria-hidden="true"></i>
@@ -28,6 +28,47 @@
         {{history.stateNew | translate}}
     </span>
     <br>
+    <span ng-show="!history.editCommentFlag" ng-bind-html="history.descr|textForNotice:false"></span>
+    <div class="textField" ng-show="history.editCommentFlag">
+        <div class="field">
+            <textarea class="editCommentArea" ng-model="history.descr"></textarea>
+        </div>
+        <div ng-click="history.editCommentFlag = false" class="btn btn-primary cancel">
+            {{'cancel'|translate}}
+        </div>
+        <div ng-click="changeComment(history)" class="btn btn-primary accept">
+            {{'save'|translate}}
+        </div>
+    </div>
+</div>
+<div class="col-lg-10 margin-top-status" ng-if="history.candidates.length">
+    <a title="{{'Delete comment' | translate}}" ng-show="($root.me.fullName == history.person.fullName || $root.me.recrutRole === 'admin') && history.descr" href=""
+       ng-click="showDeleteComment(history)" class="pull-right removeMessage">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </a>
+    <a class="pull-right editMessage" title="{{'Edit post' | translate}}" ng-show="$root.me.fullName == history.person.fullName" href="" ng-click="history.editCommentFlag = !history.editCommentFlag">
+        <i class="fa fa-pencil" aria-hidden="true"></i>
+    </a>
+
+    <span class="pull-left" ng-if="history.candidates.length <= 2"
+          translate="User changed candidates status" translate-values='{ name: history.person.firstName + history.person.lastName, href: "#/users/" + history.person.userId}'></span>
+    <span class="pull-left" ng-if="history.candidates.length > 2">
+        <span translate="User changed candidates status amount" translate-values='{ name: history.person.firstName + history.person.lastName, href: "#/users/" + history.person.userId}'></span>
+        <a ng-show="history.candidatesToShow" ng-click="toggleCandidates(history)">{{'Hide_1' | translate}}&nbsp;({{history.candidates.length}})</a>
+        <a ng-show="!history.candidatesToShow" ng-click="toggleCandidates(history)">{{'Candidates' | translate}}&nbsp;({{history.candidates.length}})</a>
+    </span>
+    &nbsp;
+
+    <a ng-show="history.candidates.length <= 2 || history.candidatesToShow" ng-repeat="candidate in history.candidates" href="#/candidates/{{candidate.localId}}">
+        <span once-text="candidate.fullName"></span>
+        <span ng-hide="$last">,</span>
+    </a>
+    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+    <span class="status {{history.stateNew}}">
+        {{'deleted' | translate}}
+    </span>
+    <br>
+
     <span ng-show="!history.editCommentFlag" ng-bind-html="history.descr|textForNotice:false"></span>
     <div class="textField" ng-show="history.editCommentFlag">
         <div class="field">

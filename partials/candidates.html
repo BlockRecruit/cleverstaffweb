@@ -584,7 +584,7 @@
                     </div>
                     <div class="col-lg-8 col-md-9 col-sm-9 hidden-xs add-in-vacancy move-right" ng-show="searchParam.searchCs">
                         <div class="action-buttons" ng-show="candidatesAddToVacancyIds.length">
-                            <a href="" title="{{'Delete candidates' | translate:{amount: candidatesAddToVacancyIds.length} }}" ng-click="deleteCandidatesModal()">
+                            <a href="" ng-if="$root.me.recrutRole != 'client' && $root.me.recrutRole != 'salesmanager'" title="{{'Delete candidates' | translate:{amount: candidatesAddToVacancyIds.length} }}" ng-click="deleteCandidatesModal()">
                                 <img src="/images/sprite/remove.png" alt="">
                             </a>
                             <a href="" title="{{'Add tags to candidate' | translate:{amount: candidatesAddToVacancyIds.length} }}" ng-show="!showTagsForMass" ng-click="showTagsForMassModal()">

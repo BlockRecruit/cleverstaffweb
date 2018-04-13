@@ -2346,5 +2346,10 @@
   "Add tags to candidate": "Add tags to {{amount}} candidates",
   "Add candidates to vacancy": "Add {{amount}} candidates to vacancy",
   "Delete candidates":"Delete {{amount}} candidates",
-  "Are you sure that you want to delete candidates":"Are you sure that you want to delete {{amount}} candidates"
+  "Are you sure that you want to delete candidates":"Are you sure that you want to delete {{amount}} candidates",
+  "Candidates were deleted":"Candidates were deleted",
+  "for candidates":"for candidates",
+  "User changed candidates status":"User <a class='user' href={{href}}>{{name}}</a> changed candidates status",
+  "User changed candidates status amount":"User <a class='user' href={{href}}>{{name}}</a> changed status for",
+  "to deleted":"to deleted"
 }

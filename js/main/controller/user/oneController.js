@@ -684,6 +684,10 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             $rootScope.commentRemoveId = resp.actionId;
         };
 
+        $scope.toggleCandidates = function(history) {
+            $scope.history[$scope.history.indexOf(history)].candidatesToShow = !$scope.history[$scope.history.indexOf(history)].candidatesToShow;
+        };
+
         $rootScope.deleteComment = function() {
             Action.removeMessageAction({
                 actionId: $rootScope.commentRemoveId

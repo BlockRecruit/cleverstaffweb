@@ -1779,18 +1779,17 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 .then(resp => {
                     if(resp.status === 'ok') {
                         $scope.tableParams.reload();
-                        console.log(resp);
-                        // Service.dynamicTableLoading(resp['total'], $scope.candidateSearchOptions.page.number, $scope.candidateSearchOptions.page.count, $scope.getCandidates);
+                        $rootScope.loading = false;
+                        notificationService.success($filter('translate')('Candidates were deleted'));
                     } else  {
                         notificationService.error(resp.message);
                     }
                 });
-
+            $rootScope.closeModal();
+        }, error => {
             $rootScope.closeModal();
             $rootScope.loading = false;
-        }, error => {
-            $rootScope.loading = false;
-            notificationService.error(resp.message);
+            notificationService.error(error.message);
         })
     };
     $scope.deleteCandidatesModal = function() {
