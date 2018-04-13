@@ -25145,17 +25145,20 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 .then(resp => {
                     $rootScope.loading = false;
                     let beforeEdit = $scope.getSelect2Group().split(",");
-                    let ul = $('ul.select2-choices li div');
-                    angular.forEach(ul, (li,index) => {
-                        if(li.innerHTML === $rootScope.tagForEdit.name) {
-                            $(`ul.select2-choices li:eq(${index})`).remove();
-                        }
-                    });
                     angular.forEach(beforeEdit, function (tagName, index) {
-                        if( tagName == $rootScope.tagForEdit.name) {
+                        if( tagName === $rootScope.tagForEdit.name) {
                             beforeEdit.splice(index,1);
+                            $scope.candidate.groups.splice(index, 1);
                             $scope.setSelect2Group(beforeEdit);
                         }
+                        $('a.select2-search-choice-edit').attr("title", $filter('translate')('Edit tag for all candidates'));
+                        $('a.select2-search-choice-edit').off().on('click',function (e) {
+                            $scope.editTagName(e.currentTarget);
+                        });
+                        $('a.select2-search-choice-remove').attr("title", $filter('translate')('Remove tag from account'));
+                        $('a.select2-search-choice-remove').off().on('click',function (e) {
+                            $scope.removeTag(e.currentTarget);
+                        });
                     });
                     $scope.closeModal();
                     notificationService.success($filter('translate')('Tag completely removed from system'));
@@ -25185,6 +25188,10 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                                 $('a.select2-search-choice-edit').attr("title", $filter('translate')('Edit tag for all candidates'));
                                 $('a.select2-search-choice-edit').off().on('click',function (e) {
                                     $scope.editTagName(e.currentTarget);
+                                });
+                                $('a.select2-search-choice-remove').attr("title", $filter('translate')('Remove tag from account'));
+                                $('a.select2-search-choice-remove').off().on('click',function (e) {
+                                    $scope.removeTag(e.currentTarget);
                                 });
                             }
                         });
