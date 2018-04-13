@@ -43,6 +43,7 @@
     <meta name="description" content="Профессиональная система для подбора персонала. Облачная и серверная версии">
     <link rel="stylesheet" href="../external/css/bootstrap.min.css">
     <link rel="stylesheet" href="../external/css/main.min.css?b11">
+    <link rel="canonical" href="https://cleverstaff.net/ru/" />
     <link rel="amphtml" href="amp.html">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <meta property="og:type" content="website" />
@@ -810,68 +811,24 @@
             fbq('init', '980245322007471');
             fbq('track', 'PageView');
             <!-- End Facebook Pixel Code -->
-
-            (function (d, w, c) {
-                (w[c] = w[c] || []).push(function () {
-                    try {
-                        w.yaCounter27135023 = new Ya.Metrika({
-                            id: 27135023,
-                            clickmap: true,
-                            trackLinks: true,
-                            accurateTrackBounce: true,
-                            webvisor: false,
-                            trackHash: true
-                        });
-                    } catch (e) {
-                    }
-                });
-
-                var n = d.getElementsByTagName("script")[0],
-                    s = d.createElement("script"),
-                    f = function () {
-                        n.parentNode.insertBefore(s, n);
-                    };
-                s.type = "text/javascript";
-                s.async = true;
-                s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-                if (w.opera == "[object Opera]") {
-                    d.addEventListener("DOMContentLoaded", f, false);
-                } else {
-                    f();
-                }
-            })(document, window, "yandex_metrika_callbacks");
         }
     });
 </script>
-<!-- /Yandex.Metrika counter -->
-<script type="text/javascript">
-        $(document).ready(function() {
-            var userTimeZoneOffset = new Date().getTimezoneOffset();
+<!-- Код тега ремаркетинга Google -->
 
-            function hasUrlParameterWithoutQ() {
-                var sPageURL = window.location.search.substring(1);
-                var sURLVariables = sPageURL.split('&');
-                for (var i = 0; i < sURLVariables.length; i++) {
-                    var sParameterName = sURLVariables[i].split('=');
-                    if (sParameterName[0] !== "q") {
-                        return true;
-                    }
-                }
-                return false;
-            }
-            if (hasUrlParameterWithoutQ()) {
-                var sPageURL = window.location.search.substring(1);
-                if (sPageURL && sPageURL !== '') {
-                    localStorage.setItem("UTMS", sPageURL);
-                }
-            }
-            makeCorsRequestNewsRu();
-        });
+<script type="text/javascript">
+    / <![CDATA[ /
+    var google_conversion_id = 964011751;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    / ]]> /
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
 </script>
 <noscript>
-    <div><img src="https://mc.yandex.ru/watch/27135023" style="position:absolute; left:-9999px;" alt="yandex"/></div>
-    <img height="1" width="1" alt="FB" style="display:none" src="https://www.facebook.com/tr?id=980245322007471&ev=PageView&noscript=1"/>
+    <div style="display:inline;">
+        <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/964011751/?guid=ON&amp;script=0"/>
+    </div>
 </noscript>
 </body>
 </html>
