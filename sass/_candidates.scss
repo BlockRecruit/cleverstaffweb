@@ -714,6 +714,24 @@
 							}
 							&:last-child {
 								margin-right: 0;
+
+								order: 1;
+							}
+							&.add-to-vacancy {
+								order: 0;
+							}
+							&.tags {
+								order: -1;
+							}
+						}
+						&.changed-placement {
+							.add-to-vacancy {
+								margin-right: 20px;
+
+								order: -2;
+							}
+							.tags {
+								margin-right: 0;
 							}
 						}
 					}
