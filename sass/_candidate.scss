@@ -142,7 +142,8 @@
 						.select2-search-choice-edit {
 							position: static;
 
-							margin: 0 5px;
+							display: block;
+							margin-left: 5px;
 						}
 						.select2-search-choice-close {
 							position: static;
@@ -159,6 +160,10 @@
 
 							background: url("/images/sprite/remove.png") center no-repeat;
 							background-size: 10px;
+							&:hover {
+								background: url("/images/sprite/remove-dark.png") center no-repeat;
+								background-size: 10px;
+							}
 						}
 					}
 				}

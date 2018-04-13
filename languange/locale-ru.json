@@ -2935,7 +2935,7 @@
   "Invite user with a role" :"Пригласить пользователя с ролью",
   "Remove tag from account":"Удаление тега из системы",
   "Are you sure want to delete tag from account?":"Уверены, что хотите удалить тег {{tagName}}?",
-  "After deleting tag, it will be removed from all candidates":"После удаления тег будет удален со всех кандидатов в системе",
+  "After deleting tag, it will be removed from all candidates":"Тег будет удален со всех кандидатов в системе",
   "Remove tag from candidate":"Удаления тега с кандидата",
   "Tag completely removed from system":"Тег полностью удален из системы"
 }
