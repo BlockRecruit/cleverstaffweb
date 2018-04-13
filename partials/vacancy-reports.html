@@ -118,7 +118,9 @@
                                             <table class="user-column-table">
                                                 <tbody>
                                                     <tr>
-                                                        <th>{{user.name}}</th>
+                                                        <th>
+                                                            <span>{{user.name}}</span>
+                                                        </th>
                                                     </tr>
                                                     <tr ng-repeat="series in usersColumn.dataArray[$index] track by $index" class="hover">
                                                         <td>{{series || "0"}}</td>
@@ -198,7 +200,7 @@
                         </div>
                     </div>
                 </div>
-                <div>
+                <div ng-hide="!userFunnelData.userSeries.length && statistics.type === 'userFunnel'">
                     <a style="display: none;" id="downloadPDF"></a>
                     <div class="text-center">
                         <a type="button" ng-click="downloadPDF()" class="btn btn-primary accept">
