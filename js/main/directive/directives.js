@@ -4501,7 +4501,21 @@ directive('appVersion', ['version', function(version) {
             }
         }
     }])
-    .directive("customSelect",setCustomSelect);
+    .directive("customSelect",setCustomSelect)
+    .directive("errorPopup", removePopUp);
+
+function removePopUp(notificationService, $translate){
+    let restrict  = "EACM";
+        return {
+        restrict,
+        link(scope, element, attrs){
+            element[0].onclick = function () {
+                notificationService.error($translate.instant(this.dataset.error));
+            };
+        }
+    }
+}
+
 function setCustomSelect($rootScope){
     let restrict  = "EACM",
         scope = {

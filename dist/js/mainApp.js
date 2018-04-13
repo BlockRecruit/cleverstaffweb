@@ -4501,7 +4501,21 @@ directive('appVersion', ['version', function(version) {
             }
         }
     }])
-    .directive("customSelect",setCustomSelect);
+    .directive("customSelect",setCustomSelect)
+    .directive("errorPopup", removePopUp);
+
+function removePopUp(notificationService, $translate){
+    let restrict  = "EACM";
+        return {
+        restrict,
+        link(scope, element, attrs){
+            element[0].onclick = function () {
+                notificationService.error($translate.instant(this.dataset.error));
+            };
+        }
+    }
+}
+
 function setCustomSelect($rootScope){
     let restrict  = "EACM",
         scope = {
@@ -11502,6 +11516,12 @@ angular.module('services.pay', [
                     params: {
                         param: "deleteOutlookCalendar"
                     }
+                },
+                removeUser : {
+                    method: "get",
+                    params: {
+                        param: "removeUser"
+                    }
                 }
 
             });
@@ -11509,6 +11529,13 @@ angular.module('services.pay', [
          $rootScope.loading = true;
          return new Promise((resolve, reject) => {
              person.getAllPersons(resp => resolve(resp, resp['request'] = 'AllPersons'),error => reject(error));
+         });
+     };
+
+     person.requestRemoveUser = function (params) {
+         $rootScope.loading = true;
+         return new Promise((resolve, reject) => {
+             person.removeUser(params, resp => resolve(resp), error => reject(error));
          });
      };
 
@@ -26676,24 +26703,6 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.candidateLength = $rootScope.objectSize || localStorage.getItem('objectSize');
         $scope.currentIndex = sliderElements.nextElement.cacheCurrentPosition + 1 ||  (+localStorage.getItem('numberPage')) +  1;
 
-        function showModalRemoveCandidate() {
-            $scope.modalInstance = $uibModal.open({
-                animation: true,
-                templateUrl: '../partials/modal/remove-candidate-full.html',
-                scope:$scope,
-                size: 'lg',
-                backdrop: 'static',
-                keyboard: false,
-            });
-        }
-
-        function removeCandidates(candidateID){
-
-        }
-
-        $scope.showModalRemoveCandidate = showModalRemoveCandidate;
-        $scope.removeCandidates = removeCandidates;
-
         ///////////////////////////////////////////////////////////////End of Sent Email candidate
     }]);
 
@@ -34163,6 +34172,33 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 $('.popover').remove('.popover');
             }
         });
+
+
+        function showModalRemoveCandidate() {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/remove-candidate-full.html',
+                scope:$scope,
+                size: 'lg',
+                backdrop: 'static',
+                keyboard: false,
+            });
+        }
+
+        function successRemoveCadidate(resp) {
+            notificationService.success(`${$translate.instant('user')} ${$scope.user.fullName} ${$translate.instant('has been successfully removed from your account')}`)
+            $location.path('/company/users');
+            $rootScope.loading = false;
+            $scope.$apply();
+        }
+
+        function removeCandidates(){
+            Person.requestRemoveUser({userId:$routeParams.id})
+                .then(successRemoveCadidate)
+        }
+
+        $scope.showModalRemoveCandidate = showModalRemoveCandidate;
+        $scope.removeCandidates = removeCandidates;
     }
 ]);
 

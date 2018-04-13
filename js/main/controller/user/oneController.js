@@ -764,5 +764,32 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 $('.popover').remove('.popover');
             }
         });
+
+
+        function showModalRemoveCandidate() {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/remove-candidate-full.html',
+                scope:$scope,
+                size: 'lg',
+                backdrop: 'static',
+                keyboard: false,
+            });
+        }
+
+        function successRemoveCadidate(resp) {
+            notificationService.success(`${$translate.instant('user')} ${$scope.user.fullName} ${$translate.instant('has been successfully removed from your account')}`)
+            $location.path('/company/users');
+            $rootScope.loading = false;
+            $scope.$apply();
+        }
+
+        function removeCandidates(){
+            Person.requestRemoveUser({userId:$routeParams.id})
+                .then(successRemoveCadidate)
+        }
+
+        $scope.showModalRemoveCandidate = showModalRemoveCandidate;
+        $scope.removeCandidates = removeCandidates;
     }
 ]);

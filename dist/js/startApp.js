@@ -6972,6 +6972,12 @@ angular.module('services.notice', [
                     params: {
                         param: "deleteOutlookCalendar"
                     }
+                },
+                removeUser : {
+                    method: "get",
+                    params: {
+                        param: "removeUser"
+                    }
                 }
 
             });
@@ -6979,6 +6985,13 @@ angular.module('services.notice', [
          $rootScope.loading = true;
          return new Promise((resolve, reject) => {
              person.getAllPersons(resp => resolve(resp, resp['request'] = 'AllPersons'),error => reject(error));
+         });
+     };
+
+     person.requestRemoveUser = function (params) {
+         $rootScope.loading = true;
+         return new Promise((resolve, reject) => {
+             person.removeUser(params, resp => resolve(resp), error => reject(error));
          });
      };
 

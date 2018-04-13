@@ -323,6 +323,7 @@
              person.getAllPersons(resp => resolve(resp, resp['request'] = 'AllPersons'),error => reject(error));
          });
      };
+
      person.requestRemoveUser = function (params) {
          $rootScope.loading = true;
          return new Promise((resolve, reject) => {

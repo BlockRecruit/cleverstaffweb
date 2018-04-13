@@ -2361,5 +2361,9 @@
   "Сandidates in stages": "Сandidates in stages",
   "Invite user with a role" :"Invite user with a role",
   "The filter allows you to pick the users who performed any activities on vacancies.": "The filter allows you to pick the users who performed any activities on vacancies.",
-  "Delete user":"Delete user"
+  "Delete user":"Delete user",
+  "has been successfully removed from your account":"has been successfully removed from your account",
+  "was removed from the account":"was removed from the account",
+  "User deleted from account":"User deleted from account",
+  "byUser":"users"
 }

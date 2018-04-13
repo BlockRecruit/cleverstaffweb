@@ -2959,5 +2959,9 @@
   "Сandidates in stages": "Кандидаты на этапах",
   "Invite user with a role" :"Пригласить пользователя с ролью",
   "The filter allows you to pick the users who performed any activities on vacancies.": "Фильтр позволяет выбрать определенных пользователей, которые совершали какие-либо действия по вакансиям.",
-  "Delete user":"Удалить пользователя"
+  "Delete user":"Удалить пользователя",
+  "has been successfully removed from your account":"удален из аккаунта",
+  "was removed from the account":"был удален из аккаунта",
+  "User deleted from account":"Пользователь был удален из аккаунта",
+  "byUser":"пользователем"
 }

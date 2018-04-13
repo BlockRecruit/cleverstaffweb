@@ -1542,14 +1542,20 @@
 		}
 	}
 }
+
+.block-remove-candidate {
+	position: absolute;
+	top: 100%;
+
+	width: 100%;
+}
+
 .remove-candidate {
 	margin-top: 17px;
-	.remove-candidate-button,
-	.remove-candidate-button-cansel {
+	.remove-candidate-button {
 		font-weight: bold;
 
 		display: inline-block;
-		width: 200px;
 		padding: 13px 16px;
 
 		cursor: pointer;
@@ -1564,9 +1570,20 @@
 		}
 	}
 	.remove-candidate-button-cansel {
+		font-weight: bold;
+
+		display: inline-block;
+		width: 200px;
+		padding: 13px 16px;
+
+		cursor: pointer;
+
+		color: black;
+		border-radius: 26.5px;
 		background-color: rgb(153, 153, 153);
 	}
 }
+
 .main-block {
 	position: relative;
 	z-index: 99;
