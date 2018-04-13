@@ -403,7 +403,7 @@
 			}
 			#from {
 				display: inline-block;
-				width: 65%;
+				width: 85%;
 			}
 			.from {
 				padding-top: 7px;
@@ -413,13 +413,14 @@
 				.name,
 				.mail {
 					width: 38%;
-					padding: 5px;
+					padding: 6px 12px;
 
 					border: 1px solid #eee;
 					border-radius: 5px;
 				}
 				.fa-pencil {
-					margin-left: 35px;
+					margin-right: 35px;
+					margin-left: 10px;
 
 					color: $theme-green;
 					&:hover {
@@ -428,6 +429,16 @@
 						color: $theme-green-hover;
 					}
 				}
+				.form-control {
+					display: inline-block;
+					width: 38%;
+				}
+			}
+			.no-mailboxes {
+				display: inline-block;
+				width: 50%;
+				margin: 0;
+				padding: 6px 12px;
 			}
 			.from-editable {
 				& > div {

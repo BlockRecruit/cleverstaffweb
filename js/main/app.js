@@ -516,6 +516,7 @@ angular.module('RecruitingApp', [
         name: 'mailing-preview',
         component: 'preview'
     },{
+        url: "/mailings",
         name: 'mailings-saved',
         component: 'saved'
     },{

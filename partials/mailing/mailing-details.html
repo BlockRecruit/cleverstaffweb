@@ -16,7 +16,7 @@
                 <button class="cancel-button" history-back translate="cancel"></button>
                 <button class="orange-button" ng-click="toTheEditor()" ng-show="candidatesForMailing.length > 0" translate="Next"></button>
             </div>
-            <div class="pull-right empty-emails alert alert-danger" ng-translate="there is some candidates without email" ng-show="emptyEmails.count > 0">
+            <div class="pull-right empty-emails alert alert-danger" ng-show="emptyEmails.count > 0">
                 <span translate="There are candidate in the list without email" ng-show="emptyEmails.translateType === 0"></span>
                 <span translate="There are candidates in the list without email" translate-values="{count: emptyEmails.count}" ng-show="emptyEmails.translateType === 1"></span>
                 <span translate="There are candidates in the list without email _1" translate-values="{count: emptyEmails.count}" ng-show="emptyEmails.translateType === 2"></span>

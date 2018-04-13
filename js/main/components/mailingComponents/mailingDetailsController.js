@@ -35,7 +35,7 @@ component.component('mDetails', {
             $scope.fromMail = $scope.mailingDetails.fromMail;
         } else {
             $scope.fromName = $rootScope.me.fullName;
-            $scope.fromMail = $rootScope.me.login;
+            $scope.fromMail = "";
             for(let i = $scope.candidatesForMailing.length - 1; i >= 0; i-- ) {
                 if($scope.candidatesForMailing[i].candidateId.email)
                     $scope.candidatesForMailing[i].candidateId.email = $scope.candidatesForMailing[i].candidateId.email.split(regForMailSplit)[0];

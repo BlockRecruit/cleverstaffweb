@@ -12571,10 +12571,21 @@ angular.module('services.mailing',[]
 
 
     service.getUserEmailsWithMailingEnabled = function () {
-        Person.personEmails({"type": "all"},(resp)=> {
-            console.log('resp', resp)
-        }, (error)=> {
-
+        let mailBoxes = [];
+        return new Promise((resolve, reject) => {
+            Person.personEmails({"type": "all"},(resp)=> {
+                if(resp.status !== 'error' && resp.objects) {
+                    for(let i = 0; i < resp.objects.length; i++) {
+                        mailBoxes.push(resp.objects[i].email);
+                    }
+                    resolve(mailBoxes);
+                } else {
+                    notificationService.error(resp.message);
+                    reject(resp.code);
+                }
+            }, (error)=> {
+                reject();
+            });
         });
     };
 
@@ -16405,6 +16416,7 @@ angular.module('RecruitingApp', [
         name: 'mailing-preview',
         component: 'preview'
     },{
+        url: "/mailings",
         name: 'mailings-saved',
         component: 'saved'
     },{
@@ -47275,7 +47287,7 @@ component.component('mDetails', {
             $scope.fromMail = $scope.mailingDetails.fromMail;
         } else {
             $scope.fromName = $rootScope.me.fullName;
-            $scope.fromMail = $rootScope.me.login;
+            $scope.fromMail = "";
             for(let i = $scope.candidatesForMailing.length - 1; i >= 0; i-- ) {
                 if($scope.candidatesForMailing[i].candidateId.email)
                     $scope.candidatesForMailing[i].candidateId.email = $scope.candidatesForMailing[i].candidateId.email.split(regForMailSplit)[0];
@@ -47586,30 +47598,48 @@ component.component('mDetails', {
         }
     }
 });
-controller.controller('mailingEditorController', ['$scope', '$rootScope','$localStorage', 'notificationService','$filter', '$uibModal', 'Mailing', ]);
+controller.controller('mailingEditorController', ['$scope', '$rootScope','$localStorage', '$timeout', 'notificationService','$filter', '$uibModal', 'Mailing', ]);
 component.component('editor', {
     templateUrl: "partials/mailing/mailing-editor.html",
-    controller: function ($scope, $rootScope, $localStorage, notificationService, $filter, $uibModal, Mailing) {
+    controller: function ($scope, $rootScope, $localStorage, $timeout, notificationService, $filter, $uibModal, Mailing) {
         $scope.emailText = '';
+        $scope.senderEmail = {};
         let emailDetails = Mailing.getMailingDetails();
+
+        Mailing.getUserEmailsWithMailingEnabled().then((mailBoxes) => {
+            $timeout(()=>{
+                $scope.senderEmail.mailBoxes = mailBoxes;
+                if(emailDetails && emailDetails.fromMail) {
+                    $scope.senderEmail.selectedMailBox = emailDetails.fromMail;
+                } else {
+                    if($scope.senderEmail.mailBoxes && $scope.senderEmail.mailBoxes.length > 0) {
+                        $scope.senderEmail.selectedMailBox = $scope.senderEmail.mailBoxes[0]
+                    }
+                }
+            },0);
+            console.log('availableEmails',$scope.senderEmail.mailBoxes)
+        }, (error) => {
+            console.log('Error in getUserEmailsWithMailingEnabled: ',error);
+            notificationService.error($filter('translate')('service temporarily unvailable'));
+        });
+
+
         if(emailDetails && emailDetails.text) {
             $scope.emailText = emailDetails.text;
             $scope.topic = emailDetails.name;
             $scope.fromName = emailDetails.fromName;
-            $scope.fromMail = emailDetails.fromMail;
         } else {
             $scope.fromName = $rootScope.me.fullName;
-            $scope.fromMail = $rootScope.me.login;
         }
+
 
         $scope.saveMailing = function () {
             changeStep('save');
         };
 
 
-        $scope.editFromEmail = function () {
+        $scope.editSenderName = function () {
             $scope.editFromName = true;
-            $scope.fromMailEdit = $scope.fromMail;
             $scope.fromNameEdit = $scope.fromName;
         };
 
@@ -47619,21 +47649,15 @@ component.component('editor', {
         };
 
 
-        $scope.saveFromEmail = function () {
-            if($scope.fromMailEdit != $scope.fromMail || $scope.fromNameEdit != $scope.fromName) {
+        $scope.saveFromName = function () {
+            if($scope.fromNameEdit != $scope.fromName) {
                 if($scope.fromNameEdit.length > 0 ) {
-                    if (Mailing.emailValidation($scope.fromMailEdit)) {
-                        $scope.fromMail = $scope.fromMailEdit;
-                        $scope.fromName = $scope.fromNameEdit;
-                        $scope.editFromName = false;
-                    } else {
-                        notificationService.error($filter('translate')('wrong_email'));
-                    }
+                    $scope.fromName = $scope.fromNameEdit;
+                    $scope.editFromName = false;
                 } else {
                     notificationService.error($filter('translate')('enter_first_name'));
                 }
             } else {
-                $scope.fromMail = $scope.fromMailEdit;
                 $scope.fromName = $scope.fromNameEdit;
                 $scope.editFromName = false;
             }
@@ -47669,7 +47693,7 @@ component.component('editor', {
             } else {
                 $rootScope.loader = true;
                 if(step === "details" || $scope.emailText) {
-                    Mailing.editorChangeStep($scope.emailText, $scope.topic, $scope.fromName, $scope.fromMail, step).then(results => {
+                    Mailing.editorChangeStep($scope.emailText, $scope.topic, $scope.fromName, $scope.senderEmail.selectedMailBox, step).then(results => {
                         $rootScope.loader = false;
                         if(step == 'save') {
                             Mailing.afterSending();
@@ -47682,7 +47706,8 @@ component.component('editor', {
                     notificationService.error($filter('translate')('Enter the text of the letter'))
                 }
             }
-        };
+        }
+
 
         Mailing.makeStepClickable(3);
         $('#step_3').unbind().on('click', $scope.toPreview);
@@ -47692,7 +47717,7 @@ component.component('editor', {
 
 
     }
-})
+});
 controller.controller('mailingPreviewController', ['$scope', '$rootScope', 'notificationService', '$localStorage', '$filter', '$uibModal','$state', '$location', 'Mailing', 'Account', 'Person']);
 component.component('preview', {
     templateUrl: "partials/mailing/mailing-preview.html",

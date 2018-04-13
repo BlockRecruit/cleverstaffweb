@@ -922,10 +922,21 @@ angular.module('services.mailing',[]
 
 
     service.getUserEmailsWithMailingEnabled = function () {
-        Person.personEmails({"type": "all"},(resp)=> {
-            console.log('resp', resp)
-        }, (error)=> {
-
+        let mailBoxes = [];
+        return new Promise((resolve, reject) => {
+            Person.personEmails({"type": "all"},(resp)=> {
+                if(resp.status !== 'error' && resp.objects) {
+                    for(let i = 0; i < resp.objects.length; i++) {
+                        mailBoxes.push(resp.objects[i].email);
+                    }
+                    resolve(mailBoxes);
+                } else {
+                    notificationService.error(resp.message);
+                    reject(resp.code);
+                }
+            }, (error)=> {
+                reject();
+            });
         });
     };
 

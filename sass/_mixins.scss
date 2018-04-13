@@ -382,7 +382,7 @@
 	}
 }
 @mixin option-tab {
-	padding: 15px;
+	padding: 10px 15px;
 
 	background-color: white;
 	.active {
@@ -392,8 +392,10 @@
 		}
 	}
 	& > div {
-		display: inline-block;
+		display: flex;
 		width: 49%;
+
+		align-items: center;
 	}
 	&  a {
 		font-weight: 600;
