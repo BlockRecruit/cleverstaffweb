@@ -632,8 +632,13 @@
 				}
 			}
 			.addCandidatesInVacancy {
+				display: flex;
+				flex-direction: row;
 				margin-bottom: 15px;
 				padding-left: 4px;
+
+				justify-content: center;
+				align-items: center;
 				.addTagsCandidateForMass {
 					max-width: 280px;
 					margin: -5px 0 0 0;
@@ -653,6 +658,8 @@
 					}
 					label {
 						font-weight: normal;
+
+						margin-bottom: 0;
 					}
 					select {
 						@include select-styling();
@@ -700,7 +707,7 @@
 							margin-right: 20px;
 							img {
 								width: auto;
-								height: 21px;
+								height: 32px;
 								&:hover {
 									transform: scale(1.1, 1.1);
 								}

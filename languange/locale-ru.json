@@ -2936,7 +2936,7 @@
   "Add tags to candidate": "Добавить теги {{amount}} кандидатам",
   "Add candidates to vacancy": "Добавить в вакансию {{amount}} кандидатов",
   "Delete candidates":"Удалить {{amount}} кандидатов",
-  "Are you sure that you want to delete candidates":"Вы действительно хотите удалить {{amount}} кандидатов",
+  "Are you sure that you want to delete candidates":"Вы действительно хотите удалить {{amount}} кандидатов?",
   "Candidates were deleted": "Кандидаты были удалены",
   "for candidates":"по кандидатам",
   "User changed candidates status":"Пользователь <a class='user' href={{href}}>{{name}}</a> изменил статус кандидатов",

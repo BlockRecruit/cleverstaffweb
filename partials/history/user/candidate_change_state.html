@@ -51,7 +51,7 @@
           translate="User changed candidates status" translate-values='{ name: history.person.firstName + history.person.lastName, href: "#/users/" + history.person.userId}'></span>
     <span ng-if="history.candidates.length > 2">
         <span translate="User changed candidates status amount" translate-values='{ name: history.person.firstName + history.person.lastName, href: "#/users/" + history.person.userId}'></span>
-        <a ng-show="history.candidatesToShow" ng-click="toggleCandidates(history)">{{'Hide_1' | translate}}&nbsp;({{history.candidates.length}})</a>
+        <!--<a ng-show="history.candidatesToShow" ng-click="toggleCandidates(history)">{{'Hide_1' | translate}}&nbsp;({{history.candidates.length}})</a>-->
         <a ng-show="!history.candidatesToShow" ng-click="toggleCandidates(history)">{{'Candidates' | translate}}&nbsp;({{history.candidates.length}})</a>
     </span>
     &nbsp;
