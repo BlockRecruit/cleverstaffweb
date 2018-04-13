@@ -70,7 +70,7 @@
                 <div id="funnel">
                     <div style="min-height:150px">
                         <div class="funnel" ng-hide="!userFunnelData.userSeries.length && statistics.type === 'userFunnel'">
-                            <table class="funnel-table no-caption">
+                            <table class="funnel-table no-caption no-border">
                                 <tbody>
                                     <tr>
                                         <th translate="Stages"></th>
@@ -80,7 +80,7 @@
                                             <div class="line"></div>
                                         </td>
                                     </tr>
-                                    <tr ng-repeat="stage in vacancyFunnelMap track by $index" class="hover">
+                                    <tr ng-repeat="stage in vacancyFunnelMap track by $index" class="hover" title="{{stage.key | translate}}">
                                         <td>
                                             <span class="vertical-align">{{stage.key | translate}}</span>
                                             <div ng-class="{'last': $last}" class="line"></div>
@@ -95,7 +95,7 @@
                                 <canvas ng-show="statistics.type === 'userFunnel'" class="abs" id="userFunnel"></canvas>
                                 <canvas id="buffer"></canvas>
                             </div>
-                            <table class="funnel-table" ng-show="statistics.type === 'default' && hasFunnelChart">
+                            <table class="funnel-table general-conversion" ng-show="statistics.type === 'default' && hasFunnelChart">
                                 <caption translate="Conversion for vacancy" class="conversion"></caption>
                                 <tbody>
                                     <tr>
@@ -119,7 +119,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <th>
-                                                            <span>{{user.name}}</span>
+                                                            <span class="user-name">{{user.name}}</span>
                                                         </th>
                                                     </tr>
                                                     <tr ng-repeat="series in usersColumn.dataArray[$index] track by $index" class="hover">

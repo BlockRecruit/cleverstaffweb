@@ -320,6 +320,7 @@
 						tbody {
 							border: 1px solid #ccc;
 							border-top: none;
+							background-color: #e3f2dd;
 							tr {
 								height: 30px;
 
@@ -331,6 +332,8 @@
 
 									text-align: center;
 									vertical-align: top;
+
+									border-bottom: 1px solid #ccc;
 								}
 								td {
 									text-align: center;
@@ -387,6 +390,7 @@
 						&.users-table {
 							margin-left: 40px;
 							tbody {
+								background-color: #f5f5f5;
 								tr {
 									th {
 										width: 70px;
@@ -408,6 +412,36 @@
 												white-space: nowrap;
 
 												border: none;
+												border-bottom: 1px solid #ccc;
+												.user-name {
+													line-height: 1.2em;
+
+													position: relative;
+
+													overflow: hidden;
+													max-height: 2.4em;
+													margin-right: -1em;
+													padding-right: 1em;
+
+													text-align: justify;
+													&:before {
+														position: absolute;
+														right: 0;
+														bottom: 0;
+
+														content: "...";
+													}
+													&:after {
+														position: absolute;
+														right: 0;
+
+														width: 1em;
+														height: 1em;
+														margin-top: 0.2em;
+
+														content: "";
+													}
+												}
 											}
 											td {
 												border: none;
@@ -419,15 +453,28 @@
 						}
 						&.user-table {
 							margin-left: 30px;
+							tbody {
+								background-color: #f5f5f5;
+							}
 						}
 						&.no-caption {
 							min-width: 165px;
+							max-width: 200px;
 							margin: 60px 10px 0 0;
 							tbody {
 								border: none;
+								background-color: #fff;
 								tr {
 									td {
 										position: relative;
+										span {
+											display: inline-block;
+											overflow: hidden;
+											width: 200px;
+
+											white-space: nowrap;
+											text-overflow: ellipsis;
+										}
 									}
 								}
 							}
@@ -451,6 +498,27 @@
 							td {
 								.line {
 									width: 150px;
+								}
+							}
+						}
+						&.general-conversion {
+							tbody {
+								tr {
+									th {
+										border-right: 1px solid #ccc;
+										&:last-child {
+											border-right: none;
+										}
+									}
+								}
+							}
+						}
+						&.no-border {
+							tbody {
+								tr {
+									th {
+										border-bottom: none;
+									}
 								}
 							}
 						}
