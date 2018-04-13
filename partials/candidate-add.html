@@ -209,15 +209,37 @@
                     <form name="candidateForm" ng-submit="submitForm()" novalidate>
                         <div class="main-info col-lg-12 col-md-12">
                             <div class="col-lg-4 col-md-4">
-                                <div class="item">
-                                    <label>{{'full_name'|translate}}*</label>
-                                    <input ng-maxlength="50" placeholder="" ng-class="{'error': candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.required == true || (candidate.fullName.length > 0 && dublicetesTypeName)}" name="name" ng-model="candidate.fullName" type="text" required ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()">
-                                    <!--<input ng-maxlength="50" placeholder="" ng-change="checkDuplicatesByName()" ng-class="{'error': candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.required == true || duplicatesByName.length > 0}" name="name" ng-model="candidate.fullName" type="text" required ng-change="progressUpdate()" ng-blur="checkDuplicatesByName()">-->
-                                    <div class="alert alert-danger" ng-show="candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.required == true">
-                                        {{'enter_candidate_name'|translate}}
+
+                                <span ng-click="swapFields()">SWAP</span>
+                                <div class="item" id="box-swap">
+                                    <div class="col-lg-12" style="margin: 0px;padding: 0px;">
+                                        <label>{{'first_name'|translate}}*</label>
+                                        <input ng-maxlength="50" placeholder="" ng-class="{'error': candidateForm.firstName.$invalid && !candidateForm.firstName.$pristine && candidateForm.name.$error.required == true || (candidate.firstName.length > 0 && dublicetesTypeName)}" name="firstName" ng-model="candidate.firstName" type="text" required ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()">
+                                        <div class="alert alert-danger" ng-show="candidateForm.firstName.$invalid && !candidateForm.firstName.$pristine && candidateForm.firstName.$error.required == true">
+                                            {{'enter_candidate_name'|translate}}
+                                        </div>
+                                        <div class="alert alert-danger"
+                                             ng-show="candidateForm.firstName.$invalid && !candidateForm.firstName.$pristine && candidateForm.firstName.$error.maxlength == true">
+                                            {{'text_should_be_no_longer_than_50_characters'|translate}}
+                                        </div>
                                     </div>
+                                    <div class="col-lg-12" style="margin: 0px;padding: 0px;">
+                                        <label>{{'last_name'|translate}}*</label>
+                                        <input ng-maxlength="50" placeholder="" ng-class="{'error': candidateForm.lastName.$invalid && !candidateForm.lastName.$pristine && candidateForm.lastName.$error.required == true || (candidate.lastName.length > 0 && dublicetesTypeName)}" name="lastName" ng-model="candidate.lastName" type="text" required ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()">
+                                        <div class="alert alert-danger" ng-show="candidateForm.lastName.$invalid && !candidateForm.lastName.$pristine && candidateForm.lastName.$error.required == true">
+                                            {{'enter_last_name_candidate'|translate}}
+                                        </div>
+                                        <div class="alert alert-danger"
+                                             ng-show="candidateForm.lastName.$invalid && !candidateForm.lastName.$pristine && candidateForm.lastName.$error.maxlength == true">
+                                            {{'text_should_be_no_longer_than_50_characters'|translate}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <label>{{'middle_name'|translate}}*</label>
+                                    <input ng-maxlength="50" placeholder="" name="middleName" ng-model="candidate.middleName" type="text"  ng-blur="checkDuplicatesByNameAndContacts()">
                                     <div class="alert alert-danger"
-                                         ng-show="candidateForm.name.$invalid && !candidateForm.name.$pristine && candidateForm.name.$error.maxlength == true">
+                                         ng-show="andidateForm.name.$error.maxlength">
                                         {{'text_should_be_no_longer_than_50_characters'|translate}}
                                     </div>
                                 </div>

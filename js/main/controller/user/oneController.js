@@ -764,5 +764,6 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 $('.popover').remove('.popover');
             }
         });
+
     }
 ]);

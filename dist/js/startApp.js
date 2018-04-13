@@ -3896,7 +3896,8 @@ angular.module('services.candidate', [
                     skype: $scope.contacts.skype,
                     linkedInUrl: $scope.contacts.linkedin,
                     phone: $scope.addPhone,
-                    fullName: $scope.candidate.fullName
+                    firstName: $scope.candidate.fullName,
+                    lastName: $scope.candidate.lastName
                 }, function (res) {
                     $scope.duplicatesByNameAndContacts = [];
                     //$rootScope.loading = false;

@@ -6492,7 +6492,8 @@ angular.module('services.candidate', [
                     skype: $scope.contacts.skype,
                     linkedInUrl: $scope.contacts.linkedin,
                     phone: $scope.addPhone,
-                    fullName: $scope.candidate.fullName
+                    firstName: $scope.candidate.fullName,
+                    lastName: $scope.candidate.lastName
                 }, function (res) {
                     $scope.duplicatesByNameAndContacts = [];
                     //$rootScope.loading = false;
@@ -22539,6 +22540,11 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             }
         };
 
+        $scope.swapFields = function () {
+            let boxSwap  = document.querySelector('#box-swap').children;
+                boxSwap[1].after(boxSwap[0]);
+        };
+
     }]);
 
 controller.controller('CandidateLINKController',["$localStorage", "$translate", "Service", "$scope", "ngTableParams", "Candidate", "$location", "$rootScope", "$filter", "$cookies", "serverAddress",
@@ -34146,6 +34152,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 $('.popover').remove('.popover');
             }
         });
+
     }
 ]);
 
