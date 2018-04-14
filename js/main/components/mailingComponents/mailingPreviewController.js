@@ -25,12 +25,12 @@ component.component('preview', {
 
 
         $scope.editMessage = function () {
-            Mailing.setStep('mailing-editor');
+            Mailing.setStep('mailing.editor');
         };
 
 
         $scope.editDetails = function () {
-            Mailing.setStep("mailing-details");
+            Mailing.setStep("mailing.details");
         };
 
 

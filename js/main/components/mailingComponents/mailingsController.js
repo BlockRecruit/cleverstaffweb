@@ -2,7 +2,7 @@ component.component('mailings', {
    templateUrl: "partials/mailing/mailings.html",
     controller: function ($scope, $localStorage, $rootScope, $state, $timeout, $filter, $transitions, $uibModal, Mailing, Person) {
         $scope.savedMailings = [];
-        let isPreviousSentMailings = $rootScope.previousLocation?$rootScope.previousLocation.indexOf('mailing-sent')!=-1:false;
+        let isPreviousSentMailings = $rootScope.previousLocation?$rootScope.previousLocation.indexOf('mailing/sent')!=-1:false;
         let defaultBreadcrumbs = [
             {
                 href: '#/candidates',
@@ -40,9 +40,9 @@ component.component('mailings', {
         $rootScope.breadCrumbs = storedBreadcrumbs?JSON.parse(storedBreadcrumbs):defaultBreadcrumbs;
 
         if(isPreviousSentMailings) {
-            $state.go('mailings-sent');
+            $state.go('mailings.sent');
         } else {
-            $state.go('mailings-saved');
+            $state.go('mailings.saved');
         }
 
 

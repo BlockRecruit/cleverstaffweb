@@ -501,13 +501,17 @@ angular.module('RecruitingApp', [
     //     .otherwise({redirectTo: '/organizer'});
 
     let states = [{
-        name: 'mailing-details',
+        url: "/mailing",
+        name: 'mailing',
+        component: 'mailing'
+    },{
+        name: 'mailing.details',
         component: 'mDetails'
     },{
-        name: 'mailing-editor',
+        name: 'mailing.editor',
         component: 'editor'
     },{
-        name: 'mailing-preview',
+        name: 'mailing.preview',
         component: 'preview'
     },{
         url: "/mailings",
@@ -518,9 +522,13 @@ angular.module('RecruitingApp', [
         name: 'mailings.saved',
         component: 'saved'
     },{
-        url: "/saved",
+        url: "/sent",
         name: 'mailings.sent',
-        component: 'sent'
+        component: 'mailingsSent'
+    },{
+        url: "/sent-mailing",
+        name: 'sent-mailing',
+        component: 'mailingSent'
     }];
     states.forEach((state) => {
         $stateProvider.state(state);

@@ -6,7 +6,7 @@
                 <h3 translate="Create & send the email campaign"></h3>
             </div>
         </div>
-        <form class="form-horizontal inner-name" ng-show="includes('mailing-details')">
+        <form class="form-horizontal inner-name" ng-show="includes('mailing.details')">
             <div class="form-group">
                 <div class="internal-input_label">
                     <label class="control-label" for="internal-name">
@@ -20,7 +20,7 @@
                 </div>
             </div>
         </form>
-        <div class="row" ng-show="includes('mailing-editor') || includes('mailing-preview')">
+        <div class="row" ng-show="includes('mailing.editor') || includes('mailing.preview')">
             <div class="col-lg-12">
                 <h4 ng-bind="internalName"></h4>
             </div>
@@ -28,11 +28,11 @@
         <div class="row steps-row">
             <div class="col-lg-10 steps col-lg-offset-1">
                 <div class="text-center step clickable" id="step_1" ui-sref-active="active" > <i class="mailing-detail-icon"></i><b>{{'Step'|translate}} 1.</b> {{'Choose candidates'|translate}} <i class="sprite-arrow-detail"></i><a
-                        ui-sref="mailing-details"></a></div>
+                        ui-sref="mailing.details"></a></div>
                 <div class="text-center step clickable"  id="step_2" ui-sref-active="active" > <i class="email-text-icon"></i><b>{{'Step'|translate}} 2.</b> {{'Email text composition'|translate}} <i class="sprite-arrow-email"></i><a
-                        ui-sref="mailing-editor"></a></div>
+                        ui-sref="mailing.editor"></a></div>
                 <div class="text-center step" id="step_3" ui-sref-active="active" > <i class="preview-icon"></i><b>{{'Step'|translate}} 3.</b> {{'Preview and sending'|translate}}
-                    <a ui-sref="mailing-preview"></a></div>
+                    <a ui-sref="mailing.preview"></a></div>
             </div>
         </div>
     </div>

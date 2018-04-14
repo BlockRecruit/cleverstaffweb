@@ -1,4 +1,4 @@
-component.component('sent', {
+component.component('mailingsSent', {
     templateUrl: "partials/mailing/mailings-sent.html",
     controller: function ($scope, $rootScope, $timeout, $anchorScroll , $localStorage, notificationService, $filter, $uibModal, ngTableParams, Mailing, Service) {
         $scope.a = {};

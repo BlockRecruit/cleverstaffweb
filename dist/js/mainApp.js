@@ -11741,10 +11741,10 @@ angular.module('services.mailing',[]
 
     service.getCurrentStep = function () {
         try {
-            return JSON.parse($localStorage.get('currentStep')) || "mailing-details";
+            return JSON.parse($localStorage.get('currentStep')) || "mailing.details";
         } catch (err){
             console.log('Error in parse JSON service.currentStep', err);
-            return "mailing-details";
+            return "mailing.details";
         }
     };
 
@@ -11787,7 +11787,7 @@ angular.module('services.mailing',[]
         $localStorage.remove('subscriberListParams');
         $localStorage.remove('currentStep');
         $localStorage.remove('stepClickable');
-        service.setStep("mailing-details");
+        service.setStep("mailing.details");
         $location.url("/mailing");
     };
 
@@ -11911,7 +11911,7 @@ angular.module('services.mailing',[]
             } else {
                 $rootScope.loading = false;
                 if(goToEditor)
-                    service.setStep('mailing-editor');
+                    service.setStep('mailing.editor');
             }
         }
         function saveNewList() {
@@ -11928,7 +11928,7 @@ angular.module('services.mailing',[]
                         result => {
                             notificationService.success($filter('translate')('Changes are saved'));
                             if(goToEditor)
-                                service.setStep('mailing-editor');
+                                service.setStep('mailing.editor');
                         },
                         error => {
                             console.log('Error: /createCompaign ' + error.status + ' ' + error.statusText);
@@ -11961,7 +11961,7 @@ angular.module('services.mailing',[]
                         result => {
                             notificationService.success($filter('translate')('Changes are saved'));
                             if(goToEditor)
-                                service.setStep('mailing-editor');
+                                service.setStep('mailing.editor');
                         },
                         error => {
                             console.log('Error: /createCompaign ' + error.status + ' ' + error.statusText);
@@ -12019,7 +12019,7 @@ angular.module('services.mailing',[]
             candidatesForMailing.push(candidate);
         });
         $scope.toTheMailing = function () {
-            service.setStep("mailing-details");
+            service.setStep("mailing.details");
             $localStorage.set('candidatesForMailing', candidatesForMailing);
             $location.url("/mailing");
         };
@@ -12174,15 +12174,15 @@ angular.module('services.mailing',[]
         if(text) {
             service.saveMailing(htmlText).then(
                 result => {
-                    service.setStep('mailing-preview');
+                    service.setStep('mailing.preview');
                 },
                 error => {
-                    service.setStep('mailing-preview');
+                    service.setStep('mailing.preview');
                     console.log('Error: /createCompaign ' + error.status + ' ' + error.statusText);
                 }
             )
         } else {
-            service.setStep('mailing-preview');
+            service.setStep('mailing.preview');
         }
     };
 
@@ -12313,7 +12313,7 @@ angular.module('services.mailing',[]
                     $localStorage.set('mailingRecipientsSource', JSON.stringify(vacancySelectParam));
                     $localStorage.set('candidatesForMailing', candidatesForMailing);
                     $localStorage.set('subscriberListParams', subscriberListParams);
-                    $localStorage.set('currentStep', JSON.stringify("mailing-details"));
+                    $localStorage.set('currentStep', JSON.stringify("mailing.details"));
                     if(mailingForEdit.subject.trim() && mailingForEdit.html.trim() && mailingForEdit.fromName.trim() && mailingForEdit.fromEmail.trim()) {
                         $localStorage.set('stepClickable', 3);
                     } else {
@@ -12335,7 +12335,7 @@ angular.module('services.mailing',[]
             $localStorage.remove('candidatesForMailing');
             $localStorage.set('subscriberListParams', subscriberListParams);
             $localStorage.set('stepClickable', 2);
-            $localStorage.set('currentStep', JSON.stringify("mailing-details"));
+            $localStorage.set('currentStep', JSON.stringify("mailing.details"));
             $location.url('/mailing');
         }
     };
@@ -12381,7 +12381,7 @@ angular.module('services.mailing',[]
                 };
 
                 $localStorage.set('sentMailing', JSON.stringify(sentPreviewObj));
-                $location.url('/mailing-sent')
+                $state.go("sent-mailing");
             } else {
                 notificationService.error(resp.message)
             }
@@ -12430,10 +12430,10 @@ angular.module('services.mailing',[]
                         notificationService.success($filter('translate')('Changes are saved'));
                         resolve(result);
                         if(step == 'details') {
-                            service.setStep('mailing-details');
+                            service.setStep('mailing.details');
                         } else {
                             if(step == 'preview')
-                                service.setStep('mailing-preview');
+                                service.setStep('mailing.preview');
                         }
                     },
                     error => {
@@ -12444,10 +12444,10 @@ angular.module('services.mailing',[]
             } else {
                 resolve('no changes');
                 if(step == 'details') {
-                    service.setStep('mailing-details');
+                    service.setStep('mailing.details');
                 } else {
                     if(step == 'preview')
-                        service.setStep('mailing-preview');
+                        service.setStep('mailing.preview');
                 }
             }
         })
@@ -16401,13 +16401,17 @@ angular.module('RecruitingApp', [
     //     .otherwise({redirectTo: '/organizer'});
 
     let states = [{
-        name: 'mailing-details',
+        url: "/mailing",
+        name: 'mailing',
+        component: 'mailing'
+    },{
+        name: 'mailing.details',
         component: 'mDetails'
     },{
-        name: 'mailing-editor',
+        name: 'mailing.editor',
         component: 'editor'
     },{
-        name: 'mailing-preview',
+        name: 'mailing.preview',
         component: 'preview'
     },{
         url: "/mailings",
@@ -16418,9 +16422,13 @@ angular.module('RecruitingApp', [
         name: 'mailings.saved',
         component: 'saved'
     },{
-        url: "/saved",
+        url: "/sent",
         name: 'mailings.sent',
-        component: 'sent'
+        component: 'mailingsSent'
+    },{
+        url: "/sent-mailing",
+        name: 'sent-mailing',
+        component: 'mailingSent'
     }];
     states.forEach((state) => {
         $stateProvider.state(state);
@@ -47158,97 +47166,100 @@ controller
 
 
 
-controller.controller('mailingController', ['$scope', '$rootScope', '$translate', '$localStorage', 'notificationService','$filter', '$uibModal','$state', '$transitions', 'Mailing', function ($scope, $rootScope, $translate, $localStorage, notificationService, $filter, $uibModal, $state, $transitions, Mailing) {
-    $scope.includes = $state.includes;
+component.component('mailing', {
+    templateUrl: "partials/mailing/mailing.html",
+    controller: function ($scope, $rootScope, $translate, $localStorage, notificationService, $filter, $uibModal, $state, $transitions, Mailing) {
+        $scope.includes = $state.includes;
 
-    let mailingDetails = Mailing.getMailingDetails();
+        let mailingDetails = Mailing.getMailingDetails();
 
-    if(mailingDetails) {
-        $scope.internalName = mailingDetails.internalName;
-    } else {
-        $scope.internalName = '';
-    }
-
-    switch (Mailing.getCurrentStep()) {
-        case 'mailing-details':
-            $state.go('mailing-details');
-            break;
-        case 'mailing-editor':
-            $state.go('mailing-editor');
-            break;
-        case 'mailing-preview':
-            $state.go('mailing-preview');
-            break;
-        default:
-            $state.go('mailing-details');
-            break;
-    }
-
-
-    let defaultBreadcrumbs = [
-        {
-            href: '#/candidates',
-            transl: 'our_base'
-        },
-        {
-            transl: 'My mailings'
+        if(mailingDetails) {
+            $scope.internalName = mailingDetails.internalName;
+        } else {
+            $scope.internalName = '';
         }
-    ];
+
+        switch (Mailing.getCurrentStep()) {
+            case 'mailing.details':
+                $state.go('mailing.details');
+                break;
+            case 'mailing.editor':
+                $state.go('mailing.editor');
+                break;
+            case 'mailing.preview':
+                $state.go('mailing.preview');
+                break;
+            default:
+                $state.go('mailing.details');
+                break;
+        }
 
 
-    if($rootScope.previousLocation) {
-        if($rootScope.previousLocation.indexOf('vacancies') != -1) {
-            if($rootScope.vacancy) {
-                $localStorage.set('breadcrumbs', JSON.stringify([
-                    {
-                        href: '#/vacancies',
-                        transl: 'vacancies'
-                    },
-                    {
-                        href: '#/vacancies/' + $rootScope.vacancy.localId,
-                        value: $rootScope.vacancy.position
-                    },
-                    {
-                        transl: 'My mailings'
-                    }
-                ]));
+        let defaultBreadcrumbs = [
+            {
+                href: '#/candidates',
+                transl: 'our_base'
+            },
+            {
+                transl: 'My mailings'
+            }
+        ];
+
+
+        if($rootScope.previousLocation) {
+            if($rootScope.previousLocation.indexOf('vacancies') != -1) {
+                if($rootScope.vacancy) {
+                    $localStorage.set('breadcrumbs', JSON.stringify([
+                        {
+                            href: '#/vacancies',
+                            transl: 'vacancies'
+                        },
+                        {
+                            href: '#/vacancies/' + $rootScope.vacancy.localId,
+                            value: $rootScope.vacancy.position
+                        },
+                        {
+                            transl: 'My mailings'
+                        }
+                    ]));
+                } else {
+                    $localStorage.set('breadcrumbs', JSON.stringify(defaultBreadcrumbs));
+                }
             } else {
                 $localStorage.set('breadcrumbs', JSON.stringify(defaultBreadcrumbs));
             }
-        } else {
-            $localStorage.set('breadcrumbs', JSON.stringify(defaultBreadcrumbs));
         }
+
+
+        let storedBreadcrumbs = $localStorage.get('breadcrumbs');
+        let breadCrumbs = storedBreadcrumbs?JSON.parse(storedBreadcrumbs):defaultBreadcrumbs;
+        breadCrumbs.pop();
+        breadCrumbs.push({
+            href: '#/mailings',
+            transl: 'My mailings'
+        },{
+            value: $scope.internalName?$scope.internalName:$translate.instant('New mailing')
+        });
+        $rootScope.breadCrumbs = breadCrumbs;
+
+
+        $scope.fieldFocused = function (event) {
+            event.currentTarget.classList.remove('empty');
+        };
+
+
+        $scope.updateInternal = function () {
+            Mailing.updateInternal($scope.internalName);
+        };
+        $scope.updateInternal();
+
+        $rootScope.setDocCounter = function(){
+            $scope.currentDocPreviewPage = 0;
+        };
+
+
     }
-
-
-    let storedBreadcrumbs = $localStorage.get('breadcrumbs');
-    let breadCrumbs = storedBreadcrumbs?JSON.parse(storedBreadcrumbs):defaultBreadcrumbs;
-    breadCrumbs.pop();
-    breadCrumbs.push({
-        href: '#/mailings',
-        transl: 'My mailings'
-    },{
-        value: $scope.internalName?$scope.internalName:$translate.instant('New mailing')
-    });
-    $rootScope.breadCrumbs = breadCrumbs;
-
-
-    $scope.fieldFocused = function (event) {
-        event.currentTarget.classList.remove('empty');
-    };
-
-
-    $scope.updateInternal = function () {
-          Mailing.updateInternal($scope.internalName);
-    };
-    $scope.updateInternal();
-
-    $rootScope.setDocCounter = function(){
-        $scope.currentDocPreviewPage = 0;
-    };
-
-
-}]);
+});
 component.component('mDetails', {
     templateUrl: "partials/mailing/mailing-details.html",
     controller: function ($location, $scope, $rootScope, $localStorage, notificationService, $filter, $uibModal, $http, $state, Mailing, vacancyStages, Person) {
@@ -47552,7 +47563,7 @@ component.component('mDetails', {
         };
 
         $scope.openMailingInfoModal = function() {
-            if($rootScope.me.personParams.mailingNews === "true") {
+            if($rootScope.me && $rootScope.me.personParams.mailingNews === "true") {
                 $scope.mailingModal();
             }
         };
@@ -47568,7 +47579,7 @@ component.component('mDetails', {
             });
 
             $scope.modalInstance.result.then(function () {
-                if($rootScope.me.personParams.mailingNews === "true") {
+                if($rootScope.me && $rootScope.me.personParams.mailingNews === "true") {
                     Person.changeUserParam({
                         userId: $rootScope.me.userId,
                         name: 'mailingNews',
@@ -47743,12 +47754,12 @@ component.component('preview', {
 
 
         $scope.editMessage = function () {
-            Mailing.setStep('mailing-editor');
+            Mailing.setStep('mailing.editor');
         };
 
 
         $scope.editDetails = function () {
-            Mailing.setStep("mailing-details");
+            Mailing.setStep("mailing.details");
         };
 
 
@@ -47878,7 +47889,7 @@ component.component('mailings', {
    templateUrl: "partials/mailing/mailings.html",
     controller: function ($scope, $localStorage, $rootScope, $state, $timeout, $filter, $transitions, $uibModal, Mailing, Person) {
         $scope.savedMailings = [];
-        let isPreviousSentMailings = $rootScope.previousLocation?$rootScope.previousLocation.indexOf('mailing-sent')!=-1:false;
+        let isPreviousSentMailings = $rootScope.previousLocation?$rootScope.previousLocation.indexOf('mailing/sent')!=-1:false;
         let defaultBreadcrumbs = [
             {
                 href: '#/candidates',
@@ -47916,9 +47927,9 @@ component.component('mailings', {
         $rootScope.breadCrumbs = storedBreadcrumbs?JSON.parse(storedBreadcrumbs):defaultBreadcrumbs;
 
         if(isPreviousSentMailings) {
-            $state.go('mailings-sent');
+            $state.go('mailings.sent');
         } else {
-            $state.go('mailings-saved');
+            $state.go('mailings.saved');
         }
 
 
@@ -47992,320 +48003,323 @@ component.component('mailings', {
         getInitialData();
     }
 });
-controller.controller('mailingSentController',['$scope', '$rootScope', '$filter', '$translate', 'notificationService', '$uibModal', '$state', '$localStorage', 'Mailing', function ($scope, $rootScope, $filter, $translate, notificationService, $uibModal, $state, $localStorage, Mailing) {
-    $scope.sentMailing = JSON.parse($localStorage.get('sentMailing'));
-    let storedBreadcrumbs = $localStorage.get('breadcrumbs');
-    $scope.cloneName = '';
-    let statistics = {};
-    $scope.readers = [];
-    $scope.notRecieved = [];
-    $scope.statistics = {};
-    $scope.currentDate = new Date().getTime();
-    $scope.opensListFlag = {
-      opened: false,
-      undelivered: false
-    };
-    let defaultBreadcrumbs = [
-        {
-            href: '#/candidates',
-            transl: 'our_base'
-        },
-        {
-            transl: 'My mailings'
-        }
-    ];
-    let breadCrumbs = storedBreadcrumbs?JSON.parse(storedBreadcrumbs):defaultBreadcrumbs;
-    breadCrumbs.pop();
-    breadCrumbs.push({
-        href: '#/mailings',
-        transl: 'My mailings'
-        },{
-        value: $scope.sentMailing.internalName
-    });
-    $rootScope.breadCrumbs = breadCrumbs;
-
-
-    Mailing.getAnalytics({compaignIds: [$scope.sentMailing.compaignId]},function (resp) {
-        let respObj = resp.object[0];
-        if(resp.status != 'error') {
-            $scope.sendDate = respObj.compaign.sendDate;
-            statistics.common = getCommonStatistics(respObj);
-            statistics.undelivered = getUndeliveredStatistics(respObj);
-            $scope.readers = getReadersList(respObj.compaignEntries);
-            $scope.notReceived = getNotReceivedList(respObj.compaignEntries);
-            $scope.statistics = {
-              opens: respObj.compaign.opens,
-              sent: respObj.compaign.sent,
-              undelivered: statistics.common.undelivered
-            };
-            chartRendering(statistics.common, statistics.undelivered);
-        }
-    },function (error) {
-        console.log('error',error);
-    });
-
-
-    $scope.cloneModal = function () {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: '../partials/modal/mailing-clone.html',
-            size: '',
-            scope: $scope
-        });
-    };
-
-
-    $scope.cloneMailing = function (cloneName) {
-        if(cloneName && cloneName.length > 0) {
-            Mailing.cloneMailing({
-                    'compaignId': $scope.sentMailing.compaignId,
-                    'internalName': cloneName
-            },(resp)=> {
-                if(resp.status !== 'error') {
-                    notificationService.success($filter('translate')('Mailing cloned'))
-                } else {
-                    notificationService.error(resp.message)
-                }
-            }, (error)=>{
-                notificationService.error(error)
-            });
-            $scope.modalInstance.close();
-        } else {
-            notificationService.error($filter('translate')('Fill in the new mailing name'))
-        }
-    };
-
-
-    $scope.readerListToggle = function (event) {
-        let toggleButtonClicked = false;
-        let clickOnDropList = false;
-        //do nothing, if clicked on droplist element:
-        [...document.getElementsByClassName("prevent-toggle")].forEach(elemDropList => {
-           if($.contains(elemDropList, event.target)) {
-               clickOnDropList = true;
+component.component("mailingSent", {
+   templateUrl: "partials/mailing/mailing-sent.html",
+   controller: function ($scope, $rootScope, $filter, $translate, notificationService, $uibModal, $state, $localStorage, Mailing) {
+       $scope.sentMailing = JSON.parse($localStorage.get('sentMailing'));
+       let storedBreadcrumbs = $localStorage.get('breadcrumbs');
+       $scope.cloneName = '';
+       let statistics = {};
+       $scope.readers = [];
+       $scope.notRecieved = [];
+       $scope.statistics = {};
+       $scope.currentDate = new Date().getTime();
+       $scope.opensListFlag = {
+           opened: false,
+           undelivered: false
+       };
+       let defaultBreadcrumbs = [
+           {
+               href: '#/candidates',
+               transl: 'our_base'
+           },
+           {
+               transl: 'My mailings'
            }
-        });
-        if(!clickOnDropList) {
-            //toggle slider on showHide button:
-            for(let key in $scope.opensListFlag) {
-                if($.contains(document.getElementsByClassName(key)[0],event.target)) {
-                    $scope.opensListFlag[key] = !$scope.opensListFlag[key];
-                    toggleButtonClicked = true;
-                }
-            }
-            //hide all if click on any other place:
-            if(!toggleButtonClicked) {
-                for(let key in $scope.opensListFlag) {
-                    $scope.opensListFlag[key] = false;
-                }
-            }
-        }
-    };
+       ];
+       let breadCrumbs = storedBreadcrumbs?JSON.parse(storedBreadcrumbs):defaultBreadcrumbs;
+       breadCrumbs.pop();
+       breadCrumbs.push({
+           href: '#/mailings',
+           transl: 'My mailings'
+       },{
+           value: $scope.sentMailing.internalName
+       });
+       $rootScope.breadCrumbs = breadCrumbs;
 
 
-    function getCommonStatistics(statParams) {
-        let commonStat = statParams.compaign;
-        let detailedStat = statParams.compaignEntries;
-        let undeliveredCount = 0;
-        let notOpened = 0;
-        let opens = 0;
-        let delivered = 0;
-        detailedStat.forEach(entry => {
-            switch (entry.status) {
-                case "open": {
-                    opens++;
-                    delivered++;
-                }
-                    break;
-                case "undelivered":
-                    undeliveredCount++;
-                    break;
-                case "unchecked": {
-                    delivered++;
-                    notOpened++;
-                }
-
-                    break;
-            }
-        });
-        return {
-            sent: detailedStat?detailedStat.length:0,
-            opens: opens,
-            undelivered: undeliveredCount,
-            delivered: delivered,
-            notOpened: notOpened
-        }
-    }
+       Mailing.getAnalytics({compaignIds: [$scope.sentMailing.compaignId]},function (resp) {
+           let respObj = resp.object[0];
+           if(resp.status != 'error') {
+               $scope.sendDate = respObj.compaign.sendDate;
+               statistics.common = getCommonStatistics(respObj);
+               statistics.undelivered = getUndeliveredStatistics(respObj);
+               $scope.readers = getReadersList(respObj.compaignEntries);
+               $scope.notReceived = getNotReceivedList(respObj.compaignEntries);
+               $scope.statistics = {
+                   opens: respObj.compaign.opens,
+                   sent: respObj.compaign.sent,
+                   undelivered: statistics.common.undelivered
+               };
+               chartRendering(statistics.common, statistics.undelivered);
+           }
+       },function (error) {
+           console.log('error',error);
+       });
 
 
-    function getUndeliveredStatistics(statParams) {
-        let wrongEmails = 0;
-        let otherReason = 0;
-        statParams.compaignEntries.forEach(entry => {
-            if(entry.reason == 'Неверный email') {
-                wrongEmails++;
-            }
-        });
-        otherReason = statParams.compaign.undelivered - wrongEmails - statParams.compaign.spam;
-        otherReason = otherReason < 0 ? 0 : otherReason;
-        return {
-            spam: statParams.compaign.spam,
-            wrongEmail: wrongEmails,
-            other: otherReason
-        }
-    }
+       $scope.cloneModal = function () {
+           $scope.modalInstance = $uibModal.open({
+               animation: true,
+               templateUrl: '../partials/modal/mailing-clone.html',
+               size: '',
+               scope: $scope
+           });
+       };
 
 
-    function getReadersList(readersList) {
-        let readers = [];
-        readersList.forEach((reader) => {
-            if(reader.status == 'open') {
-                readers.push({
-                    email: reader.subscriber.email,
-                    name: reader.subscriber.firstName + ' ' + reader.subscriber.lastName,
-                    localId: reader.subscriber.localId,
-                    opensCount: reader.opens
-                });
-            }
-        });
-        return readers;
-    }
+       $scope.cloneMailing = function (cloneName) {
+           if(cloneName && cloneName.length > 0) {
+               Mailing.cloneMailing({
+                   'compaignId': $scope.sentMailing.compaignId,
+                   'internalName': cloneName
+               },(resp)=> {
+                   if(resp.status !== 'error') {
+                       notificationService.success($filter('translate')('Mailing cloned'))
+                   } else {
+                       notificationService.error(resp.message)
+                   }
+               }, (error)=>{
+                   notificationService.error(error)
+               });
+               $scope.modalInstance.close();
+           } else {
+               notificationService.error($filter('translate')('Fill in the new mailing name'))
+           }
+       };
 
 
-    function getNotReceivedList(listReceivers) {
-        let notReceived = [];
-        listReceivers.forEach((reader) => {
-            if(reader.status == 'undelivered') {
-                notReceived.push({
-                    email: reader.subscriber.email,
-                    name: reader.subscriber.firstName + ' ' + reader.subscriber.lastName,
-                    localId: reader.subscriber.localId
-                });
-            }
-        });
-        return notReceived;
-    }
+       $scope.readerListToggle = function (event) {
+           let toggleButtonClicked = false;
+           let clickOnDropList = false;
+           //do nothing, if clicked on droplist element:
+           [...document.getElementsByClassName("prevent-toggle")].forEach(elemDropList => {
+               if($.contains(elemDropList, event.target)) {
+                   clickOnDropList = true;
+               }
+           });
+           if(!clickOnDropList) {
+               //toggle slider on showHide button:
+               for(let key in $scope.opensListFlag) {
+                   if($.contains(document.getElementsByClassName(key)[0],event.target)) {
+                       $scope.opensListFlag[key] = !$scope.opensListFlag[key];
+                       toggleButtonClicked = true;
+                   }
+               }
+               //hide all if click on any other place:
+               if(!toggleButtonClicked) {
+                   for(let key in $scope.opensListFlag) {
+                       $scope.opensListFlag[key] = false;
+                   }
+               }
+           }
+       };
 
 
-    function chartRendering(common, undelivered) {
-        var commonStat = {
-            "type":"pie",
-            "plot": {
-                "borderColor": "#eee",
-                "borderWidth": 3,
-                "valueBox": {
-                    "placement": 'out',
-                    "text": '%t\n%npv%',
-                    "fontFamily": "Open Sans"
-                },
-                "tooltip":{
-                    "fontSize": '18',
-                    "fontFamily": "Open Sans",
-                    "padding": "5 10"
-                },
-                "animation":{
-                    "effect": 2,
-                    "method": 5,
-                    "speed": 900,
-                    "sequence": 1,
-                    "delay": 1000
-                }
-            },
-            "title":{
-                "text":$translate.instant('Email delivery statistics'),
-                "fontColor": "#8e99a9",
-                "align": "left",
-                "offsetX": 10,
-                "fontFamily": "Open Sans",
-                "fontSize": 18
-            },
-            "plotarea": {
-                "margin": "20 0 0 0"
-            },
-            "series":[
-                {
-                    "values":[common.notOpened],
-                    "text": $translate.instant('Not opened')
-                },
-                {
-                    "values":[common.opens],
-                    "text": $translate.instant('Read'),
-                    "backgroundColor":"#7ca82b"
-                },
-                {
-                    "values":[common.undelivered],
-                    "text": $translate.instant('Not delivered'),
-                    "backgroundColor":"#d31e1e"
-                }
-            ]
-        };
-        var undeliveredStat = {
-            "type":"pie",
-            "plot": {
-                "borderColor": "#eee",
-                "borderWidth": 3,
-                "valueBox": {
-                    "placement": 'out',
-                    "text": '%t\n%npv%',
-                    "fontFamily": "Open Sans"
-                },
-                "tooltip":{
-                    "fontSize": '18',
-                    "fontFamily": "Open Sans",
-                    "padding": "5 10"
-                },
-                "animation":{
-                    "effect": 2,
-                    "method": 5,
-                    "speed": 900,
-                    "sequence": 1,
-                    "delay": 1000
-                }
-            },
-            "title":{
-                "text":$translate.instant('Delivery fail reasons'),
-                "fontColor": "#8e99a9",
-                "align": "left",
-                "offsetX": 10,
-                "fontFamily": "Open Sans",
-                "fontSize": 18
-            },
-            "plotarea": {
-                "margin": "20 0 0 0"
-            },
-            "series":[
-                {
-                    "values":[undelivered.spam],
-                    "text": $translate.instant('Spam')
-                },
-                {
-                    "values":[undelivered.other],
-                    "text": $translate.instant('Other'),
-                    "backgroundColor":"#7ca82b"
-                },
-                {
-                    "values":[undelivered.wrongEmail],
-                    "text": $translate.instant('Email does not exist'),
-                    "backgroundColor":"#d31e1e"
-                }
-            ]
-        };
+       function getCommonStatistics(statParams) {
+           let commonStat = statParams.compaign;
+           let detailedStat = statParams.compaignEntries;
+           let undeliveredCount = 0;
+           let notOpened = 0;
+           let opens = 0;
+           let delivered = 0;
+           detailedStat.forEach(entry => {
+               switch (entry.status) {
+                   case "open": {
+                       opens++;
+                       delivered++;
+                   }
+                       break;
+                   case "undelivered":
+                       undeliveredCount++;
+                       break;
+                   case "unchecked": {
+                       delivered++;
+                       notOpened++;
+                   }
 
-        zingchart.render({
-            id : 'commonStat',
-            data : commonStat,
-            height: 300,
-            width: "100%"
-        });
-        zingchart.render({
-            id : 'failsStat',
-            data : undeliveredStat,
-            height: 300,
-            width: "100%"
-        });
-    }
+                       break;
+               }
+           });
+           return {
+               sent: detailedStat?detailedStat.length:0,
+               opens: opens,
+               undelivered: undeliveredCount,
+               delivered: delivered,
+               notOpened: notOpened
+           }
+       }
 
-}]);
+
+       function getUndeliveredStatistics(statParams) {
+           let wrongEmails = 0;
+           let otherReason = 0;
+           statParams.compaignEntries.forEach(entry => {
+               if(entry.reason == 'Неверный email') {
+                   wrongEmails++;
+               }
+           });
+           otherReason = statParams.compaign.undelivered - wrongEmails - statParams.compaign.spam;
+           otherReason = otherReason < 0 ? 0 : otherReason;
+           return {
+               spam: statParams.compaign.spam,
+               wrongEmail: wrongEmails,
+               other: otherReason
+           }
+       }
+
+
+       function getReadersList(readersList) {
+           let readers = [];
+           readersList.forEach((reader) => {
+               if(reader.status == 'open') {
+                   readers.push({
+                       email: reader.subscriber.email,
+                       name: reader.subscriber.firstName + ' ' + reader.subscriber.lastName,
+                       localId: reader.subscriber.localId,
+                       opensCount: reader.opens
+                   });
+               }
+           });
+           return readers;
+       }
+
+
+       function getNotReceivedList(listReceivers) {
+           let notReceived = [];
+           listReceivers.forEach((reader) => {
+               if(reader.status == 'undelivered') {
+                   notReceived.push({
+                       email: reader.subscriber.email,
+                       name: reader.subscriber.firstName + ' ' + reader.subscriber.lastName,
+                       localId: reader.subscriber.localId
+                   });
+               }
+           });
+           return notReceived;
+       }
+
+
+       function chartRendering(common, undelivered) {
+           var commonStat = {
+               "type":"pie",
+               "plot": {
+                   "borderColor": "#eee",
+                   "borderWidth": 3,
+                   "valueBox": {
+                       "placement": 'out',
+                       "text": '%t\n%npv%',
+                       "fontFamily": "Open Sans"
+                   },
+                   "tooltip":{
+                       "fontSize": '18',
+                       "fontFamily": "Open Sans",
+                       "padding": "5 10"
+                   },
+                   "animation":{
+                       "effect": 2,
+                       "method": 5,
+                       "speed": 900,
+                       "sequence": 1,
+                       "delay": 1000
+                   }
+               },
+               "title":{
+                   "text":$translate.instant('Email delivery statistics'),
+                   "fontColor": "#8e99a9",
+                   "align": "left",
+                   "offsetX": 10,
+                   "fontFamily": "Open Sans",
+                   "fontSize": 18
+               },
+               "plotarea": {
+                   "margin": "20 0 0 0"
+               },
+               "series":[
+                   {
+                       "values":[common.notOpened],
+                       "text": $translate.instant('Not opened')
+                   },
+                   {
+                       "values":[common.opens],
+                       "text": $translate.instant('Read'),
+                       "backgroundColor":"#7ca82b"
+                   },
+                   {
+                       "values":[common.undelivered],
+                       "text": $translate.instant('Not delivered'),
+                       "backgroundColor":"#d31e1e"
+                   }
+               ]
+           };
+           var undeliveredStat = {
+               "type":"pie",
+               "plot": {
+                   "borderColor": "#eee",
+                   "borderWidth": 3,
+                   "valueBox": {
+                       "placement": 'out',
+                       "text": '%t\n%npv%',
+                       "fontFamily": "Open Sans"
+                   },
+                   "tooltip":{
+                       "fontSize": '18',
+                       "fontFamily": "Open Sans",
+                       "padding": "5 10"
+                   },
+                   "animation":{
+                       "effect": 2,
+                       "method": 5,
+                       "speed": 900,
+                       "sequence": 1,
+                       "delay": 1000
+                   }
+               },
+               "title":{
+                   "text":$translate.instant('Delivery fail reasons'),
+                   "fontColor": "#8e99a9",
+                   "align": "left",
+                   "offsetX": 10,
+                   "fontFamily": "Open Sans",
+                   "fontSize": 18
+               },
+               "plotarea": {
+                   "margin": "20 0 0 0"
+               },
+               "series":[
+                   {
+                       "values":[undelivered.spam],
+                       "text": $translate.instant('Spam')
+                   },
+                   {
+                       "values":[undelivered.other],
+                       "text": $translate.instant('Other'),
+                       "backgroundColor":"#7ca82b"
+                   },
+                   {
+                       "values":[undelivered.wrongEmail],
+                       "text": $translate.instant('Email does not exist'),
+                       "backgroundColor":"#d31e1e"
+                   }
+               ]
+           };
+
+           zingchart.render({
+               id : 'commonStat',
+               data : commonStat,
+               height: 300,
+               width: "100%"
+           });
+           zingchart.render({
+               id : 'failsStat',
+               data : undeliveredStat,
+               height: 300,
+               width: "100%"
+           });
+       }
+
+   }
+});
 component.component('saved',{
     templateUrl: "partials/mailing/mailings-saved.html",
     controller: function ($scope, $rootScope, $timeout, $anchorScroll, $localStorage, notificationService, $uibModal, $filter, ngTableParams, Mailing, Service) {
@@ -48431,7 +48445,7 @@ component.component('saved',{
 
     }
 });
-component.component('sent', {
+component.component('mailingsSent', {
     templateUrl: "partials/mailing/mailings-sent.html",
     controller: function ($scope, $rootScope, $timeout, $anchorScroll , $localStorage, notificationService, $filter, $uibModal, ngTableParams, Mailing, Service) {
         $scope.a = {};

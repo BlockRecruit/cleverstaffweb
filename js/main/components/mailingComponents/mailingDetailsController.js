@@ -301,7 +301,7 @@ component.component('mDetails', {
         };
 
         $scope.openMailingInfoModal = function() {
-            if($rootScope.me.personParams.mailingNews === "true") {
+            if($rootScope.me && $rootScope.me.personParams.mailingNews === "true") {
                 $scope.mailingModal();
             }
         };
@@ -317,7 +317,7 @@ component.component('mDetails', {
             });
 
             $scope.modalInstance.result.then(function () {
-                if($rootScope.me.personParams.mailingNews === "true") {
+                if($rootScope.me && $rootScope.me.personParams.mailingNews === "true") {
                     Person.changeUserParam({
                         userId: $rootScope.me.userId,
                         name: 'mailingNews',
