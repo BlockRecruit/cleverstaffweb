@@ -92,10 +92,10 @@ angular.module('services.mailing',[]
 
     service.getCurrentStep = function () {
         try {
-            return JSON.parse($localStorage.get('currentStep')) || "clever-app.mailing.details";
+            return JSON.parse($localStorage.get('currentStep')) || "mailing.details";
         } catch (err){
             console.log('Error in parse JSON service.currentStep', err);
-            return "clever-app.mailing.details";
+            return "mailing.details";
         }
     };
 
@@ -138,7 +138,7 @@ angular.module('services.mailing',[]
         $localStorage.remove('subscriberListParams');
         $localStorage.remove('currentStep');
         $localStorage.remove('stepClickable');
-        service.setStep("clever-app.mailing.details");
+        service.setStep("mailing.details");
         $location.url("/mailing");
     };
 
@@ -262,7 +262,7 @@ angular.module('services.mailing',[]
             } else {
                 $rootScope.loading = false;
                 if(goToEditor)
-                    service.setStep('clever-app.mailing.editor');
+                    service.setStep('mailing.editor');
             }
         }
         function saveNewList() {
@@ -279,7 +279,7 @@ angular.module('services.mailing',[]
                         result => {
                             notificationService.success($filter('translate')('Changes are saved'));
                             if(goToEditor)
-                                service.setStep('clever-app.mailing.editor');
+                                service.setStep('mailing.editor');
                         },
                         error => {
                             console.log('Error: /createCompaign ' + error.status + ' ' + error.statusText);
@@ -312,7 +312,7 @@ angular.module('services.mailing',[]
                         result => {
                             notificationService.success($filter('translate')('Changes are saved'));
                             if(goToEditor)
-                                service.setStep('clever-app.mailing.editor');
+                                service.setStep('mailing.editor');
                         },
                         error => {
                             console.log('Error: /createCompaign ' + error.status + ' ' + error.statusText);
@@ -370,7 +370,7 @@ angular.module('services.mailing',[]
             candidatesForMailing.push(candidate);
         });
         $scope.toTheMailing = function () {
-            service.setStep("clever-app.mailing.details");
+            service.setStep("mailing.details");
             $localStorage.set('candidatesForMailing', candidatesForMailing);
             $location.url("/mailing");
         };
@@ -525,15 +525,15 @@ angular.module('services.mailing',[]
         if(text) {
             service.saveMailing(htmlText).then(
                 result => {
-                    service.setStep('clever-app.mailing.preview');
+                    service.setStep('mailing.preview');
                 },
                 error => {
-                    service.setStep('clever-app.mailing.preview');
+                    service.setStep('mailing.preview');
                     console.log('Error: /createCompaign ' + error.status + ' ' + error.statusText);
                 }
             )
         } else {
-            service.setStep('clever-app.mailing.preview');
+            service.setStep('mailing.preview');
         }
     };
 
@@ -664,7 +664,7 @@ angular.module('services.mailing',[]
                     $localStorage.set('mailingRecipientsSource', JSON.stringify(vacancySelectParam));
                     $localStorage.set('candidatesForMailing', candidatesForMailing);
                     $localStorage.set('subscriberListParams', subscriberListParams);
-                    $localStorage.set('currentStep', JSON.stringify("clever-app.mailing.details"));
+                    $localStorage.set('currentStep', JSON.stringify("mailing.details"));
                     if(mailingForEdit.subject.trim() && mailingForEdit.html.trim() && mailingForEdit.fromName.trim() && mailingForEdit.fromEmail.trim()) {
                         $localStorage.set('stepClickable', 3);
                     } else {
@@ -686,7 +686,7 @@ angular.module('services.mailing',[]
             $localStorage.remove('candidatesForMailing');
             $localStorage.set('subscriberListParams', subscriberListParams);
             $localStorage.set('stepClickable', 2);
-            $localStorage.set('currentStep', JSON.stringify("clever-app.mailing.details"));
+            $localStorage.set('currentStep', JSON.stringify("mailing.details"));
             $location.url('/mailing');
         }
     };
@@ -732,7 +732,7 @@ angular.module('services.mailing',[]
                 };
 
                 $localStorage.set('sentMailing', JSON.stringify(sentPreviewObj));
-                $state.go("clever-app.sent-mailing");
+                $state.go("sent-mailing");
             } else {
                 notificationService.error(resp.message)
             }
@@ -781,10 +781,10 @@ angular.module('services.mailing',[]
                         notificationService.success($filter('translate')('Changes are saved'));
                         resolve(result);
                         if(step == 'details') {
-                            service.setStep('clever-app.mailing.details');
+                            service.setStep('mailing.details');
                         } else {
                             if(step == 'preview')
-                                service.setStep('clever-app.mailing.preview');
+                                service.setStep('mailing.preview');
                         }
                     },
                     error => {
@@ -795,10 +795,10 @@ angular.module('services.mailing',[]
             } else {
                 resolve('no changes');
                 if(step == 'details') {
-                    service.setStep('clever-app.mailing.details');
+                    service.setStep('mailing.details');
                 } else {
                     if(step == 'preview')
-                        service.setStep('clever-app.mailing.preview');
+                        service.setStep('mailing.preview');
                 }
             }
         })

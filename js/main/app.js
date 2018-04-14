@@ -486,20 +486,8 @@ angular.module('RecruitingApp', [
     //     .otherwise({redirectTo: '/organizer'});
 
     let states = [{
-        url: "",
-        abstract: true,
-        name: 'clever-app',
-        component: 'navbar',
-        resolve: {
-            me: function(Person) {
-                        return new Promise((resolve, reject) => {
-                            Person.getMe(resp => resolve(resp),error => reject(error));
-                        });
-            }
-        }
-    },{
         url: "/organizer",
-        name: 'clever-app.organizer',
+        name: 'organizer',
         component: 'organizer',
         data: {
             title: 'Organizer',
@@ -507,47 +495,47 @@ angular.module('RecruitingApp', [
         }
     },{
         url: "/mailing",
-        name: 'clever-app.mailing',
+        name: 'mailing',
         component: 'mailing'
     },{
-        name: 'clever-app.mailing.details',
+        name: 'mailing.details',
         component: 'mDetails'
     },{
-        name: 'clever-app.mailing.editor',
+        name: 'mailing.editor',
         component: 'editor'
     },{
-        name: 'clever-app.mailing.preview',
+        name: 'mailing.preview',
         component: 'preview'
     },{
         url: "/mailings",
-        name: 'clever-app.mailings',
+        name: 'mailings',
         component: 'mailings'
     },{
         url: "/prepared",
-        name: 'clever-app.mailings.saved',
+        name: 'mailings.saved',
         component: 'saved'
     },{
         url: "/sent",
-        name: 'clever-app.mailings.sent',
+        name: 'mailings.sent',
         component: 'mailingsSent'
     },{
         url: "/sent-mailing",
-        name: 'clever-app.sent-mailing',
+        name: 'sent-mailing',
         component: 'mailingSent'
     },{
         url: "/users/{id}",
-        name: 'clever-app.user',
+        name: 'user',
         component: 'user'
     },{
         url: "/pay",
         templateUrl: 'partials/pay.html',
         controller: "payWay4PayController",
-        name: 'clever-app.pay'
+        name: 'pay'
     },{
         url: "/candidates",
         templateUrl: 'partials/candidates.html',
         controller: "CandidateController",
-        name: 'clever-app.candidates',
+        name: 'candidates',
         data: {
             title: 'Candidates',
             pageName: "Candidates"

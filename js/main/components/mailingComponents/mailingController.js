@@ -12,17 +12,17 @@ component.component('mailing', {
         }
 
         switch (Mailing.getCurrentStep()) {
-            case 'clever-app.mailing.details':
-                $state.go('clever-app.mailing.details');
+            case 'mailing.details':
+                $state.go('mailing.details');
                 break;
-            case 'clever-app.mailing.editor':
-                $state.go('clever-app.mailing.editor');
+            case 'mailing.editor':
+                $state.go('mailing.editor');
                 break;
-            case 'clever-app.mailing.preview':
-                $state.go('clever-app.mailing.preview');
+            case 'mailing.preview':
+                $state.go('mailing.preview');
                 break;
             default:
-                $state.go('clever-app.mailing.details');
+                $state.go('mailing.details');
                 break;
         }
 

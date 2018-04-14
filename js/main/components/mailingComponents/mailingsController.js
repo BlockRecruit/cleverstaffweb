@@ -40,9 +40,9 @@ component.component('mailings', {
         $rootScope.breadCrumbs = storedBreadcrumbs?JSON.parse(storedBreadcrumbs):defaultBreadcrumbs;
 
         if(isPreviousSentMailings) {
-            $state.go('clever-app.mailings.sent');
+            $state.go('mailings.sent');
         } else {
-            $state.go('clever-app.mailings.saved');
+            $state.go('mailings.saved');
         }
 
 
