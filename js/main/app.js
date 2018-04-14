@@ -611,17 +611,13 @@ angular.module('RecruitingApp', [
     });
 //    --------------------------------------------------------------------------------------------------------- Interceptor on every response
     $httpProvider.interceptors.push('responseObserver');
-}]).run(function ($rootScope, $templateCache, CheckAccess, $window) {
-    $rootScope.$on('$routeChangeStart', function (event, next, current) {
-        if (current != undefined && current.$$route != undefined) {
-            $rootScope.previousLocation = current.$$route.originalPath;
+}]).run(function ($rootScope, $templateCache, CheckAccess, $window, $transitions) {
+    $transitions.onBefore({}, function (transition) {
+        if(transition.to() !== undefined && transition.to().url !== undefined) {
+            $rootScope.currentLocation = transition.to().url;
         }
-        if (next != undefined && next.$$route != undefined) {
-            $rootScope.currentLocation = next.$$route.originalPath;
-        }
-
-        if (typeof (current) !== 'undefined') {
-            $templateCache.remove(current.templateUrl);
+        if(transition.from() !== undefined && transition.from().url !== undefined) {
+            $rootScope.previousLocation = transition.from().url;
         }
     });
 }).run(function ($location, $rootScope, CheckAccess, $window, $filter, $localStorage, Vacancy, notificationService, translateWords, $state, $stateParams) {
