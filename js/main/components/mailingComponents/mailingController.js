@@ -12,17 +12,17 @@ component.component('mailing', {
         }
 
         switch (Mailing.getCurrentStep()) {
-            case 'mailing.details':
-                $state.go('mailing.details');
+            case 'clever-app.mailing.details':
+                $state.go('clever-app.mailing.details');
                 break;
-            case 'mailing.editor':
-                $state.go('mailing.editor');
+            case 'clever-app.mailing.editor':
+                $state.go('clever-app.mailing.editor');
                 break;
-            case 'mailing.preview':
-                $state.go('mailing.preview');
+            case 'clever-app.mailing.preview':
+                $state.go('clever-app.mailing.preview');
                 break;
             default:
-                $state.go('mailing.details');
+                $state.go('clever-app.mailing.details');
                 break;
         }
 
@@ -67,7 +67,7 @@ component.component('mailing', {
         let breadCrumbs = storedBreadcrumbs?JSON.parse(storedBreadcrumbs):defaultBreadcrumbs;
         breadCrumbs.pop();
         breadCrumbs.push({
-            href: '#/mailings',
+            href: '#/mailings/prepared',
             transl: 'My mailings'
         },{
             value: $scope.internalName?$scope.internalName:$translate.instant('New mailing')

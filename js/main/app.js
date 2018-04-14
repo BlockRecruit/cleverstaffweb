@@ -29,21 +29,6 @@ angular.module('RecruitingApp', [
     'ui.bootstrap',
     'outlookApi'
 ]).config(['$routeProvider', '$locationProvider','$analyticsProvider', '$stateProvider', '$urlRouterProvider', function ($routeProvider, $locationProvider, $analyticsProvider, $stateProvider, $urlRouterProvider) {
-    var universalResolves = {
-        app: function ($q, $rootScope, $location, $route, $http, serverAddress,$filter, notificationService) {
-            var defer = $q.defer();
-            SecurityFilter($rootScope, defer, $location, $route, $http, serverAddress,$filter, notificationService);
-            return defer.promise;
-        }
-    };
-    var customRouteProvider = angular.extend({}, $routeProvider, {
-        when: function (path, route) {
-            route.resolve = (route.resolve) ? route.resolve : {};
-            angular.extend(route.resolve, universalResolves);
-            $routeProvider.when(path, route);
-            return this;
-        }
-    });
     $locationProvider.hashPrefix('');
     // customRouteProvider
     //     .when('/organizer', {
@@ -501,38 +486,77 @@ angular.module('RecruitingApp', [
     //     .otherwise({redirectTo: '/organizer'});
 
     let states = [{
+        url: "",
+        abstract: true,
+        name: 'clever-app',
+        component: 'navbar',
+        resolve: {
+            me: function(Person) {
+                        return new Promise((resolve, reject) => {
+                            Person.getMe(resp => resolve(resp),error => reject(error));
+                        });
+            }
+        }
+    },{
+        url: "/organizer",
+        name: 'clever-app.organizer',
+        component: 'organizer',
+        data: {
+            title: 'Organizer',
+            pageName: 'Activity'
+        }
+    },{
         url: "/mailing",
-        name: 'mailing',
+        name: 'clever-app.mailing',
         component: 'mailing'
     },{
-        name: 'mailing.details',
+        name: 'clever-app.mailing.details',
         component: 'mDetails'
     },{
-        name: 'mailing.editor',
+        name: 'clever-app.mailing.editor',
         component: 'editor'
     },{
-        name: 'mailing.preview',
+        name: 'clever-app.mailing.preview',
         component: 'preview'
     },{
         url: "/mailings",
-        name: 'mailings',
+        name: 'clever-app.mailings',
         component: 'mailings'
     },{
         url: "/prepared",
-        name: 'mailings.saved',
+        name: 'clever-app.mailings.saved',
         component: 'saved'
     },{
         url: "/sent",
-        name: 'mailings.sent',
+        name: 'clever-app.mailings.sent',
         component: 'mailingsSent'
     },{
         url: "/sent-mailing",
-        name: 'sent-mailing',
+        name: 'clever-app.sent-mailing',
         component: 'mailingSent'
+    },{
+        url: "/users/{id}",
+        name: 'clever-app.user',
+        component: 'user'
+    },{
+        url: "/pay",
+        templateUrl: 'partials/pay.html',
+        controller: "payWay4PayController",
+        name: 'clever-app.pay'
+    },{
+        url: "/candidates",
+        templateUrl: 'partials/candidates.html',
+        controller: "CandidateController",
+        name: 'clever-app.candidates',
+        data: {
+            title: 'Candidates',
+            pageName: "Candidates"
+        }
     }];
     states.forEach((state) => {
         $stateProvider.state(state);
     });
+    $urlRouterProvider.otherwise("/organizer");
 }]).config(['$provide', '$httpProvider', 'serverAddress', 'frontMode', function ($provide, $httpProvider, serverAddress, frontMode) {
     var allRequest = {};
     var isExecuted = false;
@@ -600,7 +624,9 @@ angular.module('RecruitingApp', [
             $templateCache.remove(current.templateUrl);
         }
     });
-}).run(function ($location, $rootScope, CheckAccess, $window, $filter, $localStorage, Vacancy, notificationService, translateWords) {
+}).run(function ($location, $rootScope, CheckAccess, $window, $filter, $localStorage, Vacancy, notificationService, translateWords, $state, $stateParams) {
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
     $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
 
 
@@ -643,7 +669,6 @@ angular.module('RecruitingApp', [
 
             }
             if (current.$$route.pageName !== undefined) {
-                $rootScope.activePage = current.$$route.pageName;
                 if($rootScope.activePage == 'Candidate'){
                     if(angular.element($window).width() < 992){
                         $rootScope.hideContainer = false;

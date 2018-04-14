@@ -1,8 +1,7 @@
-controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Person", "$rootScope", "$routeParams", "Vacancy",
-    "$location", "$translate", "Candidate", "Service", "notificationService", "$filter", "googleService", '$http', 'serverAddress', 'Client',
-    'Company', 'vacancyStages','Action', '$sce', '$uibModal', 'Mailing',
-    function($scope, tmhDynamicLocale, Person, $rootScope, $routeParams, Vacancy, $location, $translate, Candidate, Service,
-             notificationService, $filter, googleService, $http, serverAddress, Client, Company, vacancyStages, Action, $sce, $uibModal, Mailing) {
+component.component("user", {
+    templateUrl: "partials/user.html",
+    controller: function($scope, tmhDynamicLocale, Person, $rootScope, $stateParams, Vacancy, $location, $translate, Candidate, Service,
+                         notificationService, $filter, googleService, $http, serverAddress, Client, Company, vacancyStages, Action, $sce, $uibModal, Mailing) {
         $scope.showChangePassword = false;
         $scope.showChangeOrgName = false;
         $scope.showChangeRole = false;
@@ -25,12 +24,12 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         $scope.setPersonParam = function(name, value, callback) {
             $http.get(serverAddress + '/person/changeUserParam?userId=' + $scope.user.userId + "&name=" + name + "&value=" + value).success(
                 function(resp) {
-                if (!$scope.user.personParams) {
-                    $scope.user.personParams = {};
-                }
-                $scope.user.personParams[name] = value;
-                if (callback != undefined)callback();
-            });
+                    if (!$scope.user.personParams) {
+                        $scope.user.personParams = {};
+                    }
+                    $scope.user.personParams[name] = value;
+                    if (callback != undefined)callback();
+                });
         };
         $scope.enableViewClients = function(user) {
             if(user.personParams.clientAccessLevel == 'full' || !user.personParams.clientAccessLevel){
@@ -46,115 +45,115 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
 
         $scope.changeUserClientRole = function(name, clientId) {
             $scope.setPersonParam(name, clientId, function() {
-                Person.getPerson({userId: $routeParams.id}, function(resp) {
+                Person.getPerson({userId: $stateParams.id}, function(resp) {
                     $scope.user = resp;
                     $scope.showChangeCompanyOfInvitedClient=false;
                 });
             });
         };
         $('.ui.dropdown').dropdown();
-        Person.getPerson({userId: $routeParams.id}, function(resp) {
-          if(resp.status =='ok'){
-              $scope.user = resp.object;
-              if($scope.user.recrutRole == 'admin') {
-                  $scope.user.personParams.enableDownloadToExcel = (!$scope.user.personParams.enableDownloadToExcel || $scope.user.personParams.enableDownloadToExcel == 'Y' )? true : false;
-              } else if ($scope.user.recrutRole == 'recruter') {
-                  $scope.user.personParams.enableDownloadToExcel = ($scope.user.personParams.enableDownloadToExcel && $scope.user.personParams.enableDownloadToExcel == 'Y' )? true : false;
-              }
+        Person.getPerson({userId: $stateParams.id}, function(resp) {
+            if(resp.status =='ok'){
+                $scope.user = resp.object;
+                if($scope.user.recrutRole == 'admin') {
+                    $scope.user.personParams.enableDownloadToExcel = (!$scope.user.personParams.enableDownloadToExcel || $scope.user.personParams.enableDownloadToExcel == 'Y' )? true : false;
+                } else if ($scope.user.recrutRole == 'recruter') {
+                    $scope.user.personParams.enableDownloadToExcel = ($scope.user.personParams.enableDownloadToExcel && $scope.user.personParams.enableDownloadToExcel == 'Y' )? true : false;
+                }
 
-              $scope.changedName = resp.object.fullName;
-              $scope.getMyVacancy = function(){
-                  Vacancy.setOptions("personId", $scope.user.userId);
-                  Vacancy.all(Vacancy.searchOptions(), function(response) {
-                      console.log(response);
-                      $scope.allVacancyInUser = response.objects;
-                  });
-              };
-              $scope.getMyVacancy();
-              angular.forEach($scope.user.personParams, function(value,key){
-                  angular.forEach($scope.sendNotificationObj, function(res){
-                      if(res.name == key){
-                          res.value = value;
-                      }
-                  });
-              });
-              if ($rootScope.errorMessageType === "inviteBlockUser") {
-                  $rootScope.errorMessageType = null;
-                  $scope.errorMessage = $scope.user.fullName + " (" + $scope.user.login + ") " + $filter("translate")("has already been in your account and now he (she) is disabled. Here you can enable access for him (her)");
-              }
-              $scope.newRole = resp.object.recrutRole;
-              $scope.statisticObj = {
-                  requestObj: {creator: resp.userId},
-                  objId: resp.userId,
-                  objType: "user"
-              };
+                $scope.changedName = resp.object.fullName;
+                $scope.getMyVacancy = function(){
+                    Vacancy.setOptions("personId", $scope.user.userId);
+                    Vacancy.all(Vacancy.searchOptions(), function(response) {
+                        console.log(response);
+                        $scope.allVacancyInUser = response.objects;
+                    });
+                };
+                $scope.getMyVacancy();
+                angular.forEach($scope.user.personParams, function(value,key){
+                    angular.forEach($scope.sendNotificationObj, function(res){
+                        if(res.name == key){
+                            res.value = value;
+                        }
+                    });
+                });
+                if ($rootScope.errorMessageType === "inviteBlockUser") {
+                    $rootScope.errorMessageType = null;
+                    $scope.errorMessage = $scope.user.fullName + " (" + $scope.user.login + ") " + $filter("translate")("has already been in your account and now he (she) is disabled. Here you can enable access for him (her)");
+                }
+                $scope.newRole = resp.object.recrutRole;
+                $scope.statisticObj = {
+                    requestObj: {creator: resp.userId},
+                    objId: resp.userId,
+                    objType: "user"
+                };
 
-              if (resp.object.recrutRole == 'client') {
-              }
-              // Client.all(Client.searchOptions(), function(response) {
-              //     console.log(response);
-              //     $scope.clients = response['objects'];
-              // });
+                if (resp.object.recrutRole == 'client') {
+                }
+                // Client.all(Client.searchOptions(), function(response) {
+                //     console.log(response);
+                //     $scope.clients = response['objects'];
+                // });
 
-              $scope.showHistory = true;
-              $scope.refreshHistory = function(){
-                  Service.history({
-                      personId: resp.object.userId,
-                      "ignoreType": ['sent_candidate_to_client'],
-                      "page": {"number": 0, "count": 20}
-                  }, function(res) {
-                      $scope.history = res.objects;
-                      var array = [];
-                      angular.forEach($scope.history, function(value){
-                          if(value.stateNew && value.type == "set_interview_status"){
-                              array = value.stateNew.split(",");
-                              angular.forEach($scope.customStages,function(val){
-                                  angular.forEach(array,function(resp){
-                                      if(val.customInterviewStateId == resp){
-                                          array[array.indexOf(val.customInterviewStateId)] = val.name;
-                                      }
-                                  });
-                              });
-                              value.stateNew = array.toString();
-                          }
-                      });
-                      $scope.showHistory = res.objects != undefined;
-                      $scope.historyLimit = 20;
-                      $scope.historyTotal = res.total;
-                  });
-              };
-              $scope.refreshHistory();
+                $scope.showHistory = true;
+                $scope.refreshHistory = function(){
+                    Service.history({
+                        personId: resp.object.userId,
+                        "ignoreType": ['sent_candidate_to_client'],
+                        "page": {"number": 0, "count": 20}
+                    }, function(res) {
+                        $scope.history = res.objects;
+                        var array = [];
+                        angular.forEach($scope.history, function(value){
+                            if(value.stateNew && value.type == "set_interview_status"){
+                                array = value.stateNew.split(",");
+                                angular.forEach($scope.customStages,function(val){
+                                    angular.forEach(array,function(resp){
+                                        if(val.customInterviewStateId == resp){
+                                            array[array.indexOf(val.customInterviewStateId)] = val.name;
+                                        }
+                                    });
+                                });
+                                value.stateNew = array.toString();
+                            }
+                        });
+                        $scope.showHistory = res.objects != undefined;
+                        $scope.historyLimit = 20;
+                        $scope.historyTotal = res.total;
+                    });
+                };
+                $scope.refreshHistory();
 
-              if (resp.object.contacts) {
-                  angular.forEach(resp.object.contacts, function(val) {
-                      if (angular.equals(val.contactType, "phoneMob")) {
-                          $scope.contacts.phoneMob = val.value;
-                      }
-                      if (angular.equals(val.contactType, "phoneWork")) {
-                          $scope.contacts.phoneWork = val.value;
-                      }
-                      if (angular.equals(val.contactType, "skype")) {
-                          $scope.contacts.skype = val.value;
-                      }
-                      if (angular.equals(val.contactType, "linkedin")) {
-                          $scope.contacts.linkedin = val.value;
-                      }
-                      if (angular.equals(val.contactType, "facebook")) {
-                          $scope.contacts.facebook = val.value;
-                      }
-                      if (angular.equals(val.contactType, "googleplus")) {
-                          $scope.contacts.googleplus = val.value;
-                      }
-                      if (angular.equals(val.contactType, "homepage")) {
-                          $scope.contacts.homepage = val.value;
-                      }
-                  });
-                  oldContacts = angular.copy($scope.contacts);
-              }
-          }else if(resp.code == 'notFound'){
-              notificationService.error($filter('translate')('User not found'));
-              $location.path("company/users");
-          }
+                if (resp.object.contacts) {
+                    angular.forEach(resp.object.contacts, function(val) {
+                        if (angular.equals(val.contactType, "phoneMob")) {
+                            $scope.contacts.phoneMob = val.value;
+                        }
+                        if (angular.equals(val.contactType, "phoneWork")) {
+                            $scope.contacts.phoneWork = val.value;
+                        }
+                        if (angular.equals(val.contactType, "skype")) {
+                            $scope.contacts.skype = val.value;
+                        }
+                        if (angular.equals(val.contactType, "linkedin")) {
+                            $scope.contacts.linkedin = val.value;
+                        }
+                        if (angular.equals(val.contactType, "facebook")) {
+                            $scope.contacts.facebook = val.value;
+                        }
+                        if (angular.equals(val.contactType, "googleplus")) {
+                            $scope.contacts.googleplus = val.value;
+                        }
+                        if (angular.equals(val.contactType, "homepage")) {
+                            $scope.contacts.homepage = val.value;
+                        }
+                    });
+                    oldContacts = angular.copy($scope.contacts);
+                }
+            }else if(resp.code == 'notFound'){
+                notificationService.error($filter('translate')('User not found'));
+                $location.path("company/users");
+            }
         });
 
         $scope.getMoreHistory = function() {
@@ -187,37 +186,37 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         $scope.saveNewRole = function(val,confirmed) {
             console.log($scope.user.recrutRole, '$scope.user.recrutRole')
             if ((val !== undefined && val !== $scope.user.recrutRole && val != 'client') || (val == 'client' && confirmed) || (val != 'client')) {
-                    $rootScope.loading = true;
-                    $scope.newRole = val;
-                    Person.changeUserRole({
-                        personId: $scope.user.personId,
-                        userId: $scope.user.userId,
-                        role: $scope.newRole
-                        //clientId: newClient ? newClient.clientId : $scope.user.client ? $scope.user.client.clientId : ""
-                    }, function(resp) {
-                        if (resp.status && angular.equals(resp.status, "error")) {
+                $rootScope.loading = true;
+                $scope.newRole = val;
+                Person.changeUserRole({
+                    personId: $scope.user.personId,
+                    userId: $scope.user.userId,
+                    role: $scope.newRole
+                    //clientId: newClient ? newClient.clientId : $scope.user.client ? $scope.user.client.clientId : ""
+                }, function(resp) {
+                    if (resp.status && angular.equals(resp.status, "error")) {
+                        $rootScope.loading = false;
+                        resp.message = $filter('translate')(resp.message);
+                        notificationService.error(resp.message);
+                    } else {
+                        Person.getPerson({userId: $stateParams.id}, function(resp) {
                             $rootScope.loading = false;
-                            resp.message = $filter('translate')(resp.message);
-                            notificationService.error(resp.message);
-                        } else {
-                            Person.getPerson({userId: $routeParams.id}, function(resp) {
-                                $rootScope.loading = false;
-                                $scope.user = resp.object;
-                                console.log($scope.user.personParams);
-                                console.log('resp.recrutRole',resp.object.recrutRole,$scope.newRole);
-                                if($scope.newRole == resp.object.recrutRole) {
-                                    $scope.user.recrutRole = $scope.newRole;
-                                    var roleName = $scope.newRole == 'salesmanager' ? "Sales Manager" : $scope.newRole == 'admin' ? "Admin" : $scope.newRole == 'client' ? "Hiring Manager" : $scope.newRole == 'freelancer' ? "Freelancer" : $scope.newRole == 'recruter' ? 'Recruter' : $scope.newRole  == 'researcher'? 'Researcher': 'Researcher';
-                                    var message = $filter('translate')("You has granted role") + " " + roleName + " " + $filter('translate')('_for') + " " + $scope.user.firstName;
-                                    $rootScope.updateMe();
-                                    notificationService.success(message);
-                                    $scope.getLastEvent();
-                                }
-                            });
-                        }
-                    }, function() {
-                        //notificationService.error($filter('translate')('service temporarily unvailable'));
-                    });
+                            $scope.user = resp.object;
+                            console.log($scope.user.personParams);
+                            console.log('resp.recrutRole',resp.object.recrutRole,$scope.newRole);
+                            if($scope.newRole == resp.object.recrutRole) {
+                                $scope.user.recrutRole = $scope.newRole;
+                                var roleName = $scope.newRole == 'salesmanager' ? "Sales Manager" : $scope.newRole == 'admin' ? "Admin" : $scope.newRole == 'client' ? "Hiring Manager" : $scope.newRole == 'freelancer' ? "Freelancer" : $scope.newRole == 'recruter' ? 'Recruter' : $scope.newRole  == 'researcher'? 'Researcher': 'Researcher';
+                                var message = $filter('translate')("You has granted role") + " " + roleName + " " + $filter('translate')('_for') + " " + $scope.user.firstName;
+                                $rootScope.updateMe();
+                                notificationService.success(message);
+                                $scope.getLastEvent();
+                            }
+                        });
+                    }
+                }, function() {
+                    //notificationService.error($filter('translate')('service temporarily unvailable'));
+                });
                 $scope.showChangeRole = false;
             }else if(!confirmed){
                 $scope.modalInstance = $uibModal.open({
@@ -648,7 +647,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 userId: user.userId,
                 enableMailing: !($scope.user.personParams.enableMailing === 'true')
             }).then(resp => {
-                Person.getPerson({userId: $routeParams.id}, function(resp) {
+                Person.getPerson({userId: $stateParams.id}, function(resp) {
                     $scope.user = resp.object;
                 });
                 if(!$scope.user.personParams.enableMailing) {
@@ -743,7 +742,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 },function(resp){
                     if(resp.status == 'ok'){
                         $scope.showForm = true;
-                        Person.getPerson({userId: $routeParams.id}, function(resp) {
+                        Person.getPerson({userId: $stateParams.id}, function(resp) {
                             $scope.user = resp.object;
                             $rootScope.updateMe();
                         });
@@ -787,4 +786,4 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             Mailing.showSentCompaignById(mailing);
         };
     }
-]);
+});

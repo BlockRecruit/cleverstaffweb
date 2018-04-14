@@ -25,12 +25,12 @@ component.component('preview', {
 
 
         $scope.editMessage = function () {
-            Mailing.setStep('mailing.editor');
+            Mailing.setStep('clever-app.mailing.editor');
         };
 
 
         $scope.editDetails = function () {
-            Mailing.setStep("mailing.details");
+            Mailing.setStep("clever-app.mailing.details");
         };
 
 
