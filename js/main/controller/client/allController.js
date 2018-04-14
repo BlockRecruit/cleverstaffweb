@@ -122,7 +122,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
         total: 0,
         getData: function($defer, params) {
             $rootScope.loading = true;
-            if ($rootScope.previousLocation == '/clients/:id') {
+            if ($rootScope.previousLocation == '/clients/{id}') {
                 if ($rootScope.searchParamInClients != undefined) {
                     $scope.searchParam = $rootScope.searchParamInClients;
                     $rootScope.searchParamInClients = null;

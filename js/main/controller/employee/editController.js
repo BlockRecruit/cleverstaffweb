@@ -1,7 +1,7 @@
 function EmployeeEditControllerFunc($rootScope, $http, $scope, $translate, FileInit, $location, Service, Candidate, notificationService, $filter,
-                                    $localStorage, $cookies, $window, serverAddress, Employee, $routeParams, $uibModal) {
+                                    $localStorage, $cookies, $window, serverAddress, Employee, $stateParams, $uibModal) {
     //Service.toAddCandidate("/candidates/");
-    if ($routeParams.employeeId == undefined) {
+    if ($stateParams.employeeId == undefined) {
         $location.path('/company/employees');
     }
     $location.hash('');
@@ -67,7 +67,7 @@ function EmployeeEditControllerFunc($rootScope, $http, $scope, $translate, FileI
         }
     );
 
-    Employee.one({id: $routeParams.employeeId}, function(resp) {
+    Employee.one({id: $stateParams.employeeId}, function(resp) {
         if (resp.status == "ok") {
             $scope.pageObject.employee = resp.object;
             $scope.candidate = $scope.pageObject.employee;
@@ -419,7 +419,7 @@ controller.controller('EmployeeEditController', [
     "$filter", "$localStorage",
     "$cookies",
     "$window",
-    "serverAddress", "Employee", "$routeParams", "$uibModal", EmployeeEditControllerFunc]);
+    "serverAddress", "Employee", "$stateParams", "$uibModal", EmployeeEditControllerFunc]);
 
 
 function initEmploymentType(employmentTArr) {

@@ -1,5 +1,5 @@
-controller.controller('testsAndForms', ["$scope", "Test", "notificationService", "$filter", "$rootScope", "$uibModal", "$window", "$routeParams", "$location", "FileInit", "serverAddress", "Vacancy", "$localStorage",
-    function ($scope, Test, notificationService, $filter, $rootScope, $uibModal, $window, $routeParams, $location, FileInit, serverAddress, Vacancy, $localStorage) {
+controller.controller('testsAndForms', ["$scope", "Test", "notificationService", "$filter", "$rootScope", "$uibModal", "$window", "$stateParams", "$location", "FileInit", "serverAddress", "Vacancy", "$localStorage",
+    function ($scope, Test, notificationService, $filter, $rootScope, $uibModal, $window, $stateParams, $location, FileInit, serverAddress, Vacancy, $localStorage) {
         $scope.optionTab = 'show';
         $scope.textType = false;
         $scope.fieldCheck = false;
@@ -294,7 +294,7 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
         if($rootScope.activePage == "Test page") {
             $scope.testPreview = {};
             Test.getTest({
-                id: $routeParams.id
+                id: $stateParams.id
             }, function(resp) {
                 if (resp.status == "ok") {
                     angular.copy(resp.object, $scope.testPreview);
@@ -332,7 +332,7 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
         };
         $scope.getTestFunc = function () {
             Test.getTest({
-                id: $routeParams.id
+                id: $stateParams.id
             }, function(resp) {
                 if (resp.status == "ok") {
                     $rootScope.sendOneTest = resp.object;

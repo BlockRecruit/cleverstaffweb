@@ -1,4 +1,4 @@
-controller.controller('testResults', ["$scope", "Test", "notificationService", "$filter", "$rootScope", "$uibModal", "$window", "$routeParams", "$location", "ngTableParams", function ($scope, Test, notificationService, $filter, $rootScope, $uibModal, $window, $routeParams, $location, ngTableParams) {
+controller.controller('testResults', ["$scope", "Test", "notificationService", "$filter", "$rootScope", "$uibModal", "$window", "$stateParams", "$location", "ngTableParams", function ($scope, Test, notificationService, $filter, $rootScope, $uibModal, $window, $stateParams, $location, ngTableParams) {
 
     $scope.a = {};
     $scope.a.searchNumber = 1;
@@ -10,16 +10,16 @@ controller.controller('testResults', ["$scope", "Test", "notificationService", "
     if($location.path().match('candidate/tests/results')) {
         $scope.typeOfResults = 'candidate';
         $scope.requestParams = {
-            candidateId: $routeParams.id,
+            candidateId: $stateParams.id,
             page: {number: 0, count: 15}
         };
     } else if($location.path().match('candidate/test/results')) {
         $scope.typeOfResults = 'test';
         $scope.requestParams = {
-            testId: $routeParams.id,
+            testId: $stateParams.id,
             page: {number: 0, count: 15}
         };
-        Test.getTest({id: $routeParams.id}, function (resp) {
+        Test.getTest({id: $stateParams.id}, function (resp) {
             if(resp.status == "ok"){
                 $scope.test = resp.object;
             } else {
@@ -28,7 +28,7 @@ controller.controller('testResults', ["$scope", "Test", "notificationService", "
         });
     } else if($location.path().match('/candidate/test/details/')){
         $scope.typeOfResults = 'detailed';
-        Test.getAppointment({id: $routeParams.id}, function (resp) {
+        Test.getAppointment({id: $stateParams.id}, function (resp) {
             if(resp.status == "ok") {
                 $scope.detailedInfo = {};
                 angular.copy(resp.object, $scope.detailedInfo);

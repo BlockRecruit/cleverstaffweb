@@ -1,6 +1,6 @@
-controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileInit", "Vacancy", "Service", "$location", "Client", "$routeParams",
+controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileInit", "Vacancy", "Service", "$location", "Client", "$stateParams",
     "notificationService", "$filter", "$translate", 'Person', '$uibModal', "Candidate",
-    function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $routeParams, notificationService, $filter, $translate, Person, $uibModal, Candidate) {
+    function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $stateParams, notificationService, $filter, $translate, Person, $uibModal, Candidate) {
         $scope.showStatus = false;
         //$scope.langs = Service.lang();
         $scope.type = "Vacancy edit";
@@ -138,7 +138,7 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
         });
 
         $scope.lang = $translate;
-        Vacancy.one({localId: $routeParams.id}, function(resp) {
+        Vacancy.one({localId: $stateParams.id}, function(resp) {
             if (angular.equals(resp.status, "ok")) {
                 $scope.objectId = resp.object.vacancyId;
                 $scope.vacancy = resp.object;
@@ -263,7 +263,7 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
         });
 
         $scope.cancel = function() {
-            $location.path("/vacancies/" + $routeParams.id);
+            $location.path("/vacancies/" + $stateParams.id);
         };
 
         // $scope.sexObject = [

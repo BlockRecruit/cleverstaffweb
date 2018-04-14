@@ -1,4 +1,4 @@
-function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, googleService, Candidate, notificationService, $location, Client, $filter, vacancyStages) {
+function CandidateEmailSend($scope, $rootScope, $stateParams, Vacancy, Person, googleService, Candidate, notificationService, $location, Client, $filter, vacancyStages) {
     $scope.pageObject = {
         emails: [],
         candidates: [],
@@ -43,10 +43,10 @@ function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, g
         $scope.customStagesFull =resp.object.interviewStates;
     });
 
-    Vacancy.one({localId: $routeParams.vacancyId}, function(resp) {
+    Vacancy.one({localId: $stateParams.vacancyId}, function(resp) {
         if (!resp.object.interviews || resp.object.interviews.length == 0) {
             console.log("returning!",resp.object);
-            $location.path("/vacancies/" + $routeParams.vacancyId);
+            $location.path("/vacancies/" + $stateParams.vacancyId);
             return;
         } else {
             console.log(resp.object);
@@ -244,7 +244,7 @@ function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, g
 
 
     $scope.cancel = function() {
-        $location.path("/vacancies/" + $routeParams.vacancyId);
+        $location.path("/vacancies/" + $stateParams.vacancyId);
     };
 
     $scope.send = function() {
@@ -288,7 +288,7 @@ function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, g
                 $('#toEmails').select2('data', null);
                 $scope.pageObject.mail.subject = "";
                 $scope.pageObject.text = "";
-                $location.path("/vacancies/" + $routeParams.vacancyId);
+                $location.path("/vacancies/" + $stateParams.vacancyId);
                 tinymce.get("candidateText").setContent('');
             } else {
                 $scope.pageObject.error.type = 5;
@@ -356,7 +356,7 @@ function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, g
     }
 }
 
-controller.controller("CandidateEmailSend", ['$scope', '$rootScope', '$routeParams', 'Vacancy', 'Person', 'googleService', 'Candidate', 'notificationService', '$location', 'Client', '$filter', 'vacancyStages', CandidateEmailSend]);
+controller.controller("CandidateEmailSend", ['$scope', '$rootScope', '$stateParams', 'Vacancy', 'Person', 'googleService', 'Candidate', 'notificationService', '$location', 'Client', '$filter', 'vacancyStages', CandidateEmailSend]);
 controller.filter('slice', function() {
     return function(arr, start, end) {
         return (arr || []).slice(start, end);

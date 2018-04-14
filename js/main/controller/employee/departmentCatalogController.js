@@ -1,6 +1,6 @@
-controller.controller('DepartmentCatalogController', ["$scope", "$rootScope", "$routeParams", "Service", "Person",
+controller.controller('DepartmentCatalogController', ["$scope", "$rootScope", "$stateParams", "Service", "Person",
     "Company", "notificationService", "$filter", "$translate","Vacancy","Employee", "$filter",
-    function($scope, $rootScope, $routeParams, Service, Person, Company, notificationService, $translate,
+    function($scope, $rootScope, $stateParams, Service, Person, Company, notificationService, $translate,
              $filter, Vacancy, Employee, $filter) {
         $scope.showCreateDepartment = false;
         $scope.showEditDepartment = false;

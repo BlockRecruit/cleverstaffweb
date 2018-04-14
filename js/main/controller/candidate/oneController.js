@@ -1,7 +1,7 @@
-controller.controller('CandidateOneController', ["CacheCandidates", "$localStorage", "$scope", "frontMode", "$translate", "googleService", "$location", "$routeParams", "Candidate",
+controller.controller('CandidateOneController', ["CacheCandidates", "$localStorage", "$scope", "frontMode", "$translate", "googleService", "$location", "$stateParams", "Candidate",
     "Service", "$rootScope", "Person", "serverAddress", "FileInit", "notificationService", "$filter", "Vacancy",
     "Action", "vacancyStages", "Task", "File", "$sce", "$window", "Mail", "$uibModal", "$timeout", "$route", "Test", "CandidateGroup","sliderElements", "Mailing",
-    function (CacheCandidates, $localStorage, $scope, frontMode, $translate, googleService, $location, $routeParams, Candidate, Service, $rootScope, Person, serverAddress, FileInit,
+    function (CacheCandidates, $localStorage, $scope, frontMode, $translate, googleService, $location, $stateParams, Candidate, Service, $rootScope, Person, serverAddress, FileInit,
               notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup, sliderElements, Mailing) {
         delete $rootScope.client;
         $scope.serverAddress = serverAddress;
@@ -581,7 +581,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $scope.showAddedLinks = false;
             $scope.showAddedFiles = false;
             $rootScope.loading = true;
-            Candidate.one({"localId": $routeParams.id}, function (resp) {
+            Candidate.one({"localId": $stateParams.id}, function (resp) {
                 if (angular.equals(resp.status, "error")) {
                     notificationService.error($filter('translate')('candidate not found'));
                     $location.path('/candidates');
@@ -1241,7 +1241,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 notificationService.error($filter('translate')('Only recruiters, admins and freelancers can adding candidates in vacancy'));
             }
         };
-        $rootScope.mergedCandidate = $routeParams.id;
+        $rootScope.mergedCandidate = $stateParams.id;
         $rootScope.toMerge = function (id) {
             $rootScope.closeModal();
             if($rootScope.me.recrutRole != 'client'){

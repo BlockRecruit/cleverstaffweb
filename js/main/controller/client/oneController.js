@@ -1,4 +1,4 @@
-function ClientOneController(serverAddress, $scope, $routeParams, $location, Client, Service, Contacts, Vacancy, $rootScope, notificationService,
+function ClientOneController(serverAddress, $scope, $stateParams, $location, Client, Service, Contacts, Vacancy, $rootScope, notificationService,
                              $filter, ngTableParams,Person, Action, Task, CacheCandidates, File, FileInit, $translate, $uibModal, $route, Mail, $localStorage) {
     delete $rootScope.candidate;
     $scope.status = Client.getState();
@@ -138,7 +138,7 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
     $scope.updateClient = function () {
         $scope.showAddedLinks = false;
         $scope.showAddedFiles = false;
-        Client.one({"localId": $routeParams.id}, function(resp) {
+        Client.one({"localId": $stateParams.id}, function(resp) {
             if (angular.equals(resp.status, "ok")) {
                 $scope.client = resp.object;
                 $rootScope.client = $scope.client;
@@ -933,5 +933,5 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
 
     ///////////////////////////////////////////////////////////////End of Sent Email
 }
-controller.controller('ClientOneController', ["serverAddress", "$scope", "$routeParams", "$location", "Client", "Service", "Contacts", "Vacancy",
+controller.controller('ClientOneController', ["serverAddress", "$scope", "$stateParams", "$location", "Client", "Service", "Contacts", "Vacancy",
     "$rootScope", "notificationService", "$filter", "ngTableParams",'Person',"Action", "Task", "CacheCandidates", "File", "FileInit", "$translate", "$uibModal", "$route", "Mail", "$localStorage", ClientOneController]);

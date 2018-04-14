@@ -923,7 +923,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         total: 0,
         getData: function ($defer, params) {
             $rootScope.loading = true;
-            if ($rootScope.previousLocation == '/candidates/:id') {
+            if ($rootScope.previousLocation == '/candidates/{id}') {
                 // if ($rootScope.searchParamInCandidate != undefined) {
                 //     $scope.searchParam = $rootScope.searchParamInCandidate;
                 //     console.log( $rootScope.searchParamInCandidate, ' $rootScope.searchParamInCandidate')

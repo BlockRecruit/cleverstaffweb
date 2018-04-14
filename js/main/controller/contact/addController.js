@@ -1,4 +1,4 @@
-controller.controller('ContactAddController',["$scope", "$location", "$routeParams", "$cookies", "Contacts", "Client", "$rootScope", "notificationService", "$filter", "$localStorage", "$window", function($scope, $location, $routeParams, $cookies, Contacts, Client, $rootScope, notificationService, $filter, $localStorage, $window) {
+controller.controller('ContactAddController',["$scope", "$location", "$stateParams", "$cookies", "Contacts", "Client", "$rootScope", "notificationService", "$filter", "$localStorage", "$window", function($scope, $location, $stateParams, $cookies, Contacts, Client, $rootScope, notificationService, $filter, $localStorage, $window) {
     $scope.showAddClient = true;
     $scope.pageType = "add";
     $scope.errorMessage ={};
@@ -47,7 +47,7 @@ controller.controller('ContactAddController',["$scope", "$location", "$routePara
         }
         $scope.contact.contacts = null;
     } else {
-        Client.one({"localId": $routeParams.id}, function(resp) {
+        Client.one({"localId": $stateParams.id}, function(resp) {
             if (resp.status == "ok") {
                 // console.log("RESP");
                 // console.log( $scope.client);
@@ -65,8 +65,8 @@ controller.controller('ContactAddController',["$scope", "$location", "$routePara
     }
     // console.log("INIT");
     $scope.cancel = function() {
-        console.log($routeParams.id);
-        $location.path("/clients/" + $routeParams.id);
+        console.log($stateParams.id);
+        $location.path("/clients/" + $stateParams.id);
     };
     $scope.errorMessage = {
         show: false,

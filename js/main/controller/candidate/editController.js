@@ -1,6 +1,6 @@
-controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope", "FileInit", "$translate", "$routeParams", "$location", "Service", "Candidate", "CacheCandidates", "notificationService", "$filter", "serverAddress", "$window", "$uibModal", "$document",
-    function($http, $rootScope, $scope, FileInit, $translate, $routeParams, $location, Service, Candidate, CacheCandidates, notificationService, $filter, serverAddress, $window, $uibModal, $document) {
-        Service.toEditCandidate($routeParams.id, "/candidates/" + $routeParams.id);
+controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope", "FileInit", "$translate", "$stateParams", "$location", "Service", "Candidate", "CacheCandidates", "notificationService", "$filter", "serverAddress", "$window", "$uibModal", "$document",
+    function($http, $rootScope, $scope, FileInit, $translate, $stateParams, $location, Service, Candidate, CacheCandidates, notificationService, $filter, serverAddress, $window, $uibModal, $document) {
+        Service.toEditCandidate($stateParams.id, "/candidates/" + $stateParams.id);
         $scope.test = {date: new Date()};
         $scope.type = "edit";
         $scope.saveButtonIsPressed = false;
@@ -191,7 +191,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             defaultDate: "01/01/1990"
         };
         $scope.cancel = function() {
-            $location.path("/candidates/" + $routeParams.id);
+            $location.path("/candidates/" + $stateParams.id);
         };
 
         $(".datepickerOfBirth")
@@ -220,7 +220,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             }
         });
         $scope.updateCandidate = function(){
-            Candidate.one({"localId": $routeParams.id}, function(resp) {
+            Candidate.one({"localId": $stateParams.id}, function(resp) {
                 if (angular.equals(resp.status, "ok")) {
 
                     $scope.setOriginAutocompleterValue(resp.object.origin);
@@ -644,7 +644,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
-        $rootScope.mergedCandidate = $routeParams.id;
+        $rootScope.mergedCandidate = $stateParams.id;
         $rootScope.toMerge = function (id) {
             $rootScope.closeModal();
             if($rootScope.me.recrutRole != 'client'){
@@ -676,7 +676,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
-        $rootScope.mergedCandidate = $routeParams.id;
+        $rootScope.mergedCandidate = $stateParams.id;
         $rootScope.toMerge = function (id) {
             $rootScope.closeModal();
             if($rootScope.me.recrutRole != 'client'){

@@ -1,5 +1,5 @@
-controller.controller('ContactsOneController', ["$scope", "Contacts", "$routeParams", "$location", "notificationService", "$filter", function($scope, Contacts, $routeParams, $location, notificationService, $filter) {
-    Contacts.one({"localId": $routeParams.id}, function(resp) {
+controller.controller('ContactsOneController', ["$scope", "Contacts", "$stateParams", "$location", "notificationService", "$filter", function($scope, Contacts, $stateParams, $location, notificationService, $filter) {
+    Contacts.one({"localId": $stateParams.id}, function(resp) {
         if (resp.status === "error" || angular.equals(resp.object.status, "R")) {
             notificationService.error($filter('translate')('contact not found'));
             if (resp.object && resp.object.clientId && resp.object.clientId.localId) {

@@ -1,6 +1,6 @@
-controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope", "$routeParams", "$location","$translate","Service",
+controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope", "$stateParams", "$location","$translate","Service",
     "notificationService","$filter", "Account", "Pay","Company",
-    function ($scope, Person, $rootScope, $routeParams, $location, $translate, Service, notificationService, $filter, Account, Pay, Company) {
+    function ($scope, Person, $rootScope, $stateParams, $location, $translate, Service, notificationService, $filter, Account, Pay, Company) {
         $scope.numberVacancy = 0;
         $scope.trueVisionBlockUser = $rootScope.blockUser;
         $rootScope.blockUser = false;

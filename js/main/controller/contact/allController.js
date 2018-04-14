@@ -14,7 +14,7 @@ controller.controller('ContactsController',["$scope", "ngTableParams", "Contacts
         pages: {count: 15}
     };
 
-    if ($rootScope.previousLocation == '/contacts/:id') {
+    if ($rootScope.previousLocation == '/contacts/{id}') {
         if ($rootScope.searchParamInContacts != undefined) {
             $scope.searchParam = $rootScope.searchParamInContacts;
             $rootScope.searchParamInContacts = null;

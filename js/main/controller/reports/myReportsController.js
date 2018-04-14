@@ -1,5 +1,5 @@
 
-function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter, translateWords,
+function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $stateParams, notificationService, $filter, translateWords,
                        $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, reportsService, $window) {
     try {
         Stat.requestGetCustomVacancyReports()
@@ -30,7 +30,7 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
 }
 controller
     .controller("MyReportsCtrl", ["$rootScope", "$scope", "Vacancy", "Service", "$location",
-        "$routeParams", "notificationService", "$filter", "translateWords", "$translate",
+        "$stateParams", "notificationService", "$filter", "translateWords", "$translate",
         "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService","reportsService","$window", MyReportsCtrl]);
 
 

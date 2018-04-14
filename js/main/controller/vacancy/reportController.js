@@ -1,6 +1,6 @@
 controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileInit", "Vacancy", "Service", "$location", "Client",
-    "$routeParams", "notificationService", "$filter", "$translate", 'Person', "Statistic", "vacancyStages", "Company",
-    function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $routeParams, notificationService, $filter,
+    "$stateParams", "notificationService", "$filter", "$translate", 'Person', "Statistic", "vacancyStages", "Company",
+    function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $stateParams, notificationService, $filter,
              $translate, Person, Statistic, vacancyStages, Company) {
         var chartHeight = 0;
         $scope.lang = $translate;
@@ -8,7 +8,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             $scope.customStages = resp.object.interviewStates;
         });
 
-        Vacancy.one({"localId": $routeParams.id}, function(resp) {
+        Vacancy.one({"localId": $stateParams.id}, function(resp) {
             $scope.vacancy = resp.object;
             $scope.deadline = new Date($scope.vacancy.dateFinish).getTime();
             $("#dateFrom").datetimepicker({

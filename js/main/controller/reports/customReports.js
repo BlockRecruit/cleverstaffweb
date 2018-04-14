@@ -1,5 +1,5 @@
 
-    function customReports($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter, translateWords,
+    function customReports($rootScope, $scope, Vacancy, Service, $location, $stateParams, notificationService, $filter, translateWords,
                            $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, CustomReportEditService) {
         try {
             let updateReport = () => CustomReportsService.buildReport.call(this, $scope);
@@ -40,7 +40,7 @@
     }
     controller
         .controller("CustomReports", ["$rootScope", "$scope", "Vacancy", "Service", "$location",
-            "$routeParams", "notificationService", "$filter", "translateWords", "$translate",
+            "$stateParams", "notificationService", "$filter", "translateWords", "$translate",
             "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService","CustomReportEditService", customReports]);
 
 

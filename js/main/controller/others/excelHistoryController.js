@@ -1,6 +1,6 @@
 controller.controller('excelHistoryController', ["$localStorage", "frontMode", "googleService", "serverAddress", "$rootScope",
-    "$scope", "$routeParams", "Vacancy", "$location", "Candidate", "notificationService", "$translate", "$filter", "$window",
-    function ($localStorage, frontMode, googleService, serverAddress, $rootScope, $scope, $routeParams, Vacancy,
+    "$scope", "$stateParams", "Vacancy", "$location", "Candidate", "notificationService", "$translate", "$filter", "$window",
+    function ($localStorage, frontMode, googleService, serverAddress, $rootScope, $scope, $stateParams, Vacancy,
               $location, Candidate, notificationService, $translate, $filter, $window) {
         $scope.serverAddress = serverAddress;
         Candidate.getSearchHistoryAdmin({type: 'cleverstaff_excel'}, function (resp) {

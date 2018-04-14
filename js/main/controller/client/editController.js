@@ -1,5 +1,5 @@
-controller.controller('ClientEditController', ["$rootScope", "serverAddress", "FileInit", "$scope", "$routeParams", "$location", "Client", "Service", "notificationService", "$filter",'Person', '$uibModal', '$localStorage', "$translate",
-    function($rootScope, serverAddress, FileInit, $scope, $routeParams, $location, Client, Service, notificationService, $filter,Person, $uibModal, $localStorage, $translate) {
+controller.controller('ClientEditController', ["$rootScope", "serverAddress", "FileInit", "$scope", "$stateParams", "$location", "Client", "Service", "notificationService", "$filter",'Person', '$uibModal', '$localStorage', "$translate",
+    function($rootScope, serverAddress, FileInit, $scope, $stateParams, $location, Client, Service, notificationService, $filter,Person, $uibModal, $localStorage, $translate) {
         $scope.clickedSaveClient = false;
         $scope.fieldValues = {
             objType: "client",
@@ -13,7 +13,7 @@ controller.controller('ClientEditController', ["$rootScope", "serverAddress", "F
 
         $scope.objType = 'client';
 
-        Client.one({"localId": $routeParams.id}, function(resp) {
+        Client.one({"localId": $stateParams.id}, function(resp) {
             if (angular.equals(resp.status, "ok")) {
                 if (resp.object.region && resp.object.region.fullName != undefined) {
                     $scope.regionInput = resp.object.region.displayFullName;
@@ -151,7 +151,7 @@ controller.controller('ClientEditController', ["$rootScope", "serverAddress", "F
 
 
         $scope.cancel = function() {
-            $location.path("/clients/" + $routeParams.id);
+            $location.path("/clients/" + $stateParams.id);
         };
         $scope.addPhoto = function() {
             $('#photoFile').click();

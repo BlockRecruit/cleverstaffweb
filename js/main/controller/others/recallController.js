@@ -1,6 +1,6 @@
-controller.controller('recallController', ["$localStorage", "frontMode", "googleService", "serverAddress", "$rootScope", "$scope", "$routeParams",
+controller.controller('recallController', ["$localStorage", "frontMode", "googleService", "serverAddress", "$rootScope", "$scope", "$stateParams",
     "Vacancy", "$location", "Candidate", "notificationService", "$translate", "$filter", "vacancyStages", "Mail", "FileInit", "$uibModal",
-    function ($localStorage, frontMode, googleService, serverAddress, $rootScope, $scope, $routeParams, Vacancy, $location, Candidate, notificationService, $translate, $filter,
+    function ($localStorage, frontMode, googleService, serverAddress, $rootScope, $scope, $stateParams, Vacancy, $location, Candidate, notificationService, $translate, $filter,
               vacancyStages, Mail, FileInit, $uibModal) {
         $scope.serverAddress = serverAddress;
         $rootScope.recallCandidate = {candidateId: null};
@@ -163,7 +163,7 @@ controller.controller('recallController', ["$localStorage", "frontMode", "google
             //$rootScope.emailTemplateInModal.email.toString();
         };
 
-        Vacancy.oneRecall({"recallId": $routeParams.id}, function (resp) {
+        Vacancy.oneRecall({"recallId": $stateParams.id}, function (resp) {
             if (resp.object.message) {
                 $("#recall_description").html(resp.object.message.replace(/\r|\n/g, "<br>"))
             }

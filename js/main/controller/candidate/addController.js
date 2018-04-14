@@ -1,7 +1,7 @@
 controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope", "$translate", "FileInit", "$location", "Service", "Candidate", "notificationService", "$filter",
-    "$localStorage", "$cookies", "$window", "serverAddress","$routeParams", "$uibModal", "CustomField","sliderElements",
+    "$localStorage", "$cookies", "$window", "serverAddress","$stateParams", "$uibModal", "CustomField","sliderElements",
     function($rootScope, $http, $scope, $translate, FileInit, $location, Service, Candidate, notificationService, $filter, $localStorage,
-             $cookies, $window, serverAddress,$routeParams, $uibModal, CustomField, sliderElements) {
+             $cookies, $window, serverAddress,$stateParams, $uibModal, CustomField, sliderElements) {
     Service.toAddCandidate("/candidates/");
 
 

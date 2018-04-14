@@ -8002,7 +8002,7 @@ angular.module('services.checkAccess', [
                 }
                 if (data.status === 'error') {
                     $cookies.url = $location.$$url;
-                    if (route && route.originalPath == '/vacancies/:id') {
+                    if (route && route.originalPath == '/vacancies/{id}') {
                         $window.location.replace($location.$$protocol + "://" + $location.$$host + "/i#/pv/" + params.id);
                     } else {
                         //$window.location.replace('/');
@@ -8019,7 +8019,7 @@ angular.module('services.checkAccess', [
                 $cookies.url = $location.$$url;
                 $cookies.cfauth = 'false';
 
-                if (route && route.originalPath == '/vacancies/:id') {
+                if (route && route.originalPath == '/vacancies/{id}') {
                     if (frontMode == 'demo') {
                         $window.location.replace($location.$$protocol + "://" + $location.$$host + "/di#/pv/" + params.id);
                     } else {
@@ -15931,18 +15931,8 @@ angular.module('RecruitingApp', [
 ]).config(['$routeProvider', '$locationProvider','$analyticsProvider', '$stateProvider', '$urlRouterProvider', function ($routeProvider, $locationProvider, $analyticsProvider, $stateProvider, $urlRouterProvider) {
     $locationProvider.hashPrefix('');
     // customRouteProvider
-    //     .when('/organizer', {
-    //         templateUrl: 'partials/future.html',
-    //         title: 'Organizer',
-    //         controller: 'ActivityFutureController',
-    //         pageName: "Activity"
-    //     })
-    //     .when('/organizer/calendar', {
-    //         templateUrl: 'partials/GoogleCalendar.html',
-    //         title: 'Google Calendar',
-    //         controller: 'ActivityCalendarController',
-    //         pageName: "Activity Calendar"
-    //     }).when('/efficiency', {
+    //
+    //     .when('/efficiency', {
     //         templateUrl: 'partials/efficiency.html',
     //         title: 'Efficiency',
     //         controller: 'EfficiencyController',
@@ -15954,7 +15944,7 @@ angular.module('RecruitingApp', [
     //         controller: 'ActivityStatisticsController',
     //         pageName: "Statistics client"
     //     })
-    //     .when('/company/settings/:param', {
+    //     .when('/company/settings/{param}', {
     //         templateUrl: 'partials/companysettings.html',
     //         title: 'Company settings',
     //         controller: 'ActivityCompanySettingsController',
@@ -15993,32 +15983,13 @@ angular.module('RecruitingApp', [
     //         controller: "NotificationController",
     //         pageName: "Notification"
     //     })
-    //     //.when('/pay', {
-    //     //    title: 'pay',
-    //     //    templateUrl: 'partials/pay.html',
-    //     //    controller: "payController",
-    //     //    pageName: "pay"
-    //     //})
-    //     //.when('/payPlaton', {
-    //     //    title: 'Pay',
-    //     //    templateUrl: 'partials/payPlaton.html',
-    //     //    controller: "payPlatonController",
-    //     //    pageName: "pay"
-    //     //})
     //     .when('/pay', {
     //         title: 'Pay',
     //         templateUrl: 'partials/pay.html',
     //         controller: "payWay4PayController",
     //         pageName: "pay"
     //     })
-    //     .when('/candidates/:id', {
-    //         title: 'Candidate',
-    //         templateUrl: 'partials/candidate.html',
-    //         controller: "CandidateOneController",
-    //         pageName: "Candidate",
-    //         reloadOnSearch: false
-    //     })
-    //     .when('/candidates/:id/:test', {
+    //     .when('/candidates/{id}/{test}', {
     //         title: 'Candidate',
     //         templateUrl: 'partials/candidate.html',
     //         controller: "CandidateOneController",
@@ -16031,14 +16002,14 @@ angular.module('RecruitingApp', [
     //         controller: "CandidateAddController",
     //         pageName: "Candidate add"
     //     })
-    //     .when('/candidate/edit/:id', {
+    //     .when('/candidate/edit/{id}', {
     //         title: 'Edit candidate',
     //         templateUrl: "partials/candidate-add.html",
     //         controller: "CandidateEditController",
     //         pageName: "Candidate edit",
     //         reloadOnSearch: false
     //     })
-    //     .when('/candidate/merge/:id', {
+    //     .when('/candidate/merge/{id}', {
     //         title: 'Merge candidate',
     //         templateUrl: "partials/candidate-merge.html",
     //         controller: "CandidateMergeController",
@@ -16049,27 +16020,27 @@ angular.module('RecruitingApp', [
     //         templateUrl: "partials/tests.html",
     //         controller: "testsAndForms",
     //         pageName: "Tests and forms"
-    //     }).when('/candidate/test/:id', {
+    //     }).when('/candidate/test/{id}', {
     //         title: "Tests and forms",
     //         templateUrl: "partials/test.html",
     //         controller: "testsAndForms",
     //         pageName: "Test page"
-    //     }).when('/candidate/test/results/:id', {
+    //     }).when('/candidate/test/results/{id}', {
     //         title: "Test results",
     //         templateUrl: "partials/test-result.html",
     //         controller: "testResults",
     //         pageName: "Test results"
-    //     }).when('/candidate/test/details/:id', {
+    //     }).when('/candidate/test/details/{id}', {
     //         title: "Detailed test results",
     //         templateUrl: "partials/test-detail.html",
     //         controller: "testResults",
     //         pageName: "Detailed test results"
-    //     }).when('/candidate/tests/results/:id', {
+    //     }).when('/candidate/tests/results/{id}', {
     //         title: "Tests results",
     //         templateUrl: "partials/test-result.html",
     //         controller: "testResults",
     //         pageName: "Tests results"
-    //     }).when('/candidate/send-test-candidate-to-email/:id', {
+    //     }).when('/candidate/send-test-candidate-to-email/{id}', {
     //         title: "Send test candidate to email",
     //         templateUrl: "partials/sendTestCandidateToEmail.html",
     //         controller: "testsAndForms",
@@ -16117,34 +16088,34 @@ angular.module('RecruitingApp', [
     //         controller: "ClientAddController",
     //         pageName: "Client add"
     //     })
-    //     .when('/client/edit/:id', {
+    //     .when('/client/edit/{id}', {
     //         title: 'Edit client',
     //         templateUrl: 'partials/client-add.html',
     //         controller: "ClientEditController",
     //         pageName: "Client edit",
     //         reloadOnSearch: false
     //     })
-    //     .when('/clients/:id', {
+    //     .when('/clients/{id}', {
     //         title: 'Client',
     //         templateUrl: "partials/client.html",
     //         controller: "ClientOneController",
     //         reloadOnSearch: false,
     //         pageName: "Clients"
     //     })
-    //     .when('/contacts/:id', {
+    //     .when('/contacts/{id}', {
     //         title: 'Contacts',
     //         templateUrl: "partials/contacts.html",
     //         controller: "ContactsOneController",
     //         reloadOnSearch: false,
     //         pageName: "Clients"
     //     })
-    //     .when('/contact/add/:id', {
+    //     .when('/contact/add/{id}', {
     //         title: 'Add contact',
     //         templateUrl: "partials/contact-add.html",
     //         controller: "ContactAddController",
     //         pageName: "Clients"
     //     })
-    //     .when('/contact/edit/:contactId', {
+    //     .when('/contact/edit/{contactId}', {
     //         title: 'Edit contact',
     //         templateUrl: "partials/contact-add.html",
     //         controller: "ContactEditController",
@@ -16157,7 +16128,7 @@ angular.module('RecruitingApp', [
     //         controller: "vacanciesController",
     //         pageName: "Vacancies"
     //     })
-    //     .when('/vacancies/:id', {
+    //     .when('/vacancies/{id}', {
     //         title: 'Vacancy',
     //         templateUrl: 'partials/vacancy.html',
     //         controller: "vacancyController",
@@ -16178,14 +16149,14 @@ angular.module('RecruitingApp', [
     //             }
     //         }
     //     })
-    //     .when('/vacancy/edit/:id', {
+    //     .when('/vacancy/edit/{id}', {
     //         title: 'Edit vacancy',
     //         templateUrl: 'partials/vacancy-add.html',
     //         controller: "vacancyEditController",
     //         pageName: "Vacancy edit",
     //         reloadOnSearch: false
     //     })
-    //     .when('/vacancy/report/:id', {
+    //     .when('/vacancy/report/{id}', {
     //         title: 'Vacancy report',
     //         templateUrl: 'partials/vacancy-reports.html',
     //         controller: 'vacancyReportController',
@@ -16197,7 +16168,7 @@ angular.module('RecruitingApp', [
     //         controller: 'reportsController',
     //         pageName: 'Vacancy report'
     //     })
-    //     .when('/reports/vacancy/:id', {
+    //     .when('/reports/vacancy/{id}', {
     //         title: 'Vacancy report',
     //         templateUrl: 'partials/vacancy-reports.html',
     //         controller: 'vacancyReportController',
@@ -16221,23 +16192,23 @@ angular.module('RecruitingApp', [
     //         controller: "CustomFieldController",
     //         pageName: "Custom fields"
     //     })
-    //     .when('/users/:id', {
+    //     .when('/users/{id}', {
     //         title: "User",
     //         templateUrl: "partials/user.html",
     //         controller: "userOneController",
     //         pageName: "Users"
     //     })
-    //     .when('/personInfo/:id', {
+    //     .when('/personInfo/{id}', {
     //         title: "User Info",
     //         templateUrl: "partials/user.html",
     //         controller: "userOneController",
     //         pageName: "User"
-    //     }).when('/recalls/:id', {
+    //     }).when('/recalls/{id}', {
     //         title: "Recalls Info",
     //         templateUrl: "partials/recall.html",
     //         controller: "recallController",
     //         pageName: "Recalls Info"
-    //     }).when('/email/vacancy/:vacancyId', {
+    //     }).when('/email/vacancy/{vacancyId}', {
     //         title: "Send email",
     //         templateUrl: "partials/vacancy-send-candidates-to-client.html",
     //         controller: "CandidateEmailSend",
@@ -16253,7 +16224,7 @@ angular.module('RecruitingApp', [
     //         controller: "EmployeesController",
     //         pageName: "Company employees"
     //     })
-    //     .when('/company/employees/:id', {
+    //     .when('/company/employees/{id}', {
     //         title: "employees",
     //         templateUrl: "partials/employee.html",
     //         controller: "EmployeeOneController",
@@ -16265,13 +16236,13 @@ angular.module('RecruitingApp', [
     //         controller: "EmployeeAddController",
     //         pageName: "Employee add"
     //     })
-    //     .when('/company/employee/add/:candidateId', {
+    //     .when('/company/employee/add/{candidateId}', {
     //         title: "Adding an employee",
     //         templateUrl: "partials/employee-add-from-candidate.html",
     //         controller: "EmployeeAddFromCandidateController",
     //         pageName: "Users"
     //     })
-    //     .when('/company/employees/edit/:employeeId', {
+    //     .when('/company/employees/edit/{employeeId}', {
     //         title: "Edit candidate",
     //         templateUrl: "partials/employee-add.html",
     //         controller: "EmployeeEditController",
@@ -16394,6 +16365,15 @@ angular.module('RecruitingApp', [
             pageName: 'Activity'
         }
     },{
+        url:'/organizer/calendar',
+        name: 'calendar',
+        templateUrl: 'partials/GoogleCalendar.html',
+        controller: 'ActivityCalendarController',
+        data: {
+            title: 'Google Calendar',
+            pageName: 'Activity Calendar'
+        }
+    },{
         url: "/mailing",
         name: 'mailing',
         component: 'mailing'
@@ -16440,6 +16420,16 @@ angular.module('RecruitingApp', [
             title: 'Candidates',
             pageName: "Candidates"
         }
+    }, {
+        url:'/candidates/{id}',
+        name: 'candidate',
+        templateUrl: 'partials/candidate.html',
+        controller: "CandidateOneController",
+        data: {
+            title: "Candidate",
+            pageName: "Candidate"
+        },
+        reloadOnSearch: false
     }];
     states.forEach((state) => {
         $stateProvider.state(state);
@@ -16499,7 +16489,7 @@ angular.module('RecruitingApp', [
     });
 //    --------------------------------------------------------------------------------------------------------- Interceptor on every response
     $httpProvider.interceptors.push('responseObserver');
-}]).run(function ($rootScope, $templateCache, CheckAccess, $window, $transitions) {
+}]).run(function ($rootScope, $templateCache, CheckAccess, $window, $transitions, $q, $location, $http, serverAddress,$filter, notificationService) {
     $transitions.onBefore({}, function (transition) {
         if(transition.to() !== undefined && transition.to().url !== undefined) {
             $rootScope.currentLocation = transition.to().url;
@@ -16507,42 +16497,36 @@ angular.module('RecruitingApp', [
         if(transition.from() !== undefined && transition.from().url !== undefined) {
             $rootScope.previousLocation = transition.from().url;
         }
+        var defer = $q.defer();
+        SecurityFilter($rootScope, defer, $location, $http, serverAddress,$filter, notificationService, $rootScope.currentLocation);
+        return defer.promise;
     });
-}).run(function ($location, $rootScope, CheckAccess, $window, $filter, $localStorage, Vacancy, notificationService, translateWords, $state, $stateParams) {
+}).run(function ($location, $rootScope, CheckAccess, $window, $filter, $localStorage, Vacancy, notificationService, translateWords,$transitions, $state, $stateParams) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
-    $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
-
-
-        if(previous && previous.$$route != undefined){
-            if( previous.$$route.pageName === "Custom fields" ){
+    $transitions.onSuccess({}, function (transition) {
+        if(transition.from() && transition.from().url != undefined){
+            if( transition.from().url === "/company/custom-fields" ){
                 delete $rootScope['tabsForFields'];
                 delete $rootScope['setAccess'];
             }
 
-            if(current.originalPath == "/candidates/:id"&& previous.originalPath != "/vacancies/:id"){
+            if(transition.to().url == "/candidates/{id}" && transition.to().url != "/vacancies/{id}"){
                 $rootScope.stageUrl = false;
             }
         }else{
             $rootScope.stageUrl = false;
         }
-
-        if (current.$$route != undefined) {
-            if (current.$$route.title !== undefined) {
-                // $rootScope.notFormatedTitle = $filter('translate')(current.$$route.title);
-                translateWords.getTranslete(current.$$route.title, $rootScope, 'title', true);
-                $rootScope.title = $filter('translate')(current.$$route.title) + " | CleverStaff";
-                var firstPage = $location.$$protocol + "://" + $location.$$host + "/!#/ask_question";
-                var secondPage = $location.$$protocol + "://" + $location.$$host + "/!#/report_problem_on_this_page";
-                var thirdPage = $location.$$protocol + "://" + $location.$$host + "/!#/suggest_improvement_or_request_feature";
-                $rootScope.previousHistoryFeedback = $location.$$absUrl;
-                //console.log($location.$$path.replace('/candidates/'+$scope.candidate.localId, '/candidates/'));
-                if($rootScope.previousHistoryFeedback != firstPage && $rootScope.previousHistoryFeedback != secondPage && $rootScope.previousHistoryFeedback != thirdPage){
-                    $localStorage.set('previousHistoryFeedback', $rootScope.previousHistoryFeedback);
-                }
-
-            }
-            if(current.$$route.originalPath != undefined && current.$$route.originalPath == "/cloud-admin"){
+        var firstPage = $location.$$protocol + "://" + $location.$$host + "/!#/ask_question";
+        var secondPage = $location.$$protocol + "://" + $location.$$host + "/!#/report_problem_on_this_page";
+        var thirdPage = $location.$$protocol + "://" + $location.$$host + "/!#/suggest_improvement_or_request_feature";
+        $rootScope.previousHistoryFeedback = $location.$$absUrl;
+        //console.log($location.$$path.replace('/candidates/'+$scope.candidate.localId, '/candidates/'));
+        if($rootScope.previousHistoryFeedback != firstPage && $rootScope.previousHistoryFeedback != secondPage && $rootScope.previousHistoryFeedback != thirdPage){
+            $localStorage.set('previousHistoryFeedback', $rootScope.previousHistoryFeedback);
+        }
+        if (transition.to() != undefined) {
+            if(transition.to().url != undefined && transition.to().url == "/cloud-admin"){
                 if($rootScope.me){
                     if($rootScope['me']['personParams']['domainAdmin'] == 'all'){
                         document.title = 'Admin Panel of all accounts | CleverStaff';
@@ -16552,15 +16536,15 @@ angular.module('RecruitingApp', [
                 }
 
             }
-            if (current.$$route.pageName !== undefined) {
-                if($rootScope.activePage == 'Candidate'){
+            if (transition.to().url !== undefined) {
+                if(transition.to().url == '/candidates/{id}'){
                     if(angular.element($window).width() < 992){
                         $rootScope.hideContainer = false;
                     }
                 }else{
                     $rootScope.hideContainer = true;
                 }
-                if($rootScope.activePage != 'Candidate edit'){
+                if(transition.to().url != '/candidate/edit/{id}'){
                     $('#select2-drop').hide();
                     $('#select2-drop-mask').hide();
                 }
@@ -16781,8 +16765,8 @@ function checkUrlByRole(url, Role,  accessLevel, $location, serverAddress, $http
         } else {
             return true;
         }
-    }else if ((accessLevel == 'hide') && (url == "/vacancy/add" || url == "/vacancy/edit/:id" || url == "/clients" ||
-        url == '/client/add/' || url == '/client/edit/:id' || url == '/email/vacancy/:vacancyId')) {
+    }else if ((accessLevel == 'hide') && (url == "/vacancy/add" || url == "/vacancy/edit/{id}" || url == "/clients" ||
+        url == '/client/add/' || url == '/client/edit/{id}' || url == '/email/vacancy/{vacancyId}')) {
 
         notificationService.error($filter('translate')('This function is not available'));
         $location.path('/vacancies');
@@ -16796,9 +16780,9 @@ function setPersonParams($http, userId, paramName, paramValue, serverAddress) {
     });
 }
 
-function SecurityFilter($rootScope, deffer, $location, $route, $http, serverAddress, $filter, notificationService) {
-    if ($route.current.$$route != undefined) {
-        var routeName = $route.current.$$route.originalPath;
+function SecurityFilter($rootScope, deffer, $location, $http, serverAddress, $filter, notificationService, urlTo) {
+    if (urlTo != undefined) {
+        var routeName = urlTo;
         $rootScope.$watch(
             'me',
             function meWatch(newValue,oldValue){
@@ -17143,8 +17127,8 @@ controller.controller('ActivityCalendarController', ["Person", "$scope", "$rootS
         });
 }]);
 
-controller.controller('ActivityCompanySettingsController', ["$scope", "$rootScope", "$routeParams", "Service", "Person", "Company", "notificationService", "$filter", "$translate",
-    "Vacancy", "$location", "$uibModal", function($scope, $rootScope, $routeParams, Service, Person, Company, notificationService, $filter, $translate, Vacancy, $location, $uibModal) {
+controller.controller('ActivityCompanySettingsController', ["$scope", "$rootScope", "$stateParams", "Service", "Person", "Company", "notificationService", "$filter", "$translate",
+    "Vacancy", "$location", "$uibModal", function($scope, $rootScope, $stateParams, Service, Person, Company, notificationService, $filter, $translate, Vacancy, $location, $uibModal) {
 
     $scope.showHistory = true;
     $scope.facebookAppId = facebookAppId;
@@ -18889,7 +18873,7 @@ controller.controller('reportsController',["$scope", "$rootScope", "$location", 
         };
 
         //This function must be after init searchParam
-        if ($rootScope.previousLocation == '/vacancies/:id') {
+        if ($rootScope.previousLocation == '/vacancies/{id}') {
             if ($rootScope.searchParamInVacancies != undefined) {
                 $scope.searchParam = $rootScope.searchParamInVacancies;
                 if($scope.searchParam.clientId){
@@ -18901,7 +18885,7 @@ controller.controller('reportsController',["$scope", "$rootScope", "$location", 
                 }
                 $rootScope.searchParamInVacancies = null;
             }
-        }else if ($rootScope.previousLocation == '/clients/:id' && $rootScope.allClientsVacancies == true){
+        }else if ($rootScope.previousLocation == '/clients/{id}' && $rootScope.allClientsVacancies == true){
             $scope.searchParam = {
                 searchCs: true,
                 salary: "",
@@ -19012,7 +18996,7 @@ controller.controller('reportsController',["$scope", "$rootScope", "$location", 
             total: 0,
             getData: function($defer, params) {
                 $rootScope.loading = true;
-                if ($rootScope.previousLocation == '/vacancies/:id') {
+                if ($rootScope.previousLocation == '/vacancies/{id}') {
                     if($scope.previousFlag){
                         $scope.tableParams.page($rootScope.previousSearchNumber);
                         $scope.previousFlag = !$scope.previousFlag;
@@ -19688,9 +19672,9 @@ controller.controller('ActivityStatisticsController', ["$scope", "$rootScope", "
 }]);
 
 controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope", "$translate", "FileInit", "$location", "Service", "Candidate", "notificationService", "$filter",
-    "$localStorage", "$cookies", "$window", "serverAddress","$routeParams", "$uibModal", "CustomField","sliderElements",
+    "$localStorage", "$cookies", "$window", "serverAddress","$stateParams", "$uibModal", "CustomField","sliderElements",
     function($rootScope, $http, $scope, $translate, FileInit, $location, Service, Candidate, notificationService, $filter, $localStorage,
-             $cookies, $window, serverAddress,$routeParams, $uibModal, CustomField, sliderElements) {
+             $cookies, $window, serverAddress,$stateParams, $uibModal, CustomField, sliderElements) {
     Service.toAddCandidate("/candidates/");
 
 
@@ -21755,7 +21739,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         total: 0,
         getData: function ($defer, params) {
             $rootScope.loading = true;
-            if ($rootScope.previousLocation == '/candidates/:id') {
+            if ($rootScope.previousLocation == '/candidates/{id}') {
                 // if ($rootScope.searchParamInCandidate != undefined) {
                 //     $scope.searchParam = $rootScope.searchParamInCandidate;
                 //     console.log( $rootScope.searchParamInCandidate, ' $rootScope.searchParamInCandidate')
@@ -22913,7 +22897,7 @@ controller.controller('CandidateController', ["$localStorage", "$translate", "Se
     "$window", "ScopeService", "frontMode", "Vacancy", "Company", "vacancyStages", "$sce", "$analytics", "Mail", "FileInit",
     "$uibModal", "Person", "$timeout", "CandidateGroup", "$anchorScroll", CandidateAllController]);
 
-function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, googleService, Candidate, notificationService, $location, Client, $filter, vacancyStages) {
+function CandidateEmailSend($scope, $rootScope, $stateParams, Vacancy, Person, googleService, Candidate, notificationService, $location, Client, $filter, vacancyStages) {
     $scope.pageObject = {
         emails: [],
         candidates: [],
@@ -22958,10 +22942,10 @@ function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, g
         $scope.customStagesFull =resp.object.interviewStates;
     });
 
-    Vacancy.one({localId: $routeParams.vacancyId}, function(resp) {
+    Vacancy.one({localId: $stateParams.vacancyId}, function(resp) {
         if (!resp.object.interviews || resp.object.interviews.length == 0) {
             console.log("returning!",resp.object);
-            $location.path("/vacancies/" + $routeParams.vacancyId);
+            $location.path("/vacancies/" + $stateParams.vacancyId);
             return;
         } else {
             console.log(resp.object);
@@ -23159,7 +23143,7 @@ function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, g
 
 
     $scope.cancel = function() {
-        $location.path("/vacancies/" + $routeParams.vacancyId);
+        $location.path("/vacancies/" + $stateParams.vacancyId);
     };
 
     $scope.send = function() {
@@ -23203,7 +23187,7 @@ function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, g
                 $('#toEmails').select2('data', null);
                 $scope.pageObject.mail.subject = "";
                 $scope.pageObject.text = "";
-                $location.path("/vacancies/" + $routeParams.vacancyId);
+                $location.path("/vacancies/" + $stateParams.vacancyId);
                 tinymce.get("candidateText").setContent('');
             } else {
                 $scope.pageObject.error.type = 5;
@@ -23271,7 +23255,7 @@ function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, g
     }
 }
 
-controller.controller("CandidateEmailSend", ['$scope', '$rootScope', '$routeParams', 'Vacancy', 'Person', 'googleService', 'Candidate', 'notificationService', '$location', 'Client', '$filter', 'vacancyStages', CandidateEmailSend]);
+controller.controller("CandidateEmailSend", ['$scope', '$rootScope', '$stateParams', 'Vacancy', 'Person', 'googleService', 'Candidate', 'notificationService', '$location', 'Client', '$filter', 'vacancyStages', CandidateEmailSend]);
 controller.filter('slice', function() {
     return function(arr, start, end) {
         return (arr || []).slice(start, end);
@@ -23283,9 +23267,9 @@ function validEmail(email, notificationService) {
     var r = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/gi;
     return !email.match(r);
 }
-controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope", "FileInit", "$translate", "$routeParams", "$location", "Service", "Candidate", "CacheCandidates", "notificationService", "$filter", "serverAddress", "$window", "$uibModal", "$document",
-    function($http, $rootScope, $scope, FileInit, $translate, $routeParams, $location, Service, Candidate, CacheCandidates, notificationService, $filter, serverAddress, $window, $uibModal, $document) {
-        Service.toEditCandidate($routeParams.id, "/candidates/" + $routeParams.id);
+controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope", "FileInit", "$translate", "$stateParams", "$location", "Service", "Candidate", "CacheCandidates", "notificationService", "$filter", "serverAddress", "$window", "$uibModal", "$document",
+    function($http, $rootScope, $scope, FileInit, $translate, $stateParams, $location, Service, Candidate, CacheCandidates, notificationService, $filter, serverAddress, $window, $uibModal, $document) {
+        Service.toEditCandidate($stateParams.id, "/candidates/" + $stateParams.id);
         $scope.test = {date: new Date()};
         $scope.type = "edit";
         $scope.saveButtonIsPressed = false;
@@ -23476,7 +23460,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             defaultDate: "01/01/1990"
         };
         $scope.cancel = function() {
-            $location.path("/candidates/" + $routeParams.id);
+            $location.path("/candidates/" + $stateParams.id);
         };
 
         $(".datepickerOfBirth")
@@ -23505,7 +23489,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             }
         });
         $scope.updateCandidate = function(){
-            Candidate.one({"localId": $routeParams.id}, function(resp) {
+            Candidate.one({"localId": $stateParams.id}, function(resp) {
                 if (angular.equals(resp.status, "ok")) {
 
                     $scope.setOriginAutocompleterValue(resp.object.origin);
@@ -23929,7 +23913,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
-        $rootScope.mergedCandidate = $routeParams.id;
+        $rootScope.mergedCandidate = $stateParams.id;
         $rootScope.toMerge = function (id) {
             $rootScope.closeModal();
             if($rootScope.me.recrutRole != 'client'){
@@ -23961,7 +23945,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
-        $rootScope.mergedCandidate = $routeParams.id;
+        $rootScope.mergedCandidate = $stateParams.id;
         $rootScope.toMerge = function (id) {
             $rootScope.closeModal();
             if($rootScope.me.recrutRole != 'client'){
@@ -24420,9 +24404,9 @@ controller.controller('CandidateLINKController',["$localStorage", "$translate", 
     document.addEventListener('contactFromLinkedIn', $rootScope.eventListenerGetContact);
 }]);
 
-controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scope", "FileInit", "$translate", "$routeParams", "$location", "$localStorage", "Service", "Candidate", "CacheCandidates", "notificationService", "$filter", "serverAddress", "$window", "$uibModal",
-    function($http, $rootScope, $scope, FileInit, $translate, $routeParams, $location, $localStorage, Service, Candidate, CacheCandidates, notificationService, $filter, serverAddress, $window, $uibModal) {
-        Service.toMergeCandidate($routeParams.id, "/candidates/" + $routeParams.id);
+controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scope", "FileInit", "$translate", "$stateParams", "$location", "$localStorage", "Service", "Candidate", "CacheCandidates", "notificationService", "$filter", "serverAddress", "$window", "$uibModal",
+    function($http, $rootScope, $scope, FileInit, $translate, $stateParams, $location, $localStorage, Service, Candidate, CacheCandidates, notificationService, $filter, serverAddress, $window, $uibModal) {
+        Service.toMergeCandidate($stateParams.id, "/candidates/" + $stateParams.id);
         $scope.test = {date: new Date()};
         $scope.type = "merge";
         $scope.saveButtonIsPressed = false;
@@ -24644,7 +24628,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
             defaultDate: "01/01/1990"
         };
         $scope.cancel = function() {
-            $location.path("/candidates/" + $routeParams.id);
+            $location.path("/candidates/" + $stateParams.id);
         };
 
         $(".datepickerOfBirth")
@@ -24664,7 +24648,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 $('.datepickerOfBirth').blur();
             });
         $scope.updateCandidate = function(){
-            Candidate.one({"localId": $routeParams.id}, function(resp) {
+            Candidate.one({"localId": $stateParams.id}, function(resp) {
                 if (angular.equals(resp.status, "ok")) {
                     $scope.fieldValueFirstValue = false;
                     $scope.setOriginAutocompleterValue(resp.object.origin);
@@ -26117,10 +26101,10 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
         }
     }]);
 
-controller.controller('CandidateOneController', ["CacheCandidates", "$localStorage", "$scope", "frontMode", "$translate", "googleService", "$location", "$routeParams", "Candidate",
+controller.controller('CandidateOneController', ["CacheCandidates", "$localStorage", "$scope", "frontMode", "$translate", "googleService", "$location", "$stateParams", "Candidate",
     "Service", "$rootScope", "Person", "serverAddress", "FileInit", "notificationService", "$filter", "Vacancy",
     "Action", "vacancyStages", "Task", "File", "$sce", "$window", "Mail", "$uibModal", "$timeout", "$route", "Test", "CandidateGroup","sliderElements", "Mailing",
-    function (CacheCandidates, $localStorage, $scope, frontMode, $translate, googleService, $location, $routeParams, Candidate, Service, $rootScope, Person, serverAddress, FileInit,
+    function (CacheCandidates, $localStorage, $scope, frontMode, $translate, googleService, $location, $stateParams, Candidate, Service, $rootScope, Person, serverAddress, FileInit,
               notificationService, $filter, Vacancy, Action, vacancyStages, Task, File, $sce, $window, Mail, $uibModal, $timeout, $route, Test, CandidateGroup, sliderElements, Mailing) {
         delete $rootScope.client;
         $scope.serverAddress = serverAddress;
@@ -26700,7 +26684,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $scope.showAddedLinks = false;
             $scope.showAddedFiles = false;
             $rootScope.loading = true;
-            Candidate.one({"localId": $routeParams.id}, function (resp) {
+            Candidate.one({"localId": $stateParams.id}, function (resp) {
                 if (angular.equals(resp.status, "error")) {
                     notificationService.error($filter('translate')('candidate not found'));
                     $location.path('/candidates');
@@ -27360,7 +27344,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 notificationService.error($filter('translate')('Only recruiters, admins and freelancers can adding candidates in vacancy'));
             }
         };
-        $rootScope.mergedCandidate = $routeParams.id;
+        $rootScope.mergedCandidate = $stateParams.id;
         $rootScope.toMerge = function (id) {
             $rootScope.closeModal();
             if($rootScope.me.recrutRole != 'client'){
@@ -28398,7 +28382,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
 
 
-controller.controller('testResults', ["$scope", "Test", "notificationService", "$filter", "$rootScope", "$uibModal", "$window", "$routeParams", "$location", "ngTableParams", function ($scope, Test, notificationService, $filter, $rootScope, $uibModal, $window, $routeParams, $location, ngTableParams) {
+controller.controller('testResults', ["$scope", "Test", "notificationService", "$filter", "$rootScope", "$uibModal", "$window", "$stateParams", "$location", "ngTableParams", function ($scope, Test, notificationService, $filter, $rootScope, $uibModal, $window, $stateParams, $location, ngTableParams) {
 
     $scope.a = {};
     $scope.a.searchNumber = 1;
@@ -28410,16 +28394,16 @@ controller.controller('testResults', ["$scope", "Test", "notificationService", "
     if($location.path().match('candidate/tests/results')) {
         $scope.typeOfResults = 'candidate';
         $scope.requestParams = {
-            candidateId: $routeParams.id,
+            candidateId: $stateParams.id,
             page: {number: 0, count: 15}
         };
     } else if($location.path().match('candidate/test/results')) {
         $scope.typeOfResults = 'test';
         $scope.requestParams = {
-            testId: $routeParams.id,
+            testId: $stateParams.id,
             page: {number: 0, count: 15}
         };
-        Test.getTest({id: $routeParams.id}, function (resp) {
+        Test.getTest({id: $stateParams.id}, function (resp) {
             if(resp.status == "ok"){
                 $scope.test = resp.object;
             } else {
@@ -28428,7 +28412,7 @@ controller.controller('testResults', ["$scope", "Test", "notificationService", "
         });
     } else if($location.path().match('/candidate/test/details/')){
         $scope.typeOfResults = 'detailed';
-        Test.getAppointment({id: $routeParams.id}, function (resp) {
+        Test.getAppointment({id: $stateParams.id}, function (resp) {
             if(resp.status == "ok") {
                 $scope.detailedInfo = {};
                 angular.copy(resp.object, $scope.detailedInfo);
@@ -28554,8 +28538,8 @@ controller.controller('testResults', ["$scope", "Test", "notificationService", "
     };
 
 }]);
-controller.controller('testsAndForms', ["$scope", "Test", "notificationService", "$filter", "$rootScope", "$uibModal", "$window", "$routeParams", "$location", "FileInit", "serverAddress", "Vacancy", "$localStorage",
-    function ($scope, Test, notificationService, $filter, $rootScope, $uibModal, $window, $routeParams, $location, FileInit, serverAddress, Vacancy, $localStorage) {
+controller.controller('testsAndForms', ["$scope", "Test", "notificationService", "$filter", "$rootScope", "$uibModal", "$window", "$stateParams", "$location", "FileInit", "serverAddress", "Vacancy", "$localStorage",
+    function ($scope, Test, notificationService, $filter, $rootScope, $uibModal, $window, $stateParams, $location, FileInit, serverAddress, Vacancy, $localStorage) {
         $scope.optionTab = 'show';
         $scope.textType = false;
         $scope.fieldCheck = false;
@@ -28850,7 +28834,7 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
         if($rootScope.activePage == "Test page") {
             $scope.testPreview = {};
             Test.getTest({
-                id: $routeParams.id
+                id: $stateParams.id
             }, function(resp) {
                 if (resp.status == "ok") {
                     angular.copy(resp.object, $scope.testPreview);
@@ -28888,7 +28872,7 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
         };
         $scope.getTestFunc = function () {
             Test.getTest({
-                id: $routeParams.id
+                id: $stateParams.id
             }, function(resp) {
                 if (resp.status == "ok") {
                     $rootScope.sendOneTest = resp.object;
@@ -29550,7 +29534,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
         total: 0,
         getData: function($defer, params) {
             $rootScope.loading = true;
-            if ($rootScope.previousLocation == '/clients/:id') {
+            if ($rootScope.previousLocation == '/clients/{id}') {
                 if ($rootScope.searchParamInClients != undefined) {
                     $scope.searchParam = $rootScope.searchParamInClients;
                     $rootScope.searchParamInClients = null;
@@ -29754,8 +29738,8 @@ controller.controller('ClientsStatisticsController', ['$scope', 'Company', '$roo
         }
     });
 }]);
-controller.controller('ClientEditController', ["$rootScope", "serverAddress", "FileInit", "$scope", "$routeParams", "$location", "Client", "Service", "notificationService", "$filter",'Person', '$uibModal', '$localStorage', "$translate",
-    function($rootScope, serverAddress, FileInit, $scope, $routeParams, $location, Client, Service, notificationService, $filter,Person, $uibModal, $localStorage, $translate) {
+controller.controller('ClientEditController', ["$rootScope", "serverAddress", "FileInit", "$scope", "$stateParams", "$location", "Client", "Service", "notificationService", "$filter",'Person', '$uibModal', '$localStorage', "$translate",
+    function($rootScope, serverAddress, FileInit, $scope, $stateParams, $location, Client, Service, notificationService, $filter,Person, $uibModal, $localStorage, $translate) {
         $scope.clickedSaveClient = false;
         $scope.fieldValues = {
             objType: "client",
@@ -29769,7 +29753,7 @@ controller.controller('ClientEditController', ["$rootScope", "serverAddress", "F
 
         $scope.objType = 'client';
 
-        Client.one({"localId": $routeParams.id}, function(resp) {
+        Client.one({"localId": $stateParams.id}, function(resp) {
             if (angular.equals(resp.status, "ok")) {
                 if (resp.object.region && resp.object.region.fullName != undefined) {
                     $scope.regionInput = resp.object.region.displayFullName;
@@ -29907,7 +29891,7 @@ controller.controller('ClientEditController', ["$rootScope", "serverAddress", "F
 
 
         $scope.cancel = function() {
-            $location.path("/clients/" + $routeParams.id);
+            $location.path("/clients/" + $stateParams.id);
         };
         $scope.addPhoto = function() {
             $('#photoFile').click();
@@ -30052,7 +30036,7 @@ controller.controller('ClientEditController', ["$rootScope", "serverAddress", "F
         };
     }]);
 
-function ClientOneController(serverAddress, $scope, $routeParams, $location, Client, Service, Contacts, Vacancy, $rootScope, notificationService,
+function ClientOneController(serverAddress, $scope, $stateParams, $location, Client, Service, Contacts, Vacancy, $rootScope, notificationService,
                              $filter, ngTableParams,Person, Action, Task, CacheCandidates, File, FileInit, $translate, $uibModal, $route, Mail, $localStorage) {
     delete $rootScope.candidate;
     $scope.status = Client.getState();
@@ -30192,7 +30176,7 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
     $scope.updateClient = function () {
         $scope.showAddedLinks = false;
         $scope.showAddedFiles = false;
-        Client.one({"localId": $routeParams.id}, function(resp) {
+        Client.one({"localId": $stateParams.id}, function(resp) {
             if (angular.equals(resp.status, "ok")) {
                 $scope.client = resp.object;
                 $rootScope.client = $scope.client;
@@ -30987,10 +30971,10 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
 
     ///////////////////////////////////////////////////////////////End of Sent Email
 }
-controller.controller('ClientOneController', ["serverAddress", "$scope", "$routeParams", "$location", "Client", "Service", "Contacts", "Vacancy",
+controller.controller('ClientOneController', ["serverAddress", "$scope", "$stateParams", "$location", "Client", "Service", "Contacts", "Vacancy",
     "$rootScope", "notificationService", "$filter", "ngTableParams",'Person',"Action", "Task", "CacheCandidates", "File", "FileInit", "$translate", "$uibModal", "$route", "Mail", "$localStorage", ClientOneController]);
 
-controller.controller('ContactAddController',["$scope", "$location", "$routeParams", "$cookies", "Contacts", "Client", "$rootScope", "notificationService", "$filter", "$localStorage", "$window", function($scope, $location, $routeParams, $cookies, Contacts, Client, $rootScope, notificationService, $filter, $localStorage, $window) {
+controller.controller('ContactAddController',["$scope", "$location", "$stateParams", "$cookies", "Contacts", "Client", "$rootScope", "notificationService", "$filter", "$localStorage", "$window", function($scope, $location, $stateParams, $cookies, Contacts, Client, $rootScope, notificationService, $filter, $localStorage, $window) {
     $scope.showAddClient = true;
     $scope.pageType = "add";
     $scope.errorMessage ={};
@@ -31039,7 +31023,7 @@ controller.controller('ContactAddController',["$scope", "$location", "$routePara
         }
         $scope.contact.contacts = null;
     } else {
-        Client.one({"localId": $routeParams.id}, function(resp) {
+        Client.one({"localId": $stateParams.id}, function(resp) {
             if (resp.status == "ok") {
                 // console.log("RESP");
                 // console.log( $scope.client);
@@ -31057,8 +31041,8 @@ controller.controller('ContactAddController',["$scope", "$location", "$routePara
     }
     // console.log("INIT");
     $scope.cancel = function() {
-        console.log($routeParams.id);
-        $location.path("/clients/" + $routeParams.id);
+        console.log($stateParams.id);
+        $location.path("/clients/" + $stateParams.id);
     };
     $scope.errorMessage = {
         show: false,
@@ -31168,7 +31152,7 @@ controller.controller('ContactsController',["$scope", "ngTableParams", "Contacts
         pages: {count: 15}
     };
 
-    if ($rootScope.previousLocation == '/contacts/:id') {
+    if ($rootScope.previousLocation == '/contacts/{id}') {
         if ($rootScope.searchParamInContacts != undefined) {
             $scope.searchParam = $rootScope.searchParamInContacts;
             $rootScope.searchParamInContacts = null;
@@ -31237,9 +31221,9 @@ controller.controller('ContactsController',["$scope", "ngTableParams", "Contacts
 
 }]);
 
-controller.controller('ContactEditController', ["$scope", "$rootScope", "$location", "$routeParams", "Contacts",
-    "Client", "notificationService", "$filter", "$uibModal", function($scope, $rootScope, $location, $routeParams, Contacts, Client, notificationService, $filter, $uibModal) {
-    $scope.contactId = $routeParams.contactId;
+controller.controller('ContactEditController', ["$scope", "$rootScope", "$location", "$stateParams", "Contacts",
+    "Client", "notificationService", "$filter", "$uibModal", function($scope, $rootScope, $location, $stateParams, Contacts, Client, notificationService, $filter, $uibModal) {
+    $scope.contactId = $stateParams.contactId;
     $scope.showAddClient = false;
     $scope.pageType = "edit";
     $scope.contacts = {
@@ -31259,7 +31243,7 @@ controller.controller('ContactEditController', ["$scope", "$rootScope", "$locati
         text: ""
     };
     $scope.cancel = function() {
-        $location.path("/contacts/" + $routeParams.contactId);
+        $location.path("/contacts/" + $stateParams.contactId);
     };
     Client.all(Client.searchOptions(), function(response) {
         $scope.clients = response.objects;
@@ -31391,8 +31375,8 @@ controller.controller('ContactEditController', ["$scope", "$rootScope", "$locati
         };
 }]);
 
-controller.controller('ContactsOneController', ["$scope", "Contacts", "$routeParams", "$location", "notificationService", "$filter", function($scope, Contacts, $routeParams, $location, notificationService, $filter) {
-    Contacts.one({"localId": $routeParams.id}, function(resp) {
+controller.controller('ContactsOneController', ["$scope", "Contacts", "$stateParams", "$location", "notificationService", "$filter", function($scope, Contacts, $stateParams, $location, notificationService, $filter) {
+    Contacts.one({"localId": $stateParams.id}, function(resp) {
         if (resp.status === "error" || angular.equals(resp.object.status, "R")) {
             notificationService.error($filter('translate')('contact not found'));
             if (resp.object && resp.object.clientId && resp.object.clientId.localId) {
@@ -31458,9 +31442,9 @@ controller.controller('ContactsOneController', ["$scope", "Contacts", "$routePar
     });
 }]);
 
-controller.controller('addEmailForTemplateController', ["$scope", "$translate", "$routeParams", "$rootScope",
+controller.controller('addEmailForTemplateController', ["$scope", "$translate", "$stateParams", "$rootScope",
     "notificationService", "$filter","Person", "Candidate", "googleService","$uibModal",
-    function ($scope,$translate, $routeParams, $rootScope, notificationService, $filter, Person, Candidate, googleService, $uibModal) {
+    function ($scope,$translate, $stateParams, $rootScope, notificationService, $filter, Person, Candidate, googleService, $uibModal) {
         $rootScope.showAdvancedFields = false;
         $scope.loading = true;
         $scope.showPassword = false;
@@ -31797,9 +31781,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
 
 
 controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", "$translate", "FileInit", "$location", "Service", "Candidate","Account","Company", "notificationService", "$filter",
-    "$localStorage", "$cookies", "$window", "serverAddress","$routeParams", "$uibModal",
+    "$localStorage", "$cookies", "$window", "serverAddress","$stateParams", "$uibModal",
     function($rootScope, $http, $scope, $translate, FileInit, $location, Service, Candidate,Account,Company, notificationService, $filter, $localStorage,
-             $cookies, $window, serverAddress,$routeParams, $uibModal) {
+             $cookies, $window, serverAddress,$stateParams, $uibModal) {
 
         if($rootScope.me){
             if($rootScope['me']['personParams']['domainAdmin'] == 'all'){
@@ -32419,8 +32403,8 @@ controller.controller('evaluationController', ["$scope", "$rootScope", "$timeout
 }]);
 
 controller.controller('excelHistoryController', ["$localStorage", "frontMode", "googleService", "serverAddress", "$rootScope",
-    "$scope", "$routeParams", "Vacancy", "$location", "Candidate", "notificationService", "$translate", "$filter", "$window",
-    function ($localStorage, frontMode, googleService, serverAddress, $rootScope, $scope, $routeParams, Vacancy,
+    "$scope", "$stateParams", "Vacancy", "$location", "Candidate", "notificationService", "$translate", "$filter", "$window",
+    function ($localStorage, frontMode, googleService, serverAddress, $rootScope, $scope, $stateParams, Vacancy,
               $location, Candidate, notificationService, $translate, $filter, $window) {
         $scope.serverAddress = serverAddress;
         Candidate.getSearchHistoryAdmin({type: 'cleverstaff_excel'}, function (resp) {
@@ -32971,7 +32955,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     Service.getRegions2(function (resp) {
                         $scope.regions = resp;
                     });
-                    if ($rootScope.currentLocation == "/personInfo/:id") {
+                    if ($rootScope.currentLocation == "/personInfo/{id}") {
                         $location.path('/personInfo/' + resp.userId);
                     }
                     $route.reload();
@@ -34119,9 +34103,9 @@ controller.controller('NotificationController',["$rootScope", "$scope", "$filter
         };
 
     }]);
-controller.controller('recallController', ["$localStorage", "frontMode", "googleService", "serverAddress", "$rootScope", "$scope", "$routeParams",
+controller.controller('recallController', ["$localStorage", "frontMode", "googleService", "serverAddress", "$rootScope", "$scope", "$stateParams",
     "Vacancy", "$location", "Candidate", "notificationService", "$translate", "$filter", "vacancyStages", "Mail", "FileInit", "$uibModal",
-    function ($localStorage, frontMode, googleService, serverAddress, $rootScope, $scope, $routeParams, Vacancy, $location, Candidate, notificationService, $translate, $filter,
+    function ($localStorage, frontMode, googleService, serverAddress, $rootScope, $scope, $stateParams, Vacancy, $location, Candidate, notificationService, $translate, $filter,
               vacancyStages, Mail, FileInit, $uibModal) {
         $scope.serverAddress = serverAddress;
         $rootScope.recallCandidate = {candidateId: null};
@@ -34284,7 +34268,7 @@ controller.controller('recallController', ["$localStorage", "frontMode", "google
             //$rootScope.emailTemplateInModal.email.toString();
         };
 
-        Vacancy.oneRecall({"recallId": $routeParams.id}, function (resp) {
+        Vacancy.oneRecall({"recallId": $stateParams.id}, function (resp) {
             if (resp.object.message) {
                 $("#recall_description").html(resp.object.message.replace(/\r|\n/g, "<br>"))
             }
@@ -34748,8 +34732,8 @@ controller.controller('recallController', ["$localStorage", "frontMode", "google
         });
     }]);
 
-controller.controller('ThanksController',["$localStorage", "frontMode", "googleService", "serverAddress", "$rootScope", "$scope", "$routeParams","$translate",
-    function($localStorage, frontMode, googleService, serverAddress, $rootScope, $scope, $routeParams, $translate) {
+controller.controller('ThanksController',["$localStorage", "frontMode", "googleService", "serverAddress", "$rootScope", "$scope", "$stateParams","$translate",
+    function($localStorage, frontMode, googleService, serverAddress, $rootScope, $scope, $stateParams, $translate) {
 
     }]);
 
@@ -35890,9 +35874,9 @@ component.component("user", {
         };
     }
 });
-controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope", "$routeParams", "$location","$translate","Service",
+controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope", "$stateParams", "$location","$translate","Service",
     "notificationService","$filter", "Account", "Pay","Company",
-    function ($scope, Person, $rootScope, $routeParams, $location, $translate, Service, notificationService, $filter, Account, Pay, Company) {
+    function ($scope, Person, $rootScope, $stateParams, $location, $translate, Service, notificationService, $filter, Account, Pay, Company) {
         $scope.numberVacancy = 0;
         $scope.trueVisionBlockUser = $rootScope.blockUser;
         $rootScope.blockUser = false;
@@ -36589,7 +36573,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
     };
 
         //This function must be after init searchParam
-        if ($rootScope.previousLocation == '/vacancies/:id') {
+        if ($rootScope.previousLocation == '/vacancies/{id}') {
             if ($rootScope.searchParamInVacancies != undefined) {
                 $scope.searchParam = $rootScope.searchParamInVacancies;
                 if($scope.searchParam.clientId){
@@ -36601,7 +36585,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                 }
                 $rootScope.searchParamInVacancies = null;
             }
-        }else if ($rootScope.previousLocation == '/clients/:id' && $rootScope.allClientsVacancies == true){
+        }else if ($rootScope.previousLocation == '/clients/{id}' && $rootScope.allClientsVacancies == true){
             $scope.searchParam = {
                 searchCs: true,
                 salary: "",
@@ -36711,7 +36695,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
             total: 0,
             getData: function($defer, params) {
                 $rootScope.loading = true;
-                if ($rootScope.previousLocation == '/vacancies/:id') {
+                if ($rootScope.previousLocation == '/vacancies/{id}') {
                     if($scope.previousFlag){
                         $scope.tableParams.page($rootScope.previousSearchNumber);
                         $scope.previousFlag = !$scope.previousFlag;
@@ -37125,9 +37109,9 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
 
     }]);
 
-controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileInit", "Vacancy", "Service", "$location", "Client", "$routeParams",
+controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileInit", "Vacancy", "Service", "$location", "Client", "$stateParams",
     "notificationService", "$filter", "$translate", 'Person', '$uibModal', "Candidate",
-    function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $routeParams, notificationService, $filter, $translate, Person, $uibModal, Candidate) {
+    function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $stateParams, notificationService, $filter, $translate, Person, $uibModal, Candidate) {
         $scope.showStatus = false;
         //$scope.langs = Service.lang();
         $scope.type = "Vacancy edit";
@@ -37265,7 +37249,7 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
         });
 
         $scope.lang = $translate;
-        Vacancy.one({localId: $routeParams.id}, function(resp) {
+        Vacancy.one({localId: $stateParams.id}, function(resp) {
             if (angular.equals(resp.status, "ok")) {
                 $scope.objectId = resp.object.vacancyId;
                 $scope.vacancy = resp.object;
@@ -37390,7 +37374,7 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
         });
 
         $scope.cancel = function() {
-            $location.path("/vacancies/" + $routeParams.id);
+            $location.path("/vacancies/" + $stateParams.id);
         };
 
         // $scope.sexObject = [
@@ -37570,9 +37554,9 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
 
 
 controller.controller('vacancyController', ["$state", "localStorageService", "CacheCandidates", "$localStorage", "$scope", "Vacancy",
-    "Service", "$translate", "$routeParams", "$filter", "ngTableParams", "Person", "$location", "$rootScope", "FileInit",
+    "Service", "$translate", "$stateParams", "$filter", "ngTableParams", "Person", "$location", "$rootScope", "FileInit",
     "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route", "Mailing", "$timeout", "$window",
-    function ($state, localStorageService, CacheCandidates, $localStorage, $scope, Vacancy, Service, $translate, $routeParams,
+    function ($state, localStorageService, CacheCandidates, $localStorage, $scope, Vacancy, Service, $translate, $stateParams,
               $filter, ngTableParams, Person, $location, $rootScope, FileInit,
               googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route, Mailing, $timeout, $window) {
         $rootScope.currentElementPos = true;
@@ -38037,7 +38021,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
         };
         $scope.updateVacancy = function () {
             $scope.numberAllCandidateInVacancy = 0;
-            Vacancy.one({"localId": $routeParams.id, "interviews": false}, function (resp) {
+            Vacancy.one({"localId": $stateParams.id, "interviews": false}, function (resp) {
                 if (angular.equals(resp.status, "ok")) {
                     angular.forEach($scope.customStages, function (res) {
                         if ($scope.activeName == res.customInterviewStateId) {
@@ -41315,7 +41299,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
         };
 
         $scope.sendCandidatesToClient = function() {
-            Vacancy.one({localId: $routeParams.id}, function (resp) {
+            Vacancy.one({localId: $stateParams.id}, function (resp) {
                 if (!resp.object.interviews || resp.object.interviews.length == 0) {
                     notificationService.error($filter('translate')('Please add the candidates to this stage'));
                     return;
@@ -41976,8 +41960,8 @@ controller.controller('pipelineController', ["$rootScope", "$scope", "notificati
 
 
 controller.controller('reportAllController', ["$rootScope", "$scope", "Vacancy", "Service", "$location",
-    "$routeParams", "notificationService", "$filter", "$translate", "vacancyStages","Stat", "Company", "Person", "$uibModal",
-    function($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter,
+    "$stateParams", "notificationService", "$filter", "$translate", "vacancyStages","Stat", "Company", "Person", "$uibModal",
+    function($rootScope, $scope, Vacancy, Service, $location, $stateParams, notificationService, $filter,
              $translate, vacancyStages, Stat, Company, Person, $uibModal) {
         $rootScope.loading = true;
         $scope.regions = [];
@@ -42733,8 +42717,8 @@ controller.controller('reportAllController', ["$rootScope", "$scope", "Vacancy",
 
 
 controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileInit", "Vacancy", "Service", "$location", "Client",
-    "$routeParams", "notificationService", "$filter", "$translate", 'Person', "Statistic", "vacancyStages", "Company",
-    function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $routeParams, notificationService, $filter,
+    "$stateParams", "notificationService", "$filter", "$translate", 'Person', "Statistic", "vacancyStages", "Company",
+    function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $stateParams, notificationService, $filter,
              $translate, Person, Statistic, vacancyStages, Company) {
         var chartHeight = 0;
         $scope.lang = $translate;
@@ -42742,7 +42726,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             $scope.customStages = resp.object.interviewStates;
         });
 
-        Vacancy.one({"localId": $routeParams.id}, function(resp) {
+        Vacancy.one({"localId": $stateParams.id}, function(resp) {
             $scope.vacancy = resp.object;
             $scope.deadline = new Date($scope.vacancy.dateFinish).getTime();
             $("#dateFrom").datetimepicker({
@@ -44566,8 +44550,8 @@ function getFieldWithJQuery(candidateObject, region2) {
 
 
 
-function EmployeeAddFromCandidateControllerFunc($scope, $routeParams, $location, Candidate, Employee, $filter,notificationService, Service) {
-    if (!$routeParams.candidateId) {
+function EmployeeAddFromCandidateControllerFunc($scope, $stateParams, $location, Candidate, Employee, $filter,notificationService, Service) {
+    if (!$stateParams.candidateId) {
         $location.path('/vacancies');
     }
     $scope.pageObject = {
@@ -44608,7 +44592,7 @@ function EmployeeAddFromCandidateControllerFunc($scope, $routeParams, $location,
     };
 
 
-    Candidate.one({localId: $routeParams.candidateId}, function(resp) {
+    Candidate.one({localId: $stateParams.candidateId}, function(resp) {
         if (resp.status == 'ok') {
             $scope.pageObject.candidate = resp.object;
             $scope.pageObject.employee.candidateId.candidateId = resp.object.candidateId;
@@ -44659,7 +44643,7 @@ function EmployeeAddFromCandidateControllerFunc($scope, $routeParams, $location,
     };
 
 }
-controller.controller('EmployeeAddFromCandidateController', ['$scope', '$routeParams', '$location', 'Candidate', 'Employee', '$filter','notificationService', 'Service', EmployeeAddFromCandidateControllerFunc]);
+controller.controller('EmployeeAddFromCandidateController', ['$scope', '$stateParams', '$location', 'Candidate', 'Employee', '$filter','notificationService', 'Service', EmployeeAddFromCandidateControllerFunc]);
 function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filter, ngTableParams, $location, Company, Service, $rootScope) {
     $scope.searchButtonClicked = false;
     $scope.employeesFound = null;
@@ -44886,9 +44870,9 @@ function EmployeeAddController($scope, $timeout, $anchorScroll, Employee, $filte
 
 }
 controller.controller('EmployeesController', ['$scope', '$timeout', '$anchorScroll', 'Employee', '$filter', 'ngTableParams', '$location', 'Company', 'Service', '$rootScope', EmployeeAddController]);
-controller.controller('DepartmentCatalogController', ["$scope", "$rootScope", "$routeParams", "Service", "Person",
+controller.controller('DepartmentCatalogController', ["$scope", "$rootScope", "$stateParams", "Service", "Person",
     "Company", "notificationService", "$filter", "$translate","Vacancy","Employee", "$filter",
-    function($scope, $rootScope, $routeParams, Service, Person, Company, notificationService, $translate,
+    function($scope, $rootScope, $stateParams, Service, Person, Company, notificationService, $translate,
              $filter, Vacancy, Employee, $filter) {
         $scope.showCreateDepartment = false;
         $scope.showEditDepartment = false;
@@ -44984,9 +44968,9 @@ controller.controller('DepartmentCatalogController', ["$scope", "$rootScope", "$
 }]);
 
 function EmployeeEditControllerFunc($rootScope, $http, $scope, $translate, FileInit, $location, Service, Candidate, notificationService, $filter,
-                                    $localStorage, $cookies, $window, serverAddress, Employee, $routeParams, $uibModal) {
+                                    $localStorage, $cookies, $window, serverAddress, Employee, $stateParams, $uibModal) {
     //Service.toAddCandidate("/candidates/");
-    if ($routeParams.employeeId == undefined) {
+    if ($stateParams.employeeId == undefined) {
         $location.path('/company/employees');
     }
     $location.hash('');
@@ -45052,7 +45036,7 @@ function EmployeeEditControllerFunc($rootScope, $http, $scope, $translate, FileI
         }
     );
 
-    Employee.one({id: $routeParams.employeeId}, function(resp) {
+    Employee.one({id: $stateParams.employeeId}, function(resp) {
         if (resp.status == "ok") {
             $scope.pageObject.employee = resp.object;
             $scope.candidate = $scope.pageObject.employee;
@@ -45404,7 +45388,7 @@ controller.controller('EmployeeEditController', [
     "$filter", "$localStorage",
     "$cookies",
     "$window",
-    "serverAddress", "Employee", "$routeParams", "$uibModal", EmployeeEditControllerFunc]);
+    "serverAddress", "Employee", "$stateParams", "$uibModal", EmployeeEditControllerFunc]);
 
 
 function initEmploymentType(employmentTArr) {
@@ -45550,9 +45534,9 @@ function addJqueryDataToPage($scope, candidate, candidateOuter) {
 
 
 
-controller.controller('EmployeeOneController', ['$scope', 'Employee', '$routeParams', '$location', '$sce', '$rootScope',
+controller.controller('EmployeeOneController', ['$scope', 'Employee', '$stateParams', '$location', '$sce', '$rootScope',
     'Candidate', 'FileInit', 'notificationService', '$filter', '$translate', 'Service', '$uibModal', 'File',
-    function($scope, Employee, $routeParams, $location, $sce, $rootScope, Candidate, FileInit, notificationService, $filter, $translate, Service, $uibModal, File) {
+    function($scope, Employee, $stateParams, $location, $sce, $rootScope, Candidate, FileInit, notificationService, $filter, $translate, Service, $uibModal, File) {
         $scope.pageObject = {
             employee: null,
             history:null,
@@ -45583,7 +45567,7 @@ controller.controller('EmployeeOneController', ['$scope', 'Employee', '$routePar
             buttonIsClicked: false
         };
         function getEmployeeHistory(){
-            Employee.getEmployeeHistory({id: $routeParams.id}, function(resp) {
+            Employee.getEmployeeHistory({id: $stateParams.id}, function(resp) {
                 $scope.pageObject.history=resp.objects;
                 angular.forEach($scope.history, function(val) {
                     if(val.type == 'vacancy_message' ||
@@ -45597,7 +45581,7 @@ controller.controller('EmployeeOneController', ['$scope', 'Employee', '$routePar
         }
         getEmployeeHistory();
 
-        if ($routeParams.id == undefined) {
+        if ($stateParams.id == undefined) {
             $location.path("/company/employees");
         }
         $scope.showModalChangeEmployeeStatus = function(status) {
@@ -45663,7 +45647,7 @@ controller.controller('EmployeeOneController', ['$scope', 'Employee', '$routePar
         $scope.updateEmployee = function(){
             $scope.showAddedLinks = false;
             $scope.showAddedFiles = false;
-            Employee.one({id: $routeParams.id}, function(resp) {
+            Employee.one({id: $stateParams.id}, function(resp) {
                 if (resp.status == "ok") {
                     $rootScope.title = resp.object.candidateId.fullName + " | CleverStaff";
                     $scope.pageObject.employee = resp.object;
@@ -45914,8 +45898,8 @@ controller.controller('EmployeeOneController', ['$scope', 'Employee', '$routePar
 ;
 
 controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", "Service", "$location",
-    "$routeParams", "notificationService", "$filter","translateWords", "$translate", "vacancyStages","Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomField",
-    function($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter,translateWords,
+    "$stateParams", "notificationService", "$filter","translateWords", "$translate", "vacancyStages","Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomField",
+    function($rootScope, $scope, Vacancy, Service, $location, $stateParams, notificationService, $filter,translateWords,
              $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomField, CustomReportsService) {
         let activeBlocks = [];
         $rootScope.loading = true;
@@ -47032,7 +47016,7 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
 
 
- function CustomReportEditCtrl($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter, translateWords,
+ function CustomReportEditCtrl($rootScope, $scope, Vacancy, Service, $location, $stateParams, notificationService, $filter, translateWords,
                        $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, CustomReportEditService, $uibModal) {
     try {
         let filterVacancy = (vacancy) => {
@@ -47082,13 +47066,13 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
  }
  controller
     .controller("CustomReportEditCtrl", ["$rootScope", "$scope", "Vacancy", "Service", "$location",
-        "$routeParams", "notificationService", "$filter", "translateWords", "$translate",
+        "$stateParams", "notificationService", "$filter", "translateWords", "$translate",
         "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService","CustomReportEditService","$uibModal",CustomReportEditCtrl]);
 
 
 
 
-    function customReports($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter, translateWords,
+    function customReports($rootScope, $scope, Vacancy, Service, $location, $stateParams, notificationService, $filter, translateWords,
                            $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, CustomReportEditService) {
         try {
             let updateReport = () => CustomReportsService.buildReport.call(this, $scope);
@@ -47129,13 +47113,13 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
     }
     controller
         .controller("CustomReports", ["$rootScope", "$scope", "Vacancy", "Service", "$location",
-            "$routeParams", "notificationService", "$filter", "translateWords", "$translate",
+            "$stateParams", "notificationService", "$filter", "translateWords", "$translate",
             "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService","CustomReportEditService", customReports]);
 
 
 
 
-function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter, translateWords,
+function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $stateParams, notificationService, $filter, translateWords,
                        $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, reportsService, $window) {
     try {
         Stat.requestGetCustomVacancyReports()
@@ -47166,7 +47150,7 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
 }
 controller
     .controller("MyReportsCtrl", ["$rootScope", "$scope", "Vacancy", "Service", "$location",
-        "$routeParams", "notificationService", "$filter", "translateWords", "$translate",
+        "$stateParams", "notificationService", "$filter", "translateWords", "$translate",
         "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService","reportsService","$window", MyReportsCtrl]);
 
 

@@ -1,5 +1,5 @@
-function EmployeeAddFromCandidateControllerFunc($scope, $routeParams, $location, Candidate, Employee, $filter,notificationService, Service) {
-    if (!$routeParams.candidateId) {
+function EmployeeAddFromCandidateControllerFunc($scope, $stateParams, $location, Candidate, Employee, $filter,notificationService, Service) {
+    if (!$stateParams.candidateId) {
         $location.path('/vacancies');
     }
     $scope.pageObject = {
@@ -40,7 +40,7 @@ function EmployeeAddFromCandidateControllerFunc($scope, $routeParams, $location,
     };
 
 
-    Candidate.one({localId: $routeParams.candidateId}, function(resp) {
+    Candidate.one({localId: $stateParams.candidateId}, function(resp) {
         if (resp.status == 'ok') {
             $scope.pageObject.candidate = resp.object;
             $scope.pageObject.employee.candidateId.candidateId = resp.object.candidateId;
@@ -91,4 +91,4 @@ function EmployeeAddFromCandidateControllerFunc($scope, $routeParams, $location,
     };
 
 }
-controller.controller('EmployeeAddFromCandidateController', ['$scope', '$routeParams', '$location', 'Candidate', 'Employee', '$filter','notificationService', 'Service', EmployeeAddFromCandidateControllerFunc]);
+controller.controller('EmployeeAddFromCandidateController', ['$scope', '$stateParams', '$location', 'Candidate', 'Employee', '$filter','notificationService', 'Service', EmployeeAddFromCandidateControllerFunc]);

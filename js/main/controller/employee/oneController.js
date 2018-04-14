@@ -1,6 +1,6 @@
-controller.controller('EmployeeOneController', ['$scope', 'Employee', '$routeParams', '$location', '$sce', '$rootScope',
+controller.controller('EmployeeOneController', ['$scope', 'Employee', '$stateParams', '$location', '$sce', '$rootScope',
     'Candidate', 'FileInit', 'notificationService', '$filter', '$translate', 'Service', '$uibModal', 'File',
-    function($scope, Employee, $routeParams, $location, $sce, $rootScope, Candidate, FileInit, notificationService, $filter, $translate, Service, $uibModal, File) {
+    function($scope, Employee, $stateParams, $location, $sce, $rootScope, Candidate, FileInit, notificationService, $filter, $translate, Service, $uibModal, File) {
         $scope.pageObject = {
             employee: null,
             history:null,
@@ -31,7 +31,7 @@ controller.controller('EmployeeOneController', ['$scope', 'Employee', '$routePar
             buttonIsClicked: false
         };
         function getEmployeeHistory(){
-            Employee.getEmployeeHistory({id: $routeParams.id}, function(resp) {
+            Employee.getEmployeeHistory({id: $stateParams.id}, function(resp) {
                 $scope.pageObject.history=resp.objects;
                 angular.forEach($scope.history, function(val) {
                     if(val.type == 'vacancy_message' ||
@@ -45,7 +45,7 @@ controller.controller('EmployeeOneController', ['$scope', 'Employee', '$routePar
         }
         getEmployeeHistory();
 
-        if ($routeParams.id == undefined) {
+        if ($stateParams.id == undefined) {
             $location.path("/company/employees");
         }
         $scope.showModalChangeEmployeeStatus = function(status) {
@@ -111,7 +111,7 @@ controller.controller('EmployeeOneController', ['$scope', 'Employee', '$routePar
         $scope.updateEmployee = function(){
             $scope.showAddedLinks = false;
             $scope.showAddedFiles = false;
-            Employee.one({id: $routeParams.id}, function(resp) {
+            Employee.one({id: $stateParams.id}, function(resp) {
                 if (resp.status == "ok") {
                     $rootScope.title = resp.object.candidateId.fullName + " | CleverStaff";
                     $scope.pageObject.employee = resp.object;

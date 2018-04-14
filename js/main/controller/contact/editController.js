@@ -1,6 +1,6 @@
-controller.controller('ContactEditController', ["$scope", "$rootScope", "$location", "$routeParams", "Contacts",
-    "Client", "notificationService", "$filter", "$uibModal", function($scope, $rootScope, $location, $routeParams, Contacts, Client, notificationService, $filter, $uibModal) {
-    $scope.contactId = $routeParams.contactId;
+controller.controller('ContactEditController', ["$scope", "$rootScope", "$location", "$stateParams", "Contacts",
+    "Client", "notificationService", "$filter", "$uibModal", function($scope, $rootScope, $location, $stateParams, Contacts, Client, notificationService, $filter, $uibModal) {
+    $scope.contactId = $stateParams.contactId;
     $scope.showAddClient = false;
     $scope.pageType = "edit";
     $scope.contacts = {
@@ -20,7 +20,7 @@ controller.controller('ContactEditController', ["$scope", "$rootScope", "$locati
         text: ""
     };
     $scope.cancel = function() {
-        $location.path("/contacts/" + $routeParams.contactId);
+        $location.path("/contacts/" + $stateParams.contactId);
     };
     Client.all(Client.searchOptions(), function(response) {
         $scope.clients = response.objects;

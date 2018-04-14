@@ -1,7 +1,7 @@
 
 controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", "Service", "$location",
-    "$routeParams", "notificationService", "$filter","translateWords", "$translate", "vacancyStages","Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomField",
-    function($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter,translateWords,
+    "$stateParams", "notificationService", "$filter","translateWords", "$translate", "vacancyStages","Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomField",
+    function($rootScope, $scope, Vacancy, Service, $location, $stateParams, notificationService, $filter,translateWords,
              $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomField, CustomReportsService) {
         let activeBlocks = [];
         $rootScope.loading = true;

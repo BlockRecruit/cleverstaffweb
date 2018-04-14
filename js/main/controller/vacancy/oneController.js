@@ -1,7 +1,7 @@
 controller.controller('vacancyController', ["$state", "localStorageService", "CacheCandidates", "$localStorage", "$scope", "Vacancy",
-    "Service", "$translate", "$routeParams", "$filter", "ngTableParams", "Person", "$location", "$rootScope", "FileInit",
+    "Service", "$translate", "$stateParams", "$filter", "ngTableParams", "Person", "$location", "$rootScope", "FileInit",
     "googleService", "Candidate", "notificationService", "serverAddress", "frontMode", "Action", "vacancyStages", "Company", "Task", "File", "$sce","Mail", "$uibModal", "Client", "$route", "Mailing", "$timeout", "$window",
-    function ($state, localStorageService, CacheCandidates, $localStorage, $scope, Vacancy, Service, $translate, $routeParams,
+    function ($state, localStorageService, CacheCandidates, $localStorage, $scope, Vacancy, Service, $translate, $stateParams,
               $filter, ngTableParams, Person, $location, $rootScope, FileInit,
               googleService, Candidate, notificationService, serverAddress, frontMode, Action, vacancyStages, Company, Task, File, $sce, Mail, $uibModal, Client, $route, Mailing, $timeout, $window) {
         $rootScope.currentElementPos = true;
@@ -466,7 +466,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
         };
         $scope.updateVacancy = function () {
             $scope.numberAllCandidateInVacancy = 0;
-            Vacancy.one({"localId": $routeParams.id, "interviews": false}, function (resp) {
+            Vacancy.one({"localId": $stateParams.id, "interviews": false}, function (resp) {
                 if (angular.equals(resp.status, "ok")) {
                     angular.forEach($scope.customStages, function (res) {
                         if ($scope.activeName == res.customInterviewStateId) {
@@ -3744,7 +3744,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
         };
 
         $scope.sendCandidatesToClient = function() {
-            Vacancy.one({localId: $routeParams.id}, function (resp) {
+            Vacancy.one({localId: $stateParams.id}, function (resp) {
                 if (!resp.object.interviews || resp.object.interviews.length == 0) {
                     notificationService.error($filter('translate')('Please add the candidates to this stage'));
                     return;

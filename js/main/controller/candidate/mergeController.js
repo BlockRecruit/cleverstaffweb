@@ -1,6 +1,6 @@
-controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scope", "FileInit", "$translate", "$routeParams", "$location", "$localStorage", "Service", "Candidate", "CacheCandidates", "notificationService", "$filter", "serverAddress", "$window", "$uibModal",
-    function($http, $rootScope, $scope, FileInit, $translate, $routeParams, $location, $localStorage, Service, Candidate, CacheCandidates, notificationService, $filter, serverAddress, $window, $uibModal) {
-        Service.toMergeCandidate($routeParams.id, "/candidates/" + $routeParams.id);
+controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scope", "FileInit", "$translate", "$stateParams", "$location", "$localStorage", "Service", "Candidate", "CacheCandidates", "notificationService", "$filter", "serverAddress", "$window", "$uibModal",
+    function($http, $rootScope, $scope, FileInit, $translate, $stateParams, $location, $localStorage, Service, Candidate, CacheCandidates, notificationService, $filter, serverAddress, $window, $uibModal) {
+        Service.toMergeCandidate($stateParams.id, "/candidates/" + $stateParams.id);
         $scope.test = {date: new Date()};
         $scope.type = "merge";
         $scope.saveButtonIsPressed = false;
@@ -222,7 +222,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
             defaultDate: "01/01/1990"
         };
         $scope.cancel = function() {
-            $location.path("/candidates/" + $routeParams.id);
+            $location.path("/candidates/" + $stateParams.id);
         };
 
         $(".datepickerOfBirth")
@@ -242,7 +242,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                 $('.datepickerOfBirth').blur();
             });
         $scope.updateCandidate = function(){
-            Candidate.one({"localId": $routeParams.id}, function(resp) {
+            Candidate.one({"localId": $stateParams.id}, function(resp) {
                 if (angular.equals(resp.status, "ok")) {
                     $scope.fieldValueFirstValue = false;
                     $scope.setOriginAutocompleterValue(resp.object.origin);

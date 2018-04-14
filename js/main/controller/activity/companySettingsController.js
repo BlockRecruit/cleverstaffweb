@@ -1,5 +1,5 @@
-controller.controller('ActivityCompanySettingsController', ["$scope", "$rootScope", "$routeParams", "Service", "Person", "Company", "notificationService", "$filter", "$translate",
-    "Vacancy", "$location", "$uibModal", function($scope, $rootScope, $routeParams, Service, Person, Company, notificationService, $filter, $translate, Vacancy, $location, $uibModal) {
+controller.controller('ActivityCompanySettingsController', ["$scope", "$rootScope", "$stateParams", "Service", "Person", "Company", "notificationService", "$filter", "$translate",
+    "Vacancy", "$location", "$uibModal", function($scope, $rootScope, $stateParams, Service, Person, Company, notificationService, $filter, $translate, Vacancy, $location, $uibModal) {
 
     $scope.showHistory = true;
     $scope.facebookAppId = facebookAppId;

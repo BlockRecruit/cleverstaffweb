@@ -1,7 +1,7 @@
 controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", "$translate", "FileInit", "$location", "Service", "Candidate","Account","Company", "notificationService", "$filter",
-    "$localStorage", "$cookies", "$window", "serverAddress","$routeParams", "$uibModal",
+    "$localStorage", "$cookies", "$window", "serverAddress","$stateParams", "$uibModal",
     function($rootScope, $http, $scope, $translate, FileInit, $location, Service, Candidate,Account,Company, notificationService, $filter, $localStorage,
-             $cookies, $window, serverAddress,$routeParams, $uibModal) {
+             $cookies, $window, serverAddress,$stateParams, $uibModal) {
 
         if($rootScope.me){
             if($rootScope['me']['personParams']['domainAdmin'] == 'all'){

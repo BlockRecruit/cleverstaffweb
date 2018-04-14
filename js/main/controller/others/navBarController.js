@@ -474,7 +474,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     Service.getRegions2(function (resp) {
                         $scope.regions = resp;
                     });
-                    if ($rootScope.currentLocation == "/personInfo/:id") {
+                    if ($rootScope.currentLocation == "/personInfo/{id}") {
                         $location.path('/personInfo/' + resp.userId);
                     }
                     $route.reload();

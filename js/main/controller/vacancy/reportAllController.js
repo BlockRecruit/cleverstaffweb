@@ -1,6 +1,6 @@
 controller.controller('reportAllController', ["$rootScope", "$scope", "Vacancy", "Service", "$location",
-    "$routeParams", "notificationService", "$filter", "$translate", "vacancyStages","Stat", "Company", "Person", "$uibModal",
-    function($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter,
+    "$stateParams", "notificationService", "$filter", "$translate", "vacancyStages","Stat", "Company", "Person", "$uibModal",
+    function($rootScope, $scope, Vacancy, Service, $location, $stateParams, notificationService, $filter,
              $translate, vacancyStages, Stat, Company, Person, $uibModal) {
         $rootScope.loading = true;
         $scope.regions = [];

@@ -18,7 +18,7 @@ angular.module('services.checkAccess', [
                 }
                 if (data.status === 'error') {
                     $cookies.url = $location.$$url;
-                    if (route && route.originalPath == '/vacancies/:id') {
+                    if (route && route.originalPath == '/vacancies/{id}') {
                         $window.location.replace($location.$$protocol + "://" + $location.$$host + "/i#/pv/" + params.id);
                     } else {
                         //$window.location.replace('/');
@@ -35,7 +35,7 @@ angular.module('services.checkAccess', [
                 $cookies.url = $location.$$url;
                 $cookies.cfauth = 'false';
 
-                if (route && route.originalPath == '/vacancies/:id') {
+                if (route && route.originalPath == '/vacancies/{id}') {
                     if (frontMode == 'demo') {
                         $window.location.replace($location.$$protocol + "://" + $location.$$host + "/di#/pv/" + params.id);
                     } else {

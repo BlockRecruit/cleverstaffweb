@@ -1,6 +1,6 @@
-controller.controller('addEmailForTemplateController', ["$scope", "$translate", "$routeParams", "$rootScope",
+controller.controller('addEmailForTemplateController', ["$scope", "$translate", "$stateParams", "$rootScope",
     "notificationService", "$filter","Person", "Candidate", "googleService","$uibModal",
-    function ($scope,$translate, $routeParams, $rootScope, notificationService, $filter, Person, Candidate, googleService, $uibModal) {
+    function ($scope,$translate, $stateParams, $rootScope, notificationService, $filter, Person, Candidate, googleService, $uibModal) {
         $rootScope.showAdvancedFields = false;
         $scope.loading = true;
         $scope.showPassword = false;

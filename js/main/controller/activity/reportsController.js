@@ -97,7 +97,7 @@ controller.controller('reportsController',["$scope", "$rootScope", "$location", 
         };
 
         //This function must be after init searchParam
-        if ($rootScope.previousLocation == '/vacancies/:id') {
+        if ($rootScope.previousLocation == '/vacancies/{id}') {
             if ($rootScope.searchParamInVacancies != undefined) {
                 $scope.searchParam = $rootScope.searchParamInVacancies;
                 if($scope.searchParam.clientId){
@@ -109,7 +109,7 @@ controller.controller('reportsController',["$scope", "$rootScope", "$location", 
                 }
                 $rootScope.searchParamInVacancies = null;
             }
-        }else if ($rootScope.previousLocation == '/clients/:id' && $rootScope.allClientsVacancies == true){
+        }else if ($rootScope.previousLocation == '/clients/{id}' && $rootScope.allClientsVacancies == true){
             $scope.searchParam = {
                 searchCs: true,
                 salary: "",
@@ -220,7 +220,7 @@ controller.controller('reportsController',["$scope", "$rootScope", "$location", 
             total: 0,
             getData: function($defer, params) {
                 $rootScope.loading = true;
-                if ($rootScope.previousLocation == '/vacancies/:id') {
+                if ($rootScope.previousLocation == '/vacancies/{id}') {
                     if($scope.previousFlag){
                         $scope.tableParams.page($rootScope.previousSearchNumber);
                         $scope.previousFlag = !$scope.previousFlag;

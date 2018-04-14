@@ -1,6 +1,6 @@
 
 
- function CustomReportEditCtrl($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter, translateWords,
+ function CustomReportEditCtrl($rootScope, $scope, Vacancy, Service, $location, $stateParams, notificationService, $filter, translateWords,
                        $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, CustomReportEditService, $uibModal) {
     try {
         let filterVacancy = (vacancy) => {
@@ -50,7 +50,7 @@
  }
  controller
     .controller("CustomReportEditCtrl", ["$rootScope", "$scope", "Vacancy", "Service", "$location",
-        "$routeParams", "notificationService", "$filter", "translateWords", "$translate",
+        "$stateParams", "notificationService", "$filter", "translateWords", "$translate",
         "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService","CustomReportEditService","$uibModal",CustomReportEditCtrl]);
 
 
