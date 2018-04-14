@@ -1,7 +1,6 @@
-controller.controller('mailingsController', ['$scope', '$localStorage', '$rootScope', '$state','$timeout', '$filter', '$transitions', '$uibModal', 'Mailing', 'Person',
-    function ($scope, $localStorage, $rootScope, $state, $timeout, $filter, $transitions, $uibModal, Mailing, Person) {
-
-
+component.component('mailings', {
+   templateUrl: "partials/mailing/mailings.html",
+    controller: function ($scope, $localStorage, $rootScope, $state, $timeout, $filter, $transitions, $uibModal, Mailing, Person) {
         $scope.savedMailings = [];
         let isPreviousSentMailings = $rootScope.previousLocation?$rootScope.previousLocation.indexOf('mailing-sent')!=-1:false;
         let defaultBreadcrumbs = [
@@ -115,4 +114,5 @@ controller.controller('mailingsController', ['$scope', '$localStorage', '$rootSc
         }
 
         getInitialData();
-}]);
+    }
+});

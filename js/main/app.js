@@ -45,466 +45,460 @@ angular.module('RecruitingApp', [
         }
     });
     $locationProvider.hashPrefix('');
-    customRouteProvider
-        .when('/organizer', {
-            templateUrl: 'partials/future.html',
-            title: 'Organizer',
-            controller: 'ActivityFutureController',
-            pageName: "Activity"
-        })
-        .when('/organizer/calendar', {
-            templateUrl: 'partials/GoogleCalendar.html',
-            title: 'Google Calendar',
-            controller: 'ActivityCalendarController',
-            pageName: "Activity Calendar"
-        }).when('/efficiency', {
-            templateUrl: 'partials/efficiency.html',
-            title: 'Efficiency',
-            controller: 'EfficiencyController',
-            pageName: "Efficiency"
-        })
-        .when('/reports/statistics', {
-            templateUrl: 'partials/statistics.html',
-            title: 'statistics',
-            controller: 'ActivityStatisticsController',
-            pageName: "Statistics client"
-        })
-        .when('/company/settings/:param', {
-            templateUrl: 'partials/companysettings.html',
-            title: 'Company settings',
-            controller: 'ActivityCompanySettingsController',
-            pageName: "Company settings"
-        })
-        .when('/company/settings', {
-            templateUrl: 'partials/companysettings.html',
-            title: 'Company settings',
-            controller: 'ActivityCompanySettingsController',
-            pageName: "Company settings"
-        })
-        .when('/clients/statistics', {
-            title: 'Clients',
-            templateUrl: 'partials/statisticsС.html',
-            controller: "ClientsStatisticsController",
-            pageName: "Statistics client"
-        }).when('/company/history', {
-            templateUrl: 'partials/history.html',
-            title: 'Activity History',
-            controller: 'ActivityGlobalHistoryController',
-            pageName: "Company History"
-        }).when('/notices', {
-            templateUrl: 'partials/notices.html',
-            title: 'Notifications',
-            controller: 'ActivityNoticesController',
-            pageName: "ActivityNotice"
-        }).when('/candidates', {
-            title: 'Candidates',
-            templateUrl: 'partials/candidates.html',
-            controller: "CandidateController",
-            pageName: "Candidates"
-        })
-        .when('/notifications', {
-            title: "Email_notifications",
-            templateUrl: 'partials/notification.html',
-            controller: "NotificationController",
-            pageName: "Notification"
-        })
-        //.when('/pay', {
-        //    title: 'pay',
-        //    templateUrl: 'partials/pay.html',
-        //    controller: "payController",
-        //    pageName: "pay"
-        //})
-        //.when('/payPlaton', {
-        //    title: 'Pay',
-        //    templateUrl: 'partials/payPlaton.html',
-        //    controller: "payPlatonController",
-        //    pageName: "pay"
-        //})
-        .when('/pay', {
-            title: 'Pay',
-            templateUrl: 'partials/pay.html',
-            controller: "payWay4PayController",
-            pageName: "pay"
-        })
-        .when('/candidates/:id', {
-            title: 'Candidate',
-            templateUrl: 'partials/candidate.html',
-            controller: "CandidateOneController",
-            pageName: "Candidate",
-            reloadOnSearch: false
-        })
-        .when('/candidates/:id/:test', {
-            title: 'Candidate',
-            templateUrl: 'partials/candidate.html',
-            controller: "CandidateOneController",
-            pageName: "Candidates",
-            reloadOnSearch: false
-        })
-        .when('/candidate/add/', {
-            title: 'Add candidate',
-            templateUrl: "partials/candidate-add.html",
-            controller: "CandidateAddController",
-            pageName: "Candidate add"
-        })
-        .when('/candidate/edit/:id', {
-            title: 'Edit candidate',
-            templateUrl: "partials/candidate-add.html",
-            controller: "CandidateEditController",
-            pageName: "Candidate edit",
-            reloadOnSearch: false
-        })
-        .when('/candidate/merge/:id', {
-            title: 'Merge candidate',
-            templateUrl: "partials/candidate-merge.html",
-            controller: "CandidateMergeController",
-            pageName: "Candidate merge",
-            reloadOnSearch: false
-        }).when('/candidate/tests', {
-            title: "Tests and forms",
-            templateUrl: "partials/tests.html",
-            controller: "testsAndForms",
-            pageName: "Tests and forms"
-        }).when('/candidate/test/:id', {
-            title: "Tests and forms",
-            templateUrl: "partials/test.html",
-            controller: "testsAndForms",
-            pageName: "Test page"
-        }).when('/candidate/test/results/:id', {
-            title: "Test results",
-            templateUrl: "partials/test-result.html",
-            controller: "testResults",
-            pageName: "Test results"
-        }).when('/candidate/test/details/:id', {
-            title: "Detailed test results",
-            templateUrl: "partials/test-detail.html",
-            controller: "testResults",
-            pageName: "Detailed test results"
-        }).when('/candidate/tests/results/:id', {
-            title: "Tests results",
-            templateUrl: "partials/test-result.html",
-            controller: "testResults",
-            pageName: "Tests results"
-        }).when('/candidate/send-test-candidate-to-email/:id', {
-            title: "Send test candidate to email",
-            templateUrl: "partials/sendTestCandidateToEmail.html",
-            controller: "testsAndForms",
-            pageName: "Send test candidate to email"
-        }).when('/candidate/send-test-candidate-to-email-from-vacancy', {
-            title: "Send test candidate to email",
-            templateUrl: "partials/sendTestCandidateToEmail.html",
-            controller: "testsAndForms",
-            pageName: "Send test candidate to email from vacancy"
-        }).when('/candidate/send-test-candidate-to-email-from-candidate', {
-            title: "Send test candidate to email",
-            templateUrl: "partials/sendTestCandidateToEmail.html",
-            controller: "testsAndForms",
-            pageName: "Send test candidate to email from candidate"
-        }).when('/candidate/add/email', {
-            title: "Get candidates from email",
-            templateUrl: "partials/candidateAddFromEmail.html",
-            controller: "CandidateAddFromEmailController",
-            pageName: "Candidates add from email"
-        }).when('/candidate/add/zip', {
-            title: "Get candidates from zip",
-            templateUrl: "partials/candidateAddFromZip.html",
-            controller: "CandidateAddFromZipController",
-            pageName: "Zip"
-        }).when('/candidates_link', {
-            title: 'Candidates',
-            templateUrl: 'partials/candidateslink.html',
-            controller: "CandidateLINKController",
-            pageName: "Candidates"
-        }).when('/xray_link', {
-            title: 'Candidates X-Ray LinkedIn Search',
-            templateUrl: 'partials/xraylink.html',
-            controller: "CandidateXRayLinkController",
-            pageName: "Candidates"
-        })
-        .when('/clients', {
-            title: 'Clients',
-            templateUrl: "partials/clients.html",
-            controller: "ClientsController",
-            pageName: "Clients"
-        })
-        .when('/client/add/', {
-            title: 'New client',
-            templateUrl: 'partials/client-add.html',
-            controller: "ClientAddController",
-            pageName: "Client add"
-        })
-        .when('/client/edit/:id', {
-            title: 'Edit client',
-            templateUrl: 'partials/client-add.html',
-            controller: "ClientEditController",
-            pageName: "Client edit",
-            reloadOnSearch: false
-        })
-        .when('/clients/:id', {
-            title: 'Client',
-            templateUrl: "partials/client.html",
-            controller: "ClientOneController",
-            reloadOnSearch: false,
-            pageName: "Clients"
-        })
-        .when('/contacts/:id', {
-            title: 'Contacts',
-            templateUrl: "partials/contacts.html",
-            controller: "ContactsOneController",
-            reloadOnSearch: false,
-            pageName: "Clients"
-        })
-        .when('/contact/add/:id', {
-            title: 'Add contact',
-            templateUrl: "partials/contact-add.html",
-            controller: "ContactAddController",
-            pageName: "Clients"
-        })
-        .when('/contact/edit/:contactId', {
-            title: 'Edit contact',
-            templateUrl: "partials/contact-add.html",
-            controller: "ContactEditController",
-            pageName: "Contact Edit",
-            reloadOnSearch: false
-        })
-        .when('/vacancies', {
-            title: 'Vacancies',
-            templateUrl: 'partials/vacancies.html',
-            controller: "vacanciesController",
-            pageName: "Vacancies"
-        })
-        .when('/vacancies/:id', {
-            title: 'Vacancy',
-            templateUrl: 'partials/vacancy.html',
-            controller: "vacancyController",
-            reloadOnSearch: false,
-            pageName: "Vacancies"
-        })
-        .when('/vacancy/add', {
-            title: 'Add vacancy',
-            templateUrl: 'partials/vacancy-add.html',
-            controller: "vacancyAddController",
-            pageName: "Vacancy add",
-            resolve: {
-                CustomFieldList: function(CustomField) {
-                    return new Promise((resolve, reject) => {
-                        CustomField.getFullFields({objectType: 'vacancy'},
-                            resp => resolve(resp),error => reject(error));
-                    });
-                }
-            }
-        })
-        .when('/vacancy/edit/:id', {
-            title: 'Edit vacancy',
-            templateUrl: 'partials/vacancy-add.html',
-            controller: "vacancyEditController",
-            pageName: "Vacancy edit",
-            reloadOnSearch: false
-        })
-        .when('/vacancy/report/:id', {
-            title: 'Vacancy report',
-            templateUrl: 'partials/vacancy-reports.html',
-            controller: 'vacancyReportController',
-            pageName: 'Vacancies'
-        })
-        .when('/reports/vacancy', {
-            title: 'Vacancy report',
-            templateUrl: 'partials/vacancy-report.html',
-            controller: 'reportsController',
-            pageName: 'Vacancy report'
-        })
-        .when('/reports/vacancy/:id', {
-            title: 'Vacancy report',
-            templateUrl: 'partials/vacancy-reports.html',
-            controller: 'vacancyReportController',
-            pageName: 'Vacancy report'
-        })
-        .when('/reports/reportall', {
-            templateUrl: 'partials/report-all.html',
-            title: 'Report',
-            controller: 'reportAllController',
-            pageName: "Report all"
-        })
-        .when('/company/users', {
-            title: 'Users',
-            templateUrl: "partials/users.html",
-            controller: "usersController",
-            pageName: "Company users"
-        })
-        .when('/company/custom-fields', {
-            title: "Custom fields",
-            templateUrl: "partials/customFields.html",
-            controller: "CustomFieldController",
-            pageName: "Custom fields"
-        })
-        .when('/users/:id', {
-            title: "User",
-            templateUrl: "partials/user.html",
-            controller: "userOneController",
-            pageName: "Users"
-        })
-        .when('/personInfo/:id', {
-            title: "User Info",
-            templateUrl: "partials/user.html",
-            controller: "userOneController",
-            pageName: "User"
-        }).when('/recalls/:id', {
-            title: "Recalls Info",
-            templateUrl: "partials/recall.html",
-            controller: "recallController",
-            pageName: "Recalls Info"
-        }).when('/email/vacancy/:vacancyId', {
-            title: "Send email",
-            templateUrl: "partials/vacancy-send-candidates-to-client.html",
-            controller: "CandidateEmailSend",
-            pageName: "Vacancies"
-        }).when('/excelHistory', {
-            title: "Excel History",
-            templateUrl: "partials/excel-history.html",
-            controller: "excelHistoryController",
-            pageName: "Excel History"
-        }).when('/company/employees', {
-            title: "employees",
-            templateUrl: "partials/employees.html",
-            controller: "EmployeesController",
-            pageName: "Company employees"
-        })
-        .when('/company/employees/:id', {
-            title: "employees",
-            templateUrl: "partials/employee.html",
-            controller: "EmployeeOneController",
-            pageName: "Employee User"
-        })
-        .when('/company/employee/add', {
-            title: "Adding an employee",
-            templateUrl: "partials/employee-add.html",
-            controller: "EmployeeAddController",
-            pageName: "Employee add"
-        })
-        .when('/company/employee/add/:candidateId', {
-            title: "Adding an employee",
-            templateUrl: "partials/employee-add-from-candidate.html",
-            controller: "EmployeeAddFromCandidateController",
-            pageName: "Users"
-        })
-        .when('/company/employees/edit/:employeeId', {
-            title: "Edit candidate",
-            templateUrl: "partials/employee-add.html",
-            controller: "EmployeeEditController",
-            pageName: "Employee Edit User"
-        }).when('/company/departmentCatalog', {
-            templateUrl: 'partials/departmentCatalog.html',
-            title: 'Department catalog',
-            controller: 'DepartmentCatalogController',
-            pageName: "Department Catalog"
-        }).when('/faq', {
-            templateUrl: 'partials/faq.html',
-            title: 'FAQ',
-            controller: 'FeedbackController',
-            pageName: "FAQ"
-        }).when('/ask_question', {
-            templateUrl: 'partials/feedback-page.html',
-            title: 'Ask question',
-            controller: 'FeedbackController',
-            pageName: "Ask question"
-        }).when('/report_problem_on_this_page', {
-            templateUrl: 'partials/feedback-page.html',
-            title: 'Report problem on this page',
-            controller: 'FeedbackController',
-            pageName: "Report problem on this page"
-        }).when('/suggest_improvement_or_request_feature', {
-            templateUrl: 'partials/feedback-page.html',
-            title: 'Suggest improvement or request feature',
-            controller: 'FeedbackController',
-            pageName: "Suggest improvement or request feature"
-        }).when('/feedback/thanks', {
-            templateUrl: 'partials/feedback-page-thanks.html',
-            title: 'Thanks for feedback',
-            controller: 'FeedbackController',
-            pageName: "Thanks for feedback"
-        }).when('/feedback-new-design', {
-            templateUrl: 'partials/feedback-page-new-design.html',
-            title: 'Feedback for new design',
-            controller: 'FeedbackController',
-            pageName: "Feedback for new design"
-        }).when('/feedback-new-design-thanks', {
-            templateUrl: 'partials/feedback-page-new-design-thanks.html',
-            title: 'Thanks for feedback',
-            controller: 'FeedbackController',
-            pageName: "Thanks for feedback"
-        }).when('/email-integration', {
-            title: "Integration with email",
-            templateUrl: "partials/addEmailForTemplate.html",
-            controller: "addEmailForTemplateController",
-            pageName: "Integration with email"
-        }).when('/news', {
-            title: "News",
-            templateUrl: "partials/news.html",
-            controller: "newsController",
-            pageName: "News"
-        })
-        .when('/cloud-admin',{
-            templateUrl: "partials/cloud-admin.html",
-            controller: "cloudAdminController",
-            pageName: "Cloud Admin"
-        })
-        .when('/reports/pipeline',{
-            title: "Pipeline",
-            templateUrl: "partials/pipeline.html",
-            controller: "pipelineController",
-            pageName: "Pipeline"
-        })
-        .when('/reports',{
-            title: "Reports",
-            templateUrl: "partials/reports.html",
-            controller: "MyReportsCtrl",
-            controllerAs: "myReportsCtrl",
-            pageName: "Reports"
-        })
-        .when('/reports/custom-reports',{
-            title: "Custom Reports",
-            templateUrl: "partials/custom-reports.html",
-            controller: "CustomReports",
-            controllerAs: "ctrlReport",
-            pageName: "Custom Reports"
-        })
-        .when('/reports/edit-reports',{
-            title: "Edit Reports",
-            templateUrl: "partials/edit-custom-report.html",
-            controller: "CustomReportEditCtrl",
-            controllerAs: "editReport",
-            pageName: "Edit Reports"
-        })
-        .when('/constructor-reports',{
-            title: "Reports constructor",
-            templateUrl: "partials/constructor-reports.html",
-            controller: "constructorReports",
-            pageName: "Reports constructor"
-        })
-        //.when('/hr-module-info', {
-        //    title: "HR-module",
-        //    templateUrl: "partials/hr-module-info.html",
-        //    controller: "hrModuleInfoController",
-        //    pageName: "Hr-module info"
-        //})
-        .when('/mailing',{
-            title: "Create a mailing list",
-            templateUrl: "partials/mailing/mailing.html",
-            controller: "mailingController",
-            pageName: "Mailing"
-        })
-        .when('/mailings',{
-            title: "My mailings",
-            templateUrl: "partials/mailing/mailings.html",
-            controller: "mailingsController",
-            pageName: "Mailings"
-        })
-        .when('/mailing-sent',{
-            title: "Sent mailing",
-            templateUrl: "partials/mailing/mailing-sent.html",
-            controller: "mailingSentController",
-            pageName: "Sent mailing"
-        })
-        .otherwise({redirectTo: '/organizer'});
+    // customRouteProvider
+    //     .when('/organizer', {
+    //         templateUrl: 'partials/future.html',
+    //         title: 'Organizer',
+    //         controller: 'ActivityFutureController',
+    //         pageName: "Activity"
+    //     })
+    //     .when('/organizer/calendar', {
+    //         templateUrl: 'partials/GoogleCalendar.html',
+    //         title: 'Google Calendar',
+    //         controller: 'ActivityCalendarController',
+    //         pageName: "Activity Calendar"
+    //     }).when('/efficiency', {
+    //         templateUrl: 'partials/efficiency.html',
+    //         title: 'Efficiency',
+    //         controller: 'EfficiencyController',
+    //         pageName: "Efficiency"
+    //     })
+    //     .when('/reports/statistics', {
+    //         templateUrl: 'partials/statistics.html',
+    //         title: 'statistics',
+    //         controller: 'ActivityStatisticsController',
+    //         pageName: "Statistics client"
+    //     })
+    //     .when('/company/settings/:param', {
+    //         templateUrl: 'partials/companysettings.html',
+    //         title: 'Company settings',
+    //         controller: 'ActivityCompanySettingsController',
+    //         pageName: "Company settings"
+    //     })
+    //     .when('/company/settings', {
+    //         templateUrl: 'partials/companysettings.html',
+    //         title: 'Company settings',
+    //         controller: 'ActivityCompanySettingsController',
+    //         pageName: "Company settings"
+    //     })
+    //     .when('/clients/statistics', {
+    //         title: 'Clients',
+    //         templateUrl: 'partials/statisticsС.html',
+    //         controller: "ClientsStatisticsController",
+    //         pageName: "Statistics client"
+    //     }).when('/company/history', {
+    //         templateUrl: 'partials/history.html',
+    //         title: 'Activity History',
+    //         controller: 'ActivityGlobalHistoryController',
+    //         pageName: "Company History"
+    //     }).when('/notices', {
+    //         templateUrl: 'partials/notices.html',
+    //         title: 'Notifications',
+    //         controller: 'ActivityNoticesController',
+    //         pageName: "ActivityNotice"
+    //     }).when('/candidates', {
+    //         title: 'Candidates',
+    //         templateUrl: 'partials/candidates.html',
+    //         controller: "CandidateController",
+    //         pageName: "Candidates"
+    //     })
+    //     .when('/notifications', {
+    //         title: "Email_notifications",
+    //         templateUrl: 'partials/notification.html',
+    //         controller: "NotificationController",
+    //         pageName: "Notification"
+    //     })
+    //     //.when('/pay', {
+    //     //    title: 'pay',
+    //     //    templateUrl: 'partials/pay.html',
+    //     //    controller: "payController",
+    //     //    pageName: "pay"
+    //     //})
+    //     //.when('/payPlaton', {
+    //     //    title: 'Pay',
+    //     //    templateUrl: 'partials/payPlaton.html',
+    //     //    controller: "payPlatonController",
+    //     //    pageName: "pay"
+    //     //})
+    //     .when('/pay', {
+    //         title: 'Pay',
+    //         templateUrl: 'partials/pay.html',
+    //         controller: "payWay4PayController",
+    //         pageName: "pay"
+    //     })
+    //     .when('/candidates/:id', {
+    //         title: 'Candidate',
+    //         templateUrl: 'partials/candidate.html',
+    //         controller: "CandidateOneController",
+    //         pageName: "Candidate",
+    //         reloadOnSearch: false
+    //     })
+    //     .when('/candidates/:id/:test', {
+    //         title: 'Candidate',
+    //         templateUrl: 'partials/candidate.html',
+    //         controller: "CandidateOneController",
+    //         pageName: "Candidates",
+    //         reloadOnSearch: false
+    //     })
+    //     .when('/candidate/add/', {
+    //         title: 'Add candidate',
+    //         templateUrl: "partials/candidate-add.html",
+    //         controller: "CandidateAddController",
+    //         pageName: "Candidate add"
+    //     })
+    //     .when('/candidate/edit/:id', {
+    //         title: 'Edit candidate',
+    //         templateUrl: "partials/candidate-add.html",
+    //         controller: "CandidateEditController",
+    //         pageName: "Candidate edit",
+    //         reloadOnSearch: false
+    //     })
+    //     .when('/candidate/merge/:id', {
+    //         title: 'Merge candidate',
+    //         templateUrl: "partials/candidate-merge.html",
+    //         controller: "CandidateMergeController",
+    //         pageName: "Candidate merge",
+    //         reloadOnSearch: false
+    //     }).when('/candidate/tests', {
+    //         title: "Tests and forms",
+    //         templateUrl: "partials/tests.html",
+    //         controller: "testsAndForms",
+    //         pageName: "Tests and forms"
+    //     }).when('/candidate/test/:id', {
+    //         title: "Tests and forms",
+    //         templateUrl: "partials/test.html",
+    //         controller: "testsAndForms",
+    //         pageName: "Test page"
+    //     }).when('/candidate/test/results/:id', {
+    //         title: "Test results",
+    //         templateUrl: "partials/test-result.html",
+    //         controller: "testResults",
+    //         pageName: "Test results"
+    //     }).when('/candidate/test/details/:id', {
+    //         title: "Detailed test results",
+    //         templateUrl: "partials/test-detail.html",
+    //         controller: "testResults",
+    //         pageName: "Detailed test results"
+    //     }).when('/candidate/tests/results/:id', {
+    //         title: "Tests results",
+    //         templateUrl: "partials/test-result.html",
+    //         controller: "testResults",
+    //         pageName: "Tests results"
+    //     }).when('/candidate/send-test-candidate-to-email/:id', {
+    //         title: "Send test candidate to email",
+    //         templateUrl: "partials/sendTestCandidateToEmail.html",
+    //         controller: "testsAndForms",
+    //         pageName: "Send test candidate to email"
+    //     }).when('/candidate/send-test-candidate-to-email-from-vacancy', {
+    //         title: "Send test candidate to email",
+    //         templateUrl: "partials/sendTestCandidateToEmail.html",
+    //         controller: "testsAndForms",
+    //         pageName: "Send test candidate to email from vacancy"
+    //     }).when('/candidate/send-test-candidate-to-email-from-candidate', {
+    //         title: "Send test candidate to email",
+    //         templateUrl: "partials/sendTestCandidateToEmail.html",
+    //         controller: "testsAndForms",
+    //         pageName: "Send test candidate to email from candidate"
+    //     }).when('/candidate/add/email', {
+    //         title: "Get candidates from email",
+    //         templateUrl: "partials/candidateAddFromEmail.html",
+    //         controller: "CandidateAddFromEmailController",
+    //         pageName: "Candidates add from email"
+    //     }).when('/candidate/add/zip', {
+    //         title: "Get candidates from zip",
+    //         templateUrl: "partials/candidateAddFromZip.html",
+    //         controller: "CandidateAddFromZipController",
+    //         pageName: "Zip"
+    //     }).when('/candidates_link', {
+    //         title: 'Candidates',
+    //         templateUrl: 'partials/candidateslink.html',
+    //         controller: "CandidateLINKController",
+    //         pageName: "Candidates"
+    //     }).when('/xray_link', {
+    //         title: 'Candidates X-Ray LinkedIn Search',
+    //         templateUrl: 'partials/xraylink.html',
+    //         controller: "CandidateXRayLinkController",
+    //         pageName: "Candidates"
+    //     })
+    //     .when('/clients', {
+    //         title: 'Clients',
+    //         templateUrl: "partials/clients.html",
+    //         controller: "ClientsController",
+    //         pageName: "Clients"
+    //     })
+    //     .when('/client/add/', {
+    //         title: 'New client',
+    //         templateUrl: 'partials/client-add.html',
+    //         controller: "ClientAddController",
+    //         pageName: "Client add"
+    //     })
+    //     .when('/client/edit/:id', {
+    //         title: 'Edit client',
+    //         templateUrl: 'partials/client-add.html',
+    //         controller: "ClientEditController",
+    //         pageName: "Client edit",
+    //         reloadOnSearch: false
+    //     })
+    //     .when('/clients/:id', {
+    //         title: 'Client',
+    //         templateUrl: "partials/client.html",
+    //         controller: "ClientOneController",
+    //         reloadOnSearch: false,
+    //         pageName: "Clients"
+    //     })
+    //     .when('/contacts/:id', {
+    //         title: 'Contacts',
+    //         templateUrl: "partials/contacts.html",
+    //         controller: "ContactsOneController",
+    //         reloadOnSearch: false,
+    //         pageName: "Clients"
+    //     })
+    //     .when('/contact/add/:id', {
+    //         title: 'Add contact',
+    //         templateUrl: "partials/contact-add.html",
+    //         controller: "ContactAddController",
+    //         pageName: "Clients"
+    //     })
+    //     .when('/contact/edit/:contactId', {
+    //         title: 'Edit contact',
+    //         templateUrl: "partials/contact-add.html",
+    //         controller: "ContactEditController",
+    //         pageName: "Contact Edit",
+    //         reloadOnSearch: false
+    //     })
+    //     .when('/vacancies', {
+    //         title: 'Vacancies',
+    //         templateUrl: 'partials/vacancies.html',
+    //         controller: "vacanciesController",
+    //         pageName: "Vacancies"
+    //     })
+    //     .when('/vacancies/:id', {
+    //         title: 'Vacancy',
+    //         templateUrl: 'partials/vacancy.html',
+    //         controller: "vacancyController",
+    //         reloadOnSearch: false,
+    //         pageName: "Vacancies"
+    //     })
+    //     .when('/vacancy/add', {
+    //         title: 'Add vacancy',
+    //         templateUrl: 'partials/vacancy-add.html',
+    //         controller: "vacancyAddController",
+    //         pageName: "Vacancy add",
+    //         resolve: {
+    //             CustomFieldList: function(CustomField) {
+    //                 return new Promise((resolve, reject) => {
+    //                     CustomField.getFullFields({objectType: 'vacancy'},
+    //                         resp => resolve(resp),error => reject(error));
+    //                 });
+    //             }
+    //         }
+    //     })
+    //     .when('/vacancy/edit/:id', {
+    //         title: 'Edit vacancy',
+    //         templateUrl: 'partials/vacancy-add.html',
+    //         controller: "vacancyEditController",
+    //         pageName: "Vacancy edit",
+    //         reloadOnSearch: false
+    //     })
+    //     .when('/vacancy/report/:id', {
+    //         title: 'Vacancy report',
+    //         templateUrl: 'partials/vacancy-reports.html',
+    //         controller: 'vacancyReportController',
+    //         pageName: 'Vacancies'
+    //     })
+    //     .when('/reports/vacancy', {
+    //         title: 'Vacancy report',
+    //         templateUrl: 'partials/vacancy-report.html',
+    //         controller: 'reportsController',
+    //         pageName: 'Vacancy report'
+    //     })
+    //     .when('/reports/vacancy/:id', {
+    //         title: 'Vacancy report',
+    //         templateUrl: 'partials/vacancy-reports.html',
+    //         controller: 'vacancyReportController',
+    //         pageName: 'Vacancy report'
+    //     })
+    //     .when('/reports/reportall', {
+    //         templateUrl: 'partials/report-all.html',
+    //         title: 'Report',
+    //         controller: 'reportAllController',
+    //         pageName: "Report all"
+    //     })
+    //     .when('/company/users', {
+    //         title: 'Users',
+    //         templateUrl: "partials/users.html",
+    //         controller: "usersController",
+    //         pageName: "Company users"
+    //     })
+    //     .when('/company/custom-fields', {
+    //         title: "Custom fields",
+    //         templateUrl: "partials/customFields.html",
+    //         controller: "CustomFieldController",
+    //         pageName: "Custom fields"
+    //     })
+    //     .when('/users/:id', {
+    //         title: "User",
+    //         templateUrl: "partials/user.html",
+    //         controller: "userOneController",
+    //         pageName: "Users"
+    //     })
+    //     .when('/personInfo/:id', {
+    //         title: "User Info",
+    //         templateUrl: "partials/user.html",
+    //         controller: "userOneController",
+    //         pageName: "User"
+    //     }).when('/recalls/:id', {
+    //         title: "Recalls Info",
+    //         templateUrl: "partials/recall.html",
+    //         controller: "recallController",
+    //         pageName: "Recalls Info"
+    //     }).when('/email/vacancy/:vacancyId', {
+    //         title: "Send email",
+    //         templateUrl: "partials/vacancy-send-candidates-to-client.html",
+    //         controller: "CandidateEmailSend",
+    //         pageName: "Vacancies"
+    //     }).when('/excelHistory', {
+    //         title: "Excel History",
+    //         templateUrl: "partials/excel-history.html",
+    //         controller: "excelHistoryController",
+    //         pageName: "Excel History"
+    //     }).when('/company/employees', {
+    //         title: "employees",
+    //         templateUrl: "partials/employees.html",
+    //         controller: "EmployeesController",
+    //         pageName: "Company employees"
+    //     })
+    //     .when('/company/employees/:id', {
+    //         title: "employees",
+    //         templateUrl: "partials/employee.html",
+    //         controller: "EmployeeOneController",
+    //         pageName: "Employee User"
+    //     })
+    //     .when('/company/employee/add', {
+    //         title: "Adding an employee",
+    //         templateUrl: "partials/employee-add.html",
+    //         controller: "EmployeeAddController",
+    //         pageName: "Employee add"
+    //     })
+    //     .when('/company/employee/add/:candidateId', {
+    //         title: "Adding an employee",
+    //         templateUrl: "partials/employee-add-from-candidate.html",
+    //         controller: "EmployeeAddFromCandidateController",
+    //         pageName: "Users"
+    //     })
+    //     .when('/company/employees/edit/:employeeId', {
+    //         title: "Edit candidate",
+    //         templateUrl: "partials/employee-add.html",
+    //         controller: "EmployeeEditController",
+    //         pageName: "Employee Edit User"
+    //     }).when('/company/departmentCatalog', {
+    //         templateUrl: 'partials/departmentCatalog.html',
+    //         title: 'Department catalog',
+    //         controller: 'DepartmentCatalogController',
+    //         pageName: "Department Catalog"
+    //     }).when('/faq', {
+    //         templateUrl: 'partials/faq.html',
+    //         title: 'FAQ',
+    //         controller: 'FeedbackController',
+    //         pageName: "FAQ"
+    //     }).when('/ask_question', {
+    //         templateUrl: 'partials/feedback-page.html',
+    //         title: 'Ask question',
+    //         controller: 'FeedbackController',
+    //         pageName: "Ask question"
+    //     }).when('/report_problem_on_this_page', {
+    //         templateUrl: 'partials/feedback-page.html',
+    //         title: 'Report problem on this page',
+    //         controller: 'FeedbackController',
+    //         pageName: "Report problem on this page"
+    //     }).when('/suggest_improvement_or_request_feature', {
+    //         templateUrl: 'partials/feedback-page.html',
+    //         title: 'Suggest improvement or request feature',
+    //         controller: 'FeedbackController',
+    //         pageName: "Suggest improvement or request feature"
+    //     }).when('/feedback/thanks', {
+    //         templateUrl: 'partials/feedback-page-thanks.html',
+    //         title: 'Thanks for feedback',
+    //         controller: 'FeedbackController',
+    //         pageName: "Thanks for feedback"
+    //     }).when('/feedback-new-design', {
+    //         templateUrl: 'partials/feedback-page-new-design.html',
+    //         title: 'Feedback for new design',
+    //         controller: 'FeedbackController',
+    //         pageName: "Feedback for new design"
+    //     }).when('/feedback-new-design-thanks', {
+    //         templateUrl: 'partials/feedback-page-new-design-thanks.html',
+    //         title: 'Thanks for feedback',
+    //         controller: 'FeedbackController',
+    //         pageName: "Thanks for feedback"
+    //     }).when('/email-integration', {
+    //         title: "Integration with email",
+    //         templateUrl: "partials/addEmailForTemplate.html",
+    //         controller: "addEmailForTemplateController",
+    //         pageName: "Integration with email"
+    //     }).when('/news', {
+    //         title: "News",
+    //         templateUrl: "partials/news.html",
+    //         controller: "newsController",
+    //         pageName: "News"
+    //     })
+    //     .when('/cloud-admin',{
+    //         templateUrl: "partials/cloud-admin.html",
+    //         controller: "cloudAdminController",
+    //         pageName: "Cloud Admin"
+    //     })
+    //     .when('/reports/pipeline',{
+    //         title: "Pipeline",
+    //         templateUrl: "partials/pipeline.html",
+    //         controller: "pipelineController",
+    //         pageName: "Pipeline"
+    //     })
+    //     .when('/reports',{
+    //         title: "Reports",
+    //         templateUrl: "partials/reports.html",
+    //         controller: "MyReportsCtrl",
+    //         controllerAs: "myReportsCtrl",
+    //         pageName: "Reports"
+    //     })
+    //     .when('/reports/custom-reports',{
+    //         title: "Custom Reports",
+    //         templateUrl: "partials/custom-reports.html",
+    //         controller: "CustomReports",
+    //         controllerAs: "ctrlReport",
+    //         pageName: "Custom Reports"
+    //     })
+    //     .when('/reports/edit-reports',{
+    //         title: "Edit Reports",
+    //         templateUrl: "partials/edit-custom-report.html",
+    //         controller: "CustomReportEditCtrl",
+    //         controllerAs: "editReport",
+    //         pageName: "Edit Reports"
+    //     })
+    //     .when('/constructor-reports',{
+    //         title: "Reports constructor",
+    //         templateUrl: "partials/constructor-reports.html",
+    //         controller: "constructorReports",
+    //         pageName: "Reports constructor"
+    //     })
+    //     //.when('/hr-module-info', {
+    //     //    title: "HR-module",
+    //     //    templateUrl: "partials/hr-module-info.html",
+    //     //    controller: "hrModuleInfoController",
+    //     //    pageName: "Hr-module info"
+    //     //})
+    //     .when('/mailing',{
+    //         title: "Create a mailing list",
+    //         templateUrl: "partials/mailing/mailing.html",
+    //         controller: "mailingController",
+    //         pageName: "Mailing"
+    //     })
+    //     .when('/mailing-sent',{
+    //         title: "Sent mailing",
+    //         templateUrl: "partials/mailing/mailing-sent.html",
+    //         controller: "mailingSentController",
+    //         pageName: "Sent mailing"
+    //     })
+    //     .otherwise({redirectTo: '/organizer'});
 
     let states = [{
         name: 'mailing-details',
@@ -517,10 +511,15 @@ angular.module('RecruitingApp', [
         component: 'preview'
     },{
         url: "/mailings",
-        name: 'mailings-saved',
+        name: 'mailings',
+        component: 'mailings'
+    },{
+        url: "/prepared",
+        name: 'mailings.saved',
         component: 'saved'
     },{
-        name: 'mailings-sent',
+        url: "/saved",
+        name: 'mailings.sent',
         component: 'sent'
     }];
     states.forEach((state) => {

@@ -1,4 +1,3 @@
-controller.controller('mailingPreviewController', ['$scope', '$rootScope', 'notificationService', '$localStorage', '$filter', '$uibModal','$state', '$location', 'Mailing', 'Account', 'Person']);
 component.component('preview', {
     templateUrl: "partials/mailing/mailing-preview.html",
     controller: function ($scope, $rootScope, notificationService, $localStorage, $filter, $uibModal, $state, $location, Mailing, Account, Person) {

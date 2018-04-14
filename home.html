@@ -1052,7 +1052,7 @@
         </div>
     </div>
     <div id='crutchGoogleMap'></div>
-    <div ng-if="$root.blockUser != true" ng-view></div>
+    <ui-view ng-if="$root.blockUser != true"></ui-view>
     <div ng-show="$root.blockUser">
         <div class="ui vertically devided grid" style="margin-top: 2%;">
             <div class="three wide column"></div>

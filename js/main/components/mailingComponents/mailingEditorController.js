@@ -1,4 +1,3 @@
-controller.controller('mailingEditorController', ['$scope', '$rootScope','$localStorage', '$timeout', 'notificationService','$filter', '$uibModal', 'Mailing', ]);
 component.component('editor', {
     templateUrl: "partials/mailing/mailing-editor.html",
     controller: function ($scope, $rootScope, $localStorage, $timeout, notificationService, $filter, $uibModal, Mailing) {
