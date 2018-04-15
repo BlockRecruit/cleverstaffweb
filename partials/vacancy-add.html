@@ -5,8 +5,8 @@
             <!--<li class="active">{{'New vacancy' | translate}}</li>-->
         <!--</ol>-->
     <!--</div>-->
-    <h3 ng-show="$root.activePage != 'Vacancy edit'">{{'New vacancy' | translate}}</h3>
-    <h3 ng-show="$root.activePage == 'Vacancy edit'">{{vacancy.position}}</h3>
+    <h3 ng-show="$root.$state.current.data.pageName != 'Vacancy edit'">{{'New vacancy' | translate}}</h3>
+    <h3 ng-show="$root.$state.current.data.pageName == 'Vacancy edit'">{{vacancy.position}}</h3>
     <div class="row main-info" ng-show="!$root.loading">
         <form name="vacancyForm" ng-submit="submitForm()" novalidate>
             <div class="col-lg-6">
@@ -120,8 +120,8 @@
                 </div>
                 <div class="col-lg-7 input-outer padding-right">
                     <div class="col-lg-6 input-outer padding-right" style="padding-left: 9px;">
-                        <span class="title margin-left-zero" ng-show="$root.activePage == 'Vacancy add'">{{'languages'|translate}}</span>
-                        <span class="title margin-left-zero" ng-show="$root.activePage == 'Vacancy edit'">{{'Languages (choose/add)'|translate}}</span>
+                        <span class="title margin-left-zero" ng-show="$root.$state.current.data.pageName == 'Vacancy add'">{{'languages'|translate}}</span>
+                        <span class="title margin-left-zero" ng-show="$root.$state.current.data.pageName == 'Vacancy edit'">{{'Languages (choose/add)'|translate}}</span>
                         <input placeholder="{{'Choose/add'|translate}}" class="select-lang-container" select2-lang name="languages" type="text"/>
                     </div>
                     <div class="col-lg-6 input-outer level">
@@ -129,8 +129,8 @@
                             <select class="addingLangs pull-right" ng-repeat="langId in addedLang track by $index" id="{{langId.id}}"
                                     ng-change="changeLevel(vacancy.level[$index], langId.id);" ng-model="vacancy.level[$index]"
                                     name="level" title="{{'Proficiency level'|translate}}">
-                                <option value="" ng-if="$root.activePage == 'Vacancy add'" ng-selected="langId.level == ''">{{'undefined'|translate}}</option>
-                                <option value="undefined" ng-if="$root.activePage == 'Vacancy edit'" ng-selected="langId.level == 'undefined' || langId.level == null">{{'undefined'|translate}}</option>
+                                <option value="" ng-if="$root.$state.current.data.pageName == 'Vacancy add'" ng-selected="langId.level == ''">{{'undefined'|translate}}</option>
+                                <option value="undefined" ng-if="$root.$state.current.data.pageName == 'Vacancy edit'" ng-selected="langId.level == 'undefined' || langId.level == null">{{'undefined'|translate}}</option>
                                 <option value="Basic" ng-selected="langId.level == 'Basic'">{{'Basic'|translate}}</option>
                                 <option value="Pre_Intermediate" ng-selected="langId.level == 'Pre_Intermediate'">{{'Pre_Intermediate'|translate}}</option>
                                 <option value="Intermediate" ng-selected="langId.level == 'Intermediate'">{{'Intermediate'|translate}}</option>
@@ -158,7 +158,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-lg-7 input-outer"  ng-if="customField.state == 'A' && $root.activePage == 'Vacancy add'" ng-repeat="customField in allObjCustomField track by customField.fieldId">
+                <div class="col-lg-7 input-outer"  ng-if="customField.state == 'A' && $root.$state.current.data.pageName == 'Vacancy add'" ng-repeat="customField in allObjCustomField track by customField.fieldId">
                     <div ng-show="customField.type == 'string'">
                         <span class="title">{{customField.title}}</span>
                         <textarea placeholder="" class="form-control" maxlength="250" ng-model-options="{updateOn: 'blur'}" ng-change="editCustomField(fieldValues.value[$index], customField.fieldId)" ng-model="fieldValues.value[$index]" name="{{customField.fieldValue.dateTimeValue}}"> </textarea>
@@ -189,7 +189,7 @@
                     </div>
                 </div>
                 <div class="col-lg-7 input-outer"
-                     ng-if="customField.state == 'A' && $root.activePage == 'Vacancy edit'"
+                     ng-if="customField.state == 'A' && $root.$state.current.data.pageName == 'Vacancy edit'"
                      ng-repeat="customField in vacancy.customFields track by customField.fieldId">
                     <div ng-show="customField.type == 'string'">
                         <span class="title">{{customField.title}}</span>

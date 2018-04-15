@@ -1,6 +1,6 @@
 <div class="controller-view">
     <div class="block-client-add">
-        <div class="breadcrumbs hidden-sm hidden-xs" ng-if="$root.activePage == 'Client add'">
+        <div class="breadcrumbs hidden-sm hidden-xs" ng-if="$root.$state.current.data.pageName == 'Client add'">
             <ol class="breadcrumb">
                 <li><a href="#/clients">{{'Clients'|translate}}</a></li>
                 <li><i class="fa fa-chevron-right" aria-hidden="true"></i></li>
@@ -9,7 +9,7 @@
                 <!--<li class="active">{{candidate.fullName}}</li>-->
             </ol>
         </div>
-        <div class="breadcrumbs hidden-sm hidden-xs" ng-if="$root.activePage == 'Client edit'">
+        <div class="breadcrumbs hidden-sm hidden-xs" ng-if="$root.$state.current.data.pageName == 'Client edit'">
             <ol class="breadcrumb">
                 <li><a href="#/clients">{{'Clients'|translate}}</a></li>
                 <li><i class="fa fa-chevron-right" aria-hidden="true"></i></li>
@@ -81,7 +81,7 @@
                                     <input name="site"  ng-model="client.site"  type="text">
                                 </div>
 
-                                <div class="item" ng-if="customField.state == 'A' && $root.activePage == 'Client add'" ng-repeat="customField in allObjCustomField track by customField.fieldId">
+                                <div class="item" ng-if="customField.state == 'A' && $root.$state.current.data.pageName == 'Client add'" ng-repeat="customField in allObjCustomField track by customField.fieldId">
                                     <div ng-show="customField.type == 'string'">
                                         <label>{{customField.title}}</label>
                                         <textarea placeholder="" ng-model-options="{updateOn: 'blur'}" maxlength="250" ng-change="editCustomField(fieldValues.value[$index], customField.fieldId)" ng-model="fieldValues.value[$index]" name="{{customField.fieldValue.dateTimeValue}}" ></textarea>
@@ -108,7 +108,7 @@
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
-                                <div class="item" ng-if="customField.state == 'A' && $root.activePage == 'Client edit'" ng-repeat="customField in client.customFields track by customField.fieldId">
+                                <div class="item" ng-if="customField.state == 'A' && $root.$state.current.data.pageName == 'Client edit'" ng-repeat="customField in client.customFields track by customField.fieldId">
                                     <div ng-show="customField.type == 'string'">
                                         <label>{{customField.title}}</label>
                                         <textarea placeholder="" ng-model-options="{updateOn: 'blur'}" maxlength="250" ng-change="editCustomField(customField.fieldValue.value, customField.fieldId, customField.fieldValue.fieldValueId)" data-ng-model="customField.fieldValue.value" name="{{customField.fieldValue.value}}"></textarea>

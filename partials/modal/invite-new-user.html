@@ -61,21 +61,21 @@
 <!--<div class="invite-new-user">-->
     <!--<div class="modal-header" ng-hide="$root.inviteUserBlock">-->
         <!--<i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>-->
-        <!--<h4 class="modal-title" ng-show="$root.activePage == 'Company users' || $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'">{{'invitation_user'|translate}}</h4>-->
-        <!--<h4 class="modal-title" ng-show="$root.activePage == 'Reports' || $root.activePage == 'Pipeline' || $root.activePage == 'Vacancy report' || $root.activePage == 'Statistics client' || $root.activePage == 'Reports constructor'">{{'Invite a Hiring manager'|translate}}</h4>-->
+        <!--<h4 class="modal-title" ng-show="$root.$state.current.data.pageName == 'Company users' || $root.$state.current.data.pageName == 'Activity' || $root.$state.current.data.pageName == 'Activity Calendar' || $root.$state.current.data.pageName == 'News'">{{'invitation_user'|translate}}</h4>-->
+        <!--<h4 class="modal-title" ng-show="$root.$state.current.data.pageName == 'Reports' || $root.$state.current.data.pageName == 'Pipeline' || $root.$state.current.data.pageName == 'Vacancy report' || $root.$state.current.data.pageName == 'Statistics client' || $root.$state.current.data.pageName == 'Reports constructor'">{{'Invite a Hiring manager'|translate}}</h4>-->
     <!--</div>-->
     <!--<div class="modal-body" ng-hide="$root.inviteUserBlock">-->
-        <!--<p ng-show="($root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'Company users' || $root.activePage == 'News') && otherDate >= nowDate">-->
+        <!--<p ng-show="($root.$state.current.data.pageName == 'Activity' || $root.$state.current.data.pageName == 'Activity Calendar' || $root.$state.current.data.pageName == 'Company users' || $root.$state.current.data.pageName == 'News') && otherDate >= nowDate">-->
             <!--<b>{{'Invite colleagues'|translate}}</b>{{'so they could help you test the software and open all CleverStaff features'|translate}}-->
             <!--<br>-->
             <!--<b>{{'Invite Hiring managers'|translate}}</b> {{'and let them see & track their vacancies and candidates'|translate}}-->
         <!--</p>-->
-        <!--<p ng-show="($root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'Company users' || $root.activePage == 'News') && otherDate < nowDate">-->
+        <!--<p ng-show="($root.$state.current.data.pageName == 'Activity' || $root.$state.current.data.pageName == 'Activity Calendar' || $root.$state.current.data.pageName == 'Company users' || $root.$state.current.data.pageName == 'News') && otherDate < nowDate">-->
             <!--<b>{{'Invite colleagues'|translate}} {{'$25/mo per user'|translate}}</b>{{'so they could help you hire better & faster'|translate}}-->
             <!--<br>-->
             <!--<b>{{'Invite Hiring managers'|translate}} {{'free user, unlimited number'|translate}}</b> {{'and let them see & track their vacancies and candidates'|translate}}-->
         <!--</p>-->
-        <!--<div class="inviteHM" ng-show="$root.activePage == 'Report all'">-->
+        <!--<div class="inviteHM" ng-show="$root.$state.current.data.pageName == 'Report all'">-->
             <!--<p>-->
                 <!--<b>{{'Invite Hiring managers_1'|translate}}</b> {{'and let them see & track'|translate}} <b>{{'only'|translate}}</b> {{'vacancies and candidates they are responsible for. It’s a free option'|translate}}-->
             <!--</p>-->
@@ -89,19 +89,19 @@
                 <!--</li>-->
             <!--</ul>-->
         <!--</div>-->
-        <!--<p ng-show="$root.activePage == 'Activity' || $root.activePage == 'Company users' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'">-->
+        <!--<p ng-show="$root.$state.current.data.pageName == 'Activity' || $root.$state.current.data.pageName == 'Company users' || $root.$state.current.data.pageName == 'Activity Calendar' || $root.$state.current.data.pageName == 'News'">-->
             <!--{{"Enter_new_users_email"|translate}}-->
         <!--</p>-->
-        <!--<p ng-show="$root.activePage == 'Reports' || $root.activePage == 'Pipeline' || $root.activePage == 'Vacancy report' || $root.activePage == 'Statistics client' || $root.activePage == 'Reports constructor'">-->
+        <!--<p ng-show="$root.$state.current.data.pageName == 'Reports' || $root.$state.current.data.pageName == 'Pipeline' || $root.$state.current.data.pageName == 'Vacancy report' || $root.$state.current.data.pageName == 'Statistics client' || $root.$state.current.data.pageName == 'Reports constructor'">-->
             <!--{{"Enter_new_users_email_1"|translate}}-->
         <!--</p>-->
         <!--<input type="text" ng-model="$root.inviteUser.email" required class="form-control" placeholder="{{'email_invitation_user'|translate}}">-->
-        <!--<div class="addVacancy" ng-show="$root.activePage == 'Reports' || $root.activePage == 'Pipeline' || $root.activePage == 'Vacancy report' || $root.activePage == 'Statistics client' || $root.activePage == 'Reports constructor'">-->
+        <!--<div class="addVacancy" ng-show="$root.$state.current.data.pageName == 'Reports' || $root.$state.current.data.pageName == 'Pipeline' || $root.$state.current.data.pageName == 'Vacancy report' || $root.$state.current.data.pageName == 'Statistics client' || $root.$state.current.data.pageName == 'Reports constructor'">-->
             <!--<input type="hidden" vacancy-autocompleter id="vacancyToAddAutocompleaterModal">-->
             <!--<i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="top-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.hmInvite" aria-hidden="true"></i>-->
         <!--</div>-->
         <!--&lt;!&ndash;<input type="radio" ng-model="$root.inviteUser.role" value="client">&ndash;&gt;-->
-        <!--<div class="roleInviteUser" ng-show="$root.activePage == 'Company users' || $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'">-->
+        <!--<div class="roleInviteUser" ng-show="$root.$state.current.data.pageName == 'Company users' || $root.$state.current.data.pageName == 'Activity' || $root.$state.current.data.pageName == 'Activity Calendar' || $root.$state.current.data.pageName == 'News'">-->
             <!--<span>{{'role'|translate}}</span>-->
             <!--<div class="checkboxes">-->
                 <!--<div class="checkbox-outer" ng-repeat="role in $root.userRole">-->
@@ -132,8 +132,8 @@
     <!--</div>-->
     <!--<div class="modal-footer" ng-hide="$root.inviteUserBlock">-->
         <!--<div class="text-center button">-->
-            <!--<a type="button" class="btn btn-primary cancel" ng-show="$root.activePage == 'Company users' || $root.activePage == 'Report all'" ng-click="$root.closeModal()">{{'cancel' | translate}}</a>-->
-            <!--<a type="button" class="btn btn-primary cancel" ng-show="$root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'" ng-click="$root.closeNavModal()">{{'cancel' | translate}}</a>-->
+            <!--<a type="button" class="btn btn-primary cancel" ng-show="$root.$state.current.data.pageName == 'Company users' || $root.$state.current.data.pageName == 'Report all'" ng-click="$root.closeModal()">{{'cancel' | translate}}</a>-->
+            <!--<a type="button" class="btn btn-primary cancel" ng-show="$root.$state.current.data.pageName == 'Activity' || $root.$state.current.data.pageName == 'Activity Calendar' || $root.$state.current.data.pageName == 'News'" ng-click="$root.closeNavModal()">{{'cancel' | translate}}</a>-->
             <!--<a type="button" class="btn btn-primary accept"-->
                <!--ng-disabled="!(!inviteForm.email.$error.email && !inviteForm.email.$error.required)"-->
                <!--ng-click="$root.addInvite()" ng-show="$root.inviteUser.role == 'admin' || $root.inviteUser.role == 'recruter'-->

@@ -1,10 +1,10 @@
 <div class="send-vacancy-by-email">
     <div class="modal-header">
         <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
-        <h4 class="modal-title"  ng-show="$root.activePage != 'Recalls Info'">
+        <h4 class="modal-title"  ng-show="$root.$state.current.data.pageName != 'Recalls Info'">
             {{ 'Send by email' | translate}}
         </h4>
-        <h4 class="modal-title"  ng-show="$root.activePage == 'Recalls Info'">
+        <h4 class="modal-title"  ng-show="$root.$state.current.data.pageName == 'Recalls Info'">
             {{ 'send_failure' | translate}}
         </h4>
     </div>

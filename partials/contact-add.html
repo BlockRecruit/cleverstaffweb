@@ -137,7 +137,7 @@
                         </div>
                         <div class="clearfix"></div>
                         <div class="text-center AddingContact">
-                            <div class="switch" ng-show="contacts.email && $root.activePage != 'Contact Edit' && $root.hideTariff">
+                            <div class="switch" ng-show="contacts.email && $root.$state.current.data.pageName != 'Contact Edit' && $root.hideTariff">
                                 <label ng-click="saveType = 'noRegister'" ng-class="{grey: saveType}" class="floatLeft ng-binding">{{'Save only' | translate}}</label>
                                 <input id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round upcomingScopeSwticher" type="checkbox">
                                 <label class="" ng-click="saveType = !saveType" for="cmn-toggle-9"></label>

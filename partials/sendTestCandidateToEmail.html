@@ -1,9 +1,9 @@
 <div class="sendTestCandidateToEmail container-fluid">
     <div class="row blockTestCandidate">
-        <h3 class="col-lg-9 pull-left" ng-if="$root.activePage == 'Send test candidate to email'">{{'Choose candidates and send a link on the test via email'|translate}}</h3>
-        <h3 class="col-lg-9 pull-left" ng-if="$root.activePage == 'Send test candidate to email from vacancy'">{{'Choose a test to send it via email'|translate}}</h3>
-        <h3 class="col-lg-9 pull-left" ng-if="$root.activePage == 'Send test candidate to email from candidate'">{{'Choose a test to send it via email to a candidate'|translate}} {{$root.fromCandidate[0].fullName}}</h3>
-        <p class="pull-left" ng-if="$root.activePage == 'Send test candidate to email from vacancy'">
+        <h3 class="col-lg-9 pull-left" ng-if="$root.$state.current.data.pageName == 'Send test candidate to email'">{{'Choose candidates and send a link on the test via email'|translate}}</h3>
+        <h3 class="col-lg-9 pull-left" ng-if="$root.$state.current.data.pageName == 'Send test candidate to email from vacancy'">{{'Choose a test to send it via email'|translate}}</h3>
+        <h3 class="col-lg-9 pull-left" ng-if="$root.$state.current.data.pageName == 'Send test candidate to email from candidate'">{{'Choose a test to send it via email to a candidate'|translate}} {{$root.fromCandidate[0].fullName}}</h3>
+        <p class="pull-left" ng-if="$root.$state.current.data.pageName == 'Send test candidate to email from vacancy'">
             {{'vacancy'|translate}}
             <a ng-href="#/vacancies/{{$root.candidatesInStages[0].vacancyId.localId}}" target="_blank">
                 {{$root.candidatesInStages[0].vacancyId.position}},
@@ -13,12 +13,12 @@
                 {{$root.candidatesInStages[0].vacancyId.clientId.name}}
             </a>
         </p>
-        <div class="col-lg-3 padding-right pull-right" ng-if="$root.activePage == 'Send test candidate to email'">
+        <div class="col-lg-3 padding-right pull-right" ng-if="$root.$state.current.data.pageName == 'Send test candidate to email'">
             <div class="text-right button">
                 <a type="button" class="btn btn-primary accept" ng-show="groupNameList.length > 0" ng-click="sendTestToCandidate()">{{'send_test'|translate}}</a>
             </div>
         </div>
-        <div class="col-lg-3 padding-right addChancelBtn pull-right" ng-if="objCandiateEmail.length > 0 && $root.activePage == 'Send test candidate to email from vacancy'">
+        <div class="col-lg-3 padding-right addChancelBtn pull-right" ng-if="objCandiateEmail.length > 0 && $root.$state.current.data.pageName == 'Send test candidate to email from vacancy'">
             <div class="text-right button">
                 <a type="button" href="#/vacancies/{{$root.candidatesInStages[0].vacancyId.localId}}" class="btn btn-primary cancel">
                     <span>
@@ -28,7 +28,7 @@
                 <a type="button" class="btn btn-primary accept" ng-click="sendTestToCandidate()">{{'send_test'|translate}}</a>
             </div>
         </div>
-        <div class="col-lg-3 padding-right addChancelBtn btnForCandidate pull-right" ng-if="emailTestCandidate != undefined && $root.activePage == 'Send test candidate to email from candidate'">
+        <div class="col-lg-3 padding-right addChancelBtn btnForCandidate pull-right" ng-if="emailTestCandidate != undefined && $root.$state.current.data.pageName == 'Send test candidate to email from candidate'">
             <div class="text-right button">
                 <a type="button" href="#/candidates/{{$root.candidateToTest.localId}}" class="btn btn-primary cancel">
                     <span>
@@ -41,16 +41,16 @@
     </div>
     <div class="row addCandidate">
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mrgTop">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 autoSelect padding" ng-if="$root.activePage == 'Send test candidate to email'">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 autoSelect padding" ng-if="$root.$state.current.data.pageName == 'Send test candidate to email'">
                 <input type="hidden" test-candidate-autocompleter id="testCandidate"/>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 autoSelect padding" ng-if="$root.activePage == 'Send test candidate to email from vacancy'">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 autoSelect padding" ng-if="$root.$state.current.data.pageName == 'Send test candidate to email from vacancy'">
                 <input type="hidden" test-autocompleter id="testCandidate2"/>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 autoSelect padding" ng-if="$root.activePage == 'Send test candidate to email from candidate'">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 autoSelect padding" ng-if="$root.$state.current.data.pageName == 'Send test candidate to email from candidate'">
                 <input type="hidden" test-autocompleter id="testCandidate2"/>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email" ng-if="groupNameList.length > 0 && $root.activePage == 'Send test candidate to email'">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email" ng-if="groupNameList.length > 0 && $root.$state.current.data.pageName == 'Send test candidate to email'">
                 <div class="item mail-checkbox" ng-show="$root.me.emails.length > 1">
                     <label>{{"Select email"|translate}}</label>
                     <div ng-click="$root.addEmailFromWhatSend(email)"
@@ -68,7 +68,7 @@
                     {{"To send a letter from your mailbox, you need to_1"|translate}}
                 </div>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email" ng-if="$root.activePage == 'Send test candidate to email from vacancy'">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email" ng-if="$root.$state.current.data.pageName == 'Send test candidate to email from vacancy'">
                 <!--<div ng-show="objCandiateEmail.length >= 1" class="item mail-checkbox">-->
                     <!--<label>{{"Send from"|translate}} <a ng-href="mailTo:{{email.email}}" ng-repeat="email in objCandiateEmail track by $index">{{email.email}}{{$last ? '' : ', '}}</a></label>-->
                 <!--</div>-->
@@ -93,7 +93,7 @@
                     {{"To send a letter from your mailbox, you need to_1"|translate}}
                 </div>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email" ng-if="$root.activePage == 'Send test candidate to email from candidate'">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 email" ng-if="$root.$state.current.data.pageName == 'Send test candidate to email from candidate'">
                 <div ng-show="objCandiateEmail.length >= 1" class="item mail-checkbox">
                     <label>{{"Send from"|translate}} <a ng-href="mailTo:{{email.email}}" ng-repeat="email in objCandiateEmail track by $index">{{email.email}}{{$last ? '' : ', '}}</a></label>
                 </div>
@@ -102,7 +102,7 @@
                     {{"To send a letter from your mailbox, you need to_1"|translate}}
                 </div>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 testCandidateBlock testCandidateFromVacancy testCandidateFromVacancy2" id="testCandidateFromVacancyId" ng-if="$root.activePage == 'Send test candidate to email from vacancy'" custom-scrollbar>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 testCandidateBlock testCandidateFromVacancy testCandidateFromVacancy2" id="testCandidateFromVacancyId" ng-if="$root.$state.current.data.pageName == 'Send test candidate to email from vacancy'" custom-scrollbar>
                 <div class="checkboxes">
                     <h4>{{"Choose candidates on stage"|translate}}<span ng-show="!$root.activeCustomStageName">{{$root.candidatesInStages[0].state|translate}}</span> <span ng-show="$root.activeCustomStageName" class="showCustomStage">{{$root.activeCustomStageName}}</span></h4>
                     <div class="checkbox">
@@ -116,7 +116,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 testCandidateBlock testCandidateFromVacancy2 testCandidateFromCandidate" ng-if="$root.activePage == 'Send test candidate to email from candidate'">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 testCandidateBlock testCandidateFromVacancy2 testCandidateFromCandidate" ng-if="$root.$state.current.data.pageName == 'Send test candidate to email from candidate'">
                 <span class="hidden">{{$root.fromCandidate}}</span>
                 <div class="col-lg-12 col-md-12 candidateString" hgobject="addCandidate" ng-repeat="addCandidate in $root.fromCandidate">
                     <div class="col-lg-7 col-md-6 col-sm-6 col-xs-6 padding">
@@ -135,7 +135,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 testCandidateBlock testCandidateBlock2" ng-if="groupNameList.length > 0 && $root.activePage == 'Send test candidate to email'" custom-scrollbar>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 testCandidateBlock testCandidateBlock2" ng-if="groupNameList.length > 0 && $root.$state.current.data.pageName == 'Send test candidate to email'" custom-scrollbar>
                 <div class="col-lg-12 col-md-12 candidateString" ng-show="addCandidate != undefined" hgobject="addCandidate" ng-repeat="addCandidate in groupNameList">
                     <div class="col-lg-7 col-md-6 col-sm-6 col-xs-6 padding">
                         <a ng-href="#/candidates/{{addCandidate.localId}}" target="_blank" class="bold">{{addCandidate.fullName}},</a> {{addCandidate.position}}
@@ -155,7 +155,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mrgTop2" ng-if="groupNameList.length > 0 && $root.activePage == 'Send test candidate to email'">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mrgTop2" ng-if="groupNameList.length > 0 && $root.$state.current.data.pageName == 'Send test candidate to email'">
             <div class="background">
                 <div class="item">
                     <span class="title">{{'Letter subject' | translate}}</span>
@@ -166,7 +166,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mrgTop2" ng-if="objCandiateEmail.length > 0 && $root.activePage == 'Send test candidate to email from vacancy'">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mrgTop2" ng-if="objCandiateEmail.length > 0 && $root.$state.current.data.pageName == 'Send test candidate to email from vacancy'">
             <div class="background">
                 <div class="item">
                     <span class="title">{{'Letter subject' | translate}}</span>
@@ -177,7 +177,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mrgTop2 showLetter" ng-if="$root.activePage == 'Send test candidate to email from candidate'">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mrgTop2 showLetter" ng-if="$root.$state.current.data.pageName == 'Send test candidate to email from candidate'">
             <div class="background">
                 <div class="item">
                     <span class="title">{{'Letter subject' | translate}}</span>

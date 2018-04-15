@@ -3,9 +3,9 @@
         <div class="row">
             <div class="feedbackForm">
                 <div class="form-group">
-                    <h2 class="text-center" ng-show="$root.activePage == 'Ask question'">{{'Enter your question'|translate}}</h2>
-                    <h2 class="text-center" ng-show="$root.activePage == 'Report problem on this page'">{{'Describe your issue'|translate}}</h2>
-                    <h2 class="text-center" ng-show="$root.activePage == 'Suggest improvement or request feature'">{{'What could we do improve'|translate}}</h2>
+                    <h2 class="text-center" ng-show="$root.$state.current.data.pageName == 'Ask question'">{{'Enter your question'|translate}}</h2>
+                    <h2 class="text-center" ng-show="$root.$state.current.data.pageName == 'Report problem on this page'">{{'Describe your issue'|translate}}</h2>
+                    <h2 class="text-center" ng-show="$root.$state.current.data.pageName == 'Suggest improvement or request feature'">{{'What could we do improve'|translate}}</h2>
                     <div class="survey_view">
                         <form id="survey_form" action="http://simpoll.ru/run/post" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="survey_key" value="d390b264" class="input" id="survey_key"/>
@@ -42,13 +42,13 @@
                                         </div>
                                         <div class="body">
                                             <div class="answer">
-                                                <textarea ng-show="$root.activePage == 'Ask question'" data-ng-model="regex" placeholder="{{'E.G.: I dont know how to'|translate}}"
+                                                <textarea ng-show="$root.$state.current.data.pageName == 'Ask question'" data-ng-model="regex" placeholder="{{'E.G.: I dont know how to'|translate}}"
                                                           type="text" value="" id="quest[674954]" name="quest[674954]" class="textarea enterYourRequest" rows="5">
                                                 </textarea>
-                                                <textarea ng-show="$root.activePage == 'Report problem on this page'" data-ng-model="regex" placeholder="{{'E.G.: I dont know how to'|translate}}"
+                                                <textarea ng-show="$root.$state.current.data.pageName == 'Report problem on this page'" data-ng-model="regex" placeholder="{{'E.G.: I dont know how to'|translate}}"
                                                           type="text" value="" id="quest[674954]" name="quest[674954]" class="textarea describeIssue" rows="5">
                                                 </textarea>
-                                                <textarea ng-show="$root.activePage == 'Suggest improvement or request feature'" data-ng-model="regex" placeholder="{{'E.G.: Add *** to a Candidates tab'|translate}}"
+                                                <textarea ng-show="$root.$state.current.data.pageName == 'Suggest improvement or request feature'" data-ng-model="regex" placeholder="{{'E.G.: Add *** to a Candidates tab'|translate}}"
                                                           type="text" value="" id="quest[674954]" name="quest[674954]" class="textarea enterYourProposal" rows="5">
                                                 </textarea>
                                             </div>
