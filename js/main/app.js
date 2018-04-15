@@ -32,155 +32,8 @@ angular.module('RecruitingApp', [
     $locationProvider.hashPrefix('');
     // customRouteProvider
     //
-    //    ,{url:'/efficiency', {
-    //         templateUrl: 'partials/efficiency.html?b1',
-    //         title: 'Efficiency',
-    //         controller: 'EfficiencyController',
-    //         pageName: "Efficiency"
-    //     })
-    //    ,{url:'/reports/statistics', {
-    //         templateUrl: 'partials/statistics.html?b1',
-    //         title: 'statistics',
-    //         controller: 'ActivityStatisticsController',
-    //         pageName: "Statistics client"
-    //     })
-    //    ,{url:'/company/settings/{param}', {
-    //         templateUrl: 'partials/companysettings.html?b1',
-    //         title: 'Company settings',
-    //         controller: 'ActivityCompanySettingsController',
-    //         pageName: "Company settings"
-    //     })
-    //    ,{url:'/company/settings', {
-    //         templateUrl: 'partials/companysettings.html?b1',
-    //         title: 'Company settings',
-    //         controller: 'ActivityCompanySettingsController',
-    //         pageName: "Company settings"
-    //     })
-    //    ,{url:'/clients/statistics', {
-    //         title: 'Clients',
-    //         templateUrl: 'partials/statisticsС.html?b1',
-    //         controller: "ClientsStatisticsController",
-    //         pageName: "Statistics client"
-    //     },{url:'/company/history', {
-    //         templateUrl: 'partials/history.html?b1',
-    //         title: 'Activity History',
-    //         controller: 'ActivityGlobalHistoryController',
-    //         pageName: "Company History"
-    //     },{url:'/notices', {
-    //         templateUrl: 'partials/notices.html?b1',
-    //         title: 'Notifications',
-    //         controller: 'ActivityNoticesController',
-    //         pageName: "ActivityNotice"
-    //     },{url:'/candidates', {
-    //         title: 'Candidates',
-    //         templateUrl: 'partials/candidates.html?b1',
-    //         controller: "CandidateController",
-    //         pageName: "Candidates"
-    //     })
-    //    ,{url:'/notifications', {
-    //         title: "Email_notifications",
-    //         templateUrl: 'partials/notification.html?b1',
-    //         controller: "NotificationController",
-    //         pageName: "Notification"
-    //     })
-    //    ,{url:'/pay', {
-    //         title: 'Pay',
-    //         templateUrl: 'partials/pay.html?b1',
-    //         controller: "payWay4PayController",
-    //         pageName: "pay"
-    //     })
 
-    //         title: 'Candidates X-Ray LinkedIn Search',
-    //         templateUrl: 'partials/xraylink.html?b1',
-    //         controller: "CandidateXRayLinkController",
-    //         pageName: "Candidates"
-    //     })
-    //    ,{url:'/clients', {
-    //         title: 'Clients',
-    //         templateUrl: "partials/clients.html?b1",
-    //         controller: "ClientsController",
-    //         pageName: "Clients"
-    //     })
-    //    ,{url:'/client/add/', {
-    //         title: 'New client',
-    //         templateUrl: 'partials/client-add.html?b1',
-    //         controller: "ClientAddController",
-    //         pageName: "Client add"
-    //     })
-    //    ,{url:'/client/edit/{id}', {
-    //         title: 'Edit client',
-    //         templateUrl: 'partials/client-add.html?b1',
-    //         controller: "ClientEditController",
-    //         pageName: "Client edit",
-    //         reloadOnSearch: false
-    //     })
-    //    ,{url:'/clients/{id}', {
-    //         title: 'Client',
-    //         templateUrl: "partials/client.html?b1",
-    //         controller: "ClientOneController",
-    //         reloadOnSearch: false,
-    //         pageName: "Clients"
-    //     })
-    //    ,{url:'/contacts/{id}', {
-    //         title: 'Contacts',
-    //         templateUrl: "partials/contacts.html?b1",
-    //         controller: "ContactsOneController",
-    //         reloadOnSearch: false,
-    //         pageName: "Clients"
-    //     })
-    //    ,{url:'/contact/add/{id}', {
-    //         title: 'Add contact',
-    //         templateUrl: "partials/contact-add.html?b1",
-    //         controller: "ContactAddController",
-    //         pageName: "Clients"
-    //     })
-    //    ,{url:'/contact/edit/{contactId}', {
-    //         title: 'Edit contact',
-    //         templateUrl: "partials/contact-add.html?b1",
-    //         controller: "ContactEditController",
-    //         pageName: "Contact Edit",
-    //         reloadOnSearch: false
-    //     })
-    //    ,{url:'/vacancies', {
-    //         title: 'Vacancies',
-    //         templateUrl: 'partials/vacancies.html?b1',
-    //         controller: "vacanciesController",
-    //         pageName: "Vacancies"
-    //     })
-    //    ,{url:'/vacancies/{id}', {
-    //         title: 'Vacancy',
-    //         templateUrl: 'partials/vacancy.html?b1',
-    //         controller: "vacancyController",
-    //         reloadOnSearch: false,
-    //         pageName: "Vacancies"
-    //     })
-    //    ,{url:'/vacancy/add', {
-    //         title: 'Add vacancy',
-    //         templateUrl: 'partials/vacancy-add.html?b1',
-    //         controller: "vacancyAddController",
-    //         pageName: "Vacancy add",
-    //         resolve: {
-    //             CustomFieldList: function(CustomField) {
-    //                 return new Promise((resolve, reject) => {
-    //                     CustomField.getFullFields({objectType: 'vacancy'},
-    //                         resp => resolve(resp),error => reject(error));
-    //                 });
-    //             }
-    //         }
-    //     })
-    //    ,{url:'/vacancy/edit/{id}', {
-    //         title: 'Edit vacancy',
-    //         templateUrl: 'partials/vacancy-add.html?b1',
-    //         controller: "vacancyEditController",
-    //         pageName: "Vacancy edit",
-    //         reloadOnSearch: false
-    //     })
-    //    ,{url:'/vacancy/report/{id}', {
-    //         title: 'Vacancy report',
-    //         templateUrl: 'partials/vacancy-reports.html?b1',
-    //         controller: 'vacancyReportController',
-    //         pageName: 'Vacancies'
-    //     })
+
     //    ,{url:'/reports/vacancy', {
     //         title: 'Vacancy report',
     //         templateUrl: 'partials/vacancy-report.html?b1',
@@ -426,11 +279,6 @@ angular.module('RecruitingApp', [
         name: 'user',
         component: 'user'
     },{
-        url: "/pay",
-        templateUrl: 'partials/pay.html?b1',
-        controller: "payWay4PayController",
-        name: 'pay'
-    },{
         url: "/candidates",
         templateUrl: 'partials/candidates.html?b1',
         controller: "CandidateController",
@@ -585,6 +433,96 @@ angular.module('RecruitingApp', [
         controller: "CandidateLINKController",
         data: {
             title: 'Candidates',
+            pageName: "Candidates"
+        }
+    },{
+        url:'/efficiency',
+        name:"efficiency",
+        templateUrl: 'partials/efficiency.html?b1',
+        controller: 'EfficiencyController',
+        data: {
+            title: 'Efficiency',
+            pageName: "Efficiency"
+        }
+    }, {
+        url:'/reports/statistics',
+        name: "statistics",
+        templateUrl: 'partials/statistics.html?b1',
+        controller: 'ActivityStatisticsController',
+        data: {
+            title: 'statistics',
+            pageName: "Statistics client"
+        }
+    }, {
+        url:'/company/settings/{param}',
+        name: "company-settings-param",
+        templateUrl: 'partials/companysettings.html?b1',
+        controller: 'ActivityCompanySettingsController',
+        data: {
+            title: 'Company settings',
+            pageName: "Company settings"
+        }
+    },{
+        url:'/company/settings',
+        name: "company-settings",
+        templateUrl: 'partials/companysettings.html?b1',
+        controller: 'ActivityCompanySettingsController',
+        data: {
+            title: 'Company settings',
+            pageName: "Company settings"
+        }
+    },{
+        url:'/clients/statistics',
+        name: 'statistics-clients',
+        templateUrl: 'partials/statisticsС.html?b1',
+        controller: "ClientsStatisticsController",
+        data: {
+            title: 'Clients',
+            pageName: "Statistics client"
+        }
+    },{
+        url:'/company/history',
+        name: "history",
+        templateUrl: 'partials/history.html?b1',
+        controller: 'ActivityGlobalHistoryController',
+        data: {
+            title: 'Activity History',
+            pageName: "Company History"
+        }
+    },{
+        url:'/notices',
+        name: "notices",
+        templateUrl: 'partials/notices.html?b1',
+        controller: 'ActivityNoticesController',
+        data: {
+            title: 'Notifications',
+            pageName: "ActivityNotice"
+        }
+    },{
+        url:'/notifications',
+        name: "notifications",
+        templateUrl: 'partials/notification.html?b1',
+        controller: "NotificationController",
+        data: {
+            title: "Email_notifications",
+            pageName: "Notification"
+        }
+    },{
+        url:'/pay',
+        name: "pay",
+        templateUrl: 'partials/pay.html?b1',
+        controller: "payWay4PayController",
+        data: {
+            title: 'Pay',
+            pageName: "pay"
+        }
+    },{
+        url:'/xray_link',
+        name: "xray-link",
+        templateUrl: 'partials/xraylink.html',
+        controller: "CandidateXRayLinkController",
+        data: {
+            title: 'Candidates X-Ray LinkedIn Search',
             pageName: "Candidates"
         }
     }];
