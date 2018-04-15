@@ -701,7 +701,7 @@ angular.module('services.globalService', [
             }
             notificationService.error($filter('translate')("Sales Manager cannot add candidates"));
         } else {
-            $location.path("candidate/add/");
+            $location.path("candidate/add");
         }
     };
     service.toEditCandidate = function(id, path) {

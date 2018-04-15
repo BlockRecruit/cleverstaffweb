@@ -5286,12 +5286,12 @@ angular.module('services.candidate', [
                 url: serverAddress + '/addPhotoByReference',
                 method: "GET",
                 params: {reference: url}
-            }).then(function(data) {
-                if (data.status == "ok") {
-                    callback(data.object);
-                } else if (data.status == "error") {
+            }).then(function(resp) {
+                if (resp.data.status == "ok") {
+                    callback(resp.data.object);
+                } else if (resp.data.status == "error") {
                     callback('error')
-                    notificationService.error(data.message)
+                    notificationService.error(resp.data.message)
                 }
             });
         }
@@ -6014,7 +6014,7 @@ angular.module('services.globalService', [
             }
             notificationService.error($filter('translate')("Sales Manager cannot add candidates"));
         } else {
-            $location.path("candidate/add/");
+            $location.path("candidate/add");
         }
     };
     service.toEditCandidate = function(id, path) {

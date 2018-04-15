@@ -440,7 +440,6 @@ angular.module('RecruitingApp', [
             pageName: "Candidates"
         }
     }, {
-        //--------------------
         url:'/candidates/{id}',
         name: 'candidate',
         templateUrl: 'partials/candidate.html',
@@ -452,6 +451,7 @@ angular.module('RecruitingApp', [
         reloadOnSearch: false
     },{
         url:'/candidates/{id}/{test}',
+        name: 'candidate-test-one',
         templateUrl: 'partials/candidate.html',
         controller: "CandidateOneController",
         data: {
@@ -460,7 +460,8 @@ angular.module('RecruitingApp', [
         },
         reloadOnSearch: false
     },{
-        url:'/candidate/add/',
+        url:'/candidate/add',
+        name:'candidate-add',
         templateUrl: "partials/candidate-add.html",
         controller: "CandidateAddController",
         data: {
@@ -469,6 +470,7 @@ angular.module('RecruitingApp', [
         }
     },{
         url:'/candidate/edit/{id}',
+        name: 'candidate-edit',
         templateUrl: "partials/candidate-add.html",
         controller: "CandidateEditController",
         data: {
@@ -477,72 +479,115 @@ angular.module('RecruitingApp', [
         },
         reloadOnSearch: false
     },{
-            url:'/candidate/merge/{id}',
+        url:'/candidate/merge/{id}',
+        name:"candidate-merge",
+        templateUrl: "partials/candidate-merge.html",
+        controller: "CandidateMergeController",
+        data: {
             title: 'Merge candidate',
-            templateUrl: "partials/candidate-merge.html",
-            controller: "CandidateMergeController",
-            pageName: "Candidate merge",
+            pageName: "Candidate merge"
+        },
             reloadOnSearch: false
-        },{url:'/candidate/tests',
+    },{
+        url:'/candidate/tests',
+        name:'candidate-tests',
+        templateUrl: "partials/tests.html",
+        controller: "testsAndForms",
+        data: {
             title: "Tests and forms",
-            templateUrl: "partials/tests.html",
-            controller: "testsAndForms",
             pageName: "Tests and forms"
-        },{url:'/candidate/test/{id}',
-            title: "Tests and forms",
-            templateUrl: "partials/test.html",
-            controller: "testsAndForms",
-            pageName: "Test page"
-        },{url:'/candidate/test/results/{id}',
-            title: "Test results",
-            templateUrl: "partials/test-result.html",
-            controller: "testResults",
-            pageName: "Test results"
-        },{url:'/candidate/test/details/{id}',
-            title: "Detailed test results",
-            templateUrl: "partials/test-detail.html",
-            controller: "testResults",
-            pageName: "Detailed test results"
-        },{url:'/candidate/tests/results/{id}',
+        }
+    },{
+        url:'/candidate/tests/results/:id',
+        name: 'test-results-one',
+        templateUrl: "partials/test-result.html",
+        controller: "testResults",
+        data: {
             title: "Tests results",
-            templateUrl: "partials/test-result.html",
-            controller: "testResults",
             pageName: "Tests results"
-        },{url:'/candidate/send-test-candidate-to-email/{id}',
+        }
+    },{
+        url:'/candidate/test/{id}',
+        name:'candidate-test',
+        templateUrl: "partials/test.html",
+        controller: "testsAndForms",
+        data: {
+            title: "Tests and forms",
+            pageName: "Test page"
+        }
+    },{
+        url:'/candidate/test/results/{id}',
+        name: 'candidate-test-result',
+        templateUrl: "partials/test-result.html",
+        controller: "testResults",
+        data: {
+            title: "Test results",
+            pageName: "Test results"
+        }
+    },{
+        url:'/candidate/test/details/{id}',
+        name:'candidate-test-details',
+        templateUrl: "partials/test-detail.html",
+        controller: "testResults",
+        data: {
+            title: "Detailed test results",
+            pageName: "Detailed test results"
+        }
+    },{
+        url:'/candidate/send-test-candidate-to-email/{id}',
+        name: "candidate-send-test",
+        templateUrl: "partials/sendTestCandidateToEmail.html",
+        controller: "testsAndForms",
+        data: {
             title: "Send test candidate to email",
-            templateUrl: "partials/sendTestCandidateToEmail.html",
-            controller: "testsAndForms",
             pageName: "Send test candidate to email"
-        },{url:'/candidate/send-test-candidate-to-email-from-vacancy',
+        }
+    },{
+        url:'/candidate/send-test-candidate-to-email-from-vacancy',
+        templateUrl: "partials/sendTestCandidateToEmail.html",
+        name: "candidate-send-test-from-vacancy",
+        controller: "testsAndForms",
+        data: {
             title: "Send test candidate to email",
-            templateUrl: "partials/sendTestCandidateToEmail.html",
-            controller: "testsAndForms",
             pageName: "Send test candidate to email from vacancy"
-        },{
-            url:'/candidate/send-test-candidate-to-email-from-candidate',
+        }
+    },{
+        url:'/candidate/send-test-candidate-to-email-from-candidate',
+        name: 'candidate-send-test-from-candidate',
+        templateUrl: "partials/sendTestCandidateToEmail.html",
+        controller: "testsAndForms",
+        data: {
             title: "Send test candidate to email",
-            templateUrl: "partials/sendTestCandidateToEmail.html",
-            controller: "testsAndForms",
             pageName: "Send test candidate to email from candidate"
-        },{
-            url: '/candidate/add/email',
+        }
+    },{
+        url: '/candidate/add/email',
+        name: "candidate-add-from-email",
+        templateUrl: "partials/candidateAddFromEmail.html",
+        controller: "CandidateAddFromEmailController",
+        data: {
             title: "Get candidates from email",
-            templateUrl: "partials/candidateAddFromEmail.html",
-            controller: "CandidateAddFromEmailController",
             pageName: "Candidates add from email"
-        },{
-            url: '/candidate/add/zip',
+        }
+    },{
+        url: '/candidate/add/zip',
+        name: "candidate-add-zip",
+        templateUrl: "partials/candidateAddFromZip.html",
+        controller: "CandidateAddFromZipController",
+        data: {
             title: "Get candidates from zip",
-            templateUrl: "partials/candidateAddFromZip.html",
-            controller: "CandidateAddFromZipController",
             pageName: "Zip"
-        },{
-            url:'/candidates_link',
+        }
+    },{
+        url:'/candidates_link',
+        name:"candidate-link",
+        templateUrl: 'partials/candidateslink.html',
+        controller: "CandidateLINKController",
+        data: {
             title: 'Candidates',
-            templateUrl: 'partials/candidateslink.html',
-            controller: "CandidateLINKController",
             pageName: "Candidates"
-        }];
+        }
+    }];
     states.forEach((state) => {
         $stateProvider.state(state);
     });
@@ -616,6 +661,51 @@ angular.module('RecruitingApp', [
 }).run(function ($location, $rootScope, CheckAccess, $window, $filter, $localStorage, Vacancy, notificationService, translateWords,$transitions, $state, $stateParams) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
+    $rootScope.sendTestFromVacancyStage = function (stage, longlist, dataForVacancy) {
+        if(stage == undefined){
+            stage = longlist;
+        }
+        $localStorage.set('activeCustomStageId', stage);
+        $rootScope.vacancySearchParams = {
+            state: stage,
+            vacancyId: $rootScope.vacancy.vacancyId,
+            withCandidates: true,
+            withVacancies: true
+        };
+        Vacancy.getCandidatesInStages($rootScope.vacancySearchParams, function(resp){
+            if(resp.objects.length == 0){
+                notificationService.error($filter('translate')('add candidates to the stage'));
+            }else{
+                $rootScope.candidatesInStages = resp.objects;
+                $localStorage.set('vacancyForTest', $rootScope.candidatesInStages);
+                $location.path('/candidate/send-test-candidate-to-email-from-vacancy');
+            }
+        });
+    };
+    $rootScope.sendCandidateToTest = function(candidate, count){
+        if(count == 0){
+            notificationService.error($filter('translate')('Please add an email before sending a test to this candidate'))
+        }else{
+            if(candidate != undefined){
+                $localStorage.set('candidateForTest', candidate);
+                $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
+                $location.path('/candidate/send-test-candidate-to-email-from-candidate');
+                $rootScope.fromCandidate = [candidate];
+                $rootScope.emailCandidateId = candidate.candidateId;
+                if(candidate.contacts.length > 0){
+                    angular.forEach(candidate.contacts, function (nval) {
+                        if (nval.type == "email") {
+                            delete  $rootScope.emailCandidate;
+                            var email = nval.value.split(" ")[0];
+                            $rootScope.emailCandidate = email.replace(/,/g,"");
+                        }
+                    });
+                }else{
+                    notificationService.error($filter('translate')('Please add an email before sending a test to this candidate'))
+                }
+            }
+        }
+    };
     $transitions.onSuccess({}, function (transition) {
         if(transition.from() && transition.from().url != undefined){
             if( transition.from().url === "/company/custom-fields" ){
@@ -664,51 +754,6 @@ angular.module('RecruitingApp', [
         }
         $rootScope.stageName = '';
         $('.showCustomStage').hide();
-        $rootScope.sendTestFromVacancyStage = function (stage, longlist, dataForVacancy) {
-            if(stage == undefined){
-                stage = longlist;
-            }
-            $localStorage.set('activeCustomStageId', stage);
-            $rootScope.vacancySearchParams = {
-                state: stage,
-                vacancyId: $rootScope.vacancy.vacancyId,
-                withCandidates: true,
-                withVacancies: true
-            };
-            Vacancy.getCandidatesInStages($rootScope.vacancySearchParams, function(resp){
-                if(resp.objects.length == 0){
-                    notificationService.error($filter('translate')('add candidates to the stage'));
-                }else{
-                    $rootScope.candidatesInStages = resp.objects;
-                    $localStorage.set('vacancyForTest', $rootScope.candidatesInStages);
-                    $location.path('/candidate/send-test-candidate-to-email-from-vacancy');
-                }
-            });
-        };
-        $rootScope.sendCandidateToTest = function(candidate, count){
-            if(count == 0){
-                notificationService.error($filter('translate')('Please add an email before sending a test to this candidate'))
-            }else{
-                if(candidate != undefined){
-                    $localStorage.set('candidateForTest', candidate);
-                    $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
-                    $location.path('/candidate/send-test-candidate-to-email-from-candidate');
-                    $rootScope.fromCandidate = [candidate];
-                    $rootScope.emailCandidateId = candidate.candidateId;
-                    if(candidate.contacts.length > 0){
-                        angular.forEach(candidate.contacts, function (nval) {
-                            if (nval.type == "email") {
-                                delete  $rootScope.emailCandidate;
-                                var email = nval.value.split(" ")[0];
-                                $rootScope.emailCandidate = email.replace(/,/g,"");
-                            }
-                        });
-                    }else{
-                        notificationService.error($filter('translate')('Please add an email before sending a test to this candidate'))
-                    }
-                }
-            }
-        };
         $('#candidate_preview').css({
             "top": 0,
             "left": 0,
@@ -869,8 +914,8 @@ function CheckQueryTime(url, $root) {
 var defaultRoute = '/organizer';
 function checkUrlByRole(url, Role,  accessLevel, $location, serverAddress, $http, $filter, notificationService) {
     if (Role == 'client'){
-        if (url == '/candidate/add/' || url == '/candidate/edit/' ||
-            url == '/client/add/') {
+        if (url == '/candidate/add' || url == '/candidate/edit/{id}' ||
+            url == '/client/add') {
             $location.path(defaultRoute);
         } else if (url == '/company/statistics') {
             $location.path('/clients/statistics');

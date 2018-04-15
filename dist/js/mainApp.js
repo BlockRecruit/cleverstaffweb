@@ -10267,12 +10267,12 @@ angular.module('services.employee', [
                 url: serverAddress + '/addPhotoByReference',
                 method: "GET",
                 params: {reference: url}
-            }).then(function(data) {
-                if (data.status == "ok") {
-                    callback(data.object);
-                } else if (data.status == "error") {
+            }).then(function(resp) {
+                if (resp.data.status == "ok") {
+                    callback(resp.data.object);
+                } else if (resp.data.status == "error") {
                     callback('error')
-                    notificationService.error(data.message)
+                    notificationService.error(resp.data.message)
                 }
             });
         }
@@ -11016,7 +11016,7 @@ angular.module('services.globalService', [
             }
             notificationService.error($filter('translate')("Sales Manager cannot add candidates"));
         } else {
-            $location.path("candidate/add/");
+            $location.path("candidate/add");
         }
     };
     service.toEditCandidate = function(id, path) {
@@ -12248,7 +12248,7 @@ angular.module('services.mailing',[]
         //$localStorage.remove('candidatesForMailing');
         //$localStorage.remove('subscriberListParams');
         //$localStorage.remove('currentStep');
-        $location.url("/mailings");
+        $location.url("/mailings/prepared");
         //$state.go('mailings-saved').then(() => $location.url("/mailings"));
     };
 
@@ -15932,210 +15932,129 @@ angular.module('RecruitingApp', [
     $locationProvider.hashPrefix('');
     // customRouteProvider
     //
-    //     .when('/efficiency', {
+    //    ,{url:'/efficiency', {
     //         templateUrl: 'partials/efficiency.html',
     //         title: 'Efficiency',
     //         controller: 'EfficiencyController',
     //         pageName: "Efficiency"
     //     })
-    //     .when('/reports/statistics', {
+    //    ,{url:'/reports/statistics', {
     //         templateUrl: 'partials/statistics.html',
     //         title: 'statistics',
     //         controller: 'ActivityStatisticsController',
     //         pageName: "Statistics client"
     //     })
-    //     .when('/company/settings/{param}', {
+    //    ,{url:'/company/settings/{param}', {
     //         templateUrl: 'partials/companysettings.html',
     //         title: 'Company settings',
     //         controller: 'ActivityCompanySettingsController',
     //         pageName: "Company settings"
     //     })
-    //     .when('/company/settings', {
+    //    ,{url:'/company/settings', {
     //         templateUrl: 'partials/companysettings.html',
     //         title: 'Company settings',
     //         controller: 'ActivityCompanySettingsController',
     //         pageName: "Company settings"
     //     })
-    //     .when('/clients/statistics', {
+    //    ,{url:'/clients/statistics', {
     //         title: 'Clients',
     //         templateUrl: 'partials/statisticsС.html',
     //         controller: "ClientsStatisticsController",
     //         pageName: "Statistics client"
-    //     }).when('/company/history', {
+    //     },{url:'/company/history', {
     //         templateUrl: 'partials/history.html',
     //         title: 'Activity History',
     //         controller: 'ActivityGlobalHistoryController',
     //         pageName: "Company History"
-    //     }).when('/notices', {
+    //     },{url:'/notices', {
     //         templateUrl: 'partials/notices.html',
     //         title: 'Notifications',
     //         controller: 'ActivityNoticesController',
     //         pageName: "ActivityNotice"
-    //     }).when('/candidates', {
+    //     },{url:'/candidates', {
     //         title: 'Candidates',
     //         templateUrl: 'partials/candidates.html',
     //         controller: "CandidateController",
     //         pageName: "Candidates"
     //     })
-    //     .when('/notifications', {
+    //    ,{url:'/notifications', {
     //         title: "Email_notifications",
     //         templateUrl: 'partials/notification.html',
     //         controller: "NotificationController",
     //         pageName: "Notification"
     //     })
-    //     .when('/pay', {
+    //    ,{url:'/pay', {
     //         title: 'Pay',
     //         templateUrl: 'partials/pay.html',
     //         controller: "payWay4PayController",
     //         pageName: "pay"
     //     })
-    //     .when('/candidates/{id}/{test}', {
-    //         title: 'Candidate',
-    //         templateUrl: 'partials/candidate.html',
-    //         controller: "CandidateOneController",
-    //         pageName: "Candidates",
-    //         reloadOnSearch: false
-    //     })
-    //     .when('/candidate/add/', {
-    //         title: 'Add candidate',
-    //         templateUrl: "partials/candidate-add.html",
-    //         controller: "CandidateAddController",
-    //         pageName: "Candidate add"
-    //     })
-    //     .when('/candidate/edit/{id}', {
-    //         title: 'Edit candidate',
-    //         templateUrl: "partials/candidate-add.html",
-    //         controller: "CandidateEditController",
-    //         pageName: "Candidate edit",
-    //         reloadOnSearch: false
-    //     })
-    //     .when('/candidate/merge/{id}', {
-    //         title: 'Merge candidate',
-    //         templateUrl: "partials/candidate-merge.html",
-    //         controller: "CandidateMergeController",
-    //         pageName: "Candidate merge",
-    //         reloadOnSearch: false
-    //     }).when('/candidate/tests', {
-    //         title: "Tests and forms",
-    //         templateUrl: "partials/tests.html",
-    //         controller: "testsAndForms",
-    //         pageName: "Tests and forms"
-    //     }).when('/candidate/test/{id}', {
-    //         title: "Tests and forms",
-    //         templateUrl: "partials/test.html",
-    //         controller: "testsAndForms",
-    //         pageName: "Test page"
-    //     }).when('/candidate/test/results/{id}', {
-    //         title: "Test results",
-    //         templateUrl: "partials/test-result.html",
-    //         controller: "testResults",
-    //         pageName: "Test results"
-    //     }).when('/candidate/test/details/{id}', {
-    //         title: "Detailed test results",
-    //         templateUrl: "partials/test-detail.html",
-    //         controller: "testResults",
-    //         pageName: "Detailed test results"
-    //     }).when('/candidate/tests/results/{id}', {
-    //         title: "Tests results",
-    //         templateUrl: "partials/test-result.html",
-    //         controller: "testResults",
-    //         pageName: "Tests results"
-    //     }).when('/candidate/send-test-candidate-to-email/{id}', {
-    //         title: "Send test candidate to email",
-    //         templateUrl: "partials/sendTestCandidateToEmail.html",
-    //         controller: "testsAndForms",
-    //         pageName: "Send test candidate to email"
-    //     }).when('/candidate/send-test-candidate-to-email-from-vacancy', {
-    //         title: "Send test candidate to email",
-    //         templateUrl: "partials/sendTestCandidateToEmail.html",
-    //         controller: "testsAndForms",
-    //         pageName: "Send test candidate to email from vacancy"
-    //     }).when('/candidate/send-test-candidate-to-email-from-candidate', {
-    //         title: "Send test candidate to email",
-    //         templateUrl: "partials/sendTestCandidateToEmail.html",
-    //         controller: "testsAndForms",
-    //         pageName: "Send test candidate to email from candidate"
-    //     }).when('/candidate/add/email', {
-    //         title: "Get candidates from email",
-    //         templateUrl: "partials/candidateAddFromEmail.html",
-    //         controller: "CandidateAddFromEmailController",
-    //         pageName: "Candidates add from email"
-    //     }).when('/candidate/add/zip', {
-    //         title: "Get candidates from zip",
-    //         templateUrl: "partials/candidateAddFromZip.html",
-    //         controller: "CandidateAddFromZipController",
-    //         pageName: "Zip"
-    //     }).when('/candidates_link', {
-    //         title: 'Candidates',
-    //         templateUrl: 'partials/candidateslink.html',
-    //         controller: "CandidateLINKController",
-    //         pageName: "Candidates"
-    //     }).when('/xray_link', {
+
     //         title: 'Candidates X-Ray LinkedIn Search',
     //         templateUrl: 'partials/xraylink.html',
     //         controller: "CandidateXRayLinkController",
     //         pageName: "Candidates"
     //     })
-    //     .when('/clients', {
+    //    ,{url:'/clients', {
     //         title: 'Clients',
     //         templateUrl: "partials/clients.html",
     //         controller: "ClientsController",
     //         pageName: "Clients"
     //     })
-    //     .when('/client/add/', {
+    //    ,{url:'/client/add/', {
     //         title: 'New client',
     //         templateUrl: 'partials/client-add.html',
     //         controller: "ClientAddController",
     //         pageName: "Client add"
     //     })
-    //     .when('/client/edit/{id}', {
+    //    ,{url:'/client/edit/{id}', {
     //         title: 'Edit client',
     //         templateUrl: 'partials/client-add.html',
     //         controller: "ClientEditController",
     //         pageName: "Client edit",
     //         reloadOnSearch: false
     //     })
-    //     .when('/clients/{id}', {
+    //    ,{url:'/clients/{id}', {
     //         title: 'Client',
     //         templateUrl: "partials/client.html",
     //         controller: "ClientOneController",
     //         reloadOnSearch: false,
     //         pageName: "Clients"
     //     })
-    //     .when('/contacts/{id}', {
+    //    ,{url:'/contacts/{id}', {
     //         title: 'Contacts',
     //         templateUrl: "partials/contacts.html",
     //         controller: "ContactsOneController",
     //         reloadOnSearch: false,
     //         pageName: "Clients"
     //     })
-    //     .when('/contact/add/{id}', {
+    //    ,{url:'/contact/add/{id}', {
     //         title: 'Add contact',
     //         templateUrl: "partials/contact-add.html",
     //         controller: "ContactAddController",
     //         pageName: "Clients"
     //     })
-    //     .when('/contact/edit/{contactId}', {
+    //    ,{url:'/contact/edit/{contactId}', {
     //         title: 'Edit contact',
     //         templateUrl: "partials/contact-add.html",
     //         controller: "ContactEditController",
     //         pageName: "Contact Edit",
     //         reloadOnSearch: false
     //     })
-    //     .when('/vacancies', {
+    //    ,{url:'/vacancies', {
     //         title: 'Vacancies',
     //         templateUrl: 'partials/vacancies.html',
     //         controller: "vacanciesController",
     //         pageName: "Vacancies"
     //     })
-    //     .when('/vacancies/{id}', {
+    //    ,{url:'/vacancies/{id}', {
     //         title: 'Vacancy',
     //         templateUrl: 'partials/vacancy.html',
     //         controller: "vacancyController",
     //         reloadOnSearch: false,
     //         pageName: "Vacancies"
     //     })
-    //     .when('/vacancy/add', {
+    //    ,{url:'/vacancy/add', {
     //         title: 'Add vacancy',
     //         templateUrl: 'partials/vacancy-add.html',
     //         controller: "vacancyAddController",
@@ -16149,206 +16068,206 @@ angular.module('RecruitingApp', [
     //             }
     //         }
     //     })
-    //     .when('/vacancy/edit/{id}', {
+    //    ,{url:'/vacancy/edit/{id}', {
     //         title: 'Edit vacancy',
     //         templateUrl: 'partials/vacancy-add.html',
     //         controller: "vacancyEditController",
     //         pageName: "Vacancy edit",
     //         reloadOnSearch: false
     //     })
-    //     .when('/vacancy/report/{id}', {
+    //    ,{url:'/vacancy/report/{id}', {
     //         title: 'Vacancy report',
     //         templateUrl: 'partials/vacancy-reports.html',
     //         controller: 'vacancyReportController',
     //         pageName: 'Vacancies'
     //     })
-    //     .when('/reports/vacancy', {
+    //    ,{url:'/reports/vacancy', {
     //         title: 'Vacancy report',
     //         templateUrl: 'partials/vacancy-report.html',
     //         controller: 'reportsController',
     //         pageName: 'Vacancy report'
     //     })
-    //     .when('/reports/vacancy/{id}', {
+    //    ,{url:'/reports/vacancy/{id}', {
     //         title: 'Vacancy report',
     //         templateUrl: 'partials/vacancy-reports.html',
     //         controller: 'vacancyReportController',
     //         pageName: 'Vacancy report'
     //     })
-    //     .when('/reports/reportall', {
+    //    ,{url:'/reports/reportall', {
     //         templateUrl: 'partials/report-all.html',
     //         title: 'Report',
     //         controller: 'reportAllController',
     //         pageName: "Report all"
     //     })
-    //     .when('/company/users', {
+    //    ,{url:'/company/users', {
     //         title: 'Users',
     //         templateUrl: "partials/users.html",
     //         controller: "usersController",
     //         pageName: "Company users"
     //     })
-    //     .when('/company/custom-fields', {
+    //    ,{url:'/company/custom-fields', {
     //         title: "Custom fields",
     //         templateUrl: "partials/customFields.html",
     //         controller: "CustomFieldController",
     //         pageName: "Custom fields"
     //     })
-    //     .when('/users/{id}', {
+    //    ,{url:'/users/{id}', {
     //         title: "User",
     //         templateUrl: "partials/user.html",
     //         controller: "userOneController",
     //         pageName: "Users"
     //     })
-    //     .when('/personInfo/{id}', {
+    //    ,{url:'/personInfo/{id}', {
     //         title: "User Info",
     //         templateUrl: "partials/user.html",
     //         controller: "userOneController",
     //         pageName: "User"
-    //     }).when('/recalls/{id}', {
+    //     },{url:'/recalls/{id}', {
     //         title: "Recalls Info",
     //         templateUrl: "partials/recall.html",
     //         controller: "recallController",
     //         pageName: "Recalls Info"
-    //     }).when('/email/vacancy/{vacancyId}', {
+    //     },{url:'/email/vacancy/{vacancyId}', {
     //         title: "Send email",
     //         templateUrl: "partials/vacancy-send-candidates-to-client.html",
     //         controller: "CandidateEmailSend",
     //         pageName: "Vacancies"
-    //     }).when('/excelHistory', {
+    //     },{url:'/excelHistory', {
     //         title: "Excel History",
     //         templateUrl: "partials/excel-history.html",
     //         controller: "excelHistoryController",
     //         pageName: "Excel History"
-    //     }).when('/company/employees', {
+    //     },{url:'/company/employees', {
     //         title: "employees",
     //         templateUrl: "partials/employees.html",
     //         controller: "EmployeesController",
     //         pageName: "Company employees"
     //     })
-    //     .when('/company/employees/{id}', {
+    //    ,{url:'/company/employees/{id}', {
     //         title: "employees",
     //         templateUrl: "partials/employee.html",
     //         controller: "EmployeeOneController",
     //         pageName: "Employee User"
     //     })
-    //     .when('/company/employee/add', {
+    //    ,{url:'/company/employee/add', {
     //         title: "Adding an employee",
     //         templateUrl: "partials/employee-add.html",
     //         controller: "EmployeeAddController",
     //         pageName: "Employee add"
     //     })
-    //     .when('/company/employee/add/{candidateId}', {
+    //    ,{url:'/company/employee/add/{candidateId}', {
     //         title: "Adding an employee",
     //         templateUrl: "partials/employee-add-from-candidate.html",
     //         controller: "EmployeeAddFromCandidateController",
     //         pageName: "Users"
     //     })
-    //     .when('/company/employees/edit/{employeeId}', {
+    //    ,{url:'/company/employees/edit/{employeeId}', {
     //         title: "Edit candidate",
     //         templateUrl: "partials/employee-add.html",
     //         controller: "EmployeeEditController",
     //         pageName: "Employee Edit User"
-    //     }).when('/company/departmentCatalog', {
+    //     },{url:'/company/departmentCatalog', {
     //         templateUrl: 'partials/departmentCatalog.html',
     //         title: 'Department catalog',
     //         controller: 'DepartmentCatalogController',
     //         pageName: "Department Catalog"
-    //     }).when('/faq', {
+    //     },{url:'/faq', {
     //         templateUrl: 'partials/faq.html',
     //         title: 'FAQ',
     //         controller: 'FeedbackController',
     //         pageName: "FAQ"
-    //     }).when('/ask_question', {
+    //     },{url:'/ask_question', {
     //         templateUrl: 'partials/feedback-page.html',
     //         title: 'Ask question',
     //         controller: 'FeedbackController',
     //         pageName: "Ask question"
-    //     }).when('/report_problem_on_this_page', {
+    //     },{url:'/report_problem_on_this_page', {
     //         templateUrl: 'partials/feedback-page.html',
     //         title: 'Report problem on this page',
     //         controller: 'FeedbackController',
     //         pageName: "Report problem on this page"
-    //     }).when('/suggest_improvement_or_request_feature', {
+    //     },{url:'/suggest_improvement_or_request_feature', {
     //         templateUrl: 'partials/feedback-page.html',
     //         title: 'Suggest improvement or request feature',
     //         controller: 'FeedbackController',
     //         pageName: "Suggest improvement or request feature"
-    //     }).when('/feedback/thanks', {
+    //     },{url:'/feedback/thanks', {
     //         templateUrl: 'partials/feedback-page-thanks.html',
     //         title: 'Thanks for feedback',
     //         controller: 'FeedbackController',
     //         pageName: "Thanks for feedback"
-    //     }).when('/feedback-new-design', {
+    //     },{url:'/feedback-new-design', {
     //         templateUrl: 'partials/feedback-page-new-design.html',
     //         title: 'Feedback for new design',
     //         controller: 'FeedbackController',
     //         pageName: "Feedback for new design"
-    //     }).when('/feedback-new-design-thanks', {
+    //     },{url:'/feedback-new-design-thanks', {
     //         templateUrl: 'partials/feedback-page-new-design-thanks.html',
     //         title: 'Thanks for feedback',
     //         controller: 'FeedbackController',
     //         pageName: "Thanks for feedback"
-    //     }).when('/email-integration', {
+    //     },{url:'/email-integration', {
     //         title: "Integration with email",
     //         templateUrl: "partials/addEmailForTemplate.html",
     //         controller: "addEmailForTemplateController",
     //         pageName: "Integration with email"
-    //     }).when('/news', {
+    //     },{url:'/news', {
     //         title: "News",
     //         templateUrl: "partials/news.html",
     //         controller: "newsController",
     //         pageName: "News"
     //     })
-    //     .when('/cloud-admin',{
+    //    ,{url:'/cloud-admin',{
     //         templateUrl: "partials/cloud-admin.html",
     //         controller: "cloudAdminController",
     //         pageName: "Cloud Admin"
     //     })
-    //     .when('/reports/pipeline',{
+    //    ,{url:'/reports/pipeline',{
     //         title: "Pipeline",
     //         templateUrl: "partials/pipeline.html",
     //         controller: "pipelineController",
     //         pageName: "Pipeline"
     //     })
-    //     .when('/reports',{
+    //    ,{url:'/reports',{
     //         title: "Reports",
     //         templateUrl: "partials/reports.html",
     //         controller: "MyReportsCtrl",
     //         controllerAs: "myReportsCtrl",
     //         pageName: "Reports"
     //     })
-    //     .when('/reports/custom-reports',{
+    //    ,{url:'/reports/custom-reports',{
     //         title: "Custom Reports",
     //         templateUrl: "partials/custom-reports.html",
     //         controller: "CustomReports",
     //         controllerAs: "ctrlReport",
     //         pageName: "Custom Reports"
     //     })
-    //     .when('/reports/edit-reports',{
+    //    ,{url:'/reports/edit-reports',{
     //         title: "Edit Reports",
     //         templateUrl: "partials/edit-custom-report.html",
     //         controller: "CustomReportEditCtrl",
     //         controllerAs: "editReport",
     //         pageName: "Edit Reports"
     //     })
-    //     .when('/constructor-reports',{
+    //    ,{url:'/constructor-reports',{
     //         title: "Reports constructor",
     //         templateUrl: "partials/constructor-reports.html",
     //         controller: "constructorReports",
     //         pageName: "Reports constructor"
     //     })
-    //     //.when('/hr-module-info', {
+    //     /,{url:'/hr-module-info', {
     //     //    title: "HR-module",
     //     //    templateUrl: "partials/hr-module-info.html",
     //     //    controller: "hrModuleInfoController",
     //     //    pageName: "Hr-module info"
     //     //})
-    //     .when('/mailing',{
+    //    ,{url:'/mailing',{
     //         title: "Create a mailing list",
     //         templateUrl: "partials/mailing/mailing.html",
     //         controller: "mailingController",
     //         pageName: "Mailing"
     //     })
-    //     .when('/mailing-sent',{
+    //    ,{url:'/mailing-sent',{
     //         title: "Sent mailing",
     //         templateUrl: "partials/mailing/mailing-sent.html",
     //         controller: "mailingSentController",
@@ -16430,6 +16349,144 @@ angular.module('RecruitingApp', [
             pageName: "Candidate"
         },
         reloadOnSearch: false
+    },{
+        url:'/candidates/{id}/{test}',
+        name: 'candidate-test-one',
+        templateUrl: 'partials/candidate.html',
+        controller: "CandidateOneController",
+        data: {
+            title: "Candidate",
+            pageName: "Candidates"
+        },
+        reloadOnSearch: false
+    },{
+        url:'/candidate/add',
+        name:'candidate-add',
+        templateUrl: "partials/candidate-add.html",
+        controller: "CandidateAddController",
+        data: {
+            title: "Add candidate",
+            pageName: "Candidate add"
+        }
+    },{
+        url:'/candidate/edit/{id}',
+        name: 'candidate-edit',
+        templateUrl: "partials/candidate-add.html",
+        controller: "CandidateEditController",
+        data: {
+            title: "Edit candidate",
+            pageName: "Candidate edit"
+        },
+        reloadOnSearch: false
+    },{
+        url:'/candidate/merge/{id}',
+        name:"candidate-merge",
+        templateUrl: "partials/candidate-merge.html",
+        controller: "CandidateMergeController",
+        data: {
+            title: 'Merge candidate',
+            pageName: "Candidate merge"
+        },
+            reloadOnSearch: false
+    },{
+        url:'/candidate/tests',
+        name:'candidate-tests',
+        templateUrl: "partials/tests.html",
+        controller: "testsAndForms",
+        data: {
+            title: "Tests and forms",
+            pageName: "Tests and forms"
+        }
+    },{
+        url:'/candidate/tests/results/:id',
+        name: 'test-results-one',
+        templateUrl: "partials/test-result.html",
+        controller: "testResults",
+        data: {
+            title: "Tests results",
+            pageName: "Tests results"
+        }
+    },{
+        url:'/candidate/test/{id}',
+        name:'candidate-test',
+        templateUrl: "partials/test.html",
+        controller: "testsAndForms",
+        data: {
+            title: "Tests and forms",
+            pageName: "Test page"
+        }
+    },{
+        url:'/candidate/test/results/{id}',
+        name: 'candidate-test-result',
+        templateUrl: "partials/test-result.html",
+        controller: "testResults",
+        data: {
+            title: "Test results",
+            pageName: "Test results"
+        }
+    },{
+        url:'/candidate/test/details/{id}',
+        name:'candidate-test-details',
+        templateUrl: "partials/test-detail.html",
+        controller: "testResults",
+        data: {
+            title: "Detailed test results",
+            pageName: "Detailed test results"
+        }
+    },{
+        url:'/candidate/send-test-candidate-to-email/{id}',
+        name: "candidate-send-test",
+        templateUrl: "partials/sendTestCandidateToEmail.html",
+        controller: "testsAndForms",
+        data: {
+            title: "Send test candidate to email",
+            pageName: "Send test candidate to email"
+        }
+    },{
+        url:'/candidate/send-test-candidate-to-email-from-vacancy',
+        templateUrl: "partials/sendTestCandidateToEmail.html",
+        name: "candidate-send-test-from-vacancy",
+        controller: "testsAndForms",
+        data: {
+            title: "Send test candidate to email",
+            pageName: "Send test candidate to email from vacancy"
+        }
+    },{
+        url:'/candidate/send-test-candidate-to-email-from-candidate',
+        name: 'candidate-send-test-from-candidate',
+        templateUrl: "partials/sendTestCandidateToEmail.html",
+        controller: "testsAndForms",
+        data: {
+            title: "Send test candidate to email",
+            pageName: "Send test candidate to email from candidate"
+        }
+    },{
+        url: '/candidate/add/email',
+        name: "candidate-add-from-email",
+        templateUrl: "partials/candidateAddFromEmail.html",
+        controller: "CandidateAddFromEmailController",
+        data: {
+            title: "Get candidates from email",
+            pageName: "Candidates add from email"
+        }
+    },{
+        url: '/candidate/add/zip',
+        name: "candidate-add-zip",
+        templateUrl: "partials/candidateAddFromZip.html",
+        controller: "CandidateAddFromZipController",
+        data: {
+            title: "Get candidates from zip",
+            pageName: "Zip"
+        }
+    },{
+        url:'/candidates_link',
+        name:"candidate-link",
+        templateUrl: 'partials/candidateslink.html',
+        controller: "CandidateLINKController",
+        data: {
+            title: 'Candidates',
+            pageName: "Candidates"
+        }
     }];
     states.forEach((state) => {
         $stateProvider.state(state);
@@ -16504,6 +16561,51 @@ angular.module('RecruitingApp', [
 }).run(function ($location, $rootScope, CheckAccess, $window, $filter, $localStorage, Vacancy, notificationService, translateWords,$transitions, $state, $stateParams) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
+    $rootScope.sendTestFromVacancyStage = function (stage, longlist, dataForVacancy) {
+        if(stage == undefined){
+            stage = longlist;
+        }
+        $localStorage.set('activeCustomStageId', stage);
+        $rootScope.vacancySearchParams = {
+            state: stage,
+            vacancyId: $rootScope.vacancy.vacancyId,
+            withCandidates: true,
+            withVacancies: true
+        };
+        Vacancy.getCandidatesInStages($rootScope.vacancySearchParams, function(resp){
+            if(resp.objects.length == 0){
+                notificationService.error($filter('translate')('add candidates to the stage'));
+            }else{
+                $rootScope.candidatesInStages = resp.objects;
+                $localStorage.set('vacancyForTest', $rootScope.candidatesInStages);
+                $location.path('/candidate/send-test-candidate-to-email-from-vacancy');
+            }
+        });
+    };
+    $rootScope.sendCandidateToTest = function(candidate, count){
+        if(count == 0){
+            notificationService.error($filter('translate')('Please add an email before sending a test to this candidate'))
+        }else{
+            if(candidate != undefined){
+                $localStorage.set('candidateForTest', candidate);
+                $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
+                $location.path('/candidate/send-test-candidate-to-email-from-candidate');
+                $rootScope.fromCandidate = [candidate];
+                $rootScope.emailCandidateId = candidate.candidateId;
+                if(candidate.contacts.length > 0){
+                    angular.forEach(candidate.contacts, function (nval) {
+                        if (nval.type == "email") {
+                            delete  $rootScope.emailCandidate;
+                            var email = nval.value.split(" ")[0];
+                            $rootScope.emailCandidate = email.replace(/,/g,"");
+                        }
+                    });
+                }else{
+                    notificationService.error($filter('translate')('Please add an email before sending a test to this candidate'))
+                }
+            }
+        }
+    };
     $transitions.onSuccess({}, function (transition) {
         if(transition.from() && transition.from().url != undefined){
             if( transition.from().url === "/company/custom-fields" ){
@@ -16552,51 +16654,6 @@ angular.module('RecruitingApp', [
         }
         $rootScope.stageName = '';
         $('.showCustomStage').hide();
-        $rootScope.sendTestFromVacancyStage = function (stage, longlist, dataForVacancy) {
-            if(stage == undefined){
-                stage = longlist;
-            }
-            $localStorage.set('activeCustomStageId', stage);
-            $rootScope.vacancySearchParams = {
-                state: stage,
-                vacancyId: $rootScope.vacancy.vacancyId,
-                withCandidates: true,
-                withVacancies: true
-            };
-            Vacancy.getCandidatesInStages($rootScope.vacancySearchParams, function(resp){
-                if(resp.objects.length == 0){
-                    notificationService.error($filter('translate')('add candidates to the stage'));
-                }else{
-                    $rootScope.candidatesInStages = resp.objects;
-                    $localStorage.set('vacancyForTest', $rootScope.candidatesInStages);
-                    $location.path('/candidate/send-test-candidate-to-email-from-vacancy');
-                }
-            });
-        };
-        $rootScope.sendCandidateToTest = function(candidate, count){
-            if(count == 0){
-                notificationService.error($filter('translate')('Please add an email before sending a test to this candidate'))
-            }else{
-                if(candidate != undefined){
-                    $localStorage.set('candidateForTest', candidate);
-                    $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
-                    $location.path('/candidate/send-test-candidate-to-email-from-candidate');
-                    $rootScope.fromCandidate = [candidate];
-                    $rootScope.emailCandidateId = candidate.candidateId;
-                    if(candidate.contacts.length > 0){
-                        angular.forEach(candidate.contacts, function (nval) {
-                            if (nval.type == "email") {
-                                delete  $rootScope.emailCandidate;
-                                var email = nval.value.split(" ")[0];
-                                $rootScope.emailCandidate = email.replace(/,/g,"");
-                            }
-                        });
-                    }else{
-                        notificationService.error($filter('translate')('Please add an email before sending a test to this candidate'))
-                    }
-                }
-            }
-        };
         $('#candidate_preview').css({
             "top": 0,
             "left": 0,
@@ -16757,8 +16814,8 @@ function CheckQueryTime(url, $root) {
 var defaultRoute = '/organizer';
 function checkUrlByRole(url, Role,  accessLevel, $location, serverAddress, $http, $filter, notificationService) {
     if (Role == 'client'){
-        if (url == '/candidate/add/' || url == '/candidate/edit/' ||
-            url == '/client/add/') {
+        if (url == '/candidate/add' || url == '/candidate/edit/{id}' ||
+            url == '/client/add') {
             $location.path(defaultRoute);
         } else if (url == '/company/statistics') {
             $location.path('/clients/statistics');
@@ -24391,7 +24448,7 @@ controller.controller('CandidateLINKController',["$localStorage", "$translate", 
         $localStorage.set("candidateForSave", candidate);
         console.log(candidate);
         $rootScope.$apply(function() {
-            $location.path("candidate/add/")
+            $location.path("candidate/add")
         });
     };
     if ($rootScope.eventListenerGetContact) {
@@ -28831,7 +28888,7 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
             });
         };
 
-        if($rootScope.activePage == "Test page") {
+        if($rootScope.$state.current.data.pageName == "Test page") {
             $scope.testPreview = {};
             Test.getTest({
                 id: $stateParams.id
@@ -28884,7 +28941,7 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                 }
             });
         };
-        if($rootScope.activePage == 'Send test candidate to email'){
+        if($rootScope.$state.current.data.pageName == 'Send test candidate to email'){
             $scope.getTestFunc();
         }
         $scope.sendTestRequest = [];
@@ -29021,7 +29078,7 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                 },5000);
             }
         };
-        if($rootScope.activePage == 'Send test candidate to email from candidate'){
+        if($rootScope.$state.current.data.pageName == 'Send test candidate to email from candidate'){
             $rootScope.sendCandidateToTest();
             if($rootScope.candidateToTest == undefined){
                 $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
@@ -29043,7 +29100,7 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                 candidateId: $rootScope.emailCandidateId,
                 email: $rootScope.emailCandidate
             });
-        }else if($rootScope.activePage == 'Send test candidate to email from vacancy'){
+        }else if($rootScope.$state.current.data.pageName == 'Send test candidate to email from vacancy'){
             setTimeout(function(){
                 $rootScope.candidatesInStages = JSON.parse($localStorage.get('vacancyForTest'));
                 $rootScope.activeCustomStageName = $localStorage.get('activeCustomStageName');
@@ -29067,13 +29124,13 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
 
         }
         $scope.sendTestToCandidate = function () {
-            if($rootScope.activePage == 'Send test candidate to email'){
+            if($rootScope.$state.current.data.pageName == 'Send test candidate to email'){
                 $scope.textEmailTestCandidate = tinyMCE.get('testCandidateMCE').getContent();
                 $location.path('/candidate/tests');
-            }else if($rootScope.activePage == 'Send test candidate to email from vacancy'){
+            }else if($rootScope.$state.current.data.pageName == 'Send test candidate to email from vacancy'){
                 $scope.textEmailTestCandidate = tinyMCE.get('testCandidateMCE2').getContent();
                 $location.path('/vacancies/' + $rootScope.candidatesInStages[0].vacancyId.localId);
-            }else if($rootScope.activePage == 'Send test candidate to email from candidate'){
+            }else if($rootScope.$state.current.data.pageName == 'Send test candidate to email from candidate'){
                 $scope.textEmailTestCandidate = tinyMCE.get('testCandidateMCE2').getContent();
                 $location.path('/candidates/' + $rootScope.candidateToTest.localId);
             }
@@ -41837,7 +41894,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
             $scope.countPicked();
         };
         $scope.toMyMailings = function () {
-            $location.url("/mailings");
+            $location.url("/mailings/prepared");
         };
         $scope.countPicked = function () {
             $scope.candidatesAddToVacancyIds = [];

@@ -599,7 +599,7 @@ angular.module('services.mailing',[]
         //$localStorage.remove('candidatesForMailing');
         //$localStorage.remove('subscriberListParams');
         //$localStorage.remove('currentStep');
-        $location.url("/mailings");
+        $location.url("/mailings/prepared");
         //$state.go('mailings-saved').then(() => $location.url("/mailings"));
     };
 

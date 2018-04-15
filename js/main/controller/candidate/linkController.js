@@ -151,7 +151,7 @@ controller.controller('CandidateLINKController',["$localStorage", "$translate", 
         $localStorage.set("candidateForSave", candidate);
         console.log(candidate);
         $rootScope.$apply(function() {
-            $location.path("candidate/add/")
+            $location.path("candidate/add")
         });
     };
     if ($rootScope.eventListenerGetContact) {

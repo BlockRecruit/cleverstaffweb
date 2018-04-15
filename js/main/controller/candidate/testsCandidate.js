@@ -291,7 +291,7 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
             });
         };
 
-        if($rootScope.activePage == "Test page") {
+        if($rootScope.$state.current.data.pageName == "Test page") {
             $scope.testPreview = {};
             Test.getTest({
                 id: $stateParams.id
@@ -344,7 +344,7 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                 }
             });
         };
-        if($rootScope.activePage == 'Send test candidate to email'){
+        if($rootScope.$state.current.data.pageName == 'Send test candidate to email'){
             $scope.getTestFunc();
         }
         $scope.sendTestRequest = [];
@@ -481,7 +481,7 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                 },5000);
             }
         };
-        if($rootScope.activePage == 'Send test candidate to email from candidate'){
+        if($rootScope.$state.current.data.pageName == 'Send test candidate to email from candidate'){
             $rootScope.sendCandidateToTest();
             if($rootScope.candidateToTest == undefined){
                 $rootScope.candidateToTest = JSON.parse($localStorage.get('candidateForTest'));
@@ -503,7 +503,7 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
                 candidateId: $rootScope.emailCandidateId,
                 email: $rootScope.emailCandidate
             });
-        }else if($rootScope.activePage == 'Send test candidate to email from vacancy'){
+        }else if($rootScope.$state.current.data.pageName == 'Send test candidate to email from vacancy'){
             setTimeout(function(){
                 $rootScope.candidatesInStages = JSON.parse($localStorage.get('vacancyForTest'));
                 $rootScope.activeCustomStageName = $localStorage.get('activeCustomStageName');
@@ -527,13 +527,13 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
 
         }
         $scope.sendTestToCandidate = function () {
-            if($rootScope.activePage == 'Send test candidate to email'){
+            if($rootScope.$state.current.data.pageName == 'Send test candidate to email'){
                 $scope.textEmailTestCandidate = tinyMCE.get('testCandidateMCE').getContent();
                 $location.path('/candidate/tests');
-            }else if($rootScope.activePage == 'Send test candidate to email from vacancy'){
+            }else if($rootScope.$state.current.data.pageName == 'Send test candidate to email from vacancy'){
                 $scope.textEmailTestCandidate = tinyMCE.get('testCandidateMCE2').getContent();
                 $location.path('/vacancies/' + $rootScope.candidatesInStages[0].vacancyId.localId);
-            }else if($rootScope.activePage == 'Send test candidate to email from candidate'){
+            }else if($rootScope.$state.current.data.pageName == 'Send test candidate to email from candidate'){
                 $scope.textEmailTestCandidate = tinyMCE.get('testCandidateMCE2').getContent();
                 $location.path('/candidates/' + $rootScope.candidateToTest.localId);
             }
