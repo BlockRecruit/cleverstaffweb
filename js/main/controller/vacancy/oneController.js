@@ -4282,7 +4282,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
             $scope.countPicked();
         };
         $scope.toMyMailings = function () {
-            $location.url("/mailings/prepared");
+            $state.go("mailings.saved");
         };
         $scope.countPicked = function () {
             $scope.candidatesAddToVacancyIds = [];

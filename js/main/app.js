@@ -525,6 +525,128 @@ angular.module('RecruitingApp', [
             title: 'Candidates X-Ray LinkedIn Search',
             pageName: "Candidates"
         }
+    },{
+        url:'/clients',
+        name: "clients",
+        templateUrl: "partials/clients.html?b1",
+        controller: "ClientsController",
+        data: {
+            title: 'Clients',
+            pageName: "Clients"
+        }
+    },{
+        url:'/client/add/',
+        name: "client-add",
+        templateUrl: 'partials/client-add.html?b1',
+        controller: "ClientAddController",
+        data: {
+            title: 'New client',
+            pageName: "Client add"
+        }
+    },{
+        url:'/client/edit/{id}',
+        name: "client-edit",
+        templateUrl: 'partials/client-add.html?b1',
+        controller: "ClientEditController",
+        data: {
+            title: 'Edit client',
+            pageName: "Client edit",
+        },
+        reloadOnSearch: false
+    },{
+        url:'/clients/{id}',
+        name: "clients-id",
+        templateUrl: "partials/client.html?b1",
+        controller: "ClientOneController",
+        reloadOnSearch: false,
+        data: {
+            title: 'Client',
+            pageName: "Clients"
+        }
+    },{
+        url:'/contacts/{id}',
+        name: "client-contacts",
+        templateUrl: "partials/contacts.html?b1",
+        controller: "ContactsOneController",
+        reloadOnSearch: false,
+        data: {
+            title: 'Contacts',
+            pageName: "Clients"
+        }
+    },{
+        url:'/contact/add/{id}',
+        name: "client-contact-add",
+        templateUrl: "partials/contact-add.html?b1",
+        controller: "ContactAddController",
+        data: {
+            title: 'Add contact',
+            pageName: "Clients"
+        }
+    },{
+        url:'/contact/edit/{contactId}',
+        name:"contact-edit",
+        templateUrl: "partials/contact-add.html?b1",
+        controller: "ContactEditController",
+        data: {
+            title: 'Edit contact',
+            pageName: "Contact Edit",
+        },
+        reloadOnSearch: false
+    },{
+        url:'/vacancies',
+        name: "vacancies",
+        templateUrl: 'partials/vacancies.html?b1',
+        controller: "vacanciesController",
+        data: {
+            title: 'Vacancies',
+            pageName: "Vacancies"
+        }
+    },{
+        url:'/vacancies/{id}',
+        name:"vacancies-id",
+        templateUrl: 'partials/vacancy.html?b1',
+        controller: "vacancyController",
+        reloadOnSearch: false,
+        data: {
+            title: 'Vacancy',
+            pageName: "Vacancies"
+        }
+    },{
+        url:'/vacancy/add',
+        name: "vacancy-add",
+        templateUrl: 'partials/vacancy-add.html?b1',
+        controller: "vacancyAddController",
+        data: {
+            title: 'Add vacancy',
+            pageName: "Vacancy add",
+        },
+        resolve: {
+            CustomFieldList: function(CustomField) {
+                return new Promise((resolve, reject) => {
+                    CustomField.getFullFields({objectType: 'vacancy'},
+                        resp => resolve(resp),error => reject(error));
+                });
+            }
+        }
+    },{
+        url:'/vacancy/edit/{id}',
+        name: "vacancy-edit",
+        templateUrl: 'partials/vacancy-add.html?b1',
+        controller: "vacancyEditController",
+        reloadOnSearch: false,
+        data: {
+            title: 'Edit vacancy',
+            pageName: "Vacancy edit",
+        }
+    },{
+        url:'/vacancy/report/{id}',
+        name: "vacancy-report",
+        templateUrl: 'partials/vacancy-reports.html?b1',
+        controller: 'vacancyReportController',
+        data: {
+            title: 'Vacancy report',
+            pageName: 'Vacancies'
+        }
     }];
     states.forEach((state) => {
         $stateProvider.state(state);
