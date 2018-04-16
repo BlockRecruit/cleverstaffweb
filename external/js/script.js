@@ -1239,15 +1239,31 @@ $(document).ready(function () {
                             downloadNewBrowser();
                         }
                     } else if (data.status === "error") {
-                    if (data.message == 'unknownEmail') {
-                      authError(messages.unknownEmail);
-                    } else if (data.message == 'registrationIsNotConfirmed') {
-                      authError(messages.registrationIsNotConfirmed);
-                      $("#signupAndForgetDiv").hide();
-                      $("#confirmDiv").show();
-                    } else {
-                      authError(data.message);
-                    }
+                        if (data.message == 'unknownEmail') {
+                          authError(messages.unknownEmail);
+                        } else if (data.message == 'registrationIsNotConfirmed') {
+                          authError(messages.registrationIsNotConfirmed);
+                          $("#signupAndForgetDiv").hide();
+                          $("#confirmDiv").show();
+                        }else if(data.code === 'manyAuth') {
+                            $.ajax({
+                                url: "/hr/person/getAuthBlockTime",
+                                type: "GET",
+                                data: JSON.stringify(res.login),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function(data) {
+                                    console.log(res);
+                                    console.log(data);
+                                    authError(`${data.object} `);
+                                },
+                                error: function(error) {
+                                    console.error('auth block time :', error);
+                                }
+                            })
+                        } else {
+                          authError(data.message);
+                        }
                   }
                   enter_loading = false;
                     clearInterval(timer)
