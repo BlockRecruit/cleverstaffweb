@@ -23,6 +23,13 @@
 
 		padding-left: 15px;
 	}
+	.return-on-report-page {
+		margin: 38px 0;
+		margin-bottom: 33px;
+		& > a {
+			@include return-on-report-page-btn();
+		}
+	}
 	.add-vacancy {
 		padding-bottom: 20px;
 

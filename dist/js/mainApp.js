@@ -1188,11 +1188,7 @@ directive('appVersion', ['version', function(version) {
                                 $('#photo-preview').css('width', '33%');
                             }
                         };
-                        if ($location.$$host == '127.0.0.1') {
-                            img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
-                        } else {
-                            img.src = $location.$$protocol + '://' + $location.$$host + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
-                        }
+                        img.src = $location.$$protocol + '://' + $location.$$host + $rootScope.serverAddress + '/getapp?id=' + $rootScope.candidatePreview.photo + '&d=' + $rootScope.me.personId;
                     };
                         $rootScope.imgWidthPreviewFunc();
                         if (!$rootScope.candidatePreview.db && !$rootScope.candidatePreview.expirence && !$rootScope.candidatePreview.languages && !$rootScope.candidatePreview.employmentType && !$rootScope.candidatePreview.salary && !$rootScope.candidatePreview.contacts) {
@@ -2097,7 +2093,8 @@ directive('appVersion', ['version', function(version) {
                         $(element[0]).select2("data", {id: id, text: val});
                     }
                 };
-                let translatedPositions = false;
+                let translatedPositions = false,
+                    inputText = null;
 
                 $rootScope.$on('$translateChangeSuccess', function () {
                     initSelect2();
@@ -2113,6 +2110,14 @@ directive('appVersion', ['version', function(version) {
                             placeholder: $translate.instant('client'),
                             minimumInputLength: 0,
                             allowClear: true,
+                            createSearchChoice: function(term, data) {
+                                if ($(data).filter(function() {
+                                        return this.text.localeCompare(term) === 0;
+                                    }).length === 0) {
+                                    inputText = term;
+                                    return {id: term, text: term};
+                                }
+                            },
                             ajax: {
                                 url: serverAddress + "/client/autocompleteClients",
                                 dataType: 'json',
@@ -2129,7 +2134,6 @@ directive('appVersion', ['version', function(version) {
                                     var status = "";
                                     var realName = "";
                                     if (data['objects'] !== undefined) {
-                                        console.log(data['objects']);
                                         angular.forEach(data['objects'], function(item) {
                                             results.push({
                                                 id: item.clientId,
@@ -2144,8 +2148,10 @@ directive('appVersion', ['version', function(version) {
                                 }
                             },
                             dropdownCssClass: "bigdrop"
+                        }).on("select2-close", function(e) {
+                            $scope.searchParam.clientId = $(element[0]).select2("data").text;
                         }).on("change", function(e) {
-
+                            $scope.searchParam.clientId = $(element[0]).select2("data") ? $(element[0]).select2("data").text : null;
                         }).on("select2-opening", function(e){
                             setTimeout(function () {
                                 $('#select2-drop .select2-results .select2-searching')[0].innerText = $filter("translate")("Searching");
@@ -2623,26 +2629,29 @@ directive('appVersion', ['version', function(version) {
                 }
             }
         }
-    }).directive('originAutocompleter', ["$filter", "serverAddress", "$translate", "$rootScope", function($filter, serverAddress, $translate, $rootScope) {
-            return {
-                restrict: 'EA',
-                replace: true,
-                link: function($scope, element, attrs) {
-                    $scope.setOriginAutocompleterValue = function(val) {
-                        if (val != undefined) {
-                            $(element[0]).select2("data", {id: val, text: val});
-                        } else {
-                            $(element[0]).select2("data", {id: '', text: ''});
-                        }
-                        $('.select2-search-choice-edit-origin').off().on('click', function (e) {
-                            $scope.editOriginName();
-                        }).attr("title", $filter('translate')('Edit source for all candidates'));
-                    };
-                    $scope.getOriginAutocompleterValue = function() {
-                        var object = $(element[0]).select2("data");
-                        return object != null ? object.text : null;
-                    };
-                    var inputText = "";
+    }).directive('originAutocompleter', ["$filter", "serverAddress", "$rootScope", "$translate", function($filter, serverAddress, $rootScope, $translate) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            link: function($scope, element, attrs) {
+                $scope.setOriginAutocompleterValue = function(val) {
+                    if (val != undefined) {
+                        $(element[0]).select2("data", {id: val, text: val});
+                    } else {
+                        $(element[0]).select2("data", null).trigger("change");;
+                    }
+                    $('.select2-search-choice-edit-origin').off().on('click', function (e) {
+                        $scope.editOriginName();
+                    }).attr("title", $filter('translate')('Edit source for all candidates'));
+                    $('.select2-search-choice-delete-origin').off().on('click', function (e) {
+                        $scope.removeSource();
+                    }).attr("title", $filter('translate')('Delete source for all candidates'));
+                };
+                $scope.getOriginAutocompleterValue = function() {
+                    var object = $(element[0]).select2("data");
+                    return object != null ? object.text : null;
+                };
+                var inputText = "";
 
                     let translatedPositions = false;
 
@@ -2694,6 +2703,9 @@ directive('appVersion', ['version', function(version) {
                             $('.select2-search-choice-edit-origin').off().on('click', function (e) {
                                 $scope.editOriginName();
                             }).attr("title", $filter('translate')('Edit source for all candidates'));
+                            $('.select2-search-choice-delete-origin').off().on('click', function (e) {
+                                $scope.removeSource();
+                            }).attr("title", $filter('translate')('Delete source for all candidates'));
                         }).on("select2-close", function(e) {
                             console.log("CLOSE!");
                             if (inputText.length > 0) {
@@ -3345,10 +3357,12 @@ directive('appVersion', ['version', function(version) {
                             }
                             if($(element[0]).select2("data")) {
                                 $(element[0]).select2("data", {id: inputText, text: removeExtraSpaces($(element[0]).select2("data").text)});
-                                $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
+                                if($scope.searchParam)
+                                    $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
                                 $scope.setPositionAutocompleterValue($scope.searchParam.position);
                             }
-                            $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
+                            if($scope.searchParam)
+                                $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
                         }).on("select2-selecting", function(e) {
                             inputText = "";
                         }).on("select2-open", function() {
@@ -3358,15 +3372,12 @@ directive('appVersion', ['version', function(version) {
                     }
                     function removeExtraSpaces(string) {
                         let str = string.split('');
-                        // console.log(str);
                         for( let i = 0; i < str.length; i++) {
                             if( str[i] === " " && str[i+1] === " " && i !== 0 && i !== str.length - 1  || (str[i] === " " && i === str.length - 1)) {
-                                // console.log(str[i],str[i+1],"spliced");
                                 str.splice(i,1);
                                 i--;
                             }
                         }
-                        // console.log(str);
                         return str.join('');
                     }
                 }
@@ -4504,7 +4515,71 @@ directive('appVersion', ['version', function(version) {
 
             }
         }
-    }]);
+    }])
+    .directive("customSelect",setCustomSelect)
+    .directive("tooltipMove", tooltipMove);
+
+function tooltipMove($filter){
+    let restrict  = "EACM"
+    return {
+        restrict,
+        link(scope, element, attrs){
+            element[0].addEventListener('mouseenter', showToolTip.bind(element[0], $filter));
+            element[0].addEventListener('mouseleave', hiddenToolTip);
+        }
+    }
+}
+
+function showToolTip($filter, event) {
+        let text,
+        tooltipContent = document.createElement('div');
+
+    if(this.dataset && this.dataset.tooltip){
+        text = this.dataset.tooltip;
+        tooltipContent.classList.add('info-content');
+        tooltipContent.classList.add('tooltip-hint');
+        tooltipContent.innerHTML = $filter('translate')(text);
+        this.after(tooltipContent);
+    }
+}
+
+function hiddenToolTip() {
+    console.log('exit');
+    let allToolTips = document.querySelectorAll('.tooltip-hint');
+        allToolTips.forEach(tooltip => tooltip.remove());
+}
+
+function setCustomSelect($rootScope){
+    let restrict  = "EACM",
+        scope = {
+            data:"=",
+            model:"=",
+            placeholder:"@",
+            method:"=",
+            $scope:"=",
+            event:"=",
+            new:"@"
+        },
+        template = `
+        <div class="select clearfix">
+            <input type="text" ng-model="model" placeholder="{{placeholder|translate}}" readonly class="form-control col-lg-12 select-input-field">
+            <div class="dropdown-content" style="z-index: -999">
+                <ul>
+                    <li ng-repeat="item in data track by $index" ng-click="method(item, $scope, $event, $index)" ng-class="{disable: (item.status == 'N')}">{{item.text|translate}}</li>
+                </ul>
+            </div>
+             <span class="new-label" ng-show="new" style="right: 0px;">new</span>
+        </div>`;
+    return {
+        restrict,
+        scope,
+        template,
+        link(scope, element, attrs){
+
+        }
+    }
+};
+
 function similar_text(first, second, percent) {
     if (first === null || second === null || typeof first === 'undefined' || typeof second === 'undefined') {
         return 0;
@@ -4992,6 +5067,45 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                 } else {
                     return $filter('date')(date, dateMD + '<br/>' + hour);
                 }
+            } else {
+                return $filter('date')(date, dateMDY + hour);
+            }
+        };
+    }])
+    .filter('dateFormat7', ["$filter", "$translate", function ($filter, $translate) {
+        return function (date, withHour, withUTC) {
+
+            function createDateAsUTC(datLong) {
+                if (datLong != undefined) {
+                    var date = new Date(datLong);
+                    return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+                }
+            }
+
+            if (withUTC == true) {
+                date = createDateAsUTC(date);
+            }
+            var hour = "";
+            var dateToday = new Date().getTime();
+            var lang = $translate.use();
+            var dateMD = "";
+            var dateMDY = "";
+            if (lang == 'ru' || lang == 'ua') {
+                dateMD = "dd-MM-yyyy ";
+                dateMDY = "dd-MM-yyyy ";
+            } else if (lang == 'en') {
+                dateMD = "MM-dd-yyyy ";
+                dateMDY = "MM-dd-yyyy ";
+            }
+            if (withHour === true) {
+                if (lang == 'en') {
+                    hour = "h:mm:ss a";
+                } else {
+                    hour = "H:mm:ss";
+                }
+            }
+            if (angular.equals($filter('date')(dateToday, 'y'), $filter('date')(date, 'y'))) {
+                return $filter('date')(date, dateMD + hour);
             } else {
                 return $filter('date')(date, dateMDY + hour);
             }
@@ -5585,33 +5699,6 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                     return $filter('translate')('Free_user');
             }
         }
-    }]).filter('breakOnMiddleString', ['$sce', function($sce) {
-        return function(value){
-            let spaceBeforeIndex = null,
-                spaceAfterIndex = null;
-
-            for(let i = Math.floor(value.length/2); i >= 0; i--) {
-                if(value[i] === " ") {
-                    spaceBeforeIndex = i;
-                    break;
-                }
-            }
-
-            for(let i = Math.floor(value.length/2); i <= value.length; i++) {
-                if(value[i] === " ") {
-                    spaceAfterIndex = i;
-                    break;
-                }
-            }
-
-            if(value.length - spaceAfterIndex < value.length - spaceBeforeIndex) {
-                spaceBeforeIndex = spaceAfterIndex;
-            }
-
-            value = value.split('');
-            value[spaceBeforeIndex] = "<br/>";
-            return $sce.trustAsHtml(value.join(""));
-        };
     }]);
 function linkify3(text) {
     if (text) {
@@ -6185,7 +6272,7 @@ angular.module('services.candidate', [
                 }
             },
             removeOriginAll: {
-                method: "POST",
+                method: "GET",
                 headers: {'Content-type': 'application/json; charset=UTF-8'},
                 params: {
                     param: "removeOriginAll"
@@ -6371,7 +6458,7 @@ angular.module('services.candidate', [
                     $scope.fastCandLoading = false;
                     $rootScope.loading = false;
                     setTimeout(function(){
-                        $scope.imgWidthFunc();
+                        $scope.imgWidthFunc(file.object.photo);
                     }, 3000);
                     if(data.data.status != 'error' ){
                         $location.path("candidate/add");
@@ -6402,7 +6489,7 @@ angular.module('services.candidate', [
                 file.$upload(serverAddress + '/candidate/addPhoto', file).then(function(data) {
                     $scope.callbackAddPhoto(data.data.objects[0]);
                     setTimeout(function(){
-                        $scope.imgWidthFunc();
+                        $scope.imgWidthFunc(data.data.objects[0]);
                     }, 2000);
                 });
             },
@@ -8069,9 +8156,9 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         }
 
         function getDataShowElement(target) {
-            let element = target;
+            let element = target, currentLastBlockData = ['block-custom-report-edit', 'block-custom-reports'];
 
-            while(!element.classList.contains('block-custom-report-edit')){
+            while(element && !currentLastBlockData.some(itemClass => element.classList.contains(itemClass))){
                 if(element.dataset.show){
                     return element.dataset;
                 }
@@ -8081,7 +8168,9 @@ function CustomReportEditService($rootScope, Stat, $translate, Company, Person, 
         }
 
         function isClickInDataShowBlock(element, id) {
-            while(!element.classList.contains('block-custom-report-edit')){
+            let currentLastBlockData = ['block-custom-report-edit', 'block-custom-reports'];
+
+            while(element && !currentLastBlockData.some(itemClass => element.classList.contains(itemClass))){
                 if(element.classList.contains('active') || (id && element.id === id)){
                     return true;
                 }
@@ -11462,17 +11551,9 @@ angular.module('services.pay', [
                     params: {
                         param: "deleteOutlookCalendar"
                     }
-                },
-                filteredPersons: {
-                    method: "POST",
-                    params: {
-                        param: "getFilteredPersons"
-                    }
                 }
 
             });
-
-
      person.requestGetAllPersons = function () {
          $rootScope.loading = true;
          return new Promise((resolve, reject) => {
@@ -11480,20 +11561,80 @@ angular.module('services.pay', [
          });
      };
 
-     person.getFilteredPersons = function(params) {
-         return new Promise((resolve, reject) => {
-             person.filteredPersons(params, resp => {
-                 if(resp.status === 'ok') {
-                     resolve(resp)
-                 } else {
-                     reject(resp);
-                 }
-             }, error => reject(error));
-         });
-     };
-
      return person;
  }]);
+angular.module('services.reportsService', [
+    'ngResource'
+]).factory('reportsService', ['$rootScope', '$resource', 'serverAddress','$uibModal','$location', '$window', function($rootScope, $resource, serverAddress, $uibModal, $location, $window ) {
+    let reportsData = {};
+        reportsData.reportsBlocks = [
+            {
+                src:"images/reports-img/voronka.png",
+                title:"Funnel and vacancy report",
+                description:"The recruitment funnel displays the conversion of candidates in vacancies and helps to identify the bottlenecks or forgotten candidates.",
+                href:"/reports/vacancy"
+            },
+            {
+                src:"images/reports-img/statistika.png",
+                title:" User statistics",
+                description:"Displays the effectiveness of recruiters in numbers and percentages for the chosen period.",
+                href:"/reports/statistics"
+            },
+            {
+                src:"images/reports-img/pipeline.png",
+                title:"Pipeline report",
+                description:"Displays problem vacancies and responsible employees and helps to determine which areas need to be strengthened.",
+                href:"/reports/pipeline"
+            }
+        ];
+
+        function inviteHiringManager() {
+            $rootScope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: 'partials/modal/invite-hiring-manager.html',
+                size: '',
+                resolve: function(){
+
+                }
+            });
+            $rootScope.modalInstance.opened.then(function(){
+                $rootScope.inviteUser.role = 'client';
+            });
+            $rootScope.modalInstance.closed.then(function() {
+                $rootScope.inviteUser.role = null;
+                $rootScope.inviteUser.email = null;
+            });
+        }
+        
+        function replaceClassName(nameFirst, newNameSecond, element) {
+            element.classList.toggle(nameFirst);
+            element.classList.add(newNameSecond);
+        }
+
+        function showMore() {
+            let defaultHeightBlockReportsList = getComputedStyle(document.querySelector('.custom-reports-list'))['maxHeight'],
+                blockReportsList = document.querySelector('.custom-reports-list'),
+                blockShowMore = document.querySelector('.show-more');
+
+            this.showMore  = function () {
+                let scrollHeightBlockReportsList = blockReportsList.scrollHeight;
+
+                (blockReportsList.classList.contains('show'))? blockReportsList.style.maxHeight = defaultHeightBlockReportsList : blockReportsList.style.maxHeight = scrollHeightBlockReportsList + 'px';
+
+                blockReportsList.classList.toggle('show');
+                blockShowMore.classList.toggle('border-bottom');
+                this.isShowMore = !this.isShowMore;
+                replaceClassName('fa-angle-down', 'fa-angle-up', blockShowMore.querySelector('.fa'));
+            }
+        }
+
+        reportsData.showMore = showMore;
+        reportsData.inviteHiringManager = inviteHiringManager;
+
+    return reportsData;
+}]);
+
+
 angular.module('services.scope', []).factory('ScopeService', ['$rootScope', 'localStorageService', function($rootScope, localStorageService) {
     var currentControllerUpdateFunc = null;
     var defaultScopeIsInitialized = false;
@@ -11907,7 +12048,7 @@ angular.module('services.slider', [
 }]);
  angular.module('services.statistic', [
     'ngResource'
-]).factory('Statistic', ['$resource', 'serverAddress', '$rootScope', function($resource, serverAddress, $rootScope) {
+]).factory('Statistic', ['$resource', 'serverAddress', function($resource, serverAddress) {
     var service = $resource(serverAddress + '/stat/:action', {action: "@action"}, {
         getOrgInfo: {
             method: "GET",
@@ -11964,32 +12105,6 @@ angular.module('services.slider', [
         if(key)
             return service.parameters[key];
     };
-
-     service.getVacancyDetailInfo = function(params) {
-         $rootScope.loading = true;
-
-         return new Promise((resolve, reject) => {
-             service.getVacancyInterviewDetalInfo(params, resp => {
-                 if(resp.vacancyInterviewDetalInfo) {
-                     let vacancyInterviewDetalInfo = [];
-                     angular.forEach(resp.vacancyInterviewDetalInfo, function(value, key) {
-                         vacancyInterviewDetalInfo.push({
-                             key: key,
-                             value: value
-                         });
-                     });
-                     $rootScope.loading = false;
-                     resolve(vacancyInterviewDetalInfo);
-                 } else {
-                     $rootScope.loading = false;
-                     reject(resp);
-                 }
-             }, error => {
-                 $rootScope.loading = false;
-                 reject(error);
-             });
-         });
-     };
 
     return service;
 }]);
@@ -12989,13 +13104,15 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "exchangeHost":  $sce.trustAsHtml($filter('translate')('The Exchange server URL')),
                     "exchangeDomain":  $sce.trustAsHtml($filter('translate')('Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address')),
                     "hmInvite":  $sce.trustAsHtml($filter('translate')('Hiring Manager will be responsible for this vacancy after registration in account.')),
+                    "reportWithCandidatesActions":  $sce.trustAsHtml($filter('translate')('Number of candidates for which there were actions for the selected period')),
                     "userInvite": {
                         "admin" : $sce.trustAsHtml($filter('translate')('Full control on a company account. Able to manage users, clients, vacancies, and candidates. Paid user')),
                         "recruter" : $sce.trustAsHtml($filter('translate')('Able to manage clients, vacancies and candidates. Paid user')),
                         "freelancer" : $sce.trustAsHtml($filter('translate')('Cannot see the full database. Able to manage only clients, vacancies, and candidates he/she is responsible for. Paid user')),
                         "researcher" : $sce.trustAsHtml($filter('translate')('Cannot see the full database and other users. Able to see only vacancies he/she responsible for and candidates he/she added')),
-                        "client" : $sce.trustAsHtml($filter('translate')('Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number')),
-                    }
+                        "client" : $sce.trustAsHtml($filter('translate')('Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number'))
+                    },
+                    "filterCostructorInfo": $sce.trustAsHtml($filter('translate')('The filter allows you to pick the users who performed any activities on vacancies.'))
                 };
                 $rootScope.tooltips = options;
             });
@@ -13267,198 +13384,9 @@ angular.module('services.company', [
             return data;
         };
 
-        company.params = function() {
-            return new Promise((resolve, reject) => {
-                company.getParams(resp => resolve(resp), error => reject(error));
-            });
-        };
-
     company.init();
     return company;
 }]);
-
-angular.module('services.vacancyReport', [
-    'ngResource',
-    'ngCookies'
-]).factory('vacancyReport', [function () {
-    let report = {};
-
-    report.funnel = function(id, arr) {
-        const canvas = document.getElementById(id),
-              ctx = canvas.getContext('2d');
-              ctx.translate(0.5, 0.5);
-
-        canvas.width = 400;
-
-        let width = canvas.width;
-        let height = 30;
-
-        canvas.height = arr.length * height;
-
-        new chartBars(canvas, arr, width, height).init();
-    };
-
-
-    class chartBars {
-        constructor(c, data, width, height) {
-            this.c = c;
-            this.ctx = c.getContext('2d');
-            this.data = data;
-            this.width = width;
-            this.height = height;
-            this.bars = [];
-            this.barsWidth = [];
-        }
-
-        drawBars() {
-            for(let i = 0; i < this.data.length; i++) {
-                let barProps = {
-                    c: this.c,
-                    ctx: this.ctx,
-                    value: this.data[i],
-                    x: this.bars[i - 1] ? this.bars[i - 1].x - this.barsWidth[i]/2 + this.barsWidth[i - 1]/2 : this.c.width/2 - this.width/2,
-                    y: i * this.height,
-                    width: this.barsWidth[i],
-                    height: this.height - 1,
-                    nextBarWidth: this.barsWidth[i + 1],
-                    index: i
-                };
-
-                if(barProps.width && barProps.height) {
-                    const bar = new chartBar({...barProps});
-                    bar.draw();
-                    this.addBar(bar);
-                } else {
-                    this.bars.push();
-                }
-            }
-        }
-
-        addBar(bar) {
-            this.bars.push(bar);
-        }
-
-        getBarsWidth() {
-            this.barsWidth = this.data.map((element,i) => {
-                return this.data[i]/this.data[0] * this.width;
-            });
-        }
-
-        initBarsHover() {
-            let wrapper = document.getElementById("wrapper"),
-                buffer = document.getElementById("buffer"),
-                bufferCtx = buffer.getContext('2d'),
-                self = this;
-
-                bufferCtx.translate(0.5, 0.5);
-
-
-            buffer.width = 400;
-            buffer.height = (this.data.length + 2) * 30;
-
-            wrapper.onmousemove = function (e) {
-
-                let rect = self.c.getBoundingClientRect(),
-                    x = e.clientX - rect.left,
-                    y = e.clientY - rect.top,
-                    i = 0, r;
-
-                let tooltip = {
-                    width: 26,
-                    height: 26,
-                    x: function() { return  x - this.width/2 },
-                    y: function() { return y - self.bars[0].height - this.height/2 + (2 *self.bars[0].height) }
-                };
-
-                while (r = self.bars[i++]) {
-                    self.ctx.beginPath();
-                    self.ctx.rect(r.x, r.y, r.width, r.height);
-                    bufferCtx.clearRect(0,0, buffer.width, buffer.height);
-
-                    if(self.ctx.isPointInPath(x, y)) {
-                        bufferCtx.beginPath();
-                        bufferCtx.rect(tooltip.x(), tooltip.y(), tooltip.width, tooltip.height);
-
-                        bufferCtx.strokeStyle = "#fff";
-                        bufferCtx.fillStyle = self.bars[i - 1].color;
-                        bufferCtx.lineWidth = "2";
-
-                        bufferCtx.font="16px font";
-                        bufferCtx.textAlign="center";
-                        bufferCtx.textBaseline = "middle";
-
-                        bufferCtx.stroke();
-                        bufferCtx.fill();
-                        bufferCtx.fillStyle = "#fff";
-                        bufferCtx.fillText(self.bars[i - 1].value, tooltip.x() + tooltip.width/2, tooltip.y() + tooltip.height/2);
-
-                        break;
-                    } else {
-                        bufferCtx.clearRect(0,0, buffer.width, buffer.height);
-                    }
-                }
-            };
-        }
-
-        init() {
-            this.getBarsWidth();
-            this.drawBars();
-            this.initBarsHover();
-        }
-    }
-
-    class chartBar {
-        constructor({c, ctx, value, x, y, width, height, nextBarWidth, index}) {
-            this.c = c;
-            this.ctx = ctx;
-            this.value = value;
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
-            this.nextBarWidth = nextBarWidth || 0;
-            this.index = index;
-            this.color = this.getRndColor();
-        }
-
-        draw() {
-            let x = [];
-
-            x[0] = this.x;
-            x[1] = x[0] + this.width;
-            x[2] = x[1] - (this.width - this.nextBarWidth)/2;
-            x[3] = x[2] - this.nextBarWidth;
-            this.ctx.beginPath();
-
-            this.ctx.fillStyle = this.color;
-            this.ctx.strokeStyle = this.color;
-
-            x = x.map(coord => {
-                return parseInt(coord) + 0.5; // It was made in order to canvas API , to get a high quality image. Works with ctx.translate(0.5, 0.5);
-            });
-
-            this.y = parseInt(this.y) + 0.5;
-            this.ctx.moveTo(x[0],this.y);
-            this.ctx.lineTo(x[1],this.y);
-            this.ctx.lineTo(x[2],this.y + this.height);
-            this.ctx.lineTo(x[3],this.y + this.height);
-            this.ctx.closePath();
-
-            this.ctx.stroke();
-            this.ctx.fill();
-        }
-
-        getRndColor() {
-            const colors = ['#29a2cc','#d31e1e','#7ca82b','#ef8535','#a14bc9','#a05f18',
-                '#265e96','#6b7075','#96c245','#b5a603','#492658','#515e82',
-                '#791f47','#525f82','#7a2149','#bba33b','#e66508','#980826'];
-
-            return colors[this.index % colors.length];
-        }
-    }
-
-        return report;
-    }]);
 
 angular.module('services.vacancy', [
     'ngResource'
@@ -14193,7 +14121,14 @@ angular.module('services.vacancy', [
 
     };
 
-    vacancy.languageLevelData = ['_undefined', 'Basic', 'Pre_Intermediate', 'Intermediate', 'Upper_Intermediate', 'Advanced', 'Native'];
+    vacancy.languageLevelData = [
+        {value:'_undefined', text:'_undefined'},
+        {value:'Basic', text:'Basic'},
+        {value:'Pre_Intermediate', text:'Pre_Intermediate'},
+        {text:'Upper_Intermediate',value:'Upper_Intermediate'},
+        {text:'Advanced', value:'Advanced'},
+        {text:'Native', value:'Native'}
+    ];
 
     vacancy.getInterviewStatus = function() {
         return [
@@ -14261,9 +14196,7 @@ angular.module('services.vacancy', [
             "page": {"number": 0, "count": 100},
             "words": null,
             "position": null,
-            "clientId": null,
-            "salaryFrom": null,
-            "salaryTo": null
+            "clientId": null
         };
     };
     vacancy.init();
@@ -14281,22 +14214,6 @@ angular.module('services.vacancy', [
             },() =>{
                 reject();
             });
-        });
-    };
-
-    vacancy.getAllVacanciesAmount = function() {
-        return new Promise((resolve, reject) => {
-            vacancy.all(vacancy.searchOptions(), response => {
-                resolve(response);
-            }, error => reject(error));
-        });
-    };
-
-    vacancy.getVacancy = function(params) {
-        return new Promise((resolve, reject) => {
-            vacancy.one(params, response => {
-                resolve(response);
-            }, error => reject(error));
         });
     };
 
@@ -14333,14 +14250,12 @@ angular.module('services.vacancyStages', [
                     }
                 }
             });
-
         vacancyStages.requestVacancyStages = function (params){
             $rootScope.loading = true;
             return new Promise((resolve, reject) => {
                 vacancyStages.get(params, resp => resolve(resp, resp.request = 'stageFull'),error => reject(error));
             });
         };
-
         return vacancyStages;
     }]);
 
@@ -14367,7 +14282,6 @@ angular.module('services', [
         'services.employee',
         'services.action',
         'services.vacancyStages',
-        'services.vacancyReport',
         'services.reportAll',
         'services.task',
         'services.file',
@@ -14382,6 +14296,7 @@ angular.module('services', [
         'services.translateWords',
         'services.CustomReportsService',
         'services.CustomReportEditService',
+        'services.reportsService',
         'services.slider'
     ]
 );
@@ -15069,7 +14984,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=66'
+        suffix: '.json?b=82'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -18329,23 +18244,19 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 266){
+                }else if(width >= 201){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto'});
                 }else{
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
-            if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
-            }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
-            }
+           img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
         };
     $scope.callbackAddPhoto = function(photo) {
         $rootScope.loading = false;
         $scope.candidate.photo = photo;
         $scope.photoLink = $scope.serverAddress + "/getapp?id=" + photo + "&d=true";
-        $scope.imgWidthFunc();
+        $scope.imgWidthFunc(photo);
         Candidate.progressUpdate($scope, true);
         $rootScope.closeModal();
     };
@@ -19279,6 +19190,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     localStorage.removeItem('candidatesInStagesVac');
     localStorage.removeItem('getAllCandidates');
     Candidate.getCandidate = [];
+    let languagetLevelDataForTranslates = [];
     vacancyStages.get(function (resp) {
         $scope.customStages = resp.object.interviewStates;
         $rootScope.customStages = resp.object.interviewStates;
@@ -19295,17 +19207,13 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
             }else if(width >= 350){
                 $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-            }else if(width >= 266){
+            }else if(width >= 201){
                 $('#page-avatar').css({'width': '100%', 'height': 'auto'});
             }else{
                 $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
             }
         };
-        if($location.$$host == '127.0.0.1'){
-            img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
-        }else{
-            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
-        }
+        img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + id + '&d=' + $rootScope.me.personId;
     };
     $rootScope.closeModal = function(){
         $scope.modalInstance.close();
@@ -19856,12 +19764,16 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     };
     $scope.statusAssoc = Candidate.getStatusAssociative();
     $scope.employmentType = Service.employmentType();
+    $scope.employmentType = $scope.employmentType.map(item => {return {value:item.value,text:item.value}});
     $scope.experience = Service.experience();
+    $scope.experience = $scope.experience.map(item => {return {value:item.value, text:$filter('translate')(item.value)}});
     $scope.extensionHas = false;
     //$scope.cities = [];
     Service.getRegions2(function (countries, cities) {
-        console.log(countries);
-        //console.log(cities);
+        console.log(countries, 'countries');
+        console.log(cities, 'countries');
+        setTextfielsInObject(countries);
+        setTextfielsInObject(cities);
         $scope.countries = countries;
         $scope.cities = cities;
         //var optionsHtml = '<option value="null" style="color:#999">'+$filter('translate')('region')+'</option>';
@@ -19920,8 +19832,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.ageSearchTo = [];
     Service.gender($scope);
     for (var i = 15; i <= 80; i++) {
-        $scope.ageSearchFrom.push(i);
-        $scope.ageSearchTo.push(i);
+        $scope.ageSearchFrom.push({text:i,value:true});
+        $scope.ageSearchTo.push({text:i,value:false});
     }
     $rootScope.loading = false;
     $scope.isSearched = false;
@@ -19940,17 +19852,33 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $rootScope.clear = function () {
         Candidate.setOptions("sort", 'dm');
+        languagetLevelDataForTranslates = [];
         $scope.searchParam.searchType = "AllWords";
         $scope.searchParam.name = null;
-        $scope.searchParam.regionId = null;
-        $scope.searchParam.regionIdCity = null;
+        $scope.searchParam.regionId = {
+            value: null,
+            text:''
+        };
+        $scope.searchParam.regionIdCity = {
+            value: null,
+            text:''
+        };
         $scope.searchParam.salary = null;
-        $scope.searchParam.status = 'null';
-        $scope.searchParam.sex = 'null';
-        $scope.searchParam.employmentType = 'null';
+        $scope.searchParam.status = {text: '', value:'null', translate:''};
+        $scope.searchParam.sex = {text:'',value:null};
+        $scope.searchParam.employmentType = {
+            value: null,
+            text:''
+        };
         $scope.searchParam.industry = 'null';
-        $scope.searchParam.ageFrom = null;
-        $scope.searchParam.ageTo = null;
+        $scope.searchParam.ageFrom = {
+            text:'',
+            value:true
+        };
+        $scope.searchParam.ageTo={
+            text:'',
+            value:true
+        };
         $scope.searchParam.words = null;
         $scope.searchParam.company = null;
         $scope.searchParam.position = null;
@@ -19962,16 +19890,25 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam.personNameWhoSearching = $rootScope.usernameThatIsSearching;
         $scope.searchParam.pages = {count: $scope.startPagesShown};
         $scope.searchParam.experience = 'null';
-        $scope.searchParam.languages =  'null';
+        $scope.searchParam.languages =  {
+            value:null,
+            text:true
+        };
         $scope.searchParam.origin = null;
         $scope.searchParam.skills = [];
-        $scope.searchParam.withPersonalContacts = 'null';
+        $scope.searchParam.withPersonalContacts = {
+            value:null,
+            text:''
+        };
         $scope.setSkillAutocompleterValueForSearch('');
         $scope.setOriginAutocompleterValue("source");
         resetLanguagesSearCriterion();
     };
     $rootScope.clearSearchRegion = function(){
-        $scope.searchParam.regionId = 'null';
+        $scope.searchParam.regionId = {
+            value:null,
+            text:''
+        };
     };
     if (localStorage.countCandidate) {
         $scope.startPagesShown = localStorage.countCandidate;
@@ -19982,12 +19919,27 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam = {
             searchType: "AllWords",
             salary: null,
-            status: 'null',
-            sex: 'null',
-            employmentType: 'null',
+            status: {
+                value:'null',
+                text:''
+            },
+            sex: {
+                value:null,
+                text:''
+            },
+            employmentType: {
+                value: null,
+                text:''
+            },
             industry: 'null',
-            ageFrom: null,
-            ageTo: null,
+            ageFrom:{
+                text:'',
+                value:true
+            },
+            ageTo:{
+                text:'',
+                value:true
+            },
             sort: 'dm',
             sortOrder: 'DESC',
             words: null,
@@ -19997,16 +19949,29 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             searchExternal: false,
             searchSocial: false,
             searchIn: false,
-            regionId: 'null',
+            regionId: {
+                text:'',
+                value:null
+            },
+            regionIdCity: {
+                text:'',
+                value:null
+            },
             candidateGroupIds: null,
             searchFullTextType: null,
-            withPersonalContacts: 'null',
+            withPersonalContacts: {
+                value:null,
+                text:''
+            },
             responsibleId: null,
             personId: Candidate.searchOptions().personId,
             personNameWhoSearching: $rootScope.usernameThatIsSearching,
             pages: {count: $scope.startPagesShown},
             experience: null,
-            languages: 'null',
+            languages: {
+                value:null,
+                text:''
+            },
             skills: []
         };
         $scope.staticSearchParam = [];
@@ -20014,8 +19979,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             searchType: "AllWords",
             salary: null,
             status: 'null',
-            sex: 'null',
-            employmentType: 'null',
+            sex: {
+                value: null,
+                text: ''
+            },
+            employmentType: {
+                value: null,
+                text:''
+            },
             industry: 'null',
             ageFrom: null,
             ageTo: null,
@@ -20023,13 +19994,20 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             sortOrder: 'DESC',
             words: null,
             position: null,
-            withPersonalContacts: 'null',
+            withPersonalContacts: null,
             searchCs: true,
             candidateGroups: null,
             searchExternal: false,
             searchSocial: false,
             searchIn: false,
-            regionId: 'null',
+            regionId: {
+                value: null,
+                text:''
+            },
+            regionIdCity: {
+                value: null,
+                text:''
+            },
             candidateGroupIds: null,
             searchFullTextType: null,
             responsibleId: 'null',
@@ -20037,7 +20015,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             personNameWhoSearching: $rootScope.usernameThatIsSearching,
             pages: {count: $scope.startPagesShown},
             experience: null,
-            languages: 'null',
+            languages: {
+                value:null,
+                text:''
+            },
             skills: []
         })
     };
@@ -20133,50 +20114,33 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 }
 
                 $scope.searchParam.pages.count = params.$params.count;
-                if ($scope.searchParam['regionId'] == 'null') {
-                    $scope.searchParam['regionId'] = null;
-                }
-                if ($scope.searchParam['regionIdCity'] == 'null') {
-                    $scope.searchParam['regionIdCity'] = null;
-                }
-                if ($scope.searchParam['regionId']) {
-                    if($scope.searchParam['regionIdCity']){
-                        Candidate.setOptions("country", $scope.searchParam['regionId']);
-                        Candidate.setOptions("city", $scope.searchParam['regionIdCity']);
-                    }else{
-                        Candidate.setOptions("city", null);
-                        Candidate.setOptions("country", $scope.searchParam['regionId']);
-                    }
-                } else {
-                    Candidate.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
-                    Candidate.setOptions("city", activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null);
-                }
-
 
                 Candidate.setOptions("allContainsWords", $scope.searchParam.allContainsWords);
+                Candidate.setOptions("country", $scope.searchParam.regionId.value? $scope.searchParam.regionId.value : null);
+                Candidate.setOptions("city", $scope.searchParam.regionIdCity.value? $scope.searchParam.regionIdCity.value : null);
                 Candidate.setOptions("name", $scope.searchParam.name);
                 Candidate.setOptions("position", $scope.searchParam.position);
                 Candidate.setOptions("experience", $scope.searchParam.experience);
                 Candidate.setOptions("searchWordsInPosition", $scope.searchParam.searchWordsInPosition);
                 Candidate.setOptions("requiredAllContainsWords", $scope.searchParam.requiredAllContainsWords);
-                Candidate.setOptions("dateTo", isNotBlank($scope.searchParam['ageFrom']) ?
-                    new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageFrom'])).getTime() : null);
-                Candidate.setOptions("dateFrom", isNotBlank($scope.searchParam['ageTo']) ?
-                    new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageTo'])).getTime() : null);
-                Candidate.setOptions("state", isNotBlank($scope.searchParam['status']) ? $scope.searchParam['status'] : null);
+                Candidate.setOptions("dateTo", $scope.searchParam['ageFrom'] && $scope.searchParam['ageFrom'].text ?
+                    new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageFrom'].text)).getTime() : null);
+                Candidate.setOptions("dateFrom", $scope.searchParam['ageTo'].text ?
+                    new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageTo'].text)).getTime() : null);
+                Candidate.setOptions("state", isNotBlank($scope.searchParam['status'].value) ? $scope.searchParam['status'].value : null);
                 Candidate.setOptions("words", isNotBlank($scope.searchParam['words']) ? $scope.searchParam['words'] : null);
                 Candidate.setOptions("salaryTo", $scope.searchParam['salary'] ? $scope.searchParam['salary'] : null);
-                Candidate.setOptions("sex", isNotBlank($scope.searchParam['sex']) ? $scope.searchParam['sex'] : null);
-                Candidate.setOptions("employmentType", isNotBlank($scope.searchParam['employmentType']) ? $scope.searchParam['employmentType'] : null);
+                Candidate.setOptions("sex", isNotBlank($scope.searchParam['sex'].text) ? $scope.searchParam['sex'].value : null);
+                Candidate.setOptions("employmentType", isNotBlank($scope.searchParam['employmentType'].value) ? $scope.searchParam['employmentType'].value : null);
                 Candidate.setOptions("responsibleId", isNotBlank($scope.searchParam['responsibleId']) ? $scope.searchParam['responsibleId'] : null);
                 Candidate.setOptions("industry", isNotBlank($scope.searchParam['industry']) ? $scope.searchParam['industry'] : null);
                 Candidate.setOptions("candidateGroupIds", $scope.searchParam['candidateGroupIds'] ? $scope.searchParam['candidateGroupIds'] : null);
-                Candidate.setOptions("experience", isNotBlank($scope.searchParam['experience']) ? $scope.searchParam['experience'] : null);
-                Candidate.setOptions("languages", $scope.searchParam['languages'] !== 'null' && $scope.searchParam['languages'].length > 0 ? $scope.searchParam['languages'] : []);
+                Candidate.setOptions("experience", $scope.searchParam['experience'] ? $scope.searchParam['experience'].value : null);
+                Candidate.setOptions("languages", $scope.searchParam['languages'].value ? $scope.searchParam['languages'].value : []);
                 Candidate.setOptions("searchFullTextType", isNotBlank($scope.searchParam['searchFullTextType']) ? $scope.searchParam['searchFullTextType'] : null);
                 Candidate.setOptions("sort", isNotBlank($scope.filterForChange) ? $scope.filterForChange : null);
                 Candidate.setOptions("sortOrder", $scope.filterForChange == 'alphabetically' ? 'ASC' : 'DESC');
-                Candidate.setOptions("withPersonalContacts", $scope.searchParam['withPersonalContacts'] == 'null' ? null: $scope.searchParam['withPersonalContacts'] == "true");
+                Candidate.setOptions("withPersonalContacts", $scope.searchParam['withPersonalContacts'].value === null ? null: $scope.searchParam['withPersonalContacts'].value);
                 Candidate.setOptions("skills",$scope.searchParam.skills.name ? [{name: $scope.getSkillAutocompleterValueForSearch(),type: $scope.searchParam.skills.type}] : null);
                 Candidate.setOptions("origin", isNotBlank($scope.searchParam['origin']) ? $scope.searchParam['origin'] : null);
                 $scope.criteriaForExcel = angular.copy(Candidate.searchOptions());
@@ -20203,7 +20167,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                             if(response.status === "error") {
                                 notificationService.error(response.message);
                             } else {
-                                $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
+                                // $scope.searchParam['withPersonalContacts'] = $scope.searchParam['withPersonalContacts'].toString();
                                 $rootScope.objectSize = response['objects'] ? response['total'] : 0;
                                 localStorage.setItem('objectSize',  $rootScope.objectSize);
                                 $rootScope.objectSizeCand = $rootScope.objectSize;
@@ -20268,12 +20232,15 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
         }
     };
+
     $scope.$watch('filterForChange', function (newVal, oldVal) {
         if(newVal != undefined && oldVal != newVal){
             $scope.changeFilter(newVal);
         }
     });
+
     Person.getAllPersons(function (resp) {
+        let obj, person;
         $scope.persons = [];
         $rootScope.persons = [];
         $rootScope.personsNotChanged = [];
@@ -20283,6 +20250,21 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $rootScope.persons.push($scope.associativePerson[key]);
             $rootScope.personsNotChanged.push($scope.associativePerson[key]);
         });
+
+        $scope.personsNameOrStatus = $scope.persons.map((item, index) => {
+            let me = "(Me) ";
+            if(item.userId === $rootScope.me.userId){
+                me += item.cutFullName;
+                item.cutFullName = me;
+                obj = {text:item.cutFullName, status:item.status, id:item.userId};
+                person = Object.assign({}, obj);
+                return obj;
+            }
+            return {text:item.cutFullName, status:item.status, id:item.userId}
+        }).sort((a, b) => {return (b.status > a.status)? -1 : 1});
+
+        $scope.personsNameOrStatus.splice($scope.personsNameOrStatus.indexOf(obj), 1);
+        $scope.personsNameOrStatus.unshift(person);
     });
 
     $scope.changeInputPage = function(params,searchNumber){
@@ -20315,11 +20297,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $(document).click(function (){
         if($(".AdvancedSearchCandidate").css('display') != 'none'){
+            removeActiveBlock()
             $scope.showAdvancedSearchCandidateFuncHide();
             $scope.$apply();
         }
     });
-    $(".AdvancedSearchCandidate,.sortBy").click(function (e){
+    $(".sortBy").click(function (e){
         e.stopPropagation();
     });
 
@@ -20342,6 +20325,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     };
 
     $scope.closeSearchTags = function (param){
+
         if(param == 'industry'){
             $scope.staticSearchParam[0].industry = 'null';
             $scope.searchParam.industry = null;
@@ -20356,14 +20340,21 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $scope.staticSearchParam[0].skills.type = '_all';
             $scope.searchParam.skills.type = '_all';
         }else if(param == 'sex'){
-            $scope.staticSearchParam[0].sex = 'null';
-            $scope.searchParam.sex = 'null';
+            $scope.staticSearchParam[0].sex.value = null;
+            $scope.searchParam.sex = {
+                value:null,
+                text:''
+            };
         }else if(param == 'salary'){
             $scope.staticSearchParam[0].salary = null;
             $scope.searchParam.salary = null;
         }else if(param == 'status'){
             $scope.staticSearchParam[0].status = 'null';
-            $scope.searchParam.status = 'null';
+            $scope.searchParam.status = {
+                value:'null',
+                text:'',
+                translate:''
+            };
         }else if(param == 'ageFrom'){
             $scope.staticSearchParam[0].ageFrom = null;
             $scope.searchParam.ageFrom = null;
@@ -20374,7 +20365,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             resetLanguagesSearCriterion()
         }else if(param == 'experience'){
             $scope.staticSearchParam[0].experience = 'null';
-            $scope.searchParam.experience = 'null';
+            $scope.searchParam.experience = null;
         }else if(param == 'candidateGroupIds'){
             $scope.staticSearchParam[0].candidateGroupIds = null;
             $scope.searchParam.candidateGroupIds = null;
@@ -20382,9 +20373,18 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $scope.staticSearchParam[0].words = null;
             $scope.searchParam.words = null;
             $scope.searchParam.searchFullTextType = null;
-        }else if(param == 'name'){
+        }else if(param == 'name') {
             $scope.staticSearchParam[0].name = null;
             $scope.searchParam.name = null;
+        }else if(param == 'employmentType'){
+            $scope.staticSearchParam[0].employmentType = {
+                value: null,
+                text:''
+            };
+            $scope.searchParam.employmentType = {
+                value: null,
+                text:''
+            };
         }else if(param == 'position'){
             $scope.staticSearchParam[0].position = null;
             $scope.searchParam.position = null;
@@ -20398,12 +20398,23 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $scope.staticSearchParam[0].responsibleId = 'null';
             $scope.searchParam.responsibleId = 'null';
         }else if(param == 'regionId'){
-            $scope.staticSearchParam[0].regionId = 'null';
-            $scope.searchParam.regionId = null;
-            $scope.searchParam.regionIdCity = null;
+            $scope.staticSearchParam[0].regionId = {
+                value:null,
+                text:''
+            };
+            $scope.searchParam.regionId = {
+                value:null,
+                text:''
+            };
+            $scope.searchParam.regionIdCity = {
+                value:null,
+                text:''
+            };
         }else if(param == 'withPersonalContacts'){
-            $scope.staticSearchParam[0].withPersonalContacts = 'null';
-            $scope.searchParam.withPersonalContacts = 'null';
+            $scope.searchParam.withPersonalContacts = {
+                value: null,
+                text:''
+            }
         }else if(param == 'origin'){
             $scope.staticSearchParam[0].origin = null;
             $scope.searchParam.origin = null;
@@ -20423,15 +20434,16 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     }
 
 
-    $scope.searchLevelLanguage = function (chosenLang, level, index) {
+    $scope.searchLevelLanguage = function (chosenLang, level, index, scope) {
         let data = $scope.chosenLangs, indexLang = data.indexOf(chosenLang);
 
         if(isDuplicateLanguage(data[indexLang],level, indexLang)) {
             notificationService.error("Language with this level is already selected");
-            document.querySelectorAll('.language-level')[index]['0'].selected = true;
+            // document.querySelectorAll('.language-level');
+            console.log(scope.level = '', 'scope')
             return;
         }
-
+        console.log(scope);
         if(data[indexLang] && level !== '_undefined'){
             data[indexLang].level = level;
         }
@@ -20469,6 +20481,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         let index = $scope.chosenLangs.indexOf(selectedLang);
         $scope.chosenLangs.splice(index, 1);
         $scope.currentLang = 'null';
+        event.stopPropagation();
     };
 
     $scope.inHover = function () {
@@ -20483,8 +20496,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $rootScope.clickSearch(true);
     };
     $rootScope.clickSearch = function (isClean) {
-        if(($scope.searchParam.salary != null || $scope.searchParam.status != 'null' ||
-                $scope.searchParam.sex != 'null' || $scope.searchParam.employmentType != 'null' ||
+        if(($scope.searchParam.salary != null || $scope.searchParam.status.value != 'null' ||
+                $scope.searchParam.sex.value != 'null' || $scope.searchParam.employmentType.value != 'null' ||
                 $scope.searchParam.industry != 'null' || $scope.searchParam.ageFrom != null ||
                 $scope.searchParam.ageTo != null || $scope.filterForChange != 'dm' ||
                 $scope.searchParam.sortOrder != 'DESC' || $scope.searchParam.words != null || $scope.searchParam.name != null ||
@@ -20492,8 +20505,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 $scope.searchParam.regionId != null || $scope.searchParam.regionIdCity != null ||
                 $scope.searchParam.candidateGroupIds != null || $scope.searchParam.searchFullTextType != null ||
                 $scope.searchParam.responsibleId != 'null' || $scope.searchParam.personId != null ||
-                $scope.searchParam.experience != 'null' || $scope.searchParam.languages != 'null' ||
-                $scope.searchParam.skills.type != '_all' || $scope.searchParam.withPersonalContacts != 'null') || ($scope.searhcForSure)||
+                $scope.searchParam.experience != 'null' || $scope.searchParam.languages.value  ||
+                $scope.searchParam.skills.type != '_all' || ($scope.searchParam.withPersonalContacts.value != 'null' && $scope.searchParam.withPersonalContacts.value)) || ($scope.searhcForSure)||
                 $scope.chosenLangs.some(item => item != 'null') || $scope.groupIdsForSearch){
 
             $scope.searhcForSure = false;
@@ -20515,7 +20528,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 notificationService.error($filter('translate')('This tag is not added to any candidate'));
             }
 
-            (!isClean)? $scope.searchParam['languages'] = $scope.chosenLangs.filter(item => item !== 'null'):null;
+            (!isClean)? $scope.searchParam['languages'].value = $scope.chosenLangs.filter(item => item !== 'null'):null;
 
 
             if($scope.searchParam.words && !$scope.searchParam.words.length){
@@ -20524,11 +20537,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
 
             var array = [];
+            console.log($scope.searchParam);
             array.push({
                 searchType: '',
                 salary: $scope.searchParam.salary,
-                status: $scope.searchParam.status,
-                sex: $scope.searchParam.sex,
+                status: $scope.searchParam.status.value,
+                sex:{value:$scope.searchParam.sex.value, text:$scope.searchParam.sex.text},
                 employmentType: $scope.searchParam.employmentType,
                 industry: $scope.searchParam.industry,
                 ageFrom: $scope.searchParam.ageFrom,
@@ -20552,15 +20566,16 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 personNameWhoSearching: $rootScope.usernameThatIsSearching,
                 pages: {count: $scope.startPagesShown},
                 experience: $scope.searchParam.experience,
+                experience: $scope.searchParam.experience,
                 languages: $scope.searchParam.languages,
                 skills: $scope.searchParam.skills,
                 origin: $scope.searchParam.origin,
-                withPersonalContacts: $scope.searchParam.withPersonalContacts
+                withPersonalContacts: $scope.searchParam.withPersonalContacts.value
             });
             $scope.staticSearchParam = array;
             if ($scope.searchParam['name'] ||
                 $scope.searchParam['salary'] ||
-                $scope.searchParam['status'] ||
+                $scope.searchParam['status'].value ||
                 $scope.searchParam['words'] ||
                 $scope.searchParam['ageTo'] ||
                 $("#regionExternalSearchRegion").select2('data') ||
@@ -20655,7 +20670,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         }
     };
     $scope.selectRegion = function (val) {
-        if ($scope.searchParam.regionId != null) {
+        if ($scope.searchParam.regionId.value != null) {
             var json = JSON.parse($scope.searchParam.regionId);
             return json != null && val.value == json.value;
         }
@@ -20688,6 +20703,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         }
     };
     $scope.status = Candidate.getStatus();
+    $scope.statusFilter= $scope.status.map(item => {
+        return {text:item.value};
+    });
+
     if ($localStorage.isExist("candidateSearchObject")) {
         var json = JSON.parse($localStorage.get("candidateSearchObject"));
         $scope.searchExternalObject = json.searchExternalObject;
@@ -20780,6 +20799,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $scope.langs = Candidate.getLangInOrg(function (resp) {
         if (resp.object) {
+            resp.object.forEach(item => item.text = item.name);
             $scope.langsReceived = resp.object;
             angular.forEach($scope.langsReceived, function (val) {
                 if(val.name != undefined){
@@ -20795,32 +20815,20 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             $location.path('candidates/' + user.localId);
         }
     };
-    $scope.setSearchedRegion = function(){
+    $scope.setSearchedRegion = function(region){
+        console.log(region, 'region')
+        $scope.searchParam.regionId = region;
         $scope.city = [];
-        $scope.searchParam.regionIdCity = null;
+        $scope.searchParam.regionIdCity = {value:null, text:""};
+
         angular.forEach($scope.cities, function (nval) {
-            if(nval.type == 'city' && (nval.country == $scope.searchParam.regionId || nval.countryRu == $scope.searchParam.regionId)){
+            if(nval.type == 'city' && (nval.country == $scope.searchParam.regionId.value || nval.countryRu == $scope.searchParam.regionId.value)){
                 $scope.city.push(nval);
             }
         });
-        var uniqueArray = removeDuplicates($scope.city, "id");
-        $scope.city = uniqueArray;
-        console.log($scope.city);
-        //$scope.searchParam.regionIdCity = null;
-        //var obj = JSON.parse($scope.searchParam.regionId);
-        //if(obj.type == 'country'){
-        //    $scope.searchedRegion = JSON.parse($scope.searchParam.regionId);
-        //    $('#cs-region-filter-select-cities').find('option').remove();
-        //    var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
-        //    angular.forEach($scope.cities, function (value) {
-        //        if(value.type == 'city' && value.country == $scope.searchedRegion.country){
-        //            optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-        //        }
-        //    });
-        //    $('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
-        //}else{
-        //    $scope.searchedRegionCity = JSON.parse($scope.searchParam.regionIdCity);
-        //}
+        // var uniqueArray = removeDuplicates($scope.city, "id");
+        // $scope.city = uniqueArray;
+        console.log($scope.city, 'cityyyyy');
     };
     if($rootScope.changeSearchTypeNotFromCandidates){
         $scope.changeSearchType($rootScope.changeSearchTypeNotFromCandidates);
@@ -21134,6 +21142,82 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
         });
     };
+
+    $scope.parentClick = function (event) {
+        let element = event.target;
+
+        isClickInAdvancedSearchCandidate(element, event);
+
+        if(element.classList.contains('select-input-field')){
+            clickOnSelectBlock(element);
+            return;
+        }
+
+        removeActiveBlock();
+    };
+
+    function selectResponsible(vacancy) {
+        $scope.searchParam.responsibleId = vacancy.id;
+        $scope.responsibleName = vacancy.text;
+        removeActiveBlock();
+    }
+
+    function clickOnSelectBlock(element) {
+        if(element.classList.contains('select-input-field')){
+            removeActiveBlock();
+            element.nextElementSibling.style = '';
+            element.nextElementSibling.classList.toggle('activeBlock');
+            return;
+        }
+    }
+
+    function isClickInAdvancedSearchCandidate(element, event){
+        while (element && !element.classList.contains('row')){
+            if(element.classList.contains('AdvancedSearchCandidate')){
+                console.log(element, '123');
+                event.stopPropagation();
+                return;
+            }
+            element = element.parentNode;
+        }
+    }
+
+    function removeActiveBlock() {
+        let activeBlock = document.querySelector('.activeBlock');
+        if(activeBlock){
+            activeBlock.style.zIndex = '-1';
+            activeBlock.classList.remove('activeBlock');
+        }
+    }
+
+    function setTextfielsInObject(data) {
+        for(let i in data){
+            data[i]["text"] = data[i]["name"];
+        }
+    }
+
+    $scope.selectResponsible = selectResponsible;
+    $scope.selectStatus = item => $scope.searchParam.status = {text:$filter('translate')(item.text), value:item.text, translate:item.text};
+    $scope.selectWithPersonalContacts = item => $scope.searchParam.withPersonalContacts =  {text:$filter('translate')(item.text), value:item.value, translate:item.text};
+    $scope.selectPersonSex = item => {$scope.searchParam.sex = {text:$filter('translate')(item.text), value:item.value, translate:item.text};};
+    $scope.selectPersonAge = item => (item.value)? $scope.searchParam.ageFrom = item:$scope.searchParam.ageTo = item;
+    $scope.selectEmploymentType = item => $scope.searchParam.employmentType = {text:$filter('translate')(item.text), value:item.text, translate:item.text};
+    $scope.selectExperience = item => $scope.searchParam.experience = item;
+    $scope.selectRegionIdCity = item => $scope.searchParam.regionIdCity  = item;
+    $scope.selectLanguages = item => {
+        $scope.searchParam.languages  = item
+        $scope.addSearchLang(item['text']);
+    };
+
+    $scope.selectLanguagesLevel = (item, $scope, event, $index) => {
+        $scope.level = $filter('translate')(item.text);
+        languagetLevelDataForTranslates.forEach((obj, index) => (obj.$scope == $scope)? languagetLevelDataForTranslates.splice(index, 1):null);
+        languagetLevelDataForTranslates.push({$scope,item});
+        $scope.searchLevelLanguage($scope.chosenLang, item.text, $index, $scope);
+    };
+
+    $rootScope.$on('$translateChangeSuccess', translate);
+
     FileInit.initFileExcellUpload($rootScope, $scope, "candidate", {allowedType: ["xls", "xlsx"]}, $filter);
 
     function resetLanguagesSearCriterion() {
@@ -21142,6 +21226,21 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.searchParam.languages = [];
         $scope.currentLang = 'null';
         $scope.level = '_undefined';
+        languagetLevelDataForTranslates = [];
+    }
+
+    function translate() {
+        if(languagetLevelDataForTranslates.length){
+            languagetLevelDataForTranslates.forEach(elem => {
+                elem['$scope']['level'] = $translate.instant(elem['item']['value']);
+            });
+        }
+
+        for(let data in $scope.searchParam){
+            if($scope.searchParam[data] && $scope.searchParam[data].text){
+                $scope.searchParam[data].text = $filter('translate')($scope.searchParam[data].translate);
+            }
+        }
     }
 }
 controller.controller('CandidateController', ["$localStorage", "$translate", "Service", "$scope", "ngTableParams",
@@ -21930,15 +22029,13 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
+                }else if(width >= 201){
+                    $('#page-avatar').css({'width': '100%', 'height': 'auto'});
                 }else{
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
-            if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
         };
         $scope.callbackAddPhoto = function(photo) {
             $rootScope.loading = false;
@@ -22441,6 +22538,38 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 resolve: {
 
                 }
+            });
+        };
+
+
+        $scope.removeSource = function () {
+            $scope.removableSource = $scope.getOriginAutocompleterValue();
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/origin-remove.html',
+                scope: $scope,
+                size: '',
+                resolve: {
+
+                }
+            });
+        };
+
+        $scope.confirmDeleteOrigin = function () {
+            Candidate.removeOriginAll({
+                origin: $scope.removableSource
+            },function (resp) {
+                if(resp.status != "error") {
+                    $scope.modalInstance.close();
+                    notificationService.success($filter("translate")("Origin removed"));
+                    $scope.setOriginAutocompleterValue();
+                } else {
+                    $scope.modalInstance.close();
+                    notificationService.error(resp.message);
+                }
+            }, function (err) {
+                $scope.modalInstance.close();
+                notificationService.error(err);
             });
         };
 
@@ -23989,11 +24118,7 @@ controller.controller('CandidateMergeController', ["$http", "$rootScope", "$scop
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
-            if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
         };
         $scope.callbackAddPhoto = function(photo) {
             $rootScope.loading = false;
@@ -25020,20 +25145,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 $scope.changeStatus = $scope.candidate.status;
                 cascadeStages();
 
-                var img = new Image();
-                img.onload = function() {
-                    var width = this.width;
-                    if(width >= 290){
-                        $('.photoWidth').css({'width': '100%', 'height': 'auto'});
-                    }else{
-                        $('.photoWidth').css({'width': 'inherit', 'display': 'block', 'margin': '0 auto'});
-                    }
-                };
-                if($location.$$host == '127.0.0.1'){
-                    img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-                }else{
-                    img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-                }
+                $scope.imgWidthFunc();
                 $rootScope.newTask.candidateId = $scope.candidate.candidateId;
                 angular.forEach($scope.candidate.interviews, function(value){
                     value.vacancyId.interviewStatusNotTouchable = value.vacancyId.interviewStatus;
@@ -25415,7 +25527,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             });
             //$rootScope.persons = $scope.persons;
         });
-        $scope.imgWidthFunc = function(){
+        $scope.imgWidthFunc = function(id){
             var img = new Image();
             img.onload = function() {
                 var width = this.width;
@@ -25427,17 +25539,13 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 266){
+                }else if(width >= 201){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto'});
                 }else{
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
-            if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
         };
         $scope.pathName = "candidate";
         $scope.callbackFile = function (resp, name) {
@@ -25876,6 +25984,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 } else {
                     changeObj.date = $('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate') != null ? $('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate') : customDate != undefined ? customDate : null;
                 }
+
+
                 if ($rootScope.showEmployedFields) {
                     Vacancy.editInterview({
                         "personId": $scope.personId,
@@ -25934,7 +26044,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             $('.changeStatusOfInterviewInVacancyPick').val("");
                             $scope.updateCandidate();
                             $scope.getLastEvent();
-                            notificationService.success($filter('translate')('candidate was added to the stage'));
+                            let changeStagesText ='The candidate has been transferred to the stage';
+
+                            notificationService.success(`${$filter('translate')(changeStagesText)} ${$filter('translate')(changeObj.status.value)}`);
                         } else if (resp.status == "error") {
                             $rootScope.clickedSaveStatusInterviewInVacancy = false;
                             notificationService.error(resp.message);
@@ -26017,7 +26129,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             $('.changeStatusOfInterviewInVacancyPick').val("");
                             $scope.updateCandidate();
                             $scope.getLastEvent();
-                            notificationService.success($filter('translate')('candidate was added to the stage'));
+                            let changeStagesText ='The candidate has been transferred to the stage';
+                            notificationService.success(`${$filter('translate')(changeStagesText)} ${$filter('translate')(changeObj.status.value)}`);
+
                         } else if (resp.status == "error") {
                             $rootScope.clickedSaveStatusInterviewInVacancy = false;
                             notificationService.error(resp.message);
@@ -26056,23 +26170,18 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $scope.editComment = history.descr;
         };
         $scope.changeComment = function(action, comment){
-            if(comment && comment.length > 0) {
-                Action.editAction({"comment": comment, "actionId": action.actionId}, function(resp){
-                    if (resp.status && angular.equals(resp.status, "error")) {
-                        notificationService.error(resp.message);
-                    }
-                    else {
-                        action.editCommentFlag = false;
-                        action.descr = resp.object.descr;
-                        action.new_komment = '';
-                        action.dateEdit = resp.object.dateEdit;
-                        notificationService.success($filter('translate')('Comment changed'));
-                    }
-                });
-            } else {
-                notificationService.error($filter('translate')('enter a comment'))
-            }
-
+            Action.editAction({"comment": comment, "actionId": action.actionId}, function(resp){
+                if (resp.status && angular.equals(resp.status, "error")) {
+                    notificationService.error(resp.message);
+                }
+                else {
+                    action.editCommentFlag = false;
+                    action.descr = resp.object.descr;
+                    action.new_komment = '';
+                    action.dateEdit = resp.object.dateEdit;
+                    notificationService.success($filter('translate')('Comment changed'));
+                }
+            });
         };
 
         $scope.showDeleteComment = function(resp) {
@@ -27708,6 +27817,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
     $scope.status = [
         {value: "future", name: "future"},
         {value: "in_work", name: "in work"},
+        {value: "on_hold", name: "on_hold"},
         {value: "all_done", name: "all done"},
         {value: "canceled", name: "canceled"},
         {value: "deleted", name: "deleted"}
@@ -27753,10 +27863,9 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             notificationService.error($filter('translate')('Enter more data for search'));
             return;
         }
-
         if($scope.searchParam.state.length == 0 && $scope.searchParam.words.length == 0 &&
             $scope.searchParam.name == null && $scope.searchParam.responsible == 'null' &&
-            $scope.searchParam.industry == 'null' && $scope.searchParam.regionIdCity == 'null'){
+            $scope.searchParam.industry == 'null' && $scope.searchParam.regionId == 'null' && $scope.searchParam.regionIdCity == 'null'){
             notificationService.error($filter('translate')('Enter the data'));
         }else{
             $scope.loader = true;
@@ -27834,14 +27943,22 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                 }
                 $scope.searchParam.pages.count = params.$params.count;
                 if ($scope.searchParam['regionId'] && $scope.searchParam['regionId'] != 'null') {
-                    if($scope.searchParam['regionIdCity'] && $scope.searchParam['regionIdCity'] != 'null'){
-                        var json = JSON.parse($scope.searchParam['regionIdCity']);
-                        if (json && json.type) {
-                            Client.setOptions("city", json.value);
+                    if($scope.searchParam['regionIdCity'] == null || $scope.searchParam['regionIdCity'] == 'null'){
+                        var jsonCity = JSON.parse($scope.searchParam['regionIdCity']);
+                        if (jsonCity == null) {
+                            Client.setOptions("city", null);
                         }
-                    }else{
                         var json = JSON.parse($scope.searchParam['regionId']);
                         Client.setOptions("country", json.value);
+                    }else{
+                        if($scope.searchParam['regionIdCity'] && $scope.searchParam['regionIdCity'] != 'null'){
+                            var json = JSON.parse($scope.searchParam['regionIdCity']);
+                            if (json && json.type) {
+                                Client.setOptions("city", json.value);
+                            }
+                            var jsonCity = JSON.parse($scope.searchParam['regionId']);
+                            Client.setOptions("country", jsonCity.value);
+                        }
                     }
                 } else {
                     Client.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
@@ -33384,7 +33501,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             });
         };
         $scope.enableViewClients = function(user) {
-            if(user.personParams.clientAccessLevel == 'full'){
+            if(user.personParams.clientAccessLevel == 'full' || !user.personParams.clientAccessLevel){
                 $scope.setPersonParam('clientAccessLevel', 'hide');
             }else{
                 $scope.setPersonParam('clientAccessLevel', 'full');
@@ -34807,7 +34924,6 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
     }
     $scope.searchParam = {
         searchCs: true,
-        salary: "",
         status: "",
         regionId: null,
         words: "",
@@ -34833,7 +34949,6 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
         }else if ($rootScope.previousLocation == '/clients/:id' && $rootScope.allClientsVacancies == true){
             $scope.searchParam = {
                 searchCs: true,
-                salary: "",
                 status: "",
                 regionId: null,
                 words: "",
@@ -34891,32 +35006,22 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
             notificationService.error($filter('translate')('Enter more data for search'));
             return;
         }
-        if($scope.searchParam['salaryName'] == null && $scope.searchParam.states == null &&
-            $scope.searchParam.state == null && $("#clientAutocompleater").select2('data') == null &&
+        if($scope.searchParam.states == null && $scope.searchParam.state == null && $("#clientAutocompleater").select2('data') == null &&
             $scope.searchParam.words.length == 0 && $scope.searchParam.name == null &&
             $scope.searchParam.position == null && $scope.searchParam.candidateGroups == null &&
             $scope.searchParam.regionId == null && $scope.searchParam.candidateGroupIds == null &&
             $scope.searchParam.searchFullTextType == null && $scope.searchParam['responsibleId'] == null &&
-            $scope.searchParam['personId'] == 'null'){
-            notificationService.error($filter('translate')('Enter the data'));
+            $scope.searchParam['personId'] == 'null' && !$scope.searchParam.status){
+            $scope.tableParams.reload();
+            // notificationService.error($filter('translate')('Enter the data'));
         }else{
             $rootScope.loading = true;
-            if ($scope.searchParam['salaryName'] ||
-                $scope.searchParam['status'] ||
+            if ($scope.searchParam['status'] ||
                 $("#clientAutocompleater").select2('data') !== null ||
                 $scope.searchParam['regionId'] ||
                 $scope.searchParam['responsibleId'] ||
                 $scope.searchParam['personId'] ||
                 $scope.searchParam['words']) {
-                if ($scope.searchParam['salaryName'] && $scope.searchParam['salaryName']!='null') {
-                    angular.forEach($scope.salaryObject, function(resp){
-                        if(resp.name == $scope.searchParam.salaryName){
-                            $scope.searchParam['salary'] = resp;
-                        }
-                    });
-                } else {
-                    $scope.searchParam['salary'] = null;
-                }
                 if ($("#clientAutocompleater").select2('data') !== null) {
                     $scope.searchParam['clientId'] =$("#clientAutocompleater").select2('data').id;
                     $scope.searchParam['clientName'] = $("#clientAutocompleater").select2('data').name
@@ -34957,8 +35062,6 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                         $scope.searchParam.pages.count = params.$params.count;
                         $scope.searchParam.personId = $scope.searchParam.personId == 'null' ? null: $scope.searchParam.personId;
                         Vacancy.setOptions("personId", $scope.searchParam.personId != undefined ? $scope.searchParam.personId : activeParam.name == 'onlyMy' ? $rootScope.userId : null);
-                        Vacancy.setOptions("salaryFrom", $scope.searchParam['salary'] ? $scope.searchParam['salary'].salaryFrom : null);
-                        Vacancy.setOptions("salaryTo", $scope.searchParam['salary'] ? $scope.searchParam['salary']["salaryTo"] : null);
                         Vacancy.setOptions("state", isNotBlank($scope.searchParam['status']) && $scope.chosenStatuses.length == 1 ? $scope.searchParam['status'] : null);
                         Vacancy.setOptions("states", $scope.chosenStatuses.length > 1 ? $scope.chosenStatuses : null);
                         Vacancy.setOptions("words", $scope.searchParam['words'] ? $scope.searchParam['words'] : null);
@@ -37924,6 +38027,12 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         $rootScope.toChangeStatusInterview = function (status, candidate, withChooseStatus) {
+            if (status == 'approved') {
+                $rootScope.showEmployedFields = true;
+                $rootScope.probationaryPeriod = null;
+            } else {
+                $rootScope.showEmployedFields = false;
+            }
             if (status == undefined) {
                 $rootScope.changeStatusOfInterviewInVacancy.status =null;
                 //$rootScope.changeStatusOfInterviewInVacancy.status = {
@@ -38035,13 +38144,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 $rootScope.candnotify.fullName = candidate[0].fullName;
                 $rootScope.candnotify.send = false;
             }
-
-            if (status == 'approved') {
-                $rootScope.showEmployedFields = true;
-                $rootScope.probationaryPeriod = null;
-            } else {
-                $rootScope.showEmployedFields = false;
-            }
             $('.changeStatusOfInterviewInVacancy.modal').modal('show');
         };
 
@@ -38109,7 +38211,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 "personId": $scope.personId,
                                 "vacancyId": $scope.vacancy.vacancyId,
                                 "recallId": neededRequest == 'addInterview'?$rootScope.changeStatusOfInterviewInVacancy.candidate.recallId:null,
-                                "candidateId": changeObj.candidate.candidateId.candidateId,
+                                "candidateId": changeObj.candidate.length == 1 ? changeObj.candidate[0].candidateId : changeObj.candidate.candidateId.candidateId,
                                 "interviewId": changeObj.candidate.interviewId,
                                 "interviewState": changeObj.status.customInterviewStateId ? changeObj.status.customInterviewStateId : changeObj.status.value,
                                 "comment": changeObj.comment,
@@ -40062,9 +40164,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
         $scope.menuOptions = [
             [$filter('translate')('Open in new tab'), function ($itemScope) {
-                console.log($location,'location');
                 let url = $location.$$protocol + '://' + $location.$$host +'/!#' + '/candidates/' + $itemScope.candidate.candidateId.localId;
-
                 $window.open(url, "_blank");
             }]];
 
@@ -40109,55 +40209,63 @@ controller.controller('pipelineController', ["$rootScope", "$scope", "notificati
         vacancyStages.get(function(data){
             $scope.customStages = data.object.interviewStates;
         });
-        Stat.getStatisticsByVacancies(function(resp){
-           if(resp.status == 'ok'){
-               $scope.vacancies = resp.object.positionReport;
-               //Stat.countCandidateByVacancyAndLastActiveDate(function(res){
-                   $scope.stagesOnVacancy = resp.objects[0].lastActiveState;
-                   angular.forEach($scope.vacancies, function(data,key){
-                       if(data.deadline){
-                           if(differenceBetweenTwoDates(data.deadline, new Date()) <= 3){
-                               data.strongWarning = true;
-                           }
-                       }
-                       angular.forEach($scope.stagesOnVacancy, function(dat){
-                           if(dat.vacancyId == data.vacancyId){
-                              switch(dat.num){
-                                  case 1:
-                                      data.lastActiveStage = dat;
-                                      data.lastActiveStage.differenceInDays = differenceBetweenTwoDates(new Date(), data.lastActiveStage.lastAction);
-                                      // if(data.deadline){
-                                          if(differenceBetweenTwoDates(data.lastActiveStage.lastAction, new Date()) < -5){
-                                              data.warning = true;
-                                          }
-                                      // }
-                                      break;
-                                  case 2:
-                                      data.previousActiveStage = dat;
-                                      break;
-                              }
-                           }
-                       });
-                   });
-               //});
-               //Stat.countCandidateByRefusalAndApprovedReasonsAndLastActiveDate(function(ref){
-                   var refuses = resp.objects[0].refusal;
-               var approved = resp.objects[0].approved;
-                   angular.forEach($scope.vacancies, function(data,key){
-                       angular.forEach(approved, function(dat){
-                           if(dat.vacancyId == data.vacancyId){
-                               data.approved = dat
-                           }
-                       });
-                       angular.forEach(refuses, function(dat){
-                           if(dat.vacancyId == data.vacancyId){
-                               data.refusal = dat
-                           }
-                       });
-                   });
-               //});
-           }
-        });
+
+        $scope.buildPipelineReport = function () {
+            $rootScope.loading = true;
+            Stat.getStatisticsByVacancies(function(resp){
+                if(resp.status == 'ok'){
+                    $scope.vacancies = resp.object.positionReport;
+                    //Stat.countCandidateByVacancyAndLastActiveDate(function(res){
+                    $scope.stagesOnVacancy = resp.objects[0].lastActiveState;
+                    angular.forEach($scope.vacancies, function(data,key){
+                        if(data.deadline){
+                            if(differenceBetweenTwoDates(data.deadline, new Date()) <= 3){
+                                data.strongWarning = true;
+                            }
+                        }
+                        angular.forEach($scope.stagesOnVacancy, function(dat){
+                            if(dat.vacancyId == data.vacancyId){
+                                switch(dat.num){
+                                    case 1:
+                                        data.lastActiveStage = dat;
+                                        data.lastActiveStage.differenceInDays = differenceBetweenTwoDates(new Date(), data.lastActiveStage.lastAction);
+                                        // if(data.deadline){
+                                        if(differenceBetweenTwoDates(data.lastActiveStage.lastAction, new Date()) < -5){
+                                            data.warning = true;
+                                        }
+                                        // }
+                                        break;
+                                    case 2:
+                                        data.previousActiveStage = dat;
+                                        break;
+                                }
+                            }
+                        });
+                    });
+                    //});
+                    //Stat.countCandidateByRefusalAndApprovedReasonsAndLastActiveDate(function(ref){
+                    var refuses = resp.objects[0].refusal;
+                    var approved = resp.objects[0].approved;
+                    angular.forEach($scope.vacancies, function(data,key){
+                        angular.forEach(approved, function(dat){
+                            if(dat.vacancyId == data.vacancyId){
+                                data.approved = dat
+                            }
+                        });
+                        angular.forEach(refuses, function(dat){
+                            if(dat.vacancyId == data.vacancyId){
+                                data.refusal = dat
+                            }
+                        });
+                    });
+                    //});
+                }
+                $rootScope.loading = false;
+            });
+        };
+
+        $scope.buildPipelineReport();
+
         $scope.showPipelineDescr = function(){
             $scope.modalInstance = $uibModal.open({
                 animation: true,
@@ -40931,183 +41039,44 @@ controller.controller('reportAllController', ["$rootScope", "$scope", "Vacancy",
 
 
 controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileInit", "Vacancy", "Service", "$location", "Client",
-    "$routeParams", "notificationService", "$filter", "$translate", 'Person', "Statistic", "vacancyStages", "Company", "vacancyReport", "$timeout",
+    "$routeParams", "notificationService", "$filter", "$translate", 'Person', "Statistic", "vacancyStages", "Company",
     function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $routeParams, notificationService, $filter,
-             $translate, Person, Statistic, vacancyStages, Company, vacancyReport, $timeout) {
-
-        $scope.statistics = {type: 'default', user: {}};
-        $scope.funnelActionUsers = [];
-        $scope.vacancyGeneralHistory = [];
-        $scope.mainFunnel = {};
-        $scope.usersColumn = {users: [], dataArray: []};
-
-        setFunnelData.usersDataCache = setFunnelData.usersDataCache || [];
-
-        $scope.setStatistics = function(type = 'default', user = {}) {
-            $scope.statistics = {type, user};
-            if(type === 'default') {
-                vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
-                $scope.vacancyHistory = $scope.vacancyGeneralHistory;
-                return;
-            }
-
-            setUserFunnel(user);
-        };
-
-        $scope.addUserInFunnelUsersList = function(userIndex) {
-            let isMissing = true,
-                actionUser = $scope.actionUsers[userIndex] || null;
-
-            if($scope.funnelActionUsers.length >= 4) {
-                notificationService.error($filter('translate')('You select up to 4 users'));
-                return;
-            }
-
-            $scope.funnelActionUsers.forEach(user => {
-                if(angular.equals(user,actionUser)) isMissing = false;
-            });
-
-            if(isMissing && actionUser) {
-                $scope.funnelActionUsers.push(actionUser);
-                $scope.actionUsers.splice(userIndex, 1);
-                updateMainFunnel(actionUser);
-                $scope.userIndex = null;
-                vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
-            }
-        };
-
-        $scope.removeUserInFunnelUsersList = function(user) {
-            $scope.funnelActionUsers.splice($scope.funnelActionUsers.indexOf(user),1);
-            $scope.actionUsers.push(user);
-            updateMainFunnel(user);
-            clearUserFunnelCache({user});
-            getHoverStripeWidth();
-            if($scope.statistics.user === user) {
-                $scope.setStatistics('default');
-            }
-        };
-
-        $scope.updateData = function() {
-            const dateFrom = $('#dateFrom').datetimepicker('getDate') ? $('#dateFrom').datetimepicker('getDate') : null,
-                  dateTo = $('#dateTo').datetimepicker('getDate') ? $('#dateTo').datetimepicker('getDate') : null;
-
-            if(dateFrom && dateTo) {
-                dateFrom.setHours(0, 0, 0, 0);
-                dateTo.setHours(0, 0, 0, 0);
-                dateTo.setDate(dateTo.getDate() + 1);
-            }
-
-            $rootScope.loading = true;
-            Statistic.getVacancyDetailInfo({"vacancyId": $scope.vacancy.vacancyId, "from": dateFrom, "to": dateTo, withCandidatesHistory: true})
-                .then(vacancyInterviewDetalInfo => {
-                    $scope.vacancyHistory = vacancyInterviewDetalInfo;
-                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.vacancyHistory, $scope.notDeclinedStages, $scope.declinedStages));
-                    $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
-                    vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
-                    $scope.setStatistics('default');
-                    updateUsers();
-                    $scope.$apply();
-                }, error => notificationService.error(error.message));
-        };
-
-        $scope.downloadPDF = function() {
-            $scope.downloadPDFisPressed = !$scope.downloadPDFisPressed;
-
-            let dateFrom = $('#dateFrom').datetimepicker('getDate')  ? $('#dateFrom').datetimepicker('getDate') : null,
-                dateTo   = $('#dateTo').datetimepicker('getDate')  ? $('#dateTo').datetimepicker('getDate') : null;
-
-            if(dateTo && dateFrom) {
-                dateFrom.setHours(0, 0, 0, 0);
-                dateTo.setHours(0, 0, 0, 0);
-                dateTo.setDate(dateTo.getDate() + 1);
-            }
-
-            $rootScope.loading = true;
-            Statistic.getVacancyInterviewDetalInfoFile({
-                "vacancyId": $scope.vacancy.vacancyId,
-                "from": dateFrom,
-                "to": dateTo,
-                withCandidatesHistory: true
-            },function(resp){
-                $rootScope.loading = false;
-                if(resp.status == 'ok'){
-                    pdfId = resp.object;
-                    $('#downloadPDF')[0].href = '/hr/' + 'getapp?id=' + pdfId;
-                    $('#downloadPDF')[0].click();
-                    $scope.downloadPDFisPressed = false;
-                }else{
-                    notificationService.error(resp.message);
-                }
-            });
-        };
-
-        $rootScope.$on('$translateChangeSuccess', function () {
-            getHoverStripeWidth();
+             $translate, Person, Statistic, vacancyStages, Company) {
+        var chartHeight = 0;
+        $scope.lang = $translate;
+        vacancyStages.get(function(resp){
+            $scope.customStages = resp.object.interviewStates;
         });
 
-        $scope.$watchGroup(['mainFunnel.data', 'userFunnelData.userSeries', 'usersColumn.users', 'statistics'], function() {
-            getHoverStripeWidth();
-        });
-
-        function updateUsers() {
-            $scope.funnelActionUsers.forEach(user => {
-                updateMainFunnel(user); // if user exist - removes it`s column to funnel
-                clearUserFunnelCache({user}); // removing user from cache
-                updateMainFunnel(user);// if user not exist - adding it column to funnel
+        Vacancy.one({"localId": $routeParams.id}, function(resp) {
+            $scope.vacancy = resp.object;
+            $scope.deadline = new Date($scope.vacancy.dateFinish).getTime();
+            $("#dateFrom").datetimepicker({
+                format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
+                startView: 2,
+                minView: 2,
+                autoclose: true,
+                startDate: $scope.vacancy.dc != undefined ? new Date($scope.vacancy.dc) : new Date(),
+                weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                language: $translate.use()
             });
-        }
 
-        function setUserFunnel(user) {
-            if(getUserFunnelCache({user})) {
-                vacancyReport.funnel('userFunnel', getUserFunnelCache({user}).userFunnelData.userSeries);
-                $scope.userFunnelData = getUserFunnelCache({user}).userFunnelData;
-                $scope.vacancyHistory = getUserFunnelCache({user}).userHistory;
-                return;
-            }
+            $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
 
-            const dateFrom = $('#dateFrom').datetimepicker('getDate') ? $('#dateFrom').datetimepicker('getDate') : null,
-                dateTo = $('#dateTo').datetimepicker('getDate') ? $('#dateTo').datetimepicker('getDate') : null;
+            $("#dateTo").datetimepicker({
+                format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
+                startView: 2,
+                minView: 2,
+                autoclose: true,
+                endDate: new Date(),
+                weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                language: $translate.use()
+            });
 
-            if(dateFrom && dateTo) {
-                dateFrom.setHours(0, 0, 0, 0);
-                dateTo.setHours(0, 0, 0, 0);
-                dateTo.setDate(dateTo.getDate() + 1);
-            }
+            var d = new Date();
+            d.setHours(0, 0, 0, 0);
+            $("#dateTo").datetimepicker("setDate", d);
 
-            return Statistic.getVacancyDetailInfo({
-                "vacancyId": $scope.vacancy.vacancyId,
-                withCandidatesHistory: true,
-                personId: user.userId,
-                "from": dateFrom,
-                "to": dateTo
-                }).then(usersActionData => {
-                    const userFunnelMap = validateStages(parseCustomStagesNames(usersActionData, $scope.notDeclinedStages, $scope.declinedStages));
-
-                    let userFunnelData = {
-                        userSeries: setFunnelData(userFunnelMap).candidateSeries,
-                        vacancySeries: setFunnelData($scope.vacancyFunnelMap).candidateSeries,
-                        userPercentSeries : function() {
-                            return this.userSeries.map((userSeries, index) => {
-                                return String(Math.round((userSeries / (this.vacancySeries[index])) * 100) || 0);
-                            });
-                        },
-                        relConversion: setFunnelData(userFunnelMap).RelConversion,
-                        absConversion: setFunnelData(userFunnelMap).AbsConversion,
-                        user: user
-                    };
-
-                    setUserFunnelCache({userFunnelData, userHistory: usersActionData, user});
-
-                    $scope.userFunnelData = getUserFunnelCache({user}).userFunnelData;
-
-                    vacancyReport.funnel('userFunnel', userFunnelData.userSeries);
-                    $scope.setStatistics('default');
-                    $scope.$apply();
-                    return Promise.resolve(userFunnelData);
-                }, error => notificationService.error(error.message));
-        }
-
-        function setStages() {
             let stagesString = [];
 
             if($scope.vacancy && $scope.vacancy['interviewStatus']) {
@@ -41118,250 +41087,424 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
             $scope.notDeclinedStages = stagesString.slice(stagesString[0], stagesString.indexOf('approved') + 1);
             $scope.declinedStages = stagesString.slice(stagesString.indexOf('approved') + 1, stagesString.length);
-        }
 
-        function initMainFunnel() {
-            Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true})
-                .then(vacancyInterviewDetalInfo => {
-                    $scope.vacancyHistory = vacancyInterviewDetalInfo;
-                    $scope.vacancyGeneralHistory = vacancyInterviewDetalInfo;
-                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(vacancyInterviewDetalInfo, $scope.notDeclinedStages, $scope.declinedStages));
-                    $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
-                    vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
-                    $scope.$apply();
-                }, error => notificationService.error(error.message));
-        }
 
-        function updateMainFunnel(user) {
-            if(!getUserFunnelCache({user})) {
-                setUserFunnel(user)
-                    .then(userFunnelData => {
-                        let userData = angular.copy(userFunnelData);
-                        userData.userSeries.length = userData.userSeries.length || userData.vacancySeries.length;
+            Statistic.getVacancyInterviewDetalInfo(
+                {
+                    "vacancyId": $scope.vacancy.vacancyId,
+                    withCandidatesHistory: true
+                }, function(detailResp) {
+                if (detailResp != undefined) {
+                    var vacancyInterviewDetalInfo = [];
+                    angular.forEach(detailResp.vacancyInterviewDetalInfo, function(value, key){
+                        vacancyInterviewDetalInfo.push({
+                            key: key,
+                            value: value
+                        });
+                    });
 
-                        $scope.usersColumn.users.push(user);
-                        $scope.usersColumn.dataArray.push(userData.userSeries);
-                        $scope.$apply();
-                        $rootScope.loading = false;
-                    }, error => console.error(error));
-            } else {
-                const index = $scope.usersColumn.users.indexOf(user);
-                $scope.usersColumn.users.splice(index,1);
-                $scope.usersColumn.dataArray.splice(index, 1);
-                $scope.vacancyHistory = $scope.vacancyGeneralHistory;
-            }
-        }
+                    $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
 
-        function parseCustomStagesNames(allStages, notDeclinedStages, declinedStages) {
-            angular.forEach($scope.customStages, function(resp){
-                angular.forEach(allStages, function(value){
-                    if(value.key === resp.customInterviewStateId) {
-                        value.key = resp.name;
-                    }
-                });
+                    angular.forEach($scope.customStages, function(resp){
+                        angular.forEach($scope.detailInterviewInfo, function(value){
+                            if(value.key === resp.customInterviewStateId){
+                                value.key = resp.name;
+                            }
+                        });
 
-                angular.forEach(declinedStages, function(value, index){
-                    if(value === resp.customInterviewStateId){
-                        declinedStages[index] = resp.name;
-                    }
-                });
+                        angular.forEach($scope.declinedStages, function(value, index){
+                            if(value === resp.customInterviewStateId){
+                                $scope.declinedStages[index] = resp.name;
+                            }
+                        });
 
-                angular.forEach(notDeclinedStages, function(value, index){
-                    if(value === resp.customInterviewStateId){
-                        notDeclinedStages[index] = resp.name;
-                    }
-                });
+                        angular.forEach($scope.notDeclinedStages, function(value, index){
+                            if(value === resp.customInterviewStateId){
+                                $scope.notDeclinedStages[index] = resp.name;
+                            }
+                        });
+                    });
+                }
+                initSalesFunnel(null, null);
             });
+        });
 
-            return { allStages, declinedStages, notDeclinedStages }
-        }
-
-        function validateStages({allStages, notDeclinedStages, declinedStages}) {
-            let funnelMap = [];
+        function initSalesFunnel(dateFrom, dateTo) {
+            $scope.funnelMap = [];
             $scope.hasFunnelChart = false;
 
-            if (allStages) {
-                angular.forEach(allStages, (stage,index) => {
-                    funnelMap[index] = { key: stage.key, value: stage.value.length };
+            if ($scope.detailInterviewInfo) {
+                angular.forEach($scope.detailInterviewInfo, (stage,index) => {
+                    $scope.funnelMap[index] = { key: stage.key, value: stage.value.length };
 
-                    angular.forEach(declinedStages, (declinedStage) => {
+                    angular.forEach($scope.declinedStages, (declinedStage) => {
                         if(declinedStage === stage.key) {
-                            funnelMap.splice(index,1);
-                            allStages.splice(index,1);
+                            $scope.funnelMap.splice(index,1);
                         }
                     });
+
                 });
 
-                angular.forEach(notDeclinedStages, notDeclinedStage => {
+                angular.forEach($scope.notDeclinedStages, (notDeclinedStage) => {
                     let missingStage = true;
 
-                    angular.forEach(funnelMap, (stage,index) => {
+                    angular.forEach($scope.funnelMap, (stage,index) => {
+                        // console.log($scope.funnelMap[index].key, notDeclinedStage);
                         if(missingStage) {
-                            missingStage = !(funnelMap[index].key === notDeclinedStage);
-
-                            if(index === funnelMap.length - 1 && missingStage) {
-                                funnelMap[index+1] = { key: notDeclinedStage, value: 0 };
+                            // console.log($scope.funnelMap[index].key, notDeclinedStage);
+                            if($scope.funnelMap[index].key === notDeclinedStage) {
+                                console.log('exist',notDeclinedStage);
+                                missingStage = false;
+                            } else {
+                                missingStage = true;
                             }
+
+                            if(index === $scope.funnelMap.length - 1 && missingStage) {
+                                console.log("not-exist",notDeclinedStage);
+                                $scope.funnelMap[index+1] = { key: notDeclinedStage, value: 0 };
+                            }
+
                         }
                     });
+                    console.log('-------------------');
                 });
+
+
+                if(!$scope.funnelMap[0]) {
+                    return;
+                }
             }
+            // $scope.funnelMap.map((item) => {
+            //     console.log(item);
+            // });
+            console.log($scope.funnelMap);
 
-            return funnelMap[0] ? funnelMap : null;
-        }
+            var myChart = {};
+            if ($scope.detailInterviewInfo) {
+                $scope.hasFunnelChart = true;
+                chartHeight = 30*($scope.funnelMap.length + 1);
+                var series = [];
+                var values = [];
+                var values2 = [];
+                var values3 = [];
+                var values4 = [];
+                var lastCount = null;
 
-        function setFunnelData(funnelMap) {
-            $scope.hasFunnelChart = true;
-            let stages = [],
-                candidateSeries = [],
-                RelConversion = [],
-                AbsConversion = [],
-                lastCount = null;
-
-            angular.forEach(funnelMap, function(stage) {
-                stages.push($filter('translate')(stage.key));
-                candidateSeries.push(+(stage.value));
-
-                if (!lastCount && lastCount !== 0) {
-                    RelConversion.push('100%');
-                    AbsConversion.push('100%');
-                } else {
-                    RelConversion.push((stage.value !== 0 ? Math.round(stage.value / lastCount * 100) : 0) + '%');
-                    AbsConversion.push((stage.value !== 0 ? Math.round(stage.value / funnelMap[0].value * 100) : 0) + '%');
-                }
-
-                lastCount = stage.value;
-            });
-
-            return { stages, candidateSeries, RelConversion, AbsConversion }
-        }
-
-        function getUserFunnelCache({user}) {
-            return setFunnelData.usersDataCache.filter(cache => {
-                return cache.user.userId === user.userId;
-            })[0];
-        }
-
-        function setUserFunnelCache({userFunnelData, userHistory, user}) {
-            if(!getUserFunnelCache({user})) {
-                setFunnelData.usersDataCache.push({userFunnelData, userHistory, user});
-            }
-        }
-
-        function clearUserFunnelCache({user}) {
-            setFunnelData.usersDataCache.forEach((cache, index) => {
-                if(cache.user.userId === user.userId) {
-                    setFunnelData.usersDataCache.splice(index,1);
-                }
-            });
-        }
-
-        function getUsersForFunnel(vacancyId) {
-            Person.getFilteredPersons({vacancyId: vacancyId, types:["interview_add", "interview_add_from_advice", "interview_edit", "interview_remove"]})
-                .then(response => {
-                    $scope.actionUsers = response.object;
-                }, error => notificationService.error(error))
-        }
-
-        function getAllVacanciesAmount(response) {
-            $rootScope.objectSize = response['objects'] ? response['total'] : 0;
-        }
-
-        function getCompanyParams(response){
-            $scope.companyParams = response.object;
-            $rootScope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/" + $scope.companyParams.nameAlias + "-vacancies";
-        }
-
-        function setDateTimePickers() {
-            $("#dateFrom").datetimepicker({
-                format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
-                startView: 2,
-                minView: 2,
-                autoclose: true,
-                startDate: $scope.vacancy.dc ? new Date($scope.vacancy.dc) : new Date(),
-                endDate: new Date(),
-                weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
-                language: $translate.use()
-            }).on('changeDate', function (date) {
-                if(date.date > $("#dateTo").datetimepicker("getDate")) {
-                    let d = new Date();
-                    d.setHours(0, 0, 0, 0);
-                    $("#dateTo").datetimepicker("setDate", new Date(d.getFullYear(),d.getMonth(),d.getDate()));
-                }
-            });
-
-            $("#dateTo").datetimepicker({
-                format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
-                startView: 2,
-                minView: 2,
-                autoclose: true,
-                startDate: $scope.vacancy.dc ? new Date($scope.vacancy.dc) : new Date(),
-                endDate: new Date(),
-                weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
-                language: $translate.use()
-            }).on('changeDate', function (date) {
-                if(date.date < $("#dateFrom").datetimepicker("getDate")) {
-                    let d = new Date();
-                    d.setHours(0, 0, 0, 0);
-                    $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
-                }
-            });
-
-            let d = new Date();
-            d.setHours(0, 0, 0, 0);
-            $("#dateTo").datetimepicker("setDate", new Date(d.getFullYear(),d.getMonth(),d.getDate()));
-            $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
-        }
-
-        function getVacancyStages(response) {
-            $scope.customStages = response.object.interviewStates;
-        }
-
-        function getVacancy(response) {
-            $scope.vacancy = response;
-        }
-
-        function getHoverStripeWidth() {
-            $timeout(() => {
-                let tables = $('.funnel > table, .funnel > .funnel-chart'),
-                    stripes = $('.hover-stripe'),
-                    stripeWidth = 0,
-                    stripeOffset = 0;
-
-                for(let i = 0; i < tables.length; i++) {
-                    if(i === 0) stripeOffset = $(tables[i]).position().left;
-                    if($(tables[i]).width()) {
-                        stripeWidth += $(tables[i]).outerWidth( true );
+                angular.forEach($scope.funnelMap, function(stage) {
+                    console.log(stage.value,stage.key);
+                    series.push({
+                        "values": [stage.value]
+                    });
+                    values.push($filter('translate')(stage.key));
+                    values2.push(stage.value.toString());
+                    if (lastCount == null) {
+                        values3.push('100%');
+                    } else {
+                        values3.push((stage.value != 0 ? Math.round(stage.value / lastCount * 100) : 0) + '%');
                     }
-                }
+                    if(lastCount == null) {
+                        values4.push('100%');
+                    } else{
+                        values4.push((stage.value != 0 ? Math.round(stage.value / $scope.funnelMap[0].value * 100) : 0) + '%');
+                    }
+                    lastCount = stage.value;
+                });
 
-                for(let i = 0; i < stripes.length; i++) {
-                    $(stripes[i]).outerWidth(stripeWidth).css("left", stripeOffset);
-                }
-            }, 0);
+                myChart = {
+                    "type": "funnel",
+                    "width":'900px',
+                    "series": series,
+                    tooltip: {visible: true, shadow: 0},
+                    "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 75}},
+                    "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": -60}},
+                    "scale-y-3": {
+                        "values": values3, "item": {fontSize: 12,"offset-x": 25}
+                    },
+                    "scale-y-4": {
+                        "values": values4, "item": {fontSize: 12,"offset-x": 107}
+                    },
+                    "plot": {
+                        // "offset-x": '60px'
+                    },
+                    plotarea: {
+                        margin: '40px 0 0 20%'
+                    },
+                    "scale-x": {"values": [""]},
+                    labels: [{
+                        text: $filter('translate')('Relative conversion'),
+                        fontWeight: "bold",
+                        fontSize: 12,
+                        // offsetX: $translate.use() != 'en' ?  775 : 785,
+                        offsetX: $translate.use() != 'en' ?  895 : 905,
+                        offsetY: 0
+                    },
+                        {
+                            text: $filter('translate')('Absolute conversion'),
+                            fontWeight: "bold",
+                            fontSize: 12,
+                            // offsetX: 870,
+                            offsetX: 990,
+                            offsetY: 0
+                        },
+                        {
+                            text: $filter('translate')('Candidates'),
+                            fontWeight: "bold",
+                            fontSize: 12,
+                            // offsetX: $translate.use() != 'en' ? 700 : 710,
+                            offsetX: $translate.use() != 'en' ? 815 : 825,
+                            offsetY: 0
+                        },
+                        {
+                            text: $filter('translate')('status'),
+                            fontWeight: "bold",
+                            fontSize: 12,
+                            offsetX: 210,
+                            offsetY: 0
+                        }
+                    ],
+                    "backgroundColor": "#FFFFFF",
+                    "gui": {
+                        "behaviors": [
+                            {"id": "DownloadPDF", "enabled": "none"},
+                            {"id": "Reload", "enabled": "none"},
+                            {"id": "Print", "enabled": "none"},
+                            {"id": "DownloadSVG", "enabled": "none"},
+                            {"id": "LogScale", "enabled": "none"},
+                            {"id": "About", "enabled": "none"},
+                            {"id": "FullScreen", "enabled": "none"},
+                            {"id": "BugReport", "enabled": "none"},
+                            {"id": "ViewSource", "enabled": "none"},
+                            {"id": "FullScreen", "enabled": "none"},
+                            {
+                                "id": "FullScreen", "enabled": "none"
+                            }
+                        ]
+                    }
+                };
+            } else {
+                chartHeight = 350;
+                myChart = {
+                    "type": "funnel",
+                    "width":'410px',
+                    "series": [
+                        {
+                            "values": [$scope.funnelMap['longlist']]
+                        }, {
+                            "values": [$scope.funnelMap['shortlist']]
+                        }, {
+                            "values": [$scope.funnelMap['interview']]
+                        }, {
+                            "values": [$scope.funnelMap['approved']]
+                        }
+                    ],
+                    "tooltip": {
+                        "visible": true
+                    },
+                    "scale-y": {
+                        "values": [$filter('translate')('long_list'),
+                            $filter('translate')('short_list'),
+                            $filter('translate')('interview'),
+                            $filter('translate')('approved')],
+                        "item": {
+                            fontSize: 12,
+                            "offset-x": 35
+                        }
+                    },
+                    "scale-y-2": {
+                        "values": [$scope.funnelMap['longlist'] + '',
+                            $scope.funnelMap['shortlist'] + '',
+                            $scope.funnelMap['interview'] + '',
+                            $scope.funnelMap['approved'] + ''],
+                        "item": {
+                            fontSize: 12,
+                            "offset-x": 0
+                        }
+                    },
+                    "scale-y-3": {
+                        "values": ['100%',
+                            Math.round($scope.funnelMap['shortlist'] / $scope.funnelMap['longlist'] * 100) + '%',
+                            ($scope.funnelMap['shortlist'] != 0 ? Math.round($scope.funnelMap['interview'] / $scope.funnelMap['shortlist'] * 100) : 0) + '%',
+                            ($scope.funnelMap['interview'] != 0 ? Math.round($scope.funnelMap['approved'] / $scope.funnelMap['interview'] * 100) : 0) + '%'],
+                        "item": {
+                            fontSize: 12,
+                            "offset-x": -10
+                        }
+                    },
+                    "scale-y-4": {
+                        "values": ['100%',
+                            Math.round($scope.funnelMap['shortlist'] / $scope.funnelMap['longlist'] * 100) + '%',
+                            ($scope.funnelMap['interview'] != 0 ? Math.round($scope.funnelMap['interview'] / $scope.funnelMap['longlist'] * 100) : 0) + '%',
+                            ($scope.funnelMap['approved'] != 0 ? Math.round($scope.funnelMap['approved'] / $scope.funnelMap['longlist'] * 100) : 0) + '%'],
+                        "item": {
+                            fontSize: 12,
+                            "offset-x": 115
+                        }
+                    },
+                    "scale-x": {
+                        "values": [""]
+                    },
+                    labels: [
+                        {
+                            text: $filter('translate')('Relative conversion'),
+                            fontWeight: "bold",
+                            fontSize: 12,
+                            offsetX: 570,
+                            offsetY: 20
+                        },
+                        {
+                            text: $filter('translate')('Absolute conversion'),
+                            fontWeight: "bold",
+                            fontSize: 12,
+                            offsetX: 570,
+                            offsetY: 20
+                        },
+                        {
+                            text: $filter('translate')('Count'),
+                            fontWeight: "bold",
+                            fontSize: 12,
+                            offsetX: $translate.use() != 'en' ? 485 : 505,
+                            offsetY: 20
+                        },
+                        {
+                            text: $filter('translate')('status'),
+                            fontWeight: "bold",
+                            fontSize: 12,
+                            offsetX: 80,
+                            offsetY: 20
+                        }
+                    ],
+                    "backgroundColor": "#FFFFFF",
+                    "gui": {
+                        "behaviors": [
+                            {
+                                "id": "DownloadPDF",
+                                "enabled": "none"
+                            }, {
+                                "id": "Reload",
+                                "enabled": "none"
+                            }, {
+                                "id": "Print",
+                                "enabled": "none"
+                            }, {
+                                "id": "DownloadSVG",
+                                "enabled": "none"
+                            }, {
+                                "id": "LogScale",
+                                "enabled": "none"
+                            }, {
+                                "id": "About",
+                                "enabled": "none"
+                            }, {
+                                "id": "FullScreen",
+                                "enabled": "none"
+                            }, {
+                                "id": "BugReport",
+                                "enabled": "none"
+                            }, {
+                                "id": "ViewSource",
+                                "enabled": "none"
+                            }, {
+                                "id": "FullScreen",
+                                "enabled": "none"
+                            }, {
+                                "id": "FullScreen",
+                                "enabled": "none"
+                            }
+                        ]
+                    }
+                };
+            }
+            zingchart.render({
+                id: "myChartDiv",
+                data: myChart,
+                height: chartHeight,
+                width: 1290,
+                output: "html5"
+            });
         }
 
-        function Init() {
-            Promise.all([
-                Vacancy.getAllVacanciesAmount(),
-                Vacancy.getVacancy({localId: $routeParams.id}),
-                vacancyStages.requestVacancyStages(),
-                Company.params()
-            ]).then(([vacanciesAmount, vacancy, vacancyStages, companyParams]) => {
-                getAllVacanciesAmount(vacanciesAmount);
-                getVacancyStages(vacancyStages);
-                getCompanyParams(companyParams);
-                getVacancy(vacancy.object);
-                getUsersForFunnel(vacancy.object.vacancyId);
-                setStages();
-                setDateTimePickers();
-                initMainFunnel();
-            }, error => notificationService.error(error.message));
+        $scope.updateData = function() {
+            var dateFrom = $('#dateFrom').datetimepicker('getDate') != null ? $('#dateFrom').datetimepicker('getDate') : null;
+            var dateTo = $('#dateTo').datetimepicker('getDate') != null ? $('#dateTo').datetimepicker('getDate') : null;
+            dateFrom.setHours(0, 0, 0, 0);
+            dateTo.setHours(0, 0, 0, 0);
+            dateTo.setDate(dateTo.getDate() + 1);
+            Statistic.getVacancyInterviewDetalInfo(
+                {
+                    "vacancyId": $scope.vacancy.vacancyId,
+                    "from": dateFrom,
+                    "to": dateTo,
+                    withCandidatesHistory: true
+                }, function(detailResp) {
+                    if (detailResp != undefined) {
+                        var vacancyInterviewDetalInfo = [];
+                        angular.forEach(detailResp.vacancyInterviewDetalInfo, function(value, key){
+                            vacancyInterviewDetalInfo.push({
+                                key: key,
+                                value: value
+                            });
+                        });
+                        $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
+                        angular.forEach($scope.detailInterviewInfo, function(value){
+                            angular.forEach($scope.customStages, function(resp){
+                                if(value.key == resp.customInterviewStateId){
+                                    value.key = resp.name;
+                                }
+                            })
+                        });
+                    }
+                    initSalesFunnel(dateFrom, dateTo);
+                });
+
+            zingchart.exec('myChartDiv', 'reload');
+        };
+
+        $scope.inDevelopmentMessage = function() {
+            //notificationService.error('This is total bullshit');
+            notificationService.error($filter('translate')('This function is in development, you can use it soon'));
+        };
+        $scope.dawnloadPDF = function(){
+            $scope.downloadPDFisPressed = !$scope.downloadPDFisPressed;
+            var dateFrom = $('#dateFrom').datetimepicker('getDate') != null ? $('#dateFrom').datetimepicker('getDate') : null;
+            var dateTo = $('#dateTo').datetimepicker('getDate') != null ? $('#dateTo').datetimepicker('getDate') : null;
+            dateFrom.setHours(0, 0, 0, 0);
+            dateTo.setHours(0, 0, 0, 0);
+            dateTo.setDate(dateTo.getDate() + 1);
+            Statistic.getVacancyInterviewDetalInfoFile({
+                "vacancyId": $scope.vacancy.vacancyId,
+                "from": dateFrom,
+                "to": dateTo,
+                withCandidatesHistory: true
+            },function(resp){
+                if(resp.status == 'ok'){
+                    pdfId = resp.object;
+                    $('#downloadPDF')[0].href = '/hr/' + 'getapp?id=' + pdfId;
+                    $('#downloadPDF')[0].click();
+                    $scope.downloadPDFisPressed = false;
+                }else{
+                    notificationService.error(resp.message);
+                }
+            });
+        };
+        Vacancy.all(Vacancy.searchOptions(), function(response) {
+            $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
+        });
+        $scope.getCompanyParams = function(){
+            Company.getParams(function(resp){
+                $scope.companyParams = resp.object;
+                $rootScope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/" + $scope.companyParams.nameAlias + "-vacancies";
+            });
+        };
+        $scope.getCompanyParams();
+        $scope.toBottom = function () {
+            $("html, body").animate({ scrollTop: $(document).height() }, 1000);
         }
+    }
 
-        Init();
+]);
 
-}]);
+
+
 
 function deleteUnnecessaryFields(object) {
     if (object) {
@@ -43087,10 +43230,10 @@ controller.controller('DepartmentCatalogController', ["$scope", "$rootScope", "$
             console.log($scope.departmentOnEdit);
                 Employee.departmentAdd({
                     "name" : $scope.newName,
-                    "parentEmployeeDepartmentId" : $scope.departmentOnEdit.employeeDepartmentId
+                    "parentEmployeeDepartmentId" : $scope.departmentOnEdit ? $scope.departmentOnEdit.employeeDepartmentId : null
                 },function(resp){
                     if(resp.status == "ok"){
-                        $scope.departmentOnEdit.employeeDepartmentId = null;
+                        $scope.departmentOnEdit = null;
                         $scope.refreshDepartmentList();
                         notificationService.success($filter('translate')('Department successfully created'));
                     }
@@ -45102,10 +45245,9 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
         $scope.selectAllVacancies = function () {
             let _fieldsVacancyList = $scope.fieldsVacancyList;
-
-            _fieldsVacancyList.forEach(item => item.visiable = $scope.chooseListFieldsVacancies);
-            // ($scope.chooseListFieldsVacancies)?  $scope.selectVacancy = _fieldsVacancyList.filter(item => item.visiable) : $scope.selectVacancy = [];
+                _fieldsVacancyList.forEach(item => item.visiable = $scope.chooseListFieldsVacancies);
         };
+
 
         function isClickInDataShowBlock(element, id) {
             while(!element.classList.contains('block-constructor-reports')){
@@ -45256,14 +45398,15 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
         try {
             let updateReport = () => CustomReportsService.buildReport.call(this, $scope);
             let showBlocks =  (event) => {
-                let targetDataID = event.target.dataset, blockShow;
-
-                if(targetDataID && targetDataID['show']){
-                    blockShow = angular.element('#' + targetDataID['show'])[0];
-                    CustomReportEditService.showBlocks(blockShow);
-                    return;
-                }
-                CustomReportEditService.hiddenBlocks();
+                // let targetDataID = event.target.dataset, blockShow;
+                //
+                // if(targetDataID && targetDataID['show']){
+                //     blockShow = angular.element('#' + targetDataID['show'])[0];
+                console.log(event, 'event');
+                CustomReportEditService.showBlocks(event);
+                //     return;
+                // }
+                // // CustomReportEditService.hiddenBlocks();
             };
 
             this.dataReport        = CustomReportsService.data;
@@ -45299,9 +45442,8 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
 
 function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter, translateWords,
-                       $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService) {
+                       $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, reportsService, $window) {
     try {
-
         Stat.requestGetCustomVacancyReports()
             .then((resp) => {
                 this.customReports = resp['objects'];
@@ -45309,17 +45451,20 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
                 $scope.$apply();
             });
 
-        this.changeLocation = (path,report, event) => {
-            this.getReport(event, report);
+        reportsService.showMore.call(this);
+
+        this.changeLocation = (path, report, event) => {
+            (report)? this.getReport(event, report) : null;
             $location.path(path);
         };
 
-        this.changeLocationAllVacancies = (path) => {
-            $location.path(path);
-        };
-        this.getReport    = CustomReportsService.getReport;
-        this.remove       = CustomReportsService.remove;
-        this.removeReport = CustomReportsService.removeReport;
+        this.isShowMore          = true;
+        this.getReport           = CustomReportsService.getReport;
+        this.remove              = CustomReportsService.remove;
+        this.removeReport        = CustomReportsService.removeReport;
+        this.removeReport        = CustomReportsService.removeReport;
+        this.reportsBlocks       = reportsService.reportsBlocks;
+        this.inviteHiringManager = reportsService.inviteHiringManager;
         localStorage.setItem("isAddCandidates", false);
     }catch(erorr){
         console.log('Ошибка в customReports', erorr);
@@ -45328,6 +45473,6 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
 controller
     .controller("MyReportsCtrl", ["$rootScope", "$scope", "Vacancy", "Service", "$location",
         "$routeParams", "notificationService", "$filter", "translateWords", "$translate",
-        "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService", MyReportsCtrl]);
+        "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService","reportsService","$window", MyReportsCtrl]);
 
 

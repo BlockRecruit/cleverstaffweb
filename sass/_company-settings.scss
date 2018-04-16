@@ -77,6 +77,9 @@
 				//	@include button-green-styling();
 				//}
 				.showBtn {
+					&-inner {
+						@include flex(row, flex-start, flex-end);
+					}
 					.company-label {
 						font-weight: 500;
 
@@ -86,8 +89,6 @@
 					}
 					.company-settings {
 						@include input-styling();
-
-						margin-top: -10px;
 					}
 					.save-button {
 						@include button-green-styling();

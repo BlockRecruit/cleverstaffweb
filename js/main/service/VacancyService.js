@@ -731,7 +731,14 @@ angular.module('services.vacancy', [
 
     };
 
-    vacancy.languageLevelData = ['_undefined', 'Basic', 'Pre_Intermediate', 'Intermediate', 'Upper_Intermediate', 'Advanced', 'Native'];
+    vacancy.languageLevelData = [
+        {value:'_undefined', text:'_undefined'},
+        {value:'Basic', text:'Basic'},
+        {value:'Pre_Intermediate', text:'Pre_Intermediate'},
+        {text:'Upper_Intermediate',value:'Upper_Intermediate'},
+        {text:'Advanced', value:'Advanced'},
+        {text:'Native', value:'Native'}
+    ];
 
     vacancy.getInterviewStatus = function() {
         return [
@@ -799,9 +806,7 @@ angular.module('services.vacancy', [
             "page": {"number": 0, "count": 100},
             "words": null,
             "position": null,
-            "clientId": null,
-            "salaryFrom": null,
-            "salaryTo": null
+            "clientId": null
         };
     };
     vacancy.init();

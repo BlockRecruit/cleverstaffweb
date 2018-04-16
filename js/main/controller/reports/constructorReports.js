@@ -1025,10 +1025,9 @@ controller.controller('constructorReports', ["$rootScope", "$scope", "Vacancy", 
 
         $scope.selectAllVacancies = function () {
             let _fieldsVacancyList = $scope.fieldsVacancyList;
-
-            _fieldsVacancyList.forEach(item => item.visiable = $scope.chooseListFieldsVacancies);
-            // ($scope.chooseListFieldsVacancies)?  $scope.selectVacancy = _fieldsVacancyList.filter(item => item.visiable) : $scope.selectVacancy = [];
+                _fieldsVacancyList.forEach(item => item.visiable = $scope.chooseListFieldsVacancies);
         };
+
 
         function isClickInDataShowBlock(element, id) {
             while(!element.classList.contains('block-constructor-reports')){

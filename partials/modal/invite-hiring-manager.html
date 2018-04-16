@@ -14,6 +14,12 @@
         </div>
     </div>
     <div class="modal-footer">
+        <button class="btn-new cancel"
+                style="text-transform: uppercase;
+                       min-width: 180px;
+                       padding: 8px 20px;
+                       font-weight: bold;"
+                ng-click="$root.closeModal()">{{'cancel_2' | translate}}</button>
         <button class="btn-primary-new accent" ng-click="$root.addInvite()"
                 ng-disabled="!(!inviteForm.email.$error.email && !inviteForm.email.$error.required)"
                 ng-show="$root.inviteUser.role == 'admin' || $root.inviteUser.role == 'recruter'

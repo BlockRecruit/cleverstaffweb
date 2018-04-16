@@ -55,15 +55,27 @@
 					font-size: 14px;
 					font-weight: 600;
 
-					margin: 0 0 5px 0;
-				}
-				.resp-preson {
-					display: inline-block;
-					span {
-						position: relative;
-						left: -3px;
+						margin: 0 0 5px 0;
+					}
+					.deadline {
+						@include bold();
 
-						margin-right: 5px;
+						font-size: 14px;
+						.deadline-finish {
+							color: $theme-red;
+						}
+						span {
+							font-weight: 500;
+						}
+					}
+					.resp-preson {
+						display: inline-block;
+						span {
+							position: relative;
+							left: -3px;
+
+							margin-right: 5px;
+						}
 					}
 				}
 			}
@@ -103,18 +115,17 @@
 						@include input-styling();
 						@include border-radius();
 
-						clear: both;
-						width: 300px;
+					clear: both;
+					width: 95%;
 
-						cursor: pointer;
+					cursor: pointer;
 
-						background-image: url("../images/sprite/calendar.png");
-						background-repeat: no-repeat;
-						background-position: right center;
-					}
-					&:first-child {
-						margin-right: 15px;
-					}
+					background-image: url("../images/sprite/calendar.png");
+					background-repeat: no-repeat;
+					background-position: right center;
+				}
+				&:first-child {
+					margin-right: 15px;
 				}
 			}
 			& > .filter {
@@ -544,5 +555,20 @@
 	.block-vacancy-reports > .row > .col-lg-12 > .filter,
 	.block-vacancy-reports > .row > .col-lg-12 .dateFrom {
 		height: 120px;
+	}
+}
+@media (max-width: 768px) {
+	.report-info .dateFrom {
+		clear: both;
+	}
+	.report-info .dateFrom #dateFrom,
+	#dateTo {
+		width: 300px!important;
+	}
+}
+@media (max-width: $screen-xs) {
+	.report-info .dateFrom #dateFrom,
+	#dateTo {
+		width: 100%!important;
 	}
 }

@@ -387,6 +387,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
 
         function getVacancy(response) {
             $scope.vacancy = response;
+            $scope.deadline = new Date($scope.vacancy.dateFinish).getTime();
         }
 
         function getHoverStripeWidth() {

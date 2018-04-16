@@ -1,6 +1,6 @@
 var mailPattern = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/i;
 $(document).ready(function(){
-    $(".oneRecrTable").click(function(e){
+    $(".oneRecrTable img").click(function(e){
         var clicked = $(".clickedOneRecr");
         clicked.animate({opacity: '1'}, "slow");
         //console.log($(this));
@@ -11,7 +11,7 @@ $(document).ready(function(){
             }
         });
     });
-    $(".teamWorkTable").click(function(e){
+    $(".teamWorkTable img").click(function(e){
         var clicked = $(".clickedTeamWork");
         clicked.animate({opacity: '1'}, "slow");
         //console.log($(this));
@@ -22,7 +22,7 @@ $(document).ready(function(){
             }
         });
     });
-    $(".corporateTable").click(function(e){
+    $(".corporateTable img").click(function(e){
         var clicked = $(".clickedCorporate");
         clicked.animate({opacity: '1'}, "slow");
         //console.log($(this));
@@ -33,7 +33,7 @@ $(document).ready(function(){
             }
         });
     });
-    $(".enterPrizeTable").click(function(e){
+    $(".enterPrizeTable img").click(function(e){
         var clicked = $(".clickedEnterPrize");
         clicked.animate({opacity: '1'}, "slow");
         //console.log($(this));
@@ -44,6 +44,121 @@ $(document).ready(function(){
             }
         });
     });
+    $(".potokTable img").click(function(e){
+        var clicked = $(".clickedPotok");
+        clicked.css({'display': 'inline-block', 'z-index': 1});
+        clicked.animate({opacity: '1'}, "slow");
+        $('body').on("touchstart", function(e) {
+            if (clicked.has(e.target).length === 0) {
+                clicked.css({'opacity': 0, 'z-index': -1});
+                clicked.hide();
+                $(document).off('mouseup');
+            }
+        });
+    });
+    //$(".clickedCs").style('display', 'none');
+    //$(".clickedPotok").style('display', 'none');
+    //$(".clickedPayFree").style('display', 'none');
+    //$(".clickedSaveClient").style('display', 'none');
+    //$(".clickedWithoutIntegration").style('display', 'none');
+    $(".csTable img").click(function(e){
+        var clicked = $(".clickedCs");
+        clicked.css({'display': 'inline-block', 'z-index': 1});
+        clicked.animate({opacity: 1}, "slow");
+        $('body').on("touchstart", function(e) {
+            if (clicked.has(e.target).length === 0) {
+                clicked.css({'opacity': 0, 'z-index': -1});
+                //clicked.hide();
+                $(document).off('mouseup');
+            }
+        });
+    });
+    if($( window ).width() < 768){
+        $(".four-pay-1-free").click(function(e){
+            var clicked = $(".clickedPayFree");
+            clicked.css({'display': 'inline-block', 'z-index': 1});
+            clicked.animate({opacity: 1}, "slow");
+            $('body').on("touchstart", function(e) {
+                if (clicked.has(e.target).length === 0) {
+                    clicked.css({'opacity': 0, 'z-index': -1});
+                    //clicked.hide();
+                    $(document).off('mouseup');
+                }
+            });
+        });
+        $(".saveClientInSystem").click(function(e){
+            var clicked = $(".clickedSaveClient");
+            clicked.css({'display': 'inline-block', 'z-index': 1});
+            clicked.animate({opacity: 1}, "slow");
+            $('body').on("touchstart", function(e) {
+                if (clicked.has(e.target).length === 0) {
+                    clicked.css({'opacity': 0, 'z-index': -1});
+                    //clicked.hide();
+                    $(document).off('mouseup');
+                }
+            });
+        });
+        $(".withoutIntegration").click(function(e){
+            var clicked = $(".clickedWithoutIntegration");
+            clicked.css({'display': 'inline-block', 'z-index': 1});
+            clicked.animate({opacity: 1}, "slow");
+            $('body').on("touchstart", function(e) {
+                if (clicked.has(e.target).length === 0) {
+                    clicked.css({'opacity': 0, 'z-index': -1});
+                    //clicked.hide();
+                    $(document).off('mouseup');
+                }
+            });
+        });
+        $(".search-criteria-for-friendwork").click(function(e){
+            var clicked = $(".clickedStyleSearchCriteriaForFriendWork");
+            clicked.css({'display': 'inline-block', 'z-index': 1});
+            clicked.animate({opacity: 1}, "slow");
+            $('body').on("touchstart", function(e) {
+                if (clicked.has(e.target).length === 0) {
+                    clicked.css({'opacity': 0, 'z-index': -1});
+                    //clicked.hide();
+                    $(document).off('mouseup');
+                }
+            });
+        });
+        $(".search-criteria-for-cs").click(function(e){
+            var clicked = $(".clickedStyleSearchCriteriaForCs");
+            clicked.css({'display': 'inline-block', 'z-index': 1});
+            clicked.animate({opacity: 1}, "slow");
+            $('body').on("touchstart", function(e) {
+                if (clicked.has(e.target).length === 0) {
+                    clicked.css({'opacity': 0, 'z-index': -1});
+                    //clicked.hide();
+                    $(document).off('mouseup');
+                }
+            });
+        });
+        $(".export-excel").click(function(e){
+            var clicked = $(".clickedStyleExportExcel");
+            clicked.css({'display': 'inline-block', 'z-index': 1});
+            clicked.animate({opacity: 1}, "slow");
+            $('body').on("touchstart", function(e) {
+                if (clicked.has(e.target).length === 0) {
+                    clicked.css({'opacity': 0, 'z-index': -1});
+                    //clicked.hide();
+                    $(document).off('mouseup');
+                }
+            });
+        });
+        $(".setting-stage").click(function(e){
+            var clicked = $(".clickedStyleSettingStage");
+            clicked.css({'display': 'inline-block', 'z-index': 1});
+            clicked.animate({opacity: 1}, "slow");
+            $('body').on("touchstart", function(e) {
+                if (clicked.has(e.target).length === 0) {
+                    clicked.css({'opacity': 0, 'z-index': -1});
+                    //clicked.hide();
+                    $(document).off('mouseup');
+                }
+            });
+        });
+    }
 	$(".menu").on("click","a", function (event) {
 		
 		event.preventDefault();
@@ -145,7 +260,7 @@ $(document).ready(function(){
     $(window).scroll(function(){
         var sticky = $('.prices-block'),
             scroll = $(window).scrollTop();
-        //console.log(scroll);
+        console.log(scroll);
         var pc = 1200;
         var big_tablet = 991;
         var tablet = 767;
@@ -154,6 +269,302 @@ $(document).ready(function(){
         var iphone8Plus = 414;
         var iphone7 = 375;
         var mini_phone = 320;
+        if(window.location.pathname == '/ru/compare-potok.html' || window.location.pathname == '/ru/compare-friendwork.html'){
+            var tablet_690 = 697;
+            phone_or_tablet = 650;
+            var phone_or_tablet_600 = 600;
+            phone = 550;
+            var mini_phone_457 = 457;
+            mini_phone = 440;
+            var mini_phone_428 = 428;
+            var mini_phone_375 = 375;
+            var mini_phone_367_friendwork = 367;
+            var mini_phone_335 = 335;
+            var mini_phone_329 = 329;
+            if(big_tablet >= $( window ).width() || pc >= $( window ).width()){
+                $('.titleTable').css('width', '100%');
+            }
+            if(tablet >= $( window ).width()){
+                $('.titleTable .widthChild').css('width', $('.content .border-radius-first')[0].offsetWidth);
+                $('.lastTable .width').css('width', $('.content .border-radius-first')[0].offsetWidth);
+                $('.lastTable .greyColor').css('width', 'inherit');
+                $('.lastTable .greenColor').css('width', 'inherit');
+                $('.titleTable .potokTable').css('width', 'inherit');
+                $('.titleTable .csTable').css('width', 'inherit');
+                $('.titleTable').css('width', $('.content')[0].offsetWidth);
+                $('.lastTable').css('width', $('.content')[0].offsetWidth);
+                if (scroll >= 276){
+                    $('.hideTab').removeClass('hidden');
+                    $('.titleTable').addClass('fixed-tab');
+                } else{
+                    $('.titleTable').removeClass('fixed-tab');
+                    $('.hideTab').addClass('hidden');
+                }
+                if(window.location.pathname == '/ru/compare-potok.html'){
+                    if (scroll >= 722) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }else if(window.location.pathname == '/ru/compare-friendwork.html'){
+                    if (scroll >= 844) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }
+            }
+            if(tablet_690 >= $( window ).width()){
+                //$('.titleTable .widthChild').css('width', $('.content .border-radius-first')[0].offsetWidth + 40);
+                $('.titleTable').css('width', $('.content')[0].offsetWidth);
+                $('.lastTable').css('width', $('.content')[0].offsetWidth);
+                if (scroll >= 274){
+                    $('.hideTab').removeClass('hidden');
+                    $('.titleTable').addClass('fixed-tab');
+                } else{
+                    $('.titleTable').removeClass('fixed-tab');
+                    $('.hideTab').addClass('hidden');
+                }
+                if(window.location.pathname == '/ru/compare-potok.html'){
+                    if (scroll >= 723) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }else if(window.location.pathname == '/ru/compare-friendwork.html'){
+                    if (scroll >= 863) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }
+            }
+            if(phone_or_tablet >= $( window ).width()){
+                //$('.titleTable .widthChild').css('width', $('.content .border-radius-first')[0].offsetWidth);
+                $('.titleTable').css('width', $('.content')[0].offsetWidth);
+                $('.lastTable').css('width', $('.content')[0].offsetWidth);
+                if (scroll >= 274){
+                    $('.hideTab').removeClass('hidden');
+                    $('.titleTable').addClass('fixed-tab');
+                } else{
+                    $('.titleTable').removeClass('fixed-tab');
+                    $('.hideTab').addClass('hidden');
+                }
+                if(window.location.pathname == '/ru/compare-potok.html'){
+                    if (scroll >= 780) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }else if(window.location.pathname == '/ru/compare-friendwork.html'){
+                    if (scroll >= 908) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }
+            }
+            if(phone_or_tablet_600 >= $( window ).width()){
+                $('.titleTable .potokTable').css('width', $('.content .active')[0].offsetWidth);
+                $('.titleTable .csTable').css('width', $('.content .success')[0].offsetWidth);
+                $('.lastTable .greyColor').css('width', $('.content .active')[0].offsetWidth);
+                $('.lastTable .greenColor').css('width', $('.content .success')[0].offsetWidth);
+                $('.titleTable .widthChild').css('width', $('.content .border-radius-first')[0].offsetWidth);
+                $('.lastTable .width').css('width', $('.content .border-radius-first')[0].offsetWidth);
+                $('.titleTable').css('width', $('.content')[0].offsetWidth);
+                $('.lastTable').css('width', $('.content')[0].offsetWidth);
+                if(window.location.pathname == '/ru/compare-potok.html'){
+                    if (scroll >= 274){
+                        $('.hideTab').removeClass('hidden');
+                        $('.titleTable').addClass('fixed-tab');
+                    } else{
+                        $('.titleTable').removeClass('fixed-tab');
+                        $('.hideTab').addClass('hidden');
+                    }
+                }else if(window.location.pathname == '/ru/compare-friendwork.html'){
+                    if (scroll >= 322){
+                        $('.hideTab').removeClass('hidden');
+                        $('.titleTable').addClass('fixed-tab');
+                    } else{
+                        $('.titleTable').removeClass('fixed-tab');
+                        $('.hideTab').addClass('hidden');
+                    }
+                }
+                if(window.location.pathname == '/ru/compare-potok.html'){
+                    if (scroll >= 723) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }else if(window.location.pathname == '/ru/compare-friendwork.html'){
+                    if (scroll >= 875) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }
+            }
+            if(phone >= $( window ).width()){
+                $('.titleTable').css('width', $('.content')[0].offsetWidth);
+                if (scroll >= 322){
+                    $('.hideTab').removeClass('hidden');
+                    $('.titleTable').addClass('fixed-tab');
+                } else{
+                    $('.titleTable').removeClass('fixed-tab');
+                    $('.hideTab').addClass('hidden');
+                }
+                if(window.location.pathname == '/ru/compare-potok.html'){
+                    if (scroll >= 772) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }else if(window.location.pathname == '/ru/compare-friendwork.html'){
+                    if (scroll >= 1050) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }
+            }
+            if(mini_phone_457 >= $( window ).width()){
+                $('.titleTable').css('width', $('.content')[0].offsetWidth);
+                if (scroll >= 368){
+                    $('.hideTab').removeClass('hidden');
+                    $('.titleTable').addClass('fixed-tab');
+                } else{
+                    $('.titleTable').removeClass('fixed-tab');
+                    $('.hideTab').addClass('hidden');
+                }
+                if(window.location.pathname == '/ru/compare-potok.html'){
+                    if (scroll >= 895) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }else if(window.location.pathname == '/ru/compare-friendwork.html'){
+                    if (scroll >= 1095) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }
+            }
+            if(mini_phone >= $( window ).width()){
+                $('.titleTable').css('width', $('.content')[0].offsetWidth);
+                if (scroll >= 368){
+                    $('.hideTab').removeClass('hidden');
+                    $('.titleTable').addClass('fixed-tab');
+                } else{
+                    $('.titleTable').removeClass('fixed-tab');
+                    $('.hideTab').addClass('hidden');
+                }
+                if(window.location.pathname == '/ru/compare-potok.html'){
+                    if (scroll >= 876) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }else if(window.location.pathname == '/ru/compare-friendwork.html'){
+                    if (scroll >= 1031) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }
+            }
+            if(mini_phone_428 >= $( window ).width()){
+                $('.titleTable').css('width', $('.content')[0].offsetWidth);
+                if (scroll >= 366){
+                    $('.hideTab').removeClass('hidden');
+                    $('.titleTable').addClass('fixed-tab');
+                } else{
+                    $('.titleTable').removeClass('fixed-tab');
+                    $('.hideTab').addClass('hidden');
+                }
+                if(window.location.pathname == '/ru/compare-potok.html'){
+                    if (scroll >= 884) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }else if(window.location.pathname == '/ru/compare-friendwork.html'){
+                    if (scroll >= 1090) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }
+            }
+            if(mini_phone_375 >= $( window ).width()){
+                $('.titleTable').css('width', $('.content')[0].offsetWidth);
+                if (scroll >= 367){
+                    $('.hideTab').removeClass('hidden');
+                    $('.titleTable').addClass('fixed-tab');
+                } else{
+                    $('.titleTable').removeClass('fixed-tab');
+                    $('.hideTab').addClass('hidden');
+                }
+                if(window.location.pathname == '/ru/compare-potok.html'){
+                    if (scroll >= 986) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }else if(window.location.pathname == '/ru/compare-friendwork.html'){
+                    if (scroll >= 1234) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }
+            }
+
+            if(mini_phone_335 >= $( window ).width()){
+                $('.titleTable .widthChild').css('width', $('.content .border-radius-first')[0].offsetWidth);
+                $('.lastTable .width').css('width', $('.content .border-radius-first')[0].offsetWidth);
+                $('.titleTable').css('width', $('.content')[0].offsetWidth);
+                if (scroll >= 367){
+                    $('.hideTab').removeClass('hidden');
+                    $('.titleTable').addClass('fixed-tab');
+                } else{
+                    $('.titleTable').removeClass('fixed-tab');
+                    $('.hideTab').addClass('hidden');
+                }
+                if(window.location.pathname == '/ru/compare-potok.html'){
+                    if (scroll >= 1028) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }else if(window.location.pathname == '/ru/compare-friendwork.html'){
+                    if (scroll >= 1235) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }
+            }
+            if(mini_phone_329 >= $( window ).width()){
+                $('.titleTable .widthChild').css('width', $('.content .border-radius-first')[0].offsetWidth);
+                $('.lastTable .width').css('width', $('.content .border-radius-first')[0].offsetWidth);
+                $('.titleTable').css('width', $('.content')[0].offsetWidth);
+                if (scroll >= 368){
+                    $('.hideTab').removeClass('hidden');
+                    $('.titleTable').addClass('fixed-tab');
+                } else{
+                    $('.titleTable').removeClass('fixed-tab');
+                    $('.hideTab').addClass('hidden');
+                }
+                if(window.location.pathname == '/ru/compare-potok.html'){
+                    if (scroll >= 1027) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }else if(window.location.pathname == '/ru/compare-friendwork.html'){
+                    if (scroll >= 1265) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }
+            }
+            if(window.location.pathname == '/ru/compare-friendwork.html'){
+                if(mini_phone_367_friendwork >= $( window ).width()){
+                    $('.titleTable').css('width', $('.content')[0].offsetWidth);
+                    if (scroll >= 415){
+                        $('.hideTab').removeClass('hidden');
+                        $('.titleTable').addClass('fixed-tab');
+                    } else{
+                        $('.titleTable').removeClass('fixed-tab');
+                        $('.hideTab').addClass('hidden');
+                    }
+                    if (scroll >= 1152) {
+                        $('.hideTab').addClass('hidden');
+                        $('.titleTable').removeClass('fixed-tab');
+                    }
+                }
+            }
+        }
         if(window.location.pathname == '/ru/price.html'){
             $('.titleTable2 .plans').css('width', $('.active')[2].offsetWidth);
             $('.titleTable .plans').css('width', $('.active')[2].offsetWidth);

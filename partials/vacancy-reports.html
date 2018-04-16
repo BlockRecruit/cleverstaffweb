@@ -34,6 +34,13 @@
                         <input id="dateTo" class="datePicker pull-left" readonly placeholder="{{'day/month/year'|translate}}" type="text">
                         <div class="clearfix"></div>
                     </div>
+                    <div class="" ng-show="vacancy.dateFinish">
+                        <div class="deadline">
+                            {{'Deadline' | translate}}:
+                            <br>
+                            <span ng-class="{'deadline-finish': deadline <= $root.nowDate}">{{vacancy.dateFinish|dateFormat7}}</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="filter" ng-show="vacancyFunnelMap">
                     <div class="switch">
@@ -65,6 +72,7 @@
                         <span class="close" ng-click="removeUserInFunnelUsersList(user);$event.stopPropagation();">✖</span>
                     </div>
                 </div>
+                <div class="clearfix"></div>
             </div>
             <div class="col-lg-12 funnelPanel" ng-show="vacancyFunnelMap">
                 <div id="funnel">

@@ -281,7 +281,7 @@ angular.module('services.candidate', [
                 }
             },
             removeOriginAll: {
-                method: "POST",
+                method: "GET",
                 headers: {'Content-type': 'application/json; charset=UTF-8'},
                 params: {
                     param: "removeOriginAll"
@@ -467,7 +467,7 @@ angular.module('services.candidate', [
                     $scope.fastCandLoading = false;
                     $rootScope.loading = false;
                     setTimeout(function(){
-                        $scope.imgWidthFunc();
+                        $scope.imgWidthFunc(file.object.photo);
                     }, 3000);
                     if(data.data.status != 'error' ){
                         $location.path("candidate/add");
@@ -498,7 +498,7 @@ angular.module('services.candidate', [
                 file.$upload(serverAddress + '/candidate/addPhoto', file).then(function(data) {
                     $scope.callbackAddPhoto(data.data.objects[0]);
                     setTimeout(function(){
-                        $scope.imgWidthFunc();
+                        $scope.imgWidthFunc(data.data.objects[0]);
                     }, 2000);
                 });
             },

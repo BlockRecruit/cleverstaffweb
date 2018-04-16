@@ -659,20 +659,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 $scope.changeStatus = $scope.candidate.status;
                 cascadeStages();
 
-                var img = new Image();
-                img.onload = function() {
-                    var width = this.width;
-                    if(width >= 290){
-                        $('.photoWidth').css({'width': '100%', 'height': 'auto'});
-                    }else{
-                        $('.photoWidth').css({'width': 'inherit', 'display': 'block', 'margin': '0 auto'});
-                    }
-                };
-                if($location.$$host == '127.0.0.1'){
-                    img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-                }else{
-                    img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-                }
+                $scope.imgWidthFunc();
                 $rootScope.newTask.candidateId = $scope.candidate.candidateId;
                 angular.forEach($scope.candidate.interviews, function(value){
                     value.vacancyId.interviewStatusNotTouchable = value.vacancyId.interviewStatus;
@@ -1054,7 +1041,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             });
             //$rootScope.persons = $scope.persons;
         });
-        $scope.imgWidthFunc = function(){
+        $scope.imgWidthFunc = function(id){
             var img = new Image();
             img.onload = function() {
                 var width = this.width;
@@ -1066,17 +1053,13 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     $('#page-avatar').css({'width': '100%', 'object-fit': 'fill', 'margin': 'inherit'});
                 }else if(width >= 350){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto', 'margin': 'inherit'});
-                }else if(width >= 266){
+                }else if(width >= 201){
                     $('#page-avatar').css({'width': '100%', 'height': 'auto'});
                 }else{
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
-            if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
         };
         $scope.pathName = "candidate";
         $scope.callbackFile = function (resp, name) {
@@ -1515,6 +1498,8 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 } else {
                     changeObj.date = $('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate') != null ? $('.changeStatusOfInterviewInVacancyPick').datetimepicker('getDate') : customDate != undefined ? customDate : null;
                 }
+
+
                 if ($rootScope.showEmployedFields) {
                     Vacancy.editInterview({
                         "personId": $scope.personId,
@@ -1573,7 +1558,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             $('.changeStatusOfInterviewInVacancyPick').val("");
                             $scope.updateCandidate();
                             $scope.getLastEvent();
-                            notificationService.success($filter('translate')('candidate was added to the stage'));
+                            let changeStagesText ='The candidate has been transferred to the stage';
+
+                            notificationService.success(`${$filter('translate')(changeStagesText)} ${$filter('translate')(changeObj.status.value)}`);
                         } else if (resp.status == "error") {
                             $rootScope.clickedSaveStatusInterviewInVacancy = false;
                             notificationService.error(resp.message);
@@ -1656,7 +1643,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                             $('.changeStatusOfInterviewInVacancyPick').val("");
                             $scope.updateCandidate();
                             $scope.getLastEvent();
-                            notificationService.success($filter('translate')('candidate was added to the stage'));
+                            let changeStagesText ='The candidate has been transferred to the stage';
+                            notificationService.success(`${$filter('translate')(changeStagesText)} ${$filter('translate')(changeObj.status.value)}`);
+
                         } else if (resp.status == "error") {
                             $rootScope.clickedSaveStatusInterviewInVacancy = false;
                             notificationService.error(resp.message);
@@ -1695,23 +1684,18 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $scope.editComment = history.descr;
         };
         $scope.changeComment = function(action, comment){
-            if(comment && comment.length > 0) {
-                Action.editAction({"comment": comment, "actionId": action.actionId}, function(resp){
-                    if (resp.status && angular.equals(resp.status, "error")) {
-                        notificationService.error(resp.message);
-                    }
-                    else {
-                        action.editCommentFlag = false;
-                        action.descr = resp.object.descr;
-                        action.new_komment = '';
-                        action.dateEdit = resp.object.dateEdit;
-                        notificationService.success($filter('translate')('Comment changed'));
-                    }
-                });
-            } else {
-                notificationService.error($filter('translate')('enter a comment'))
-            }
-
+            Action.editAction({"comment": comment, "actionId": action.actionId}, function(resp){
+                if (resp.status && angular.equals(resp.status, "error")) {
+                    notificationService.error(resp.message);
+                }
+                else {
+                    action.editCommentFlag = false;
+                    action.descr = resp.object.descr;
+                    action.new_komment = '';
+                    action.dateEdit = resp.object.dateEdit;
+                    notificationService.success($filter('translate')('Comment changed'));
+                }
+            });
         };
 
         $scope.showDeleteComment = function(resp) {

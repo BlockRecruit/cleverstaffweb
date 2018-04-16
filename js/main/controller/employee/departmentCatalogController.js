@@ -36,10 +36,10 @@ controller.controller('DepartmentCatalogController', ["$scope", "$rootScope", "$
             console.log($scope.departmentOnEdit);
                 Employee.departmentAdd({
                     "name" : $scope.newName,
-                    "parentEmployeeDepartmentId" : $scope.departmentOnEdit.employeeDepartmentId
+                    "parentEmployeeDepartmentId" : $scope.departmentOnEdit ? $scope.departmentOnEdit.employeeDepartmentId : null
                 },function(resp){
                     if(resp.status == "ok"){
-                        $scope.departmentOnEdit.employeeDepartmentId = null;
+                        $scope.departmentOnEdit = null;
                         $scope.refreshDepartmentList();
                         notificationService.success($filter('translate')('Department successfully created'));
                     }

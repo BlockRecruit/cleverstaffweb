@@ -2124,6 +2124,12 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         $rootScope.toChangeStatusInterview = function (status, candidate, withChooseStatus) {
+            if (status == 'approved') {
+                $rootScope.showEmployedFields = true;
+                $rootScope.probationaryPeriod = null;
+            } else {
+                $rootScope.showEmployedFields = false;
+            }
             if (status == undefined) {
                 $rootScope.changeStatusOfInterviewInVacancy.status =null;
                 //$rootScope.changeStatusOfInterviewInVacancy.status = {
@@ -2235,13 +2241,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 $rootScope.candnotify.fullName = candidate[0].fullName;
                 $rootScope.candnotify.send = false;
             }
-
-            if (status == 'approved') {
-                $rootScope.showEmployedFields = true;
-                $rootScope.probationaryPeriod = null;
-            } else {
-                $rootScope.showEmployedFields = false;
-            }
             $('.changeStatusOfInterviewInVacancy.modal').modal('show');
         };
 
@@ -2309,7 +2308,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                 "personId": $scope.personId,
                                 "vacancyId": $scope.vacancy.vacancyId,
                                 "recallId": neededRequest == 'addInterview'?$rootScope.changeStatusOfInterviewInVacancy.candidate.recallId:null,
-                                "candidateId": changeObj.candidate.candidateId.candidateId,
+                                "candidateId": changeObj.candidate.length == 1 ? changeObj.candidate[0].candidateId : changeObj.candidate.candidateId.candidateId,
                                 "interviewId": changeObj.candidate.interviewId,
                                 "interviewState": changeObj.status.customInterviewStateId ? changeObj.status.customInterviewStateId : changeObj.status.value,
                                 "comment": changeObj.comment,
@@ -4262,9 +4261,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
         $scope.menuOptions = [
             [$filter('translate')('Open in new tab'), function ($itemScope) {
-                console.log($location,'location');
                 let url = $location.$$protocol + '://' + $location.$$host +'/!#' + '/candidates/' + $itemScope.candidate.candidateId.localId;
-
                 $window.open(url, "_blank");
             }]];
 
