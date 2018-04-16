@@ -23,7 +23,7 @@
 				font-family: "Helvetica-Bold";
 
 				display: inline-block;
-				margin-right: 5px;
+				margin-right: 0;
 			}
 			.resp-preson {
 				display: inline-block;
@@ -87,13 +87,18 @@
 				.btn-primary {
 					@include button-styling();
 
+					font-size: 16px;
+
 					padding: 15px 40px;
 				}
 			}
 			& > .dateFrom {
 				margin-right: 20px;
 				& > .field {
-					& > #dateFrom,
+					label {
+						font-size: 16px;
+					}
+					#dateFrom,
 					#dateTo {
 						@include input-styling();
 						@include border-radius();
@@ -161,7 +166,7 @@
 
 						color: #948c8c;
 						border-radius: 0 5px 5px 0;
-						background-color: rgba(0, 0, 0, 0.2);
+						background-color: rgba(227, 227, 227, 0.5);
 					}
 					@keyframes resize {
 						from {
@@ -361,7 +366,7 @@
 										height: 32px;
 
 										border: 1px solid #bfbfbf!important;
-										background-color: rgba(229, 229, 229, 0.4);
+										background-color: rgba(0, 0, 0, 0.2);
 									}
 									&:hover .hover-stripe {
 										display: block;
