@@ -11561,6 +11561,18 @@ angular.module('services.pay', [
          });
      };
 
+     person.getPersonEmails = function(params) {
+        return new Promise((resolve, reject) => {
+            person.personEmails(params, resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            }, error => reject(error));
+        })
+     };
+
      return person;
  }]);
 angular.module('services.reportsService', [
@@ -26757,6 +26769,18 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 });
         };
 
+        (function getPersonEmails() {
+            Person.getPersonEmails({type: 'send'})
+                .then(resp => {
+                    console.log(resp);
+                    $scope.ableToSendEmails = resp.objects.filter(email => {
+                       return email.permitSend;
+                    }).length;
+
+                    console.log($scope.ableToSendEmails);
+                }, error => notificationService.error(error));
+        })();
+
         sliderElements.params = Candidate.candidateLastRequestParams || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
         sliderElements.setCurrent();
         $scope.nextOrPrevElements = sliderElements.nextOrPrevElements.bind(null, $scope);
@@ -26764,6 +26788,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.candidateLength = $rootScope.objectSize || localStorage.getItem('objectSize');
         $scope.currentIndex = sliderElements.nextElement.cacheCurrentPosition + 1 ||  (+localStorage.getItem('numberPage')) +  1;
         ///////////////////////////////////////////////////////////////End of Sent Email candidate
+
     }]);
 
 
