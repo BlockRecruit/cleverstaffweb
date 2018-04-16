@@ -73,23 +73,7 @@
                                     <input type="hidden" client-autocompleter id="clientAutocompleater">
                                 </div>
                                 <!--<input type="text" class="form-control" placeholder="Заказчик">-->
-                                <div class="select">
-                                    <select id="cs-region-filter-select" ng-model="searchParam.regionId" ng-focus="showRegionSearchInfoPop = true" ng-blur="showRegionSearchInfoPop = false" ng-selected="stat.value == searchParam.status" class="margin-top form-control">
-
-                                    </select>
-                                </div>
                             </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                                <div class="select">
-                                    <select ng-model="searchParam.salaryName" ng-init="searchParam.salaryName = 'null'" class="form-control">
-                                        <option value="null" selected translate="salary"></option>
-                                        <option ng-selected="salary.name == searchParam.salaryName" value="{{salary.name}}" ng-repeat="salary in salaryObject">
-                                            {{'searchParamSalaryAssoc.' + salary.name|translate}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="clearfix hidden-lg hidden-sm hidden-md"></div>
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
                                 <div class="select">
                                     <select ng-model="currentStatus" ng-selected="stat.value == currentStatus" class="form-control" ng-change="addSearchStatus(currentStatus)" ng-init="currentStatus = 'null'">
@@ -123,6 +107,12 @@
                                                 value="{{responsible.userId}}">
                                             {{responsible.cutFullName}}
                                         </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                <div class="select">
+                                    <select id="cs-region-filter-select" ng-model="searchParam.regionId" ng-focus="showRegionSearchInfoPop = true" ng-blur="showRegionSearchInfoPop = false" ng-selected="stat.value == searchParam.status" class="form-control">
                                     </select>
                                 </div>
                             </div>

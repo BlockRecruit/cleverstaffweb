@@ -2092,7 +2092,8 @@ directive('appVersion', ['version', function(version) {
                         $(element[0]).select2("data", {id: id, text: val});
                     }
                 };
-                let translatedPositions = false;
+                let translatedPositions = false,
+                    inputText = null;
 
                 $rootScope.$on('$translateChangeSuccess', function () {
                     initSelect2();
@@ -2108,6 +2109,14 @@ directive('appVersion', ['version', function(version) {
                             placeholder: $translate.instant('client'),
                             minimumInputLength: 0,
                             allowClear: true,
+                            createSearchChoice: function(term, data) {
+                                if ($(data).filter(function() {
+                                        return this.text.localeCompare(term) === 0;
+                                    }).length === 0) {
+                                    inputText = term;
+                                    return {id: term, text: term};
+                                }
+                            },
                             ajax: {
                                 url: serverAddress + "/client/autocompleteClients",
                                 dataType: 'json',
@@ -2124,7 +2133,6 @@ directive('appVersion', ['version', function(version) {
                                     var status = "";
                                     var realName = "";
                                     if (data['objects'] !== undefined) {
-                                        console.log(data['objects']);
                                         angular.forEach(data['objects'], function(item) {
                                             results.push({
                                                 id: item.clientId,
@@ -2139,8 +2147,10 @@ directive('appVersion', ['version', function(version) {
                                 }
                             },
                             dropdownCssClass: "bigdrop"
+                        }).on("select2-close", function(e) {
+                            $scope.searchParam.clientId = $(element[0]).select2("data").text;
                         }).on("change", function(e) {
-
+                            $scope.searchParam.clientId = $(element[0]).select2("data") ? $(element[0]).select2("data").text : null;
                         }).on("select2-opening", function(e){
                             setTimeout(function () {
                                 $('#select2-drop .select2-results .select2-searching')[0].innerText = $filter("translate")("Searching");
@@ -2618,26 +2628,29 @@ directive('appVersion', ['version', function(version) {
                 }
             }
         }
-    }).directive('originAutocompleter', ["$filter", "serverAddress", "$translate", "$rootScope", function($filter, serverAddress, $translate, $rootScope) {
-            return {
-                restrict: 'EA',
-                replace: true,
-                link: function($scope, element, attrs) {
-                    $scope.setOriginAutocompleterValue = function(val) {
-                        if (val != undefined) {
-                            $(element[0]).select2("data", {id: val, text: val});
-                        } else {
-                            $(element[0]).select2("data", {id: '', text: ''});
-                        }
-                        $('.select2-search-choice-edit-origin').off().on('click', function (e) {
-                            $scope.editOriginName();
-                        }).attr("title", $filter('translate')('Edit source for all candidates'));
-                    };
-                    $scope.getOriginAutocompleterValue = function() {
-                        var object = $(element[0]).select2("data");
-                        return object != null ? object.text : null;
-                    };
-                    var inputText = "";
+    }).directive('originAutocompleter', ["$filter", "serverAddress", "$rootScope", "$translate", function($filter, serverAddress, $rootScope, $translate) {
+        return {
+            restrict: 'EA',
+            replace: true,
+            link: function($scope, element, attrs) {
+                $scope.setOriginAutocompleterValue = function(val) {
+                    if (val != undefined) {
+                        $(element[0]).select2("data", {id: val, text: val});
+                    } else {
+                        $(element[0]).select2("data", null).trigger("change");;
+                    }
+                    $('.select2-search-choice-edit-origin').off().on('click', function (e) {
+                        $scope.editOriginName();
+                    }).attr("title", $filter('translate')('Edit source for all candidates'));
+                    $('.select2-search-choice-delete-origin').off().on('click', function (e) {
+                        $scope.removeSource();
+                    }).attr("title", $filter('translate')('Delete source for all candidates'));
+                };
+                $scope.getOriginAutocompleterValue = function() {
+                    var object = $(element[0]).select2("data");
+                    return object != null ? object.text : null;
+                };
+                var inputText = "";
 
                     let translatedPositions = false;
 
@@ -2689,6 +2702,9 @@ directive('appVersion', ['version', function(version) {
                             $('.select2-search-choice-edit-origin').off().on('click', function (e) {
                                 $scope.editOriginName();
                             }).attr("title", $filter('translate')('Edit source for all candidates'));
+                            $('.select2-search-choice-delete-origin').off().on('click', function (e) {
+                                $scope.removeSource();
+                            }).attr("title", $filter('translate')('Delete source for all candidates'));
                         }).on("select2-close", function(e) {
                             console.log("CLOSE!");
                             if (inputText.length > 0) {
@@ -3340,10 +3356,12 @@ directive('appVersion', ['version', function(version) {
                             }
                             if($(element[0]).select2("data")) {
                                 $(element[0]).select2("data", {id: inputText, text: removeExtraSpaces($(element[0]).select2("data").text)});
-                                $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
+                                if($scope.searchParam)
+                                    $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
                                 $scope.setPositionAutocompleterValue($scope.searchParam.position);
                             }
-                            $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
+                            if($scope.searchParam)
+                                $scope.searchParam.position = removeExtraSpaces($(element[0]).select2("data").text);
                         }).on("select2-selecting", function(e) {
                             inputText = "";
                         }).on("select2-open", function() {
@@ -3353,15 +3371,12 @@ directive('appVersion', ['version', function(version) {
                     }
                     function removeExtraSpaces(string) {
                         let str = string.split('');
-                        // console.log(str);
                         for( let i = 0; i < str.length; i++) {
                             if( str[i] === " " && str[i+1] === " " && i !== 0 && i !== str.length - 1  || (str[i] === " " && i === str.length - 1)) {
-                                // console.log(str[i],str[i+1],"spliced");
                                 str.splice(i,1);
                                 i--;
                             }
                         }
-                        // console.log(str);
                         return str.join('');
                     }
                 }
@@ -4539,7 +4554,41 @@ directive('appVersion', ['version', function(version) {
                 }
             }
         }
-    }]).directive("customSelect",setCustomSelect);
+    }])
+    .directive("customSelect",setCustomSelect)
+    .directive("tooltipMove", tooltipMove);
+
+
+function tooltipMove($filter){
+    let restrict  = "EACM"
+    return {
+        restrict,
+        link(scope, element, attrs){
+            element[0].addEventListener('mouseenter', showToolTip.bind(element[0], $filter));
+            element[0].addEventListener('mouseleave', hiddenToolTip);
+        }
+    }
+}
+
+function showToolTip($filter, event) {
+        let text,
+        tooltipContent = document.createElement('div');
+
+    if(this.dataset && this.dataset.tooltip){
+        text = this.dataset.tooltip;
+        tooltipContent.classList.add('info-content');
+        tooltipContent.classList.add('tooltip-hint');
+        tooltipContent.innerHTML = $filter('translate')(text);
+        this.after(tooltipContent);
+    }
+}
+
+function hiddenToolTip() {
+    console.log('exit');
+    let allToolTips = document.querySelectorAll('.tooltip-hint');
+        allToolTips.forEach(tooltip => tooltip.remove());
+}
+
 function setCustomSelect($rootScope){
     let restrict  = "EACM",
         scope = {

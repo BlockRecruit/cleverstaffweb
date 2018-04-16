@@ -41,6 +41,7 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "mailingAddFromJob": $sce.trustAsHtml($filter('translate')('Select the vacancy and the stage. Candidates from the selected stage will become the recipients of the mailing. Only candidates with e-mail will be added')),
                     "mailingClone": $sce.trustAsHtml($filter('translate')('Create the copy of current mailing for the further sending')),
                     "hmInvite":  $sce.trustAsHtml($filter('translate')('Hiring Manager will be responsible for this vacancy after registration in account.')),
+                    "reportWithCandidatesActions":  $sce.trustAsHtml($filter('translate')('Number of candidates for which there were actions for the selected period')),
                     "userInvite": {
                         "admin" : $sce.trustAsHtml($filter('translate')('Full control on a company account. Able to manage users, clients, vacancies, and candidates. Paid user')),
                         "recruter" : $sce.trustAsHtml($filter('translate')('Able to manage clients, vacancies and candidates. Paid user')),

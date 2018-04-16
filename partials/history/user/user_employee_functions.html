@@ -1,0 +1,15 @@
+<div class="col-lg-2" title="{{history.dm|dateFormat:true}}">
+    <div class="time-comment">
+        {{history.dm|dateFormat:false}}
+    </div>
+    <a ng-href="#/users/{{history.person.userId}}" class="text-left user">
+        <span once-text="history.person.firstName"></span>
+        <span once-text="history.person.lastName"></span>
+    </a>
+</div>
+<div class="col-lg-10">
+    <a ng-href="#/users/{{history.person.userId}}" once-text="history.person.fullName"></a>
+    <span ng-if="history.descr == 'true'">{{'history_info.show_tab'|translate}} "{{'employees'|translate}}" {{'for'|translate}}</span>
+    <span ng-if="history.descr == 'false'">{{'history_info.hide_tab'|translate}} "{{'employees'|translate}}" {{'from_4'|translate}}</span>
+    <a ng-href="#/users/{{history.targetPerson.userId}}" once-text="history.targetPerson.cutFullName"></a>
+</div>
