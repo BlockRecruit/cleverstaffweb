@@ -4502,7 +4502,36 @@ directive('appVersion', ['version', function(version) {
         }
     }])
     .directive("customSelect",setCustomSelect)
-    .directive("errorPopup", removePopUp);
+    .directive("errorPopup", removePopUp)
+    .directive("removedPerson", removedPerson);
+
+
+function removedPerson($compile){
+    let restrict  = "EACM";
+    return {
+        restrict,
+        link(scope, element, attrs){
+            let user = element.find('.user').clone(),
+                dataHistory = scope.history,
+                angularElement, compileFn;
+
+            if(setRemoveConfig(user, dataHistory)) return;
+
+            angularElement = angular.element(user);
+            compileFn = $compile(angularElement)(scope);
+            element.find('.user').replaceWith(angularElement[0])
+        }
+    }
+}
+
+function setRemoveConfig(user, dataHistory) {
+    if(dataHistory.person.status !== 'D') return true;
+
+    user.addClass('remove-user');
+    user.attr('error-popup', '');
+    user.attr('href', '');
+    user[0].dataset.error = "User deleted from account";
+}
 
 function removePopUp(notificationService, $translate){
     let restrict  = "EACM";
