@@ -1,5 +1,5 @@
-controller.controller('testsAndForms', ["$scope", "Test", "notificationService", "$filter", "$rootScope", "$uibModal", "$window", "$routeParams", "$location", "FileInit", "serverAddress", "Vacancy", "$localStorage",
-    function ($scope, Test, notificationService, $filter, $rootScope, $uibModal, $window, $routeParams, $location, FileInit, serverAddress, Vacancy, $localStorage) {
+controller.controller('testsAndForms', ["$scope", "Test", "notificationService", "$filter", "$rootScope", "$uibModal", "$window", "$routeParams", "$location", "FileInit", "serverAddress", "Vacancy", "$localStorage", "Person",
+    function ($scope, Test, notificationService, $filter, $rootScope, $uibModal, $window, $routeParams, $location, FileInit, serverAddress, Vacancy, $localStorage, Person) {
         $scope.optionTab = 'show';
         $scope.textType = false;
         $scope.fieldCheck = false;
@@ -631,4 +631,14 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
         $scope.goBack = function(){
             history.back()
         };
+
+        (function getPersonEmails() {
+            Person.getPersonEmails({type: 'all'})
+                .then(resp => {
+                    let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
+
+                    if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+                }, error => notificationService.error(error));
+        })();
     }]);

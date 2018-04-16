@@ -21424,6 +21424,15 @@ function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, g
         });
     }
 
+    (function getPersonEmails() {
+        Person.getPersonEmails({type: 'all'})
+            .then(resp => {
+                let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
+
+                if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+            }, error => notificationService.error(error));
+    })();
 
     $scope.openModalAddEmail = function() {
         $rootScope.addEmailAccessObject.errorMessage = null;
@@ -24752,6 +24761,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     $scope.modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: '../partials/modal/candidate-add-in-vacancy.html',
+                        scope: $scope,
                         resolve: {
                             items: function () {
                                 return $scope.items;
@@ -26657,11 +26667,12 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             text: "Hi [[candidate name]]!<br/><br/>--<br/>Best, <br/>[[recruiter's name]]"
         };
         $scope.showCandidateSentEmail = function(){
-            if($rootScope.me.emails.length == 0){
+            if($rootScope.me.emails.length === 0 && !$scope.noAllowedMails){
                 $scope.modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '../partials/modal/no-synch-email.html',
                     size: '',
+                    scope: $scope,
                     resolve: {
 
                     }
@@ -26671,6 +26682,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     animation: true,
                     templateUrl: '../partials/modal/candidate-send-email.html',
                     size: '',
+                    scope: $scope,
                     resolve: {
 
                     }
@@ -26778,7 +26790,6 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
                     if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
 
-                    console.log($scope.noAllowedMails);
                 }, error => notificationService.error(error));
         })();
 
@@ -26950,8 +26961,8 @@ controller.controller('testResults', ["$scope", "Test", "notificationService", "
     };
 
 }]);
-controller.controller('testsAndForms', ["$scope", "Test", "notificationService", "$filter", "$rootScope", "$uibModal", "$window", "$routeParams", "$location", "FileInit", "serverAddress", "Vacancy", "$localStorage",
-    function ($scope, Test, notificationService, $filter, $rootScope, $uibModal, $window, $routeParams, $location, FileInit, serverAddress, Vacancy, $localStorage) {
+controller.controller('testsAndForms', ["$scope", "Test", "notificationService", "$filter", "$rootScope", "$uibModal", "$window", "$routeParams", "$location", "FileInit", "serverAddress", "Vacancy", "$localStorage", "Person",
+    function ($scope, Test, notificationService, $filter, $rootScope, $uibModal, $window, $routeParams, $location, FileInit, serverAddress, Vacancy, $localStorage, Person) {
         $scope.optionTab = 'show';
         $scope.textType = false;
         $scope.fieldCheck = false;
@@ -27583,6 +27594,16 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
         $scope.goBack = function(){
             history.back()
         };
+
+        (function getPersonEmails() {
+            Person.getPersonEmails({type: 'all'})
+                .then(resp => {
+                    let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
+
+                    if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+                }, error => notificationService.error(error));
+        })();
     }]);
 controller.controller('CandidateXRayLinkController', ["$localStorage", "$translate", "Service", "$scope", "ngTableParams", "Candidate", "$location", "$rootScope", "$filter", "$cookies", "serverAddress",
     function ($localStorage, $translate, Service, $scope, ngTableParams, Candidate, $location, $rootScope, $filter, $cookies, serverAddress) {
@@ -29270,7 +29291,7 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
     };
 
     $scope.showCandidateSentEmail = function(){
-        if($rootScope.me.emails.length == 0){
+        if($rootScope.me.emails.length === 0 && !$scope.noAllowedMails){
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/no-synch-email.html',
@@ -29284,6 +29305,7 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
                 animation: true,
                 templateUrl: '../partials/modal/client-send-email.html',
                 size: '',
+                scope: $scope,
                 resolve: {
 
                 }
@@ -29382,6 +29404,15 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
             });
     };
 
+    (function getPersonEmails() {
+        Person.getPersonEmails({type: 'all'})
+            .then(resp => {
+                let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
+
+                if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+            }, error => notificationService.error(error));
+    })();
     ///////////////////////////////////////////////////////////////End of Sent Email
 }
 controller.controller('ClientOneController', ["serverAddress", "$scope", "$routeParams", "$location", "Client", "Service", "Contacts", "Vacancy",
@@ -37091,6 +37122,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/send-vacancy-by-email.html',
+                scope: $scope,
                 size: '',
                 resolve: function(){
 
@@ -38656,7 +38688,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/vacancy-candidate-add.html',
+                templateUrl: '../partials/modal/vacancy-candidate-add.html?b=1',
                 size: '',
                 scope: $scope,
                 resolve: function(){
@@ -39997,6 +40029,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $scope.modalInstance = $uibModal.open({
                 animation: false,
                 templateUrl: '../partials/modal/vacancy-candidate-change-status.html?b41123',
+                scope: $scope,
                 size: '',
                 resolve: function(){
 
@@ -40222,6 +40255,17 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             }
 
         }
+
+        (function getPersonEmails() {
+            Person.getPersonEmails({type: 'all'})
+                .then(resp => {
+                    let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
+
+                    if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+                    $scope.$apply();
+                }, error => notificationService.error(error));
+        })();
 
         $scope.hiddenOrShowVacanciesOnThePublicListVacancies = Vacancy.requestChangeVacanciesForCandidatesAccess;
 

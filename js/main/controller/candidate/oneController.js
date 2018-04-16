@@ -254,6 +254,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     $scope.modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: '../partials/modal/candidate-add-in-vacancy.html',
+                        scope: $scope,
                         resolve: {
                             items: function () {
                                 return $scope.items;
@@ -2159,11 +2160,12 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             text: "Hi [[candidate name]]!<br/><br/>--<br/>Best, <br/>[[recruiter's name]]"
         };
         $scope.showCandidateSentEmail = function(){
-            if($rootScope.me.emails.length == 0){
+            if($rootScope.me.emails.length === 0 && !$scope.noAllowedMails){
                 $scope.modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '../partials/modal/no-synch-email.html',
                     size: '',
+                    scope: $scope,
                     resolve: {
 
                     }
@@ -2173,6 +2175,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     animation: true,
                     templateUrl: '../partials/modal/candidate-send-email.html',
                     size: '',
+                    scope: $scope,
                     resolve: {
 
                     }
@@ -2280,7 +2283,6 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
                     if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
 
-                    console.log($scope.noAllowedMails);
                 }, error => notificationService.error(error));
         })();
 
