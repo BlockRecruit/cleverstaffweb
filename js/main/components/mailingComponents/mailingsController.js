@@ -39,12 +39,6 @@ component.component('mailings', {
         let storedBreadcrumbs = $localStorage.get('breadcrumbs');
         $rootScope.breadCrumbs = storedBreadcrumbs?JSON.parse(storedBreadcrumbs):defaultBreadcrumbs;
 
-        if(isPreviousSentMailings) {
-            $state.go('mailings.sent');
-        } else {
-            $state.go('mailings.saved');
-        }
-
 
         $scope.newMailing = function () {
             Mailing.newMailing();
