@@ -205,6 +205,7 @@
   "employed": "Работает",
   "freelancer": "Фрилансер",
   "archived": "Удален",
+  "our_employee": "Наш сотрудник",
   "candidate_status_assoc": {
     "not_searching": "Не заинтересован",
     "passive_search": "Пассивный поиск",
@@ -213,7 +214,7 @@
     "freelancer": "Фрилансер",
     "reserved": "В резерве",
     "archived": "Удалён",
-    "work": "Наш сотрудник",
+    "our_employee": "Наш сотрудник",
     "only_remote": "Только удалённо",
     "only_relocation_abroad": "Только переезд за границу",
     "": "",

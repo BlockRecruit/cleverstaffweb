@@ -188,6 +188,7 @@
     "deleted": "Deleted"
   },
   "interview_1": "interview",
+  "our_employee": "Our employee",
   "candidate_status_assoc": {
     "not_searching": "Not interested",
     "passive_search": "Passive search",
@@ -196,7 +197,7 @@
     "freelancer": "Freelancer",
     "archived": "Deleted",
     "reserved": "Reserved",
-    "work": "Our employee",
+    "our_employee": "Our employee",
     "only_remote": "Only remote",
     "only_relocation_abroad": "Only relocation abroad",
     "completed": "Completed",

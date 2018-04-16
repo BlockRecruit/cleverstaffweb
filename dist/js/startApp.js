@@ -3780,7 +3780,7 @@ angular.module('services.candidate', [
             {value: "freelancer", name: "freelancer"},
             //{value: "reserved", name: "reserved"},
             {value: "archived", name: "archived"},
-            {value: "work", name: "Our employee"},
+            {value: "our_employee", name: "Our employee"},
             {value: "only_remote", name: "Only remote"},
             {value: "only_relocation_abroad", name: "Only relocation abroad"}
         ];
