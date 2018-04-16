@@ -736,7 +736,7 @@ controller.controller('reportAllController', ["$rootScope", "$scope", "Vacancy",
         $scope.inviteHiringManager = function(){
             $rootScope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: 'partials/modal/invite-new-user.html',
+                templateUrl: 'partials/modal/invite-new-user.html?b1',
                 size: '',
                 resolve: function(){
 

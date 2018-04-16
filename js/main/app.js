@@ -34,7 +34,8 @@ angular.module('RecruitingApp', [
     let states = [{
         url: "/organizer",
         name: 'organizer',
-        component: 'organizer',
+        controller: 'ActivityFutureController',
+        templateUrl: 'partials/future.html',
         data: {
             title: 'Organizer',
             pageName: 'Activity'
@@ -668,8 +669,16 @@ angular.module('RecruitingApp', [
     },{
         url:'/email-integration',
         name: "email-integration",
-        templateUrl: "partials/addEmailForTemplate.html?b1",
+        templateUrl: "partials/emailIntegration/addEmailForTemplate.html?b1",
         controller: "addEmailForTemplateController",
+        data: {
+            title: "Integration with email",
+            pageName: "Integration with email"
+        }
+    },{
+        url:'/email-integration/edit/{id}',
+        name: "email-integration-edit",
+        component: "emailTemplateEditComponent",
         data: {
             title: "Integration with email",
             pageName: "Integration with email"

@@ -1,7 +1,7 @@
-component.component("organizer", {
-    templateUrl: "partials/future.html",
-    controller: function($scope, $translate, $rootScope, Vacancy, frontMode, $filter, Sticker, Service, ScopeService, Person, $location,
-                         notificationService,Task, $document, $uibModal, $sce, $timeout, $route, Achieve, Mailing) {
+controller.controller('ActivityFutureController', ["$scope", "$translate", "$rootScope", "Vacancy", "frontMode", "$filter", "Sticker",
+    "Service", "ScopeService","Person", "$location", "notificationService","Task","$document", "$uibModal", "$sce", "$timeout", "$route", "Achieve", "Mailing",
+    function($scope, $translate, $rootScope, Vacancy, frontMode, $filter, Sticker, Service, ScopeService, Person, $location,
+             notificationService,Task, $document, $uibModal, $sce, $timeout, $route, Achieve, Mailing) {
         $rootScope.loading = true;
         $rootScope.showAchieves = true;
         $scope.activeVacancy = null;
@@ -336,7 +336,9 @@ component.component("organizer", {
                     }
                     $scope.progressAchieve = {width: $scope.achievePercent + '%', 'background-color': color};
                     $scope.progressAchieve2 = {width: $scope.achievePercent2 + '%', 'background-color': colorTwo};
-                    $rootScope.$$phase || $scope.$apply();
+                    if (!$scope.$$phase) {
+                        $scope.$apply();
+                    }
                     if($scope.achieves){
                         if($rootScope.me.personId == $rootScope.me.org.creatorId){
                             if($scope.achieves.createOrg && $scope.achieves.createOrg.value == 'false'){
@@ -1051,5 +1053,4 @@ component.component("organizer", {
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
         }
-    }
-});
+    }]);

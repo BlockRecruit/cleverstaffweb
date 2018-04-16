@@ -11,7 +11,7 @@
             <div class="row bodies">
                 <table class="table" ng-show="emails.length">
                     <tbody>
-                    <tr ng-click="showEditeTemplateModal(email)" ng-repeat="email in emails track by $index">
+                    <tr ng-click="editMailBox(email)" ng-repeat="email in emails track by $index">
                         <td class="mailAndData">
                             <a>{{email.email}}</a><span>, {{email.dm|dateFormat:false}}</span>
                         </td>

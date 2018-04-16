@@ -1,0 +1,43 @@
+.emailIntegration-edit-block {
+	header {
+		padding-left: 5px;
+		h4 {
+			margin-top: 25px;
+			margin-bottom: 40px;
+			.title-text {
+				color: #666;
+			}
+			.email-name {
+				font-weight: bold;
+			}
+		}
+	}
+	.main-block {
+		.main-params {
+			padding: 0 10px;
+			.password {
+				color: #999;
+				background: transparent;
+			}
+		}
+		.permissions {
+			display: flex;
+			height: 40px;
+			margin: 40px 0 20px 0;
+
+			border-radius: 5px;
+			background-color: white;
+
+			align-items: center;
+			justify-content: space-between;
+			.sent-permission,
+			.mailing-permission,
+			.import-permission {
+				display: flex;
+				label {
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+}

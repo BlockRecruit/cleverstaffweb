@@ -3108,5 +3108,6 @@
   "free mailings left": "бесплатных письма",
   "free mailings left 1": "бесплатных писем",
   "Please integrate email into the system or enable mailing sending on": "Интегрируйте email в систему или разрешите отправку рассылок на",
-  "the email integration settings page": "странице настроек интреграции email"
+  "the email integration settings page": "странице настроек интреграции email",
+  "Mail integration settings": "Настройки интграции с почтой"
 }

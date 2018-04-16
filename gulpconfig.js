@@ -122,6 +122,7 @@ module.exports = function () {
 					, config.path.jsDir + "main/controller/employee/*.js"
                     , config.path.jsDir + "main/controller/reports/*.js"
                     , config.path.jsDir + "main/components/mailingComponents/*.js"
+                    , config.path.jsDir + "main/components/emailIntegrationComponents/*.js"
 				]
 			}
 		},

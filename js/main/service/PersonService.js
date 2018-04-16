@@ -1,6 +1,6 @@
  angular.module('services.person', [
     'ngResource'
- ]).factory('Person', ['$resource', 'serverAddress','$rootScope', function($resource, serverAddress, $rootScope) {
+ ]).factory('Person', ['$resource', 'serverAddress','$rootScope', '$q', function($resource, serverAddress, $rootScope, $q) {
      var person = $resource(serverAddress + '/person/:param', {param: "@param"},
             {
                 authorization: {
@@ -315,6 +315,27 @@
          $rootScope.loading = true;
          return new Promise((resolve, reject) => {
              person.getAllPersons(resp => resolve(resp, resp['request'] = 'AllPersons'),error => reject(error));
+         });
+     };
+
+     person.getMailboxes = function () {
+         $rootScope.loading = true;
+         return new $q((resolve, reject) => {
+             person.personEmails({type: 'all'},function(resp){
+                 if(resp.status == 'ok'){
+                     if(resp.objects.length > 0){
+                         resolve(resp.objects);
+                     }else{
+                         $state.go("email-integration");
+                         notificationService.error("There is no integrated mailboxes");
+                     }
+                 }else{
+                     $state.go("email-integration");
+                     notificationService.error(resp.message);
+                 }
+                 $rootScope.loading = false;
+                 reject();
+             });
          });
      };
 

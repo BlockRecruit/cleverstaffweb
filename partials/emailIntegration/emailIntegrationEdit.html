@@ -1,0 +1,45 @@
+<div class="emailIntegration-edit-block container-fluid">
+    <header>
+        <h4>
+            <span class="title-text" translate="Mail integration settings"></span>
+            <span class="email-name" ng-bind="$ctrl.editableMailbox.email"></span>
+        </h4>
+    </header>
+    <div class="main-block">
+        <div class="row main-params">
+            <div class="col-lg-3">
+                <input type="password" class="form-control password" placeholder="{{'password'|translate}}" autocomplete="off">
+            </div>
+            <div class="col-lg-3">
+                <input type="text" class="form-control" name="smtpHost" placeholder="smtp Host" ng-model="$ctrl.editableMailbox.smtpHost">
+            </div>
+            <div class="col-lg-3">
+                <input type="number" class="form-control" name="smtpPort" placeholder="smtp Port" ng-model="$ctrl.editableMailbox.smtpPort">
+            </div>
+            <div class="col-lg-3">
+                <select class="form-control secure-proto" ng-model="$ctrl.editableMailbox.smtpSecure">
+                    <option value="" disabled>smtp Secure</option>
+                    <option value="SSL">SSL</option>
+                    <option value="TLS">TLS</option>
+                </select>
+            </div>
+        </div>
+        <div class="permissions">
+            <div class="import-permission">
+                <label for="cmn-toggle-1" class="floatLeft" translate="Email Access1"></label>
+                <input id="cmn-toggle-1" ng-click="$ctrl.editableMailbox.permitParsing = !$ctrl.editableMailbox.permitParsing" ng-checked="$ctrl.editableMailbox.permitParsing" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                <label class="floatLeft" for="cmn-toggle-1"></label>
+            </div>
+            <div class="sent-permission">
+                <label for="cmn-toggle-3" class="floatLeft" translate="Email Access3"></label>
+                <input id="cmn-toggle-3" ng-click="$ctrl.editableMailbox.permitSend = !$ctrl.editableMailbox.permitSend" ng-checked="$ctrl.editableMailbox.permitSend" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                <label class="floatLeft" for="cmn-toggle-3"></label>
+            </div>
+            <div class="mailing-permission">
+                <label for="cmn-toggle-2" class="floatLeft" translate="Email Access1"></label>
+                <input id="cmn-toggle-2" ng-click="$ctrl.editableMailbox.permitParsing = !$ctrl.editableMailbox.permitParsing" ng-checked="$ctrl.editableMailbox.permitParsing" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                <label class="floatLeft" for="cmn-toggle-1"></label>
+            </div>
+        </div>
+    </div>
+</div>
