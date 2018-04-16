@@ -30,203 +30,6 @@ angular.module('RecruitingApp', [
     'outlookApi'
 ]).config(['$routeProvider', '$locationProvider','$analyticsProvider', '$stateProvider', '$urlRouterProvider', function ($routeProvider, $locationProvider, $analyticsProvider, $stateProvider, $urlRouterProvider) {
     $locationProvider.hashPrefix('');
-    // customRouteProvider
-    //
-
-
-    //    ,{url:'/reports/vacancy', {
-    //         title: 'Vacancy report',
-    //         templateUrl: 'partials/vacancy-report.html?b1',
-    //         controller: 'reportsController',
-    //         pageName: 'Vacancy report'
-    //     })
-    //    ,{url:'/reports/vacancy/{id}', {
-    //         title: 'Vacancy report',
-    //         templateUrl: 'partials/vacancy-reports.html?b1',
-    //         controller: 'vacancyReportController',
-    //         pageName: 'Vacancy report'
-    //     })
-    //    ,{url:'/reports/reportall', {
-    //         templateUrl: 'partials/report-all.html?b1',
-    //         title: 'Report',
-    //         controller: 'reportAllController',
-    //         pageName: "Report all"
-    //     })
-    //    ,{url:'/company/users', {
-    //         title: 'Users',
-    //         templateUrl: "partials/users.html?b1",
-    //         controller: "usersController",
-    //         pageName: "Company users"
-    //     })
-    //    ,{url:'/company/custom-fields', {
-    //         title: "Custom fields",
-    //         templateUrl: "partials/customFields.html?b1",
-    //         controller: "CustomFieldController",
-    //         pageName: "Custom fields"
-    //     })
-    //    ,{url:'/users/{id}', {
-    //         title: "User",
-    //         templateUrl: "partials/user.html?b1",
-    //         controller: "userOneController",
-    //         pageName: "Users"
-    //     })
-    //    ,{url:'/personInfo/{id}', {
-    //         title: "User Info",
-    //         templateUrl: "partials/user.html?b1",
-    //         controller: "userOneController",
-    //         pageName: "User"
-    //     },{url:'/recalls/{id}', {
-    //         title: "Recalls Info",
-    //         templateUrl: "partials/recall.html?b1",
-    //         controller: "recallController",
-    //         pageName: "Recalls Info"
-    //     },{url:'/email/vacancy/{vacancyId}', {
-    //         title: "Send email",
-    //         templateUrl: "partials/vacancy-send-candidates-to-client.html?b1",
-    //         controller: "CandidateEmailSend",
-    //         pageName: "Vacancies"
-    //     },{url:'/excelHistory', {
-    //         title: "Excel History",
-    //         templateUrl: "partials/excel-history.html?b1",
-    //         controller: "excelHistoryController",
-    //         pageName: "Excel History"
-    //     },{url:'/company/employees', {
-    //         title: "employees",
-    //         templateUrl: "partials/employees.html?b1",
-    //         controller: "EmployeesController",
-    //         pageName: "Company employees"
-    //     })
-    //    ,{url:'/company/employees/{id}', {
-    //         title: "employees",
-    //         templateUrl: "partials/employee.html?b1",
-    //         controller: "EmployeeOneController",
-    //         pageName: "Employee User"
-    //     })
-    //    ,{url:'/company/employee/add', {
-    //         title: "Adding an employee",
-    //         templateUrl: "partials/employee-add.html?b1",
-    //         controller: "EmployeeAddController",
-    //         pageName: "Employee add"
-    //     })
-    //    ,{url:'/company/employee/add/{candidateId}', {
-    //         title: "Adding an employee",
-    //         templateUrl: "partials/employee-add-from-candidate.html?b1",
-    //         controller: "EmployeeAddFromCandidateController",
-    //         pageName: "Users"
-    //     })
-    //    ,{url:'/company/employees/edit/{employeeId}', {
-    //         title: "Edit candidate",
-    //         templateUrl: "partials/employee-add.html?b1",
-    //         controller: "EmployeeEditController",
-    //         pageName: "Employee Edit User"
-    //     },{url:'/company/departmentCatalog', {
-    //         templateUrl: 'partials/departmentCatalog.html?b1',
-    //         title: 'Department catalog',
-    //         controller: 'DepartmentCatalogController',
-    //         pageName: "Department Catalog"
-    //     },{url:'/faq', {
-    //         templateUrl: 'partials/faq.html?b1',
-    //         title: 'FAQ',
-    //         controller: 'FeedbackController',
-    //         pageName: "FAQ"
-    //     },{url:'/ask_question', {
-    //         templateUrl: 'partials/feedback-page.html?b1',
-    //         title: 'Ask question',
-    //         controller: 'FeedbackController',
-    //         pageName: "Ask question"
-    //     },{url:'/report_problem_on_this_page', {
-    //         templateUrl: 'partials/feedback-page.html?b1',
-    //         title: 'Report problem on this page',
-    //         controller: 'FeedbackController',
-    //         pageName: "Report problem on this page"
-    //     },{url:'/suggest_improvement_or_request_feature', {
-    //         templateUrl: 'partials/feedback-page.html?b1',
-    //         title: 'Suggest improvement or request feature',
-    //         controller: 'FeedbackController',
-    //         pageName: "Suggest improvement or request feature"
-    //     },{url:'/feedback/thanks', {
-    //         templateUrl: 'partials/feedback-page-thanks.html?b1',
-    //         title: 'Thanks for feedback',
-    //         controller: 'FeedbackController',
-    //         pageName: "Thanks for feedback"
-    //     },{url:'/feedback-new-design', {
-    //         templateUrl: 'partials/feedback-page-new-design.html?b1',
-    //         title: 'Feedback for new design',
-    //         controller: 'FeedbackController',
-    //         pageName: "Feedback for new design"
-    //     },{url:'/feedback-new-design-thanks', {
-    //         templateUrl: 'partials/feedback-page-new-design-thanks.html?b1',
-    //         title: 'Thanks for feedback',
-    //         controller: 'FeedbackController',
-    //         pageName: "Thanks for feedback"
-    //     },{url:'/email-integration', {
-    //         title: "Integration with email",
-    //         templateUrl: "partials/addEmailForTemplate.html?b1",
-    //         controller: "addEmailForTemplateController",
-    //         pageName: "Integration with email"
-    //     },{url:'/news', {
-    //         title: "News",
-    //         templateUrl: "partials/news.html?b1",
-    //         controller: "newsController",
-    //         pageName: "News"
-    //     })
-    //    ,{url:'/cloud-admin',{
-    //         templateUrl: "partials/cloud-admin.html?b1",
-    //         controller: "cloudAdminController",
-    //         pageName: "Cloud Admin"
-    //     })
-    //    ,{url:'/reports/pipeline',{
-    //         title: "Pipeline",
-    //         templateUrl: "partials/pipeline.html?b1",
-    //         controller: "pipelineController",
-    //         pageName: "Pipeline"
-    //     })
-    //    ,{url:'/reports',{
-    //         title: "Reports",
-    //         templateUrl: "partials/reports.html?b1",
-    //         controller: "MyReportsCtrl",
-    //         controllerAs: "myReportsCtrl",
-    //         pageName: "Reports"
-    //     })
-    //    ,{url:'/reports/custom-reports',{
-    //         title: "Custom Reports",
-    //         templateUrl: "partials/custom-reports.html?b1",
-    //         controller: "CustomReports",
-    //         controllerAs: "ctrlReport",
-    //         pageName: "Custom Reports"
-    //     })
-    //    ,{url:'/reports/edit-reports',{
-    //         title: "Edit Reports",
-    //         templateUrl: "partials/edit-custom-report.html?b1",
-    //         controller: "CustomReportEditCtrl",
-    //         controllerAs: "editReport",
-    //         pageName: "Edit Reports"
-    //     })
-    //    ,{url:'/constructor-reports',{
-    //         title: "Reports constructor",
-    //         templateUrl: "partials/constructor-reports.html?b1",
-    //         controller: "constructorReports",
-    //         pageName: "Reports constructor"
-    //     })
-    //     /,{url:'/hr-module-info', {
-    //     //    title: "HR-module",
-    //     //    templateUrl: "partials/hr-module-info.html?b1",
-    //     //    controller: "hrModuleInfoController",
-    //     //    pageName: "Hr-module info"
-    //     //})
-    //    ,{url:'/mailing',{
-    //         title: "Create a mailing list",
-    //         templateUrl: "partials/mailing/mailing.html?b1",
-    //         controller: "mailingController",
-    //         pageName: "Mailing"
-    //     })
-    //    ,{url:'/mailing-sent',{
-    //         title: "Sent mailing",
-    //         templateUrl: "partials/mailing/mailing-sent.html?b1",
-    //         controller: "mailingSentController",
-    //         pageName: "Sent mailing"
-    //     })
-    //     .otherwise({redirectTo: '/organizer'});
 
     let states = [{
         url: "/organizer",
@@ -640,12 +443,156 @@ angular.module('RecruitingApp', [
         }
     },{
         url:'/vacancy/report/{id}',
-        name: "vacancy-report",
+        name: "vacancy-report-id",
         templateUrl: 'partials/vacancy-reports.html?b1',
         controller: 'vacancyReportController',
         data: {
             title: 'Vacancy report',
             pageName: 'Vacancies'
+        }
+    },{
+        url:'/reports/vacancy',
+        name: 'vacancy-report',
+        templateUrl: 'partials/vacancy-report.html?b1',
+        controller: 'reportsController',
+        data: {
+            title: 'Vacancy report',
+            pageName: 'Vacancy report'
+        }
+    },{
+        url:'/reports/vacancy/{id}',
+        name:'report-vacancy-id',
+        templateUrl: 'partials/vacancy-reports.html?b1',
+        controller: 'vacancyReportController',
+        data: {
+            title: 'Vacancy report',
+            pageName: 'Vacancy report'
+        }
+    },{
+        url:'/reports/reportall',
+        name: "reportall",
+        templateUrl: 'partials/report-all.html?b1',
+        controller: 'reportAllController',
+        data: {
+            title: 'Report',
+            pageName: "Report all"
+        }
+    },{
+        url:'/company/users',
+        name: "users",
+        templateUrl: "partials/users.html?b1",
+        controller: "usersController",
+        data: {
+            title: 'Users',
+            pageName: "Company users"
+        }
+    },{
+        url:'/company/custom-fields',
+        name: "custom-fields",
+        templateUrl: "partials/customFields.html?b1",
+        controller: "CustomFieldController",
+        data: {
+            title: "Custom fields",
+            pageName: "Custom fields"
+        }
+    },{
+        url:'/users/{id}',
+        name: "users-id",
+        templateUrl: "partials/user.html?b1",
+        controller: "userOneController",
+        data: {
+            title: "User",
+            pageName: "Users"
+        }
+    },{
+        url:'/personInfo/{id}',
+        name: "person-info",
+        templateUrl: "partials/user.html?b1",
+        controller: "userOneController",
+        data: {
+            title: "User Info",
+            pageName: "User"
+        }
+    },{
+        url:'/recalls/{id}',
+        name: "recalls-id",
+        templateUrl: "partials/recall.html?b1",
+        controller: "recallController",
+        data: {
+            title: "Recalls Info",
+            pageName: "Recalls Info"
+        }
+    },{
+        url:'/email/vacancy/{vacancyId}',
+        name: "vacancy-send-to-client",
+        templateUrl: "partials/vacancy-send-candidates-to-client.html?b1",
+        controller: "CandidateEmailSend",
+        data: {
+            title: "Send email",
+            pageName: "Vacancies"
+        }
+    },{
+        url:'/excelHistory',
+        name: "excel-history",
+        templateUrl: "partials/excel-history.html?b1",
+        controller: "excelHistoryController",
+        data: {
+            title: "Excel History",
+            pageName: "Excel History"
+        }
+    },{
+        url:'/company/employees',
+        name: "employees",
+        templateUrl: "partials/employees.html?b1",
+        controller: "EmployeesController",
+        data: {
+            title: "employees",
+            pageName: "Company employees"
+        }
+    },{
+        url:'/company/employees/{id}',
+        name: "employee",
+        templateUrl: "partials/employee.html?b1",
+        controller: "EmployeeOneController",
+        data: {
+            title: "employees",
+            pageName: "Employee User"
+        }
+    },{
+        url:'/company/employee/add',
+        name: "employee-add",
+        templateUrl: "partials/employee-add.html?b1",
+        controller: "EmployeeAddController",
+        data: {
+            title: "Adding an employee",
+            pageName: "Employee add"
+        }
+    },{
+        url:'/company/employee/add/{candidateId}',
+        name: "company-employee-add",
+        templateUrl: "partials/employee-add-from-candidate.html?b1",
+        controller: "EmployeeAddFromCandidateController",
+        data: {
+            title: "Adding an employee",
+            pageName: "Users"
+        }
+    },{
+        url:'/company/employees/edit/{employeeId}',
+        name: "employee-edit",
+        templateUrl: "partials/employee-add.html?b1",
+        controller: "EmployeeEditController",
+        data: {
+            title: "Edit candidate",
+            pageName: "Employee Edit User"
+        }
+    },{
+        url:'/company/departmentCatalog',
+        name: "department",
+        templateUrl: 'partials/departmentCatalog.html?b1',
+        controller: 'DepartmentCatalogController',
+        data: {
+            title: 'Department catalog',
+            pageName: "Department Catalog"
         }
     }];
     states.forEach((state) => {
