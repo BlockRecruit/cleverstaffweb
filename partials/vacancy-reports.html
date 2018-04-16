@@ -119,7 +119,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <th>
-                                                            <span class="user-name">{{user.name | translate}}</span>
+                                                            <span ng-bind-html="user.name | breakOnMiddleString" class="user-name"></span>
                                                         </th>
                                                     </tr>
                                                     <tr ng-repeat="series in usersColumn.dataArray[$index] track by $index" class="hover">

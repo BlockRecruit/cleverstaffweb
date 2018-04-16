@@ -973,6 +973,33 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                     return $filter('translate')('Free_user');
             }
         }
+    }]).filter('breakOnMiddleString', ['$sce', function($sce) {
+        return function(value){
+            let spaceBeforeIndex = null,
+                spaceAfterIndex = null;
+
+            for(let i = Math.floor(value.length/2); i >= 0; i--) {
+                if(value[i] === " ") {
+                    spaceBeforeIndex = i;
+                    break;
+                }
+            }
+
+            for(let i = Math.floor(value.length/2); i <= value.length; i++) {
+                if(value[i] === " ") {
+                    spaceAfterIndex = i;
+                    break;
+                }
+            }
+
+            if(value.length - spaceAfterIndex < value.length - spaceBeforeIndex) {
+                spaceBeforeIndex = spaceAfterIndex;
+            }
+
+            value = value.split('');
+            value[spaceBeforeIndex] = "<br/>";
+            return $sce.trustAsHtml(value.join(""));
+        };
     }]);
 function linkify3(text) {
     if (text) {
