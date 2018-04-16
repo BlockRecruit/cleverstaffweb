@@ -6988,9 +6988,9 @@ angular.module('services.notice', [
          });
      };
 
-     person.getAuthBlockTime = function() {
+     person.getAuthBlockTime = function(params) {
        return new Promise((resolve, reject) => {
-          person.authBlockTime(resp => resolve(resp), error => reject(error));
+          person.authBlockTime(params, resp => resolve(resp), error => reject(error));
        });
      };
      return person;

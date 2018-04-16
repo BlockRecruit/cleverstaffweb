@@ -11490,9 +11490,9 @@ angular.module('services.pay', [
          });
      };
 
-     person.getAuthBlockTime = function() {
+     person.getAuthBlockTime = function(params) {
        return new Promise((resolve, reject) => {
-          person.authBlockTime(resp => resolve(resp), error => reject(error));
+          person.authBlockTime(params, resp => resolve(resp), error => reject(error));
        });
      };
      return person;
@@ -31827,13 +31827,16 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         $rootScope.errorSignin = $filter('translate')('unknownEmail');
                         console.log('if', $filter('translate')('unknownEmail'));
                     }else if(resp.code === 'manyAuth'){
-                        Person.getAuthBlockTime()
+                        Person.getAuthBlockTime({login: $rootScope.loginForm.login})
                             .then(resp => {
                                 console.log(resp);
+                                $rootScope.errorSignin = `You are trying to log in too often. It looks like you are trying to use the same account for different users. It contradicts our user agreement. Please try again in ${resp.object} minutes.`;
+                                $scope.$apply();
                             }, error => {
+                                $rootScope.errorSignin = `You are trying to log in too often. It looks like you are trying to use the same account for different users. It contradicts our user agreement. Please try again in 15 minutes.`;
+                                $scope.$apply();
                                 console.error(error);
                             });
-                            $rootScope.errorSignin = `You are trying to log in too often. It looks like you are trying to use the same account for different users. It contradicts our user agreement. Please try again in minutes.`
                     } else {
                         $rootScope.errorSignin = resp.message;
                     }
