@@ -1249,15 +1249,14 @@ $(document).ready(function () {
                             $.ajax({
                                 url: "/hr/person/getAuthBlockTime",
                                 type: "GET",
-                                data: JSON.stringify(res.login),
+                                data: { login: res.login },
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function(data) {
-                                    console.log(res);
-                                    console.log(data);
-                                    authError(`${data.object} `);
+                                    authError('You are trying to log in too often. It looks like you are trying to use the same account for different users. It contradicts our user agreement. Please try again in ' + data.object + 'minutes.');
                                 },
                                 error: function(error) {
+                                    authError('You are trying to log in too often. It looks like you are trying to use the same account for different users. It contradicts our user agreement. Please try again in 15 minutes.');
                                     console.error('auth block time :', error);
                                 }
                             })
