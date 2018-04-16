@@ -15930,114 +15930,6 @@ angular.module('RecruitingApp', [
     'outlookApi'
 ]).config(['$routeProvider', '$locationProvider','$analyticsProvider', '$stateProvider', '$urlRouterProvider', function ($routeProvider, $locationProvider, $analyticsProvider, $stateProvider, $urlRouterProvider) {
     $locationProvider.hashPrefix('');
-    // customRouteProvider
-    //
-
-
-
-    //     },{url:'/faq', {
-    //         templateUrl: 'partials/faq.html?b1',
-    //         title: 'FAQ',
-    //         controller: 'FeedbackController',
-    //         pageName: "FAQ"
-    //     },{url:'/ask_question', {
-    //         templateUrl: 'partials/feedback-page.html?b1',
-    //         title: 'Ask question',
-    //         controller: 'FeedbackController',
-    //         pageName: "Ask question"
-    //     },{url:'/report_problem_on_this_page', {
-    //         templateUrl: 'partials/feedback-page.html?b1',
-    //         title: 'Report problem on this page',
-    //         controller: 'FeedbackController',
-    //         pageName: "Report problem on this page"
-    //     },{url:'/suggest_improvement_or_request_feature', {
-    //         templateUrl: 'partials/feedback-page.html?b1',
-    //         title: 'Suggest improvement or request feature',
-    //         controller: 'FeedbackController',
-    //         pageName: "Suggest improvement or request feature"
-    //     },{url:'/feedback/thanks', {
-    //         templateUrl: 'partials/feedback-page-thanks.html?b1',
-    //         title: 'Thanks for feedback',
-    //         controller: 'FeedbackController',
-    //         pageName: "Thanks for feedback"
-    //     },{url:'/feedback-new-design', {
-    //         templateUrl: 'partials/feedback-page-new-design.html?b1',
-    //         title: 'Feedback for new design',
-    //         controller: 'FeedbackController',
-    //         pageName: "Feedback for new design"
-    //     },{url:'/feedback-new-design-thanks', {
-    //         templateUrl: 'partials/feedback-page-new-design-thanks.html?b1',
-    //         title: 'Thanks for feedback',
-    //         controller: 'FeedbackController',
-    //         pageName: "Thanks for feedback"
-    //     },{url:'/email-integration', {
-    //         title: "Integration with email",
-    //         templateUrl: "partials/addEmailForTemplate.html?b1",
-    //         controller: "addEmailForTemplateController",
-    //         pageName: "Integration with email"
-    //     },{url:'/news', {
-    //         title: "News",
-    //         templateUrl: "partials/news.html?b1",
-    //         controller: "newsController",
-    //         pageName: "News"
-    //     })
-    //    ,{url:'/cloud-admin',{
-    //         templateUrl: "partials/cloud-admin.html?b1",
-    //         controller: "cloudAdminController",
-    //         pageName: "Cloud Admin"
-    //     })
-    //    ,{url:'/reports/pipeline',{
-    //         title: "Pipeline",
-    //         templateUrl: "partials/pipeline.html?b1",
-    //         controller: "pipelineController",
-    //         pageName: "Pipeline"
-    //     })
-    //    ,{url:'/reports',{
-    //         title: "Reports",
-    //         templateUrl: "partials/reports.html?b1",
-    //         controller: "MyReportsCtrl",
-    //         controllerAs: "myReportsCtrl",
-    //         pageName: "Reports"
-    //     })
-    //    ,{url:'/reports/custom-reports',{
-    //         title: "Custom Reports",
-    //         templateUrl: "partials/custom-reports.html?b1",
-    //         controller: "CustomReports",
-    //         controllerAs: "ctrlReport",
-    //         pageName: "Custom Reports"
-    //     })
-    //    ,{url:'/reports/edit-reports',{
-    //         title: "Edit Reports",
-    //         templateUrl: "partials/edit-custom-report.html?b1",
-    //         controller: "CustomReportEditCtrl",
-    //         controllerAs: "editReport",
-    //         pageName: "Edit Reports"
-    //     })
-    //    ,{url:'/constructor-reports',{
-    //         title: "Reports constructor",
-    //         templateUrl: "partials/constructor-reports.html?b1",
-    //         controller: "constructorReports",
-    //         pageName: "Reports constructor"
-    //     })
-    //     /,{url:'/hr-module-info', {
-    //     //    title: "HR-module",
-    //     //    templateUrl: "partials/hr-module-info.html?b1",
-    //     //    controller: "hrModuleInfoController",
-    //     //    pageName: "Hr-module info"
-    //     //})
-    //    ,{url:'/mailing',{
-    //         title: "Create a mailing list",
-    //         templateUrl: "partials/mailing/mailing.html?b1",
-    //         controller: "mailingController",
-    //         pageName: "Mailing"
-    //     })
-    //    ,{url:'/mailing-sent',{
-    //         title: "Sent mailing",
-    //         templateUrl: "partials/mailing/mailing-sent.html?b1",
-    //         controller: "mailingSentController",
-    //         pageName: "Sent mailing"
-    //     })
-    //     .otherwise({redirectTo: '/organizer'});
 
     let states = [{
         url: "/organizer",
@@ -16602,7 +16494,152 @@ angular.module('RecruitingApp', [
             title: 'Department catalog',
             pageName: "Department Catalog"
         }
-    }];
+    },{
+        url:'/faq',
+        name: "faq",
+        templateUrl: 'partials/faq.html?b1',
+        controller: 'FeedbackController',
+        data: {
+            title: 'FAQ',
+            pageName: "FAQ"
+        }
+    },{
+        url:'/ask_question',
+        name: "ask-question",
+        templateUrl: 'partials/feedback-page.html?b1',
+        controller: 'FeedbackController',
+        data: {
+            title: 'Ask question',
+            pageName: "Ask question"
+        }
+    },{
+        url:'/report_problem_on_this_page',
+        name: 'report-problem',
+        templateUrl: 'partials/feedback-page.html?b1',
+        controller: 'FeedbackController',
+        data: {
+            title: 'Report problem on this page',
+            pageName: "Report problem on this page"
+        }
+    },{
+        url:'/suggest_improvement_or_request_feature',
+        name: "suggest-improvement",
+        templateUrl: 'partials/feedback-page.html?b1',
+        controller: 'FeedbackController',
+        data: {
+            title: 'Suggest improvement or request feature',
+            pageName: "Suggest improvement or request feature"
+        }
+    },{
+        url:'/feedback/thanks',
+        name: "thanks",
+        templateUrl: 'partials/feedback-page-thanks.html?b1',
+        controller: 'FeedbackController',
+        data: {
+            title: 'Thanks for feedback',
+            pageName: "Thanks for feedback"
+        }
+    },{
+        url:'/feedback-new-design',
+        name:'feedback-new-design',
+        templateUrl: 'partials/feedback-page-new-design.html?b1',
+        controller: 'FeedbackController',
+        data: {
+            title: 'Feedback for new design',
+            pageName: "Feedback for new design"
+        }
+    },{
+        url:'/feedback-new-design-thanks',
+        name: "feedback-new-design-thanks",
+        templateUrl: 'partials/feedback-page-new-design-thanks.html?b1',
+        controller: 'FeedbackController',
+        data: {
+            title: 'Thanks for feedback',
+            pageName: "Thanks for feedback"
+        }
+    },{
+        url:'/email-integration',
+        name: "email-integration",
+        templateUrl: "partials/addEmailForTemplate.html?b1",
+        controller: "addEmailForTemplateController",
+        data: {
+            title: "Integration with email",
+            pageName: "Integration with email"
+        }
+    },{
+        url:'/news',
+        name: "news",
+        templateUrl: "partials/news.html?b1",
+        controller: "newsController",
+        data: {
+            title: "News",
+            pageName: "News"
+        }
+    },{
+        url:'/cloud-admin',
+        name: "cloud-admin",
+        templateUrl: "partials/cloud-admin.html?b1",
+        controller: "cloudAdminController",
+        data: {
+            title: "CLoud Admin",
+            pageName: "Cloud Admin"
+        }
+    },{
+        url:'/reports/pipeline',
+        name: "pipeline",
+        templateUrl: "partials/pipeline.html?b1",
+        controller: "pipelineController",
+        data: {
+            title: "Pipeline",
+            pageName: "Pipeline"
+        }
+    },{
+        url:'/reports',
+        name: "reports",
+        templateUrl: "partials/reports.html?b1",
+        controller: "MyReportsCtrl",
+        controllerAs: "myReportsCtrl",
+        data: {
+            title: "Reports",
+            pageName: "Reports"
+        }
+    },{
+        url:'/reports/custom-reports',
+        name: "custom-reports",
+        templateUrl: "partials/custom-reports.html?b1",
+        controller: "CustomReports",
+        controllerAs: "ctrlReport",
+        data: {
+            title: "Custom Reports",
+            pageName: "Custom Reports"
+        }
+    },{
+        url:'/reports/edit-reports',
+        name: "edit-reports",
+        templateUrl: "partials/edit-custom-report.html?b1",
+        controller: "CustomReportEditCtrl",
+        controllerAs: "editReport",
+        data: {
+            title: "Edit Reports",
+            pageName: "Edit Reports"
+        }
+    },{
+        url:'/constructor-reports',
+        name: "constructor-reports",
+        templateUrl: "partials/constructor-reports.html?b1",
+        controller: "constructorReports",
+        data: {
+            title: "Reports constructor",
+            pageName: "Reports constructor"
+        }
+    }
+    //,{url:'/hr-module-info', {
+    //    title: "HR-module",
+    //    templateUrl: "partials/hr-module-info.html?b1",
+    //    controller: "hrModuleInfoController",
+    //    pageName: "Hr-module info"
+    //})
+    ];
     states.forEach((state) => {
         $stateProvider.state(state);
     });
