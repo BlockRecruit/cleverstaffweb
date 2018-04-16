@@ -1183,6 +1183,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/candidate-change-status-in-candidate.html',
+                scope: $scope,
                 size: '',
                 resolve: function(){
 
@@ -1351,6 +1352,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/candidate-change-status-in-vacancy.html?b=2',
+                scope: $scope,
                 resolve: {
                     items: function () {
                         return $scope.items;
@@ -2272,14 +2274,13 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         };
 
         (function getPersonEmails() {
-            Person.getPersonEmails({type: 'send'})
+            Person.getPersonEmails({type: 'all'})
                 .then(resp => {
-                    console.log(resp);
-                    $scope.ableToSendEmails = resp.objects.filter(email => {
-                       return email.permitSend;
-                    }).length;
+                    let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
 
-                    console.log($scope.ableToSendEmails);
+                    if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+                    console.log($scope.noAllowedMails);
                 }, error => notificationService.error(error));
         })();
 
