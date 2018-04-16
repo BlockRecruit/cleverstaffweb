@@ -51,10 +51,14 @@ angular.module('RecruitingApp', [
     },{
         url: "/mailing",
         name: 'mailing',
-        component: 'mailing'
+        component: 'mailing',
+        data: {
+            title: 'Mailing',
+            pageName: "Mailing"
+        }
     },{
         name: 'mailing.details',
-        component: 'mDetails'
+        component: 'mDetails',
     },{
         name: 'mailing.editor',
         component: 'editor'
@@ -64,7 +68,11 @@ angular.module('RecruitingApp', [
     },{
         url: "/mailings",
         name: 'mailings',
-        component: 'mailings'
+        component: 'mailings',
+        data: {
+            title: 'My mailings',
+            pageName: "Mailings"
+        }
     },{
         url: "/prepared",
         name: 'mailings.saved',
