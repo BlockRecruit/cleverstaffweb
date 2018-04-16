@@ -718,10 +718,10 @@
 								order: 1;
 							}
 							&.add-to-vacancy {
-								order: 0;
+								order: -1;
 							}
 							&.tags {
-								order: -1;
+								order: 0;
 							}
 						}
 						&.changed-placement {
@@ -733,6 +733,12 @@
 							.tags {
 								margin-right: 0;
 							}
+						}
+						.new-label {
+							top: -5px;
+							right: 5px;
+
+							margin: 0;
 						}
 					}
 				}

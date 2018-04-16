@@ -592,7 +592,9 @@
                                ng-click="showAddCandidatesInVacancy()">
                                 <img src="/images/sprite/add-candidate.png" alt="">
                             </a>
-                            <a href="" ng-if="$root.me.recrutRole != 'client' && $root.me.recrutRole != 'salesmanager'" title="{{'Delete candidates' | translate:{amount: candidatesAddToVacancyIds.length} }}" ng-click="deleteCandidatesModal()">
+                            <a href="" ng-if="$root.me.recrutRole != 'client' && $root.me.recrutRole != 'salesmanager'"
+                               title="{{'Delete candidates' | translate:{amount: candidatesAddToVacancyIds.length} }}" ng-click="deleteCandidatesModal()">
+                                <span class="new-label">New</span>
                                 <img src="/images/sprite/remove.png" alt="">
                             </a>
                         </div>
