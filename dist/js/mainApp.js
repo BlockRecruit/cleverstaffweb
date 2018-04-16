@@ -5699,6 +5699,33 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
                     return $filter('translate')('Free_user');
             }
         }
+    }]).filter('breakOnMiddleString', ['$sce', function($sce) {
+        return function(value){
+            let spaceBeforeIndex = null,
+                spaceAfterIndex = null;
+
+            for(let i = Math.floor(value.length/2); i >= 0; i--) {
+                if(value[i] === " ") {
+                    spaceBeforeIndex = i;
+                    break;
+                }
+            }
+
+            for(let i = Math.floor(value.length/2); i <= value.length; i++) {
+                if(value[i] === " ") {
+                    spaceAfterIndex = i;
+                    break;
+                }
+            }
+
+            if(value.length - spaceAfterIndex < value.length - spaceBeforeIndex) {
+                spaceBeforeIndex = spaceAfterIndex;
+            }
+
+            value = value.split('');
+            value[spaceBeforeIndex] = "<br/>";
+            return $sce.trustAsHtml(value.join(""));
+        };
     }]);
 function linkify3(text) {
     if (text) {
@@ -11551,13 +11578,33 @@ angular.module('services.pay', [
                     params: {
                         param: "deleteOutlookCalendar"
                     }
+                },
+                filteredPersons: {
+                    method: "POST",
+                    params: {
+                        param: "getFilteredPersons"
+                    }
                 }
 
             });
+
+
      person.requestGetAllPersons = function () {
          $rootScope.loading = true;
          return new Promise((resolve, reject) => {
              person.getAllPersons(resp => resolve(resp, resp['request'] = 'AllPersons'),error => reject(error));
+         });
+     };
+
+     person.getFilteredPersons = function(params) {
+         return new Promise((resolve, reject) => {
+             person.filteredPersons(params, resp => {
+                 if(resp.status === 'ok') {
+                     resolve(resp)
+                 } else {
+                     reject(resp);
+                 }
+             }, error => reject(error));
          });
      };
 
@@ -12048,7 +12095,7 @@ angular.module('services.slider', [
 }]);
  angular.module('services.statistic', [
     'ngResource'
-]).factory('Statistic', ['$resource', 'serverAddress', function($resource, serverAddress) {
+]).factory('Statistic', ['$resource', 'serverAddress', '$rootScope', function($resource, serverAddress, $rootScope) {
     var service = $resource(serverAddress + '/stat/:action', {action: "@action"}, {
         getOrgInfo: {
             method: "GET",
@@ -12105,6 +12152,32 @@ angular.module('services.slider', [
         if(key)
             return service.parameters[key];
     };
+
+     service.getVacancyDetailInfo = function(params) {
+         $rootScope.loading = true;
+
+         return new Promise((resolve, reject) => {
+             service.getVacancyInterviewDetalInfo(params, resp => {
+                 if(resp.vacancyInterviewDetalInfo) {
+                     let vacancyInterviewDetalInfo = [];
+                     angular.forEach(resp.vacancyInterviewDetalInfo, function(value, key) {
+                         vacancyInterviewDetalInfo.push({
+                             key: key,
+                             value: value
+                         });
+                     });
+                     $rootScope.loading = false;
+                     resolve(vacancyInterviewDetalInfo);
+                 } else {
+                     $rootScope.loading = false;
+                     reject(resp);
+                 }
+             }, error => {
+                 $rootScope.loading = false;
+                 reject(error);
+             });
+         });
+     };
 
     return service;
 }]);
@@ -13384,9 +13457,198 @@ angular.module('services.company', [
             return data;
         };
 
+        company.params = function() {
+            return new Promise((resolve, reject) => {
+                company.getParams(resp => resolve(resp), error => reject(error));
+            });
+        };
+
     company.init();
     return company;
 }]);
+
+angular.module('services.vacancyReport', [
+    'ngResource',
+    'ngCookies'
+]).factory('vacancyReport', [function () {
+    let report = {};
+
+    report.funnel = function(id, arr) {
+        const canvas = document.getElementById(id),
+              ctx = canvas.getContext('2d');
+              ctx.translate(0.5, 0.5);
+
+        canvas.width = 400;
+
+        let width = canvas.width;
+        let height = 30;
+
+        canvas.height = arr.length * height;
+
+        new chartBars(canvas, arr, width, height).init();
+    };
+
+
+    class chartBars {
+        constructor(c, data, width, height) {
+            this.c = c;
+            this.ctx = c.getContext('2d');
+            this.data = data;
+            this.width = width;
+            this.height = height;
+            this.bars = [];
+            this.barsWidth = [];
+        }
+
+        drawBars() {
+            for(let i = 0; i < this.data.length; i++) {
+                let barProps = {
+                    c: this.c,
+                    ctx: this.ctx,
+                    value: this.data[i],
+                    x: this.bars[i - 1] ? this.bars[i - 1].x - this.barsWidth[i]/2 + this.barsWidth[i - 1]/2 : this.c.width/2 - this.width/2,
+                    y: i * this.height,
+                    width: this.barsWidth[i],
+                    height: this.height - 1,
+                    nextBarWidth: this.barsWidth[i + 1],
+                    index: i
+                };
+
+                if(barProps.width && barProps.height) {
+                    const bar = new chartBar({...barProps});
+                    bar.draw();
+                    this.addBar(bar);
+                } else {
+                    this.bars.push();
+                }
+            }
+        }
+
+        addBar(bar) {
+            this.bars.push(bar);
+        }
+
+        getBarsWidth() {
+            this.barsWidth = this.data.map((element,i) => {
+                return this.data[i]/this.data[0] * this.width;
+            });
+        }
+
+        initBarsHover() {
+            let wrapper = document.getElementById("wrapper"),
+                buffer = document.getElementById("buffer"),
+                bufferCtx = buffer.getContext('2d'),
+                self = this;
+
+                bufferCtx.translate(0.5, 0.5);
+
+
+            buffer.width = 400;
+            buffer.height = (this.data.length + 2) * 30;
+
+            wrapper.onmousemove = function (e) {
+
+                let rect = self.c.getBoundingClientRect(),
+                    x = e.clientX - rect.left,
+                    y = e.clientY - rect.top,
+                    i = 0, r;
+
+                let tooltip = {
+                    width: 26,
+                    height: 26,
+                    x: function() { return  x - this.width/2 },
+                    y: function() { return y - self.bars[0].height - this.height/2 + (2 *self.bars[0].height) }
+                };
+
+                while (r = self.bars[i++]) {
+                    self.ctx.beginPath();
+                    self.ctx.rect(r.x, r.y, r.width, r.height);
+                    bufferCtx.clearRect(0,0, buffer.width, buffer.height);
+
+                    if(self.ctx.isPointInPath(x, y)) {
+                        bufferCtx.beginPath();
+                        bufferCtx.rect(tooltip.x(), tooltip.y(), tooltip.width, tooltip.height);
+
+                        bufferCtx.strokeStyle = "#fff";
+                        bufferCtx.fillStyle = self.bars[i - 1].color;
+                        bufferCtx.lineWidth = "2";
+
+                        bufferCtx.font="16px font";
+                        bufferCtx.textAlign="center";
+                        bufferCtx.textBaseline = "middle";
+
+                        bufferCtx.stroke();
+                        bufferCtx.fill();
+                        bufferCtx.fillStyle = "#fff";
+                        bufferCtx.fillText(self.bars[i - 1].value, tooltip.x() + tooltip.width/2, tooltip.y() + tooltip.height/2);
+
+                        break;
+                    } else {
+                        bufferCtx.clearRect(0,0, buffer.width, buffer.height);
+                    }
+                }
+            };
+        }
+
+        init() {
+            this.getBarsWidth();
+            this.drawBars();
+            this.initBarsHover();
+        }
+    }
+
+    class chartBar {
+        constructor({c, ctx, value, x, y, width, height, nextBarWidth, index}) {
+            this.c = c;
+            this.ctx = ctx;
+            this.value = value;
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.nextBarWidth = nextBarWidth || 0;
+            this.index = index;
+            this.color = this.getRndColor();
+        }
+
+        draw() {
+            let x = [];
+
+            x[0] = this.x;
+            x[1] = x[0] + this.width;
+            x[2] = x[1] - (this.width - this.nextBarWidth)/2;
+            x[3] = x[2] - this.nextBarWidth;
+            this.ctx.beginPath();
+
+            this.ctx.fillStyle = this.color;
+            this.ctx.strokeStyle = this.color;
+
+            x = x.map(coord => {
+                return parseInt(coord) + 0.5; // It was made in order to canvas API , to get a high quality image. Works with ctx.translate(0.5, 0.5);
+            });
+
+            this.y = parseInt(this.y) + 0.5;
+            this.ctx.moveTo(x[0],this.y);
+            this.ctx.lineTo(x[1],this.y);
+            this.ctx.lineTo(x[2],this.y + this.height);
+            this.ctx.lineTo(x[3],this.y + this.height);
+            this.ctx.closePath();
+
+            this.ctx.stroke();
+            this.ctx.fill();
+        }
+
+        getRndColor() {
+            const colors = ['#29a2cc','#d31e1e','#7ca82b','#ef8535','#a14bc9','#a05f18',
+                '#265e96','#6b7075','#96c245','#b5a603','#492658','#515e82',
+                '#791f47','#525f82','#7a2149','#bba33b','#e66508','#980826'];
+
+            return colors[this.index % colors.length];
+        }
+    }
+
+        return report;
+    }]);
 
 angular.module('services.vacancy', [
     'ngResource'
@@ -14217,6 +14479,22 @@ angular.module('services.vacancy', [
         });
     };
 
+    vacancy.getAllVacanciesAmount = function() {
+        return new Promise((resolve, reject) => {
+            vacancy.all(vacancy.searchOptions(), response => {
+                resolve(response);
+            }, error => reject(error));
+        });
+    };
+
+    vacancy.getVacancy = function(params) {
+        return new Promise((resolve, reject) => {
+            vacancy.one(params, response => {
+                resolve(response);
+            }, error => reject(error));
+        });
+    };
+
     return vacancy;
 }
 ]);
@@ -14250,12 +14528,14 @@ angular.module('services.vacancyStages', [
                     }
                 }
             });
+
         vacancyStages.requestVacancyStages = function (params){
             $rootScope.loading = true;
             return new Promise((resolve, reject) => {
                 vacancyStages.get(params, resp => resolve(resp, resp.request = 'stageFull'),error => reject(error));
             });
         };
+
         return vacancyStages;
     }]);
 
@@ -14282,6 +14562,7 @@ angular.module('services', [
         'services.employee',
         'services.action',
         'services.vacancyStages',
+        'services.vacancyReport',
         'services.reportAll',
         'services.task',
         'services.file',
@@ -41039,443 +41320,128 @@ controller.controller('reportAllController', ["$rootScope", "$scope", "Vacancy",
 
 
 controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileInit", "Vacancy", "Service", "$location", "Client",
-    "$routeParams", "notificationService", "$filter", "$translate", 'Person', "Statistic", "vacancyStages", "Company",
+    "$routeParams", "notificationService", "$filter", "$translate", 'Person', "Statistic", "vacancyStages", "Company", "vacancyReport", "$timeout",
     function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $routeParams, notificationService, $filter,
-             $translate, Person, Statistic, vacancyStages, Company) {
-        var chartHeight = 0;
-        $scope.lang = $translate;
-        vacancyStages.get(function(resp){
-            $scope.customStages = resp.object.interviewStates;
-        });
+             $translate, Person, Statistic, vacancyStages, Company, vacancyReport, $timeout) {
 
-        Vacancy.one({"localId": $routeParams.id}, function(resp) {
-            $scope.vacancy = resp.object;
-            $scope.deadline = new Date($scope.vacancy.dateFinish).getTime();
-            $("#dateFrom").datetimepicker({
-                format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
-                startView: 2,
-                minView: 2,
-                autoclose: true,
-                startDate: $scope.vacancy.dc != undefined ? new Date($scope.vacancy.dc) : new Date(),
-                weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
-                language: $translate.use()
-            });
+        $scope.statistics = {type: 'default', user: {}};
+        $scope.funnelActionUsers = [];
+        $scope.vacancyGeneralHistory = [];
+        $scope.mainFunnel = {};
+        $scope.usersColumn = {users: [], dataArray: []};
+        $scope.userFunnelData = [];
 
-            $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
+        $scope.showUsersReports = false;
 
-            $("#dateTo").datetimepicker({
-                format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
-                startView: 2,
-                minView: 2,
-                autoclose: true,
-                endDate: new Date(),
-                weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
-                language: $translate.use()
-            });
+        setFunnelData.usersDataCache = setFunnelData.usersDataCache || [];
 
-            var d = new Date();
-            d.setHours(0, 0, 0, 0);
-            $("#dateTo").datetimepicker("setDate", d);
+        $scope.toggleUsersReports = function() {
+            if($scope.showUsersReports) {
 
-            let stagesString = [];
-
-            if($scope.vacancy && $scope.vacancy['interviewStatus']) {
-                stagesString = $scope.vacancy['interviewStatus'].split(',');
             } else {
-                stagesString = ['longlist','shortlist','interview','approved','notafit','declinedoffer','no_response'];
+                $scope.statistics = {type: 'default', user: {}};
+                $scope.usersColumn = {users: [], dataArray: []};
+                $scope.userFunnelData = [];
+
+                $scope.vacancyHistory = $scope.vacancyGeneralHistory;
+                setFunnelData.usersDataCache = [];
+
+                $scope.funnelActionUsers.forEach(user => {
+                   $scope.actionUsers.push(user) ;
+                });
+
+                $scope.funnelActionUsers = [];
+            }
+        };
+
+        $scope.setStatistics = function(type = 'default', user = {}) {
+            $scope.statistics = {type, user};
+            if(type === 'default') {
+                vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
+                $scope.vacancyHistory = $scope.vacancyGeneralHistory;
+                return;
             }
 
-            $scope.notDeclinedStages = stagesString.slice(stagesString[0], stagesString.indexOf('approved') + 1);
-            $scope.declinedStages = stagesString.slice(stagesString.indexOf('approved') + 1, stagesString.length);
+            setUserFunnel(user);
+        };
 
+        $scope.addUserInFunnelUsersList = function(userIndex) {
+            let isMissing = true,
+                actionUser = $scope.actionUsers[userIndex] || null;
 
-            Statistic.getVacancyInterviewDetalInfo(
-                {
-                    "vacancyId": $scope.vacancy.vacancyId,
-                    withCandidatesHistory: true
-                }, function(detailResp) {
-                if (detailResp != undefined) {
-                    var vacancyInterviewDetalInfo = [];
-                    angular.forEach(detailResp.vacancyInterviewDetalInfo, function(value, key){
-                        vacancyInterviewDetalInfo.push({
-                            key: key,
-                            value: value
-                        });
-                    });
+            if($scope.funnelActionUsers.length >= 4) {
+                notificationService.error($filter('translate')('You select up to 4 users'));
+                return;
+            }
 
-                    $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
-
-                    angular.forEach($scope.customStages, function(resp){
-                        angular.forEach($scope.detailInterviewInfo, function(value){
-                            if(value.key === resp.customInterviewStateId){
-                                value.key = resp.name;
-                            }
-                        });
-
-                        angular.forEach($scope.declinedStages, function(value, index){
-                            if(value === resp.customInterviewStateId){
-                                $scope.declinedStages[index] = resp.name;
-                            }
-                        });
-
-                        angular.forEach($scope.notDeclinedStages, function(value, index){
-                            if(value === resp.customInterviewStateId){
-                                $scope.notDeclinedStages[index] = resp.name;
-                            }
-                        });
-                    });
-                }
-                initSalesFunnel(null, null);
+            $scope.funnelActionUsers.forEach(user => {
+                if(angular.equals(user,actionUser)) isMissing = false;
             });
-        });
 
-        function initSalesFunnel(dateFrom, dateTo) {
-            $scope.funnelMap = [];
-            $scope.hasFunnelChart = false;
-
-            if ($scope.detailInterviewInfo) {
-                angular.forEach($scope.detailInterviewInfo, (stage,index) => {
-                    $scope.funnelMap[index] = { key: stage.key, value: stage.value.length };
-
-                    angular.forEach($scope.declinedStages, (declinedStage) => {
-                        if(declinedStage === stage.key) {
-                            $scope.funnelMap.splice(index,1);
-                        }
-                    });
-
-                });
-
-                angular.forEach($scope.notDeclinedStages, (notDeclinedStage) => {
-                    let missingStage = true;
-
-                    angular.forEach($scope.funnelMap, (stage,index) => {
-                        // console.log($scope.funnelMap[index].key, notDeclinedStage);
-                        if(missingStage) {
-                            // console.log($scope.funnelMap[index].key, notDeclinedStage);
-                            if($scope.funnelMap[index].key === notDeclinedStage) {
-                                console.log('exist',notDeclinedStage);
-                                missingStage = false;
-                            } else {
-                                missingStage = true;
-                            }
-
-                            if(index === $scope.funnelMap.length - 1 && missingStage) {
-                                console.log("not-exist",notDeclinedStage);
-                                $scope.funnelMap[index+1] = { key: notDeclinedStage, value: 0 };
-                            }
-
-                        }
-                    });
-                    console.log('-------------------');
-                });
-
-
-                if(!$scope.funnelMap[0]) {
-                    return;
-                }
+            if(isMissing && actionUser) {
+                $scope.funnelActionUsers.push(actionUser);
+                $scope.actionUsers.splice(userIndex, 1);
+                updateMainFunnel(actionUser);
+                $scope.userIndex = null;
+                vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
             }
-            // $scope.funnelMap.map((item) => {
-            //     console.log(item);
-            // });
-            console.log($scope.funnelMap);
+        };
 
-            var myChart = {};
-            if ($scope.detailInterviewInfo) {
-                $scope.hasFunnelChart = true;
-                chartHeight = 30*($scope.funnelMap.length + 1);
-                var series = [];
-                var values = [];
-                var values2 = [];
-                var values3 = [];
-                var values4 = [];
-                var lastCount = null;
-
-                angular.forEach($scope.funnelMap, function(stage) {
-                    console.log(stage.value,stage.key);
-                    series.push({
-                        "values": [stage.value]
-                    });
-                    values.push($filter('translate')(stage.key));
-                    values2.push(stage.value.toString());
-                    if (lastCount == null) {
-                        values3.push('100%');
-                    } else {
-                        values3.push((stage.value != 0 ? Math.round(stage.value / lastCount * 100) : 0) + '%');
-                    }
-                    if(lastCount == null) {
-                        values4.push('100%');
-                    } else{
-                        values4.push((stage.value != 0 ? Math.round(stage.value / $scope.funnelMap[0].value * 100) : 0) + '%');
-                    }
-                    lastCount = stage.value;
-                });
-
-                myChart = {
-                    "type": "funnel",
-                    "width":'900px',
-                    "series": series,
-                    tooltip: {visible: true, shadow: 0},
-                    "scale-y": {"values": values, "item": {fontSize: 11, "offset-x": 75}},
-                    "scale-y-2": {"values": values2, "item": {fontSize: 12, "offset-x": -60}},
-                    "scale-y-3": {
-                        "values": values3, "item": {fontSize: 12,"offset-x": 25}
-                    },
-                    "scale-y-4": {
-                        "values": values4, "item": {fontSize: 12,"offset-x": 107}
-                    },
-                    "plot": {
-                        // "offset-x": '60px'
-                    },
-                    plotarea: {
-                        margin: '40px 0 0 20%'
-                    },
-                    "scale-x": {"values": [""]},
-                    labels: [{
-                        text: $filter('translate')('Relative conversion'),
-                        fontWeight: "bold",
-                        fontSize: 12,
-                        // offsetX: $translate.use() != 'en' ?  775 : 785,
-                        offsetX: $translate.use() != 'en' ?  895 : 905,
-                        offsetY: 0
-                    },
-                        {
-                            text: $filter('translate')('Absolute conversion'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            // offsetX: 870,
-                            offsetX: 990,
-                            offsetY: 0
-                        },
-                        {
-                            text: $filter('translate')('Candidates'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            // offsetX: $translate.use() != 'en' ? 700 : 710,
-                            offsetX: $translate.use() != 'en' ? 815 : 825,
-                            offsetY: 0
-                        },
-                        {
-                            text: $filter('translate')('status'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: 210,
-                            offsetY: 0
-                        }
-                    ],
-                    "backgroundColor": "#FFFFFF",
-                    "gui": {
-                        "behaviors": [
-                            {"id": "DownloadPDF", "enabled": "none"},
-                            {"id": "Reload", "enabled": "none"},
-                            {"id": "Print", "enabled": "none"},
-                            {"id": "DownloadSVG", "enabled": "none"},
-                            {"id": "LogScale", "enabled": "none"},
-                            {"id": "About", "enabled": "none"},
-                            {"id": "FullScreen", "enabled": "none"},
-                            {"id": "BugReport", "enabled": "none"},
-                            {"id": "ViewSource", "enabled": "none"},
-                            {"id": "FullScreen", "enabled": "none"},
-                            {
-                                "id": "FullScreen", "enabled": "none"
-                            }
-                        ]
-                    }
-                };
-            } else {
-                chartHeight = 350;
-                myChart = {
-                    "type": "funnel",
-                    "width":'410px',
-                    "series": [
-                        {
-                            "values": [$scope.funnelMap['longlist']]
-                        }, {
-                            "values": [$scope.funnelMap['shortlist']]
-                        }, {
-                            "values": [$scope.funnelMap['interview']]
-                        }, {
-                            "values": [$scope.funnelMap['approved']]
-                        }
-                    ],
-                    "tooltip": {
-                        "visible": true
-                    },
-                    "scale-y": {
-                        "values": [$filter('translate')('long_list'),
-                            $filter('translate')('short_list'),
-                            $filter('translate')('interview'),
-                            $filter('translate')('approved')],
-                        "item": {
-                            fontSize: 12,
-                            "offset-x": 35
-                        }
-                    },
-                    "scale-y-2": {
-                        "values": [$scope.funnelMap['longlist'] + '',
-                            $scope.funnelMap['shortlist'] + '',
-                            $scope.funnelMap['interview'] + '',
-                            $scope.funnelMap['approved'] + ''],
-                        "item": {
-                            fontSize: 12,
-                            "offset-x": 0
-                        }
-                    },
-                    "scale-y-3": {
-                        "values": ['100%',
-                            Math.round($scope.funnelMap['shortlist'] / $scope.funnelMap['longlist'] * 100) + '%',
-                            ($scope.funnelMap['shortlist'] != 0 ? Math.round($scope.funnelMap['interview'] / $scope.funnelMap['shortlist'] * 100) : 0) + '%',
-                            ($scope.funnelMap['interview'] != 0 ? Math.round($scope.funnelMap['approved'] / $scope.funnelMap['interview'] * 100) : 0) + '%'],
-                        "item": {
-                            fontSize: 12,
-                            "offset-x": -10
-                        }
-                    },
-                    "scale-y-4": {
-                        "values": ['100%',
-                            Math.round($scope.funnelMap['shortlist'] / $scope.funnelMap['longlist'] * 100) + '%',
-                            ($scope.funnelMap['interview'] != 0 ? Math.round($scope.funnelMap['interview'] / $scope.funnelMap['longlist'] * 100) : 0) + '%',
-                            ($scope.funnelMap['approved'] != 0 ? Math.round($scope.funnelMap['approved'] / $scope.funnelMap['longlist'] * 100) : 0) + '%'],
-                        "item": {
-                            fontSize: 12,
-                            "offset-x": 115
-                        }
-                    },
-                    "scale-x": {
-                        "values": [""]
-                    },
-                    labels: [
-                        {
-                            text: $filter('translate')('Relative conversion'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: 570,
-                            offsetY: 20
-                        },
-                        {
-                            text: $filter('translate')('Absolute conversion'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: 570,
-                            offsetY: 20
-                        },
-                        {
-                            text: $filter('translate')('Count'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: $translate.use() != 'en' ? 485 : 505,
-                            offsetY: 20
-                        },
-                        {
-                            text: $filter('translate')('status'),
-                            fontWeight: "bold",
-                            fontSize: 12,
-                            offsetX: 80,
-                            offsetY: 20
-                        }
-                    ],
-                    "backgroundColor": "#FFFFFF",
-                    "gui": {
-                        "behaviors": [
-                            {
-                                "id": "DownloadPDF",
-                                "enabled": "none"
-                            }, {
-                                "id": "Reload",
-                                "enabled": "none"
-                            }, {
-                                "id": "Print",
-                                "enabled": "none"
-                            }, {
-                                "id": "DownloadSVG",
-                                "enabled": "none"
-                            }, {
-                                "id": "LogScale",
-                                "enabled": "none"
-                            }, {
-                                "id": "About",
-                                "enabled": "none"
-                            }, {
-                                "id": "FullScreen",
-                                "enabled": "none"
-                            }, {
-                                "id": "BugReport",
-                                "enabled": "none"
-                            }, {
-                                "id": "ViewSource",
-                                "enabled": "none"
-                            }, {
-                                "id": "FullScreen",
-                                "enabled": "none"
-                            }, {
-                                "id": "FullScreen",
-                                "enabled": "none"
-                            }
-                        ]
-                    }
-                };
+        $scope.removeUserInFunnelUsersList = function(user) {
+            $scope.funnelActionUsers.splice($scope.funnelActionUsers.indexOf(user),1);
+            $scope.actionUsers.push(user);
+            updateMainFunnel(user);
+            clearUserFunnelCache({user});
+            getHoverStripeWidth();
+            if($scope.statistics.user === user) {
+                $scope.setStatistics('default');
             }
-            zingchart.render({
-                id: "myChartDiv",
-                data: myChart,
-                height: chartHeight,
-                width: 1290,
-                output: "html5"
-            });
-        }
+        };
 
         $scope.updateData = function() {
-            var dateFrom = $('#dateFrom').datetimepicker('getDate') != null ? $('#dateFrom').datetimepicker('getDate') : null;
-            var dateTo = $('#dateTo').datetimepicker('getDate') != null ? $('#dateTo').datetimepicker('getDate') : null;
-            dateFrom.setHours(0, 0, 0, 0);
-            dateTo.setHours(0, 0, 0, 0);
-            dateTo.setDate(dateTo.getDate() + 1);
-            Statistic.getVacancyInterviewDetalInfo(
-                {
-                    "vacancyId": $scope.vacancy.vacancyId,
-                    "from": dateFrom,
-                    "to": dateTo,
-                    withCandidatesHistory: true
-                }, function(detailResp) {
-                    if (detailResp != undefined) {
-                        var vacancyInterviewDetalInfo = [];
-                        angular.forEach(detailResp.vacancyInterviewDetalInfo, function(value, key){
-                            vacancyInterviewDetalInfo.push({
-                                key: key,
-                                value: value
-                            });
-                        });
-                        $scope.detailInterviewInfo = vacancyInterviewDetalInfo;
-                        angular.forEach($scope.detailInterviewInfo, function(value){
-                            angular.forEach($scope.customStages, function(resp){
-                                if(value.key == resp.customInterviewStateId){
-                                    value.key = resp.name;
-                                }
-                            })
-                        });
-                    }
-                    initSalesFunnel(dateFrom, dateTo);
-                });
+            const dateFrom = $('#dateFrom').datetimepicker('getDate') ? $('#dateFrom').datetimepicker('getDate') : null,
+                  dateTo = $('#dateTo').datetimepicker('getDate') ? $('#dateTo').datetimepicker('getDate') : null;
 
-            zingchart.exec('myChartDiv', 'reload');
+            if(dateFrom && dateTo) {
+                dateFrom.setHours(0, 0, 0, 0);
+                dateTo.setHours(0, 0, 0, 0);
+                dateTo.setDate(dateTo.getDate() + 1);
+            }
+
+            $rootScope.loading = true;
+            Statistic.getVacancyDetailInfo({"vacancyId": $scope.vacancy.vacancyId, "from": dateFrom, "to": dateTo, withCandidatesHistory: true})
+                .then(vacancyInterviewDetalInfo => {
+                    $scope.vacancyHistory = vacancyInterviewDetalInfo;
+                    $scope.vacancyGeneralHistory = vacancyInterviewDetalInfo;
+                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.vacancyHistory, $scope.notDeclinedStages, $scope.declinedStages));
+                    $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
+                    vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
+                    $scope.setStatistics('default');
+                    updateUsers();
+                    $scope.$apply();
+                }, error => notificationService.error(error.message));
         };
 
-        $scope.inDevelopmentMessage = function() {
-            //notificationService.error('This is total bullshit');
-            notificationService.error($filter('translate')('This function is in development, you can use it soon'));
-        };
-        $scope.dawnloadPDF = function(){
+        $scope.downloadPDF = function() {
             $scope.downloadPDFisPressed = !$scope.downloadPDFisPressed;
-            var dateFrom = $('#dateFrom').datetimepicker('getDate') != null ? $('#dateFrom').datetimepicker('getDate') : null;
-            var dateTo = $('#dateTo').datetimepicker('getDate') != null ? $('#dateTo').datetimepicker('getDate') : null;
-            dateFrom.setHours(0, 0, 0, 0);
-            dateTo.setHours(0, 0, 0, 0);
-            dateTo.setDate(dateTo.getDate() + 1);
+
+            let dateFrom = $('#dateFrom').datetimepicker('getDate')  ? $('#dateFrom').datetimepicker('getDate') : null,
+                dateTo   = $('#dateTo').datetimepicker('getDate')  ? $('#dateTo').datetimepicker('getDate') : null;
+
+            if(dateTo && dateFrom) {
+                dateFrom.setHours(0, 0, 0, 0);
+                dateTo.setHours(0, 0, 0, 0);
+                dateTo.setDate(dateTo.getDate() + 1);
+            }
+
+            $rootScope.loading = true;
             Statistic.getVacancyInterviewDetalInfoFile({
                 "vacancyId": $scope.vacancy.vacancyId,
                 "from": dateFrom,
                 "to": dateTo,
                 withCandidatesHistory: true
             },function(resp){
+                $rootScope.loading = false;
                 if(resp.status == 'ok'){
                     pdfId = resp.object;
                     $('#downloadPDF')[0].href = '/hr/' + 'getapp?id=' + pdfId;
@@ -41486,25 +41452,329 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 }
             });
         };
-        Vacancy.all(Vacancy.searchOptions(), function(response) {
-            $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
+
+        $rootScope.$on('$translateChangeSuccess', function () {
+            getHoverStripeWidth();
         });
-        $scope.getCompanyParams = function(){
-            Company.getParams(function(resp){
-                $scope.companyParams = resp.object;
-                $rootScope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/" + $scope.companyParams.nameAlias + "-vacancies";
+
+        $scope.$watchGroup(['mainFunnel.data', 'userFunnelData.userSeries', 'usersColumn.users', 'statistics'], function() {
+            getHoverStripeWidth();
+        });
+
+        function updateUsers() {
+            $scope.funnelActionUsers.forEach(user => {
+                updateMainFunnel(user); // if user exist - removes it`s column to funnel
+                clearUserFunnelCache({user}); // removing user from cache
+                updateMainFunnel(user);// if user not exist - adding it column to funnel
             });
-        };
-        $scope.getCompanyParams();
-        $scope.toBottom = function () {
-            $("html, body").animate({ scrollTop: $(document).height() }, 1000);
         }
-    }
 
-]);
+        function setUserFunnel(user) {
+            if(getUserFunnelCache({user})) {
+                vacancyReport.funnel('userFunnel', getUserFunnelCache({user}).userFunnelData.userSeries);
+                $scope.userFunnelData = getUserFunnelCache({user}).userFunnelData;
+                $scope.vacancyHistory = getUserFunnelCache({user}).userHistory;
+                return;
+            }
 
+            const dateFrom = $('#dateFrom').datetimepicker('getDate') ? $('#dateFrom').datetimepicker('getDate') : null,
+                dateTo = $('#dateTo').datetimepicker('getDate') ? $('#dateTo').datetimepicker('getDate') : null;
 
+            if(dateFrom && dateTo) {
+                dateFrom.setHours(0, 0, 0, 0);
+                dateTo.setHours(0, 0, 0, 0);
+                dateTo.setDate(dateTo.getDate() + 1);
+            }
 
+            return Statistic.getVacancyDetailInfo({
+                "vacancyId": $scope.vacancy.vacancyId,
+                withCandidatesHistory: true,
+                personId: user.userId,
+                "from": dateFrom,
+                "to": dateTo
+                }).then(usersActionData => {
+                    const userFunnelMap = validateStages(parseCustomStagesNames(usersActionData, $scope.notDeclinedStages, $scope.declinedStages));
+
+                    let userFunnelData = {
+                        userSeries: setFunnelData(userFunnelMap).candidateSeries,
+                        vacancySeries: setFunnelData($scope.vacancyFunnelMap).candidateSeries,
+                        userPercentSeries : function() {
+                            return this.userSeries.map((userSeries, index) => {
+                                return String(Math.round((userSeries / (this.vacancySeries[index])) * 100) || 0);
+                            });
+                        },
+                        relConversion: setFunnelData(userFunnelMap).RelConversion,
+                        absConversion: setFunnelData(userFunnelMap).AbsConversion,
+                        user: user
+                    };
+
+                    setUserFunnelCache({userFunnelData, userHistory: usersActionData, user});
+
+                    $scope.userFunnelData = getUserFunnelCache({user}).userFunnelData;
+
+                    vacancyReport.funnel('userFunnel', userFunnelData.userSeries);
+                    $scope.setStatistics('default');
+                    $scope.$apply();
+                    return Promise.resolve(userFunnelData);
+                }, error => notificationService.error(error.message));
+        }
+
+        function setStages() {
+            let stagesString = [];
+
+            if($scope.vacancy && $scope.vacancy['interviewStatus']) {
+                stagesString = $scope.vacancy['interviewStatus'].split(',');
+            } else {
+                stagesString = ['longlist','shortlist','interview','approved','notafit','declinedoffer','no_response'];
+            }
+
+            $scope.notDeclinedStages = stagesString.slice(stagesString[0], stagesString.indexOf('approved') + 1);
+            $scope.declinedStages = stagesString.slice(stagesString.indexOf('approved') + 1, stagesString.length);
+        }
+
+        function initMainFunnel() {
+            Statistic.getVacancyDetailInfo({ "vacancyId": $scope.vacancy.vacancyId, withCandidatesHistory: true})
+                .then(vacancyInterviewDetalInfo => {
+                    $scope.vacancyHistory = vacancyInterviewDetalInfo;
+                    $scope.vacancyGeneralHistory = vacancyInterviewDetalInfo;
+                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(vacancyInterviewDetalInfo, $scope.notDeclinedStages, $scope.declinedStages));
+                    $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
+                    vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
+                    $scope.$apply();
+                }, error => notificationService.error(error.message));
+        }
+
+        function updateMainFunnel(user) {
+            if(!getUserFunnelCache({user})) {
+                setUserFunnel(user)
+                    .then(userFunnelData => {
+                        let userData = angular.copy(userFunnelData);
+                        userData.userSeries.length = userData.userSeries.length || userData.vacancySeries.length;
+
+                        $scope.usersColumn.users.push(user);
+                        $scope.usersColumn.dataArray.push(userData.userSeries);
+                        $scope.$apply();
+                        $rootScope.loading = false;
+                    }, error => console.error(error));
+            } else {
+                const index = $scope.usersColumn.users.indexOf(user);
+                $scope.usersColumn.users.splice(index,1);
+                $scope.usersColumn.dataArray.splice(index, 1);
+                $scope.vacancyHistory = $scope.vacancyGeneralHistory;
+            }
+        }
+
+        function parseCustomStagesNames(allStages, notDeclinedStages, declinedStages) {
+            angular.forEach($scope.customStages, function(resp){
+                angular.forEach(allStages, function(value){
+                    if(value.key === resp.customInterviewStateId) {
+                        value.key = resp.name;
+                    }
+                });
+
+                angular.forEach(declinedStages, function(value, index){
+                    if(value === resp.customInterviewStateId){
+                        declinedStages[index] = resp.name;
+                    }
+                });
+
+                angular.forEach(notDeclinedStages, function(value, index){
+                    if(value === resp.customInterviewStateId){
+                        notDeclinedStages[index] = resp.name;
+                    }
+                });
+            });
+
+            return { allStages, declinedStages, notDeclinedStages }
+        }
+
+        function validateStages({allStages, notDeclinedStages, declinedStages}) {
+            let funnelMap = [];
+            $scope.hasFunnelChart = false;
+
+            if (allStages) {
+                angular.forEach(allStages, (stage,index) => {
+                    funnelMap[index] = { key: stage.key, value: stage.value.length };
+
+                    angular.forEach(declinedStages, (declinedStage) => {
+                        if(declinedStage === stage.key) {
+                            funnelMap.splice(index,1);
+                            allStages.splice(index,1);
+                        }
+                    });
+                });
+
+                angular.forEach(notDeclinedStages, notDeclinedStage => {
+                    let missingStage = true;
+
+                    angular.forEach(funnelMap, (stage,index) => {
+                        if(missingStage) {
+                            missingStage = !(funnelMap[index].key === notDeclinedStage);
+
+                            if(index === funnelMap.length - 1 && missingStage) {
+                                funnelMap[index+1] = { key: notDeclinedStage, value: 0 };
+                            }
+                        }
+                    });
+                });
+            }
+
+            return funnelMap[0] ? funnelMap : null;
+        }
+
+        function setFunnelData(funnelMap) {
+            $scope.hasFunnelChart = true;
+            let stages = [],
+                candidateSeries = [],
+                RelConversion = [],
+                AbsConversion = [],
+                lastCount = null;
+
+            angular.forEach(funnelMap, function(stage) {
+                stages.push($filter('translate')(stage.key));
+                candidateSeries.push(+(stage.value));
+
+                if (!lastCount && lastCount !== 0) {
+                    RelConversion.push('100%');
+                    AbsConversion.push('100%');
+                } else {
+                    RelConversion.push((stage.value !== 0 ? Math.round(stage.value / lastCount * 100) : 0) + '%');
+                    AbsConversion.push((stage.value !== 0 ? Math.round(stage.value / funnelMap[0].value * 100) : 0) + '%');
+                }
+
+                lastCount = stage.value;
+            });
+
+            return { stages, candidateSeries, RelConversion, AbsConversion }
+        }
+
+        function getUserFunnelCache({user}) {
+            return setFunnelData.usersDataCache.filter(cache => {
+                return cache.user.userId === user.userId;
+            })[0];
+        }
+
+        function setUserFunnelCache({userFunnelData, userHistory, user}) {
+            if(!getUserFunnelCache({user})) {
+                setFunnelData.usersDataCache.push({userFunnelData, userHistory, user});
+            }
+        }
+
+        function clearUserFunnelCache({user}) {
+            setFunnelData.usersDataCache.forEach((cache, index) => {
+                if(cache.user.userId === user.userId) {
+                    setFunnelData.usersDataCache.splice(index,1);
+                }
+            });
+        }
+
+        function getUsersForFunnel(vacancyId) {
+            Person.getFilteredPersons({vacancyId: vacancyId, types:["interview_add", "interview_add_from_advice", "interview_edit", "interview_remove"]})
+                .then(response => {
+                    $scope.actionUsers = response.object;
+                }, error => notificationService.error(error))
+        }
+
+        function getAllVacanciesAmount(response) {
+            $rootScope.objectSize = response['objects'] ? response['total'] : 0;
+        }
+
+        function getCompanyParams(response){
+            $scope.companyParams = response.object;
+            $rootScope.publicLink = $location.$$protocol + "://" + $location.$$host + "/i#/" + $scope.companyParams.nameAlias + "-vacancies";
+        }
+
+        function setDateTimePickers() {
+            $("#dateFrom").datetimepicker({
+                format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
+                startView: 2,
+                minView: 2,
+                autoclose: true,
+                startDate: $scope.vacancy.dc ? new Date($scope.vacancy.dc) : new Date(),
+                endDate: new Date(),
+                weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                language: $translate.use()
+            }).on('changeDate', function (date) {
+                if(date.date > $("#dateTo").datetimepicker("getDate")) {
+                    let d = new Date();
+                    d.setHours(0, 0, 0, 0);
+                    $("#dateTo").datetimepicker("setDate", new Date(d.getFullYear(),d.getMonth(),d.getDate()));
+                }
+            });
+
+            $("#dateTo").datetimepicker({
+                format: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? "dd/mm/yyyy" : "mm/dd/yyyy",
+                startView: 2,
+                minView: 2,
+                autoclose: true,
+                startDate: $scope.vacancy.dc ? new Date($scope.vacancy.dc) : new Date(),
+                endDate: new Date(),
+                weekStart: $rootScope.currentLang == 'ru' || $rootScope.currentLang == 'ua' ? 1 : 7,
+                language: $translate.use()
+            }).on('changeDate', function (date) {
+                if(date.date < $("#dateFrom").datetimepicker("getDate")) {
+                    let d = new Date();
+                    d.setHours(0, 0, 0, 0);
+                    $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
+                }
+            });
+
+            let d = new Date();
+            d.setHours(0, 0, 0, 0);
+            $("#dateTo").datetimepicker("setDate", new Date(d.getFullYear(),d.getMonth(),d.getDate()));
+            $("#dateFrom").datetimepicker("setDate", new Date($scope.vacancy.dc));
+        }
+
+        function getVacancyStages(response) {
+            $scope.customStages = response.object.interviewStates;
+        }
+
+        function getVacancy(response) {
+            $scope.vacancy = response;
+            $scope.deadline = new Date($scope.vacancy.dateFinish).getTime();
+        }
+
+        function getHoverStripeWidth() {
+            $timeout(() => {
+                let tables = $('.funnel > table, .funnel > .funnel-chart'),
+                    stripes = $('.hover-stripe'),
+                    stripeWidth = 0,
+                    stripeOffset = 0;
+
+                for(let i = 0; i < tables.length; i++) {
+                    if(i === 0) stripeOffset = $(tables[i]).position().left;
+                    if($(tables[i]).width()) {
+                        stripeWidth += $(tables[i]).outerWidth( true );
+                    }
+                }
+
+                for(let i = 0; i < stripes.length; i++) {
+                    $(stripes[i]).outerWidth(stripeWidth).css("left", stripeOffset);
+                }
+            }, 0);
+        }
+
+        function Init() {
+            Promise.all([
+                Vacancy.getAllVacanciesAmount(),
+                Vacancy.getVacancy({localId: $routeParams.id}),
+                vacancyStages.requestVacancyStages(),
+                Company.params()
+            ]).then(([vacanciesAmount, vacancy, vacancyStages, companyParams]) => {
+                getAllVacanciesAmount(vacanciesAmount);
+                getVacancyStages(vacancyStages);
+                getCompanyParams(companyParams);
+                getVacancy(vacancy.object);
+                getUsersForFunnel(vacancy.object.vacancyId);
+                setStages();
+                setDateTimePickers();
+                initMainFunnel();
+            }, error => notificationService.error(error.message));
+        }
+
+        Init();
+
+}]);
 
 function deleteUnnecessaryFields(object) {
     if (object) {

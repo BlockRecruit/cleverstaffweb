@@ -8,8 +8,30 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         $scope.vacancyGeneralHistory = [];
         $scope.mainFunnel = {};
         $scope.usersColumn = {users: [], dataArray: []};
+        $scope.userFunnelData = [];
+
+        $scope.showUsersReports = false;
 
         setFunnelData.usersDataCache = setFunnelData.usersDataCache || [];
+
+        $scope.toggleUsersReports = function() {
+            if($scope.showUsersReports) {
+
+            } else {
+                $scope.statistics = {type: 'default', user: {}};
+                $scope.usersColumn = {users: [], dataArray: []};
+                $scope.userFunnelData = [];
+
+                $scope.vacancyHistory = $scope.vacancyGeneralHistory;
+                setFunnelData.usersDataCache = [];
+
+                $scope.funnelActionUsers.forEach(user => {
+                   $scope.actionUsers.push(user) ;
+                });
+
+                $scope.funnelActionUsers = [];
+            }
+        };
 
         $scope.setStatistics = function(type = 'default', user = {}) {
             $scope.statistics = {type, user};
@@ -69,6 +91,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             Statistic.getVacancyDetailInfo({"vacancyId": $scope.vacancy.vacancyId, "from": dateFrom, "to": dateTo, withCandidatesHistory: true})
                 .then(vacancyInterviewDetalInfo => {
                     $scope.vacancyHistory = vacancyInterviewDetalInfo;
+                    $scope.vacancyGeneralHistory = vacancyInterviewDetalInfo;
                     $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.vacancyHistory, $scope.notDeclinedStages, $scope.declinedStages));
                     $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
                     vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);

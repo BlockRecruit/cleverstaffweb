@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-lg-12 report-info">
                 <div class="clearfix"></div>
-                <div class="pull-left dateFrom">
+                <div class="pull-left dateFrom" ng-class="{'less-width' : vacancy.dateFinish}">
                     <div class="field pull-left">
                         <label class="pull-left">{{'Date from' | translate}}</label>
                         <input id="dateFrom" class="datePicker pull-left" readonly placeholder="{{'day/month/year'|translate}}" type="text">
@@ -34,9 +34,9 @@
                         <input id="dateTo" class="datePicker pull-left" readonly placeholder="{{'day/month/year'|translate}}" type="text">
                         <div class="clearfix"></div>
                     </div>
-                    <div class="" ng-show="vacancy.dateFinish">
+                    <div class="field pull-left" ng-show="vacancy.dateFinish">
                         <div class="deadline">
-                            {{'Deadline' | translate}}:
+                            <label translate="Deadline"></label>
                             <br>
                             <span ng-class="{'deadline-finish': deadline <= $root.nowDate}">{{vacancy.dateFinish|dateFormat7}}</span>
                         </div>
@@ -45,10 +45,10 @@
                 <div class="filter" ng-show="vacancyFunnelMap">
                     <div class="switch">
                         <span>{{'Show reports by users' | translate}}</span>
-                        <input id="cmn-toggle-9" class="cmn-toggle cmn-toggle-round" type="checkbox" ng-model="showUserReports">
+                        <input id="cmn-toggle-9" ng-change="toggleUsersReports()" class="cmn-toggle cmn-toggle-round" type="checkbox" ng-model="showUsersReports">
                         <label for="cmn-toggle-9"></label>
                     </div>
-                    <div class="responsible-list">
+                    <div class="responsible-list" ng-show="showUsersReports">
                         <select class="responsible-list" ng-model="userIndex">
                             <option value="{{$index}}" ng-repeat="user in actionUsers track by $index">{{user.name}}</option>
                             <option disabled value="" ng-selected="!userIndex">{{'choose_user2' | translate}}</option>
