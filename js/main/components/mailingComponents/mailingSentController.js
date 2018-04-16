@@ -25,7 +25,7 @@ component.component("mailingSent", {
        let breadCrumbs = storedBreadcrumbs?JSON.parse(storedBreadcrumbs):defaultBreadcrumbs;
        breadCrumbs.pop();
        breadCrumbs.push({
-           href: '#/mailings',
+           href: '#/mailings/sent',
            transl: 'My mailings'
        },{
            value: $scope.sentMailing.internalName
