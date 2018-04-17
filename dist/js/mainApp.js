@@ -43225,6 +43225,11 @@ controller.controller('DepartmentCatalogController', ["$scope", "$rootScope", "$
                 //});
             });
         };
+        $scope.saveDepartmentByKey = function(e) {
+          if(e.keyCode === 13) {
+              $scope.saveDepartment();
+          }
+        };
         $scope.refreshDepartmentList();
         $scope.saveDepartment = function(){
             console.log($scope.departmentOnEdit);
