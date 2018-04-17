@@ -2941,5 +2941,6 @@
   "for candidates":"по кандидатам",
   "User changed candidates status":"Пользователь <a class='user' href={{href}}>{{name}}</a> изменил статус кандидатов",
   "User changed candidates status amount":"Пользователь <a class='user' href={{href}}>{{name}}</a> изменил статус",
-  "to deleted":"на удален"
+  "to deleted":"на удален",
+  "Comment on deletion":"Комментарий при удалении:"
 }

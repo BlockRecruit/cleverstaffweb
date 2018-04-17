@@ -2351,5 +2351,6 @@
   "for candidates":"for candidates",
   "User changed candidates status":"User <a class='user' href={{href}}>{{name}}</a> changed candidates status",
   "User changed candidates status amount":"User <a class='user' href={{href}}>{{name}}</a> changed status for",
-  "to deleted":"to deleted"
+  "to deleted":"to deleted",
+  "Comment on deletion":"Comment on deletion:"
 }

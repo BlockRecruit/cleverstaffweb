@@ -1778,6 +1778,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 .then(resp => {
                     if(resp.status === 'ok') {
                         $scope.tableParams.reload();
+                        $scope.candidatesAddToVacancyIds = [];
                         $rootScope.loading = false;
                         notificationService.success($filter('translate')('Candidates were deleted'));
                     } else  {

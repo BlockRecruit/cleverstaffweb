@@ -795,12 +795,11 @@ angular.module('RecruitingApp.filters', ['ngSanitize'])
         }
     })
     .filter('textForNotice', function ($sce, $filter) {
-        return function (text, withDot) {
-            withDot == undefined ? false : withDot;
+        return function (text, withDot = false) {
             var respText;
             var dots = "";
             if ($filter('countOfTextInSticker')(text) > 210 && withDot)dots = "...";
-            if (text != undefined && text.length > 0) {
+            if (text && text.length > 0) {
                 respText = linkify3(text) + dots;
             } else {
                 respText = "";

@@ -635,6 +635,7 @@
 				display: flex;
 				flex-direction: row;
 				margin-bottom: 15px;
+				padding-right: 0;
 				padding-left: 4px;
 
 				justify-content: center;
@@ -693,11 +694,12 @@
 					padding-right: 0;
 				}
 				.add-in-vacancy {
+					display: flex;
+					flex-direction: row;
+					padding-right: 2px;
 					padding-left: 0;
-					&.move-right {
-						position: relative;
-						left: 28px;
-					}
+
+					justify-content: flex-end;
 					.action-buttons {
 						display: flex;
 
@@ -736,7 +738,7 @@
 						}
 						.new-label {
 							top: -5px;
-							right: 5px;
+							right: -5px;
 
 							margin: 0;
 						}
