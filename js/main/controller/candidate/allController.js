@@ -1767,12 +1767,11 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
         });
     };
-    $scope.deleteCandidates = function() {
+    $scope.deleteCandidates = function(deleteCandidatesComment) {
         $rootScope.loading = true;
-
         Candidate.deleteCandidates({
             ids : $scope.candidatesAddToVacancyIds,
-            comment : $scope.deleteCandidatesComment,
+            comment : deleteCandidatesComment,
             candidateState: "archived"
         }).then(resp => {
             Candidate.getAllCandidates($scope.candidateSearchOptions)
