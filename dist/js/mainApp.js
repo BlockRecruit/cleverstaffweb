@@ -24585,6 +24585,12 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
+
+        $scope.closeModal = function (status) {
+            $scope.changeStatus = status;
+            $scope.modalInstance.close();
+        };
+
         if($rootScope.me.recrutRole != 'client'){
             setTimeout(function(){
                 if ($rootScope.questStatus && $rootScope.questStatus.addFirstCandidatePopup == 'Y'){
@@ -25670,6 +25676,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 animation: true,
                 templateUrl: '../partials/modal/candidate-change-status-in-candidate.html',
                 size: '',
+                scope: $scope,
                 resolve: function(){
 
                 }
@@ -25680,6 +25687,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $rootScope.changeStateInCandidate.placeholder = $filter('translate')('write_a_comment_why_do_you_change_candidate_status');
 
         };
+
         $rootScope.saveStatusOfCandidate = function () {
             if ($rootScope.changeStateInCandidate.status != "" && !$rootScope.clickedSaveStatusOfCandidate) {
                 $rootScope.clickedSaveStatusOfCandidate = true;
