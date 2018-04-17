@@ -73,9 +73,12 @@
                         <label>{{email.email}}</label>
                     </div>
                 </div>
-                <div class="alert alert-danger" ng-show="pageObject.emails.length == 0">
-                    {{'To send a letter from your mailbox, you need to'|translate}}
-                    <a href="#/email-integration" target='_blank'>{{'add integration with email'|translate}}</a>
+                <div class="alert alert-danger" ng-show="$root.me.emails.length === 0 && !noAllowedMails">
+                    {{"To send a letter from your mailbox, you need to"|translate}}
+                    <a href="#/email-integration" target='_blank'>{{"add integration with email"|translate}}</a>
+                </div>
+                <div class="alert alert-danger" ng-show="$root.me.emails.length === 0 && noAllowedMails">
+                    <span translate="To send a letter from your mailbox,allow sending mails from the email integration page"></span>
                 </div>
                 <div style="display: flex; justify-content:space-between;white-space: nowrap; align-items: center; margin-bottom: 10px;">
                     <lable for="Subject" style="font-weight: bold">{{'Subject line'|translate}}</lable>

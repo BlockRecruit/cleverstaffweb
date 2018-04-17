@@ -260,6 +260,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     $scope.modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: '../partials/modal/candidate-add-in-vacancy.html',
+                        scope: $scope,
                         resolve: {
                             items: function () {
                                 return $scope.items;
@@ -1189,6 +1190,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/candidate-change-status-in-candidate.html',
+                scope: $scope,
                 size: '',
                 scope: $scope,
                 resolve: function(){
@@ -1359,6 +1361,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/candidate-change-status-in-vacancy.html?b=2',
+                scope: $scope,
                 resolve: {
                     items: function () {
                         return $scope.items;
@@ -2165,11 +2168,12 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             text: "Hi [[candidate name]]!<br/><br/>--<br/>Best, <br/>[[recruiter's name]]"
         };
         $scope.showCandidateSentEmail = function(){
-            if($rootScope.me.emails.length == 0){
+            if($rootScope.me.emails.length === 0 && !$scope.noAllowedMails){
                 $scope.modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '../partials/modal/no-synch-email.html',
                     size: '',
+                    scope: $scope,
                     resolve: {
 
                     }
@@ -2179,6 +2183,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     animation: true,
                     templateUrl: '../partials/modal/candidate-send-email.html',
                     size: '',
+                    scope: $scope,
                     resolve: {
 
                     }
@@ -2279,6 +2284,16 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 });
         };
 
+        (function getPersonEmails() {
+            Person.getPersonEmails({type: 'all'})
+                .then(resp => {
+                    let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
+
+                    if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+                }, error => notificationService.error(error));
+        })();
+
         sliderElements.params = Candidate.candidateLastRequestParams || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
         sliderElements.setCurrent();
         $scope.nextOrPrevElements = sliderElements.nextOrPrevElements.bind(null, $scope);
@@ -2286,6 +2301,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.candidateLength = $rootScope.objectSize || localStorage.getItem('objectSize');
         $scope.currentIndex = sliderElements.nextElement.cacheCurrentPosition + 1 ||  (+localStorage.getItem('numberPage')) +  1;
         ///////////////////////////////////////////////////////////////End of Sent Email candidate
+
     }]);
 
 

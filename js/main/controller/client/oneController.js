@@ -819,7 +819,7 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
     };
 
     $scope.showCandidateSentEmail = function(){
-        if($rootScope.me.emails.length == 0){
+        if($rootScope.me.emails.length === 0 && !$scope.noAllowedMails){
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/no-synch-email.html',
@@ -833,6 +833,7 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
                 animation: true,
                 templateUrl: '../partials/modal/client-send-email.html',
                 size: '',
+                scope: $scope,
                 resolve: {
 
                 }
@@ -931,6 +932,15 @@ function ClientOneController(serverAddress, $scope, $routeParams, $location, Cli
             });
     };
 
+    (function getPersonEmails() {
+        Person.getPersonEmails({type: 'all'})
+            .then(resp => {
+                let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
+
+                if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+            }, error => notificationService.error(error));
+    })();
     ///////////////////////////////////////////////////////////////End of Sent Email
 }
 controller.controller('ClientOneController', ["serverAddress", "$scope", "$routeParams", "$location", "Client", "Service", "Contacts", "Vacancy",

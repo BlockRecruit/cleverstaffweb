@@ -162,6 +162,15 @@ function CandidateEmailSend($scope, $rootScope, $routeParams, Vacancy, Person, g
         });
     }
 
+    (function getPersonEmails() {
+        Person.getPersonEmails({type: 'all'})
+            .then(resp => {
+                let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
+
+                if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+            }, error => notificationService.error(error));
+    })();
 
     $scope.openModalAddEmail = function() {
         $rootScope.addEmailAccessObject.errorMessage = null;

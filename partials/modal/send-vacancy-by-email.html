@@ -9,9 +9,12 @@
         </h4>
     </div>
     <div class="modal-body">
-        <p ng-show="$root.me.emails.length == 0">
+        <p class="alert alert-danger" ng-show="$root.me.emails.length === 0 && !noAllowedMails">
+            {{"To send a letter from your mailbox, you need to"|translate}}
             <a href="#/email-integration" target='_blank'>{{"add integration with email"|translate}}</a>
-            {{"To send a letter from your mailbox, you need to"|translate}}.
+        </p>
+        <p class="alert alert-danger" ng-show="$root.me.emails.length === 0 && noAllowedMails">
+            <span translate="To send a letter from your mailbox,allow sending mails from the email integration page"></span>
         </p>
         <div class="item mail-checkbox">
             <div class="checkbox" ng-show="$root.me.emails.length > 1" ng-click="$root.addEmailFromWhatSendInDescription(email)" ng-repeat="email in $root.me.emails">
