@@ -5654,10 +5654,10 @@ angular.module('services.globalService', [
             {value: "full employment"},
             {value: "underemployment"},
             {value: "telework"},
-            {value: "training, practice"},
+            {value: "training_practice"},
             {value: "project work"},
-            {value: "seasonal, temporary work"},
-            {value: "relocate"}
+            {value: "seasonal_temporary_work"},
+            {value: "Relocate"}
         ];
 
     };
