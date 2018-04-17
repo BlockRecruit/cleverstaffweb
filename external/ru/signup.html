@@ -79,7 +79,7 @@
             wrong4_password: "Пароль должен быть длиной 8-30 символов",
             wrong_password2: "Пароль не совпадает с предыдущим",
             wrong_users_counter: "Пожалуйста, выберите количество рекрутеров в компании",
-            terms_accept: "Для регистрации необходимо принять условия договора оферты."
+            terms_accept: "Пожалуйста, прочитайте и примите Политику Приватности и Публичную Оферту"
         };
         if (document.domain === 'cleverstaff.net') {
             // google corporate data + logo
@@ -258,7 +258,8 @@
                         </div>
                         <div class="form-gr">
                             <input id="terms" class="float-left terms" type="checkbox" name="terms">
-                            <label for="terms" class="terms">Я принимаю условия <a href="terms.html" target="_blank">договора оферты</a>.</label>
+                            <!--<label for="terms" class="terms">Я принимаю условия <a href="terms.html" target="_blank">договора оферты</a>.</label>-->
+                            <label for="terms" class="terms">Я прочитал <a href="../privacy.html" target="_blank">Политику Приватности</a> и <a href="terms.html" target="_blank">Публичную Оферту</a> и принимаю их</label>
                             <div class="error-terms hidden"></div>
                         </div>
                         <div class="error-password"></div>
@@ -429,8 +430,8 @@
                     </div>
                 </div>
                 <div class="form-gr">
-                    <input id="terms-fb" class="float-left terms" type="checkbox" name="terms">
-                    <label for="terms-fb" class="terms">Я принимаю условия <a href="terms.html" target="_blank">договора оферты</a>.</label>
+                    <input id="terms-fb" class="float-left" type="checkbox" name="terms">
+                    <label for="terms-fb" class="terms social">Я прочитал <a href="../privacy.html" target="_blank">Политику Приватности</a> и <a href="terms.html" target="_blank">Публичную Оферту</a> и принимаю их</label>
                     <div class="error-terms hidden"></div>
                 </div>
                 <div class="hidden-not-important" id="facebook_server_message"></div>
@@ -529,8 +530,8 @@
                     </div>
                 </div>
                 <div class="form-gr">
-                    <input id="terms-g" class="float-left terms" type="checkbox" name="terms">
-                    <label for="terms-g" class="terms">Я принимаю условия <a href="terms.html" target="_blank">договора оферты</a>.</label>
+                    <input id="terms-g" class="float-left" type="checkbox" name="terms">
+                    <label for="terms-g" class="terms social">Я прочитал <a href="../privacy.html" target="_blank">Политику Приватности</a> и <a href="terms.html" target="_blank">Публичную Оферту</a> и принимаю их</label>
                     <div class="error-terms hidden"></div>
                 </div>
                 <div class="hidden-not-important" id="google_server_message"></div>

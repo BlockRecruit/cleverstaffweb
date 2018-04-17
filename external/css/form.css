@@ -90,7 +90,12 @@
 .form-gr .terms {
     display: inline-block;
     vertical-align: middle;
-    margin: 0;
+    max-width: 90%;
+    margin: 10px 0 0 10px;
+    text-align: left;
+}
+.form-gr .terms.social {
+	margin-top: 0;
 }
 .form-gr select{
     border: 1px solid #E5E5E6;
