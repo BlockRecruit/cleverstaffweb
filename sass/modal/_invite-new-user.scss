@@ -221,3 +221,31 @@
 		background: none!important;
 	}
 }
+
+@media screen and (max-width:610px) {
+	.invite-new-user .modal-body .step .user-roles {
+		justify-content: center;
+	}
+	.invite-new-user .modal-footer button.cancel {
+		margin: 0 auto;
+	}
+}
+
+@media screen and (max-height: 600px) {
+	.invite-new-user {
+		overflow: hidden;
+		overflow-y: scroll;
+		height: 460px;
+		max-height: 100%;
+	}
+	.invite-new-user .modal-footer button.accent {
+		display: block!important;
+	}
+	.invite-new-user .modal-header .close-modal {
+		top: 5px;
+		right: 5px;
+	}
+	.invite-new-user .modal-header h3 {
+		font-size: 21px;
+	}
+}

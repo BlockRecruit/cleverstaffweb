@@ -18,10 +18,10 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <LINK REL="SHORTCUT ICON" HREF="images/sprite/favicon.png?b3">
-    <link rel="stylesheet" href="dist/css/styles.css?b306">
+    <link rel="stylesheet" href="dist/css/styles.css?b310">
     <link rel="stylesheet" type="text/css" media="print" href="dist/css/print.css" />
     <!--<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>-->
-    <script type="text/javascript" src="dist/js/mainLib.js?b276"></script>
+    <script type="text/javascript" src="dist/js/mainLib.js?b280"></script>
 
 
     <!--<link  href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">-->
@@ -33,39 +33,6 @@
         }
 
     </style>
-    <script>
-        if (document.domain === 'cleverstaff.net') {
-            var yaParams = {/*Тут параметри візиту*/};
-            (function(d, w, c) {
-                (w[c] = w[c] || []).push(function() {
-                    try {
-                        w.yaCounter27135023 = new Ya.Metrika({
-                            id: 27135023,
-                            webvisor: false,
-                            clickmap: true,
-                            trackLinks: true,
-                            accurateTrackBounce: true,
-                            trackHash: true, params: window.yaParams || {}
-                        });
-                    } catch (e) {
-                    }
-                });
-                var n = d.getElementsByTagName("script")[0],
-                        s = d.createElement("script"),
-                        f = function () {
-                            n.parentNode.insertBefore(s, n);
-                        };
-                s.type = "text/javascript";
-                s.async = true;
-                s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
-                if (w.opera == "[object Opera]") {
-                    d.addEventListener("DOMContentLoaded", f, false);
-                } else {
-                    f();
-                }
-            })(document, window, "yandex_metrika_callbacks");
-        }
-    </script>
     <script>
         $(document).click(function (event) {
             if ($(event.target).closest("openBox").length)
@@ -84,11 +51,6 @@
             }
         }
     </script>
-    <noscript>
-        <div>
-            <img src="//mc.yandex.ru/watch/27135023" style="position:absolute; left:-9999px;" alt=""/>
-        </div>
-    </noscript>
     <script>(function () {
         var w = window;
         var ic = w.Intercom;
@@ -1164,7 +1126,7 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZul9dW5-r5WVV1479hAgVxM5Z75C-ykM&libraries=places"></script>
     <script type="text/javascript" src="lib/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b387"></script>
+    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b391"></script>
 
     <!--ЗPignation in TAble-->
     <script type="text/ng-template" id="custom/pager">
@@ -1261,5 +1223,21 @@
     <!--</div>-->
 </div>
 <div class="backdrop-custom-fields"></div>
+<!-- Код тега ремаркетинга Google -->
+
+<script type="text/javascript">
+    / <![CDATA[ /
+    var google_conversion_id = 964011751;
+    var google_custom_params = window.google_tag_params;
+    var google_remarketing_only = true;
+    / ]]> /
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+    <div style="display:inline;">
+        <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/964011751/?guid=ON&amp;script=0"/>
+    </div>
+</noscript>
 </body>
 </html>

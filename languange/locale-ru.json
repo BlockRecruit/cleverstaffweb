@@ -2963,5 +2963,10 @@
   "The test testname has been sent to the candidate name":"Кандидату <a href={{href}}>{{candidateName}}</a> отправлен тест <a class='underline'>{{testName}}</a>",
   "The candidate has been transferred to the stage":"Кандидат переведён на этап",
   "from_4": "от",
-  "for": "для"
+  "for": "для",
+  "The filter allows you to pick the users who performed any activities on vacancies.": "Фильтр позволяет выбрать определенных пользователей, которые совершали какие-либо действия по вакансиям.",
+  "The binding":"Привязка",
+  "was unlinked in candidate":"удалена у кандидата",
+  "for": "для",
+  "To send a letter from your mailbox,allow sending mails from the email integration page":"Для отправки письма со своего почтового ящика разрешите отправку писем на <a href='#/email-integration' target='_blank'>странице интеграции с email</a>"
 }

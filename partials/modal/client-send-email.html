@@ -5,9 +5,12 @@
     </div>
     <div class="modal-body">
        <div>
-           <div class="alert alert-danger" ng-show="$root.me.emails.length == 0">
-               <a href="#/email-integration" target='_blank'>{{"add integration with email"|translate}}</a>
+           <div class="alert alert-danger" ng-show="$root.me.emails.length === 0 && !noAllowedMails">
                {{"To send a letter from your mailbox, you need to"|translate}}
+               <a href="#/email-integration" target='_blank'>{{"add integration with email"|translate}}</a>
+           </div>
+           <div class="alert alert-danger" ng-show="$root.me.emails.length === 0 && noAllowedMails">
+               <span translate="To send a letter from your mailbox,allow sending mails from the email integration page"></span>
            </div>
            <div class="item">
                <span class="title">{{"Email"|translate}}</span>
