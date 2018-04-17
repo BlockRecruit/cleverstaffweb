@@ -20,6 +20,11 @@ component.component("emailTemplateEditComponent", {
            $state.go("email-integration");
        }
 
+       vm.copyDimProperties = function () {
+           let elem = document.getElementById('dkim-settings');
+           elem.classList.toggle("show");
+       };
+
 
        function getEditableMailbox(emailsArray, id) {
            let mailboxWithSameId = {};
@@ -33,7 +38,8 @@ component.component("emailTemplateEditComponent", {
            if(mailboxExist) {
                return mailboxWithSameId
            } else {
-               notificationService.error("There is no mailBox with such id")
+               notificationService.error("There is no mailBox with such id");
+               $state.go("email-integration");
            }
        }
    },

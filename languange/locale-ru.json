@@ -2015,7 +2015,7 @@
   "Email templates": "Шаблоны писем на email",
   "Integration with email": "Интеграция с email",
   "Accesses": "Доступы",
-  "Email Access1": "Импорт резюме из папки 'Входящие'",
+  "Email Access1": "Импорт резюме из папки \"Входящие\"",
   "Email Access2": "Синхронизация сообщений с кандидатами",
   "Email Access3": "Возможность отправить сообщение на email в интерфейсе CS",
   "Enter_at_least_one_symbol": "Введите хотя бы один символ",
@@ -3109,5 +3109,18 @@
   "free mailings left 1": "бесплатных писем",
   "Please integrate email into the system or enable mailing sending on": "Интегрируйте email в систему или разрешите отправку рассылок на",
   "the email integration settings page": "странице настроек интреграции email",
-  "Mail integration settings": "Настройки интграции с почтой"
+  "Mail integration settings": "Настройки интеграции с почтой",
+  "Send mailings from CleverStaff": "Отправка рассылок из CleverStaff",
+  "SMTP secure protocol": "Протокол безопасности SMTP",
+  "You use the email address from": "Вы используете email от",
+  "You can send mailings that do not exceed 50 letters.": "Вы сможете отправлять рассылки до 50 писем за раз.",
+  "This restriction is necessary to ensure that your mailings would not be blocked by the postal services and would not be sent to Spam.": "Это ограничение необходимо для того, чтобы ваши рассылки не блокировались почтовыми сервисами и не попадали в Spam.",
+  "To send more emails per one mailing, use the email address with your corporate domain name.": "Чтобы отправлять больше писем за раз, используйте email с корпоративным доменным именем.",
+  "You have integrated your corporate email": "Вы подключили корпоративный email.",
+  "To ensure that your mailings would not be blocked by postal services and would not be sent to Spam, you need to change the settings of your domain name": "Для того, чтобы ваши рассылки не блокировались почтовыми сервисами и не попадали в Spam, необходимо изменить настройки вашего доменного имени",
+  "We would not want to burden you with additional complicated actions, but this is the crucial thing for high-quality letters delivery.": "Мы бы не хотели нагружать вас лишними сложными действиями, но это критично необходимо для качественной доставки писем.",
+  "Settings are applied only once and work for all the email addresses in": "Настройки применяются только один раз и работают для всех email-ов",
+  "Three entries have to be added in the admin panel of your domain name. To do this, please, send the text below to the your domain administrator.": "Нужно добавить три записи в админ панели вашего доменного имени. Для этого отправьте текст, указанный ниже, администратору.",
+  "Copy the text for administrator": "Скопировать текст для администратора",
+  "After the administrator applies the changes, please, update the verification status by clicking on the 'Check settings' button. The maximum time for the settings to apply is 72 hours, but usually the records are updated in a couple of hours.": "After the administrator applies the changes, please, update the verification status by clicking on the \"Check settings\" button. The maximum time for the settings to apply is 72 hours, but usually the records are updated in a couple of hours."
 }

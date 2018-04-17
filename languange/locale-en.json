@@ -2512,5 +2512,18 @@
   "free mailings left 1": "free mailings left",
   "Please integrate email into the system or enable mailing sending on": "Please integrate email into the system or enable mailing sending on",
   "the email integration settings page": "the email integration settings page",
-  "Mail integration settings": "Mail integration settings"
+  "Mail integration settings": "Mail integration settings",
+  "Send mailings from CleverStaff": "Send mailings from CleverStaff",
+  "SMTP secure protocol": "SMTP secure protocol",
+  "You use the email address from": "You use the email address from",
+  "You can send mailings that do not exceed 50 letters.": "You can send mailings that do not exceed 50 letters.",
+  "This restriction is necessary to ensure that your mailings would not be blocked by the postal services and would not be sent to Spam.": "This restriction is necessary to ensure that your mailings would not be blocked by the postal services and would not be sent to Spam.",
+  "To send more emails per one mailing, use the email address with your corporate domain name.": "To send more emails per one mailing, use the email address with your corporate domain name.",
+  "You have integrated your corporate email": "You have integrated your corporate email.",
+  "To ensure that your mailings would not be blocked by postal services and would not be sent to Spam, you need to change the settings of your domain name": "To ensure that your mailings would not be blocked by postal services and would not be sent to Spam, you need to change the settings of your domain name",
+  "Settings are applied only once and work for all the email addresses in ": "Settings are applied only once and work for all the email addresses in ",
+  "We would not want to burden you with additional complicated actions, but this is the crucial thing for high-quality letters delivery.": "We would not want to burden you with additional complicated actions, but this is the crucial thing for high-quality letters delivery.",
+  "Three entries have to be added in the admin panel of your domain name. To do this, please, send the text below to the your domain administrator.": "Three entries have to be added in the admin panel of your domain name. To do this, please, send the text below to the your domain administrator.",
+  "Copy the text for administrator": "Copy the text for administrator",
+  "After the administrator applies the changes, please, update the verification status by clicking on the 'Check settings' button. The maximum time for the settings to apply is 72 hours, but usually the records are updated in a couple of hours.": "После того, как администратор применит изменения, обновите статус верификации кликнув на кнопку \"Проверить настройки\". Максимальное время для применения настроек  — 72 часа, но обычно записи обновляются в течении нескольких часов."
 }

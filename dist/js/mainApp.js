@@ -16650,6 +16650,7 @@ angular.module('RecruitingApp', [
         url:'/email-integration/edit/{id}',
         name: "email-integration-edit",
         component: "emailTemplateEditComponent",
+        reloadOnSearch: false,
         data: {
             title: "Integration with email",
             pageName: "Integration with email"
@@ -48962,7 +48963,7 @@ component.component("emailTemplateEditComponent", {
        let mailBoxId = "";
        let emails = [];
        vm.editableMailbox = {};
-       vm.editableMailbox = {a:1};
+
        if($stateParams !== undefined && $stateParams.id) {
 
            mailBoxId = $stateParams.id;
@@ -48974,6 +48975,11 @@ component.component("emailTemplateEditComponent", {
        } else {
            $state.go("email-integration");
        }
+
+       vm.copyDimProperties = function () {
+           let elem = document.getElementById('dkim-settings');
+           elem.classList.toggle("show");
+       };
 
 
        function getEditableMailbox(emailsArray, id) {
@@ -48988,7 +48994,8 @@ component.component("emailTemplateEditComponent", {
            if(mailboxExist) {
                return mailboxWithSameId
            } else {
-               notificationService.error("There is no mailBox with such id")
+               notificationService.error("There is no mailBox with such id");
+               $state.go("email-integration");
            }
        }
    },

@@ -1,30 +1,45 @@
 .emailIntegration-edit-block {
+	letter-spacing: 0.6px;
 	header {
 		padding-left: 5px;
 		h4 {
-			margin-top: 25px;
-			margin-bottom: 40px;
+			font-family: "Helvetica-6-Medium";
+
+			margin-top: 30px;
+			margin-bottom: 20px;
 			.title-text {
 				color: #666;
 			}
 			.email-name {
-				font-weight: bold;
+				color: #333;
 			}
 		}
 	}
 	.main-block {
+		font-family: "Helvetica-6-Medium";
 		.main-params {
-			padding: 0 10px;
+			font-family: "Helvetica-Light";
+
+			margin: 0;
+			padding: 20px 10px;
+
+			letter-spacing: 0.6px;
+
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			background-color: white;
 			.password {
 				color: #999;
-				background: transparent;
+				background-color: #f0f0f0;
 			}
 		}
 		.permissions {
 			display: flex;
 			height: 40px;
-			margin: 40px 0 20px 0;
+			margin: 20px 0;
+			padding: 10px;
 
+			border: 1px solid #ccc;
 			border-radius: 5px;
 			background-color: white;
 
@@ -35,7 +50,84 @@
 			.import-permission {
 				display: flex;
 				label {
+					font-weight: normal;
+					line-height: 22px;
+
+					margin-right: 10px;
 					margin-bottom: 0;
+				}
+			}
+		}
+		.mailing-info {
+			position: relative;
+
+			padding: 10px;
+
+			border: 1px solid $theme-green;
+			border-radius: 5px;
+			background-color: $theme-subtitle-background;
+			h4 {
+				font-size: 16px;
+
+				margin-bottom: 12px;
+			}
+			p {
+				font-family: "Helvetica-Light";
+
+				margin: 0 0 8px;
+
+				letter-spacing: 1.2px;
+			}
+			.button-block {
+				margin-bottom: 10px;
+				.buttons-container {
+					display: flex;
+
+					justify-content: space-between;
+				}
+			}
+			&::after {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+
+				width: 39px;
+				height: 33px;
+
+				content: "";
+
+				background: url("/images/sprite/icons/attention-icon.svg") no-repeat;
+				background-size: cover;
+			}
+			.dkim-settings {
+				overflow: hidden;
+				height: 0;
+				margin: 10px 0;
+
+				-webkit-transition: height 1s;
+				transition: height 1s;
+
+				border: 1px solid #ccc;
+				background-color: white;
+				&.show {
+					height: 300px;
+				}
+			}
+		}
+		.bottom-buttons {
+			font-family: "Helvetica-Light";
+
+			margin-top: 20px;
+			margin-bottom: 40px;
+			button {
+				letter-spacing: 0.8px;
+				&.orange {
+					@include button-styling();
+				}
+				&.cancel {
+					@include button-styling-cancel();
+
+					margin-right: 20px;
 				}
 			}
 		}

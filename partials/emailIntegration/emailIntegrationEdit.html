@@ -14,11 +14,11 @@
                 <input type="text" class="form-control" name="smtpHost" placeholder="smtp Host" ng-model="$ctrl.editableMailbox.smtpHost">
             </div>
             <div class="col-lg-3">
-                <input type="number" class="form-control" name="smtpPort" placeholder="smtp Port" ng-model="$ctrl.editableMailbox.smtpPort">
+                <input type="number" min="0" class="form-control" name="smtpPort" placeholder="smtp Port" ng-model="$ctrl.editableMailbox.smtpPort">
             </div>
             <div class="col-lg-3">
                 <select class="form-control secure-proto" ng-model="$ctrl.editableMailbox.smtpSecure">
-                    <option value="" disabled>smtp Secure</option>
+                    <option value="" disabled translate="SMTP secure protocol"></option>
                     <option value="SSL">SSL</option>
                     <option value="TLS">TLS</option>
                 </select>
@@ -36,10 +36,80 @@
                 <label class="floatLeft" for="cmn-toggle-3"></label>
             </div>
             <div class="mailing-permission">
-                <label for="cmn-toggle-2" class="floatLeft" translate="Email Access1"></label>
-                <input id="cmn-toggle-2" ng-click="$ctrl.editableMailbox.permitParsing = !$ctrl.editableMailbox.permitParsing" ng-checked="$ctrl.editableMailbox.permitParsing" class="cmn-toggle cmn-toggle-round" type="checkbox">
+                <label for="cmn-toggle-2" class="floatLeft" translate="Send mailings from CleverStaff"></label>
+                <input id="cmn-toggle-2" ng-click="$ctrl.editableMailbox.permitMailing = !$ctrl.editableMailbox.permitMailing" ng-checked="$ctrl.editableMailbox.permitMailing" class="cmn-toggle cmn-toggle-round" type="checkbox">
                 <label class="floatLeft" for="cmn-toggle-1"></label>
             </div>
+        </div>
+        <div class="mailing-info common-domain" ng-if="$ctrl.editableMailbox.corpMail === false">
+            <h4>
+                <span translate="You use the email address from"></span>
+                <span ng-bind="$ctrl.editableMailbox.domain"></span>
+            </h4>
+            <p translate="You can send mailings that do not exceed 50 letters."></p>
+            <p translate="This restriction is necessary to ensure that your mailings would not be blocked by the postal services and would not be sent to Spam."></p>
+            <p translate="To send more emails per one mailing, use the email address with your corporate domain name."></p>
+        </div>
+        <div class="mailing-info corporate-domain" ng-if="$ctrl.editableMailbox.corpMail === true">
+            <div class="top-block">
+                <h4>
+                    <span translate="You have integrated your corporate email"></span>
+                </h4>
+                <p>
+                    <span translate="To ensure that your mailings would not be blocked by postal services and would not be sent to Spam, you need to change the settings of your domain name"></span>
+                    <span ng-bind="$ctrl.editableMailbox.domain"></span>
+                </p>
+                <p translate="We would not want to burden you with additional complicated actions, but this is the crucial thing for high-quality letters delivery."></p>
+                <ul>
+                    <li>
+                        <span translate="Settings are applied only once and work for all the email addresses in"></span>
+                        @<span ng-bind="$ctrl.editableMailbox.domain"></span>
+                    </li>
+                    <li translate="Three entries have to be added in the admin panel of your domain name. To do this, please, send the text below to the your domain administrator."></li>
+                </ul>
+                <a href="" ng-click="$ctrl.copyDimProperties()">
+                    <span translate="Copy the text for administrator"></span>
+                    <i class="fa fa-chevron-down"></i>
+                </a>
+                <div class="dkim-settings" id="dkim-settings">
+                    <div>
+                        <h5>Some text</h5>
+                        <ul>
+                            <li>some text</li>
+                            <li>some text</li>
+                            <li>some text</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5>Some text</h5>
+                        <ul>
+                            <li>some text</li>
+                            <li>some text</li>
+                            <li>some text</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5>Some text</h5>
+                        <ul>
+                            <li>some text</li>
+                            <li>some text</li>
+                            <li>some text</li>
+                        </ul>
+                    </div>
+                </div>
+                <p translate="After the administrator applies the changes, please, update the verification status by clicking on the 'Check settings' button. The maximum time for the settings to apply is 72 hours, but usually the records are updated in a couple of hours."></p>
+            </div>
+            <div class="button-block row">
+                <div class="buttons-container col-lg-6">
+                    <span>DKIM status</span>
+                    <span>SPF status</span>
+                    <span>Проверить настройки</span>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-buttons text-center">
+            <button class="cancel" translate="cancel"></button>
+            <button class="orange" translate="save"></button>
         </div>
     </div>
 </div>

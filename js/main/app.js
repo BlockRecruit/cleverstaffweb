@@ -679,6 +679,7 @@ angular.module('RecruitingApp', [
         url:'/email-integration/edit/{id}',
         name: "email-integration-edit",
         component: "emailTemplateEditComponent",
+        reloadOnSearch: false,
         data: {
             title: "Integration with email",
             pageName: "Integration with email"
