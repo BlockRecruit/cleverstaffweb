@@ -67,6 +67,12 @@ var app = angular.module('RecruitingAppStart', [
             controller: 'PublicCandidateController',
             title: "Candidate |"
         })
+        .when('/invoice/:123', {
+            templateUrl: 'partials/public/invoice.html',
+            controller: 'invoiceController',
+            title: "Invoice |",
+            pageName: "Invoice generation",
+        })
         .when('/duzhe_potribna_robota', {
             templateUrl: 'partials/public/vacancyAdd.html',
             controller: 'PublicVacancyAddController',
@@ -1779,6 +1785,9 @@ function getPopupParams() {
     var top = (screen.height / 2) - (h / 2);
     return 'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left;
 }
+controller.controller('invoiceController', ['$scope', function($scope) {
+    $scope.test = 25;
+}]);
 controller.controller('PublicCandidateController', ['$scope', 'Service', '$routeParams', '$rootScope', 'serverAddress', function($scope, Service, $routeParams, $rootScope, serverAddress) {
         $scope.pageObject = {
             loading: true,

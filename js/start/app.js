@@ -67,6 +67,12 @@ var app = angular.module('RecruitingAppStart', [
             controller: 'PublicCandidateController',
             title: "Candidate |"
         })
+        .when('/invoice/:123', {
+            templateUrl: 'partials/public/invoice.html',
+            controller: 'invoiceController',
+            title: "Invoice |",
+            pageName: "Invoice generation",
+        })
         .when('/duzhe_potribna_robota', {
             templateUrl: 'partials/public/vacancyAdd.html',
             controller: 'PublicVacancyAddController',
