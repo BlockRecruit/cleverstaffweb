@@ -3113,12 +3113,26 @@ select.webkit-fix {
     .tarif {
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: stretch;
     }
     .tarif .loginBtn {
         display: block;
         max-width: 100%;
+    }
+    .discount {
+        min-height: 35px;
+    }
+    .descr {
+        display: flex;
+        align-items: center;
+        min-height: 95px;
+    }
+    .lstChild {
+        margin-top: 13px;
+    }
+    .mrgTop {
+        margin-top: 107px;
     }
 }
 @media screen and (max-width: 991px) {
