@@ -3821,6 +3821,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         //    });
         //};
         $scope.cropPromoLogo = function() {
+            $scope.imgWidthFuncForCrop();
             $('#crop-picture-modal').removeClass('hidden');
             $('#crop-picture-modal').addClass('visible');
         };
@@ -3829,12 +3830,64 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $('#crop-picture-modal').addClass('hidden');
         };
         $scope.openPromoLogo = function() {
+            $scope.imgWidthFuncForOpenLogo();
             $('#cover-picture-modal').removeClass('hidden');
             $('#cover-picture-modal').addClass('visible');
         };
         $scope.closeModalImage = function() {
             $('#cover-picture-modal').removeClass('visible');
             $('#cover-picture-modal').addClass('hidden');
+        };
+        $scope.imgWidthFuncForCrop = function(cropper){
+            //console.log(cropper.canvasData.height, 'vacancy-cropper');
+            //console.log(cropper.canvasData.width, 'vacancy-cropper');
+            var img = new Image();
+            //console.log(img);
+            console.log(cropper);
+            img.onload = function() {
+                var width = cropper.canvasData.naturalWidth;
+                console.log(width);
+                var height = cropper.canvasData.naturalHeight;
+                console.log(height);
+                var minus = width - height;
+                console.log(minus);
+                if(height > width && minus < -100){
+                    $('.preview-logo-vacancy').css('width', '20%');
+                }else if((width > 400 && height < 300 && minus > 100) || (width > 1500 && height > 700 && minus > 500)){
+                    $('.preview-logo-vacancy').css('width', '50%');
+                }else if(width < 400 && height < 400){
+                    $('.preview-logo-vacancy').css('width', '40%');
+                }else if(width > 400 && height > 400){
+                    $('.preview-logo-vacancy').css('width', '30%');
+                }else{
+                    $('.preview-logo-vacancy').css('width', '25%');
+                }
+            };
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.vacancy.imageId + '&d=' + $rootScope.me.personId;
+        };
+        $scope.imgWidthFuncForOpenLogo = function(){
+            var img = new Image();
+            //console.log(img);
+            img.onload = function() {
+                var width = this.width;
+                console.log(width);
+                var height = this.height;
+                console.log(height);
+                var minus = width - height;
+                console.log(minus);
+                if(height > width && minus < -100){
+                    $('.modal-content').css('width', '20%');
+                }else if(width > 400 && height < 400 && minus > 100){
+                    $('.modal-content').css('width', '50%');
+                }else if(width < 400 && height < 400){
+                    $('.modal-content').css('width', '40%');
+                }else if(width > 400 && height > 400){
+                    $('.modal-content').css('width', '30%');
+                }else{
+                    $('.modal-content').css('width', '25%');
+                }
+            };
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.vacancy.imageId + '&d=' + $rootScope.me.personId;
         };
         $scope.removePromoLogo = function () {
             Vacancy.removeImg({"vacancyId": $scope.vacancy.vacancyId}, function (resp) {

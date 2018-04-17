@@ -2639,7 +2639,6 @@ directive('appVersion', ['version', function(version) {
                 function cropperFunc() {
                     $scope.cropPromoLogo();
                     var image = document.getElementById('image');
-                    console.log(image);
                     var cropper = new Cropper(image, {
                         //autoCropArea: 0.5,
                         //cropBoxMovable: false,
@@ -2648,7 +2647,7 @@ directive('appVersion', ['version', function(version) {
                         movable: false,
                         zoomable: false
                     });
-                    console.log(cropper);
+                    $scope.imgWidthFuncForCrop(cropper);
                     $('#cropp').on('click',function () {
                         var canvasImg = image.cropper.getCroppedCanvas();
                         var ctx = canvasImg.getContext('2d');

@@ -668,11 +668,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                         $('.photoWidth').css({'width': 'inherit', 'display': 'block', 'margin': '0 auto'});
                     }
                 };
-                if($location.$$host == '127.0.0.1'){
-                    img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-                }else{
-                    img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-                }
+                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
                 $rootScope.newTask.candidateId = $scope.candidate.candidateId;
                 angular.forEach($scope.candidate.interviews, function(value){
                     value.vacancyId.interviewStatusNotTouchable = value.vacancyId.interviewStatus;
@@ -1072,11 +1068,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     $('#page-avatar').css({'width': 'inherit', 'height': 'inherit', 'display': 'block', 'margin': '0 auto'});
                 }
             };
-            if($location.$$host == '127.0.0.1'){
-                img.src = $location.$$protocol + '://' + $location.$$host + ':8080' + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }else{
-                img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
-            }
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.candidate.photo + '&d=' + $rootScope.me.personId;
         };
         $scope.pathName = "candidate";
         $scope.callbackFile = function (resp, name) {
