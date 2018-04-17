@@ -2369,5 +2369,7 @@
   "Are you sure you want to remove this source?": "Are you sure you want to remove {{source_name}} source?",
   "It will also be removed from other candidate profiles": "It will also be removed from other candidate profiles.",
   "Origin removed": "Origin removed",
-  "Delete source for all candidates": "Delete source for all candidates"
+  "Delete source for all candidates": "Delete source for all candidates",
+  "The binding":"The source",
+  "was unlinked in candidate":"was unlinked in candidate"
 }
