@@ -2964,5 +2964,5 @@
   "The candidate has been transferred to the stage":"Кандидат переведён на этап",
   "from_4": "от",
   "for": "для",
-  "To send a letter from your mailbox,allow sending mails from the email integration page":"Для отправления письма со своего почтового ящика разрешите отправку писем на <a href='#/email-integration' target='_blank'>странице интеграции с email</a>"
+  "To send a letter from your mailbox,allow sending mails from the email integration page":"Для отправки письма со своего почтового ящика разрешите отправку писем на <a href='#/email-integration' target='_blank'>странице интеграции с email</a>"
 }
