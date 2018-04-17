@@ -3110,6 +3110,16 @@ select.webkit-fix {
     .teamWork .mrgTop {
         margin-top: 55px;
     }
+    .tarif {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
+    }
+    .tarif .loginBtn {
+        display: block;
+        max-width: 100%;
+    }
 }
 @media screen and (max-width: 991px) {
     .adaptiveMenu{
