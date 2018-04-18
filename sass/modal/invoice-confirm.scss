@@ -1,0 +1,19 @@
+.invoice-confirm {
+	.modal-header {
+		.fa-times {
+			&:hover {
+				cursor: pointer;
+			}
+		}
+	}
+	.modal-footer {
+		.btn-cancel {
+			@include btn-cancel();
+
+			margin-right: 35px;
+		}
+		.btn-primary-new {
+			@include btn-primary-new();
+		}
+	}
+}

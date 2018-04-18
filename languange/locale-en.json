@@ -2385,6 +2385,17 @@
   "Order Information":"Order Information",
   "Customer Information":"Customer Information",
   "Company Name":"Company Name",
-  "Company Registration short":"Company Registration",
-  "Generate invoice":"Generate invoice"
+  "Company Registration short":"Company Registration#",
+  "Generate invoice":"Generate invoice",
+  "Please fill in the field": "Please, fill in \"{{name}}\" field",
+  "Please fill all the fields":"Please, fill all the fields",
+  "fullName":"Representative Full Name",
+  "companyName":"Company Name",
+  "companyId":"Company Registration",
+  "address":"Address",
+  "postalCode":"Postal Code",
+  "Have you dublechecked your billing infomation?":"Have you dublechecked your billing infomation?",
+  "Your invoice will be downloaded automatically in coulple of eyeblinks after confirmation":"Your invoice will be downloaded automatically in coulple of eyeblinks after confirmation",
+  "Yes, download the invoice":"Yes, download the invoice",
+  "No, I'll check it again":"No, I'll check it again"
 }

@@ -51,11 +51,10 @@
                         </select>
                     </td>
                     <td>
-                        <select name="currency">
-                            <option value="USD" selected="selected">USD</option>
-                            <option value="EUR">EUR</option>
-                            <option value="UAH">UAH</option>
-                            <option value="RUR">RUR</option>
+                        <select name="currency" ng-model="invoice.currency">
+                            <option selected="selected" ng-repeat="currency in currencies track by $index">
+                                {{currency}}
+                            </option>
                         </select>
                     </td>
                     <td>
@@ -71,38 +70,42 @@
             <form name="customerForm">
                 <div class="form-group">
                     <label for="fullName" translate="Representative Full Name"></label>
-                    <input ng-model="customer.fullName" name="fullName" type="text" id="fullName" placeholder="{{'full_name' | translate}}" required>
+                    <input ng-class="{'error' : customerForm.fullName.$invalid && validation.checking}" ng-model="customer.fullName" name="fullName" type="text" id="fullName" placeholder="{{'full_name' | translate}}" required>
                 </div>
                 <div class="form-group">
                     <label for="position" translate="Representative Position"></label>
-                    <input ng-model="customer.position" name="position" type="text" id="position" placeholder="{{'position' | translate}}" required>
+                    <input ng-class="{'error' : customerForm.position.$invalid && validation.checking}" ng-model="customer.position" name="position" type="text" id="position" placeholder="{{'position' | translate}}" required>
                 </div>
                 <div class="form-group">
-                    <label for="company" translate="Company Name"></label>
-                    <input ng-model="customer.company" name="company" type="text" id="company" placeholder="{{'Company Name' | translate}}" required>
+                    <label for="companyName" translate="Company Name"></label>
+                    <input ng-class="{'error' : customerForm.companyName.$invalid && validation.checking}" ng-model="customer.companyName" name="companyName" type="text" id="companyName" placeholder="{{'Company Name' | translate}}" required>
                 </div>
                 <div class="form-group">
                     <label for="companyId" translate="Company Registration short"></label>
-                    <input ng-model="customer.companyId" name="companyId" type="text" id="companyId" placeholder="{{'Company Registration' | translate}}" required>
+                    <input ng-class="{'error' : customerForm.companyId.$invalid && validation.checking}" ng-model="customer.companyId" name="companyId" type="text" id="companyId" placeholder="{{'Company Registration' | translate}}" required>
                 </div>
                 <div class="form-group">
                     <label for="address" translate="Address"></label>
-                    <input ng-model="customer.address" name="address" type="text" id="address" placeholder="{{'Address' | translate}}" required>
+                    <input ng-class="{'error' : customerForm.address.$invalid && validation.checking}" ng-model="customer.address" name="address" type="text" id="address" placeholder="{{'Address' | translate}}" required>
                 </div>
                 <div class="form-group">
                     <label for="city" translate="city"></label>
-                    <input ng-model="customer.city" name="city" type="text" id="city" placeholder="{{'city' | translate}}" required>
+                    <input ng-class="{'error' : customerForm.city.$invalid && validation.checking}" ng-model="customer.city" name="city" type="text" id="city" placeholder="{{'city' | translate}}" required>
                 </div>
                 <div class="form-group">
                     <label for="country" translate="country"></label>
-                    <select name="country" id="country"  ng-model="customer.country" required>
+                    <select ng-class="{'error' : customerForm.country.$invalid && validation.checking}" name="country" id="country"  ng-model="customer.country" required>
                         <option value="" disabled translate="country" selected="selected"></option>
                         <option value="Ukraine">Ukraine</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="postalCode" translate="Postal Code"></label>
-                    <input ng-model="customer.postalCode" name="postalCode" type="number" id="postalCode" placeholder="{{'Postal Code' | translate}}" required>
+                    <input ng-class="{'error' : customerForm.postalCode.$invalid && validation.checking}" ng-model="customer.postalCode" name="postalCode" type="number" id="postalCode" placeholder="{{'Postal Code' | translate}}" required>
+                </div>
+                <div class="form-group error" ng-show="customerForm.$invalid && validation.checking">
+                    <span class="error_message" ng-show="validation.invalidFields.length === 1" translate="Please fill in the field" translate-values='{ name: validation.invalidFields[0]}'></span>
+                    <span class="error_message" ng-show="validation.invalidFields.length > 1" translate="Please fill all the fields"></span>
                 </div>
             </form>
         </section>

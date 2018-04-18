@@ -11006,16 +11006,37 @@ angular.module('services.interceptorHandler',[]).factory('responseObserver', fun
     };
 });
 angular.module('services.invoice', [
-        'ngResource'
+    'ngResource'
     ]
-).factory('Invoice', ['$resource', 'serverAddress', function($resource, serverAddress) {
+).factory('Invoice', ['$resource', 'serverAddress', '$http', function($resource, serverAddress, $http) {
     const invoice = $resource(serverAddress + '/notice/:param', {param: "@param"},
         {
         });
 
+    invoice.getCurrenciesExchangeRates = function(invoiceCurrencies) {
+        return new Promise ((resolve, reject) => {
+            $http.get('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json')
+                .then(response => {
+                    if(response.status === 200) resolve(filterRequiredCurrencies(response.data, invoiceCurrencies));
+                }, error => {
+                    reject(error);
+                });
+        })
+    };
 
-    invoice.test = () => 'test';
+    function filterRequiredCurrencies(allCurrencies, invoiceCurrencies) {
+        let currencies = {};
 
+        for(let i = 0; i < allCurrencies.length; i++ ) {
+            for( let j = 0; j < invoiceCurrencies.length; j++ ) {
+                if(invoiceCurrencies[j].toLowerCase() === allCurrencies[i].cc.toLowerCase()) {
+                    currencies[allCurrencies[i].cc] = allCurrencies[i];
+                }
+            }
+        }
+
+        return currencies;
+    }
     return invoice;
 }]);
 angular.module('services.localStorage', []
@@ -30964,36 +30985,67 @@ controller.controller('FeedbackController',["$localStorage", "serverAddress", "$
         });
     }]);
 
-controller.controller('invoiceController', ['$rootScope', '$scope', 'Invoice', 'Person', 'Account', function($rootScope, $scope, Invoice, Person, Account) {
+controller.controller('invoiceController', ['$rootScope', '$scope', 'Invoice', 'Person', 'Account', '$filter', '$uibModal',
+    function($rootScope, $scope, Invoice, Person, Account, $filter, $uibModal) {
 
     $scope.allPersons = [];
     $scope.accountInfo = {};
     $scope.invoice = {};
-    $scope.customer = { address: null, country: null, city: null, company: null, companyId: null, fullName: null, position: null, postalCode: null };
-
-    // $scope.$watch('customer', () => {
-    //     $scope.
-    // }, true);
+    $scope.customer = { address: null, country: null, city: null, companyName: null, companyId: null, fullName: null, position: null, postalCode: null };
+    $scope.validation = { invalidFields: [], checking: false};
 
     $scope.generateInvoice = function() {
-        Object.entries($scope.customer).map(([key, value]) => {
-            console.log(key, $scope.customerForm[key].$viewValue);
-        });
+        $scope.validation = { invalidFields: [], checking: true};
+        if(validatedCustomerForm()) openInvoiceConfirmModal();
     };
+
+    $scope.downloadInvoice = function() {
+      console.log('loading...');
+    };
+
+    $scope.$watch('customer', () => {
+        if($scope.customerForm.$valid) {
+            $scope.validation = { invalidFields: [], checking: false};
+        }
+    }, true);
+
+    function validatedCustomerForm() {
+        Object.entries($scope.customer).map(([key, value]) => {
+            if($scope.customerForm[key].$invalid) {
+                $scope.validation.invalidFields.push($filter('translate')(key));
+            }
+        });
+        console.log($scope.validation.invalidFields);
+        return !Boolean($scope.validation.invalidFields.length);
+    }
+
+    function openInvoiceConfirmModal() {
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/invoice-confirm.html',
+            size: '',
+            scope: $scope,
+            resolve: function(){}
+        });
+    }
 
     (() => {
         $rootScope.loading = true;
         Promise.all([
             Person.requestGetAllPersons(),
-            Account.accountInfo()
-        ]).then(([allPersons, accountInfo]) => {
+            Account.accountInfo(),
+            Invoice.getCurrenciesExchangeRates(['USD', 'RUB', 'EUR'])
+        ]).then(([allPersons, accountInfo, currencyExchangeRates]) => {
                 $scope.allPersons = allPersons.object;
                 $scope.accountInfo = accountInfo.object;
+                $scope.currenciesExchangeRates = currencyExchangeRates;
 
                 $scope.months = [1,2,3,4,5,6,7,8,9,10,11,12];
+                $scope.currencies = ['USD', 'RUB', 'EUR'];
                 $scope.invoice = {
                     users: Object.keys(allPersons.object).length,
-                    month: 12,
+                    month: $scope.months.length,
+                    currency: 'USD',
                     price: () => $scope.invoice.users * $scope.invoice.month * $scope.accountInfo.monthRate
                 };
                 $rootScope.loading = false;

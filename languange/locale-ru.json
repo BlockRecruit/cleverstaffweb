@@ -2985,6 +2985,17 @@
   "Total":"Всего",
   "Customer Information":"Информация о плательщике",
   "Company Name":"Полное название компании",
-  "Company Registration short": "ИНН компании",
-  "Generate invoice":"Сгенерировать инвойс"
+  "Company Registration short": "ИНН компании#",
+  "Generate invoice":"Сгенерировать инвойс",
+  "Please fill in the field": "Заполните поле \"{{name}}\"",
+  "Please fill all the fields":"Пожалуйста, заполните все поля",
+  "fullName":"Полное имя представителя",
+  "companyName":"Полное название компании",
+  "companyId":"ИНН компании",
+  "address":"Адрес",
+  "postalCode":"Почтовый индекс",
+  "Have you dublechecked your billing infomation?":"Вы перепроверили введенную информацию?",
+  "Your invoice will be downloaded automatically in coulple of eyeblinks after confirmation":"Скачивание вашего инвойса начнется через несколько мгновений после подтверждения.",
+  "Yes, download the invoice":"Да, скачать инвойс",
+  "No, I'll check it again":"Нет, я хочу проверить информацию"
 }
