@@ -2372,7 +2372,8 @@
   "Origin removed": "Origin removed",
   "Delete source for all candidates": "Delete source for all candidates",
   "To send a letter from your mailbox,allow sending mails from the email integration page":"To send a letter from your mailbox, allow sending mails from the <a href='#/email-integration' target='_blank'>email integration page</a>",
-  "Delete source for all candidates": "Delete source for all candidates",
   "The binding":"The source",
-  "was unlinked in candidate":"was unlinked in candidate"
+  "was unlinked in candidate":"was unlinked in candidate",
+  "I have read the Privacy Policy and the Terms and Conditions and I accept both of them":"I have read and I accept the <a href='https://cleverstaff.net/privacy.html' target='_blank'>Privacy Policy </a> and the <a href='https://cleverstaff.net/terms.html' target='_blank'>Terms and Conditions</a>",
+  "Please read and accept the Privacy Policy and the Terms and Conditions":"Please read and accept the Privacy Policy and the Terms and Conditions"
 }
