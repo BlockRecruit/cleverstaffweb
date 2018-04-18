@@ -3820,11 +3820,11 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         //        }
         //    });
         //};
-        $scope.cropPromoLogo = function() {
-            $scope.imgWidthFuncForCrop();
-            $('#crop-picture-modal').removeClass('hidden');
-            $('#crop-picture-modal').addClass('visible');
-        };
+        //$scope.cropPromoLogo = function() {
+        //    $scope.imgWidthFuncForCrop();
+        //    $('#crop-picture-modal').removeClass('hidden');
+        //    $('#crop-picture-modal').addClass('visible');
+        //};
         $scope.closeModalCrop = function() {
             $('#crop-picture-modal').removeClass('visible');
             $('#crop-picture-modal').addClass('hidden');
@@ -3838,11 +3838,14 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $('#cover-picture-modal').removeClass('visible');
             $('#cover-picture-modal').addClass('hidden');
         };
+
         $scope.imgWidthFuncForCrop = function(cropper){
+            $('#crop-picture-modal').removeClass('hidden');
+            $('#crop-picture-modal').addClass('visible');
             //console.log(cropper.canvasData.height, 'vacancy-cropper');
             //console.log(cropper.canvasData.width, 'vacancy-cropper');
             var img = new Image();
-            //console.log(img);
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.vacancy.imageId + '&d=' + $rootScope.me.personId;
             console.log(cropper);
             img.onload = function() {
                 var width = cropper.canvasData.naturalWidth;
@@ -3863,10 +3866,10 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $('.preview-logo-vacancy').css('width', '25%');
                 }
             };
-            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.vacancy.imageId + '&d=' + $rootScope.me.personId;
         };
         $scope.imgWidthFuncForOpenLogo = function(){
             var img = new Image();
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.vacancy.imageId + '&d=' + $rootScope.me.personId;
             //console.log(img);
             img.onload = function() {
                 var width = this.width;
@@ -3887,7 +3890,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $('.modal-content').css('width', '25%');
                 }
             };
-            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.vacancy.imageId + '&d=' + $rootScope.me.personId;
         };
         $scope.removePromoLogo = function () {
             Vacancy.removeImg({"vacancyId": $scope.vacancy.vacancyId}, function (resp) {

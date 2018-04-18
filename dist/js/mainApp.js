@@ -2637,15 +2637,41 @@ directive('appVersion', ['version', function(version) {
                     reader.readAsDataURL(file);
                 };
                 function cropperFunc() {
-                    $scope.cropPromoLogo();
+                    //$scope.cropPromoLogo();
                     var image = document.getElementById('image');
+                    console.log(image);
+                    console.log($(image));
+                    console.log($(image)[0].naturalWidth);
+                    console.log($(image)[0].naturalWidth / 2, '2w');
+                    console.log($(image)[0].naturalWidth / 4, '4w');
+                    console.log($(image)[0].naturalHeight);
+                    console.log($(image)[0].naturalHeight / 2, '2h');
+                    console.log($(image)[0].naturalHeight / 4, '4h');
+                    if($(image)[0].naturalWidth > 4000 && $(image)[0].naturalHeight > 3000){
+                        var width = $(image)[0].naturalWidth / 11;
+                        var height = $(image)[0].naturalHeight / 11;
+                        console.log('qwertyuio');
+                    }else if($(image)[0].naturalWidth > 3000 && $(image)[0].naturalWidth < 4000 && $(image)[0].naturalHeight > 4000){
+                        width = $(image)[0].naturalWidth / 8;
+                        height = $(image)[0].naturalHeight / 8;
+                        console.log('qwertyuio 222222222');
+                    }else if($(image)[0].naturalWidth > 1500 && $(image)[0].naturalHeight > 1000){
+                        width = $(image)[0].naturalWidth / 4;
+                        height = $(image)[0].naturalHeight / 4;
+                        console.log('3234455667899');
+                    }else if($(image)[0].naturalWidth > 550 && $(image)[0].naturalWidth < 1500 && $(image)[0].naturalHeight > 900){
+                        width = $(image)[0].naturalWidth / 2.7;
+                        height = $(image)[0].naturalHeight / 2.7;
+                    }else{
+                        width = $(image)[0].naturalWidth / 1.5;
+                        height = $(image)[0].naturalHeight / 1.5;
+                    }
                     var cropper = new Cropper(image, {
-                        //autoCropArea: 0.5,
-                        //cropBoxMovable: false,
-                        //autoCrop: false,
                         aspectRatio: false,
                         movable: false,
-                        zoomable: false
+                        zoomable: false,
+                        minContainerWidth: width,
+                        minContainerHeight: height
                     });
                     $scope.imgWidthFuncForCrop(cropper);
                     $('#cropp').on('click',function () {
@@ -39489,11 +39515,11 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         //        }
         //    });
         //};
-        $scope.cropPromoLogo = function() {
-            $scope.imgWidthFuncForCrop();
-            $('#crop-picture-modal').removeClass('hidden');
-            $('#crop-picture-modal').addClass('visible');
-        };
+        //$scope.cropPromoLogo = function() {
+        //    $scope.imgWidthFuncForCrop();
+        //    $('#crop-picture-modal').removeClass('hidden');
+        //    $('#crop-picture-modal').addClass('visible');
+        //};
         $scope.closeModalCrop = function() {
             $('#crop-picture-modal').removeClass('visible');
             $('#crop-picture-modal').addClass('hidden');
@@ -39507,11 +39533,14 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
             $('#cover-picture-modal').removeClass('visible');
             $('#cover-picture-modal').addClass('hidden');
         };
+
         $scope.imgWidthFuncForCrop = function(cropper){
+            $('#crop-picture-modal').removeClass('hidden');
+            $('#crop-picture-modal').addClass('visible');
             //console.log(cropper.canvasData.height, 'vacancy-cropper');
             //console.log(cropper.canvasData.width, 'vacancy-cropper');
             var img = new Image();
-            //console.log(img);
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.vacancy.imageId + '&d=' + $rootScope.me.personId;
             console.log(cropper);
             img.onload = function() {
                 var width = cropper.canvasData.naturalWidth;
@@ -39532,10 +39561,10 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $('.preview-logo-vacancy').css('width', '25%');
                 }
             };
-            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.vacancy.imageId + '&d=' + $rootScope.me.personId;
         };
         $scope.imgWidthFuncForOpenLogo = function(){
             var img = new Image();
+            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.vacancy.imageId + '&d=' + $rootScope.me.personId;
             //console.log(img);
             img.onload = function() {
                 var width = this.width;
@@ -39556,7 +39585,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                     $('.modal-content').css('width', '25%');
                 }
             };
-            img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.vacancy.imageId + '&d=' + $rootScope.me.personId;
         };
         $scope.removePromoLogo = function () {
             Vacancy.removeImg({"vacancyId": $scope.vacancy.vacancyId}, function (resp) {
