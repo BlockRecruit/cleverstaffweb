@@ -1,0 +1,158 @@
+.invoice-generation {
+	display: flex;
+	flex-direction: column;
+	padding: 40px 0;
+
+	background-color: #efefef;
+
+	align-items: center;
+	justify-content: flex-start;
+	.container {
+		section {
+			position: relative;
+
+			display: flex;
+			flex-direction: row;
+
+			align-items: center;
+
+			&.section__block {
+				padding: 40px 10px 30px;
+
+				border: 1px solid #ccc;
+				border-radius: 5px;
+				background-color: #fff;
+
+				.title {
+					font-family: "Helvetica-Medium";
+
+					margin: 0 0 19px 0;
+
+					color: #999;
+				}
+			}
+			&.invoice__intro {
+				margin-bottom: 18px;
+
+				justify-content: center;
+				.btn-transparent {
+					@include btn-transparent();
+
+					position: absolute;
+					left: 0;
+
+					display: inline-block;
+				}
+				h1 {
+					font-family: "Helvetica-Medium";
+
+					margin: 0;
+				}
+			}
+
+			&.invoice__order-info {
+				flex-direction: column;
+				margin-bottom: 10px;
+
+				justify-content: center;
+				align-items: center;
+
+				thead {
+					color: #666;
+					border: 1px solid #ccc;
+					border-radius: 5px;
+					background-color: #e2f1dd;
+				}
+				tr {
+					th {
+						padding: 10px;
+					}
+					td {
+						font-family: "Helvetica-Bold";
+
+						padding-top: 10px;
+						&.limit-width {
+							font-family: "Helvetica-Light";
+
+							width: 15%;
+							max-width: 200px;
+						}
+					}
+					td,
+					th {
+						position: relative;
+
+						text-align: center;
+						&:first-child {
+							padding-left: 10px;
+
+							text-align: left;
+						}
+						&:last-child {
+							padding-right: 10px;
+
+							text-align: right;
+						}
+					}
+				}
+				h3 {
+					font-family: "Helvetica-Medium";
+
+					margin: 0 0 19px 0;
+
+					color: #999;
+				}
+				select {
+					font-family: "Helvetica-Bold";
+
+					position: relative;
+
+					width: 90px;
+					height: 30px;
+					padding-left: 11px;
+
+					color: #666;
+					border: 1px solid #ccc;
+					border-radius: 5px;
+
+					//appearance: none;
+				}
+			}
+
+			&.invoice__customer-information {
+				flex-direction: column;
+				margin-bottom: 30px;
+
+				align-items: center;
+				justify-content: center;
+				h3.title {
+					margin: 0;
+				}
+				.section__tooltip {
+				}
+				form {
+					font-family: "Helvetica-Light";
+
+					display: flex;
+					flex-direction: column;
+
+					align-items: center;
+					justify-content: center;
+					label {
+						display: inline-block;
+						margin-right: 10px;
+					}
+					input {
+						display: inline-block;
+						min-width: 380px;
+						padding: 10px;
+
+						color: #999;
+						border: 1px solid #dbdbdb;
+						border-radius: 5px;
+					}
+				}
+			}
+		}
+	}
+}
