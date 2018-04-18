@@ -2,7 +2,7 @@ component.component("emailTemplateEditComponent", {
 
    templateUrl: "partials/emailIntegration/emailIntegrationEdit.html",
 
-   controller: function ($state, $stateParams, $rootScope, notificationService, $filter, Person) {
+   controller: function ($state, $stateParams, $rootScope, notificationService, $filter, Person, Mailing) {
        let vm = this;
        let mailBoxId = "";
        let emails = [];
@@ -38,6 +38,12 @@ component.component("emailTemplateEditComponent", {
 
         vm.mailingOn = function () {
             console.log('vm',vm.editableMailbox)
+        };
+
+        vm.checkDkimStatus = function () {
+          Mailing.checkDkimSettings(vm.editableMailbox.email).then(response => {
+             console.log('response', response)
+          }, error => {});
         };
 
 

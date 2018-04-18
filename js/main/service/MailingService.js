@@ -86,6 +86,12 @@ angular.module('services.mailing',[]
             params: {
                 action: "getCompaignPrice"
             }
+        },
+        getDkim: {
+            method: "GET",
+            params: {
+                action: "getSpfAndDkim"
+            }
         }
 
     });
@@ -131,6 +137,22 @@ angular.module('services.mailing',[]
         }
     };
 
+
+    service.checkDkimSettings = function(mailBox) {
+        return new Promise((resolve,reject) => {
+            service.getDkim({"email": mailBox},(resp) => {
+                if(resp.status != "error") {
+                    resolve(resp);
+                } else {
+                    reject(resp.message);
+                    notificationService.error(resp.message);
+                }
+            }, (error) => {
+                notificationService.error(error.status);
+                reject(error.status);
+            })
+        });
+    };
 
     service.newMailing = function () {
         $localStorage.remove('mailingRecipientsSource');

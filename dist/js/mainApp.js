@@ -11786,6 +11786,12 @@ angular.module('services.mailing',[]
             params: {
                 action: "getCompaignPrice"
             }
+        },
+        getDkim: {
+            method: "GET",
+            params: {
+                action: "getSpfAndDkim"
+            }
         }
 
     });
@@ -11831,6 +11837,22 @@ angular.module('services.mailing',[]
         }
     };
 
+
+    service.checkDkimSettings = function(mailBox) {
+        return new Promise((resolve,reject) => {
+            service.getDkim({"email": mailBox},(resp) => {
+                if(resp.status != "error") {
+                    resolve(resp);
+                } else {
+                    reject(resp.message);
+                    notificationService.error(resp.message);
+                }
+            }, (error) => {
+                notificationService.error(error.status);
+                reject(error.status);
+            })
+        });
+    };
 
     service.newMailing = function () {
         $localStorage.remove('mailingRecipientsSource');
@@ -33671,6 +33693,21 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     $('.modal').addClass('middle-modal')
                 });
             }
+        }, function (error) {
+            if(error.status == 403) {
+                if(!$rootScope.modalLoginForm){
+                    $rootScope.modalLoginForm = $uibModal.open({
+                        animation: true,
+                        templateUrl: '../partials/modal/no-access-modal.html',
+                        size: '',
+                        backdrop: 'static',
+                        keyboard: false,
+                        resolve: function () {
+
+                        }
+                    });
+                }
+            }
         });
     };
     $rootScope.updateMe();
@@ -48963,7 +49000,7 @@ component.component("emailTemplateEditComponent", {
 
    templateUrl: "partials/emailIntegration/emailIntegrationEdit.html",
 
-   controller: function ($state, $stateParams, $rootScope, notificationService, $filter, Person) {
+   controller: function ($state, $stateParams, $rootScope, notificationService, $filter, Person, Mailing) {
        let vm = this;
        let mailBoxId = "";
        let emails = [];
@@ -48999,6 +49036,12 @@ component.component("emailTemplateEditComponent", {
 
         vm.mailingOn = function () {
             console.log('vm',vm.editableMailbox)
+        };
+
+        vm.checkDkimStatus = function () {
+          Mailing.checkDkimSettings(vm.editableMailbox.email).then(response => {
+             console.log('response', response)
+          }, error => {});
         };
 
 

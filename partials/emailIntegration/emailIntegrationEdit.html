@@ -41,7 +41,7 @@
                 <label class="floatLeft" for="cmn-toggle-2"></label>
             </div>
         </div>
-        <div class="mailing-info common-domain" ng-if="$ctrl.editableMailbox.corpMail === false">
+        <div class="mailing-info common-domain" ng-if="$ctrl.editableMailbox.corpMail === false && $ctrl.editableMailbox.permitMailing === true">
             <h4>
                 <span translate="You use the email address from"></span>
                 <span ng-bind="$ctrl.editableMailbox.domain"></span>
@@ -50,7 +50,7 @@
             <p translate="This restriction is necessary to ensure that your mailings would not be blocked by the postal services and would not be sent to Spam."></p>
             <p translate="To send more emails per one mailing, use the email address with your corporate domain name."></p>
         </div>
-        <div class="mailing-info corporate-domain" ng-if="$ctrl.editableMailbox.corpMail === true">
+        <div class="mailing-info corporate-domain" ng-if="$ctrl.editableMailbox.corpMail === true && $ctrl.editableMailbox.permitMailing === true">
             <div class="top-block">
                 <h4>
                     <span translate="You have integrated your corporate email"></span>
@@ -103,7 +103,7 @@
                 <div class="buttons-container col-lg-6">
                     <span class="dkim-status status-ok" translate="DKIM Status"></span>
                     <span class="spf-status status-error" translate="SPF status"></span>
-                    <button class="check-settings">
+                    <button class="check-settings" ng-click="$ctrl.checkDkimStatus()">
                         <span translate="Check settings"></span>
                         <i class="status"></i>
                     </button>

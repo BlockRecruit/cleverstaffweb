@@ -838,6 +838,21 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     $('.modal').addClass('middle-modal')
                 });
             }
+        }, function (error) {
+            if(error.status == 403) {
+                if(!$rootScope.modalLoginForm){
+                    $rootScope.modalLoginForm = $uibModal.open({
+                        animation: true,
+                        templateUrl: '../partials/modal/no-access-modal.html',
+                        size: '',
+                        backdrop: 'static',
+                        keyboard: false,
+                        resolve: function () {
+
+                        }
+                    });
+                }
+            }
         });
     };
     $rootScope.updateMe();
