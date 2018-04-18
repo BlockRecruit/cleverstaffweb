@@ -31041,12 +31041,12 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Invoice', '
                 $scope.currenciesExchangeRates = currencyExchangeRates;
 
                 $scope.months = [1,2,3,4,5,6,7,8,9,10,11,12];
-                $scope.currencies = ['USD', 'RUB', 'EUR'];
+                $scope.currencies = ['UAH', 'RUB', 'EUR', 'USD'];
                 $scope.invoice = {
                     users: Object.keys(allPersons.object).length,
                     month: $scope.months.length,
                     currency: 'USD',
-                    price: () => $scope.invoice.users * $scope.invoice.month * $scope.accountInfo.monthRate
+                    price: () => $scope.invoice.users * $scope.invoice.month * $scope.accountInfo.monthRate + $scope.invoice.currency
                 };
                 $rootScope.loading = false;
             }).catch(error => {
