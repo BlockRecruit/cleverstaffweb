@@ -22,6 +22,9 @@
         {{history.stateNew | translate}}
     </span>
     <br>
+    <span></span>
+
+    <span ng-show="!history.editCommentFlag && history.descr" translate="Comment on deletion" class="bold"></span>
     <span ng-show="!history.editCommentFlag" ng-bind-html="history.descr|textForNotice:false"></span>
     <div class="textField" ng-show="history.editCommentFlag">
         <div class="field">
