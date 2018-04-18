@@ -5860,6 +5860,18 @@ angular.module('services.account', [
 
     });
 
+    account.accountInfo = function() {
+        return new Promise((resolve, reject) => {
+           account.getAccountInfo(resp => {
+              if(resp.status === 'ok') {
+                  resolve(resp)
+              } else {
+                  reject(resp);
+              }
+           }, error => reject(error));
+        });
+    }
+
     return account;
 }]);
 
@@ -10993,6 +11005,19 @@ angular.module('services.interceptorHandler',[]).factory('responseObserver', fun
         }
     };
 });
+angular.module('services.invoice', [
+        'ngResource'
+    ]
+).factory('Invoice', ['$resource', 'serverAddress', function($resource, serverAddress) {
+    const invoice = $resource(serverAddress + '/notice/:param', {param: "@param"},
+        {
+        });
+
+
+    invoice.test = () => 'test';
+
+    return invoice;
+}]);
 angular.module('services.localStorage', []
 ).factory('$localStorage', ['$window', function($window) {
     return (function() {
@@ -11555,7 +11580,6 @@ angular.module('services.pay', [
 
             });
      person.requestGetAllPersons = function () {
-         $rootScope.loading = true;
          return new Promise((resolve, reject) => {
              person.getAllPersons(resp => resolve(resp, resp['request'] = 'AllPersons'),error => reject(error));
          });
@@ -14309,7 +14333,8 @@ angular.module('services', [
         'services.CustomReportsService',
         'services.CustomReportEditService',
         'services.reportsService',
-        'services.slider'
+        'services.slider',
+        'services.invoice'
     ]
 );
 
@@ -14793,6 +14818,12 @@ angular.module('RecruitingApp', [
             templateUrl: "partials/constructor-reports.html",
             controller: "constructorReports",
             pageName: "Reports constructor"
+        })
+        .when('/invoice', {
+            templateUrl: 'partials/invoice.html',
+            controller: 'invoiceController',
+            title: "Invoice |",
+            pageName: "Invoice generation",
         })
         //.when('/hr-module-info', {
         //    title: "HR-module",
@@ -30933,6 +30964,46 @@ controller.controller('FeedbackController',["$localStorage", "serverAddress", "$
         });
     }]);
 
+controller.controller('invoiceController', ['$rootScope', '$scope', 'Invoice', 'Person', 'Account', function($rootScope, $scope, Invoice, Person, Account) {
+
+    $scope.allPersons = [];
+    $scope.accountInfo = {};
+    $scope.invoice = {};
+    $scope.customer = { address: null, country: null, city: null, company: null, companyId: null, fullName: null, position: null, postalCode: null };
+
+    // $scope.$watch('customer', () => {
+    //     $scope.
+    // }, true);
+
+    $scope.generateInvoice = function() {
+        Object.entries($scope.customer).map(([key, value]) => {
+            console.log(key, $scope.customerForm[key].$viewValue);
+        });
+    };
+
+    (() => {
+        $rootScope.loading = true;
+        Promise.all([
+            Person.requestGetAllPersons(),
+            Account.accountInfo()
+        ]).then(([allPersons, accountInfo]) => {
+                $scope.allPersons = allPersons.object;
+                $scope.accountInfo = accountInfo.object;
+
+                $scope.months = [1,2,3,4,5,6,7,8,9,10,11,12];
+                $scope.invoice = {
+                    users: Object.keys(allPersons.object).length,
+                    month: 12,
+                    price: () => $scope.invoice.users * $scope.invoice.month * $scope.accountInfo.monthRate
+                };
+                $rootScope.loading = false;
+            }).catch(error => {
+                $rootScope.loading = false;
+                console.log(error);
+            })
+    })();
+
+}]);
 function navBarController($q, Vacancy, serverAddress, notificationService, $scope, tmhDynamicLocale, $http, Person, $rootScope, Service,
                           $route, $window, $location, $filter, $sce, $cookies, localStorageService, $localStorage, $timeout, CheckAccess,
                           frontMode, $translate, Client, ScopeService, googleService, Company, $uibModal, Notice, Pay, News, TooltipService, Account,googleService) {

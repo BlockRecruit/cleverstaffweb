@@ -51,5 +51,17 @@ angular.module('services.account', [
 
     });
 
+    account.accountInfo = function() {
+        return new Promise((resolve, reject) => {
+           account.getAccountInfo(resp => {
+              if(resp.status === 'ok') {
+                  resolve(resp)
+              } else {
+                  reject(resp);
+              }
+           }, error => reject(error));
+        });
+    }
+
     return account;
 }]);

@@ -1,0 +1,116 @@
+<div class="block-public invoice-generation">
+
+    <div class="container">
+
+        <section class="invoice__intro">
+            <a class="btn-transparent">
+                <img src="/images/reports-img/long-arrow.png" alt="">
+                {{'Go back' | translate}}
+            </a>
+            <h2 class="title" translate="Wire Transfer Invoice Generation"></h2>
+        </section>
+
+        <section class="section__block invoice__order-info">
+            <h2 class="title" translate="Order Information"></h2>
+
+            <table class="order-info__data">
+                <thead>
+                    <tr>
+                        <th>
+                            <span translate="Product"></span>
+                        </th>
+                        <th>
+                            <span translate="Paid users"></span>
+                        </th>
+                        <th>
+                            <span translate="Month"></span>
+                        </th>
+                        <th>
+                            <span translate="Currency"></span>
+                        </th>
+                        <th>
+                            <span translate="Total"></span>
+                        </th>
+                    </tr>
+                </thead>
+                
+                <tr>
+                    <td class="limit-width">
+                        <span translate="The access to use Cleverstaff software"></span>
+                    </td>
+                    <td>
+                        <select name="paidUsers" id="paidUsers" ng-model="invoice.users">
+                            <option selected="selected" ng-repeat="users in allPersons track by $index">{{$index}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="month" ng-model="invoice.month">
+                            <option selected="selected" ng-repeat="month in months track by $index">
+                                {{month}}
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="currency">
+                            <option value="USD" selected="selected">USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="UAH">UAH</option>
+                            <option value="RUR">RUR</option>
+                        </select>
+                    </td>
+                    <td>
+                        <span>{{ invoice.price() }}</span>
+                    </td>
+                </tr>
+            </table>
+        </section>
+
+        <section class="section__block invoice__customer-information">
+            <span translate="Please fill in all the fields below" class="section__tooltip"></span>
+            <h2 class="title" translate="Customer Information"></h2>
+            <form name="customerForm">
+                <div class="form-group">
+                    <label for="fullName" translate="Representative Full Name"></label>
+                    <input ng-model="customer.fullName" name="fullName" type="text" id="fullName" placeholder="{{'full_name' | translate}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="position" translate="Representative Position"></label>
+                    <input ng-model="customer.position" name="position" type="text" id="position" placeholder="{{'position' | translate}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="company" translate="Company Name"></label>
+                    <input ng-model="customer.company" name="company" type="text" id="company" placeholder="{{'Company Name' | translate}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="companyId" translate="Company Registration short"></label>
+                    <input ng-model="customer.companyId" name="companyId" type="text" id="companyId" placeholder="{{'Company Registration' | translate}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="address" translate="Address"></label>
+                    <input ng-model="customer.address" name="address" type="text" id="address" placeholder="{{'Address' | translate}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="city" translate="city"></label>
+                    <input ng-model="customer.city" name="city" type="text" id="city" placeholder="{{'city' | translate}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="country" translate="country"></label>
+                    <select name="country" id="country"  ng-model="customer.country" required>
+                        <option value="" disabled translate="country" selected="selected"></option>
+                        <option value="Ukraine">Ukraine</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="postalCode" translate="Postal Code"></label>
+                    <input ng-model="customer.postalCode" name="postalCode" type="number" id="postalCode" placeholder="{{'Postal Code' | translate}}" required>
+                </div>
+            </form>
+        </section>
+
+        <section class="invoice__generate">
+            <button translate="Generate invoice" ng-click="generateInvoice()" class="btn-primary-new"></button>
+        </section>
+
+    </div>
+
+</div>

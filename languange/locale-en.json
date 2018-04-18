@@ -2373,5 +2373,18 @@
   "To send a letter from your mailbox,allow sending mails from the email integration page":"To send a letter from your mailbox, allow sending mails from the <a href='#/email-integration' target='_blank'>email integration page</a>",
   "Delete source for all candidates": "Delete source for all candidates",
   "The binding":"The source",
-  "was unlinked in candidate":"was unlinked in candidate"
+  "was unlinked in candidate":"was unlinked in candidate",
+  "Company Registration":"Company Registration#",
+  "Address":"Address",
+  "Postal Code":"Postal Code",
+  "Representative Full Name":"Representative Full Name",
+  "Representative Position":"Representative Position",
+  "Please fill in all the fields below":"Please fill in all the fields below:",
+  "The access to use Cleverstaff software":"The access to use Cleverstaff software",
+  "Wire Transfer Invoice Generation":"Wire Transfer Invoice Generation",
+  "Order Information":"Order Information",
+  "Customer Information":"Customer Information",
+  "Company Name":"Company Name",
+  "Company Registration short":"Company Registration",
+  "Generate invoice":"Generate invoice"
 }

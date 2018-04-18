@@ -25,6 +25,7 @@
 
 				.title {
 					font-family: "Helvetica-Medium";
+					font-size: 28px;
 
 					margin: 0 0 19px 0;
 
@@ -43,8 +44,9 @@
 
 					display: inline-block;
 				}
-				h1 {
+				h2 {
 					font-family: "Helvetica-Medium";
+					font-size: 30px;
 
 					margin: 0;
 				}
@@ -56,16 +58,29 @@
 
 				justify-content: center;
 				align-items: center;
-
-				thead {
-					color: #666;
-					border: 1px solid #ccc;
-					border-radius: 5px;
-					background-color: #e2f1dd;
-				}
 				tr {
 					th {
-						padding: 10px;
+						span {
+							display: block;
+							padding: 10px 10px 10px 0;
+
+							color: #666;
+							border-top: 1px solid #ccc;
+							border-bottom: 1px solid #ccc;
+							background-color: #e2f1dd;
+						}
+						&:first-child {
+							span {
+								border-left: 1px solid #ccc;
+								border-radius: 5px 0 0 5px;
+							}
+						}
+						&:last-child {
+							span {
+								border-right: 1px solid #ccc;
+								border-radius: 0 5px 5px 0;
+							}
+						}
 					}
 					td {
 						font-family: "Helvetica-Bold";
@@ -84,23 +99,20 @@
 
 						text-align: center;
 						&:first-child {
-							padding-left: 10px;
-
 							text-align: left;
+							span {
+								display: block;
+								padding-left: 10px;
+							}
 						}
 						&:last-child {
-							padding-right: 10px;
-
 							text-align: right;
+							span {
+								display: block;
+								padding-right: 10px;
+							}
 						}
 					}
-				}
-				h3 {
-					font-family: "Helvetica-Medium";
-
-					margin: 0 0 19px 0;
-
-					color: #999;
 				}
 				select {
 					font-family: "Helvetica-Bold";
@@ -125,10 +137,13 @@
 
 				align-items: center;
 				justify-content: center;
-				h3.title {
-					margin: 0;
-				}
+
 				.section__tooltip {
+					position: absolute;
+					top: 28px;
+					left: 22px;
+
+					color: #666;
 				}
 				form {
 					font-family: "Helvetica-Light";
@@ -139,23 +154,46 @@
 					align-items: center;
 					justify-content: center;
 					.form-group {
+						display: flex;
+						flex-direction: row;
+
+						align-items: center;
+
 						label {
+							font-weight: normal;
+
 							display: inline-block;
-							min-width: 160px;
-							margin-right: 10px;
+							min-width: 175px;
+							margin: 0 10px 0 0;
+
+							text-align: right;
+
+							color: #000;
 						}
 						select,
 						input {
 							display: inline-block;
 							min-width: 380px;
 							height: 30px;
-							padding: 10px;
+							padding-left: 10px;
 
 							color: #999;
 							border: 1px solid #dbdbdb;
 							border-radius: 5px;
 						}
+						input::placeholder {
+							color: #999;
+						}
 					}
+				}
+			}
+			&.invoice__generate {
+				justify-content: center;
+				.btn-primary-new {
+					@include btn-primary-new();
+
+					font-family: "Helvetica-Medium";
+					font-size: 19px;
 				}
 			}
 		}
