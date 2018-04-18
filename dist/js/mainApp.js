@@ -16030,13 +16030,13 @@ angular.module('RecruitingApp', [
         }
     },{
         name: 'mailing.details',
-        component: 'mDetails',
+        component: 'mailingDetails',
     },{
         name: 'mailing.editor',
-        component: 'editor'
+        component: 'mailingEditor'
     },{
         name: 'mailing.preview',
-        component: 'preview'
+        component: 'mailingPreview'
     },{
         url: "/mailings",
         name: 'mailings',
@@ -17081,6 +17081,7 @@ function setPersonParams($http, userId, paramName, paramValue, serverAddress) {
 function SecurityFilter($rootScope, deffer, $location, $http, serverAddress, $filter, notificationService, urlTo) {
     if (urlTo != undefined) {
         var routeName = urlTo;
+        var meChecked = false;
         $rootScope.$watch(
             'me',
             function meWatch(newValue,oldValue){
@@ -17096,11 +17097,17 @@ function SecurityFilter($rootScope, deffer, $location, $http, serverAddress, $fi
                         $rootScope.me = newValue;
                         if (checkUrlByRole(routeName, newValue.recrutRole, newValue.personParams.clientAccessLevel, $location, serverAddress, $http, $filter, notificationService)) {
                             deffer.resolve();
+                            return
                         }
                     }
                 }
             }
         );
+        if($rootScope.me && $rootScope.me.personParams && !meChecked) {
+            if (checkUrlByRole(routeName, $rootScope.me.recrutRole, $rootScope.me.personParams.clientAccessLevel, $location, serverAddress, $http, $filter, notificationService)) {
+                deffer.resolve();
+            }
+        }
 
     } else {
         deffer.resolve();
@@ -47588,7 +47595,7 @@ component.component('mailing', {
 
     }
 });
-component.component('mDetails', {
+component.component('mailingDetails', {
     templateUrl: "partials/mailing/mailing-details.html",
     controller: function ($location, $scope, $rootScope, $localStorage, notificationService, $filter, $uibModal, $http, $state, Mailing, vacancyStages, Person) {
         $scope.candidatesForMailing = $localStorage.get('candidatesForMailing')?JSON.parse($localStorage.get('candidatesForMailing')):[];
@@ -47922,21 +47929,19 @@ component.component('mDetails', {
         $('#step_1').unbind();
         $('#step_2').unbind().on('click',() => {
             $scope.toTheEditor();
-            if(!$rootScope.$$phase)
-                $scope.$apply();
+            $rootScope.$$phase || $scope.$apply();
         });
         if(olderAvailableStep == 3) {
             $('#step_3').addClass('clickable').unbind().on('click', () => {
                 toPreview();
-                if(!$rootScope.$$phase)
-                    $scope.$apply();
+                $rootScope.$$phase || $scope.$apply();
             });
         } else {
             $('#step_3').removeClass('clickable').unbind();
         }
     }
 });
-component.component('editor', {
+component.component('mailingEditor', {
     templateUrl: "partials/mailing/mailing-editor.html",
     controller: function ($scope, $rootScope, $localStorage, $timeout, notificationService, $filter, $uibModal, Mailing) {
         $scope.emailText = '';
@@ -47961,8 +47966,8 @@ component.component('editor', {
         });
 
 
-        if(emailDetails && emailDetails.text) {
-            $scope.emailText = emailDetails.text;
+        if(emailDetails) {
+            $scope.emailText = emailDetails.text?emailDetails.text:"";
             $scope.topic = emailDetails.name;
             $scope.fromName = emailDetails.fromName;
         } else {
@@ -48055,7 +48060,7 @@ component.component('editor', {
 
     }
 });
-component.component('preview', {
+component.component('mailingPreview', {
     templateUrl: "partials/mailing/mailing-preview.html",
     controller: function ($scope, $rootScope, notificationService, $localStorage, $filter, $uibModal, $state, $location, Mailing, Account, Person) {
         $scope.candidatesForMailing = $localStorage.get('candidatesForMailing')?JSON.parse($localStorage.get('candidatesForMailing')):[];
@@ -48087,7 +48092,7 @@ component.component('preview', {
 
 
         $scope.editDetails = function () {
-            Mailing.setStep("mailing.details");
+            Mailing.setStep('mailing.details');
         };
 
 
@@ -48958,16 +48963,14 @@ component.component("emailTemplateEditComponent", {
 
    templateUrl: "partials/emailIntegration/emailIntegrationEdit.html",
 
-   controller: function ($state, $stateParams, $rootScope, notificationService, Person) {
+   controller: function ($state, $stateParams, $rootScope, notificationService, $filter, Person) {
        let vm = this;
        let mailBoxId = "";
        let emails = [];
        vm.editableMailbox = {};
 
        if($stateParams !== undefined && $stateParams.id) {
-
            mailBoxId = $stateParams.id;
-
            Person.getMailboxes().then( result => {
                emails = result;
                vm.editableMailbox = getEditableMailbox(emails, mailBoxId);
@@ -48976,10 +48979,27 @@ component.component("emailTemplateEditComponent", {
            $state.go("email-integration");
        }
 
+
        vm.copyDimProperties = function () {
-           let elem = document.getElementById('dkim-settings');
-           elem.classList.toggle("show");
+           let textBlock = document.getElementById('dkim-settings');
+           let chevron = document.getElementById('dkim-settings-chevron');
+           let hasDownChevron = chevron.classList.contains("fa-chevron-down");
+           let settingsText = document.getElementById("dkim-settings-text");
+           settingsText.value = "asdfasdf";
+           chevron.classList.toggle("fa-chevron-down", !hasDownChevron);
+           chevron.classList.toggle("fa-chevron-up", hasDownChevron);
+           textBlock.classList.toggle("show");
+           if(hasDownChevron) {
+               settingsText.select();
+               document.execCommand("Copy");
+               notificationService.success($filter('translate')('Text copied'));
+           }
        };
+
+
+        vm.mailingOn = function () {
+            console.log('vm',vm.editableMailbox)
+        };
 
 
        function getEditableMailbox(emailsArray, id) {

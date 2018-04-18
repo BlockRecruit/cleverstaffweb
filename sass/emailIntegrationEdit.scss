@@ -78,6 +78,9 @@
 
 				letter-spacing: 1.2px;
 			}
+			.show-settings {
+				font-family: "Helvetica-Light";
+			}
 			.button-block {
 				margin-bottom: 10px;
 				.buttons-container {
@@ -100,6 +103,8 @@
 				background-size: cover;
 			}
 			.dkim-settings {
+				font-family: "Courier New";
+
 				overflow: hidden;
 				height: 0;
 				margin: 10px 0;
@@ -111,6 +116,80 @@
 				background-color: white;
 				&.show {
 					height: 300px;
+				}
+				h5 {
+					font-weight: bold;
+
+					padding-left: 20px;
+				}
+				ul {
+					padding-left: 30px;
+					li {
+						list-style: none;
+					}
+				}
+			}
+			.buttons-block {
+				margin-top: 30px;
+				margin-bottom: 10px;
+				.buttons-container {
+					display: flex;
+
+					align-items: center;
+					justify-content: space-between;
+					.dkim-status,
+					.spf-status {
+						font-family: "Helvetica-6-Medium";
+						font-size: 16px;
+
+						position: relative;
+						&.status-error,
+						&.status-ok {
+							&::after {
+								position: absolute;
+								top: 1px;
+								right: -30px;
+
+								display: inline-block;
+								width: 20px;
+								height: 20px;
+
+								content: "";
+
+								background-size: cover;
+							}
+						}
+						&.status-ok {
+							&::after {
+								background: url("/images/sprite/icons/status-ok.svg") no-repeat;
+							}
+						}
+						&.status-error {
+							&::after {
+								background: url("/images/sprite/icons/status-error.svg") no-repeat;
+							}
+						}
+					}
+					.check-settings {
+						font-size: 14px;
+
+						display: flex;
+						padding: 5px 10px;
+
+						border: 1px solid #666;
+						border-radius: 5px;
+						background: transparent;
+						span {
+							padding-right: 10px;
+						}
+						i {
+							display: inline-block;
+							width: 18px;
+							height: 18px;
+
+							background-image: url("/images/sprite/icons/button-loader.svg");
+						}
+					}
 				}
 			}
 		}
@@ -131,5 +210,8 @@
 				}
 			}
 		}
+	}
+	#dkim-settings-text {
+		opacity: 0;
 	}
 }

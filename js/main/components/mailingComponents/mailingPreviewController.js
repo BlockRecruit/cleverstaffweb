@@ -1,4 +1,4 @@
-component.component('preview', {
+component.component('mailingPreview', {
     templateUrl: "partials/mailing/mailing-preview.html",
     controller: function ($scope, $rootScope, notificationService, $localStorage, $filter, $uibModal, $state, $location, Mailing, Account, Person) {
         $scope.candidatesForMailing = $localStorage.get('candidatesForMailing')?JSON.parse($localStorage.get('candidatesForMailing')):[];
@@ -30,7 +30,7 @@ component.component('preview', {
 
 
         $scope.editDetails = function () {
-            Mailing.setStep("mailing.details");
+            Mailing.setStep('mailing.details');
         };
 
 

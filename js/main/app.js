@@ -59,13 +59,13 @@ angular.module('RecruitingApp', [
         }
     },{
         name: 'mailing.details',
-        component: 'mDetails',
+        component: 'mailingDetails',
     },{
         name: 'mailing.editor',
-        component: 'editor'
+        component: 'mailingEditor'
     },{
         name: 'mailing.preview',
-        component: 'preview'
+        component: 'mailingPreview'
     },{
         url: "/mailings",
         name: 'mailings',
@@ -1110,6 +1110,7 @@ function setPersonParams($http, userId, paramName, paramValue, serverAddress) {
 function SecurityFilter($rootScope, deffer, $location, $http, serverAddress, $filter, notificationService, urlTo) {
     if (urlTo != undefined) {
         var routeName = urlTo;
+        var meChecked = false;
         $rootScope.$watch(
             'me',
             function meWatch(newValue,oldValue){
@@ -1125,11 +1126,17 @@ function SecurityFilter($rootScope, deffer, $location, $http, serverAddress, $fi
                         $rootScope.me = newValue;
                         if (checkUrlByRole(routeName, newValue.recrutRole, newValue.personParams.clientAccessLevel, $location, serverAddress, $http, $filter, notificationService)) {
                             deffer.resolve();
+                            return
                         }
                     }
                 }
             }
         );
+        if($rootScope.me && $rootScope.me.personParams && !meChecked) {
+            if (checkUrlByRole(routeName, $rootScope.me.recrutRole, $rootScope.me.personParams.clientAccessLevel, $location, serverAddress, $http, $filter, notificationService)) {
+                deffer.resolve();
+            }
+        }
 
     } else {
         deffer.resolve();

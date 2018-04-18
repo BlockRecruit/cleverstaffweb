@@ -1,4 +1,4 @@
-component.component('mDetails', {
+component.component('mailingDetails', {
     templateUrl: "partials/mailing/mailing-details.html",
     controller: function ($location, $scope, $rootScope, $localStorage, notificationService, $filter, $uibModal, $http, $state, Mailing, vacancyStages, Person) {
         $scope.candidatesForMailing = $localStorage.get('candidatesForMailing')?JSON.parse($localStorage.get('candidatesForMailing')):[];
@@ -332,14 +332,12 @@ component.component('mDetails', {
         $('#step_1').unbind();
         $('#step_2').unbind().on('click',() => {
             $scope.toTheEditor();
-            if(!$rootScope.$$phase)
-                $scope.$apply();
+            $rootScope.$$phase || $scope.$apply();
         });
         if(olderAvailableStep == 3) {
             $('#step_3').addClass('clickable').unbind().on('click', () => {
                 toPreview();
-                if(!$rootScope.$$phase)
-                    $scope.$apply();
+                $rootScope.$$phase || $scope.$apply();
             });
         } else {
             $('#step_3').removeClass('clickable').unbind();

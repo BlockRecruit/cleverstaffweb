@@ -1,4 +1,4 @@
-component.component('editor', {
+component.component('mailingEditor', {
     templateUrl: "partials/mailing/mailing-editor.html",
     controller: function ($scope, $rootScope, $localStorage, $timeout, notificationService, $filter, $uibModal, Mailing) {
         $scope.emailText = '';
@@ -23,8 +23,8 @@ component.component('editor', {
         });
 
 
-        if(emailDetails && emailDetails.text) {
-            $scope.emailText = emailDetails.text;
+        if(emailDetails) {
+            $scope.emailText = emailDetails.text?emailDetails.text:"";
             $scope.topic = emailDetails.name;
             $scope.fromName = emailDetails.fromName;
         } else {

@@ -3122,5 +3122,9 @@
   "Settings are applied only once and work for all the email addresses in": "Настройки применяются только один раз и работают для всех email-ов",
   "Three entries have to be added in the admin panel of your domain name. To do this, please, send the text below to the your domain administrator.": "Нужно добавить три записи в админ панели вашего доменного имени. Для этого отправьте текст, указанный ниже, администратору.",
   "Copy the text for administrator": "Скопировать текст для администратора",
-  "After the administrator applies the changes, please, update the verification status by clicking on the 'Check settings' button. The maximum time for the settings to apply is 72 hours, but usually the records are updated in a couple of hours.": "After the administrator applies the changes, please, update the verification status by clicking on the \"Check settings\" button. The maximum time for the settings to apply is 72 hours, but usually the records are updated in a couple of hours."
+  "After the administrator applies the changes, please, update the verification status by clicking on the 'Check settings' button. The maximum time for the settings to apply is 72 hours, but usually the records are updated in a couple of hours.": "After the administrator applies the changes, please, update the verification status by clicking on the \"Check settings\" button. The maximum time for the settings to apply is 72 hours, but usually the records are updated in a couple of hours.",
+  "DKIM Status": "DKIM Статус",
+  "SPF Status": "SPF Статус",
+  "Check settings": "Проверить настройки",
+  "Text copied": "Текст скопирован"
 }
