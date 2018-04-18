@@ -2624,6 +2624,9 @@ select.webkit-fix {
 #block_2 .key-differences .titleTable td:first-child{
     width: 47%;
 }
+#block_2 .key-differences .titleTable td:not(:first-child){
+    width: 25%;
+}
 #block_2 .key-differences .titleTable .text{
     font-size: 22px;
 }
@@ -2632,6 +2635,9 @@ select.webkit-fix {
 }
 #block_2 .key-differences .content td:first-child{
     width: 47%;
+}
+#block_2 .key-differences .content td:not(:first-child){
+    width: 25%;
 }
 .potokTable{
     background-color: #9C9A9F;
@@ -2863,6 +2869,9 @@ select.webkit-fix {
 #block_2 .key-differences .lastTable td:first-child{
     width: 47%;
     border: none;
+}
+#block_2 .key-differences .lastTable td:not(:first-child){
+    width: 25%;
 }
 #block_2 .key-differences .lastTable .greyColor{
     border-radius: 0 0 0 12px;
@@ -3899,7 +3908,7 @@ select.webkit-fix {
         font-size: 24px;
     }
     #block_2 .key-differences .content .segoe .pc{
-        display: none;
+        display: none!important;
     }
     #block_2 .key-differences .content .segoe .phone{
         display: block;

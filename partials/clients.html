@@ -128,6 +128,9 @@
                                         {{'open_vacancies' | translate}}
                                     </th>
                                     <th class="hidden-xs">
+                                        {{'responsibles' | translate}}
+                                    </th>
+                                    <th class="hidden-xs">
                                         {{'Contacts' | translate}}
                                     </th>
                                 </tr>
@@ -152,6 +155,15 @@
                                             <!--<span>, QA test lab</span>-->
                                         </div>
                                         <!--<span class="counter">еще 15 вакансий</span>-->
+                                    </td>
+                                    <td class="responsible hidden-xs">
+                                        <ul style="margin: 0px;padding: 0px; list-style: none">
+                                            <li ng-repeat="responsible in client.responsibles">
+                                                <a href="#/users/{{responsible.personId}}">
+                                                   {{::responsible.firstName +" " + responsible.lastName}}
+                                                </a>
+                                            </li>
+                                        </ul>
                                     </td>
                                     <td class="responsible hidden-xs">
                                         <span ng-repeat="contact in client.contactClientList| limitTo: 3">

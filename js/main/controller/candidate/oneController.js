@@ -99,6 +99,12 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
+
+        $scope.closeModal = function (status) {
+            $scope.changeStatus = status;
+            $scope.modalInstance.close();
+        };
+
         if($rootScope.me.recrutRole != 'client'){
             setTimeout(function(){
                 if ($rootScope.questStatus && $rootScope.questStatus.addFirstCandidatePopup == 'Y'){
@@ -254,6 +260,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     $scope.modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: '../partials/modal/candidate-add-in-vacancy.html',
+                        scope: $scope,
                         resolve: {
                             items: function () {
                                 return $scope.items;
@@ -1184,6 +1191,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 animation: true,
                 templateUrl: '../partials/modal/candidate-change-status-in-candidate.html',
                 size: '',
+                scope: $scope,
                 resolve: function(){
 
                 }
@@ -1194,6 +1202,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $rootScope.changeStateInCandidate.placeholder = $filter('translate')('write_a_comment_why_do_you_change_candidate_status');
 
         };
+
         $rootScope.saveStatusOfCandidate = function () {
             if ($rootScope.changeStateInCandidate.status != "" && !$rootScope.clickedSaveStatusOfCandidate) {
                 $rootScope.clickedSaveStatusOfCandidate = true;
@@ -1351,6 +1360,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/candidate-change-status-in-vacancy.html?b=2',
+                scope: $scope,
                 resolve: {
                     items: function () {
                         return $scope.items;
@@ -2157,11 +2167,12 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             text: "Hi [[candidate name]]!<br/><br/>--<br/>Best, <br/>[[recruiter's name]]"
         };
         $scope.showCandidateSentEmail = function(){
-            if($rootScope.me.emails.length == 0){
+            if($rootScope.me.emails.length === 0 && !$scope.noAllowedMails){
                 $scope.modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '../partials/modal/no-synch-email.html',
                     size: '',
+                    scope: $scope,
                     resolve: {
 
                     }
@@ -2171,6 +2182,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     animation: true,
                     templateUrl: '../partials/modal/candidate-send-email.html',
                     size: '',
+                    scope: $scope,
                     resolve: {
 
                     }
@@ -2270,6 +2282,16 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     }
                 });
         };
+
+        (function getPersonEmails() {
+            Person.getPersonEmails({type: 'all'})
+                .then(resp => {
+                    let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
+
+                    if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+                }, error => notificationService.error(error));
+        })();
 
         sliderElements.params = Candidate.candidateLastRequestParams || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
         sliderElements.setCurrent();

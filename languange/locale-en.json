@@ -2471,7 +2471,6 @@
   "Add another phone number": "Add another phone number",
   "Task deleted":"Task deleted",
   "Сandidates in stages": "Сandidates in stages",
-  "The filter allows you to pick the users who performed any activities on vacancies.": "The filter allows you to pick the users who performed any activities on vacancies.",
   "The test has been sent to the candidate":"The test <a class='underline'>{{testName}}</a> has been sent to the candidate",
   "The test testname has been sent to the candidate name":"The test <a class='underline'>{{testName}}</a> has been sent to the candidate <a href={{href}}>{{candidateName}}</a>",
   "Number of candidates for which there were actions for the selected period": "Number of candidates for which there were actions for the selected period",
@@ -2483,7 +2482,6 @@
   "Are you sure you want to remove this source?": "Are you sure you want to remove {{source_name}} source?",
   "It will also be removed from other candidate profiles": "It will also be removed from other candidate profiles.",
   "Origin removed": "Origin removed",
-  "Delete source for all candidates": "Delete source for all candidates",
   "The filter allows you to pick the users who performed any activities on vacancies.": "The filter allows you to pick the users who performed any activities on vacancies.",
   "New user invite":"Invite new user",
   "was sent to candidate": "was sent to candidate",
@@ -2529,5 +2527,9 @@
   "DKIM Status": "DKIM Status",
   "SPF Status": "SPF Status",
   "Check settings": "Check settings",
-  "Text copied": "Text copied"
+  "Text copied": "Text copied",
+  "To send a letter from your mailbox,allow sending mails from the email integration page":"To send a letter from your mailbox, allow sending mails from the <a href='#/email-integration' target='_blank'>email integration page</a>",
+  "Delete source for all candidates": "Delete source for all candidates",
+  "The binding":"The source",
+  "was unlinked in candidate":"was unlinked in candidate"
 }

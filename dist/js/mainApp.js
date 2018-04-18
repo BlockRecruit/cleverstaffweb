@@ -13246,6 +13246,18 @@ angular.module('services.pay', [
          });
      };
 
+     person.getPersonEmails = function(params) {
+        return new Promise((resolve, reject) => {
+            person.personEmails(params, resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            }, error => reject(error));
+        })
+     };
+
      return person;
  }]);
 angular.module('services.reportsService', [
@@ -16938,7 +16950,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=82'
+        suffix: '.json?b=87'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -23390,6 +23402,15 @@ function CandidateEmailSend($scope, $rootScope, $stateParams, Vacancy, Person, g
         });
     }
 
+    (function getPersonEmails() {
+        Person.getPersonEmails({type: 'all'})
+            .then(resp => {
+                let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
+
+                if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+            }, error => notificationService.error(error));
+    })();
 
     $scope.openModalAddEmail = function() {
         $rootScope.addEmailAccessObject.errorMessage = null;
@@ -24321,7 +24342,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         },0);
         $scope.saveCandidate = function() {
             var salaryBol;
-            $scope.candidate.position=$scope.getPositionAutocompleterValue();
+            $scope.candidate.position = $scope.getPositionAutocompleterValue();
             if ($scope.candidate.salary && $scope.candidate.salary >= 2147483647) {
                 salaryBol = false;
             } else {
@@ -24363,6 +24384,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     candidate.photo = $scope.candidate.photo;
                 }
                 candidate.contacts = [];
+                console.log($scope.contacts, 'saveCandidate');
                 if ($scope.contacts.email) {
                     candidate.contacts.push({type: "email", value: $scope.contacts.email});
                 }
@@ -24417,6 +24439,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
 
                 deleteUnnecessaryFields(candidate);
                 console.log(candidate);
+
                 Candidate.edit(candidate, function(val) {
                     if (angular.equals(val.status, "ok")) {
                         notificationService.success($filter('translate')('Candidate saved'));
@@ -26563,6 +26586,12 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
+
+        $scope.closeModal = function (status) {
+            $scope.changeStatus = status;
+            $scope.modalInstance.close();
+        };
+
         if($rootScope.me.recrutRole != 'client'){
             setTimeout(function(){
                 if ($rootScope.questStatus && $rootScope.questStatus.addFirstCandidatePopup == 'Y'){
@@ -26718,6 +26747,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     $scope.modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: '../partials/modal/candidate-add-in-vacancy.html',
+                        scope: $scope,
                         resolve: {
                             items: function () {
                                 return $scope.items;
@@ -27648,6 +27678,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                 animation: true,
                 templateUrl: '../partials/modal/candidate-change-status-in-candidate.html',
                 size: '',
+                scope: $scope,
                 resolve: function(){
 
                 }
@@ -27658,6 +27689,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $rootScope.changeStateInCandidate.placeholder = $filter('translate')('write_a_comment_why_do_you_change_candidate_status');
 
         };
+
         $rootScope.saveStatusOfCandidate = function () {
             if ($rootScope.changeStateInCandidate.status != "" && !$rootScope.clickedSaveStatusOfCandidate) {
                 $rootScope.clickedSaveStatusOfCandidate = true;
@@ -27815,6 +27847,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/candidate-change-status-in-vacancy.html?b=2',
+                scope: $scope,
                 resolve: {
                     items: function () {
                         return $scope.items;
@@ -28621,11 +28654,12 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
             text: "Hi [[candidate name]]!<br/><br/>--<br/>Best, <br/>[[recruiter's name]]"
         };
         $scope.showCandidateSentEmail = function(){
-            if($rootScope.me.emails.length == 0){
+            if($rootScope.me.emails.length === 0 && !$scope.noAllowedMails){
                 $scope.modalInstance = $uibModal.open({
                     animation: true,
                     templateUrl: '../partials/modal/no-synch-email.html',
                     size: '',
+                    scope: $scope,
                     resolve: {
 
                     }
@@ -28635,6 +28669,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     animation: true,
                     templateUrl: '../partials/modal/candidate-send-email.html',
                     size: '',
+                    scope: $scope,
                     resolve: {
 
                     }
@@ -28734,6 +28769,16 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
                     }
                 });
         };
+
+        (function getPersonEmails() {
+            Person.getPersonEmails({type: 'all'})
+                .then(resp => {
+                    let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
+
+                    if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+                }, error => notificationService.error(error));
+        })();
 
         sliderElements.params = Candidate.candidateLastRequestParams || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
         sliderElements.setCurrent();
@@ -28905,8 +28950,8 @@ controller.controller('testResults', ["$scope", "Test", "notificationService", "
     };
 
 }]);
-controller.controller('testsAndForms', ["$scope", "Test", "notificationService", "$filter", "$rootScope", "$uibModal", "$window", "$stateParams", "$location", "FileInit", "serverAddress", "Vacancy", "$localStorage",
-    function ($scope, Test, notificationService, $filter, $rootScope, $uibModal, $window, $stateParams, $location, FileInit, serverAddress, Vacancy, $localStorage) {
+controller.controller('testsAndForms', ["$scope", "Test", "notificationService", "$filter", "$rootScope", "$uibModal", "$window", "$stateParams", "$location", "FileInit", "serverAddress", "Vacancy", "$localStorage", "Person",
+    function ($scope, Test, notificationService, $filter, $rootScope, $uibModal, $window, $stateParams, $location, FileInit, serverAddress, Vacancy, $localStorage, Person) {
         $scope.optionTab = 'show';
         $scope.textType = false;
         $scope.fieldCheck = false;
@@ -29538,6 +29583,16 @@ controller.controller('testsAndForms', ["$scope", "Test", "notificationService",
         $scope.goBack = function(){
             history.back()
         };
+
+        (function getPersonEmails() {
+            Person.getPersonEmails({type: 'all'})
+                .then(resp => {
+                    let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
+
+                    if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+                }, error => notificationService.error(error));
+        })();
     }]);
 controller.controller('CandidateXRayLinkController', ["$localStorage", "$translate", "Service", "$scope", "ngTableParams", "Candidate", "$location", "$rootScope", "$filter", "$cookies", "serverAddress",
     function ($localStorage, $translate, Service, $scope, ngTableParams, Candidate, $location, $rootScope, $filter, $cookies, serverAddress) {
@@ -31225,7 +31280,7 @@ function ClientOneController(serverAddress, $scope, $stateParams, $location, Cli
     };
 
     $scope.showCandidateSentEmail = function(){
-        if($rootScope.me.emails.length == 0){
+        if($rootScope.me.emails.length === 0 && !$scope.noAllowedMails){
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/no-synch-email.html',
@@ -31239,6 +31294,7 @@ function ClientOneController(serverAddress, $scope, $stateParams, $location, Cli
                 animation: true,
                 templateUrl: '../partials/modal/client-send-email.html',
                 size: '',
+                scope: $scope,
                 resolve: {
 
                 }
@@ -31337,6 +31393,15 @@ function ClientOneController(serverAddress, $scope, $stateParams, $location, Cli
             });
     };
 
+    (function getPersonEmails() {
+        Person.getPersonEmails({type: 'all'})
+            .then(resp => {
+                let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
+
+                if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+            }, error => notificationService.error(error));
+    })();
     ///////////////////////////////////////////////////////////////End of Sent Email
 }
 controller.controller('ClientOneController', ["serverAddress", "$scope", "$stateParams", "$location", "Client", "Service", "Contacts", "Vacancy",
@@ -37237,6 +37302,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                         $scope.vacancy.position = '';
                         $scope.vacancy.employmentType = '';
                         $scope.regionInput = '';
+                        $scope.searchParam.clientId = null;
                         $("#clientToAddAutocompleater").select2('data').id =null;
                         $("#clientToAddAutocompleater").select2('data').text ='';
                         $("#clientToAddAutocompleater").select2('data').name ='';
@@ -39076,6 +39142,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/send-vacancy-by-email.html',
+                scope: $scope,
                 size: '',
                 resolve: function(){
 
@@ -40641,7 +40708,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
 
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/vacancy-candidate-add.html',
+                templateUrl: '../partials/modal/vacancy-candidate-add.html?b=1',
                 size: '',
                 scope: $scope,
                 resolve: function(){
@@ -41959,6 +42026,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
             $scope.modalInstance = $uibModal.open({
                 animation: false,
                 templateUrl: '../partials/modal/vacancy-candidate-change-status.html?b41123',
+                scope: $scope,
                 size: '',
                 resolve: function(){
 
@@ -42257,6 +42325,17 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
             }
 
         }
+
+        (function getPersonEmails() {
+            Person.getPersonEmails({type: 'all'})
+                .then(resp => {
+                    let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
+
+                    if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+                    $scope.$apply();
+                }, error => notificationService.error(error));
+        })();
 
         $scope.hiddenOrShowVacanciesOnThePublicListVacancies = Vacancy.requestChangeVacanciesForCandidatesAccess;
 
@@ -45285,6 +45364,11 @@ controller.controller('DepartmentCatalogController', ["$scope", "$rootScope", "$
                 //    };
                 //});
             });
+        };
+        $scope.saveDepartmentByKey = function(e) {
+          if(e.keyCode === 13) {
+              $scope.saveDepartment();
+          }
         };
         $scope.refreshDepartmentList();
         $scope.saveDepartment = function(){
@@ -49005,12 +49089,14 @@ component.component("emailTemplateEditComponent", {
        let mailBoxId = "";
        let emails = [];
        vm.editableMailbox = {};
+       vm.emailSettingsType = "";
 
        if($stateParams !== undefined && $stateParams.id) {
            mailBoxId = $stateParams.id;
            Person.getMailboxes().then( result => {
                emails = result;
                vm.editableMailbox = getEditableMailbox(emails, mailBoxId);
+               vm.emailSettingsType = getMailboxSettingsType(vm.editableMailbox);
            });
        } else {
            $state.go("email-integration");
@@ -49038,10 +49124,16 @@ component.component("emailTemplateEditComponent", {
             console.log('vm',vm.editableMailbox)
         };
 
+
         vm.checkDkimStatus = function () {
           Mailing.checkDkimSettings(vm.editableMailbox.email).then(response => {
              console.log('response', response)
           }, error => {});
+        };
+
+
+        vm.saveProperties = function () {
+
         };
 
 
@@ -49060,6 +49152,18 @@ component.component("emailTemplateEditComponent", {
                notificationService.error("There is no mailBox with such id");
                $state.go("email-integration");
            }
+       }
+       
+       function getMailboxSettingsType(mailBox) {
+           if(mailBox.status == "gmail")
+               return "gmail";
+           if(mailBox.status == "exchange")
+               return "exchange";
+           if(mailBox.domain == "yandex.ru" || mailBox.domain == "mail.ru")
+               return "yandex";
+           if(mailBox.domain == "mail.ru")
+               return "mailru";
+           return "common_domain"
        }
    },
 

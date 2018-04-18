@@ -339,5 +339,17 @@
          });
      };
 
+     person.getPersonEmails = function(params) {
+        return new Promise((resolve, reject) => {
+            person.personEmails(params, resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            }, error => reject(error));
+        })
+     };
+
      return person;
  }]);

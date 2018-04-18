@@ -32,10 +32,10 @@
                 </div>
             </div>
             <div class="col-lg-5" ng-show="showCreateDepartment && !showEditDepartment">
-                <form class="form-signin">
+                <div class="form-signin">
                     <h2 class="form-signin-heading">{{'Creating of unit' | translate}}</h2>
                     <label for="inputUnit">{{'Unit name' | translate}}</label>
-                    <input type="text" id="inputUnit" ng-model="newName" class="form-control">
+                    <input type="text" id="inputUnit" ng-model="newName" ng-keypress="saveDepartmentByKey($event)" class="form-control">
                     <div class="form-group">
                         <label for="deep">{{'Parent unit' | translate}}</label>
                         <select class="form-control" id="deep" ng-model="departmentOnEdit" ng-options="departmentOnEdit.name for departmentOnEdit in departmentsList">
@@ -46,13 +46,13 @@
                        <button class="btn btn-lg btn-default" ng-click="showCreateDepartment = false" type="submit">{{'cancel' | translate}}</button>
                        <button class="btn btn-lg btn-primary" ng-click="saveDepartment()" type="submit">{{'add' | translate}}</button>
                    </div>
-                </form>
+                </div>
             </div>
             <div class="col-lg-5" ng-show="!showCreateDepartment && showEditDepartment">
-                <form class="form-signin">
+                <div class="form-signin">
                     <h2 class="form-signin-heading">{{'Editing of unit' | translate}}</h2>
                     <label for="inputUnit2">{{'Unit name' | translate}}</label>
-                    <input type="text" id="inputUnit2" ng-model="newName" class="form-control">
+                    <input type="text" id="inputUnit2" ng-model="newName" class="form-control" ng-keypress="saveDepartmentByKey($event)">
                     <div class="form-group">
                         <label for="deep2">{{'Parent unit' | translate}}</label>
                         <select class="form-control" id="deep2" ng-model="departmentOnEdit" ng-options="departmentOnEdit.name for departmentOnEdit in departmentsList">
@@ -63,7 +63,7 @@
                         <button class="btn btn-lg btn-default" ng-click="showEditDepartment = false" type="submit">{{'cancel' | translate}}</button>
                         <button class="btn btn-lg btn-primary" ng-click="editDepartment()" type="submit">{{'edit' | translate}}</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

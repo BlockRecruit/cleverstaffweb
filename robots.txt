@@ -18,23 +18,6 @@ Disallow:
 User-agent: psbot
 Disallow:
 
-User-agent: Yandex
-Disallow:
-Host: cleverstaff.net
-
-User-agent: Mail.Ru
-Disallow:
-Host: cleverstaff.net
-
-User-agent: StackRambler
-Disallow:
-
-User-agent: Aport
-Disallow:
-
-User-agent: psbot
-Disallow:
-
 User-agent: *
 Disallow:
 Sitemap: https://cleverstaff.net/sitemap.xml

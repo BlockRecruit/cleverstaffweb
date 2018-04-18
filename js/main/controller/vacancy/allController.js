@@ -383,6 +383,7 @@ controller.controller('vacanciesController', ["localStorageService", "$scope", "
                         $scope.vacancy.position = '';
                         $scope.vacancy.employmentType = '';
                         $scope.regionInput = '';
+                        $scope.searchParam.clientId = null;
                         $("#clientToAddAutocompleater").select2('data').id =null;
                         $("#clientToAddAutocompleater").select2('data').text ='';
                         $("#clientToAddAutocompleater").select2('data').name ='';

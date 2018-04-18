@@ -1146,6 +1146,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/send-vacancy-by-email.html',
+                scope: $scope,
                 size: '',
                 resolve: function(){
 
@@ -2711,7 +2712,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
 
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/vacancy-candidate-add.html',
+                templateUrl: '../partials/modal/vacancy-candidate-add.html?b=1',
                 size: '',
                 scope: $scope,
                 resolve: function(){
@@ -4029,6 +4030,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
             $scope.modalInstance = $uibModal.open({
                 animation: false,
                 templateUrl: '../partials/modal/vacancy-candidate-change-status.html?b41123',
+                scope: $scope,
                 size: '',
                 resolve: function(){
 
@@ -4327,6 +4329,17 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
             }
 
         }
+
+        (function getPersonEmails() {
+            Person.getPersonEmails({type: 'all'})
+                .then(resp => {
+                    let isPermittedEmail = resp.objects.filter(email => email.permitSend).length;
+
+                    if(!isPermittedEmail && resp.objects.length) $scope.noAllowedMails = true;
+
+                    $scope.$apply();
+                }, error => notificationService.error(error));
+        })();
 
         $scope.hiddenOrShowVacanciesOnThePublicListVacancies = Vacancy.requestChangeVacanciesForCandidatesAccess;
 

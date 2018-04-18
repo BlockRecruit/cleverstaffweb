@@ -87,7 +87,9 @@ var app = angular.module('RecruitingAppStart', [
             controller: 'test_redirect_controller',
             title: 'Redirect'
         })
-        .otherwise({redirectTo: '/redirect'});
+        .otherwise({
+            templateUrl: "404.html"
+        });
 }]).config(function($translateProvider,tmhDynamicLocaleProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
@@ -113,7 +115,7 @@ var app = angular.module('RecruitingAppStart', [
 }).run(['$location', '$rootScope', 'ngMeta', function($location, $rootScope, ngMeta) {
     $rootScope.$on('$routeChangeSuccess', function(event, current, previous) {
         //$rootScope.title = current.$$route.title + " CleverStaff";
-        $rootScope.activeController = current.$$route.controller;
+        $rootScope.activeController = current.$$route?current.$$route.controller:null;
     });
     ngMeta.init();
 }]);
@@ -7002,6 +7004,18 @@ angular.module('services.notice', [
                  reject();
              });
          });
+     };
+
+     person.getPersonEmails = function(params) {
+        return new Promise((resolve, reject) => {
+            person.personEmails(params, resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            }, error => reject(error));
+        })
      };
 
      return person;

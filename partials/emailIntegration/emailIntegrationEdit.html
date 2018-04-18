@@ -6,7 +6,8 @@
         </h4>
     </header>
     <div class="main-block">
-        <div class="row main-params">
+        <!--params for common mail-boxes-->
+        <div class="row main-params" ng-if="$ctrl.emailSettingsType === 'common_domain'">
             <div class="col-lg-3">
                 <input type="password" class="form-control password" placeholder="{{'password'|translate}}" autocomplete="off">
             </div>
@@ -22,6 +23,31 @@
                     <option value="SSL">SSL</option>
                     <option value="TLS">TLS</option>
                 </select>
+            </div>
+        </div>
+        <!--params for exchange-->
+        <div class="row main-params" ng-if="$ctrl.emailSettingsType === 'exchange'">
+            <div class="col-lg-3">
+                <input type="password" class="form-control password" placeholder="{{'password'|translate}}" autocomplete="off">
+            </div>
+            <div class="col-lg-3">
+                <input type="text" class="form-control" name="smtpHost" placeholder="smtp Host" ng-model="$ctrl.editableMailbox.smtpHost">
+            </div>
+            <div class="col-lg-3">
+                <input type="number" min="0" class="form-control" name="smtpPort" placeholder="smtp Port" ng-model="$ctrl.editableMailbox.smtpPort">
+            </div>
+            <div class="col-lg-3">
+                <select class="form-control secure-proto" ng-model="$ctrl.editableMailbox.smtpSecure">
+                    <option value="" disabled translate="SMTP secure protocol"></option>
+                    <option value="SSL">SSL</option>
+                    <option value="TLS">TLS</option>
+                </select>
+            </div>
+        </div>
+        <!--params for yandex & mail.ru-->
+        <div class="row main-params" ng-if="$ctrl.emailSettingsType === 'yandex' || $ctrl.emailSettingsType === 'mailru'">
+            <div class="col-lg-3">
+                <input type="password" class="form-control password" placeholder="{{'password'|translate}}" autocomplete="off">
             </div>
         </div>
         <div class="permissions">
@@ -111,8 +137,8 @@
             </div>
         </div>
         <div class="bottom-buttons text-center">
-            <button class="cancel" translate="cancel"></button>
-            <button class="orange" translate="save"></button>
+            <button class="cancel" translate="cancel" history-back></button>
+            <button class="orange" translate="save" ng-click="$ctrl.saveProperties()"></button>
         </div>
     </div>
     <input type="text" id="dkim-settings-text">

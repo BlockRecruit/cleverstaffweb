@@ -7,12 +7,14 @@ component.component("emailTemplateEditComponent", {
        let mailBoxId = "";
        let emails = [];
        vm.editableMailbox = {};
+       vm.emailSettingsType = "";
 
        if($stateParams !== undefined && $stateParams.id) {
            mailBoxId = $stateParams.id;
            Person.getMailboxes().then( result => {
                emails = result;
                vm.editableMailbox = getEditableMailbox(emails, mailBoxId);
+               vm.emailSettingsType = getMailboxSettingsType(vm.editableMailbox);
            });
        } else {
            $state.go("email-integration");
@@ -40,10 +42,16 @@ component.component("emailTemplateEditComponent", {
             console.log('vm',vm.editableMailbox)
         };
 
+
         vm.checkDkimStatus = function () {
           Mailing.checkDkimSettings(vm.editableMailbox.email).then(response => {
              console.log('response', response)
           }, error => {});
+        };
+
+
+        vm.saveProperties = function () {
+
         };
 
 
@@ -62,6 +70,18 @@ component.component("emailTemplateEditComponent", {
                notificationService.error("There is no mailBox with such id");
                $state.go("email-integration");
            }
+       }
+       
+       function getMailboxSettingsType(mailBox) {
+           if(mailBox.status == "gmail")
+               return "gmail";
+           if(mailBox.status == "exchange")
+               return "exchange";
+           if(mailBox.domain == "yandex.ru" || mailBox.domain == "mail.ru")
+               return "yandex";
+           if(mailBox.domain == "mail.ru")
+               return "mailru";
+           return "common_domain"
        }
    },
 
