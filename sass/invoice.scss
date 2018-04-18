@@ -138,18 +138,23 @@
 
 					align-items: center;
 					justify-content: center;
-					label {
-						display: inline-block;
-						margin-right: 10px;
-					}
-					input {
-						display: inline-block;
-						min-width: 380px;
-						padding: 10px;
+					.form-group {
+						label {
+							display: inline-block;
+							min-width: 160px;
+							margin-right: 10px;
+						}
+						select,
+						input {
+							display: inline-block;
+							min-width: 380px;
+							height: 30px;
+							padding: 10px;
 
-						color: #999;
-						border: 1px solid #dbdbdb;
-						border-radius: 5px;
+							color: #999;
+							border: 1px solid #dbdbdb;
+							border-radius: 5px;
+						}
 					}
 				}
 			}
