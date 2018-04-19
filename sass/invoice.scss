@@ -180,6 +180,12 @@
 							color: #999;
 							border: 1px solid #dbdbdb;
 							border-radius: 5px;
+							&.error {
+								border-color: #ff382d;
+								&:focus {
+									outline: none;
+								}
+							}
 						}
 						input::placeholder {
 							color: #999;
