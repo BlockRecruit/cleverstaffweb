@@ -31053,10 +31053,10 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
 
     $scope.allPersons = [];
     $scope.accountInfo = {};
+    $scope.users = [];
     $scope.invoice = { users: 0, currency: null, months: null, price: null };
     $scope.customer = { address: null, country: null, city: null, companyName: null, companyId: null, fullName: null, position: null, postalCode: null };
     $scope.validation = { invalidFields: [], checking: false};
-    $scope.months = [1,2,3,4,5,6,7,8,9,10,11,12];
 
     $scope.currenciesSigns = Invoice.getCurrenciesSigns();
     $scope.countries = Service.getAllCounties($rootScope.currentLang);
@@ -31104,7 +31104,6 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
                 $scope.validation.invalidFields.push($filter('translate')(key));
             }
         });
-        console.log($scope.validation.invalidFields);
         return !Boolean($scope.validation.invalidFields.length);
     }
 
@@ -31120,8 +31119,8 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
 
     function setInvoiceData(data) {
         $scope.invoice = {
-            users: data.numberOfUsers,
-            months: data.numberOfMonths,
+            users: String(data.numberOfUsers),
+            months: String(data.numberOfMonths),
             currency: data.currency,
             price: () => ($scope.invoice.users * $scope.invoice.months * $scope.currenciesMonthRates[$scope.invoice.currency]).toFixed(2)
         };
@@ -31142,6 +31141,14 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
         };
     }
 
+    function setUsers(allPersons) {
+        Object.entries(allPersons).forEach(([personId, person], index) => {
+            if (person.status === "A" && person.recrutRole !== 'client') {
+                $scope.users.push(String($scope.users.length + 1));
+            }
+        });
+    }
+
     (() => {
         $rootScope.loading = true;
         Promise.all([
@@ -31157,18 +31164,18 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
 
                 $scope.currenciesMonthRates = Invoice.getCurrenciesMonthRates(currencyExchangeRates, accountInfo.object.monthRate);
                 $scope.currencies = ['UAH', 'RUR', 'EUR', 'USD'];
+                $scope.months = ['1','2','3','4','5','6','7','8','9','10','11','12'];
 
-                $scope.users = Object.keys(allPersons.object).map((person, index) => {
-                    return index + 1;
-                });
+                setUsers(allPersons.object);
+
 
                 if(lastInvoiceData.object) {
                     setInvoiceData(lastInvoiceData.object);
                     setCustomerData(lastInvoiceData.object);
                 } else {
                     $scope.invoice = {
-                        users: Object.keys(allPersons.object).length - 1,
-                        months: 4,
+                        users: String($scope.users.length),
+                        months: '4',
                         currency: 'USD',
                         price: () => ($scope.invoice.users * $scope.invoice.months * $scope.currenciesMonthRates[$scope.invoice.currency]).toFixed(2)
                     };
@@ -31178,7 +31185,7 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
                 $scope.$apply();
             }).catch(error => {
                 $rootScope.loading = false;
-                console.log(error);
+                console.error(error);
             })
     })();
 
