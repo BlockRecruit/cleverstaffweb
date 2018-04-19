@@ -32041,130 +32041,15 @@ controller.controller('addEmailForTemplateController', ["$state", "$scope", "$tr
                     $scope.wrongEmail = true;
                 }
         };
-        $rootScope.editEmailFuc = function(){
-            $scope.isExchange = false;
-            var emailDomen = $rootScope.editedEmail.email.substr($rootScope.editedEmail.email.indexOf("@") + 1);
-            if(!$rootScope.showAdvancedFields){
-                if(emailDomen == 'mail.ru' || emailDomen == 'yandex.ru' || $rootScope.editedEmail.host == 'exchange'){
-                    if($rootScope.editedEmail.email.length > 0 && $rootScope.editedEmail.password.length > 0){
-                        if(emailDomen == 'mail.ru'){
-                            $rootScope.editedEmail.smtp.type = 'mailru';
-                        }else if(emailDomen == 'yandex.ru'){
-                            $rootScope.editedEmail.smtp.type = 'yandex';
-                        }
-                        Candidate.editEmailAccess($rootScope.editedEmail, function(resp){
-                            if(resp.status == 'error'){
-                                notificationService.error(resp.message);
-                            }else{
-                                $scope.updateCreatedEmails();
-                                $rootScope.closeModal();
-                            }
-                        });
-                    }else{
-                        notificationService.error($filter('translate')('Please enter your password'));
-                    }
-                }else if(emailDomen == 'gmail.com' || emailDomen == 'gmail' || $rootScope.itsGmail == 'gmail' || $rootScope.itsGmailModal == 'gmail'){
-                    googleService.gmailAuth("modify",function(result) {
-                        $rootScope.editedEmail.password = result.code;
-                        $rootScope.addedEmail.email = result.email;
-                        $rootScope.editedEmail.host = 'gmail';
-                        Candidate.editEmailAccess($rootScope.editedEmail, function(resp){
-                            if(resp.status == 'error'){
-                                if(resp.code == 'сouldNotGetRefreshTokenIntegration') {
-                                    $scope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/gmail-access.html',
-                                        scope: $scope,
-                                        resolve: {
-                                        }
-                                    });
-                                } else
-                                notificationService.error(resp.message);
-                            }else{
-                                $scope.updateCreatedEmails();
-                                $rootScope.closeModal();
-                            }
-                        });
-                    });
-                }else{
-                    $rootScope.showAdvancedFields = true;
-                }
-            } else {
-                if($rootScope.editedEmail.host = 'email'){
-                    if($rootScope.editedEmail.email.length > 0 && $rootScope.editedEmail.password.length > 0) {
-                        Candidate.editEmailAccess($rootScope.editedEmail, function (resp) {
-                            if (resp.status == 'error') {
-                                if(resp.message == 'сouldNotGetRefreshTokenIntegration') {
-                                    $scope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/gmail-access.html',
-                                        scope: $scope,
-                                        resolve: {
-                                        }
-                                    });
-                                } else
-                                notificationService.error(resp.message);
-                            } else {
-                                $scope.updateCreatedEmails();
-                                $scope.editEmail = false;
-                                $rootScope.closeModal();
-                            }
-                        });
-                    }else {
-                        notificationService.error($filter('translate')('Please enter your password'));
-                    }
-                }
-            }
-        };
+
         $scope.editMailBox = function(email){
             if(email !== undefined && email.parseEmailDataId) {
                 $state.go("email-integration-edit", {id: email.parseEmailDataId});
             } else {
                 notificationService.error('Empty parseEmailDataId');
             }
-            // $scope.status = email.status;
-            // $rootScope.itsGmailModal = email.sendStatus;
-            // $rootScope.showAdvancedFields = false;
-            // $rootScope.editedEmail.host = 'email';
-            // $rootScope.editedEmail.email = email.email;
-            // $rootScope.editedEmail.permitConversation = email.permitConversation;
-            // $rootScope.editedEmail.host = 'gmail';
-            // $rootScope.editedEmail.permitParsing = email.permitParsing;
-            // $rootScope.editedEmail.permitSend = email.permitSend;
-            // var emailDomen = $rootScope.editedEmail.email.substr($rootScope.editedEmail.email.indexOf("@") + 1);
-            // if(emailDomen == 'mail.ru' || emailDomen == 'yandex.ru'){
-            //     if(emailDomen == 'mail.ru'){
-            //         $rootScope.editedEmail.smtp.type = 'mailru';
-            //     }else if(emailDomen == 'yandex.ru'){
-            //         $rootScope.editedEmail.smtp.type = 'yandex';
-            //     }
-            //     $rootScope.showPassInModal = true;
-            // }else if(emailDomen == 'gmail.com' || emailDomen == 'gmail' || email.sendStatus == 'gmail'){
-            //     $rootScope.showPassInModal = false;
-            // }else if($scope.status != 'exchange'){
-            //     $rootScope.showPassInModal = true;
-            //     $rootScope.showAdvancedFields = true;
-            //     $rootScope.editedEmail.smtp.host = email.smtpHost;
-            //     $rootScope.editedEmail.smtp.secure = email.smtpSecure;
-            //     $rootScope.editedEmail.smtp.port = email.smtpPort;
-            // } else {
-            //     $rootScope.editedEmail.domainSlashUsername = email.exchangeDomain + '/' + email.exchangeUsername;
-            //     $rootScope.editedEmail.exchangeHost = email.exchangeHost;
-            //     $rootScope.editedEmail.exchangeVersion = email.exchangeVersion;
-            //     $rootScope.editedEmail.host = '';
-            //     $rootScope.showPassInModal = true;
-            //     $rootScope.showAdvancedFields = false;
-            // }
-            // $scope.modalInstance = $uibModal.open({
-            //     animation: true,
-            //     templateUrl: '../partials/modal/edit-integration-with-email.html',
-            //     size: '',
-            //     scope: $scope,
-            //     resolve: function(){
-            //
-            //     }
-            // });
         };
+
         $scope.setDefault = function(){
             $scope.isExchange = false;
             $rootScope.addedEmail ={
@@ -49084,7 +48969,7 @@ component.component("emailTemplateEditComponent", {
 
    templateUrl: "partials/emailIntegration/emailIntegrationEdit.html",
 
-   controller: function ($q, $state, $stateParams, $rootScope, notificationService, $filter, Person, Mailing, googleService) {
+   controller: function ($q, $state, $stateParams, $rootScope, notificationService, $filter, Person, Mailing, googleService, Candidate) {
        let vm = this;
        let mailBoxId = "";
        let emails = [];
@@ -49111,20 +48996,21 @@ component.component("emailTemplateEditComponent", {
            let chevron = document.getElementById('dkim-settings-chevron');
            let hasDownChevron = chevron.classList.contains("fa-chevron-down");
            let settingsText = document.getElementById("dkim-settings-text");
-           settingsText.value = `Record DKIM
-           ${vm.signatures.dkim.name}
-           type: TXT
-           ${vm.signatures.dkim.value}
-           
-           Record SPF
-           ${vm.signatures.spf.name}
-           type: TXT
-           ${vm.signatures.spf.value}
-           
-           Record DMARC
-           ${vm.signatures.dmarc.name}
-           type: TXT
-           ${vm.signatures.dmarc.value}`;
+           settingsText.value = `
+Record DKIM
+${vm.signatures.dkim.name}
+type: TXT
+${vm.signatures.dkim.value}
+
+Record SPF
+${vm.signatures.spf.name}
+type: TXT
+${vm.signatures.spf.value}
+
+Record DMARC
+${vm.signatures.dmarc.name}
+type: TXT
+${vm.signatures.dmarc.value}`;
            chevron.classList.toggle("fa-chevron-down", !hasDownChevron);
            chevron.classList.toggle("fa-chevron-up", hasDownChevron);
            textBlock.classList.toggle("show");
@@ -49137,16 +49023,21 @@ component.component("emailTemplateEditComponent", {
 
 
         vm.mailingOn = function () {
-            console.log('vm',vm.editableMailbox)
+            if (vm.dkimInfoReceived)
+                return;
+            $rootScope.loading = true;
+            vm.checkDkimStatus();
         };
 
 
         vm.checkDkimStatus = function () {
             vm.dkimStatusRefreshing = true;
+            //Mailing.checkDkimSettings("info@csmailer.org").then(response => {
             Mailing.checkDkimSettings(vm.editableMailbox.email).then(response => {
                 vm.signatures = getSignature(response.object, vm.editableMailbox.domain);
                 vm.dkimStatusRefreshing = false;
                 $rootScope.loading = false;
+                vm.dkimInfoReceived = true;
             }, error => {
                 vm.dkimStatusRefreshing = false;
                 $rootScope.loading = false;
@@ -49156,6 +49047,23 @@ component.component("emailTemplateEditComponent", {
 
         vm.saveProperties = function () {
             let properties = getPropertiesForRequest(vm.editableMailbox,vm.emailSettingsType);
+            if(properties.password && properties.password.trim().length > 0) {
+                $rootScope.loading = true;
+                Candidate.editEmailAccess(properties, function(resp){
+                    $rootScope.loading = false;
+                    if(resp.status == 'error'){
+                        notificationService.error(resp.message);
+                    }else{
+                        notificationService.success($filter('translate')('Settings have been saved'));
+                        $state.go("email-integration");
+                    }
+                }, function (error) {
+                    $rootScope.loading = false;
+                    notificationService.error(error.status);
+                });
+            } else {
+                notificationService.error($filter('translate')('Please enter your password'));
+            }
             console.log('editableMailbox',properties)
         };
 
@@ -49183,7 +49091,7 @@ component.component("emailTemplateEditComponent", {
                return "gmail";
            if(mailBox.status == "exchange")
                return "exchange";
-           if(mailBox.domain == "yandex.ru" || mailBox.domain == "mail.ru")
+           if(mailBox.domain == "yandex.ru")
                return "yandex";
            if(mailBox.domain == "mail.ru")
                return "mailru";
@@ -49249,11 +49157,13 @@ component.component("emailTemplateEditComponent", {
            return {
                dkim: {
                    name: `Host: feedgee._domainkey.${domain}`,
-                   value: `value: ${feedgeResp.dkim}`
+                   value: `value: ${feedgeResp.dkim}`,
+                   status: feedgeResp.dkimStatus === "DkimInclude"?true:false
                },
                spf: {
                    name: `Host: @`,
-                   value: `value: ${feedgeResp.spf}`
+                   value: `value: ${feedgeResp.spf}`,
+                   status: feedgeResp.spfStatus === "spfInclude"?true:false
                },
                dmarc: {
                    name: `Host: ${domain}`,

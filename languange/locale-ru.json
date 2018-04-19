@@ -3128,5 +3128,6 @@
   "DKIM Status": "DKIM Статус",
   "SPF Status": "SPF Статус",
   "Check settings": "Проверить настройки",
-  "Text copied": "Текст скопирован"
+  "Text copied": "Текст скопирован",
+  "Settings have been saved": "Настройки сохранены"
 }

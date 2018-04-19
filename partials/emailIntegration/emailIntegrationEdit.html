@@ -28,7 +28,7 @@
         <!--params for exchange-->
         <div class="row main-params" ng-if="$ctrl.emailSettingsType === 'exchange'">
             <div class="col-lg-3">
-                <input type="password" class="form-control password" placeholder="{{'password'|translate}}" autocomplete="off">
+                <input type="password" class="form-control password" ng-model="$ctrl.editableMailbox.password" placeholder="{{'password'|translate}}" autocomplete="off">
             </div>
             <div class="col-lg-3">
                 <input class="form-control" type="text" ng-model="$ctrl.editableMailbox.domainSlashUsername" name="domainSlashUsername" placeholder="Domain\user name">
@@ -51,7 +51,7 @@
         <!--params for yandex & mail.ru-->
         <div class="row main-params" ng-if="$ctrl.emailSettingsType === 'yandex' || $ctrl.emailSettingsType === 'mailru'">
             <div class="col-lg-3">
-                <input type="password" class="form-control password" placeholder="{{'password'|translate}}" autocomplete="off">
+                <input type="password" class="form-control password" ng-model="$ctrl.editableMailbox.password" placeholder="{{'password'|translate}}" autocomplete="off">
             </div>
         </div>
         <div class="permissions">
@@ -80,7 +80,7 @@
             <p translate="This restriction is necessary to ensure that your mailings would not be blocked by the postal services and would not be sent to Spam."></p>
             <p translate="To send more emails per one mailing, use the email address with your corporate domain name."></p>
         </div>
-        <div class="mailing-info corporate-domain" ng-if="$ctrl.editableMailbox.corpMail === true && $ctrl.editableMailbox.permitMailing === true ">
+        <div class="mailing-info corporate-domain" ng-if="$ctrl.editableMailbox.corpMail === true && $ctrl.editableMailbox.permitMailing === true && $ctrl.dkimInfoReceived === true">
             <div class="top-block">
                 <h4>
                     <span translate="You have integrated your corporate email"></span>
@@ -131,8 +131,8 @@
             </div>
             <div class="buttons-block row">
                 <div class="buttons-container col-lg-6">
-                    <span class="dkim-status status-ok" translate="DKIM Status"></span>
-                    <span class="spf-status status-error" translate="SPF status"></span>
+                    <span class="dkim-status" translate="DKIM Status" ng-class="{'status-ok': $ctrl.signatures.dkim.status}"></span>
+                    <span class="spf-status" translate="SPF status" ng-class="{'status-ok': $ctrl.signatures.spf.status}"></span>
                     <button class="check-settings" ng-click="$ctrl.checkDkimStatus()">
                         <span translate="Check settings"></span>
                         <i class="status" ng-class="{'updating': $ctrl.dkimStatusRefreshing === true}"></i>

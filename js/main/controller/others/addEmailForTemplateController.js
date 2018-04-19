@@ -164,130 +164,15 @@ controller.controller('addEmailForTemplateController', ["$state", "$scope", "$tr
                     $scope.wrongEmail = true;
                 }
         };
-        $rootScope.editEmailFuc = function(){
-            $scope.isExchange = false;
-            var emailDomen = $rootScope.editedEmail.email.substr($rootScope.editedEmail.email.indexOf("@") + 1);
-            if(!$rootScope.showAdvancedFields){
-                if(emailDomen == 'mail.ru' || emailDomen == 'yandex.ru' || $rootScope.editedEmail.host == 'exchange'){
-                    if($rootScope.editedEmail.email.length > 0 && $rootScope.editedEmail.password.length > 0){
-                        if(emailDomen == 'mail.ru'){
-                            $rootScope.editedEmail.smtp.type = 'mailru';
-                        }else if(emailDomen == 'yandex.ru'){
-                            $rootScope.editedEmail.smtp.type = 'yandex';
-                        }
-                        Candidate.editEmailAccess($rootScope.editedEmail, function(resp){
-                            if(resp.status == 'error'){
-                                notificationService.error(resp.message);
-                            }else{
-                                $scope.updateCreatedEmails();
-                                $rootScope.closeModal();
-                            }
-                        });
-                    }else{
-                        notificationService.error($filter('translate')('Please enter your password'));
-                    }
-                }else if(emailDomen == 'gmail.com' || emailDomen == 'gmail' || $rootScope.itsGmail == 'gmail' || $rootScope.itsGmailModal == 'gmail'){
-                    googleService.gmailAuth("modify",function(result) {
-                        $rootScope.editedEmail.password = result.code;
-                        $rootScope.addedEmail.email = result.email;
-                        $rootScope.editedEmail.host = 'gmail';
-                        Candidate.editEmailAccess($rootScope.editedEmail, function(resp){
-                            if(resp.status == 'error'){
-                                if(resp.code == 'сouldNotGetRefreshTokenIntegration') {
-                                    $scope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/gmail-access.html',
-                                        scope: $scope,
-                                        resolve: {
-                                        }
-                                    });
-                                } else
-                                notificationService.error(resp.message);
-                            }else{
-                                $scope.updateCreatedEmails();
-                                $rootScope.closeModal();
-                            }
-                        });
-                    });
-                }else{
-                    $rootScope.showAdvancedFields = true;
-                }
-            } else {
-                if($rootScope.editedEmail.host = 'email'){
-                    if($rootScope.editedEmail.email.length > 0 && $rootScope.editedEmail.password.length > 0) {
-                        Candidate.editEmailAccess($rootScope.editedEmail, function (resp) {
-                            if (resp.status == 'error') {
-                                if(resp.message == 'сouldNotGetRefreshTokenIntegration') {
-                                    $scope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/gmail-access.html',
-                                        scope: $scope,
-                                        resolve: {
-                                        }
-                                    });
-                                } else
-                                notificationService.error(resp.message);
-                            } else {
-                                $scope.updateCreatedEmails();
-                                $scope.editEmail = false;
-                                $rootScope.closeModal();
-                            }
-                        });
-                    }else {
-                        notificationService.error($filter('translate')('Please enter your password'));
-                    }
-                }
-            }
-        };
+
         $scope.editMailBox = function(email){
             if(email !== undefined && email.parseEmailDataId) {
                 $state.go("email-integration-edit", {id: email.parseEmailDataId});
             } else {
                 notificationService.error('Empty parseEmailDataId');
             }
-            // $scope.status = email.status;
-            // $rootScope.itsGmailModal = email.sendStatus;
-            // $rootScope.showAdvancedFields = false;
-            // $rootScope.editedEmail.host = 'email';
-            // $rootScope.editedEmail.email = email.email;
-            // $rootScope.editedEmail.permitConversation = email.permitConversation;
-            // $rootScope.editedEmail.host = 'gmail';
-            // $rootScope.editedEmail.permitParsing = email.permitParsing;
-            // $rootScope.editedEmail.permitSend = email.permitSend;
-            // var emailDomen = $rootScope.editedEmail.email.substr($rootScope.editedEmail.email.indexOf("@") + 1);
-            // if(emailDomen == 'mail.ru' || emailDomen == 'yandex.ru'){
-            //     if(emailDomen == 'mail.ru'){
-            //         $rootScope.editedEmail.smtp.type = 'mailru';
-            //     }else if(emailDomen == 'yandex.ru'){
-            //         $rootScope.editedEmail.smtp.type = 'yandex';
-            //     }
-            //     $rootScope.showPassInModal = true;
-            // }else if(emailDomen == 'gmail.com' || emailDomen == 'gmail' || email.sendStatus == 'gmail'){
-            //     $rootScope.showPassInModal = false;
-            // }else if($scope.status != 'exchange'){
-            //     $rootScope.showPassInModal = true;
-            //     $rootScope.showAdvancedFields = true;
-            //     $rootScope.editedEmail.smtp.host = email.smtpHost;
-            //     $rootScope.editedEmail.smtp.secure = email.smtpSecure;
-            //     $rootScope.editedEmail.smtp.port = email.smtpPort;
-            // } else {
-            //     $rootScope.editedEmail.domainSlashUsername = email.exchangeDomain + '/' + email.exchangeUsername;
-            //     $rootScope.editedEmail.exchangeHost = email.exchangeHost;
-            //     $rootScope.editedEmail.exchangeVersion = email.exchangeVersion;
-            //     $rootScope.editedEmail.host = '';
-            //     $rootScope.showPassInModal = true;
-            //     $rootScope.showAdvancedFields = false;
-            // }
-            // $scope.modalInstance = $uibModal.open({
-            //     animation: true,
-            //     templateUrl: '../partials/modal/edit-integration-with-email.html',
-            //     size: '',
-            //     scope: $scope,
-            //     resolve: function(){
-            //
-            //     }
-            // });
         };
+
         $scope.setDefault = function(){
             $scope.isExchange = false;
             $rootScope.addedEmail ={

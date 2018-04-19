@@ -2,7 +2,7 @@ component.component("emailTemplateEditComponent", {
 
    templateUrl: "partials/emailIntegration/emailIntegrationEdit.html",
 
-   controller: function ($q, $state, $stateParams, $rootScope, notificationService, $filter, Person, Mailing, googleService) {
+   controller: function ($q, $state, $stateParams, $rootScope, notificationService, $filter, Person, Mailing, googleService, Candidate) {
        let vm = this;
        let mailBoxId = "";
        let emails = [];
@@ -29,20 +29,21 @@ component.component("emailTemplateEditComponent", {
            let chevron = document.getElementById('dkim-settings-chevron');
            let hasDownChevron = chevron.classList.contains("fa-chevron-down");
            let settingsText = document.getElementById("dkim-settings-text");
-           settingsText.value = `Record DKIM
-           ${vm.signatures.dkim.name}
-           type: TXT
-           ${vm.signatures.dkim.value}
-           
-           Record SPF
-           ${vm.signatures.spf.name}
-           type: TXT
-           ${vm.signatures.spf.value}
-           
-           Record DMARC
-           ${vm.signatures.dmarc.name}
-           type: TXT
-           ${vm.signatures.dmarc.value}`;
+           settingsText.value = `
+Record DKIM
+${vm.signatures.dkim.name}
+type: TXT
+${vm.signatures.dkim.value}
+
+Record SPF
+${vm.signatures.spf.name}
+type: TXT
+${vm.signatures.spf.value}
+
+Record DMARC
+${vm.signatures.dmarc.name}
+type: TXT
+${vm.signatures.dmarc.value}`;
            chevron.classList.toggle("fa-chevron-down", !hasDownChevron);
            chevron.classList.toggle("fa-chevron-up", hasDownChevron);
            textBlock.classList.toggle("show");
@@ -55,16 +56,21 @@ component.component("emailTemplateEditComponent", {
 
 
         vm.mailingOn = function () {
-            console.log('vm',vm.editableMailbox)
+            if (vm.dkimInfoReceived)
+                return;
+            $rootScope.loading = true;
+            vm.checkDkimStatus();
         };
 
 
         vm.checkDkimStatus = function () {
             vm.dkimStatusRefreshing = true;
+            //Mailing.checkDkimSettings("info@csmailer.org").then(response => {
             Mailing.checkDkimSettings(vm.editableMailbox.email).then(response => {
                 vm.signatures = getSignature(response.object, vm.editableMailbox.domain);
                 vm.dkimStatusRefreshing = false;
                 $rootScope.loading = false;
+                vm.dkimInfoReceived = true;
             }, error => {
                 vm.dkimStatusRefreshing = false;
                 $rootScope.loading = false;
@@ -74,6 +80,23 @@ component.component("emailTemplateEditComponent", {
 
         vm.saveProperties = function () {
             let properties = getPropertiesForRequest(vm.editableMailbox,vm.emailSettingsType);
+            if(properties.password && properties.password.trim().length > 0) {
+                $rootScope.loading = true;
+                Candidate.editEmailAccess(properties, function(resp){
+                    $rootScope.loading = false;
+                    if(resp.status == 'error'){
+                        notificationService.error(resp.message);
+                    }else{
+                        notificationService.success($filter('translate')('Settings have been saved'));
+                        $state.go("email-integration");
+                    }
+                }, function (error) {
+                    $rootScope.loading = false;
+                    notificationService.error(error.status);
+                });
+            } else {
+                notificationService.error($filter('translate')('Please enter your password'));
+            }
             console.log('editableMailbox',properties)
         };
 
@@ -101,7 +124,7 @@ component.component("emailTemplateEditComponent", {
                return "gmail";
            if(mailBox.status == "exchange")
                return "exchange";
-           if(mailBox.domain == "yandex.ru" || mailBox.domain == "mail.ru")
+           if(mailBox.domain == "yandex.ru")
                return "yandex";
            if(mailBox.domain == "mail.ru")
                return "mailru";
@@ -167,11 +190,13 @@ component.component("emailTemplateEditComponent", {
            return {
                dkim: {
                    name: `Host: feedgee._domainkey.${domain}`,
-                   value: `value: ${feedgeResp.dkim}`
+                   value: `value: ${feedgeResp.dkim}`,
+                   status: feedgeResp.dkimStatus === "DkimInclude"?true:false
                },
                spf: {
                    name: `Host: @`,
-                   value: `value: ${feedgeResp.spf}`
+                   value: `value: ${feedgeResp.spf}`,
+                   status: feedgeResp.spfStatus === "spfInclude"?true:false
                },
                dmarc: {
                    name: `Host: ${domain}`,
