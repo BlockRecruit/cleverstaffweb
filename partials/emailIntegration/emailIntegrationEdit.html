@@ -80,7 +80,7 @@
             <p translate="This restriction is necessary to ensure that your mailings would not be blocked by the postal services and would not be sent to Spam."></p>
             <p translate="To send more emails per one mailing, use the email address with your corporate domain name."></p>
         </div>
-        <div class="mailing-info corporate-domain" ng-if="$ctrl.editableMailbox.corpMail === true && $ctrl.editableMailbox.permitMailing === true">
+        <div class="mailing-info corporate-domain" ng-if="$ctrl.editableMailbox.corpMail === true && $ctrl.editableMailbox.permitMailing === true ">
             <div class="top-block">
                 <h4>
                     <span translate="You have integrated your corporate email"></span>
@@ -103,27 +103,27 @@
                 </a>
                 <div class="dkim-settings" id="dkim-settings">
                     <div>
-                        <h5>Some text</h5>
+                        <h5>Record DKIM</h5>
                         <ul>
-                            <li>some text</li>
-                            <li>some text</li>
-                            <li>some text</li>
+                            <li ng-bind="$ctrl.signatures.dkim.name"></li>
+                                <li>type: TXT</li>
+                            <li ng-bind="$ctrl.signatures.dkim.value"></li>
                         </ul>
                     </div>
                     <div>
-                        <h5>Some text</h5>
+                        <h5>Record SPF</h5>
                         <ul>
-                            <li>some text</li>
-                            <li>some text</li>
-                            <li>some text</li>
+                            <li ng-bind="$ctrl.signatures.spf.name">@</li>
+                            <li>type: TXT</li>
+                            <li ng-bind="$ctrl.signatures.spf.value"></li>
                         </ul>
                     </div>
                     <div>
-                        <h5>Some text</h5>
+                        <h5>Record DMARC</h5>
                         <ul>
-                            <li>some text</li>
-                            <li>some text</li>
-                            <li>some text</li>
+                            <li ng-bind="$ctrl.signatures.dmarc.name"></li>
+                            <li>type: TXT</li>
+                            <li ng-bind="$ctrl.signatures.dmarc.value"></li>
                         </ul>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                     <span class="spf-status status-error" translate="SPF status"></span>
                     <button class="check-settings" ng-click="$ctrl.checkDkimStatus()">
                         <span translate="Check settings"></span>
-                        <i class="status"></i>
+                        <i class="status" ng-class="{'updating': $ctrl.dkimStatusRefreshing === true}"></i>
                     </button>
                 </div>
             </div>
@@ -145,5 +145,5 @@
             <button class="orange" translate="save" ng-click="$ctrl.saveProperties()"></button>
         </div>
     </div>
-    <input type="text" id="dkim-settings-text">
+    <textarea name="dkim-settings-text" id="dkim-settings-text"></textarea>
 </div>

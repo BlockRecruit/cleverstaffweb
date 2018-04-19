@@ -126,6 +126,8 @@
 					padding-left: 30px;
 					li {
 						list-style: none;
+
+						white-space: nowrap;
 					}
 				}
 			}
@@ -179,6 +181,9 @@
 						border: 1px solid #666;
 						border-radius: 5px;
 						background: transparent;
+						&:focus {
+							outline: none;
+						}
 						span {
 							padding-right: 10px;
 						}
@@ -188,6 +193,20 @@
 							height: 18px;
 
 							background-image: url("/images/sprite/icons/button-loader.svg");
+							&.updating {
+								-webkit-animation: updating 2s linear infinite;
+								animation: updating 2s linear infinite;
+								@keyframes updating {
+									from {
+										-webkit-transform: rotate(0deg);
+										transform: rotate(0deg);
+									}
+									to {
+										-webkit-transform: rotate(360deg);
+										transform: rotate(360deg);
+									}
+								}
+							}
 						}
 					}
 				}

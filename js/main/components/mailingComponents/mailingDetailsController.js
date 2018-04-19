@@ -184,7 +184,7 @@ component.component('mailingDetails', {
                 notificationService.error($filter('translate')('You should fill all obligatory fields.'))
             } else {
                 $localStorage.set('candidatesForMailing', $scope.candidatesForMailing);
-                if($scope.candidatesForMailing) {
+                if($scope.candidatesForMailing && $scope.candidatesForMailing.length > 0) {
                     if($scope.candidatesForMailing.length > 1000) {
                         notificationService.error($filter('translate')('Count of recipients should be less than 1000'));
                         return

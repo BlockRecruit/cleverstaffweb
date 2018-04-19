@@ -9,6 +9,8 @@ component.component("emailTemplateEditComponent", {
        vm.editableMailbox = {};
        vm.dkimStatusRefreshing = false;
        vm.emailSettingsType = "";
+       vm.dkimInfoReceived = false;
+       vm.signatures = {};
 
        if($stateParams !== undefined && $stateParams.id) {
            mailBoxId = $stateParams.id;
@@ -27,7 +29,20 @@ component.component("emailTemplateEditComponent", {
            let chevron = document.getElementById('dkim-settings-chevron');
            let hasDownChevron = chevron.classList.contains("fa-chevron-down");
            let settingsText = document.getElementById("dkim-settings-text");
-           settingsText.value = "asdfasdf";
+           settingsText.value = `Record DKIM
+           ${vm.signatures.dkim.name}
+           type: TXT
+           ${vm.signatures.dkim.value}
+           
+           Record SPF
+           ${vm.signatures.spf.name}
+           type: TXT
+           ${vm.signatures.spf.value}
+           
+           Record DMARC
+           ${vm.signatures.dmarc.name}
+           type: TXT
+           ${vm.signatures.dmarc.value}`;
            chevron.classList.toggle("fa-chevron-down", !hasDownChevron);
            chevron.classList.toggle("fa-chevron-up", hasDownChevron);
            textBlock.classList.toggle("show");
@@ -47,9 +62,12 @@ component.component("emailTemplateEditComponent", {
         vm.checkDkimStatus = function () {
             vm.dkimStatusRefreshing = true;
             Mailing.checkDkimSettings(vm.editableMailbox.email).then(response => {
+                vm.signatures = getSignature(response.object, vm.editableMailbox.domain);
                 vm.dkimStatusRefreshing = false;
+                $rootScope.loading = false;
             }, error => {
                 vm.dkimStatusRefreshing = false;
+                $rootScope.loading = false;
             });
         };
 
@@ -142,6 +160,24 @@ component.component("emailTemplateEditComponent", {
                    reject(error);
                });
            })
+       }
+
+
+       function getSignature(feedgeResp, domain) {
+           return {
+               dkim: {
+                   name: `Host: feedgee._domainkey.${domain}`,
+                   value: `value: ${feedgeResp.dkim}`
+               },
+               spf: {
+                   name: `Host: @`,
+                   value: `value: ${feedgeResp.spf}`
+               },
+               dmarc: {
+                   name: `Host: ${domain}`,
+                   value: `value: _dmarc.${domain} IN TXT "v=DMARC1; p=none; sp=none; rua=mailto:postmaster@${domain}" `
+               }
+           }
        }
 
 

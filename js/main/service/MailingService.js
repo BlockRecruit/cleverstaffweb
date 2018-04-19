@@ -139,7 +139,7 @@ angular.module('services.mailing',[]
 
 
     service.checkDkimSettings = function(mailBox) {
-        return new Promise((resolve,reject) => {
+        return new $q((resolve,reject) => {
             service.getDkim({"email": mailBox},(resp) => {
                 if(resp.status != "error") {
                     resolve(resp);
