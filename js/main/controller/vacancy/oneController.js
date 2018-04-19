@@ -3842,8 +3842,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.imgWidthFuncForCrop = function(cropper){
             $('#crop-picture-modal').removeClass('hidden');
             $('#crop-picture-modal').addClass('visible');
-            //console.log(cropper.canvasData.height, 'vacancy-cropper');
-            //console.log(cropper.canvasData.width, 'vacancy-cropper');
             var img = new Image();
             img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.vacancy.imageId + '&d=' + $rootScope.me.personId;
             console.log(cropper);
@@ -3870,7 +3868,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.imgWidthFuncForOpenLogo = function(){
             var img = new Image();
             img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.vacancy.imageId + '&d=' + $rootScope.me.personId;
-            //console.log(img);
             img.onload = function() {
                 var width = this.width;
                 console.log(width);

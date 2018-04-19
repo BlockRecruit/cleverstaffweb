@@ -2685,6 +2685,7 @@ directive('appVersion', ['version', function(version) {
                         canvasImg.width = cropper.cropBoxData.width;
                         canvasImg.height = cropper.cropBoxData.height;
                         ctx.drawImage(canvasCopy, 0, 0, canvasImg.width, canvasImg.height,  0, 0,  canvasCopy.width, canvasCopy.height);
+                        console.log(canvasImg);
                         $scope.dataUrl = canvasImg.toDataURL();
                         $('#wrapperForPng').show();
                         $('#wrapperForPng').html("<img  src='" + $scope.dataUrl + "' > <button id='cancel'>" + $filter('translate')('cancel') + "</button><button id='download'>" + $filter('translate')('save') + "</button>");
@@ -2696,20 +2697,24 @@ directive('appVersion', ['version', function(version) {
                             $('#download').remove();
                         });
                         $('#download').on('click', function () {
-                            Vacancy.uploadPromoLogo($scope.dataUrl).then(function (data) {
-                                $scope.callbackAddPromoLogo(data.data.object);
-                                $('#company-logo').show();
-                                cropper.destroy();
-                                $('#cropper-wrap').remove();
-                                $('#wrapperForPng').remove();
-                                $("#the-file-input").val('');
-                                $("#crop-block").find('img').show();
-                                $('#logo-button').show();
-                                notificationService.success($filter('translate')('picture_was_added') + ' ' + $rootScope.vacancy.position + ' ' + $filter('translate')('was_added_vacancy_picture'));
-                            }, function (error) {
-                                notificationService.error(error.data.message);
-                            });
-                            $scope.closeModalCrop();
+                            if(canvasImg.width > 200 && canvasImg.height > 200){
+                                Vacancy.uploadPromoLogo($scope.dataUrl).then(function (data) {
+                                    $scope.callbackAddPromoLogo(data.data.object);
+                                    $('#company-logo').show();
+                                    cropper.destroy();
+                                    $('#cropper-wrap').remove();
+                                    $('#wrapperForPng').remove();
+                                    $("#the-file-input").val('');
+                                    $("#crop-block").find('img').show();
+                                    $('#logo-button').show();
+                                    notificationService.success($filter('translate')('picture_was_added') + ' ' + $rootScope.vacancy.position + ' ' + $filter('translate')('was_added_vacancy_picture'));
+                                }, function (error) {
+                                    notificationService.error(error.data.message);
+                                });
+                                $scope.closeModalCrop();
+                            }else{
+                                notificationService.error($filter('translate')('Please choose image 200 x 200 px or larger'));
+                            }
                         });
                     });
                     $('#close').on('click', function () {
@@ -39537,8 +39542,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.imgWidthFuncForCrop = function(cropper){
             $('#crop-picture-modal').removeClass('hidden');
             $('#crop-picture-modal').addClass('visible');
-            //console.log(cropper.canvasData.height, 'vacancy-cropper');
-            //console.log(cropper.canvasData.width, 'vacancy-cropper');
             var img = new Image();
             img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.vacancy.imageId + '&d=' + $rootScope.me.personId;
             console.log(cropper);
@@ -39565,7 +39568,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         $scope.imgWidthFuncForOpenLogo = function(){
             var img = new Image();
             img.src = $location.$$protocol + '://' + $location.$$host + $scope.serverAddress + '/getapp?id=' + $scope.vacancy.imageId + '&d=' + $rootScope.me.personId;
-            //console.log(img);
             img.onload = function() {
                 var width = this.width;
                 console.log(width);
