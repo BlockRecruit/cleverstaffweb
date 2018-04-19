@@ -28,6 +28,30 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Legal Potok';
+    src: url('../fonts/shrift_website/LegalLTStd-Medium(POTOK).otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Rounded FriendWork';
+    src: url('../fonts/shrift_website/DINNextRoundedLTPro-Regular(FriendWork).otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'G-type Persia';
+    src: url('../fonts/shrift_website/G-Type%20-%20ChevinPro-ExtraBold(PERSIA).otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Marmelad E-staff';
+    src: url('../fonts/shrift_website/Marmelad-Regular(E-staff).ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 div {
     box-sizing:border-box;
@@ -2588,8 +2612,16 @@ select.webkit-fix {
     /*margin-top: -10px;*/
 /*}*/
 #home .potok-tittle h1 .logo-potok{
+    font-family: 'Legal Potok';
     color: #00C7FE;
     background: linear-gradient(to top right, #00C7FE 0%, #00F3D3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 56px;
+}
+#home .potok-tittle h1 .logo-friendwork{
+    font-family: 'Rounded FriendWork';
+    color: #00C0E8;
 }
 #home .potok-tittle h1 .question-potok:after{
     content: '?';
