@@ -122,7 +122,7 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                     if(recipientsSource && recipientsSource.state && recipientsSource.localId) {
                         Mailing.getVacancyParams(recipientsSource.localId).then((result) => {
                             $(element[0]).select2("data", {id: result.vacancyId, text: result.position});
-                            statusListForming(result.vacancyId, result.statuses).then((result) => {
+                            statusListForming(result.vacancyId, result.statuses!==undefined?result.statuses:'longlist,shortlist,interview,approved,notafit,declinedoffer').then((result) => {
                                 $scope.VacancyStatusFiltered.some((status)=> {
                                     if(status.value == recipientsSource.state) {
                                         recipientsSource.fullState = status;
