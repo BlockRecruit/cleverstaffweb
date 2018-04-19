@@ -11,6 +11,13 @@ angular.module('services.invoice', [
                 params: {
                     param: 'getInvoice'
                 }
+            },
+            getLastInvoiceData: {
+                method : "GET",
+                headers: {'Content-type':'application/json; charset=UTF-8'},
+                params: {
+                    param: 'getLastInvoiceData'
+                }
             }
         });
 
@@ -24,7 +31,19 @@ angular.module('services.invoice', [
                } else {
                    reject(resp);
                }
-           }, error => reject(error))
+           }, error => reject(error));
+        });
+    };
+
+    invoice.getLastInvoice = function() {
+        return new Promise((resolve, reject) => {
+            invoice.getLastInvoiceData(resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            }, error => reject(error));
         });
     };
 

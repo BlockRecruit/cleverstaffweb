@@ -40,21 +40,17 @@
                     </td>
                     <td>
                         <select name="paidUsers" id="paidUsers" ng-model="invoice.users">
-                            <option selected="selected" ng-repeat="users in allPersons track by $index">{{$index}}</option>
+                            <option ng-selected="amount === invoice.users" ng-repeat="amount in users track by $index">{{amount}}</option>
                         </select>
                     </td>
                     <td>
-                        <select name="month" ng-model="invoice.month">
-                            <option selected="selected" ng-repeat="month in months track by $index">
-                                {{month}}
-                            </option>
+                        <select name="month" ng-model="invoice.months">
+                            <option ng-selected="month === invoice.months" ng-repeat="month in months track by $index">{{month}}</option>
                         </select>
                     </td>
                     <td>
                         <select name="currency" ng-model="invoice.currency">
-                            <option selected="selected" value="{{currency}}" ng-repeat="currency in currencies track by $index">
-                                {{currency}}
-                            </option>
+                            <option ng-selected="currency === invoice.currency" ng-repeat="currency in currencies track by $index">{{currency}}</option>
                         </select>
                     </td>
                     <td>
@@ -111,6 +107,7 @@
         </section>
 
         <section class="invoice__generate">
+            <a href="" id="downloadInvoice" style="display:none"></a>
             <button translate="Generate invoice" ng-click="generateInvoice()" class="btn-primary-new"></button>
         </section>
 
