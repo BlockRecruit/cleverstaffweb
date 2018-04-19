@@ -2963,5 +2963,6 @@
   "The test testname has been sent to the candidate name":"Кандидату <a href={{href}}>{{candidateName}}</a> отправлен тест <a class='underline'>{{testName}}</a>",
   "The candidate has been transferred to the stage":"Кандидат переведён на этап",
   "from_4": "от",
-  "for": "для"
+  "for": "для",
+  "List of company vacancies":"Список вакансий компании"
 }
