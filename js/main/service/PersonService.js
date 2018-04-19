@@ -1,6 +1,6 @@
  angular.module('services.person', [
     'ngResource'
- ]).factory('Person', ['$resource', 'serverAddress','$rootScope', '$q', function($resource, serverAddress, $rootScope, $q) {
+ ]).factory('Person', ['$resource', 'serverAddress','$rootScope', '$q', '$state', function($resource, serverAddress, $rootScope, $q, $state) {
      var person = $resource(serverAddress + '/person/:param', {param: "@param"},
             {
                 authorization: {

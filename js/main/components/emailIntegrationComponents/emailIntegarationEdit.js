@@ -2,11 +2,12 @@ component.component("emailTemplateEditComponent", {
 
    templateUrl: "partials/emailIntegration/emailIntegrationEdit.html",
 
-   controller: function ($state, $stateParams, $rootScope, notificationService, $filter, Person, Mailing) {
+   controller: function ($q, $state, $stateParams, $rootScope, notificationService, $filter, Person, Mailing, googleService) {
        let vm = this;
        let mailBoxId = "";
        let emails = [];
        vm.editableMailbox = {};
+       vm.dkimStatusRefreshing = false;
        vm.emailSettingsType = "";
 
        if($stateParams !== undefined && $stateParams.id) {
@@ -44,14 +45,18 @@ component.component("emailTemplateEditComponent", {
 
 
         vm.checkDkimStatus = function () {
-          Mailing.checkDkimSettings(vm.editableMailbox.email).then(response => {
-             console.log('response', response)
-          }, error => {});
+            vm.dkimStatusRefreshing = true;
+            Mailing.checkDkimSettings(vm.editableMailbox.email).then(response => {
+                vm.dkimStatusRefreshing = false;
+            }, error => {
+                vm.dkimStatusRefreshing = false;
+            });
         };
 
 
         vm.saveProperties = function () {
-
+            let properties = getPropertiesForRequest(vm.editableMailbox,vm.emailSettingsType);
+            console.log('editableMailbox',properties)
         };
 
 
@@ -71,7 +76,8 @@ component.component("emailTemplateEditComponent", {
                $state.go("email-integration");
            }
        }
-       
+
+
        function getMailboxSettingsType(mailBox) {
            if(mailBox.status == "gmail")
                return "gmail";
@@ -83,6 +89,62 @@ component.component("emailTemplateEditComponent", {
                return "mailru";
            return "common_domain"
        }
+
+
+       function getPropertiesForRequest(editableMailBox, settingsType) {
+           let propObject = {
+               email: editableMailBox.email,
+               name: $rootScope.me.fullName,
+               password: editableMailBox.password!==undefined?editableMailBox.password:"",
+               host: "email",
+               permitConversation: false,
+               permitParsing: editableMailBox.permitParsing,
+               permitSend: editableMailBox.permitSend,
+               permitMailing: editableMailBox.permitMailing!==undefined?editableMailBox.permitMailing:false,
+               smtp: {}
+           };
+            switch (settingsType) {
+                case "gmail":
+                    getGmailToken().then(result => {
+                        propObject.email = result.email;
+                        propObject.password = result.password;
+                    }, error => {
+                        console.log('Exception in getGmailToken()');
+                        notificationService.error(error.status);
+                    });
+                    break;
+                case "mailru":
+                    propObject.smtp.type = "mailru";
+                    break;
+                case "yandex":
+                    propObject.smtp.type = "yandex";
+                    break;
+                case "exchange":
+                    propObject.domainSlashUsername = editableMailBox.exchangeDomain + '/' + editableMailBox.exchangeUsername;
+                    propObject.exchangeHost = editableMailBox.exchangeHost;
+                    propObject.exchangeVersion = editableMailBox.exchangeVersion;
+                    propObject.host = "exchange";
+                    break;
+                default:
+                    propObject.smtp.host = editableMailBox.smtpHost;
+                    propObject.smtp.secure = editableMailBox.smtpSecure;
+                    propObject.smtp.port = editableMailBox.smtpPort;
+            }
+            return propObject
+       }
+       
+       
+       function getGmailToken() {
+           return new $q((resolve, reject) => {
+               googleService.gmailAuth("modify",function(result) {
+                   resolve({password: result.code, email: result.email})
+               }, function (error) {
+                   reject(error);
+               });
+           })
+       }
+
+
    },
 
    controllerAs: '$ctrl'

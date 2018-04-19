@@ -9,7 +9,7 @@
         <!--params for common mail-boxes-->
         <div class="row main-params" ng-if="$ctrl.emailSettingsType === 'common_domain'">
             <div class="col-lg-3">
-                <input type="password" class="form-control password" placeholder="{{'password'|translate}}" autocomplete="off">
+                <input type="password" class="form-control password" ng-model="$ctrl.editableMailbox.password" placeholder="{{'password'|translate}}" autocomplete="off">
             </div>
             <div class="col-lg-3">
                 <input type="text" class="form-control" name="smtpHost" placeholder="smtp Host" ng-model="$ctrl.editableMailbox.smtpHost">
@@ -31,18 +31,22 @@
                 <input type="password" class="form-control password" placeholder="{{'password'|translate}}" autocomplete="off">
             </div>
             <div class="col-lg-3">
-                <input type="text" class="form-control" name="smtpHost" placeholder="smtp Host" ng-model="$ctrl.editableMailbox.smtpHost">
+                <input class="form-control" type="text" ng-model="$ctrl.editableMailbox.domainSlashUsername" name="domainSlashUsername" placeholder="Domain\user name">
             </div>
             <div class="col-lg-3">
-                <input type="number" min="0" class="form-control" name="smtpPort" placeholder="smtp Port" ng-model="$ctrl.editableMailbox.smtpPort">
+                <input class="form-control" ng-show="status=='exchange'" type="text" ng-model="$ctrl.editableMailbox.exchangeHost" name="exchangeHost" placeholder="Host">
             </div>
             <div class="col-lg-3">
-                <select class="form-control secure-proto" ng-model="$ctrl.editableMailbox.smtpSecure">
-                    <option value="" disabled translate="SMTP secure protocol"></option>
-                    <option value="SSL">SSL</option>
-                    <option value="TLS">TLS</option>
+                <select class="exchange-version" ng-model="$ctrl.editableMailbox.exchangeVersion">
+                    <option value="">Exchange version</option>
+                    <option value="Exchange2007_SP1">Exchange2007 SP1</option>
+                    <option value="Exchange2010">Exchange2010</option>
+                    <option value="Exchange2010_SP1">Exchange2010 SP1</option>
+                    <option value="Exchange2010_SP2">Exchange2010 SP2</option>
+                    <option value="other">Other</option>
                 </select>
             </div>
+
         </div>
         <!--params for yandex & mail.ru-->
         <div class="row main-params" ng-if="$ctrl.emailSettingsType === 'yandex' || $ctrl.emailSettingsType === 'mailru'">

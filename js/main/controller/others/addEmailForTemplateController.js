@@ -274,7 +274,7 @@ controller.controller('addEmailForTemplateController', ["$state", "$scope", "$tr
             //     $rootScope.editedEmail.domainSlashUsername = email.exchangeDomain + '/' + email.exchangeUsername;
             //     $rootScope.editedEmail.exchangeHost = email.exchangeHost;
             //     $rootScope.editedEmail.exchangeVersion = email.exchangeVersion;
-            //     $rootScope.editedEmail.host = 'exchange';
+            //     $rootScope.editedEmail.host = '';
             //     $rootScope.showPassInModal = true;
             //     $rootScope.showAdvancedFields = false;
             // }
