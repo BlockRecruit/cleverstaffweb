@@ -48978,6 +48978,7 @@ component.component("emailTemplateEditComponent", {
        vm.emailSettingsType = "";
        vm.dkimInfoReceived = false;
        vm.signatures = {};
+       vm.mailingPermitDenied = false;
 
        if($stateParams !== undefined && $stateParams.id) {
            mailBoxId = $stateParams.id;
@@ -49023,14 +49024,14 @@ ${vm.signatures.dmarc.value}`;
 
 
         vm.mailingOn = function () {
-            if (vm.dkimInfoReceived)
+            if (vm.dkimInfoReceived || vm.editableMailbox.corpMail !== true)
                 return;
             $rootScope.loading = true;
             vm.checkDkimStatus();
         };
 
 
-        vm.checkDkimStatus = function () {
+        vm.checkDkimStatus = function (withNotification) {
             vm.dkimStatusRefreshing = true;
             //Mailing.checkDkimSettings("info@csmailer.org").then(response => {
             Mailing.checkDkimSettings(vm.editableMailbox.email).then(response => {
@@ -49038,9 +49039,13 @@ ${vm.signatures.dmarc.value}`;
                 vm.dkimStatusRefreshing = false;
                 $rootScope.loading = false;
                 vm.dkimInfoReceived = true;
+                if(withNotification) {
+                    notificationService.success($filter("translate")("Statuses are updated"));
+                }
             }, error => {
                 vm.dkimStatusRefreshing = false;
                 $rootScope.loading = false;
+                notificationService.errro("Can not update statuses");
             });
         };
 
@@ -49048,24 +49053,44 @@ ${vm.signatures.dmarc.value}`;
         vm.saveProperties = function () {
             let properties = getPropertiesForRequest(vm.editableMailbox,vm.emailSettingsType);
             if(properties.password && properties.password.trim().length > 0) {
-                $rootScope.loading = true;
-                Candidate.editEmailAccess(properties, function(resp){
-                    $rootScope.loading = false;
-                    if(resp.status == 'error'){
-                        notificationService.error(resp.message);
-                    }else{
-                        notificationService.success($filter('translate')('Settings have been saved'));
-                        $state.go("email-integration");
+                if((properties.permitMailing && vm.editableMailbox.corpMail)) {
+                    if(properties.domainVerified){
+                        vm.mailingPermitDenied = false;
+                        saveProperties(properties);
+                    } else {
+                        mailingPermitDenied();
                     }
-                }, function (error) {
-                    $rootScope.loading = false;
-                    notificationService.error(error.status);
-                });
+                } else {
+                    saveProperties(properties);
+                }
             } else {
                 notificationService.error($filter('translate')('Please enter your password'));
             }
             console.log('editableMailbox',properties)
         };
+
+
+        function mailingPermitDenied() {
+            notificationService.error("spf dkim not set");
+            vm.mailingPermitDenied = true;
+        }
+
+
+        function saveProperties(properties) {
+            $rootScope.loading = true;
+            Candidate.editEmailAccess(properties, function(resp){
+                $rootScope.loading = false;
+                if(resp.status == 'error'){
+                    notificationService.error(resp.message);
+                }else{
+                    notificationService.success($filter('translate')('Settings have been saved'));
+                    $state.go("email-integration");
+                }
+            }, function (error) {
+                $rootScope.loading = false;
+                notificationService.error(error.status);
+            });
+        }
 
 
        function getEditableMailbox(emailsArray, id) {
@@ -49111,6 +49136,10 @@ ${vm.signatures.dmarc.value}`;
                permitMailing: editableMailBox.permitMailing!==undefined?editableMailBox.permitMailing:false,
                smtp: {}
            };
+           if(editableMailBox.corpMail) {
+               if(vm.signatures.spf.status && vm.signatures.dkim.status)
+                   propObject.domainVerified = true;
+           }
             switch (settingsType) {
                 case "gmail":
                     getGmailToken().then(result => {

@@ -2523,14 +2523,17 @@
   "We would not want to burden you with additional complicated actions, but this is the crucial thing for high-quality letters delivery.": "We would not want to burden you with additional complicated actions, but this is the crucial thing for high-quality letters delivery.",
   "Three entries have to be added in the admin panel of your domain name. To do this, please, send the text below to the your domain administrator.": "Three entries have to be added in the admin panel of your domain name. To do this, please, send the text below to the your domain administrator.",
   "Copy the text for administrator": "Copy the text for administrator",
-  "After the administrator applies the changes, please, update the verification status by clicking on the 'Check settings' button. The maximum time for the settings to apply is 72 hours, but usually the records are updated in a couple of hours.": "После того, как администратор применит изменения, обновите статус верификации кликнув на кнопку \"Проверить настройки\". Максимальное время для применения настроек  — 72 часа, но обычно записи обновляются в течении нескольких часов.",
+  "After the administrator applies the changes, please, update the verification status by clicking on the 'Check settings' button. The maximum time for the settings to apply is 72 hours, but usually the records are updated in a couple of hours.": "After the administrator applies the changes, please, update the verification status by clicking on the \"Check settings\" button. The maximum time for the settings to apply is 72 hours, but usually the records are updated in a couple of hours.",
   "DKIM Status": "DKIM Status",
   "SPF Status": "SPF Status",
   "Check settings": "Check settings",
-  "Text copied": "Text copied",
+  "Text copied": "Text is copied to your clipboard",
   "To send a letter from your mailbox,allow sending mails from the email integration page":"To send a letter from your mailbox, allow sending mails from the <a href='#/email-integration' target='_blank'>email integration page</a>",
   "Delete source for all candidates": "Delete source for all candidates",
   "The binding":"The source",
   "was unlinked in candidate":"was unlinked in candidate",
-  "Settings have been saved": "Settings have been saved"
+  "Settings have been saved": "Settings have been saved",
+  "Not verified": "Not verified",
+  "Verified": "Verified",
+  "Statuses are updated": "Statuses are updated"
 }

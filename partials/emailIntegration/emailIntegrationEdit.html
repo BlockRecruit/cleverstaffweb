@@ -65,10 +65,11 @@
                 <input id="cmn-toggle-3" ng-model="$ctrl.editableMailbox.permitSend" ng-checked="$ctrl.editableMailbox.permitSend" class="cmn-toggle cmn-toggle-round" type="checkbox">
                 <label class="floatLeft" for="cmn-toggle-3"></label>
             </div>
-            <div class="mailing-permission">
+            <div class="mailing-permission" ng-class="{'mailing-permit-denied': $ctrl.mailingPermitDenied === true && $ctrl.editableMailbox.permitMailing === true}">
                 <label for="cmn-toggle-2" class="floatLeft" translate="Send mailings from CleverStaff"></label>
                 <input id="cmn-toggle-2" ng-checked="$ctrl.editableMailbox.permitMailing" ng-model="$ctrl.editableMailbox.permitMailing" ng-change="$ctrl.mailingOn()" class="cmn-toggle cmn-toggle-round" type="checkbox">
                 <label class="floatLeft" for="cmn-toggle-2"></label>
+                <span class="mailing-denied-message" translate=""></span>
             </div>
         </div>
         <div class="mailing-info common-domain" ng-if="$ctrl.editableMailbox.corpMail === false && $ctrl.editableMailbox.permitMailing === true">
@@ -80,7 +81,7 @@
             <p translate="This restriction is necessary to ensure that your mailings would not be blocked by the postal services and would not be sent to Spam."></p>
             <p translate="To send more emails per one mailing, use the email address with your corporate domain name."></p>
         </div>
-        <div class="mailing-info corporate-domain" ng-if="$ctrl.editableMailbox.corpMail === true && $ctrl.editableMailbox.permitMailing === true && $ctrl.dkimInfoReceived === true">
+        <div class="mailing-info corporate-domain" ng-if="$ctrl.editableMailbox.corpMail === true && $ctrl.editableMailbox.permitMailing === true && $ctrl.dkimInfoReceived === true && $ctrl.editableMailbox.domainVerified !== true">
             <div class="top-block">
                 <h4>
                     <span translate="You have integrated your corporate email"></span>
@@ -131,9 +132,11 @@
             </div>
             <div class="buttons-block row">
                 <div class="buttons-container col-lg-6">
-                    <span class="dkim-status" translate="DKIM Status" ng-class="{'status-ok': $ctrl.signatures.dkim.status}"></span>
-                    <span class="spf-status" translate="SPF status" ng-class="{'status-ok': $ctrl.signatures.spf.status}"></span>
-                    <button class="check-settings" ng-click="$ctrl.checkDkimStatus()">
+                    <span class="dkim-status" title="{{'Not verified'|translate}}" translate="DKIM Status" ng-if="$ctrl.signatures.dkim.status !== true"></span>
+                    <span class="spf-status" title="{{'Not verified'|translate}}" translate="SPF status" ng-if="$ctrl.signatures.spf.status !== true"></span>
+                    <span class="dkim-status status-ok" title="{{'Verified'|translate}}" translate="DKIM Status" ng-if="$ctrl.signatures.dkim.status === true"></span>
+                    <span class="spf-status status-ok" title="{{'Verified'|translate}}" translate="SPF status" ng-if="$ctrl.signatures.spf.status === true"></span>
+                    <button class="check-settings" ng-click="$ctrl.checkDkimStatus(true)">
                         <span translate="Check settings"></span>
                         <i class="status" ng-class="{'updating': $ctrl.dkimStatusRefreshing === true}"></i>
                     </button>
