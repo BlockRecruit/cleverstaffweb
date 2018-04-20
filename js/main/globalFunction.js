@@ -6,7 +6,8 @@ function deleteUnnecessaryFields(object) {
         delete object.files;
         delete object.interviews;
         delete object.customFields;
-        delete object.level;
+        delete object.fullName;
+        delete object.fullName2;
     }
 }
 function checkAccessLevel($rootScope, $location, Person) {

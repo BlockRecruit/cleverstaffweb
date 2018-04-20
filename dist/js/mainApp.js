@@ -22391,7 +22391,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 candidate.origin = $scope.getOriginAutocompleterValue();
 
                 deleteUnnecessaryFields(candidate);
-                console.log(candidate);
+                console.log( candidate);
                 Candidate.edit(candidate, function(val) {
                     if (angular.equals(val.status, "ok")) {
                         notificationService.success($filter('translate')('Candidate saved'));
@@ -41440,7 +41440,8 @@ function deleteUnnecessaryFields(object) {
         delete object.files;
         delete object.interviews;
         delete object.customFields;
-        delete object.level;
+        delete object.fullName;
+        delete object.fullName2;
     }
 }
 function checkAccessLevel($rootScope, $location, Person) {
