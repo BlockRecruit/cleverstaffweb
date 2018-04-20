@@ -480,7 +480,7 @@ angular.module('RecruitingApp', [
         .when('/invoice', {
             templateUrl: 'partials/invoice.html',
             controller: 'invoiceController',
-            title: "Invoice |",
+            title: "Invoice ",
             pageName: "Invoice generation",
         })
         //.when('/hr-module-info', {
