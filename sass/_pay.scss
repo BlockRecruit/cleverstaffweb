@@ -1,332 +1,410 @@
-.block-pay {
-	& > .row {
-		@include bt-margins-from-side();
+.payment {
+	display: flex;
+	flex-direction: column;
+	padding-top: 55px;
 
-		padding: 0 15px;
-		& > .col-lg-12 {
-			padding: 0;
-			& > h2 {
-				@include bold();
+	align-items: stretch;
+	justify-content: center;
+	flex-wrap: wrap;
+	.wrapper {
+		display: flex;
+		flex-direction: row;
+		margin-right: 0;
+		margin-left: 0;
 
-				font-size: 20px;
+		align-items: stretch;
+		justify-content: center;
+		flex-wrap: wrap;
+		section {
+			width: 49%;
+			padding: 19px 9px;
 
-				margin: 15px 0 15px 15px;
-			}
-			& > p {
-				line-height: 30px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			background-color: #fff;
+			&.payment__acc-info {
+				.info__item {
+					margin-bottom: 10px;
 
-				margin: 0 0 20px 15px;
-				& > span {
-					@include bold();
-				}
-			}
-		}
-		& > .leftBar {
-			margin-bottom: 20px;
-			padding: 0;
-			& > .blockedAccount {
-				@include border-radius();
-
-				margin-bottom: 15px;
-				padding: 15px;
-
-				background-color: $theme-light-red;
-				& > p {
-					& > span {
-						@include bold();
-					}
-				}
-				& > i {
-					position: absolute;
-					top: 0;
-					right: 0;
-
-					margin: 10px;
-
-					cursor: pointer;
-				}
-			}
-			& > .payForMonth {
-				@include border-radius();
-
-				padding: 1px 10px 15px 10px;
-
-				background-color: $theme-white;
-				p {
-					width: 85%;
-					margin-top: 15px;
-					padding: 0 15px;
-				}
-				p ~ p {
-					width: initial;
-					margin-top: 0;
-					padding: 0 15px;
-				}
-				& > .payFor {
-					max-height: 145px;
-					padding: 10px 15px;
-
-					background-color: $theme-light-orange;
-					& > .checkoutSelectOuter {
-						& > .checkoutInner {
-							& > h4 {
-								@include bold();
-							}
-						}
-						& > .checkoutInner {
-							& > .paySelectOuter {
-								width: 25%;
-								min-width: 118px;
-								padding-left: 10px;
-								& > select {
-									@include select-styling();
-									@include border-radius();
-
-									clear: both;
-
-									border-bottom: 1px solid $theme-dark;
-									background-color: $theme-light-orange;
-									&:focus {
-										outline: none;
-									}
-								}
-								& > span {
-									text-transform: capitalize;
-								}
-							}
-						}
-						& > .payButtonOuter {
-							margin-top: 10px;
-							& > span {
-								font-weight: 400;
-							}
-							& > span ~ span {
-								@include bold();
-
-								font-size: 23px;
-
-								margin-left: 5px;
-							}
-						}
-					}
-				}
-				& > .creditCards {
-					margin-top: 15px;
-					padding: 0 15px;
-					& > img {
-						width: 140px;
-					}
-					& > .text-center {
-						margin-top: 10px;
-						.btn {
-							@include button-styling();
-						}
-						.accept {
-							@include button-styling();
-						}
-					}
-					.important-text {
-						font-size: 14px;
-
-						margin: 5px 0;
-						padding: 5px;
-
-						color: #a94442;
-					}
-				}
-			}
-			& > .payHistory {
-				table {
-					tr {
-						td {
-							.paymentStatus {
-								display: inline-block;
-							}
-							.paymentStatus::first-letter {
-								text-transform: uppercase;
-							}
-							.fa-check {
-								color: $theme-dark-green;
-							}
-							.failure {
-								color: $theme-red;
-							}
-							&.delete-icon {
-								i {
-									cursor: pointer;
-
-									opacity: 0;
-								}
-							}
-						}
-						&:hover {
-							.delete-icon {
-								i {
-									opacity: 1;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		.blockPay {
-			float: none;
-			margin: 0 auto;
-		}
-		& > .rightBar {
-			padding: 0 0 0 15px;
-			.balance {
-				padding: 0 15px 15px;
-
-				background-color: $theme-white;
-				h4 {
-					margin: 0 -15px 15px -15px;
-					padding: 15px;
-
-					background-color: $theme-light-green;
-				}
-			}
-			.expenses {
-				margin-top: 15px;
-				margin-bottom: 15px;
-				padding: 0;
-
-				background-color: $theme-white;
-				h4 {
-					margin-top: 0;
-					margin-bottom: 0;
-					padding: 15px;
-
-					background-color: $theme-light-green;
-				}
-				.blue {
-					font-weight: 600;
-
-					color: #0c13e8;
-				}
-				.tooltip-outer {
-					max-width: 220px;
-				}
-			}
-			& > .table {
-				@include border-radius();
-				@include table-styling();
-
-				margin-bottom: 0 !important;
-
-				background-color: $theme-white;
-				& > thead {
-					& > tr {
-						height: 50px;
-						& > th {
-							vertical-align: inherit;
-							&:first-child {
-								border-top-left-radius: 5px;
-							}
-							&:last-child {
-								width: 51px;
-								padding: 0;
-
-								border-top-right-radius: 5px;
-							}
-						}
-					}
-				}
-				& > tbody {
-					& > tr {
-						& > td {
-							& > span {
-								& > i {
-									color: $theme-dark-green;
-								}
-							}
-							&:first-child {
-								@include bold();
-							}
-							&:last-child {
-								color: $theme-dark-green;
-							}
-						}
-					}
-				}
-			}
-		}
-		& > .unlockAllCleverstaff {
-			.blockUnlockAllCleverstaff {
-				@include border-radius();
-
-				padding: 15px;
-
-				background-color: #fff;
-				h3 {
-					@include bold();
-
-					font-size: 20px;
-
-					margin-top: 0;
-					margin-bottom: 25px;
-				}
-				ul {
-					@include bold();
-
-					list-style-type: decimal;
+					border: 1px solid #ccc;
 					span {
-						font-weight: 500;
+						font-family: "Helvetica-Medium";
+						font-size: 19px;
+						line-height: 40px;
+
+						position: relative;
+
+						display: inline-block;
+						height: 40px;
+
+						color: #666;
+						background-color: #f1f1f1;
+						&:after,
+						&:before {
+							position: absolute;
+							left: 100%;
+
+							display: block;
+							width: 0;
+							height: 0;
+
+							content: "";
+
+							border-style: solid;
+						}
+						&:after {
+							top: 0;
+
+							border-width: 20px 0 20px 14px;
+							border-color: transparent transparent transparent #f1f1f1;
+						}
+						&:before {
+							position: absolute;
+							top: -1px;
+							left: calc( 100% + 1px);
+
+							border-width: 21px 0 21px 15px;
+							border-color: transparent transparent transparent #ccc;
+						}
 					}
 				}
-				.boldText {
-					@include bold();
-				}
+			}
+			&:nth-child(odd) {
+				margin-right: 1%;
 			}
 		}
-		& > .mail-us {
-			p:first-child {
-				font-weight: 600;
-
-				margin-bottom: 15px;
-			}
-		}
-		& > .no-amount {
-			padding-left: 80px;
-		}
 	}
 }
 
-.creditCards {
-	#bonuce {
-		font-weight: bold;
-
-		width: 100%;
-		margin: 0 0 7px 0;
-
-		color: #00b549;
-	}
-}
-
-.wrap-table {
-	overflow-y: auto;
-	height: 300px;
-}
-
-.scrollForTbody {
-	width: 100%;
-	margin-bottom: 0 !important;
-	thead {
-		width: 100%;
-	}
-	tbody {
-		display: block;
-		overflow: auto;
-		max-height: 300px;
-	}
-	thead,
-	tbody {
-		tr {
-			display: table;
-			width: 100%;
-
-			table-layout: fixed;
-		}
-	}
-}
+//.block-pay {
+//	& > .row {
+//		@include bt-margins-from-side();
+//
+//		padding: 0 15px;
+//		& > .col-lg-12 {
+//			padding: 0;
+//			& > h2 {
+//				@include bold();
+//
+//				font-size: 20px;
+//
+//				margin: 15px 0 15px 15px;
+//			}
+//			& > p {
+//				line-height: 30px;
+//
+//				margin: 0 0 20px 15px;
+//				& > span {
+//					@include bold();
+//				}
+//			}
+//		}
+//		& > .leftBar {
+//			margin-bottom: 20px;
+//			padding: 0;
+//			& > .blockedAccount {
+//				@include border-radius();
+//
+//				margin-bottom: 15px;
+//				padding: 15px;
+//
+//				background-color: $theme-light-red;
+//				& > p {
+//					& > span {
+//						@include bold();
+//					}
+//				}
+//				& > i {
+//					position: absolute;
+//					top: 0;
+//					right: 0;
+//
+//					margin: 10px;
+//
+//					cursor: pointer;
+//				}
+//			}
+//			& > .payForMonth {
+//				@include border-radius();
+//
+//				padding: 1px 10px 15px 10px;
+//
+//				background-color: $theme-white;
+//				p {
+//					width: 85%;
+//					margin-top: 15px;
+//					padding: 0 15px;
+//				}
+//				p ~ p {
+//					width: initial;
+//					margin-top: 0;
+//					padding: 0 15px;
+//				}
+//				& > .payFor {
+//					max-height: 145px;
+//					padding: 10px 15px;
+//
+//					background-color: $theme-light-orange;
+//					& > .checkoutSelectOuter {
+//						& > .checkoutInner {
+//							& > h4 {
+//								@include bold();
+//							}
+//						}
+//						& > .checkoutInner {
+//							& > .paySelectOuter {
+//								width: 25%;
+//								min-width: 118px;
+//								padding-left: 10px;
+//								& > select {
+//									@include select-styling();
+//									@include border-radius();
+//
+//									clear: both;
+//
+//									border-bottom: 1px solid $theme-dark;
+//									background-color: $theme-light-orange;
+//									&:focus {
+//										outline: none;
+//									}
+//								}
+//								& > span {
+//									text-transform: capitalize;
+//								}
+//							}
+//						}
+//						& > .payButtonOuter {
+//							margin-top: 10px;
+//							& > span {
+//								font-weight: 400;
+//							}
+//							& > span ~ span {
+//								@include bold();
+//
+//								font-size: 23px;
+//
+//								margin-left: 5px;
+//							}
+//						}
+//					}
+//				}
+//				& > .creditCards {
+//					margin-top: 15px;
+//					padding: 0 15px;
+//					& > img {
+//						width: 140px;
+//					}
+//					& > .text-center {
+//						margin-top: 10px;
+//						.btn {
+//							@include button-styling();
+//						}
+//						.accept {
+//							@include button-styling();
+//						}
+//					}
+//					.important-text {
+//						font-size: 14px;
+//
+//						margin: 5px 0;
+//						padding: 5px;
+//
+//						color: #a94442;
+//					}
+//				}
+//			}
+//			& > .payHistory {
+//				table {
+//					tr {
+//						td {
+//							.paymentStatus {
+//								display: inline-block;
+//							}
+//							.paymentStatus::first-letter {
+//								text-transform: uppercase;
+//							}
+//							.fa-check {
+//								color: $theme-dark-green;
+//							}
+//							.failure {
+//								color: $theme-red;
+//							}
+//							&.delete-icon {
+//								i {
+//									cursor: pointer;
+//
+//									opacity: 0;
+//								}
+//							}
+//						}
+//						&:hover {
+//							.delete-icon {
+//								i {
+//									opacity: 1;
+//								}
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//		.blockPay {
+//			float: none;
+//			margin: 0 auto;
+//		}
+//		& > .rightBar {
+//			padding: 0 0 0 15px;
+//			.balance {
+//				padding: 0 15px 15px;
+//
+//				background-color: $theme-white;
+//				h4 {
+//					margin: 0 -15px 15px -15px;
+//					padding: 15px;
+//
+//					background-color: $theme-light-green;
+//				}
+//			}
+//			.expenses {
+//				margin-top: 15px;
+//				margin-bottom: 15px;
+//				padding: 0;
+//
+//				background-color: $theme-white;
+//				h4 {
+//					margin-top: 0;
+//					margin-bottom: 0;
+//					padding: 15px;
+//
+//					background-color: $theme-light-green;
+//				}
+//				.blue {
+//					font-weight: 600;
+//
+//					color: #0c13e8;
+//				}
+//				.tooltip-outer {
+//					max-width: 220px;
+//				}
+//			}
+//			& > .table {
+//				@include border-radius();
+//				@include table-styling();
+//
+//				margin-bottom: 0 !important;
+//
+//				background-color: $theme-white;
+//				& > thead {
+//					& > tr {
+//						height: 50px;
+//						& > th {
+//							vertical-align: inherit;
+//							&:first-child {
+//								border-top-left-radius: 5px;
+//							}
+//							&:last-child {
+//								width: 51px;
+//								padding: 0;
+//
+//								border-top-right-radius: 5px;
+//							}
+//						}
+//					}
+//				}
+//				& > tbody {
+//					& > tr {
+//						& > td {
+//							& > span {
+//								& > i {
+//									color: $theme-dark-green;
+//								}
+//							}
+//							&:first-child {
+//								@include bold();
+//							}
+//							&:last-child {
+//								color: $theme-dark-green;
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//		& > .unlockAllCleverstaff {
+//			.blockUnlockAllCleverstaff {
+//				@include border-radius();
+//
+//				padding: 15px;
+//
+//				background-color: #fff;
+//				h3 {
+//					@include bold();
+//
+//					font-size: 20px;
+//
+//					margin-top: 0;
+//					margin-bottom: 25px;
+//				}
+//				ul {
+//					@include bold();
+//
+//					list-style-type: decimal;
+//					span {
+//						font-weight: 500;
+//					}
+//				}
+//				.boldText {
+//					@include bold();
+//				}
+//			}
+//		}
+//		& > .mail-us {
+//			p:first-child {
+//				font-weight: 600;
+//
+//				margin-bottom: 15px;
+//			}
+//		}
+//		& > .no-amount {
+//			padding-left: 80px;
+//		}
+//	}
+//}
+//
+//.creditCards {
+//	#bonuce {
+//		font-weight: bold;
+//
+//		width: 100%;
+//		margin: 0 0 7px 0;
+//
+//		color: #00b549;
+//	}
+//}
+//
+//.wrap-table {
+//	overflow-y: auto;
+//	height: 300px;
+//}
+//
+//.scrollForTbody {
+//	width: 100%;
+//	margin-bottom: 0 !important;
+//	thead {
+//		width: 100%;
+//	}
+//	tbody {
+//		display: block;
+//		overflow: auto;
+//		max-height: 300px;
+//	}
+//	thead,
+//	tbody {
+//		tr {
+//			display: table;
+//			width: 100%;
+//
+//			table-layout: fixed;
+//		}
+//	}
+//}
