@@ -97,13 +97,17 @@
 .form-gr .terms {
     display: inline-block;
     vertical-align: middle;
-    max-width: 90%;
+    max-width: 100%;
     margin: 10px 0 0 3px;
     text-align: left;
     font-size: 13.2px;
 }
 .form-gr .terms.social {
 	margin-top: 0;
+}
+label.social input {
+    position: relative;
+    top: 2px;
 }
 .form-gr select{
     border: 1px solid #E5E5E6;
