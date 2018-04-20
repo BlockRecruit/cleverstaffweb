@@ -2698,6 +2698,7 @@ directive('appVersion', ['version', function(version) {
                         });
                         $('#download').on('click', function () {
                             if(canvasImg.width > 200 && canvasImg.height > 200){
+                                $rootScope.loading = true;
                                 Vacancy.uploadPromoLogo($scope.dataUrl).then(function (data) {
                                     $scope.callbackAddPromoLogo(data.data.object);
                                     $('#company-logo').show();
@@ -2707,8 +2708,10 @@ directive('appVersion', ['version', function(version) {
                                     $("#the-file-input").val('');
                                     $("#crop-block").find('img').show();
                                     $('#logo-button').show();
+                                    $rootScope.loading = false;
                                     notificationService.success($filter('translate')('picture_was_added') + ' ' + $rootScope.vacancy.position + ' ' + $filter('translate')('was_added_vacancy_picture'));
                                 }, function (error) {
+                                    $rootScope.loading = false;
                                     notificationService.error(error.data.message);
                                 });
                                 $scope.closeModalCrop();
