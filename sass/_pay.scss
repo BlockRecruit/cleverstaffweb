@@ -106,26 +106,37 @@
 				}
 				img.security {
 					position: absolute;
-					top: 17px;
+					top: 12px;
 					right: 9px;
 				}
 				.pay__data {
+					padding: 18px 10px 4px 10px;
+
+					border: 1px solid #ccc;
+					border-radius: 5px;
 					table {
 						width: 100%;
+						& > tr {
+							border-bottom: 1px solid #ccc;
+						}
 						tr {
 							th {
 								font-family: "Helvetica-Light";
 
 								color: #666;
-								&:last-child {
-									text-align: right;
-								}
+								//&:last-child {
+								//	text-align: right;
+								//}
 							}
 							td {
 								.wrap {
 									display: flex;
 									flex-direction: row;
 									height: 60px;
+									margin-top: 10px;
+
+									border-top: 1px solid #ccc;
+									border-bottom: 1px solid #ccc;
 
 									align-items: center;
 									justify-content: flex-start;
@@ -141,17 +152,81 @@
 
 											color: #00b549;
 											border: 1px solid #00b549;
+											border-radius: 5px;
+										}
+										&.total {
+											font-family: "Helvetica-Bold";
+											font-size: 16px;
+
+											color: #666;
 										}
 									}
 								}
-								&:last-child {
-									.wrap {
-										justify-content: flex-end;
-									}
-								}
+								//&:last-child {
+								//	.wrap {
+								//		justify-content: flex-end;
+								//	}
+								//}
 							}
 						}
 					}
+				}
+				.pay__types {
+					display: flex;
+					flex-direction: row;
+					margin-top: 25px;
+
+					align-items: center;
+					justify-content: space-around;
+					.pay__type {
+						display: flex;
+						flex-direction: row;
+						min-width: 290px;
+						height: 55px;
+
+						align-items: center;
+						justify-content: space-around;
+						span {
+							font-family: "Helvetica-Bold";
+
+							display: block;
+							width: 100%;
+							height: 55px;
+							padding: 18px 50px;
+
+							text-align: center;
+							letter-spacing: 0.6px;
+							text-transform: uppercase;
+
+							color: #fff;
+							border-radius: 5px 0 0 5px;
+							background-color: #00b549;
+						}
+						.type__image {
+							padding: 7px 0;
+
+							border: 1px solid #00b549;
+							border-radius: 0 5px 5px 0;
+							img {
+								display: block;
+								width: auto;
+								height: 39px;
+							}
+						}
+						&:first-child {
+							margin-right: 20px;
+						}
+					}
+				}
+				.total-info {
+					font-family: "Helvetica-Regular";
+
+					display: block;
+					margin-top: 2px;
+
+					text-align: right;
+
+					color: #00b549;
 				}
 			}
 			&:nth-child(odd) {
