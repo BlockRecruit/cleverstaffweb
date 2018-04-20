@@ -92,6 +92,13 @@
 							width: 15%;
 							max-width: 200px;
 						}
+						span.currency {
+							font-weight: bold;
+
+							width: 100px;
+							min-width: 80px;
+							margin-left: auto;
+						}
 					}
 					td,
 					th {
@@ -190,6 +197,11 @@
 						input::placeholder {
 							color: #999;
 						}
+						&.error {
+							.error_message {
+								color: #f30909;
+							}
+						}
 					}
 				}
 			}
@@ -203,5 +215,9 @@
 				}
 			}
 		}
+	}
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
 	}
 }

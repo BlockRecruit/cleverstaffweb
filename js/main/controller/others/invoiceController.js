@@ -113,7 +113,7 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
                 $scope.accountInfo = accountInfo.object;
 
                 $scope.currenciesMonthRates = Invoice.getCurrenciesMonthRates(currencyExchangeRates, accountInfo.object.monthRate);
-                $scope.currencies = ['UAH', 'RUR', 'EUR', 'USD'];
+                $scope.currencies = ['UAH', 'RUB', 'EUR', 'USD'];
                 $scope.months = ['1','2','3','4','5','6','7','8','9','10','11','12'];
 
                 setUsers(allPersons.object);

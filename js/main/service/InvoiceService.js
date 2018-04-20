@@ -21,7 +21,7 @@ angular.module('services.invoice', [
             }
         });
 
-    invoice.getCurrenciesSigns = () => ({ EUR: '€',  USD: '$', UAH : '₴', RUR: '₽'});
+    invoice.getCurrenciesSigns = () => ({ EUR: '€',  USD: '$', UAH : '₴', RUB: '₽'});
 
     invoice.getInvoice = function(params) {
         return new Promise((resolve, reject) => {
@@ -64,7 +64,6 @@ angular.module('services.invoice', [
             monthRates[value.cc] = (USDrate * currencies['USD'].rate) / value.rate ;
         });
 
-        monthRates['RUR'] = monthRates['RUB'];
         return monthRates;
     };
 
@@ -80,7 +79,6 @@ angular.module('services.invoice', [
         }
 
         currencies['UAH'] = { cc: 'UAH', rate: currencies['USD'].rate / currencies['USD'].rate};
-        currencies['RUR'] = currencies['RUB'];
 
         return currencies;
     }
