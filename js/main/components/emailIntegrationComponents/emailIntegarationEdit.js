@@ -104,7 +104,6 @@ ${vm.signatures.dmarc.value}`;
 
 
         function mailingPermitDenied() {
-            notificationService.error("spf dkim not set");
             vm.mailingPermitDenied = true;
         }
 

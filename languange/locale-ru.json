@@ -3132,5 +3132,7 @@
   "Settings have been saved": "Настройки сохранены",
   "Not verified": "Не верифицированно",
   "Verified": "Верифицированно",
-  "Statuses are updated": "Статусы обновлены"
+  "Statuses are updated": "Статусы обновлены",
+  "Please update your domain name settings to send mailings from CleverStaff": "Пожалуйста обновите настройки доменного имени для того чтобы отправлять рассылки с CleverStaff",
+  "Thank you for your domain name update. Now you can use the mailing tool": "Спасибо за обновление своего доменного адреса. Теперь вы можете использовать рассылочный интерфейс"
 }

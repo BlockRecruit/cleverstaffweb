@@ -5,23 +5,7 @@ component.component('mailingEditor', {
         $scope.senderEmail = {};
         let emailDetails = Mailing.getMailingDetails();
 
-        Mailing.getUserEmailsWithMailingEnabled().then((mailBoxes) => {
-            $timeout(()=>{
-                $scope.senderEmail.mailBoxes = mailBoxes;
-                if(emailDetails && emailDetails.fromMail) {
-                    $scope.senderEmail.selectedMailBox = emailDetails.fromMail;
-                } else {
-                    if($scope.senderEmail.mailBoxes && $scope.senderEmail.mailBoxes.length > 0) {
-                        $scope.senderEmail.selectedMailBox = $scope.senderEmail.mailBoxes[0]
-                    }
-                }
-            },0);
-            console.log('availableEmails',$scope.senderEmail.mailBoxes)
-        }, (error) => {
-            console.log('Error in getUserEmailsWithMailingEnabled: ',error);
-            notificationService.error($filter('translate')('service temporarily unvailable'));
-        });
-
+        getMailBoxes();
 
         if(emailDetails) {
             $scope.emailText = emailDetails.text?emailDetails.text:"";
@@ -105,6 +89,26 @@ component.component('mailingEditor', {
                     notificationService.error($filter('translate')('Enter the text of the letter'))
                 }
             }
+        }
+
+
+        function getMailBoxes() {
+            Mailing.getUserEmailsWithMailingEnabled().then((mailBoxes) => {
+                $timeout(()=>{
+                    $scope.senderEmail.mailBoxes = mailBoxes;
+                    if(emailDetails && emailDetails.fromMail) {
+                        $scope.senderEmail.selectedMailBox = emailDetails.fromMail;
+                    } else {
+                        if($scope.senderEmail.mailBoxes && $scope.senderEmail.mailBoxes.length > 0) {
+                            $scope.senderEmail.selectedMailBox = $scope.senderEmail.mailBoxes[0]
+                        }
+                    }
+                },0);
+                console.log('availableEmails',$scope.senderEmail.mailBoxes)
+            }, (error) => {
+                console.log('Error in getUserEmailsWithMailingEnabled: ',error);
+                notificationService.error($filter('translate')('service temporarily unvailable'));
+            });
         }
 
 

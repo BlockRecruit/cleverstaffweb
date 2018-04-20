@@ -949,7 +949,8 @@ angular.module('services.mailing',[]
             Person.personEmails({"type": "all"},(resp)=> {
                 if(resp.status !== 'error' && resp.objects) {
                     for(let i = 0; i < resp.objects.length; i++) {
-                        mailBoxes.push(resp.objects[i].email);
+                        if(resp.objects[i].permitMailing)
+                            mailBoxes.push(resp.objects[i].email);
                     }
                     resolve(mailBoxes);
                 } else {

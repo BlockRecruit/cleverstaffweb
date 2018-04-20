@@ -69,7 +69,7 @@
                 <label for="cmn-toggle-2" class="floatLeft" translate="Send mailings from CleverStaff"></label>
                 <input id="cmn-toggle-2" ng-checked="$ctrl.editableMailbox.permitMailing" ng-model="$ctrl.editableMailbox.permitMailing" ng-change="$ctrl.mailingOn()" class="cmn-toggle cmn-toggle-round" type="checkbox">
                 <label class="floatLeft" for="cmn-toggle-2"></label>
-                <span class="mailing-denied-message" translate=""></span>
+                <span class="mailing-denied-message" translate="Please update your domain name settings to send mailings from CleverStaff"></span>
             </div>
         </div>
         <div class="mailing-info common-domain" ng-if="$ctrl.editableMailbox.corpMail === false && $ctrl.editableMailbox.permitMailing === true">
@@ -141,6 +141,7 @@
                         <i class="status" ng-class="{'updating': $ctrl.dkimStatusRefreshing === true}"></i>
                     </button>
                 </div>
+                <div class="success-verification-message col-lg-12" ng-if="$ctrl.signatures.dkim.status !== true && $ctrl.signatures.spf.status === true" translate="Thank you for your domain name update. Now you can use the mailing tool"></div>
             </div>
         </div>
         <div class="bottom-buttons text-center">
