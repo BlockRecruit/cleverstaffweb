@@ -10,7 +10,10 @@
                 <div class="col-lg-5 field-titles text-left" translate="Sender name and email"></div>
                 <div class="col-lg-7 text-left" >
                     <span ng-bind="::mailingParams.fromName"></span>
-                    <<span ng-bind="::mailingParams.fromMail" title="{{::mailingParams.fromMail}}"></span>>
+                    <span style="display: flex">
+                        <<span ng-bind="::mailingParams.fromMail" title="{{::mailingParams.fromMail}}" class="from-mail"></span>>
+                    </span>
+
                 </div>
             </div>
             <div class="row">

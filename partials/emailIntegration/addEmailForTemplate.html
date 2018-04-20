@@ -30,6 +30,13 @@
                                         <span ng-show="!email.permitSend" class="no">{{'no'|translate}}</span>
                                     </span>
                             </div>
+                            <div>
+                                    <span>
+                                        {{'Ability to use the mailing tool'|translate}} -
+                                        <span ng-show="email.permitMailing" class="yes">{{'yes'|translate}}</span>
+                                        <span ng-show="!email.permitMailing" class="no">{{'no'|translate}}</span>
+                                    </span>
+                            </div>
                             <div class="error" ng-if="email.status === 'incorrect_password'">{{'incorrect_password_integration'| translate}}</div>
                         </td>
                         <td class="howMuchResumes">

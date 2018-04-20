@@ -528,6 +528,12 @@
 			button {
 				margin-right: 25px;
 			}
+			.from-mail {
+				display: inline-block;
+				overflow: hidden;
+
+				text-overflow: ellipsis;
+			}
 			.recipients {
 				margin-right: 15px;
 				padding: 15px;
