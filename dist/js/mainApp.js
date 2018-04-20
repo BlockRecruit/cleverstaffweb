@@ -11838,6 +11838,23 @@ angular.module('services.mailing',[]
     };
 
 
+    service.getMailboxFromIntegrated = function(email, emails) {
+        let mailbox = false;
+        let allEmails = emails?emails:service.integratedMailBoxes;
+        if(email && allEmails) {
+            allEmails.some(oneMailBox =>{
+                if(oneMailBox.email == email) {
+                    mailbox = oneMailBox;
+                    return true
+                } else {
+                    return false
+                }
+            });
+        }
+        return mailbox
+    };
+
+
     service.checkDkimSettings = function(mailBox) {
         return new $q((resolve,reject) => {
             service.getDkim({"email": mailBox},(resp) => {
@@ -12642,15 +12659,42 @@ angular.module('services.mailing',[]
         }
     };
 
-
-    service.getUserEmailsWithMailingEnabled = function () {
+    service.getIntegratedMailBoxes = function() {
         let mailBoxes = [];
-        return new Promise((resolve, reject) => {
+        return new $q((resolve, reject) => {
             Person.personEmails({"type": "all"},(resp)=> {
                 if(resp.status !== 'error' && resp.objects) {
                     for(let i = 0; i < resp.objects.length; i++) {
-                        if(resp.objects[i].permitMailing)
+                        if(resp.objects[i].permitMailing) {
+                            mailBoxes.push(resp.objects[i]);
+                        }
+                    }
+                    resolve(mailBoxes);
+                } else {
+                    notificationService.error(resp.message);
+                    reject(resp.code);
+                }
+            }, (error)=> {
+                reject();
+            });
+        });
+    };
+
+
+    service.integratedMailBoxes = [];
+
+
+    service.getUserEmailsWithMailingEnabled = function () {
+        let mailBoxes = [];
+        service.integratedMailBoxes = [];
+        return new $q((resolve, reject) => {
+            Person.personEmails({"type": "all"},(resp)=> {
+                if(resp.status !== 'error' && resp.objects) {
+                    for(let i = 0; i < resp.objects.length; i++) {
+                        if(resp.objects[i].permitMailing) {
+                            service.integratedMailBoxes.push(resp.objects[i]);
                             mailBoxes.push(resp.objects[i].email);
+                        }
                     }
                     resolve(mailBoxes);
                 } else {
@@ -48013,7 +48057,7 @@ component.component('mailingEditor', {
                 $('.required').each(function () {
                     let element = $(this);
                     element.removeClass('empty');
-                    if(element[0].value.length == 0) {
+                    if(element[0].value && ( element[0].value.trim().length == 0 || (element[0].id === "mailbox" && element[0].value === "?"))) {
                         element.addClass('empty');
                         notValid = true;
                     }
@@ -48026,15 +48070,19 @@ component.component('mailingEditor', {
             } else {
                 $rootScope.loader = true;
                 if(step === "details" || $scope.emailText) {
-                    Mailing.editorChangeStep($scope.emailText, $scope.topic, $scope.fromName, $scope.senderEmail.selectedMailBox, step).then(results => {
-                        $rootScope.loader = false;
-                        if(step == 'save') {
-                            Mailing.afterSending();
-                        }
-                    }, error => {
-                        $rootScope.loader = false;
-                        console.log('error in $scope.toDetails', error)
-                    });
+                    if(Mailing.getMailboxFromIntegrated($scope.senderEmail.selectedMailBox) !== false) {
+                        Mailing.editorChangeStep($scope.emailText, $scope.topic, $scope.fromName, $scope.senderEmail.selectedMailBox, step).then(results => {
+                            $rootScope.loader = false;
+                            if(step == 'save') {
+                                Mailing.afterSending();
+                            }
+                        }, error => {
+                            $rootScope.loader = false;
+                            console.log('error in $scope.toDetails', error)
+                        });
+                    } else {
+                        notificationService.error($filter('translate')('Please select an email that is integrated into the system'))
+                    }
                 } else {
                     notificationService.error($filter('translate')('Enter the text of the letter'))
                 }
@@ -48108,10 +48156,19 @@ component.component('mailingPreview', {
 
 
         $scope.sendMailing = function () {
-            Promise.all([
-                Mailing.getCompaignPrice({ compaignId: $scope.mailingParams.compaignId}),
-                getAccountInfo(),
-                getFreeMailCount(),
+            Mailing.getIntegratedMailBoxes().then(resp => {
+                let fullMailbox = Mailing.getMailboxFromIntegrated($scope.mailingParams.fromMail, resp);
+                if(fullMailbox && (fullMailbox.corpMail)){
+                    openModal();
+                } else if(fullMailbox && (!fullMailbox.corpMail && $scope.candidatesForMailing.length > 50)){
+                    notificationService.error($filter('translate')("Since you've connected the email with the domain") + fullMailbox.domain + $filter('translate')("you can send up to 50 emails at a time. Please, decrease the number of recipients in this mailing or integrate the corporate email address with your corporate domain"))
+                }
+            }, error => {});
+            function openModal() {
+                Promise.all([
+                    Mailing.getCompaignPrice({ compaignId: $scope.mailingParams.compaignId}),
+                    getAccountInfo(),
+                    getFreeMailCount(),
                 ]).then(([compaignPrice, accountInfo, getMe]) => {
                     $scope.sendMailingParams = {
                         accountBalance: accountInfo.object.amount,
@@ -48128,6 +48185,7 @@ component.component('mailingPreview', {
                     openMailingModal();
                     $scope.$apply();
                 }, error => notificationService.error(error));
+            }
         };
 
 

@@ -3135,5 +3135,8 @@
   "Statuses are updated": "Статусы обновлены",
   "Please update your domain name settings to send mailings from CleverStaff": "Пожалуйста обновите настройки доменного имени для того чтобы отправлять рассылки с CleverStaff",
   "Thank you for your domain name update. Now you can use the mailing tool": "Спасибо за обновление своего доменного адреса. Теперь вы можете использовать рассылочный интерфейс",
-  "Ability to use the mailing tool": "Возможность использовать рассылочный сервис"
+  "Ability to use the mailing tool": "Возможность использовать рассылочный сервис",
+  "Please select an email that is integrated into the system": "Пожалуйста выберите email, который интегрирован в CleverStaff",
+  "Since you've connected the email with the domain": "Так как вы подключили email с доменом ",
+  "you can send up to 50 emails at a time. Please, decrease the number of recipients in this mailing or integrate the corporate email address with your corporate domain": ", вы можете отправлять рассылки до 50 писем за раз. Уменьшите количество адресатов в данной рассылке или подключите корпоративный почтовый адрес с корпоративным доменом"
 }

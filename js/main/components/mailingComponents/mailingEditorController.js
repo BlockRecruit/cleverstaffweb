@@ -63,7 +63,7 @@ component.component('mailingEditor', {
                 $('.required').each(function () {
                     let element = $(this);
                     element.removeClass('empty');
-                    if(element[0].value.length == 0) {
+                    if(element[0].value && ( element[0].value.trim().length == 0 || (element[0].id === "mailbox" && element[0].value === "?"))) {
                         element.addClass('empty');
                         notValid = true;
                     }
@@ -76,15 +76,19 @@ component.component('mailingEditor', {
             } else {
                 $rootScope.loader = true;
                 if(step === "details" || $scope.emailText) {
-                    Mailing.editorChangeStep($scope.emailText, $scope.topic, $scope.fromName, $scope.senderEmail.selectedMailBox, step).then(results => {
-                        $rootScope.loader = false;
-                        if(step == 'save') {
-                            Mailing.afterSending();
-                        }
-                    }, error => {
-                        $rootScope.loader = false;
-                        console.log('error in $scope.toDetails', error)
-                    });
+                    if(Mailing.getMailboxFromIntegrated($scope.senderEmail.selectedMailBox) !== false) {
+                        Mailing.editorChangeStep($scope.emailText, $scope.topic, $scope.fromName, $scope.senderEmail.selectedMailBox, step).then(results => {
+                            $rootScope.loader = false;
+                            if(step == 'save') {
+                                Mailing.afterSending();
+                            }
+                        }, error => {
+                            $rootScope.loader = false;
+                            console.log('error in $scope.toDetails', error)
+                        });
+                    } else {
+                        notificationService.error($filter('translate')('Please select an email that is integrated into the system'))
+                    }
                 } else {
                     notificationService.error($filter('translate')('Enter the text of the letter'))
                 }

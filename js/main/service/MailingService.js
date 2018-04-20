@@ -138,6 +138,23 @@ angular.module('services.mailing',[]
     };
 
 
+    service.getMailboxFromIntegrated = function(email, emails) {
+        let mailbox = false;
+        let allEmails = emails?emails:service.integratedMailBoxes;
+        if(email && allEmails) {
+            allEmails.some(oneMailBox =>{
+                if(oneMailBox.email == email) {
+                    mailbox = oneMailBox;
+                    return true
+                } else {
+                    return false
+                }
+            });
+        }
+        return mailbox
+    };
+
+
     service.checkDkimSettings = function(mailBox) {
         return new $q((resolve,reject) => {
             service.getDkim({"email": mailBox},(resp) => {
@@ -942,15 +959,42 @@ angular.module('services.mailing',[]
         }
     };
 
-
-    service.getUserEmailsWithMailingEnabled = function () {
+    service.getIntegratedMailBoxes = function() {
         let mailBoxes = [];
-        return new Promise((resolve, reject) => {
+        return new $q((resolve, reject) => {
             Person.personEmails({"type": "all"},(resp)=> {
                 if(resp.status !== 'error' && resp.objects) {
                     for(let i = 0; i < resp.objects.length; i++) {
-                        if(resp.objects[i].permitMailing)
+                        if(resp.objects[i].permitMailing) {
+                            mailBoxes.push(resp.objects[i]);
+                        }
+                    }
+                    resolve(mailBoxes);
+                } else {
+                    notificationService.error(resp.message);
+                    reject(resp.code);
+                }
+            }, (error)=> {
+                reject();
+            });
+        });
+    };
+
+
+    service.integratedMailBoxes = [];
+
+
+    service.getUserEmailsWithMailingEnabled = function () {
+        let mailBoxes = [];
+        service.integratedMailBoxes = [];
+        return new $q((resolve, reject) => {
+            Person.personEmails({"type": "all"},(resp)=> {
+                if(resp.status !== 'error' && resp.objects) {
+                    for(let i = 0; i < resp.objects.length; i++) {
+                        if(resp.objects[i].permitMailing) {
+                            service.integratedMailBoxes.push(resp.objects[i]);
                             mailBoxes.push(resp.objects[i].email);
+                        }
                     }
                     resolve(mailBoxes);
                 } else {

@@ -35,10 +35,19 @@ component.component('mailingPreview', {
 
 
         $scope.sendMailing = function () {
-            Promise.all([
-                Mailing.getCompaignPrice({ compaignId: $scope.mailingParams.compaignId}),
-                getAccountInfo(),
-                getFreeMailCount(),
+            Mailing.getIntegratedMailBoxes().then(resp => {
+                let fullMailbox = Mailing.getMailboxFromIntegrated($scope.mailingParams.fromMail, resp);
+                if(fullMailbox && (fullMailbox.corpMail)){
+                    openModal();
+                } else if(fullMailbox && (!fullMailbox.corpMail && $scope.candidatesForMailing.length > 50)){
+                    notificationService.error($filter('translate')("Since you've connected the email with the domain") + fullMailbox.domain + $filter('translate')("you can send up to 50 emails at a time. Please, decrease the number of recipients in this mailing or integrate the corporate email address with your corporate domain"))
+                }
+            }, error => {});
+            function openModal() {
+                Promise.all([
+                    Mailing.getCompaignPrice({ compaignId: $scope.mailingParams.compaignId}),
+                    getAccountInfo(),
+                    getFreeMailCount(),
                 ]).then(([compaignPrice, accountInfo, getMe]) => {
                     $scope.sendMailingParams = {
                         accountBalance: accountInfo.object.amount,
@@ -55,6 +64,7 @@ component.component('mailingPreview', {
                     openMailingModal();
                     $scope.$apply();
                 }, error => notificationService.error(error));
+            }
         };
 
 
