@@ -3,20 +3,73 @@
 
         <section class="payment__acc-info">
             <div class="info__item">
-                <span translate="Your account balance"></span>
+                <span translate="Your account balance" class="into__title"></span>
+                <span class="info__value">6874 USD</span>
             </div>
             <div class="info__item">
-                <span translate="Your account is active before"></span>
+                <span translate="Your account is active before" class="into__title"></span>
+                <span class="info__value">8 Марта 2018</span>
             </div>
             <div class="info__item">
-                <span translate="Paid users amount"></span>
+                <span translate="Paid users amount" class="into__title"></span>
+                <span class="info__value">8 Марта 2018</span>
             </div>
             <div class="info__item">
-                <span translate="Current tarrif"></span>
+                <span translate="Current tarrif" class="into__title"></span>
+                <span class="info__value">6874 USD</span>
             </div>
         </section>
 
-        <section class="payment__pay"></section>
+        <section class="payment__pay">
+            <div class="section__intro">
+                <h4 class="intro__title" translate="Pay for cleverstaff usage"></h4>
+                <p class="intro__descr">Получите бонус 10% при оплате более 4 месяцев и 20% при оплате</p>
+            </div>
+            <div class="pay__data">
+                <table>
+                    <thead>
+                        <tr>
+                            <th translate="Users"></th>
+                            <th translate="Months"></th>
+                            <th translate="Bonus"></th>
+                            <th translate="Total"></th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>
+                            <div class="wrap">
+                                <select name="users">
+                                    <option value="" selected="selected">1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="wrap">
+                                <select name="months">
+                                    <option value="" selected="selected">1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="wrap">
+                                <span class="bonus">10%</span>
+                                <img src="/images/sprite/gift.png">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="wrap">
+                                <span class="total">5700 USD</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <img class="security" src="/images/sprite/ssl-secured.png">
+        </section>
 
         <section class="payment__history"></section>
 

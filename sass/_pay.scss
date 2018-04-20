@@ -16,6 +16,8 @@
 		justify-content: center;
 		flex-wrap: wrap;
 		section {
+			position: relative;
+
 			width: 49%;
 			padding: 19px 9px;
 
@@ -24,9 +26,15 @@
 			background-color: #fff;
 			&.payment__acc-info {
 				.info__item {
+					display: flex;
+					flex-direction: row;
 					margin-bottom: 10px;
 
 					border: 1px solid #ccc;
+					border-radius: 5px;
+
+					justify-content: space-between;
+					align-items: center;
 					span {
 						font-family: "Helvetica-Medium";
 						font-size: 19px;
@@ -38,33 +46,110 @@
 						height: 40px;
 
 						color: #666;
-						background-color: #f1f1f1;
-						&:after,
-						&:before {
-							position: absolute;
-							left: 100%;
-
-							display: block;
-							width: 0;
-							height: 0;
-
-							content: "";
-
-							border-style: solid;
+						&.info__value {
+							padding-right: 10px;
 						}
-						&:after {
-							top: 0;
+						&.into__title {
+							padding-left: 10px;
 
-							border-width: 20px 0 20px 14px;
-							border-color: transparent transparent transparent #f1f1f1;
+							border-radius: 3px 0 0 3px;
+							background-color: #f1f1f1;
+							&:after,
+							&:before {
+								position: absolute;
+								left: 100%;
+
+								display: block;
+								width: 0;
+								height: 0;
+
+								content: "";
+
+								border-style: solid;
+							}
+							&:after {
+								top: 0;
+
+								border-width: 20px 0 20px 14px;
+								border-color: transparent transparent transparent #f1f1f1;
+							}
+							&:before {
+								position: absolute;
+								top: -1px;
+								left: calc( 100% + 0.4px);
+
+								border-width: 21px 0 21px 15px;
+								border-color: transparent transparent transparent #ccc;
+							}
 						}
-						&:before {
-							position: absolute;
-							top: -1px;
-							left: calc( 100% + 1px);
+					}
+				}
+			}
+			&.payment__pay {
+				border: 1px solid #00b549;
+				.section__intro {
+					position: relative;
 
-							border-width: 21px 0 21px 15px;
-							border-color: transparent transparent transparent #ccc;
+					display: flex;
+					flex-direction: column;
+
+					align-items: flex-start;
+					justify-content: center;
+					.intro__title {
+						font-family: "Helvetica-Medium";
+
+						margin: 0 0 25px 0;
+					}
+					.intro__descr {
+						font-family: "Helvetica-Light";
+					}
+				}
+				img.security {
+					position: absolute;
+					top: 17px;
+					right: 9px;
+				}
+				.pay__data {
+					table {
+						width: 100%;
+						tr {
+							th {
+								font-family: "Helvetica-Light";
+
+								color: #666;
+								&:last-child {
+									text-align: right;
+								}
+							}
+							td {
+								.wrap {
+									display: flex;
+									flex-direction: row;
+									height: 60px;
+
+									align-items: center;
+									justify-content: flex-start;
+									select {
+										width: 90px;
+									}
+									span {
+										&.bonus {
+											font-family: "Helvetica-Bold";
+
+											margin-right: 5px;
+											padding: 5px 14px;
+
+											color: #00b549;
+											border: 1px solid #00b549;
+										}
+									}
+								}
+								&:last-child {
+									.wrap {
+										justify-content: flex-end;
+									}
+								}
+							}
 						}
 					}
 				}
