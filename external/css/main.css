@@ -28,6 +28,30 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Legal Potok';
+    src: url('../fonts/shrift_website/LegalLTStd-Medium(POTOK).otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Rounded FriendWork';
+    src: url('../fonts/shrift_website/DINNextRoundedLTPro-Regular(FriendWork).otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'G-type Persia';
+    src: url('../fonts/shrift_website/G-Type%20-%20ChevinPro-ExtraBold(PERSIA).otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Marmelad E-staff';
+    src: url('../fonts/shrift_website/Marmelad-Regular(E-staff).ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 div {
     box-sizing:border-box;
@@ -2584,8 +2608,20 @@ select.webkit-fix {
 #home .potok-tittle h1 .padding-left {
     padding-left: 35px;
 }
-#home .potok-tittle h1 img{
-    margin-top: -10px;
+/*#home .potok-tittle h1 img{*/
+    /*margin-top: -10px;*/
+/*}*/
+#home .potok-tittle h1 .logo-potok{
+    font-family: 'Legal Potok';
+    color: #00C7FE;
+    background: linear-gradient(to top right, #00C7FE 0%, #00F3D3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 56px;
+}
+#home .potok-tittle h1 .logo-friendwork{
+    font-family: 'Rounded FriendWork';
+    color: #00C0E8;
 }
 #home .potok-tittle h1 .question-potok:after{
     content: '?';
@@ -2606,7 +2642,8 @@ select.webkit-fix {
     font-family: 'Helv-3-Light';
     font-size: 30px;
     letter-spacing: 2px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    margin-top: 0;
     font-weight: 600;
 }
 #block_2 .key-differences .titleTable td:first-child{
@@ -2893,18 +2930,18 @@ select.webkit-fix {
 #block_3 .main-advantages .bigMarginTop{
     margin-top: 95px;
 }
-#block_3 .main-advantages p{
+#block_3 .main-advantages h3{
     margin: 10px 0;
-    font-size: 20px;
+    /*font-size: 20px;*/
     color: rgb(51, 51, 51);
     letter-spacing: 1px;
 }
 #block_3 .main-advantages .advantagesCs{
     margin-top: 40px;
 }
-#block_3 .main-advantages .advantagesCs h2{
+#block_3 .main-advantages .advantagesCs h3{
     font-family: 'Helv-3-Light';
-    font-size: 20px;
+    /*font-size: 18px;*/
     color: rgb(153, 153, 153);
     margin-bottom: 10px;
     letter-spacing: 1px;
