@@ -31130,7 +31130,7 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
 
     function setCustomerData(data) {
         $scope.customer = {
-            address: data.customerAddress[2],
+            address: data.customerAddress.split(';')[2],
             country: data.customerAddress.split(';')[0],
             city: data.customerAddress.split(';')[1],
             companyName: data.customerName,
