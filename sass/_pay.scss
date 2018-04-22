@@ -12,14 +12,14 @@
 		margin-right: 0;
 		margin-left: 0;
 
-		align-items: stretch;
+		align-items: flex-start;
 		justify-content: center;
 		flex-wrap: wrap;
 		section {
 			position: relative;
 
 			width: 49%;
-			padding: 19px 9px;
+			padding: 19px 9px 10px 9px;
 
 			border: 1px solid #ccc;
 			border-radius: 5px;
@@ -162,11 +162,6 @@
 										}
 									}
 								}
-								//&:last-child {
-								//	.wrap {
-								//		justify-content: flex-end;
-								//	}
-								//}
 							}
 						}
 					}
@@ -175,6 +170,9 @@
 					display: flex;
 					flex-direction: row;
 					margin-top: 25px;
+					padding-bottom: 25px;
+
+					border-bottom: 1px solid #ccc;
 
 					align-items: center;
 					justify-content: space-around;
@@ -199,22 +197,62 @@
 							text-transform: uppercase;
 
 							color: #fff;
+							border: 1px solid #00b549;
+							border-right: none;
 							border-radius: 5px 0 0 5px;
 							background-color: #00b549;
 						}
 						.type__image {
-							padding: 7px 0;
+							padding: 7px 9px;
 
 							border: 1px solid #00b549;
 							border-radius: 0 5px 5px 0;
 							img {
 								display: block;
-								width: auto;
+								width: 40px;
 								height: 39px;
+							}
+							&.invoice-payment {
+								padding: 12.5px 9px;
+								img {
+									height: 28px;
+								}
 							}
 						}
 						&:first-child {
 							margin-right: 20px;
+						}
+						&:hover {
+							cursor: pointer;
+							span {
+								color: #00b549;
+								background-color: #fff;
+							}
+						}
+					}
+				}
+				.pay_faq {
+					display: flex;
+					flex-direction: row;
+					margin-top: 10px;
+
+					align-items: center;
+					justify-content: center;
+					span {
+						&.bold {
+							font-family: "Helvetica-Medium";
+
+							color: #666;
+						}
+					}
+					a {
+						text-decoration: none;
+
+						color: #33c;
+						&:hover {
+							text-decoration: none;
+
+							color: #1a18cc;
 						}
 					}
 				}
@@ -236,335 +274,118 @@
 	}
 }
 
-//.block-pay {
-//	& > .row {
-//		@include bt-margins-from-side();
-//
-//		padding: 0 15px;
-//		& > .col-lg-12 {
-//			padding: 0;
-//			& > h2 {
-//				@include bold();
-//
-//				font-size: 20px;
-//
-//				margin: 15px 0 15px 15px;
-//			}
-//			& > p {
-//				line-height: 30px;
-//
-//				margin: 0 0 20px 15px;
-//				& > span {
-//					@include bold();
-//				}
-//			}
-//		}
-//		& > .leftBar {
-//			margin-bottom: 20px;
-//			padding: 0;
-//			& > .blockedAccount {
-//				@include border-radius();
-//
-//				margin-bottom: 15px;
-//				padding: 15px;
-//
-//				background-color: $theme-light-red;
-//				& > p {
-//					& > span {
-//						@include bold();
-//					}
-//				}
-//				& > i {
-//					position: absolute;
-//					top: 0;
-//					right: 0;
-//
-//					margin: 10px;
-//
-//					cursor: pointer;
-//				}
-//			}
-//			& > .payForMonth {
-//				@include border-radius();
-//
-//				padding: 1px 10px 15px 10px;
-//
-//				background-color: $theme-white;
-//				p {
-//					width: 85%;
-//					margin-top: 15px;
-//					padding: 0 15px;
-//				}
-//				p ~ p {
-//					width: initial;
-//					margin-top: 0;
-//					padding: 0 15px;
-//				}
-//				& > .payFor {
-//					max-height: 145px;
-//					padding: 10px 15px;
-//
-//					background-color: $theme-light-orange;
-//					& > .checkoutSelectOuter {
-//						& > .checkoutInner {
-//							& > h4 {
-//								@include bold();
-//							}
-//						}
-//						& > .checkoutInner {
-//							& > .paySelectOuter {
-//								width: 25%;
-//								min-width: 118px;
-//								padding-left: 10px;
-//								& > select {
-//									@include select-styling();
-//									@include border-radius();
-//
-//									clear: both;
-//
-//									border-bottom: 1px solid $theme-dark;
-//									background-color: $theme-light-orange;
-//									&:focus {
-//										outline: none;
-//									}
-//								}
-//								& > span {
-//									text-transform: capitalize;
-//								}
-//							}
-//						}
-//						& > .payButtonOuter {
-//							margin-top: 10px;
-//							& > span {
-//								font-weight: 400;
-//							}
-//							& > span ~ span {
-//								@include bold();
-//
-//								font-size: 23px;
-//
-//								margin-left: 5px;
-//							}
-//						}
-//					}
-//				}
-//				& > .creditCards {
-//					margin-top: 15px;
-//					padding: 0 15px;
-//					& > img {
-//						width: 140px;
-//					}
-//					& > .text-center {
-//						margin-top: 10px;
-//						.btn {
-//							@include button-styling();
-//						}
-//						.accept {
-//							@include button-styling();
-//						}
-//					}
-//					.important-text {
-//						font-size: 14px;
-//
-//						margin: 5px 0;
-//						padding: 5px;
-//
-//						color: #a94442;
-//					}
-//				}
-//			}
-//			& > .payHistory {
-//				table {
-//					tr {
-//						td {
-//							.paymentStatus {
-//								display: inline-block;
-//							}
-//							.paymentStatus::first-letter {
-//								text-transform: uppercase;
-//							}
-//							.fa-check {
-//								color: $theme-dark-green;
-//							}
-//							.failure {
-//								color: $theme-red;
-//							}
-//							&.delete-icon {
-//								i {
-//									cursor: pointer;
-//
-//									opacity: 0;
-//								}
-//							}
-//						}
-//						&:hover {
-//							.delete-icon {
-//								i {
-//									opacity: 1;
-//								}
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-//		.blockPay {
-//			float: none;
-//			margin: 0 auto;
-//		}
-//		& > .rightBar {
-//			padding: 0 0 0 15px;
-//			.balance {
-//				padding: 0 15px 15px;
-//
-//				background-color: $theme-white;
-//				h4 {
-//					margin: 0 -15px 15px -15px;
-//					padding: 15px;
-//
-//					background-color: $theme-light-green;
-//				}
-//			}
-//			.expenses {
-//				margin-top: 15px;
-//				margin-bottom: 15px;
-//				padding: 0;
-//
-//				background-color: $theme-white;
-//				h4 {
-//					margin-top: 0;
-//					margin-bottom: 0;
-//					padding: 15px;
-//
-//					background-color: $theme-light-green;
-//				}
-//				.blue {
-//					font-weight: 600;
-//
-//					color: #0c13e8;
-//				}
-//				.tooltip-outer {
-//					max-width: 220px;
-//				}
-//			}
-//			& > .table {
-//				@include border-radius();
-//				@include table-styling();
-//
-//				margin-bottom: 0 !important;
-//
-//				background-color: $theme-white;
-//				& > thead {
-//					& > tr {
-//						height: 50px;
-//						& > th {
-//							vertical-align: inherit;
-//							&:first-child {
-//								border-top-left-radius: 5px;
-//							}
-//							&:last-child {
-//								width: 51px;
-//								padding: 0;
-//
-//								border-top-right-radius: 5px;
-//							}
-//						}
-//					}
-//				}
-//				& > tbody {
-//					& > tr {
-//						& > td {
-//							& > span {
-//								& > i {
-//									color: $theme-dark-green;
-//								}
-//							}
-//							&:first-child {
-//								@include bold();
-//							}
-//							&:last-child {
-//								color: $theme-dark-green;
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-//		& > .unlockAllCleverstaff {
-//			.blockUnlockAllCleverstaff {
-//				@include border-radius();
-//
-//				padding: 15px;
-//
-//				background-color: #fff;
-//				h3 {
-//					@include bold();
-//
-//					font-size: 20px;
-//
-//					margin-top: 0;
-//					margin-bottom: 25px;
-//				}
-//				ul {
-//					@include bold();
-//
-//					list-style-type: decimal;
-//					span {
-//						font-weight: 500;
-//					}
-//				}
-//				.boldText {
-//					@include bold();
-//				}
-//			}
-//		}
-//		& > .mail-us {
-//			p:first-child {
-//				font-weight: 600;
-//
-//				margin-bottom: 15px;
-//			}
-//		}
-//		& > .no-amount {
-//			padding-left: 80px;
-//		}
-//	}
-//}
-//
-//.creditCards {
-//	#bonuce {
-//		font-weight: bold;
-//
-//		width: 100%;
-//		margin: 0 0 7px 0;
-//
-//		color: #00b549;
-//	}
-//}
-//
-//.wrap-table {
-//	overflow-y: auto;
-//	height: 300px;
-//}
-//
-//.scrollForTbody {
-//	width: 100%;
-//	margin-bottom: 0 !important;
-//	thead {
-//		width: 100%;
-//	}
-//	tbody {
-//		display: block;
-//		overflow: auto;
-//		max-height: 300px;
-//	}
-//	thead,
-//	tbody {
-//		tr {
-//			display: table;
-//			width: 100%;
-//
-//			table-layout: fixed;
-//		}
-//	}
-//}
+.my-select-label {
+	font-family: "Helvetica-Bold";
+
+	display: flex;
+	flex-direction: row;
+	width: 90px;
+
+	cursor: pointer;
+
+	.my-select-label-text {
+		font-family: "Helvetica-Bold";
+
+		overflow-x: hidden;
+		padding: 6px 12px;
+
+		white-space: nowrap;
+		text-overflow: ellipsis;
+
+		color: #666;
+		border: 1px solid #ccc;
+		border-radius: 5px 0 0 5px;
+
+		flex: 1;
+	}
+	.my-select-caret {
+		font-size: 29px;
+		line-height: 1em;
+
+		width: 30px;
+
+		text-align: center;
+
+		color: white;
+		border: 1px solid #ccc;
+		border-left: none;
+		border-radius: 0 5px 5px 0;
+		background-color: #f1f1f1;
+		i {
+			font-size: 12px;
+
+			position: relative;
+			top: -4px;
+
+			color: #999;
+		}
+	}
+	&:focus {
+		outline: none;
+		.my-select-label-text {
+			border-radius: 5px 0 0 0;
+		}
+		.my-select-caret {
+			border-radius: 0 5px 0 0;
+		}
+	}
+}
+.my-select-ops {
+	font-family: "Helvetica-Bold";
+
+	position: absolute;
+	z-index: 5;
+
+	display: none;
+	overflow-y: auto;
+	width: 90px;
+	max-height: 300px;
+
+	border-width: 0 2px 2px 2px;
+	border-style: solid;
+	border-color: #ccc;
+	background: white;
+
+	&.active {
+		display: inline-block;
+	}
+
+	& > div {
+		overflow-x: hidden;
+		padding: 7px 14px;
+
+		cursor: pointer;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		&.preselected {
+			background-color: #f5f5f5;
+		}
+		&:hover {
+			background-color: #e3e4e8;
+		}
+	}
+}
+.my-select-backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+
+	display: none;
+	width: 100%;
+	height: 100%;
+	&.active {
+		display: block;
+	}
+}
+select,
+.my-select-mobile-input {
+	position: absolute;
+	z-index: 10;
+
+	display: none;
+
+	opacity: 0;
+	&.active {
+		display: block;
+	}
+}

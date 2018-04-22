@@ -5,6 +5,9 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         $scope.trueVisionBlockUser = $rootScope.blockUser;
         $rootScope.blockUser = false;
         $scope.bonuce = 0;
+        $scope.paidUsersAmountArray = [];
+        $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
+        $scope.selectedMonth = 4;
 
         var promise = new Promise(function(resolve, reject) {
             Account.getAccountInfo(function(resp){
@@ -30,16 +33,14 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             notificationService.error(msg);
         }).then(function(){
             $scope.getAllPersons = Person.getAllPersons(function (resp) {
-                //allPersons = Object.keys(resp).length;
                 $scope.associativePerson = resp.object;
                 angular.forEach($scope.associativePerson, function (val) {
-                    //console.log(val);
-                    //console.log(val.status);
                     if (val.status == "A" && val.recrutRole != 'client') {
                         $scope.numberVacancy = ++$scope.numberVacancy;
+                        $scope.paidUsersAmountArray.push({label: $scope.paidUsersAmountArray.length + 1, value: $scope.paidUsersAmountArray.length + 1});
                     }
                 });
-                //console.log('allPersons: '+$scope.numberVacancy);
+                $scope.selection = $scope.paidUsersAmountArray.length;
                 if ($scope.numberVacancy <= 12 && $scope.numberVacancy != 0) {
                     $('#countPeople').append("<option style='display: none;' selected>" + $scope.numberVacancy + "</option>");
                 }

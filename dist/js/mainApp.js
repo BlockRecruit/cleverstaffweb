@@ -4517,7 +4517,133 @@ directive('appVersion', ['version', function(version) {
         }
     }])
     .directive("customSelect",setCustomSelect)
-    .directive("tooltipMove", tooltipMove);
+    .directive("tooltipMove", tooltipMove)
+    .directive('mySelect', ['$window', function($window) {
+        function main(scope, element, attrs) {
+            // Selecting model value
+            for (let idx in scope.ops) {
+                if (scope.ops[idx].value == scope.selection) {
+                    scope.selectedOpt = scope.ops[idx];
+                }
+            }
+
+            // Is a mobile device
+            var isMobile = false;
+            if (/ipad|iphone|android/gi.test($window.navigator.userAgent)) {
+                isMobile = true;
+            }
+
+            // Select an option
+            scope.selectOpt = function(opt) {
+                scope.selection = opt.value;
+                //scope.selectedOpt = opt;
+                optionsDom.removeClass('active');
+                backdrop.removeClass('active');
+            };
+
+            scope.$watch('selection', function(newVal) {
+                console.log(newVal);
+                for (var idx in scope.ops) {
+                    if (scope.ops[idx].value == newVal) {
+                        scope.selectedOpt = scope.ops[idx];
+                    }
+                }
+            }, true);
+
+            // DOM References
+            var labelDom = element.find('.my-select-label'),
+                optionsDom = element.find('.my-select-ops'),
+                backdrop = element.find('.my-select-backdrop'),
+                mobileSelect = element.find('select');
+
+            // DOM Event Listeners
+            labelDom.on('click', function() {
+                rePositionOps();
+                optionsDom.toggleClass('active');
+                backdrop.toggleClass('active');
+            });
+            backdrop.on('click', function() {
+                optionsDom.removeClass('active');
+                backdrop.removeClass('active');
+            });
+            element.on('keydown', function(ev) {
+                switch (ev.which) {
+                    case 37: // left arrow
+                    case 38: // top arrow
+                        preSelectPrev();
+                        break;
+                    case 39: // right arrow
+                    case 40: // down arrow
+                        preSelectNext();
+                        break;
+                    case 13: // enter key
+                        preSelectPush();
+                }
+            });
+
+            // Initialization
+            rePositionOps();
+            $($window).on('resize', function() {
+                rePositionOps();
+            });
+            if (isMobile) {
+                mobileSelect.addClass('active');
+            }
+
+            // Positioning options
+            function rePositionOps() {
+                // optionsDom.width(labelDom.width());
+                // optionsDom.css({
+                //     top: labelDom.offset().top + labelDom.outerHeight(),
+                //     left: labelDom.offset().left
+                // });
+                // Mobile ops
+                // mobileSelect.width(labelDom.outerWidth());
+                mobileSelect.height(labelDom.outerHeight());
+                // mobileSelect.css({
+                //     top: labelDom.offset().top,
+                //     left: labelDom.offset().left
+                // });
+            }
+
+            // PreSelection logic:
+            //  This controls option selecting and highlighting by pressing the arrow
+            //  keys.
+            var preSelected = 0;
+
+            function updatePreSelection() {
+                optionsDom.children().filter('.preselected').removeClass('preselected');
+                optionsDom.find('div').eq(preSelected).addClass('preselected');
+            }
+            updatePreSelection();
+
+            function preSelectNext() {
+                console.log(scope.ops.length);
+                preSelected = (preSelected + 1) % scope.ops.length;
+                updatePreSelection();
+            }
+
+            function preSelectPrev() {
+                console.log(scope.ops.length);
+                preSelected = (preSelected - 1) % scope.ops.length;
+                updatePreSelection();
+            }
+
+            function preSelectPush() {
+                scope.selectOpt(scope.ops[preSelected]);
+                scope.$apply();
+            }
+        }
+
+        return {
+            link: main,
+            scope: {
+                ops: '=mySelect',
+                selection: '=selection'
+            },
+            template: '<div class="my-select-label" tabindex="0" title="{{selectedOpt.label}}"><span class="my-select-label-text">{{selectedOpt.label}}</span><span class="my-select-caret"><i class="fa fa-chevron-down" aria-hidden="true"></i></span></div><div class="my-select-backdrop"></div><div class="my-select-ops"><div ng-repeat="o in ops" ng-click="selectOpt(o)">{{o.label}}</div></div><select ng-options="opt.value as opt.label for opt in ops" ng-model="selection"></select>'
+        };
+    }]);
 
 function tooltipMove($filter){
     let restrict  = "EACM"
@@ -34310,6 +34436,9 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         $scope.trueVisionBlockUser = $rootScope.blockUser;
         $rootScope.blockUser = false;
         $scope.bonuce = 0;
+        $scope.paidUsersAmountArray = [];
+        $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
+        $scope.selectedMonth = 4;
 
         var promise = new Promise(function(resolve, reject) {
             Account.getAccountInfo(function(resp){
@@ -34335,16 +34464,14 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             notificationService.error(msg);
         }).then(function(){
             $scope.getAllPersons = Person.getAllPersons(function (resp) {
-                //allPersons = Object.keys(resp).length;
                 $scope.associativePerson = resp.object;
                 angular.forEach($scope.associativePerson, function (val) {
-                    //console.log(val);
-                    //console.log(val.status);
                     if (val.status == "A" && val.recrutRole != 'client') {
                         $scope.numberVacancy = ++$scope.numberVacancy;
+                        $scope.paidUsersAmountArray.push({label: $scope.paidUsersAmountArray.length + 1, value: $scope.paidUsersAmountArray.length + 1});
                     }
                 });
-                //console.log('allPersons: '+$scope.numberVacancy);
+                $scope.selection = $scope.paidUsersAmountArray.length;
                 if ($scope.numberVacancy <= 12 && $scope.numberVacancy != 0) {
                     $('#countPeople').append("<option style='display: none;' selected>" + $scope.numberVacancy + "</option>");
                 }

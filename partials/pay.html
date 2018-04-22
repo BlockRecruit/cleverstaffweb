@@ -38,20 +38,16 @@
                     <tr>
                         <td>
                             <div class="wrap">
-                                <select name="users">
-                                    <option value="" selected="selected">1</option>
-                                    <option value="">2</option>
-                                    <option value="">3</option>
-                                </select>
+                                <div>
+                                    <div my-select="paidUsersAmountArray" selection="selection"></div>
+                                </div>
                             </div>
                         </td>
                         <td>
                             <div class="wrap">
-                                <select name="months">
-                                    <option value="" selected="selected">1</option>
-                                    <option value="">2</option>
-                                    <option value="">3</option>
-                                </select>
+                                <div>
+                                    <div my-select="months" selection="selectedMonth"></div>
+                                </div>
                             </div>
                         </td>
                         <td>
@@ -78,10 +74,13 @@
                 </div>
                 <div class="pay__type">
                     <span translate="Pay by invoice"></span>
-                    <div class="type__image">
-                        <img src="/images/sprite/visa-mastercard-block.png">
+                    <div class="type__image invoice-payment">
+                        <img src="/images/sprite/invoice-payment.jpg">
                     </div>
                 </div>
+            </div>
+            <div class="pay_faq">
+                <span><span class="bold">Появились вопросы по оплате?</span> Напишите нам на почту <a href="mailto:finance@cleverstaff.net">finance@cleverstaff.net</a></span>
             </div>
             <img class="security" src="/images/sprite/ssl-secured.png">
         </section>
