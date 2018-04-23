@@ -49108,28 +49108,29 @@ ${vm.signatures.dmarc.value}`;
             }, error => {
                 vm.dkimStatusRefreshing = false;
                 $rootScope.loading = false;
-                notificationService.errro("Can not update statuses");
+                notificationService.error("Can not update statuses");
             });
         };
 
 
         vm.saveProperties = function () {
-            let properties = getPropertiesForRequest(vm.editableMailbox,vm.emailSettingsType);
-            if(properties.password && properties.password.trim().length > 0) {
-                if((properties.permitMailing && vm.editableMailbox.corpMail)) {
-                    if(properties.domainVerified){
-                        vm.mailingPermitDenied = false;
-                        saveProperties(properties);
+            getPropertiesForRequest(vm.editableMailbox,vm.emailSettingsType).then(properties => {
+                if(properties.password && properties.password.trim().length > 0) {
+                    if((properties.permitMailing && vm.editableMailbox.corpMail)) {
+                        if(properties.domainVerified){
+                            vm.mailingPermitDenied = false;
+                            saveProperties(properties);
+                        } else {
+                            mailingPermitDenied();
+                        }
                     } else {
-                        mailingPermitDenied();
+                        saveProperties(properties);
                     }
                 } else {
-                    saveProperties(properties);
+                    notificationService.error($filter('translate')('Please enter your password'));
                 }
-            } else {
-                notificationService.error($filter('translate')('Please enter your password'));
-            }
-            console.log('editableMailbox',properties)
+                console.log('editableMailbox',properties)
+            });
         };
 
 
@@ -49143,7 +49144,17 @@ ${vm.signatures.dmarc.value}`;
             Candidate.editEmailAccess(properties, function(resp){
                 $rootScope.loading = false;
                 if(resp.status == 'error'){
-                    notificationService.error(resp.message);
+                        if(resp.code == 'сouldNotGetRefreshTokenIntegration') {
+                            $scope.modalInstance = $uibModal.open({
+                                animation: true,
+                                templateUrl: '../partials/modal/gmail-access.html',
+                                scope: $scope,
+                                resolve: {
+                                }
+                            });
+                        } else {
+                            notificationService.error(resp.message);
+                        }
                 }else{
                     notificationService.success($filter('translate')('Settings have been saved'));
                     $state.go("email-integration");
@@ -49198,44 +49209,52 @@ ${vm.signatures.dmarc.value}`;
                permitMailing: editableMailBox.permitMailing!==undefined?editableMailBox.permitMailing:false,
                smtp: {}
            };
-           if(editableMailBox.corpMail) {
-               if(vm.signatures.spf.status && vm.signatures.dkim.status)
-                   propObject.domainVerified = true;
-           }
-            switch (settingsType) {
-                case "gmail":
-                    getGmailToken().then(result => {
-                        propObject.email = result.email;
-                        propObject.password = result.password;
-                    }, error => {
-                        console.log('Exception in getGmailToken()');
-                        notificationService.error(error.status);
-                    });
-                    break;
-                case "mailru":
-                    propObject.smtp.type = "mailru";
-                    break;
-                case "yandex":
-                    propObject.smtp.type = "yandex";
-                    break;
-                case "exchange":
-                    propObject.domainSlashUsername = editableMailBox.exchangeDomain + '/' + editableMailBox.exchangeUsername;
-                    propObject.exchangeHost = editableMailBox.exchangeHost;
-                    propObject.exchangeVersion = editableMailBox.exchangeVersion;
-                    propObject.host = "exchange";
-                    break;
-                default:
-                    propObject.smtp.host = editableMailBox.smtpHost;
-                    propObject.smtp.secure = editableMailBox.smtpSecure;
-                    propObject.smtp.port = editableMailBox.smtpPort;
-            }
-            return propObject
+           return new $q ((resolve, reject) => {
+               if(editableMailBox.corpMail) {
+                   if(vm.signatures.spf.status && vm.signatures.dkim.status)
+                       propObject.domainVerified = true;
+               }
+               switch (settingsType) {
+                   case "gmail":
+                       getGmailToken().then(result => {
+                           propObject.email = result.email;
+                           propObject.password = result.password;
+                           propObject.host = "gmail";
+                           resolve(propObject);
+                       }, error => {
+                           console.log('Exception in getGmailToken()');
+                           notificationService.error(error.status);
+                       });
+                       break;
+                   case "mailru":
+                       propObject.smtp.type = "mailru";
+                       resolve(propObject);
+                       break;
+                   case "yandex":
+                       propObject.smtp.type = "yandex";
+                       resolve(propObject);
+                       break;
+                   case "exchange":
+                       propObject.domainSlashUsername = editableMailBox.exchangeDomain + '/' + editableMailBox.exchangeUsername;
+                       propObject.exchangeHost = editableMailBox.exchangeHost;
+                       propObject.exchangeVersion = editableMailBox.exchangeVersion;
+                       propObject.host = "exchange";
+                       resolve(propObject);
+                       break;
+                   default:
+                       propObject.smtp.host = editableMailBox.smtpHost;
+                       propObject.smtp.secure = editableMailBox.smtpSecure;
+                       propObject.smtp.port = editableMailBox.smtpPort;
+                       resolve(propObject);
+               }
+           });
        }
        
        
        function getGmailToken() {
            return new $q((resolve, reject) => {
                googleService.gmailAuth("modify",function(result) {
+                   console.log('gmailParams', result)
                    resolve({password: result.code, email: result.email})
                }, function (error) {
                    reject(error);
