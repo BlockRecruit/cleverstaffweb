@@ -85,7 +85,42 @@
             <img class="security" src="/images/sprite/ssl-secured.png">
         </section>
 
-        <section class="payment__history"></section>
+        <div class="payment__toggle">
+            <div class="history-toggle">
+                <label translate="Payment history"></label>
+                <input id="history-toggle" class="cmn-toggle cmn-toggle-round" ng-change="" type="checkbox" ng-model="withHistory">
+                <label for="history-toggle"></label>
+            </div>
+            <div class="write-offs-toggle">
+                <label translate="History write-offs"></label>
+                <input id="write-offs-toggle" class="cmn-toggle cmn-toggle-round" ng-change="" type="checkbox" ng-model="withWriteOffs">
+                <label for="write-offs-toggle"></label>
+            </div>
+        </div>
+
+        <section class="payment__history">
+            <div class="section__intro">
+                <h4 class="intro__title" translate="Your payment history"></h4>
+            </div>
+            <div class="history-data">
+                <table>
+                    <thead>
+                        <tr>
+                            <th translate="Платеж создан"></th>
+                            <th translate="Платеж получен"></th>
+                            <th translate="Сумма"></th>
+                            <th translate="Назначение"></th>
+                        </tr>
+                        <tr>
+                            <td>28 марта 12-30</td>
+                            <td>Expired</td>
+                            <td>6500 USD</td>
+                            <td>За 65 пользователей за 4 месяца</td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </section>
 
 
     </div>

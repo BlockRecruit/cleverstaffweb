@@ -24,6 +24,23 @@
 			border: 1px solid #ccc;
 			border-radius: 5px;
 			background-color: #fff;
+			.section__intro {
+				position: relative;
+
+				display: flex;
+				flex-direction: column;
+
+				align-items: flex-start;
+				justify-content: center;
+				.intro__title {
+					font-family: "Helvetica-Medium";
+
+					margin: 0 0 25px 0;
+				}
+				.intro__descr {
+					font-family: "Helvetica-Light";
+				}
+			}
 			&.payment__acc-info {
 				.info__item {
 					display: flex;
@@ -87,23 +104,6 @@
 			}
 			&.payment__pay {
 				border: 1px solid #00b549;
-				.section__intro {
-					position: relative;
-
-					display: flex;
-					flex-direction: column;
-
-					align-items: flex-start;
-					justify-content: center;
-					.intro__title {
-						font-family: "Helvetica-Medium";
-
-						margin: 0 0 25px 0;
-					}
-					.intro__descr {
-						font-family: "Helvetica-Light";
-					}
-				}
 				img.security {
 					position: absolute;
 					top: 12px;
@@ -181,6 +181,8 @@
 						flex-direction: row;
 						min-width: 290px;
 						height: 55px;
+
+						transition: 0.15s all ease;
 
 						align-items: center;
 						justify-content: space-around;
@@ -267,8 +269,70 @@
 					color: #00b549;
 				}
 			}
+			&.payment__history {
+				padding: 0;
+				.section__intro {
+					flex-direction: row;
+					padding: 12px 20px;
+
+					align-items: center;
+					justify-content: flex-start;
+					border-bottom: 1px solid #ccc;
+					.intro__title {
+						margin: 0;
+					}
+				}
+				.history-data {
+					width: 100%;
+					padding: 10px;
+					table {
+						width: 100%;
+						tr {
+							border-bottom: 1px solid #ccc;
+							td {
+								padding-bottom: 10px;
+							}
+						}
+					}
+				}
+			}
 			&:nth-child(odd) {
 				margin-right: 1%;
+			}
+		}
+		.payment__toggle {
+			position: relative;
+			top: -105px;
+
+			display: flex;
+			flex-direction: row;
+
+			justify-content: center;
+			align-items: center;
+			.history-toggle,
+			.write-offs-toggle {
+				display: flex;
+				width: auto;
+				padding: 7px 7px 7px 15px;
+
+				border: 1px solid #ccc;
+				border-radius: 25px;
+
+				align-items: center;
+				justify-content: space-between;
+				label {
+					margin: 0;
+				}
+				& > label {
+					font-family: "Helvetica-Bold";
+
+					margin-right: 10px;
+
+					color: #666;
+				}
+			}
+			.history-toggle {
+				margin-right: 20px;
 			}
 		}
 	}
