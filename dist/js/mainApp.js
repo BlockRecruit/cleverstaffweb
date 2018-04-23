@@ -34435,10 +34435,20 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         $scope.numberVacancy = 0;
         $scope.trueVisionBlockUser = $rootScope.blockUser;
         $rootScope.blockUser = false;
-        $scope.bonuce = 0;
+        $scope.bonus = 0;
         $scope.paidUsersAmountArray = [];
         $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
         $scope.selectedMonth = 4;
+
+        $scope.paymentHistory = {payment: true, transitions: false};
+
+        $scope.togglePaymentHistory = function({payment, transitions}) {
+            if(payment) {
+                $scope.paymentHistory.transitions = !$scope.paymentHistory.transitions;
+            } else {
+                $scope.paymentHistory.payment = !$scope.paymentHistory.payment;
+            }
+        };
 
         var promise = new Promise(function(resolve, reject) {
             Account.getAccountInfo(function(resp){
@@ -34517,14 +34527,16 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
                 if ($scope.countMonth >= 12) {
                     $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
                     $('#bonuce').removeClass('hidden');
-                    $scope.bonuce = 20;
-                    $('#amountBonus').html((($scope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
+                    $scope.bonus = 20;
+                    $scope.$apply();
+                    $('#amountBonus').html((($scope.bonus * $scope.price)/100 + $scope.price) + ' USD');
                 }
                 else if ($scope.countMonth >= 4) {
                     $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
                     $('#bonuce').removeClass('hidden');
-                    $scope.bonuce = 10;
-                    $('#amountBonus').html((($scope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
+                    $scope.bonus = 10;
+                    $scope.$apply();
+                    $('#amountBonus').html((($scope.bonus * $scope.price)/100 + $scope.price) + ' USD');
                 }
                 else {
                     $('#bonuce').addClass('hidden');
