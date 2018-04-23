@@ -1920,16 +1920,19 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                             clearInterval(setinterval)
                         }
                 },1000);
-
-                    if (response.status === 'connected') {
+                    if (response.status === 'connected' || response.status === 'unknown') {
                         console.log(response);
                         FB.ui({
-                                method: 'feed',
-                                name: $filter('translate')('Vacancy') + ' ' + $scope.vacancy.position,
-                                caption: '',
-                                description: $scope.publicDescr,
-                                link: link,
-                                picture: $scope.publicImgLink
+                                method: 'share_open_graph',
+                                action_type: 'og.shares',
+                                action_properties: JSON.stringify({
+                                    object : {
+                                        'og:url': link,
+                                        'og:title': $filter('translate')('Vacancy') + ' ' + $scope.vacancy.position,
+                                        'og:description': $filter('limitTo')($scope.publicDescr, 100, 0),
+                                        'og:image': 'https://cleverstaff.net/images/sprite/icon_128_128_png.png'
+                                    }
+                                })
                             },
                             function (response) {
                                 console.log(response);
@@ -1943,19 +1946,23 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                         FB.login(function (response) {
                             if(response.authResponse){
                                 FB.ui({
-                                        method: 'feed',
-                                        name: $filter('translate')('Vacancy') + ' ' + $scope.vacancy.position,
-                                        caption: '',
-                                        description: $scope.publicDescr,
-                                        link: link,
-                                        picture: $scope.publicImgLink,
+                                        method: 'share_open_graph',
+                                        action_type: 'og.shares',
+                                        action_properties: JSON.stringify({
+                                            object : {
+                                                'og:url': link,
+                                                'og:title': $filter('translate')('Vacancy') + ' ' + $scope.vacancy.position,
+                                                'og:description': $filter('limitTo')($scope.publicDescr, 100, 0),
+                                                'og:image': 'https://cleverstaff.net/images/sprite/icon_128_128_png.png'
+                                            }
+                                        })
                                     },
                                     function (response) {
-                                    console.log(response);
+                                        console.log(response);
                                         if(response.error_message){
                                             notificationService.error($filter('translate')('Vacancy hasn\'t shared'));
                                         }
-                                });
+                                    });
                             }
                         });
                     }
