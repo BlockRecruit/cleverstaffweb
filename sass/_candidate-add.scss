@@ -1187,6 +1187,21 @@
 						@include button-styling-cancel();
 					}
 				}
+				.swap-content {
+					position: absolute;
+					top: 27px;
+					left: -13px;
+
+					display: inline-block;
+					width: 25px !important;
+
+					cursor: pointer;
+					img {
+						display: block;
+						max-width: 100%;
+						height: auto;
+					}
+				}
 				textarea {
 					border: none;
 					border-bottom: 1px solid #e3e3e3;

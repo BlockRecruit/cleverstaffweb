@@ -22420,7 +22420,8 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     //notificationService.error($filter('translate')('service temporarily unvailable'));
                 });
             } else {
-                $scope.candidateForm.name.$pristine = false;
+                $scope.candidateForm.firstName.$pristine = false;
+                $scope.candidateForm.lastName.$pristine = false;
                 $scope.candidateForm.position.$pristine = false;
                 $('html, body').animate({scrollTop: 0}, 'fast');
                 $scope.candidateForm.salary.$pristine = false;

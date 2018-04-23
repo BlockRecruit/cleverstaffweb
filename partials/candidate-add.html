@@ -210,11 +210,13 @@
                         <div class="main-info col-lg-12 col-md-12">
                             <div class="col-lg-4 col-md-4">
 
-                                <span ng-click="swapFields()">SWAP</span>
+                                <div class="item swap-content" ng-click="swapFields()">
+                                    <img src="../images/sprite/swap.png" alt="swap">
+                                </div>
                                 <div class="item" id="box-swap">
                                     <div class="col-lg-12" style="margin: 0px;padding: 0px;">
                                         <label>{{'first_name'|translate}}*</label>
-                                        <input ng-maxlength="50" placeholder="" ng-class="{'error': candidateForm.firstName.$invalid && !candidateForm.firstName.$pristine && candidateForm.name.$error.required == true || (candidate.firstName.length > 0 && dublicetesTypeName)}" name="firstName" ng-model="candidate.firstName" type="text" required ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()">
+                                        <input ng-maxlength="50" placeholder="" ng-class="{'error': candidateForm.firstName.$invalid && !candidateForm.firstName.$pristine && candidateForm.firstName.$error.required == true || (candidate.firstName.length > 0 && dublicetesTypeName)}" name="firstName" ng-model="candidate.firstName" type="text" required ng-blur="progressUpdate();checkDuplicatesByNameAndContacts()">
                                         <div class="alert alert-danger" ng-show="candidateForm.firstName.$invalid && !candidateForm.firstName.$pristine && candidateForm.firstName.$error.required == true">
                                             {{'enter_candidate_name'|translate}}
                                         </div>
@@ -236,7 +238,7 @@
                                     </div>
                                 </div>
                                 <div class="item">
-                                    <label>{{'middle_name'|translate}}*</label>
+                                    <label>{{'middle_name'|translate}}</label>
                                     <input ng-maxlength="50" placeholder="" name="middleName" ng-model="candidate.middleName" type="text"  ng-blur="checkDuplicatesByNameAndContacts()">
                                     <div class="alert alert-danger"
                                          ng-show="andidateForm.name.$error.maxlength">
