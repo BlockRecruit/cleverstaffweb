@@ -53,12 +53,13 @@
 				width: 21px;
 				margin-right: 5px;
 				&.fb {
-					width: 21px;
+					width: 18px;
 
 					align-self: center;
 				}
 			}
 			&:last-child {
+				margin-top: 10px;
 				margin-bottom: 0;
 			}
 		}
