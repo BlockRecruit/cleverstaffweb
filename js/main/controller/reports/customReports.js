@@ -4,14 +4,15 @@
         try {
             let updateReport = () => CustomReportsService.buildReport.call(this, $scope);
             let showBlocks =  (event) => {
-                let targetDataID = event.target.dataset, blockShow;
-
-                if(targetDataID && targetDataID['show']){
-                    blockShow = angular.element('#' + targetDataID['show'])[0];
-                    CustomReportEditService.showBlocks(blockShow);
-                    return;
-                }
-                CustomReportEditService.hiddenBlocks();
+                // let targetDataID = event.target.dataset, blockShow;
+                //
+                // if(targetDataID && targetDataID['show']){
+                //     blockShow = angular.element('#' + targetDataID['show'])[0];
+                console.log(event, 'event');
+                CustomReportEditService.showBlocks(event);
+                //     return;
+                // }
+                // // CustomReportEditService.hiddenBlocks();
             };
 
             this.dataReport        = CustomReportsService.data;

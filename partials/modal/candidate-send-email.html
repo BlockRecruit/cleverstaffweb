@@ -5,16 +5,19 @@
     </div>
     <div class="modal-body">
        <div>
-           <div class="alert alert-danger" ng-show="$root.me.emails.length == 0">
-               <a href="#/email-integration" target='_blank'>{{"add integration with email"|translate}}</a>
-               {{"To send a letter from your mailbox, you need to"|translate}}
-           </div>
            <div class="item">
                <span class="title">{{"Candidate's email"|translate}}</span>
                <input class="form-control" ng-model="$root.emailToSend" ng-init="$root.emailToSend" type="text">
                <div class="alert alert-danger" ng-show="!$root.emailToSend">
                    {{'Please add candidates’ email first' | translate}}
                </div>
+           </div>
+           <div class="alert alert-danger" ng-show="$root.me.emails.length === 0 && !noAllowedMails">
+               {{"To send a letter from your mailbox, you need to"|translate}}
+               <a href="#/email-integration" target='_blank'>{{"add integration with email"|translate}}</a>
+           </div>
+           <div class="alert alert-danger" ng-show="$root.me.emails.length === 0 && noAllowedMails">
+               <span translate="To send a letter from your mailbox,allow sending mails from the email integration page"></span>
            </div>
            <div class="item mail-checkbox">
                <div ng-show="$root.me.emails.length == 1" class="field">

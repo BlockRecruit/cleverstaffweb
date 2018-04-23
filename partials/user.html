@@ -320,6 +320,9 @@
                              ng-repeat="history in history"
                              ng-switch="history.type">
                             <div class="col-lg-12 hidden" ng-switch-default></div>
+                            <div class="col-lg-12" ng-switch-when="candidate_test_send">
+                                <ng-include src="'partials/history/full-history/candidate_test_send.html'"></ng-include>
+                            </div>
                             <div class="col-lg-12" ng-switch-when="candidate_add">
                                 <ng-include src="'partials/history/user/candidate_add.html'"></ng-include>
                             </div>
@@ -517,6 +520,9 @@
                             </div>
                             <div class="col-lg-12" ng-switch-when="user_is_block">
                                 <ng-include src="'partials/history/user/user_is_block.html'"></ng-include>
+                            </div>
+                            <div class="col-lg-12" ng-switch-when="user_employee_functions">
+                                <ng-include src="'partials/history/user/user_employee_functions.html'"></ng-include>
                             </div>
                             <div class="col-lg-12" ng-switch-when="client_set_responsible">
                                 <ng-include src="'partials/history/user/client_set_responsible.html'"></ng-include>

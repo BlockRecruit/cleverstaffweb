@@ -274,6 +274,39 @@ var isoCountries = [
     { id: 'ZM', text: 'Zambia (+260)', value: '+260'},
     { id: 'ZW', text: 'Zimbabwe (+263)', value: '+263'}
 ];
+$(document).ready(function(){
+    $(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+    $(".signup-contact").css("top", 0);
+    $(".cloud").css({"opacity": 1, "right": 0});
+    $(".graf").css({"opacity": 1, "left": 15});
+    $(".manGo").css({"opacity": 1, "left": 245});
+    $(".chat").css({"opacity": 1, "right": 0});
+    $(".tasks").css({"opacity": 1, "right": 0});
+    $(".cloud-sec").css({"opacity": 1, "left": 40});
+    $(".tasks-second").css({"opacity": 1,"right": 175});
+    $(".puzzle-signup").css({"opacity": 1, "right": 140});
+    $(".flower-signup").css({"opacity": 1, "right": 240});
+    $(".calendar").css({"opacity": 1, "right": 110});
+    $(".big-tittle").css({"opacity": 1, "top": 0});
+    $(".arrow").css({"opacity": 1, "bottom": -35});
+    $(".orangeBtn").css({"opacity": 1, "top": 0});
+    $(".orangeBtnBorder").css({"opacity": 1, "top": 0});
+    $(".or-index").css({'opacity' : 1, "top": 0});
+    $(".animated-left").css({"opacity": 1, "left": 0});
+    $(".animated-right").css({"opacity": 1, "right": 0});
+    $(".teacher").css({"opacity": 1, "left": 120});
+    $(".settings").css({"opacity": 1, "right": 160});
+    $(".manWrite").css({"opacity": 1, "left": 125});
+    $(".arrow-features").css({"opacity": 1, "left": 265});
+    $(".flower-feature").css({"opacity": 1, "right": 270});
+    $(".man").css({"opacity": 1, "right": 135});
+    $(".priceMan").css({"opacity": 1, "left": 125});
+    $(".priceFlower").css({"opacity": 1, "left": 190});
+    $(".priceCheer").css({"opacity": 1, "right": -60});
+    $(".priceGraf").css({"opacity": 1, "right": 135});
+});
 
 $(document).ready(function () {
 
@@ -2895,7 +2928,7 @@ $('#ex1_firstName, #ex1_number, #ex1_mail, #ex1_skype, #ex1_orgName, #ex1_passwo
         var value2 = $('#ex1_number').val();
         var value3 = $('#ex1_mail').val();
         var value4 = $('#ex1_orgName').val();
-        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru'  && window.location.pathname != '/pt/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/compare-potok.html'){
+        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru'  && window.location.pathname != '/pt/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/compare-potok.html' && window.location.pathname != '/ru/compare-friendwork.html'){
             var value5 = $('#ex1_password').val();
             var value6 = $('#ex1_password2').val();
         }
@@ -2925,7 +2958,7 @@ $('#ex1_firstName, #ex1_number, #ex1_mail, #ex1_skype, #ex1_orgName, #ex1_passwo
         }else{
             $('.companyForm').css('display', 'none');
         }
-        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru' && window.location.pathname != '/pt/index.html' && window.location.pathname != '/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/compare-potok.html'){
+        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru' && window.location.pathname != '/pt/index.html' && window.location.pathname != '/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/compare-potok.html' && window.location.pathname != '/ru/compare-friendwork.html'){
             if(value5.length > 0){
                 $('.passwordForm').css('display', 'block');
             }else{
@@ -3750,45 +3783,6 @@ setInterval(function () {
         }, 10000);
     }
 }, 1000);
-$(document).ready(function(){
-    $(function () {
-        $('[data-toggle="popover"]').popover();
-    });
-    //$("#popover").popover("toggle");
-    //$(".fade.in").css('opacity', '0');
-    //$("#popover").on("click", function (event) {
-    //    console.log(event);
-    //    $("#popover").popover("toggle");
-    //});
-    $(".signup-contact").css("top", 0);
-    $(".cloud").css({"opacity": 1, "right": 0});
-    $(".graf").css({"opacity": 1, "left": 15});
-    $(".manGo").css({"opacity": 1, "left": 245});
-    $(".chat").css({"opacity": 1, "right": 0});
-    $(".tasks").css({"opacity": 1, "right": 0});
-    $(".cloud-sec").css({"opacity": 1, "left": 40});
-    $(".tasks-second").css({"opacity": 1,"right": 175});
-    $(".puzzle-signup").css({"opacity": 1, "right": 140});
-    $(".flower-signup").css({"opacity": 1, "right": 240});
-    $(".calendar").css({"opacity": 1, "right": 110});
-    $(".big-tittle").css({"opacity": 1, "top": 0});
-    $(".arrow").css({"opacity": 1, "bottom": -35});
-    $(".orangeBtn").css({"opacity": 1, "top": 0});
-    $(".orangeBtnBorder").css({"opacity": 1, "top": 0});
-    $(".or-index").css({'opacity' : 1, "top": 0});
-    $(".animated-left").css({"opacity": 1, "left": 0});
-    $(".animated-right").css({"opacity": 1, "right": 0});
-    $(".teacher").css({"opacity": 1, "left": 120});
-    $(".settings").css({"opacity": 1, "right": 160});
-    $(".manWrite").css({"opacity": 1, "left": 125});
-    $(".arrow-features").css({"opacity": 1, "left": 265});
-    $(".flower-feature").css({"opacity": 1, "right": 270});
-    $(".man").css({"opacity": 1, "right": 135});
-    $(".priceMan").css({"opacity": 1, "left": 125});
-    $(".priceFlower").css({"opacity": 1, "left": 190});
-    $(".priceCheer").css({"opacity": 1, "right": -60});
-    $(".priceGraf").css({"opacity": 1, "right": 135});
-});
 $(document).ready(function(){
     $("#block_3 #addCandidate div").addClass("tab-img-features");
     $("#block_3 #menu1 div").addClass("tab-img-features2");

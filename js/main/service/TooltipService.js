@@ -39,6 +39,7 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                     "exchangeHost":  $sce.trustAsHtml($filter('translate')('The Exchange server URL')),
                     "exchangeDomain":  $sce.trustAsHtml($filter('translate')('Domain/username is the required field for those cases when logging into an account for exchange via Domain/username, rather than an email address')),
                     "hmInvite":  $sce.trustAsHtml($filter('translate')('Hiring Manager will be responsible for this vacancy after registration in account.')),
+                    "reportWithCandidatesActions":  $sce.trustAsHtml($filter('translate')('Number of candidates for which there were actions for the selected period')),
                     "userInvite": {
                         "admin" : $sce.trustAsHtml($filter('translate')('Full control on a company account. Able to manage users, clients, vacancies, and candidates. Paid user')),
                         "recruter" : $sce.trustAsHtml($filter('translate')('Able to manage clients, vacancies and candidates. Paid user')),

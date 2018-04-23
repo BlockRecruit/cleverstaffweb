@@ -618,7 +618,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         };
 
         $scope.enableViewEmploye = function(user) {
-            if(user.personParams.enableEmployee == 'N'){
+            if(user.personParams.enableEmployee == 'N' || user.personParams.enableEmployee == undefined){
                 $scope.setPersonEmploye('enableEmployee','Y');
             }else{
                 $scope.setPersonEmploye('enableEmployee','N');

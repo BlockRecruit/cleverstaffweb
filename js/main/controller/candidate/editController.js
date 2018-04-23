@@ -723,7 +723,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         },0);
         $scope.saveCandidate = function() {
             var salaryBol;
-            $scope.candidate.position=$scope.getPositionAutocompleterValue();
+            $scope.candidate.position = $scope.getPositionAutocompleterValue();
             if ($scope.candidate.salary && $scope.candidate.salary >= 2147483647) {
                 salaryBol = false;
             } else {
@@ -765,6 +765,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                     candidate.photo = $scope.candidate.photo;
                 }
                 candidate.contacts = [];
+                console.log($scope.contacts, 'saveCandidate');
                 if ($scope.contacts.email) {
                     candidate.contacts.push({type: "email", value: $scope.contacts.email});
                 }
@@ -819,6 +820,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
 
                 deleteUnnecessaryFields(candidate);
                 console.log(candidate);
+
                 Candidate.edit(candidate, function(val) {
                     if (angular.equals(val.status, "ok")) {
                         notificationService.success($filter('translate')('Candidate saved'));
@@ -918,6 +920,38 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 resolve: {
 
                 }
+            });
+        };
+
+
+        $scope.removeSource = function () {
+            $scope.removableSource = $scope.getOriginAutocompleterValue();
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/origin-remove.html',
+                scope: $scope,
+                size: '',
+                resolve: {
+
+                }
+            });
+        };
+
+        $scope.confirmDeleteOrigin = function () {
+            Candidate.removeOriginAll({
+                origin: $scope.removableSource
+            },function (resp) {
+                if(resp.status != "error") {
+                    $scope.modalInstance.close();
+                    notificationService.success($filter("translate")("Origin removed"));
+                    $scope.setOriginAutocompleterValue();
+                } else {
+                    $scope.modalInstance.close();
+                    notificationService.error(resp.message);
+                }
+            }, function (err) {
+                $scope.modalInstance.close();
+                notificationService.error(err);
             });
         };
 
