@@ -2970,5 +2970,8 @@
   "was unlinked in candidate":"удалена у кандидата",
   "for": "для",
   "To send a letter from your mailbox,allow sending mails from the email integration page":"Для отправки письма со своего почтового ящика разрешите отправку писем на <a href='#/email-integration' target='_blank'>странице интеграции с email</a>",
-  "Write a comment about candidates (N)": "Оставить комментарий по кандидатам (КОЛИЧЕСТВО КАНДИДАТОВ)"
+  "Write a comment about candidates (N)": "Оставить комментарий по кандидатам (КОЛИЧЕСТВО КАНДИДАТОВ)",
+  "Add a comment to candidate": "Добавить комментарий кандидату",
+  "Add a comment to candidates": "Добавить комментарий кандидатам",
+  "Add a comment to": "Добавить комментарий кандидатам"
 }

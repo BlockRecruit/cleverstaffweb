@@ -1,9 +1,25 @@
 <div class="add-coment">
     <div class="modal-header">
         <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <!--{{$root.addCandidateChangeStage}}-->
         <h4 class="modal-title">
-            {{'history_info.message_to_candidate'|translate}}
-            {{$root.candidate.fullName}}
+            <span ng-if="$root.candidatesAddToVacancyIds.length == 1">
+                {{'Add a comment to candidate'|translate}}
+                <span ng-repeat="candidate in $root.addCandidateChangeStage track by $index" title="{{candidate.fullName}}">
+                    {{candidate.fullName | limitTo:23}}{{::candidate.fullName.length > 23 ? '...' : ''}}
+                </span>
+            </span>
+            <span ng-if="$root.candidatesAddToVacancyIds.length == 2">
+                {{'Add a comment to candidates'|translate}}
+                <span ng-repeat="candidate in $root.addCandidateChangeStage track by $index" title="{{candidate.fullName}}">
+                    {{candidate.fullName | limitTo:23}}{{::candidate.fullName.length > 23 ? '...' : ''}} <span ng-show="$root.currentLang == 'en'">{{$last ? '' : ' and'}}</span><span ng-show="$root.currentLang == 'ru'">{{$last ? '' : ' и'}}</span>
+                </span>
+            </span>
+            <span ng-if="$root.candidatesAddToVacancyIds.length > 2">
+                {{'Add a comment to'|translate}}
+                ({{$root.candidatesAddToVacancyIds.length}})
+                <span ng-if="$root.currentLang == 'en'">{{'candidate_3'|translate}}</span>
+            </span>
         </h4>
     </div>
     <div class="modal-body">

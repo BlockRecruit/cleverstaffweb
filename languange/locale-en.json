@@ -2375,5 +2375,8 @@
   "Delete source for all candidates": "Delete source for all candidates",
   "The binding":"The source",
   "was unlinked in candidate":"was unlinked in candidate",
-  "Write a comment about candidates (N)": "Write a comment about candidates (N)"
+  "Write a comment about candidates (N)": "Write a comment about candidates (N)",
+  "Add a comment to candidate": "Add a comment to candidate",
+  "Add a comment to candidates": "Add a comment to candidates",
+  "Add a comment to": "Add a comment to"
 }

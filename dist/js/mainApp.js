@@ -19190,11 +19190,13 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     localStorage.setItem('setCurrent', true);
     $scope.a = {};
     $scope.a.searchNumber = 1;
+    $scope.addCandidateChangeStage = [];
     $scope.candidatesAddToVacancyIds = [];
     $scope.checkAllCandidates = false;
     $scope.showTagsForMass = false;
     $scope.previousFlag = true;
     $scope.placeholder = $filter('translate')('by position');
+    $rootScope.addCandidateChangeStage = $scope.addCandidateChangeStage;
     $rootScope.candidatesAddToVacancyIds = $scope.candidatesAddToVacancyIds;
     $rootScope.currentElementPos = true;
     localStorage.setItem('currentPage', 'candidates');
@@ -20993,10 +20995,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     candidateAdded = true;
             }
             if(!candidateAdded){
-                $scope.candidatesAddToVacancyIds.push(candidate.candidateId)
+                $scope.candidatesAddToVacancyIds.push(candidate.candidateId);
+                $scope.addCandidateChangeStage.push(candidate);
             }
         }else{
             $scope.candidatesAddToVacancyIds.splice($scope.candidatesAddToVacancyIds.indexOf(candidate.candidateId), 1);
+            $scope.addCandidateChangeStage.splice($scope.addCandidateChangeStage.indexOf(candidate), 1);
         }
     };
     $scope.pushAllCandidatesToVacancy = function () {
@@ -21009,6 +21013,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
             if(!$scope.checkAllCandidates){
                 $scope.candidatesAddToVacancyIds.splice(0, $scope.candidatesAddToVacancyIds.length-1);
+                $scope.addCandidateChangeStage.splice(0, $scope.addCandidateChangeStage.length-1);
             }
             $scope.pushCandidateToVacancy(resp);
         });
@@ -21057,6 +21062,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         });
     };
     $scope.showModalAddCommentToCandidate = function () {
+        $rootScope.addCandidateChangeStage = $scope.addCandidateChangeStage;
+        $rootScope.candidatesAddToVacancyIds = $scope.candidatesAddToVacancyIds;
         $scope.modalInstance = $uibModal.open({
             animation: true,
             templateUrl: '../partials/modal/add-comment-candidate.html',
@@ -21072,26 +21079,26 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         });
     };
     $rootScope.commentCandidate = {
-        comment: "",
-        loading: false
+        comment: ""
     };
     $rootScope.addCommentInCandidate = function () {
         if ($rootScope.commentCandidate.comment != undefined && $rootScope.commentCandidate.comment.length > 0) {
-            $rootScope.commentCandidate.loading = true;
             Candidate.setMessage({
                 comment: $rootScope.commentCandidate.comment,
-                candidateId: $scope.candidate.candidateId
+                candidateId: $scope.candidatesAddToVacancyIds
             }, function (resp) {
-                //$scope.lastMessage = resp.object.actions.objects[0];
-                $rootScope.commentCandidate.loading = false;
-                $rootScope.closeModal();
-                $rootScope.commentCandidate.comment = null;
                 if (resp.status == 'ok') {
-                    $scope.getLastEvent();
+                    $rootScope.closeModal();
+                    $rootScope.commentCandidate.comment = null;
+                    angular.forEach($scope.addCandidateChangeStage, function (val) {
+                        val.added = false;
+                    });
+                    $scope.checkAllCandidates = false;
+                    $scope.addCandidateChangeStage = [];
+                    $scope.candidatesAddToVacancyIds = [];
+                    notificationService.success($filter('translate')('Comment added'));
                 }
-                notificationService.success($filter('translate')('Comment added'));
             }, function (error) {
-                $rootScope.commentCandidate.loading = false;
                 notificationService.error(error.message);
             });
         } else {
