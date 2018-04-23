@@ -165,15 +165,20 @@
                         <span ng-show="digit != 1">{{"Only"|translate}}</span><span ng-show="digit == 1">{{"Only_1"|translate}}</span><span ng-bind="digit" class="digit"></span><span>{{(digit >= 5 && digit <= 14)? "days_1Trial" : (digit < 5 && digit > 1)? "daysTrial" : (digit === 0)? "dayTrial": "dayTrial" | translate}}</span>
                     </div>
                     <ul class="nav information navbar-nav flex-ul">
-                        <li class="payMoney hidden-xs hidden-sm" ng-show="$root.me.recrutRole == 'admin'">
-                            <a href="#/pay" class="payment" ng-class="{'low-low-balance': paidFor!==undefined && paidFor <= 4 && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free'),'low-balance': paidFor!==undefined && paidFor <= 7}">
+                        <li class="payMoney hidden-xs hidden-sm" ng-show="$root.me.recrutRole == 'admin' && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free')">
+                            <a href="#/pay" class="payment" ng-class="{'low-low-balance': paidFor!==undefined && paidFor <= 4,'low-balance': paidFor!==undefined && paidFor <= 7}">
                                 <span class="coins"></span>
                                 <span ng-show="!$root.paidTillDateBilling && $root.companyParams.paidTillDate && paidFor > 7">{{'up to'|translate}}&nbsp;{{$root.companyParams.paidTillDate}}</span>
-                                <span ng-show="$root.paidTillDateBilling && paidFor > 7 && !(digit > 0 && digit <= 14)">{{'up to'|translate}}&nbsp;{{$root.paidTillDateBilling}}</span>
-                                <span ng-show="paidFor > 4 && paidFor <= 7 && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free')" translate="Days left" translate-values="{days_left: paidFor}" ></span>
-                                <span ng-show="paidFor <= 4 && paidFor > 1 && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free')" translate="Days left!" translate-values="{days_left: paidFor}" ></span>
-                                <span ng-show="paidFor == 1 && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free')" translate="Day left!" translate-values="{days_left: paidFor}" ></span>
-                                <span ng-show="paidFor == 0 && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free')" translate="No Day left!" translate-values="{days_left: paidFor}" ></span>
+                                <span ng-show="$root.paidTillDateBilling && paidFor > 7">{{'up to'|translate}}&nbsp;{{$root.paidTillDateBilling}}</span>
+                                <span ng-show="paidFor > 4 && paidFor <= 7" translate="Days left" translate-values="{days_left: paidFor}" ></span>
+                                <span ng-show="paidFor <= 4 && paidFor > 1" translate="Days left!" translate-values="{days_left: paidFor}" ></span>
+                                <span ng-show="paidFor == 1" translate="Day left!" translate-values="{days_left: paidFor}" ></span>
+                                <span ng-show="paidFor == 0" translate="No Day left!" translate-values="{days_left: paidFor}" ></span>
+                            </a>
+                        </li>
+                        <li class="payMoney activeTrial hidden-xs hidden-sm" ng-show="$root.me.recrutRole == 'admin' && ((digit > 0 && digit <= 14) || (getMeObj['orgParams']['tarif']==='free' || tarif=='free'))">
+                            <a href="#/pay" class="payment">
+                                <span class="coins"></span>
                             </a>
                         </li>
                         <li class="showFeedbackMenu hidden-xs hidden-sm">

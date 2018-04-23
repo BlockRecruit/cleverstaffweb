@@ -115,7 +115,7 @@ body {
 	background-color: $theme-top-menu;
 	.first-navbar {
 		display: flex;
-		height: 65px;
+		height: 55px;
 		padding: 0 20px 0 30px;
 	}
 	.responsive-nav {
@@ -248,7 +248,7 @@ body {
 	#navbar-main {
 		display: flex !important;
 		width: 100%;
-		height: 65px !important;
+		height: 55px !important;
 
 		justify-content: space-between;
 		align-items: center;
@@ -257,7 +257,7 @@ body {
 		}
 		.flex-ul {
 			display: flex;
-			height: 65px !important;
+			height: 55px !important;
 			& > li {
 				display: flex;
 
@@ -561,6 +561,14 @@ body {
 						top: -2px;
 						right: -4px;
 					}
+				}
+			}
+			.activeTrial a.payment {
+				padding-right: 0;
+				.coins {
+					margin-right: 0;
+
+					border-right: none;
 				}
 			}
 			.fa-cog {
