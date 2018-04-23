@@ -11,12 +11,6 @@
                 <span class="info__value">
                     {{balance.tillDate.dayOfMonth}}/{{balance.tillDate.monthValue}}/{{balance.tillDate.year}}
                 </span>
-                <!--<span ng-show="tarif !== 'free'">{{(balance.dayCount == 0)? "Your account will be active until today's." : "Your account will be active for" | translate}}-->
-                    <!--<strong ng-show="balance.dayCount !== 0">{{' ' + (balance.dayCount < 0? balance.dayCount = 0 : balance.dayCount) }}</strong>-->
-                        <!--<span ng-show="balance.dayCount !== 0">{{'days_1' | translate}}</span> - -->
-                    <!--<strong> {{'until' | translate}} {{balance.tillDate.dayOfMonth}} / {{balance.tillDate.monthValue}} / {{balance.tillDate.year}} {{"inclusive"|translate}}</strong>.-->
-                <!--</span>-->
-
             </div>
             <div class="info__item">
                 <span translate="Paid users amount" class="into__title"></span>
@@ -47,31 +41,31 @@
                         <td>
                             <div class="wrap">
                                 <div>
-                                    <div my-select="paidUsersAmountArray" selection="selection"></div>
+                                    <div my-select="paidUsers" selection="countPeople"></div>
                                 </div>
                             </div>
                         </td>
                         <td>
                             <div class="wrap">
                                 <div>
-                                    <div my-select="months" selection="selectedMonth"></div>
+                                    <div my-select="months" selection="countMonth"></div>
                                 </div>
                             </div>
                         </td>
                         <td>
                             <div class="wrap">
-                                <span class="bonus">{{bonus}}</span>
+                                <span class="bonus">{{bonus}}%</span>
                                 <img src="/images/sprite/gift.png">
                             </div>
                         </td>
                         <td>
                             <div class="wrap">
-                                <span class="total">5700 USD</span>
+                                <span class="total">{{price}} USD</span>
                             </div>
                         </td>
                     </tr>
                 </table>
-                <span class="total-info" translate="Will be credited total USD (bonus USD)" translate-values="{total: 6700, bonus: 470}"></span>
+                <span class="total-info" translate="Will be credited total USD (bonus USD)" translate-values="{total: price, bonus: bonusAmount}"></span>
             </div>
             <div class="pay__types">
                 <div class="pay__type">

@@ -5,9 +5,10 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         $scope.trueVisionBlockUser = $rootScope.blockUser;
         $rootScope.blockUser = false;
         $scope.bonus = 0;
-        $scope.paidUsersAmountArray = [];
+        $scope.paidUsers = [];
         $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
-        $scope.selectedMonth = 4;
+        $scope.countPeople = 0;
+        $scope.countMonth = 4;
 
         $scope.paymentHistory = {payment: true, transitions: false};
 
@@ -47,75 +48,47 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
                 angular.forEach($scope.associativePerson, function (val) {
                     if (val.status == "A" && val.recrutRole != 'client') {
                         $scope.numberVacancy = ++$scope.numberVacancy;
-                        $scope.paidUsersAmountArray.push({label: $scope.paidUsersAmountArray.length + 1, value: $scope.paidUsersAmountArray.length + 1});
+                        $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
                     }
                 });
-                $scope.selection = $scope.paidUsersAmountArray.length;
-                if ($scope.numberVacancy <= 12 && $scope.numberVacancy != 0) {
-                    $('#countPeople').append("<option style='display: none;' selected>" + $scope.numberVacancy + "</option>");
-                }
-                else {
-                    $('#countPeople').append("<option selected>" + $scope.numberVacancy + "</option>");
-                }
-                $scope.countMonth = $('#countMonth').val();
-                $scope.countPeople = $('#countPeople').val();
+                $scope.countPeople = $scope.paidUsers.length;
                 if(!$scope.monthRate) {
                     if ($scope.countMonth >= 12) {
                         $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
+                        $scope.bonus = 20;
                     }
                     else if ($scope.countMonth >= 4) {
                         $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
+                        $scope.bonus = 10;
                     }
                     else {
                         $scope.price = 25 * $scope.countMonth * $scope.countPeople;
+                        $scope.bonus = 0;
                     }
                 } else {
-                    $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople ;
+                    $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
                 }
-                $('#price').html($scope.price + " USD");
+                $scope.bonusAmount = ($scope.bonus * $scope.price)/100;
             });
         },function(msg){
             notificationService.error(msg);
         });
 
-        $('.checkoutInner select').on('change', function () {
-            $scope.countMonth = $('#countMonth').val();
-            $scope.countPeople = $('#countPeople').val();
-            console.log('in change wp');
-            if(!$scope.monthRate) {
-                if ($scope.countMonth >= 12) {
-                    $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                }
-                else if ($scope.countMonth >= 4) {
-                    $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                }
-                else {
-                    $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                }
-            } else {
-                if ($scope.countMonth >= 12) {
-                    $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                    $('#bonuce').removeClass('hidden');
-                    $scope.bonus = 20;
-                    $scope.$apply();
-                    $('#amountBonus').html((($scope.bonus * $scope.price)/100 + $scope.price) + ' USD');
-                }
-                else if ($scope.countMonth >= 4) {
-                    $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                    $('#bonuce').removeClass('hidden');
-                    $scope.bonus = 10;
-                    $scope.$apply();
-                    $('#amountBonus').html((($scope.bonus * $scope.price)/100 + $scope.price) + ' USD');
-                }
-                else {
-                    $('#bonuce').addClass('hidden');
-                    $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                }
+        $scope.$watchGroup(['countPeople', 'countMonth'], function() {
+            $scope.monthRate = $scope.monthRate || 25;
+            if ($scope.countMonth >= 12) {
+                $scope.bonus = 20;
             }
-
-            $('#price').html($scope.price + " USD");
-            $scope.$apply();
+            else if ($scope.countMonth >= 4) {
+                $scope.bonus = 10;
+            }
+            else {
+                $scope.bonus = 0;
+            }
+            $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople * (1 + ($scope.bonus/ 100)));
+            $scope.bonusAmount = $scope.price - ($scope.price * 100 / ($scope.bonus + 100));
         });
+
         $scope.payClick = function () {
             Pay.createPaymentUsage({
                 months: $scope.countMonth,

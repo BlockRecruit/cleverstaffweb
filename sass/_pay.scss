@@ -153,6 +153,7 @@
 										&.bonus {
 											font-family: "Helvetica-Bold";
 
+											min-width: 60px;
 											margin-right: 5px;
 											padding: 5px 14px;
 
@@ -162,7 +163,9 @@
 										}
 										&.total {
 											font-family: "Helvetica-Bold";
-											font-size: 16px;
+											font-size: 25px;
+
+											min-width: 130px;
 
 											color: #666;
 										}
