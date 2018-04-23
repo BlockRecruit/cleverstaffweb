@@ -715,9 +715,19 @@
 				}
 				.btn {
 					@include button-green-styling();
-					&.addTags {
-						margin-right: 15px;
+					&.addComments {
+						margin-top: -10px;
 
+						background-color: initial;
+						box-shadow: none;
+						a {
+							img {
+								width: 38px;
+								height: 38px;
+							}
+						}
+					}
+					&.addTags {
 						background-color: $theme-light-grey;
 					}
 					span {

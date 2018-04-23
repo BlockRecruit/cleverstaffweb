@@ -2374,5 +2374,6 @@
   "To send a letter from your mailbox,allow sending mails from the email integration page":"To send a letter from your mailbox, allow sending mails from the <a href='#/email-integration' target='_blank'>email integration page</a>",
   "Delete source for all candidates": "Delete source for all candidates",
   "The binding":"The source",
-  "was unlinked in candidate":"was unlinked in candidate"
+  "was unlinked in candidate":"was unlinked in candidate",
+  "Write a comment about candidates (N)": "Write a comment about candidates (N)"
 }

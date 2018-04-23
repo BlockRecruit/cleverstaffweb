@@ -608,6 +608,12 @@
                             {{'add_to_vacancy' | translate}} {{candidatesAddToVacancyIds.length}} <span ng-show="candidatesAddToVacancyIds.length == 1">{{'candidate_2'|translate}}</span>
                             <span ng-show="candidatesAddToVacancyIds.length > 1">{{'candidates__'|translate}}</span>
                         </button>
+                        <button class="btn pull-right addComments" ng-show="candidatesAddToVacancyIds.length > 0"
+                                ng-click="showModalAddCommentToCandidate();">
+                            <a title="{{'Write a comment about candidates (N)'|translate}}">
+                                <img src="../images/sprite/addMessage.svg" alt="{{'add_comment'|translate}}">
+                            </a>
+                        </button>
                         <button class="btn pull-right addTags" ng-show="candidatesAddToVacancyIds.length > 0 && !showTagsForMass"
                                 ng-click="showTagsForMassModal()">
                             {{'add tags' | translate}} {{candidatesAddToVacancyIds.length}} {{'candidate_3' | translate}}

@@ -1877,6 +1877,48 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             },0)
         });
     };
+    $scope.showModalAddCommentToCandidate = function () {
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/add-comment-candidate.html',
+            size: '',
+            resolve: {
+
+            }
+        });
+        $(document).unbind("keydown").keydown(function(e) {
+            if (e.ctrlKey == true && e.which == 13) {
+                $rootScope.addCommentInCandidate();
+            }
+        });
+    };
+    $rootScope.commentCandidate = {
+        comment: "",
+        loading: false
+    };
+    $rootScope.addCommentInCandidate = function () {
+        if ($rootScope.commentCandidate.comment != undefined && $rootScope.commentCandidate.comment.length > 0) {
+            $rootScope.commentCandidate.loading = true;
+            Candidate.setMessage({
+                comment: $rootScope.commentCandidate.comment,
+                candidateId: $scope.candidate.candidateId
+            }, function (resp) {
+                //$scope.lastMessage = resp.object.actions.objects[0];
+                $rootScope.commentCandidate.loading = false;
+                $rootScope.closeModal();
+                $rootScope.commentCandidate.comment = null;
+                if (resp.status == 'ok') {
+                    $scope.getLastEvent();
+                }
+                notificationService.success($filter('translate')('Comment added'));
+            }, function (error) {
+                $rootScope.commentCandidate.loading = false;
+                notificationService.error(error.message);
+            });
+        } else {
+            notificationService.error($filter('translate')('enter a comment'));
+        }
+    };
     $scope.editOriginName = function () {
         $scope.originOldName = $scope.getOriginAutocompleterValue();
         $rootScope.originName = $scope.originOldName;
