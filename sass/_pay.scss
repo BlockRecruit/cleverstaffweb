@@ -410,6 +410,77 @@
 					}
 				}
 			}
+			&.payment__plans {
+				.section__intro {
+					.intro__descr {
+						font-family: "Helvetica-Light";
+
+						color: #666;
+					}
+				}
+				.plans {
+					display: flex;
+					flex-direction: row;
+
+					align-items: center;
+					justify-content: stretch;
+					.plan {
+						display: flex;
+						flex-direction: column;
+						min-width: 200px;
+						padding: 0 14px 20px 14px;
+
+						border: 1px solid #ccc;
+
+						align-items: flex-start;
+						.name {
+							line-height: 40px;
+
+							height: 40px;
+
+							text-align: center;
+
+							background-color: #6ea1d9;
+							span {
+								font-family: "Helvetica-Medium";
+								font-size: 16px;
+
+								color: #fff;
+							}
+						}
+						.descr {
+							font-family: "Helvetica-Light";
+
+							text-align: center;
+
+							color: #666;
+						}
+						.select-plan {
+							display: block;
+							margin: 0 auto;
+
+							text-align: center;
+							.btn-transparent {
+								font-size: 15px;
+								font-weight: bold;
+
+								padding: 11px 8px;
+
+								text-decoration: none;
+
+								color: #333;
+								border: 1px solid #666;
+								border-radius: 23px;
+								background-color: transparent;
+								&:hover {
+									color: #333;
+									background-color: #ffc100;
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 		.payment__toggle {
 			position: absolute;

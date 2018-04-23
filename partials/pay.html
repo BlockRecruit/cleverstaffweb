@@ -1,20 +1,30 @@
 <div class="payment">
     <div class="container-fluid wrapper">
 
-        <section class="payment__acc-info">
+        <!--<section class="payment__acc-info">-->
+            <!--<div class="info__item">-->
+                <!--<span translate="Your account balance" class="into__title"></span>-->
+                <!--<span class="info__value">{{balance.amount}} USD</span>-->
+            <!--</div>-->
+            <!--<div class="info__item">-->
+                <!--<span translate="Your account is active until" class="into__title"></span>-->
+                <!--<span class="info__value">-->
+                    <!--{{balance.tillDate.dayOfMonth}}/{{balance.tillDate.monthValue}}/{{balance.tillDate.year}}-->
+                <!--</span>-->
+            <!--</div>-->
+            <!--<div class="info__item">-->
+                <!--<span translate="Paid users amount" class="into__title"></span>-->
+                <!--<span class="info__value">{{paidUsers.length}}</span>-->
+            <!--</div>-->
+            <!--<div class="info__item">-->
+                <!--<span translate="Current tariff" class="into__title"></span>-->
+                <!--<span class="info__value">{{tarif}}</span>-->
+            <!--</div>-->
+        <!--</section>-->
+        <section class="payment__acc-info ">
             <div class="info__item">
                 <span translate="Your account balance" class="into__title"></span>
                 <span class="info__value">{{balance.amount}} USD</span>
-            </div>
-            <div class="info__item">
-                <span translate="Your account is active until" class="into__title"></span>
-                <span class="info__value">
-                    {{balance.tillDate.dayOfMonth}}/{{balance.tillDate.monthValue}}/{{balance.tillDate.year}}
-                </span>
-            </div>
-            <div class="info__item">
-                <span translate="Paid users amount" class="into__title"></span>
-                <span class="info__value">{{paidUsers.length}}</span>
             </div>
             <div class="info__item">
                 <span translate="Current tariff" class="into__title"></span>
@@ -77,90 +87,120 @@
             <img class="security" src="/images/sprite/ssl-secured.png">
         </section>
 
-        <section class="payment__history">
-            <div class="payment__toggle">
-                <div class="history-toggle">
-                    <label translate="Payment history" for="payment"></label>
-                    <input id="payment" class="cmn-toggle cmn-toggle-round" ng-change="togglePaymentHistory({payment: true})" ng-checked="paymentHistory.payment" type="checkbox" ng-model="paymentHistory.payment">
-                    <label for="payment"></label>
-                </div>
-                <div class="write-offs-toggle">
-                    <label translate="Transitions history" for="transitions"></label>
-                    <input id="transitions" class="cmn-toggle cmn-toggle-round" ng-change="togglePaymentHistory({transitions: true})" type="checkbox" ng-model="paymentHistory.transitions">
-                    <label for="transitions"></label>
-                </div>
-            </div>
+        <section class="payment__plans">
             <div class="section__intro">
-                <h4 class="intro__title" translate="Your payment history" ng-show="paymentHistory.payment"></h4>
-                <h4 class="intro__title" translate="Your transition history" ng-show="paymentHistory.transitions"></h4>
+                <p class="intro__descr">
+                    Как подписчик плана ’’1 Recruiter’’ (бесплатная подписка), вы имеете ограниченный доступ
+                    к возможностям CleverStaff.
+                    <br>
+                    Откройте все возможности CleverStaff для рекрутинга на новом уровне!
+                    <br>
+                    Для этого перейдите на платную подписку: <strong>’’Team Work’’</strong>, <strong>’’Corporate’’</strong>, или <strong>’’Enterprise’’</strong>.
+                </p>
             </div>
-            <div class="history-data">
-                <table class="payment-history" ng-show="paymentHistory.payment">
-                    <thead>
-                        <tr>
-                            <th translate="Payment created"></th>
-                            <th translate="Payment-received"></th>
-                            <th translate="Sum"></th>
-                            <th translate="Purpose"></th>
-                        </tr>
-                        <tr ng-class="{'lastPayment': $index == 0 && fromPayment == true}" ng-repeat="payment in payments| orderBy:'-dc'" hgtablecollspan="7">
-                        <td>{{payment.dc| dateFormat2:true}}</td>
-                        <td>
-                             <span ng-if="payment.status === 'success' || payment.status === 'Approved' || payment.status === 'sandbox' || payment.status === 'SALE'">
-                                <i class="fa fa-check" aria-hidden="true"></i>{{payment.dm| dateFormat2:true}}
-                            </span>
-                            <div class="a" ng-if="payment.status != 'success' && payment.status != 'Approved' && payment.status != 'sandbox' && payment.status != 'SALE'">
-                                <span class="paymentStatus danger">{{payment.status}}</span>
-                                <i class="fa fa-question tooltip-icon" tooltip-placement="top-right"  uib-tooltip="{{'Платеж не подтвердили через смс' | translate}}" tooltip-class="tooltip-dark"  aria-hidden="true"></i>
-                            </div>
-                        </td>
-                        <td>{{payment.amount}} {{payment.currency}}</td>
-                        <td>
-                            {{'For'|translate}} {{payment.params.users}}
-                            <span ng-if="payment.params.users == 1">{{'User2'|translate}}</span>
-                            <span ng-if="payment.params.users > 1">{{'Users2'|translate}}</span>
-                            {{'For2'|translate}} {{payment.params.months}}
-                            <span ng-if="payment.params.months == 1">{{'Month2'|translate}}</span>
-                            <span ng-if="payment.params.months <= 4 && payment.params.months > 1">{{'Months3'|translate}}</span>
-                            <span ng-if="payment.params.months > 4">{{'Months2'|translate}}</span>
-                        </td>
-                        <td class="delete-icon">
-                            <i title="{{'Delete'|translate}}" ng-click="deletePayment(payment)" ng-if="payment.status == 'new' || payment.status == 'Expired'" class="fa fa-times" aria-hidden="true"></i>
-                        </td>
-                        </tr>
-                    </thead>
-                </table>
-                <table class="write-offs-history" ng-show="paymentHistory.transitions">
-                    <thead>
-                        <tr>
-                            <th translate="date"></th>
-                            <th translate="Payment"></th>
-                            <th translate="Sum"></th>
-                            <th translate="Balance"></th>
-                        </tr>
-                    </thead>
-                    <tr ng-repeat="expense in expenses">
-                        <td>{{expense.targetDate | dateFormat}}</td>
-                        <td ng-show="(!expense.descr) && (expense.type == 'expense') ">
-                            <span>{{'Charge for'|translate}}{{" " + expense.peopleCount }} </span>
-                            <span ng-if="expense.peopleCount == 1">{{'User2'|translate}}</span>
-                            <span ng-if="expense.peopleCount > 1">{{'Users2'|translate}}</span>
-                        </td>
-                        <td ng-show="(!expense.descr) && (expense.type == 'pay')">
-                            <span>{{"Reffilling the balance"|translate}}</span>
-                        </td>
-                        <td ng-show="(expense.descr) && (expense.type == 'adjustment')">
-                            {{expense.descr}}
-                        </td>
-                        <td ng-show="(expense.descr) && (expense.type != 'adjustment')">
-                            {{expense.descr}}
-                        </td>
-                        <td>{{expense.amountDouble + ' '}} USD</td>
-                        <td>{{expense.balanceDouble + ' '}}USD</td>
-                    </tr>
-                </table>
+            <div class="plans">
+                <div class="plan">
+                    <div class="name">
+                        <span>Team Work</span>
+                    </div>
+                    <div class="descr">
+                        25 USD<br>
+                        за каждого пользователя<br>
+                        Управление рекрутингом<br>
+                        на всех этапах и<br>
+                        автоматизация работы.
+                    </div>
+                    <div class="select-plan">
+                        <a class="btn-transparent">Оплатить</a>
+                    </div>
+                </div>
             </div>
         </section>
+
+        <!--<section class="payment__history">-->
+            <!--<div class="payment__toggle">-->
+                <!--<div class="history-toggle">-->
+                    <!--<label translate="Payment history" for="payment"></label>-->
+                    <!--<input id="payment" class="cmn-toggle cmn-toggle-round" ng-change="togglePaymentHistory({payment: true})" ng-checked="paymentHistory.payment" type="checkbox" ng-model="paymentHistory.payment">-->
+                    <!--<label for="payment"></label>-->
+                <!--</div>-->
+                <!--<div class="write-offs-toggle">-->
+                    <!--<label translate="Transitions history" for="transitions"></label>-->
+                    <!--<input id="transitions" class="cmn-toggle cmn-toggle-round" ng-change="togglePaymentHistory({transitions: true})" type="checkbox" ng-model="paymentHistory.transitions">-->
+                    <!--<label for="transitions"></label>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="section__intro">-->
+                <!--<h4 class="intro__title" translate="Your payment history" ng-show="paymentHistory.payment"></h4>-->
+                <!--<h4 class="intro__title" translate="Your transition history" ng-show="paymentHistory.transitions"></h4>-->
+            <!--</div>-->
+            <!--<div class="history-data">-->
+                <!--<table class="payment-history" ng-show="paymentHistory.payment">-->
+                    <!--<thead>-->
+                        <!--<tr>-->
+                            <!--<th translate="Payment created"></th>-->
+                            <!--<th translate="Payment-received"></th>-->
+                            <!--<th translate="Sum"></th>-->
+                            <!--<th translate="Purpose"></th>-->
+                        <!--</tr>-->
+                        <!--<tr ng-class="{'lastPayment': $index == 0 && fromPayment == true}" ng-repeat="payment in payments| orderBy:'-dc'" hgtablecollspan="7">-->
+                        <!--<td>{{payment.dc| dateFormat2:true}}</td>-->
+                        <!--<td>-->
+                             <!--<span ng-if="payment.status === 'success' || payment.status === 'Approved' || payment.status === 'sandbox' || payment.status === 'SALE'">-->
+                                <!--<i class="fa fa-check" aria-hidden="true"></i>{{payment.dm| dateFormat2:true}}-->
+                            <!--</span>-->
+                            <!--<div class="a" ng-if="payment.status != 'success' && payment.status != 'Approved' && payment.status != 'sandbox' && payment.status != 'SALE'">-->
+                                <!--<span class="paymentStatus danger">{{payment.status}}</span>-->
+                                <!--<i class="fa fa-question tooltip-icon" tooltip-placement="top-right"  uib-tooltip="{{'Платеж не подтвердили через смс' | translate}}" tooltip-class="tooltip-dark"  aria-hidden="true"></i>-->
+                            <!--</div>-->
+                        <!--</td>-->
+                        <!--<td>{{payment.amount}} {{payment.currency}}</td>-->
+                        <!--<td>-->
+                            <!--{{'For'|translate}} {{payment.params.users}}-->
+                            <!--<span ng-if="payment.params.users == 1">{{'User2'|translate}}</span>-->
+                            <!--<span ng-if="payment.params.users > 1">{{'Users2'|translate}}</span>-->
+                            <!--{{'For2'|translate}} {{payment.params.months}}-->
+                            <!--<span ng-if="payment.params.months == 1">{{'Month2'|translate}}</span>-->
+                            <!--<span ng-if="payment.params.months <= 4 && payment.params.months > 1">{{'Months3'|translate}}</span>-->
+                            <!--<span ng-if="payment.params.months > 4">{{'Months2'|translate}}</span>-->
+                        <!--</td>-->
+                        <!--<td class="delete-icon">-->
+                            <!--<i title="{{'Delete'|translate}}" ng-click="deletePayment(payment)" ng-if="payment.status == 'new' || payment.status == 'Expired'" class="fa fa-times" aria-hidden="true"></i>-->
+                        <!--</td>-->
+                        <!--</tr>-->
+                    <!--</thead>-->
+                <!--</table>-->
+                <!--<table class="write-offs-history" ng-show="paymentHistory.transitions">-->
+                    <!--<thead>-->
+                        <!--<tr>-->
+                            <!--<th translate="date"></th>-->
+                            <!--<th translate="Payment"></th>-->
+                            <!--<th translate="Sum"></th>-->
+                            <!--<th translate="Balance"></th>-->
+                        <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tr ng-repeat="expense in expenses">-->
+                        <!--<td>{{expense.targetDate | dateFormat}}</td>-->
+                        <!--<td ng-show="(!expense.descr) && (expense.type == 'expense') ">-->
+                            <!--<span>{{'Charge for'|translate}}{{" " + expense.peopleCount }} </span>-->
+                            <!--<span ng-if="expense.peopleCount == 1">{{'User2'|translate}}</span>-->
+                            <!--<span ng-if="expense.peopleCount > 1">{{'Users2'|translate}}</span>-->
+                        <!--</td>-->
+                        <!--<td ng-show="(!expense.descr) && (expense.type == 'pay')">-->
+                            <!--<span>{{"Reffilling the balance"|translate}}</span>-->
+                        <!--</td>-->
+                        <!--<td ng-show="(expense.descr) && (expense.type == 'adjustment')">-->
+                            <!--{{expense.descr}}-->
+                        <!--</td>-->
+                        <!--<td ng-show="(expense.descr) && (expense.type != 'adjustment')">-->
+                            <!--{{expense.descr}}-->
+                        <!--</td>-->
+                        <!--<td>{{expense.amountDouble + ' '}} USD</td>-->
+                        <!--<td>{{expense.balanceDouble + ' '}}USD</td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+            <!--</div>-->
+        <!--</section>-->
 
 
     </div>
