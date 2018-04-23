@@ -28,44 +28,69 @@
                 <p class="intro__descr" translate="Get a 10% bonus if you pay more than 4 months and 20% pay for the year"></p>
             </div>
             <div class="pay__data">
-                <table>
-                    <thead>
-                        <tr>
-                            <th translate="Users_1"></th>
-                            <th translate="Months_1"></th>
-                            <th translate="Bonus"></th>
-                            <th translate="Total"></th>
-                        </tr>
-                    </thead>
-                    <tr>
-                        <td>
-                            <div class="wrap">
-                                <div>
-                                    <div my-select="paidUsers" selection="countPeople"></div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="wrap">
-                                <div>
-                                    <div my-select="months" selection="countMonth"></div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="wrap">
-                                <span class="bonus">{{bonus}}%</span>
-                                <img src="/images/sprite/gift.png">
-                            </div>
-                        </td>
-                        <td>
-                            <div class="wrap">
-                                <span class="total">{{price}} USD</span>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-                <span class="total-info" translate="Will be credited total USD (bonus USD)" translate-values="{total: price, bonus: bonusAmount}"></span>
+                <!--<table>-->
+                    <!--<thead>-->
+                        <!--<tr>-->
+                            <!--<th translate="Users_1"></th>-->
+                            <!--<th translate="Months_1"></th>-->
+                            <!--<th translate="Bonus"></th>-->
+                            <!--<th translate="Total"></th>-->
+                        <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tr>-->
+                        <!--<td>-->
+                            <!--<div class="wrap">-->
+                                <!--<div>-->
+                                    <!--<div my-select="paidUsers" selection="countPeople"></div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<div class="wrap">-->
+                                <!--<div>-->
+                                    <!--<div my-select="months" selection="countMonth"></div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<div class="wrap">-->
+                                <!--<span class="bonus">{{bonus}}%</span>-->
+                                <!--<img src="/images/sprite/gift.png">-->
+                            <!--</div>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                            <!--<div class="wrap">-->
+                                <!--<span class="total">{{price}} USD</span>-->
+                            <!--</div>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+                <div class="data__item">
+                    <span translate="Users_1" class="title"></span>
+                    <div class="data">
+                        <div my-select="paidUsers" selection="countPeople"></div>
+                    </div>
+                </div>
+                <div class="data__item">
+                    <span translate="Months_1" class="title"></span>
+                    <div class="data">
+                        <div my-select="paidUsers" selection="countPeople"></div>
+                    </div>
+                </div>
+                <div class="data__item">
+                    <span translate="Bonus" class="title"></span>
+                    <div class="data">
+                        <span class="bonus">{{bonus}}%</span>
+                        <img src="/images/sprite/gift.png">
+                    </div>
+                </div>
+                <div class="data__item">
+                    <span translate="Total" class="title"></span>
+                    <div class="data">
+                        <span class="total">{{price}} USD</span>
+                    </div>
+                </div>
+                <!--<span class="total-info" translate="Will be credited total USD (bonus USD)" translate-values="{total: price, bonus: bonusAmount}"></span>-->
             </div>
             <div class="pay__types">
                 <div class="pay__type">

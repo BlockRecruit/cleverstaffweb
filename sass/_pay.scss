@@ -115,65 +115,105 @@
 					right: 9px;
 				}
 				.pay__data {
+					display: flex;
+					flex-direction: row;
 					width: 100%;
 					padding: 18px 10px 4px 10px;
 
 					border: 1px solid #ccc;
 					border-radius: 5px;
-					table {
-						width: 100%;
-						& > tr {
-							border-bottom: 1px solid #ccc;
-						}
-						tr {
-							th {
-								font-family: "Helvetica-Light";
 
-								color: #666;
-								//&:last-child {
-								//	text-align: right;
-								//}
-							}
-							td {
-								.wrap {
-									display: flex;
-									flex-direction: row;
-									height: 60px;
-									margin-top: 10px;
+					justify-content: space-between;
+					align-items: center;
+					.title {
+						font-family: "Helvetica-Light";
 
-									border-top: 1px solid #ccc;
-									border-bottom: 1px solid #ccc;
+						padding-bottom: 15px;
 
-									align-items: center;
-									justify-content: flex-start;
-									select {
-										width: 90px;
-									}
-									span {
-										&.bonus {
-											font-family: "Helvetica-Bold";
+						color: #666;
+					}
+					.data__item {
+						display: flex;
+						flex-direction: column;
 
-											min-width: 60px;
-											margin-right: 5px;
-											padding: 5px 14px;
+						justify-content: center;
+						align-items: flex-start;
+						.data {
+							margin-top: 15px;
+							span {
+								&.bonus {
+									font-family: "Helvetica-Bold";
 
-											color: #00b549;
-											border: 1px solid #00b549;
-											border-radius: 5px;
-										}
-										&.total {
-											font-family: "Helvetica-Bold";
-											font-size: 25px;
+									min-width: 60px;
+									margin-right: 5px;
+									padding: 5px 14px;
 
-											min-width: 130px;
+									color: #00b549;
+									border: 1px solid #00b549;
+									border-radius: 5px;
+								}
+								&.total {
+									font-family: "Helvetica-Bold";
+									font-size: 25px;
 
-											color: #666;
-										}
-									}
+									min-width: 130px;
+
+									color: #666;
 								}
 							}
 						}
 					}
+					//table {
+					//	width: 100%;
+					//	& > tr {
+					//		border-bottom: 1px solid #ccc;
+					//	}
+					//	tr {
+					//		th {
+					//			font-family: "Helvetica-Light";
+					//
+					//			color: #666;
+					//		}
+					//		td {
+					//			.wrap {
+					//				display: flex;
+					//				flex-direction: row;
+					//				height: 60px;
+					//				margin-top: 10px;
+					//
+					//				border-top: 1px solid #ccc;
+					//				border-bottom: 1px solid #ccc;
+					//
+					//				align-items: center;
+					//				justify-content: flex-start;
+					//				select {
+					//					width: 90px;
+					//				}
+					//				span {
+					//					&.bonus {
+					//						font-family: "Helvetica-Bold";
+					//
+					//						min-width: 60px;
+					//						margin-right: 5px;
+					//						padding: 5px 14px;
+					//
+					//						color: #00b549;
+					//						border: 1px solid #00b549;
+					//						border-radius: 5px;
+					//					}
+					//					&.total {
+					//						font-family: "Helvetica-Bold";
+					//						font-size: 25px;
+					//
+					//						min-width: 130px;
+					//
+					//						color: #666;
+					//					}
+					//				}
+					//			}
+					//		}
+					//	}
+					//}
 				}
 				.pay__types {
 					display: flex;
