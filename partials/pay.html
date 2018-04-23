@@ -14,7 +14,7 @@
             </div>
             <div class="info__item">
                 <span translate="Paid users amount" class="into__title"></span>
-                <span class="info__value">{{paidUsersAmountArray.length}}</span>
+                <span class="info__value">{{paidUsers.length}}</span>
             </div>
             <div class="info__item">
                 <span translate="Current tariff" class="into__title"></span>
@@ -27,70 +27,35 @@
                 <h4 class="intro__title" translate="Pay for cleverstaff usage"></h4>
                 <p class="intro__descr" translate="Get a 10% bonus if you pay more than 4 months and 20% pay for the year"></p>
             </div>
-            <div class="pay__data">
-                <!--<table>-->
-                    <!--<thead>-->
-                        <!--<tr>-->
-                            <!--<th translate="Users_1"></th>-->
-                            <!--<th translate="Months_1"></th>-->
-                            <!--<th translate="Bonus"></th>-->
-                            <!--<th translate="Total"></th>-->
-                        <!--</tr>-->
-                    <!--</thead>-->
-                    <!--<tr>-->
-                        <!--<td>-->
-                            <!--<div class="wrap">-->
-                                <!--<div>-->
-                                    <!--<div my-select="paidUsers" selection="countPeople"></div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</td>-->
-                        <!--<td>-->
-                            <!--<div class="wrap">-->
-                                <!--<div>-->
-                                    <!--<div my-select="months" selection="countMonth"></div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</td>-->
-                        <!--<td>-->
-                            <!--<div class="wrap">-->
-                                <!--<span class="bonus">{{bonus}}%</span>-->
-                                <!--<img src="/images/sprite/gift.png">-->
-                            <!--</div>-->
-                        <!--</td>-->
-                        <!--<td>-->
-                            <!--<div class="wrap">-->
-                                <!--<span class="total">{{price}} USD</span>-->
-                            <!--</div>-->
-                        <!--</td>-->
-                    <!--</tr>-->
-                <!--</table>-->
-                <div class="data__item">
-                    <span translate="Users_1" class="title"></span>
-                    <div class="data">
-                        <div my-select="paidUsers" selection="countPeople"></div>
+            <div class="pay-data__wrapper">
+                <div class="pay__data">
+                    <div class="data__item margin-xs">
+                        <span translate="Users_1" class="title"></span>
+                        <div class="data">
+                            <div my-select="paidUsers" selection="countPeople"></div>
+                        </div>
+                    </div>
+                    <div class="data__item margin-xs">
+                        <span translate="Months_1" class="title"></span>
+                        <div class="data">
+                            <div my-select="months" selection="countMonth"></div>
+                        </div>
+                    </div>
+                    <div class="data__item">
+                        <span translate="Bonus" class="title border-xs"></span>
+                        <div class="data">
+                            <span class="bonus">{{bonus}}%</span>
+                            <img src="/images/sprite/gift.png">
+                        </div>
+                    </div>
+                    <div class="data__item">
+                        <span translate="Total" class="title border-xs"></span>
+                        <div class="data">
+                            <span class="total">{{price}} USD</span>
+                        </div>
                     </div>
                 </div>
-                <div class="data__item">
-                    <span translate="Months_1" class="title"></span>
-                    <div class="data">
-                        <div my-select="paidUsers" selection="countPeople"></div>
-                    </div>
-                </div>
-                <div class="data__item">
-                    <span translate="Bonus" class="title"></span>
-                    <div class="data">
-                        <span class="bonus">{{bonus}}%</span>
-                        <img src="/images/sprite/gift.png">
-                    </div>
-                </div>
-                <div class="data__item">
-                    <span translate="Total" class="title"></span>
-                    <div class="data">
-                        <span class="total">{{price}} USD</span>
-                    </div>
-                </div>
-                <!--<span class="total-info" translate="Will be credited total USD (bonus USD)" translate-values="{total: price, bonus: bonusAmount}"></span>-->
+                <span class="total-info" translate="Will be credited total USD (bonus USD)" translate-values="{total: price, bonus: bonusAmount}"></span>
             </div>
             <div class="pay__types">
                 <div class="pay__type">
@@ -190,8 +155,6 @@
                         <td ng-show="(expense.descr) && (expense.type != 'adjustment')">
                             {{expense.descr}}
                         </td>
-                    <!--<td ng-class="{'blue': expense.entity =='payment'}" ng-show="!expense.descr"><span ng-show="expense.entity =='expense'">-</span>${{expense.amount}}</td>-->
-                    <!--<td colspan="1" ng-show="expense.descr">{{expense.descr}}</td>-->
                         <td>{{expense.amountDouble + ' '}} USD</td>
                         <td>{{expense.balanceDouble + ' '}}USD</td>
                     </tr>

@@ -114,21 +114,26 @@
 					top: 12px;
 					right: 9px;
 				}
+				.pay-data__wrapper {
+					width: 100%;
+
+					border: 1px solid #ccc;
+					border-radius: 5px;
+				}
 				.pay__data {
+					position: relative;
+
 					display: flex;
 					flex-direction: row;
 					width: 100%;
 					padding: 18px 10px 4px 10px;
-
-					border: 1px solid #ccc;
-					border-radius: 5px;
 
 					justify-content: space-between;
 					align-items: center;
 					.title {
 						font-family: "Helvetica-Light";
 
-						padding-bottom: 15px;
+						padding-bottom: 10px;
 
 						color: #666;
 					}
@@ -139,7 +144,12 @@
 						justify-content: center;
 						align-items: flex-start;
 						.data {
+							display: flex;
+							flex-direction: row;
 							margin-top: 15px;
+
+							align-items: center;
+							justify-content: center;
 							span {
 								&.bonus {
 									font-family: "Helvetica-Bold";
@@ -162,6 +172,18 @@
 								}
 							}
 						}
+					}
+					&:before {
+						position: absolute;
+						top: 46px;
+						left: 9px;
+
+						width: calc(100% - 15px);
+						height: 1px;
+
+						content: "";
+
+						background-color: #ccc;
 					}
 					//table {
 					//	width: 100%;
@@ -314,11 +336,13 @@
 					font-family: "Helvetica-Regular";
 
 					display: block;
-					margin-top: 2px;
+					margin: 6px 0 0 10px;
+					padding: 5px 10px;
 
 					text-align: right;
 
 					color: #00b549;
+					border-top: 1px solid #ccc;
 				}
 			}
 			&.payment__history {
@@ -658,6 +682,7 @@ select,
 				align-items: center;
 				.intro__descr {
 					width: 100%;
+					margin-bottom: 20px;
 
 					text-align: center;
 				}
@@ -666,10 +691,36 @@ select,
 	}
 }
 
-@media screen and (max-width: $screen-xs) {
+@media screen and (max-width: 520px) {
 	.payment .wrapper section {
 		padding: 19px 4px 10px 4px;
 		&.payment__pay {
+			.pay__data {
+				flex-wrap: wrap;
+				.title {
+					&.border-xs {
+						width: 100%;
+						padding-top: 10px;
+
+						text-align: center;
+
+						border-top: 1px solid #ccc;
+						border-bottom: 1px solid #ccc;
+					}
+				}
+				.data__item {
+					width: 50%;
+
+					justify-content: space-between;
+					align-items: center;
+					.data {
+						height: 33px;
+					}
+					&.margin-xs {
+						margin-bottom: 15px;
+					}
+				}
+			}
 			.pay__types {
 				flex-direction: column;
 				.pay__type {
@@ -686,6 +737,15 @@ select,
 				}
 			}
 		}
+	}
+}
+
+@media screen and (max-width: 360px) {
+	.container-fluid {
+		padding: 0;
+	}
+	.payment .wrapper section {
+		padding: 19px 0 10px 0;
 	}
 }
 
