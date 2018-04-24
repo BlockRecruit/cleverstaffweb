@@ -71,7 +71,7 @@
                             <div class="col-lg-12" ng-switch-when="candidate_add_to_group">
                                 <ng-include src="'partials/history/full-history/candidate_add_to_group.html'"></ng-include>
                             </div>
-                            <div class="col-lg-12" ng-switch-when="candidate_change_state">
+                            <div class="col-lg-12" ng-switch-when="candidate_change_state" ng-hide="history.parentId">
                                 <ng-include src="'partials/history/full-history/candidate_change_state.html'"></ng-include>
                             </div>
                             <div class="col-lg-12" ng-switch-when="candidate_message">
