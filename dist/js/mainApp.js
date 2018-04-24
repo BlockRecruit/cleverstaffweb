@@ -37901,7 +37901,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                         'og:url': link,
                                         'og:title': $filter('translate')('Vacancy') + ' ' + $scope.vacancy.position,
                                         'og:description': $filter('limitTo')($scope.publicDescr, 100, 0),
-                                        'og:image': 'https://cleverstaff.net/images/sprite/icon_128_128_png.png'
+                                        'og:image': 'https://cleverstaff.net/images/sprite/vacancy-new.jpg'
                                     }
                                 })
                             },
@@ -37924,7 +37924,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                                 'og:url': link,
                                                 'og:title': $filter('translate')('Vacancy') + ' ' + $scope.vacancy.position,
                                                 'og:description': $filter('limitTo')($scope.publicDescr, 100, 0),
-                                                'og:image': 'https://cleverstaff.net/images/sprite/icon_128_128_png.png'
+                                                'og:image': 'https://cleverstaff.net/images/sprite/vacancy-new.jpg'
                                             }
                                         })
                                     },
