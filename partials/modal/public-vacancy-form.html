@@ -69,6 +69,10 @@
                     <i class="fa fa-times pull-right" ng-click="removeFile(file.attId)" aria-hidden="true"></i>
                 </div>
             </div>
+            <div class="access-person-data">
+                <input type="checkbox" required name="access-person-data" ng-model="accessPresonData">
+                <span>{{"I give my consent for my personal data processing for this and other vacancies"|translate}}</span>
+            </div>
         </form>
         <button class="btn-primary-new apply pull-right" ng-click="sendRequest(recallForm)">{{'send'|translate}}</button>
         <div class="clearfix"></div>

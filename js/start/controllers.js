@@ -877,6 +877,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             vacancyId: $scope.vacancyId,
             fileId: null
         };
+        $scope.accessPresonData = false;
 
         $.getScript("https://platform.linkedin.com/in.js?async=true", function success() {
             IN.init({
@@ -1180,6 +1181,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 }else{
                     $scope.showErrorEmailMessage = false;
                 }
+
                 if ($scope.filesForRecall.length != 0) {
                     angular.forEach($scope.filesForRecall, function (resp) {
                         delete resp.$$hashKey;
@@ -1191,6 +1193,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 } else if ($scope.request.message == undefined) {
                     $scope.request.message = "";
                 }
+
                 $scope.request.lang = $translate.use();
                 $scope.request.email = $('#email2').val();
                 $scope.request.phone = String($scope.request.phone);
@@ -1237,7 +1240,8 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                     });
                 }
             } else {
-                $scope.recallForm.name.$pristine = false;
+              if(!$scope.accessPresonData) notificationService.error($translate.instant("You need to give your consent for your personal data to processing proceed"));
+              $scope.recallForm.name.$pristine = false;
                 $scope.recallForm.last_name.$pristine = false;
                 if (validEmail($scope.request.email)) {
                     $scope.showErrorEmailMessage = true;
