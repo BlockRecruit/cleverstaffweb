@@ -42,7 +42,6 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             } else {
                 $scope.tarif = resp.object.tarif;
             }
-
             $scope.dailyRate = resp.object.dailyRate;
             $scope.monthRate = resp.object.monthRate;
         },function(msg){
@@ -152,38 +151,6 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         };
 
         $scope.updatePaymentsList();
-        // $scope.getAllPersons = Person.getAllPersons(function (resp) {
-        //     //allPersons = Object.keys(resp).length;
-        //     $scope.associativePerson = resp.object;
-        //     angular.forEach($scope.associativePerson, function (val) {
-        //         //console.log(val);
-        //         //console.log(val.status);
-        //         if (val.status == "A" && val.recrutRole != 'client') {
-        //             $scope.numberVacancy = ++$scope.numberVacancy;
-        //         }
-        //     });
-        //     //console.log('allPersons: '+$scope.numberVacancy);
-        //     if ($scope.numberVacancy <= 12 && $scope.numberVacancy != 0) {
-        //         $('#countPeople').append("<option style='display: none;' selected>" + $scope.numberVacancy + "</option>");
-        //     }
-        //     else {
-        //         $('#countPeople').append("<option selected>" + $scope.numberVacancy + "</option>");
-        //     }
-        //     $scope.countMonth = $('#countMonth').val();
-        //     $scope.countPeople = $('#countPeople').val();
-        //     if ($scope.countMonth >= 12) {
-        //         $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople * 0.80;
-        //     }
-        //     else if ($scope.countMonth >= 4) {
-        //         $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople * 0.9;
-        //     }
-        //     else {
-        //         console.log("3",$scope.monthRate);
-        //         console.log("4",$scope.dailyRate);
-        //         $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-        //     }
-        //     $('#price').html($scope.price + " USD");
-        // });
         $scope.deletePayment = function (resp) {
             console.log(resp.paymentId);
             $.ajax({

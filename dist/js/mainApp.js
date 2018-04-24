@@ -31075,6 +31075,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.news = [];
     $scope.newsEng = [];
     $scope.readedNews = [];
+    $scope.bonus = 0;
+    $scope.paidUsers = [];
+    $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
+    $scope.countPeople = 0;
+    $scope.countMonth = 4;
     //localStorage.setItem("readedNews", '');
     if(localStorage.readedNews){
         $scope.readedNews = (JSON.parse(localStorage.getItem('readedNews')));
@@ -31273,6 +31278,21 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             }
         });
     };
+
+    $scope.$watchGroup(['countPeople', 'countMonth'], function() {
+        $scope.monthRate = $scope.monthRate || 25;
+        if ($scope.countMonth >= 12) {
+            $scope.bonus = 20;
+        }
+        else if ($scope.countMonth >= 4) {
+            $scope.bonus = 10;
+        }
+        else {
+            $scope.bonus = 0;
+        }
+        $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople * (1 + ($scope.bonus/ 100)));
+        $scope.bonusAmount = $scope.price - ($scope.price * 100 / ($scope.bonus + 100));
+    });
 
     $scope.blockInfo();
 
@@ -31625,21 +31645,20 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                     $('#countPeople').prepend("<option selected>"+$rootScope.blockUserData.payment_min_users+"</option>");
                                     $scope.countMonth = $('#countMonth').val();
                                     $scope.countPeople = $('#countPeople').val();
-                                    if(!$scope.monthRate) {
-                                        if ($scope.countMonth >= 12) {
-                                            $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                                        }
-                                        else if ($scope.countMonth >= 4) {
-                                            $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                                        }
-                                        else {
-                                            $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                                        }
-                                    } else {
-                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople ;
-                                    }
+                                    $scope.monthRate = $scope.monthRate || 25;
 
-                                    $('#price').html($scope.price + " USD");
+                                    if ($scope.countMonth >= 12) {
+                                        $scope.bonus = 20;
+                                    }
+                                    else if ($scope.countMonth >= 4) {
+                                        $scope.bonus = 10;
+                                    }
+                                    else {
+                                        $scope.bonus = 0;
+                                    }
+                                    $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople * (1 + ($scope.bonus/ 100)));
+                                    $scope.bonusAmount = $scope.price - ($scope.price * 100 / ($scope.bonus + 100));
+
                                     $('.checkoutInner select').unbind().on('change', function () {
                                         $scope.countMonth = $('#countMonth').val();
                                         $scope.countPeople = $('#countPeople').val();
@@ -31671,12 +31690,8 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                                 $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
                                             }
                                         }
-
-
-                                        $('#price').html($scope.price + " USD");
                                         $scope.$apply();
                                     });
-                                    $('#blockMessgae').html($rootScope.blockUserData.block_text);
                                 }
                                 if(!$scope.$$phase) {
                                     $scope.$apply();
@@ -32210,6 +32225,16 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 //notificationService.error($filter('translate')('service temporarily unvailable'));
             });
         };
+        Person.getAllPersons((resp) => {
+            angular.forEach(resp.object, function (val) {
+                if (val.status == "A" && val.recrutRole != 'client') {
+                    $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
+                }
+            });
+            $scope.countPeople = $scope.paidUsers.length;
+        });
+
+
         //$scope.getAllPersons = Person.getAllPersons(function(resp){
         //    //allPersons = Object.keys(resp).length;
         //    angular.forEach(resp, function(val) {
@@ -34473,7 +34498,6 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             } else {
                 $scope.tarif = resp.object.tarif;
             }
-
             $scope.dailyRate = resp.object.dailyRate;
             $scope.monthRate = resp.object.monthRate;
         },function(msg){
@@ -34583,38 +34607,6 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         };
 
         $scope.updatePaymentsList();
-        // $scope.getAllPersons = Person.getAllPersons(function (resp) {
-        //     //allPersons = Object.keys(resp).length;
-        //     $scope.associativePerson = resp.object;
-        //     angular.forEach($scope.associativePerson, function (val) {
-        //         //console.log(val);
-        //         //console.log(val.status);
-        //         if (val.status == "A" && val.recrutRole != 'client') {
-        //             $scope.numberVacancy = ++$scope.numberVacancy;
-        //         }
-        //     });
-        //     //console.log('allPersons: '+$scope.numberVacancy);
-        //     if ($scope.numberVacancy <= 12 && $scope.numberVacancy != 0) {
-        //         $('#countPeople').append("<option style='display: none;' selected>" + $scope.numberVacancy + "</option>");
-        //     }
-        //     else {
-        //         $('#countPeople').append("<option selected>" + $scope.numberVacancy + "</option>");
-        //     }
-        //     $scope.countMonth = $('#countMonth').val();
-        //     $scope.countPeople = $('#countPeople').val();
-        //     if ($scope.countMonth >= 12) {
-        //         $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople * 0.80;
-        //     }
-        //     else if ($scope.countMonth >= 4) {
-        //         $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople * 0.9;
-        //     }
-        //     else {
-        //         console.log("3",$scope.monthRate);
-        //         console.log("4",$scope.dailyRate);
-        //         $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-        //     }
-        //     $('#price').html($scope.price + " USD");
-        // });
         $scope.deletePayment = function (resp) {
             console.log(resp.paymentId);
             $.ajax({
