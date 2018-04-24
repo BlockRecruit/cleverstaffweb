@@ -1906,9 +1906,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         if ($rootScope.commentCandidate.comment != undefined && $rootScope.commentCandidate.comment.length > 0) {
             Candidate.setMessage({
                 comment: $rootScope.commentCandidate.comment,
-                candidateId: $scope.candidatesAddToVacancyIds
+                candidateIds: $scope.candidatesAddToVacancyIds
             }, function (resp) {
                 if (resp.status == 'ok') {
+                    $scope.tableParams.reload();
                     $rootScope.closeModal();
                     $rootScope.commentCandidate.comment = null;
                     angular.forEach($scope.addCandidateChangeStage, function (val) {
