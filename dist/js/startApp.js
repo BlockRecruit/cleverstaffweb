@@ -3745,7 +3745,12 @@ angular.module('services.candidate', [
         return options;
     };
     candidate.setOptions = function(name, value) {
-        options[name] = value;
+        if(name === "dateTo" || name === "dateFrom") {
+            setAgeRange(name, value);
+        } else {
+            options[name] = value;
+        }
+
     };
     candidate.init = function() {
         options = {
@@ -4706,6 +4711,29 @@ angular.module('services.candidate', [
             });
         });
     };
+
+    function setAgeRange(name, value) {
+        if(name === "dateTo") {
+            if(typeof(options["dateFrom"]) === "number" && ageRangeToYears(options["dateFrom"]) === value) {
+                options["dateFrom"] = ageRangeToMs(value + 1);
+            }
+            options[name] = ageRangeToMs(value);
+        } else {
+            if(typeof(options["dateTo"]) === "number" && ageRangeToYears(options["dateTo"]) === value) {
+                options[dateFrom] = ageRangeToMs(value + 1);
+            } else {
+                options[name] = ageRangeToMs(value);
+            }
+        }
+    }
+
+    function ageRangeToMs(years) {
+        return new Date(new Date().setFullYear(new Date().getFullYear() - years)).getTime();
+    }
+
+    function ageRangeToYears(ms) {
+        return new Date().getFullYear() - new Date(ms).getFullYear()
+    }
 
     return candidate;
 }]);

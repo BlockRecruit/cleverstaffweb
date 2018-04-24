@@ -23,7 +23,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     };
     $rootScope.closeNavModal = function(){
         if($rootScope.modalInstance)
-        $rootScope.modalInstance.close();
+            $rootScope.modalInstance.close();
     };
 
     $rootScope.badInternetObj = {show: false};
@@ -502,7 +502,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     };
     $('.ui.dropdown').dropdown();
     $rootScope.updateMe = function(){
+        $rootScope.loading = true;
         Person.getMe(function (response) {
+            $rootScope.loading = false;
             if(response.status != 'error'){
                 if (response.object.orgParams !== undefined) {
                     function isServerURL() {
@@ -533,178 +535,178 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 }
 
                 // if($rootScope.me.recrutRole == 'admin') {
-                    Account.getAccountInfo(function(resp){
-                        if(resp.status != 'error'){
-                            if(resp.object && resp.object.tillDate) {
-                                $scope.tarif = resp.object.tarif;
-                                $scope.paidFor = resp.object.dayCount;
-                                $('#bilEnabledText').removeClass('hidden');
-                                $rootScope.paidTillDateBilling = resp.object.tillDate.year + '-' + resp.object.tillDate.monthValue + '-' + resp.object.tillDate.dayOfMonth;
+                Account.getAccountInfo(function(resp){
+                    if(resp.status != 'error'){
+                        if(resp.object && resp.object.tillDate) {
+                            $scope.tarif = resp.object.tarif;
+                            $scope.paidFor = resp.object.dayCount;
+                            $('#bilEnabledText').removeClass('hidden');
+                            $rootScope.paidTillDateBilling = resp.object.tillDate.year + '-' + resp.object.tillDate.monthValue + '-' + resp.object.tillDate.dayOfMonth;
+                        } else {
+                            $scope.paidFor = difBetweenDates(new Date($rootScope.companyParams.paidTillDate), new Date());
+                            $('#bilDisabledText').removeClass('hidden');
+                        }
+                        if(resp.object && resp.object.monthRate && resp.object.dailyRate) {
+                            $scope.monthRate = resp.object.monthRate;
+                            $scope.dailyRate = resp.object.dailyRate;
+                            $('#dailyRate').html($scope.dailyRate);
+                            $('#monthRate').html($scope.monthRate);
+                        }
+                        $scope.monthRate = resp.object.monthRate;
+                        if($rootScope.blockUser){
+                            $scope.bonuce = 0;
+                            if(!$rootScope.blockUserData.payment_min_users){
+                                $rootScope.blockUserData.payment_min_users = 1;
+                            }
+                            angular.forEach($('#countPeople option'),function(res){
+                                if(Number(res.value) <= $rootScope.blockUserData.payment_min_users){
+                                    res.remove();
+                                }
+                            });
+                            $('#countPeople').prepend("<option selected>"+$rootScope.blockUserData.payment_min_users+"</option>");
+                            $scope.countMonth = $('#countMonth').val();
+                            $scope.countPeople = $('#countPeople').val();
+                            if(!$scope.monthRate) {
+                                if ($scope.countMonth >= 12) {
+                                    $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
+                                }
+                                else if ($scope.countMonth >= 4) {
+                                    $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
+                                }
+                                else {
+                                    $scope.price = 25 * $scope.countMonth * $scope.countPeople;
+                                }
                             } else {
-                                $scope.paidFor = difBetweenDates(new Date($rootScope.companyParams.paidTillDate), new Date());
-                                $('#bilDisabledText').removeClass('hidden');
+                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople ;
                             }
-                            if(resp.object && resp.object.monthRate && resp.object.dailyRate) {
-                                $scope.monthRate = resp.object.monthRate;
-                                $scope.dailyRate = resp.object.dailyRate;
-                                $('#dailyRate').html($scope.dailyRate);
-                                $('#monthRate').html($scope.monthRate);
-                            }
-                                $scope.monthRate = resp.object.monthRate;
-                                if($rootScope.blockUser){
-                                    $scope.bonuce = 0;
-                                    if(!$rootScope.blockUserData.payment_min_users){
-                                        $rootScope.blockUserData.payment_min_users = 1;
+
+                            $('#price').html($scope.price + " USD");
+                            $('.checkoutInner select').unbind().on('change', function () {
+                                $scope.countMonth = $('#countMonth').val();
+                                $scope.countPeople = $('#countPeople').val();
+                                if(!$scope.monthRate) {
+                                    if ($scope.countMonth >= 12) {
+                                        $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
                                     }
-                                    angular.forEach($('#countPeople option'),function(res){
-                                        if(Number(res.value) <= $rootScope.blockUserData.payment_min_users){
-                                            res.remove();
-                                        }
-                                    });
-                                    $('#countPeople').prepend("<option selected>"+$rootScope.blockUserData.payment_min_users+"</option>");
-                                    $scope.countMonth = $('#countMonth').val();
-                                    $scope.countPeople = $('#countPeople').val();
-                                    if(!$scope.monthRate) {
-                                        if ($scope.countMonth >= 12) {
-                                            $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                                        }
-                                        else if ($scope.countMonth >= 4) {
-                                            $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                                        }
-                                        else {
-                                            $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                                        }
-                                    } else {
-                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople ;
+                                    else if ($scope.countMonth >= 4) {
+                                        $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
                                     }
-
-                                    $('#price').html($scope.price + " USD");
-                                    $('.checkoutInner select').unbind().on('change', function () {
-                                        $scope.countMonth = $('#countMonth').val();
-                                        $scope.countPeople = $('#countPeople').val();
-                                        if(!$scope.monthRate) {
-                                            if ($scope.countMonth >= 12) {
-                                                $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                                            }
-                                            else if ($scope.countMonth >= 4) {
-                                                $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                                            }
-                                            else {
-                                                $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                                            }
-                                        } else {
-                                            if ($scope.countMonth >= 12) {
-                                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                                $('#bonuce').removeClass('hidden');
-                                                $rootScope.bonuce = 20;
-                                                $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                                            }
-                                            else if ($scope.countMonth >= 4) {
-                                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                                $('#bonuce').removeClass('hidden');
-                                                $rootScope.bonuce = 10;
-                                                $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                                            }
-                                            else {
-                                                $('#bonuce').addClass('hidden');
-                                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                            }
-                                        }
-
-
-                                        $('#price').html($scope.price + " USD");
-                                        $scope.$apply();
-                                    });
-                                    $('#blockMessgae').html($rootScope.blockUserData.block_text);
-                                }
-                                if(!$scope.$$phase) {
-                                    $scope.$apply();
+                                    else {
+                                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
+                                    }
+                                } else {
+                                    if ($scope.countMonth >= 12) {
+                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                                        $('#bonuce').removeClass('hidden');
+                                        $rootScope.bonuce = 20;
+                                        $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
+                                    }
+                                    else if ($scope.countMonth >= 4) {
+                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                                        $('#bonuce').removeClass('hidden');
+                                        $rootScope.bonuce = 10;
+                                        $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
+                                    }
+                                    else {
+                                        $('#bonuce').addClass('hidden');
+                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                                    }
                                 }
 
-                        }else{
-                            notificationService.error(resp.message);
+
+                                $('#price').html($scope.price + " USD");
+                                $scope.$apply();
+                            });
+                            $('#blockMessgae').html($rootScope.blockUserData.block_text);
+                        }
+                        if(!$scope.$$phase) {
+                            $scope.$apply();
                         }
 
-                        ///////////For account on billing - tarif in AccountInfo request
-                        if(!$rootScope.companyParams.tarif && resp.object.tarif) {
-                            $rootScope.companyParams.tarif = resp.object.tarif;
-                            $rootScope.nowDate = new Date().getTime();
-                            $rootScope.otherDate = new Date($rootScope.companyParams.trialEndDate).getTime();
-                            if($rootScope.otherDate >= $rootScope.nowDate){
-                                $rootScope.hideTariff = true;
-                            }else if ($rootScope.companyParams.tarif == 'standard'){
-                                $rootScope.hideTariff = true;
-                            }else if($rootScope.companyParams.tarif == 'free' && $rootScope.otherDate >= $rootScope.nowDate) {
-                                $rootScope.hideTariff = true;
-                            }else if ($rootScope.otherDate < $rootScope.nowDate){
-                                $scope.trialOver = true;
-                                $rootScope.hideTariff = false;
-                                setTimeout(function(){
-                                    if($rootScope.me.recrutRole == 'client'){
-                                        $rootScope.blockAccountHmNotPaid();
+                    }else{
+                        notificationService.error(resp.message);
+                    }
+
+                    ///////////For account on billing - tarif in AccountInfo request
+                    if(!$rootScope.companyParams.tarif && resp.object.tarif) {
+                        $rootScope.companyParams.tarif = resp.object.tarif;
+                        $rootScope.nowDate = new Date().getTime();
+                        $rootScope.otherDate = new Date($rootScope.companyParams.trialEndDate).getTime();
+                        if($rootScope.otherDate >= $rootScope.nowDate){
+                            $rootScope.hideTariff = true;
+                        }else if ($rootScope.companyParams.tarif == 'standard'){
+                            $rootScope.hideTariff = true;
+                        }else if($rootScope.companyParams.tarif == 'free' && $rootScope.otherDate >= $rootScope.nowDate) {
+                            $rootScope.hideTariff = true;
+                        }else if ($rootScope.otherDate < $rootScope.nowDate){
+                            $scope.trialOver = true;
+                            $rootScope.hideTariff = false;
+                            setTimeout(function(){
+                                if($rootScope.me.recrutRole == 'client'){
+                                    $rootScope.blockAccountHmNotPaid();
+                                }
+                            },2000);
+                            $rootScope.disabledBtnFunc = function(){
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
+                                    resolve: {
+                                        items: function () {
+
+                                        }
                                     }
-                                },2000);
-                                $rootScope.disabledBtnFunc = function(){
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
-                                        resolve: {
-                                            items: function () {
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
+                            $rootScope.disabledBtnFuncUserModal = function(){
+                                $rootScope.closeModal();
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
+                                    resolve: {
+                                        items: function () {
 
-                                            }
                                         }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                                $rootScope.disabledBtnFuncUserModal = function(){
-                                    $rootScope.closeModal();
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
-                                        resolve: {
-                                            items: function () {
-
-                                            }
-                                        }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                            }else if($rootScope.companyParams.tarif == 'free') {
-                                $rootScope.hideTariff = false;
-                                setTimeout(function(){
-                                    if($rootScope.me.recrutRole == 'client'){
-                                        $rootScope.blockAccountHmNotPaid();
                                     }
-                                },2000);
-                                $rootScope.disabledBtnFunc = function(){
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
-                                        resolve: {
-                                            items: function () {
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
+                        }else if($rootScope.companyParams.tarif == 'free') {
+                            $rootScope.hideTariff = false;
+                            setTimeout(function(){
+                                if($rootScope.me.recrutRole == 'client'){
+                                    $rootScope.blockAccountHmNotPaid();
+                                }
+                            },2000);
+                            $rootScope.disabledBtnFunc = function(){
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
+                                    resolve: {
+                                        items: function () {
 
-                                            }
                                         }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                                $rootScope.disabledBtnFuncUserModal = function(){
-                                    $rootScope.closeModal();
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
-                                        resolve: {
-                                            items: function () {
+                                    }
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
+                            $rootScope.disabledBtnFuncUserModal = function(){
+                                $rootScope.closeModal();
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
+                                    resolve: {
+                                        items: function () {
 
-                                            }
                                         }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                            }
+                                    }
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
                         }
-                        //////////////
-                    });
+                    }
+                    //////////////
+                });
                 // }
 
                 if($rootScope.modalInstance){
@@ -838,6 +840,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     $('.modal').addClass('middle-modal')
                 });
             }
+        }, function (error) {
+            $rootScope.loading = false;
+            notificationService.error(error.status);
         });
     };
     $rootScope.updateMe();
@@ -1323,7 +1328,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             });
         }
     };
-   ////////////////////////////////////////////////////////Addidng facebook SDK
+    ////////////////////////////////////////////////////////Addidng facebook SDK
     (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id))
@@ -1358,10 +1363,10 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     var w = angular.element($window);
     w.bind("resize",function(){
         if ($rootScope.activePage == 'Candidate') {
-                if(w.width() < 992){
-                    $rootScope.hideContainer = false;
-                    console.log('vik123');
-                } else{
+            if(w.width() < 992){
+                $rootScope.hideContainer = false;
+                console.log('vik123');
+            } else{
                 $rootScope.hideContainer = true;
                 console.log('xzm,zxm,zm,zx,mzx');
             }
@@ -1462,8 +1467,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                             if(FB){
                                 clearInterval(interval);
                                 FB.Event.subscribe('xfbml.render', function(response) {
-                                    i++;
-                                    if(i == 2){
+                                    if(response === 2){
                                         $('body').addClass('modal-open');
                                         $('body').addClass('modal-open-news');
                                         $('.modal-backdrop').css('z-index','1040');
@@ -1474,7 +1478,6 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                 });
 
                                 $rootScope.news = resp.objects;
-                                FB.XFBML.parse();
 
                                 $rootScope.modalInstance = $uibModal.open({
                                     animation: true,
@@ -1491,7 +1494,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                     $('.modal-backdrop').css('opacity', '0');
                                     $('.modal').css('z-index', '0');
                                     $('.modal').css('opacity', '0');
-                                    // FB.XFBML.parse();
+                                    $timeout(()=> {
+                                        FB.XFBML.parse();
+                                    }, 3000);
                                 });
                                 $rootScope.modalInstance.closed.then(function() {
                                     $('body').removeClass('modal-open-news');

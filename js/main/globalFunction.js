@@ -872,7 +872,7 @@ function firstLetters(string){
     var array = [];
     var word1 = [];
     var word2 = [];
-    var words = string.split(" ");
+    var words = string!==undefined?string.split(" "):"";
     word1.push(words[0]);
     var letter1 = word1[0].split("");
     array.push(letter1[0]);
