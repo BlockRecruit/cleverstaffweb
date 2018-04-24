@@ -2945,7 +2945,7 @@ $('#ex1_firstName, #ex1_number, #ex1_mail, #ex1_skype, #ex1_orgName, #ex1_passwo
         var value2 = $('#ex1_number').val();
         var value3 = $('#ex1_mail').val();
         var value4 = $('#ex1_orgName').val();
-        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru'  && window.location.pathname != '/pt/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/compare-vs-potok.html' && window.location.pathname != '/ru/compare-vs-friendwork.html'){
+        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru'  && window.location.pathname != '/pt/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/cleverstaff-vs-potok.html' && window.location.pathname != '/ru/cleverstaff-vs-friendwork.html'){
             var value5 = $('#ex1_password').val();
             var value6 = $('#ex1_password2').val();
         }
@@ -2975,7 +2975,7 @@ $('#ex1_firstName, #ex1_number, #ex1_mail, #ex1_skype, #ex1_orgName, #ex1_passwo
         }else{
             $('.companyForm').css('display', 'none');
         }
-        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru' && window.location.pathname != '/pt/index.html' && window.location.pathname != '/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/compare-vs-potok.html' && window.location.pathname != '/ru/compare-vs-friendwork.html'){
+        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru' && window.location.pathname != '/pt/index.html' && window.location.pathname != '/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/cleverstaff-vs-potok.html' && window.location.pathname != '/ru/cleverstaff-vs-friendwork.html'){
             if(value5.length > 0){
                 $('.passwordForm').css('display', 'block');
             }else{
