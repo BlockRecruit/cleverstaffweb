@@ -945,7 +945,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("searchWordsInPosition", $scope.searchParam.searchWordsInPosition);
                 Candidate.setOptions("requiredAllContainsWords", $scope.searchParam.requiredAllContainsWords);
                 Candidate.setOptions("dateTo", $scope.searchParam['ageFrom'] && $scope.searchParam['ageFrom'].text ? $scope.searchParam['ageFrom'].text : null);
-                Candidate.setOptions("dateFrom", $scope.searchParam['ageTo'].text ? $scope.searchParam['ageTo'].text : null);
+                Candidate.setOptions("dateFrom", $scope.searchParam['ageTo'] && $scope.searchParam['ageTo'].text ? $scope.searchParam['ageTo'].text : null);
                 Candidate.setOptions("state", isNotBlank($scope.searchParam['status'].value) ? $scope.searchParam['status'].value : null);
                 Candidate.setOptions("words", isNotBlank($scope.searchParam['words']) ? $scope.searchParam['words'] : null);
                 Candidate.setOptions("salaryTo", $scope.searchParam['salary'] ? $scope.searchParam['salary'] : null);

@@ -7361,7 +7361,7 @@ angular.module('services.candidate', [
             options[name] = ageRangeToMs(value);
         } else {
             if(typeof(options["dateTo"]) === "number" && ageRangeToYears(options["dateTo"]) === value) {
-                options[dateFrom] = ageRangeToMs(value + 1);
+                options["dateFrom"] = ageRangeToMs(value + 1);
             } else {
                 options[name] = ageRangeToMs(value);
             }
@@ -7369,11 +7369,11 @@ angular.module('services.candidate', [
     }
 
     function ageRangeToMs(years) {
-        return new Date(new Date().setFullYear(new Date().getFullYear() - years)).getTime();
+        return years ? (new Date(new Date().setFullYear(new Date().getFullYear() - years)).getTime()) : years;
     }
 
     function ageRangeToYears(ms) {
-        return new Date().getFullYear() - new Date(ms).getFullYear()
+        return ms ? (new Date().getFullYear() - new Date(ms).getFullYear()) : ms;
     }
 
     return candidate;
@@ -20152,7 +20152,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("searchWordsInPosition", $scope.searchParam.searchWordsInPosition);
                 Candidate.setOptions("requiredAllContainsWords", $scope.searchParam.requiredAllContainsWords);
                 Candidate.setOptions("dateTo", $scope.searchParam['ageFrom'] && $scope.searchParam['ageFrom'].text ? $scope.searchParam['ageFrom'].text : null);
-                Candidate.setOptions("dateFrom", $scope.searchParam['ageTo'].text ? $scope.searchParam['ageTo'].text : null);
+                Candidate.setOptions("dateFrom", $scope.searchParam['ageTo'] && $scope.searchParam['ageTo'].text ? $scope.searchParam['ageTo'].text : null);
                 Candidate.setOptions("state", isNotBlank($scope.searchParam['status'].value) ? $scope.searchParam['status'].value : null);
                 Candidate.setOptions("words", isNotBlank($scope.searchParam['words']) ? $scope.searchParam['words'] : null);
                 Candidate.setOptions("salaryTo", $scope.searchParam['salary'] ? $scope.searchParam['salary'] : null);

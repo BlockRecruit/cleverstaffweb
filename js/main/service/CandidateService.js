@@ -1370,7 +1370,7 @@ angular.module('services.candidate', [
             options[name] = ageRangeToMs(value);
         } else {
             if(typeof(options["dateTo"]) === "number" && ageRangeToYears(options["dateTo"]) === value) {
-                options[dateFrom] = ageRangeToMs(value + 1);
+                options["dateFrom"] = ageRangeToMs(value + 1);
             } else {
                 options[name] = ageRangeToMs(value);
             }
@@ -1378,11 +1378,11 @@ angular.module('services.candidate', [
     }
 
     function ageRangeToMs(years) {
-        return new Date(new Date().setFullYear(new Date().getFullYear() - years)).getTime();
+        return years ? (new Date(new Date().setFullYear(new Date().getFullYear() - years)).getTime()) : years;
     }
 
     function ageRangeToYears(ms) {
-        return new Date().getFullYear() - new Date(ms).getFullYear()
+        return ms ? (new Date().getFullYear() - new Date(ms).getFullYear()) : ms;
     }
 
     return candidate;
