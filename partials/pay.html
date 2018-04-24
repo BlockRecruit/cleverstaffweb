@@ -32,7 +32,7 @@
             </div>
         </section>
 
-        <section class="payment__pay">
+        <section class="payment__pay" ng-show="showFreeTariffPayment">
             <div class="section__intro">
                 <h4 class="intro__title" translate="Pay for cleverstaff usage"></h4>
                 <p class="intro__descr" translate="Get a 10% bonus if you pay more than 4 months and 20% pay for the year"></p>
@@ -69,7 +69,7 @@
             </div>
             <div class="pay__types">
                 <div class="pay__type">
-                    <span translate="Pay by card"></span>
+                    <span translate="Pay by card" ng-click="payClick()"></span>
                     <div class="type__image">
                         <img src="/images/sprite/visa-mastercard-block.png">
                     </div>
@@ -87,16 +87,71 @@
             <img class="security" src="/images/sprite/ssl-secured.png">
         </section>
 
+        <section class="payment__paid-features" ng-show="!showFreeTariffPayment">
+            <div class="features-wrapper">
+                <h4 class="triangle-title" translate="Upgrade now and you will be able to"></h4>
+                <div class="features">
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-1.png" alt="">
+                        </div>
+                        <span translate="View the report for all vacancies, and statistics of the user's work"></span>
+                    </div>
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-2.png" alt="">
+                        </div>
+                        <span translate="Download information about candidates in Excel"></span>
+                    </div>
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-3.png" alt="">
+                        </div>
+                        <span translate="View and download the report on the vacancy, as well as the recruiting funnel"></span>
+                    </div>
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-4.png" alt="">
+                        </div>
+                        <span translate="View recommended candidates"></span>
+                    </div>
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-5.png" alt="">
+                        </div>
+                        <span translate="Download resume candidates in docx-format"></span>
+                    </div>
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-6.png" alt="">
+                        </div>
+                        <span translate="View reports on vacancies"></span>
+                    </div>
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-7.png" alt="">
+                        </div>
+                        <span translate="Add customers to your account"></span>
+                    </div>
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-8.png" alt="">
+                        </div>
+                        <span translate="Use CleverStaff API"></span>
+                    </div>
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-9.png" alt="">
+                        </div>
+                        <span translate="Configure email templates for candidates"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="payment__plans">
             <div class="section__intro">
-                <p class="intro__descr">
-                    Как подписчик плана ’’1 Recruiter’’ (бесплатная подписка), вы имеете ограниченный доступ
-                    к возможностям CleverStaff.
-                    <br>
-                    Откройте все возможности CleverStaff для рекрутинга на новом уровне!
-                    <br>
-                    Для этого перейдите на платную подписку: <strong>’’Team Work’’</strong>, <strong>’’Corporate’’</strong>, или <strong>’’Enterprise’’</strong>.
-                </p>
+                <p class="intro__descr" translate="free plan descriptions text"></p>
             </div>
             <div class="plans">
                 <div class="plan">
@@ -104,14 +159,32 @@
                         <span>Team Work</span>
                     </div>
                     <div class="descr">
-                        25 USD<br>
-                        за каждого пользователя<br>
-                        Управление рекрутингом<br>
-                        на всех этапах и<br>
-                        автоматизация работы.
+                        <p translate="Manage applicants, interviews, automate everything"></p>
                     </div>
                     <div class="select-plan">
-                        <a class="btn-transparent">Оплатить</a>
+                        <a class="btn-transparent active" translate="Pay" ng-click="toggleFreeTariffView()"></a>
+                    </div>
+                </div>
+                <div class="plan">
+                    <div class="name">
+                        <span>Corporate</span>
+                    </div>
+                    <div class="descr">
+                        <p translate="Billed annually, Fixed price, API, Your domain name, Customizations."></p>
+                    </div>
+                    <div class="select-plan">
+                        <a class="btn-transparent" href="mailto:finance@cleverstaff.net" translate="Contact us"></a>
+                    </div>
+                </div>
+                <div class="plan">
+                    <div class="name darker">
+                        <span>Enterprise</span>
+                    </div>
+                    <div class="descr">
+                        <p translate="Your autonomous license on your own server."></p>
+                    </div>
+                    <div class="select-plan">
+                        <a class="btn-transparent" href="mailto:finance@cleverstaff.net" translate="Contact us"></a>
                     </div>
                 </div>
             </div>

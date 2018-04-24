@@ -34442,6 +34442,7 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         $scope.countMonth = 4;
 
         $scope.paymentHistory = {payment: true, transitions: false};
+        $scope.showFreeTariffPayment = false;
 
         $scope.togglePaymentHistory = function({payment, transitions}) {
             if(payment) {
@@ -34449,6 +34450,10 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             } else {
                 $scope.paymentHistory.payment = !$scope.paymentHistory.payment;
             }
+        };
+
+        $scope.toggleFreeTariffView = function() {
+            $scope.showFreeTariffPayment = true;
         };
 
         var promise = new Promise(function(resolve, reject) {

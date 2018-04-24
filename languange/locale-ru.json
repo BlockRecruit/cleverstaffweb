@@ -2989,5 +2989,20 @@
   "Payment-received":"Платеж получен",
   "Payment":"Платеж",
   "Your payment history":"История ваших оплат",
-  "Your transition history":"История ежедневных списаний с вашего аккаунта"
+  "Your transition history":"История ежедневных списаний с вашего аккаунта",
+  "Contact us":"Написать нам",
+  "Manage applicants, interviews, automate everything":"25 USD<br>за каждого пользователя<br><br>Управление рекрутингом<br>на всех этапах и<br>автоматизация работы.",
+  "Billed annually, Fixed price, API, Your domain name, Customizations.":"Оплата за год,<br>Фиксированная цена,<br>API, Ваше доменое имя<br>и Доработки по запросу.",
+  "Your autonomous license on your own server.":"Автономная версия<br>на вашем сервере.<br>Неограниченные<br>возможности.",
+  "free plan descriptions text":"Как пользователь тарифа ’’1 Recruiter’’ (бесплатный тариф), вы имеете ограниченный доступк возможностям CleverStaff.<br>Откройте все возможности CleverStaff для рекрутинга на новом уровне!<br>Для этого перейдите на платный тариф: <strong>’’Team Work’’</strong>, <strong>’’Corporate’’</strong>, или <strong>’’Enterprise’’</strong>.",
+  "Switch to the new tariff and you will be able to":"Перейдите на новый тариф и вы сможете:",
+  "View the report for all vacancies, and statistics of the user's work":"Смотреть отчёт по всем вакансиям, и статистику работы пользователе",
+  "Download information about candidates in Excel":"Скачивать информацию по кандидатам в Excel",
+  "View and download the report on the vacancy, as well as the recruiting funnel":"Смотреть и скачивать отчёт по вакансии, а также воронку рекрутинга",
+  "View recommended candidates":"Смотреть рекомендуемых кандидатов",
+  "Download resume candidates in docx-format":"Скачивать резюме кандидатов в docx-формате",
+  "View reports on vacancies":"Смотреть отчёты по вакансиям",
+  "Add customers to your account":"Добавлять заказчиков в свой аккаунт",
+  "Use CleverStaff API":"Использовать CleverStaff API",
+  "Configure email templates for candidates":"Настраивать шаблоны писем кандидатам"
 }
