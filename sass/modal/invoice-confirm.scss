@@ -1,7 +1,8 @@
 .invoice-confirm {
-	border-right: 4px;
+	border-radius: 4px;
 	background: #e3f2dd;
 	.modal-header {
+		border-bottom: none;
 		.fa-times {
 			&:hover {
 				cursor: pointer;
@@ -12,6 +13,7 @@
 		background: #eff7ee;
 	}
 	.modal-footer {
+		border: none;
 		.btn-cancel {
 			@include btn-cancel();
 
