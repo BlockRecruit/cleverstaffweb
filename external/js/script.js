@@ -1253,10 +1253,10 @@ $(document).ready(function () {
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
                                 success: function(data) {
-                                    authError('You are trying to log in too often. It looks like you are trying to use the same account for different users. It contradicts our user agreement. Please try again in ' + data.object + ' minutes.');
+                                    authError(messages.block_msg.replace("${time}", data.object));
                                 },
                                 error: function(error) {
-                                    authError('You are trying to log in too often. It looks like you are trying to use the same account for different users. It contradicts our user agreement. Please try again in 15 minutes.');
+                                    authError(messages.block_msg);
                                     console.error('auth block time :', error);
                                 }
                             })
