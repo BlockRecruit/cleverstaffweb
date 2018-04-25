@@ -186,9 +186,10 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                         notificationService.error($filter('translate')('Please enter your password'));
                     }
                 }else if(emailDomen == 'gmail.com' || emailDomen == 'gmail' || $rootScope.itsGmail == 'gmail' || $rootScope.itsGmailModal == 'gmail'){
-                    googleService.gmailAuth("modify",function(result) {
-                        $rootScope.editedEmail.password = result.code;
-                        $rootScope.addedEmail.email = result.email;
+                    // googleService.gmailAuth("modify",function(result) {
+                        $rootScope.editedEmail.password = '';
+                        console.log($rootScope.editedEmail.email);
+                        // $rootScope.addedEmail.email = result.email;
                         $rootScope.editedEmail.host = 'gmail';
                         Candidate.editEmailAccess($rootScope.editedEmail, function(resp){
                             if(resp.status == 'error'){
@@ -207,7 +208,7 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                 $rootScope.closeModal();
                             }
                         });
-                    });
+                    // });
                 }else{
                     $rootScope.showAdvancedFields = true;
                 }
