@@ -1219,7 +1219,7 @@ $(document).ready(function () {
                         $($('input[name=login]')).css('border','2px solid #61B452');
                         $($('input[name=password], #txthdnPassword')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
                         $($('input[name=password], #txthdnPassword')).focus();
-                        $('#enter_server_message').text(data.message).css('color', 'red');
+                        // $('#enter_server_message').text(data.message).css('color', 'red');
                     }
 
                     localStorage.otherSessionsRemoves = data.object ? data.object.otherSessionsRemoves : false;
@@ -1261,7 +1261,7 @@ $(document).ready(function () {
                                 }
                             })
                         } else {
-                          authError(data.message);
+                            authError(data.message);
                         }
                   }
                   enter_loading = false;
