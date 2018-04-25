@@ -4542,7 +4542,6 @@ directive('appVersion', ['version', function(version) {
             };
 
             scope.$watch('selection', function(newVal) {
-                console.log(newVal);
                 for (var idx in scope.ops) {
                     if (scope.ops[idx].value == newVal) {
                         scope.selectedOpt = scope.ops[idx];
@@ -4641,7 +4640,7 @@ directive('appVersion', ['version', function(version) {
                 ops: '=mySelect',
                 selection: '=selection'
             },
-            template: '<div class="my-select-label" tabindex="0" title="{{selectedOpt.label}}"><span class="my-select-label-text">{{selectedOpt.label}}</span><span class="my-select-caret"><i class="fa fa-chevron-down" aria-hidden="true"></i></span></div><div class="my-select-backdrop"></div><div class="my-select-ops"><div ng-repeat="o in ops" ng-click="selectOpt(o)">{{o.label}}</div></div><select ng-options="opt.value as opt.label for opt in ops" ng-model="selection"></select>'
+            template: '<div class="my-select-label" tabindex="0" title="{{selectedOpt.label}}"><span class="my-select-label-text">{{selectedOpt.label}}</span><span class="my-select-caret"><i class="fa fa-chevron-down" aria-hidden="true"></i></span></div><div class="my-select-backdrop"></div><div class="my-select-ops"><div ng-repeat="o in ops" ng-click="selectOpt(o)">{{o.label}}</div></div><select style="display:none!important;" ng-options="opt.value as opt.label for opt in ops" ng-model="selection"></select>'
         };
     }]);
 

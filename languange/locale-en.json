@@ -2387,7 +2387,7 @@
   "Total":"Total",
   "Months_1":"Months",
   "Get a 10% bonus if you pay more than 4 months and 20% pay for the year":"Get a 10% bonus if you pay more than 4 months and 20% pay for the year",
-  "Will be credited total USD (bonus USD)":"Will be credited {{total}} USD (bonus {{bonus}} USD)",
+  "Will be credited total USD (bonus USD)":"Will be credited {{total}} USD <span class='break'>(bonus {{bonus}} USD)</span>",
   "Pay by card":"Pay by card",
   "Pay by invoice":"Pay by invoice",
   "Payment FAQ":"<span class='bold'>You have some questions about payment?</span> Write to us on the mail <a href='mailto:finance@cleverstaff.net'>finance@cleverstaff.net</a>",
@@ -2400,7 +2400,7 @@
   "Manage applicants, interviews, automate everything":"25 USD per user<br><br> Manage applicants, interviews,<br> automate everything.",
   "Billed annually, Fixed price, API, Your domain name, Customizations.":"Billed annually, <br>Fixed price, API<br>, Your domain name, <br>Customizations.",
   "Your autonomous license on your own server.":"Your autonomous license <br> on your own server.",
-  "free plan descriptions text":"As a user of '1 Recruiter' plan (free tariff), you have limited access to CleverStaff features. <br> Open all the possibilities of CleverStaff for recruiting on a new level! <br> To do this, go to the paid tariff: <strong> '' Team Work '' </ strong>, <strong> 'Corporate' '</ strong>, or <strong>' Enterprise '' </ strong>.",
+  "free plan descriptions text":"As a user of '1 Recruiter' plan (free tariff), you have limited access to CleverStaff features. <br> Open all the possibilities of CleverStaff for recruiting on a new level! <br> To do this, go to the paid tariff: <span class='break'><strong> '' Team Work '' </ strong>, <strong> 'Corporate' '</ strong>, or <strong>' Enterprise '' </ strong>.</span>",
   "Switch to the new tariff and you will be able to":"Switch to the new tariff and you will be able to:",
   "View the report for all vacancies, and statistics of the user's work":"View the report for all vacancies, and statistics of the user's work",
   "Download information about candidates in Excel":"Download information about candidates in Excel",
@@ -2410,5 +2410,6 @@
   "View reports on vacancies":"View reports on vacancies",
   "Add customers to your account":"Add customers to your account",
   "Use CleverStaff API":"Use CleverStaff API",
-  "Configure email templates for candidates":"Configure email templates for candidates"
+  "Configure email templates for candidates":"Configure email templates for candidates",
+  "Payment was not confirmed via SMS":"Payment was not confirmed via SMS"
 }

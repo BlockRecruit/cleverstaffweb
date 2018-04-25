@@ -444,8 +444,9 @@
 								&:hover {
 									cursor: pointer;
 
-									color: #333;
-									background-color: #ffc100;
+									color: #fff;
+									border: 2px solid #00b549;
+									background-color: #00b549;
 								}
 								&.active {
 									border: 2px solid #00b549;
@@ -465,6 +466,11 @@
 					background-repeat: no-repeat;
 					background-position: 100% 80%;
 					background-size: 186px 139px;
+					.intro__descr {
+						font-family: "Helvetica-Light";
+
+						color: #666;
+					}
 					.triangle-title {
 						position: relative;
 
@@ -831,7 +837,8 @@
 					}
 				}
 				.payment__toggle {
-					position: relative;
+					position: absolute;
+					left: calc(50% - 204px);
 				}
 				&:last-child {
 					margin-bottom: 0;
@@ -861,6 +868,7 @@
 
 @media screen and (max-width: $screen-sm) {
 	.payment {
+		padding-top: 20px;
 		.wrapper {
 			section {
 				width: 100%;
@@ -876,11 +884,28 @@
 					display: none;
 				}
 				&.payment__pay {
+					.section__intro {
+						.intro__title {
+							margin-bottom: 10px;
+
+							text-align: center;
+						}
+					}
 					.pay_faq {
 						span {
 							&.bold {
 								display: block;
 							}
+						}
+					}
+				}
+				&.payment__paid-features {
+					.intro__descr {
+						margin-top: 20px;
+
+						text-align: center;
+						.break {
+							display: block;
 						}
 					}
 				}
@@ -894,10 +919,16 @@
 
 @media screen and (max-width: 680px) {
 	.payment .wrapper section.payment__plans {
+		padding: 0;
+
+		border: none;
+		background-color: transparent;
 		.plans {
 			flex-direction: column;
 			.plan {
 				margin-bottom: 20px;
+
+				background-color: #fff;
 				.select-plan {
 					.btn-transparent {
 						width: auto;
@@ -920,7 +951,6 @@
 	.payment .wrapper section.payment__paid-features {
 		padding: 0;
 
-		border-radius: 7% 7% 0 0;
 		.features-wrapper {
 			padding: 0;
 			.features {
@@ -936,6 +966,34 @@
 					border-width: 20.5px 14px 20.5px 0;
 				}
 			}
+		}
+		&:before {
+			position: absolute;
+			z-index: 999;
+			top: -19px;
+			left: -11px;
+
+			width: 23px;
+			height: 37px;
+
+			content: "";
+			transform: rotate(35deg);
+
+			background-color: #f1f1f1;
+		}
+		&:after {
+			position: absolute;
+			z-index: 999;
+			top: -19px;
+			right: -11px;
+
+			width: 23px;
+			height: 37px;
+
+			content: "";
+			transform: rotate(-35deg);
+
+			background-color: #f1f1f1;
 		}
 	}
 }
@@ -987,14 +1045,17 @@
 					&.margin-xs {
 						margin-bottom: 15px;
 					}
+					&.center-xs {
+						text-align: center;
+					}
 				}
 			}
 			.pay__types {
 				flex-direction: column;
 				.pay__type {
-					margin-bottom: 20px;
+					margin-bottom: 0;
 					span {
-						width: 260px;
+						width: 200px;
 					}
 					&.invoice {
 						display: none;
@@ -1012,19 +1073,40 @@
 }
 
 @media screen and (max-width: 480px) {
-	.payment .wrapper section.payment__paid-features {
-		border-radius: 6% 6% 0 0;
-		.features-wrapper {
-			.triangle-title {
-				font-size: 12px;
-				&:after {
-					border-width: 17px 0 17px 14px;
-				}
-				&:before {
-					border-width: 17px 14px 17px 0;
+	.payment .wrapper section {
+		padding: 19px 9px 10px 9px;
+		&.payment__paid-features {
+			.features-wrapper {
+				.triangle-title {
+					font-size: 13px;
+					&:after {
+						border-width: 18px 0 18px 14px;
+					}
+					&:before {
+						border-width: 18px 14px 18px 0;
+					}
 				}
 			}
 		}
+		&.payment__acc-info .info__item {
+			span {
+				&.into__title {
+					font-size: 14px;
+				}
+				&.info__value {
+					font-size: 17px;
+				}
+			}
+		}
+		&.payment__pay .total-info {
+			text-align: center;
+			.break {
+				display: block;
+			}
+		}
+	}
+	.payment .wrapper section.payment__paid-features .features-wrapper .features .feature span {
+		font-weight: bold;
 	}
 }
 
@@ -1036,7 +1118,15 @@
 		overflow-x: hidden;
 		padding: 0;
 	}
-	.payment .wrapper section {
-		padding: 19px 0 10px 0;
+	.payment .wrapper section.payment__acc-info .info__item {
+		span.into__title {
+			font-size: 12px;
+		}
+		span.info__value {
+			font-size: 16px;
+		}
+	}
+	.payment .wrapper section.payment__pay .pay__types .pay__type span {
+		width: 100%;
 	}
 }

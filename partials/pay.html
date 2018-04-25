@@ -22,7 +22,7 @@
             </div>
         </section>
 
-        <section class="payment__pay" ng-show="showFreeTariffPayment || tarif !== 'free'">
+        <section class="payment__pay" id="section-pay" ng-show="showFreeTariffPayment || tarif !== 'free'">
             <div class="section__intro">
                 <h4 class="intro__title" translate="Pay for cleverstaff usage"></h4>
                 <p class="intro__descr" translate="Get a 10% bonus if you pay more than 4 months and 20% pay for the year"></p>
@@ -48,14 +48,14 @@
                             <img src="/images/sprite/gift.png">
                         </div>
                     </div>
-                    <div class="data__item">
+                    <div class="data__item center-xs">
                         <span translate="Total" class="title border-xs"></span>
                         <div class="data">
                             <span class="total">{{price}} USD</span>
                         </div>
                     </div>
                 </div>
-                <span class="total-info" translate="Will be credited total USD (bonus USD)" translate-values="{total: price, bonus: bonusAmount}"></span>
+                <span class="total-info" translate="Will be credited total USD (bonus USD)" translate-values="{total: priceWithBonus, bonus: bonusAmount}"></span>
             </div>
             <div class="pay__types">
                 <div class="pay__type">
@@ -136,12 +136,13 @@
                         <span translate="Configure email templates for candidates"></span>
                     </div>
                 </div>
+                <p class="intro__descr hidden-sm hidden-md hidden-lg" ng-show="tarif === 'free'" translate="free plan descriptions text"></p>
             </div>
         </section>
 
         <section class="payment__plans" ng-class="{'top-pos': showFreeTariffPayment}" ng-show="tarif === 'free'">
             <div class="section__intro">
-                <p class="intro__descr" translate="free plan descriptions text"></p>
+                <p class="intro__descr hidden-xs" translate="free plan descriptions text"></p>
             </div>
             <div class="plans">
                 <div class="plan">
@@ -152,7 +153,7 @@
                         <p translate="Manage applicants, interviews, automate everything"></p>
                     </div>
                     <div class="select-plan">
-                        <a class="btn-transparent active" translate="Pay" ng-click="toggleFreeTariffView()"></a>
+                        <a class="btn-transparent active" translate="Pay" ng-click="toggleFreeTariffView();"></a>
                     </div>
                 </div>
                 <div class="plan">
@@ -214,7 +215,7 @@
                             </span>
                             <div class="a" ng-if="payment.status != 'success' && payment.status != 'Approved' && payment.status != 'sandbox' && payment.status != 'SALE'">
                                 <span class="paymentStatus danger">{{payment.status}}</span>
-                                <i class="fa fa-question tooltip-icon" tooltip-placement="top-right"  uib-tooltip="{{'Платеж не подтвердили через смс' | translate}}" tooltip-class="tooltip-dark"  aria-hidden="true"></i>
+                                <i class="fa fa-question tooltip-icon" tooltip-placement="top-right"  uib-tooltip="{{'Payment was not confirmed via SMS' | translate}}" tooltip-class="tooltip-dark"  aria-hidden="true"></i>
                             </div>
                         </td>
                         <td>{{payment.amount}} {{payment.currency}}</td>

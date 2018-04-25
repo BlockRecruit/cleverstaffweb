@@ -84,7 +84,7 @@
         }
     })()</script>
 </head>
-<body ng-class="{'showVerticalScrollbar' : $root.activePage == 'Report all'}">
+<body ng-class="{'showVerticalScrollbar' : $root.activePage == 'Report all'}" ng-controller="NavbarController">
 <div ng-cloak class="blurBackground" style="margin: auto">
     <div ng-show="$root.loading" class="loader-container">
         <!--<div class="modal-backdrop in loading-screen"></div>-->
@@ -92,7 +92,7 @@
             <div class="loader"></div>
         </div>
     </div>
-    <div class="navbar navbar-static-top" ng-controller="NavbarController" ng-class="{'overModal': $root.me.orgs.length > 1 && !$root.hideTariff}">
+    <div class="navbar navbar-static-top" ng-class="{'overModal': $root.me.orgs.length > 1 && !$root.hideTariff}">
         <div class="container-fluid">
             <div class="navbar-header pull-left">
                 <a href="#/organizer" class="navbar-brand">
@@ -997,7 +997,7 @@
                 <span ng-show="$root.blockUserData.block_text">{{$root.blockUserData.block_text}}</span>
             </div>
             <div class="wrapper">
-                <section class="payment__pay" ng-controller="NavbarController">
+                <section class="payment__pay">
                     <div class="section__intro">
                         <h4 class="intro__title" translate="Pay for cleverstaff usage"></h4>
                         <p class="intro__descr" translate="Get a 10% bonus if you pay more than 4 months and 20% pay for the year"></p>
@@ -1030,7 +1030,7 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="total-info" translate="Will be credited total USD (bonus USD)" translate-values="{total: price, bonus: bonusAmount}"></span>
+                        <span class="total-info" translate="Will be credited total USD (bonus USD)" translate-values="{total: priceWithBonus, bonus: bonusAmount}"></span>
                     </div>
                     <div class="pay__types">
                         <div class="pay__type">

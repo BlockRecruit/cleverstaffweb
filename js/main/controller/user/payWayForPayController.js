@@ -1,6 +1,6 @@
 controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope", "$routeParams", "$location","$translate","Service",
-    "notificationService","$filter", "Account", "Pay","Company",
-    function ($scope, Person, $rootScope, $routeParams, $location, $translate, Service, notificationService, $filter, Account, Pay, Company) {
+    "notificationService","$filter", "Account", "Pay","Company", "$timeout",
+    function ($scope, Person, $rootScope, $routeParams, $location, $translate, Service, notificationService, $filter, Account, Pay, Company, $timeout) {
         $scope.numberVacancy = 0;
         $scope.trueVisionBlockUser = $rootScope.blockUser;
         $rootScope.blockUser = false;
@@ -23,6 +23,9 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
 
         $scope.toggleFreeTariffView = function() {
             $scope.showFreeTariffPayment = true;
+            $timeout(() => {
+                $scope.scrollTo('section-pay');
+            })
         };
 
         var promise = new Promise(function(resolve, reject) {
@@ -56,23 +59,20 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
                     }
                 });
                 $scope.countPeople = $scope.paidUsers.length;
-                if(!$scope.monthRate) {
-                    if ($scope.countMonth >= 12) {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                        $scope.bonus = 20;
-                    }
-                    else if ($scope.countMonth >= 4) {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                        $scope.bonus = 10;
-                    }
-                    else {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                        $scope.bonus = 0;
-                    }
-                } else {
-                    $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                $scope.monthRate = $scope.monthRate || 25;
+                if ($scope.countMonth >= 12) {
+                    $scope.bonus = 20;
                 }
-                $scope.bonusAmount = ($scope.bonus * $scope.price)/100;
+                else if ($scope.countMonth >= 4) {
+                    $scope.bonus = 10;
+                }
+                else {
+                    $scope.bonus = 0;
+                }
+
+                $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+                $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+                $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
             });
         },function(msg){
             notificationService.error(msg);
@@ -89,8 +89,9 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             else {
                 $scope.bonus = 0;
             }
-            $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople * (1 + ($scope.bonus/ 100)));
-            $scope.bonusAmount = $scope.price - ($scope.price * 100 / ($scope.bonus + 100));
+            $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+            $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+            $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
         });
 
         $scope.payClick = function () {
@@ -148,6 +149,13 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
                 }
             });
 
+        };
+
+        $scope.scrollTo = function(id) {
+            if($(window).width() <= 768) {
+                let element = $('#' + id);
+                $("html, body").animate({scrollTop: element.position().top - 20}, "slow");
+            }
         };
 
         $scope.updatePaymentsList();
