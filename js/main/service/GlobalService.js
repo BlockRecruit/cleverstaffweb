@@ -151,6 +151,13 @@ angular.module('services.globalService', [
         }
 
     });
+
+    service.swapFields = function (candidate) {
+        let swap = candidate.lastName;
+        candidate.lastName = candidate.firstName;
+        candidate.firstName = swap;
+    };
+
     service.regions = function(callbacl) {
 
     };
@@ -305,9 +312,9 @@ angular.module('services.globalService', [
             {value: "AUD"},
             {value: "BRL"},
             {value: "BYN"},
-            {value: "CAD"},   
+            {value: "CAD"},
             {value: "CNY"},
-            {value: "GBP"},    
+            {value: "GBP"},
             {value: "HKD"},
             {value: "IDR"},
             {value: "INR"},
@@ -319,7 +326,7 @@ angular.module('services.globalService', [
             {value: "PHP"},
             {value: "PLN"},
             {value: "RMB"},
-            {value: "RUB"},            
+            {value: "RUB"},
             {value: "SGD"},
             {value: "THB"},
             {value: "UAH"},

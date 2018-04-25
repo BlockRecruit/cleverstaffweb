@@ -968,9 +968,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             }
         };
 
-        $scope.swapFields = function () {
-            let boxSwap  = document.querySelector('#box-swap').children;
-                boxSwap[1].after(boxSwap[0]);
-        };
+        $scope.swapFields = Service.swapFields;
 
     }]);

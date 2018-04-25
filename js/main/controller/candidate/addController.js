@@ -4,7 +4,6 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
              $cookies, $window, serverAddress,$routeParams, $uibModal, CustomField, sliderElements) {
     Service.toAddCandidate("/candidates/");
 
-
     $scope.serverAddress = serverAddress;
     $scope.type = "add";
     $scope.objType = 'candidate';
@@ -793,5 +792,5 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             return false;
         }
     };
-
+        $scope.swapFields = Service.swapFields;
     }]);

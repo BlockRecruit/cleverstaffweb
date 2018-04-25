@@ -9789,6 +9789,12 @@ angular.module('services.globalService', [
         }
 
     });
+
+    service.swapFields = function (candidate) {
+        let swap = candidate.lastName;
+        candidate.lastName = candidate.firstName;
+        candidate.firstName = swap;
+    };
     service.regions = function(callbacl) {
 
     };
@@ -9943,9 +9949,9 @@ angular.module('services.globalService', [
             {value: "AUD"},
             {value: "BRL"},
             {value: "BYN"},
-            {value: "CAD"},   
+            {value: "CAD"},
             {value: "CNY"},
-            {value: "GBP"},    
+            {value: "GBP"},
             {value: "HKD"},
             {value: "IDR"},
             {value: "INR"},
@@ -9957,7 +9963,7 @@ angular.module('services.globalService', [
             {value: "PHP"},
             {value: "PLN"},
             {value: "RMB"},
-            {value: "RUB"},            
+            {value: "RUB"},
             {value: "SGD"},
             {value: "THB"},
             {value: "UAH"},
@@ -17981,7 +17987,6 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
              $cookies, $window, serverAddress,$routeParams, $uibModal, CustomField, sliderElements) {
     Service.toAddCandidate("/candidates/");
 
-
     $scope.serverAddress = serverAddress;
     $scope.type = "add";
     $scope.objType = 'candidate';
@@ -18770,7 +18775,7 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             return false;
         }
     };
-
+        $scope.swapFields = Service.swapFields;
     }]);
 
 controller.controller('CandidateAddFromEmailController', ["Notice", "$localStorage", "$translate", "Service", "$scope", "ngTableParams", "Candidate", "$location", "$rootScope", "$filter", "$cookies", "serverAddress", "notificationService", "googleService", "$window",
@@ -22541,10 +22546,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
             }
         };
 
-        $scope.swapFields = function () {
-            let boxSwap  = document.querySelector('#box-swap').children;
-                boxSwap[1].after(boxSwap[0]);
-        };
+        $scope.swapFields = Service.swapFields;
 
     }]);
 
