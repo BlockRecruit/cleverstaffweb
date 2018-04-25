@@ -383,10 +383,10 @@
 }
 
 @mixin return-on-report-page-btn {
-	font-size: 15px;
+	font-size: 14px;
 	font-weight: bold;
 
-	padding: 11px 8px;
+	padding: 4px 11px;
 
 	text-decoration: none;
 
@@ -394,8 +394,9 @@
 	border: 2px solid rgb(102, 102, 102);
 	border-radius: 23px;
 	&:hover {
-		color: #333 !important;
-		background-color: $btn-accent;
+		color: white;
+		border-color: $theme-green;
+		background-color: $theme-green;
 	}
 }
 
