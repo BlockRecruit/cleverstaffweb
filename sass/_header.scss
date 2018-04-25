@@ -351,22 +351,20 @@ body {
 					outline: none;
 					background-color: transparent;
 					.sprite svg {
-						-webkit-transform: scale(1.3) translateZ(0);
-						transform: scale(1.3) translateZ(0);
+						-webkit-transform: scale(1.2) translateZ(0);
+						transform: scale(1.2) translateZ(0);
 					}
 				}
 				&:hover {
 					.sprite svg {
-						-webkit-transform: scale(1.3) translateZ(0);
-						transform: scale(1.3) translateZ(0);
+						-webkit-transform: scale(1.2) translateZ(0);
+						transform: scale(1.2) translateZ(0);
 					}
 				}
 				span {
 					@include top-menu-font();
 
 					margin-left: 5px;
-
-					text-transform: uppercase;
 				}
 				i {
 					font-size: 17px;
@@ -432,8 +430,8 @@ body {
 						font-size: 17px;
 						&.sprite {
 							svg {
-								-webkit-transform: scale(1.3) translateZ(0);
-								transform: scale(1.3) translateZ(0);
+								-webkit-transform: scale(1.2) translateZ(0);
+								transform: scale(1.2) translateZ(0);
 								.st0 {
 									fill: #5a5e63;
 								}
@@ -1241,29 +1239,6 @@ ul.nav.navbar-nav {
 	border: 1px solid green;
 	background: #fff;
 	box-shadow: none;
-}
-
-.navbar .nav.navigation li {
-	&.ru-width {
-		&.organizer {
-			width: 157.59px;
-		}
-		&.vacancies {
-			width: 144.52px;
-		}
-		&.candidates {
-			width: 154.92px;
-		}
-		&.clients {
-			width: 152.7px;
-		}
-		&.users {
-			width: 124.13px;
-		}
-		&.reports {
-			width: 115.44px;
-		}
-	}
 }
 
 @media(max-width: $screen-md) {
