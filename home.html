@@ -262,7 +262,6 @@
                                         s0.2,0.1,0.3,0.2l0,0c0.7,1.1,0.4,2.1,0.1,3.2l0,0l-0.1,0.4c-0.1,0.3,0.1,0.5,0.4,0.6h0.1h3c0.1,0,0.2,0,0.2,0.1l0,0
                                         c0.1,0.1,0.1,0.1,0.1,0.2C22.731,13.92,22.731,13.92,22.631,14.02z"/>
                                 </svg>
-
                             </i>
                             <span ng-show="$root.me!=undefined" translate="Clients"></span>
                         </a>
@@ -735,7 +734,7 @@
                         <a class="no-margin"
                             href="#/candidates">
                             {{'our_base'|translate}}
-                            <span class="counter">{{$root.objectSizeCand}}</span>
+                            <!--<span class="counter">{{$root.objectSizeCand}}</span>-->
                         </a>
                     </li>
                     <li class="hidden-sm hidden-xs" ng-class="{'selected': $root.activePage == 'Candidate add'}">
@@ -777,7 +776,7 @@
                     <li class="dropdown" ng-class="{'selected': $root.activePage == 'Clients'}">
                         <a class="no-margin"  href="#/clients">
                             {{'Clients'|translate}}
-                            <span class="counter">{{$root.objectSize|clientsCountFormat}}</span>
+                            <!--<span class="counter">{{$root.objectSize|clientsCountFormat}}</span>-->
                         </a>
                     </li>
                     <li class="dropdown" ng-class="{'selected': $root.activePage == 'Client add'}">
@@ -1212,11 +1211,11 @@
 <!-- Код тега ремаркетинга Google -->
 
 <script type="text/javascript">
-    / <![CDATA[ /
+    /* <![CDATA[ */
     var google_conversion_id = 964011751;
     var google_custom_params = window.google_tag_params;
     var google_remarketing_only = true;
-    / ]]> /
+    /* ]]> */
 </script>
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
 </script>
