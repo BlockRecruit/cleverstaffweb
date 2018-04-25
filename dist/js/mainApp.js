@@ -31787,9 +31787,6 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     $('.modal').addClass('middle-modal')
                 });
             }
-        }, function (error) {
-            $rootScope.loading = false;
-            notificationService.error(error.status);
         });
     };
     $rootScope.updateMe();
