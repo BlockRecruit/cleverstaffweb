@@ -210,6 +210,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             if(resp.object.billing === 'Y') {
                 $scope.billingEnabled = true;
             }
+            Account.getAccountInfo(resp => {
+                if(resp.object.tarif === 'free') {
+                    $rootScope.hideTariff = false;
+                }
+            }, error => notificationService.error(error.message))
         });
     };
 
