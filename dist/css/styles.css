@@ -27486,7 +27486,7 @@ html body#tinymce.mce-content-body {
       text-align: left;
       color: #333;
       background-color: #e6e6e6; }
-  .payment .my-select-label {
+  .payment .select-label {
     font-family: "Helvetica-Bold";
     display: -webkit-flex;
     display: flex;
@@ -27494,7 +27494,7 @@ html body#tinymce.mce-content-body {
     flex-direction: row;
     width: 90px;
     cursor: pointer; }
-    .payment .my-select-label .my-select-label-text {
+    .payment .select-label .select-label-text {
       font-family: "Helvetica-Bold";
       overflow-x: hidden;
       padding: 6px 12px;
@@ -27505,7 +27505,7 @@ html body#tinymce.mce-content-body {
       border-radius: 5px 0 0 5px;
       -webkit-flex: 1;
       flex: 1; }
-    .payment .my-select-label .my-select-caret {
+    .payment .select-label .select-caret {
       font-size: 29px;
       line-height: 1em;
       width: 30px;
@@ -27515,65 +27515,65 @@ html body#tinymce.mce-content-body {
       border-left: none;
       border-radius: 0 5px 5px 0;
       background-color: #f1f1f1; }
-      .payment .my-select-label .my-select-caret i {
+      .payment .select-label .select-caret i {
         font-size: 12px;
         position: relative;
         top: -4px;
         color: #999; }
-    .payment .my-select-label:focus {
+    .payment .select-label:focus {
       outline: none; }
-      .payment .my-select-label:focus .my-select-label-text {
+      .payment .select-label:focus .select-label-text {
         border-radius: 5px 0 0 0; }
-      .payment .my-select-label:focus .my-select-caret {
+      .payment .select-label:focus .select-caret {
         border-radius: 0 5px 0 0; }
-  .payment .my-select-ops {
+  .payment .select-ops {
     font-family: "Helvetica-Bold";
     position: absolute;
     z-index: 5;
     display: none;
     overflow-y: auto;
     width: 90px;
-    max-height: 300px;
+    max-height: 200px;
     border-width: 0 2px 2px 2px;
     border-style: solid;
     border-color: #ccc;
     background: white; }
-    .payment .my-select-ops.active {
+    .payment .select-ops.active {
       display: inline-block; }
-    .payment .my-select-ops > div {
+    .payment .select-ops > div {
       overflow-x: hidden;
       padding: 7px 14px;
       cursor: pointer;
       white-space: nowrap;
       text-overflow: ellipsis; }
-      .payment .my-select-ops > div.preselected {
+      .payment .select-ops > div.preselected {
         background-color: #f5f5f5; }
-      .payment .my-select-ops > div:hover {
+      .payment .select-ops > div:hover {
         background-color: #e3e4e8; }
-  .payment .my-select-backdrop {
+  .payment .select-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     display: none;
     width: 100%;
     height: 100%; }
-    .payment .my-select-backdrop.active {
+    .payment .select-backdrop.active {
       display: block; }
   .payment select,
-  .payment .my-select-mobile-input {
+  .payment .select-mobile-input {
     position: absolute;
     z-index: 10;
     display: none;
     opacity: 0; }
     .payment select.active,
-    .payment .my-select-mobile-input.active {
+    .payment .select-mobile-input.active {
       display: block; }
 
 .payment.home {
   padding: 0 10px; }
   .payment.home .wrapper {
     overflow: hidden; }
-  .payment.home .my-select-ops.active {
+  .payment.home .select-ops.active {
     max-height: 200px; }
   .payment.home .block-msg {
     display: -webkit-flex;

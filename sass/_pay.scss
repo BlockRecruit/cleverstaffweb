@@ -614,7 +614,7 @@
 			background-color: #e6e6e6;
 		}
 	}
-	.my-select-label {
+	.select-label {
 		font-family: "Helvetica-Bold";
 
 		display: flex;
@@ -623,7 +623,7 @@
 
 		cursor: pointer;
 
-		.my-select-label-text {
+		.select-label-text {
 			font-family: "Helvetica-Bold";
 
 			overflow-x: hidden;
@@ -638,7 +638,7 @@
 
 			flex: 1;
 		}
-		.my-select-caret {
+		.select-caret {
 			font-size: 29px;
 			line-height: 1em;
 
@@ -662,15 +662,15 @@
 		}
 		&:focus {
 			outline: none;
-			.my-select-label-text {
+			.select-label-text {
 				border-radius: 5px 0 0 0;
 			}
-			.my-select-caret {
+			.select-caret {
 				border-radius: 0 5px 0 0;
 			}
 		}
 	}
-	.my-select-ops {
+	.select-ops {
 		font-family: "Helvetica-Bold";
 
 		position: absolute;
@@ -679,7 +679,7 @@
 		display: none;
 		overflow-y: auto;
 		width: 90px;
-		max-height: 300px;
+		max-height: 200px;
 
 		border-width: 0 2px 2px 2px;
 		border-style: solid;
@@ -705,7 +705,7 @@
 			}
 		}
 	}
-	.my-select-backdrop {
+	.select-backdrop {
 		position: fixed;
 		top: 0;
 		left: 0;
@@ -718,7 +718,7 @@
 		}
 	}
 	select,
-	.my-select-mobile-input {
+	.select-mobile-input {
 		position: absolute;
 		z-index: 10;
 
@@ -736,7 +736,7 @@
 	.wrapper {
 		overflow: hidden;
 	}
-	.my-select-ops.active {
+	.select-ops.active {
 		max-height: 200px;
 	}
 	.block-msg {
