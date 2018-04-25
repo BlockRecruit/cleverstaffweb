@@ -393,10 +393,18 @@
 	color: #333;
 	border: 2px solid rgb(102, 102, 102);
 	border-radius: 23px;
+	svg {
+		.st0 {
+			fill: #333;
+		};
+	}
 	&:hover {
 		color: white;
 		border-color: $theme-green;
 		background-color: $theme-green;
+		.st0 {
+			fill: white;
+		};
 	}
 }
 
