@@ -359,6 +359,9 @@
 						}
 					}
 				}
+				&.no-borders {
+					border: none;
+				}
 			}
 			&.payment__plans {
 				top: -419px;

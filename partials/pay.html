@@ -181,7 +181,7 @@
             </div>
         </section>
 
-        <section class="payment__history" ng-show="tarif !== 'free'">
+        <section class="payment__history" ng-show="tarif !== 'free'" ng-class="{'no-borders' : !paymentHistory.payment && !paymentHistory.transitions}">
             <div class="payment__toggle">
                 <div class="history-toggle">
                     <label translate="Payment history" for="payment"></label>
@@ -194,11 +194,11 @@
                     <label for="transitions"></label>
                 </div>
             </div>
-            <div class="section__intro">
+            <div class="section__intro" ng-show="paymentHistory.payment || paymentHistory.transitions">
                 <h4 class="intro__title" translate="Your payment history" ng-show="paymentHistory.payment"></h4>
                 <h4 class="intro__title" translate="Your transition history" ng-show="paymentHistory.transitions"></h4>
             </div>
-            <div class="history-data">
+            <div class="history-data" ng-show="paymentHistory.payment || paymentHistory.transitions">
                 <table class="payment-history" ng-show="paymentHistory.payment && payments.length > 0">
                     <thead>
                         <tr>
