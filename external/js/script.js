@@ -2050,6 +2050,7 @@ $('#askQuestionSubmit').on('click',function(e){
             }
         },
         complete: function(){
+            setTimeout(appendCodeTrackingCapterra);
             console.log('123123123123')
             $($('.select2-selection--single')).css('border','2px solid #61B452');
             $("#need-demo-modal").modal('hide');
@@ -2300,6 +2301,7 @@ $('#askQuestionSubmit2').on('click',function(e){
             }
         },
         complete: function(data){
+            setTimeout(appendCodeTrackingCapterra);
             console.log('123123123123123 _ 2')
             $($('.select2-selection--single')).css('border','2px solid #61B452');
             $("#need-demo-modal").modal('hide');
@@ -2339,6 +2341,19 @@ $('#askQuestionSubmit2').on('click',function(e){
     });
 });
 
+function appendCodeTrackingCapterra(){
+  // Вставка кода отслеживания Capterra T-3849
+    var capterra_vkey = 'bc970293055597d3198446f1c3ace5cf',
+        capterra_vid = '2096814',
+        capterra_prefix = (('https:' == document.location.protocol) ? 'https://ct.capterra.com' : 'http://ct.capterra.com');
+
+    (function() {
+        var ct = document.createElement('script'); ct.type = 'text/javascript'; ct.async = true;
+        ct.src = capterra_prefix + '/capterra_tracker.js?vid=' + capterra_vid + '&vkey=' + capterra_vkey;
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ct, s);
+    })();
+}
+
 $('#askQuestionSubmit3').on('click',function(e){
     // sentAnalyticEvents('Personal_promo', 'Click');
     var res = $("#questionForm-index").serializeObject();
@@ -2362,6 +2377,7 @@ $('#askQuestionSubmit3').on('click',function(e){
     if(!res.intention) {
         res.intention = 'Request demo';
     }
+
   $.ajax({
     url: "/hr/public/newLead",
     type: "POST",
@@ -2550,7 +2566,7 @@ $('#askQuestionSubmit3').on('click',function(e){
       }
     },
     complete: function(data){
-        console.log('123123123123_3')
+        setTimeout(appendCodeTrackingCapterra);
       $($('.select2-selection--single')).css('border','2px solid #61B452');
       $("#need-demo-modal").modal('hide');
       $("#thanks-modal").modal('show');
@@ -2639,6 +2655,7 @@ $('#askQuestionSubmit4').on('click',function(e){
 
         },
         complete: function(){
+            setTimeout(appendCodeTrackingCapterra);
             console.log('123123123123_4')
             $("#nameQuestion").val('');
             $("#emailQuestion").val('');
