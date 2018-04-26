@@ -3016,6 +3016,7 @@
   "Pay by card":"Оплатить картой",
   "Pay by invoice":"Оплатить банковским переводом",
   "Payment FAQ":"<span class='bold'>Появились вопросы по оплате?</span> Напишите нам на почту <a href='mailto:finance@cleverstaff.net'>finance@cleverstaff.net</a>",
+  "Payment Questions":"Если у вас остались вопросы, напишите нам на почту <a href='mailto:contact@cleverstaff.net'>contact@cleverstaff.net</a>",
   "Payment created":"Платеж создан",
   "Payment-received":"Платеж получен",
   "Payment":"Платеж",
@@ -3036,5 +3037,7 @@
   "Add customers to your account":"Добавлять заказчиков в свой аккаунт",
   "Use CleverStaff API":"Использовать CleverStaff API",
   "Configure email templates for candidates":"Настраивать шаблоны писем кандидатам",
-  "Payment was not confirmed via SMS":"Платеж не подтвердили через смс"
+  "Payment was not confirmed via SMS":"Платеж не подтвердили через смс",
+  "You didn't make any transitions yet":"У вас еще не было списаний",
+  "You didn't make any payments yet":"У вас еще не было оплат"
 }

@@ -2416,6 +2416,7 @@
   "Pay by card":"Pay by card",
   "Pay by invoice":"Pay by invoice",
   "Payment FAQ":"<span class='bold'>You have some questions about payment?</span> Write to us on the mail <a href='mailto:finance@cleverstaff.net'>finance@cleverstaff.net</a>",
+  "Payment Questions":"If you still have questions, write to us on the mail <a href='mailto:contact@cleverstaff.net'>contact@cleverstaff.net</a>",
   "Payment created":"Payment created",
   "Payment-received":"Payment received",
   "Payment":"Payment",
@@ -2436,5 +2437,7 @@
   "Add customers to your account":"Add customers to your account",
   "Use CleverStaff API":"Use CleverStaff API",
   "Configure email templates for candidates":"Configure email templates for candidates",
-  "Payment was not confirmed via SMS":"Payment was not confirmed via SMS"
+  "Payment was not confirmed via SMS":"Payment was not confirmed via SMS",
+  "You didn't make any transitions yet":"You didn't make any daily payments yet",
+  "You didn't make any payments yet":"You didn't make any transitions yet"
 }

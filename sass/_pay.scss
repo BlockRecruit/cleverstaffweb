@@ -3,6 +3,7 @@
 	overflow-x: hidden;
 	flex-direction: column;
 	padding-top: 55px;
+	padding-bottom: 30px;
 
 	align-items: stretch;
 	justify-content: center;
@@ -305,11 +306,14 @@
 				margin-right: auto;
 				margin-left: 9px;
 				padding: 0;
+
+				border: none;
 				.section__intro {
 					flex-direction: row;
 					padding: 12px 20px 12px 9px;
 
-					border-bottom: 1px solid #ccc;
+					border: 1px solid #ccc;
+					border-radius: 5px 5px 0 0;
 
 					align-items: center;
 					justify-content: flex-start;
@@ -318,11 +322,13 @@
 					}
 				}
 				.history-data {
-					overflow-y: scroll;
+					overflow-y: auto;
 					width: 100%;
 					height: 283px;
 					padding: 10px;
 
+					border: 1px solid #ccc;
+					border-top: none;
 					background-color: #f1f1f1;
 					table {
 						width: 100%;
@@ -367,12 +373,11 @@
 				}
 			}
 			&.payment__plans {
-				top: -419px;
-
+				margin-top: -439px;
 				margin-right: auto;
 				margin-left: 7px;
 				&.top-pos {
-					top: -229px;
+					margin-top: -233px;
 				}
 				.section__intro {
 					margin-bottom: 20px;
@@ -526,6 +531,7 @@
 						.feature {
 							display: flex;
 							flex-direction: row;
+							margin-top: 2px;
 
 							align-items: center;
 							justify-content: flex-start;

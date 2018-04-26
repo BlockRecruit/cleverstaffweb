@@ -14,10 +14,11 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         $scope.showFreeTariffPayment = false;
 
         $scope.togglePaymentHistory = function({payment, transitions}) {
-            if(payment) {
-                $scope.paymentHistory.transitions = !$scope.paymentHistory.payment;
-            } else {
-                $scope.paymentHistory.payment = !$scope.paymentHistory.transitions;
+            if(payment && $scope.paymentHistory.payment && $scope.paymentHistory.transitions) {
+                $scope.paymentHistory.transitions = false;
+            }
+            if(transitions && $scope.paymentHistory.payment && $scope.paymentHistory.transitions){
+                $scope.paymentHistory.payment = false;
             }
         };
 
