@@ -280,6 +280,10 @@
                                     </a>
                                 </li>
                                 <li class="divider hidden-xs hidden-sm"></li>
+                                <li class="menuitem hidden-xs hidden-sm">
+                                    <a href="#/settings">{{"Account visibility"|translate}}</a>
+                                </li>
+                                <li class="divider hidden-xs hidden-sm"></li>
                                 <li class="menuitem hidden-xs hidden-sm" >
                                     <a href ng-click="getPlugin('new');$event.stopPropagation()">
                                         {{"Extension for"|translate}}
@@ -398,100 +402,94 @@
                 </ul>
 
                 <ul class="nav navbar-nav col-lg-4 col-md-3 hidden-sm hidden-xs text-right" style="justify-content: flex-end">
-                    <li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"
-                        id="drop_down_scope" uib-dropdown is-open="status.isopen">
-                        <a href="" uib-dropdown-toggle title="{{'scope'|translate}}">
-                            {{'scope'|translate}}:
-                            <span ng-show="scopeActiveObject.name=='company' && scopeActiveObject.check">
-                                    <span>{{'entire account'|translate}}</span>
-                                  <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </span>
-                                <span ng-show="scopeActiveObject.name=='onlyMy' && scopeActiveObject.check">
-                                    <span>{{'only_me1'|translate}}</span>
-                                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </span>
-                                <span ng-show="scopeActiveObject.name=='region' && scopeActiveObject.check">
-                                    {{'only'|translate}} <span>{{scopeActiveObject.value.name}}</span>
-                                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </span>
-                            <i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu showScopeMenu" uib-dropdown-menu role="menu" scope-directive aria-labelledby="single-button">
-                            <h4 class="text-center">{{'scope'|translate}}</h4>
-                            <p>{{'scope_message'|translate}}</p>
-                            <!--<p ng-show="$root.me.recrutRole =='freelancer'">{{'I am in the companys account of'|translate}}</p>-->
-                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='company' && scopeActiveObject.check}">
-                                <span class="col-lg-1 no-margin no-padding">
-                                    <button id="scopeCheckmarkOrg" class="ui icon button"
-                                            ng-click="changeScope('company')">
-                                        <!--<i class=" icon"-->
-                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"-->
-                                        <!--ng-checked="true"></i>-->
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"
-                                           ng-checked="true" aria-hidden="true"></i>
-                                    </button>
-                                </span>
-                                <span class="col-lg-5 no-margin">{{'entire account'|translate}}</span>
-                                <span class="col-lg-6 no-margin" ng-show="orgs.length > 1">
-                                    <select ng-model="orgId" name="region"
-                                            class="select2-container form-control input-lg select2 select12"
-                                            ng-options="org.orgId as org.orgName for org in orgs"
-                                            ng-change="changeScope('company')"
-                                            ng-click="$event.stopPropagation();"
-                                            required="">
-                                    </select>
-                                </span>
-                                <span class="col-lg-6 no-margin" ng-show="orgs.length < 2">
-                                    <div ng-repeat="org in orgs|filter:{ orgId: orgId }">
-                                        {{org.orgName}}
-                                    </div>
-                                </span>
-                            </div>
-                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='region' && scopeActiveObject.check}">
-                                <span class="col-lg-1 no-margin no-padding">
-                                    <button id="scopeCheckmarkRegion" class="ui icon button"
-                                            ng-click="changeScope('region')">
-                                        <!--<i class=" icon"-->
-                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"-->
-                                        <!--ng-checked="true"></i>-->
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"
-                                           ng-checked="true" aria-hidden="true"></i>
-                                    </button>
-                                </span>
-                                <span class="col-lg-5 no-margin">
-                                    <label style="font-size: 14px">{{'only_region'|translate}}</label>
-                                </span>
-                                <span class="col-lg-6 no-margin">
-                                    <select ng-model="regionId"
-                                            ng-style="regionListStyle"
-                                            class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"
-                                            ng-click="$event.stopPropagation();"
-                                            ng-change="changeScopeForRegionSelect('region')">
-                                    </select>
-                                </span>
-                            </div>
-                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}">
-                                <span class="col-lg-1 no-margin no-padding">
-                                    <button id="scopeCheckmarkMe" class="ui icon button "
-                                            ng-click="changeScope('onlyMy')">
-                                        <!--<i class=" icon"-->
-                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"-->
-                                        <!--ng-checked="true"></i>-->
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"
-                                           ng-checked="true" aria-hidden="true"></i>
-                                    </button>
-                                </span>
-                                <span class="col-lg-11 no-margin">
-                                    <span ng-style="$root.currentLang !== 'ru'? {'margin-right': '0px'} : null">
-                                        {{'only_me1'|translate}}
-                                    </span>
-                                    <span>
-                                        {{'only_me2'|translate}}
-                                    </span>
-                                </span>
-                            </div>
-                        </ul>
-                    </li>
+                    <!--<li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"-->
+                        <!--id="drop_down_scope" uib-dropdown is-open="status.isopen">-->
+                        <!--<a href="" uib-dropdown-toggle title="{{'scope'|translate}}">-->
+                            <!--{{'scope'|translate}}:-->
+                            <!--<span ng-show="scopeActiveObject.name=='company' && scopeActiveObject.check">-->
+                                    <!--<span>{{'entire account'|translate}}</span>-->
+                                  <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                                <!--<span ng-show="scopeActiveObject.name=='onlyMy' && scopeActiveObject.check">-->
+                                    <!--<span>{{'only_me1'|translate}}</span>-->
+                                      <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                                <!--<span ng-show="scopeActiveObject.name=='region' && scopeActiveObject.check">-->
+                                    <!--{{'only'|translate}} <span>{{scopeActiveObject.value.name}}</span>-->
+                                      <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                            <!--<i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip" aria-hidden="true"></i>-->
+                        <!--</a>-->
+                        <!--<ul class="dropdown-menu showScopeMenu" uib-dropdown-menu role="menu" scope-directive aria-labelledby="single-button">-->
+                            <!--<h4 class="text-center">{{'scope'|translate}}</h4>-->
+                            <!--<p>{{'scope_message'|translate}}</p>-->
+                            <!--&lt;!&ndash;<p ng-show="$root.me.recrutRole =='freelancer'">{{'I am in the companys account of'|translate}}</p>&ndash;&gt;-->
+                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='company' && scopeActiveObject.check}">-->
+                                <!--<span class="col-lg-1 no-margin no-padding">-->
+                                    <!--<button id="scopeCheckmarkOrg" class="ui icon button"-->
+                                            <!--ng-click="changeScope('company')">-->
+                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
+                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"-->
+                                           <!--ng-checked="true" aria-hidden="true"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-5 no-margin">{{'entire account'|translate}}</span>-->
+                                <!--<span class="col-lg-6 no-margin" ng-show="orgs.length > 1">-->
+                                    <!--<select ng-model="orgId" name="region"-->
+                                            <!--class="select2-container form-control input-lg select2 select12"-->
+                                            <!--ng-options="org.orgId as org.orgName for org in orgs"-->
+                                            <!--ng-change="changeScope('company')"-->
+                                            <!--ng-click="$event.stopPropagation();"-->
+                                            <!--required="">-->
+                                    <!--</select>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-6 no-margin" ng-show="orgs.length < 2">-->
+                                    <!--<div ng-repeat="org in orgs|filter:{ orgId: orgId }">-->
+                                        <!--{{org.orgName}}-->
+                                    <!--</div>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='region' && scopeActiveObject.check}">-->
+                                <!--<span class="col-lg-1 no-margin no-padding">-->
+                                    <!--<button id="scopeCheckmarkRegion" class="ui icon button"-->
+                                            <!--ng-click="changeScope('region')">-->
+                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"-->
+                                           <!--ng-checked="true" aria-hidden="true"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-5 no-margin">-->
+                                    <!--<label style="font-size: 14px">{{'only_region'|translate}}</label>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-6 no-margin">-->
+                                    <!--<select ng-model="regionId"-->
+                                            <!--ng-style="regionListStyle"-->
+                                            <!--class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"-->
+                                            <!--ng-click="$event.stopPropagation();"-->
+                                            <!--ng-change="changeScopeForRegionSelect('region')">-->
+                                    <!--</select>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}">-->
+                                <!--<span class="col-lg-1 no-margin no-padding">-->
+                                    <!--<button id="scopeCheckmarkMe" class="ui icon button "-->
+                                            <!--ng-click="changeScope('onlyMy')">-->
+                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"-->
+                                           <!--ng-checked="true" aria-hidden="true"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-11 no-margin">-->
+                                    <!--<span ng-style="$root.currentLang !== 'ru'? {'margin-right': '0px'} : null">-->
+                                        <!--{{'only_me1'|translate}}-->
+                                    <!--</span>-->
+                                    <!--<span>-->
+                                        <!--{{'only_me2'|translate}}-->
+                                    <!--</span>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                        <!--</ul>-->
+                    <!--</li>-->
                 </ul>
             </div>
         </div>
@@ -510,100 +508,100 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav col-lg-3 hidden-md hidden-sm hidden-xs text-right">
-                    <li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"
-                        id="drop_down_scope" uib-dropdown is-open="status.isopen">
-                        <a href="" uib-dropdown-toggle title="{{'scope'|translate}}">
-                            {{'scope'|translate}}:
-                            <span ng-show="scopeActiveObject.name=='company' && scopeActiveObject.check">
-                                    <span>{{'entire account'|translate}}</span>
-                                  <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </span>
-                                <span ng-show="scopeActiveObject.name=='onlyMy' && scopeActiveObject.check">
-                                    <span>{{'only_me1'|translate}}</span>
-                                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </span>
-                                <span ng-show="scopeActiveObject.name=='region' && scopeActiveObject.check">
-                                    {{'only'|translate}} <span>{{scopeActiveObject.value.name}}</span>
-                                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </span>
-                            <i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu showScopeMenu" uib-dropdown-menu role="menu" scope-directive aria-labelledby="single-button">
-                            <h4 class="text-center">{{'scope'|translate}}</h4>
-                            <p>{{'scope_message'|translate}}</p>
-                            <!--<p ng-show="$root.me.recrutRole =='freelancer'">{{'I am in the companys account of'|translate}}</p>-->
-                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='company' && scopeActiveObject.check}">
-                                <span class="col-lg-1 no-margin no-padding">
-                                    <button id="scopeCheckmarkOrg" class="ui icon button"
-                                            ng-click="changeScope('company')">
-                                        <!--<i class=" icon"-->
-                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"-->
-                                        <!--ng-checked="true"></i>-->
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"
-                                           ng-checked="true" aria-hidden="true"></i>
-                                    </button>
-                                </span>
-                                <span class="col-lg-5 no-margin">{{'entire account'|translate}}</span>
-                                <span class="col-lg-6 no-margin" ng-show="orgs.length > 1">
-                                    <select ng-model="orgId" name="region"
-                                            class="select2-container form-control input-lg select2 select12"
-                                            ng-options="org.orgId as org.orgName for org in orgs"
-                                            ng-change="changeScope('company')"
-                                            ng-click="$event.stopPropagation();"
-                                            required="">
-                                    </select>
-                                </span>
-                                <span class="col-lg-6 no-margin" ng-show="orgs.length < 2">
-                                    <div ng-repeat="org in orgs|filter:{ orgId: orgId }">
-                                        {{org.orgName}}
-                                    </div>
-                                </span>
-                            </div>
-                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='region' && scopeActiveObject.check}">
-                                <span class="col-lg-1 no-margin no-padding">
-                                    <button id="scopeCheckmarkRegion" class="ui icon button"
-                                            ng-click="changeScope('region')">
-                                        <!--<i class=" icon"-->
-                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"-->
-                                        <!--ng-checked="true"></i>-->
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"
-                                           ng-checked="true" aria-hidden="true"></i>
-                                    </button>
-                                </span>
-                                <span class="col-lg-5 no-margin">
-                                    <label style="font-size: 14px">{{'only_region'|translate}}</label>
-                                </span>
-                                <span class="col-lg-6 no-margin">
-                                    <select ng-model="regionId"
-                                            ng-style="regionListStyle"
-                                            class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"
-                                            ng-click="$event.stopPropagation();"
-                                            ng-change="changeScopeForRegionSelect('region')">
-                                    </select>
-                                </span>
-                            </div>
-                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}">
-                                <span class="col-lg-1 no-margin no-padding">
-                                    <button id="scopeCheckmarkMe" class="ui icon button "
-                                            ng-click="changeScope('onlyMy')">
-                                        <!--<i class=" icon"-->
-                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"-->
-                                        <!--ng-checked="true"></i>-->
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"
-                                           ng-checked="true" aria-hidden="true"></i>
-                                    </button>
-                                </span>
-                                <span class="col-lg-11 no-margin">
-                                    <span ng-style="$root.currentLang !== 'ru'? {'margin-right': '0px'} : null">
-                                        {{'only_me1'|translate}}
-                                    </span>
-                                    <span>
-                                        {{'only_me2'|translate}}
-                                    </span>
-                                </span>
-                            </div>
-                        </ul>
-                    </li>
+                    <!--<li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"-->
+                        <!--id="drop_down_scope" uib-dropdown is-open="status.isopen">-->
+                        <!--<a href="" uib-dropdown-toggle title="{{'scope'|translate}}">-->
+                            <!--{{'scope'|translate}}:-->
+                            <!--<span ng-show="scopeActiveObject.name=='company' && scopeActiveObject.check">-->
+                                    <!--<span>{{'entire account'|translate}}</span>-->
+                                  <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                                <!--<span ng-show="scopeActiveObject.name=='onlyMy' && scopeActiveObject.check">-->
+                                    <!--<span>{{'only_me1'|translate}}</span>-->
+                                      <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                                <!--<span ng-show="scopeActiveObject.name=='region' && scopeActiveObject.check">-->
+                                    <!--{{'only'|translate}} <span>{{scopeActiveObject.value.name}}</span>-->
+                                      <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                            <!--<i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip" aria-hidden="true"></i>-->
+                        <!--</a>-->
+                        <!--<ul class="dropdown-menu showScopeMenu" uib-dropdown-menu role="menu" scope-directive aria-labelledby="single-button">-->
+                            <!--<h4 class="text-center">{{'scope'|translate}}</h4>-->
+                            <!--<p>{{'scope_message'|translate}}</p>-->
+                            <!--&lt;!&ndash;<p ng-show="$root.me.recrutRole =='freelancer'">{{'I am in the companys account of'|translate}}</p>&ndash;&gt;-->
+                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='company' && scopeActiveObject.check}">-->
+                                <!--<span class="col-lg-1 no-margin no-padding">-->
+                                    <!--<button id="scopeCheckmarkOrg" class="ui icon button"-->
+                                            <!--ng-click="changeScope('company')">-->
+                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
+                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"-->
+                                           <!--ng-checked="true" aria-hidden="true"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-5 no-margin">{{'entire account'|translate}}</span>-->
+                                <!--<span class="col-lg-6 no-margin" ng-show="orgs.length > 1">-->
+                                    <!--<select ng-model="orgId" name="region"-->
+                                            <!--class="select2-container form-control input-lg select2 select12"-->
+                                            <!--ng-options="org.orgId as org.orgName for org in orgs"-->
+                                            <!--ng-change="changeScope('company')"-->
+                                            <!--ng-click="$event.stopPropagation();"-->
+                                            <!--required="">-->
+                                    <!--</select>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-6 no-margin" ng-show="orgs.length < 2">-->
+                                    <!--<div ng-repeat="org in orgs|filter:{ orgId: orgId }">-->
+                                        <!--{{org.orgName}}-->
+                                    <!--</div>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='region' && scopeActiveObject.check}">-->
+                                <!--<span class="col-lg-1 no-margin no-padding">-->
+                                    <!--<button id="scopeCheckmarkRegion" class="ui icon button"-->
+                                            <!--ng-click="changeScope('region')">-->
+                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
+                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"-->
+                                           <!--ng-checked="true" aria-hidden="true"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-5 no-margin">-->
+                                    <!--<label style="font-size: 14px">{{'only_region'|translate}}</label>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-6 no-margin">-->
+                                    <!--<select ng-model="regionId"-->
+                                            <!--ng-style="regionListStyle"-->
+                                            <!--class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"-->
+                                            <!--ng-click="$event.stopPropagation();"-->
+                                            <!--ng-change="changeScopeForRegionSelect('region')">-->
+                                    <!--</select>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}">-->
+                                <!--<span class="col-lg-1 no-margin no-padding">-->
+                                    <!--<button id="scopeCheckmarkMe" class="ui icon button "-->
+                                            <!--ng-click="changeScope('onlyMy')">-->
+                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
+                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"-->
+                                           <!--ng-checked="true" aria-hidden="true"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-11 no-margin">-->
+                                    <!--<span ng-style="$root.currentLang !== 'ru'? {'margin-right': '0px'} : null">-->
+                                        <!--{{'only_me1'|translate}}-->
+                                    <!--</span>-->
+                                    <!--<span>-->
+                                        <!--{{'only_me2'|translate}}-->
+                                    <!--</span>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                        <!--</ul>-->
+                    <!--</li>-->
                 </ul>
             </div>
         </div>
@@ -637,100 +635,100 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav col-lg-5 col-md-4 hidden-sm hidden-xs text-right text-right" style="justify-content: flex-end">
-                    <li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"
-                        id="drop_down_scope" uib-dropdown is-open="status.isopen">
-                        <a href="" uib-dropdown-toggle title="{{'scope'|translate}}">
-                            {{'scope'|translate}}:
-                            <span ng-show="scopeActiveObject.name=='company' && scopeActiveObject.check">
-                                    <span>{{'entire account'|translate}}</span>
-                                  <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </span>
-                                <span ng-show="scopeActiveObject.name=='onlyMy' && scopeActiveObject.check">
-                                    <span>{{'only_me1'|translate}}</span>
-                                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </span>
-                                <span ng-show="scopeActiveObject.name=='region' && scopeActiveObject.check">
-                                    {{'only'|translate}} <span>{{scopeActiveObject.value.name}}</span>
-                                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </span>
-                            <i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu showScopeMenu" uib-dropdown-menu role="menu" scope-directive aria-labelledby="single-button">
-                            <h4 class="text-center">{{'scope'|translate}}</h4>
-                            <p>{{'scope_message'|translate}}</p>
-                            <!--<p ng-show="$root.me.recrutRole =='freelancer'">{{'I am in the companys account of'|translate}}</p>-->
-                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='company' && scopeActiveObject.check}">
-                                <span class="col-lg-1 no-margin no-padding">
-                                    <button id="scopeCheckmarkOrg" class="ui icon button"
-                                            ng-click="changeScope('company')">
-                                        <!--<i class=" icon"-->
-                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"-->
-                                        <!--ng-checked="true"></i>-->
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"
-                                           ng-checked="true" aria-hidden="true"></i>
-                                    </button>
-                                </span>
-                                <span class="col-lg-5 no-margin">{{'entire account'|translate}}</span>
-                                <span class="col-lg-6 no-margin" ng-show="orgs.length > 1">
-                                    <select ng-model="orgId" name="region"
-                                            class="select2-container form-control input-lg select2 select12"
-                                            ng-options="org.orgId as org.orgName for org in orgs"
-                                            ng-change="changeScope('company')"
-                                            ng-click="$event.stopPropagation();"
-                                            required="">
-                                    </select>
-                                </span>
-                                <span class="col-lg-6 no-margin" ng-show="orgs.length < 2">
-                                    <div ng-repeat="org in orgs|filter:{ orgId: orgId }">
-                                        {{org.orgName}}
-                                    </div>
-                                </span>
-                            </div>
-                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='region' && scopeActiveObject.check}">
-                                <span class="col-lg-1 no-margin no-padding">
-                                    <button id="scopeCheckmarkRegion" class="ui icon button"
-                                            ng-click="changeScope('region')">
-                                        <!--<i class=" icon"-->
-                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"-->
-                                        <!--ng-checked="true"></i>-->
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"
-                                           ng-checked="true" aria-hidden="true"></i>
-                                    </button>
-                                </span>
-                                <span class="col-lg-5 no-margin">
-                                    <label style="font-size: 14px">{{'only_region'|translate}}</label>
-                                </span>
-                                <span class="col-lg-6 no-margin">
-                                    <select ng-model="regionId"
-                                            ng-style="regionListStyle"
-                                            class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"
-                                            ng-click="$event.stopPropagation();"
-                                            ng-change="changeScopeForRegionSelect('region')">
-                                    </select>
-                                </span>
-                            </div>
-                            <div class="col-lg-12" ng-show="$root.me.recrutRole !='freelancer'" ng-class="{'scope_background_color': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}">
-                                <span class="col-lg-1 no-margin no-padding">
-                                    <button id="scopeCheckmarkMe" class="ui icon button "
-                                            ng-click="changeScope('onlyMy')">
-                                        <!--<i class=" icon"-->
-                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"-->
-                                        <!--ng-checked="true"></i>-->
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"
-                                           ng-checked="true" aria-hidden="true"></i>
-                                    </button>
-                                </span>
-                                <span class="col-lg-11 no-margin">
-                                    <span ng-style="$root.currentLang !== 'ru'? {'margin-right': '0px'} : null">
-                                        {{'only_me1'|translate}}
-                                    </span>
-                                    <span>
-                                        {{'only_me2'|translate}}
-                                    </span>
-                                </span>
-                            </div>
-                        </ul>
-                    </li>
+                    <!--<li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"-->
+                        <!--id="drop_down_scope" uib-dropdown is-open="status.isopen">-->
+                        <!--<a href="" uib-dropdown-toggle title="{{'scope'|translate}}">-->
+                            <!--{{'scope'|translate}}:-->
+                            <!--<span ng-show="scopeActiveObject.name=='company' && scopeActiveObject.check">-->
+                                    <!--<span>{{'entire account'|translate}}</span>-->
+                                  <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                                <!--<span ng-show="scopeActiveObject.name=='onlyMy' && scopeActiveObject.check">-->
+                                    <!--<span>{{'only_me1'|translate}}</span>-->
+                                      <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                                <!--<span ng-show="scopeActiveObject.name=='region' && scopeActiveObject.check">-->
+                                    <!--{{'only'|translate}} <span>{{scopeActiveObject.value.name}}</span>-->
+                                      <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                            <!--<i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip" aria-hidden="true"></i>-->
+                        <!--</a>-->
+                        <!--<ul class="dropdown-menu showScopeMenu" uib-dropdown-menu role="menu" scope-directive aria-labelledby="single-button">-->
+                            <!--<h4 class="text-center">{{'scope'|translate}}</h4>-->
+                            <!--<p>{{'scope_message'|translate}}</p>-->
+                            <!--&lt;!&ndash;<p ng-show="$root.me.recrutRole =='freelancer'">{{'I am in the companys account of'|translate}}</p>&ndash;&gt;-->
+                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='company' && scopeActiveObject.check}">-->
+                                <!--<span class="col-lg-1 no-margin no-padding">-->
+                                    <!--<button id="scopeCheckmarkOrg" class="ui icon button"-->
+                                            <!--ng-click="changeScope('company')">-->
+                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
+                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"-->
+                                           <!--ng-checked="true" aria-hidden="true"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-5 no-margin">{{'entire account'|translate}}</span>-->
+                                <!--<span class="col-lg-6 no-margin" ng-show="orgs.length > 1">-->
+                                    <!--<select ng-model="orgId" name="region"-->
+                                            <!--class="select2-container form-control input-lg select2 select12"-->
+                                            <!--ng-options="org.orgId as org.orgName for org in orgs"-->
+                                            <!--ng-change="changeScope('company')"-->
+                                            <!--ng-click="$event.stopPropagation();"-->
+                                            <!--required="">-->
+                                    <!--</select>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-6 no-margin" ng-show="orgs.length < 2">-->
+                                    <!--<div ng-repeat="org in orgs|filter:{ orgId: orgId }">-->
+                                        <!--{{org.orgName}}-->
+                                    <!--</div>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='region' && scopeActiveObject.check}">-->
+                                <!--<span class="col-lg-1 no-margin no-padding">-->
+                                    <!--<button id="scopeCheckmarkRegion" class="ui icon button"-->
+                                            <!--ng-click="changeScope('region')">-->
+                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
+                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"-->
+                                           <!--ng-checked="true" aria-hidden="true"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-5 no-margin">-->
+                                    <!--<label style="font-size: 14px">{{'only_region'|translate}}</label>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-6 no-margin">-->
+                                    <!--<select ng-model="regionId"-->
+                                            <!--ng-style="regionListStyle"-->
+                                            <!--class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"-->
+                                            <!--ng-click="$event.stopPropagation();"-->
+                                            <!--ng-change="changeScopeForRegionSelect('region')">-->
+                                    <!--</select>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-12" ng-show="$root.me.recrutRole !='freelancer'" ng-class="{'scope_background_color': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}">-->
+                                <!--<span class="col-lg-1 no-margin no-padding">-->
+                                    <!--<button id="scopeCheckmarkMe" class="ui icon button "-->
+                                            <!--ng-click="changeScope('onlyMy')">-->
+                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
+                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"-->
+                                           <!--ng-checked="true" aria-hidden="true"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-11 no-margin">-->
+                                    <!--<span ng-style="$root.currentLang !== 'ru'? {'margin-right': '0px'} : null">-->
+                                        <!--{{'only_me1'|translate}}-->
+                                    <!--</span>-->
+                                    <!--<span>-->
+                                        <!--{{'only_me2'|translate}}-->
+                                    <!--</span>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                        <!--</ul>-->
+                    <!--</li>-->
                 </ul>
             </div>
         </div>
@@ -753,100 +751,100 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav col-lg-6 col-md-6 hidden-xs hidden-sm text-right" style="justify-content: flex-end">
-                    <li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"
-                        id="drop_down_scope" uib-dropdown is-open="status.isopen">
-                        <a href="" uib-dropdown-toggle title="{{'scope'|translate}}">
-                            {{'scope'|translate}}:
-                            <span ng-show="scopeActiveObject.name=='company' && scopeActiveObject.check">
-                                    <span>{{'entire account'|translate}}</span>
-                                  <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </span>
-                                <span ng-show="scopeActiveObject.name=='onlyMy' && scopeActiveObject.check">
-                                    <span>{{'only_me1'|translate}}</span>
-                                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </span>
-                                <span ng-show="scopeActiveObject.name=='region' && scopeActiveObject.check">
-                                    {{'only'|translate}} <span>{{scopeActiveObject.value.name}}</span>
-                                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </span>
-                            <i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu showScopeMenu" uib-dropdown-menu role="menu" scope-directive aria-labelledby="single-button">
-                            <h4 class="text-center">{{'scope'|translate}}</h4>
-                            <p>{{'scope_message'|translate}}</p>
-                            <!--<p ng-show="$root.me.recrutRole =='freelancer'">{{'I am in the companys account of'|translate}}</p>-->
-                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='company' && scopeActiveObject.check}">
-                                <span class="col-lg-1 no-margin no-padding">
-                                    <button id="scopeCheckmarkOrg" class="ui icon button"
-                                            ng-click="changeScope('company')">
-                                        <!--<i class=" icon"-->
-                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"-->
-                                        <!--ng-checked="true"></i>-->
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"
-                                           ng-checked="true" aria-hidden="true"></i>
-                                    </button>
-                                </span>
-                                <span class="col-lg-5 no-margin">{{'entire account'|translate}}</span>
-                                <span class="col-lg-6 no-margin" ng-show="orgs.length > 1">
-                                    <select ng-model="orgId" name="region"
-                                            class="select2-container form-control input-lg select2 select12"
-                                            ng-options="org.orgId as org.orgName for org in orgs"
-                                            ng-change="changeScope('company')"
-                                            ng-click="$event.stopPropagation();"
-                                            required="">
-                                    </select>
-                                </span>
-                                <span class="col-lg-6 no-margin" ng-show="orgs.length < 2">
-                                    <div ng-repeat="org in orgs|filter:{ orgId: orgId }">
-                                        {{org.orgName}}
-                                    </div>
-                                </span>
-                            </div>
-                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='region' && scopeActiveObject.check}">
-                                <span class="col-lg-1 no-margin no-padding">
-                                    <button id="scopeCheckmarkRegion" class="ui icon button"
-                                            ng-click="changeScope('region')">
-                                        <!--<i class=" icon"-->
-                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"-->
-                                        <!--ng-checked="true"></i>-->
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"
-                                           ng-checked="true" aria-hidden="true"></i>
-                                    </button>
-                                </span>
-                                <span class="col-lg-5 no-margin">
-                                    <label style="font-size: 14px">{{'only_region'|translate}}</label>
-                                </span>
-                                <span class="col-lg-6 no-margin">
-                                    <select ng-model="regionId"
-                                            ng-style="regionListStyle"
-                                            class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"
-                                            ng-click="$event.stopPropagation();"
-                                            ng-change="changeScopeForRegionSelect('region')">
-                                    </select>
-                                </span>
-                            </div>
-                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}">
-                                <span class="col-lg-1 no-margin no-padding">
-                                    <button id="scopeCheckmarkMe" class="ui icon button "
-                                            ng-click="changeScope('onlyMy')">
-                                        <!--<i class=" icon"-->
-                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"-->
-                                        <!--ng-checked="true"></i>-->
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"
-                                           ng-checked="true" aria-hidden="true"></i>
-                                    </button>
-                                </span>
-                                <span class="col-lg-11 no-margin">
-                                    <span ng-style="$root.currentLang !== 'ru'? {'margin-right': '0px'} : null">
-                                        {{'only_me1'|translate}}
-                                    </span>
-                                    <span>
-                                        {{'only_me2'|translate}}
-                                    </span>
-                                </span>
-                            </div>
-                        </ul>
-                    </li>
+                    <!--<li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"-->
+                        <!--id="drop_down_scope" uib-dropdown is-open="status.isopen">-->
+                        <!--<a href="" uib-dropdown-toggle title="{{'scope'|translate}}">-->
+                            <!--{{'scope'|translate}}:-->
+                            <!--<span ng-show="scopeActiveObject.name=='company' && scopeActiveObject.check">-->
+                                    <!--<span>{{'entire account'|translate}}</span>-->
+                                  <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                                <!--<span ng-show="scopeActiveObject.name=='onlyMy' && scopeActiveObject.check">-->
+                                    <!--<span>{{'only_me1'|translate}}</span>-->
+                                      <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                                <!--<span ng-show="scopeActiveObject.name=='region' && scopeActiveObject.check">-->
+                                    <!--{{'only'|translate}} <span>{{scopeActiveObject.value.name}}</span>-->
+                                      <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                            <!--<i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip" aria-hidden="true"></i>-->
+                        <!--</a>-->
+                        <!--<ul class="dropdown-menu showScopeMenu" uib-dropdown-menu role="menu" scope-directive aria-labelledby="single-button">-->
+                            <!--<h4 class="text-center">{{'scope'|translate}}</h4>-->
+                            <!--<p>{{'scope_message'|translate}}</p>-->
+                            <!--&lt;!&ndash;<p ng-show="$root.me.recrutRole =='freelancer'">{{'I am in the companys account of'|translate}}</p>&ndash;&gt;-->
+                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='company' && scopeActiveObject.check}">-->
+                                <!--<span class="col-lg-1 no-margin no-padding">-->
+                                    <!--<button id="scopeCheckmarkOrg" class="ui icon button"-->
+                                            <!--ng-click="changeScope('company')">-->
+                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
+                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"-->
+                                           <!--ng-checked="true" aria-hidden="true"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-5 no-margin">{{'entire account'|translate}}</span>-->
+                                <!--<span class="col-lg-6 no-margin" ng-show="orgs.length > 1">-->
+                                    <!--<select ng-model="orgId" name="region"-->
+                                            <!--class="select2-container form-control input-lg select2 select12"-->
+                                            <!--ng-options="org.orgId as org.orgName for org in orgs"-->
+                                            <!--ng-change="changeScope('company')"-->
+                                            <!--ng-click="$event.stopPropagation();"-->
+                                            <!--required="">-->
+                                    <!--</select>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-6 no-margin" ng-show="orgs.length < 2">-->
+                                    <!--<div ng-repeat="org in orgs|filter:{ orgId: orgId }">-->
+                                        <!--{{org.orgName}}-->
+                                    <!--</div>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='region' && scopeActiveObject.check}">-->
+                                <!--<span class="col-lg-1 no-margin no-padding">-->
+                                    <!--<button id="scopeCheckmarkRegion" class="ui icon button"-->
+                                            <!--ng-click="changeScope('region')">-->
+                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
+                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"-->
+                                           <!--ng-checked="true" aria-hidden="true"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-5 no-margin">-->
+                                    <!--<label style="font-size: 14px">{{'only_region'|translate}}</label>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-6 no-margin">-->
+                                    <!--<select ng-model="regionId"-->
+                                            <!--ng-style="regionListStyle"-->
+                                            <!--class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"-->
+                                            <!--ng-click="$event.stopPropagation();"-->
+                                            <!--ng-change="changeScopeForRegionSelect('region')">-->
+                                    <!--</select>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}">-->
+                                <!--<span class="col-lg-1 no-margin no-padding">-->
+                                    <!--<button id="scopeCheckmarkMe" class="ui icon button "-->
+                                            <!--ng-click="changeScope('onlyMy')">-->
+                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
+                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"-->
+                                           <!--ng-checked="true" aria-hidden="true"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-11 no-margin">-->
+                                    <!--<span ng-style="$root.currentLang !== 'ru'? {'margin-right': '0px'} : null">-->
+                                        <!--{{'only_me1'|translate}}-->
+                                    <!--</span>-->
+                                    <!--<span>-->
+                                        <!--{{'only_me2'|translate}}-->
+                                    <!--</span>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                        <!--</ul>-->
+                    <!--</li>-->
                 </ul>
             </div>
         </div>
@@ -880,100 +878,100 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav col-lg-3 text-right hidden-md hidden-sm hidden-xs">
-                    <li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"
-                        id="drop_down_scope" uib-dropdown is-open="status.isopen">
-                        <a href="" uib-dropdown-toggle title="{{'scope'|translate}}">
-                            {{'scope'|translate}}:
-                            <span ng-show="scopeActiveObject.name=='company' && scopeActiveObject.check">
-                                    <span>{{'entire account'|translate}}</span>
-                                  <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </span>
-                                <span ng-show="scopeActiveObject.name=='onlyMy' && scopeActiveObject.check">
-                                    <span>{{'only_me1'|translate}}</span>
-                                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </span>
-                                <span ng-show="scopeActiveObject.name=='region' && scopeActiveObject.check">
-                                    {{'only'|translate}} <span>{{scopeActiveObject.value.name}}</span>
-                                      <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </span>
-                            <i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip" aria-hidden="true"></i>
-                        </a>
-                        <ul class="dropdown-menu showScopeMenu" uib-dropdown-menu role="menu" scope-directive aria-labelledby="single-button">
-                            <h4 class="text-center">{{'scope'|translate}}</h4>
-                            <p>{{'scope_message'|translate}}</p>
-                            <!--<p ng-show="$root.me.recrutRole =='freelancer'">{{'I am in the companys account of'|translate}}</p>-->
-                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='company' && scopeActiveObject.check}">
-                                <span class="col-lg-1 no-margin no-padding">
-                                    <button id="scopeCheckmarkOrg" class="ui icon button"
-                                            ng-click="changeScope('company')">
-                                        <!--<i class=" icon"-->
-                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"-->
-                                        <!--ng-checked="true"></i>-->
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"
-                                           ng-checked="true" aria-hidden="true"></i>
-                                    </button>
-                                </span>
-                                <span class="col-lg-5 no-margin">{{'entire account'|translate}}</span>
-                                <span class="col-lg-6 no-margin" ng-show="orgs.length > 1">
-                                    <select ng-model="orgId" name="region"
-                                            class="select2-container form-control input-lg select2 select12"
-                                            ng-options="org.orgId as org.orgName for org in orgs"
-                                            ng-change="changeScope('company')"
-                                            ng-click="$event.stopPropagation();"
-                                            required="">
-                                    </select>
-                                </span>
-                                <span class="col-lg-6 no-margin" ng-show="orgs.length < 2">
-                                    <div ng-repeat="org in orgs|filter:{ orgId: orgId }">
-                                        {{org.orgName}}
-                                    </div>
-                                </span>
-                            </div>
-                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='region' && scopeActiveObject.check}">
-                                <span class="col-lg-1 no-margin no-padding">
-                                    <button id="scopeCheckmarkRegion" class="ui icon button"
-                                            ng-click="changeScope('region')">
-                                        <!--<i class=" icon"-->
-                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"-->
-                                        <!--ng-checked="true"></i>-->
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"
-                                           ng-checked="true" aria-hidden="true"></i>
-                                    </button>
-                                </span>
-                                <span class="col-lg-5 no-margin">
-                                    <label style="font-size: 14px">{{'only_region'|translate}}</label>
-                                </span>
-                                <span class="col-lg-6 no-margin">
-                                    <select ng-model="regionId"
-                                            ng-style="regionListStyle"
-                                            class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"
-                                            ng-click="$event.stopPropagation();"
-                                            ng-change="changeScopeForRegionSelect('region')">
-                                    </select>
-                                </span>
-                            </div>
-                            <div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}">
-                                <span class="col-lg-1 no-margin no-padding">
-                                    <button id="scopeCheckmarkMe" class="ui icon button "
-                                            ng-click="changeScope('onlyMy')">
-                                        <!--<i class=" icon"-->
-                                        <!--ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"-->
-                                        <!--ng-checked="true"></i>-->
-                                        <i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"
-                                           ng-checked="true" aria-hidden="true"></i>
-                                    </button>
-                                </span>
-                                <span class="col-lg-11 no-margin">
-                                    <span ng-style="$root.currentLang !== 'ru'? {'margin-right': '0px'} : null">
-                                        {{'only_me1'|translate}}
-                                    </span>
-                                    <span>
-                                        {{'only_me2'|translate}}
-                                    </span>
-                                </span>
-                            </div>
-                        </ul>
-                    </li>
+                    <!--<li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"-->
+                        <!--id="drop_down_scope" uib-dropdown is-open="status.isopen">-->
+                        <!--<a href="" uib-dropdown-toggle title="{{'scope'|translate}}">-->
+                            <!--{{'scope'|translate}}:-->
+                            <!--<span ng-show="scopeActiveObject.name=='company' && scopeActiveObject.check">-->
+                                    <!--<span>{{'entire account'|translate}}</span>-->
+                                  <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                                <!--<span ng-show="scopeActiveObject.name=='onlyMy' && scopeActiveObject.check">-->
+                                    <!--<span>{{'only_me1'|translate}}</span>-->
+                                      <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                                <!--<span ng-show="scopeActiveObject.name=='region' && scopeActiveObject.check">-->
+                                    <!--{{'only'|translate}} <span>{{scopeActiveObject.value.name}}</span>-->
+                                      <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
+                                <!--</span>-->
+                            <!--<i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip" aria-hidden="true"></i>-->
+                        <!--</a>-->
+                        <!--<ul class="dropdown-menu showScopeMenu" uib-dropdown-menu role="menu" scope-directive aria-labelledby="single-button">-->
+                            <!--<h4 class="text-center">{{'scope'|translate}}</h4>-->
+                            <!--<p>{{'scope_message'|translate}}</p>-->
+                            <!--&lt;!&ndash;<p ng-show="$root.me.recrutRole =='freelancer'">{{'I am in the companys account of'|translate}}</p>&ndash;&gt;-->
+                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='company' && scopeActiveObject.check}">-->
+                                <!--<span class="col-lg-1 no-margin no-padding">-->
+                                    <!--<button id="scopeCheckmarkOrg" class="ui icon button"-->
+                                            <!--ng-click="changeScope('company')">-->
+                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
+                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"-->
+                                           <!--ng-checked="true" aria-hidden="true"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-5 no-margin">{{'entire account'|translate}}</span>-->
+                                <!--<span class="col-lg-6 no-margin" ng-show="orgs.length > 1">-->
+                                    <!--<select ng-model="orgId" name="region"-->
+                                            <!--class="select2-container form-control input-lg select2 select12"-->
+                                            <!--ng-options="org.orgId as org.orgName for org in orgs"-->
+                                            <!--ng-change="changeScope('company')"-->
+                                            <!--ng-click="$event.stopPropagation();"-->
+                                            <!--required="">-->
+                                    <!--</select>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-6 no-margin" ng-show="orgs.length < 2">-->
+                                    <!--<div ng-repeat="org in orgs|filter:{ orgId: orgId }">-->
+                                        <!--{{org.orgName}}-->
+                                    <!--</div>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='region' && scopeActiveObject.check}">-->
+                                <!--<span class="col-lg-1 no-margin no-padding">-->
+                                    <!--<button id="scopeCheckmarkRegion" class="ui icon button"-->
+                                            <!--ng-click="changeScope('region')">-->
+                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
+                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"-->
+                                           <!--ng-checked="true" aria-hidden="true"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-5 no-margin">-->
+                                    <!--<label style="font-size: 14px">{{'only_region'|translate}}</label>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-6 no-margin">-->
+                                    <!--<select ng-model="regionId"-->
+                                            <!--ng-style="regionListStyle"-->
+                                            <!--class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"-->
+                                            <!--ng-click="$event.stopPropagation();"-->
+                                            <!--ng-change="changeScopeForRegionSelect('region')">-->
+                                    <!--</select>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}">-->
+                                <!--<span class="col-lg-1 no-margin no-padding">-->
+                                    <!--<button id="scopeCheckmarkMe" class="ui icon button "-->
+                                            <!--ng-click="changeScope('onlyMy')">-->
+                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"&ndash;&gt;-->
+                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
+                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"-->
+                                           <!--ng-checked="true" aria-hidden="true"></i>-->
+                                    <!--</button>-->
+                                <!--</span>-->
+                                <!--<span class="col-lg-11 no-margin">-->
+                                    <!--<span ng-style="$root.currentLang !== 'ru'? {'margin-right': '0px'} : null">-->
+                                        <!--{{'only_me1'|translate}}-->
+                                    <!--</span>-->
+                                    <!--<span>-->
+                                        <!--{{'only_me2'|translate}}-->
+                                    <!--</span>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                        <!--</ul>-->
+                    <!--</li>-->
                 </ul>
             </div>
         </div>
