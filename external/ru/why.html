@@ -281,11 +281,28 @@
 <!-- Код тега ремаркетинга Google -->
 
 <script type="text/javascript">
-    / <![CDATA[ /
+    /* <![CDATA[ */
     var google_conversion_id = 964011751;
     var google_custom_params = window.google_tag_params;
     var google_remarketing_only = true;
-    / ]]> /
+    /* ]]> */
+    function hasUrlParameterWithoutQ() {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] !== "q") {
+                return true;
+            }
+        }
+        return false;
+    }
+    if (hasUrlParameterWithoutQ()) {
+        var sPageURL = window.location.search.substring(1);
+        if (sPageURL && sPageURL !== '') {
+            localStorage.setItem("UTMS", sPageURL);
+        }
+    }
 </script>
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
 </script>
