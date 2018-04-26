@@ -9,6 +9,7 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
     $scope.validation = { invalidFields: [], checking: false};
 
     $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
+    $scope.currencies = [{label:'UAH', value:'UAH'},{label:'RUB', value:'RUB'},{label:'EUR', value:'EUR'},{label:'USD', value:'USD'}];
 
     $scope.currenciesSigns = Invoice.getCurrenciesSigns();
     $scope.countries = Service.getAllCounties($rootScope.currentLang);
@@ -116,7 +117,6 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
                 $scope.accountInfo = accountInfo.object;
 
                 $scope.currenciesMonthRates = Invoice.getCurrenciesMonthRates(currencyExchangeRates, accountInfo.object.monthRate);
-                $scope.currencies = ['UAH', 'RUB', 'EUR', 'USD'];
 
                 setUsers(allPersons.object);
 

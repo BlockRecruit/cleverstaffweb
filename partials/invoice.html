@@ -55,9 +55,12 @@
                         <!--</select>-->
                     </td>
                     <td>
-                        <select name="currency" ng-model="invoice.currency">
-                            <option ng-selected="currency === invoice.currency" ng-repeat="currency in currencies track by $index">{{currency}}</option>
-                        </select>
+                        <div class="wrapper">
+                            <custom-select-new options="currencies" model="invoice.currency"></custom-select-new>
+                        </div>
+                        <!--<select name="currency" ng-model="invoice.currency">-->
+                            <!--<option ng-selected="currency === invoice.currency" ng-repeat="currency in currencies track by $index">{{currency}}</option>-->
+                        <!--</select>-->
                     </td>
                     <td>
                         <span class="currency">{{ currenciesSigns[invoice.currency] + invoice.price() }}</span>
