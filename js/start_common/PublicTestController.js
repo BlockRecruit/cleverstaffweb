@@ -182,7 +182,13 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                     $scope.firstPage = resp.object.question.num;
                     $scope.checkPreviousAnswers = true;
                 }else{
-                    notificationService.error(resp.message);
+                    if(resp.message = 'No such appointmentId.') {
+                        $scope.currentTab = 'first_test';
+                        $scope.checkPreviousAnswers = true;
+                        $scope.showEndMessage = true;
+                        $scope.endTestMsg = $filter('translate')('No such appointmentId.');
+                    }
+                    // notificationService.error(resp.message);
                 }
             })
         };
