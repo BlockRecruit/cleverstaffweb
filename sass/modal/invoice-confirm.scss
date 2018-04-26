@@ -3,6 +3,9 @@
 	background: #e3f2dd;
 	.modal-header {
 		border-bottom: none;
+		h4 {
+			font-family: "Helvetica-Bold";
+		}
 		.fa-times {
 			&:hover {
 				cursor: pointer;
@@ -11,8 +14,13 @@
 	}
 	.modal-body {
 		background: #eff7ee;
+		p {
+			font-family: "Helvetica-Light";
+		}
 	}
 	.modal-footer {
+		padding-bottom: 20px;
+
 		border: none;
 		.btn-cancel {
 			@include btn-cancel();

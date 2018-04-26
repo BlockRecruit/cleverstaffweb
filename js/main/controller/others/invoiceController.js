@@ -14,6 +14,25 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
     $scope.currenciesSigns = Invoice.getCurrenciesSigns();
     $scope.countries = Service.getAllCounties($rootScope.currentLang);
 
+
+    function getTranslatedCountry(countries, argCountry) {
+        let translatedCountry = {key: "", value: ""};
+        Object.entries(countries).forEach(([key, country], index) => {
+           if(country === argCountry) {
+               translatedCountry.value = country;
+               translatedCountry.key = key;
+           }
+           if(!translatedCountry.value && index === Object.keys(countries).length - 1) {
+               const lang = $rootScope.currentLang === 'en' ? 'ru' : 'en';
+               translatedCountry.key = getTranslatedCountry(Service.getAllCounties(lang), argCountry).code;
+               translatedCountry.value = countries[translatedCountry.key];
+           }
+        });
+
+        console.log('translatedCountry', translatedCountry.value);
+        return { name: translatedCountry.value, code: translatedCountry.key };
+    }
+
     $scope.generateInvoice = function() {
         $scope.validation = { invalidFields: [], checking: true};
         if(validatedCustomerForm()) openInvoiceConfirmModal();
@@ -85,13 +104,13 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
     function setCustomerData(data) {
         $scope.customer = {
             address: data.customerAddress.split(';')[2],
-            country: data.customerAddress.split(';')[0],
+            country: getTranslatedCountry($scope.countries, data.customerAddress.split(';')[0]).name,
             city: data.customerAddress.split(';')[1],
             companyName: data.customerName,
             companyId: data.customerRegistrationNumber,
             fullName: data.representerName,
             position: data.representerPosition,
-            postalCode: Number(data.customerAddress.split(';')[3])
+            postalCode: data.customerAddress.split(';')[3]
         };
     }
 
