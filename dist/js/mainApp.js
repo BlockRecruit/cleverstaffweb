@@ -11463,7 +11463,7 @@ angular.module('services.pay', [
 
         pay.paymentInfo = {
             _countPeople: 0,
-            _countMonths: 4,
+            _countMonths: 0,
 
             set countPeople(value) {
                 this._countPeople = value;
@@ -31255,8 +31255,8 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
     function setInvoiceData(data) {
         console.log(Pay.paymentInfo.countMonths);
         $scope.invoice = {
-            users: Pay.paymentInfo.countPeople || $scope.paidUsers.length,
-            months: Pay.paymentInfo.countMonths || 4,
+            users: Pay.paymentInfo.countPeople || data.numberOfUsers || $scope.paidUsers.length,
+            months: Pay.paymentInfo.countMonths || data.numberOfMonths || 4,
             currency: data.currency,
             price: () => ($scope.invoice.users * $scope.invoice.months * $scope.currenciesMonthRates[$scope.invoice.currency]).toFixed(2)
         };
