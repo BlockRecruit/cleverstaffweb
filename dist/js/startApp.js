@@ -3037,9 +3037,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 }
             } else {
 
-              if(!accessPreson) {
-                  notificationService.error($translate.instant("You need to give your consent for your personal data to processing proceed"));
-              }
+              if(!accessPreson) notificationService.error($translate.instant("You need to give your consent for your personal data to processing proceed"));
 
               $scope.recallForm.name.$pristine = false;
                 $scope.recallForm.last_name.$pristine = false;

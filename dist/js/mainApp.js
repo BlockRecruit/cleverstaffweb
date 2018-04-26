@@ -30280,9 +30280,9 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
 
 
 
-        $scope.tableHeads = ['points','score','account','country','created','regUsers','tarif','paidTill','trialEnd','block',
+        $scope.tableHeads = ['points','score','account','country','created','regUsers','tarif','trialEnd','block',
                              'integratedEmails','invites', 'hrModule','balance','payUsers','latestPaymentByCard','amount',
-                             'purpose','activeUsers','vacancies','candidates','lastAtion','server'];
+                             'purpose','activeUsers','vacancies','lastAtion','server'];
 
 
         $scope.scroll = 0;
@@ -31339,6 +31339,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     // Client.all(Client.searchOptions(), function (response) {
     //     $rootScope.clientsForInvite = response.objects;
     // });
+    console.log($rootScope, '$rootScope');
     $rootScope.userRoles = [
         {
             type: "fullAccess",

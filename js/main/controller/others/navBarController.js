@@ -384,6 +384,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     // Client.all(Client.searchOptions(), function (response) {
     //     $rootScope.clientsForInvite = response.objects;
     // });
+    console.log($rootScope, '$rootScope');
     $rootScope.userRoles = [
         {
             type: "fullAccess",
