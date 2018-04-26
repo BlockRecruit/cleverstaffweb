@@ -38253,10 +38253,11 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 return;
             }
             //$rootScope.changeStatusOfInterviewInVacancy.withChooseStatus = withChooseStatus;
+            let candidateId =  candidate[0] || candidate.candidateId;
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.approvedCount = $scope.approvedCount;
             $rootScope.candnotify = {};
-            $rootScope.candnotify.sendMail = (candidate.candidateId.email && candidate.candidateId.email.length)? candidate.candidateId.email.split(/[',',' ']/gi)[0]: '';
+            $rootScope.candnotify.sendMail = (candidateId && candidateId.email && candidateId.email.length)? candidateId.email.split(/[',',' ']/gi)[0]: '';
             if($rootScope.candidatesAddToVacancyIds.length == 1){
                 Candidate.getContacts({"candidateId": candidate[0].candidateId}, function (resp) {
                     var email = "";
@@ -38456,7 +38457,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                             Mail.sendMailByTemplateVerified({
                                                     toEmails: candnotify.sendMail,
                                                     vacancyId: $scope.vacancy.vacancyId,
-                                                    candidateId: changeObj.candidate.candidateId.candidateId,
+                                                    candidateId: changeObj.candidate[0].candidateId.candidateId,
                                                     fullName: candnotify.fullName,
                                                     email: $rootScope.emailTemplateInModal.email,
                                                     date: changeObj.date,
@@ -38547,7 +38548,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                             Mail.sendMailByTemplateVerified({
                                                     toEmails: candnotify.sendMail,
                                                     vacancyId: $scope.vacancy.vacancyId,
-                                                    candidateId: changeObj.candidate.candidateId.candidateId,
+                                                    candidateId: changeObj.candidate[0].candidateId.candidateId,
                                                     fullName: candnotify.fullName,
                                                     email: $rootScope.emailTemplateInModal.email,
                                                     date: changeObj.date,
@@ -38633,10 +38634,11 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                     if ($rootScope.candnotify.send && $rootScope.candnotify.sendMail.length > 1 && sendTemplate) {
                                         if ($rootScope.candnotify.sendMail.length > 1) {
                                             var candnotify = $rootScope.candnotify;
+                                            console.log(changeObj, 'changeObj1');
                                             Mail.sendMailByTemplateVerified({
                                                     toEmails: candnotify.sendMail,
                                                     vacancyId: $scope.vacancy.vacancyId,
-                                                    candidateId: changeObj.candidate.candidateId.candidateId,
+                                                    candidateId: changeObj.candidate.candidateId.candidateId || changeObj.candidate[0].candidateId.candidateId,
                                                     fullName: candnotify.fullName,
                                                     email: $rootScope.emailTemplateInModal.email,
                                                     date: changeObj.date,
