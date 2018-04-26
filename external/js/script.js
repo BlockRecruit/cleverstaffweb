@@ -3198,12 +3198,12 @@ function checkForm(){
         $('html, body').animate({scrollTop: 450}, 'slow');
         return false;
     }
-    if(form.currentSolution == "") {
-        $($('input[name=currentSolution]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
-        $($('input[name=currentSolution]')).focus();
-        $('html, body').animate({scrollTop: 250}, 'slow');
-        return false;
-    }
+    //if(form.currentSolution == "") {
+    //    $($('input[name=currentSolution]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
+    //    $($('input[name=currentSolution]')).focus();
+    //    $('html, body').animate({scrollTop: 250}, 'slow');
+    //    return false;
+    //}
 
     if(form.terms != 'on') {
         $(".error-terms").html(messages.terms_accept);
