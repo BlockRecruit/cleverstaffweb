@@ -33437,9 +33437,9 @@ controller.controller('userInfoController',["$scope", "Person", function($scope,
 
 controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Person", "$rootScope", "$routeParams", "Vacancy",
     "$location", "$translate", "Candidate", "Service", "notificationService", "$filter", "googleService", '$http', 'serverAddress', 'Client',
-    'Company', 'vacancyStages','Action', '$sce', '$uibModal',
+    'Company', 'vacancyStages','Action', '$sce', '$uibModal','$timeout',
     function($scope, tmhDynamicLocale, Person, $rootScope, $routeParams, Vacancy, $location, $translate, Candidate, Service,
-             notificationService, $filter, googleService, $http, serverAddress, Client, Company, vacancyStages, Action, $sce, $uibModal) {
+             notificationService, $filter, googleService, $http, serverAddress, Client, Company, vacancyStages, Action, $sce, $uibModal, $timeout) {
         $scope.showChangePassword = false;
         $scope.showChangeOrgName = false;
         $scope.showChangeRole = false;
@@ -34216,7 +34216,13 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
 
         function successRemoveCadidate(resp) {
             notificationService.success(`${$translate.instant('user')} ${$scope.user.fullName} ${$translate.instant('has been successfully removed from your account')}`)
-            $location.path('/company/users');
+
+            if($rootScope.me.userId === $routeParams.id){
+                $timeout(() => document.location.replace("http://cleverstaff.net"), 500);
+            }else {
+                $location.path('/company/users');
+            }
+
             $rootScope.loading = false;
             $scope.$apply();
         }
@@ -34226,6 +34232,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 .then(successRemoveCadidate)
         }
 
+        console.log($rootScope.me.userId, 'me');
         $scope.showModalRemoveCandidate = showModalRemoveCandidate;
         $scope.removeCandidates = removeCandidates;
     }
