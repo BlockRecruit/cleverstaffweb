@@ -2653,25 +2653,26 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $('body').removeClass('modal-open-public-vacancy-form');
             };
 
-            if($location.$$absUrl.indexOf('/pv/') >= 0){
-                var string = $location.$$path;
-                string = string.replace("/pv/", "vacancy-");
-                console.log(string);
-                $window.location.replace('/i#/' + string);
-            }
-            $("#signUpButtonDiv").hide();
-            $("#signInButtonDiv").hide();
-            $scope.message = 'def';
-            $rootScope.header = "two";
-            $scope.serverAddress = serverAddress;
-            $scope.request = {
-                name: null,
-                lastName: null,
-                phone: null,
-                message: null,
-                vacancyId: $scope.vacancyId,
-                fileId: null
-            };
+        if($location.$$absUrl.indexOf('/pv/') >= 0){
+            var string = $location.$$path;
+            string = string.replace("/pv/", "vacancy-");
+            console.log(string);
+            $window.location.replace('/i#/' + string);
+        }
+        $("#signUpButtonDiv").hide();
+        $("#signInButtonDiv").hide();
+        $scope.message = 'def';
+        $rootScope.header = "two";
+        $scope.serverAddress = serverAddress;
+        $scope.request = {
+            name: null,
+            lastName: null,
+            phone: null,
+            message: null,
+            vacancyId: $scope.vacancyId,
+            fileId: null
+        };
+        $scope.accessPresonData = false;
 
             $.getScript("https://platform.linkedin.com/in.js?async=true", function success() {
                 IN.init({
@@ -2959,98 +2960,101 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                     scope: $scope,
                     resolve: {
 
-                    }
-                });
-            };
-            $scope.sendRequest = function (recallForm) {
-                $scope.recallForm = recallForm;
-                $scope.showErrorCvFileMessage = true;
-                if ($scope.recallForm.$valid) {
-                    if ($scope.request.email != undefined && $scope.request.email.length == 0) {
-                        $scope.request.email = "";
-                    }
-                    if (validEmail($scope.request.email)) {
-                        $scope.showErrorEmailMessage = true;
-                        return;
-                    }else{
-                        $scope.showErrorEmailMessage = false;
-                    }
-                    if ($scope.filesForRecall.length != 0) {
-                        angular.forEach($scope.filesForRecall, function (resp) {
-                            delete resp.$$hashKey;
-                        });
-                        $scope.request.fileId = JSON.stringify($scope.filesForRecall);
-                    }
-                    if ($scope.request.message != undefined && $scope.request.message.length == 0) {
-                        $scope.request.message = "";
-                    } else if ($scope.request.message == undefined) {
-                        $scope.request.message = "";
-                    }
-                    $scope.request.lang = $translate.use();
-                    $scope.request.email = $('#email2').val();
-                    $scope.request.phone = String($scope.request.phone);
-                    if ($scope.request.phone == undefined || $scope.request.phone.match(/^[\(\)\s\-\+\d]{9,20}$/) == null) {
-                        $scope.showErrorPhoneMessage = true;
-                        $scope.enterPhoneNumber = false;
-                        $scope.incorrectPhoneNumber = true;
-                        return false;
-                    }else{
-                        $scope.showErrorPhoneMessage = false;
-                    }
-                    if($scope.filesForRecall.length == 0){
-                        $scope.showErrorCvFileMessage = true;
-                    }else{
-                        Service.addCandidate($scope.request, function (resp) {
-                            if (resp.status && resp.status === 'error' && resp.message) {
-                                $scope.message = "error";
-                            } else {
-                                $scope.message = "success";
-                                $scope.request = {
-                                    name: "",
-                                    lastName: "",
-                                    phone: "",
-                                    message: "",
-                                    vacancyId: $scope.vacancyId,
-                                    fileId: null
-                                };
-                                // $("#email2").val("");
-                                $scope.filesForRecall = [];
-                                $scope.recallForm.name.$pristine = true;
-                                $scope.recallForm.last_name.$pristine = true;
-                                $scope.recallForm.phone.$pristine = true;
-                                $scope.recallForm.phone.$invalid = false;
-                                $scope.recallForm.email2.$invalid = false;
-                                $scope.recallForm.email2.$pristine = false;
-                                $scope.showErrorEmailMessage = false;
-                                $('body').removeClass('modal-open-public-vacancy-form');
-                                $rootScope.closeModal();
-                                $scope.showModalInfoAboutVacancy();
-                            }
-
-                        }, function (resp) {
-                            $scope.message = "error";
-                        });
-                    }
-                } else {
-                    $scope.recallForm.name.$pristine = false;
-                    $scope.recallForm.last_name.$pristine = false;
-                    if (validEmail($scope.request.email)) {
-                        $scope.showErrorEmailMessage = true;
-                    }
-                    $scope.recallForm.phone.$pristine = false;
-                    if($scope.request.phone == null || $scope.request.phone.length == 0){
-                        $scope.enterPhoneNumber = true;
-                    }else if($scope.request.phone.length < 9 || $scope.request.phone.length > 20){
-                        $scope.showErrorPhoneMessage = true;
-                        $scope.incorrectPhoneNumber = true;
-                        $scope.enterPhoneNumber = false;
-                    }else{
-                        $scope.incorrectPhoneNumber = true;
-                        $scope.enterPhoneNumber = false;
-                    }
                 }
-            };
-        }])
+            });
+        };
+        $scope.sendRequest = function (recallForm) {
+            $scope.recallForm = recallForm;
+            $scope.showErrorCvFileMessage = true;
+          if ($scope.recallForm.$valid) {
+                if ($scope.request.email != undefined && $scope.request.email.length == 0) {
+                    $scope.request.email = "";
+                }
+                if (validEmail($scope.request.email)) {
+                    $scope.showErrorEmailMessage = true;
+                    return;
+                }else{
+                    $scope.showErrorEmailMessage = false;
+                }
+
+                if ($scope.filesForRecall.length != 0) {
+                    angular.forEach($scope.filesForRecall, function (resp) {
+                        delete resp.$$hashKey;
+                    });
+                    $scope.request.fileId = JSON.stringify($scope.filesForRecall);
+                }
+                if ($scope.request.message != undefined && $scope.request.message.length == 0) {
+                    $scope.request.message = "";
+                } else if ($scope.request.message == undefined) {
+                    $scope.request.message = "";
+                }
+
+                $scope.request.lang = $translate.use();
+                $scope.request.email = $('#email2').val();
+                $scope.request.phone = String($scope.request.phone);
+                if ($scope.request.phone == undefined || $scope.request.phone.match(/^[\(\)\s\-\+\d]{9,20}$/) == null) {
+                    $scope.showErrorPhoneMessage = true;
+                    $scope.enterPhoneNumber = false;
+                    $scope.incorrectPhoneNumber = true;
+                    return false;
+                }else{
+                    $scope.showErrorPhoneMessage = false;
+                }
+                if($scope.filesForRecall.length == 0){
+                    $scope.showErrorCvFileMessage = true;
+                }else{
+                    Service.addCandidate($scope.request, function (resp) {
+                        if (resp.status && resp.status === 'error' && resp.message) {
+                            $scope.message = "error";
+                        } else {
+                            $scope.message = "success";
+                            $scope.request = {
+                                name: "",
+                                lastName: "",
+                                phone: "",
+                                message: "",
+                                vacancyId: $scope.vacancyId,
+                                fileId: null
+                            };
+                            // $("#email2").val("");
+                            $scope.filesForRecall = [];
+                            $scope.recallForm.name.$pristine = true;
+                            $scope.recallForm.last_name.$pristine = true;
+                            $scope.recallForm.phone.$pristine = true;
+                            $scope.recallForm.phone.$invalid = false;
+                            $scope.recallForm.email2.$invalid = false;
+                            $scope.recallForm.email2.$pristine = false;
+                            $scope.showErrorEmailMessage = false;
+                            $('body').removeClass('modal-open-public-vacancy-form');
+                            $rootScope.closeModal();
+                            $scope.showModalInfoAboutVacancy();
+                        }
+
+                    }, function (resp) {
+                        $scope.message = "error";
+                    });
+                }
+            } else {
+              if(!$scope.accessPresonData) notificationService.error($translate.instant("You need to give your consent for your personal data to processing proceed"));
+              $scope.recallForm.name.$pristine = false;
+                $scope.recallForm.last_name.$pristine = false;
+                if (validEmail($scope.request.email)) {
+                    $scope.showErrorEmailMessage = true;
+                }
+                $scope.recallForm.phone.$pristine = false;
+                if($scope.request.phone == null || $scope.request.phone.length == 0){
+                    $scope.enterPhoneNumber = true;
+                }else if($scope.request.phone.length < 9 || $scope.request.phone.length > 20){
+                    $scope.showErrorPhoneMessage = true;
+                    $scope.incorrectPhoneNumber = true;
+                    $scope.enterPhoneNumber = false;
+                }else{
+                    $scope.incorrectPhoneNumber = true;
+                    $scope.enterPhoneNumber = false;
+                }
+            }
+        };
+    }])
     .controller('PublicVacancyAddController', function($rootScope, $scope, $filter, $location, $translate, Service, notificationService) {
             $rootScope.hasJS = true;
             $scope.orgId = 'c0f3bac6a94e4c2290618907e8dba636';
@@ -4254,6 +4258,7 @@ angular.module('RecruitingAppStart.filters', []).
         }
     }]).filter('parseFacebookUrl' , [function() {
         return function(url) {
+            if(!url) return '';
             let start = url.indexOf('.com/') + 4;
             return url.substr(start, url.length);
         }
