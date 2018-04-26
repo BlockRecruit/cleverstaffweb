@@ -583,7 +583,7 @@ body {
 							justify-content: center;
 							align-items: center;
 							.st0 {
-								fill: #9fa3a8;
+								fill: $theme-green;
 							}
 						}
 					}
@@ -637,6 +637,16 @@ body {
 					margin-right: 0;
 
 					border-right: none;
+				}
+				&.low-low-balance {
+					color: $theme-red;
+					border: 1px solid $theme-red;
+					.fa-usd {
+						color: #d9534f;
+					}
+					span {
+						color: #d9534f;
+					}
 				}
 			}
 			.fa-cog {
