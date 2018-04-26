@@ -300,7 +300,6 @@
                     </li>
                     <li class="dropdown reports"  ng-if="$root.me!= undefined &&  $root.me.recrutRole!='salesmanager' && $root.me.recrutRole!='researcher'" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
                         <a href="#/reports"
-                           ng-show="$root.me.recrutRole !== 'freelancer' && $root.me.recrutRole!='client'"
                            ng-class="{'active': $root.activePage == 'Pipeline' || $root.activePage == 'Statistics client' || $root.activePage == 'Report all' || $root.activePage == 'Vacancy report' || $root.activePage == 'Reports' || $root.activePage ==  'Reports constructor' ||  $root.activePage == 'Custom Reports'|| $root.activePage == 'Edit Reports'}">
                             <i class="sprite sprite-reports">
                                 <svg version="1.1"
@@ -318,12 +317,6 @@
                                         C15,5.1,14.8,4.9,14.5,4.9z M14,16.8h-1.3V5.9H14V16.8z"/>
                                 </svg>
                             </i>
-                            <span translate="Reports"></span>
-                        </a>
-                        <a href="#/reports/pipeline"
-                           ng-show="$root.me.recrutRole == 'freelancer' || $root.me.recrutRole == 'client'"
-                           ng-class="{'active': $root.activePage == 'Pipeline' || $root.activePage == 'Statistics client' || $root.activePage == 'Report all' || $root.activePage == 'Vacancy report' || $root.activePage == 'Reports' || $root.activePage ==  'Reports constructor' ||  $root.activePage == 'Custom Reports'|| $root.activePage == 'Edit Reports'}">
-                            <i class="fa fa-bar-chart"></i>
                             <span translate="Reports"></span>
                         </a>
                     </li>
@@ -737,15 +730,14 @@
                             <!--<span class="counter">{{$root.objectSizeCand}}</span>-->
                         </a>
                     </li>
-                    <li class="hidden-sm hidden-xs" ng-class="{'selected': $root.activePage == 'Candidate add'}">
-                        <a  ng-show="$root.me.recrutRole != 'client'" href="#/candidate/add">
+                    <li class="hidden-sm hidden-xs" ng-class="{'selected': $root.activePage == 'Candidate add'}" ng-show="$root.me.recrutRole != 'client'">
+                        <a href="#/candidate/add">
                             {{'new'|translate}}
                             <span style="text-transform: lowercase;">{{'candidate'|translate}}</span>
                         </a>
                     </li>
-                    <li class="hidden-sm hidden-xs" ng-class="{'selected': $root.activePage == 'Tests and forms'}">
-                        <a ng-click="$root.changeSearchType('add')"
-                            ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter'" href="#/candidate/tests">
+                    <li class="hidden-sm hidden-xs" ng-class="{'selected': $root.activePage == 'Tests and forms'}" ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter'">
+                        <a ng-click="$root.changeSearchType('add')" href="#/candidate/tests">
                             {{'Tests and forms'|translate}}
                         </a>
                     </li>
@@ -779,8 +771,8 @@
                             <!--<span class="counter">{{$root.objectSize|clientsCountFormat}}</span>-->
                         </a>
                     </li>
-                    <li class="dropdown" ng-class="{'selected': $root.activePage == 'Client add'}">
-                        <a ng-click="$root.toAdd()"  href="" ng-show="($root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'client')">{{'New client'|translate}}</a>
+                    <li class="dropdown" ng-class="{'selected': $root.activePage == 'Client add'}" ng-show="($root.me.recrutRole != 'researcher' && $root.me.recrutRole != 'freelancer' && $root.me.recrutRole != 'client')">
+                        <a ng-click="$root.toAdd()"  href="">{{'New client'|translate}}</a>
                     </li>
                 </ul>
                 <!--<ul class="nav navbar-nav col-lg-6 col-md-6 hidden-xs hidden-sm text-right" style="justify-content: flex-end">-->

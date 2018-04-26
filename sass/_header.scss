@@ -347,19 +347,33 @@ body {
 				border-top-right-radius: 5px;
 
 				align-items: center;
+				&:not(.active) {
+					&:focus {
+						.sprite svg {
+							-webkit-transform: scale(1.2) translateZ(0);
+							transform: scale(1.2) translateZ(0);
+						}
+					}
+					&:hover {
+						.sprite svg {
+							-webkit-transform: scale(1.2) translateZ(0);
+							transform: scale(1.2) translateZ(0);
+						}
+					}
+					i.sprite svg {
+						-webkit-transition-timing-function: ease-out;
+						transition-timing-function: ease-out;
+						-webkit-transition-duration: 0.3s;
+						transition-duration: 0.3s;
+						-webkit-transition-property: transform;
+						transition-property: transform;
+						-webkit-transform: translateZ(0);
+						transform: translateZ(0);
+					}
+				}
 				&:focus {
 					outline: none;
 					background-color: transparent;
-					.sprite svg {
-						-webkit-transform: scale(1.2) translateZ(0);
-						transform: scale(1.2) translateZ(0);
-					}
-				}
-				&:hover {
-					.sprite svg {
-						-webkit-transform: scale(1.2) translateZ(0);
-						transform: scale(1.2) translateZ(0);
-					}
 				}
 				span {
 					@include top-menu-font();
@@ -372,14 +386,6 @@ body {
 						display: block;
 
 						svg {
-							-webkit-transition-timing-function: ease-out;
-							transition-timing-function: ease-out;
-							-webkit-transition-duration: 0.3s;
-							transition-duration: 0.3s;
-							-webkit-transition-property: transform;
-							transition-property: transform;
-							-webkit-transform: translateZ(0);
-							transform: translateZ(0);
 							.st0 {
 								fill: #5ebb52;
 							}
@@ -430,8 +436,8 @@ body {
 						font-size: 17px;
 						&.sprite {
 							svg {
-								-webkit-transform: scale(1.2) translateZ(0);
-								transform: scale(1.2) translateZ(0);
+								//-webkit-transform: scale(1.2) translateZ(0);
+								//transform: scale(1.2) translateZ(0);
 								.st0 {
 									fill: #5a5e63;
 								}
@@ -446,26 +452,50 @@ body {
 						&.sprite-calendar {
 							width: 20px;
 							height: 20px;
+							svg {
+								width: 23px;
+								height: 20px;
+							}
 						}
 						&.sprite-vacancy {
 							width: 26px;
-							height: 22px;
+							height: 24px;
+							svg {
+								width: 28px;
+								height: 22px;
+							}
 						}
 						&.sprite-candidates {
-							width: 23px;
-							height: 22px;
+							width: 25px;
+							height: 24px;
+							svg {
+								width: 28px;
+								height: 22px;
+							}
 						}
 						&.sprite-clients {
 							width: 23px;
 							height: 21px;
+							svg {
+								width: 25px;
+								height: 20px;
+							}
 						}
 						&.sprite-company {
 							width: 22px;
 							height: 24px;
+							svg {
+								width: 28px;
+								height: 22px;
+							}
 						}
 						&.sprite-reports {
 							width: 22px;
 							height: 24px;
+							svg {
+								width: 24px;
+								height: 22px;
+							}
 						}
 					}
 				}
