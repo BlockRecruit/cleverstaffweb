@@ -7355,16 +7355,12 @@ angular.module('services.candidate', [
 
     function setAgeRange(name, value) {
         if(name === "dateTo") {
-            if(typeof(options["dateFrom"]) === "number" && ageRangeToYears(options["dateFrom"]) === value) {
+            if(typeof(options["dateFrom"]) === "number") {
                 options["dateFrom"] = ageRangeToMs(value + 1);
             }
             options[name] = ageRangeToMs(value);
         } else {
-            if(typeof(options["dateTo"]) === "number" && ageRangeToYears(options["dateTo"]) === value) {
-                options["dateFrom"] = ageRangeToMs(value + 1);
-            } else {
-                options[name] = ageRangeToMs(value);
-            }
+            options["dateFrom"] = ageRangeToMs(value + 1);
         }
     }
 
