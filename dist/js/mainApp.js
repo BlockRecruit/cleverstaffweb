@@ -10040,10 +10040,10 @@ angular.module('services.globalService', [
             {value: "full employment"},
             {value: "underemployment"},
             {value: "telework"},
-            {value: "training, practice"},
+            {value: "training_practice"},
             {value: "project work"},
-            {value: "seasonal, temporary work"},
-            {value: "relocate"}
+            {value: "seasonal_temporary_work"},
+            {value: "Relocate"}
         ];
 
     };
@@ -15109,7 +15109,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=87'
+        suffix: '.json?b=88'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
