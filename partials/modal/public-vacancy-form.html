@@ -70,11 +70,11 @@
                 </div>
             </div>
             <div class="access-person-data">
-                <input type="checkbox" required name="access-person-data" ng-model="accessPresonData">
+                <input type="checkbox" required name="access-person-data" ng-model="accessPreson">
                 <span>{{"I give my consent for my personal data processing for this and other vacancies"|translate}}</span>
             </div>
         </form>
-        <button class="btn-primary-new apply pull-right" ng-click="sendRequest(recallForm)">{{'send'|translate}}</button>
+        <button class="btn-primary-new apply pull-right" ng-click="sendRequest(recallForm, accessPreson)">{{'send'|translate}}</button>
         <div class="clearfix"></div>
     </div>
 </div>

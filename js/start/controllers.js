@@ -1163,16 +1163,19 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $scope.showErrorPhoneMessage = false;
                 $scope.showErrorCvFileMessage = false;
                 $('body').addClass('modal-open-public-vacancy-form');
+
                 $scope.modalInstance = $uibModal.open({
                     animation: true,
-                    templateUrl: '../partials/modal/public-vacancy-form.html?b=10',
+                    templateUrl: '../partials/modal/public-vacancy-form.html?b=11',
                     size: '',
                     scope: $scope,
                     resolve: {
 
                     }
                 });
+
             };
+
             $scope.sendRequest = function (recallForm) {
                 $scope.recallForm = recallForm;
                 $scope.showErrorCvFileMessage = true;
@@ -2550,7 +2553,6 @@ controller.controller('mainController' ,function($scope, $location, $window) {
             vacancyId: $scope.vacancyId,
             fileId: null
         };
-        $scope.accessPresonData = false;
 
             $.getScript("https://platform.linkedin.com/in.js?async=true", function success() {
                 IN.init({
@@ -2824,8 +2826,6 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 });
             };
 
-
-
             $scope.showRecallFromModal = function() {
                 $scope.showErrorEmailMessage = false;
                 $scope.showErrorPhoneMessage = false;
@@ -2841,7 +2841,8 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 }
             });
         };
-        $scope.sendRequest = function (recallForm) {
+            $scope.accessPreson = false;
+        $scope.sendRequest = function (recallForm, accessPreson) {
             $scope.recallForm = recallForm;
             $scope.showErrorCvFileMessage = true;
           if ($scope.recallForm.$valid) {
@@ -2913,7 +2914,8 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                     });
                 }
             } else {
-              if(!$scope.accessPresonData) notificationService.error($translate.instant("You need to give your consent for your personal data to processing proceed"));
+
+              if(!accessPreson) notificationService.error($translate.instant("You need to give your consent for your personal data to processing proceed"));
               $scope.recallForm.name.$pristine = false;
                 $scope.recallForm.last_name.$pristine = false;
                 if (validEmail($scope.request.email)) {
