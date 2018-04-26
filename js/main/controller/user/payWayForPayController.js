@@ -92,6 +92,12 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
             $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
             $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
+
+            Pay.paymentInfo.countPeople = $scope.countPeople;
+            Pay.paymentInfo.countMonth = $scope.countMonth;
+
+            console.log(Pay.paymentInfo.countPeople);
+            console.log(Pay.paymentInfo.countMonth);
         });
 
         $scope.payClick = function () {
