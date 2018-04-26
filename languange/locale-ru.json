@@ -2969,5 +2969,9 @@
   "The binding":"Привязка",
   "was unlinked in candidate":"удалена у кандидата",
   "for": "для",
-  "To send a letter from your mailbox,allow sending mails from the email integration page":"Для отправки письма со своего почтового ящика разрешите отправку писем на <a href='#/email-integration' target='_blank'>странице интеграции с email</a>"
+  "To send a letter from your mailbox,allow sending mails from the email integration page":"Для отправки письма со своего почтового ящика разрешите отправку писем на <a href='#/email-integration' target='_blank'>странице интеграции с email</a>",
+  "The filter allows you to pick the users who performed any activities on vacancies.": "Фильтр позволяет выбрать определенных пользователей, которые совершали какие-либо действия по вакансиям.",
+  "Account visibility":"Видимость аккаунта",
+  "Account visibility changed":"Видимость аккаунта изменена",
+  "only_me1 + only_me2":"только мои, за которые я ответственен"
 }

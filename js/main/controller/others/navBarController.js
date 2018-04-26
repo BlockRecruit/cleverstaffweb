@@ -51,20 +51,14 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     Service.getRegions2(function (resp) {
         $scope.regions = resp;
         let lang = localStorage.getItem('NG_TRANSLATE_LANG_KEY');
-        let translate ;
+         $scope.translate = '';
 
         if(lang == 'ru'){
-            translate =  "Выберите регион";
+            $scope.translate =  "Выберите регион";
         }else{
-            translate =  "Choose region";
+            $scope.translate =  "Choose region";
         }
-
-        var optionsHtml = `<option ng-selected="true" value="" selected style="color:#999">${translate}</option>`;
-        angular.forEach($scope.regions, function (value) {
-            optionsHtml += "<option style='color: #000000' value='" + (value.id).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-        });
-        $('#cs-region-filter-select-scope').html(optionsHtml);
-        $('.cs-region-filter-select-scope2').html(optionsHtml);
+     $timeout(setDefualtValueRegionSelect);
     });
 
     $rootScope.getBrowser = function () {
@@ -426,11 +420,10 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     $scope.openRegionList = function () {
         if (document.createEvent) {
-            var regionList = $("#regionList");
-            console.log(regionList);
-            var e = document.createEvent("MouseEvents");
-            e.initMouseEvent("mousedown", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-            regionList[0].dispatchEvent(e);
+            var regionList = document.getElementById('regionList');
+            var e = document.createEvent("Event");
+            e.initEvent("mousedown", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            regionList.dispatchEvent(e);
         } else if (element.fireEvent) {
             regionList[0].fireEvent("onmousedown");
         }
@@ -884,14 +877,17 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         $rootScope.scopeActiveObject = val;
     });
 
-    $scope.changeScope = function (name) {
-        $scope.regionListStyle = {
-            'border': '3px solid red'
-        };
+    $scope.changeScope = function (name, orgId) {
+        console.log(name,'name');
+        // $scope.regionListStyle = {
+        //     'border': '3px solid red'
+        // };
+
         if (name == 'region') {
             if($rootScope.activePage == 'Candidates'){
                 $rootScope.clearSearchRegion();
             }
+
             if ($scope.regionId) {
                 localStorageService.set($rootScope.userId, 'region');
                 var region = null;
@@ -907,7 +903,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     name: region.showName
                 });
             } else {
-                $scope.openRegionList();
+                // $scope.openRegionList();
                 $scope.regionListStyle = {
                     'border': '3px solid red'
                 };
@@ -919,15 +915,19 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 }, 2000);
             }
         } else if (name == 'company') {
-            $scope.changeOrg(function () {
-                ScopeService.setActiveScopeObject(name);
-                localStorageService.set($rootScope.userId, 'org');
-                localStorageService.set($rootScope.userId + "_regionId", null);
-                $scope.regionListStyle = {
-                    'border': '1px solid rgba(0,0,0,.15);'
-                };
-            })
+            $timeout(setDefualtValueRegionSelect);
+
+            $timeout(function(){
+                $scope.orgId = orgId;
+                $scope.changeOrg(function () {
+                    ScopeService.setActiveScopeObject(name);
+                    localStorageService.set($rootScope.userId, 'org');
+                    localStorageService.set($rootScope.userId + "_regionId", null);
+                });
+            });
+
         } else if (name == 'onlyMy') {
+            $timeout(setDefualtValueRegionSelect);
             localStorageService.set($rootScope.userId, 'onlyme');
             localStorageService.set($rootScope.userId + "_regionId", null);
             ScopeService.setActiveScopeObject(name);
@@ -935,20 +935,22 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 'border': '1px solid rgba(0,0,0,.15);'
             };
         }
+
+        notificationService.success($translate.instant("Account visibility changed"));
+
         setTimeout(function () {
             $scope.blockInfo();
             $scope.getAllPersonsFunc();
         }, 1000);
     };
-    $scope.changeScopeForRegionSelect = function (name) {
+
+    $scope.changeScopeForRegionSelect = function (name, regionId) {
         if (name == 'region') {
             if($rootScope.activePage == 'Candidates'){
                 $rootScope.clearSearchRegion();
             }
-            $scope.regionListStyle = {
-                'border': '3px solid red'
-            };
-            console.log($scope.regionId);
+
+            $scope.regionId = regionId;
             if ($scope.regionId) {
                 localStorageService.set($rootScope.userId, 'region');
                 var region = null;
@@ -958,11 +960,13 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     }
                 });
                 localStorageService.set($rootScope.userId + "_regionId", region);
+
                 ScopeService.setActiveScopeObject(name, {
                     type: region.type,
                     value: region.value,
                     name: region.showName
                 });
+                notificationService.success($translate.instant("Account visibility changed"));
             } else {
             }
         } else if (name == 'company') {
@@ -970,12 +974,13 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 ScopeService.setActiveScopeObject(name);
                 localStorageService.set($rootScope.userId, 'org');
                 localStorageService.set($rootScope.userId + "_regionId", null);
-
-            })
+                notificationService.success($translate.instant("Account visibility changed"));
+            });
         } else if (name == 'onlyMy') {
             localStorageService.set($rootScope.userId, 'onlyme');
             localStorageService.set($rootScope.userId + "_regionId", null);
             ScopeService.setActiveScopeObject(name);
+            notificationService.success($translate.instant("Account visibility changed"));
         }
     };
 
@@ -1517,19 +1522,24 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         });
     }
 
-    //console.log($rootScope.previousHistoryFeedback);
-    //$http.get("js/Version.json").then(function(response) {
-    //    var scripts = document.getElementById('versionScript').src;
-    //    var versionString = scripts.split("?").pop();
-    //    console.log(scripts);
-    //    console.log(response);
-    //    if(versionString != response.data.version){
-    //        location.reload(true);
-    //    }
-    //        //$scope.content = response.data;
-    //        //$scope.statuscode = response.status;
-    //        //$scope.statustext = response.statustext;
-    //    });
+    function setDefualtValueRegionSelect(){
+        var optionsHtml = `<option ng-selected="true" value="" selected style="color:#999">${$scope.translate}</option>`;
+        let region = JSON.parse(localStorage.getItem(`ls.${$rootScope.userId}_regionId`));
+        console.log(region, 'region');
+        angular.forEach($scope.regions, function (value) {
+            if(region && region.value === value["value"]){
+                optionsHtml += "<option style='color: #000000' selected  value='" + (value.id).replace(/\'/gi,"") + "'>" + value.name + "</option>";
+            }else{
+                optionsHtml += "<option style='color: #000000'  value='" + (value.id).replace(/\'/gi,"") + "'>" + value.name + "</option>";
+            }
+        });
+
+        $('#cs-region-filter-select-scope').html(optionsHtml);
+        $('.cs-region-filter-select-scope2').html(optionsHtml);
+    }
+
+    $scope.dataChangeScopeAccount = ScopeService.dataChangeScopeAccount;
+    console.log($scope.dataChangeScopeAccount);
 }
 controller.controller('NavbarController', ["$q", "Vacancy", "serverAddress", "notificationService", "$scope", "tmhDynamicLocale", "$http", "Person", "$rootScope",
     "Service", "$route", "$window", "$location", "$filter", "$sce", "$cookies", "localStorageService", "$localStorage", "$timeout", "CheckAccess", "frontMode",

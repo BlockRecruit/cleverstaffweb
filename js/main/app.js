@@ -477,12 +477,12 @@ angular.module('RecruitingApp', [
             controller: "constructorReports",
             pageName: "Reports constructor"
         })
-        //.when('/hr-module-info', {
-        //    title: "HR-module",
-        //    templateUrl: "partials/hr-module-info.html",
-        //    controller: "hrModuleInfoController",
-        //    pageName: "Hr-module info"
-        //})
+        .when('/settings', {
+           title: "Settings",
+           templateUrl: "partials/settings.html",
+           controller: "NavbarController",
+           pageName: "Settings"
+        })
         .otherwise({redirectTo: '/organizer'});
 }]).config(['$provide', '$httpProvider', 'serverAddress', 'frontMode', function ($provide, $httpProvider, serverAddress, frontMode) {
     var allRequest = {};
