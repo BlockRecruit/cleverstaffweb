@@ -1368,11 +1368,11 @@ angular.module('services.candidate', [
         } else {
             if(name === "dateTo") {
                 if(typeof(options["dateFrom"]) === "number") {
-                    options["dateFrom"] = ageRangeToMs(value + 1);
+                    options["dateFrom"] = ageRangeToMs(value + 1) + 86400000;
                 }
-                options[name] = ageRangeToMs(value);
+                options["dateTo"] = ageRangeToMs(value);
             } else {
-                options["dateFrom"] = ageRangeToMs(value + 1);
+                options["dateFrom"] = ageRangeToMs(value + 1) + 86400000;
             }
         }
     }
