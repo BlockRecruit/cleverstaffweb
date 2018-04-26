@@ -1,4 +1,4 @@
-<div class="payment">
+<div class="payment" ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter'">
     <div class="container-fluid wrapper">
 
         <section class="payment__acc-info">
@@ -111,12 +111,12 @@
                         </div>
                         <span translate="Download resume candidates in docx-format"></span>
                     </div>
-                    <div class="feature">
-                        <div class="img-wrap">
-                            <img src="/images/sprite/paid-feature-6.png" alt="">
-                        </div>
-                        <span translate="View reports on vacancies"></span>
-                    </div>
+                    <!--<div class="feature">-->
+                        <!--<div class="img-wrap">-->
+                            <!--<img src="/images/sprite/paid-feature-6.png" alt="">-->
+                        <!--</div>-->
+                        <!--<span translate="View reports on vacancies"></span>-->
+                    <!--</div>-->
                     <div class="feature">
                         <div class="img-wrap">
                             <img src="/images/sprite/paid-feature-7.png" alt="">
@@ -178,6 +178,9 @@
                         <a class="btn-transparent" href="mailto:finance@cleverstaff.net" translate="Contact us"></a>
                     </div>
                 </div>
+            </div>
+            <div class="pay_faq">
+                <span translate="Payment FAQ"></span>
             </div>
         </section>
 

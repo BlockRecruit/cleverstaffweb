@@ -46,6 +46,31 @@
 					font-family: "Helvetica-Light";
 				}
 			}
+			.pay_faq {
+				display: flex;
+				flex-direction: row;
+				margin-top: 10px;
+
+				align-items: center;
+				justify-content: center;
+				span {
+					&.bold {
+						font-family: "Helvetica-Medium";
+
+						color: #666;
+					}
+				}
+				a {
+					text-decoration: none;
+
+					color: #33c;
+					&:hover {
+						text-decoration: none;
+
+						color: #1a18cc;
+					}
+				}
+			}
 			&.payment__acc-info {
 				margin-right: 1%;
 				.info__item {
@@ -257,31 +282,6 @@
 						}
 					}
 				}
-				.pay_faq {
-					display: flex;
-					flex-direction: row;
-					margin-top: 10px;
-
-					align-items: center;
-					justify-content: center;
-					span {
-						&.bold {
-							font-family: "Helvetica-Medium";
-
-							color: #666;
-						}
-					}
-					a {
-						text-decoration: none;
-
-						color: #33c;
-						&:hover {
-							text-decoration: none;
-
-							color: #1a18cc;
-						}
-					}
-				}
 				.total-info {
 					font-family: "Helvetica-Regular";
 
@@ -463,7 +463,7 @@
 				.features-wrapper {
 					position: relative;
 
-					padding: 0 8px 10px 8px;
+					padding: 13px 8px 30px 8px;
 
 					background-image: url("/images/sprite/finger-up.png");
 					background-repeat: no-repeat;
@@ -479,7 +479,7 @@
 
 						display: block;
 						max-width: 450px;
-						margin: 0 auto 10px;
+						margin: 0 auto 30px;
 						padding: 11px 0;
 
 						text-align: center;
@@ -852,6 +852,11 @@
 	.payment.home .block-msg {
 		width: 80%;
 	}
+	.payment .wrapper section .pay_faq {
+		width: 100%;
+
+		text-align: center;
+	}
 }
 
 @media screen and (max-width: 880px) {
@@ -941,6 +946,9 @@
 				}
 			}
 		}
+	}
+	.payment .wrapper section.payment__plans .pay_faq {
+		margin-bottom: 20px;
 	}
 }
 
