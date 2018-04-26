@@ -988,7 +988,7 @@
     </div>
     <div id='crutchGoogleMap'></div>
     <div ng-if="$root.blockUser != true || $root.activePage === 'Settings'" ng-view></div>
-    <div ng-show="$root.blockUser">
+    <div ng-show="$root.blockUser && $root.activePage !== 'Settings'">
         <div class="ui vertically devided grid" style="margin-top: 2%;">
             <div class="three wide column"></div>
             <div class="ten wide column" style="padding: 0px;">
