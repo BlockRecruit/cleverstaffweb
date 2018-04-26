@@ -4618,17 +4618,17 @@ directive('appVersion', ['version', function(version) {
                     scope.$apply();
                 }
             },
-            template: `<div class="select-label" tabindex="0" title="{{selectedOpt.label}}">
+            template: `<div class="select-label custom-new" tabindex="0" title="{{selectedOpt.label}}">
                             <span class="select-label-text">{{selectedOpt.label}}</span>
                             <span class="select-caret">
                                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
                             </span>
                         </div>
-                        <div class="select-backdrop"></div>
-                        <div class="select-ops">
+                        <div class="select-backdrop custom-new"></div>
+                        <div class="select-ops custom-new">
                             <div ng-repeat="o in options" ng-click="selectOpt(o)">{{o.label || o.value}}</div>
                         </div>
-                        <select style="display:none!important;" ng-options="opt.value as opt.label for opt in options" model="model"></select>`
+                        <select class="custom-new" style="display:none!important;" ng-options="opt.value as opt.label for opt in options" model="model"></select>`
         };
     }]);
 
@@ -11463,7 +11463,7 @@ angular.module('services.pay', [
 
         pay.paymentInfo = {
             _countPeople: 0,
-            _countMonths: 0,
+            _countMonths: 4,
 
             set countPeople(value) {
                 this._countPeople = value;
@@ -31180,15 +31180,17 @@ controller.controller('FeedbackController',["$localStorage", "serverAddress", "$
         });
     }]);
 
-controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', 'Invoice', 'Person', 'Account', '$filter', '$uibModal', 'notificationService', '$timeout',
-    function($rootScope, $scope, Service, Invoice, Person, Account, $filter, $uibModal, notificationService, $timeout) {
+controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', 'Invoice', 'Person', 'Account', 'Pay', '$filter', '$uibModal', 'notificationService', '$timeout',
+    function($rootScope, $scope, Service, Invoice, Person, Account, Pay, $filter, $uibModal, notificationService, $timeout) {
 
     $scope.allPersons = [];
     $scope.accountInfo = {};
-    $scope.users = [];
+    $scope.paidUsers = [];
     $scope.invoice = { users: 0, currency: null, months: null, price: null };
     $scope.customer = { address: null, country: null, city: null, companyName: null, companyId: null, fullName: null, position: null, postalCode: null };
     $scope.validation = { invalidFields: [], checking: false};
+
+    $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
 
     $scope.currenciesSigns = Invoice.getCurrenciesSigns();
     $scope.countries = Service.getAllCounties($rootScope.currentLang);
@@ -31250,9 +31252,10 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
     }
 
     function setInvoiceData(data) {
+        console.log(Pay.paymentInfo.countMonths);
         $scope.invoice = {
-            users: String(data.numberOfUsers),
-            months: String(data.numberOfMonths),
+            users: Pay.paymentInfo.countPeople || $scope.paidUsers.length,
+            months: Pay.paymentInfo.countMonths || 4,
             currency: data.currency,
             price: () => ($scope.invoice.users * $scope.invoice.months * $scope.currenciesMonthRates[$scope.invoice.currency]).toFixed(2)
         };
@@ -31276,7 +31279,7 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
     function setUsers(allPersons) {
         Object.entries(allPersons).forEach(([personId, person], index) => {
             if (person.status === "A" && person.recrutRole !== 'client') {
-                $scope.users.push(String($scope.users.length + 1));
+                $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
             }
         });
     }
@@ -31296,7 +31299,6 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
 
                 $scope.currenciesMonthRates = Invoice.getCurrenciesMonthRates(currencyExchangeRates, accountInfo.object.monthRate);
                 $scope.currencies = ['UAH', 'RUB', 'EUR', 'USD'];
-                $scope.months = ['1','2','3','4','5','6','7','8','9','10','11','12'];
 
                 setUsers(allPersons.object);
 
@@ -31306,14 +31308,12 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
                     setCustomerData(lastInvoiceData.object);
                 } else {
                     $scope.invoice = {
-                        users: String($scope.users.length),
-                        months: '4',
+                        users: Pay.paymentInfo.countPeople || $scope.paidUsers.length,
+                        months: Pay.paymentInfo.countMonths || 4,
                         currency: 'USD',
                         price: () => ($scope.invoice.users * $scope.invoice.months * $scope.currenciesMonthRates[$scope.invoice.currency]).toFixed(2)
                     };
                 }
-
-                console.log($scope.invoice, $scope.invoice.users);
                 $scope.$apply();
             }).catch(error => {
                 $rootScope.loading = false;
@@ -34740,10 +34740,8 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
 
             Pay.paymentInfo.countPeople = $scope.countPeople;
-            Pay.paymentInfo.countMonth = $scope.countMonth;
+            Pay.paymentInfo.countMonths = $scope.countMonth;
 
-            console.log(Pay.paymentInfo.countPeople);
-            console.log(Pay.paymentInfo.countMonth);
         });
 
         $scope.payClick = function () {

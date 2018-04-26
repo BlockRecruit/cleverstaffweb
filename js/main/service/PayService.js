@@ -36,7 +36,7 @@ angular.module('services.pay', [
 
         pay.paymentInfo = {
             _countPeople: 0,
-            _countMonths: 0,
+            _countMonths: 4,
 
             set countPeople(value) {
                 this._countPeople = value;

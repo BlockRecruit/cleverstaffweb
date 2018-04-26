@@ -58,18 +58,18 @@
                 <span class="total-info" translate="Will be credited total USD (bonus USD)" translate-values="{total: priceWithBonus, bonus: bonusAmount}"></span>
             </div>
             <div class="pay__types">
-                <div class="pay__type">
+                <a class="pay__type">
                     <span translate="Pay by card" ng-click="payClick()"></span>
                     <div class="type__image">
                         <img src="/images/sprite/visa-mastercard-block.png">
                     </div>
-                </div>
-                <div class="pay__type invoice">
+                </a>
+                <a class="pay__type invoice" href="#/invoice">
                     <span translate="Pay by invoice"></span>
                     <div class="type__image invoice-payment">
                         <img src="/images/sprite/invoice-payment.jpg">
                     </div>
-                </div>
+                </a>
             </div>
             <div class="pay_faq">
                 <span translate="Payment FAQ"></span>

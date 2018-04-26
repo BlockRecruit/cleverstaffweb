@@ -4618,17 +4618,17 @@ directive('appVersion', ['version', function(version) {
                     scope.$apply();
                 }
             },
-            template: `<div class="select-label" tabindex="0" title="{{selectedOpt.label}}">
+            template: `<div class="select-label custom-new" tabindex="0" title="{{selectedOpt.label}}">
                             <span class="select-label-text">{{selectedOpt.label}}</span>
                             <span class="select-caret">
                                 <i class="fa fa-chevron-down" aria-hidden="true"></i>
                             </span>
                         </div>
-                        <div class="select-backdrop"></div>
-                        <div class="select-ops">
+                        <div class="select-backdrop custom-new"></div>
+                        <div class="select-ops custom-new">
                             <div ng-repeat="o in options" ng-click="selectOpt(o)">{{o.label || o.value}}</div>
                         </div>
-                        <select style="display:none!important;" ng-options="opt.value as opt.label for opt in options" model="model"></select>`
+                        <select class="custom-new" style="display:none!important;" ng-options="opt.value as opt.label for opt in options" model="model"></select>`
         };
     }]);
 

@@ -3,7 +3,7 @@
     <div class="container">
 
         <section class="invoice__intro">
-            <a class="btn-transparent">
+            <a class="btn-transparent" href="#/pay">
                 <img src="/images/reports-img/long-arrow.png" alt="">
                 {{'Go back' | translate}}
             </a>
@@ -39,14 +39,20 @@
                         <span translate="The access to use Cleverstaff software"></span>
                     </td>
                     <td>
-                        <select name="paidUsers" id="paidUsers" ng-model="invoice.users">
-                            <option ng-selected="amount === invoice.users" ng-repeat="amount in users track by $index">{{amount}}</option>
-                        </select>
+                        <div class="wrapper">
+                            <custom-select-new options="paidUsers" model="invoice.users"></custom-select-new>
+                        </div>
+                        <!--<select name="paidUsers" id="paidUsers" ng-model="invoice.users">-->
+                            <!--<option ng-selected="amount === invoice.users" ng-repeat="amount in users track by $index">{{amount}}</option>-->
+                        <!--</select>-->
                     </td>
                     <td>
-                        <select name="month" ng-model="invoice.months">
-                            <option ng-selected="month === invoice.months" ng-repeat="month in months track by $index">{{month}}</option>
-                        </select>
+                        <div class="wrapper">
+                            <custom-select-new options="months" model="invoice.months"></custom-select-new>
+                        </div>
+                        <!--<select name="month" ng-model="invoice.months">-->
+                            <!--<option ng-selected="month === invoice.months" ng-repeat="month in months track by $index">{{month}}</option>-->
+                        <!--</select>-->
                     </td>
                     <td>
                         <select name="currency" ng-model="invoice.currency">

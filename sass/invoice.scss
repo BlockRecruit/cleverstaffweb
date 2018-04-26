@@ -91,6 +91,11 @@
 						font-family: "Helvetica-Bold";
 
 						padding-top: 10px;
+						.wrapper {
+							position: relative;
+
+							display: inline-block;
+						}
 						&.limit-width {
 							font-family: "Helvetica-Light";
 
