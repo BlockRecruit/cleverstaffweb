@@ -477,6 +477,12 @@ angular.module('RecruitingApp', [
             controller: "constructorReports",
             pageName: "Reports constructor"
         })
+        .when('/invoice', {
+            templateUrl: 'partials/invoice.html',
+            controller: 'invoiceController',
+            title: "Invoice ",
+            pageName: "Invoice generation",
+        })
         //.when('/hr-module-info', {
         //    title: "HR-module",
         //    templateUrl: "partials/hr-module-info.html",

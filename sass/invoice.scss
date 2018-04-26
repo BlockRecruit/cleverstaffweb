@@ -1,0 +1,230 @@
+.invoice-generation {
+	display: flex;
+	flex-direction: column;
+	padding: 40px 0;
+
+	background-color: #efefef;
+
+	align-items: center;
+	justify-content: flex-start;
+	.container {
+		section {
+			position: relative;
+
+			display: flex;
+			flex-direction: row;
+
+			align-items: center;
+
+			&.section__block {
+				padding: 40px 10px 30px;
+
+				border: 1px solid #ccc;
+				border-radius: 5px;
+				background-color: #fff;
+
+				.title {
+					font-family: "Helvetica-Medium";
+					font-size: 28px;
+
+					margin: 0 0 19px 0;
+
+					color: #999;
+				}
+			}
+			&.invoice__intro {
+				margin-bottom: 18px;
+
+				justify-content: center;
+				.btn-transparent {
+					@include btn-transparent();
+
+					position: absolute;
+					left: 0;
+
+					display: inline-block;
+					padding: 5px 17px;
+
+					text-align: center;
+
+					background-color: #fff;
+				}
+				h2 {
+					font-family: "Helvetica-Medium";
+					font-size: 30px;
+
+					margin: 0;
+				}
+			}
+
+			&.invoice__order-info {
+				flex-direction: column;
+				margin-bottom: 10px;
+
+				justify-content: center;
+				align-items: center;
+				tr {
+					th {
+						span {
+							display: block;
+							padding: 10px 10px 10px 0;
+
+							color: #666;
+							border-top: 1px solid #ccc;
+							border-bottom: 1px solid #ccc;
+							background-color: #e2f1dd;
+						}
+						&:first-child {
+							span {
+								border-left: 1px solid #ccc;
+								border-radius: 5px 0 0 5px;
+							}
+						}
+						&:last-child {
+							span {
+								border-right: 1px solid #ccc;
+								border-radius: 0 5px 5px 0;
+							}
+						}
+					}
+					td {
+						font-family: "Helvetica-Bold";
+
+						padding-top: 10px;
+						&.limit-width {
+							font-family: "Helvetica-Light";
+
+							width: 15%;
+							max-width: 200px;
+						}
+						span.currency {
+							font-weight: bold;
+
+							width: 100px;
+							min-width: 80px;
+							margin-left: auto;
+						}
+					}
+					td,
+					th {
+						position: relative;
+
+						text-align: center;
+						&:first-child {
+							text-align: left;
+							span {
+								display: block;
+								padding-left: 10px;
+							}
+						}
+						&:last-child {
+							text-align: right;
+							span {
+								display: block;
+								padding-right: 10px;
+							}
+						}
+					}
+				}
+				select {
+					font-family: "Helvetica-Bold";
+
+					position: relative;
+
+					width: 90px;
+					height: 30px;
+					padding-left: 11px;
+
+					color: #666;
+					border: 1px solid #ccc;
+					border-radius: 5px;
+
+					//appearance: none;
+				}
+			}
+
+			&.invoice__customer-information {
+				flex-direction: column;
+				margin-bottom: 30px;
+
+				align-items: center;
+				justify-content: center;
+
+				.section__tooltip {
+					position: absolute;
+					top: 28px;
+					left: 22px;
+
+					color: #666;
+				}
+				form {
+					font-family: "Helvetica-Light";
+
+					display: flex;
+					flex-direction: column;
+
+					align-items: center;
+					justify-content: center;
+					.form-group {
+						display: flex;
+						flex-direction: row;
+
+						align-items: center;
+
+						label {
+							font-weight: normal;
+
+							display: inline-block;
+							min-width: 175px;
+							margin: 0 10px 0 0;
+
+							text-align: right;
+
+							color: #000;
+						}
+						select,
+						input {
+							display: inline-block;
+							min-width: 380px;
+							height: 30px;
+							padding-left: 10px;
+
+							color: #999;
+							border: 1px solid #dbdbdb;
+							border-radius: 5px;
+							&.error {
+								border-color: #ff382d;
+								&:focus {
+									outline: none;
+								}
+							}
+						}
+						input::placeholder {
+							color: #999;
+						}
+						&.error {
+							.error_message {
+								font-family: "Helvetica-Medium";
+
+								color: #f30909;
+							}
+						}
+					}
+				}
+			}
+			&.invoice__generate {
+				justify-content: center;
+				.btn-primary-new {
+					@include btn-primary-new();
+
+					font-family: "Helvetica-Medium";
+					font-size: 19px;
+				}
+			}
+		}
+	}
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+	}
+}

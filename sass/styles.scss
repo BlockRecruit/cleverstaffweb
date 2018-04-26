@@ -123,11 +123,13 @@
 @import "modal/calendar-access";
 @import "modal/public-vacancy-form";
 @import "modal/request-report-modal";
+@import "modal/invoice-confirm";
 @import "_cloud-admin";
 @import "customFields";
 @import "_fonts";
 @import "new-buttons";
 @import "tinyMCE-custom";
+@import "invoice.scss";
 
 @import "modal/limited-access-candidate";
 @import "vacancy-my-reports";

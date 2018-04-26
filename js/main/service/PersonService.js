@@ -312,7 +312,6 @@
 
             });
      person.requestGetAllPersons = function () {
-         $rootScope.loading = true;
          return new Promise((resolve, reject) => {
              person.getAllPersons(resp => resolve(resp, resp['request'] = 'AllPersons'),error => reject(error));
          });

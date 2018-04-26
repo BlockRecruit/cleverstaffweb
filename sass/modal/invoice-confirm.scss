@@ -1,0 +1,30 @@
+.invoice-confirm {
+	border-radius: 4px;
+	background: #e3f2dd;
+	.modal-header {
+		border-bottom: none;
+		.fa-times {
+			&:hover {
+				cursor: pointer;
+			}
+		}
+	}
+	.modal-body {
+		background: #eff7ee;
+	}
+	.modal-footer {
+		border: none;
+		.btn-cancel {
+			@include btn-cancel();
+
+			font-family: "Helvetica-Medium";
+
+			margin-right: 35px;
+		}
+		.btn-primary-new {
+			@include btn-primary-new();
+
+			font-family: "Helvetica-Medium";
+		}
+	}
+}
