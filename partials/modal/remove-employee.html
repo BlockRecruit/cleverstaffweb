@@ -1,0 +1,20 @@
+<div class="remove-employee">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">
+            {{'Are you sure want delete employee'|translate}}
+            {{$root.employeeCandidate.fullName}}?
+        </h4>
+    </div>
+    <div class="modal-body">
+        <div class="item">
+            <p translate="The employee will be permanently removed from the system. All data, comments and history of the employee's actions will be removed"></p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal()">{{'cancel'|translate}}</a>
+            <a type="button" ng-click="$root.removeEmployee()" class="btn btn-primary accept">{{'Yes, delete'|translate}}</a>
+        </div>
+    </div>
+</div>

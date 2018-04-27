@@ -1,0 +1,23 @@
+.remove-employee {
+	.modal-header {
+		& > h4 {
+			@include bold();
+		}
+		i {
+			@include close-item();
+		}
+	}
+	.modal-body {
+	}
+	.modal-footer {
+		.btn {
+			@include button-styling();
+		}
+		.accept {
+			@include button-styling();
+		}
+		.cancel {
+			@include button-styling-cancel();
+		}
+	}
+}

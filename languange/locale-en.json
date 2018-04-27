@@ -565,7 +565,10 @@
     "were moved from": "were moved from",
     "by": "by",
     "hide_tab": "has hidden module",
-    "show_tab": "has unabled module"
+    "show_tab": "has unabled module",
+    "user": "User",
+    "has removed employee": "has removed employee",
+    "User has removed employee": "User has removed employee"
   },
   "Remove Skill": "Remove skill",
   "information": "Vacancy details",
@@ -2368,7 +2371,6 @@
   "from_4": "from",
   "for": "for",
   "Invite user with a role" :"Invite user with a role",
-  "The filter allows you to pick the users who performed any activities on vacancies.": "The filter allows you to pick the users who performed any activities on vacancies.",
   "Account visibility":"Account visibility",
   "Account visibility changed":"Account visibility changed",
   "Yes, remove everywhere": "Yes, remove everywhere",
@@ -2380,13 +2382,10 @@
   "The binding":"The source",
   "was unlinked in candidate":"was unlinked in candidate",
   "There is no custom reports yet.Create your first":"There is no custom reports yet. Create your first",
-  "was unlinked in candidate":"was unlinked in candidate",
   "I have read the Privacy Policy and the Terms and Conditions and I accept both of them":"I have read and I accept the <a href='https://cleverstaff.net/privacy.html' target='_blank'>Privacy Policy </a> and the <a href='https://cleverstaff.net/terms.html' target='_blank'>Terms and Conditions</a>",
   "Please read and accept the Privacy Policy and the Terms and Conditions":"Please read and accept the Privacy Policy and the Terms and Conditions",
-  "was unlinked in candidate":"was unlinked in candidate",
   "I give my consent for my personal data processing for this and other vacancies":"I give my consent for my personal data processing for this and other vacancies",
   "You need to give your consent for your personal data to processing proceed":"You need to give your consent for your personal data to processing proceed",
-  "The filter allows you to pick the users who performed any activities on vacancies.": "The filter allows you to pick the users who performed any activities on vacancies.",
   "Are you sure want change candidate status to Delete":"Are you sure want change candidate {{name}} status to \"Delete\"?",
   "Remove candidate from a system":"Remove candidate from a system",
   "Candidate will be irretrievably removed from your database":"Candidate will be permanently removed from your database",
@@ -2398,7 +2397,9 @@
   "here":"here",
   "If you select this option, the candidate will be removed from the system. All comments, tasks and history of actions will be erased":"If you select this option, the candidate will be <span class='bold'>permanently</span> removed from the system. All comments, tasks and history of actions will be erased",
   "User removed candidate from a system":"User <a href='{{user.href}}'>{{user.name}}</a> removed candidate <span class='danger'>{{candidate}}</span> from a system",
-  "You need to give your consent for your personal data to processing proceed":"You need to give your consent for your personal data to processing proceed",
-  "was unlinked in candidate":"was unlinked in candidate",
-  "No such appointmentId.":"Unfortunately, such test does not exist. For more information, contact the recruiter who sent you this test."
+  "No such appointmentId.":"Unfortunately, such test does not exist. For more information, contact the recruiter who sent you this test.",
+  "Remove employee": "Remove employee",
+  "Employee removed": "Employee removed",
+  "Are you sure want delete employee": "Are you sure want to delete this employee",
+  "The employee will be permanently removed from the system. All data, comments and history of the employee's actions will be removed": "The employee will be <b>permanently</b> removed from the system. All data, comments and history of the employee's actions will be removed."
 }

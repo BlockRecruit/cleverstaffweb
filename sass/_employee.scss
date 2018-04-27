@@ -330,6 +330,32 @@
 					color: $theme-blue;
 				}
 			}
+			& > .block-remove-employee {
+				position: absolute;
+				top: 100%;
+
+				width: 100%;
+				.remove-employee {
+					margin-top: 17px;
+					.remove-employee-button {
+						@include bold();
+
+						display: inline-block;
+						width: 200px;
+						padding: 13px 16px;
+
+						cursor: pointer;
+
+						color: $theme-dark;
+						border-radius: 26.5px;
+						background-color: $theme-button-color;
+						&:hover {
+							color: #202021;
+							background-color: $theme-link-hover-color;
+						}
+					}
+				}
+			}
 		}
 		@media (max-width: $screen-sm) {
 			.centerBar {

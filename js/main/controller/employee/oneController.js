@@ -115,6 +115,7 @@ controller.controller('EmployeeOneController', ['$scope', 'Employee', '$routePar
                 if (resp.status == "ok") {
                     $rootScope.title = resp.object.candidateId.fullName + " | CleverStaff";
                     $scope.pageObject.employee = resp.object;
+                    $rootScope.employeeCandidate = $scope.pageObject.employee.candidateId;
                     console.log($scope.pageObject.employee);
                     $('.candidateCoreSkills').html($scope.pageObject.employee.candidateId.coreSkills);
                     $scope.objectId = $scope.pageObject.employee.candidateId.candidateId;
@@ -356,6 +357,29 @@ controller.controller('EmployeeOneController', ['$scope', 'Employee', '$routePar
             }  else {
                 $scope.showComments();
             }
+        };
+        $scope.showModalRemoveEmployee = function(){
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/remove-employee.html',
+                size: '',
+                resolve: function(){
+
+                }
+            });
+        };
+        $rootScope.removeEmployee = function(){
+            Employee.deleteEmployee({
+                "employeeId": $scope.pageObject.employee.employeeId
+            }, function (resp){
+                if(resp.status === 'ok'){
+                    $scope.updateEmployee();
+                    notificationService.success($filter('translate')('Employee removed'));
+                } else{
+                    notificationService.error(resp.message);
+                }
+                $rootScope.closeModal();
+            });
         };
     }
 ])

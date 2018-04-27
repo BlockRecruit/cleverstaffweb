@@ -615,7 +615,10 @@
     "were moved from": "переведены с этапа",
     "by": "пользователем",
     "hide_tab": "скрыл вкладку",
-    "show_tab": "открыл вкладку"
+    "show_tab": "открыл вкладку",
+    "user": "Пользователь",
+    "has removed employee": "удалил из системы сотрудника",
+    "User has removed employee": "Пользователь удалил из системы сотрудника"
   },
   "Remove Skill": "Удалить навык",
   "information": "Описание вакансии",
@@ -2995,5 +2998,9 @@
   "User removed candidate from a system":"Пользователь <a href={{user.href}}>{{user.name}}</a> удалил из системы кандидата <span class='danger'>{{candidate}}</span>",
   "only_me1 + only_me2":"только мои, за которые я ответственен",
   "To send a letter from your mailbox,allow sending mails from the email integration page":"Для отправки письма со своего почтового ящика разрешите отправку писем на <a href='#/email-integration' target='_blank'>странице интеграции с email</a>",
-  "No such appointmentId.":"К сожалению, такого теста не существует. Для уточнения информации обратитесь к рекрутеру, который отправил вам этот тест."
+  "No such appointmentId.":"К сожалению, такого теста не существует. Для уточнения информации обратитесь к рекрутеру, который отправил вам этот тест.",
+  "Remove employee": "Удалить сотрудника",
+  "Employee removed": "Сотрудник удален",
+  "Are you sure want delete employee": "Вы действительно хотите удалить сотрудника",
+  "The employee will be permanently removed from the system. All data, comments and history of the employee's actions will be removed": "Сотрудник будет <b>безвозвратно</b> удален из аккаунта. Все данные, комментарии и история действий сотрудника будут стёрты."
 }

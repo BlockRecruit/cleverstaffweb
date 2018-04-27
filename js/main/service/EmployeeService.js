@@ -143,6 +143,13 @@ angular.module('services.employee', [
                 params: {
                     param: "department/edit"
                 }
+            },
+            deleteEmployee: {
+                method: 'GET',
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "deleteEmployee"
+                }
             }
 
         });
