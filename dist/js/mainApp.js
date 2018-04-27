@@ -33088,8 +33088,8 @@ controller.controller('recallController', ["$localStorage", "frontMode", "google
     }]);
 
 controller.controller('usersController', ["$localStorage", "$translate", "$scope", "ngTableParams", "Person", "$rootScope", "$filter", "$location",
-    "notificationService", "Service", "Company", "Vacancy", "ScopeService", "$uibModal",
-    function ($localStorage, $translate, $scope, ngTableParams, Person, $rootScope, $filter, $location, notificationService, Service, Company, Vacancy, ScopeService, $uibModal) {
+    "notificationService", "Service", "Company", "Vacancy", "ScopeService", "$uibModal","$timeout",
+    function ($localStorage, $translate, $scope, ngTableParams, Person, $rootScope, $filter, $location, notificationService, Service, Company, Vacancy, ScopeService, $uibModal, $timeout) {
         $scope.personAll = [];
         $scope.usersFoundInv = false;
         $scope.personAllDisable = [];
@@ -33169,8 +33169,25 @@ controller.controller('usersController', ["$localStorage", "$translate", "$scope
             }
         };
 
+        function getCountAllPersons(resp){
+            let dataForRemoveUser = {
+                count:0,
+                isAdmin: false
+            };
+
+            for (let user in resp){
+                if(resp[user].status === "A"){
+                    dataForRemoveUser.count++
+                    (dataForRemoveUser.count > 1 && resp[user].recrutRole === 'admin')? dataForRemoveUser.isAdmin = true : null;
+                }
+            }
+
+            $rootScope.dataForRemoveUser = dataForRemoveUser;
+            localStorage.setItem('dataForRemoveUser', JSON.stringify(dataForRemoveUser));
+        }
 
         Person.getAllPersonsWithDetails(function (resp) {
+            $timeout(getCountAllPersons.bind(null, resp));
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
@@ -33212,6 +33229,9 @@ controller.controller('usersController', ["$localStorage", "$translate", "$scope
                         //    $scope.personAll = angular.copy(personS);
                         //    console.log($scope.personAll);
                         //} else {
+
+                        $rootScope.usersLength = $scope.personAll.length;
+
                         $defer.resolve($filter('orderBy')($scope.personAll, params.orderBy()));
                         //}
                         $scope.a.searchNumber = $scope.tableParams.page();
@@ -33448,6 +33468,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         $scope.showChangeContacts = false;
         $scope.changedName = "";
         $scope.contacts = {};
+        console.log($rootScope, 'rootScope');
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -34203,7 +34224,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         });
 
 
-        function showModalRemoveCandidate() {
+        function showModalRemoveUser() {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/remove-candidate-full.html',
@@ -34218,8 +34239,8 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             notificationService.success(`${$translate.instant('user')} ${$scope.user.fullName} ${$translate.instant('has been successfully removed from your account')}`)
 
             if($rootScope.me.userId === $routeParams.id){
-                $timeout(() => document.location.replace("http://cleverstaff.net"), 500);
-            }else {
+                $timeout(() => document.location.replace("http://cleverstaff.net"), 500)
+            }else{
                 $location.path('/company/users');
             }
 
@@ -34227,14 +34248,23 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             $scope.$apply();
         }
 
-        function removeCandidates(){
+        function removeUser(){
+            let dataForRemoveUser = $rootScope.dataForRemoveUser || +localStorage.getItem('dataForRemoveUser');
+
+            if(dataForRemoveUser.count  === 1){
+                notificationService.error('Вы - единственный пользователь в системе. Вы можете удалить аккаунта на странице настроек аккаунта');
+                return;
+            }else if(dataForRemoveUser.count > 1 && dataForRemoveUser.isAdmin && $scope.user.recrutRole !== 'admin'){
+                notificationService.error('Вы не можете удалить пользователя - в системе должен быть пользователь с ролью Админ');
+                return;
+            }
+
             Person.requestRemoveUser({userId:$routeParams.id})
                 .then(successRemoveCadidate)
         }
 
-        console.log($rootScope.me.userId, 'me');
-        $scope.showModalRemoveCandidate = showModalRemoveCandidate;
-        $scope.removeCandidates = removeCandidates;
+        $scope.showModalRemoveUser = showModalRemoveUser;
+        $scope.removeUser = removeUser;
     }
 ]);
 

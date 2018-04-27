@@ -1,6 +1,6 @@
 controller.controller('usersController', ["$localStorage", "$translate", "$scope", "ngTableParams", "Person", "$rootScope", "$filter", "$location",
-    "notificationService", "Service", "Company", "Vacancy", "ScopeService", "$uibModal",
-    function ($localStorage, $translate, $scope, ngTableParams, Person, $rootScope, $filter, $location, notificationService, Service, Company, Vacancy, ScopeService, $uibModal) {
+    "notificationService", "Service", "Company", "Vacancy", "ScopeService", "$uibModal","$timeout",
+    function ($localStorage, $translate, $scope, ngTableParams, Person, $rootScope, $filter, $location, notificationService, Service, Company, Vacancy, ScopeService, $uibModal, $timeout) {
         $scope.personAll = [];
         $scope.usersFoundInv = false;
         $scope.personAllDisable = [];
@@ -80,8 +80,25 @@ controller.controller('usersController', ["$localStorage", "$translate", "$scope
             }
         };
 
+        function getCountAllPersons(resp){
+            let dataForRemoveUser = {
+                count:0,
+                isAdmin: false
+            };
+
+            for (let user in resp){
+                if(resp[user].status === "A"){
+                    dataForRemoveUser.count++
+                    (dataForRemoveUser.count > 1 && resp[user].recrutRole === 'admin')? dataForRemoveUser.isAdmin = true : null;
+                }
+            }
+
+            $rootScope.dataForRemoveUser = dataForRemoveUser;
+            localStorage.setItem('dataForRemoveUser', JSON.stringify(dataForRemoveUser));
+        }
 
         Person.getAllPersonsWithDetails(function (resp) {
+            $timeout(getCountAllPersons.bind(null, resp));
 
             $scope.tableParams = new ngTableParams({
                 page: 1,
@@ -123,6 +140,9 @@ controller.controller('usersController', ["$localStorage", "$translate", "$scope
                         //    $scope.personAll = angular.copy(personS);
                         //    console.log($scope.personAll);
                         //} else {
+
+                        $rootScope.usersLength = $scope.personAll.length;
+
                         $defer.resolve($filter('orderBy')($scope.personAll, params.orderBy()));
                         //}
                         $scope.a.searchNumber = $scope.tableParams.page();

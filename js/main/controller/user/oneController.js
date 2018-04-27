@@ -11,6 +11,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         $scope.showChangeContacts = false;
         $scope.changedName = "";
         $scope.contacts = {};
+        console.log($rootScope, 'rootScope');
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -766,7 +767,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
         });
 
 
-        function showModalRemoveCandidate() {
+        function showModalRemoveUser() {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: '../partials/modal/remove-candidate-full.html',
@@ -781,8 +782,8 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             notificationService.success(`${$translate.instant('user')} ${$scope.user.fullName} ${$translate.instant('has been successfully removed from your account')}`)
 
             if($rootScope.me.userId === $routeParams.id){
-                $timeout(() => document.location.replace("http://cleverstaff.net"), 500);
-            }else {
+                $timeout(() => document.location.replace("http://cleverstaff.net"), 500)
+            }else{
                 $location.path('/company/users');
             }
 
@@ -790,13 +791,22 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             $scope.$apply();
         }
 
-        function removeCandidates(){
+        function removeUser(){
+            let dataForRemoveUser = $rootScope.dataForRemoveUser || +localStorage.getItem('dataForRemoveUser');
+
+            if(dataForRemoveUser.count  === 1){
+                notificationService.error('Вы - единственный пользователь в системе. Вы можете удалить аккаунта на странице настроек аккаунта');
+                return;
+            }else if(dataForRemoveUser.count > 1 && dataForRemoveUser.isAdmin && $scope.user.recrutRole !== 'admin'){
+                notificationService.error('Вы не можете удалить пользователя - в системе должен быть пользователь с ролью Админ');
+                return;
+            }
+
             Person.requestRemoveUser({userId:$routeParams.id})
                 .then(successRemoveCadidate)
         }
 
-        console.log($rootScope.me.userId, 'me');
-        $scope.showModalRemoveCandidate = showModalRemoveCandidate;
-        $scope.removeCandidates = removeCandidates;
+        $scope.showModalRemoveUser = showModalRemoveUser;
+        $scope.removeUser = removeUser;
     }
 ]);
