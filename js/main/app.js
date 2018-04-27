@@ -477,12 +477,12 @@ angular.module('RecruitingApp', [
             controller: "constructorReports",
             pageName: "Reports constructor"
         })
-        //.when('/hr-module-info', {
-        //    title: "HR-module",
-        //    templateUrl: "partials/hr-module-info.html",
-        //    controller: "hrModuleInfoController",
-        //    pageName: "Hr-module info"
-        //})
+        .when('/settings', {
+           title: "Settings",
+           templateUrl: "partials/settings.html",
+           controller: "NavbarController",
+           pageName: "Settings"
+        })
         .otherwise({redirectTo: '/organizer'});
 }]).config(['$provide', '$httpProvider', 'serverAddress', 'frontMode', function ($provide, $httpProvider, serverAddress, frontMode) {
     var allRequest = {};
@@ -679,7 +679,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=88'
+        suffix: '.json?b=90'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');

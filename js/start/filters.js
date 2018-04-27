@@ -154,6 +154,7 @@ angular.module('RecruitingAppStart.filters', []).
         }
     }]).filter('parseFacebookUrl' , [function() {
         return function(url) {
+            if(!url) return '';
             let start = url.indexOf('.com/') + 4;
             return url.substr(start, url.length);
         }

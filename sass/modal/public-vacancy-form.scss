@@ -70,6 +70,16 @@ body.modal-open-public-vacancy-form {
 				cursor: pointer;
 			}
 		}
+		.access-person-data {
+			font-size: 13px;
+
+			padding: 10px 0;
+			input[type="checkbox"] {
+				margin: 0;
+
+				vertical-align: middle;
+			}
+		}
 		.error_block {
 			display: block;
 			.recallForm__error {
