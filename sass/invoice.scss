@@ -1,7 +1,7 @@
 .invoice-generation {
 	display: flex;
 	flex-direction: column;
-	padding: 40px 0;
+	padding: 30px 0 40px;
 
 	background-color: #efefef;
 
@@ -33,25 +33,32 @@
 				}
 			}
 			&.invoice__intro {
+				flex-direction: column;
 				margin-bottom: 18px;
 
 				justify-content: center;
+
 				.btn-transparent {
 					@include btn-transparent();
 
 					font-size: 14px;
 
-					position: absolute;
-					left: 0;
-
 					display: inline-block;
+					margin-bottom: 10px;
 					padding: 5px 17px;
 
 					text-align: center;
 
 					background-color: #fff;
+
+					align-self: flex-start;
 					img {
 						margin-right: 5px;
+					}
+					&:hover {
+						color: #fff;
+						border-color: #00b549;
+						background-color: #00b549;
 					}
 				}
 				h2 {
@@ -208,6 +215,9 @@
 									outline: none;
 								}
 							}
+						}
+						select {
+							background: transparent;
 						}
 						input::placeholder {
 							color: #999;

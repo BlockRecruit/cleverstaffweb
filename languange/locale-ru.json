@@ -3038,6 +3038,6 @@
   "Use CleverStaff API":"Использовать CleverStaff API",
   "Configure email templates for candidates":"Настраивать шаблоны писем кандидатам",
   "Payment was not confirmed via SMS":"Платеж не подтвердили через смс",
-  "You didn't make any transitions yet":"У вас еще не было списаний",
+  "You didn't make any transitions yet":"У вас еще не было списаний в системе",
   "You didn't make any payments yet":"У вас еще не было оплат"
 }

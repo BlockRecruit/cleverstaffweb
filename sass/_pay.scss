@@ -50,7 +50,10 @@
 			.pay_faq {
 				display: flex;
 				flex-direction: row;
+				height: 20px;
 				margin-top: 10px;
+
+				text-align: center;
 
 				align-items: center;
 				justify-content: center;
@@ -300,11 +303,7 @@
 				}
 			}
 			&.payment__history {
-				position: relative;
-				top: -43px;
-
-				margin-right: auto;
-				margin-left: 9px;
+				margin: -43px auto 0 9px;
 				padding: 0;
 
 				border: none;
@@ -793,8 +792,7 @@
 					span {
 						font-size: 12px;
 
-						width: auto;
-						min-width: 100px;
+						min-width: 190px;
 					}
 				}
 			}
@@ -883,6 +881,7 @@
 	}
 }
 
+
 @media screen and (max-width: $screen-sm) {
 	.payment {
 		padding-top: 20px;
@@ -908,7 +907,13 @@
 							text-align: center;
 						}
 					}
+					.pay__types .pay__type {
+						span {
+							min-width: 200px;
+						}
+					}
 					.pay_faq {
+						height: auto;
 						span {
 							&.bold {
 								display: block;
@@ -931,6 +936,12 @@
 	}
 	.payment.home .block-msg {
 		width: 100%;
+	}
+	.payment .wrapper section.payment__pay .pay__types .pay__type.invoice {
+		display: none;
+	}
+	.payment .wrapper .payment__toggle {
+		display: none;
 	}
 }
 

@@ -218,7 +218,7 @@
                              <span ng-if="payment.status === 'success' || payment.status === 'Approved' || payment.status === 'sandbox' || payment.status === 'SALE'">
                                 <i class="fa fa-check" aria-hidden="true"></i>{{payment.dm| dateFormat2:true}}
                             </span>
-                            <div class="a" ng-if="payment.status != 'success' && payment.status != 'Approved' && payment.status != 'sandbox' && payment.status != 'SALE'">
+                            <div ng-if="payment.status != 'success' && payment.status != 'Approved' && payment.status != 'sandbox' && payment.status != 'SALE'">
                                 <span class="paymentStatus danger">{{payment.status}}</span>
                                 <i class="fa fa-question tooltip-icon" tooltip-placement="top-right"  uib-tooltip="{{'Payment was not confirmed via SMS' | translate}}" tooltip-class="tooltip-dark"  aria-hidden="true"></i>
                             </div>
