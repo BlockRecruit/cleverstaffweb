@@ -1,0 +1,84 @@
+.cookie-wrapper {
+	font-size: 16px;
+
+	position: fixed;
+	z-index: 99999;
+	bottom: 0;
+
+	width: 100%;
+	margin: 0 auto;
+	padding: 20px 2%;
+
+	text-align: center;
+
+	color: #ccc;
+	border: 1px solid rgb(51,196,109);
+	background-color: rgba(0,0,0,0.8);
+	button {
+		font-weight: bold;
+		line-height: 21px;
+
+		margin: 0 30px 0 10px;
+		padding: 3px 25px;
+
+		transition: background-color 0.3s ease-out, color 0.3s ease-out;
+
+		color: white;
+		border: 1px solid white;
+		border-radius: 5px;
+		outline: none;
+		background-color: transparent;
+		&:hover {
+			color: #333;
+			background-color: white;
+		}
+	}
+	.close-icon {
+		position: absolute;
+		top: 0;
+		right: 4px;
+
+		cursor: pointer;
+	}
+	a {
+		font-weight: bold;
+
+		margin-left: 5px;
+
+		cursor: pointer;
+
+		color: white;
+	}
+	.second-sentence,
+	.first-sentence {
+		display: block;
+
+		white-space: nowrap;
+	}
+	.first-sentence {
+		white-space: nowrap;
+		span {
+			display: inline-block;
+
+			text-align: left;
+		}
+	}
+}
+@media (max-width: 1300px) {
+	.cookie-wrapper .first-sentence,
+	.cookie-wrapper .second-sentence {
+		white-space: normal;
+	}
+}
+@media (max-width: 1200px) {
+	.cookie-wrapper button {
+		display: block;
+		margin: 20px auto 20px;
+	}
+	.cookie-wrapper .second-sentence,
+	.cookie-wrapper .first-sentence {
+		display: block;
+
+		text-align: left;
+	}
+}
