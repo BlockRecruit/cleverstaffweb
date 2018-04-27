@@ -199,11 +199,11 @@
             </div>
             <div class="section__intro" ng-show="paymentHistory.payment || paymentHistory.transitions">
                 <h4 class="intro__title" translate="Your payment history" ng-show="paymentHistory.payment && payments.length"></h4>
-                <h4 class="intro__title" translate="Your transition history" ng-show="paymentHistory.transitions && (balance.amount >= 0 || balance.amount <= 0)"></h4>
+                <h4 class="intro__title" translate="Your transition history" ng-show="paymentHistory.transitions && expenses.length"></h4>
                 <h4 class="intro__title" translate="You didn't make any payments yet" ng-show="paymentHistory.payment && !payments.length"></h4>
-                <h4 class="intro__title" translate="You didn't make any transitions yet" ng-show="paymentHistory.transitions && !(balance.amount >= 0 || balance.amount <= 0)"></h4>
+                <h4 class="intro__title" translate="You didn't make any transitions yet" ng-show="paymentHistory.transitions && !expenses.length"></h4>
             </div>
-            <div class="history-data" ng-show="(paymentHistory.payment && payments.length) || (paymentHistory.transitions && (balance.amount >= 0 || balance.amount <= 0))">
+            <div class="history-data" ng-show="(paymentHistory.payment && payments.length) || (paymentHistory.transitions && expenses.length)">
                 <table class="payment-history" ng-show="paymentHistory.payment && payments.length > 0">
                     <thead>
                         <tr>
@@ -239,7 +239,7 @@
                         </tr>
                     </thead>
                 </table>
-                <table class="write-offs-history" ng-show="paymentHistory.transitions && (balance.amount >= 0 || balance.amount <= 0)">
+                <table class="write-offs-history" ng-show="paymentHistory.transitions && expenses.length">
                     <thead>
                         <tr>
                             <th translate="date"></th>

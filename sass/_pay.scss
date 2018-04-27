@@ -323,7 +323,8 @@
 				.history-data {
 					overflow-y: auto;
 					width: 100%;
-					height: 283px;
+					height: auto;
+					max-height: 283px;
 					padding: 10px;
 
 					border: 1px solid #ccc;
