@@ -31836,13 +31836,26 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     ScopeService.setNavBarUpdateFunction(function (val) {
         $scope.scopeActiveObject = val;
         $rootScope.scopeActiveObject = val;
+        setCurrentScopeForNavBar($scope.scopeActiveObject.name);
+        $scope.scopeActiveObject.name === 'region' ?setCurrentRegionForNavBar(null): null;
+        // setCurrentRegionForNavBar()
     });
 
+    function setCurrentScopeForNavBar(name){
+        $rootScope.currentSelectScope = name;
+    }
+
+    function setCurrentRegionForNavBar(region){
+        if(!region){
+            region = JSON.parse(localStorage.getItem(`ls.${$rootScope.userId}_regionId`));
+        }
+        console.log(region, 'region');
+        $rootScope.currentSelectRegion = region.name;
+    }
+
+
     $scope.changeScope = function (name, orgId) {
-        console.log(name,'name');
-        // $scope.regionListStyle = {
-        //     'border': '3px solid red'
-        // };
+        setCurrentScopeForNavBar(name);
 
         if (name == 'region') {
             if($rootScope.activePage == 'Candidates'){
@@ -31863,8 +31876,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     value: region.value,
                     name: region.showName
                 });
+
+                setCurrentRegionForNavBar($scope.regionId);
             } else {
-                // $scope.openRegionList();
                 $scope.regionListStyle = {
                     'border': '3px solid red'
                 };
@@ -31877,7 +31891,6 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             }
         } else if (name == 'company') {
             $timeout(setDefualtValueRegionSelect);
-
             $timeout(function(){
                 $scope.orgId = orgId;
                 $scope.changeOrg(function () {
@@ -31906,6 +31919,8 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     };
 
     $scope.changeScopeForRegionSelect = function (name, regionId) {
+        setCurrentScopeForNavBar(name);
+
         if (name == 'region') {
             if($rootScope.activePage == 'Candidates'){
                 $rootScope.clearSearchRegion();
@@ -31927,6 +31942,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     value: region.value,
                     name: region.showName
                 });
+
                 notificationService.success($translate.instant("Account visibility changed"));
             } else {
             }
@@ -32500,7 +32516,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     }
 
     $scope.dataChangeScopeAccount = ScopeService.dataChangeScopeAccount;
-    console.log($scope.dataChangeScopeAccount);
+
 }
 controller.controller('NavbarController', ["$q", "Vacancy", "serverAddress", "notificationService", "$scope", "tmhDynamicLocale", "$http", "Person", "$rootScope",
     "Service", "$route", "$window", "$location", "$filter", "$sce", "$cookies", "localStorageService", "$localStorage", "$timeout", "CheckAccess", "frontMode",
