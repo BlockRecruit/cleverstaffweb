@@ -798,7 +798,7 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 notificationService.error('Вы - единственный пользователь в системе. Вы можете удалить аккаунта на странице настроек аккаунта');
                 return;
             }else if(dataForRemoveUser.count > 1 && dataForRemoveUser.isAdmin && $scope.user.recrutRole !== 'admin'){
-                notificationService.error('Вы не можете удалить пользователя - в системе должен быть пользователь с ролью Админ');
+                notificationService.error('Вы не можете удалить пользователя - обратитесь к пользователю с  ролью Админ');
                 return;
             }
 

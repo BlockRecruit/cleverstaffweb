@@ -89,7 +89,7 @@ controller.controller('usersController', ["$localStorage", "$translate", "$scope
             for (let user in resp){
                 if(resp[user].status === "A"){
                     dataForRemoveUser.count++
-                    (dataForRemoveUser.count > 1 && resp[user].recrutRole === 'admin')? dataForRemoveUser.isAdmin = true : null;
+                    (resp[user].recrutRole === 'admin')? dataForRemoveUser.isAdmin = true : null;
                 }
             }
 
