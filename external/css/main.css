@@ -4660,6 +4660,25 @@ select.webkit-fix {
     transition: all 0.3s;
     outline: none;
 }
+.cookie-wrapper {
+    position: fixed;
+    bottom: 0;
+    background-color: rgba(0,0,0,.5);
+    width: 100%;
+    z-index: 99999;
+    color: #cccccc;
+    font-size: 16px;
+    padding: 20px 0;
+    border: 1px solid rgba(51,196,109,0.5);
+    margin: 0 auto;
+    text-align: center;
+}
+.cookie-wrapper .close-icon {
+    position: absolute;
+    top: 0;
+    right: 4px;
+    cursor: pointer;
+}
 @media screen and (min-width: 373px) and (max-width: 380px) {
     #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{
         margin: 40px 0 0 -180px;
