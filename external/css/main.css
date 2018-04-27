@@ -4673,6 +4673,11 @@ select.webkit-fix {
     margin: 0 auto;
     text-align: center;
 }
+.cookie-wrapper .inner-text {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
 .cookie-wrapper button {
     margin: 0 30px 0 10px;
@@ -4696,12 +4701,15 @@ select.webkit-fix {
 }
 .cookie-wrapper .first-sentence{
     white-space: nowrap;
-    display: block;
 }
 @media (max-width: 1300px) {
     .cookie-wrapper .first-sentence,
     .cookie-wrapper .second-sentence{
         white-space: normal;
+        display: block;
+    }
+    .cookie-wrapper .inner-text {
+        justify-content: flex-start;
     }
 }
 @media (max-width: 1200px) {
