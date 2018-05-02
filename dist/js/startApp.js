@@ -1814,6 +1814,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
     })
     .controller('ConfirmController', function($scope, $translate, $location, $routeParams, Person, notificationService, $window) {
         var lang = localStorage.getItem("NG_TRANSLATE_LANG_KEY") ? localStorage.getItem("NG_TRANSLATE_LANG_KEY") : "en";
+        $scope.loaded = false;
         Person.finishReg({
             personId: $routeParams.personId,
             key: $routeParams.key,
@@ -1824,12 +1825,8 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $("#confirmRegistrationFailReconfirmation").css('display', 'block');
                 var userLang = localStorage.getItem("NG_TRANSLATE_LANG_KEY");
 
-                if (userLang == "ru") {
-                    $("#confirmRegistrationFailReconfirmation_ru").css('display', 'block');
-                } else if (userLang == "ua") {
-                    $("#confirmRegistrationFailReconfirmation_ua").css('display', 'block');
-                } else {
-                    $("#confirmRegistrationFailReconfirmation_en").css('display', 'block');
+                if(resp.code === 'invalidCode') {
+                    $scope.alreadyRegistered = true;
                 }
             } else {
                 notificationService.success("success");
@@ -1838,6 +1835,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
         }, function(resp) {
             notificationService.error('Service is temporarily unavailable');
         });
+        $scope.loaded = true;
     })
     .controller('InController', function($scope, $translate, $location, $routeParams, Person, notificationService, $window) {
         Person.getMe(function(resp) {
