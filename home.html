@@ -166,7 +166,7 @@
                     <!--<li class="text-center newDesignPage" ng-hide="$root.me.personParams.sendDesignFeedback == 'Y'">-->
                         <!--<a href="#/feedback-new-design">{{'Do you like the new CleverStaff design'|translate}}</a>-->
                     <!--</li>-->
-                    <li class="payMoney hidden-xs hidden-sm" ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter'">
+                    <li class="payMoney" ng-show="$root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter'">
                         <a href="#/pay" class="pay" ng-class="{'low-low-balance': paidFor!==undefined && paidFor <= 4 && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free'),'low-balance': paidFor!==undefined && paidFor <= 7}">
                             <i class="fa fa-usd"></i>
                             <span ng-show="!$root.paidTillDateBilling && $root.companyParams.paidTillDate && paidFor > 7">{{'up to'|translate}}&nbsp;{{$root.companyParams.paidTillDate}}</span>

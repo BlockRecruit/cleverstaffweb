@@ -1140,6 +1140,9 @@
 	.payment .wrapper section.payment__paid-features .features-wrapper .features .feature span {
 		font-weight: bold;
 	}
+	.navbar .nav.information .payMoney {
+		padding: 0;
+	}
 }
 
 @media screen and (max-width: 360px) {
