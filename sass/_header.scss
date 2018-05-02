@@ -878,6 +878,7 @@ body {
 
 				align-items: center;
 				&:hover {
+					border-bottom-color: #f1f1f1;
 					background-color: $theme-substrate;
 					a {
 						background-color: $theme-substrate;
