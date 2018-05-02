@@ -31838,7 +31838,6 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         $rootScope.scopeActiveObject = val;
         setCurrentScopeForNavBar($scope.scopeActiveObject.name);
         $scope.scopeActiveObject.name === 'region' ?setCurrentRegionForNavBar(null): null;
-        // setCurrentRegionForNavBar()
     });
 
     function setCurrentScopeForNavBar(name){
@@ -31849,14 +31848,12 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         if(!region){
             region = JSON.parse(localStorage.getItem(`ls.${$rootScope.userId}_regionId`));
         }
-        console.log(region, 'region');
         $rootScope.currentSelectRegion = region.name;
     }
 
 
     $scope.changeScope = function (name, orgId) {
         setCurrentScopeForNavBar(name);
-
         if (name == 'region') {
             if($rootScope.activePage == 'Candidates'){
                 $rootScope.clearSearchRegion();

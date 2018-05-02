@@ -1,24 +1,35 @@
-<div class="block-finishreg" id="confirmRegistrationFailReconfirmation" style="display:none">
+<div class="block-finishreg" ng-class="{'block-public' : loaded && alreadyRegistered}" id="confirmRegistrationFailReconfirmation" style="display:none">
     <div class="row">
         <div class="col-lg-6 col-lg-offset-3 finishregYou">
-            <div class="alert alert-success" id="confirmRegistrationFailReconfirmation_ru" style="display:none">
-                <strong>Поздравляем, Вы создали аккаунт компании в CleverStaff!</strong>
+            <div class="alert alert-success" ng-if="!alreadyRegistered">
+                <strong translate="Congratulations! You have created  account of in CleverStaff"></strong>
                 <br/>
-                Мы отправили Вам на почту письмо для активации этого аккаунта.
+                <span translate="We have sent a confirmation mail on your email. Please check it to activate your new account."></span>
                 <br/>
-                Если письма нет, проверьте папку Спам или подождите минут 10, доставка письма может задерживаться.
+                <span translate="If no letter from CleverStaff in the inbox, check your Spam folder or wait for 10 minutes, letter delivery may be delayed."></span>
                 <br/>
-                <a href="/">Перейти на главную</a>
+                <a href="/" translate="Home"></a>
             </div>
-            <div class="alert alert-success" id="confirmRegistrationFailReconfirmation_en" style="display:none">
-                <strong>Congratulations! You have created  account of in CleverStaff</strong>
-                <br/>
-                We have sent a confirmation mail on your email. Please check it to activate your new account.
-                <br/>
-                If no letter from CleverStaff in the inbox, check your Spam folder or wait for 10 minutes, letter delivery may be delayed.
-                <br/>
-                <a href="/">Home</a>
+            <div class="alert alert-success alreadyRegistered" ng-if="alreadyRegistered">
+                <strong translate="You have already registered an account in Cleverstaff"></strong>
+                <span translate="Earlier you already registered in Cleverstaff, and activated the account by following this link. To use the system, sign in"></span>
+                <div class="buttons">
+                    <a class="text-center" href="/signin.html" translate="login"></a>
+                </div>
             </div>
         </div>
+    </div>
+
+    <div class="background-animations" ng-show="loaded && alreadyRegistered">
+        <img class="cloud-1 position" src="/images/sprite/public-vacancy/cloud.png" alt="" ng-show="loaded">
+        <img class="cloud-2 position" src="/images/sprite/public-vacancy/cloud.png" alt="" ng-if="loaded">
+        <img class="cloud-3 position" src="/images/sprite/public-vacancy/cloud.png" alt="" ng-if="loaded">
+        <img class="cloud-4 position" src="/images/sprite/public-vacancy/cloud.png" alt="" ng-if="loaded">
+        <img class="plane-2 position" src="/images/sprite/public-vacancy/plane-2.png" alt="" ng-if="loaded">
+        <img class="person-3 position" src="/images/sprite/public-vacancy/person-3.png" alt="" ng-if="loaded">
+        <img class="plane position" src="/images/sprite/public-vacancy/plane.png" alt="" ng-if="loaded">
+        <img class="person-1 position" src="/images/sprite/public-vacancy/person-1.png" alt="" ng-if="loaded">
+        <img class="person-2 position" src="/images/sprite/public-vacancy/person-2.png" alt="" ng-if="loaded">
+        <img class="flower position" src="/images/sprite/public-vacancy/flower.png" alt="" ng-if="loaded">
     </div>
 </div>
