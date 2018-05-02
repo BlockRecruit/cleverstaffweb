@@ -1563,6 +1563,9 @@
 		color: black;
 		border-radius: 26.5px;
 		background-color: rgb(255, 193, 0);
+		&:hover {
+			background-color: darken(rgb(255, 193, 0), 2%) ;
+		}
 
 		img {
 			position: relative;
@@ -1581,6 +1584,9 @@
 		color: black;
 		border-radius: 26.5px;
 		background-color: rgb(153, 153, 153);
+		:hover {
+			background-color: darken(rgb(153, 153, 153), 2%) ;
+		}
 	}
 }
 

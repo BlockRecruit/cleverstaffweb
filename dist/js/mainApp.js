@@ -34233,6 +34233,18 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
                 backdrop: 'static',
                 keyboard: false,
             });
+
+            $scope.modalInstance.opened.then(function () {
+                setTimeout(()=>{
+                    let decreaseModalWindow = document.querySelector('.modal-dialog');
+                    decreaseModalWindow.style.width = `${40}%`;
+                });
+            });
+
+            $scope.modalInstance.closed.then(function () {
+                    let decreaseModalWindow = document.querySelector('.modal-dialog');
+                    decreaseModalWindow.removeAttribute('style');
+            });
         }
 
         function successRemoveCadidate(resp) {

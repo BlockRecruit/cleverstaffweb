@@ -1,15 +1,15 @@
 <div class="modal-remove-candidates">
     <div class="modal-header text-center">
-       <h4> Вы уверены, что хотите удалить пользователя?</h4>
+       <h4 style="font-weight: bold;"> Вы уверены, что хотите удалить пользователя?</h4>
     </div>
     <div class="modal-body text-center">
-        Пользователь будет безвозвратно удален из аккаунта.
+        Пользователь будет <span style="font-weight: bold;">безвозвратно</span> удален из аккаунта.
         Он перестанет быть ответственным за вакансии, кандидатов, клиентов, и задачи, но его история действий всё еще будет видима для вас.
     </div>
     <div class="modal-footer text-center remove-candidate" style="margin: 0px; text-align: center !important;">
-      <span class="remove-candidate-button" ng-click="removeUser(candidate.candidateId)">
+        <span class="remove-candidate-button-cansel" ng-click="$root.closeModal()">{{"cancel_2"|translate}}</span>
+        <span class="remove-candidate-button" ng-click="removeUser(candidate.candidateId)">
         {{"Delete user"|translate}}
       </span>
-        <span class="remove-candidate-button-cansel" ng-click="$root.closeModal()">{{"cancel_2"|translate}}</span>
     </div>
 </div>
