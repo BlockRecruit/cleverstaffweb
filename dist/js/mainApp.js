@@ -20136,8 +20136,15 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
             if (ScopeService.isInit()) {
                 var activeParam = ScopeService.getActiveScopeObject();
+                console.log(activeParam, 'activeParam');
                 $scope.activeScopeParam = activeParam;
-                Candidate.setOptions("personId", $scope.searchParam.personId != undefined ? $scope.searchParam.personId : activeParam.name == 'onlyMy' ? $rootScope.userId : null);
+
+                if(activeParam.name === 'onlyMy'){
+                    Candidate.setOptions("personId", $scope.searchParam.personId  ? $scope.searchParam.personId : $rootScope.userId);
+                }else {
+                    Candidate.setOptions("personId",  null);
+                }
+
                 Candidate.setOptions("page", {number: (params.$params.page - 1), count: params.$params.count});
                 if( params.$params.count <= 120) {
                     localStorage.countCandidate = params.$params.count;
@@ -31838,8 +31845,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         $rootScope.scopeActiveObject = val;
         setCurrentScopeForNavBar($scope.scopeActiveObject.name);
         $scope.scopeActiveObject.name === 'region' ?setCurrentRegionForNavBar(null): null;
-        // setCurrentRegionForNavBar()
     });
+
+    function isCheckBoxChecked(element) {
+        return element.classList.contains('checkmark');
+    }
 
     function setCurrentScopeForNavBar(name){
         $rootScope.currentSelectScope = name;
@@ -31849,12 +31859,12 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         if(!region){
             region = JSON.parse(localStorage.getItem(`ls.${$rootScope.userId}_regionId`));
         }
-        console.log(region, 'region');
         $rootScope.currentSelectRegion = region.name;
     }
 
 
-    $scope.changeScope = function (name, orgId) {
+    $scope.changeScope = function (name, orgId, event) {
+        if(event && isCheckBoxChecked(event.target)) return;
         setCurrentScopeForNavBar(name);
 
         if (name == 'region') {
@@ -31888,6 +31898,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         $scope.$apply();
                     }
                 }, 2000);
+                return;
             }
         } else if (name == 'company') {
             $timeout(setDefualtValueRegionSelect);

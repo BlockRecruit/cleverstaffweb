@@ -885,6 +885,10 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         $scope.scopeActiveObject.name === 'region' ?setCurrentRegionForNavBar(null): null;
     });
 
+    function isCheckBoxChecked(element) {
+        return element.classList.contains('checkmark');
+    }
+
     function setCurrentScopeForNavBar(name){
         $rootScope.currentSelectScope = name;
     }
@@ -897,8 +901,10 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     }
 
 
-    $scope.changeScope = function (name, orgId) {
+    $scope.changeScope = function (name, orgId, event) {
+        if(event && isCheckBoxChecked(event.target)) return;
         setCurrentScopeForNavBar(name);
+
         if (name == 'region') {
             if($rootScope.activePage == 'Candidates'){
                 $rootScope.clearSearchRegion();
@@ -930,6 +936,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         $scope.$apply();
                     }
                 }, 2000);
+                return;
             }
         } else if (name == 'company') {
             $timeout(setDefualtValueRegionSelect);
