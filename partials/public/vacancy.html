@@ -46,7 +46,7 @@
             <img class="fb" src="/images/sprite/public-vacancy/facebook.svg" alt="">
             <a class="fb-link cutElementTextWidth" href="{{companyPublicInfo.fb}}" target="_blank">{{companyPublicInfo.fb | parseFacebookUrl}}</a>
           </div>
-          <div class="info--site" >
+          <div class="info--site" ng-style="!(companyPublicInfo.companyWebSite && companyPublicInfo.fb) ? {'margin-top':'20px'}:null" >
             <img class="fb" src="/images/sprite/vacancies-list.svg" alt="vacancies-list">
             <a class="fb-link cutElementTextWidth" href="/i#/{{companyPublicInfo.orgName}}" target="_blank">{{"List of company vacancies"|translate}}</a>
           </div>
