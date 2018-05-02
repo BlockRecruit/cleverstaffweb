@@ -803,13 +803,16 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
             $scope.$apply();
         }
 
+        console.log($rootScope, '');
+
         function removeUser(){
             let dataForRemoveUser = $rootScope.dataForRemoveUser || +localStorage.getItem('dataForRemoveUser');
+
 
             if(dataForRemoveUser.count  === 1){
                 notificationService.error('Вы - единственный пользователь в системе. Вы можете удалить аккаунта на странице настроек аккаунта');
                 return;
-            }else if(dataForRemoveUser.count > 1 && dataForRemoveUser.isAdmin && $scope.user.recrutRole !== 'admin'){
+            }else if(dataForRemoveUser.count > 1 && dataForRemoveUser.isAdmin && $scope.me.recrutRole !== 'admin'){
                 notificationService.error('Вы не можете удалить пользователя - обратитесь к пользователю с  ролью Админ');
                 return;
             }

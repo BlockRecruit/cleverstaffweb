@@ -80,7 +80,7 @@
                     </div>
                     <div class="text-center block-remove-candidate">
                         <div class="remove-candidate">
-                            <span class="remove-candidate-button" ng-click="showModalRemoveUser()">
+                            <span class="remove-candidate-button" ng-show="$root.me.recrutRole === 'admin'" ng-click="showModalRemoveUser()">
                             <img src="../images/sprite/fullDeleteCandidate.png" alt="fullDeleteCandidate">
                             {{"Delete user"|translate}}
                         </span>

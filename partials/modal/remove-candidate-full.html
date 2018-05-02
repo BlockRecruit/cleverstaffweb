@@ -7,8 +7,8 @@
         Он перестанет быть ответственным за вакансии, кандидатов, клиентов, и задачи, но его история действий всё еще будет видима для вас.
     </div>
     <div class="modal-footer text-center remove-candidate" style="margin: 0px; text-align: center !important;">
-        <span class="remove-candidate-button-cansel" ng-click="$root.closeModal()">{{"cancel_2"|translate}}</span>
-        <span class="remove-candidate-button" ng-click="removeUser(candidate.candidateId)">
+        <span class="remove-candidate-button-cansel" ng-click="$root.closeModal()" style="padding: 10px 16px; width: 180px">{{"cancel_2"|translate}}</span>
+        <span class="remove-candidate-button" ng-style="$root.currentLang == 'en'? {'width': '180px'} : null" style="padding: 10px 16px" ng-click="removeUser(candidate.candidateId)">
         {{"Delete user"|translate}}
       </span>
     </div>
