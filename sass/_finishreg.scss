@@ -1,12 +1,47 @@
 .block-finishreg {
 	display: flex;
-	margin-top: 15px;
+	min-height: 92vh;
+	padding-top: 0;
 	.row {
 		@include disabled-margins-for-row();
 		.finishregYou {
 			margin-top: 40px;
 			a {
 				@include link-styling();
+			}
+		}
+		.alreadyRegistered {
+			span {
+				display: block;
+				margin: 20px 0;
+			}
+			.buttons {
+				text-align: center;
+				a {
+					font-family: "Helvetica-Medium";
+					font-size: 18px;
+
+					display: inline-block;
+
+					text-align: center;
+				}
+			}
+		}
+	}
+	.background-animations {
+		img.position {
+			&.cloud-1 {
+				top: 22%;
+			}
+			&.cloud-3 {
+				top: 15%;
+			}
+			&.plane {
+				top: 45%;
+			}
+			&.cloud-2,
+			&.cloud-4 {
+				display: none;
 			}
 		}
 	}
