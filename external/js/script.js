@@ -2050,6 +2050,7 @@ $('#askQuestionSubmit').on('click',function(e){
             }
         },
         complete: function(){
+            setTimeout(appendCodeTrackingCapterra);
             console.log('123123123123')
             $($('.select2-selection--single')).css('border','2px solid #61B452');
             $("#need-demo-modal").modal('hide');
@@ -2300,6 +2301,7 @@ $('#askQuestionSubmit2').on('click',function(e){
             }
         },
         complete: function(data){
+            setTimeout(appendCodeTrackingCapterra);
             console.log('123123123123123 _ 2')
             $($('.select2-selection--single')).css('border','2px solid #61B452');
             $("#need-demo-modal").modal('hide');
@@ -2339,6 +2341,19 @@ $('#askQuestionSubmit2').on('click',function(e){
     });
 });
 
+function appendCodeTrackingCapterra(){
+  // Вставка кода отслеживания Capterra T-3849
+    var capterra_vkey = 'bc970293055597d3198446f1c3ace5cf',
+        capterra_vid = '2096814',
+        capterra_prefix = (('https:' == document.location.protocol) ? 'https://ct.capterra.com' : 'http://ct.capterra.com');
+
+    (function() {
+        var ct = document.createElement('script'); ct.type = 'text/javascript'; ct.async = true;
+        ct.src = capterra_prefix + '/capterra_tracker.js?vid=' + capterra_vid + '&vkey=' + capterra_vkey;
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ct, s);
+    })();
+}
+
 $('#askQuestionSubmit3').on('click',function(e){
     // sentAnalyticEvents('Personal_promo', 'Click');
     var res = $("#questionForm-index").serializeObject();
@@ -2362,6 +2377,7 @@ $('#askQuestionSubmit3').on('click',function(e){
     if(!res.intention) {
         res.intention = 'Request demo';
     }
+
   $.ajax({
     url: "/hr/public/newLead",
     type: "POST",
@@ -2550,7 +2566,7 @@ $('#askQuestionSubmit3').on('click',function(e){
       }
     },
     complete: function(data){
-        console.log('123123123123_3')
+        setTimeout(appendCodeTrackingCapterra);
       $($('.select2-selection--single')).css('border','2px solid #61B452');
       $("#need-demo-modal").modal('hide');
       $("#thanks-modal").modal('show');
@@ -2639,6 +2655,7 @@ $('#askQuestionSubmit4').on('click',function(e){
 
         },
         complete: function(){
+            setTimeout(appendCodeTrackingCapterra);
             console.log('123123123123_4')
             $("#nameQuestion").val('');
             $("#emailQuestion").val('');
@@ -2928,7 +2945,7 @@ $('#ex1_firstName, #ex1_number, #ex1_mail, #ex1_skype, #ex1_orgName, #ex1_passwo
         var value2 = $('#ex1_number').val();
         var value3 = $('#ex1_mail').val();
         var value4 = $('#ex1_orgName').val();
-        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru'  && window.location.pathname != '/pt/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/compare-potok.html' && window.location.pathname != '/ru/compare-friendwork.html'){
+        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru'  && window.location.pathname != '/pt/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/cleverstaff-vs-potok.html' && window.location.pathname != '/ru/cleverstaff-vs-friendwork.html'){
             var value5 = $('#ex1_password').val();
             var value6 = $('#ex1_password2').val();
         }
@@ -2958,7 +2975,7 @@ $('#ex1_firstName, #ex1_number, #ex1_mail, #ex1_skype, #ex1_orgName, #ex1_passwo
         }else{
             $('.companyForm').css('display', 'none');
         }
-        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru' && window.location.pathname != '/pt/index.html' && window.location.pathname != '/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/compare-potok.html' && window.location.pathname != '/ru/compare-friendwork.html'){
+        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru' && window.location.pathname != '/pt/index.html' && window.location.pathname != '/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/cleverstaff-vs-potok.html' && window.location.pathname != '/ru/cleverstaff-vs-friendwork.html'){
             if(value5.length > 0){
                 $('.passwordForm').css('display', 'block');
             }else{
@@ -3181,12 +3198,12 @@ function checkForm(){
         $('html, body').animate({scrollTop: 450}, 'slow');
         return false;
     }
-    if(form.currentSolution == "") {
-        $($('input[name=currentSolution]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
-        $($('input[name=currentSolution]')).focus();
-        $('html, body').animate({scrollTop: 250}, 'slow');
-        return false;
-    }
+    //if(form.currentSolution == "") {
+    //    $($('input[name=currentSolution]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
+    //    $($('input[name=currentSolution]')).focus();
+    //    $('html, body').animate({scrollTop: 250}, 'slow');
+    //    return false;
+    //}
 
     if(form.terms != 'on') {
         $(".error-terms").html(messages.terms_accept);

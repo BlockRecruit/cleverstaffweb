@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>.async-hide { opacity: 0 !important} </style>
-    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
-        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
-        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
-    })(window,document.documentElement,'async-hide','dataLayer',4000,
-        {'GTM-PHXZMBX':true});</script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
     <script>
@@ -43,7 +37,7 @@
     <meta name="description" content="Solving recruiting problems with CleverStaff. Feel the difference - Instant start, transfer base in seconds.">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <link rel="stylesheet" href="external/css/bootstrap.min.css">
-    <link rel="stylesheet" href="external/css/main.min.css?b8">
+    <link rel="stylesheet" href="external/css/main.min.css?b9">
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Select a system for recruitment | Single system for recruiting"/>
     <meta property="og:description" content="Solving recruiting problems with CleverStaff. Feel the difference - Instant start, transfer base in seconds."/>
@@ -249,7 +243,7 @@
 <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
 <script src="external/js/wow.min.js"></script>
 <script src="../../js/ApiKey.js?b1"></script>
-<script src="external/js/script.min.js?b12"></script>
+<script src="external/js/script.min.js?b13"></script>
 <script type="text/javascript">
     if (document.domain === 'cleverstaff.net') {
         // google corporate data + logo
@@ -279,11 +273,29 @@
 <!-- Код тега ремаркетинга Google -->
 
 <script type="text/javascript">
-    / <![CDATA[ /
+    /* <![CDATA[ */
     var google_conversion_id = 964011751;
     var google_custom_params = window.google_tag_params;
     var google_remarketing_only = true;
-    / ]]> /
+    /* ]]> */
+    function hasUrlParameterWithoutQ() {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] !== "q") {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    if (hasUrlParameterWithoutQ()) {
+        var sPageURL = window.location.search.substring(1);
+        if (sPageURL && sPageURL !== '') {
+            localStorage.setItem("UTMS", sPageURL);
+        }
+    }
 </script>
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
 </script>

@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>.async-hide { opacity: 0 !important} </style>
-    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
-        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
-        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
-    })(window,document.documentElement,'async-hide','dataLayer',4000,
-        {'GTM-PHXZMBX':true});</script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
     <script>
@@ -43,7 +37,7 @@
     <meta name="description" content="Rates Cleverstaff Customizable stages of recruiting and other tools for your business at an affordable price.">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <link rel="stylesheet" href="external/css/bootstrap.min.css">
-    <link rel="stylesheet" href="external/css/main.min.css?b10">
+    <link rel="stylesheet" href="external/css/main.min.css?b12">
     <link rel="canonical" href="https://cleverstaff.net/price.html" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Tariffs and prices | CleverStaff | Single system for recruiting"/>
@@ -142,7 +136,8 @@
                             <h5 class="text-center">$0</h5>
                             <span class="text-center">1 user</span>
                         </div>
-                        <p class="text-center mrgTop" style="margin-top: 23px">Free solution for one recruiter. Limited features.</p>
+                        <div class="discount"></div>
+                        <p class="text-center mrgTop descr" style="margin-top: 23px">Free solution for one recruiter. Limited features.</p>
                         <a class="orangeBtn priceOrangeBtn price-btn-small startNowOnerecrut" data-params="freeOrStart">Start Now</a>
                     </div>
                 </div>
@@ -195,7 +190,7 @@
                         <div class="howMuchMoney">
                             <h5 class="text-center">Get an <br> Offer</h5>
                         </div>
-                        <p class="text-center lstChild">Your autonomous license on your own server.</p>
+                        <p class="text-center lstChild descr">Your autonomous license on your own server.</p>
                         <a href="#need-demo-modal"
                            onclick="tariffFunc('enterprise');"
                            class="orangeBtn priceOrangeBtn enterprizeGetOfferOne"
@@ -844,7 +839,7 @@
 
 <script src="../../lib/jquery/jquery-2.0.3.min.js"></script>
 <script type="text/javascript" src="../../js/ApiKey.js?b1"></script>
-<script src="external/js/script.min.js?b17"></script>
+<script src="external/js/script.min.js?b18"></script>
 <script src="external/js/jquery.jcarousellite.min.js?b1"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 
@@ -894,11 +889,29 @@
 <!-- Код тега ремаркетинга Google -->
 
 <script type="text/javascript">
-    / <![CDATA[ /
+    /* <![CDATA[ */
     var google_conversion_id = 964011751;
     var google_custom_params = window.google_tag_params;
     var google_remarketing_only = true;
-    / ]]> /
+    /* ]]> */
+    function hasUrlParameterWithoutQ() {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] !== "q") {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    if (hasUrlParameterWithoutQ()) {
+        var sPageURL = window.location.search.substring(1);
+        if (sPageURL && sPageURL !== '') {
+            localStorage.setItem("UTMS", sPageURL);
+        }
+    }
 </script>
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
 </script>

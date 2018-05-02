@@ -909,28 +909,14 @@ body {
 					&:focus {
 						background-color: transparent;
 					}
-					&.inviteUserClient {
-						@include button-styling-cancel();
-
-						font-family: "Helvetica-Normal";
-						font-weight: normal;
-
-						margin-left: 10px;
-
-						border: none;
-						&.blocked-user {
-							margin-left: 30px;
-						}
-						&:hover {
-							border: none;
-						}
-					}
 				}
 				&.invite-button {
+					margin-right: 20px;
+
+					white-space: nowrap;
+
 					border: none;
 					background: transparent;
-					a {
-					}
 				}
 				.inviteUserClientHideTariff {
 					@include center-block;
@@ -951,7 +937,7 @@ body {
 			&.right-nav {
 				justify-content: flex-end;
 				align-items: center;
-				& > li {
+				& > li.scope {
 					height: 30px;
 
 					border: 1px solid $theme-top-menu;
@@ -987,6 +973,8 @@ body {
 					}
 					.scope-text {
 						margin-right: 5px;
+
+						white-space: nowrap;
 
 						color: #3e4750;
 					}

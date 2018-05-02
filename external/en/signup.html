@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>.async-hide { opacity: 0 !important} </style>
-    <script>(function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
-        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
-        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
-    })(window,document.documentElement,'async-hide','dataLayer',4000,
-        {'GTM-PHXZMBX':true});</script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52127049-1"></script>
     <script>
@@ -43,7 +37,7 @@
     <meta name="description" content="CleverStaff Recruitment Software and Applicant Tracking System">
     <link rel="shortcut icon" href="../../images/sprite/favicon.png" type="image/png">
     <link rel="stylesheet" href="external/css/bootstrap.min.css">
-    <link rel="stylesheet" href="external/css/main.min.css?b10">
+    <link rel="stylesheet" href="external/css/main.min.css?b12">
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Sign Up| CleverStaff | Professional Software for Applicant Tracking and Recruitment Automation"/>
     <meta property="og:description" content="Your all-in-one system for applicant tracking and recruitment automation"/>
@@ -79,7 +73,7 @@
             wrong4_password: "Password must be 8-30 characters long",
             wrong_password2: "The password doesn't match to previous",
             wrong_users_counter: "Please enter number of recruiters of your company",
-            terms_accept: "You should accept the Terms of Service agreement to sign up."
+            terms_accept: "Please read and accept the Privacy Policy and the Terms and Conditions"
         };
         if (document.domain === 'cleverstaff.net') {
             // google corporate data + logo
@@ -163,7 +157,7 @@
                                 <select class="countryCustom" name="countryCustom"></select>
                             </div>
                             <div class="phone pull-right">
-                                <input id="ex1_number" class="0float-left phoneNumber pull-right" style="position: relative; opacity: 0.8;"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" maxlength="15" type="number" name="phone" placeholder="Phone (to schedule a demo) *">
+                                <input id="ex1_number" class="0float-left phoneNumber pull-right" style="position: relative; opacity: 0.8;"  oninput="this.value = this.value.replace(/[^0-9]/g, '');" maxlength="15" type="number" name="phone" placeholder="Phone *">
                             </div>
                             <div class="error-phone hidden"></div>
                         </div>
@@ -192,7 +186,7 @@
                         </div>
                         <div class="form-gr">
                             <label for="ex1_soft" class="softForm pull-left">Which recruitment software you currently use?</label>
-                            <input type="text" id="ex1_soft" class="float-left"  name="currentSolution" placeholder="Which recruitment software you currently use? *">
+                            <input type="text" id="ex1_soft" class="float-left"  name="currentSolution" placeholder="Which recruitment software you currently use?">
                             <div class="clearfix"></div>
                         </div>
                         <div class="form-gr">
@@ -205,12 +199,13 @@
                             <div class="clearfix"></div>
                            <input id="ex1_password2" class="float-left" type="password" name="password2" placeholder="Confirm password *">
                         </div>
-                        <div class="form-gr">
-                            <input id="terms" class="float-left terms" type="checkbox" name="terms">
-                            <label for="terms" class="terms">I accept the <a href="terms.html" target="_blank">Terms of Service</a> agreement.</label>
+                        <div class="form-gr inline">
+                            <label for="terms" class="terms">
+                                <input id="terms" class="float-left terms" type="checkbox" name="terms">
+                                I have read and I accept the <a href="privacy.html" target="_blank">Privacy Policy</a> and the <a href="terms.html" target="_blank">Terms and Conditions</a></label>
                             <div class="error-terms hidden"></div>
                         </div>
-                        <div class="error-password"></div>
+                        <div class="error-password hidden"></div>
                         <div class="error-password-1 hidden">
                             Passwords strength: <span class="red">Abc</span> <span class="red">123</span> <span class="red">8-30 characters</span>
                         </div>
@@ -335,7 +330,7 @@
                 </div>
                 <div class="form-gr">
                     <div class="ui labeled icon input">
-                        <input type="text" id="currentSolutionFb" class="float-left google-form-width" name="currentSolution" placeholder="Which recruitment software you currently use? *">
+                        <input type="text" id="currentSolutionFb" class="float-left google-form-width" name="currentSolution" placeholder="Which recruitment software you currently use?">
                     </div>
                 </div>
                 <div class="form-gr">
@@ -346,7 +341,7 @@
                 <div class="form-gr">
                     <div class="ui labeled icon input">
                         <input type="password" id="facebookPass2" class="float-left google-form-width" name="password2" placeholder="Enter your password again *">
-                        <div class="error-password"></div>
+                        <div class="error-password hidden"></div>
                         <div class="error-password-1 hidden">
                             Passwords strength: <span class="red">Abc</span> <span class="red">123</span> <span class="red">8-30 characters</span>
                         </div>
@@ -367,9 +362,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-gr">
-                    <input id="terms-fb" class="float-left terms" type="checkbox" name="terms">
-                    <label for="terms-fb" class="terms">I accept the <a href="terms.html" target="_blank">Terms of Service</a> agreement.</label>
+                <div class="form-gr inline">
+                    <label for="terms-fb" class="terms social">
+                        <input id="terms-fb" class="float-left" type="checkbox" name="terms">
+                        I have read and I accept the <a href="privacy.html" target="_blank">Privacy Policy</a> and the <a href="terms.html" target="_blank">Terms and Conditions</a></label>
                     <div class="error-terms hidden"></div>
                 </div>
                 <div class="hidden-not-important" id="facebook_server_message"></div>
@@ -436,7 +432,7 @@
                 </div>
                 <div class="form-gr">
                     <div class="ui labeled icon input">
-                        <input type="text" id="currentSolutionGoogle" class="float-left google-form-width" name="currentSolution" placeholder="Which recruitment software you currently use? *">
+                        <input type="text" id="currentSolutionGoogle" class="float-left google-form-width" name="currentSolution" placeholder="Which recruitment software you currently use?">
                     </div>
                 </div>
                 <div class="form-gr">
@@ -447,7 +443,7 @@
                 <div class="form-gr">
                     <div class="ui labeled icon input">
                         <input type="password" id="googlePass2" class="float-left google-form-width" name="password2" placeholder="Enter your password again *">
-                        <div class="error-password"></div>
+                        <div class="error-password hidden"></div>
                         <div class="error-password-1 hidden">
                             Passwords strength: <span class="red">Abc</span> <span class="red">123</span> <span class="red">8-30 characters</span>
                         </div>
@@ -468,9 +464,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-gr">
-                    <input id="terms-g" class="float-left terms" type="checkbox" name="terms">
-                    <label for="terms-g" class="terms">I accept the <a href="terms.html" target="_blank">Terms of Service</a> agreement.</label>
+                <div class="form-gr inline">
+                    <label for="terms-g" class="terms social">
+                        <input id="terms-g" class="float-left" type="checkbox" name="terms">
+                        I have read and I accept the  <a href="privacy.html" target="_blank">Privacy Policy</a> and the <a href="terms.html" target="_blank">Terms and Conditions</a></label>
                     <div class="error-terms hidden"></div>
                 </div>
                 <div class="hidden-not-important" id="google_server_message"></div>
@@ -488,23 +485,41 @@
 <!--Modal window google-en-->
 <script src="/lib/jquery/jquery-2.0.3.min.js"></script>
 
-<link rel="stylesheet" href="external/css/signup.css?b9">
+<link rel="stylesheet" href="external/css/signup.css?b10">
 <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" />
 <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" />
 
 <script type="text/javascript" src="../../js/ApiKey.js?b4"></script>
-<script src="external/js/script.min.js?b18"></script>
+<script src="external/js/script.min.js?b19"></script>
 <script src="//apis.google.com/js/client.js"></script>
 <script src="//platform.linkedin.com/in.js?async=true"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 <!-- Код тега ремаркетинга Google -->
 
 <script type="text/javascript">
-    / <![CDATA[ /
+    /* <![CDATA[ */
     var google_conversion_id = 964011751;
     var google_custom_params = window.google_tag_params;
     var google_remarketing_only = true;
-    / ]]> /
+    /* ]]> */
+    function hasUrlParameterWithoutQ() {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] !== "q") {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    if (hasUrlParameterWithoutQ()) {
+        var sPageURL = window.location.search.substring(1);
+        if (sPageURL && sPageURL !== '') {
+            localStorage.setItem("UTMS", sPageURL);
+        }
+    }
 </script>
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
 </script>

@@ -18,10 +18,10 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <LINK REL="SHORTCUT ICON" HREF="images/sprite/favicon.png?b3">
-    <link rel="stylesheet" href="dist/css/styles.css?b310">
+    <link rel="stylesheet" href="dist/css/styles.css?b316">
     <link rel="stylesheet" type="text/css" media="print" href="dist/css/print.css" />
     <!--<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>-->
-    <script type="text/javascript" src="dist/js/mainLib.js?b280"></script>
+    <script type="text/javascript" src="dist/js/mainLib.js?b282"></script>
 
 
     <!--<link  href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">-->
@@ -526,6 +526,10 @@
                                         </a>
                                     </li>
                                     <li class="divider hidden-xs hidden-sm"></li>
+                                    <li class="menuitem hidden-xs hidden-sm">
+                                        <a href="#/settings" class="ng-binding">Видимость аккаунта</a>
+                                    </li>
+                                    <li class="divider hidden-xs hidden-sm"></li>
                                     <li class="menuitem hidden-xs hidden-sm" >
                                         <a href ng-click="getPlugin('new');$event.stopPropagation()">
                                             {{"Extension for"|translate}}
@@ -633,13 +637,46 @@
                     <li class="dropdown news-tab" ng-class="{'selected': $root.activePage == 'News'}">
                         <a href="#/news" translate="User news"></a>
                     </li>
-                    <li class="dropdown invite-button" ng-show="otherDate >= nowDate && $root.me.recrutRole == 'admin'">
-                        <a href class="btn btn-primary inviteUserClientHideTariff"
-                           ng-click="inviteUserClientModal();"
-                           ng-show="$root.blockUser != true" translate="Invite User / Client"></a>
-                    </li>
+
+                </ul>
+                <ul class="nav col-lg-3 col-md-3 hidden-sm hidden-xs right-nav" style="justify-content: flex-end">
                     <li class="dropdown invite-button" ng-show="otherDate < nowDate && $root.me.recrutRole == 'admin' && $root.blockUser != true">
-                        <a href class="btn btn-primary inviteUserClient" ng-click="inviteUserClientModal();" translate="Invite User / Client"></a>
+                        <button class="btn-green-animated" ng-click="inviteUserClientModal();" translate="Invite User / Client"></button>
+                    </li>
+                    <li class="scope" >
+                        <a href="#/settings" style="font-weight: normal;">
+                            <span class="eye-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip">
+                                <svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="21px" height="21px"
+                                     viewBox="0 0 4.784 2.9" style="enable-background:new 0 0 4.784 2.9;" xml:space="preserve">
+                                <path class="st0" d="M4.77,1.395C4.534,0.971,4.186,0.617,3.768,0.372C3.364,0.136,2.893,0,2.391,0c-0.5,0-0.971,0.136-1.375,0.372
+                                    C0.598,0.617,0.25,0.971,0.014,1.395c-0.018,0.033-0.019,0.075,0,0.111C0.25,1.929,0.598,2.283,1.016,2.527
+                                    C1.42,2.765,1.891,2.9,2.391,2.9c0.502,0,0.973-0.136,1.377-0.373C4.186,2.283,4.534,1.929,4.77,1.506
+                                    C4.787,1.473,4.789,1.431,4.77,1.395L4.77,1.395z M1.131,2.331L1.131,2.331C0.766,2.117,0.461,1.813,0.244,1.45
+                                    c0.217-0.363,0.521-0.668,0.887-0.882C1.418,0.4,1.741,0.287,2.086,0.246C1.866,0.301,1.67,0.416,1.514,0.571v0.001
+                                    C1.289,0.797,1.149,1.108,1.149,1.45s0.141,0.652,0.365,0.877v0.001l0,0c0.156,0.155,0.352,0.27,0.572,0.326
+                                    C1.741,2.612,1.418,2.499,1.131,2.331L1.131,2.331z M1.674,2.167L1.674,2.167C1.491,1.984,1.377,1.729,1.377,1.45
+                                    c0-0.56,0.455-1.015,1.014-1.015c0.557,0,1.016,0.458,1.016,1.015c0,0.279-0.113,0.534-0.297,0.717
+                                    C2.926,2.351,2.672,2.465,2.391,2.465C2.112,2.465,1.858,2.351,1.674,2.167L1.674,2.167z M3.653,2.331L3.653,2.331
+                                    C3.366,2.499,3.043,2.612,2.698,2.654C2.918,2.599,3.114,2.483,3.27,2.328V2.327C3.494,2.102,3.633,1.792,3.633,1.45
+                                    S3.494,0.797,3.27,0.572C3.114,0.415,2.914,0.301,2.698,0.246C3.043,0.287,3.366,0.4,3.653,0.568
+                                    c0.365,0.213,0.67,0.519,0.887,0.882C4.323,1.813,4.018,2.118,3.653,2.331L3.653,2.331z M2.391,0.744L2.391,0.744
+                                    c-0.387,0-0.705,0.318-0.705,0.706s0.318,0.705,0.705,0.705c0.389,0,0.707-0.317,0.707-0.705S2.78,0.744,2.391,0.744L2.391,0.744z
+                                     M2.391,1.776L2.391,1.776c-0.18,0-0.324-0.146-0.324-0.326s0.145-0.326,0.324-0.326C2.834,1.124,2.793,1.776,2.391,1.776
+                                    L2.391,1.776z"/>
+                                </svg>
+                            </span>
+                            <span class="scope-text">
+                                <span ng-show="currentSelectScope=='company'">
+                                    <span translate="entire account"></span>
+                                </span>
+                                <span ng-show="currentSelectScope =='onlyMy'">
+                                    <span translate="only_me1"></span>
+                                </span>
+                                <span ng-show="currentSelectScope=='region'">
+                                    <span translate="only"></span> <span ng-bind="scopeActiveObject.value.name"></span>
+                                </span>
+                            </span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -658,23 +695,43 @@
                         <a target="_blank" ng-href="{{$root.publicLink}}" translate="Open_vacancies_for_company"></a>
                     </li>
                 </ul>
-                <!--<ul class="nav navbar-nav col-lg-5 col-md-4 hidden-sm hidden-xs text-right">-->
-                    <!--<li class="no-padding pull-right" >-->
-                        <!--<a href="" title="{{'scope'|translate}}">-->
-                            <!--{{'scope'|translate}}:-->
-                            <!--<span ng-show="scopeActiveObject.name=='company' && scopeActiveObject.check">-->
-                                    <!--<span>{{'entire account'|translate}}</span>-->
-                                <!--</span>-->
-                            <!--<span ng-show="scopeActiveObject.name=='onlyMy' && scopeActiveObject.check">-->
-                                    <!--<span>{{'only_me1'|translate}}</span>-->
-                                <!--</span>-->
-                            <!--<span ng-show="scopeActiveObject.name=='region' && scopeActiveObject.check">-->
-                                    <!--{{'only'|translate}} <span>{{scopeActiveObject.value.name}}</span>-->
-                                <!--</span>-->
-                            <!--<i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip" aria-hidden="true"></i>-->
-                        <!--</a>-->
-                    <!--</li>-->
-                <!--</ul>-->
+                <ul class="nav col-lg-3 col-md-3 hidden-sm hidden-xs right-nav" style="justify-content: flex-end">
+                    <li class="" >
+                        <a href="#/settings" style="font-weight: normal;">
+                            <span class="eye-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip">
+                                <svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="21px" height="21px"
+                                     viewBox="0 0 4.784 2.9" style="enable-background:new 0 0 4.784 2.9;" xml:space="preserve">
+                                <path class="st0" d="M4.77,1.395C4.534,0.971,4.186,0.617,3.768,0.372C3.364,0.136,2.893,0,2.391,0c-0.5,0-0.971,0.136-1.375,0.372
+                                    C0.598,0.617,0.25,0.971,0.014,1.395c-0.018,0.033-0.019,0.075,0,0.111C0.25,1.929,0.598,2.283,1.016,2.527
+                                    C1.42,2.765,1.891,2.9,2.391,2.9c0.502,0,0.973-0.136,1.377-0.373C4.186,2.283,4.534,1.929,4.77,1.506
+                                    C4.787,1.473,4.789,1.431,4.77,1.395L4.77,1.395z M1.131,2.331L1.131,2.331C0.766,2.117,0.461,1.813,0.244,1.45
+                                    c0.217-0.363,0.521-0.668,0.887-0.882C1.418,0.4,1.741,0.287,2.086,0.246C1.866,0.301,1.67,0.416,1.514,0.571v0.001
+                                    C1.289,0.797,1.149,1.108,1.149,1.45s0.141,0.652,0.365,0.877v0.001l0,0c0.156,0.155,0.352,0.27,0.572,0.326
+                                    C1.741,2.612,1.418,2.499,1.131,2.331L1.131,2.331z M1.674,2.167L1.674,2.167C1.491,1.984,1.377,1.729,1.377,1.45
+                                    c0-0.56,0.455-1.015,1.014-1.015c0.557,0,1.016,0.458,1.016,1.015c0,0.279-0.113,0.534-0.297,0.717
+                                    C2.926,2.351,2.672,2.465,2.391,2.465C2.112,2.465,1.858,2.351,1.674,2.167L1.674,2.167z M3.653,2.331L3.653,2.331
+                                    C3.366,2.499,3.043,2.612,2.698,2.654C2.918,2.599,3.114,2.483,3.27,2.328V2.327C3.494,2.102,3.633,1.792,3.633,1.45
+                                    S3.494,0.797,3.27,0.572C3.114,0.415,2.914,0.301,2.698,0.246C3.043,0.287,3.366,0.4,3.653,0.568
+                                    c0.365,0.213,0.67,0.519,0.887,0.882C4.323,1.813,4.018,2.118,3.653,2.331L3.653,2.331z M2.391,0.744L2.391,0.744
+                                    c-0.387,0-0.705,0.318-0.705,0.706s0.318,0.705,0.705,0.705c0.389,0,0.707-0.317,0.707-0.705S2.78,0.744,2.391,0.744L2.391,0.744z
+                                     M2.391,1.776L2.391,1.776c-0.18,0-0.324-0.146-0.324-0.326s0.145-0.326,0.324-0.326C2.834,1.124,2.793,1.776,2.391,1.776
+                                    L2.391,1.776z"/>
+                                </svg>
+                            </span>
+                            <span class="scope-text">
+                                <span ng-show="currentSelectScope=='company'">
+                                    <span translate="entire account"></span>
+                                </span>
+                                <span ng-show="currentSelectScope =='onlyMy'">
+                                    <span translate="only_me1"></span>
+                                </span>
+                                <span ng-show="currentSelectScope=='region'">
+                                    <span translate="only"></span> <span ng-bind="scopeActiveObject.value.name"></span>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
         <!--Navbar for candidates and candidate-->
@@ -687,6 +744,8 @@
             <div class="second-navbar">
                 <ul class="nav navbar-nav col-lg-7 col-md-8 col-sm-12 col-xs-12 col-sm-offset-3 col-xs-offset-1 text-center">
                     <li class="dropdown" ng-class="{'selected': $root.activePage == 'Candidates'}">
+                <ul class="nav navbar-nav col-lg-8 col-md-8 col-sm-12 col-xs-12 col-sm-offset-3 col-xs-offset-1 text-center">
+                    <li class="dropdown">
                         <a class="no-margin"
                             href="#/candidates">
                             {{'our_base'|translate}}
@@ -705,23 +764,43 @@
                         </a>
                     </li>
                 </ul>
-                <!--<ul class="nav navbar-nav col-lg-5 col-md-4 hidden-sm hidden-xs text-right">-->
-                    <!--<li class="no-padding pull-right" >-->
-                        <!--<a href="" title="{{'scope'|translate}}">-->
-                            <!--{{'scope'|translate}}:-->
-                            <!--<span ng-show="scopeActiveObject.name=='company' && scopeActiveObject.check">-->
-                                    <!--<span>{{'entire account'|translate}}</span>-->
-                                <!--</span>-->
-                                <!--<span ng-show="scopeActiveObject.name=='onlyMy' && scopeActiveObject.check">-->
-                                    <!--<span>{{'only_me1'|translate}}</span>-->
-                                <!--</span>-->
-                                <!--<span ng-show="scopeActiveObject.name=='region' && scopeActiveObject.check">-->
-                                    <!--{{'only'|translate}} <span>{{scopeActiveObject.value.name}}</span>-->
-                                <!--</span>-->
-                            <!--<i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip" aria-hidden="true"></i>-->
-                        <!--</a>-->
-                    <!--</li>-->
-                <!--</ul>-->
+                        <ul class="nav col-lg-3 col-md-3 hidden-sm hidden-xs right-nav" style="justify-content: flex-end">
+                            <li class="" >
+                                <a href="#/settings" style="font-weight: normal;">
+                            <span class="eye-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip">
+                                <svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="21px" height="21px"
+                                     viewBox="0 0 4.784 2.9" style="enable-background:new 0 0 4.784 2.9;" xml:space="preserve">
+                                <path class="st0" d="M4.77,1.395C4.534,0.971,4.186,0.617,3.768,0.372C3.364,0.136,2.893,0,2.391,0c-0.5,0-0.971,0.136-1.375,0.372
+                                    C0.598,0.617,0.25,0.971,0.014,1.395c-0.018,0.033-0.019,0.075,0,0.111C0.25,1.929,0.598,2.283,1.016,2.527
+                                    C1.42,2.765,1.891,2.9,2.391,2.9c0.502,0,0.973-0.136,1.377-0.373C4.186,2.283,4.534,1.929,4.77,1.506
+                                    C4.787,1.473,4.789,1.431,4.77,1.395L4.77,1.395z M1.131,2.331L1.131,2.331C0.766,2.117,0.461,1.813,0.244,1.45
+                                    c0.217-0.363,0.521-0.668,0.887-0.882C1.418,0.4,1.741,0.287,2.086,0.246C1.866,0.301,1.67,0.416,1.514,0.571v0.001
+                                    C1.289,0.797,1.149,1.108,1.149,1.45s0.141,0.652,0.365,0.877v0.001l0,0c0.156,0.155,0.352,0.27,0.572,0.326
+                                    C1.741,2.612,1.418,2.499,1.131,2.331L1.131,2.331z M1.674,2.167L1.674,2.167C1.491,1.984,1.377,1.729,1.377,1.45
+                                    c0-0.56,0.455-1.015,1.014-1.015c0.557,0,1.016,0.458,1.016,1.015c0,0.279-0.113,0.534-0.297,0.717
+                                    C2.926,2.351,2.672,2.465,2.391,2.465C2.112,2.465,1.858,2.351,1.674,2.167L1.674,2.167z M3.653,2.331L3.653,2.331
+                                    C3.366,2.499,3.043,2.612,2.698,2.654C2.918,2.599,3.114,2.483,3.27,2.328V2.327C3.494,2.102,3.633,1.792,3.633,1.45
+                                    S3.494,0.797,3.27,0.572C3.114,0.415,2.914,0.301,2.698,0.246C3.043,0.287,3.366,0.4,3.653,0.568
+                                    c0.365,0.213,0.67,0.519,0.887,0.882C4.323,1.813,4.018,2.118,3.653,2.331L3.653,2.331z M2.391,0.744L2.391,0.744
+                                    c-0.387,0-0.705,0.318-0.705,0.706s0.318,0.705,0.705,0.705c0.389,0,0.707-0.317,0.707-0.705S2.78,0.744,2.391,0.744L2.391,0.744z
+                                     M2.391,1.776L2.391,1.776c-0.18,0-0.324-0.146-0.324-0.326s0.145-0.326,0.324-0.326C2.834,1.124,2.793,1.776,2.391,1.776
+                                    L2.391,1.776z"/>
+                                </svg>
+                            </span>
+                                    <span class="scope-text">
+                                <span ng-show="currentSelectScope=='company'">
+                                    <span translate="entire account"></span>
+                                </span>
+                                <span ng-show="currentSelectScope =='onlyMy'">
+                                    <span translate="only_me1"></span>
+                                </span>
+                                <span ng-show="currentSelectScope=='region'">
+                                    <span translate="only"></span> <span ng-bind="scopeActiveObject.value.name"></span>
+                                </span>
+                            </span>
+                                </a>
+                            </li>
+                        </ul>
             </div>
         </div>
         <!--Navbar for clients-->
@@ -738,102 +817,43 @@
                         <a ng-click="$root.toAdd()"  href="">{{'New client'|translate}}</a>
                     </li>
                 </ul>
-                <!--<ul class="nav navbar-nav col-lg-6 col-md-6 hidden-xs hidden-sm text-right" style="justify-content: flex-end">-->
-                    <!--<li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"-->
-                        <!--id="drop_down_scope" uib-dropdown is-open="status.isopen">-->
-                        <!--<a href="" uib-dropdown-toggle title="{{'scope'|translate}}">-->
-                            <!--{{'scope'|translate}}:-->
-                            <!--<span ng-show="scopeActiveObject.name=='company' && scopeActiveObject.check">-->
-                                    <!--<span>{{'entire account'|translate}}</span>-->
-                                  <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
-                                <!--</span>-->
-                                <!--<span ng-show="scopeActiveObject.name=='onlyMy' && scopeActiveObject.check">-->
-                                    <!--<span>{{'only_me1'|translate}}</span>-->
-                                      <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
-                                <!--</span>-->
-                                <!--<span ng-show="scopeActiveObject.name=='region' && scopeActiveObject.check">-->
-                                    <!--{{'only'|translate}} <span>{{scopeActiveObject.value.name}}</span>-->
-                                      <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
-                                <!--</span>-->
-                            <!--<i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip" aria-hidden="true"></i>-->
-                        <!--</a>-->
-                        <!--<ul class="dropdown-menu showScopeMenu" uib-dropdown-menu role="menu" scope-directive aria-labelledby="single-button">-->
-                            <!--<h4 class="text-center">{{'scope'|translate}}</h4>-->
-                            <!--<p>{{'scope_message'|translate}}</p>-->
-                            <!--&lt;!&ndash;<p ng-show="$root.me.recrutRole =='freelancer'">{{'I am in the companys account of'|translate}}</p>&ndash;&gt;-->
-                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='company' && scopeActiveObject.check}">-->
-                                <!--<span class="col-lg-1 no-margin no-padding">-->
-                                    <!--<button id="scopeCheckmarkOrg" class="ui icon button"-->
-                                            <!--ng-click="changeScope('company')">-->
-                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
-                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"&ndash;&gt;-->
-                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
-                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"-->
-                                           <!--ng-checked="true" aria-hidden="true"></i>-->
-                                    <!--</button>-->
-                                <!--</span>-->
-                                <!--<span class="col-lg-5 no-margin">{{'entire account'|translate}}</span>-->
-                                <!--<span class="col-lg-6 no-margin" ng-show="orgs.length > 1">-->
-                                    <!--<select ng-model="orgId" name="region"-->
-                                            <!--class="select2-container form-control input-lg select2 select12"-->
-                                            <!--ng-options="org.orgId as org.orgName for org in orgs"-->
-                                            <!--ng-change="changeScope('company')"-->
-                                            <!--ng-click="$event.stopPropagation();"-->
-                                            <!--required="">-->
-                                    <!--</select>-->
-                                <!--</span>-->
-                                <!--<span class="col-lg-6 no-margin" ng-show="orgs.length < 2">-->
-                                    <!--<div ng-repeat="org in orgs|filter:{ orgId: orgId }">-->
-                                        <!--{{org.orgName}}-->
-                                    <!--</div>-->
-                                <!--</span>-->
-                            <!--</div>-->
-                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='region' && scopeActiveObject.check}">-->
-                                <!--<span class="col-lg-1 no-margin no-padding">-->
-                                    <!--<button id="scopeCheckmarkRegion" class="ui icon button"-->
-                                            <!--ng-click="changeScope('region')">-->
-                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
-                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"&ndash;&gt;-->
-                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
-                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"-->
-                                           <!--ng-checked="true" aria-hidden="true"></i>-->
-                                    <!--</button>-->
-                                <!--</span>-->
-                                <!--<span class="col-lg-5 no-margin">-->
-                                    <!--<label style="font-size: 14px">{{'only_region'|translate}}</label>-->
-                                <!--</span>-->
-                                <!--<span class="col-lg-6 no-margin">-->
-                                    <!--<select ng-model="regionId"-->
-                                            <!--ng-style="regionListStyle"-->
-                                            <!--class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"-->
-                                            <!--ng-click="$event.stopPropagation();"-->
-                                            <!--ng-change="changeScopeForRegionSelect('region')">-->
-                                    <!--</select>-->
-                                <!--</span>-->
-                            <!--</div>-->
-                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}">-->
-                                <!--<span class="col-lg-1 no-margin no-padding">-->
-                                    <!--<button id="scopeCheckmarkMe" class="ui icon button "-->
-                                            <!--ng-click="changeScope('onlyMy')">-->
-                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
-                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"&ndash;&gt;-->
-                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
-                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"-->
-                                           <!--ng-checked="true" aria-hidden="true"></i>-->
-                                    <!--</button>-->
-                                <!--</span>-->
-                                <!--<span class="col-lg-11 no-margin">-->
-                                    <!--<span ng-style="$root.currentLang !== 'ru'? {'margin-right': '0px'} : null">-->
-                                        <!--{{'only_me1'|translate}}-->
-                                    <!--</span>-->
-                                    <!--<span>-->
-                                        <!--{{'only_me2'|translate}}-->
-                                    <!--</span>-->
-                                <!--</span>-->
-                            <!--</div>-->
-                        <!--</ul>-->
-                    <!--</li>-->
-                <!--</ul>-->
+                <ul class="nav col-lg-3 col-md-3 hidden-sm hidden-xs right-nav" style="justify-content: flex-end">
+                    <li class="" >
+                        <a href="#/settings" style="font-weight: normal;">
+                            <span class="eye-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip">
+                                <svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="21px" height="21px"
+                                     viewBox="0 0 4.784 2.9" style="enable-background:new 0 0 4.784 2.9;" xml:space="preserve">
+                                <path class="st0" d="M4.77,1.395C4.534,0.971,4.186,0.617,3.768,0.372C3.364,0.136,2.893,0,2.391,0c-0.5,0-0.971,0.136-1.375,0.372
+                                    C0.598,0.617,0.25,0.971,0.014,1.395c-0.018,0.033-0.019,0.075,0,0.111C0.25,1.929,0.598,2.283,1.016,2.527
+                                    C1.42,2.765,1.891,2.9,2.391,2.9c0.502,0,0.973-0.136,1.377-0.373C4.186,2.283,4.534,1.929,4.77,1.506
+                                    C4.787,1.473,4.789,1.431,4.77,1.395L4.77,1.395z M1.131,2.331L1.131,2.331C0.766,2.117,0.461,1.813,0.244,1.45
+                                    c0.217-0.363,0.521-0.668,0.887-0.882C1.418,0.4,1.741,0.287,2.086,0.246C1.866,0.301,1.67,0.416,1.514,0.571v0.001
+                                    C1.289,0.797,1.149,1.108,1.149,1.45s0.141,0.652,0.365,0.877v0.001l0,0c0.156,0.155,0.352,0.27,0.572,0.326
+                                    C1.741,2.612,1.418,2.499,1.131,2.331L1.131,2.331z M1.674,2.167L1.674,2.167C1.491,1.984,1.377,1.729,1.377,1.45
+                                    c0-0.56,0.455-1.015,1.014-1.015c0.557,0,1.016,0.458,1.016,1.015c0,0.279-0.113,0.534-0.297,0.717
+                                    C2.926,2.351,2.672,2.465,2.391,2.465C2.112,2.465,1.858,2.351,1.674,2.167L1.674,2.167z M3.653,2.331L3.653,2.331
+                                    C3.366,2.499,3.043,2.612,2.698,2.654C2.918,2.599,3.114,2.483,3.27,2.328V2.327C3.494,2.102,3.633,1.792,3.633,1.45
+                                    S3.494,0.797,3.27,0.572C3.114,0.415,2.914,0.301,2.698,0.246C3.043,0.287,3.366,0.4,3.653,0.568
+                                    c0.365,0.213,0.67,0.519,0.887,0.882C4.323,1.813,4.018,2.118,3.653,2.331L3.653,2.331z M2.391,0.744L2.391,0.744
+                                    c-0.387,0-0.705,0.318-0.705,0.706s0.318,0.705,0.705,0.705c0.389,0,0.707-0.317,0.707-0.705S2.78,0.744,2.391,0.744L2.391,0.744z
+                                     M2.391,1.776L2.391,1.776c-0.18,0-0.324-0.146-0.324-0.326s0.145-0.326,0.324-0.326C2.834,1.124,2.793,1.776,2.391,1.776
+                                    L2.391,1.776z"/>
+                                </svg>
+                            </span>
+                            <span class="scope-text">
+                                <span ng-show="currentSelectScope=='company'">
+                                    <span translate="entire account"></span>
+                                </span>
+                                <span ng-show="currentSelectScope =='onlyMy'">
+                                    <span translate="only_me1"></span>
+                                </span>
+                                <span ng-show="currentSelectScope=='region'">
+                                    <span translate="only"></span> <span ng-bind="scopeActiveObject.value.name"></span>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
         <!--Navbar for company-->
@@ -869,102 +889,44 @@
                         </a>
                     </li>
                 </ul>
-                <!--<ul class="nav navbar-nav col-lg-3 text-right hidden-md hidden-sm hidden-xs">-->
-                    <!--<li ng-click="showScopeFunc();" class="no-padding pull-right" ng-class="{'darkOrangeShadowForScope': scopeActiveObject.name !='company' && scopeActiveObject.check}"-->
-                        <!--id="drop_down_scope" uib-dropdown is-open="status.isopen">-->
-                        <!--<a href="" uib-dropdown-toggle title="{{'scope'|translate}}">-->
-                            <!--{{'scope'|translate}}:-->
-                            <!--<span ng-show="scopeActiveObject.name=='company' && scopeActiveObject.check">-->
-                                    <!--<span>{{'entire account'|translate}}</span>-->
-                                  <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
-                                <!--</span>-->
-                                <!--<span ng-show="scopeActiveObject.name=='onlyMy' && scopeActiveObject.check">-->
-                                    <!--<span>{{'only_me1'|translate}}</span>-->
-                                      <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
-                                <!--</span>-->
-                                <!--<span ng-show="scopeActiveObject.name=='region' && scopeActiveObject.check">-->
-                                    <!--{{'only'|translate}} <span>{{scopeActiveObject.value.name}}</span>-->
-                                      <!--<i class="fa fa-chevron-down" aria-hidden="true"></i>-->
-                                <!--</span>-->
-                            <!--<i class="fa fa-info-circle margin-left tooltip-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip" aria-hidden="true"></i>-->
-                        <!--</a>-->
-                        <!--<ul class="dropdown-menu showScopeMenu" uib-dropdown-menu role="menu" scope-directive aria-labelledby="single-button">-->
-                            <!--<h4 class="text-center">{{'scope'|translate}}</h4>-->
-                            <!--<p>{{'scope_message'|translate}}</p>-->
-                            <!--&lt;!&ndash;<p ng-show="$root.me.recrutRole =='freelancer'">{{'I am in the companys account of'|translate}}</p>&ndash;&gt;-->
-                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='company' && scopeActiveObject.check}">-->
-                                <!--<span class="col-lg-1 no-margin no-padding">-->
-                                    <!--<button id="scopeCheckmarkOrg" class="ui icon button"-->
-                                            <!--ng-click="changeScope('company')">-->
-                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
-                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"&ndash;&gt;-->
-                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
-                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='company' && scopeActiveObject.check}"-->
-                                           <!--ng-checked="true" aria-hidden="true"></i>-->
-                                    <!--</button>-->
-                                <!--</span>-->
-                                <!--<span class="col-lg-5 no-margin">{{'entire account'|translate}}</span>-->
-                                <!--<span class="col-lg-6 no-margin" ng-show="orgs.length > 1">-->
-                                    <!--<select ng-model="orgId" name="region"-->
-                                            <!--class="select2-container form-control input-lg select2 select12"-->
-                                            <!--ng-options="org.orgId as org.orgName for org in orgs"-->
-                                            <!--ng-change="changeScope('company')"-->
-                                            <!--ng-click="$event.stopPropagation();"-->
-                                            <!--required="">-->
-                                    <!--</select>-->
-                                <!--</span>-->
-                                <!--<span class="col-lg-6 no-margin" ng-show="orgs.length < 2">-->
-                                    <!--<div ng-repeat="org in orgs|filter:{ orgId: orgId }">-->
-                                        <!--{{org.orgName}}-->
-                                    <!--</div>-->
-                                <!--</span>-->
-                            <!--</div>-->
-                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='region' && scopeActiveObject.check}">-->
-                                <!--<span class="col-lg-1 no-margin no-padding">-->
-                                    <!--<button id="scopeCheckmarkRegion" class="ui icon button"-->
-                                            <!--ng-click="changeScope('region')">-->
-                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
-                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"&ndash;&gt;-->
-                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
-                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='region' && scopeActiveObject.check}"-->
-                                           <!--ng-checked="true" aria-hidden="true"></i>-->
-                                    <!--</button>-->
-                                <!--</span>-->
-                                <!--<span class="col-lg-5 no-margin">-->
-                                    <!--<label style="font-size: 14px">{{'only_region'|translate}}</label>-->
-                                <!--</span>-->
-                                <!--<span class="col-lg-6 no-margin">-->
-                                    <!--<select ng-model="regionId"-->
-                                            <!--ng-style="regionListStyle"-->
-                                            <!--class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"-->
-                                            <!--ng-click="$event.stopPropagation();"-->
-                                            <!--ng-change="changeScopeForRegionSelect('region')">-->
-                                    <!--</select>-->
-                                <!--</span>-->
-                            <!--</div>-->
-                            <!--<div class="col-lg-12" ng-class="{'scope_background_color': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}">-->
-                                <!--<span class="col-lg-1 no-margin no-padding">-->
-                                    <!--<button id="scopeCheckmarkMe" class="ui icon button "-->
-                                            <!--ng-click="changeScope('onlyMy')">-->
-                                        <!--&lt;!&ndash;<i class=" icon"&ndash;&gt;-->
-                                        <!--&lt;!&ndash;ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"&ndash;&gt;-->
-                                        <!--&lt;!&ndash;ng-checked="true"></i>&ndash;&gt;-->
-                                        <!--<i class="fa fa-check-square" ng-class="{'checkmark': scopeActiveObject.name=='onlyMy' && scopeActiveObject.check}"-->
-                                           <!--ng-checked="true" aria-hidden="true"></i>-->
-                                    <!--</button>-->
-                                <!--</span>-->
-                                <!--<span class="col-lg-11 no-margin">-->
-                                    <!--<span ng-style="$root.currentLang !== 'ru'? {'margin-right': '0px'} : null">-->
-                                        <!--{{'only_me1'|translate}}-->
-                                    <!--</span>-->
-                                    <!--<span>-->
-                                        <!--{{'only_me2'|translate}}-->
-                                    <!--</span>-->
-                                <!--</span>-->
-                            <!--</div>-->
-                        <!--</ul>-->
-                    <!--</li>-->
-                <!--</ul>-->
+                <ul class="nav col-lg-3 col-md-3 hidden-sm hidden-xs right-nav" style="justify-content: flex-end">
+                    <li class="" >
+                        <a href="#/settings" style="font-weight: normal;">
+                            <span class="eye-icon" ng-click="$event.stopPropagation(); $event.preventDefault();" title="" tooltip-placement="bottom-right" tooltip-class="tooltip-outer" uib-tooltip-html="$root.tooltips.scopeTooltip">
+                                <svg version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="21px" height="21px"
+                                     viewBox="0 0 4.784 2.9" style="enable-background:new 0 0 4.784 2.9;" xml:space="preserve">
+                                <path class="st0" d="M4.77,1.395C4.534,0.971,4.186,0.617,3.768,0.372C3.364,0.136,2.893,0,2.391,0c-0.5,0-0.971,0.136-1.375,0.372
+                                    C0.598,0.617,0.25,0.971,0.014,1.395c-0.018,0.033-0.019,0.075,0,0.111C0.25,1.929,0.598,2.283,1.016,2.527
+                                    C1.42,2.765,1.891,2.9,2.391,2.9c0.502,0,0.973-0.136,1.377-0.373C4.186,2.283,4.534,1.929,4.77,1.506
+                                    C4.787,1.473,4.789,1.431,4.77,1.395L4.77,1.395z M1.131,2.331L1.131,2.331C0.766,2.117,0.461,1.813,0.244,1.45
+                                    c0.217-0.363,0.521-0.668,0.887-0.882C1.418,0.4,1.741,0.287,2.086,0.246C1.866,0.301,1.67,0.416,1.514,0.571v0.001
+                                    C1.289,0.797,1.149,1.108,1.149,1.45s0.141,0.652,0.365,0.877v0.001l0,0c0.156,0.155,0.352,0.27,0.572,0.326
+                                    C1.741,2.612,1.418,2.499,1.131,2.331L1.131,2.331z M1.674,2.167L1.674,2.167C1.491,1.984,1.377,1.729,1.377,1.45
+                                    c0-0.56,0.455-1.015,1.014-1.015c0.557,0,1.016,0.458,1.016,1.015c0,0.279-0.113,0.534-0.297,0.717
+                                    C2.926,2.351,2.672,2.465,2.391,2.465C2.112,2.465,1.858,2.351,1.674,2.167L1.674,2.167z M3.653,2.331L3.653,2.331
+                                    C3.366,2.499,3.043,2.612,2.698,2.654C2.918,2.599,3.114,2.483,3.27,2.328V2.327C3.494,2.102,3.633,1.792,3.633,1.45
+                                    S3.494,0.797,3.27,0.572C3.114,0.415,2.914,0.301,2.698,0.246C3.043,0.287,3.366,0.4,3.653,0.568
+                                    c0.365,0.213,0.67,0.519,0.887,0.882C4.323,1.813,4.018,2.118,3.653,2.331L3.653,2.331z M2.391,0.744L2.391,0.744
+                                    c-0.387,0-0.705,0.318-0.705,0.706s0.318,0.705,0.705,0.705c0.389,0,0.707-0.317,0.707-0.705S2.78,0.744,2.391,0.744L2.391,0.744z
+                                     M2.391,1.776L2.391,1.776c-0.18,0-0.324-0.146-0.324-0.326s0.145-0.326,0.324-0.326C2.834,1.124,2.793,1.776,2.391,1.776
+                                    L2.391,1.776z"/>
+                                </svg>
+                            </span>
+                            <span class="scope-text">
+                                <span ng-show="currentSelectScope=='company'">
+                                    <span translate="entire account"></span>
+                                </span>
+                                <span ng-show="currentSelectScope =='onlyMy'">
+                                    <span translate="only_me1"></span>
+                                </span>
+                                <span ng-show="currentSelectScope=='region'">
+                                    <span translate="only"></span> <span ng-bind="scopeActiveObject.value.name"></span>
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+
             </div>
         </div>
         <!--Navbar for mail integration-->
@@ -979,8 +941,8 @@
         </div>
     </div>
     <div id='crutchGoogleMap'></div>
-    <div ng-if="$root.blockUser != true" ng-view></div>
-    <div ng-show="$root.blockUser">
+    <div ng-if="$root.blockUser != true || $root.activePage === 'Settings'" ng-view></div>
+    <div ng-show="$root.blockUser && $root.activePage !== 'Settings'">
         <div class="ui vertically devided grid" style="margin-top: 2%;">
             <div class="three wide column"></div>
             <div class="ten wide column" style="padding: 0px;">
@@ -1006,12 +968,6 @@
                     <div class="col-lg-12" ng-show="errorMessage">
                         <div>{{errorMessage}}</div>
                     </div>
-                    <!--<div class="col-lg-12 blockedAccount">-->
-                    <!--<p><span>Ваш аккаунт заблокирован за долг по оплате.</span>&nbsp;Напоминаем, Вы перешли на платный тариф Стандарт  28 октября .-->
-                    <!--Олатите Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, reiciendis, veniam. Accusamus, alias asperiores consequatur dicta dolorem eius enim eum fugit inventore minima optio pariatur perferendis, soluta tempora ullam? Animi.-->
-                    <!--</p>-->
-                    <!--<i class="fa fa-times" aria-hidden="true"></i>-->
-                    <!--</div>-->
                     <div class="col-lg-12 payForMonth">
                         <div id="bilDisabledText" class="hidden">
                             <p>{{'CleverStaff is paid for'|translate}} 25 {{'USD per month for each active user'| translate}}</p>
@@ -1086,10 +1042,6 @@
                             </div>
                         </div>
                         <div class="creditCards">
-                            <!--<div class="text-center important-text">-->
-                                <!--<span>{{'Only account administrator is able to make a payment' | translate}}</span>-->
-                            <!--</div>-->
-                            <!--<img class="pull-left" src="../images/sprite/visa-mastercard.png"  alt="">-->
                             <img class="pull-left" src="../images/sprite/visa-mastercard.png" width="140" height="40" alt="">
                             <div class="text-center pull-right">
                                 <p id="bonuce" class="hidden">
@@ -1116,7 +1068,7 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZul9dW5-r5WVV1479hAgVxM5Z75C-ykM&libraries=places"></script>
     <script type="text/javascript" src="lib/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b391"></script>
+    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b396"></script>
 
     <!--ЗPignation in TAble-->
     <script type="text/ng-template" id="custom/pager">
@@ -1127,12 +1079,6 @@
         <!--<div class="ui button" ng-class="{'active':params.count() == 15}"></div>-->
         <div ng-if="showNextPage" ng-show="searchExternalObject.candidateExternalFound" class="event more_history"
              ng-click="nextList()">
-            <!--<div class="content">-->
-                <!--<center class="ng-binding">{{'find more'|translate}}&nbsp;-->
-                    <!--<i class="loading icon" ng-show="searchExternalObject.loadingExternal" style="float: none"></i>-->
-                    <!--<i ng-show="!searchExternalObject.loadingExternal" class="search icon"></i>-->
-                <!--</center>-->
-            <!--</div>-->
             <div class="text-center findCandidates">
                 <a type="button" class="btn btn-primary accept">
                     {{'find more'|translate}}

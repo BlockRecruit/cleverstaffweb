@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 block-settings">
+            <header class="text-center">
+                <h3 style="font-weight: bold;">{{"scope"|translate}}</h3>
+                <p class="text-left" style="margin-bottom: 20px;" translate="Set the scope of visible data (vacancies, candidates, clients and users) in your interface: region, responsibility and company (if you have more than one CleverStaff account)"></p>
+            </header>
+            <article class="clearfix">
+                <section ng-repeat="itemScope in dataChangeScopeAccount"
+                         class="col-lg-12 scopeAccount"
+                         ng-style="itemScope.id === 'scopeCheckmarkMe'? {'min-height':'32px'} : null"
+                         ng-class="{'scope_background_color': scopeActiveObject.name === itemScope.name && scopeActiveObject.check}">
+                    <span class="col-lg-1 no-margin no-padding" style="display: flex; align-items: center; padding-left: 0px;">
+                        <button id="{{itemScope.id}}"
+                                class="ui icon button"
+                                ng-click="changeScope(itemScope.name, orgId)">
+                                <i class="fa fa-check-square"
+                                   ng-class="{'checkmark': scopeActiveObject.name == itemScope.name && scopeActiveObject.check}"
+                                   ng-checked="true"
+                                   aria-hidden="true"></i>
+                        </button>
+                    </span>
+                    <span class="col-lg-5 no-margin" style="padding-left: 0px;" ng-class="{'col-lg-8' : itemScope.id === 'scopeCheckmarkMe'}">{{itemScope.title|translate}}</span>
+                    <span class="col-lg-6 no-margin" style="padding-right: 0px;" ng-show="orgs.length > 1 && itemScope.name === 'company'">
+                            <select ng-model="orgId" name="region"
+                                    class="select2-container form-control input-lg select2 select12"
+                                    ng-change="changeScope(itemScope.name, orgId)">
+                                <option ng-repeat="org in orgs" value="{{::org.orgId}}">{{org.orgName}}</option>
+                            </select>
+                    </span>
+                    <span class="col-lg-6 no-margin" style="padding-right: 0px;" ng-show="itemScope.name === 'region'">
+                            <select ng-model="regionId"
+                                    id="regionList"
+                                    ng-style="regionListStyle"
+                                    class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"
+                                    ng-click="$event.stopPropagation();"
+                                    ng-change="changeScopeForRegionSelect(itemScope.name, regionId)">
+                            </select>
+                    </span>
+                </section>
+            </article>
+        </div>
+    </div>
+</div>
