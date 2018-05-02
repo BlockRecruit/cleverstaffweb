@@ -31211,7 +31211,6 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
            }
         });
 
-        console.log('translatedCountry', translatedCountry.value);
         return { name: translatedCountry.value, code: translatedCountry.key };
     }
 
@@ -31272,7 +31271,6 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
     }
 
     function setInvoiceData(data) {
-        console.log(Pay.paymentInfo.countMonths);
         $scope.invoice = {
             users: Pay.paymentInfo.countPeople || data.numberOfUsers || $scope.paidUsers.length,
             months: Pay.paymentInfo.countMonths || data.numberOfMonths || 4,

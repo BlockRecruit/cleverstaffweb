@@ -43,22 +43,36 @@
 
 					font-size: 14px;
 
+					position: relative;
+
 					display: inline-block;
 					margin-bottom: 10px;
-					padding: 5px 17px;
+					padding: 5px 17px 5px 34px;
 
 					text-align: center;
 
-					background-color: #fff;
+					background-color: transparent;
 
 					align-self: flex-start;
-					img {
-						margin-right: 5px;
+					&:before {
+						position: absolute;
+						top: calc(50% - 6px);
+						left: 17px;
+
+						width: 12px;
+						height: 12px;
+
+						content: "";
+
+						background-image: url("/images/reports-img/long-arrow.png");
 					}
 					&:hover {
 						color: #fff;
-						border-color: #00b549;
+						border-color: #fff;
 						background-color: #00b549;
+						&:before {
+							background-image: url("/images/sprite/long-arrow-white.png");
+						}
 					}
 				}
 				h2 {
