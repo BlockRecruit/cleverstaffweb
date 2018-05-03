@@ -926,8 +926,15 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
             if (ScopeService.isInit()) {
                 var activeParam = ScopeService.getActiveScopeObject();
+                console.log(activeParam, 'activeParam');
                 $scope.activeScopeParam = activeParam;
-                Candidate.setOptions("personId", $scope.searchParam.personId != undefined ? $scope.searchParam.personId : activeParam.name == 'onlyMy' ? $rootScope.userId : null);
+
+                if(activeParam.name === 'onlyMy'){
+                    Candidate.setOptions("personId", $scope.searchParam.personId  ? $scope.searchParam.personId : $rootScope.userId);
+                }else {
+                    Candidate.setOptions("personId",  null);
+                }
+
                 Candidate.setOptions("page", {number: (params.$params.page - 1), count: params.$params.count});
                 if( params.$params.count <= 120) {
                     localStorage.countCandidate = params.$params.count;

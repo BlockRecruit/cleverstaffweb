@@ -13,7 +13,7 @@
                     <span class="col-lg-1 no-margin no-padding" style="display: flex; align-items: center; padding-left: 0px;">
                         <button id="{{itemScope.id}}"
                                 class="ui icon button"
-                                ng-click="changeScope(itemScope.name, orgId)">
+                                ng-click="changeScope(itemScope.name, orgId , $event)">
                                 <i class="fa fa-check-square"
                                    ng-class="{'checkmark': scopeActiveObject.name == itemScope.name && scopeActiveObject.check}"
                                    ng-checked="true"
@@ -21,10 +21,11 @@
                         </button>
                     </span>
                     <span class="col-lg-5 no-margin" style="padding-left: 0px;" ng-class="{'col-lg-8' : itemScope.id === 'scopeCheckmarkMe'}">{{itemScope.title|translate}}</span>
+                    <span ng-show="orgs.length  === 1 && itemScope.name === 'company'" style="padding-left: 38px;">{{orgs[0].orgName}}</span>
                     <span class="col-lg-6 no-margin" style="padding-right: 0px;" ng-show="orgs.length > 1 && itemScope.name === 'company'">
                             <select ng-model="orgId" name="region"
                                     class="select2-container form-control input-lg select2 select12"
-                                    ng-change="changeScope(itemScope.name, orgId)">
+                                    ng-change="changeScope(itemScope.name, orgId, false)">
                                 <option ng-repeat="org in orgs" value="{{::org.orgId}}">{{org.orgName}}</option>
                             </select>
                     </span>
