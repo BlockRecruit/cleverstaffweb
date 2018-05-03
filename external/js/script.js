@@ -492,7 +492,12 @@ $(document).ready(function () {
     $("#signupGoogleBtn").on("click", function () {
             signup_google_loading = true;
             resetError();
-            checkFormGoogle();
+            var check = checkFormGoogle();
+
+            if(check === 'error latin'){
+                console.log('error latin');
+                return false;
+            }
             var res = $("#signupGoogleForm").serializeObject();
             res.utms = null;
             res.intention =  localStorage.getItem("tarifParams");
@@ -679,7 +684,13 @@ $(document).ready(function () {
     var signup_facebook_loading = false;
     $("#signupFacebookBtn").on("click", function () {
             signup_facebook_loading = true;
-            checkFormFacebook();
+            var check = checkFormFacebook();
+
+            if(check === 'error latin'){
+                console.log('error latin');
+                return false;
+            }
+
             resetError();
             var res = $("#signupFacebookForm").serializeObject();
             res.intention =  localStorage.getItem("tarifParams");
@@ -3306,7 +3317,7 @@ function checkFormGoogle(){
             setTimeout(function (){
                 $(".error-password").addClass("hidden");
             },5000);
-            return false;
+            return 'error latin';
         }
     }
     if(repeatPassword.val() != password.val()) {
@@ -3323,7 +3334,7 @@ function checkFormGoogle(){
         setTimeout(function (){
             $(".error-password").addClass("hidden");
         },5000);
-        return false;
+        return 'error latin';
     }
 }
 function checkFormFacebook(){
@@ -3440,7 +3451,7 @@ function checkFormFacebook(){
             setTimeout(function (){
                 $(".error-password").addClass("hidden");
             },5000);
-            return false;
+            return 'error latin';
         }
     }
     if(repeatPassword.val() != password.val()) {
@@ -3457,7 +3468,7 @@ function checkFormFacebook(){
         setTimeout(function (){
             $(".error-password").addClass("hidden");
         },5000);
-        return false;
+        return 'error latin';
     }
 }
 function signupGoogle() {
