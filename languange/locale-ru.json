@@ -2981,6 +2981,8 @@
   "Account visibility":"Видимость аккаунта",
   "Account visibility changed":"Видимость аккаунта изменена",
   "only_me1 + only_me2":"только мои, за которые я ответственен",
+  "level":"уровень",
+  "only_me1 + only_me2":"только мои, за которые я ответственен",
   "The filter allows you to pick the users who performed any activities on vacancies.": "Фильтр позволяет выбрать определенных пользователей, которые совершали какие-либо действия по вакансиям.",
   "Are you sure want change candidate status to Delete":"Вы действительно хотите изменить статус кандидата {{name}} на \"Удален\"?",
   "Remove candidate from a system":"Удалить кандидата из системы",
