@@ -3214,103 +3214,6 @@ directive('appVersion', ['version', function(version) {
                 }
             }
         }]
-    ).directive('fileExcellUpload', ["$filter", "$rootScope", function($filter, $rootScope) {
-            return {
-                restrict: 'AE',
-                link: function($scope, element, attrs) {
-                    //element.on('click', function () {
-                    //    $("#uploadExcel").click();
-                    //});
-                    //
-                    $("#uploadExcel").unbind('change').change(function() {
-                        console.log(this);
-                        //renderImage(this.files[0]);
-                    });
-                    console.log($scope);
-                    console.log(element);
-                    console.log(attrs);
-                    $scope.file = {}; //Model
-                    $scope.options = {
-                        change: function(file) {
-                            console.log($rootScope);
-                            console.log($scope);
-                            console.log(path);
-                            console.log(setings);
-                            $rootScope.loading = true;
-                            console.log('hereeeeeeeeeee');
-                            var uri = serverAddress;
-                            if (path != undefined)
-                                uri = uri + "/" + path;
-                            uri = uri + '/uploadExcelFile';
-                            if ($scope.objectId != undefined)
-                                uri = uri + "/" + $scope.objectId;
-                            $scope.fileIsSelected = true;
-                            $scope.ngShowOldFile = false;
-                            file.$preview(file).then(function(data) {
-                                /** @namespace data.item.thumb */
-                                $scope.newImgSrc = data.item.thumb;
-                                $scope.fileName = data.item.filename;
-                                $scope.ngShowNewImage = true;
-                            });
-                            file.$upload(uri, $scope.file, setings, $scope).then(function(data) {
-                                $scope.loading = false;
-                                var resp = JSON.parse(data.response);
-
-                                if (data.statusText == 'OK' && resp.status != 'error') {
-                                    //if ($scope.callbackFile != undefined) {
-                                    //    $scope.callbackFile(data.data.objects[0], $scope.file.filename);
-                                    //}
-                                    $rootScope.loading = false;
-                                    new PNotify({
-                                        styling: 'jqueryui',
-                                        type: "success",
-                                        text: ($filter('translate')('history_info.added_file'))
-                                    });
-                                } else if (resp.status == 'error') {
-                                    $rootScope.loading = false;
-                                    notificationService.error(resp.message);
-                                    if ($scope.callbackFileError != undefined) {
-                                        $scope.callbackFileError("error");
-                                    }
-                                }
-                            }).catch(function(data) {
-                                console.log(data);
-
-                                $rootScope.loading = false;
-//                            data.response= JSON.parse(data.response);
-                                if (data.response[0].code == 'type') {
-                                    new PNotify({
-                                        styling: 'jqueryui',
-                                        type: "error",
-                                        text: $filter('translate')('Allowed file formats') + ": " + setings.allowedType.join(", ")
-                                    });
-                                }
-                                if (data.response[0].code == 'upload') {
-                                    console.log("upload===");
-                                }
-                                if (data.response[0].code == 'size') {
-                                    new PNotify({
-                                        styling: 'jqueryui',
-                                        type: "error",
-                                        text: "Большой размер файла"
-                                    });
-                                }
-                            });
-
-                        }
-                        //setError: function(code, data){
-                        //    console.log(code);
-                        //    console.log(data);
-                        //    $scope.file = {};
-                        //},
-                        //validate: function(file, permit){
-                        //    console.log(file);
-                        //    console.log(permit);
-                        //}
-                    };
-                }
-            }
-        }]
     ).directive('ngContextMenu', function ($parse) {
         var renderContextMenu = function ($scope, event, options) {
             if (!$) { var $ = angular.element; }
@@ -9832,91 +9735,74 @@ angular.module('services.employee', [
                 }
             };
         },
-//        initFileExcellUpload: function($rootScope, $scope, path, setings, $filter) {
-//            console.log($rootScope);
-//            console.log($scope);
-//            console.log(path);
-//            console.log(setings);
-//            $scope.file = {}; //Model
-//            $scope.options = {
-//                change: function(file) {
-//                    console.log($rootScope);
-//                    console.log($scope);
-//                    console.log(path);
-//                    console.log(setings);
-//                    $rootScope.loading = true;
-//                    console.log('hereeeeeeeeeee');
-//                    var uri = serverAddress;
-//                    if (path != undefined)
-//                        uri = uri + "/" + path;
-//                    uri = uri + '/uploadExcelFile';
-//                    if ($scope.objectId != undefined)
-//                        uri = uri + "/" + $scope.objectId;
-//                    $scope.fileIsSelected = true;
-//                    $scope.ngShowOldFile = false;
-//                    file.$preview(file).then(function(data) {
-//                        /** @namespace data.item.thumb */
-//                        $scope.newImgSrc = data.item.thumb;
-//                        $scope.fileName = data.item.filename;
-//                        $scope.ngShowNewImage = true;
-//                    });
-//                    file.$upload(uri, $scope.file, setings, $scope).then(function(data) {
-//                        $scope.loading = false;
-//                        var resp = JSON.parse(data.response);
-//
-//                        if (data.statusText == 'OK' && resp.status != 'error') {
-//                            //if ($scope.callbackFile != undefined) {
-//                            //    $scope.callbackFile(data.data.objects[0], $scope.file.filename);
-//                            //}
-//                            $rootScope.loading = false;
-//                            new PNotify({
-//                                styling: 'jqueryui',
-//                                type: "success",
-//                                text: ($filter('translate')('history_info.added_file'))
-//                            });
-//                        } else if (resp.status == 'error') {
-//                            $rootScope.loading = false;
-//                            notificationService.error(resp.message);
-//                            if ($scope.callbackFileError != undefined) {
-//                                $scope.callbackFileError("error");
-//                            }
-//                        }
-//                    }).catch(function(data) {
-//                        console.log(data);
-//
-//                        $rootScope.loading = false;
-////                            data.response= JSON.parse(data.response);
-//                        if (data.response[0].code == 'type') {
-//                            new PNotify({
-//                                styling: 'jqueryui',
-//                                type: "error",
-//                                text: $filter('translate')('Allowed file formats') + ": " + setings.allowedType.join(", ")
-//                            });
-//                        }
-//                        if (data.response[0].code == 'upload') {
-//                            console.log("upload===");
-//                        }
-//                        if (data.response[0].code == 'size') {
-//                            new PNotify({
-//                                styling: 'jqueryui',
-//                                type: "error",
-//                                text: "Большой размер файла"
-//                            });
-//                        }
-//                    });
-//
-//                }
-//                //setError: function(code, data){
-//                //    console.log(code);
-//                //    console.log(data);
-//                //    $scope.file = {};
-//                //},
-//                //validate: function(file, permit){
-//                //    console.log(file);
-//                //    console.log(permit);
-//                //}
-//            };
-//        },
+        initFileExcellUpload: function($rootScope, $scope, path, setings, $filter) {
+            $scope.file = {}; //Model
+            $scope.options = {
+                change: function(file) {
+                    $rootScope.loading = true;
+                    console.log('hereeeeeeeeeee');
+                    var uri = serverAddress;
+                    if (path != undefined)
+                        uri = uri + "/" + path;
+                    uri = uri + '/uploadExcelFile';
+                    if ($scope.objectId != undefined)
+                        uri = uri + "/" + $scope.objectId;
+                    $scope.fileIsSelected = true;
+                    $scope.ngShowOldFile = false;
+                    file.$preview(file).then(function(data) {
+                        /** @namespace data.item.thumb */
+                        $scope.newImgSrc = data.item.thumb;
+                        $scope.fileName = data.item.filename;
+                        $scope.ngShowNewImage = true;
+                    });
+                    file.$upload(uri, $scope.file, setings, $scope).then(function(data) {
+                        $('#file').val('');
+                        var resp = JSON.parse(data.response);
+
+                        if (data.statusText == 'OK' && resp.status != 'error') {
+                            //if ($scope.callbackFile != undefined) {
+                            //    $scope.callbackFile(data.data.objects[0], $scope.file.filename);
+                            //}
+                            $rootScope.loading = false;
+                            new PNotify({
+                                styling: 'jqueryui',
+                                type: "success",
+                                text: ($filter('translate')('history_info.added_file'))
+                            });
+                        } else if (resp.status == 'error') {
+                            $rootScope.loading = false;
+                            notificationService.error(resp.message);
+                            if ($scope.callbackFileError != undefined) {
+                                $scope.callbackFileError("error");
+                            }
+                        }
+                    }).catch(function(data) {
+
+                        $('#file').val('');
+                        $rootScope.loading = false;
+//                            data.response= JSON.parse(data.response);
+                        if (data.response[0].code == 'type') {
+                            new PNotify({
+                                styling: 'jqueryui',
+                                type: "error",
+                                text: $filter('translate')('Allowed file formats') + ": " + setings.allowedType.join(", ")
+                            });
+                        }
+                        if (data.response[0].code == 'upload') {
+                            console.log("upload===");
+                        }
+                        if (data.response[0].code == 'size') {
+                            new PNotify({
+                                styling: 'jqueryui',
+                                type: "error",
+                                text: "Большой размер файла"
+                            });
+                        }
+                    });
+
+                }
+            };
+        },
         addPhotoByReference: function(url, callback) {
             console.log('in serv', url)
             $http({
@@ -21778,7 +21664,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $rootScope.$on('$translateChangeSuccess', translate);
 
-    //FileInit.initFileExcellUpload($rootScope, $scope, "candidate", {allowedType: ["xls", "xlsx"]}, $filter);
+    FileInit.initFileExcellUpload($rootScope, $scope, "candidate", {allowedType: ["xls", "xlsx"]}, $filter);
 
     function resetLanguagesSearCriterion() {
         $scope.chosenLangs = ['null', 'null', 'null'];

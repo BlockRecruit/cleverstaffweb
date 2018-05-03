@@ -2083,7 +2083,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
     $rootScope.$on('$translateChangeSuccess', translate);
 
-    //FileInit.initFileExcellUpload($rootScope, $scope, "candidate", {allowedType: ["xls", "xlsx"]}, $filter);
+    FileInit.initFileExcellUpload($rootScope, $scope, "candidate", {allowedType: ["xls", "xlsx"]}, $filter);
 
     function resetLanguagesSearCriterion() {
         $scope.chosenLangs = ['null', 'null', 'null'];

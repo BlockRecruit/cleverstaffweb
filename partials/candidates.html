@@ -38,8 +38,8 @@
                     </div>
                     <div class="operation">
                         <i class="fa fa-file-excel-o" aria-hidden="true"></i>
-                        <!--<input type="file" oi-file="options" id="file" class="hidden" accept="text/xlsx"/>-->
-                        <a file-excell-upload id="uploadExcel">{{'Upload Excel' | translate}}</a>
+                        <input type="file" oi-file="options" id="file" class="hidden" accept="text/xlsx"/>
+                        <label for="file">{{'Upload Excel' | translate}}</label>
                         <a ng-href="{{$location.$$protocol}}/bulk_import_excel_example.xlsx" download="" class="no-margin-left-example">{{'example'|translate}}</a>
                     </div>
                     <div class="operation" ng-show="($root.me.recrutRole == 'admin' && $root.me.personParams.enableDownloadToExcel != 'N') || $root.me.personParams.enableDownloadToExcel == 'Y'">
