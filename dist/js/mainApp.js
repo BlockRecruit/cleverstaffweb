@@ -29942,7 +29942,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
             smtp: {}
         };
         $scope.updateCreatedEmails = function(){
+            $rootScope.loading = true;
             Person.personEmails({type: 'all'},function(resp){
+                $rootScope.loading = false;
                 if(resp.status == 'ok'){
                     if(resp.objects.length > 0){
                         $scope.emails = resp.objects;
@@ -29954,7 +29956,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                 }else{
                     notificationService.error(resp.message);
                 }
-                $scope.loading = false;
+            }, function (error) {
+                $rootScope.loading = false;
             });
         };
         $scope.updateCreatedEmails();
@@ -29979,7 +29982,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                         }
                                         $scope.showPassword = true;
                                         if($rootScope.addedEmail.password.length > 1){
+                                            $rootScope.loading = true;
                                             Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
+                                                $rootScope.loading = false;
                                                 if(resp.status == 'error'){
 
                                                     notificationService.error(resp.message);
@@ -29987,6 +29992,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                                     $scope.updateCreatedEmails();
                                                     $rootScope.updateMe();
                                                 }
+                                            }, function (error) {
+                                                $rootScope.loading = false;
                                             });
                                         }
                                     }
@@ -29996,7 +30003,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                     $rootScope.addedEmail.email = result.email;
                                     $rootScope.addedEmail.password = result.code;
                                     $rootScope.addedEmail.host = 'gmail';
+                                    $rootScope.loading = true;
                                     Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
+                                        $rootScope.loading = false;
                                         if(resp.status == 'error'){
                                             if(resp.code == 'сouldNotGetRefreshTokenIntegration') {
                                                 $scope.modalInstance = $uibModal.open({
@@ -30012,6 +30021,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                             $scope.updateCreatedEmails();
                                             $rootScope.updateMe();
                                         }
+                                    }, function (error) {
+                                        $rootScope.loading = false;
                                     });
                                 });
                             }else{
@@ -30024,7 +30035,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                                     $rootScope.addedEmail.email = result.email;
                                                     $rootScope.addedEmail.password = result.code;
                                                     $rootScope.addedEmail.host = 'gmail';
+                                                    $rootScope.loading = true;
                                                     Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
+                                                        $rootScope.loading = false;
                                                         if(resp.status == 'error'){
                                                             if(resp.code == 'сouldNotGetRefreshTokenIntegration') {
                                                                 $scope.modalInstance = $uibModal.open({
@@ -30040,6 +30053,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                                             $scope.updateCreatedEmails();
                                                             $rootScope.updateMe();
                                                         }
+                                                    }, function (error) {
+                                                        $rootScope.loading = false;
                                                     });
                                                 });
                                             }else{
@@ -30066,13 +30081,17 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                             }
                         }else{
                             if(($rootScope.addedEmail.smtp.host != undefined && $rootScope.addedEmail.smtp.port != undefined && $rootScope.addedEmail.password != undefined)||$scope.isExchange) {
+                                $rootScope.loading = true;
                                 Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
+                                    $rootScope.loading = false;
                                     if(resp.status == 'error'){
                                         notificationService.error(resp.message);
                                     }else{
                                         $scope.updateCreatedEmails();
                                         $rootScope.updateMe();
                                     }
+                                }, function (error) {
+                                    $rootScope.loading = false;
                                 });
                             }
                         }
@@ -30092,13 +30111,17 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                         }else if(emailDomen == 'yandex.ru'){
                             $rootScope.editedEmail.smtp.type = 'yandex';
                         }
+                        $rootScope.loading = true;
                         Candidate.editEmailAccess($rootScope.editedEmail, function(resp){
+                            $rootScope.loading = false;
                             if(resp.status == 'error'){
                                 notificationService.error(resp.message);
                             }else{
                                 $scope.updateCreatedEmails();
                                 $rootScope.closeModal();
                             }
+                        }, function (error) {
+                            $rootScope.loading = false;
                         });
                     }else{
                         notificationService.error($filter('translate')('Please enter your password'));
@@ -30108,7 +30131,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                         $rootScope.editedEmail.password = result.code;
                         $rootScope.addedEmail.email = result.email;
                         $rootScope.editedEmail.host = 'gmail';
+                        $rootScope.loading = true;
                         Candidate.editEmailAccess($rootScope.editedEmail, function(resp){
+                            $rootScope.loading = false;
                             if(resp.status == 'error'){
                                 if(resp.code == 'сouldNotGetRefreshTokenIntegration') {
                                     $scope.modalInstance = $uibModal.open({
@@ -30124,6 +30149,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                 $scope.updateCreatedEmails();
                                 $rootScope.closeModal();
                             }
+                        }, function (error) {
+                            $rootScope.loading = false;
                         });
                     });
                 }else{
@@ -30132,7 +30159,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
             } else {
                 if($rootScope.editedEmail.host = 'email'){
                     if($rootScope.editedEmail.email.length > 0 && $rootScope.editedEmail.password.length > 0) {
+                        $rootScope.loading = true;
                         Candidate.editEmailAccess($rootScope.editedEmail, function (resp) {
+                            $rootScope.loading = false;
                             if (resp.status == 'error') {
                                 if(resp.message == 'сouldNotGetRefreshTokenIntegration') {
                                     $scope.modalInstance = $uibModal.open({
@@ -30149,6 +30178,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                 $scope.editEmail = false;
                                 $rootScope.closeModal();
                             }
+                        }, function (error) {
+                            $rootScope.loading = false;
                         });
                     }else {
                         notificationService.error($filter('translate')('Please enter your password'));
@@ -30235,7 +30266,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
             }
         };
         $rootScope.removePersonEmail = function(){
+            $rootScope.loading = true;
             Person.removePersonEmail({email : $rootScope.emailForDelete.email},function(resp){
+                $rootScope.loading = false;
                 if(resp.status == 'ok'){
                     $scope.updateCreatedEmails();
                     $rootScope.updateMe();
@@ -30244,11 +30277,23 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                 }else{
                     notificationService.error(resp.message);
                 }
+            }, function (error) {
+                $rootScope.loading = false;
             });
             $scope.closeModal();
         };
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
+        };
+
+
+        $scope.goBack = function () {
+          if($scope.emails && $scope.emails.length === 0) {
+              $scope.showPassword = false;
+              $rootScope.showAdvancedFields = false;
+          } else {
+              $scope.showAddEmail = false;
+          }
         };
     }]);
 
@@ -31838,7 +31883,6 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         $rootScope.scopeActiveObject = val;
         setCurrentScopeForNavBar($scope.scopeActiveObject.name);
         $scope.scopeActiveObject.name === 'region' ?setCurrentRegionForNavBar(null): null;
-        // setCurrentRegionForNavBar()
     });
 
     function setCurrentScopeForNavBar(name){
@@ -31849,14 +31893,12 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         if(!region){
             region = JSON.parse(localStorage.getItem(`ls.${$rootScope.userId}_regionId`));
         }
-        console.log(region, 'region');
         $rootScope.currentSelectRegion = region.name;
     }
 
 
     $scope.changeScope = function (name, orgId) {
         setCurrentScopeForNavBar(name);
-
         if (name == 'region') {
             if($rootScope.activePage == 'Candidates'){
                 $rootScope.clearSearchRegion();
