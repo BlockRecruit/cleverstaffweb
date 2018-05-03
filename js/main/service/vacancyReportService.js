@@ -28,6 +28,7 @@ angular.module('services.vacancyReport', [
             this.width = width;
             this.height = height;
             this.bars = [];
+            this.initialBarWidth = 0;
             this.barsWidth = [];
         }
 
@@ -37,7 +38,7 @@ angular.module('services.vacancyReport', [
                     c: this.c,
                     ctx: this.ctx,
                     value: this.data[i],
-                    x: this.bars[i - 1] ? this.bars[i - 1].x - this.barsWidth[i]/2 + this.barsWidth[i - 1]/2 : this.c.width/2 - this.width/2,
+                    x: this.bars[i - 1] && this.bars[i - 1].width ? this.bars[i - 1].x - this.barsWidth[i]/2 + this.barsWidth[i - 1]/2 : this.c.width/2 - this.width/2,
                     y: i * this.height,
                     width: this.barsWidth[i],
                     height: this.height - 1,
@@ -48,21 +49,29 @@ angular.module('services.vacancyReport', [
                 if(barProps.width && barProps.height) {
                     const bar = new chartBar({...barProps});
                     bar.draw();
-                    this.addBar(bar);
+                    this.bars.push(bar);
                 } else {
                     this.bars.push();
                 }
             }
         }
 
-        addBar(bar) {
-            this.bars.push(bar);
-        }
-
         getBarsWidth() {
             this.barsWidth = this.data.map((element,i) => {
                 return this.data[i]/this.data[0] * this.width;
             });
+        }
+
+        getInitialBarWidth() {
+            if(this.initialBarWidth) return this.initialBarWidth;
+
+            this.data.map((element, i) => {
+               if(element && !this.initialBarWidth) {
+                   this.initialBarWidth = element
+               }
+            });
+
+            return this.initialBarWidth;
         }
 
         initBarsHover() {
