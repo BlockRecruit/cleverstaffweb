@@ -520,6 +520,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     tmhDynamicLocale.set($rootScope.currentLang);
                     $translate.use($rootScope.currentLang);
                 }
+                Service.cookiesConsent();
                 $rootScope.me = response.object;
                 $rootScope.orgs = response.object.orgs;
                 $scope.orgId = response.object.orgId;
