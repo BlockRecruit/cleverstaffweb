@@ -16,7 +16,8 @@ gulp.task('js', function() {
             './external/js/main.js',
             './external/js/g.js',
             './external/js/bootstrap.js',
-            './external/js/style_func.js'
+            './external/js/style_func.js',
+            './external/js/cookie-policy.js'
         ])
         .pipe(concat('script.min.js'))
         .pipe(uglify())

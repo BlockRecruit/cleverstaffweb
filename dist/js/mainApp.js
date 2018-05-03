@@ -6291,6 +6291,13 @@ angular.module('services.candidate', [
                 params: {
                     param: "setPreferableContact"
                 }
+            },
+            deleteCandidate: {
+                method: "GET",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "deleteCandidate"
+                }
             }
         });
 
@@ -6386,7 +6393,12 @@ angular.module('services.candidate', [
         return options;
     };
     candidate.setOptions = function(name, value) {
-        options[name] = value;
+        if(name === "dateTo" || name === "dateFrom") {
+            setAgeRange(name, value);
+        } else {
+            options[name] = value;
+        }
+
     };
     candidate.init = function() {
         options = {
@@ -6416,16 +6428,15 @@ angular.module('services.candidate', [
 
     candidate.getStatus = function() {
         return [
-            {value: "active_search", name: "active search"},
-            {value: "not_searching", name: "not searching"},
-            {value: "passive_search", name: "passive search"},
-            {value: "employed", name: "employed"},
-            {value: "freelancer", name: "freelancer"},
-            //{value: "reserved", name: "reserved"},
-            {value: "archived", name: "archived"},
-            {value: "work", name: "Our employee"},
-            {value: "only_remote", name: "Only remote"},
-            {value: "only_relocation_abroad", name: "Only relocation abroad"}
+            {value: "active_search", name: "active search", text:"active search"},
+            {value: "not_searching", name: "not searching", text:"not searching"},
+            {value: "passive_search", name: "passive search", text:"passive search"},
+            {value: "employed", name: "employed", text: "employed"},
+            {value: "freelancer", name: "freelancer", text: "freelancer"},
+            {value: "archived", name: "archived", text: "archived"},
+            {value: "our employee", name: "our employee", text: "our employee"},
+            {value: "only_remote", name: "Only remote", text: "Only remote"},
+            {value: "only_relocation_abroad", name: "Only relocation abroad", text: "Only relocation abroad"}
         ];
     };
     candidate.getStatusAssociative = function() {
@@ -7347,6 +7358,41 @@ angular.module('services.candidate', [
             });
         });
     };
+
+    candidate.deleteCandidateFromSystem = function(params) {
+      return new Promise((resolve, reject) => {
+         candidate.deleteCandidate(params, resp => {
+             if(resp.status === 'ok') {
+                 resolve(resp);
+             } else {
+                 reject(resp)
+             }
+         }, error => reject(error));
+      });
+    };
+
+    function setAgeRange(name, value) {
+        if(typeof (value) !== "number") {
+            options[name] = null;
+        } else {
+            if(name === "dateTo") {
+                if(typeof(options["dateFrom"]) === "number") {
+                    options["dateFrom"] = ageRangeToMs(value + 1) + 86400000;
+                }
+                options["dateTo"] = ageRangeToMs(value);
+            } else {
+                options["dateFrom"] = ageRangeToMs(value + 1) + 86400000;
+            }
+        }
+    }
+
+    function ageRangeToMs(years) {
+        return years ? (new Date(new Date().setFullYear(new Date().getFullYear() - years)).getTime()) : years;
+    }
+
+    function ageRangeToYears(ms) {
+        return ms ? (new Date().getFullYear() - new Date(ms).getFullYear()) : ms;
+    }
 
     return candidate;
 }]);
@@ -10950,6 +10996,88 @@ angular.module('services.globalService', [
         }
     };
 
+    service.cookiesConsent = function() {
+        var bodyElement = $("body");
+        var translatedText = setTranslates();
+
+        if(getCookie("consentCookies") !== "yes") {
+            appendCockiesBlock();
+        }
+
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+
+        function appendCockiesBlock() {
+            var cookieElementText = "<div class='cookie-wrapper' id='cookie-block'>" +
+                "<span class='inner-text'>" +
+                "<span class='first-sentence'>" +
+                "<span>" + translatedText.bestExp +  "</span>" +
+                "</span>" +
+                "<span class='second-sentence'>" +
+                "<span>" + translatedText.findMore +  "</span>" +
+                "<a href='https://cleverstaff.net/privacy.html' target='_blank'>" + translatedText.findMoreLink +  "</a>" +
+                "</span>" +
+                "</span>" +
+                "</div>";
+            var closeIconElement = $("<i class='close-icon'>" +
+                "<svg aria-hidden=\"true\" data-prefix=\"far\" data-icon=\"times\" role=\"img\" width=\"12px\" height=\"12px\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\" class=\"svg-inline--fa fa-times fa-w-12 fa-2x\"><path fill=\"currentColor\" d=\"M231.6 256l130.1-130.1c4.7-4.7 4.7-12.3 0-17l-22.6-22.6c-4.7-4.7-12.3-4.7-17 0L192 216.4 61.9 86.3c-4.7-4.7-12.3-4.7-17 0l-22.6 22.6c-4.7 4.7-4.7 12.3 0 17L152.4 256 22.3 386.1c-4.7 4.7-4.7 12.3 0 17l22.6 22.6c4.7 4.7 12.3 4.7 17 0L192 295.6l130.1 130.1c4.7 4.7 12.3 4.7 17 0l22.6-22.6c4.7-4.7 4.7-12.3 0-17L231.6 256z\" class=\"\"></path></svg>" +
+                "</i>");
+            closeIconElement.on("click", function() {
+                console.log("click close");
+                cookieElement.remove();
+            });
+            var cookieElement = $(cookieElementText);
+            var agreeButtonElement = $("<button>" + translatedText.iAgree + "</button>");
+            agreeButtonElement.on("click", function () {
+                setCookies("consentCookies", "yes");
+                cookieElement.remove();
+            });
+            cookieElement.append(closeIconElement);
+            cookieElement.find(".first-sentence").append(agreeButtonElement);
+            bodyElement.append(cookieElement);
+        }
+
+
+        function setTranslates() {
+            var textsEn = {
+                iAgree: "I agree",
+                bestExp: "To give you the best possible experience, this site uses cookies. If you agree with cookie usage, press ",
+                findMore: "Should you want to find out more about our cookie policy - press ",
+                findMoreLink: "read more"
+            };
+            var textsRu = {
+                iAgree: "Согласен",
+                bestExp: "Чтобы предоставить вам наилучший опыт, на этом сайте используются cookie. Если вы согласны с использованием cookie, нажмите кнопку ",
+                findMore: "Если вы хотите ознакомиться с  нашей политикой cookie, нажмите ",
+                findMoreLink: "узнать больше"
+            };
+            if($rootScope.currentLang == 'ru'){
+                return textsRu;
+            } else {
+                return textsEn;
+            }
+        }
+
+        function setCookies(key, value) {
+            document.cookie = key + "=" + value;
+        }
+    };
+
     return service;
 }]);
 
@@ -13144,7 +13272,8 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                         "researcher" : $sce.trustAsHtml($filter('translate')('Cannot see the full database and other users. Able to see only vacancies he/she responsible for and candidates he/she added')),
                         "client" : $sce.trustAsHtml($filter('translate')('Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number'))
                     },
-                    "filterCostructorInfo": $sce.trustAsHtml($filter('translate')('The filter allows you to pick the users who performed any activities on vacancies.'))
+                    "filterCostructorInfo": $sce.trustAsHtml($filter('translate')('The filter allows you to pick the users who performed any activities on vacancies.')),
+                    "deleteCandidateFromSystem": $sce.trustAsHtml($filter('translate')('If you select this option, the candidate will be removed from the system. All comments, tasks and history of actions will be erased'))
                 };
                 $rootScope.tooltips = options;
             });
@@ -15016,7 +15145,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=90'
+        suffix: '.json?b=92'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -19214,6 +19343,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.checkAllCandidates = false;
     $scope.showTagsForMass = false;
     $scope.previousFlag = true;
+    $scope.deleteFromSystem = false;
     $scope.placeholder = $filter('translate')('by position');
     $rootScope.candidatesAddToVacancyIds = $scope.candidatesAddToVacancyIds;
     $rootScope.currentElementPos = true;
@@ -19802,22 +19932,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.extensionHas = false;
     //$scope.cities = [];
     Service.getRegions2(function (countries, cities) {
-        console.log(countries, 'countries');
-        console.log(cities, 'countries');
         setTextfielsInObject(countries);
         setTextfielsInObject(cities);
         $scope.countries = countries;
         $scope.cities = cities;
-        //var optionsHtml = '<option value="null" style="color:#999">'+$filter('translate')('region')+'</option>';
-        //var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
-        //angular.forEach($scope.countries, function (value) {
-        //    optionsHtml += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-        //});
-        //angular.forEach($scope.cities, function (value) {
-        //    optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-        //});
-        //$('#cs-region-filter-select, #cs-region-filter-select-for-linkedin').html(optionsHtml);
-        //$('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
     });
     Service.getGroups(function (resp) {
         $scope.candidateGroups = resp.objects;
@@ -20136,13 +20254,26 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
             if (ScopeService.isInit()) {
                 var activeParam = ScopeService.getActiveScopeObject();
+                console.log(activeParam, 'activeParam');
                 $scope.activeScopeParam = activeParam;
-                Candidate.setOptions("personId", $scope.searchParam.personId != undefined ? $scope.searchParam.personId : activeParam.name == 'onlyMy' ? $rootScope.userId : null);
+
+                if(activeParam.name === 'onlyMy'){
+                    Candidate.setOptions("personId", $scope.searchParam.personId  ? $scope.searchParam.personId : $rootScope.userId);
+                }else {
+                    Candidate.setOptions("personId",  null);
+                }
+
                 Candidate.setOptions("page", {number: (params.$params.page - 1), count: params.$params.count});
                 if( params.$params.count <= 120) {
                     localStorage.countCandidate = params.$params.count;
                 } else {
                     localStorage.countCandidate = 15;
+                }
+
+                console.log($scope.searchParam.status, '($scope.searchParam.status');
+
+                if($scope.searchParam.status.translate === "our employee"){
+                    $scope.searchParam.status.value = 'work';
                 }
 
                 $scope.searchParam.pages.count = params.$params.count;
@@ -20155,10 +20286,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("experience", $scope.searchParam.experience);
                 Candidate.setOptions("searchWordsInPosition", $scope.searchParam.searchWordsInPosition);
                 Candidate.setOptions("requiredAllContainsWords", $scope.searchParam.requiredAllContainsWords);
-                Candidate.setOptions("dateTo", $scope.searchParam['ageFrom'] && $scope.searchParam['ageFrom'].text ?
-                    new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageFrom'].text)).getTime() : null);
-                Candidate.setOptions("dateFrom", $scope.searchParam['ageTo'].text ?
-                    new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageTo'].text)).getTime() : null);
+                Candidate.setOptions("dateTo", $scope.searchParam['ageFrom'] && $scope.searchParam['ageFrom'].text ? $scope.searchParam['ageFrom'].text : null);
+                Candidate.setOptions("dateFrom", $scope.searchParam['ageTo'] && $scope.searchParam['ageTo'].text ? $scope.searchParam['ageTo'].text : null);
                 Candidate.setOptions("state", isNotBlank($scope.searchParam['status'].value) ? $scope.searchParam['status'].value : null);
                 Candidate.setOptions("words", isNotBlank($scope.searchParam['words']) ? $scope.searchParam['words'] : null);
                 Candidate.setOptions("salaryTo", $scope.searchParam['salary'] ? $scope.searchParam['salary'] : null);
@@ -20569,7 +20698,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
 
             var array = [];
-            console.log($scope.searchParam);
             array.push({
                 searchType: '',
                 salary: $scope.searchParam.salary,
@@ -20597,7 +20725,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 personId: Candidate.searchOptions().personId,
                 personNameWhoSearching: $rootScope.usernameThatIsSearching,
                 pages: {count: $scope.startPagesShown},
-                experience: $scope.searchParam.experience,
                 experience: $scope.searchParam.experience,
                 languages: $scope.searchParam.languages,
                 skills: $scope.searchParam.skills,
@@ -20666,17 +20793,51 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $location.path("candidate/add/zip");
     };
     $scope.deleteCandidate = function (candidate) {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: '../partials/modal/candidate-remove.html',
-            size: ''
-        });
         $rootScope.changeStateInCandidate.status = "archived";
         $rootScope.changeStateInCandidate.fullName = candidate.fullName;
         $rootScope.changeStateInCandidate.candidate = candidate;
         $rootScope.changeStateInCandidate.placeholder = $filter('translate')('Write a comment why you want remove this candidate');
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/candidate-remove.html',
+            size: '',
+            scope: $scope
+        });
     };
-    $rootScope.saveStatusOfCandidate = function () {
+    $scope.deleteCandidateFromSystemModal = function(candidate) {
+        $rootScope.changeStateInCandidate.fullName = candidate.fullName;
+        $rootScope.changeStateInCandidate.candidate = candidate;
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/candidate-remove-from-system.html',
+            size: '',
+            scope: $scope,
+            resolve: function(){}
+        });
+    };
+    $scope.deleteCandidateFromSystem = function() {
+        Candidate.deleteCandidateFromSystem({
+                candidateId:$rootScope.changeStateInCandidate.candidate.candidateId,
+                comment: $rootScope.changeStateInCandidate.comment
+        }).then((resp) => {
+                $scope.tableParams.reload();
+                $scope.closeModal();
+                $rootScope.changeStateInCandidate.comment = '';
+                notificationService.success($filter('translate')('Candidate name has been removed from the database', { name:  $rootScope.changeStateInCandidate.candidate.fullName}));
+            }, error => {
+                $scope.closeModal();
+                $rootScope.changeStateInCandidate.comment = '';
+                notificationService.error(error.message);
+            });
+    };
+
+    $rootScope.saveStatusOfCandidate = function (deleteFromSystem) {
+        if(deleteFromSystem) {
+            $scope.deleteCandidateFromSystem();
+            return;
+        }
         if ($rootScope.changeStateInCandidate.status != "") {
             Candidate.changeState({
                 candidateId: $rootScope.changeStateInCandidate.candidate.candidateId,
@@ -20693,12 +20854,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     }
                 }
             });
-            //    function (err) {
-            //    //notificationService.error($filter('translate')('service temporarily unvailable'));
-            //});
             $rootScope.closeModal();
             $rootScope.changeStateInCandidate.status = "";
             $rootScope.changeStateInCandidate.comment = "";
+            $rootScope.deleteCandidateFromSystem = false;
         }
     };
     $scope.selectRegion = function (val) {
@@ -20734,7 +20893,9 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
         }
     };
+
     $scope.status = Candidate.getStatus();
+
     $scope.statusFilter= $scope.status.map(item => {
         return {text:item.value};
     });
@@ -21683,6 +21844,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.experience = Service.experience();
         $scope.industries = Service.getIndustries();
         $scope.contacts = {skype: "", mphone: "", email: "",telegram: ""};
+        $scope.testing = false;
         $scope.fieldValues = {
             objType: "candidate",
             fieldValueId: '',
@@ -21771,13 +21933,12 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.deleteCandidate = function() {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/delete-candidate.html',
+                templateUrl: '../partials/modal/candidate-remove.html?b1',
                 size: '',
-                resolve: {
-
-                }
+                scope: $scope,
+                resolve: {}
             });
-            //$('.changeStatusOfCandidate.modal').modal('show');
+
             $rootScope.changeStateInCandidate.status = "archived";
             $rootScope.changeStateInCandidate.fullName = $scope.candidate.fullName;
             $rootScope.changeStateInCandidate.placeholder = $filter('translate')('Write a comment why you want remove this candidate');
@@ -21790,7 +21951,16 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 $scope.setLangs([]);
             }
         });
-        $rootScope.saveStatusOfCandidate = function() {
+        $scope.saveStatusOfCandidate = function(deleteCandidateFromSystem) {
+            if(deleteCandidateFromSystem) {
+                Candidate.deleteCandidateFromSystem({candidateId:$scope.candidate.candidateId})
+                    .then((resp) => {
+                        $scope.closeModal();
+                        notificationService.success($filter('translate')('Candidate name has been removed from the database', {name: $scope.candidate.fullName} ));
+                        $location.path('/candidates');
+                    }, error => notificationService.error(error.message));
+                return;
+            }
             if ($rootScope.changeStateInCandidate.status != "") {
                 Candidate.changeState({
                     candidateId: $scope.candidate.candidateId,
@@ -24601,6 +24771,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.todayDate = new Date().getTime();
         $rootScope.clickedSaveStatusOfCandidate = false;
         $rootScope.clickedAddVacancyInCandidate = false;
+        $scope.deleteFromSystem = false;
         $rootScope.stageUrl = JSON.parse(localStorage.getItem('stageUrl'));
 
         function isDataForCandidatesEmpty(dataCandidates){
@@ -25736,10 +25907,11 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.saveStatusOfCandidate = function () {
             if ($rootScope.changeStateInCandidate.status != "" && !$rootScope.clickedSaveStatusOfCandidate) {
                 $rootScope.clickedSaveStatusOfCandidate = true;
+                $rootScope.changeStateInCandidate.status === 'our employee'? $rootScope.changeStateInCandidate.status = 'work' : null;
                 Candidate.changeState({
                     candidateId: $scope.candidate.candidateId,
                     comment: $rootScope.changeStateInCandidate.comment,
-                    candidateState: $rootScope.changeStateInCandidate.status
+                    candidateState: $rootScope.changeStateInCandidate.status,
                 }, function (resp) {
                     if (resp.status == "ok") {
                         $scope.candidate.status = resp.object.status;
@@ -26822,6 +26994,31 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
                 }, error => notificationService.error(error));
         })();
+
+        $scope.deleteCandidateFromSystemModal = function() {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/candidate-remove-from-system.html',
+                size: '',
+                scope: $scope,
+                resolve: function(){}
+            });
+        };
+        $scope.deleteCandidateFromSystem = function() {
+            Candidate.deleteCandidateFromSystem({
+                candidateId: $scope.candidate.candidateId,
+                comment: $rootScope.changeStateInCandidate.comment
+            }).then((resp) => {
+                    $scope.closeModal();
+                    $rootScope.changeStateInCandidate.comment = '';
+                    $location.path('/candidates');
+                    notificationService.success($filter('translate')('Candidate name has been removed from the database', { name:  $rootScope.changeStateInCandidate.candidate.fullName}));
+                }, error => {
+                    $scope.closeModal();
+                    $rootScope.changeStateInCandidate.comment = '';
+                    notificationService.error(error.message);
+                });
+        };
 
         sliderElements.params = Candidate.candidateLastRequestParams || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
         sliderElements.setCurrent();
@@ -29942,7 +30139,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
             smtp: {}
         };
         $scope.updateCreatedEmails = function(){
+            $rootScope.loading = true;
             Person.personEmails({type: 'all'},function(resp){
+                $rootScope.loading = false;
                 if(resp.status == 'ok'){
                     if(resp.objects.length > 0){
                         $scope.emails = resp.objects;
@@ -29954,7 +30153,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                 }else{
                     notificationService.error(resp.message);
                 }
-                $scope.loading = false;
+            }, function (error) {
+                $rootScope.loading = false;
             });
         };
         $scope.updateCreatedEmails();
@@ -29979,7 +30179,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                         }
                                         $scope.showPassword = true;
                                         if($rootScope.addedEmail.password.length > 1){
+                                            $rootScope.loading = true;
                                             Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
+                                                $rootScope.loading = false;
                                                 if(resp.status == 'error'){
 
                                                     notificationService.error(resp.message);
@@ -29987,6 +30189,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                                     $scope.updateCreatedEmails();
                                                     $rootScope.updateMe();
                                                 }
+                                            }, function (error) {
+                                                $rootScope.loading = false;
                                             });
                                         }
                                     }
@@ -29996,7 +30200,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                     $rootScope.addedEmail.email = result.email;
                                     $rootScope.addedEmail.password = result.code;
                                     $rootScope.addedEmail.host = 'gmail';
+                                    $rootScope.loading = true;
                                     Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
+                                        $rootScope.loading = false;
                                         if(resp.status == 'error'){
                                             if(resp.code == 'сouldNotGetRefreshTokenIntegration') {
                                                 $scope.modalInstance = $uibModal.open({
@@ -30012,6 +30218,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                             $scope.updateCreatedEmails();
                                             $rootScope.updateMe();
                                         }
+                                    }, function (error) {
+                                        $rootScope.loading = false;
                                     });
                                 });
                             }else{
@@ -30024,7 +30232,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                                     $rootScope.addedEmail.email = result.email;
                                                     $rootScope.addedEmail.password = result.code;
                                                     $rootScope.addedEmail.host = 'gmail';
+                                                    $rootScope.loading = true;
                                                     Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
+                                                        $rootScope.loading = false;
                                                         if(resp.status == 'error'){
                                                             if(resp.code == 'сouldNotGetRefreshTokenIntegration') {
                                                                 $scope.modalInstance = $uibModal.open({
@@ -30040,6 +30250,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                                             $scope.updateCreatedEmails();
                                                             $rootScope.updateMe();
                                                         }
+                                                    }, function (error) {
+                                                        $rootScope.loading = false;
                                                     });
                                                 });
                                             }else{
@@ -30066,13 +30278,17 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                             }
                         }else{
                             if(($rootScope.addedEmail.smtp.host != undefined && $rootScope.addedEmail.smtp.port != undefined && $rootScope.addedEmail.password != undefined)||$scope.isExchange) {
+                                $rootScope.loading = true;
                                 Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
+                                    $rootScope.loading = false;
                                     if(resp.status == 'error'){
                                         notificationService.error(resp.message);
                                     }else{
                                         $scope.updateCreatedEmails();
                                         $rootScope.updateMe();
                                     }
+                                }, function (error) {
+                                    $rootScope.loading = false;
                                 });
                             }
                         }
@@ -30092,13 +30308,17 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                         }else if(emailDomen == 'yandex.ru'){
                             $rootScope.editedEmail.smtp.type = 'yandex';
                         }
+                        $rootScope.loading = true;
                         Candidate.editEmailAccess($rootScope.editedEmail, function(resp){
+                            $rootScope.loading = false;
                             if(resp.status == 'error'){
                                 notificationService.error(resp.message);
                             }else{
                                 $scope.updateCreatedEmails();
                                 $rootScope.closeModal();
                             }
+                        }, function (error) {
+                            $rootScope.loading = false;
                         });
                     }else{
                         notificationService.error($filter('translate')('Please enter your password'));
@@ -30108,7 +30328,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                         $rootScope.editedEmail.password = result.code;
                         $rootScope.addedEmail.email = result.email;
                         $rootScope.editedEmail.host = 'gmail';
+                        $rootScope.loading = true;
                         Candidate.editEmailAccess($rootScope.editedEmail, function(resp){
+                            $rootScope.loading = false;
                             if(resp.status == 'error'){
                                 if(resp.code == 'сouldNotGetRefreshTokenIntegration') {
                                     $scope.modalInstance = $uibModal.open({
@@ -30124,6 +30346,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                 $scope.updateCreatedEmails();
                                 $rootScope.closeModal();
                             }
+                        }, function (error) {
+                            $rootScope.loading = false;
                         });
                     });
                 }else{
@@ -30132,7 +30356,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
             } else {
                 if($rootScope.editedEmail.host = 'email'){
                     if($rootScope.editedEmail.email.length > 0 && $rootScope.editedEmail.password.length > 0) {
+                        $rootScope.loading = true;
                         Candidate.editEmailAccess($rootScope.editedEmail, function (resp) {
+                            $rootScope.loading = false;
                             if (resp.status == 'error') {
                                 if(resp.message == 'сouldNotGetRefreshTokenIntegration') {
                                     $scope.modalInstance = $uibModal.open({
@@ -30149,6 +30375,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                 $scope.editEmail = false;
                                 $rootScope.closeModal();
                             }
+                        }, function (error) {
+                            $rootScope.loading = false;
                         });
                     }else {
                         notificationService.error($filter('translate')('Please enter your password'));
@@ -30235,7 +30463,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
             }
         };
         $rootScope.removePersonEmail = function(){
+            $rootScope.loading = true;
             Person.removePersonEmail({email : $rootScope.emailForDelete.email},function(resp){
+                $rootScope.loading = false;
                 if(resp.status == 'ok'){
                     $scope.updateCreatedEmails();
                     $rootScope.updateMe();
@@ -30244,11 +30474,23 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                 }else{
                     notificationService.error(resp.message);
                 }
+            }, function (error) {
+                $rootScope.loading = false;
             });
             $scope.closeModal();
         };
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
+        };
+
+
+        $scope.goBack = function () {
+          if($scope.emails && $scope.emails.length === 0) {
+              $scope.showPassword = false;
+              $rootScope.showAdvancedFields = false;
+          } else {
+              $scope.showAddEmail = false;
+          }
         };
     }]);
 
@@ -30978,7 +31220,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     };
     $rootScope.closeNavModal = function(){
         if($rootScope.modalInstance)
-        $rootScope.modalInstance.close();
+            $rootScope.modalInstance.close();
     };
 
     $rootScope.badInternetObj = {show: false};
@@ -31456,7 +31698,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     };
     $('.ui.dropdown').dropdown();
     $rootScope.updateMe = function(){
+        $rootScope.loading = true;
         Person.getMe(function (response) {
+            $rootScope.loading = false;
             if(response.status != 'error'){
                 if (response.object.orgParams !== undefined) {
                     function isServerURL() {
@@ -31473,6 +31717,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     tmhDynamicLocale.set($rootScope.currentLang);
                     $translate.use($rootScope.currentLang);
                 }
+                Service.cookiesConsent();
                 $rootScope.me = response.object;
                 $rootScope.orgs = response.object.orgs;
                 $scope.orgId = response.object.orgId;
@@ -31487,178 +31732,178 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 }
 
                 // if($rootScope.me.recrutRole == 'admin') {
-                    Account.getAccountInfo(function(resp){
-                        if(resp.status != 'error'){
-                            if(resp.object && resp.object.tillDate) {
-                                $scope.tarif = resp.object.tarif;
-                                $scope.paidFor = resp.object.dayCount;
-                                $('#bilEnabledText').removeClass('hidden');
-                                $rootScope.paidTillDateBilling = resp.object.tillDate.year + '-' + resp.object.tillDate.monthValue + '-' + resp.object.tillDate.dayOfMonth;
+                Account.getAccountInfo(function(resp){
+                    if(resp.status != 'error'){
+                        if(resp.object && resp.object.tillDate) {
+                            $scope.tarif = resp.object.tarif;
+                            $scope.paidFor = resp.object.dayCount;
+                            $('#bilEnabledText').removeClass('hidden');
+                            $rootScope.paidTillDateBilling = resp.object.tillDate.year + '-' + resp.object.tillDate.monthValue + '-' + resp.object.tillDate.dayOfMonth;
+                        } else {
+                            $scope.paidFor = difBetweenDates(new Date($rootScope.companyParams.paidTillDate), new Date());
+                            $('#bilDisabledText').removeClass('hidden');
+                        }
+                        if(resp.object && resp.object.monthRate && resp.object.dailyRate) {
+                            $scope.monthRate = resp.object.monthRate;
+                            $scope.dailyRate = resp.object.dailyRate;
+                            $('#dailyRate').html($scope.dailyRate);
+                            $('#monthRate').html($scope.monthRate);
+                        }
+                        $scope.monthRate = resp.object.monthRate;
+                        if($rootScope.blockUser){
+                            $scope.bonuce = 0;
+                            if(!$rootScope.blockUserData.payment_min_users){
+                                $rootScope.blockUserData.payment_min_users = 1;
+                            }
+                            angular.forEach($('#countPeople option'),function(res){
+                                if(Number(res.value) <= $rootScope.blockUserData.payment_min_users){
+                                    res.remove();
+                                }
+                            });
+                            $('#countPeople').prepend("<option selected>"+$rootScope.blockUserData.payment_min_users+"</option>");
+                            $scope.countMonth = $('#countMonth').val();
+                            $scope.countPeople = $('#countPeople').val();
+                            if(!$scope.monthRate) {
+                                if ($scope.countMonth >= 12) {
+                                    $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
+                                }
+                                else if ($scope.countMonth >= 4) {
+                                    $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
+                                }
+                                else {
+                                    $scope.price = 25 * $scope.countMonth * $scope.countPeople;
+                                }
                             } else {
-                                $scope.paidFor = difBetweenDates(new Date($rootScope.companyParams.paidTillDate), new Date());
-                                $('#bilDisabledText').removeClass('hidden');
+                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople ;
                             }
-                            if(resp.object && resp.object.monthRate && resp.object.dailyRate) {
-                                $scope.monthRate = resp.object.monthRate;
-                                $scope.dailyRate = resp.object.dailyRate;
-                                $('#dailyRate').html($scope.dailyRate);
-                                $('#monthRate').html($scope.monthRate);
-                            }
-                                $scope.monthRate = resp.object.monthRate;
-                                if($rootScope.blockUser){
-                                    $scope.bonuce = 0;
-                                    if(!$rootScope.blockUserData.payment_min_users){
-                                        $rootScope.blockUserData.payment_min_users = 1;
+
+                            $('#price').html($scope.price + " USD");
+                            $('.checkoutInner select').unbind().on('change', function () {
+                                $scope.countMonth = $('#countMonth').val();
+                                $scope.countPeople = $('#countPeople').val();
+                                if(!$scope.monthRate) {
+                                    if ($scope.countMonth >= 12) {
+                                        $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
                                     }
-                                    angular.forEach($('#countPeople option'),function(res){
-                                        if(Number(res.value) <= $rootScope.blockUserData.payment_min_users){
-                                            res.remove();
-                                        }
-                                    });
-                                    $('#countPeople').prepend("<option selected>"+$rootScope.blockUserData.payment_min_users+"</option>");
-                                    $scope.countMonth = $('#countMonth').val();
-                                    $scope.countPeople = $('#countPeople').val();
-                                    if(!$scope.monthRate) {
-                                        if ($scope.countMonth >= 12) {
-                                            $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                                        }
-                                        else if ($scope.countMonth >= 4) {
-                                            $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                                        }
-                                        else {
-                                            $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                                        }
-                                    } else {
-                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople ;
+                                    else if ($scope.countMonth >= 4) {
+                                        $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
                                     }
-
-                                    $('#price').html($scope.price + " USD");
-                                    $('.checkoutInner select').unbind().on('change', function () {
-                                        $scope.countMonth = $('#countMonth').val();
-                                        $scope.countPeople = $('#countPeople').val();
-                                        if(!$scope.monthRate) {
-                                            if ($scope.countMonth >= 12) {
-                                                $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                                            }
-                                            else if ($scope.countMonth >= 4) {
-                                                $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                                            }
-                                            else {
-                                                $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                                            }
-                                        } else {
-                                            if ($scope.countMonth >= 12) {
-                                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                                $('#bonuce').removeClass('hidden');
-                                                $rootScope.bonuce = 20;
-                                                $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                                            }
-                                            else if ($scope.countMonth >= 4) {
-                                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                                $('#bonuce').removeClass('hidden');
-                                                $rootScope.bonuce = 10;
-                                                $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                                            }
-                                            else {
-                                                $('#bonuce').addClass('hidden');
-                                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                            }
-                                        }
-
-
-                                        $('#price').html($scope.price + " USD");
-                                        $scope.$apply();
-                                    });
-                                    $('#blockMessgae').html($rootScope.blockUserData.block_text);
-                                }
-                                if(!$scope.$$phase) {
-                                    $scope.$apply();
+                                    else {
+                                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
+                                    }
+                                } else {
+                                    if ($scope.countMonth >= 12) {
+                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                                        $('#bonuce').removeClass('hidden');
+                                        $rootScope.bonuce = 20;
+                                        $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
+                                    }
+                                    else if ($scope.countMonth >= 4) {
+                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                                        $('#bonuce').removeClass('hidden');
+                                        $rootScope.bonuce = 10;
+                                        $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
+                                    }
+                                    else {
+                                        $('#bonuce').addClass('hidden');
+                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                                    }
                                 }
 
-                        }else{
-                            notificationService.error(resp.message);
+
+                                $('#price').html($scope.price + " USD");
+                                $scope.$apply();
+                            });
+                            $('#blockMessgae').html($rootScope.blockUserData.block_text);
+                        }
+                        if(!$scope.$$phase) {
+                            $scope.$apply();
                         }
 
-                        ///////////For account on billing - tarif in AccountInfo request
-                        if(!$rootScope.companyParams.tarif && resp.object.tarif) {
-                            $rootScope.companyParams.tarif = resp.object.tarif;
-                            $rootScope.nowDate = new Date().getTime();
-                            $rootScope.otherDate = new Date($rootScope.companyParams.trialEndDate).getTime();
-                            if($rootScope.otherDate >= $rootScope.nowDate){
-                                $rootScope.hideTariff = true;
-                            }else if ($rootScope.companyParams.tarif == 'standard'){
-                                $rootScope.hideTariff = true;
-                            }else if($rootScope.companyParams.tarif == 'free' && $rootScope.otherDate >= $rootScope.nowDate) {
-                                $rootScope.hideTariff = true;
-                            }else if ($rootScope.otherDate < $rootScope.nowDate){
-                                $scope.trialOver = true;
-                                $rootScope.hideTariff = false;
-                                setTimeout(function(){
-                                    if($rootScope.me.recrutRole == 'client'){
-                                        $rootScope.blockAccountHmNotPaid();
+                    }else{
+                        notificationService.error(resp.message);
+                    }
+
+                    ///////////For account on billing - tarif in AccountInfo request
+                    if(!$rootScope.companyParams.tarif && resp.object.tarif) {
+                        $rootScope.companyParams.tarif = resp.object.tarif;
+                        $rootScope.nowDate = new Date().getTime();
+                        $rootScope.otherDate = new Date($rootScope.companyParams.trialEndDate).getTime();
+                        if($rootScope.otherDate >= $rootScope.nowDate){
+                            $rootScope.hideTariff = true;
+                        }else if ($rootScope.companyParams.tarif == 'standard'){
+                            $rootScope.hideTariff = true;
+                        }else if($rootScope.companyParams.tarif == 'free' && $rootScope.otherDate >= $rootScope.nowDate) {
+                            $rootScope.hideTariff = true;
+                        }else if ($rootScope.otherDate < $rootScope.nowDate){
+                            $scope.trialOver = true;
+                            $rootScope.hideTariff = false;
+                            setTimeout(function(){
+                                if($rootScope.me.recrutRole == 'client'){
+                                    $rootScope.blockAccountHmNotPaid();
+                                }
+                            },2000);
+                            $rootScope.disabledBtnFunc = function(){
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
+                                    resolve: {
+                                        items: function () {
+
+                                        }
                                     }
-                                },2000);
-                                $rootScope.disabledBtnFunc = function(){
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
-                                        resolve: {
-                                            items: function () {
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
+                            $rootScope.disabledBtnFuncUserModal = function(){
+                                $rootScope.closeModal();
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
+                                    resolve: {
+                                        items: function () {
 
-                                            }
                                         }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                                $rootScope.disabledBtnFuncUserModal = function(){
-                                    $rootScope.closeModal();
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
-                                        resolve: {
-                                            items: function () {
-
-                                            }
-                                        }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                            }else if($rootScope.companyParams.tarif == 'free') {
-                                $rootScope.hideTariff = false;
-                                setTimeout(function(){
-                                    if($rootScope.me.recrutRole == 'client'){
-                                        $rootScope.blockAccountHmNotPaid();
                                     }
-                                },2000);
-                                $rootScope.disabledBtnFunc = function(){
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
-                                        resolve: {
-                                            items: function () {
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
+                        }else if($rootScope.companyParams.tarif == 'free') {
+                            $rootScope.hideTariff = false;
+                            setTimeout(function(){
+                                if($rootScope.me.recrutRole == 'client'){
+                                    $rootScope.blockAccountHmNotPaid();
+                                }
+                            },2000);
+                            $rootScope.disabledBtnFunc = function(){
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
+                                    resolve: {
+                                        items: function () {
 
-                                            }
                                         }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                                $rootScope.disabledBtnFuncUserModal = function(){
-                                    $rootScope.closeModal();
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
-                                        resolve: {
-                                            items: function () {
+                                    }
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
+                            $rootScope.disabledBtnFuncUserModal = function(){
+                                $rootScope.closeModal();
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
+                                    resolve: {
+                                        items: function () {
 
-                                            }
                                         }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                            }
+                                    }
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
                         }
-                        //////////////
-                    });
+                    }
+                    //////////////
+                });
                 // }
 
                 if($rootScope.modalInstance){
@@ -31838,8 +32083,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         $rootScope.scopeActiveObject = val;
         setCurrentScopeForNavBar($scope.scopeActiveObject.name);
         $scope.scopeActiveObject.name === 'region' ?setCurrentRegionForNavBar(null): null;
-        // setCurrentRegionForNavBar()
     });
+
+    function isCheckBoxChecked(element) {
+        return element.classList.contains('checkmark');
+    }
 
     function setCurrentScopeForNavBar(name){
         $rootScope.currentSelectScope = name;
@@ -31849,12 +32097,12 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         if(!region){
             region = JSON.parse(localStorage.getItem(`ls.${$rootScope.userId}_regionId`));
         }
-        console.log(region, 'region');
         $rootScope.currentSelectRegion = region.name;
     }
 
 
-    $scope.changeScope = function (name, orgId) {
+    $scope.changeScope = function (name, orgId, event) {
+        if(event && isCheckBoxChecked(event.target)) return;
         setCurrentScopeForNavBar(name);
 
         if (name == 'region') {
@@ -31888,6 +32136,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         $scope.$apply();
                     }
                 }, 2000);
+                return;
             }
         } else if (name == 'company') {
             $timeout(setDefualtValueRegionSelect);
@@ -32305,7 +32554,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             });
         }
     };
-   ////////////////////////////////////////////////////////Addidng facebook SDK
+    ////////////////////////////////////////////////////////Addidng facebook SDK
     (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id))
@@ -32340,10 +32589,10 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     var w = angular.element($window);
     w.bind("resize",function(){
         if ($rootScope.activePage == 'Candidate') {
-                if(w.width() < 992){
-                    $rootScope.hideContainer = false;
-                    console.log('vik123');
-                } else{
+            if(w.width() < 992){
+                $rootScope.hideContainer = false;
+                console.log('vik123');
+            } else{
                 $rootScope.hideContainer = true;
                 console.log('xzm,zxm,zm,zx,mzx');
             }
@@ -32444,8 +32693,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                             if(FB){
                                 clearInterval(interval);
                                 FB.Event.subscribe('xfbml.render', function(response) {
-                                    i++;
-                                    if(i == 2){
+                                    if(response === 2){
                                         $('body').addClass('modal-open');
                                         $('body').addClass('modal-open-news');
                                         $('.modal-backdrop').css('z-index','1040');
@@ -32456,7 +32704,6 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                 });
 
                                 $rootScope.news = resp.objects;
-                                FB.XFBML.parse();
 
                                 $rootScope.modalInstance = $uibModal.open({
                                     animation: true,
@@ -32473,7 +32720,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                     $('.modal-backdrop').css('opacity', '0');
                                     $('.modal').css('z-index', '0');
                                     $('.modal').css('opacity', '0');
-                                    // FB.XFBML.parse();
+                                    $timeout(()=> {
+                                        FB.XFBML.parse();
+                                    }, 3000);
                                 });
                                 $rootScope.modalInstance.closed.then(function() {
                                     $('body').removeClass('modal-open-news');
@@ -38253,10 +38502,11 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 return;
             }
             //$rootScope.changeStatusOfInterviewInVacancy.withChooseStatus = withChooseStatus;
+            let candidateId =  candidate[0] || candidate.candidateId;
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.approvedCount = $scope.approvedCount;
             $rootScope.candnotify = {};
-            $rootScope.candnotify.sendMail = (candidate.candidateId.email && candidate.candidateId.email.length)? candidate.candidateId.email.split(/[',',' ']/gi)[0]: '';
+            $rootScope.candnotify.sendMail = (candidateId && candidateId.email && candidateId.email.length)? candidateId.email.split(/[',',' ']/gi)[0]: '';
             if($rootScope.candidatesAddToVacancyIds.length == 1){
                 Candidate.getContacts({"candidateId": candidate[0].candidateId}, function (resp) {
                     var email = "";
@@ -38456,7 +38706,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                             Mail.sendMailByTemplateVerified({
                                                     toEmails: candnotify.sendMail,
                                                     vacancyId: $scope.vacancy.vacancyId,
-                                                    candidateId: changeObj.candidate.candidateId.candidateId,
+                                                    candidateId: changeObj.candidate[0].candidateId.candidateId,
                                                     fullName: candnotify.fullName,
                                                     email: $rootScope.emailTemplateInModal.email,
                                                     date: changeObj.date,
@@ -38547,7 +38797,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                             Mail.sendMailByTemplateVerified({
                                                     toEmails: candnotify.sendMail,
                                                     vacancyId: $scope.vacancy.vacancyId,
-                                                    candidateId: changeObj.candidate.candidateId.candidateId,
+                                                    candidateId: changeObj.candidate[0].candidateId.candidateId,
                                                     fullName: candnotify.fullName,
                                                     email: $rootScope.emailTemplateInModal.email,
                                                     date: changeObj.date,
@@ -38633,10 +38883,11 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                     if ($rootScope.candnotify.send && $rootScope.candnotify.sendMail.length > 1 && sendTemplate) {
                                         if ($rootScope.candnotify.sendMail.length > 1) {
                                             var candnotify = $rootScope.candnotify;
+                                            console.log(changeObj, 'changeObj1');
                                             Mail.sendMailByTemplateVerified({
                                                     toEmails: candnotify.sendMail,
                                                     vacancyId: $scope.vacancy.vacancyId,
-                                                    candidateId: changeObj.candidate.candidateId.candidateId,
+                                                    candidateId: changeObj.candidate.candidateId.candidateId || changeObj.candidate[0].candidateId.candidateId,
                                                     fullName: candnotify.fullName,
                                                     email: $rootScope.emailTemplateInModal.email,
                                                     date: changeObj.date,
@@ -42520,7 +42771,7 @@ function firstLetters(string){
     var array = [];
     var word1 = [];
     var word2 = [];
-    var words = string.split(" ");
+    var words = string!==undefined?string.split(" "):"";
     word1.push(words[0]);
     var letter1 = word1[0].split("");
     array.push(letter1[0]);
