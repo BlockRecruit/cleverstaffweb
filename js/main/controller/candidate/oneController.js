@@ -72,6 +72,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.todayDate = new Date().getTime();
         $rootScope.clickedSaveStatusOfCandidate = false;
         $rootScope.clickedAddVacancyInCandidate = false;
+        $scope.deleteFromSystem = false;
         $rootScope.stageUrl = JSON.parse(localStorage.getItem('stageUrl'));
 
         function isDataForCandidatesEmpty(dataCandidates){
@@ -2293,6 +2294,31 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
                 }, error => notificationService.error(error));
         })();
+
+        $scope.deleteCandidateFromSystemModal = function() {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/candidate-remove-from-system.html',
+                size: '',
+                scope: $scope,
+                resolve: function(){}
+            });
+        };
+        $scope.deleteCandidateFromSystem = function() {
+            Candidate.deleteCandidateFromSystem({
+                candidateId: $scope.candidate.candidateId,
+                comment: $rootScope.changeStateInCandidate.comment
+            }).then((resp) => {
+                    $scope.closeModal();
+                    $rootScope.changeStateInCandidate.comment = '';
+                    $location.path('/candidates');
+                    notificationService.success($filter('translate')('Candidate name has been removed from the database', { name:  $rootScope.changeStateInCandidate.candidate.fullName}));
+                }, error => {
+                    $scope.closeModal();
+                    $rootScope.changeStateInCandidate.comment = '';
+                    notificationService.error(error.message);
+                });
+        };
 
         sliderElements.params = Candidate.candidateLastRequestParams || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
         sliderElements.setCurrent();

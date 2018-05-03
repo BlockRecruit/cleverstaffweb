@@ -1,0 +1,18 @@
+<div class="candidate-remove delete-vacancy">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="$root.closeModal()"></i>
+        <h4 class="modal-title">
+            <span ng-show="candidate.fullName">{{'Are you sure want permanently delete candidate from the system' | translate:{name: candidate.fullName} }} </span>
+            <span ng-show="$root.changeStateInCandidate.fullName">{{'Are you sure want permanently delete candidate from the system' | translate:{name: $root.changeStateInCandidate.fullName} }} </span>
+        </h4>
+    </div>
+    <div class="modal-body">
+        <textarea placeholder="{{'write_a_comment' | translate}}" ng-model="$root.changeStateInCandidate.comment" class="form-control"></textarea>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <a type="button" class="btn btn-primary cancel" ng-click="$root.closeModal();" translate="cancel"></a>
+            <a type="button" class="btn btn-primary accept" ng-click="deleteCandidateFromSystem()" translate="Delete"></a>
+        </div>
+    </div>
+</div>
