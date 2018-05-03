@@ -603,22 +603,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.extensionHas = false;
     //$scope.cities = [];
     Service.getRegions2(function (countries, cities) {
-        console.log(countries, 'countries');
-        console.log(cities, 'countries');
         setTextfielsInObject(countries);
         setTextfielsInObject(cities);
         $scope.countries = countries;
         $scope.cities = cities;
-        //var optionsHtml = '<option value="null" style="color:#999">'+$filter('translate')('region')+'</option>';
-        //var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
-        //angular.forEach($scope.countries, function (value) {
-        //    optionsHtml += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-        //});
-        //angular.forEach($scope.cities, function (value) {
-        //    optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-        //});
-        //$('#cs-region-filter-select, #cs-region-filter-select-for-linkedin').html(optionsHtml);
-        //$('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
     });
     Service.getGroups(function (resp) {
         $scope.candidateGroups = resp.objects;
@@ -956,10 +944,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("experience", $scope.searchParam.experience);
                 Candidate.setOptions("searchWordsInPosition", $scope.searchParam.searchWordsInPosition);
                 Candidate.setOptions("requiredAllContainsWords", $scope.searchParam.requiredAllContainsWords);
-                Candidate.setOptions("dateTo", $scope.searchParam['ageFrom'] && $scope.searchParam['ageFrom'].text ?
-                    new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageFrom'].text)).getTime() : null);
-                Candidate.setOptions("dateFrom", $scope.searchParam['ageTo'].text ?
-                    new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageTo'].text)).getTime() : null);
+                Candidate.setOptions("dateTo", $scope.searchParam['ageFrom'] && $scope.searchParam['ageFrom'].text ? $scope.searchParam['ageFrom'].text : null);
+                Candidate.setOptions("dateFrom", $scope.searchParam['ageTo'] && $scope.searchParam['ageTo'].text ? $scope.searchParam['ageTo'].text : null);
                 Candidate.setOptions("state", isNotBlank($scope.searchParam['status'].value) ? $scope.searchParam['status'].value : null);
                 Candidate.setOptions("words", isNotBlank($scope.searchParam['words']) ? $scope.searchParam['words'] : null);
                 Candidate.setOptions("salaryTo", $scope.searchParam['salary'] ? $scope.searchParam['salary'] : null);
@@ -1370,7 +1356,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
 
             var array = [];
-            console.log($scope.searchParam);
             array.push({
                 searchType: '',
                 salary: $scope.searchParam.salary,
@@ -1398,7 +1383,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 personId: Candidate.searchOptions().personId,
                 personNameWhoSearching: $rootScope.usernameThatIsSearching,
                 pages: {count: $scope.startPagesShown},
-                experience: $scope.searchParam.experience,
                 experience: $scope.searchParam.experience,
                 languages: $scope.searchParam.languages,
                 skills: $scope.searchParam.skills,
