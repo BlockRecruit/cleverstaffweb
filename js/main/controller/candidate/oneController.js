@@ -1208,10 +1208,11 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.saveStatusOfCandidate = function () {
             if ($rootScope.changeStateInCandidate.status != "" && !$rootScope.clickedSaveStatusOfCandidate) {
                 $rootScope.clickedSaveStatusOfCandidate = true;
+                $rootScope.changeStateInCandidate.status === 'our employee'? $rootScope.changeStateInCandidate.status = 'work' : null;
                 Candidate.changeState({
                     candidateId: $scope.candidate.candidateId,
                     comment: $rootScope.changeStateInCandidate.comment,
-                    candidateState: $rootScope.changeStateInCandidate.status
+                    candidateState: $rootScope.changeStateInCandidate.status,
                 }, function (resp) {
                     if (resp.status == "ok") {
                         $scope.candidate.status = resp.object.status;

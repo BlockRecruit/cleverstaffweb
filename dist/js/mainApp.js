@@ -6428,16 +6428,15 @@ angular.module('services.candidate', [
 
     candidate.getStatus = function() {
         return [
-            {value: "active_search", name: "active search"},
-            {value: "not_searching", name: "not searching"},
-            {value: "passive_search", name: "passive search"},
-            {value: "employed", name: "employed"},
-            {value: "freelancer", name: "freelancer"},
-            //{value: "reserved", name: "reserved"},
-            {value: "archived", name: "archived"},
-            {value: "work", name: "Our employee"},
-            {value: "only_remote", name: "Only remote"},
-            {value: "only_relocation_abroad", name: "Only relocation abroad"}
+            {value: "active_search", name: "active search", text:"active search"},
+            {value: "not_searching", name: "not searching", text:"not searching"},
+            {value: "passive_search", name: "passive search", text:"passive search"},
+            {value: "employed", name: "employed", text: "employed"},
+            {value: "freelancer", name: "freelancer", text: "freelancer"},
+            {value: "archived", name: "archived", text: "archived"},
+            {value: "our employee", name: "our employee", text: "our employee"},
+            {value: "only_remote", name: "Only remote", text: "Only remote"},
+            {value: "only_relocation_abroad", name: "Only relocation abroad", text: "Only relocation abroad"}
         ];
     };
     candidate.getStatusAssociative = function() {
@@ -20271,6 +20270,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     localStorage.countCandidate = 15;
                 }
 
+                console.log($scope.searchParam.status, '($scope.searchParam.status');
+
+                if($scope.searchParam.status.translate === "our employee"){
+                    $scope.searchParam.status.value = 'work';
+                }
+
                 $scope.searchParam.pages.count = params.$params.count;
 
                 Candidate.setOptions("allContainsWords", $scope.searchParam.allContainsWords);
@@ -20888,7 +20893,9 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
         }
     };
+
     $scope.status = Candidate.getStatus();
+
     $scope.statusFilter= $scope.status.map(item => {
         return {text:item.value};
     });
@@ -25900,10 +25907,11 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.saveStatusOfCandidate = function () {
             if ($rootScope.changeStateInCandidate.status != "" && !$rootScope.clickedSaveStatusOfCandidate) {
                 $rootScope.clickedSaveStatusOfCandidate = true;
+                $rootScope.changeStateInCandidate.status === 'our employee'? $rootScope.changeStateInCandidate.status = 'work' : null;
                 Candidate.changeState({
                     candidateId: $scope.candidate.candidateId,
                     comment: $rootScope.changeStateInCandidate.comment,
-                    candidateState: $rootScope.changeStateInCandidate.status
+                    candidateState: $rootScope.changeStateInCandidate.status,
                 }, function (resp) {
                     if (resp.status == "ok") {
                         $scope.candidate.status = resp.object.status;

@@ -942,6 +942,12 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     localStorage.countCandidate = 15;
                 }
 
+                console.log($scope.searchParam.status, '($scope.searchParam.status');
+
+                if($scope.searchParam.status.translate === "our employee"){
+                    $scope.searchParam.status.value = 'work';
+                }
+
                 $scope.searchParam.pages.count = params.$params.count;
 
                 Candidate.setOptions("allContainsWords", $scope.searchParam.allContainsWords);
@@ -1559,7 +1565,9 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
         }
     };
+
     $scope.status = Candidate.getStatus();
+
     $scope.statusFilter= $scope.status.map(item => {
         return {text:item.value};
     });
