@@ -15145,7 +15145,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=91'
+        suffix: '.json?b=92'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -32104,6 +32104,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.changeScope = function (name, orgId, event) {
         if(event && isCheckBoxChecked(event.target)) return;
         setCurrentScopeForNavBar(name);
+
         if (name == 'region') {
             if($rootScope.activePage == 'Candidates'){
                 $rootScope.clearSearchRegion();
