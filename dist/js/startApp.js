@@ -92,7 +92,7 @@ var app = angular.module('RecruitingAppStart', [
 }]).config(function($translateProvider,tmhDynamicLocaleProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=13'
+        suffix: '.json?b=14'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -3899,7 +3899,13 @@ controller.controller('PublicTestController', ['$scope', '$rootScope', 'serverAd
                     $scope.firstPage = resp.object.question.num;
                     $scope.checkPreviousAnswers = true;
                 }else{
-                    notificationService.error(resp.message);
+                    if(resp.message = 'No such appointmentId.') {
+                        $scope.currentTab = 'first_test';
+                        $scope.checkPreviousAnswers = true;
+                        $scope.showEndMessage = true;
+                        $scope.endTestMsg = $filter('translate')('No such appointmentId.');
+                    }
+                    // notificationService.error(resp.message);
                 }
             })
         };
