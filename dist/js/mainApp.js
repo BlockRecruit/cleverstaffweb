@@ -4525,28 +4525,7 @@
     function accountScopePanel() {
         return {
             restrict: "AE",
-            template: `
-                <span class="acc-view-title" translate="View"></span>
-                <div class="acc-view-wrapper common" ng-show="currentSelectScope !== 'region'">
-                    <div class="current-scope">
-                        <div class="toggleSwitcher">
-                            <label ng-click="" ng-class="{'grey': !$root.showAllActions}" class="cursorPointer" translate="only_me"></label>
-                            <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round taskSwitcher" type="checkbox">
-                            <label class="" ng-click="" for="cmn-toggle-1"></label>
-                            <label ng-click=";" ng-class="{'grey': $root.showAllActions}" class="cursorPointer" translate="all"></label>
-                        </div>
-                    </div>
-                    <div class="dropdown"></div>
-                </div>
-                <div class="acc-view-wrapper region" ng-show="currentSelectScope  === 'region'">
-                    <div class="current-scope">
-                        <div class="pull-right">
-                           <span ng-bind="scopeActiveObject.value.name"></span>
-                        </div>
-                    </div>
-                    <div class="dropdown"></div>
-                </div>
-            `,
+            templateUrl: "partials/accountScopePanel.html",
             link: function ($scope, element, attrs) {
                 console.log('acc scope panel')
             }
@@ -31888,66 +31867,68 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
 
     $scope.changeScope = function (name, orgId) {
-        setCurrentScopeForNavBar(name);
-        if (name == 'region') {
-            if($rootScope.activePage == 'Candidates'){
-                $rootScope.clearSearchRegion();
-            }
+        if(name !== $scope.currentSelectScope || orgId !== $scope.orgId) {
+            setCurrentScopeForNavBar(name);
+            if (name == 'region') {
+                if($rootScope.activePage == 'Candidates'){
+                    $rootScope.clearSearchRegion();
+                }
 
-            if ($scope.regionId) {
-                localStorageService.set($rootScope.userId, 'region');
-                var region = null;
-                angular.forEach($scope.regions, function (val) {
-                    if (val.id == $scope.regionId) {
-                        region = val;
-                    }
-                });
-                localStorageService.set($rootScope.userId + "_regionId", region);
-                ScopeService.setActiveScopeObject(name, {
-                    type: region.type,
-                    value: region.value,
-                    name: region.showName
+                if ($scope.regionId) {
+                    localStorageService.set($rootScope.userId, 'region');
+                    var region = null;
+                    angular.forEach($scope.regions, function (val) {
+                        if (val.id == $scope.regionId) {
+                            region = val;
+                        }
+                    });
+                    localStorageService.set($rootScope.userId + "_regionId", region);
+                    ScopeService.setActiveScopeObject(name, {
+                        type: region.type,
+                        value: region.value,
+                        name: region.showName
+                    });
+
+                    setCurrentRegionForNavBar($scope.regionId);
+                } else {
+                    $scope.regionListStyle = {
+                        'border': '3px solid red'
+                    };
+                    setTimeout(function () {
+                        $scope.regionListStyle = {};
+                        if (!$scope.$$phase) {
+                            $scope.$apply();
+                        }
+                    }, 2000);
+                }
+            } else if (name == 'company') {
+                $timeout(setDefualtValueRegionSelect);
+                $timeout(function(){
+                    $scope.orgId = orgId;
+                    $scope.changeOrg(function () {
+                        ScopeService.setActiveScopeObject(name);
+                        localStorageService.set($rootScope.userId, 'org');
+                        localStorageService.set($rootScope.userId + "_regionId", null);
+                    });
                 });
 
-                setCurrentRegionForNavBar($scope.regionId);
-            } else {
+            } else if (name == 'onlyMy') {
+                $timeout(setDefualtValueRegionSelect);
+                localStorageService.set($rootScope.userId, 'onlyme');
+                localStorageService.set($rootScope.userId + "_regionId", null);
+                ScopeService.setActiveScopeObject(name);
                 $scope.regionListStyle = {
-                    'border': '3px solid red'
+                    'border': '1px solid rgba(0,0,0,.15);'
                 };
-                setTimeout(function () {
-                    $scope.regionListStyle = {};
-                    if (!$scope.$$phase) {
-                        $scope.$apply();
-                    }
-                }, 2000);
             }
-        } else if (name == 'company') {
-            $timeout(setDefualtValueRegionSelect);
-            $timeout(function(){
-                $scope.orgId = orgId;
-                $scope.changeOrg(function () {
-                    ScopeService.setActiveScopeObject(name);
-                    localStorageService.set($rootScope.userId, 'org');
-                    localStorageService.set($rootScope.userId + "_regionId", null);
-                });
-            });
 
-        } else if (name == 'onlyMy') {
-            $timeout(setDefualtValueRegionSelect);
-            localStorageService.set($rootScope.userId, 'onlyme');
-            localStorageService.set($rootScope.userId + "_regionId", null);
-            ScopeService.setActiveScopeObject(name);
-            $scope.regionListStyle = {
-                'border': '1px solid rgba(0,0,0,.15);'
-            };
+            notificationService.success($translate.instant("Account visibility changed"));
+
+            setTimeout(function () {
+                $scope.blockInfo();
+                $scope.getAllPersonsFunc();
+            }, 1000);
         }
-
-        notificationService.success($translate.instant("Account visibility changed"));
-
-        setTimeout(function () {
-            $scope.blockInfo();
-            $scope.getAllPersonsFunc();
-        }, 1000);
     };
 
     $scope.changeScopeForRegionSelect = function (name, regionId) {

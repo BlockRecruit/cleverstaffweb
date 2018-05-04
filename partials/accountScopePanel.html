@@ -1,0 +1,46 @@
+<span class="acc-view-title" translate="View"></span>
+<div class="acc-view-wrapper common" ng-show="currentSelectScope !== 'region'">
+    <div class="current-scope">
+        <div class="toggleSwitcher">
+            <label ng-click="changeScope('company', orgId)" ng-class="{'chosen': currentSelectScope  === 'company'}" class="left-label" translate="All data"></label>
+            <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round taskSwitcher" type="checkbox" ng-checked="currentSelectScope  === 'onlyMy'">
+            <label class="" ng-click="" for="cmn-toggle-1"></label>
+            <label ng-click="changeScope('onlyMy', orgId)" ng-class="{'chosen': currentSelectScope  === 'onlyMy'}" class="right-label" translate="My data"></label>
+        </div>
+        <span class="line-v"></span>
+        <span class="ellipsis-v">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </div>
+    <div class="dropdowns" ng-class="{'ru-width': $root.currentLang == 'ru'}">
+        <div class="dropdown-regions" ng-class="{'ru-width': $root.currentLang == 'ru'}">
+            <select ng-model="regionId"
+                    id="regionList"
+                    ng-style="regionListStyle"
+                    class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"
+                    ng-click="$event.stopPropagation();"
+                    ng-change="changeScopeForRegionSelect('region', regionId)">
+            </select>
+        </div>
+    </div>
+</div>
+<div class="acc-view-wrapper region" ng-show="currentSelectScope  === 'region'">
+    <div class="current-scope">
+        <div class="pull-right">
+            <span ng-bind="scopeActiveObject.value.name"></span>
+        </div>
+    </div>
+    <div class="dropdowns" ng-class="{'ru-width': $root.currentLang == 'ru'}">
+        <div class="dropdown-regions">
+            <select ng-model="regionId"
+                    id="regionList"
+                    ng-style="regionListStyle"
+                    class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"
+                    ng-click="$event.stopPropagation();"
+                    ng-change="changeScopeForRegionSelect('region', regionId)">
+            </select>
+        </div>
+    </div>
+</div>
