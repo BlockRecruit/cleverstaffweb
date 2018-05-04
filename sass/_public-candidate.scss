@@ -5,6 +5,31 @@
 		padding-top: 0;
 
 		background-color: #eef2ed;
+		.background-animations {
+			img.position {
+				&.cloud-1 {
+					top: 22%;
+				}
+				&.cloud-3 {
+					top: 15%;
+				}
+				&.plane {
+					top: 45%;
+				}
+				&.ball {
+					top: 60%;
+					left: 50%;
+				}
+				&.calendar {
+					top: 80%;
+					right: 60%;
+				}
+				&.cloud-2,
+				&.cloud-4 {
+					display: none;
+				}
+			}
+		}
 	}
 	.row {
 		@include bt-margins-from-side();

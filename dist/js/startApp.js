@@ -3496,14 +3496,14 @@ controller.controller('PublicCandidateController', ['$scope', 'Service', '$route
                     }
                 });
             } else {
-                $scope.pageObject.showInformation = false;
-                $scope.pageObject.loading = false;
                 if(resp.code === 'notFound') {
                     $scope.error = {
                         show: true,
                         notFound: true
                     }
                 }
+                $scope.pageObject.showInformation = false;
+                $scope.pageObject.loading = false;
             }
         }, function(respError) {
             $scope.pageObject.showInformation = false;
