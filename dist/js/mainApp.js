@@ -41333,6 +41333,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
     function($rootScope, $scope, FileInit, Vacancy, Service, $location, Client, $routeParams, notificationService, $filter,
              $translate, Person, Statistic, vacancyStages, Company, vacancyReport, $timeout) {
 
+        $scope.vacancyFunnelMap = [];
+
         $scope.statistics = {type: 'default', user: {}};
         $scope.funnelActionUsers = [];
         $scope.vacancyGeneralHistory = [];
@@ -41504,7 +41506,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 }).then(usersActionData => {
                     const userFunnelMap = validateStages(parseCustomStagesNames(usersActionData, $scope.notDeclinedStages, $scope.declinedStages));
 
-                    let userFunnelData = {
+                let userFunnelData = {
                         userSeries: setFunnelData(userFunnelMap).candidateSeries,
                         vacancySeries: setFunnelData($scope.vacancyFunnelMap).candidateSeries,
                         userPercentSeries : function() {
@@ -41600,7 +41602,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         function validateStages({allStages, notDeclinedStages, declinedStages}) {
             let funnelMap = [];
             $scope.hasFunnelChart = false;
-
             if (allStages) {
                 angular.forEach(allStages, (stage,index) => {
                     funnelMap[index] = { key: stage.key, value: stage.value.length };
@@ -41628,7 +41629,19 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 });
             }
 
-            return funnelMap[0] ? funnelMap : null;
+            return funnelMap[0] ? setStagesOrder($scope.vacancyFunnelMap, funnelMap) : null;
+        }
+
+        function setStagesOrder(orderedStages, unorderedStages) {
+            orderedStages.forEach(oStage => {
+                unorderedStages.forEach(unStage => {
+                    if(oStage.key === unStage.key) {
+                        oStage.value = unStage.value;
+                    }
+                });
+            });
+
+            return orderedStages.length ? orderedStages : unorderedStages;
         }
 
         function setFunnelData(funnelMap) {
@@ -41647,11 +41660,18 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     RelConversion.push('100%');
                     AbsConversion.push('100%');
                 } else {
-                    RelConversion.push((stage.value !== 0 ? Math.round(stage.value / lastCount * 100) : 0) + '%');
-                    AbsConversion.push((stage.value !== 0 ? Math.round(stage.value / funnelMap[0].value * 100) : 0) + '%');
+                    let rel = (stage.value !== 0 ? Math.round(stage.value / lastCount * 100) : 0) + '%',
+                        abs = (stage.value !== 0 ? Math.round(stage.value / funnelMap[0].value * 100) : 0) + '%';
+
+                    if(parseFloat(rel) === Infinity) rel = '0%';
+                    if(parseFloat(abs) === Infinity) abs = '0%';
+
+                    RelConversion.push(rel);
+                    AbsConversion.push(abs);
                 }
 
                 lastCount = stage.value;
+
             });
 
             return { stages, candidateSeries, RelConversion, AbsConversion }
