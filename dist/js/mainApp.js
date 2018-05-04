@@ -4527,13 +4527,29 @@
             restrict: "AE",
             templateUrl: "partials/accountScopePanel.html",
             link: function ($scope, element, attrs) {
-                console.log('acc scope panel')
+                let dropdownElement = $('.dropdown-regions');
+                $('body').unbind().on('click', ($event) => {
+                    toggleRegionDropdown($event);
+                });
+
+                function toggleRegionDropdown(event) {
+                    if($(event.target).hasClass("show-regions-dropdown")) {
+                        dropdownElement.toggle();
+                    } else {
+                        dropdownElement.hide();
+                    }
+                }
+                
+                $scope.toggleRegions = function () {
+                    console.log('regionLists',$('#regionList'))
+                    $('#regionList').click();
+                }
             }
         }
     }
 
     function tooltipMove($filter){
-        let restrict  = "EACM"
+        let restrict  = "EACM";
         return {
             restrict,
             link(scope, element, attrs){
@@ -31972,6 +31988,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             ScopeService.setActiveScopeObject(name);
             notificationService.success($translate.instant("Account visibility changed"));
         }
+        let dropdownRegionElement = $('.dropdown-regions');
+        if(dropdownRegionElement && dropdownRegionElement.length > 0)
+            dropdownRegionElement.hide();
     };
 
     // Create the XHR object.

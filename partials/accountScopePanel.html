@@ -1,46 +1,65 @@
+<!--OnlyMe - Company scope-->
 <span class="acc-view-title" translate="View"></span>
-<div class="acc-view-wrapper common" ng-show="currentSelectScope !== 'region'">
+<div class="acc-view-wrapper common" ng-show="currentSelectScope !== 'region'" ng-class="{'ru-width': $root.currentLang == 'ru'}">
     <div class="current-scope">
         <div class="toggleSwitcher">
             <label ng-click="changeScope('company', orgId)" ng-class="{'chosen': currentSelectScope  === 'company'}" class="left-label" translate="All data"></label>
             <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round taskSwitcher" type="checkbox" ng-checked="currentSelectScope  === 'onlyMy'">
-            <label class="" ng-click="" for="cmn-toggle-1"></label>
+            <label class="" ng-click="changeScope(currentSelectScope === 'company'?'onlyMy':'company', orgId)"></label>
             <label ng-click="changeScope('onlyMy', orgId)" ng-class="{'chosen': currentSelectScope  === 'onlyMy'}" class="right-label" translate="My data"></label>
         </div>
         <span class="line-v"></span>
-        <span class="ellipsis-v">
+        <span class="ellipsis-v show-regions-dropdown" ng-click="toggleDropdownRegions()">
             <span></span>
             <span></span>
             <span></span>
         </span>
     </div>
-    <div class="dropdowns" ng-class="{'ru-width': $root.currentLang == 'ru'}">
-        <div class="dropdown-regions" ng-class="{'ru-width': $root.currentLang == 'ru'}">
-            <select ng-model="regionId"
-                    id="regionList"
-                    ng-style="regionListStyle"
-                    class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"
-                    ng-click="$event.stopPropagation();"
-                    ng-change="changeScopeForRegionSelect('region', regionId)">
-            </select>
+    <div class="dropdowns">
+        <div class="dropdown-regions" ng-click="$event.stopPropagation();">
+            <div ng-click="toggleRegions()">Regions</div>
+            <div class="regions-list" ng-repeat="region in regions track by $index" ng-bind="region.name" ng-click="changeScopeForRegionSelect('region', region.id)"></div>
         </div>
     </div>
 </div>
-<div class="acc-view-wrapper region" ng-show="currentSelectScope  === 'region'">
-    <div class="current-scope">
-        <div class="pull-right">
-            <span ng-bind="scopeActiveObject.value.name"></span>
+
+<!--For regions account scope-->
+<div class="acc-view-wrapper region" ng-class="{'ru-width': $root.currentLang == 'ru'}" ng-show="currentSelectScope  === 'region'">
+    <div class="current-scope show-regions-dropdown">
+        <div class="region">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="10px" height="15px"
+                     viewBox="0 0 306.078 381.602" style="enable-background:new 0 0 306.078 381.602;" xml:space="preserve">
+                <g>
+                    <path d="M152.961,0C68.641,0,0,68.641,0,152.961c0,9.598,0.879,19.277,2.719,28.719c0.082,0.558,0.402,2.242,1.043,5.121
+                        c2.316,10.32,5.758,20.48,10.238,30.16c16.48,38.801,52.719,98.398,132.238,162.238c2,1.602,4.403,2.403,6.801,2.403
+                        c2.402,0,4.801-0.801,6.801-2.403c79.441-63.84,115.762-123.437,132.238-162.238c4.481-9.68,7.922-19.762,10.242-30.16
+                        c0.641-2.879,0.961-4.563,1.039-5.121c1.762-9.442,2.719-19.121,2.719-28.719C305.922,68.641,237.281,0,152.961,0L152.961,0z
+                         M281.922,177.922c0,0.156-0.082,0.316-0.082,0.476c-0.078,0.403-0.32,1.602-0.719,3.442V182c-2,8.961-4.961,17.68-8.883,26.078
+                        c-0.078,0.082-0.078,0.242-0.16,0.32c-14.957,35.442-47.758,89.524-119.117,148.481C81.602,297.922,48.801,243.84,33.84,208.398
+                        c-0.078-0.078-0.078-0.238-0.16-0.32c-3.84-8.316-6.801-17.117-8.879-26.078v-0.16c-0.481-1.84-0.641-3.039-0.723-3.442
+                        c0-0.16-0.078-0.32-0.078-0.558c-1.602-8.238-2.398-16.559-2.398-24.961c0-72.399,58.957-131.359,131.359-131.359
+                        c72.398,0,131.359,58.96,131.359,131.359C284.32,161.359,283.52,169.762,281.922,177.922L281.922,177.922z M281.922,177.922"/>
+                    <path d="M152.961,57.52c-53.52,0-97.121,43.601-97.121,97.121c0,53.519,43.601,97.121,97.121,97.121
+                        c53.519,0,97.117-43.602,97.117-97.121C250.078,101.121,206.48,57.52,152.961,57.52L152.961,57.52z M152.961,230.16
+                        c-41.68,0-75.52-33.922-75.52-75.519c0-41.602,33.918-75.52,75.52-75.52c41.598,0,75.519,33.918,75.519,75.52
+                        C228.48,196.238,194.641,230.16,152.961,230.16L152.961,230.16z M152.961,230.16"/>
+                </g>
+            </svg>
+            <span class="region-name show-regions-dropdown" ng-bind="scopeActiveObject.value.name"></span>
         </div>
     </div>
-    <div class="dropdowns" ng-class="{'ru-width': $root.currentLang == 'ru'}">
-        <div class="dropdown-regions">
-            <select ng-model="regionId"
-                    id="regionList"
-                    ng-style="regionListStyle"
-                    class="select2-container form-control input-lg select2 select12 cs-region-filter-select-scope2"
-                    ng-click="$event.stopPropagation();"
-                    ng-change="changeScopeForRegionSelect('region', regionId)">
-            </select>
+    <span class="line-v"></span>
+    <span class="ellipsis-v" ng-click="toggleDropdownRegions()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    <div class="dropdowns">
+        <div class="dropdown-regions" ng-click="$event.stopPropagation();">
+            <div ng-click="toggleRegions()">Regions</div>
+            <div class="region-custom-list">
+                <div class="regions-items" ng-repeat="region in regions track by $index" ng-bind="region.name" ng-click="changeScopeForRegionSelect('region', region.id)"></div>
+            </div>
         </div>
     </div>
 </div>

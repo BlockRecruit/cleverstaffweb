@@ -1003,6 +1003,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             ScopeService.setActiveScopeObject(name);
             notificationService.success($translate.instant("Account visibility changed"));
         }
+        let dropdownRegionElement = $('.dropdown-regions');
+        if(dropdownRegionElement && dropdownRegionElement.length > 0)
+            dropdownRegionElement.hide();
     };
 
     // Create the XHR object.

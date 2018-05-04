@@ -4527,13 +4527,29 @@
             restrict: "AE",
             templateUrl: "partials/accountScopePanel.html",
             link: function ($scope, element, attrs) {
-                console.log('acc scope panel')
+                let dropdownElement = $('.dropdown-regions');
+                $('body').unbind().on('click', ($event) => {
+                    toggleRegionDropdown($event);
+                });
+
+                function toggleRegionDropdown(event) {
+                    if($(event.target).hasClass("show-regions-dropdown")) {
+                        dropdownElement.toggle();
+                    } else {
+                        dropdownElement.hide();
+                    }
+                }
+                
+                $scope.toggleRegions = function () {
+                    console.log('regionLists',$('#regionList'))
+                    $('#regionList').click();
+                }
             }
         }
     }
 
     function tooltipMove($filter){
-        let restrict  = "EACM"
+        let restrict  = "EACM";
         return {
             restrict,
             link(scope, element, attrs){

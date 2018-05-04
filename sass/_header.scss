@@ -968,6 +968,33 @@ body {
 								display: flex;
 
 								align-items: center;
+								.region {
+									display: flex;
+
+									align-items: center;
+									svg {
+										margin-right: 4px;
+									}
+									.region-name {
+										overflow: hidden;
+										width: 115px;
+										margin-right: 10px;
+
+										white-space: nowrap;
+										text-overflow: ellipsis;
+										&:after {
+											font-size: 9px;
+
+											position: absolute;
+											top: 13px;
+											right: 34px;
+
+											display: inline-block;
+
+											content: "\25BC";
+										}
+									}
+								}
 							}
 							.toggleSwitcher {
 								display: flex;
@@ -1051,8 +1078,32 @@ body {
 								right: 0;
 
 								width: 181px;
-								&.ru-width {
+								.dropdown-regions {
+									display: none;
+									.region-custom-list {
+										overflow-y: scroll;
+										max-height: 270px;
+
+										border: 1px solid #ccc;
+										background-color: white;
+										& > .regions-items {
+											padding: 5px 0 5px 10px;
+
+											cursor: pointer;
+											&:hover {
+												color: white;
+												background-color: #b7b7b7;
+											}
+										}
+									}
+								}
+							}
+							&.ru-width {
+								.dropdowns {
 									width: 177px;
+								}
+								.current-scope .region .region-name {
+									width: 112px;
 								}
 							}
 						}
