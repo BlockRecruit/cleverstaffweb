@@ -11,9 +11,14 @@
 			}
 		}
 		.alreadyRegistered {
+			strong {
+				color: #000;
+			}
 			span {
 				display: block;
 				margin: 20px 0;
+
+				color: #000;
 			}
 			.buttons {
 				text-align: center;
@@ -22,8 +27,22 @@
 					font-size: 18px;
 
 					display: inline-block;
+					margin-top: 8px;
+					padding: 4px 20px;
 
+					transition: all 0.3s;
 					text-align: center;
+					text-decoration: none;
+
+					color: #fff;
+					border: 1px solid #00b549;
+					border-radius: 27px;
+					background-color: #00b549;
+					&:hover {
+						color: #00b549;
+						border: 1px solid #00b549;
+						background-color: #fff;
+					}
 				}
 			}
 		}
@@ -39,10 +58,21 @@
 			&.plane {
 				top: 45%;
 			}
+			&.ball {
+				top: 60%;
+				left: 50%;
+			}
+			&.calendar {
+				top: 80%;
+				right: 60%;
+			}
 			&.cloud-2,
 			&.cloud-4 {
 				display: none;
 			}
 		}
+	}
+	&.block-public {
+		background-color: #eef2ed;
 	}
 }
