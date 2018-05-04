@@ -938,47 +938,12 @@ body {
 			&.right-nav {
 				justify-content: flex-end;
 				align-items: center;
-				& > li.scope {
+				& > li .acc-view-wrapper {
 					height: 30px;
 
 					border: 1px solid $theme-top-menu;
 					border-radius: 5px;
 					background-color: $theme-substrate;
-					&:hover {
-						background-color: $theme-second-nav-tab;
-					}
-					.eye-icon {
-						display: flex;
-						width: 30px;
-						height: 30px;
-						margin-right: 5px;
-
-						border-right: 1px solid;
-
-						align-items: center;
-						justify-content: center;
-						.st0 {
-							fill: #989898;
-						}
-					}
-					a {
-						display: flex;
-						height: 30px;
-						max-height: 24px;
-						margin-left: 0;
-						padding: 0;
-
-						background-color: transparent;
-
-						align-items: center;
-					}
-					.scope-text {
-						margin-right: 5px;
-
-						white-space: nowrap;
-
-						color: #3e4750;
-					}
 				}
 			}
 		}

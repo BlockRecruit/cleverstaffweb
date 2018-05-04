@@ -4521,10 +4521,33 @@
         .directive("tooltipMove", tooltipMove)
         .directive("accountScopePanel", accountScopePanel);
 
+
     function accountScopePanel() {
         return {
             restrict: "AE",
-            link: function () {
+            template: `
+                <span class="acc-view-title" translate="View"></span>
+                <div class="acc-view-wrapper common" ng-show="currentSelectScope !== 'region'">
+                    <div class="current-scope">
+                        <div class="toggleSwitcher">
+                            <label ng-click="" ng-class="{'grey': !$root.showAllActions}" class="cursorPointer" translate="only_me"></label>
+                            <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round taskSwitcher" type="checkbox">
+                            <label class="" ng-click="" for="cmn-toggle-1"></label>
+                            <label ng-click=";" ng-class="{'grey': $root.showAllActions}" class="cursorPointer" translate="all"></label>
+                        </div>
+                    </div>
+                    <div class="dropdown"></div>
+                </div>
+                <div class="acc-view-wrapper region" ng-show="currentSelectScope  === 'region'">
+                    <div class="current-scope">
+                        <div class="pull-right">
+                           <span ng-bind="scopeActiveObject.value.name"></span>
+                        </div>
+                    </div>
+                    <div class="dropdown"></div>
+                </div>
+            `,
+            link: function ($scope, element, attrs) {
                 console.log('acc scope panel')
             }
         }
