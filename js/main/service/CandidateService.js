@@ -300,6 +300,13 @@ angular.module('services.candidate', [
                 params: {
                     param: "setPreferableContact"
                 }
+            },
+            deleteCandidate: {
+                method: "GET",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "deleteCandidate"
+                }
             }
         });
 
@@ -395,7 +402,12 @@ angular.module('services.candidate', [
         return options;
     };
     candidate.setOptions = function(name, value) {
-        options[name] = value;
+        if(name === "dateTo" || name === "dateFrom") {
+            setAgeRange(name, value);
+        } else {
+            options[name] = value;
+        }
+
     };
     candidate.init = function() {
         options = {
@@ -425,16 +437,15 @@ angular.module('services.candidate', [
 
     candidate.getStatus = function() {
         return [
-            {value: "active_search", name: "active search"},
-            {value: "not_searching", name: "not searching"},
-            {value: "passive_search", name: "passive search"},
-            {value: "employed", name: "employed"},
-            {value: "freelancer", name: "freelancer"},
-            //{value: "reserved", name: "reserved"},
-            {value: "archived", name: "archived"},
-            {value: "work", name: "Our employee"},
-            {value: "only_remote", name: "Only remote"},
-            {value: "only_relocation_abroad", name: "Only relocation abroad"}
+            {value: "active_search", name: "active search", text:"active search"},
+            {value: "not_searching", name: "not searching", text:"not searching"},
+            {value: "passive_search", name: "passive search", text:"passive search"},
+            {value: "employed", name: "employed", text: "employed"},
+            {value: "freelancer", name: "freelancer", text: "freelancer"},
+            {value: "archived", name: "archived", text: "archived"},
+            {value: "our employee", name: "our employee", text: "our employee"},
+            {value: "only_remote", name: "Only remote", text: "Only remote"},
+            {value: "only_relocation_abroad", name: "Only relocation abroad", text: "Only relocation abroad"}
         ];
     };
     candidate.getStatusAssociative = function() {
@@ -1356,6 +1367,41 @@ angular.module('services.candidate', [
             });
         });
     };
+
+    candidate.deleteCandidateFromSystem = function(params) {
+      return new Promise((resolve, reject) => {
+         candidate.deleteCandidate(params, resp => {
+             if(resp.status === 'ok') {
+                 resolve(resp);
+             } else {
+                 reject(resp)
+             }
+         }, error => reject(error));
+      });
+    };
+
+    function setAgeRange(name, value) {
+        if(typeof (value) !== "number") {
+            options[name] = null;
+        } else {
+            if(name === "dateTo") {
+                if(typeof(options["dateFrom"]) === "number") {
+                    options["dateFrom"] = ageRangeToMs(value + 1) + 86400000;
+                }
+                options["dateTo"] = ageRangeToMs(value);
+            } else {
+                options["dateFrom"] = ageRangeToMs(value + 1) + 86400000;
+            }
+        }
+    }
+
+    function ageRangeToMs(years) {
+        return years ? (new Date(new Date().setFullYear(new Date().getFullYear() - years)).getTime()) : years;
+    }
+
+    function ageRangeToYears(ms) {
+        return ms ? (new Date().getFullYear() - new Date(ms).getFullYear()) : ms;
+    }
 
     return candidate;
 }]);

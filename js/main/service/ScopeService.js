@@ -14,6 +14,24 @@ angular.module('services.scope', []).factory('ScopeService', ['$rootScope', 'loc
         return defaultScopeIsInitialized;
     }
 
+    let dataChangeScopeAccount = [
+        {
+            name:"company",
+            id:"scopeCheckmarkOrg",
+            title:"entire account"
+        },
+        {
+            name:"region",
+            id:"scopeCheckmarkRegion",
+            title:"only_region"
+        },
+        {
+            name:"onlyMy",
+            id:"scopeCheckmarkMe",
+            title:"only_me1 + only_me2"
+        }
+    ];
+
     var scopeObject = [
         {name: "onlyMy", check: false, value: null, prevVal: null},
         {name: "region", check: false, value: null, prevVal: null},
@@ -78,6 +96,7 @@ angular.module('services.scope', []).factory('ScopeService', ['$rootScope', 'loc
         return active;
     }
 
+
     return {
         setCurrentControllerUpdateFunc: setCurrentControllerUpdateFunc,
         getScopeObject: getScopeObject,
@@ -85,7 +104,8 @@ angular.module('services.scope', []).factory('ScopeService', ['$rootScope', 'loc
         setActiveScopeObject: setActiveScopeObject,
         getActiveScopeObject: getActiveScopeObject,
         setNavBarUpdateFunction: setNavBarUpdateFunction,
-        isInit: defaultScopeIsInitializedFc
+        isInit: defaultScopeIsInitializedFc,
+        dataChangeScopeAccount
     };
 
 }

@@ -5,18 +5,17 @@
             <div class="loader"></div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-5 col-md-6 col-sm-7 col-md-offset-3 col-sm-offset-3 wrapper">
+    <div class="row" style="display: flex;flex-direction: column; align-items: center; justify-content: center;">
+        <div class="col-lg-8 col-md-7 col-sm-7  wrapper">
             <div class="invitesYou"  ng-show="$root.inviteState == 'activeInvite'">
-                <h4>{{'Welcome to CleverStaff!'|translate}}</h4>
+                <h4 class="text-center">{{'Welcome to CleverStaff!'|translate}}</h4>
                 <div class="inviteregYouAccount">
                     <div><b>{{registration.inviter}}</b> {{'invites you at the account of the company'|translate}} <b>{{registration.orgName}}</b> {{"in"|translate}} CleverStaff — {{'ATS & Recruitment Software' | translate}}.</div>
                     <div style="padding-top: 3px;">{{'To complete the registration please fill in the form below.'|translate}}</div>
                 </div>
             </div>
         </div>
-
-        <div class="col-lg-5 col-md-6 col-sm-7 col-md-offset-3 col-sm-offset-3 wrapper">
+        <div class="col-lg-8 col-md-7 col-sm-7 wrapper">
             <div class="registerForm"  ng-show="$root.inviteState == 'activeInvite'">
                 <form name="registrationForm" ng-submit="submitForm()" class="question-form" novalidate autocomplete="off" id="signup">
                     <div class="form-gr"
@@ -27,7 +26,7 @@
                     </div>
                     <div class="form-gr">
                         <input placeholder="{{'Enter your email'|translate}}" ng-model="registration.login" class="miniWidth"
-                               type="email" name="login" required disabled>
+                               type="email" name="login" disabled>
                         <span class="mailSpan">- {{"it will be your login in CleverStaff" | translate}}</span>
                     </div>
                     <div class="form-gr displayTable">
@@ -63,8 +62,12 @@
                             {{'Passwords strength'|translate}}: <span class="red">Abc</span> <span class="green">123</span> <span class="red">8-30 {{'characters'|translate}}</span>
                         </div>
                     </div>
+                    <div class="form-gr text-center">
+                        <input type="checkbox" id="access" ng-model="checkPrivacyOrTerms" style="display: inline-block; width: auto; position: relative;top: 2px">
+                        <label  class="terms" for="access" style="font-size: 13px; font-weight: normal;" translate="I have read the Privacy Policy and the Terms and Conditions and I accept both of them"></label>
+                    </div>
                     <div class="clearfix"></div>
-                    <input ng-model="registration.orgName" type="hidden" name="orgName" required disabled>
+                    <!--<input ng-model="registration.orgName" type="hidden" name="orgName" required disabled>-->
                     <a class="orangeBtn create-account" ng-click="ngClickRegistration()">{{'Sign Up and Sign In'|translate}}</a>
                 </form>
                 <div class="role text-center">{{'Your role in this account will be' | translate}} <span>{{registration.role| registrationRole}}</span></div>

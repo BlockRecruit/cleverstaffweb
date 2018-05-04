@@ -477,6 +477,12 @@ angular.module('RecruitingApp', [
             controller: "constructorReports",
             pageName: "Reports constructor"
         })
+        .when('/settings', {
+           title: "Settings",
+           templateUrl: "partials/settings.html",
+           controller: "NavbarController",
+           pageName: "Settings"
+        })
         .when('/invoice', {
             templateUrl: 'partials/invoice.html',
             controller: 'invoiceController',
@@ -685,7 +691,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=88'
+        suffix: '.json?b=92'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');

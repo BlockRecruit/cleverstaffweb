@@ -48,6 +48,7 @@
 @import "modal/vacancy-candidate-change-status";
 @import "modal/email-notifications";
 @import "modal/candidate-excel-history";
+@import "modal/candidate-remove";
 @import "vacancy-settings";
 @import "company-settings";
 @import "integration-with-email";
@@ -139,6 +140,8 @@
 @import "constructor-reports-edit";
 @import "constructor-reports";
 @import "pagination";
+@import "settings";
+@import "cookie-consent";
 
 //@import "sprite";
 
