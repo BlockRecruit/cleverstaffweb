@@ -1,7 +1,5 @@
 .block-finishreg {
 	display: flex;
-	min-height: 92vh;
-	padding-top: 0;
 	.row {
 		@include disabled-margins-for-row();
 		.finishregYou {
@@ -73,6 +71,9 @@
 		}
 	}
 	&.block-public {
+		min-height: 92vh;
+		padding-top: 0;
+
 		background-color: #eef2ed;
 	}
 }
