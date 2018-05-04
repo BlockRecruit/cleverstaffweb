@@ -2995,5 +2995,6 @@
   "User removed candidate from a system":"Пользователь <a href={{user.href}}>{{user.name}}</a> удалил из системы кандидата <span class='danger'>{{candidate}}</span>",
   "only_me1 + only_me2":"только мои, за которые я ответственен",
   "To send a letter from your mailbox,allow sending mails from the email integration page":"Для отправки письма со своего почтового ящика разрешите отправку писем на <a href='#/email-integration' target='_blank'>странице интеграции с email</a>",
-  "No such appointmentId.":"К сожалению, такого теста не существует. Для уточнения информации обратитесь к рекрутеру, который отправил вам этот тест."
+  "No such appointmentId.":"К сожалению, такого теста не существует. Для уточнения информации обратитесь к рекрутеру, который отправил вам этот тест.",
+  "Sorry, this candidate was removed from the system":"Извините, данный кандидат был удален из системы"
 }

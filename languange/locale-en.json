@@ -2400,5 +2400,6 @@
   "User removed candidate from a system":"User <a href='{{user.href}}'>{{user.name}}</a> removed candidate <span class='danger'>{{candidate}}</span> from a system",
   "You need to give your consent for your personal data to processing proceed":"You need to give your consent for your personal data to processing proceed",
   "was unlinked in candidate":"was unlinked in candidate",
-  "No such appointmentId.":"Unfortunately, such test does not exist. For more information, contact the recruiter who sent you this test."
+  "No such appointmentId.":"Unfortunately, such test does not exist. For more information, contact the recruiter who sent you this test.",
+  "Sorry, this candidate was removed from the system":"Sorry, this candidate was removed from the system"
 }
