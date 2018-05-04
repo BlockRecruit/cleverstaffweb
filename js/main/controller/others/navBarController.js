@@ -500,9 +500,10 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         $location.path("/personInfo/" + $rootScope.me.userId);
     };
     $('.ui.dropdown').dropdown();
+
     $rootScope.updateMe = function(){
         $rootScope.loading = true;
-        Person.getMe(function (response) {
+        Person.getMe(response => {
             $rootScope.loading = false;
             if(response.status != 'error'){
                 if (response.object.orgParams !== undefined) {
@@ -840,7 +841,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     $('.modal').addClass('middle-modal')
                 });
             }
-        });
+        }, resp => $rootScope.loading = false);
     };
     $rootScope.updateMe();
     $rootScope.getNotices = function(){
