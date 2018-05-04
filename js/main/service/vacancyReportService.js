@@ -58,7 +58,7 @@ angular.module('services.vacancyReport', [
 
         getBarsWidth() {
             this.barsWidth = this.data.map((element,i) => {
-                return this.data[i]/this.data[0] * this.width;
+                return this.data[i]/this.getInitialBarWidth() * this.width;
             });
         }
 
