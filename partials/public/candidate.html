@@ -1,6 +1,6 @@
-<div class="block-candidate-public no-padding-sm">
+<div class="block-candidate-public no-padding-sm" ng-class="{'block-public' : error.notFound}">
    <div class="container-fluid">
-       <div class="row">
+       <div class="row" ng-if="!error.show && !pageObject.loading">
            <div class="col-lg-12 fullName-position">
                <span>{{candidate.fullName}}, <span>{{candidate.position}}</span></span>
            </div>
@@ -65,6 +65,13 @@
                            <!--<div class="clearfix"></div>-->
                        <!--</a>-->
                    <!--</div>-->
+               </div>
+           </div>
+       </div>
+       <div class="row" ng-if="error.notFound  && !pageObject.loading">
+           <div class="error">
+               <div class="info">
+                   <span translate="Sorry, this candidate was removed from the system"></span>
                </div>
            </div>
        </div>

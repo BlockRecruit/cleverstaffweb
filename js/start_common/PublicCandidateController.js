@@ -3,6 +3,7 @@ controller.controller('PublicCandidateController', ['$scope', 'Service', '$route
             loading: true,
             showInformation: true
         };
+        $scope.error = { show: false, notFound: false };
         Service.publicCandidate({id: $routeParams.candidateId}, function(resp) {
             if (resp.status == "ok") {
                 $scope.pageObject.loading = false;
@@ -35,8 +36,14 @@ controller.controller('PublicCandidateController', ['$scope', 'Service', '$route
                 });
             } else {
                 $scope.pageObject.showInformation = false;
+                $scope.pageObject.loading = false;
+                if(resp.code === 'notFound') {
+                    $scope.error = {
+                        show: true,
+                        notFound: true
+                    }
+                }
             }
-            console.log($scope.pageObject.showInformation);
         }, function(respError) {
             $scope.pageObject.showInformation = false;
             $scope.pageObject.loading = false;
