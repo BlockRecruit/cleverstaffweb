@@ -34980,6 +34980,7 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
         $scope.countPeople = 0;
         $scope.countMonth = 4;
+        $scope.isOnBilling = false;
 
         $scope.paymentHistory = {payment: false, transitions: false};
         $scope.showFreeTariffPayment = false;
@@ -35001,6 +35002,7 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         };
 
         var promise = new Promise(function(resolve, reject) {
+            $rootScope.loading = true;
             Account.getAccountInfo(function(resp){
                 if(resp.status != 'error'){
                     resolve(resp);
@@ -35012,6 +35014,9 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
 
         promise.then(function(resp){
             $scope.balance = resp.object;
+            $scope.isOnBilling = !resp.object.monthRate;
+            $rootScope.loading = false;
+            watchSelectForChanges();
             if($rootScope.me['orgParams']['tarif']) {
                 $scope.tarif = $rootScope.me['orgParams']['tarif'];
             } else {
@@ -35021,6 +35026,7 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             $scope.monthRate = resp.object.monthRate;
         },function(msg){
             notificationService.error(msg);
+            $rootScope.loading = false;
         }).then(function(){
             $scope.getAllPersons = Person.getAllPersons(function (resp) {
                 $scope.associativePerson = resp.object;
@@ -35030,6 +35036,7 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
                         $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
                     }
                 });
+                console.log($scope.paidUsers.length);
                 $scope.countPeople = $scope.paidUsers.length;
                 $scope.monthRate = $scope.monthRate || 25;
                 if ($scope.countMonth >= 12) {
@@ -35069,6 +35076,37 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             Pay.paymentInfo.countMonths = $scope.countMonth;
 
         });
+
+        function watchSelectForChanges() {
+            $timeout(() => {
+                $('.checkoutInner select').on('change', function () {
+                    $scope.countMonth = $('#countMonth').val();
+                    $scope.countPeople = $('#countPeople').val();
+
+                    $scope.monthRate = $scope.monthRate || 25;
+
+                    if ($scope.countMonth >= 12) {
+                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                        $('#bonuce').removeClass('hidden');
+                        $scope.bonuce = 20;
+                        $('#amountBonus').html((($scope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
+                    }
+                    else if ($scope.countMonth >= 4) {
+                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                        $('#bonuce').removeClass('hidden');
+                        $scope.bonuce = 10;
+                        $('#amountBonus').html((($scope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
+                    }
+                    else {
+                        $('#bonuce').addClass('hidden');
+                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                    }
+
+                    $('#price').html($scope.price + " USD");
+                    $scope.$apply();
+                });
+            })
+        }
 
         $scope.payClick = function () {
             Pay.createPaymentUsage({
