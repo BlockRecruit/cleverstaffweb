@@ -28258,7 +28258,12 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                             $anchorScroll('mainTable');
                         });
                     }
-                    Client.all(Client.searchOptions(), function(response) {
+
+                    let searchParams = Client.searchOptions();
+
+                    console.log(searchParams, 'searchParams!!');
+
+                    Client.all(searchParams, function(response) {
                         $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
                         console.log($rootScope.objectSize);
                         if(page) {
@@ -31700,7 +31705,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     $rootScope.updateMe = function(){
         $rootScope.loading = true;
-        Person.getMe(function (response) {
+        Person.getMe(response => {
             $rootScope.loading = false;
             if(response.status != 'error'){
                 if (response.object.orgParams !== undefined) {

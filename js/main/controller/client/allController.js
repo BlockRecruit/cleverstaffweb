@@ -186,7 +186,12 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                             $anchorScroll('mainTable');
                         });
                     }
-                    Client.all(Client.searchOptions(), function(response) {
+
+                    let searchParams = Client.searchOptions();
+
+                    $scope.searchParamsForView = createSearchParamsForView(searchParams);
+
+                    Client.all(searchParams, function(response) {
                         $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
                         console.log($rootScope.objectSize);
                         if(page) {
@@ -221,7 +226,19 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             }
         }
     });
-        $scope.changeInputPage = function(params,searchNumber){
+
+    function createSearchParamsForView(searchParams){
+        let i, data = [];
+
+        for(i in searchParams){
+            if(i !== 'page' && searchParams[i]){
+                data.push({name:i, value:searchParams[i]})
+            }
+        }
+        return data;
+    }
+
+    $scope.changeInputPage = function(params,searchNumber){
             var searchNumber = Math.round(searchNumber);
             var maxValue = $filter('roundUp')(params.settings().total/params.count());
             if(searchNumber){
@@ -254,7 +271,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             $scope.validNewClient = false;
         }
     };
-        $scope.getFirstLetters = function(str){
+    $scope.getFirstLetters = function(str){
             return firstLetters(str)
         };
     $(document).click(function (){

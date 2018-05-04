@@ -113,6 +113,12 @@
                         <div class="col-lg-12 outer-block" ng-class="{'text-center' : !$root.objectSize && searchParam.word === '' && $root.me.recrutRole === 'client'}">
                             <span ng-show="!$root.objectSize && !searchParam.word && $root.me.recrutRole === 'client'">{{'You will see clients when recruiters share vacancies to you.'|translate}}</span>
                             <span ng-hide="$root.me.recrutRole === 'client' && !objectSize" class="count">{{'found'|translate}}: <span>{{objectSize}}</span></span>
+                            <section class="search-params" ng-show="searchParamsForView.length">
+                                <span>{{"Search criteria"|translate}}:</span>
+                                <span class="criteriy" ng-repeat="criteriy in searchParamsForView">
+
+                                </span>
+                            </section>
                             <table class="table" ng-show="$root.objectSize" id="mainTable" ng-table="tableParams" template-pagination="custom/pager">
                                 <thead>
                                 <tr>
