@@ -153,6 +153,16 @@
 		.outer-block {
 			padding: 0;
 		}
+		.search-params {
+			.criteriy {
+				display: inline-block;
+			}
+			.criteriy-words {
+				font-weight: bold;
+
+				display: inline-block;
+			}
+		}
 		table {
 			background-color: $theme-white;
 			tr {

@@ -229,9 +229,10 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
 
     function createSearchParamsForView(searchParams){
         let i, data = [];
-
+        console.log(searchParams);
         for(i in searchParams){
             if(i !== 'page' && searchParams[i]){
+
                 data.push({name:i, value:searchParams[i]})
             }
         }
