@@ -31700,7 +31700,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     $rootScope.updateMe = function(){
         $rootScope.loading = true;
-        Person.getMe(function (response) {
+        Person.getMe(response => {
             $rootScope.loading = false;
             if(response.status != 'error'){
                 if (response.object.orgParams !== undefined) {
