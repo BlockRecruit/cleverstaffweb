@@ -3327,6 +3327,7 @@ select.webkit-fix {
     header .btn-menu{
         left: 205px;
         display: block;
+        top: 15px;
     }
     .tabsCs .nav-tabs li {
         width: 230px;
@@ -4107,6 +4108,16 @@ select.webkit-fix {
         left: 225px;
     }
     /*compare potok end*/
+    
+    header .container .gdpr-logo {
+        top: 52px;
+        left: 15px;
+    }
+    header .container .gdpr-logo img {
+        width: 140px;
+        height: 37px;
+        transform: rotate(-10deg);
+    }
 }
 
 @media screen and (max-width: 563px) {
@@ -4233,7 +4244,7 @@ select.webkit-fix {
         right: 0;
         left: 0;
         width: 120px;
-        top: 25px;
+        top: 15px;
     }
     .float-none-mob{
         clear: both;
@@ -4615,6 +4626,14 @@ select.webkit-fix {
         padding-right: 0;
     }
     /*compare potok end*/
+    header .container .gdpr-logo img {
+        transform: rotate(-12deg);
+        width: 101px;
+        height: 26px;
+    }
+    header .container .gdpr-logo {
+        left: 14px;
+    }
 }
     /*Terms*/
 .title {
