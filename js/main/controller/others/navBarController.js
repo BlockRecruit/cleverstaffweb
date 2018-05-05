@@ -14,6 +14,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.news = [];
     $scope.newsEng = [];
     $scope.readedNews = [];
+    $scope.bonus = 0;
+    $scope.paidUsers = [];
+    $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
+    $scope.countPeople = 0;
+    $scope.countMonth = 4;
     //localStorage.setItem("readedNews", '');
     if(localStorage.readedNews){
         $scope.readedNews = (JSON.parse(localStorage.getItem('readedNews')));
@@ -171,33 +176,20 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 if(!$rootScope.blockUserData.payment_min_users){
                     $rootScope.blockUserData.payment_min_users = 1;
                 }
-                angular.forEach($('#countPeople option'),function(res){
-                    if(Number(res.value) <= $rootScope.blockUserData.payment_min_users){
-                        res.remove();
-                    }
-                });
-                $('#countPeople').prepend("<option selected>"+$rootScope.blockUserData.payment_min_users+"</option>");
-                $scope.countMonth = $('#countMonth').val();
-                $scope.countPeople = $('#countPeople').val();
-                $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                $('#price').html($scope.price + " USD");
-                $('.checkoutInner select').on('change', function () {
-                    $scope.countMonth = $('#countMonth').val();
-                    $scope.countPeople = $('#countPeople').val();
-                    if ($scope.countMonth >= 12) {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                    }
-                    else if ($scope.countMonth >= 4) {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                    }
-                    else {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                    }
+                $scope.monthRate = $scope.monthRate || 25;
+                if ($scope.countMonth >= 12) {
+                    $scope.bonus = 20;
+                }
+                else if ($scope.countMonth >= 4) {
+                    $scope.bonus = 10;
+                }
+                else {
+                    $scope.bonus = 0;
+                }
 
-                    $('#price').html($scope.price + " USD");
-                    $scope.$apply();
-                });
-                $('#blockMessgae').html($rootScope.blockUserData.block_text);
+                $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+                $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+                $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
             }else{
                 $rootScope.blockUser = false;
             }
@@ -211,6 +203,23 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             }, error => notificationService.error(error.message))
         });
     };
+
+    $scope.$watchGroup(['countPeople', 'countMonth'], function() {
+        $scope.monthRate = $scope.monthRate || 25;
+        if ($scope.countMonth >= 12) {
+            $scope.bonus = 20;
+        }
+        else if ($scope.countMonth >= 4) {
+            $scope.bonus = 10;
+        }
+        else {
+            $scope.bonus = 0;
+        }
+
+        $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+        $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+        $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
+    });
 
     $scope.blockInfo();
 
@@ -536,93 +545,48 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 }
 
                 // if($rootScope.me.recrutRole == 'admin') {
-                Account.getAccountInfo(function(resp){
-                    if(resp.status != 'error'){
-                        if(resp.object && resp.object.tillDate) {
-                            $scope.tarif = resp.object.tarif;
-                            $scope.paidFor = resp.object.dayCount;
-                            $('#bilEnabledText').removeClass('hidden');
-                            $rootScope.paidTillDateBilling = resp.object.tillDate.year + '-' + resp.object.tillDate.monthValue + '-' + resp.object.tillDate.dayOfMonth;
-                        } else {
-                            $scope.paidFor = difBetweenDates(new Date($rootScope.companyParams.paidTillDate), new Date());
-                            $('#bilDisabledText').removeClass('hidden');
-                        }
-                        if(resp.object && resp.object.monthRate && resp.object.dailyRate) {
-                            $scope.monthRate = resp.object.monthRate;
-                            $scope.dailyRate = resp.object.dailyRate;
-                            $('#dailyRate').html($scope.dailyRate);
-                            $('#monthRate').html($scope.monthRate);
-                        }
-                        $scope.monthRate = resp.object.monthRate;
-                        if($rootScope.blockUser){
-                            $scope.bonuce = 0;
-                            if(!$rootScope.blockUserData.payment_min_users){
-                                $rootScope.blockUserData.payment_min_users = 1;
-                            }
-                            angular.forEach($('#countPeople option'),function(res){
-                                if(Number(res.value) <= $rootScope.blockUserData.payment_min_users){
-                                    res.remove();
-                                }
-                            });
-                            $('#countPeople').prepend("<option selected>"+$rootScope.blockUserData.payment_min_users+"</option>");
-                            $scope.countMonth = $('#countMonth').val();
-                            $scope.countPeople = $('#countPeople').val();
-                            if(!$scope.monthRate) {
-                                if ($scope.countMonth >= 12) {
-                                    $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                                }
-                                else if ($scope.countMonth >= 4) {
-                                    $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                                }
-                                else {
-                                    $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                                }
+                    Account.getAccountInfo(function(resp){
+                        if(resp.status != 'error'){
+                            if(resp.object && resp.object.tillDate) {
+                                $scope.tarif = resp.object.tarif;
+                                $scope.paidFor = resp.object.dayCount;
+                                $('#bilEnabledText').removeClass('hidden');
+                                $rootScope.paidTillDateBilling = resp.object.tillDate.year + '-' + resp.object.tillDate.monthValue + '-' + resp.object.tillDate.dayOfMonth;
                             } else {
-                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople ;
+                                $scope.paidFor = difBetweenDates(new Date($rootScope.companyParams.paidTillDate), new Date());
+                                $('#bilDisabledText').removeClass('hidden');
                             }
+                            if(resp.object && resp.object.monthRate && resp.object.dailyRate) {
+                                $scope.monthRate = resp.object.monthRate;
+                                $scope.dailyRate = resp.object.dailyRate;
+                                $('#dailyRate').html($scope.dailyRate);
+                                $('#monthRate').html($scope.monthRate);
+                            }
+                                $scope.monthRate = resp.object.monthRate;
+                                if($rootScope.blockUser){
+                                    $scope.bonuce = 0;
+                                    if(!$rootScope.blockUserData.payment_min_users){
+                                        $rootScope.blockUserData.payment_min_users = 1;
+                                    }
 
-                            $('#price').html($scope.price + " USD");
-                            $('.checkoutInner select').unbind().on('change', function () {
-                                $scope.countMonth = $('#countMonth').val();
-                                $scope.countPeople = $('#countPeople').val();
-                                if(!$scope.monthRate) {
+                                    $scope.monthRate = $scope.monthRate || 25;
                                     if ($scope.countMonth >= 12) {
-                                        $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
+                                        $scope.bonus = 20;
                                     }
                                     else if ($scope.countMonth >= 4) {
-                                        $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
+                                        $scope.bonus = 10;
                                     }
                                     else {
-                                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
+                                        $scope.bonus = 0;
                                     }
-                                } else {
-                                    if ($scope.countMonth >= 12) {
-                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                        $('#bonuce').removeClass('hidden');
-                                        $rootScope.bonuce = 20;
-                                        $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                                    }
-                                    else if ($scope.countMonth >= 4) {
-                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                        $('#bonuce').removeClass('hidden');
-                                        $rootScope.bonuce = 10;
-                                        $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                                    }
-                                    else {
-                                        $('#bonuce').addClass('hidden');
-                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                    }
+
+                                    $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+                                    $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+                                    $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
                                 }
-
-
-                                $('#price').html($scope.price + " USD");
-                                $scope.$apply();
-                            });
-                            $('#blockMessgae').html($rootScope.blockUserData.block_text);
-                        }
-                        if(!$scope.$$phase) {
-                            $scope.$apply();
-                        }
+                                if(!$scope.$$phase) {
+                                    $scope.$apply();
+                                }
 
                     }else{
                         notificationService.error(resp.message);
@@ -1184,27 +1148,15 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 //notificationService.error($filter('translate')('service temporarily unvailable'));
             });
         };
-        //$scope.getAllPersons = Person.getAllPersons(function(resp){
-        //    //allPersons = Object.keys(resp).length;
-        //    angular.forEach(resp, function(val) {
-        //        //console.log(val);
-        //        //console.log(val.status);
-        //        if(val.status =="A"){
-        //            $scope.numberVacancy = ++$scope.numberVacancy;
-        //        }
-        //    });
-        //    //console.log('allPersons: '+$scope.numberVacancy);
-        //    if($scope.numberVacancy <= 12 && $scope.numberVacancy != 0){
-        //        $('#countPeople').append("<option style='display: none;' selected>"+$scope.numberVacancy+"</option>");
-        //    }
-        //    else{
-        //        $('#countPeople').append("<option selected>"+$scope.numberVacancy+"</option>");
-        //    }
-        //    $scope.countMonth = $('#countMonth').val();
-        //    $scope.countPeople = $('#countPeople').val();
-        //    $scope.price = 20 * $scope.countMonth * $scope.countPeople;
-        //    $('#price').html($scope.price + " USD");
-        //});
+        Person.getAllPersons((resp) => {
+            angular.forEach(resp.object, function (val) {
+                if (val.status == "A" && val.recrutRole != 'client') {
+                    $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
+                }
+            });
+            $scope.countPeople = $scope.paidUsers.length;
+        });
+
         $scope.deletePayment = function(resp){
             console.log(resp.paymentId);
             $.ajax({

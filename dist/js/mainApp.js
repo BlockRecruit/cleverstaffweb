@@ -4517,7 +4517,120 @@ directive('appVersion', ['version', function(version) {
         }
     }])
     .directive("customSelect",setCustomSelect)
-    .directive("tooltipMove", tooltipMove);
+    .directive("tooltipMove", tooltipMove)
+    .directive('customSelectNew', ['$window', function($window) {
+        return {
+            restrict: "E",
+            scope: {
+                options: '=options',
+                model: '=model',
+                label: '=label',
+                value: '=value'
+            },
+            link: function(scope, element, attrs) {
+                // Selecting model value
+                for (let index in scope.options) {
+                    if (scope.options[index].value === scope.model) {
+                        scope.selectedOpt = scope.options[index];
+                    }
+                }
+
+                // Is a mobile device
+                var isMobile = false;
+                if (/ipad|iphone|android/gi.test($window.navigator.userAgent)) {
+                    isMobile = true;
+                }
+
+                // Select an option
+                scope.selectOpt = function(opt) {
+                    scope.model = opt.value;
+                    //scope.selectedOpt = opt;
+                    optionsDom.removeClass('active');
+                    backdrop.removeClass('active');
+                };
+
+                scope.$watch('model', function(newVal) {
+                    for (var index in scope.options) {
+                        if (scope.options[index].value == newVal) {
+                            scope.selectedOpt = scope.options[index];
+                        }
+                    }
+                }, true);
+
+                // DOM References
+                var labelDom = element.find('.select-label'),
+                    optionsDom = element.find('.select-ops'),
+                    backdrop = element.find('.select-backdrop'),
+                    mobileSelect = element.find('select');
+
+                // DOM Event Listeners
+                labelDom.on('click', function() {
+                    optionsDom.toggleClass('active');
+                    backdrop.toggleClass('active');
+                });
+                backdrop.on('click', function() {
+                    optionsDom.removeClass('active');
+                    backdrop.removeClass('active');
+                });
+                element.on('keydown', function(ev) {
+                    switch (ev.which) {
+                        case 37: // left arrow
+                        case 38: // top arrow
+                            preSelectPrev();
+                            break;
+                        case 39: // right arrow
+                        case 40: // down arrow
+                            preSelectNext();
+                            break;
+                        case 13: // enter key
+                            preSelectPush();
+                    }
+                });
+
+                if (isMobile) {
+                    mobileSelect.addClass('active');
+                }
+                // PreSelection logic:
+                //  This controls option selecting and highlighting by pressing the arrow
+                //  keys.
+                var preSelected = 0;
+
+                function updatePreSelection() {
+                    optionsDom.children().filter('.preselected').removeClass('preselected');
+                    optionsDom.find('div').eq(preSelected).addClass('preselected');
+                }
+                updatePreSelection();
+
+                function preSelectNext() {
+                    console.log(scope.options.length);
+                    preSelected = (preSelected + 1) % scope.options.length;
+                    updatePreSelection();
+                }
+
+                function preSelectPrev() {
+                    console.log(scope.ops.length);
+                    preSelected = (preSelected - 1) % scope.options.length;
+                    updatePreSelection();
+                }
+
+                function preSelectPush() {
+                    scope.selectOpt(scope.options[preSelected]);
+                    scope.$apply();
+                }
+            },
+            template: `<div class="select-label custom-new" tabindex="0" title="{{selectedOpt.label}}">
+                            <span class="select-label-text">{{selectedOpt.label}}</span>
+                            <span class="select-caret">
+                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="select-backdrop custom-new"></div>
+                        <div class="select-ops custom-new">
+                            <div ng-repeat="o in options" ng-click="selectOpt(o)">{{o.label || o.value}}</div>
+                        </div>
+                        <select class="custom-new" style="display:none!important;" ng-options="opt.value as opt.label for opt in options" model="model"></select>`
+        };
+    }]);
 
 function tooltipMove($filter){
     let restrict  = "EACM"
@@ -5859,6 +5972,18 @@ angular.module('services.account', [
 
 
     });
+
+    account.accountInfo = function() {
+        return new Promise((resolve, reject) => {
+           account.getAccountInfo(resp => {
+              if(resp.status === 'ok') {
+                  resolve(resp)
+              } else {
+                  reject(resp);
+              }
+           }, error => reject(error));
+        });
+    }
 
     return account;
 }]);
@@ -10955,6 +11080,15 @@ angular.module('services.globalService', [
         ];
     };
 
+    service.getAllCounties = function(lang) {
+        const countries =  {
+            en : {"AF":"Afghanistan","AX":"\u00c5land Islands","AL":"Albania","DZ":"Algeria","AS":"American Samoa","AD":"Andorra","AO":"Angola","AI":"Anguilla","AQ":"Antarctica","AG":"Antigua & Barbuda","AR":"Argentina","AM":"Armenia","AW":"Aruba","AC":"Ascension Island","AU":"Australia","AT":"Austria","AZ":"Azerbaijan","BS":"Bahamas","BH":"Bahrain","BD":"Bangladesh","BB":"Barbados","BY":"Belarus","BE":"Belgium","BZ":"Belize","BJ":"Benin","BM":"Bermuda","BT":"Bhutan","BO":"Bolivia","BA":"Bosnia & Herzegovina","BW":"Botswana","BR":"Brazil","IO":"British Indian Ocean Territory","VG":"British Virgin Islands","BN":"Brunei","BG":"Bulgaria","BF":"Burkina Faso","BI":"Burundi","KH":"Cambodia","CM":"Cameroon","CA":"Canada","IC":"Canary Islands","CV":"Cape Verde","BQ":"Caribbean Netherlands","KY":"Cayman Islands","CF":"Central African Republic","EA":"Ceuta & Melilla","TD":"Chad","CL":"Chile","CN":"China","CX":"Christmas Island","CC":"Cocos (Keeling) Islands","CO":"Colombia","KM":"Comoros","CG":"Congo - Brazzaville","CD":"Congo - Kinshasa","CK":"Cook Islands","CR":"Costa Rica","CI":"C\u00f4te d\u2019Ivoire","HR":"Croatia","CU":"Cuba","CW":"Cura\u00e7ao","CY":"Cyprus","CZ":"Czechia","DK":"Denmark","DG":"Diego Garcia","DJ":"Djibouti","DM":"Dominica","DO":"Dominican Republic","EC":"Ecuador","EG":"Egypt","SV":"El Salvador","GQ":"Equatorial Guinea","ER":"Eritrea","EE":"Estonia","ET":"Ethiopia","FK":"Falkland Islands","FO":"Faroe Islands","FJ":"Fiji","FI":"Finland","FR":"France","GF":"French Guiana","PF":"French Polynesia","TF":"French Southern Territories","GA":"Gabon","GM":"Gambia","GE":"Georgia","DE":"Germany","GH":"Ghana","GI":"Gibraltar","GR":"Greece","GL":"Greenland","GD":"Grenada","GP":"Guadeloupe","GU":"Guam","GT":"Guatemala","GG":"Guernsey","GN":"Guinea","GW":"Guinea-Bissau","GY":"Guyana","HT":"Haiti","HN":"Honduras","HK":"Hong Kong SAR China","HU":"Hungary","IS":"Iceland","IN":"India","ID":"Indonesia","IR":"Iran","IQ":"Iraq","IE":"Ireland","IM":"Isle of Man","IL":"Israel","IT":"Italy","JM":"Jamaica","JP":"Japan","JE":"Jersey","JO":"Jordan","KZ":"Kazakhstan","KE":"Kenya","KI":"Kiribati","XK":"Kosovo","KW":"Kuwait","KG":"Kyrgyzstan","LA":"Laos","LV":"Latvia","LB":"Lebanon","LS":"Lesotho","LR":"Liberia","LY":"Libya","LI":"Liechtenstein","LT":"Lithuania","LU":"Luxembourg","MO":"Macau SAR China","MK":"Macedonia","MG":"Madagascar","MW":"Malawi","MY":"Malaysia","MV":"Maldives","ML":"Mali","MT":"Malta","MH":"Marshall Islands","MQ":"Martinique","MR":"Mauritania","MU":"Mauritius","YT":"Mayotte","MX":"Mexico","FM":"Micronesia","MD":"Moldova","MC":"Monaco","MN":"Mongolia","ME":"Montenegro","MS":"Montserrat","MA":"Morocco","MZ":"Mozambique","MM":"Myanmar (Burma)","NA":"Namibia","NR":"Nauru","NP":"Nepal","NL":"Netherlands","NC":"New Caledonia","NZ":"New Zealand","NI":"Nicaragua","NE":"Niger","NG":"Nigeria","NU":"Niue","NF":"Norfolk Island","KP":"North Korea","MP":"Northern Mariana Islands","NO":"Norway","OM":"Oman","PK":"Pakistan","PW":"Palau","PS":"Palestinian Territories","PA":"Panama","PG":"Papua New Guinea","PY":"Paraguay","PE":"Peru","PH":"Philippines","PN":"Pitcairn Islands","PL":"Poland","PT":"Portugal","PR":"Puerto Rico","QA":"Qatar","RE":"R\u00e9union","RO":"Romania","RU":"Russia","RW":"Rwanda","WS":"Samoa","SM":"San Marino","ST":"S\u00e3o Tom\u00e9 & Pr\u00edncipe","SA":"Saudi Arabia","SN":"Senegal","RS":"Serbia","SC":"Seychelles","SL":"Sierra Leone","SG":"Singapore","SX":"Sint Maarten","SK":"Slovakia","SI":"Slovenia","SB":"Solomon Islands","SO":"Somalia","ZA":"South Africa","GS":"South Georgia & South Sandwich Islands","KR":"South Korea","SS":"South Sudan","ES":"Spain","LK":"Sri Lanka","BL":"St. Barth\u00e9lemy","SH":"St. Helena","KN":"St. Kitts & Nevis","LC":"St. Lucia","MF":"St. Martin","PM":"St. Pierre & Miquelon","VC":"St. Vincent & Grenadines","SD":"Sudan","SR":"Suriname","SJ":"Svalbard & Jan Mayen","SZ":"Swaziland","SE":"Sweden","CH":"Switzerland","SY":"Syria","TW":"Taiwan","TJ":"Tajikistan","TZ":"Tanzania","TH":"Thailand","TL":"Timor-Leste","TG":"Togo","TK":"Tokelau","TO":"Tonga","TT":"Trinidad & Tobago","TA":"Tristan da Cunha","TN":"Tunisia","TR":"Turkey","TM":"Turkmenistan","TC":"Turks & Caicos Islands","TV":"Tuvalu","UM":"U.S. Outlying Islands","VI":"U.S. Virgin Islands","UG":"Uganda","UA":"Ukraine","AE":"United Arab Emirates","GB":"United Kingdom","US":"United States","UY":"Uruguay","UZ":"Uzbekistan","VU":"Vanuatu","VA":"Vatican City","VE":"Venezuela","VN":"Vietnam","WF":"Wallis & Futuna","EH":"Western Sahara","YE":"Yemen","ZM":"Zambia","ZW":"Zimbabwe"},
+            ru : {"AU":"\u0410\u0432\u0441\u0442\u0440\u0430\u043b\u0438\u044f","AT":"\u0410\u0432\u0441\u0442\u0440\u0438\u044f","AZ":"\u0410\u0437\u0435\u0440\u0431\u0430\u0439\u0434\u0436\u0430\u043d","AX":"\u0410\u043b\u0430\u043d\u0434\u0441\u043a\u0438\u0435 \u043e-\u0432\u0430","AL":"\u0410\u043b\u0431\u0430\u043d\u0438\u044f","DZ":"\u0410\u043b\u0436\u0438\u0440","AS":"\u0410\u043c\u0435\u0440\u0438\u043a\u0430\u043d\u0441\u043a\u043e\u0435 \u0421\u0430\u043c\u043e\u0430","AI":"\u0410\u043d\u0433\u0438\u043b\u044c\u044f","AO":"\u0410\u043d\u0433\u043e\u043b\u0430","AD":"\u0410\u043d\u0434\u043e\u0440\u0440\u0430","AQ":"\u0410\u043d\u0442\u0430\u0440\u043a\u0442\u0438\u0434\u0430","AG":"\u0410\u043d\u0442\u0438\u0433\u0443\u0430 \u0438 \u0411\u0430\u0440\u0431\u0443\u0434\u0430","AR":"\u0410\u0440\u0433\u0435\u043d\u0442\u0438\u043d\u0430","AM":"\u0410\u0440\u043c\u0435\u043d\u0438\u044f","AW":"\u0410\u0440\u0443\u0431\u0430","AF":"\u0410\u0444\u0433\u0430\u043d\u0438\u0441\u0442\u0430\u043d","BS":"\u0411\u0430\u0433\u0430\u043c\u044b","BD":"\u0411\u0430\u043d\u0433\u043b\u0430\u0434\u0435\u0448","BB":"\u0411\u0430\u0440\u0431\u0430\u0434\u043e\u0441","BH":"\u0411\u0430\u0445\u0440\u0435\u0439\u043d","BY":"\u0411\u0435\u043b\u0430\u0440\u0443\u0441\u044c","BZ":"\u0411\u0435\u043b\u0438\u0437","BE":"\u0411\u0435\u043b\u044c\u0433\u0438\u044f","BJ":"\u0411\u0435\u043d\u0438\u043d","BM":"\u0411\u0435\u0440\u043c\u0443\u0434\u044b","BG":"\u0411\u043e\u043b\u0433\u0430\u0440\u0438\u044f","BO":"\u0411\u043e\u043b\u0438\u0432\u0438\u044f","BQ":"\u0411\u043e\u043d\u044d\u0439\u0440, \u0421\u0438\u043d\u0442-\u042d\u0441\u0442\u0430\u0442\u0438\u0443\u0441 \u0438 \u0421\u0430\u0431\u0430","BA":"\u0411\u043e\u0441\u043d\u0438\u044f \u0438 \u0413\u0435\u0440\u0446\u0435\u0433\u043e\u0432\u0438\u043d\u0430","BW":"\u0411\u043e\u0442\u0441\u0432\u0430\u043d\u0430","BR":"\u0411\u0440\u0430\u0437\u0438\u043b\u0438\u044f","IO":"\u0411\u0440\u0438\u0442\u0430\u043d\u0441\u043a\u0430\u044f \u0442\u0435\u0440\u0440\u0438\u0442\u043e\u0440\u0438\u044f \u0432 \u0418\u043d\u0434\u0438\u0439\u0441\u043a\u043e\u043c \u043e\u043a\u0435\u0430\u043d\u0435","BN":"\u0411\u0440\u0443\u043d\u0435\u0439-\u0414\u0430\u0440\u0443\u0441\u0441\u0430\u043b\u0430\u043c","BF":"\u0411\u0443\u0440\u043a\u0438\u043d\u0430-\u0424\u0430\u0441\u043e","BI":"\u0411\u0443\u0440\u0443\u043d\u0434\u0438","BT":"\u0411\u0443\u0442\u0430\u043d","VU":"\u0412\u0430\u043d\u0443\u0430\u0442\u0443","VA":"\u0412\u0430\u0442\u0438\u043a\u0430\u043d","GB":"\u0412\u0435\u043b\u0438\u043a\u043e\u0431\u0440\u0438\u0442\u0430\u043d\u0438\u044f","HU":"\u0412\u0435\u043d\u0433\u0440\u0438\u044f","VE":"\u0412\u0435\u043d\u0435\u0441\u0443\u044d\u043b\u0430","VG":"\u0412\u0438\u0440\u0433\u0438\u043d\u0441\u043a\u0438\u0435 \u043e-\u0432\u0430 (\u0411\u0440\u0438\u0442\u0430\u043d\u0441\u043a\u0438\u0435)","VI":"\u0412\u0438\u0440\u0433\u0438\u043d\u0441\u043a\u0438\u0435 \u043e-\u0432\u0430 (\u0421\u0428\u0410)","UM":"\u0412\u043d\u0435\u0448\u043d\u0438\u0435 \u043c\u0430\u043b\u044b\u0435 \u043e-\u0432\u0430 (\u0421\u0428\u0410)","TL":"\u0412\u043e\u0441\u0442\u043e\u0447\u043d\u044b\u0439 \u0422\u0438\u043c\u043e\u0440","VN":"\u0412\u044c\u0435\u0442\u043d\u0430\u043c","GA":"\u0413\u0430\u0431\u043e\u043d","HT":"\u0413\u0430\u0438\u0442\u0438","GY":"\u0413\u0430\u0439\u0430\u043d\u0430","GM":"\u0413\u0430\u043c\u0431\u0438\u044f","GH":"\u0413\u0430\u043d\u0430","GP":"\u0413\u0432\u0430\u0434\u0435\u043b\u0443\u043f\u0430","GT":"\u0413\u0432\u0430\u0442\u0435\u043c\u0430\u043b\u0430","GN":"\u0413\u0432\u0438\u043d\u0435\u044f","GW":"\u0413\u0432\u0438\u043d\u0435\u044f-\u0411\u0438\u0441\u0430\u0443","DE":"\u0413\u0435\u0440\u043c\u0430\u043d\u0438\u044f","GG":"\u0413\u0435\u0440\u043d\u0441\u0438","GI":"\u0413\u0438\u0431\u0440\u0430\u043b\u0442\u0430\u0440","HN":"\u0413\u043e\u043d\u0434\u0443\u0440\u0430\u0441","HK":"\u0413\u043e\u043d\u043a\u043e\u043d\u0433 (\u0441\u043f\u0435\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0439 \u0430\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0430\u0442\u0438\u0432\u043d\u044b\u0439 \u0440\u0430\u0439\u043e\u043d)","GD":"\u0413\u0440\u0435\u043d\u0430\u0434\u0430","GL":"\u0413\u0440\u0435\u043d\u043b\u0430\u043d\u0434\u0438\u044f","GR":"\u0413\u0440\u0435\u0446\u0438\u044f","GE":"\u0413\u0440\u0443\u0437\u0438\u044f","GU":"\u0413\u0443\u0430\u043c","DK":"\u0414\u0430\u043d\u0438\u044f","JE":"\u0414\u0436\u0435\u0440\u0441\u0438","DJ":"\u0414\u0436\u0438\u0431\u0443\u0442\u0438","DG":"\u0414\u0438\u0435\u0433\u043e-\u0413\u0430\u0440\u0441\u0438\u044f","DM":"\u0414\u043e\u043c\u0438\u043d\u0438\u043a\u0430","DO":"\u0414\u043e\u043c\u0438\u043d\u0438\u043a\u0430\u043d\u0441\u043a\u0430\u044f \u0420\u0435\u0441\u043f\u0443\u0431\u043b\u0438\u043a\u0430","EG":"\u0415\u0433\u0438\u043f\u0435\u0442","ZM":"\u0417\u0430\u043c\u0431\u0438\u044f","EH":"\u0417\u0430\u043f\u0430\u0434\u043d\u0430\u044f \u0421\u0430\u0445\u0430\u0440\u0430","ZW":"\u0417\u0438\u043c\u0431\u0430\u0431\u0432\u0435","IL":"\u0418\u0437\u0440\u0430\u0438\u043b\u044c","IN":"\u0418\u043d\u0434\u0438\u044f","ID":"\u0418\u043d\u0434\u043e\u043d\u0435\u0437\u0438\u044f","JO":"\u0418\u043e\u0440\u0434\u0430\u043d\u0438\u044f","IQ":"\u0418\u0440\u0430\u043a","IR":"\u0418\u0440\u0430\u043d","IE":"\u0418\u0440\u043b\u0430\u043d\u0434\u0438\u044f","IS":"\u0418\u0441\u043b\u0430\u043d\u0434\u0438\u044f","ES":"\u0418\u0441\u043f\u0430\u043d\u0438\u044f","IT":"\u0418\u0442\u0430\u043b\u0438\u044f","YE":"\u0419\u0435\u043c\u0435\u043d","CV":"\u041a\u0430\u0431\u043e-\u0412\u0435\u0440\u0434\u0435","KZ":"\u041a\u0430\u0437\u0430\u0445\u0441\u0442\u0430\u043d","KY":"\u041a\u0430\u0439\u043c\u0430\u043d\u043e\u0432\u044b \u043e-\u0432\u0430","KH":"\u041a\u0430\u043c\u0431\u043e\u0434\u0436\u0430","CM":"\u041a\u0430\u043c\u0435\u0440\u0443\u043d","CA":"\u041a\u0430\u043d\u0430\u0434\u0430","IC":"\u041a\u0430\u043d\u0430\u0440\u0441\u043a\u0438\u0435 \u043e-\u0432\u0430","QA":"\u041a\u0430\u0442\u0430\u0440","KE":"\u041a\u0435\u043d\u0438\u044f","CY":"\u041a\u0438\u043f\u0440","KG":"\u041a\u0438\u0440\u0433\u0438\u0437\u0438\u044f","KI":"\u041a\u0438\u0440\u0438\u0431\u0430\u0442\u0438","CN":"\u041a\u0438\u0442\u0430\u0439","KP":"\u041a\u041d\u0414\u0420","CC":"\u041a\u043e\u043a\u043e\u0441\u043e\u0432\u044b\u0435 \u043e-\u0432\u0430","CO":"\u041a\u043e\u043b\u0443\u043c\u0431\u0438\u044f","KM":"\u041a\u043e\u043c\u043e\u0440\u044b","CG":"\u041a\u043e\u043d\u0433\u043e - \u0411\u0440\u0430\u0437\u0437\u0430\u0432\u0438\u043b\u044c","CD":"\u041a\u043e\u043d\u0433\u043e - \u041a\u0438\u043d\u0448\u0430\u0441\u0430","XK":"\u041a\u043e\u0441\u043e\u0432\u043e","CR":"\u041a\u043e\u0441\u0442\u0430-\u0420\u0438\u043a\u0430","CI":"\u041a\u043e\u0442-\u0434\u2019\u0418\u0432\u0443\u0430\u0440","CU":"\u041a\u0443\u0431\u0430","KW":"\u041a\u0443\u0432\u0435\u0439\u0442","CW":"\u041a\u044e\u0440\u0430\u0441\u0430\u043e","LA":"\u041b\u0430\u043e\u0441","LV":"\u041b\u0430\u0442\u0432\u0438\u044f","LS":"\u041b\u0435\u0441\u043e\u0442\u043e","LR":"\u041b\u0438\u0431\u0435\u0440\u0438\u044f","LB":"\u041b\u0438\u0432\u0430\u043d","LY":"\u041b\u0438\u0432\u0438\u044f","LT":"\u041b\u0438\u0442\u0432\u0430","LI":"\u041b\u0438\u0445\u0442\u0435\u043d\u0448\u0442\u0435\u0439\u043d","LU":"\u041b\u044e\u043a\u0441\u0435\u043c\u0431\u0443\u0440\u0433","MU":"\u041c\u0430\u0432\u0440\u0438\u043a\u0438\u0439","MR":"\u041c\u0430\u0432\u0440\u0438\u0442\u0430\u043d\u0438\u044f","MG":"\u041c\u0430\u0434\u0430\u0433\u0430\u0441\u043a\u0430\u0440","YT":"\u041c\u0430\u0439\u043e\u0442\u0442\u0430","MO":"\u041c\u0430\u043a\u0430\u043e (\u0441\u043f\u0435\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0439 \u0430\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0430\u0442\u0438\u0432\u043d\u044b\u0439 \u0440\u0430\u0439\u043e\u043d)","MK":"\u041c\u0430\u043a\u0435\u0434\u043e\u043d\u0438\u044f","MW":"\u041c\u0430\u043b\u0430\u0432\u0438","MY":"\u041c\u0430\u043b\u0430\u0439\u0437\u0438\u044f","ML":"\u041c\u0430\u043b\u0438","MV":"\u041c\u0430\u043b\u044c\u0434\u0438\u0432\u044b","MT":"\u041c\u0430\u043b\u044c\u0442\u0430","MA":"\u041c\u0430\u0440\u043e\u043a\u043a\u043e","MQ":"\u041c\u0430\u0440\u0442\u0438\u043d\u0438\u043a\u0430","MH":"\u041c\u0430\u0440\u0448\u0430\u043b\u043b\u043e\u0432\u044b \u041e\u0441\u0442\u0440\u043e\u0432\u0430","MX":"\u041c\u0435\u043a\u0441\u0438\u043a\u0430","MZ":"\u041c\u043e\u0437\u0430\u043c\u0431\u0438\u043a","MD":"\u041c\u043e\u043b\u0434\u043e\u0432\u0430","MC":"\u041c\u043e\u043d\u0430\u043a\u043e","MN":"\u041c\u043e\u043d\u0433\u043e\u043b\u0438\u044f","MS":"\u041c\u043e\u043d\u0442\u0441\u0435\u0440\u0440\u0430\u0442","MM":"\u041c\u044c\u044f\u043d\u043c\u0430 (\u0411\u0438\u0440\u043c\u0430)","NA":"\u041d\u0430\u043c\u0438\u0431\u0438\u044f","NR":"\u041d\u0430\u0443\u0440\u0443","NP":"\u041d\u0435\u043f\u0430\u043b","NE":"\u041d\u0438\u0433\u0435\u0440","NG":"\u041d\u0438\u0433\u0435\u0440\u0438\u044f","NL":"\u041d\u0438\u0434\u0435\u0440\u043b\u0430\u043d\u0434\u044b","NI":"\u041d\u0438\u043a\u0430\u0440\u0430\u0433\u0443\u0430","NU":"\u041d\u0438\u0443\u044d","NZ":"\u041d\u043e\u0432\u0430\u044f \u0417\u0435\u043b\u0430\u043d\u0434\u0438\u044f","NC":"\u041d\u043e\u0432\u0430\u044f \u041a\u0430\u043b\u0435\u0434\u043e\u043d\u0438\u044f","NO":"\u041d\u043e\u0440\u0432\u0435\u0433\u0438\u044f","AC":"\u043e-\u0432 \u0412\u043e\u0437\u043d\u0435\u0441\u0435\u043d\u0438\u044f","IM":"\u043e-\u0432 \u041c\u044d\u043d","NF":"\u043e-\u0432 \u041d\u043e\u0440\u0444\u043e\u043b\u043a","CX":"\u043e-\u0432 \u0420\u043e\u0436\u0434\u0435\u0441\u0442\u0432\u0430","SH":"\u043e-\u0432 \u0421\u0432. \u0415\u043b\u0435\u043d\u044b","TC":"\u043e-\u0432\u0430 \u0422\u0451\u0440\u043a\u0441 \u0438 \u041a\u0430\u0439\u043a\u043e\u0441","AE":"\u041e\u0410\u042d","OM":"\u041e\u043c\u0430\u043d","CK":"\u041e\u0441\u0442\u0440\u043e\u0432\u0430 \u041a\u0443\u043a\u0430","PN":"\u043e\u0441\u0442\u0440\u043e\u0432\u0430 \u041f\u0438\u0442\u043a\u044d\u0440\u043d","PK":"\u041f\u0430\u043a\u0438\u0441\u0442\u0430\u043d","PW":"\u041f\u0430\u043b\u0430\u0443","PS":"\u041f\u0430\u043b\u0435\u0441\u0442\u0438\u043d\u0441\u043a\u0438\u0435 \u0442\u0435\u0440\u0440\u0438\u0442\u043e\u0440\u0438\u0438","PA":"\u041f\u0430\u043d\u0430\u043c\u0430","PG":"\u041f\u0430\u043f\u0443\u0430 \u2013 \u041d\u043e\u0432\u0430\u044f \u0413\u0432\u0438\u043d\u0435\u044f","PY":"\u041f\u0430\u0440\u0430\u0433\u0432\u0430\u0439","PE":"\u041f\u0435\u0440\u0443","PL":"\u041f\u043e\u043b\u044c\u0448\u0430","PT":"\u041f\u043e\u0440\u0442\u0443\u0433\u0430\u043b\u0438\u044f","PR":"\u041f\u0443\u044d\u0440\u0442\u043e-\u0420\u0438\u043a\u043e","KR":"\u0420\u0435\u0441\u043f\u0443\u0431\u043b\u0438\u043a\u0430 \u041a\u043e\u0440\u0435\u044f","RE":"\u0420\u0435\u044e\u043d\u044c\u043e\u043d","RU":"\u0420\u043e\u0441\u0441\u0438\u044f","RW":"\u0420\u0443\u0430\u043d\u0434\u0430","RO":"\u0420\u0443\u043c\u044b\u043d\u0438\u044f","SV":"\u0421\u0430\u043b\u044c\u0432\u0430\u0434\u043e\u0440","WS":"\u0421\u0430\u043c\u043e\u0430","SM":"\u0421\u0430\u043d-\u041c\u0430\u0440\u0438\u043d\u043e","ST":"\u0421\u0430\u043d-\u0422\u043e\u043c\u0435 \u0438 \u041f\u0440\u0438\u043d\u0441\u0438\u043f\u0438","SA":"\u0421\u0430\u0443\u0434\u043e\u0432\u0441\u043a\u0430\u044f \u0410\u0440\u0430\u0432\u0438\u044f","SZ":"\u0421\u0432\u0430\u0437\u0438\u043b\u0435\u043d\u0434","MP":"\u0421\u0435\u0432\u0435\u0440\u043d\u044b\u0435 \u041c\u0430\u0440\u0438\u0430\u043d\u0441\u043a\u0438\u0435 \u043e-\u0432\u0430","SC":"\u0421\u0435\u0439\u0448\u0435\u043b\u044c\u0441\u043a\u0438\u0435 \u041e\u0441\u0442\u0440\u043e\u0432\u0430","BL":"\u0421\u0435\u043d-\u0411\u0430\u0440\u0442\u0435\u043b\u0435\u043c\u0438","MF":"\u0421\u0435\u043d-\u041c\u0430\u0440\u0442\u0435\u043d","PM":"\u0421\u0435\u043d-\u041f\u044c\u0435\u0440 \u0438 \u041c\u0438\u043a\u0435\u043b\u043e\u043d","SN":"\u0421\u0435\u043d\u0435\u0433\u0430\u043b","VC":"\u0421\u0435\u043d\u0442-\u0412\u0438\u043d\u0441\u0435\u043d\u0442 \u0438 \u0413\u0440\u0435\u043d\u0430\u0434\u0438\u043d\u044b","KN":"\u0421\u0435\u043d\u0442-\u041a\u0438\u0442\u0441 \u0438 \u041d\u0435\u0432\u0438\u0441","LC":"\u0421\u0435\u043d\u0442-\u041b\u044e\u0441\u0438\u044f","RS":"\u0421\u0435\u0440\u0431\u0438\u044f","EA":"\u0421\u0435\u0443\u0442\u0430 \u0438 \u041c\u0435\u043b\u0438\u043b\u044c\u044f","SG":"\u0421\u0438\u043d\u0433\u0430\u043f\u0443\u0440","SX":"\u0421\u0438\u043d\u0442-\u041c\u0430\u0440\u0442\u0435\u043d","SY":"\u0421\u0438\u0440\u0438\u044f","SK":"\u0421\u043b\u043e\u0432\u0430\u043a\u0438\u044f","SI":"\u0421\u043b\u043e\u0432\u0435\u043d\u0438\u044f","US":"\u0421\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u043d\u044b\u0435 \u0428\u0442\u0430\u0442\u044b","SB":"\u0421\u043e\u043b\u043e\u043c\u043e\u043d\u043e\u0432\u044b \u041e\u0441\u0442\u0440\u043e\u0432\u0430","SO":"\u0421\u043e\u043c\u0430\u043b\u0438","SD":"\u0421\u0443\u0434\u0430\u043d","SR":"\u0421\u0443\u0440\u0438\u043d\u0430\u043c","SL":"\u0421\u044c\u0435\u0440\u0440\u0430-\u041b\u0435\u043e\u043d\u0435","TJ":"\u0422\u0430\u0434\u0436\u0438\u043a\u0438\u0441\u0442\u0430\u043d","TH":"\u0422\u0430\u0438\u043b\u0430\u043d\u0434","TW":"\u0422\u0430\u0439\u0432\u0430\u043d\u044c","TZ":"\u0422\u0430\u043d\u0437\u0430\u043d\u0438\u044f","TG":"\u0422\u043e\u0433\u043e","TK":"\u0422\u043e\u043a\u0435\u043b\u0430\u0443","TO":"\u0422\u043e\u043d\u0433\u0430","TT":"\u0422\u0440\u0438\u043d\u0438\u0434\u0430\u0434 \u0438 \u0422\u043e\u0431\u0430\u0433\u043e","TA":"\u0422\u0440\u0438\u0441\u0442\u0430\u043d-\u0434\u0430-\u041a\u0443\u043d\u044c\u044f","TV":"\u0422\u0443\u0432\u0430\u043b\u0443","TN":"\u0422\u0443\u043d\u0438\u0441","TM":"\u0422\u0443\u0440\u043a\u043c\u0435\u043d\u0438\u0441\u0442\u0430\u043d","TR":"\u0422\u0443\u0440\u0446\u0438\u044f","UG":"\u0423\u0433\u0430\u043d\u0434\u0430","UZ":"\u0423\u0437\u0431\u0435\u043a\u0438\u0441\u0442\u0430\u043d","UA":"\u0423\u043a\u0440\u0430\u0438\u043d\u0430","WF":"\u0423\u043e\u043b\u043b\u0438\u0441 \u0438 \u0424\u0443\u0442\u0443\u043d\u0430","UY":"\u0423\u0440\u0443\u0433\u0432\u0430\u0439","FO":"\u0424\u0430\u0440\u0435\u0440\u0441\u043a\u0438\u0435 \u043e-\u0432\u0430","FM":"\u0424\u0435\u0434\u0435\u0440\u0430\u0442\u0438\u0432\u043d\u044b\u0435 \u0428\u0442\u0430\u0442\u044b \u041c\u0438\u043a\u0440\u043e\u043d\u0435\u0437\u0438\u0438","FJ":"\u0424\u0438\u0434\u0436\u0438","PH":"\u0424\u0438\u043b\u0438\u043f\u043f\u0438\u043d\u044b","FI":"\u0424\u0438\u043d\u043b\u044f\u043d\u0434\u0438\u044f","FK":"\u0424\u043e\u043b\u043a\u043b\u0435\u043d\u0434\u0441\u043a\u0438\u0435 \u043e-\u0432\u0430","FR":"\u0424\u0440\u0430\u043d\u0446\u0438\u044f","GF":"\u0424\u0440\u0430\u043d\u0446\u0443\u0437\u0441\u043a\u0430\u044f \u0413\u0432\u0438\u0430\u043d\u0430","PF":"\u0424\u0440\u0430\u043d\u0446\u0443\u0437\u0441\u043a\u0430\u044f \u041f\u043e\u043b\u0438\u043d\u0435\u0437\u0438\u044f","TF":"\u0424\u0440\u0430\u043d\u0446\u0443\u0437\u0441\u043a\u0438\u0435 \u042e\u0436\u043d\u044b\u0435 \u0442\u0435\u0440\u0440\u0438\u0442\u043e\u0440\u0438\u0438","HR":"\u0425\u043e\u0440\u0432\u0430\u0442\u0438\u044f","CF":"\u0426\u0410\u0420","TD":"\u0427\u0430\u0434","ME":"\u0427\u0435\u0440\u043d\u043e\u0433\u043e\u0440\u0438\u044f","CZ":"\u0427\u0435\u0445\u0438\u044f","CL":"\u0427\u0438\u043b\u0438","CH":"\u0428\u0432\u0435\u0439\u0446\u0430\u0440\u0438\u044f","SE":"\u0428\u0432\u0435\u0446\u0438\u044f","SJ":"\u0428\u043f\u0438\u0446\u0431\u0435\u0440\u0433\u0435\u043d \u0438 \u042f\u043d-\u041c\u0430\u0439\u0435\u043d","LK":"\u0428\u0440\u0438-\u041b\u0430\u043d\u043a\u0430","EC":"\u042d\u043a\u0432\u0430\u0434\u043e\u0440","GQ":"\u042d\u043a\u0432\u0430\u0442\u043e\u0440\u0438\u0430\u043b\u044c\u043d\u0430\u044f \u0413\u0432\u0438\u043d\u0435\u044f","ER":"\u042d\u0440\u0438\u0442\u0440\u0435\u044f","EE":"\u042d\u0441\u0442\u043e\u043d\u0438\u044f","ET":"\u042d\u0444\u0438\u043e\u043f\u0438\u044f","ZA":"\u042e\u0410\u0420","GS":"\u042e\u0436\u043d\u0430\u044f \u0413\u0435\u043e\u0440\u0433\u0438\u044f \u0438 \u042e\u0436\u043d\u044b\u0435 \u0421\u0430\u043d\u0434\u0432\u0438\u0447\u0435\u0432\u044b \u043e-\u0432\u0430","SS":"\u042e\u0436\u043d\u044b\u0439 \u0421\u0443\u0434\u0430\u043d","JM":"\u042f\u043c\u0430\u0439\u043a\u0430","JP":"\u042f\u043f\u043e\u043d\u0438\u044f"}
+        };
+
+        return countries[lang];
+    };
+
     service.dynamicTableLoading = function (total, page, count, getDataFunction) {
         let rocketElement = document.getElementById('scrollup');
         let pagesPerOneLoad = count,
@@ -11121,6 +11255,92 @@ angular.module('services.interceptorHandler',[]).factory('responseObserver', fun
         }
     };
 });
+angular.module('services.invoice', [
+    'ngResource',
+    'ngCookies'
+    ]
+).factory('Invoice', ['$resource', 'serverAddress', '$http', function($resource, serverAddress, $http) {
+    const invoice = $resource(serverAddress + '/:param', {param: "@param"},
+        {
+            getInv: {
+                method : "POST",
+                headers: {'Content-type':'application/json; charset=UTF-8'},
+                params: {
+                    param: 'getInvoice'
+                }
+            },
+            getLastInvoiceData: {
+                method : "GET",
+                headers: {'Content-type':'application/json; charset=UTF-8'},
+                params: {
+                    param: 'getLastInvoiceData'
+                }
+            }
+        });
+
+    invoice.getCurrenciesSigns = () => ({ EUR: '€',  USD: '$', UAH : '₴', RUB: '₽'});
+
+    invoice.getInvoice = function(params) {
+        return new Promise((resolve, reject) => {
+           invoice.getInv(params, resp => {
+               if(resp.status === 'ok') {
+                   resolve(resp);
+               } else {
+                   reject(resp);
+               }
+           }, error => reject(error));
+        });
+    };
+
+    invoice.getLastInvoice = function() {
+        return new Promise((resolve, reject) => {
+            invoice.getLastInvoiceData(resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            }, error => reject(error));
+        });
+    };
+
+    invoice.getCurrenciesExchangeRates = function(invoiceCurrencies) {
+        return new Promise ((resolve, reject) => {
+            $http.get('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json')
+                .then(response => {
+                    if(response.status === 200) resolve(filterRequiredCurrencies(response.data, invoiceCurrencies));
+                }, error => {
+                    reject(error);
+                });
+        })
+    };
+
+    invoice.getCurrenciesMonthRates = function(currencies, USDrate) {
+        let monthRates = {};
+        Object.entries(currencies).forEach(([key, value]) => {
+            monthRates[value.cc] = (USDrate * currencies['USD'].rate) / value.rate ;
+        });
+
+        return monthRates;
+    };
+
+    function filterRequiredCurrencies(allCurrencies, invoiceCurrencies) {
+        let currencies = {};
+
+        for(let i = 0; i < allCurrencies.length; i++ ) {
+            for( let j = 0; j < invoiceCurrencies.length; j++ ) {
+                if(invoiceCurrencies[j].toLowerCase() === allCurrencies[i].cc.toLowerCase()) {
+                    currencies[allCurrencies[i].cc] = allCurrencies[i];
+                }
+            }
+        }
+
+        currencies['UAH'] = { cc: 'UAH', rate: currencies['USD'].rate / currencies['USD'].rate};
+
+        return currencies;
+    }
+    return invoice;
+}]);
 angular.module('services.localStorage', []
 ).factory('$localStorage', ['$window', function($window) {
     return (function() {
@@ -11339,7 +11559,7 @@ angular.module('services.pay', [
 ]).factory('Pay', ['$resource', 'serverAddress', '$filter', '$localStorage', 'notificationService',
     function ($resource, serverAddress, $filter, $localStorage, notificationService) {
 
-        var Pay = $resource(serverAddress + '/pay/:param', {param: "@param"},
+        var pay = $resource(serverAddress + '/pay/:param', {param: "@param"},
             {
                 getPayments: {
                     method: "GET",
@@ -11367,7 +11587,28 @@ angular.module('services.pay', [
                     }
                 }
             });
-        return Pay;
+
+
+        pay.paymentInfo = {
+            _countPeople: 0,
+            _countMonths: 0,
+
+            set countPeople(value) {
+                this._countPeople = value;
+            },
+            get countPeople() {
+              return this._countPeople;
+            },
+
+            set countMonths(value) {
+                this._countMonths = value;
+            },
+            get countMonths() {
+                return this._countMonths;
+            }
+        };
+
+        return pay;
     }]);
  angular.module('services.person', [
     'ngResource'
@@ -11683,7 +11924,6 @@ angular.module('services.pay', [
 
             });
      person.requestGetAllPersons = function () {
-         $rootScope.loading = true;
          return new Promise((resolve, reject) => {
              person.getAllPersons(resp => resolve(resp, resp['request'] = 'AllPersons'),error => reject(error));
          });
@@ -14458,7 +14698,8 @@ angular.module('services', [
         'services.CustomReportsService',
         'services.CustomReportEditService',
         'services.reportsService',
-        'services.slider'
+        'services.slider',
+        'services.invoice'
     ]
 );
 
@@ -14949,6 +15190,18 @@ angular.module('RecruitingApp', [
            controller: "NavbarController",
            pageName: "Settings"
         })
+        .when('/invoice', {
+            templateUrl: 'partials/invoice.html',
+            controller: 'invoiceController',
+            title: "Invoice ",
+            pageName: "Invoice generation",
+        })
+        //.when('/hr-module-info', {
+        //    title: "HR-module",
+        //    templateUrl: "partials/hr-module-info.html",
+        //    controller: "hrModuleInfoController",
+        //    pageName: "Hr-module info"
+        //})
         .otherwise({redirectTo: '/organizer'});
 }]).config(['$provide', '$httpProvider', 'serverAddress', 'frontMode', function ($provide, $httpProvider, serverAddress, frontMode) {
     var allRequest = {};
@@ -15145,7 +15398,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=92'
+        suffix: '.json?b=93'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -31195,6 +31448,165 @@ controller.controller('FeedbackController',["$localStorage", "serverAddress", "$
         });
     }]);
 
+controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', 'Invoice', 'Person', 'Account', 'Pay', '$filter', '$uibModal', 'notificationService', '$timeout',
+    function($rootScope, $scope, Service, Invoice, Person, Account, Pay, $filter, $uibModal, notificationService, $timeout) {
+
+    $scope.allPersons = [];
+    $scope.accountInfo = {};
+    $scope.paidUsers = [];
+    $scope.invoice = { users: 0, currency: null, months: null, price: null };
+    $scope.customer = { address: null, country: null, city: null, companyName: null, companyId: null, fullName: null, position: null, postalCode: null };
+    $scope.validation = { invalidFields: [], checking: false};
+
+    $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
+    $scope.currencies = [{label:'UAH', value:'UAH'},{label:'RUB', value:'RUB'},{label:'EUR', value:'EUR'},{label:'USD', value:'USD'}];
+
+    $scope.currenciesSigns = Invoice.getCurrenciesSigns();
+    $scope.countries = Service.getAllCounties($rootScope.currentLang);
+
+
+    function getTranslatedCountry(countries, argCountry) {
+        let translatedCountry = {key: "", value: ""};
+        Object.entries(countries).forEach(([key, country], index) => {
+           if(country === argCountry) {
+               translatedCountry.value = country;
+               translatedCountry.key = key;
+           }
+           if(!translatedCountry.value && index === Object.keys(countries).length - 1) {
+               const lang = $rootScope.currentLang === 'en' ? 'ru' : 'en';
+               translatedCountry.key = getTranslatedCountry(Service.getAllCounties(lang), argCountry).code;
+               translatedCountry.value = countries[translatedCountry.key];
+           }
+        });
+
+        return { name: translatedCountry.value, code: translatedCountry.key };
+    }
+
+    $scope.generateInvoice = function() {
+        $scope.validation = { invalidFields: [], checking: true};
+        if(validatedCustomerForm()) openInvoiceConfirmModal();
+    };
+
+    $scope.downloadInvoice = function() {
+        $rootScope.loading = true;
+        Invoice.getInvoice({
+            amount : parseFloat($scope.invoice.price()),
+            numberOfMonths: parseInt($scope.invoice.months),
+            numberOfUsers : parseInt($scope.invoice.users),
+            customerName : $scope.customer.companyName,
+            customerRegistrationNumber  : $scope.customer.companyId,
+            customerAddress : `${$scope.customer.country};${$scope.customer.city};${$scope.customer.address};${$scope.customer.postalCode}`,
+            representerPosition : $scope.customer.position,
+            representerName : $scope.customer.fullName,
+            currencyAsString : $scope.invoice.currency.toLowerCase()
+        }).then(resp => {
+            $rootScope.loading = false;
+            $scope.modalInstance.close();
+            const link = $('#downloadInvoice')[0];
+            link.href = '/hr/' + 'getapp?id=' + resp.object;
+            link.click();
+
+        }, error => {
+            $rootScope.loading = false;
+            $scope.modalInstance.close();
+            notificationService.error(error.message)
+        });
+    };
+
+    $scope.$watch('customer', () => {
+        if($scope.customerForm.$valid) {
+            $scope.validation = { invalidFields: [], checking: false};
+        }
+    }, true);
+
+    function validatedCustomerForm() {
+        Object.entries($scope.customer).map(([key, value]) => {
+            if($scope.customerForm[key].$invalid) {
+                $scope.validation.invalidFields.push($filter('translate')(key));
+            }
+        });
+        return !Boolean($scope.validation.invalidFields.length);
+    }
+
+    function openInvoiceConfirmModal() {
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/invoice-confirm.html',
+            size: '',
+            scope: $scope,
+            resolve: function(){}
+        });
+    }
+
+    function setInvoiceData(data) {
+        $scope.invoice = {
+            users: Pay.paymentInfo.countPeople || data.numberOfUsers || $scope.paidUsers.length,
+            months: Pay.paymentInfo.countMonths || data.numberOfMonths || 4,
+            currency: data.currency,
+            price: () => ($scope.invoice.users * $scope.invoice.months * $scope.currenciesMonthRates[$scope.invoice.currency]).toFixed(2)
+        };
+
+        $scope.$apply();
+    }
+
+    function setCustomerData(data) {
+        $scope.customer = {
+            address: data.customerAddress.split(';')[2],
+            country: getTranslatedCountry($scope.countries, data.customerAddress.split(';')[0]).name,
+            city: data.customerAddress.split(';')[1],
+            companyName: data.customerName,
+            companyId: data.customerRegistrationNumber,
+            fullName: data.representerName,
+            position: data.representerPosition,
+            postalCode: data.customerAddress.split(';')[3]
+        };
+    }
+
+    function setUsers(allPersons) {
+        Object.entries(allPersons).forEach(([personId, person], index) => {
+            if (person.status === "A" && person.recrutRole !== 'client') {
+                $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
+            }
+        });
+    }
+
+    (() => {
+        $rootScope.loading = true;
+        Promise.all([
+            Person.requestGetAllPersons(),
+            Account.accountInfo(),
+            Invoice.getCurrenciesExchangeRates(['USD', 'RUB', 'EUR']),
+            Invoice.getLastInvoice()
+        ]).then(([allPersons, accountInfo, currencyExchangeRates, lastInvoiceData]) => {
+                accountInfo.object.monthRate = accountInfo.object.monthRate || 25;
+                $rootScope.loading = false;
+                $scope.allPersons = allPersons.object;
+                $scope.accountInfo = accountInfo.object;
+
+                $scope.currenciesMonthRates = Invoice.getCurrenciesMonthRates(currencyExchangeRates, accountInfo.object.monthRate);
+
+                setUsers(allPersons.object);
+
+
+                if(lastInvoiceData.object) {
+                    setInvoiceData(lastInvoiceData.object);
+                    setCustomerData(lastInvoiceData.object);
+                } else {
+                    $scope.invoice = {
+                        users: Pay.paymentInfo.countPeople || $scope.paidUsers.length,
+                        months: Pay.paymentInfo.countMonths || 4,
+                        currency: 'USD',
+                        price: () => ($scope.invoice.users * $scope.invoice.months * $scope.currenciesMonthRates[$scope.invoice.currency]).toFixed(2)
+                    };
+                }
+                $scope.$apply();
+            }).catch(error => {
+                $rootScope.loading = false;
+                console.error(error);
+            })
+    })();
+
+}]);
 function navBarController($q, Vacancy, serverAddress, notificationService, $scope, tmhDynamicLocale, $http, Person, $rootScope, Service,
                           $route, $window, $location, $filter, $sce, $cookies, localStorageService, $localStorage, $timeout, CheckAccess,
                           frontMode, $translate, Client, ScopeService, googleService, Company, $uibModal, Notice, Pay, News, TooltipService, Account,googleService) {
@@ -31211,6 +31623,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.news = [];
     $scope.newsEng = [];
     $scope.readedNews = [];
+    $scope.bonus = 0;
+    $scope.paidUsers = [];
+    $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
+    $scope.countPeople = 0;
+    $scope.countMonth = 4;
     //localStorage.setItem("readedNews", '');
     if(localStorage.readedNews){
         $scope.readedNews = (JSON.parse(localStorage.getItem('readedNews')));
@@ -31368,33 +31785,20 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 if(!$rootScope.blockUserData.payment_min_users){
                     $rootScope.blockUserData.payment_min_users = 1;
                 }
-                angular.forEach($('#countPeople option'),function(res){
-                    if(Number(res.value) <= $rootScope.blockUserData.payment_min_users){
-                        res.remove();
-                    }
-                });
-                $('#countPeople').prepend("<option selected>"+$rootScope.blockUserData.payment_min_users+"</option>");
-                $scope.countMonth = $('#countMonth').val();
-                $scope.countPeople = $('#countPeople').val();
-                $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                $('#price').html($scope.price + " USD");
-                $('.checkoutInner select').on('change', function () {
-                    $scope.countMonth = $('#countMonth').val();
-                    $scope.countPeople = $('#countPeople').val();
-                    if ($scope.countMonth >= 12) {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                    }
-                    else if ($scope.countMonth >= 4) {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                    }
-                    else {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                    }
+                $scope.monthRate = $scope.monthRate || 25;
+                if ($scope.countMonth >= 12) {
+                    $scope.bonus = 20;
+                }
+                else if ($scope.countMonth >= 4) {
+                    $scope.bonus = 10;
+                }
+                else {
+                    $scope.bonus = 0;
+                }
 
-                    $('#price').html($scope.price + " USD");
-                    $scope.$apply();
-                });
-                $('#blockMessgae').html($rootScope.blockUserData.block_text);
+                $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+                $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+                $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
             }else{
                 $rootScope.blockUser = false;
             }
@@ -31408,6 +31812,23 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             }, error => notificationService.error(error.message))
         });
     };
+
+    $scope.$watchGroup(['countPeople', 'countMonth'], function() {
+        $scope.monthRate = $scope.monthRate || 25;
+        if ($scope.countMonth >= 12) {
+            $scope.bonus = 20;
+        }
+        else if ($scope.countMonth >= 4) {
+            $scope.bonus = 10;
+        }
+        else {
+            $scope.bonus = 0;
+        }
+
+        $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+        $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+        $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
+    });
 
     $scope.blockInfo();
 
@@ -31700,7 +32121,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     $rootScope.updateMe = function(){
         $rootScope.loading = true;
-        Person.getMe(function (response) {
+        Person.getMe(response => {
             $rootScope.loading = false;
             if(response.status != 'error'){
                 if (response.object.orgParams !== undefined) {
@@ -31733,93 +32154,48 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 }
 
                 // if($rootScope.me.recrutRole == 'admin') {
-                Account.getAccountInfo(function(resp){
-                    if(resp.status != 'error'){
-                        if(resp.object && resp.object.tillDate) {
-                            $scope.tarif = resp.object.tarif;
-                            $scope.paidFor = resp.object.dayCount;
-                            $('#bilEnabledText').removeClass('hidden');
-                            $rootScope.paidTillDateBilling = resp.object.tillDate.year + '-' + resp.object.tillDate.monthValue + '-' + resp.object.tillDate.dayOfMonth;
-                        } else {
-                            $scope.paidFor = difBetweenDates(new Date($rootScope.companyParams.paidTillDate), new Date());
-                            $('#bilDisabledText').removeClass('hidden');
-                        }
-                        if(resp.object && resp.object.monthRate && resp.object.dailyRate) {
-                            $scope.monthRate = resp.object.monthRate;
-                            $scope.dailyRate = resp.object.dailyRate;
-                            $('#dailyRate').html($scope.dailyRate);
-                            $('#monthRate').html($scope.monthRate);
-                        }
-                        $scope.monthRate = resp.object.monthRate;
-                        if($rootScope.blockUser){
-                            $scope.bonuce = 0;
-                            if(!$rootScope.blockUserData.payment_min_users){
-                                $rootScope.blockUserData.payment_min_users = 1;
-                            }
-                            angular.forEach($('#countPeople option'),function(res){
-                                if(Number(res.value) <= $rootScope.blockUserData.payment_min_users){
-                                    res.remove();
-                                }
-                            });
-                            $('#countPeople').prepend("<option selected>"+$rootScope.blockUserData.payment_min_users+"</option>");
-                            $scope.countMonth = $('#countMonth').val();
-                            $scope.countPeople = $('#countPeople').val();
-                            if(!$scope.monthRate) {
-                                if ($scope.countMonth >= 12) {
-                                    $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                                }
-                                else if ($scope.countMonth >= 4) {
-                                    $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                                }
-                                else {
-                                    $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                                }
+                    Account.getAccountInfo(function(resp){
+                        if(resp.status != 'error'){
+                            if(resp.object && resp.object.tillDate) {
+                                $scope.tarif = resp.object.tarif;
+                                $scope.paidFor = resp.object.dayCount;
+                                $('#bilEnabledText').removeClass('hidden');
+                                $rootScope.paidTillDateBilling = resp.object.tillDate.year + '-' + resp.object.tillDate.monthValue + '-' + resp.object.tillDate.dayOfMonth;
                             } else {
-                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople ;
+                                $scope.paidFor = difBetweenDates(new Date($rootScope.companyParams.paidTillDate), new Date());
+                                $('#bilDisabledText').removeClass('hidden');
                             }
+                            if(resp.object && resp.object.monthRate && resp.object.dailyRate) {
+                                $scope.monthRate = resp.object.monthRate;
+                                $scope.dailyRate = resp.object.dailyRate;
+                                $('#dailyRate').html($scope.dailyRate);
+                                $('#monthRate').html($scope.monthRate);
+                            }
+                                $scope.monthRate = resp.object.monthRate;
+                                if($rootScope.blockUser){
+                                    $scope.bonuce = 0;
+                                    if(!$rootScope.blockUserData.payment_min_users){
+                                        $rootScope.blockUserData.payment_min_users = 1;
+                                    }
 
-                            $('#price').html($scope.price + " USD");
-                            $('.checkoutInner select').unbind().on('change', function () {
-                                $scope.countMonth = $('#countMonth').val();
-                                $scope.countPeople = $('#countPeople').val();
-                                if(!$scope.monthRate) {
+                                    $scope.monthRate = $scope.monthRate || 25;
                                     if ($scope.countMonth >= 12) {
-                                        $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
+                                        $scope.bonus = 20;
                                     }
                                     else if ($scope.countMonth >= 4) {
-                                        $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
+                                        $scope.bonus = 10;
                                     }
                                     else {
-                                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
+                                        $scope.bonus = 0;
                                     }
-                                } else {
-                                    if ($scope.countMonth >= 12) {
-                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                        $('#bonuce').removeClass('hidden');
-                                        $rootScope.bonuce = 20;
-                                        $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                                    }
-                                    else if ($scope.countMonth >= 4) {
-                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                        $('#bonuce').removeClass('hidden');
-                                        $rootScope.bonuce = 10;
-                                        $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                                    }
-                                    else {
-                                        $('#bonuce').addClass('hidden');
-                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                    }
+
+                                    $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+                                    $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+                                    $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
                                 }
-
-
-                                $('#price').html($scope.price + " USD");
-                                $scope.$apply();
-                            });
-                            $('#blockMessgae').html($rootScope.blockUserData.block_text);
-                        }
-                        if(!$scope.$$phase) {
-                            $scope.$apply();
-                        }
+                                if(!$scope.$$phase) {
+                                    $scope.$apply();
+                                }
 
                     }else{
                         notificationService.error(resp.message);
@@ -32381,27 +32757,15 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 //notificationService.error($filter('translate')('service temporarily unvailable'));
             });
         };
-        //$scope.getAllPersons = Person.getAllPersons(function(resp){
-        //    //allPersons = Object.keys(resp).length;
-        //    angular.forEach(resp, function(val) {
-        //        //console.log(val);
-        //        //console.log(val.status);
-        //        if(val.status =="A"){
-        //            $scope.numberVacancy = ++$scope.numberVacancy;
-        //        }
-        //    });
-        //    //console.log('allPersons: '+$scope.numberVacancy);
-        //    if($scope.numberVacancy <= 12 && $scope.numberVacancy != 0){
-        //        $('#countPeople').append("<option style='display: none;' selected>"+$scope.numberVacancy+"</option>");
-        //    }
-        //    else{
-        //        $('#countPeople').append("<option selected>"+$scope.numberVacancy+"</option>");
-        //    }
-        //    $scope.countMonth = $('#countMonth').val();
-        //    $scope.countPeople = $('#countPeople').val();
-        //    $scope.price = 20 * $scope.countMonth * $scope.countPeople;
-        //    $('#price').html($scope.price + " USD");
-        //});
+        Person.getAllPersons((resp) => {
+            angular.forEach(resp.object, function (val) {
+                if (val.status == "A" && val.recrutRole != 'client') {
+                    $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
+                }
+            });
+            $scope.countPeople = $scope.paidUsers.length;
+        });
+
         $scope.deletePayment = function(resp){
             console.log(resp.paymentId);
             $.ajax({
@@ -34606,14 +34970,40 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
 ]);
 
 controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope", "$routeParams", "$location","$translate","Service",
-    "notificationService","$filter", "Account", "Pay","Company",
-    function ($scope, Person, $rootScope, $routeParams, $location, $translate, Service, notificationService, $filter, Account, Pay, Company) {
+    "notificationService","$filter", "Account", "Pay","Company", "$timeout",
+    function ($scope, Person, $rootScope, $routeParams, $location, $translate, Service, notificationService, $filter, Account, Pay, Company, $timeout) {
         $scope.numberVacancy = 0;
         $scope.trueVisionBlockUser = $rootScope.blockUser;
         $rootScope.blockUser = false;
-        $scope.bonuce = 0;
+        $scope.bonus = 0;
+        $scope.paidUsers = [];
+        $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
+        $scope.countPeople = 0;
+        $scope.countMonth = 4;
+        $scope.isOnBilling = false;
+        $scope.bonuce = 10;
+
+        $scope.paymentHistory = {payment: false, transitions: false};
+        $scope.showFreeTariffPayment = false;
+
+        $scope.togglePaymentHistory = function({payment, transitions}) {
+            if(payment && $scope.paymentHistory.payment && $scope.paymentHistory.transitions) {
+                $scope.paymentHistory.transitions = false;
+            }
+            if(transitions && $scope.paymentHistory.payment && $scope.paymentHistory.transitions){
+                $scope.paymentHistory.payment = false;
+            }
+        };
+
+        $scope.toggleFreeTariffView = function() {
+            $scope.showFreeTariffPayment = true;
+            $timeout(() => {
+                $scope.scrollTo('section-pay');
+            })
+        };
 
         var promise = new Promise(function(resolve, reject) {
+            $rootScope.loading = true;
             Account.getAccountInfo(function(resp){
                 if(resp.status != 'error'){
                     resolve(resp);
@@ -34625,91 +35015,106 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
 
         promise.then(function(resp){
             $scope.balance = resp.object;
+            $scope.isOnBilling = !resp.object.monthRate;
+            $rootScope.loading = false;
+            watchSelectForChanges();
             if($rootScope.me['orgParams']['tarif']) {
                 $scope.tarif = $rootScope.me['orgParams']['tarif'];
             } else {
                 $scope.tarif = resp.object.tarif;
             }
-
             $scope.dailyRate = resp.object.dailyRate;
             $scope.monthRate = resp.object.monthRate;
         },function(msg){
             notificationService.error(msg);
+            $rootScope.loading = false;
         }).then(function(){
             $scope.getAllPersons = Person.getAllPersons(function (resp) {
-                //allPersons = Object.keys(resp).length;
                 $scope.associativePerson = resp.object;
                 angular.forEach($scope.associativePerson, function (val) {
-                    //console.log(val);
-                    //console.log(val.status);
                     if (val.status == "A" && val.recrutRole != 'client') {
                         $scope.numberVacancy = ++$scope.numberVacancy;
+                        $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
                     }
                 });
-                //console.log('allPersons: '+$scope.numberVacancy);
-                if ($scope.numberVacancy <= 12 && $scope.numberVacancy != 0) {
-                    $('#countPeople').append("<option style='display: none;' selected>" + $scope.numberVacancy + "</option>");
+                $scope.countPeople = $scope.paidUsers.length;
+                $scope.monthRate = $scope.monthRate || 25;
+                if ($scope.countMonth >= 12) {
+                    $scope.bonus = 20;
+                }
+                else if ($scope.countMonth >= 4) {
+                    $scope.bonus = 10;
                 }
                 else {
-                    $('#countPeople').append("<option selected>" + $scope.numberVacancy + "</option>");
+                    $scope.bonus = 0;
                 }
-                $scope.countMonth = $('#countMonth').val();
-                $scope.countPeople = $('#countPeople').val();
-                if(!$scope.monthRate) {
-                    if ($scope.countMonth >= 12) {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                    }
-                    else if ($scope.countMonth >= 4) {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                    }
-                    else {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                    }
-                } else {
-                    $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople ;
-                }
-                $('#price').html($scope.price + " USD");
+
+                $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+                $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+                $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
+
+                $scope.priceWithBonusBilling = ($scope.price - ($scope.bonuce * $scope.price)/100);
+                $('#price').html($scope.priceWithBonusBilling + " USD");
             });
         },function(msg){
             notificationService.error(msg);
         });
 
-        $('.checkoutInner select').on('change', function () {
-            $scope.countMonth = $('#countMonth').val();
-            $scope.countPeople = $('#countPeople').val();
-            console.log('in change wp');
-            if(!$scope.monthRate) {
-                if ($scope.countMonth >= 12) {
-                    $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                }
-                else if ($scope.countMonth >= 4) {
-                    $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                }
-                else {
-                    $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                }
-            } else {
-                if ($scope.countMonth >= 12) {
-                    $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                    $('#bonuce').removeClass('hidden');
-                    $scope.bonuce = 20;
-                    $('#amountBonus').html((($scope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                }
-                else if ($scope.countMonth >= 4) {
-                    $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                    $('#bonuce').removeClass('hidden');
-                    $scope.bonuce = 10;
-                    $('#amountBonus').html((($scope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                }
-                else {
-                    $('#bonuce').addClass('hidden');
-                    $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                }
+        $scope.$watchGroup(['countPeople', 'countMonth'], function() {
+            $scope.monthRate = $scope.monthRate || 25;
+            if ($scope.countMonth >= 12) {
+                $scope.bonus = 20;
             }
+            else if ($scope.countMonth >= 4) {
+                $scope.bonus = 10;
+            }
+            else {
+                $scope.bonus = 0;
+            }
+            $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+            $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+            $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
 
-            $('#price').html($scope.price + " USD");
-            $scope.$apply();
+            Pay.paymentInfo.countPeople = $scope.countPeople;
+            Pay.paymentInfo.countMonths = $scope.countMonth;
+
         });
+
+        function watchSelectForChanges() {
+            $timeout(() => {
+                $('.checkoutInner select').on('change', function () {
+                    $scope.countMonth = $('#countMonth').val();
+                    $scope.countPeople = $('#countPeople').val();
+
+                    $scope.monthRate = $scope.monthRate || 25;
+
+                    if ($scope.countMonth >= 12) {
+                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                        $scope.bonuce = 20;
+                        $scope.priceWithBonusBilling = ($scope.price - ($scope.bonuce * $scope.price)/100);
+                        $('#bonuce').removeClass('hidden');
+                        $('#amountBonus').html($scope.priceWithBonusBilling);
+                    }
+                    else if ($scope.countMonth >= 4) {
+                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                        $scope.bonuce = 10;
+                        $scope.priceWithBonusBilling = ($scope.price - ($scope.bonuce * $scope.price)/100);
+                        $('#bonuce').removeClass('hidden');
+                        $('#amountBonus').html($scope.priceWithBonusBilling);
+                    }
+                    else {
+                        $('#bonuce').addClass('hidden');
+                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                        $scope.priceWithBonusBilling = $scope.price;
+                    }
+
+                    // $('#price').html($scope.price + " USD");
+                    $('#price').html($scope.priceWithBonusBilling + " USD");
+                    $scope.$apply();
+                });
+            })
+        }
+
         $scope.payClick = function () {
             Pay.createPaymentUsage({
                 months: $scope.countMonth,
@@ -34767,39 +35172,14 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
 
         };
 
+        $scope.scrollTo = function(id) {
+            if($(window).width() <= 768) {
+                let element = $('#' + id);
+                $("html, body").animate({scrollTop: element.position().top - 20}, "slow");
+            }
+        };
+
         $scope.updatePaymentsList();
-        // $scope.getAllPersons = Person.getAllPersons(function (resp) {
-        //     //allPersons = Object.keys(resp).length;
-        //     $scope.associativePerson = resp.object;
-        //     angular.forEach($scope.associativePerson, function (val) {
-        //         //console.log(val);
-        //         //console.log(val.status);
-        //         if (val.status == "A" && val.recrutRole != 'client') {
-        //             $scope.numberVacancy = ++$scope.numberVacancy;
-        //         }
-        //     });
-        //     //console.log('allPersons: '+$scope.numberVacancy);
-        //     if ($scope.numberVacancy <= 12 && $scope.numberVacancy != 0) {
-        //         $('#countPeople').append("<option style='display: none;' selected>" + $scope.numberVacancy + "</option>");
-        //     }
-        //     else {
-        //         $('#countPeople').append("<option selected>" + $scope.numberVacancy + "</option>");
-        //     }
-        //     $scope.countMonth = $('#countMonth').val();
-        //     $scope.countPeople = $('#countPeople').val();
-        //     if ($scope.countMonth >= 12) {
-        //         $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople * 0.80;
-        //     }
-        //     else if ($scope.countMonth >= 4) {
-        //         $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople * 0.9;
-        //     }
-        //     else {
-        //         console.log("3",$scope.monthRate);
-        //         console.log("4",$scope.dailyRate);
-        //         $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-        //     }
-        //     $('#price').html($scope.price + " USD");
-        // });
         $scope.deletePayment = function (resp) {
             console.log(resp.paymentId);
             $.ajax({

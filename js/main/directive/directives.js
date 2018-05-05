@@ -4517,7 +4517,120 @@ directive('appVersion', ['version', function(version) {
         }
     }])
     .directive("customSelect",setCustomSelect)
-    .directive("tooltipMove", tooltipMove);
+    .directive("tooltipMove", tooltipMove)
+    .directive('customSelectNew', ['$window', function($window) {
+        return {
+            restrict: "E",
+            scope: {
+                options: '=options',
+                model: '=model',
+                label: '=label',
+                value: '=value'
+            },
+            link: function(scope, element, attrs) {
+                // Selecting model value
+                for (let index in scope.options) {
+                    if (scope.options[index].value === scope.model) {
+                        scope.selectedOpt = scope.options[index];
+                    }
+                }
+
+                // Is a mobile device
+                var isMobile = false;
+                if (/ipad|iphone|android/gi.test($window.navigator.userAgent)) {
+                    isMobile = true;
+                }
+
+                // Select an option
+                scope.selectOpt = function(opt) {
+                    scope.model = opt.value;
+                    //scope.selectedOpt = opt;
+                    optionsDom.removeClass('active');
+                    backdrop.removeClass('active');
+                };
+
+                scope.$watch('model', function(newVal) {
+                    for (var index in scope.options) {
+                        if (scope.options[index].value == newVal) {
+                            scope.selectedOpt = scope.options[index];
+                        }
+                    }
+                }, true);
+
+                // DOM References
+                var labelDom = element.find('.select-label'),
+                    optionsDom = element.find('.select-ops'),
+                    backdrop = element.find('.select-backdrop'),
+                    mobileSelect = element.find('select');
+
+                // DOM Event Listeners
+                labelDom.on('click', function() {
+                    optionsDom.toggleClass('active');
+                    backdrop.toggleClass('active');
+                });
+                backdrop.on('click', function() {
+                    optionsDom.removeClass('active');
+                    backdrop.removeClass('active');
+                });
+                element.on('keydown', function(ev) {
+                    switch (ev.which) {
+                        case 37: // left arrow
+                        case 38: // top arrow
+                            preSelectPrev();
+                            break;
+                        case 39: // right arrow
+                        case 40: // down arrow
+                            preSelectNext();
+                            break;
+                        case 13: // enter key
+                            preSelectPush();
+                    }
+                });
+
+                if (isMobile) {
+                    mobileSelect.addClass('active');
+                }
+                // PreSelection logic:
+                //  This controls option selecting and highlighting by pressing the arrow
+                //  keys.
+                var preSelected = 0;
+
+                function updatePreSelection() {
+                    optionsDom.children().filter('.preselected').removeClass('preselected');
+                    optionsDom.find('div').eq(preSelected).addClass('preselected');
+                }
+                updatePreSelection();
+
+                function preSelectNext() {
+                    console.log(scope.options.length);
+                    preSelected = (preSelected + 1) % scope.options.length;
+                    updatePreSelection();
+                }
+
+                function preSelectPrev() {
+                    console.log(scope.ops.length);
+                    preSelected = (preSelected - 1) % scope.options.length;
+                    updatePreSelection();
+                }
+
+                function preSelectPush() {
+                    scope.selectOpt(scope.options[preSelected]);
+                    scope.$apply();
+                }
+            },
+            template: `<div class="select-label custom-new" tabindex="0" title="{{selectedOpt.label}}">
+                            <span class="select-label-text">{{selectedOpt.label}}</span>
+                            <span class="select-caret">
+                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="select-backdrop custom-new"></div>
+                        <div class="select-ops custom-new">
+                            <div ng-repeat="o in options" ng-click="selectOpt(o)">{{o.label || o.value}}</div>
+                        </div>
+                        <select class="custom-new" style="display:none!important;" ng-options="opt.value as opt.label for opt in options" model="model"></select>`
+        };
+    }]);
 
 function tooltipMove($filter){
     let restrict  = "EACM"

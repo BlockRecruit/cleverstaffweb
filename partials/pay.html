@@ -1,4 +1,279 @@
-<div class="controller-view">
+<div class="payment" ng-show="!$root.loading && !isOnBilling && ($root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter')">
+    <div class="container-fluid wrapper">
+
+        <section class="payment__acc-info">
+            <div class="info__item">
+                <span translate="Your account balance" class="into__title"></span>
+                <span class="info__value">{{balance.amount}} USD</span>
+            </div>
+            <div class="info__item" ng-show="tarif !== 'free'">
+                <span translate="Your account is active until" class="into__title"></span>
+                <span class="info__value">
+                    {{balance.tillDate.dayOfMonth}}/{{balance.tillDate.monthValue}}/{{balance.tillDate.year}}
+                </span>
+            </div>
+            <div class="info__item" ng-show="tarif !== 'free'">
+                <span translate="Paid users amount" class="into__title"></span>
+                <span class="info__value">{{paidUsers.length}}</span>
+            </div>
+            <div class="info__item">
+                <span translate="Current tariff" class="into__title"></span>
+                <span class="info__value">{{tarif}}</span>
+            </div>
+        </section>
+
+        <section class="payment__pay" id="section-pay" ng-show="showFreeTariffPayment || tarif !== 'free'">
+            <div class="section__intro">
+                <h4 class="intro__title" translate="Pay for cleverstaff usage"></h4>
+                <p class="intro__descr" translate="Get a 10% bonus if you pay more than 4 months and 20% pay for the year"></p>
+            </div>
+            <div class="pay-data__wrapper">
+                <div class="pay__data">
+                    <div class="data__item margin-xs">
+                        <span translate="Users_1" class="title"></span>
+                        <div class="data">
+                            <custom-select-new options="paidUsers" model="countPeople"></custom-select-new>
+                        </div>
+                    </div>
+                    <div class="data__item margin-xs">
+                        <span translate="Months_1" class="title"></span>
+                        <div class="data">
+                            <custom-select-new options="months" model="countMonth"></custom-select-new>
+                        </div>
+                    </div>
+                    <div class="data__item">
+                        <span translate="Bonus" class="title border-xs"></span>
+                        <div class="data">
+                            <span class="bonus">{{bonus}}%</span>
+                            <img src="/images/sprite/gift.png">
+                        </div>
+                    </div>
+                    <div class="data__item center-xs">
+                        <span translate="Total" class="title border-xs"></span>
+                        <div class="data">
+                            <span class="total">{{price}} USD</span>
+                        </div>
+                    </div>
+                </div>
+                <span class="total-info" translate="Will be credited total USD (bonus USD)" translate-values="{total: priceWithBonus, bonus: bonusAmount}"></span>
+            </div>
+            <div class="pay__types">
+                <a class="pay__type">
+                    <span translate="Pay by card" ng-click="payClick()"></span>
+                    <div class="type__image">
+                        <img src="/images/sprite/visa-mastercard-block.png">
+                    </div>
+                </a>
+                <a class="pay__type invoice" href="#/invoice">
+                    <span translate="Pay by invoice"></span>
+                    <div class="type__image invoice-payment">
+                        <img src="/images/sprite/invoice-payment.jpg">
+                    </div>
+                </a>
+            </div>
+            <div class="pay_faq">
+                <span translate="Payment FAQ"></span>
+            </div>
+            <img class="security" src="/images/sprite/ssl-secured.png">
+        </section>
+
+        <section class="payment__paid-features" ng-show="!showFreeTariffPayment && tarif === 'free'">
+            <div class="features-wrapper">
+                <h4 class="triangle-title" translate="Upgrade now and you will be able to"></h4>
+                <div class="features">
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-1.png" alt="">
+                        </div>
+                        <span translate="View the report for all vacancies, and statistics of the user's work"></span>
+                    </div>
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-2.png" alt="">
+                        </div>
+                        <span translate="Download information about candidates in Excel"></span>
+                    </div>
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-3.png" alt="">
+                        </div>
+                        <span translate="View and download the report on the vacancy, as well as the recruiting funnel"></span>
+                    </div>
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-4.png" alt="">
+                        </div>
+                        <span translate="View recommended candidates"></span>
+                    </div>
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-5.png" alt="">
+                        </div>
+                        <span translate="Download resume candidates in docx-format"></span>
+                    </div>
+                    <!--<div class="feature">-->
+                        <!--<div class="img-wrap">-->
+                            <!--<img src="/images/sprite/paid-feature-6.png" alt="">-->
+                        <!--</div>-->
+                        <!--<span translate="View reports on vacancies"></span>-->
+                    <!--</div>-->
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-7.png" alt="">
+                        </div>
+                        <span translate="Add customers to your account"></span>
+                    </div>
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-8.png" alt="">
+                        </div>
+                        <span translate="Use CleverStaff API"></span>
+                    </div>
+                    <div class="feature">
+                        <div class="img-wrap">
+                            <img src="/images/sprite/paid-feature-9.png" alt="">
+                        </div>
+                        <span translate="Configure email templates for candidates"></span>
+                    </div>
+                </div>
+                <p class="intro__descr hidden-sm hidden-md hidden-lg" ng-show="tarif === 'free'" translate="free plan descriptions text"></p>
+            </div>
+        </section>
+
+        <section class="payment__plans" ng-class="{'top-pos': showFreeTariffPayment}" ng-show="tarif === 'free'">
+            <div class="section__intro">
+                <p class="intro__descr hidden-xs" translate="free plan descriptions text"></p>
+            </div>
+            <div class="plans">
+                <div class="plan">
+                    <div class="name">
+                        <span>Team Work</span>
+                    </div>
+                    <div class="descr">
+                        <p translate="Manage applicants, interviews, automate everything"></p>
+                    </div>
+                    <div class="select-plan">
+                        <a class="btn-transparent active" translate="Pay" ng-click="toggleFreeTariffView();"></a>
+                    </div>
+                </div>
+                <div class="plan">
+                    <div class="name">
+                        <span>Corporate</span>
+                    </div>
+                    <div class="descr">
+                        <p translate="Billed annually, Fixed price, API, Your domain name, Customizations."></p>
+                    </div>
+                    <div class="select-plan">
+                        <a class="btn-transparent" href="mailto:finance@cleverstaff.net" translate="Contact us"></a>
+                    </div>
+                </div>
+                <div class="plan">
+                    <div class="name darker">
+                        <span>Enterprise</span>
+                    </div>
+                    <div class="descr">
+                        <p translate="Your autonomous license on your own server."></p>
+                    </div>
+                    <div class="select-plan">
+                        <a class="btn-transparent" href="mailto:finance@cleverstaff.net" translate="Contact us"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="pay_faq">
+                <span translate="Payment Questions"></span>
+            </div>
+        </section>
+
+        <section class="payment__history" ng-show="tarif !== 'free'" ng-class="{'no-borders' : !paymentHistory.payment && !paymentHistory.transitions}">
+            <div class="payment__toggle">
+                <div class="history-toggle">
+                    <label translate="Payment history" for="payment"></label>
+                    <input id="payment" class="cmn-toggle cmn-toggle-round" ng-change="togglePaymentHistory({payment: true})" ng-checked="paymentHistory.payment" type="checkbox" ng-model="paymentHistory.payment">
+                    <label for="payment"></label>
+                </div>
+                <div class="write-offs-toggle">
+                    <label translate="Transitions history" for="transitions"></label>
+                    <input id="transitions" class="cmn-toggle cmn-toggle-round" ng-change="togglePaymentHistory({transitions: true})" type="checkbox" ng-model="paymentHistory.transitions">
+                    <label for="transitions"></label>
+                </div>
+            </div>
+            <div class="section__intro" ng-show="paymentHistory.payment || paymentHistory.transitions">
+                <h4 class="intro__title" translate="Your payment history" ng-show="paymentHistory.payment && payments.length"></h4>
+                <h4 class="intro__title" translate="Your transition history" ng-show="paymentHistory.transitions && expenses.length"></h4>
+                <h4 class="intro__title" translate="You didn't make any payments yet" ng-show="paymentHistory.payment && !payments.length"></h4>
+                <h4 class="intro__title" translate="You didn't make any transitions yet" ng-show="paymentHistory.transitions && !expenses.length"></h4>
+            </div>
+            <div class="history-data" ng-show="(paymentHistory.payment && payments.length) || (paymentHistory.transitions && expenses.length)">
+                <table class="payment-history" ng-show="paymentHistory.payment && payments.length > 0">
+                    <thead>
+                        <tr>
+                            <th translate="Payment created"></th>
+                            <th translate="Payment-received"></th>
+                            <th translate="Sum"></th>
+                            <th translate="Purpose"></th>
+                        </tr>
+                        <tr ng-class="{'lastPayment': $index == 0 && fromPayment == true}" ng-repeat="payment in payments | orderBy:'-dc'" hgtablecollspan="7">
+                        <td>{{payment.dc| dateFormat2:true}}</td>
+                        <td>
+                             <span ng-if="payment.status === 'success' || payment.status === 'Approved' || payment.status === 'sandbox' || payment.status === 'SALE'">
+                                <i class="fa fa-check" aria-hidden="true"></i>{{payment.dm| dateFormat2:true}}
+                            </span>
+                            <div ng-if="payment.status != 'success' && payment.status != 'Approved' && payment.status != 'sandbox' && payment.status != 'SALE'">
+                                <span class="paymentStatus danger">{{payment.status}}</span>
+                                <i class="fa fa-question tooltip-icon" tooltip-placement="top-right"  uib-tooltip="{{'Payment was not confirmed via SMS' | translate}}" tooltip-class="tooltip-dark"  aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td>{{payment.amount}} {{payment.currency}}</td>
+                        <td>
+                            {{'For'|translate}} {{payment.params.users}}
+                            <span ng-if="payment.params.users == 1">{{'User2'|translate}}</span>
+                            <span ng-if="payment.params.users > 1">{{'Users2'|translate}}</span>
+                            {{'For2'|translate}} {{payment.params.months}}
+                            <span ng-if="payment.params.months == 1">{{'Month2'|translate}}</span>
+                            <span ng-if="payment.params.months <= 4 && payment.params.months > 1">{{'Months3'|translate}}</span>
+                            <span ng-if="payment.params.months > 4">{{'Months2'|translate}}</span>
+                        </td>
+                        <td class="delete-icon">
+                            <i title="{{'Delete'|translate}}" ng-click="deletePayment(payment)" ng-if="payment.status == 'new' || payment.status == 'Expired'" class="fa fa-times" aria-hidden="true"></i>
+                        </td>
+                        </tr>
+                    </thead>
+                </table>
+                <table class="write-offs-history" ng-show="paymentHistory.transitions && expenses.length">
+                    <thead>
+                        <tr>
+                            <th translate="date"></th>
+                            <th translate="Payment"></th>
+                            <th translate="Sum"></th>
+                            <th translate="Balance"></th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="expense in expenses">
+                        <td>{{expense.targetDate | dateFormat}}</td>
+                        <td ng-show="(!expense.descr) && (expense.type == 'expense') ">
+                            <span>{{'Charge for'|translate}}{{" " + expense.peopleCount }} </span>
+                            <span ng-if="expense.peopleCount == 1">{{'User2'|translate}}</span>
+                            <span ng-if="expense.peopleCount > 1">{{'Users2'|translate}}</span>
+                        </td>
+                        <td ng-show="(!expense.descr) && (expense.type == 'pay')">
+                            <span>{{"Reffilling the balance"|translate}}</span>
+                        </td>
+                        <td ng-show="(expense.descr) && (expense.type == 'adjustment')">
+                            {{expense.descr}}
+                        </td>
+                        <td ng-show="(expense.descr) && (expense.type != 'adjustment')">
+                            {{expense.descr}}
+                        </td>
+                        <td>{{expense.amountDouble + ' '}} USD</td>
+                        <td>{{expense.balanceDouble + ' '}}USD</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="controller-view" ng-if="!$root.loading && isOnBilling && ($root.me.recrutRole == 'admin' || $root.me.recrutRole == 'recruter')">
     <div class="block-pay">
         <div class="row">
             <div class="col-lg-12">
@@ -10,10 +285,10 @@
                     <div>{{errorMessage}}</div>
                 </div>
                 <!--<div class="col-lg-12 blockedAccount">-->
-                    <!--<p><span>Ваш аккаунт заблокирован за долг по оплате.</span>&nbsp;Напоминаем, Вы перешли на платный тариф Стандарт  28 октября .-->
-                        <!--Олатите Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, reiciendis, veniam. Accusamus, alias asperiores consequatur dicta dolorem eius enim eum fugit inventore minima optio pariatur perferendis, soluta tempora ullam? Animi.-->
-                    <!--</p>-->
-                    <!--<i class="fa fa-times" aria-hidden="true"></i>-->
+                <!--<p><span>Ваш аккаунт заблокирован за долг по оплате.</span>&nbsp;Напоминаем, Вы перешли на платный тариф Стандарт  28 октября .-->
+                <!--Олатите Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, reiciendis, veniam. Accusamus, alias asperiores consequatur dicta dolorem eius enim eum fugit inventore minima optio pariatur perferendis, soluta tempora ullam? Animi.-->
+                <!--</p>-->
+                <!--<i class="fa fa-times" aria-hidden="true"></i>-->
                 <!--</div>-->
                 <div class="col-lg-12 payForMonth">
                     <div ng-show="balance.amount === undefined">
@@ -46,6 +321,7 @@
                                         <option>10</option>
                                         <option>11</option>
                                         <option>12</option>
+                                        <option selected="selected" ng-if="paidUsers.length > 12">{{paidUsers.length}}</option>
                                     </select>
                                 </div>
                                 <!--<div class="clear"></div>-->
@@ -80,13 +356,13 @@
                         </div>
                         <img class="pull-left" src="../images/sprite/visa-mastercard.png" alt="">
                         <div class="text-center pull-right">
-                            <p id="bonuce" class="hidden">
-                                {{"The balance of your company account is"|translate}}
-                                <span id="amountBonus"></span>
-                                {{"including"|translate}}
-                                {{bonuce + '%'}}
-                                {{'of the bonus'|translate}}
-                            </p>
+                            <!--<p id="bonuce" class="hidden">-->
+                                <!--{{"The balance of your company account is"|translate}}-->
+                                <!--<span id="amountBonus"></span>-->
+                                <!--{{"including"|translate}}-->
+                                <!--{{bonuce + '%'}}-->
+                                <!--{{'of the bonus'|translate}}-->
+                            <!--</p>-->
                             <a id="payButton" type="button" ng-click="payClick()" class="btn btn-primary accept ng-binding">
                                 {{'Go to payment service'|translate}}
                             </a>
