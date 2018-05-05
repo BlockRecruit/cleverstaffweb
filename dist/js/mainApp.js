@@ -4514,40 +4514,153 @@
                         return drListElement
                     }
 
-                }
             }
-        }])
-        .directive("customSelect",setCustomSelect)
-        .directive("tooltipMove", tooltipMove)
-        .directive("accountScopePanel", accountScopePanel);
-
-
-    function accountScopePanel() {
+        }
+    }])
+    .directive("customSelect",setCustomSelect)
+    .directive("tooltipMove", tooltipMove)
+    .directive("accountScopePanel", accountScopePanel)
+.directive('customSelectNew', ['$window', function($window) {
         return {
-            restrict: "AE",
-            templateUrl: "partials/accountScopePanel.html",
-            link: function ($scope, element, attrs) {
-                let dropdownRegionsElement = $('.dropdown-regions');
-                let dropdownCompanyElement = $('.dropdown-company');
-                $('body').unbind().on('click', ($event) => {
-                    toggleDropdowns($event);
-                });
-
-                function toggleDropdowns(event) {
-                    if($(event.target).hasClass("show-regions-dropdown")) {
-                        dropdownRegionsElement.toggle();
-                        dropdownCompanyElement.hide();
-                    } else {
-                        if($(event.target).hasClass("show-company-dropdown")) {
-                            dropdownCompanyElement.toggle();
-                        }
-                        dropdownRegionsElement.hide();
+            restrict: "E",
+            scope: {
+                options: '=options',
+                model: '=model',
+                label: '=label',
+                value: '=value'
+            },
+            link: function(scope, element, attrs) {
+                // Selecting model value
+                for (let index in scope.options) {
+                    if (scope.options[index].value === scope.model) {
+                        scope.selectedOpt = scope.options[index];
                     }
                 }
 
+                // Is a mobile device
+                var isMobile = false;
+                if (/ipad|iphone|android/gi.test($window.navigator.userAgent)) {
+                    isMobile = true;
+                }
+
+                // Select an option
+                scope.selectOpt = function(opt) {
+                    scope.model = opt.value;
+                    //scope.selectedOpt = opt;
+                    optionsDom.removeClass('active');
+                    backdrop.removeClass('active');
+                };
+
+                scope.$watch('model', function(newVal) {
+                    for (var index in scope.options) {
+                        if (scope.options[index].value == newVal) {
+                            scope.selectedOpt = scope.options[index];
+                        }
+                    }
+                }, true);
+
+                // DOM References
+                var labelDom = element.find('.select-label'),
+                    optionsDom = element.find('.select-ops'),
+                    backdrop = element.find('.select-backdrop'),
+                    mobileSelect = element.find('select');
+
+                // DOM Event Listeners
+                labelDom.on('click', function() {
+                    optionsDom.toggleClass('active');
+                    backdrop.toggleClass('active');
+                });
+                backdrop.on('click', function() {
+                    optionsDom.removeClass('active');
+                    backdrop.removeClass('active');
+                });
+                element.on('keydown', function(ev) {
+                    switch (ev.which) {
+                        case 37: // left arrow
+                        case 38: // top arrow
+                            preSelectPrev();
+                            break;
+                        case 39: // right arrow
+                        case 40: // down arrow
+                            preSelectNext();
+                            break;
+                        case 13: // enter key
+                            preSelectPush();
+                    }
+                });
+
+                if (isMobile) {
+                    mobileSelect.addClass('active');
+                }
+                // PreSelection logic:
+                //  This controls option selecting and highlighting by pressing the arrow
+                //  keys.
+                var preSelected = 0;
+
+                function updatePreSelection() {
+                    optionsDom.children().filter('.preselected').removeClass('preselected');
+                    optionsDom.find('div').eq(preSelected).addClass('preselected');
+                }
+                updatePreSelection();
+
+                function preSelectNext() {
+                    console.log(scope.options.length);
+                    preSelected = (preSelected + 1) % scope.options.length;
+                    updatePreSelection();
+                }
+
+                function preSelectPrev() {
+                    console.log(scope.ops.length);
+                    preSelected = (preSelected - 1) % scope.options.length;
+                    updatePreSelection();
+                }
+
+                function preSelectPush() {
+                    scope.selectOpt(scope.options[preSelected]);
+                    scope.$apply();
+                }
+            },
+            template: `<div class="select-label custom-new" tabindex="0" title="{{selectedOpt.label}}">
+                            <span class="select-label-text">{{selectedOpt.label}}</span>
+                            <span class="select-caret">
+                                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="select-backdrop custom-new"></div>
+                        <div class="select-ops custom-new">
+                            <div ng-repeat="o in options" ng-click="selectOpt(o)">{{o.label || o.value}}</div>
+                        </div>
+                        <select class="custom-new" style="display:none!important;" ng-options="opt.value as opt.label for opt in options" model="model"></select>`
+        };
+    }]);
+
+
+function accountScopePanel() {
+    return {
+        restrict: "AE",
+        templateUrl: "partials/accountScopePanel.html",
+        link: function ($scope, element, attrs) {
+            let dropdownRegionsElement = $('.dropdown-regions');
+            let dropdownCompanyElement = $('.dropdown-company');
+            $('body').unbind().on('click', ($event) => {
+                toggleDropdowns($event);
+            });
+
+            function toggleDropdowns(event) {
+                if($(event.target).hasClass("show-regions-dropdown")) {
+                    dropdownRegionsElement.toggle();
+                    dropdownCompanyElement.hide();
+                } else {
+                    if($(event.target).hasClass("show-company-dropdown")) {
+                        dropdownCompanyElement.toggle();
+                    }
+                    dropdownRegionsElement.hide();
+                }
             }
+
         }
     }
+}
 
     function tooltipMove($filter){
         let restrict  = "EACM";
@@ -5891,6 +6004,18 @@ angular.module('services.account', [
 
     });
 
+    account.accountInfo = function() {
+        return new Promise((resolve, reject) => {
+           account.getAccountInfo(resp => {
+              if(resp.status === 'ok') {
+                  resolve(resp)
+              } else {
+                  reject(resp);
+              }
+           }, error => reject(error));
+        });
+    }
+
     return account;
 }]);
 
@@ -6322,6 +6447,13 @@ angular.module('services.candidate', [
                 params: {
                     param: "setPreferableContact"
                 }
+            },
+            deleteCandidate: {
+                method: "GET",
+                headers: {'Content-type': 'application/json; charset=UTF-8'},
+                params: {
+                    param: "deleteCandidate"
+                }
             }
         });
 
@@ -6417,7 +6549,12 @@ angular.module('services.candidate', [
         return options;
     };
     candidate.setOptions = function(name, value) {
-        options[name] = value;
+        if(name === "dateTo" || name === "dateFrom") {
+            setAgeRange(name, value);
+        } else {
+            options[name] = value;
+        }
+
     };
     candidate.init = function() {
         options = {
@@ -6447,16 +6584,15 @@ angular.module('services.candidate', [
 
     candidate.getStatus = function() {
         return [
-            {value: "active_search", name: "active search"},
-            {value: "not_searching", name: "not searching"},
-            {value: "passive_search", name: "passive search"},
-            {value: "employed", name: "employed"},
-            {value: "freelancer", name: "freelancer"},
-            //{value: "reserved", name: "reserved"},
-            {value: "archived", name: "archived"},
-            {value: "work", name: "Our employee"},
-            {value: "only_remote", name: "Only remote"},
-            {value: "only_relocation_abroad", name: "Only relocation abroad"}
+            {value: "active_search", name: "active search", text:"active search"},
+            {value: "not_searching", name: "not searching", text:"not searching"},
+            {value: "passive_search", name: "passive search", text:"passive search"},
+            {value: "employed", name: "employed", text: "employed"},
+            {value: "freelancer", name: "freelancer", text: "freelancer"},
+            {value: "archived", name: "archived", text: "archived"},
+            {value: "our employee", name: "our employee", text: "our employee"},
+            {value: "only_remote", name: "Only remote", text: "Only remote"},
+            {value: "only_relocation_abroad", name: "Only relocation abroad", text: "Only relocation abroad"}
         ];
     };
     candidate.getStatusAssociative = function() {
@@ -7378,6 +7514,41 @@ angular.module('services.candidate', [
             });
         });
     };
+
+    candidate.deleteCandidateFromSystem = function(params) {
+      return new Promise((resolve, reject) => {
+         candidate.deleteCandidate(params, resp => {
+             if(resp.status === 'ok') {
+                 resolve(resp);
+             } else {
+                 reject(resp)
+             }
+         }, error => reject(error));
+      });
+    };
+
+    function setAgeRange(name, value) {
+        if(typeof (value) !== "number") {
+            options[name] = null;
+        } else {
+            if(name === "dateTo") {
+                if(typeof(options["dateFrom"]) === "number") {
+                    options["dateFrom"] = ageRangeToMs(value + 1) + 86400000;
+                }
+                options["dateTo"] = ageRangeToMs(value);
+            } else {
+                options["dateFrom"] = ageRangeToMs(value + 1) + 86400000;
+            }
+        }
+    }
+
+    function ageRangeToMs(years) {
+        return years ? (new Date(new Date().setFullYear(new Date().getFullYear() - years)).getTime()) : years;
+    }
+
+    function ageRangeToYears(ms) {
+        return ms ? (new Date().getFullYear() - new Date(ms).getFullYear()) : ms;
+    }
 
     return candidate;
 }]);
@@ -10940,6 +11111,15 @@ angular.module('services.globalService', [
         ];
     };
 
+    service.getAllCounties = function(lang) {
+        const countries =  {
+            en : {"AF":"Afghanistan","AX":"\u00c5land Islands","AL":"Albania","DZ":"Algeria","AS":"American Samoa","AD":"Andorra","AO":"Angola","AI":"Anguilla","AQ":"Antarctica","AG":"Antigua & Barbuda","AR":"Argentina","AM":"Armenia","AW":"Aruba","AC":"Ascension Island","AU":"Australia","AT":"Austria","AZ":"Azerbaijan","BS":"Bahamas","BH":"Bahrain","BD":"Bangladesh","BB":"Barbados","BY":"Belarus","BE":"Belgium","BZ":"Belize","BJ":"Benin","BM":"Bermuda","BT":"Bhutan","BO":"Bolivia","BA":"Bosnia & Herzegovina","BW":"Botswana","BR":"Brazil","IO":"British Indian Ocean Territory","VG":"British Virgin Islands","BN":"Brunei","BG":"Bulgaria","BF":"Burkina Faso","BI":"Burundi","KH":"Cambodia","CM":"Cameroon","CA":"Canada","IC":"Canary Islands","CV":"Cape Verde","BQ":"Caribbean Netherlands","KY":"Cayman Islands","CF":"Central African Republic","EA":"Ceuta & Melilla","TD":"Chad","CL":"Chile","CN":"China","CX":"Christmas Island","CC":"Cocos (Keeling) Islands","CO":"Colombia","KM":"Comoros","CG":"Congo - Brazzaville","CD":"Congo - Kinshasa","CK":"Cook Islands","CR":"Costa Rica","CI":"C\u00f4te d\u2019Ivoire","HR":"Croatia","CU":"Cuba","CW":"Cura\u00e7ao","CY":"Cyprus","CZ":"Czechia","DK":"Denmark","DG":"Diego Garcia","DJ":"Djibouti","DM":"Dominica","DO":"Dominican Republic","EC":"Ecuador","EG":"Egypt","SV":"El Salvador","GQ":"Equatorial Guinea","ER":"Eritrea","EE":"Estonia","ET":"Ethiopia","FK":"Falkland Islands","FO":"Faroe Islands","FJ":"Fiji","FI":"Finland","FR":"France","GF":"French Guiana","PF":"French Polynesia","TF":"French Southern Territories","GA":"Gabon","GM":"Gambia","GE":"Georgia","DE":"Germany","GH":"Ghana","GI":"Gibraltar","GR":"Greece","GL":"Greenland","GD":"Grenada","GP":"Guadeloupe","GU":"Guam","GT":"Guatemala","GG":"Guernsey","GN":"Guinea","GW":"Guinea-Bissau","GY":"Guyana","HT":"Haiti","HN":"Honduras","HK":"Hong Kong SAR China","HU":"Hungary","IS":"Iceland","IN":"India","ID":"Indonesia","IR":"Iran","IQ":"Iraq","IE":"Ireland","IM":"Isle of Man","IL":"Israel","IT":"Italy","JM":"Jamaica","JP":"Japan","JE":"Jersey","JO":"Jordan","KZ":"Kazakhstan","KE":"Kenya","KI":"Kiribati","XK":"Kosovo","KW":"Kuwait","KG":"Kyrgyzstan","LA":"Laos","LV":"Latvia","LB":"Lebanon","LS":"Lesotho","LR":"Liberia","LY":"Libya","LI":"Liechtenstein","LT":"Lithuania","LU":"Luxembourg","MO":"Macau SAR China","MK":"Macedonia","MG":"Madagascar","MW":"Malawi","MY":"Malaysia","MV":"Maldives","ML":"Mali","MT":"Malta","MH":"Marshall Islands","MQ":"Martinique","MR":"Mauritania","MU":"Mauritius","YT":"Mayotte","MX":"Mexico","FM":"Micronesia","MD":"Moldova","MC":"Monaco","MN":"Mongolia","ME":"Montenegro","MS":"Montserrat","MA":"Morocco","MZ":"Mozambique","MM":"Myanmar (Burma)","NA":"Namibia","NR":"Nauru","NP":"Nepal","NL":"Netherlands","NC":"New Caledonia","NZ":"New Zealand","NI":"Nicaragua","NE":"Niger","NG":"Nigeria","NU":"Niue","NF":"Norfolk Island","KP":"North Korea","MP":"Northern Mariana Islands","NO":"Norway","OM":"Oman","PK":"Pakistan","PW":"Palau","PS":"Palestinian Territories","PA":"Panama","PG":"Papua New Guinea","PY":"Paraguay","PE":"Peru","PH":"Philippines","PN":"Pitcairn Islands","PL":"Poland","PT":"Portugal","PR":"Puerto Rico","QA":"Qatar","RE":"R\u00e9union","RO":"Romania","RU":"Russia","RW":"Rwanda","WS":"Samoa","SM":"San Marino","ST":"S\u00e3o Tom\u00e9 & Pr\u00edncipe","SA":"Saudi Arabia","SN":"Senegal","RS":"Serbia","SC":"Seychelles","SL":"Sierra Leone","SG":"Singapore","SX":"Sint Maarten","SK":"Slovakia","SI":"Slovenia","SB":"Solomon Islands","SO":"Somalia","ZA":"South Africa","GS":"South Georgia & South Sandwich Islands","KR":"South Korea","SS":"South Sudan","ES":"Spain","LK":"Sri Lanka","BL":"St. Barth\u00e9lemy","SH":"St. Helena","KN":"St. Kitts & Nevis","LC":"St. Lucia","MF":"St. Martin","PM":"St. Pierre & Miquelon","VC":"St. Vincent & Grenadines","SD":"Sudan","SR":"Suriname","SJ":"Svalbard & Jan Mayen","SZ":"Swaziland","SE":"Sweden","CH":"Switzerland","SY":"Syria","TW":"Taiwan","TJ":"Tajikistan","TZ":"Tanzania","TH":"Thailand","TL":"Timor-Leste","TG":"Togo","TK":"Tokelau","TO":"Tonga","TT":"Trinidad & Tobago","TA":"Tristan da Cunha","TN":"Tunisia","TR":"Turkey","TM":"Turkmenistan","TC":"Turks & Caicos Islands","TV":"Tuvalu","UM":"U.S. Outlying Islands","VI":"U.S. Virgin Islands","UG":"Uganda","UA":"Ukraine","AE":"United Arab Emirates","GB":"United Kingdom","US":"United States","UY":"Uruguay","UZ":"Uzbekistan","VU":"Vanuatu","VA":"Vatican City","VE":"Venezuela","VN":"Vietnam","WF":"Wallis & Futuna","EH":"Western Sahara","YE":"Yemen","ZM":"Zambia","ZW":"Zimbabwe"},
+            ru : {"AU":"\u0410\u0432\u0441\u0442\u0440\u0430\u043b\u0438\u044f","AT":"\u0410\u0432\u0441\u0442\u0440\u0438\u044f","AZ":"\u0410\u0437\u0435\u0440\u0431\u0430\u0439\u0434\u0436\u0430\u043d","AX":"\u0410\u043b\u0430\u043d\u0434\u0441\u043a\u0438\u0435 \u043e-\u0432\u0430","AL":"\u0410\u043b\u0431\u0430\u043d\u0438\u044f","DZ":"\u0410\u043b\u0436\u0438\u0440","AS":"\u0410\u043c\u0435\u0440\u0438\u043a\u0430\u043d\u0441\u043a\u043e\u0435 \u0421\u0430\u043c\u043e\u0430","AI":"\u0410\u043d\u0433\u0438\u043b\u044c\u044f","AO":"\u0410\u043d\u0433\u043e\u043b\u0430","AD":"\u0410\u043d\u0434\u043e\u0440\u0440\u0430","AQ":"\u0410\u043d\u0442\u0430\u0440\u043a\u0442\u0438\u0434\u0430","AG":"\u0410\u043d\u0442\u0438\u0433\u0443\u0430 \u0438 \u0411\u0430\u0440\u0431\u0443\u0434\u0430","AR":"\u0410\u0440\u0433\u0435\u043d\u0442\u0438\u043d\u0430","AM":"\u0410\u0440\u043c\u0435\u043d\u0438\u044f","AW":"\u0410\u0440\u0443\u0431\u0430","AF":"\u0410\u0444\u0433\u0430\u043d\u0438\u0441\u0442\u0430\u043d","BS":"\u0411\u0430\u0433\u0430\u043c\u044b","BD":"\u0411\u0430\u043d\u0433\u043b\u0430\u0434\u0435\u0448","BB":"\u0411\u0430\u0440\u0431\u0430\u0434\u043e\u0441","BH":"\u0411\u0430\u0445\u0440\u0435\u0439\u043d","BY":"\u0411\u0435\u043b\u0430\u0440\u0443\u0441\u044c","BZ":"\u0411\u0435\u043b\u0438\u0437","BE":"\u0411\u0435\u043b\u044c\u0433\u0438\u044f","BJ":"\u0411\u0435\u043d\u0438\u043d","BM":"\u0411\u0435\u0440\u043c\u0443\u0434\u044b","BG":"\u0411\u043e\u043b\u0433\u0430\u0440\u0438\u044f","BO":"\u0411\u043e\u043b\u0438\u0432\u0438\u044f","BQ":"\u0411\u043e\u043d\u044d\u0439\u0440, \u0421\u0438\u043d\u0442-\u042d\u0441\u0442\u0430\u0442\u0438\u0443\u0441 \u0438 \u0421\u0430\u0431\u0430","BA":"\u0411\u043e\u0441\u043d\u0438\u044f \u0438 \u0413\u0435\u0440\u0446\u0435\u0433\u043e\u0432\u0438\u043d\u0430","BW":"\u0411\u043e\u0442\u0441\u0432\u0430\u043d\u0430","BR":"\u0411\u0440\u0430\u0437\u0438\u043b\u0438\u044f","IO":"\u0411\u0440\u0438\u0442\u0430\u043d\u0441\u043a\u0430\u044f \u0442\u0435\u0440\u0440\u0438\u0442\u043e\u0440\u0438\u044f \u0432 \u0418\u043d\u0434\u0438\u0439\u0441\u043a\u043e\u043c \u043e\u043a\u0435\u0430\u043d\u0435","BN":"\u0411\u0440\u0443\u043d\u0435\u0439-\u0414\u0430\u0440\u0443\u0441\u0441\u0430\u043b\u0430\u043c","BF":"\u0411\u0443\u0440\u043a\u0438\u043d\u0430-\u0424\u0430\u0441\u043e","BI":"\u0411\u0443\u0440\u0443\u043d\u0434\u0438","BT":"\u0411\u0443\u0442\u0430\u043d","VU":"\u0412\u0430\u043d\u0443\u0430\u0442\u0443","VA":"\u0412\u0430\u0442\u0438\u043a\u0430\u043d","GB":"\u0412\u0435\u043b\u0438\u043a\u043e\u0431\u0440\u0438\u0442\u0430\u043d\u0438\u044f","HU":"\u0412\u0435\u043d\u0433\u0440\u0438\u044f","VE":"\u0412\u0435\u043d\u0435\u0441\u0443\u044d\u043b\u0430","VG":"\u0412\u0438\u0440\u0433\u0438\u043d\u0441\u043a\u0438\u0435 \u043e-\u0432\u0430 (\u0411\u0440\u0438\u0442\u0430\u043d\u0441\u043a\u0438\u0435)","VI":"\u0412\u0438\u0440\u0433\u0438\u043d\u0441\u043a\u0438\u0435 \u043e-\u0432\u0430 (\u0421\u0428\u0410)","UM":"\u0412\u043d\u0435\u0448\u043d\u0438\u0435 \u043c\u0430\u043b\u044b\u0435 \u043e-\u0432\u0430 (\u0421\u0428\u0410)","TL":"\u0412\u043e\u0441\u0442\u043e\u0447\u043d\u044b\u0439 \u0422\u0438\u043c\u043e\u0440","VN":"\u0412\u044c\u0435\u0442\u043d\u0430\u043c","GA":"\u0413\u0430\u0431\u043e\u043d","HT":"\u0413\u0430\u0438\u0442\u0438","GY":"\u0413\u0430\u0439\u0430\u043d\u0430","GM":"\u0413\u0430\u043c\u0431\u0438\u044f","GH":"\u0413\u0430\u043d\u0430","GP":"\u0413\u0432\u0430\u0434\u0435\u043b\u0443\u043f\u0430","GT":"\u0413\u0432\u0430\u0442\u0435\u043c\u0430\u043b\u0430","GN":"\u0413\u0432\u0438\u043d\u0435\u044f","GW":"\u0413\u0432\u0438\u043d\u0435\u044f-\u0411\u0438\u0441\u0430\u0443","DE":"\u0413\u0435\u0440\u043c\u0430\u043d\u0438\u044f","GG":"\u0413\u0435\u0440\u043d\u0441\u0438","GI":"\u0413\u0438\u0431\u0440\u0430\u043b\u0442\u0430\u0440","HN":"\u0413\u043e\u043d\u0434\u0443\u0440\u0430\u0441","HK":"\u0413\u043e\u043d\u043a\u043e\u043d\u0433 (\u0441\u043f\u0435\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0439 \u0430\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0430\u0442\u0438\u0432\u043d\u044b\u0439 \u0440\u0430\u0439\u043e\u043d)","GD":"\u0413\u0440\u0435\u043d\u0430\u0434\u0430","GL":"\u0413\u0440\u0435\u043d\u043b\u0430\u043d\u0434\u0438\u044f","GR":"\u0413\u0440\u0435\u0446\u0438\u044f","GE":"\u0413\u0440\u0443\u0437\u0438\u044f","GU":"\u0413\u0443\u0430\u043c","DK":"\u0414\u0430\u043d\u0438\u044f","JE":"\u0414\u0436\u0435\u0440\u0441\u0438","DJ":"\u0414\u0436\u0438\u0431\u0443\u0442\u0438","DG":"\u0414\u0438\u0435\u0433\u043e-\u0413\u0430\u0440\u0441\u0438\u044f","DM":"\u0414\u043e\u043c\u0438\u043d\u0438\u043a\u0430","DO":"\u0414\u043e\u043c\u0438\u043d\u0438\u043a\u0430\u043d\u0441\u043a\u0430\u044f \u0420\u0435\u0441\u043f\u0443\u0431\u043b\u0438\u043a\u0430","EG":"\u0415\u0433\u0438\u043f\u0435\u0442","ZM":"\u0417\u0430\u043c\u0431\u0438\u044f","EH":"\u0417\u0430\u043f\u0430\u0434\u043d\u0430\u044f \u0421\u0430\u0445\u0430\u0440\u0430","ZW":"\u0417\u0438\u043c\u0431\u0430\u0431\u0432\u0435","IL":"\u0418\u0437\u0440\u0430\u0438\u043b\u044c","IN":"\u0418\u043d\u0434\u0438\u044f","ID":"\u0418\u043d\u0434\u043e\u043d\u0435\u0437\u0438\u044f","JO":"\u0418\u043e\u0440\u0434\u0430\u043d\u0438\u044f","IQ":"\u0418\u0440\u0430\u043a","IR":"\u0418\u0440\u0430\u043d","IE":"\u0418\u0440\u043b\u0430\u043d\u0434\u0438\u044f","IS":"\u0418\u0441\u043b\u0430\u043d\u0434\u0438\u044f","ES":"\u0418\u0441\u043f\u0430\u043d\u0438\u044f","IT":"\u0418\u0442\u0430\u043b\u0438\u044f","YE":"\u0419\u0435\u043c\u0435\u043d","CV":"\u041a\u0430\u0431\u043e-\u0412\u0435\u0440\u0434\u0435","KZ":"\u041a\u0430\u0437\u0430\u0445\u0441\u0442\u0430\u043d","KY":"\u041a\u0430\u0439\u043c\u0430\u043d\u043e\u0432\u044b \u043e-\u0432\u0430","KH":"\u041a\u0430\u043c\u0431\u043e\u0434\u0436\u0430","CM":"\u041a\u0430\u043c\u0435\u0440\u0443\u043d","CA":"\u041a\u0430\u043d\u0430\u0434\u0430","IC":"\u041a\u0430\u043d\u0430\u0440\u0441\u043a\u0438\u0435 \u043e-\u0432\u0430","QA":"\u041a\u0430\u0442\u0430\u0440","KE":"\u041a\u0435\u043d\u0438\u044f","CY":"\u041a\u0438\u043f\u0440","KG":"\u041a\u0438\u0440\u0433\u0438\u0437\u0438\u044f","KI":"\u041a\u0438\u0440\u0438\u0431\u0430\u0442\u0438","CN":"\u041a\u0438\u0442\u0430\u0439","KP":"\u041a\u041d\u0414\u0420","CC":"\u041a\u043e\u043a\u043e\u0441\u043e\u0432\u044b\u0435 \u043e-\u0432\u0430","CO":"\u041a\u043e\u043b\u0443\u043c\u0431\u0438\u044f","KM":"\u041a\u043e\u043c\u043e\u0440\u044b","CG":"\u041a\u043e\u043d\u0433\u043e - \u0411\u0440\u0430\u0437\u0437\u0430\u0432\u0438\u043b\u044c","CD":"\u041a\u043e\u043d\u0433\u043e - \u041a\u0438\u043d\u0448\u0430\u0441\u0430","XK":"\u041a\u043e\u0441\u043e\u0432\u043e","CR":"\u041a\u043e\u0441\u0442\u0430-\u0420\u0438\u043a\u0430","CI":"\u041a\u043e\u0442-\u0434\u2019\u0418\u0432\u0443\u0430\u0440","CU":"\u041a\u0443\u0431\u0430","KW":"\u041a\u0443\u0432\u0435\u0439\u0442","CW":"\u041a\u044e\u0440\u0430\u0441\u0430\u043e","LA":"\u041b\u0430\u043e\u0441","LV":"\u041b\u0430\u0442\u0432\u0438\u044f","LS":"\u041b\u0435\u0441\u043e\u0442\u043e","LR":"\u041b\u0438\u0431\u0435\u0440\u0438\u044f","LB":"\u041b\u0438\u0432\u0430\u043d","LY":"\u041b\u0438\u0432\u0438\u044f","LT":"\u041b\u0438\u0442\u0432\u0430","LI":"\u041b\u0438\u0445\u0442\u0435\u043d\u0448\u0442\u0435\u0439\u043d","LU":"\u041b\u044e\u043a\u0441\u0435\u043c\u0431\u0443\u0440\u0433","MU":"\u041c\u0430\u0432\u0440\u0438\u043a\u0438\u0439","MR":"\u041c\u0430\u0432\u0440\u0438\u0442\u0430\u043d\u0438\u044f","MG":"\u041c\u0430\u0434\u0430\u0433\u0430\u0441\u043a\u0430\u0440","YT":"\u041c\u0430\u0439\u043e\u0442\u0442\u0430","MO":"\u041c\u0430\u043a\u0430\u043e (\u0441\u043f\u0435\u0446\u0438\u0430\u043b\u044c\u043d\u044b\u0439 \u0430\u0434\u043c\u0438\u043d\u0438\u0441\u0442\u0440\u0430\u0442\u0438\u0432\u043d\u044b\u0439 \u0440\u0430\u0439\u043e\u043d)","MK":"\u041c\u0430\u043a\u0435\u0434\u043e\u043d\u0438\u044f","MW":"\u041c\u0430\u043b\u0430\u0432\u0438","MY":"\u041c\u0430\u043b\u0430\u0439\u0437\u0438\u044f","ML":"\u041c\u0430\u043b\u0438","MV":"\u041c\u0430\u043b\u044c\u0434\u0438\u0432\u044b","MT":"\u041c\u0430\u043b\u044c\u0442\u0430","MA":"\u041c\u0430\u0440\u043e\u043a\u043a\u043e","MQ":"\u041c\u0430\u0440\u0442\u0438\u043d\u0438\u043a\u0430","MH":"\u041c\u0430\u0440\u0448\u0430\u043b\u043b\u043e\u0432\u044b \u041e\u0441\u0442\u0440\u043e\u0432\u0430","MX":"\u041c\u0435\u043a\u0441\u0438\u043a\u0430","MZ":"\u041c\u043e\u0437\u0430\u043c\u0431\u0438\u043a","MD":"\u041c\u043e\u043b\u0434\u043e\u0432\u0430","MC":"\u041c\u043e\u043d\u0430\u043a\u043e","MN":"\u041c\u043e\u043d\u0433\u043e\u043b\u0438\u044f","MS":"\u041c\u043e\u043d\u0442\u0441\u0435\u0440\u0440\u0430\u0442","MM":"\u041c\u044c\u044f\u043d\u043c\u0430 (\u0411\u0438\u0440\u043c\u0430)","NA":"\u041d\u0430\u043c\u0438\u0431\u0438\u044f","NR":"\u041d\u0430\u0443\u0440\u0443","NP":"\u041d\u0435\u043f\u0430\u043b","NE":"\u041d\u0438\u0433\u0435\u0440","NG":"\u041d\u0438\u0433\u0435\u0440\u0438\u044f","NL":"\u041d\u0438\u0434\u0435\u0440\u043b\u0430\u043d\u0434\u044b","NI":"\u041d\u0438\u043a\u0430\u0440\u0430\u0433\u0443\u0430","NU":"\u041d\u0438\u0443\u044d","NZ":"\u041d\u043e\u0432\u0430\u044f \u0417\u0435\u043b\u0430\u043d\u0434\u0438\u044f","NC":"\u041d\u043e\u0432\u0430\u044f \u041a\u0430\u043b\u0435\u0434\u043e\u043d\u0438\u044f","NO":"\u041d\u043e\u0440\u0432\u0435\u0433\u0438\u044f","AC":"\u043e-\u0432 \u0412\u043e\u0437\u043d\u0435\u0441\u0435\u043d\u0438\u044f","IM":"\u043e-\u0432 \u041c\u044d\u043d","NF":"\u043e-\u0432 \u041d\u043e\u0440\u0444\u043e\u043b\u043a","CX":"\u043e-\u0432 \u0420\u043e\u0436\u0434\u0435\u0441\u0442\u0432\u0430","SH":"\u043e-\u0432 \u0421\u0432. \u0415\u043b\u0435\u043d\u044b","TC":"\u043e-\u0432\u0430 \u0422\u0451\u0440\u043a\u0441 \u0438 \u041a\u0430\u0439\u043a\u043e\u0441","AE":"\u041e\u0410\u042d","OM":"\u041e\u043c\u0430\u043d","CK":"\u041e\u0441\u0442\u0440\u043e\u0432\u0430 \u041a\u0443\u043a\u0430","PN":"\u043e\u0441\u0442\u0440\u043e\u0432\u0430 \u041f\u0438\u0442\u043a\u044d\u0440\u043d","PK":"\u041f\u0430\u043a\u0438\u0441\u0442\u0430\u043d","PW":"\u041f\u0430\u043b\u0430\u0443","PS":"\u041f\u0430\u043b\u0435\u0441\u0442\u0438\u043d\u0441\u043a\u0438\u0435 \u0442\u0435\u0440\u0440\u0438\u0442\u043e\u0440\u0438\u0438","PA":"\u041f\u0430\u043d\u0430\u043c\u0430","PG":"\u041f\u0430\u043f\u0443\u0430 \u2013 \u041d\u043e\u0432\u0430\u044f \u0413\u0432\u0438\u043d\u0435\u044f","PY":"\u041f\u0430\u0440\u0430\u0433\u0432\u0430\u0439","PE":"\u041f\u0435\u0440\u0443","PL":"\u041f\u043e\u043b\u044c\u0448\u0430","PT":"\u041f\u043e\u0440\u0442\u0443\u0433\u0430\u043b\u0438\u044f","PR":"\u041f\u0443\u044d\u0440\u0442\u043e-\u0420\u0438\u043a\u043e","KR":"\u0420\u0435\u0441\u043f\u0443\u0431\u043b\u0438\u043a\u0430 \u041a\u043e\u0440\u0435\u044f","RE":"\u0420\u0435\u044e\u043d\u044c\u043e\u043d","RU":"\u0420\u043e\u0441\u0441\u0438\u044f","RW":"\u0420\u0443\u0430\u043d\u0434\u0430","RO":"\u0420\u0443\u043c\u044b\u043d\u0438\u044f","SV":"\u0421\u0430\u043b\u044c\u0432\u0430\u0434\u043e\u0440","WS":"\u0421\u0430\u043c\u043e\u0430","SM":"\u0421\u0430\u043d-\u041c\u0430\u0440\u0438\u043d\u043e","ST":"\u0421\u0430\u043d-\u0422\u043e\u043c\u0435 \u0438 \u041f\u0440\u0438\u043d\u0441\u0438\u043f\u0438","SA":"\u0421\u0430\u0443\u0434\u043e\u0432\u0441\u043a\u0430\u044f \u0410\u0440\u0430\u0432\u0438\u044f","SZ":"\u0421\u0432\u0430\u0437\u0438\u043b\u0435\u043d\u0434","MP":"\u0421\u0435\u0432\u0435\u0440\u043d\u044b\u0435 \u041c\u0430\u0440\u0438\u0430\u043d\u0441\u043a\u0438\u0435 \u043e-\u0432\u0430","SC":"\u0421\u0435\u0439\u0448\u0435\u043b\u044c\u0441\u043a\u0438\u0435 \u041e\u0441\u0442\u0440\u043e\u0432\u0430","BL":"\u0421\u0435\u043d-\u0411\u0430\u0440\u0442\u0435\u043b\u0435\u043c\u0438","MF":"\u0421\u0435\u043d-\u041c\u0430\u0440\u0442\u0435\u043d","PM":"\u0421\u0435\u043d-\u041f\u044c\u0435\u0440 \u0438 \u041c\u0438\u043a\u0435\u043b\u043e\u043d","SN":"\u0421\u0435\u043d\u0435\u0433\u0430\u043b","VC":"\u0421\u0435\u043d\u0442-\u0412\u0438\u043d\u0441\u0435\u043d\u0442 \u0438 \u0413\u0440\u0435\u043d\u0430\u0434\u0438\u043d\u044b","KN":"\u0421\u0435\u043d\u0442-\u041a\u0438\u0442\u0441 \u0438 \u041d\u0435\u0432\u0438\u0441","LC":"\u0421\u0435\u043d\u0442-\u041b\u044e\u0441\u0438\u044f","RS":"\u0421\u0435\u0440\u0431\u0438\u044f","EA":"\u0421\u0435\u0443\u0442\u0430 \u0438 \u041c\u0435\u043b\u0438\u043b\u044c\u044f","SG":"\u0421\u0438\u043d\u0433\u0430\u043f\u0443\u0440","SX":"\u0421\u0438\u043d\u0442-\u041c\u0430\u0440\u0442\u0435\u043d","SY":"\u0421\u0438\u0440\u0438\u044f","SK":"\u0421\u043b\u043e\u0432\u0430\u043a\u0438\u044f","SI":"\u0421\u043b\u043e\u0432\u0435\u043d\u0438\u044f","US":"\u0421\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u043d\u044b\u0435 \u0428\u0442\u0430\u0442\u044b","SB":"\u0421\u043e\u043b\u043e\u043c\u043e\u043d\u043e\u0432\u044b \u041e\u0441\u0442\u0440\u043e\u0432\u0430","SO":"\u0421\u043e\u043c\u0430\u043b\u0438","SD":"\u0421\u0443\u0434\u0430\u043d","SR":"\u0421\u0443\u0440\u0438\u043d\u0430\u043c","SL":"\u0421\u044c\u0435\u0440\u0440\u0430-\u041b\u0435\u043e\u043d\u0435","TJ":"\u0422\u0430\u0434\u0436\u0438\u043a\u0438\u0441\u0442\u0430\u043d","TH":"\u0422\u0430\u0438\u043b\u0430\u043d\u0434","TW":"\u0422\u0430\u0439\u0432\u0430\u043d\u044c","TZ":"\u0422\u0430\u043d\u0437\u0430\u043d\u0438\u044f","TG":"\u0422\u043e\u0433\u043e","TK":"\u0422\u043e\u043a\u0435\u043b\u0430\u0443","TO":"\u0422\u043e\u043d\u0433\u0430","TT":"\u0422\u0440\u0438\u043d\u0438\u0434\u0430\u0434 \u0438 \u0422\u043e\u0431\u0430\u0433\u043e","TA":"\u0422\u0440\u0438\u0441\u0442\u0430\u043d-\u0434\u0430-\u041a\u0443\u043d\u044c\u044f","TV":"\u0422\u0443\u0432\u0430\u043b\u0443","TN":"\u0422\u0443\u043d\u0438\u0441","TM":"\u0422\u0443\u0440\u043a\u043c\u0435\u043d\u0438\u0441\u0442\u0430\u043d","TR":"\u0422\u0443\u0440\u0446\u0438\u044f","UG":"\u0423\u0433\u0430\u043d\u0434\u0430","UZ":"\u0423\u0437\u0431\u0435\u043a\u0438\u0441\u0442\u0430\u043d","UA":"\u0423\u043a\u0440\u0430\u0438\u043d\u0430","WF":"\u0423\u043e\u043b\u043b\u0438\u0441 \u0438 \u0424\u0443\u0442\u0443\u043d\u0430","UY":"\u0423\u0440\u0443\u0433\u0432\u0430\u0439","FO":"\u0424\u0430\u0440\u0435\u0440\u0441\u043a\u0438\u0435 \u043e-\u0432\u0430","FM":"\u0424\u0435\u0434\u0435\u0440\u0430\u0442\u0438\u0432\u043d\u044b\u0435 \u0428\u0442\u0430\u0442\u044b \u041c\u0438\u043a\u0440\u043e\u043d\u0435\u0437\u0438\u0438","FJ":"\u0424\u0438\u0434\u0436\u0438","PH":"\u0424\u0438\u043b\u0438\u043f\u043f\u0438\u043d\u044b","FI":"\u0424\u0438\u043d\u043b\u044f\u043d\u0434\u0438\u044f","FK":"\u0424\u043e\u043b\u043a\u043b\u0435\u043d\u0434\u0441\u043a\u0438\u0435 \u043e-\u0432\u0430","FR":"\u0424\u0440\u0430\u043d\u0446\u0438\u044f","GF":"\u0424\u0440\u0430\u043d\u0446\u0443\u0437\u0441\u043a\u0430\u044f \u0413\u0432\u0438\u0430\u043d\u0430","PF":"\u0424\u0440\u0430\u043d\u0446\u0443\u0437\u0441\u043a\u0430\u044f \u041f\u043e\u043b\u0438\u043d\u0435\u0437\u0438\u044f","TF":"\u0424\u0440\u0430\u043d\u0446\u0443\u0437\u0441\u043a\u0438\u0435 \u042e\u0436\u043d\u044b\u0435 \u0442\u0435\u0440\u0440\u0438\u0442\u043e\u0440\u0438\u0438","HR":"\u0425\u043e\u0440\u0432\u0430\u0442\u0438\u044f","CF":"\u0426\u0410\u0420","TD":"\u0427\u0430\u0434","ME":"\u0427\u0435\u0440\u043d\u043e\u0433\u043e\u0440\u0438\u044f","CZ":"\u0427\u0435\u0445\u0438\u044f","CL":"\u0427\u0438\u043b\u0438","CH":"\u0428\u0432\u0435\u0439\u0446\u0430\u0440\u0438\u044f","SE":"\u0428\u0432\u0435\u0446\u0438\u044f","SJ":"\u0428\u043f\u0438\u0446\u0431\u0435\u0440\u0433\u0435\u043d \u0438 \u042f\u043d-\u041c\u0430\u0439\u0435\u043d","LK":"\u0428\u0440\u0438-\u041b\u0430\u043d\u043a\u0430","EC":"\u042d\u043a\u0432\u0430\u0434\u043e\u0440","GQ":"\u042d\u043a\u0432\u0430\u0442\u043e\u0440\u0438\u0430\u043b\u044c\u043d\u0430\u044f \u0413\u0432\u0438\u043d\u0435\u044f","ER":"\u042d\u0440\u0438\u0442\u0440\u0435\u044f","EE":"\u042d\u0441\u0442\u043e\u043d\u0438\u044f","ET":"\u042d\u0444\u0438\u043e\u043f\u0438\u044f","ZA":"\u042e\u0410\u0420","GS":"\u042e\u0436\u043d\u0430\u044f \u0413\u0435\u043e\u0440\u0433\u0438\u044f \u0438 \u042e\u0436\u043d\u044b\u0435 \u0421\u0430\u043d\u0434\u0432\u0438\u0447\u0435\u0432\u044b \u043e-\u0432\u0430","SS":"\u042e\u0436\u043d\u044b\u0439 \u0421\u0443\u0434\u0430\u043d","JM":"\u042f\u043c\u0430\u0439\u043a\u0430","JP":"\u042f\u043f\u043e\u043d\u0438\u044f"}
+        };
+
+        return countries[lang];
+    };
+
     service.dynamicTableLoading = function (total, page, count, getDataFunction) {
         let rocketElement = document.getElementById('scrollup');
         let pagesPerOneLoad = count,
@@ -10978,6 +11158,88 @@ angular.module('services.globalService', [
             scrollUp.onclick = function() { //обработка клика
                 window.scrollTo(0,0);
             };
+        }
+    };
+
+    service.cookiesConsent = function() {
+        var bodyElement = $("body");
+        var translatedText = setTranslates();
+
+        if(getCookie("consentCookies") !== "yes") {
+            appendCockiesBlock();
+        }
+
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+
+        function appendCockiesBlock() {
+            var cookieElementText = "<div class='cookie-wrapper' id='cookie-block'>" +
+                "<span class='inner-text'>" +
+                "<span class='first-sentence'>" +
+                "<span>" + translatedText.bestExp +  "</span>" +
+                "</span>" +
+                "<span class='second-sentence'>" +
+                "<span>" + translatedText.findMore +  "</span>" +
+                "<a href='https://cleverstaff.net/privacy.html' target='_blank'>" + translatedText.findMoreLink +  "</a>" +
+                "</span>" +
+                "</span>" +
+                "</div>";
+            var closeIconElement = $("<i class='close-icon'>" +
+                "<svg aria-hidden=\"true\" data-prefix=\"far\" data-icon=\"times\" role=\"img\" width=\"12px\" height=\"12px\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 384 512\" class=\"svg-inline--fa fa-times fa-w-12 fa-2x\"><path fill=\"currentColor\" d=\"M231.6 256l130.1-130.1c4.7-4.7 4.7-12.3 0-17l-22.6-22.6c-4.7-4.7-12.3-4.7-17 0L192 216.4 61.9 86.3c-4.7-4.7-12.3-4.7-17 0l-22.6 22.6c-4.7 4.7-4.7 12.3 0 17L152.4 256 22.3 386.1c-4.7 4.7-4.7 12.3 0 17l22.6 22.6c4.7 4.7 12.3 4.7 17 0L192 295.6l130.1 130.1c4.7 4.7 12.3 4.7 17 0l22.6-22.6c4.7-4.7 4.7-12.3 0-17L231.6 256z\" class=\"\"></path></svg>" +
+                "</i>");
+            closeIconElement.on("click", function() {
+                console.log("click close");
+                cookieElement.remove();
+            });
+            var cookieElement = $(cookieElementText);
+            var agreeButtonElement = $("<button>" + translatedText.iAgree + "</button>");
+            agreeButtonElement.on("click", function () {
+                setCookies("consentCookies", "yes");
+                cookieElement.remove();
+            });
+            cookieElement.append(closeIconElement);
+            cookieElement.find(".first-sentence").append(agreeButtonElement);
+            bodyElement.append(cookieElement);
+        }
+
+
+        function setTranslates() {
+            var textsEn = {
+                iAgree: "I agree",
+                bestExp: "To give you the best possible experience, this site uses cookies. If you agree with cookie usage, press ",
+                findMore: "Should you want to find out more about our cookie policy - press ",
+                findMoreLink: "read more"
+            };
+            var textsRu = {
+                iAgree: "Согласен",
+                bestExp: "Чтобы предоставить вам наилучший опыт, на этом сайте используются cookie. Если вы согласны с использованием cookie, нажмите кнопку ",
+                findMore: "Если вы хотите ознакомиться с  нашей политикой cookie, нажмите ",
+                findMoreLink: "узнать больше"
+            };
+            if($rootScope.currentLang == 'ru'){
+                return textsRu;
+            } else {
+                return textsEn;
+            }
+        }
+
+        function setCookies(key, value) {
+            document.cookie = key + "=" + value;
         }
     };
 
@@ -11024,6 +11286,92 @@ angular.module('services.interceptorHandler',[]).factory('responseObserver', fun
         }
     };
 });
+angular.module('services.invoice', [
+    'ngResource',
+    'ngCookies'
+    ]
+).factory('Invoice', ['$resource', 'serverAddress', '$http', function($resource, serverAddress, $http) {
+    const invoice = $resource(serverAddress + '/:param', {param: "@param"},
+        {
+            getInv: {
+                method : "POST",
+                headers: {'Content-type':'application/json; charset=UTF-8'},
+                params: {
+                    param: 'getInvoice'
+                }
+            },
+            getLastInvoiceData: {
+                method : "GET",
+                headers: {'Content-type':'application/json; charset=UTF-8'},
+                params: {
+                    param: 'getLastInvoiceData'
+                }
+            }
+        });
+
+    invoice.getCurrenciesSigns = () => ({ EUR: '€',  USD: '$', UAH : '₴', RUB: '₽'});
+
+    invoice.getInvoice = function(params) {
+        return new Promise((resolve, reject) => {
+           invoice.getInv(params, resp => {
+               if(resp.status === 'ok') {
+                   resolve(resp);
+               } else {
+                   reject(resp);
+               }
+           }, error => reject(error));
+        });
+    };
+
+    invoice.getLastInvoice = function() {
+        return new Promise((resolve, reject) => {
+            invoice.getLastInvoiceData(resp => {
+                if(resp.status === 'ok') {
+                    resolve(resp);
+                } else {
+                    reject(resp);
+                }
+            }, error => reject(error));
+        });
+    };
+
+    invoice.getCurrenciesExchangeRates = function(invoiceCurrencies) {
+        return new Promise ((resolve, reject) => {
+            $http.get('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json')
+                .then(response => {
+                    if(response.status === 200) resolve(filterRequiredCurrencies(response.data, invoiceCurrencies));
+                }, error => {
+                    reject(error);
+                });
+        })
+    };
+
+    invoice.getCurrenciesMonthRates = function(currencies, USDrate) {
+        let monthRates = {};
+        Object.entries(currencies).forEach(([key, value]) => {
+            monthRates[value.cc] = (USDrate * currencies['USD'].rate) / value.rate ;
+        });
+
+        return monthRates;
+    };
+
+    function filterRequiredCurrencies(allCurrencies, invoiceCurrencies) {
+        let currencies = {};
+
+        for(let i = 0; i < allCurrencies.length; i++ ) {
+            for( let j = 0; j < invoiceCurrencies.length; j++ ) {
+                if(invoiceCurrencies[j].toLowerCase() === allCurrencies[i].cc.toLowerCase()) {
+                    currencies[allCurrencies[i].cc] = allCurrencies[i];
+                }
+            }
+        }
+
+        currencies['UAH'] = { cc: 'UAH', rate: currencies['USD'].rate / currencies['USD'].rate};
+
+        return currencies;
+    }
+    return invoice;
+}]);
 angular.module('services.localStorage', []
 ).factory('$localStorage', ['$window', function($window) {
     return (function() {
@@ -11242,7 +11590,7 @@ angular.module('services.pay', [
 ]).factory('Pay', ['$resource', 'serverAddress', '$filter', '$localStorage', 'notificationService',
     function ($resource, serverAddress, $filter, $localStorage, notificationService) {
 
-        var Pay = $resource(serverAddress + '/pay/:param', {param: "@param"},
+        var pay = $resource(serverAddress + '/pay/:param', {param: "@param"},
             {
                 getPayments: {
                     method: "GET",
@@ -11270,7 +11618,28 @@ angular.module('services.pay', [
                     }
                 }
             });
-        return Pay;
+
+
+        pay.paymentInfo = {
+            _countPeople: 0,
+            _countMonths: 0,
+
+            set countPeople(value) {
+                this._countPeople = value;
+            },
+            get countPeople() {
+              return this._countPeople;
+            },
+
+            set countMonths(value) {
+                this._countMonths = value;
+            },
+            get countMonths() {
+                return this._countMonths;
+            }
+        };
+
+        return pay;
     }]);
  angular.module('services.person', [
     'ngResource'
@@ -11586,7 +11955,6 @@ angular.module('services.pay', [
 
             });
      person.requestGetAllPersons = function () {
-         $rootScope.loading = true;
          return new Promise((resolve, reject) => {
              person.getAllPersons(resp => resolve(resp, resp['request'] = 'AllPersons'),error => reject(error));
          });
@@ -13175,7 +13543,8 @@ module.factory('TooltipService', function($sce, $rootScope, $translate, $filter)
                         "researcher" : $sce.trustAsHtml($filter('translate')('Cannot see the full database and other users. Able to see only vacancies he/she responsible for and candidates he/she added')),
                         "client" : $sce.trustAsHtml($filter('translate')('Has an access only to vacancies and candidates he/she is responsible for. Free user, unlimited number'))
                     },
-                    "filterCostructorInfo": $sce.trustAsHtml($filter('translate')('The filter allows you to pick the users who performed any activities on vacancies.'))
+                    "filterCostructorInfo": $sce.trustAsHtml($filter('translate')('The filter allows you to pick the users who performed any activities on vacancies.')),
+                    "deleteCandidateFromSystem": $sce.trustAsHtml($filter('translate')('If you select this option, the candidate will be removed from the system. All comments, tasks and history of actions will be erased'))
                 };
                 $rootScope.tooltips = options;
             });
@@ -14360,7 +14729,8 @@ angular.module('services', [
         'services.CustomReportsService',
         'services.CustomReportEditService',
         'services.reportsService',
-        'services.slider'
+        'services.slider',
+        'services.invoice'
     ]
 );
 
@@ -14851,6 +15221,18 @@ angular.module('RecruitingApp', [
            controller: "NavbarController",
            pageName: "Settings"
         })
+        .when('/invoice', {
+            templateUrl: 'partials/invoice.html',
+            controller: 'invoiceController',
+            title: "Invoice ",
+            pageName: "Invoice generation",
+        })
+        //.when('/hr-module-info', {
+        //    title: "HR-module",
+        //    templateUrl: "partials/hr-module-info.html",
+        //    controller: "hrModuleInfoController",
+        //    pageName: "Hr-module info"
+        //})
         .otherwise({redirectTo: '/organizer'});
 }]).config(['$provide', '$httpProvider', 'serverAddress', 'frontMode', function ($provide, $httpProvider, serverAddress, frontMode) {
     var allRequest = {};
@@ -15047,7 +15429,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=90'
+        suffix: '.json?b=93'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -19245,6 +19627,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.checkAllCandidates = false;
     $scope.showTagsForMass = false;
     $scope.previousFlag = true;
+    $scope.deleteFromSystem = false;
     $scope.placeholder = $filter('translate')('by position');
     $rootScope.candidatesAddToVacancyIds = $scope.candidatesAddToVacancyIds;
     $rootScope.currentElementPos = true;
@@ -19833,22 +20216,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
     $scope.extensionHas = false;
     //$scope.cities = [];
     Service.getRegions2(function (countries, cities) {
-        console.log(countries, 'countries');
-        console.log(cities, 'countries');
         setTextfielsInObject(countries);
         setTextfielsInObject(cities);
         $scope.countries = countries;
         $scope.cities = cities;
-        //var optionsHtml = '<option value="null" style="color:#999">'+$filter('translate')('region')+'</option>';
-        //var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
-        //angular.forEach($scope.countries, function (value) {
-        //    optionsHtml += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-        //});
-        //angular.forEach($scope.cities, function (value) {
-        //    optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-        //});
-        //$('#cs-region-filter-select, #cs-region-filter-select-for-linkedin').html(optionsHtml);
-        //$('#cs-region-filter-select-cities, #cs-region-filter-select-for-linkedin-cities').html(optionsHtmlCity);
     });
     Service.getGroups(function (resp) {
         $scope.candidateGroups = resp.objects;
@@ -20167,13 +20538,26 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
             if (ScopeService.isInit()) {
                 var activeParam = ScopeService.getActiveScopeObject();
+                console.log(activeParam, 'activeParam');
                 $scope.activeScopeParam = activeParam;
-                Candidate.setOptions("personId", $scope.searchParam.personId != undefined ? $scope.searchParam.personId : activeParam.name == 'onlyMy' ? $rootScope.userId : null);
+
+                if(activeParam.name === 'onlyMy'){
+                    Candidate.setOptions("personId", $scope.searchParam.personId  ? $scope.searchParam.personId : $rootScope.userId);
+                }else {
+                    Candidate.setOptions("personId",  null);
+                }
+
                 Candidate.setOptions("page", {number: (params.$params.page - 1), count: params.$params.count});
                 if( params.$params.count <= 120) {
                     localStorage.countCandidate = params.$params.count;
                 } else {
                     localStorage.countCandidate = 15;
+                }
+
+                console.log($scope.searchParam.status, '($scope.searchParam.status');
+
+                if($scope.searchParam.status.translate === "our employee"){
+                    $scope.searchParam.status.value = 'work';
                 }
 
                 $scope.searchParam.pages.count = params.$params.count;
@@ -20186,10 +20570,8 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 Candidate.setOptions("experience", $scope.searchParam.experience);
                 Candidate.setOptions("searchWordsInPosition", $scope.searchParam.searchWordsInPosition);
                 Candidate.setOptions("requiredAllContainsWords", $scope.searchParam.requiredAllContainsWords);
-                Candidate.setOptions("dateTo", $scope.searchParam['ageFrom'] && $scope.searchParam['ageFrom'].text ?
-                    new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageFrom'].text)).getTime() : null);
-                Candidate.setOptions("dateFrom", $scope.searchParam['ageTo'].text ?
-                    new Date(new Date().setFullYear(new Date().getFullYear() - $scope.searchParam['ageTo'].text)).getTime() : null);
+                Candidate.setOptions("dateTo", $scope.searchParam['ageFrom'] && $scope.searchParam['ageFrom'].text ? $scope.searchParam['ageFrom'].text : null);
+                Candidate.setOptions("dateFrom", $scope.searchParam['ageTo'] && $scope.searchParam['ageTo'].text ? $scope.searchParam['ageTo'].text : null);
                 Candidate.setOptions("state", isNotBlank($scope.searchParam['status'].value) ? $scope.searchParam['status'].value : null);
                 Candidate.setOptions("words", isNotBlank($scope.searchParam['words']) ? $scope.searchParam['words'] : null);
                 Candidate.setOptions("salaryTo", $scope.searchParam['salary'] ? $scope.searchParam['salary'] : null);
@@ -20600,7 +20982,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
 
             var array = [];
-            console.log($scope.searchParam);
             array.push({
                 searchType: '',
                 salary: $scope.searchParam.salary,
@@ -20628,7 +21009,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                 personId: Candidate.searchOptions().personId,
                 personNameWhoSearching: $rootScope.usernameThatIsSearching,
                 pages: {count: $scope.startPagesShown},
-                experience: $scope.searchParam.experience,
                 experience: $scope.searchParam.experience,
                 languages: $scope.searchParam.languages,
                 skills: $scope.searchParam.skills,
@@ -20697,17 +21077,51 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $location.path("candidate/add/zip");
     };
     $scope.deleteCandidate = function (candidate) {
-        $scope.modalInstance = $uibModal.open({
-            animation: true,
-            templateUrl: '../partials/modal/candidate-remove.html',
-            size: ''
-        });
         $rootScope.changeStateInCandidate.status = "archived";
         $rootScope.changeStateInCandidate.fullName = candidate.fullName;
         $rootScope.changeStateInCandidate.candidate = candidate;
         $rootScope.changeStateInCandidate.placeholder = $filter('translate')('Write a comment why you want remove this candidate');
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/candidate-remove.html',
+            size: '',
+            scope: $scope
+        });
     };
-    $rootScope.saveStatusOfCandidate = function () {
+    $scope.deleteCandidateFromSystemModal = function(candidate) {
+        $rootScope.changeStateInCandidate.fullName = candidate.fullName;
+        $rootScope.changeStateInCandidate.candidate = candidate;
+
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/candidate-remove-from-system.html',
+            size: '',
+            scope: $scope,
+            resolve: function(){}
+        });
+    };
+    $scope.deleteCandidateFromSystem = function() {
+        Candidate.deleteCandidateFromSystem({
+                candidateId:$rootScope.changeStateInCandidate.candidate.candidateId,
+                comment: $rootScope.changeStateInCandidate.comment
+        }).then((resp) => {
+                $scope.tableParams.reload();
+                $scope.closeModal();
+                $rootScope.changeStateInCandidate.comment = '';
+                notificationService.success($filter('translate')('Candidate name has been removed from the database', { name:  $rootScope.changeStateInCandidate.candidate.fullName}));
+            }, error => {
+                $scope.closeModal();
+                $rootScope.changeStateInCandidate.comment = '';
+                notificationService.error(error.message);
+            });
+    };
+
+    $rootScope.saveStatusOfCandidate = function (deleteFromSystem) {
+        if(deleteFromSystem) {
+            $scope.deleteCandidateFromSystem();
+            return;
+        }
         if ($rootScope.changeStateInCandidate.status != "") {
             Candidate.changeState({
                 candidateId: $rootScope.changeStateInCandidate.candidate.candidateId,
@@ -20724,12 +21138,10 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     }
                 }
             });
-            //    function (err) {
-            //    //notificationService.error($filter('translate')('service temporarily unvailable'));
-            //});
             $rootScope.closeModal();
             $rootScope.changeStateInCandidate.status = "";
             $rootScope.changeStateInCandidate.comment = "";
+            $rootScope.deleteCandidateFromSystem = false;
         }
     };
     $scope.selectRegion = function (val) {
@@ -20765,7 +21177,9 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
             }
         }
     };
+
     $scope.status = Candidate.getStatus();
+
     $scope.statusFilter= $scope.status.map(item => {
         return {text:item.value};
     });
@@ -21714,6 +22128,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.experience = Service.experience();
         $scope.industries = Service.getIndustries();
         $scope.contacts = {skype: "", mphone: "", email: "",telegram: ""};
+        $scope.testing = false;
         $scope.fieldValues = {
             objType: "candidate",
             fieldValueId: '',
@@ -21802,13 +22217,12 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.deleteCandidate = function() {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/delete-candidate.html',
+                templateUrl: '../partials/modal/candidate-remove.html?b1',
                 size: '',
-                resolve: {
-
-                }
+                scope: $scope,
+                resolve: {}
             });
-            //$('.changeStatusOfCandidate.modal').modal('show');
+
             $rootScope.changeStateInCandidate.status = "archived";
             $rootScope.changeStateInCandidate.fullName = $scope.candidate.fullName;
             $rootScope.changeStateInCandidate.placeholder = $filter('translate')('Write a comment why you want remove this candidate');
@@ -21821,7 +22235,16 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 $scope.setLangs([]);
             }
         });
-        $rootScope.saveStatusOfCandidate = function() {
+        $scope.saveStatusOfCandidate = function(deleteCandidateFromSystem) {
+            if(deleteCandidateFromSystem) {
+                Candidate.deleteCandidateFromSystem({candidateId:$scope.candidate.candidateId})
+                    .then((resp) => {
+                        $scope.closeModal();
+                        notificationService.success($filter('translate')('Candidate name has been removed from the database', {name: $scope.candidate.fullName} ));
+                        $location.path('/candidates');
+                    }, error => notificationService.error(error.message));
+                return;
+            }
             if ($rootScope.changeStateInCandidate.status != "") {
                 Candidate.changeState({
                     candidateId: $scope.candidate.candidateId,
@@ -24632,6 +25055,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.todayDate = new Date().getTime();
         $rootScope.clickedSaveStatusOfCandidate = false;
         $rootScope.clickedAddVacancyInCandidate = false;
+        $scope.deleteFromSystem = false;
         $rootScope.stageUrl = JSON.parse(localStorage.getItem('stageUrl'));
 
         function isDataForCandidatesEmpty(dataCandidates){
@@ -25767,10 +26191,11 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.saveStatusOfCandidate = function () {
             if ($rootScope.changeStateInCandidate.status != "" && !$rootScope.clickedSaveStatusOfCandidate) {
                 $rootScope.clickedSaveStatusOfCandidate = true;
+                $rootScope.changeStateInCandidate.status === 'our employee'? $rootScope.changeStateInCandidate.status = 'work' : null;
                 Candidate.changeState({
                     candidateId: $scope.candidate.candidateId,
                     comment: $rootScope.changeStateInCandidate.comment,
-                    candidateState: $rootScope.changeStateInCandidate.status
+                    candidateState: $rootScope.changeStateInCandidate.status,
                 }, function (resp) {
                     if (resp.status == "ok") {
                         $scope.candidate.status = resp.object.status;
@@ -26853,6 +27278,31 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
 
                 }, error => notificationService.error(error));
         })();
+
+        $scope.deleteCandidateFromSystemModal = function() {
+            $scope.modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: '../partials/modal/candidate-remove-from-system.html',
+                size: '',
+                scope: $scope,
+                resolve: function(){}
+            });
+        };
+        $scope.deleteCandidateFromSystem = function() {
+            Candidate.deleteCandidateFromSystem({
+                candidateId: $scope.candidate.candidateId,
+                comment: $rootScope.changeStateInCandidate.comment
+            }).then((resp) => {
+                    $scope.closeModal();
+                    $rootScope.changeStateInCandidate.comment = '';
+                    $location.path('/candidates');
+                    notificationService.success($filter('translate')('Candidate name has been removed from the database', { name:  $rootScope.changeStateInCandidate.candidate.fullName}));
+                }, error => {
+                    $scope.closeModal();
+                    $rootScope.changeStateInCandidate.comment = '';
+                    notificationService.error(error.message);
+                });
+        };
 
         sliderElements.params = Candidate.candidateLastRequestParams || JSON.parse(localStorage.getItem('candidateLastRequestParams'));
         sliderElements.setCurrent();
@@ -29973,7 +30423,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
             smtp: {}
         };
         $scope.updateCreatedEmails = function(){
+            $rootScope.loading = true;
             Person.personEmails({type: 'all'},function(resp){
+                $rootScope.loading = false;
                 if(resp.status == 'ok'){
                     if(resp.objects.length > 0){
                         $scope.emails = resp.objects;
@@ -29985,7 +30437,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                 }else{
                     notificationService.error(resp.message);
                 }
-                $scope.loading = false;
+            }, function (error) {
+                $rootScope.loading = false;
             });
         };
         $scope.updateCreatedEmails();
@@ -30010,7 +30463,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                         }
                                         $scope.showPassword = true;
                                         if($rootScope.addedEmail.password.length > 1){
+                                            $rootScope.loading = true;
                                             Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
+                                                $rootScope.loading = false;
                                                 if(resp.status == 'error'){
 
                                                     notificationService.error(resp.message);
@@ -30018,6 +30473,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                                     $scope.updateCreatedEmails();
                                                     $rootScope.updateMe();
                                                 }
+                                            }, function (error) {
+                                                $rootScope.loading = false;
                                             });
                                         }
                                     }
@@ -30027,7 +30484,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                     $rootScope.addedEmail.email = result.email;
                                     $rootScope.addedEmail.password = result.code;
                                     $rootScope.addedEmail.host = 'gmail';
+                                    $rootScope.loading = true;
                                     Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
+                                        $rootScope.loading = false;
                                         if(resp.status == 'error'){
                                             if(resp.code == 'сouldNotGetRefreshTokenIntegration') {
                                                 $scope.modalInstance = $uibModal.open({
@@ -30043,6 +30502,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                             $scope.updateCreatedEmails();
                                             $rootScope.updateMe();
                                         }
+                                    }, function (error) {
+                                        $rootScope.loading = false;
                                     });
                                 });
                             }else{
@@ -30055,7 +30516,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                                     $rootScope.addedEmail.email = result.email;
                                                     $rootScope.addedEmail.password = result.code;
                                                     $rootScope.addedEmail.host = 'gmail';
+                                                    $rootScope.loading = true;
                                                     Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
+                                                        $rootScope.loading = false;
                                                         if(resp.status == 'error'){
                                                             if(resp.code == 'сouldNotGetRefreshTokenIntegration') {
                                                                 $scope.modalInstance = $uibModal.open({
@@ -30071,6 +30534,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                                             $scope.updateCreatedEmails();
                                                             $rootScope.updateMe();
                                                         }
+                                                    }, function (error) {
+                                                        $rootScope.loading = false;
                                                     });
                                                 });
                                             }else{
@@ -30097,13 +30562,17 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                             }
                         }else{
                             if(($rootScope.addedEmail.smtp.host != undefined && $rootScope.addedEmail.smtp.port != undefined && $rootScope.addedEmail.password != undefined)||$scope.isExchange) {
+                                $rootScope.loading = true;
                                 Candidate.addEmailAccess($rootScope.addedEmail, function(resp){
+                                    $rootScope.loading = false;
                                     if(resp.status == 'error'){
                                         notificationService.error(resp.message);
                                     }else{
                                         $scope.updateCreatedEmails();
                                         $rootScope.updateMe();
                                     }
+                                }, function (error) {
+                                    $rootScope.loading = false;
                                 });
                             }
                         }
@@ -30123,13 +30592,17 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                         }else if(emailDomen == 'yandex.ru'){
                             $rootScope.editedEmail.smtp.type = 'yandex';
                         }
+                        $rootScope.loading = true;
                         Candidate.editEmailAccess($rootScope.editedEmail, function(resp){
+                            $rootScope.loading = false;
                             if(resp.status == 'error'){
                                 notificationService.error(resp.message);
                             }else{
                                 $scope.updateCreatedEmails();
                                 $rootScope.closeModal();
                             }
+                        }, function (error) {
+                            $rootScope.loading = false;
                         });
                     }else{
                         notificationService.error($filter('translate')('Please enter your password'));
@@ -30139,7 +30612,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                         $rootScope.editedEmail.password = result.code;
                         $rootScope.addedEmail.email = result.email;
                         $rootScope.editedEmail.host = 'gmail';
+                        $rootScope.loading = true;
                         Candidate.editEmailAccess($rootScope.editedEmail, function(resp){
+                            $rootScope.loading = false;
                             if(resp.status == 'error'){
                                 if(resp.code == 'сouldNotGetRefreshTokenIntegration') {
                                     $scope.modalInstance = $uibModal.open({
@@ -30155,6 +30630,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                 $scope.updateCreatedEmails();
                                 $rootScope.closeModal();
                             }
+                        }, function (error) {
+                            $rootScope.loading = false;
                         });
                     });
                 }else{
@@ -30163,7 +30640,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
             } else {
                 if($rootScope.editedEmail.host = 'email'){
                     if($rootScope.editedEmail.email.length > 0 && $rootScope.editedEmail.password.length > 0) {
+                        $rootScope.loading = true;
                         Candidate.editEmailAccess($rootScope.editedEmail, function (resp) {
+                            $rootScope.loading = false;
                             if (resp.status == 'error') {
                                 if(resp.message == 'сouldNotGetRefreshTokenIntegration') {
                                     $scope.modalInstance = $uibModal.open({
@@ -30180,6 +30659,8 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                                 $scope.editEmail = false;
                                 $rootScope.closeModal();
                             }
+                        }, function (error) {
+                            $rootScope.loading = false;
                         });
                     }else {
                         notificationService.error($filter('translate')('Please enter your password'));
@@ -30266,7 +30747,9 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
             }
         };
         $rootScope.removePersonEmail = function(){
+            $rootScope.loading = true;
             Person.removePersonEmail({email : $rootScope.emailForDelete.email},function(resp){
+                $rootScope.loading = false;
                 if(resp.status == 'ok'){
                     $scope.updateCreatedEmails();
                     $rootScope.updateMe();
@@ -30275,11 +30758,23 @@ controller.controller('addEmailForTemplateController', ["$scope", "$translate", 
                 }else{
                     notificationService.error(resp.message);
                 }
+            }, function (error) {
+                $rootScope.loading = false;
             });
             $scope.closeModal();
         };
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
+        };
+
+
+        $scope.goBack = function () {
+          if($scope.emails && $scope.emails.length === 0) {
+              $scope.showPassword = false;
+              $rootScope.showAdvancedFields = false;
+          } else {
+              $scope.showAddEmail = false;
+          }
         };
     }]);
 
@@ -30984,6 +31479,165 @@ controller.controller('FeedbackController',["$localStorage", "serverAddress", "$
         });
     }]);
 
+controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', 'Invoice', 'Person', 'Account', 'Pay', '$filter', '$uibModal', 'notificationService', '$timeout',
+    function($rootScope, $scope, Service, Invoice, Person, Account, Pay, $filter, $uibModal, notificationService, $timeout) {
+
+    $scope.allPersons = [];
+    $scope.accountInfo = {};
+    $scope.paidUsers = [];
+    $scope.invoice = { users: 0, currency: null, months: null, price: null };
+    $scope.customer = { address: null, country: null, city: null, companyName: null, companyId: null, fullName: null, position: null, postalCode: null };
+    $scope.validation = { invalidFields: [], checking: false};
+
+    $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
+    $scope.currencies = [{label:'UAH', value:'UAH'},{label:'RUB', value:'RUB'},{label:'EUR', value:'EUR'},{label:'USD', value:'USD'}];
+
+    $scope.currenciesSigns = Invoice.getCurrenciesSigns();
+    $scope.countries = Service.getAllCounties($rootScope.currentLang);
+
+
+    function getTranslatedCountry(countries, argCountry) {
+        let translatedCountry = {key: "", value: ""};
+        Object.entries(countries).forEach(([key, country], index) => {
+           if(country === argCountry) {
+               translatedCountry.value = country;
+               translatedCountry.key = key;
+           }
+           if(!translatedCountry.value && index === Object.keys(countries).length - 1) {
+               const lang = $rootScope.currentLang === 'en' ? 'ru' : 'en';
+               translatedCountry.key = getTranslatedCountry(Service.getAllCounties(lang), argCountry).code;
+               translatedCountry.value = countries[translatedCountry.key];
+           }
+        });
+
+        return { name: translatedCountry.value, code: translatedCountry.key };
+    }
+
+    $scope.generateInvoice = function() {
+        $scope.validation = { invalidFields: [], checking: true};
+        if(validatedCustomerForm()) openInvoiceConfirmModal();
+    };
+
+    $scope.downloadInvoice = function() {
+        $rootScope.loading = true;
+        Invoice.getInvoice({
+            amount : parseFloat($scope.invoice.price()),
+            numberOfMonths: parseInt($scope.invoice.months),
+            numberOfUsers : parseInt($scope.invoice.users),
+            customerName : $scope.customer.companyName,
+            customerRegistrationNumber  : $scope.customer.companyId,
+            customerAddress : `${$scope.customer.country};${$scope.customer.city};${$scope.customer.address};${$scope.customer.postalCode}`,
+            representerPosition : $scope.customer.position,
+            representerName : $scope.customer.fullName,
+            currencyAsString : $scope.invoice.currency.toLowerCase()
+        }).then(resp => {
+            $rootScope.loading = false;
+            $scope.modalInstance.close();
+            const link = $('#downloadInvoice')[0];
+            link.href = '/hr/' + 'getapp?id=' + resp.object;
+            link.click();
+
+        }, error => {
+            $rootScope.loading = false;
+            $scope.modalInstance.close();
+            notificationService.error(error.message)
+        });
+    };
+
+    $scope.$watch('customer', () => {
+        if($scope.customerForm.$valid) {
+            $scope.validation = { invalidFields: [], checking: false};
+        }
+    }, true);
+
+    function validatedCustomerForm() {
+        Object.entries($scope.customer).map(([key, value]) => {
+            if($scope.customerForm[key].$invalid) {
+                $scope.validation.invalidFields.push($filter('translate')(key));
+            }
+        });
+        return !Boolean($scope.validation.invalidFields.length);
+    }
+
+    function openInvoiceConfirmModal() {
+        $scope.modalInstance = $uibModal.open({
+            animation: true,
+            templateUrl: '../partials/modal/invoice-confirm.html',
+            size: '',
+            scope: $scope,
+            resolve: function(){}
+        });
+    }
+
+    function setInvoiceData(data) {
+        $scope.invoice = {
+            users: Pay.paymentInfo.countPeople || data.numberOfUsers || $scope.paidUsers.length,
+            months: Pay.paymentInfo.countMonths || data.numberOfMonths || 4,
+            currency: data.currency,
+            price: () => ($scope.invoice.users * $scope.invoice.months * $scope.currenciesMonthRates[$scope.invoice.currency]).toFixed(2)
+        };
+
+        $scope.$apply();
+    }
+
+    function setCustomerData(data) {
+        $scope.customer = {
+            address: data.customerAddress.split(';')[2],
+            country: getTranslatedCountry($scope.countries, data.customerAddress.split(';')[0]).name,
+            city: data.customerAddress.split(';')[1],
+            companyName: data.customerName,
+            companyId: data.customerRegistrationNumber,
+            fullName: data.representerName,
+            position: data.representerPosition,
+            postalCode: data.customerAddress.split(';')[3]
+        };
+    }
+
+    function setUsers(allPersons) {
+        Object.entries(allPersons).forEach(([personId, person], index) => {
+            if (person.status === "A" && person.recrutRole !== 'client') {
+                $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
+            }
+        });
+    }
+
+    (() => {
+        $rootScope.loading = true;
+        Promise.all([
+            Person.requestGetAllPersons(),
+            Account.accountInfo(),
+            Invoice.getCurrenciesExchangeRates(['USD', 'RUB', 'EUR']),
+            Invoice.getLastInvoice()
+        ]).then(([allPersons, accountInfo, currencyExchangeRates, lastInvoiceData]) => {
+                accountInfo.object.monthRate = accountInfo.object.monthRate || 25;
+                $rootScope.loading = false;
+                $scope.allPersons = allPersons.object;
+                $scope.accountInfo = accountInfo.object;
+
+                $scope.currenciesMonthRates = Invoice.getCurrenciesMonthRates(currencyExchangeRates, accountInfo.object.monthRate);
+
+                setUsers(allPersons.object);
+
+
+                if(lastInvoiceData.object) {
+                    setInvoiceData(lastInvoiceData.object);
+                    setCustomerData(lastInvoiceData.object);
+                } else {
+                    $scope.invoice = {
+                        users: Pay.paymentInfo.countPeople || $scope.paidUsers.length,
+                        months: Pay.paymentInfo.countMonths || 4,
+                        currency: 'USD',
+                        price: () => ($scope.invoice.users * $scope.invoice.months * $scope.currenciesMonthRates[$scope.invoice.currency]).toFixed(2)
+                    };
+                }
+                $scope.$apply();
+            }).catch(error => {
+                $rootScope.loading = false;
+                console.error(error);
+            })
+    })();
+
+}]);
 function navBarController($q, Vacancy, serverAddress, notificationService, $scope, tmhDynamicLocale, $http, Person, $rootScope, Service,
                           $route, $window, $location, $filter, $sce, $cookies, localStorageService, $localStorage, $timeout, CheckAccess,
                           frontMode, $translate, Client, ScopeService, googleService, Company, $uibModal, Notice, Pay, News, TooltipService, Account,googleService) {
@@ -31000,6 +31654,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.news = [];
     $scope.newsEng = [];
     $scope.readedNews = [];
+    $scope.bonus = 0;
+    $scope.paidUsers = [];
+    $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
+    $scope.countPeople = 0;
+    $scope.countMonth = 4;
     //localStorage.setItem("readedNews", '');
     if(localStorage.readedNews){
         $scope.readedNews = (JSON.parse(localStorage.getItem('readedNews')));
@@ -31009,7 +31668,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     };
     $rootScope.closeNavModal = function(){
         if($rootScope.modalInstance)
-        $rootScope.modalInstance.close();
+            $rootScope.modalInstance.close();
     };
 
     $rootScope.badInternetObj = {show: false};
@@ -31157,33 +31816,20 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 if(!$rootScope.blockUserData.payment_min_users){
                     $rootScope.blockUserData.payment_min_users = 1;
                 }
-                angular.forEach($('#countPeople option'),function(res){
-                    if(Number(res.value) <= $rootScope.blockUserData.payment_min_users){
-                        res.remove();
-                    }
-                });
-                $('#countPeople').prepend("<option selected>"+$rootScope.blockUserData.payment_min_users+"</option>");
-                $scope.countMonth = $('#countMonth').val();
-                $scope.countPeople = $('#countPeople').val();
-                $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                $('#price').html($scope.price + " USD");
-                $('.checkoutInner select').on('change', function () {
-                    $scope.countMonth = $('#countMonth').val();
-                    $scope.countPeople = $('#countPeople').val();
-                    if ($scope.countMonth >= 12) {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                    }
-                    else if ($scope.countMonth >= 4) {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                    }
-                    else {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                    }
+                $scope.monthRate = $scope.monthRate || 25;
+                if ($scope.countMonth >= 12) {
+                    $scope.bonus = 20;
+                }
+                else if ($scope.countMonth >= 4) {
+                    $scope.bonus = 10;
+                }
+                else {
+                    $scope.bonus = 0;
+                }
 
-                    $('#price').html($scope.price + " USD");
-                    $scope.$apply();
-                });
-                $('#blockMessgae').html($rootScope.blockUserData.block_text);
+                $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+                $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+                $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
             }else{
                 $rootScope.blockUser = false;
             }
@@ -31197,6 +31843,23 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             }, error => notificationService.error(error.message))
         });
     };
+
+    $scope.$watchGroup(['countPeople', 'countMonth'], function() {
+        $scope.monthRate = $scope.monthRate || 25;
+        if ($scope.countMonth >= 12) {
+            $scope.bonus = 20;
+        }
+        else if ($scope.countMonth >= 4) {
+            $scope.bonus = 10;
+        }
+        else {
+            $scope.bonus = 0;
+        }
+
+        $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+        $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+        $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
+    });
 
     $scope.blockInfo();
 
@@ -31486,8 +32149,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         $location.path("/personInfo/" + $rootScope.me.userId);
     };
     $('.ui.dropdown').dropdown();
+
     $rootScope.updateMe = function(){
-        Person.getMe(function (response) {
+        $rootScope.loading = true;
+        Person.getMe(response => {
+            $rootScope.loading = false;
             if(response.status != 'error'){
                 if (response.object.orgParams !== undefined) {
                     function isServerURL() {
@@ -31504,6 +32170,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     tmhDynamicLocale.set($rootScope.currentLang);
                     $translate.use($rootScope.currentLang);
                 }
+                Service.cookiesConsent();
                 $rootScope.me = response.object;
                 $rootScope.orgs = response.object.orgs;
                 $scope.orgId = response.object.orgId;
@@ -31541,155 +32208,110 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                     if(!$rootScope.blockUserData.payment_min_users){
                                         $rootScope.blockUserData.payment_min_users = 1;
                                     }
-                                    angular.forEach($('#countPeople option'),function(res){
-                                        if(Number(res.value) <= $rootScope.blockUserData.payment_min_users){
-                                            res.remove();
-                                        }
-                                    });
-                                    $('#countPeople').prepend("<option selected>"+$rootScope.blockUserData.payment_min_users+"</option>");
-                                    $scope.countMonth = $('#countMonth').val();
-                                    $scope.countPeople = $('#countPeople').val();
-                                    if(!$scope.monthRate) {
-                                        if ($scope.countMonth >= 12) {
-                                            $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                                        }
-                                        else if ($scope.countMonth >= 4) {
-                                            $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                                        }
-                                        else {
-                                            $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                                        }
-                                    } else {
-                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople ;
+
+                                    $scope.monthRate = $scope.monthRate || 25;
+                                    if ($scope.countMonth >= 12) {
+                                        $scope.bonus = 20;
+                                    }
+                                    else if ($scope.countMonth >= 4) {
+                                        $scope.bonus = 10;
+                                    }
+                                    else {
+                                        $scope.bonus = 0;
                                     }
 
-                                    $('#price').html($scope.price + " USD");
-                                    $('.checkoutInner select').unbind().on('change', function () {
-                                        $scope.countMonth = $('#countMonth').val();
-                                        $scope.countPeople = $('#countPeople').val();
-                                        if(!$scope.monthRate) {
-                                            if ($scope.countMonth >= 12) {
-                                                $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                                            }
-                                            else if ($scope.countMonth >= 4) {
-                                                $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                                            }
-                                            else {
-                                                $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                                            }
-                                        } else {
-                                            if ($scope.countMonth >= 12) {
-                                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                                $('#bonuce').removeClass('hidden');
-                                                $rootScope.bonuce = 20;
-                                                $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                                            }
-                                            else if ($scope.countMonth >= 4) {
-                                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                                $('#bonuce').removeClass('hidden');
-                                                $rootScope.bonuce = 10;
-                                                $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                                            }
-                                            else {
-                                                $('#bonuce').addClass('hidden');
-                                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                            }
-                                        }
-
-
-                                        $('#price').html($scope.price + " USD");
-                                        $scope.$apply();
-                                    });
-                                    $('#blockMessgae').html($rootScope.blockUserData.block_text);
+                                    $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+                                    $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+                                    $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
                                 }
                                 if(!$scope.$$phase) {
                                     $scope.$apply();
                                 }
 
-                        }else{
-                            notificationService.error(resp.message);
-                        }
+                    }else{
+                        notificationService.error(resp.message);
+                    }
 
-                        ///////////For account on billing - tarif in AccountInfo request
-                        if(!$rootScope.companyParams.tarif && resp.object.tarif) {
-                            $rootScope.companyParams.tarif = resp.object.tarif;
-                            $rootScope.nowDate = new Date().getTime();
-                            $rootScope.otherDate = new Date($rootScope.companyParams.trialEndDate).getTime();
-                            if($rootScope.otherDate >= $rootScope.nowDate){
-                                $rootScope.hideTariff = true;
-                            }else if ($rootScope.companyParams.tarif == 'standard'){
-                                $rootScope.hideTariff = true;
-                            }else if($rootScope.companyParams.tarif == 'free' && $rootScope.otherDate >= $rootScope.nowDate) {
-                                $rootScope.hideTariff = true;
-                            }else if ($rootScope.otherDate < $rootScope.nowDate){
-                                $scope.trialOver = true;
-                                $rootScope.hideTariff = false;
-                                setTimeout(function(){
-                                    if($rootScope.me.recrutRole == 'client'){
-                                        $rootScope.blockAccountHmNotPaid();
+                    ///////////For account on billing - tarif in AccountInfo request
+                    if(!$rootScope.companyParams.tarif && resp.object.tarif) {
+                        $rootScope.companyParams.tarif = resp.object.tarif;
+                        $rootScope.nowDate = new Date().getTime();
+                        $rootScope.otherDate = new Date($rootScope.companyParams.trialEndDate).getTime();
+                        if($rootScope.otherDate >= $rootScope.nowDate){
+                            $rootScope.hideTariff = true;
+                        }else if ($rootScope.companyParams.tarif == 'standard'){
+                            $rootScope.hideTariff = true;
+                        }else if($rootScope.companyParams.tarif == 'free' && $rootScope.otherDate >= $rootScope.nowDate) {
+                            $rootScope.hideTariff = true;
+                        }else if ($rootScope.otherDate < $rootScope.nowDate){
+                            $scope.trialOver = true;
+                            $rootScope.hideTariff = false;
+                            setTimeout(function(){
+                                if($rootScope.me.recrutRole == 'client'){
+                                    $rootScope.blockAccountHmNotPaid();
+                                }
+                            },2000);
+                            $rootScope.disabledBtnFunc = function(){
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
+                                    resolve: {
+                                        items: function () {
+
+                                        }
                                     }
-                                },2000);
-                                $rootScope.disabledBtnFunc = function(){
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
-                                        resolve: {
-                                            items: function () {
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
+                            $rootScope.disabledBtnFuncUserModal = function(){
+                                $rootScope.closeModal();
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
+                                    resolve: {
+                                        items: function () {
 
-                                            }
                                         }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                                $rootScope.disabledBtnFuncUserModal = function(){
-                                    $rootScope.closeModal();
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
-                                        resolve: {
-                                            items: function () {
-
-                                            }
-                                        }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                            }else if($rootScope.companyParams.tarif == 'free') {
-                                $rootScope.hideTariff = false;
-                                setTimeout(function(){
-                                    if($rootScope.me.recrutRole == 'client'){
-                                        $rootScope.blockAccountHmNotPaid();
                                     }
-                                },2000);
-                                $rootScope.disabledBtnFunc = function(){
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
-                                        resolve: {
-                                            items: function () {
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
+                        }else if($rootScope.companyParams.tarif == 'free') {
+                            $rootScope.hideTariff = false;
+                            setTimeout(function(){
+                                if($rootScope.me.recrutRole == 'client'){
+                                    $rootScope.blockAccountHmNotPaid();
+                                }
+                            },2000);
+                            $rootScope.disabledBtnFunc = function(){
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
+                                    resolve: {
+                                        items: function () {
 
-                                            }
                                         }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                                $rootScope.disabledBtnFuncUserModal = function(){
-                                    $rootScope.closeModal();
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
-                                        resolve: {
-                                            items: function () {
+                                    }
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
+                            $rootScope.disabledBtnFuncUserModal = function(){
+                                $rootScope.closeModal();
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
+                                    resolve: {
+                                        items: function () {
 
-                                            }
                                         }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                            }
+                                    }
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
                         }
-                        //////////////
-                    });
+                    }
+                    //////////////
+                });
                 // }
 
                 if($rootScope.modalInstance){
@@ -31823,7 +32445,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     $('.modal').addClass('middle-modal')
                 });
             }
-        });
+        }, resp => $rootScope.loading = false);
     };
     $rootScope.updateMe();
     $rootScope.getNotices = function(){
@@ -31871,6 +32493,10 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         $scope.scopeActiveObject.name === 'region' ?setCurrentRegionForNavBar(null): null;
     });
 
+    function isCheckBoxChecked(element) {
+        return element.classList.contains('checkmark');
+    }
+
     function setCurrentScopeForNavBar(name){
         $rootScope.currentSelectScope = name;
     }
@@ -31883,13 +32509,14 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     }
 
 
-    $scope.changeScope = function (name, orgId) {
-        if(name !== $scope.currentSelectScope || orgId !== $scope.orgId) {
-            setCurrentScopeForNavBar(name);
-            if (name == 'region') {
-                if($rootScope.activePage == 'Candidates'){
-                    $rootScope.clearSearchRegion();
-                }
+    $scope.changeScope = function (name, orgId, event) {
+        if(event && isCheckBoxChecked(event.target) && (name !== $scope.currentSelectScope || orgId !== $scope.orgId)) return;
+        setCurrentScopeForNavBar(name);
+
+        if (name == 'region') {
+            if($rootScope.activePage == 'Candidates'){
+                $rootScope.clearSearchRegion();
+            }
 
                 if ($scope.regionId) {
                     localStorageService.set($rootScope.userId, 'region');
@@ -31906,28 +32533,29 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         name: region.showName
                     });
 
-                    setCurrentRegionForNavBar($scope.regionId);
-                } else {
-                    $scope.regionListStyle = {
-                        'border': '3px solid red'
-                    };
-                    setTimeout(function () {
-                        $scope.regionListStyle = {};
-                        if (!$scope.$$phase) {
-                            $scope.$apply();
-                        }
-                    }, 2000);
-                }
-            } else if (name == 'company') {
-                $timeout(setDefualtValueRegionSelect);
-                $timeout(function(){
-                    $scope.orgId = orgId;
-                    $scope.changeOrg(function () {
-                        ScopeService.setActiveScopeObject(name);
-                        localStorageService.set($rootScope.userId, 'org');
-                        localStorageService.set($rootScope.userId + "_regionId", null);
-                    });
+                setCurrentRegionForNavBar($scope.regionId);
+            } else {
+                $scope.regionListStyle = {
+                    'border': '3px solid red'
+                };
+                setTimeout(function () {
+                    $scope.regionListStyle = {};
+                    if (!$scope.$$phase) {
+                        $scope.$apply();
+                    }
+                }, 2000);
+                return;
+            }
+        } else if (name == 'company') {
+            $timeout(setDefualtValueRegionSelect);
+            $timeout(function(){
+                $scope.orgId = orgId;
+                $scope.changeOrg(function () {
+                    ScopeService.setActiveScopeObject(name);
+                    localStorageService.set($rootScope.userId, 'org');
+                    localStorageService.set($rootScope.userId + "_regionId", null);
                 });
+            });
 
             } else if (name == 'onlyMy') {
                 $timeout(setDefualtValueRegionSelect);
@@ -31945,7 +32573,6 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 $scope.blockInfo();
                 $scope.getAllPersonsFunc();
             }, 1000);
-        }
     };
 
     $scope.changeScopeForRegionSelect = function (name, regionId) {
@@ -32164,27 +32791,15 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 //notificationService.error($filter('translate')('service temporarily unvailable'));
             });
         };
-        //$scope.getAllPersons = Person.getAllPersons(function(resp){
-        //    //allPersons = Object.keys(resp).length;
-        //    angular.forEach(resp, function(val) {
-        //        //console.log(val);
-        //        //console.log(val.status);
-        //        if(val.status =="A"){
-        //            $scope.numberVacancy = ++$scope.numberVacancy;
-        //        }
-        //    });
-        //    //console.log('allPersons: '+$scope.numberVacancy);
-        //    if($scope.numberVacancy <= 12 && $scope.numberVacancy != 0){
-        //        $('#countPeople').append("<option style='display: none;' selected>"+$scope.numberVacancy+"</option>");
-        //    }
-        //    else{
-        //        $('#countPeople').append("<option selected>"+$scope.numberVacancy+"</option>");
-        //    }
-        //    $scope.countMonth = $('#countMonth').val();
-        //    $scope.countPeople = $('#countPeople').val();
-        //    $scope.price = 20 * $scope.countMonth * $scope.countPeople;
-        //    $('#price').html($scope.price + " USD");
-        //});
+        Person.getAllPersons((resp) => {
+            angular.forEach(resp.object, function (val) {
+                if (val.status == "A" && val.recrutRole != 'client') {
+                    $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
+                }
+            });
+            $scope.countPeople = $scope.paidUsers.length;
+        });
+
         $scope.deletePayment = function(resp){
             console.log(resp.paymentId);
             $.ajax({
@@ -32338,7 +32953,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             });
         }
     };
-   ////////////////////////////////////////////////////////Addidng facebook SDK
+    ////////////////////////////////////////////////////////Addidng facebook SDK
     (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id))
@@ -32373,10 +32988,10 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     var w = angular.element($window);
     w.bind("resize",function(){
         if ($rootScope.activePage == 'Candidate') {
-                if(w.width() < 992){
-                    $rootScope.hideContainer = false;
-                    console.log('vik123');
-                } else{
+            if(w.width() < 992){
+                $rootScope.hideContainer = false;
+                console.log('vik123');
+            } else{
                 $rootScope.hideContainer = true;
                 console.log('xzm,zxm,zm,zx,mzx');
             }
@@ -32477,8 +33092,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                             if(FB){
                                 clearInterval(interval);
                                 FB.Event.subscribe('xfbml.render', function(response) {
-                                    i++;
-                                    if(i == 2){
+                                    if(response === 2){
                                         $('body').addClass('modal-open');
                                         $('body').addClass('modal-open-news');
                                         $('.modal-backdrop').css('z-index','1040');
@@ -32489,7 +33103,6 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                 });
 
                                 $rootScope.news = resp.objects;
-                                FB.XFBML.parse();
 
                                 $rootScope.modalInstance = $uibModal.open({
                                     animation: true,
@@ -32506,7 +33119,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                     $('.modal-backdrop').css('opacity', '0');
                                     $('.modal').css('z-index', '0');
                                     $('.modal').css('opacity', '0');
-                                    // FB.XFBML.parse();
+                                    $timeout(()=> {
+                                        FB.XFBML.parse();
+                                    }, 3000);
                                 });
                                 $rootScope.modalInstance.closed.then(function() {
                                     $('body').removeClass('modal-open-news');
@@ -34389,14 +35004,40 @@ controller.controller('userOneController', ["$scope", "tmhDynamicLocale", "Perso
 ]);
 
 controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope", "$routeParams", "$location","$translate","Service",
-    "notificationService","$filter", "Account", "Pay","Company",
-    function ($scope, Person, $rootScope, $routeParams, $location, $translate, Service, notificationService, $filter, Account, Pay, Company) {
+    "notificationService","$filter", "Account", "Pay","Company", "$timeout",
+    function ($scope, Person, $rootScope, $routeParams, $location, $translate, Service, notificationService, $filter, Account, Pay, Company, $timeout) {
         $scope.numberVacancy = 0;
         $scope.trueVisionBlockUser = $rootScope.blockUser;
         $rootScope.blockUser = false;
-        $scope.bonuce = 0;
+        $scope.bonus = 0;
+        $scope.paidUsers = [];
+        $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
+        $scope.countPeople = 0;
+        $scope.countMonth = 4;
+        $scope.isOnBilling = false;
+        $scope.bonuce = 10;
+
+        $scope.paymentHistory = {payment: false, transitions: false};
+        $scope.showFreeTariffPayment = false;
+
+        $scope.togglePaymentHistory = function({payment, transitions}) {
+            if(payment && $scope.paymentHistory.payment && $scope.paymentHistory.transitions) {
+                $scope.paymentHistory.transitions = false;
+            }
+            if(transitions && $scope.paymentHistory.payment && $scope.paymentHistory.transitions){
+                $scope.paymentHistory.payment = false;
+            }
+        };
+
+        $scope.toggleFreeTariffView = function() {
+            $scope.showFreeTariffPayment = true;
+            $timeout(() => {
+                $scope.scrollTo('section-pay');
+            })
+        };
 
         var promise = new Promise(function(resolve, reject) {
+            $rootScope.loading = true;
             Account.getAccountInfo(function(resp){
                 if(resp.status != 'error'){
                     resolve(resp);
@@ -34408,91 +35049,106 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
 
         promise.then(function(resp){
             $scope.balance = resp.object;
+            $scope.isOnBilling = !resp.object.monthRate;
+            $rootScope.loading = false;
+            watchSelectForChanges();
             if($rootScope.me['orgParams']['tarif']) {
                 $scope.tarif = $rootScope.me['orgParams']['tarif'];
             } else {
                 $scope.tarif = resp.object.tarif;
             }
-
             $scope.dailyRate = resp.object.dailyRate;
             $scope.monthRate = resp.object.monthRate;
         },function(msg){
             notificationService.error(msg);
+            $rootScope.loading = false;
         }).then(function(){
             $scope.getAllPersons = Person.getAllPersons(function (resp) {
-                //allPersons = Object.keys(resp).length;
                 $scope.associativePerson = resp.object;
                 angular.forEach($scope.associativePerson, function (val) {
-                    //console.log(val);
-                    //console.log(val.status);
                     if (val.status == "A" && val.recrutRole != 'client') {
                         $scope.numberVacancy = ++$scope.numberVacancy;
+                        $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
                     }
                 });
-                //console.log('allPersons: '+$scope.numberVacancy);
-                if ($scope.numberVacancy <= 12 && $scope.numberVacancy != 0) {
-                    $('#countPeople').append("<option style='display: none;' selected>" + $scope.numberVacancy + "</option>");
+                $scope.countPeople = $scope.paidUsers.length;
+                $scope.monthRate = $scope.monthRate || 25;
+                if ($scope.countMonth >= 12) {
+                    $scope.bonus = 20;
+                }
+                else if ($scope.countMonth >= 4) {
+                    $scope.bonus = 10;
                 }
                 else {
-                    $('#countPeople').append("<option selected>" + $scope.numberVacancy + "</option>");
+                    $scope.bonus = 0;
                 }
-                $scope.countMonth = $('#countMonth').val();
-                $scope.countPeople = $('#countPeople').val();
-                if(!$scope.monthRate) {
-                    if ($scope.countMonth >= 12) {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                    }
-                    else if ($scope.countMonth >= 4) {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                    }
-                    else {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                    }
-                } else {
-                    $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople ;
-                }
-                $('#price').html($scope.price + " USD");
+
+                $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+                $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+                $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
+
+                $scope.priceWithBonusBilling = ($scope.price - ($scope.bonuce * $scope.price)/100);
+                $('#price').html($scope.priceWithBonusBilling + " USD");
             });
         },function(msg){
             notificationService.error(msg);
         });
 
-        $('.checkoutInner select').on('change', function () {
-            $scope.countMonth = $('#countMonth').val();
-            $scope.countPeople = $('#countPeople').val();
-            console.log('in change wp');
-            if(!$scope.monthRate) {
-                if ($scope.countMonth >= 12) {
-                    $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                }
-                else if ($scope.countMonth >= 4) {
-                    $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                }
-                else {
-                    $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                }
-            } else {
-                if ($scope.countMonth >= 12) {
-                    $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                    $('#bonuce').removeClass('hidden');
-                    $scope.bonuce = 20;
-                    $('#amountBonus').html((($scope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                }
-                else if ($scope.countMonth >= 4) {
-                    $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                    $('#bonuce').removeClass('hidden');
-                    $scope.bonuce = 10;
-                    $('#amountBonus').html((($scope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                }
-                else {
-                    $('#bonuce').addClass('hidden');
-                    $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                }
+        $scope.$watchGroup(['countPeople', 'countMonth'], function() {
+            $scope.monthRate = $scope.monthRate || 25;
+            if ($scope.countMonth >= 12) {
+                $scope.bonus = 20;
             }
+            else if ($scope.countMonth >= 4) {
+                $scope.bonus = 10;
+            }
+            else {
+                $scope.bonus = 0;
+            }
+            $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+            $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+            $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
 
-            $('#price').html($scope.price + " USD");
-            $scope.$apply();
+            Pay.paymentInfo.countPeople = $scope.countPeople;
+            Pay.paymentInfo.countMonths = $scope.countMonth;
+
         });
+
+        function watchSelectForChanges() {
+            $timeout(() => {
+                $('.checkoutInner select').on('change', function () {
+                    $scope.countMonth = $('#countMonth').val();
+                    $scope.countPeople = $('#countPeople').val();
+
+                    $scope.monthRate = $scope.monthRate || 25;
+
+                    if ($scope.countMonth >= 12) {
+                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                        $scope.bonuce = 20;
+                        $scope.priceWithBonusBilling = ($scope.price - ($scope.bonuce * $scope.price)/100);
+                        $('#bonuce').removeClass('hidden');
+                        $('#amountBonus').html($scope.priceWithBonusBilling);
+                    }
+                    else if ($scope.countMonth >= 4) {
+                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                        $scope.bonuce = 10;
+                        $scope.priceWithBonusBilling = ($scope.price - ($scope.bonuce * $scope.price)/100);
+                        $('#bonuce').removeClass('hidden');
+                        $('#amountBonus').html($scope.priceWithBonusBilling);
+                    }
+                    else {
+                        $('#bonuce').addClass('hidden');
+                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                        $scope.priceWithBonusBilling = $scope.price;
+                    }
+
+                    // $('#price').html($scope.price + " USD");
+                    $('#price').html($scope.priceWithBonusBilling + " USD");
+                    $scope.$apply();
+                });
+            })
+        }
+
         $scope.payClick = function () {
             Pay.createPaymentUsage({
                 months: $scope.countMonth,
@@ -34550,39 +35206,14 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
 
         };
 
+        $scope.scrollTo = function(id) {
+            if($(window).width() <= 768) {
+                let element = $('#' + id);
+                $("html, body").animate({scrollTop: element.position().top - 20}, "slow");
+            }
+        };
+
         $scope.updatePaymentsList();
-        // $scope.getAllPersons = Person.getAllPersons(function (resp) {
-        //     //allPersons = Object.keys(resp).length;
-        //     $scope.associativePerson = resp.object;
-        //     angular.forEach($scope.associativePerson, function (val) {
-        //         //console.log(val);
-        //         //console.log(val.status);
-        //         if (val.status == "A" && val.recrutRole != 'client') {
-        //             $scope.numberVacancy = ++$scope.numberVacancy;
-        //         }
-        //     });
-        //     //console.log('allPersons: '+$scope.numberVacancy);
-        //     if ($scope.numberVacancy <= 12 && $scope.numberVacancy != 0) {
-        //         $('#countPeople').append("<option style='display: none;' selected>" + $scope.numberVacancy + "</option>");
-        //     }
-        //     else {
-        //         $('#countPeople').append("<option selected>" + $scope.numberVacancy + "</option>");
-        //     }
-        //     $scope.countMonth = $('#countMonth').val();
-        //     $scope.countPeople = $('#countPeople').val();
-        //     if ($scope.countMonth >= 12) {
-        //         $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople * 0.80;
-        //     }
-        //     else if ($scope.countMonth >= 4) {
-        //         $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople * 0.9;
-        //     }
-        //     else {
-        //         console.log("3",$scope.monthRate);
-        //         console.log("4",$scope.dailyRate);
-        //         $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-        //     }
-        //     $('#price').html($scope.price + " USD");
-        // });
         $scope.deletePayment = function (resp) {
             console.log(resp.paymentId);
             $.ajax({
@@ -38286,10 +38917,11 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                 return;
             }
             //$rootScope.changeStatusOfInterviewInVacancy.withChooseStatus = withChooseStatus;
+            let candidateId =  candidate[0] || candidate.candidateId;
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.approvedCount = $scope.approvedCount;
             $rootScope.candnotify = {};
-            $rootScope.candnotify.sendMail = (candidate.candidateId.email && candidate.candidateId.email.length)? candidate.candidateId.email.split(/[',',' ']/gi)[0]: '';
+            $rootScope.candnotify.sendMail = (candidateId && candidateId.email && candidateId.email.length)? candidateId.email.split(/[',',' ']/gi)[0]: '';
             if($rootScope.candidatesAddToVacancyIds.length == 1){
                 Candidate.getContacts({"candidateId": candidate[0].candidateId}, function (resp) {
                     var email = "";
@@ -38489,7 +39121,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                             Mail.sendMailByTemplateVerified({
                                                     toEmails: candnotify.sendMail,
                                                     vacancyId: $scope.vacancy.vacancyId,
-                                                    candidateId: changeObj.candidate.candidateId.candidateId,
+                                                    candidateId: changeObj.candidate[0].candidateId.candidateId,
                                                     fullName: candnotify.fullName,
                                                     email: $rootScope.emailTemplateInModal.email,
                                                     date: changeObj.date,
@@ -38580,7 +39212,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                             Mail.sendMailByTemplateVerified({
                                                     toEmails: candnotify.sendMail,
                                                     vacancyId: $scope.vacancy.vacancyId,
-                                                    candidateId: changeObj.candidate.candidateId.candidateId,
+                                                    candidateId: changeObj.candidate[0].candidateId.candidateId,
                                                     fullName: candnotify.fullName,
                                                     email: $rootScope.emailTemplateInModal.email,
                                                     date: changeObj.date,
@@ -38666,10 +39298,11 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
                                     if ($rootScope.candnotify.send && $rootScope.candnotify.sendMail.length > 1 && sendTemplate) {
                                         if ($rootScope.candnotify.sendMail.length > 1) {
                                             var candnotify = $rootScope.candnotify;
+                                            console.log(changeObj, 'changeObj1');
                                             Mail.sendMailByTemplateVerified({
                                                     toEmails: candnotify.sendMail,
                                                     vacancyId: $scope.vacancy.vacancyId,
-                                                    candidateId: changeObj.candidate.candidateId.candidateId,
+                                                    candidateId: changeObj.candidate.candidateId.candidateId || changeObj.candidate[0].candidateId.candidateId,
                                                     fullName: candnotify.fullName,
                                                     email: $rootScope.emailTemplateInModal.email,
                                                     date: changeObj.date,
@@ -42553,7 +43186,7 @@ function firstLetters(string){
     var array = [];
     var word1 = [];
     var word2 = [];
-    var words = string.split(" ");
+    var words = string!==undefined?string.split(" "):"";
     word1.push(words[0]);
     var letter1 = word1[0].split("");
     array.push(letter1[0]);

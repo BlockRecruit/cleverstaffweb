@@ -18,10 +18,10 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <LINK REL="SHORTCUT ICON" HREF="images/sprite/favicon.png?b3">
-    <link rel="stylesheet" href="dist/css/styles.css?b316">
+    <link rel="stylesheet" href="dist/css/styles.css?b321">
     <link rel="stylesheet" type="text/css" media="print" href="dist/css/print.css" />
     <!--<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>-->
-    <script type="text/javascript" src="dist/js/mainLib.js?b282"></script>
+    <script type="text/javascript" src="dist/js/mainLib.js?b284"></script>
 
 
     <!--<link  href="http://fonts.googleapis.com/css?family=Reenie+Beanie:regular" rel="stylesheet" type="text/css">-->
@@ -84,7 +84,7 @@
         }
     })()</script>
 </head>
-<body ng-class="{'showVerticalScrollbar' : $root.activePage == 'Report all'}">
+<body ng-class="{'showVerticalScrollbar' : $root.activePage == 'Report all'}" ng-controller="NavbarController">
 <div ng-cloak class="blurBackground" style="margin: auto">
     <div ng-show="$root.loading" class="loader-container">
         <!--<div class="modal-backdrop in loading-screen"></div>-->
@@ -92,7 +92,8 @@
             <div class="loader"></div>
         </div>
     </div>
-    <div class="navbar navbar-static-top" ng-controller="NavbarController" ng-class="{'overModal': $root.me.orgs.length > 1 && !$root.hideTariff}">
+    <div class="navbar navbar-static-top" ng-class="{'overModal': $root.me.orgs.length > 1 && !$root.hideTariff}"
+         ng-show="$root.activePage !== 'Invoice generation'">
         <div class="container-fluid first-navbar">
             <div class="navbar-header pull-left">
                 <a href="#/organizer" class="navbar-brand">
@@ -789,124 +790,69 @@
         </div>
     </div>
     <div id='crutchGoogleMap'></div>
-    <div ng-if="$root.blockUser != true || $root.activePage === 'Settings'" ng-view></div>
+    <div ng-if="$root.blockUser != true  || $root.activePage === 'Settings'" ng-view></div>
     <div ng-show="$root.blockUser && $root.activePage !== 'Settings'">
-        <div class="ui vertically devided grid" style="margin-top: 2%;">
-            <div class="three wide column"></div>
-            <div class="ten wide column" style="padding: 0px;">
-                <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 clever-item"
-                     style="padding: 1.6em;border: 3px solid red!important;box-shadow: none!important;">
-                    <div class="padding:1em;line-height: 1.4em;">
-                        <!--<div class="ui small header" style="font-size: 20px;">Поздравляем, Вы создали аккаунт компании-->
-                        <!--<span id="reg_company_name"></span> в CleverStaff!-->
-                        <!--</div>-->
-                        <div style="font-size: 16px;" id="blockMessgae"></div>
-                    </div>
-                </div>
-                <div class="clearfix"></div>
+        <div class="payment home">
+            <div class="block-msg">
+                <img src="/images/sprite/danger-icon.jpg" alt="">
+                <span ng-show="$root.blockUserData.block_text">{{$root.blockUserData.block_text}}</span>
             </div>
-            <div class="two wide column"></div>
-        </div>
-        <div class="block-pay">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2 class="text-center">{{'Pay for using CleverStaff'| translate}}</h2>
-                </div>
-                <div class="col-lg-5 leftBar blockPay">
-                    <div class="col-lg-12" ng-show="errorMessage">
-                        <div>{{errorMessage}}</div>
+            <div class="wrapper">
+                <section class="payment__pay">
+                    <div class="section__intro">
+                        <h4 class="intro__title" translate="Pay for cleverstaff usage"></h4>
+                        <p class="intro__descr" translate="Get a 10% bonus if you pay more than 4 months and 20% pay for the year"></p>
                     </div>
-                    <div class="col-lg-12 payForMonth">
-                        <div id="bilDisabledText" class="hidden">
-                            <p>{{'CleverStaff is paid for'|translate}} 25 {{'USD per month for each active user'| translate}}</p>
-                            <p>{{'Pay1 discount'| translate}}</p>
-                        </div>
-                        <div id="bilEnabledText" class="hidden">
-                            <p>{{'CleverStaff is paid for-2'|translate}} <span id="dailyRate"></span> {{'USD per day'|translate}} <span id="monthRate"></span> {{'USD per month for each active user-2'| translate}}</p>
-                            <p>{{'Pay2 discount'| translate}}</p>
-                        </div>
-                        <div class="payFor">
-                            <div class="checkoutSelectOuter">
-                                <div class="checkoutInner">
-                                    <h4 class="payFor floatLeft">{{"Pay for"|translate}}</h4>
+                    <div class="pay-data__wrapper">
+                        <div class="pay__data">
+                            <div class="data__item margin-xs">
+                                <span translate="Users_1" class="title"></span>
+                                <div class="data">
+                                    <custom-select-new options="paidUsers" model="countPeople"></custom-select-new>
                                 </div>
-                                <div class="checkoutInner word floatRight">
-                                    <div class="paySelectOuter pull-left">
-                                        <span class="ammount floatLeft">{{'Users2'| translate}}</span>
-                                        <br/>
-                                        <select class="paySelect" id="countPeople" select-with-scroll active-Class="'active'" scroll-size="10">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                            <option>7</option>
-                                            <option>8</option>
-                                            <option>9</option>
-                                            <option>10</option>
-                                            <option>11</option>
-                                            <option>12</option>
-                                            <option>13</option>
-                                            <option>14</option>
-                                            <option>15</option>
-                                            <option>16</option>
-                                            <option>17</option>
-                                            <option>18</option>
-                                            <option>19</option>
-                                            <option>20</option>
-                                            <option>21</option>
-                                            <option>22</option>
-                                            <option>23</option>
-                                            <option>24</option>
-                                            <option>25</option>
-                                        </select>
-                                    </div>
-                                    <!--<div class="clear"></div>-->
-                                    <div class="paySelectOuter pull-left">
-                                        <span class="ammount ammountMonth floatLeft">{{'Months2'| translate}}</span>
-                                        <br/>
-                                        <select class="paySelect" id="countMonth" select-with-scroll active-Class="'active'" scroll-size="12">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                            <option>7</option>
-                                            <option>8</option>
-                                            <option>9</option>
-                                            <option>10</option>
-                                            <option>11</option>
-                                            <option>12</option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="data__item margin-xs">
+                                <span translate="Months_1" class="title"></span>
+                                <div class="data">
+                                    <custom-select-new options="months" model="countMonth"></custom-select-new>
                                 </div>
-                                <div class="payButtonOuter pull-right">
-                                    <span id="priceWOrd" class="payPrice">{{'Amount'| translate}}:</span>
-                                    <span id="price" class="payPrice">{{price}} USD</span>
+                            </div>
+                            <div class="data__item">
+                                <span translate="Bonus" class="title border-xs"></span>
+                                <div class="data">
+                                    <span class="bonus">{{bonus}}%</span>
+                                    <img src="/images/sprite/gift.png">
                                 </div>
-                                <div class="clearfix"></div>
+                            </div>
+                            <div class="data__item">
+                                <span translate="Total" class="title border-xs"></span>
+                                <div class="data">
+                                    <span class="total">{{price}} USD</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="creditCards">
-                            <img class="pull-left" src="../images/sprite/visa-mastercard.png" width="140" height="40" alt="">
-                            <div class="text-center pull-right">
-                                <p id="bonuce" class="hidden">
-                                    {{"The balance of your company account is"|translate}}
-                                    <span id="amountBonus"></span>
-                                    {{"including"|translate}}
-                                    {{$root.bonuce + '%'}}
-                                    {{'of the bonus'|translate}}
-                                </p>
-                                <a id="payButton" type="button" ng-click="payClick()" class="btn btn-primary accept ng-binding">
-                                    {{'Go to payment service'|translate}}
-                                </a>
+                        <span class="total-info" translate="Will be credited total USD (bonus USD)" translate-values="{total: priceWithBonus, bonus: bonusAmount}"></span>
+                    </div>
+                    <div class="pay__types">
+                        <div class="pay__type">
+                            <span translate="Pay by card" ng-click="$root.payClick()"></span>
+                            <div class="type__image">
+                                <img src="/images/sprite/visa-mastercard-block.png">
                             </div>
                         </div>
-                        <div class="clearfix"></div>
+                        <div class="pay__type invoice">
+                            <span translate="Pay by invoice"></span>
+                            <div class="type__image invoice-payment">
+                                <img src="/images/sprite/invoice-payment.jpg">
+                            </div>
+                        </div>
                     </div>
-                </div>
+                    <div class="pay_faq">
+                        <span translate="Payment FAQ"></span>
+                    </div>
+                    <img class="security" src="/images/sprite/ssl-secured.png">
+                </section>
+
             </div>
         </div>
     </div>
@@ -916,7 +862,7 @@
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZul9dW5-r5WVV1479hAgVxM5Z75C-ykM&libraries=places"></script>
     <script type="text/javascript" src="lib/tinymce/tinymce.min.js"></script>
-    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b396"></script>
+    <script type="text/javascript" id="versionScript" src="dist/js/mainApp.js?b421"></script>
 
     <!--ЗPignation in TAble-->
     <script type="text/ng-template" id="custom/pager">

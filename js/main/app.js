@@ -483,6 +483,18 @@ angular.module('RecruitingApp', [
            controller: "NavbarController",
            pageName: "Settings"
         })
+        .when('/invoice', {
+            templateUrl: 'partials/invoice.html',
+            controller: 'invoiceController',
+            title: "Invoice ",
+            pageName: "Invoice generation",
+        })
+        //.when('/hr-module-info', {
+        //    title: "HR-module",
+        //    templateUrl: "partials/hr-module-info.html",
+        //    controller: "hrModuleInfoController",
+        //    pageName: "Hr-module info"
+        //})
         .otherwise({redirectTo: '/organizer'});
 }]).config(['$provide', '$httpProvider', 'serverAddress', 'frontMode', function ($provide, $httpProvider, serverAddress, frontMode) {
     var allRequest = {};
@@ -679,7 +691,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=90'
+        suffix: '.json?b=93'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');

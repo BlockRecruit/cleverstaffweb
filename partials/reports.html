@@ -55,10 +55,11 @@
             <div class="custom-reports">
                 <div class="custom-reports-inner">
                     <h3 class="title">
-                        <span>{{"My Reports"|translate}}</span>
+                        <span ng-show="myReportsCtrl['customReports'].length">{{"My Reports"|translate}}</span>
+                        <span ng-show="!myReportsCtrl['customReports'].length" style="font-size: 20px;padding: 0px 10px;">{{"There is no custom reports yet.Create your first"|translate}}</span>
                     </h3>
                 </div>
-                <div class="custom-reports-list">
+                <div class="custom-reports-list" ng-show="myReportsCtrl['customReports'].length">
                     <div class="cuurent-report" ng-repeat="report in myReportsCtrl['customReports']">
                         <a class="report-name"
                            ng-click="myReportsCtrl.getReport($event, report)"
@@ -72,7 +73,12 @@
                         </span>
                     </div>
                 </div>
-                <div class="show-more" ng-click="myReportsCtrl['showMore']()">{{(myReportsCtrl['isShowMore'])? "Show more reports" : "Show fewer reports" |translate}} <i class="fa fa-angle-down" style="margin: 0px;"></i></div>
+                <div class="show-more"
+                     ng-show="myReportsCtrl['customReports'].length"
+                     ng-click="myReportsCtrl['showMore']()">
+                    {{(myReportsCtrl['isShowMore'])? "Show more reports" : "Show fewer reports" |translate}}
+                    <i class="fa fa-angle-down" style="margin: 0px;"></i>
+                </div>
             </div>
             <div class="invite" ng-show="$root.me.recrutRole === 'admin'">
                 <span ng-click="$root.hideTariff ? myReportsCtrl['inviteHiringManager']() : $root.disabledBtnFunc()" class="btn btn-invite-hm">
