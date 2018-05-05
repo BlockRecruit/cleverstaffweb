@@ -202,6 +202,7 @@ header {
 }
 header .container{
     padding-top: 5px;
+    position: relative;
 }
 header .loginBtn{
     margin-right: 10px;
@@ -261,6 +262,16 @@ header nav .navbar-nav li a{
 }
 header nav .navbar-nav li a:hover{
     background-color: initial;
+}
+header .container .gdpr-logo {
+    position: absolute;
+    left: 176px;
+    top: 25px;
+}
+header .container .gdpr-logo.img {
+    width: 155px;
+    height: 37px;
+    transform: rotate();
 }
 ul.adaptiveMenu li:hover{
     padding-bottom: 12px;
