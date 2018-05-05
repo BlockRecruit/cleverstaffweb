@@ -10,6 +10,7 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
         $scope.countPeople = 0;
         $scope.countMonth = 4;
         $scope.isOnBilling = false;
+        $scope.bonuce = 10;
 
         $scope.paymentHistory = {payment: false, transitions: false};
         $scope.showFreeTariffPayment = false;
@@ -80,6 +81,9 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
                 $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
                 $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
                 $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
+
+                $scope.priceWithBonusBilling = (($scope.bonuce * $scope.price)/100 + $scope.price);
+                $('#price').html($scope.priceWithBonusBilling + " USD");
             });
         },function(msg){
             notificationService.error(msg);
@@ -115,22 +119,26 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
 
                     if ($scope.countMonth >= 12) {
                         $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                        $('#bonuce').removeClass('hidden');
                         $scope.bonuce = 20;
-                        $('#amountBonus').html((($scope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
+                        $scope.priceWithBonusBilling = (($scope.bonuce * $scope.price)/100 + $scope.price);
+                        $('#bonuce').removeClass('hidden');
+                        $('#amountBonus').html($scope.priceWithBonusBilling);
                     }
                     else if ($scope.countMonth >= 4) {
                         $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                        $('#bonuce').removeClass('hidden');
                         $scope.bonuce = 10;
-                        $('#amountBonus').html((($scope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
+                        $scope.priceWithBonusBilling = (($scope.bonuce * $scope.price)/100 + $scope.price);
+                        $('#bonuce').removeClass('hidden');
+                        $('#amountBonus').html($scope.priceWithBonusBilling);
                     }
                     else {
                         $('#bonuce').addClass('hidden');
                         $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
+                        $scope.priceWithBonusBilling = $scope.price;
                     }
 
-                    $('#price').html($scope.price + " USD");
+                    // $('#price').html($scope.price + " USD");
+                    $('#price').html($scope.priceWithBonusBilling + " USD");
                     $scope.$apply();
                 });
             })
