@@ -560,7 +560,7 @@ body {
 				.fa-usd {
 					padding-top: 8px;
 				}
-				&.payment {
+				&.payment-panel {
 					@include top-menu-font();
 
 					height: 30px;
@@ -631,7 +631,7 @@ body {
 					}
 				}
 			}
-			.activeTrial a.payment {
+			.activeTrial a.payment-panel {
 				padding-right: 0;
 				.coins {
 					margin-right: 0;
@@ -1497,7 +1497,7 @@ ul.nav.navbar-nav {
 			margin: 0;
 		}
 	}
-	.navbar .nav.information a.payment {
+	.navbar .nav.information a.payment-panel {
 		padding-right: 0;
 		& > span:not(.coins) {
 			display: none;

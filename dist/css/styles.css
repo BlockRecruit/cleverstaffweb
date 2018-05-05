@@ -12429,7 +12429,7 @@ body {
         left: 0.4px; }
     .navbar .nav.information a .fa-usd {
       padding-top: 8px; }
-    .navbar .nav.information a.payment {
+    .navbar .nav.information a.payment-panel {
       font-family: "Helvetica-Normal";
       font-size: 16px;
       font-weight: normal;
@@ -12439,13 +12439,13 @@ body {
       padding-right: 5px;
       border: 1px solid white;
       border-radius: 5px; }
-      .navbar .nav.information a.payment .coins {
+      .navbar .nav.information a.payment-panel .coins {
         display: inline-block;
         width: 30px;
         height: 30px;
         margin-right: 15px;
         border-right: 1px solid white; }
-        .navbar .nav.information a.payment .coins .usd-icon {
+        .navbar .nav.information a.payment-panel .coins .usd-icon {
           display: -webkit-flex;
           display: flex;
           height: 30px;
@@ -12453,14 +12453,14 @@ body {
           justify-content: center;
           -webkit-align-items: center;
           align-items: center; }
-          .navbar .nav.information a.payment .coins .usd-icon .st0 {
+          .navbar .nav.information a.payment-panel .coins .usd-icon .st0 {
             fill: #00B549; }
-      .navbar .nav.information a.payment.low-low-balance {
+      .navbar .nav.information a.payment-panel.low-low-balance {
         color: #F44F43;
         border: 1px solid #F44F43; }
-        .navbar .nav.information a.payment.low-low-balance .fa-usd {
+        .navbar .nav.information a.payment-panel.low-low-balance .fa-usd {
           color: #d9534f; }
-        .navbar .nav.information a.payment.low-low-balance span {
+        .navbar .nav.information a.payment-panel.low-low-balance span {
           color: #d9534f; }
     .navbar .nav.information a.notice-button {
       width: 45px;
@@ -12489,17 +12489,17 @@ body {
       .navbar .nav.information a.notice-button .label {
         top: -2px;
         right: -4px; }
-  .navbar .nav.information .activeTrial a.payment {
+  .navbar .nav.information .activeTrial a.payment-panel {
     padding-right: 0; }
-    .navbar .nav.information .activeTrial a.payment .coins {
+    .navbar .nav.information .activeTrial a.payment-panel .coins {
       margin-right: 0;
       border-right: none; }
-    .navbar .nav.information .activeTrial a.payment.low-low-balance {
+    .navbar .nav.information .activeTrial a.payment-panel.low-low-balance {
       color: #F44F43;
       border: 1px solid #F44F43; }
-      .navbar .nav.information .activeTrial a.payment.low-low-balance .fa-usd {
+      .navbar .nav.information .activeTrial a.payment-panel.low-low-balance .fa-usd {
         color: #d9534f; }
-      .navbar .nav.information .activeTrial a.payment.low-low-balance span {
+      .navbar .nav.information .activeTrial a.payment-panel.low-low-balance span {
         color: #d9534f; }
   .navbar .nav.information .fa-cog {
     font-size: 25px;
@@ -13159,11 +13159,11 @@ ul.nav.navbar-nav li i.margin-left {
     background-position: 94.4% 97%; }
   .trial > span {
     margin: 0; }
-  .navbar .nav.information a.payment {
+  .navbar .nav.information a.payment-panel {
     padding-right: 0; }
-    .navbar .nav.information a.payment > span:not(.coins) {
+    .navbar .nav.information a.payment-panel > span:not(.coins) {
       display: none; }
-    .navbar .nav.information a.payment > .coins {
+    .navbar .nav.information a.payment-panel > .coins {
       margin-right: 0;
       border-right: none; } }
 

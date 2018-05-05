@@ -346,7 +346,7 @@
                     </div>
                     <ul class="nav information navbar-nav flex-ul">
                         <li class="payMoney hidden-xs hidden-sm" ng-show="$root.me.recrutRole == 'admin' && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free') && !$root.blockUser">
-                            <a href="#/pay" class="payment" ng-class="{'low-low-balance': paidFor!==undefined && paidFor <= 4,'low-balance': paidFor!==undefined && paidFor <= 7}">
+                            <a href="#/pay" class="payment-panel" ng-class="{'low-low-balance': paidFor!==undefined && paidFor <= 4,'low-balance': paidFor!==undefined && paidFor <= 7}">
                                 <span class="coins">
                                     <span class="usd-icon">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px"
@@ -371,7 +371,7 @@
                             </a>
                         </li>
                         <li class="payMoney activeTrial hidden-xs hidden-sm" ng-show="$root.me.recrutRole == 'admin' && ((digit > 0 && digit <= 14) || (getMeObj['orgParams']['tarif']==='free' || tarif=='free')) || $root.blockUser">
-                            <a href="#/pay" class="payment" ng-class="{'low-low-balance': paidFor!==undefined && paidFor <= 4,'low-balance': paidFor!==undefined && paidFor <= 7}">
+                            <a href="#/pay" class="payment-panel" ng-class="{'low-low-balance': paidFor!==undefined && paidFor <= 4,'low-balance': paidFor!==undefined && paidFor <= 7}">
                                 <span class="coins">
                                     <span class="usd-icon">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px"
@@ -792,7 +792,7 @@
     <div id='crutchGoogleMap'></div>
     <div ng-if="$root.blockUser != true  || $root.activePage === 'Settings'" ng-view></div>
     <div ng-show="$root.blockUser && $root.activePage !== 'Settings'">
-        <div class="payment home">
+        <div class="payment-panel home">
             <div class="block-msg">
                 <img src="/images/sprite/danger-icon.jpg" alt="">
                 <span ng-show="$root.blockUserData.block_text">{{$root.blockUserData.block_text}}</span>
