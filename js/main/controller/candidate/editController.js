@@ -22,6 +22,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.experience = Service.experience();
         $scope.industries = Service.getIndustries();
         $scope.contacts = {skype: "", mphone: "", email: "",telegram: ""};
+        $scope.testing = false;
         $scope.fieldValues = {
             objType: "candidate",
             fieldValueId: '',
@@ -110,13 +111,12 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
         $scope.deleteCandidate = function() {
             $scope.modalInstance = $uibModal.open({
                 animation: true,
-                templateUrl: '../partials/modal/delete-candidate.html',
+                templateUrl: '../partials/modal/candidate-remove.html?b1',
                 size: '',
-                resolve: {
-
-                }
+                scope: $scope,
+                resolve: {}
             });
-            //$('.changeStatusOfCandidate.modal').modal('show');
+
             $rootScope.changeStateInCandidate.status = "archived";
             $rootScope.changeStateInCandidate.fullName = $scope.candidate.fullName;
             $rootScope.changeStateInCandidate.placeholder = $filter('translate')('Write a comment why you want remove this candidate');
@@ -129,7 +129,16 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 $scope.setLangs([]);
             }
         });
-        $rootScope.saveStatusOfCandidate = function() {
+        $scope.saveStatusOfCandidate = function(deleteCandidateFromSystem) {
+            if(deleteCandidateFromSystem) {
+                Candidate.deleteCandidateFromSystem({candidateId:$scope.candidate.candidateId})
+                    .then((resp) => {
+                        $scope.closeModal();
+                        notificationService.success($filter('translate')('Candidate name has been removed from the database', {name: $scope.candidate.fullName} ));
+                        $location.path('/candidates');
+                    }, error => notificationService.error(error.message));
+                return;
+            }
             if ($rootScope.changeStateInCandidate.status != "") {
                 Candidate.changeState({
                     candidateId: $scope.candidate.candidateId,

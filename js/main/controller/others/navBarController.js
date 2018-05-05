@@ -14,6 +14,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     $scope.news = [];
     $scope.newsEng = [];
     $scope.readedNews = [];
+    $scope.bonus = 0;
+    $scope.paidUsers = [];
+    $scope.months = [{label:1, value:1},{label:2, value:2},{label:3, value:3},{label:4, value:4},{label:5, value:5},{label:6, value:6},{label:7, value:7},{label:8, value:8},{label:9, value:9},{label:10, value:10},{label:11, value:11},{label:12, value:12}];
+    $scope.countPeople = 0;
+    $scope.countMonth = 4;
     //localStorage.setItem("readedNews", '');
     if(localStorage.readedNews){
         $scope.readedNews = (JSON.parse(localStorage.getItem('readedNews')));
@@ -23,7 +28,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     };
     $rootScope.closeNavModal = function(){
         if($rootScope.modalInstance)
-        $rootScope.modalInstance.close();
+            $rootScope.modalInstance.close();
     };
 
     $rootScope.badInternetObj = {show: false};
@@ -51,20 +56,14 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     Service.getRegions2(function (resp) {
         $scope.regions = resp;
         let lang = localStorage.getItem('NG_TRANSLATE_LANG_KEY');
-        let translate ;
+         $scope.translate = '';
 
         if(lang == 'ru'){
-            translate =  "Выберите регион";
+            $scope.translate =  "Выберите регион";
         }else{
-            translate =  "Choose region";
+            $scope.translate =  "Choose region";
         }
-
-        var optionsHtml = `<option ng-selected="true" value="" selected style="color:#999">${translate}</option>`;
-        angular.forEach($scope.regions, function (value) {
-            optionsHtml += "<option style='color: #000000' value='" + (value.id).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-        });
-        $('#cs-region-filter-select-scope').html(optionsHtml);
-        $('.cs-region-filter-select-scope2').html(optionsHtml);
+     $timeout(setDefualtValueRegionSelect);
     });
 
     $rootScope.getBrowser = function () {
@@ -177,41 +176,50 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 if(!$rootScope.blockUserData.payment_min_users){
                     $rootScope.blockUserData.payment_min_users = 1;
                 }
-                angular.forEach($('#countPeople option'),function(res){
-                    if(Number(res.value) <= $rootScope.blockUserData.payment_min_users){
-                        res.remove();
-                    }
-                });
-                $('#countPeople').prepend("<option selected>"+$rootScope.blockUserData.payment_min_users+"</option>");
-                $scope.countMonth = $('#countMonth').val();
-                $scope.countPeople = $('#countPeople').val();
-                $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                $('#price').html($scope.price + " USD");
-                $('.checkoutInner select').on('change', function () {
-                    $scope.countMonth = $('#countMonth').val();
-                    $scope.countPeople = $('#countPeople').val();
-                    if ($scope.countMonth >= 12) {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                    }
-                    else if ($scope.countMonth >= 4) {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                    }
-                    else {
-                        $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                    }
+                $scope.monthRate = $scope.monthRate || 25;
+                if ($scope.countMonth >= 12) {
+                    $scope.bonus = 20;
+                }
+                else if ($scope.countMonth >= 4) {
+                    $scope.bonus = 10;
+                }
+                else {
+                    $scope.bonus = 0;
+                }
 
-                    $('#price').html($scope.price + " USD");
-                    $scope.$apply();
-                });
-                $('#blockMessgae').html($rootScope.blockUserData.block_text);
+                $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+                $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+                $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
             }else{
                 $rootScope.blockUser = false;
             }
             if(resp.object.billing === 'Y') {
                 $scope.billingEnabled = true;
             }
+            Account.getAccountInfo(resp => {
+                if(resp.object.tarif === 'free' && resp.object.dayCount <= 0) {
+                    $rootScope.hideTariff = false;
+                }
+            }, error => notificationService.error(error.message))
         });
     };
+
+    $scope.$watchGroup(['countPeople', 'countMonth'], function() {
+        $scope.monthRate = $scope.monthRate || 25;
+        if ($scope.countMonth >= 12) {
+            $scope.bonus = 20;
+        }
+        else if ($scope.countMonth >= 4) {
+            $scope.bonus = 10;
+        }
+        else {
+            $scope.bonus = 0;
+        }
+
+        $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+        $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+        $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
+    });
 
     $scope.blockInfo();
 
@@ -385,6 +393,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     // Client.all(Client.searchOptions(), function (response) {
     //     $rootScope.clientsForInvite = response.objects;
     // });
+    console.log($rootScope, '$rootScope');
     $rootScope.userRoles = [
         {
             type: "fullAccess",
@@ -426,11 +435,10 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     $scope.openRegionList = function () {
         if (document.createEvent) {
-            var regionList = $("#regionList");
-            console.log(regionList);
-            var e = document.createEvent("MouseEvents");
-            e.initMouseEvent("mousedown", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-            regionList[0].dispatchEvent(e);
+            var regionList = document.getElementById('regionList');
+            var e = document.createEvent("Event");
+            e.initEvent("mousedown", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            regionList.dispatchEvent(e);
         } else if (element.fireEvent) {
             regionList[0].fireEvent("onmousedown");
         }
@@ -501,8 +509,11 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         $location.path("/personInfo/" + $rootScope.me.userId);
     };
     $('.ui.dropdown').dropdown();
+
     $rootScope.updateMe = function(){
-        Person.getMe(function (response) {
+        $rootScope.loading = true;
+        Person.getMe(response => {
+            $rootScope.loading = false;
             if(response.status != 'error'){
                 if (response.object.orgParams !== undefined) {
                     function isServerURL() {
@@ -519,6 +530,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     tmhDynamicLocale.set($rootScope.currentLang);
                     $translate.use($rootScope.currentLang);
                 }
+                Service.cookiesConsent();
                 $rootScope.me = response.object;
                 $rootScope.orgs = response.object.orgs;
                 $scope.orgId = response.object.orgId;
@@ -556,155 +568,110 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                     if(!$rootScope.blockUserData.payment_min_users){
                                         $rootScope.blockUserData.payment_min_users = 1;
                                     }
-                                    angular.forEach($('#countPeople option'),function(res){
-                                        if(Number(res.value) <= $rootScope.blockUserData.payment_min_users){
-                                            res.remove();
-                                        }
-                                    });
-                                    $('#countPeople').prepend("<option selected>"+$rootScope.blockUserData.payment_min_users+"</option>");
-                                    $scope.countMonth = $('#countMonth').val();
-                                    $scope.countPeople = $('#countPeople').val();
-                                    if(!$scope.monthRate) {
-                                        if ($scope.countMonth >= 12) {
-                                            $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                                        }
-                                        else if ($scope.countMonth >= 4) {
-                                            $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                                        }
-                                        else {
-                                            $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                                        }
-                                    } else {
-                                        $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople ;
+
+                                    $scope.monthRate = $scope.monthRate || 25;
+                                    if ($scope.countMonth >= 12) {
+                                        $scope.bonus = 20;
+                                    }
+                                    else if ($scope.countMonth >= 4) {
+                                        $scope.bonus = 10;
+                                    }
+                                    else {
+                                        $scope.bonus = 0;
                                     }
 
-                                    $('#price').html($scope.price + " USD");
-                                    $('.checkoutInner select').unbind().on('change', function () {
-                                        $scope.countMonth = $('#countMonth').val();
-                                        $scope.countPeople = $('#countPeople').val();
-                                        if(!$scope.monthRate) {
-                                            if ($scope.countMonth >= 12) {
-                                                $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.8;
-                                            }
-                                            else if ($scope.countMonth >= 4) {
-                                                $scope.price = 25 * $scope.countMonth * $scope.countPeople * 0.9;
-                                            }
-                                            else {
-                                                $scope.price = 25 * $scope.countMonth * $scope.countPeople;
-                                            }
-                                        } else {
-                                            if ($scope.countMonth >= 12) {
-                                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                                $('#bonuce').removeClass('hidden');
-                                                $rootScope.bonuce = 20;
-                                                $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                                            }
-                                            else if ($scope.countMonth >= 4) {
-                                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                                $('#bonuce').removeClass('hidden');
-                                                $rootScope.bonuce = 10;
-                                                $('#amountBonus').html((($rootScope.bonuce * $scope.price)/100 + $scope.price) + ' USD');
-                                            }
-                                            else {
-                                                $('#bonuce').addClass('hidden');
-                                                $scope.price = $scope.monthRate * $scope.countMonth * $scope.countPeople;
-                                            }
-                                        }
-
-
-                                        $('#price').html($scope.price + " USD");
-                                        $scope.$apply();
-                                    });
-                                    $('#blockMessgae').html($rootScope.blockUserData.block_text);
+                                    $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+                                    $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
+                                    $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
                                 }
                                 if(!$scope.$$phase) {
                                     $scope.$apply();
                                 }
 
-                        }else{
-                            notificationService.error(resp.message);
-                        }
+                    }else{
+                        notificationService.error(resp.message);
+                    }
 
-                        ///////////For account on billing - tarif in AccountInfo request
-                        if(!$rootScope.companyParams.tarif && resp.object.tarif) {
-                            $rootScope.companyParams.tarif = resp.object.tarif;
-                            $rootScope.nowDate = new Date().getTime();
-                            $rootScope.otherDate = new Date($rootScope.companyParams.trialEndDate).getTime();
-                            if($rootScope.otherDate >= $rootScope.nowDate){
-                                $rootScope.hideTariff = true;
-                            }else if ($rootScope.companyParams.tarif == 'standard'){
-                                $rootScope.hideTariff = true;
-                            }else if($rootScope.companyParams.tarif == 'free' && $rootScope.otherDate >= $rootScope.nowDate) {
-                                $rootScope.hideTariff = true;
-                            }else if ($rootScope.otherDate < $rootScope.nowDate){
-                                $scope.trialOver = true;
-                                $rootScope.hideTariff = false;
-                                setTimeout(function(){
-                                    if($rootScope.me.recrutRole == 'client'){
-                                        $rootScope.blockAccountHmNotPaid();
+                    ///////////For account on billing - tarif in AccountInfo request
+                    if(!$rootScope.companyParams.tarif && resp.object.tarif) {
+                        $rootScope.companyParams.tarif = resp.object.tarif;
+                        $rootScope.nowDate = new Date().getTime();
+                        $rootScope.otherDate = new Date($rootScope.companyParams.trialEndDate).getTime();
+                        if($rootScope.otherDate >= $rootScope.nowDate){
+                            $rootScope.hideTariff = true;
+                        }else if ($rootScope.companyParams.tarif == 'standard'){
+                            $rootScope.hideTariff = true;
+                        }else if($rootScope.companyParams.tarif == 'free' && $rootScope.otherDate >= $rootScope.nowDate) {
+                            $rootScope.hideTariff = true;
+                        }else if ($rootScope.otherDate < $rootScope.nowDate){
+                            $scope.trialOver = true;
+                            $rootScope.hideTariff = false;
+                            setTimeout(function(){
+                                if($rootScope.me.recrutRole == 'client'){
+                                    $rootScope.blockAccountHmNotPaid();
+                                }
+                            },2000);
+                            $rootScope.disabledBtnFunc = function(){
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
+                                    resolve: {
+                                        items: function () {
+
+                                        }
                                     }
-                                },2000);
-                                $rootScope.disabledBtnFunc = function(){
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
-                                        resolve: {
-                                            items: function () {
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
+                            $rootScope.disabledBtnFuncUserModal = function(){
+                                $rootScope.closeModal();
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
+                                    resolve: {
+                                        items: function () {
 
-                                            }
                                         }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                                $rootScope.disabledBtnFuncUserModal = function(){
-                                    $rootScope.closeModal();
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account.html',
-                                        resolve: {
-                                            items: function () {
-
-                                            }
-                                        }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                            }else if($rootScope.companyParams.tarif == 'free') {
-                                $rootScope.hideTariff = false;
-                                setTimeout(function(){
-                                    if($rootScope.me.recrutRole == 'client'){
-                                        $rootScope.blockAccountHmNotPaid();
                                     }
-                                },2000);
-                                $rootScope.disabledBtnFunc = function(){
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
-                                        resolve: {
-                                            items: function () {
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
+                        }else if($rootScope.companyParams.tarif == 'free') {
+                            $rootScope.hideTariff = false;
+                            setTimeout(function(){
+                                if($rootScope.me.recrutRole == 'client'){
+                                    $rootScope.blockAccountHmNotPaid();
+                                }
+                            },2000);
+                            $rootScope.disabledBtnFunc = function(){
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
+                                    resolve: {
+                                        items: function () {
 
-                                            }
                                         }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                                $rootScope.disabledBtnFuncUserModal = function(){
-                                    $rootScope.closeModal();
-                                    $rootScope.modalInstance = $uibModal.open({
-                                        animation: true,
-                                        templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
-                                        resolve: {
-                                            items: function () {
+                                    }
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
+                            $rootScope.disabledBtnFuncUserModal = function(){
+                                $rootScope.closeModal();
+                                $rootScope.modalInstance = $uibModal.open({
+                                    animation: true,
+                                    templateUrl: '../partials/modal/disabled-btn-for-test-account-before-14-days.html',
+                                    resolve: {
+                                        items: function () {
 
-                                            }
                                         }
-                                    });
-                                    $('.overModal').removeClass('overModal');
-                                };
-                            }
+                                    }
+                                });
+                                $('.overModal').removeClass('overModal');
+                            };
                         }
-                        //////////////
-                    });
+                    }
+                    //////////////
+                });
                 // }
 
                 if($rootScope.modalInstance){
@@ -839,6 +806,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 });
             }
         }, function (error) {
+            $rootScope.loading = false;
             if(error.status == 403) {
                 if(!$rootScope.modalLoginForm){
                     $rootScope.modalLoginForm = $uibModal.open({
@@ -897,16 +865,35 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     ScopeService.setNavBarUpdateFunction(function (val) {
         $scope.scopeActiveObject = val;
         $rootScope.scopeActiveObject = val;
+        setCurrentScopeForNavBar($scope.scopeActiveObject.name);
+        $scope.scopeActiveObject.name === 'region' ?setCurrentRegionForNavBar(null): null;
     });
 
-    $scope.changeScope = function (name) {
-        $scope.regionListStyle = {
-            'border': '3px solid red'
-        };
+    function isCheckBoxChecked(element) {
+        return element.classList.contains('checkmark');
+    }
+
+    function setCurrentScopeForNavBar(name){
+        $rootScope.currentSelectScope = name;
+    }
+
+    function setCurrentRegionForNavBar(region){
+        if(!region){
+            region = JSON.parse(localStorage.getItem(`ls.${$rootScope.userId}_regionId`));
+        }
+        $rootScope.currentSelectRegion = region.name;
+    }
+
+
+    $scope.changeScope = function (name, orgId, event) {
+        if(event && isCheckBoxChecked(event.target)) return;
+        setCurrentScopeForNavBar(name);
+
         if (name == 'region') {
             if($rootScope.activePage == 'Candidates'){
                 $rootScope.clearSearchRegion();
             }
+
             if ($scope.regionId) {
                 localStorageService.set($rootScope.userId, 'region');
                 var region = null;
@@ -921,8 +908,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     value: region.value,
                     name: region.showName
                 });
+
+                setCurrentRegionForNavBar($scope.regionId);
             } else {
-                $scope.openRegionList();
                 $scope.regionListStyle = {
                     'border': '3px solid red'
                 };
@@ -932,17 +920,21 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                         $scope.$apply();
                     }
                 }, 2000);
+                return;
             }
         } else if (name == 'company') {
-            $scope.changeOrg(function () {
-                ScopeService.setActiveScopeObject(name);
-                localStorageService.set($rootScope.userId, 'org');
-                localStorageService.set($rootScope.userId + "_regionId", null);
-                $scope.regionListStyle = {
-                    'border': '1px solid rgba(0,0,0,.15);'
-                };
-            })
+            $timeout(setDefualtValueRegionSelect);
+            $timeout(function(){
+                $scope.orgId = orgId;
+                $scope.changeOrg(function () {
+                    ScopeService.setActiveScopeObject(name);
+                    localStorageService.set($rootScope.userId, 'org');
+                    localStorageService.set($rootScope.userId + "_regionId", null);
+                });
+            });
+
         } else if (name == 'onlyMy') {
+            $timeout(setDefualtValueRegionSelect);
             localStorageService.set($rootScope.userId, 'onlyme');
             localStorageService.set($rootScope.userId + "_regionId", null);
             ScopeService.setActiveScopeObject(name);
@@ -950,20 +942,24 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 'border': '1px solid rgba(0,0,0,.15);'
             };
         }
+
+        notificationService.success($translate.instant("Account visibility changed"));
+
         setTimeout(function () {
             $scope.blockInfo();
             $scope.getAllPersonsFunc();
         }, 1000);
     };
-    $scope.changeScopeForRegionSelect = function (name) {
+
+    $scope.changeScopeForRegionSelect = function (name, regionId) {
+        setCurrentScopeForNavBar(name);
+
         if (name == 'region') {
             if($rootScope.activePage == 'Candidates'){
                 $rootScope.clearSearchRegion();
             }
-            $scope.regionListStyle = {
-                'border': '3px solid red'
-            };
-            console.log($scope.regionId);
+
+            $scope.regionId = regionId;
             if ($scope.regionId) {
                 localStorageService.set($rootScope.userId, 'region');
                 var region = null;
@@ -973,11 +969,14 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     }
                 });
                 localStorageService.set($rootScope.userId + "_regionId", region);
+
                 ScopeService.setActiveScopeObject(name, {
                     type: region.type,
                     value: region.value,
                     name: region.showName
                 });
+
+                notificationService.success($translate.instant("Account visibility changed"));
             } else {
             }
         } else if (name == 'company') {
@@ -985,12 +984,13 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 ScopeService.setActiveScopeObject(name);
                 localStorageService.set($rootScope.userId, 'org');
                 localStorageService.set($rootScope.userId + "_regionId", null);
-
-            })
+                notificationService.success($translate.instant("Account visibility changed"));
+            });
         } else if (name == 'onlyMy') {
             localStorageService.set($rootScope.userId, 'onlyme');
             localStorageService.set($rootScope.userId + "_regionId", null);
             ScopeService.setActiveScopeObject(name);
+            notificationService.success($translate.instant("Account visibility changed"));
         }
     };
 
@@ -1164,27 +1164,15 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 //notificationService.error($filter('translate')('service temporarily unvailable'));
             });
         };
-        //$scope.getAllPersons = Person.getAllPersons(function(resp){
-        //    //allPersons = Object.keys(resp).length;
-        //    angular.forEach(resp, function(val) {
-        //        //console.log(val);
-        //        //console.log(val.status);
-        //        if(val.status =="A"){
-        //            $scope.numberVacancy = ++$scope.numberVacancy;
-        //        }
-        //    });
-        //    //console.log('allPersons: '+$scope.numberVacancy);
-        //    if($scope.numberVacancy <= 12 && $scope.numberVacancy != 0){
-        //        $('#countPeople').append("<option style='display: none;' selected>"+$scope.numberVacancy+"</option>");
-        //    }
-        //    else{
-        //        $('#countPeople').append("<option selected>"+$scope.numberVacancy+"</option>");
-        //    }
-        //    $scope.countMonth = $('#countMonth').val();
-        //    $scope.countPeople = $('#countPeople').val();
-        //    $scope.price = 20 * $scope.countMonth * $scope.countPeople;
-        //    $('#price').html($scope.price + " USD");
-        //});
+        Person.getAllPersons((resp) => {
+            angular.forEach(resp.object, function (val) {
+                if (val.status == "A" && val.recrutRole != 'client') {
+                    $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
+                }
+            });
+            $scope.countPeople = $scope.paidUsers.length;
+        });
+
         $scope.deletePayment = function(resp){
             console.log(resp.paymentId);
             $.ajax({
@@ -1338,7 +1326,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
             });
         }
     };
-   ////////////////////////////////////////////////////////Addidng facebook SDK
+    ////////////////////////////////////////////////////////Addidng facebook SDK
     (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id))
@@ -1373,10 +1361,10 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
     var w = angular.element($window);
     w.bind("resize",function(){
         if ($rootScope.activePage == 'Candidate') {
-                if(w.width() < 992){
-                    $rootScope.hideContainer = false;
-                    console.log('vik123');
-                } else{
+            if(w.width() < 992){
+                $rootScope.hideContainer = false;
+                console.log('vik123');
+            } else{
                 $rootScope.hideContainer = true;
                 console.log('xzm,zxm,zm,zx,mzx');
             }
@@ -1459,6 +1447,14 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
     TooltipService.createTooltips();
 
+    if($rootScope.modalInstance){
+        $rootScope.modalInstance.closed.then(function(){
+            showNews()
+        });
+    }else{
+        showNews();
+    }
+
     function showNews(){
         News.getNews(function(resp){
             if(resp.status == 'ok'){
@@ -1469,8 +1465,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                             if(FB){
                                 clearInterval(interval);
                                 FB.Event.subscribe('xfbml.render', function(response) {
-                                    i++;
-                                    if(i == 2){
+                                    if(response === 2){
                                         $('body').addClass('modal-open');
                                         $('body').addClass('modal-open-news');
                                         $('.modal-backdrop').css('z-index','1040');
@@ -1481,7 +1476,6 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                 });
 
                                 $rootScope.news = resp.objects;
-                                FB.XFBML.parse();
 
                                 $rootScope.modalInstance = $uibModal.open({
                                     animation: true,
@@ -1498,7 +1492,9 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                                     $('.modal-backdrop').css('opacity', '0');
                                     $('.modal').css('z-index', '0');
                                     $('.modal').css('opacity', '0');
-                                    // FB.XFBML.parse();
+                                    $timeout(()=> {
+                                        FB.XFBML.parse();
+                                    }, 3000);
                                 });
                                 $rootScope.modalInstance.closed.then(function() {
                                     $('body').removeClass('modal-open-news');
@@ -1524,27 +1520,24 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
         });
     }
 
-    if($rootScope.modalInstance){
-        $rootScope.modalInstance.closed.then(function(){
-            showNews()
+    function setDefualtValueRegionSelect(){
+        var optionsHtml = `<option ng-selected="true" value="" selected style="color:#999">${$scope.translate}</option>`;
+        let region = JSON.parse(localStorage.getItem(`ls.${$rootScope.userId}_regionId`));
+        console.log(region, 'region');
+        angular.forEach($scope.regions, function (value) {
+            if(region && region.value === value["value"]){
+                optionsHtml += "<option style='color: #000000' selected  value='" + (value.id).replace(/\'/gi,"") + "'>" + value.name + "</option>";
+            }else{
+                optionsHtml += "<option style='color: #000000'  value='" + (value.id).replace(/\'/gi,"") + "'>" + value.name + "</option>";
+            }
         });
-    }else{
-        showNews();
+
+        $('#cs-region-filter-select-scope').html(optionsHtml);
+        $('.cs-region-filter-select-scope2').html(optionsHtml);
     }
 
-    //console.log($rootScope.previousHistoryFeedback);
-    //$http.get("js/Version.json").then(function(response) {
-    //    var scripts = document.getElementById('versionScript').src;
-    //    var versionString = scripts.split("?").pop();
-    //    console.log(scripts);
-    //    console.log(response);
-    //    if(versionString != response.data.version){
-    //        location.reload(true);
-    //    }
-    //        //$scope.content = response.data;
-    //        //$scope.statuscode = response.status;
-    //        //$scope.statustext = response.statustext;
-    //    });
+    $scope.dataChangeScopeAccount = ScopeService.dataChangeScopeAccount;
+
 }
 controller.controller('NavbarController', ["$q", "Vacancy", "serverAddress", "notificationService", "$scope", "tmhDynamicLocale", "$http", "Person", "$rootScope",
     "Service", "$route", "$window", "$location", "$filter", "$sce", "$cookies", "localStorageService", "$localStorage", "$timeout", "CheckAccess", "frontMode",

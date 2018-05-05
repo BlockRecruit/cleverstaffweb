@@ -28,6 +28,30 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Legal Potok';
+    src: url('../fonts/shrift_website/LegalLTStd-Medium(POTOK).otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Rounded FriendWork';
+    src: url('../fonts/shrift_website/DINNextRoundedLTPro-Regular(FriendWork).otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'G-type Persia';
+    src: url('../fonts/shrift_website/G-Type%20-%20ChevinPro-ExtraBold(PERSIA).otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Marmelad E-staff';
+    src: url('../fonts/shrift_website/Marmelad-Regular(E-staff).ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 div {
     box-sizing:border-box;
@@ -314,7 +338,7 @@ a:focus {
     color: #444446;
 }
 #home h4{
-    margin: 30px 0;
+    margin: 25px 0;
     color: #444446;
 }
 #home .signin-with {
@@ -329,7 +353,7 @@ a:focus {
     border-radius: 35px;
     border:1px solid #fff;
     padding: 10px 20px;
-    margin-top: 8px;
+    margin-top: 10px;
     background-color: #ED7D3B;
     transition: all 1.7s;
     -moz-transition: all 1.7s;
@@ -2596,8 +2620,20 @@ select.webkit-fix {
 #home .potok-tittle h1 .padding-left {
     padding-left: 35px;
 }
-#home .potok-tittle h1 img{
-    margin-top: -10px;
+/*#home .potok-tittle h1 img{*/
+    /*margin-top: -10px;*/
+/*}*/
+#home .potok-tittle h1 .logo-potok{
+    font-family: 'Legal Potok';
+    color: #00C7FE;
+    background: linear-gradient(to top right, #00C7FE 0%, #00F3D3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 56px;
+}
+#home .potok-tittle h1 .logo-friendwork{
+    font-family: 'Rounded FriendWork';
+    color: #00C0E8;
 }
 #home .potok-tittle h1 .question-potok:after{
     content: '?';
@@ -2618,7 +2654,8 @@ select.webkit-fix {
     font-family: 'Helv-3-Light';
     font-size: 30px;
     letter-spacing: 2px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    margin-top: 0;
     font-weight: 600;
 }
 #block_2 .key-differences .titleTable td:first-child{
@@ -2905,18 +2942,18 @@ select.webkit-fix {
 #block_3 .main-advantages .bigMarginTop{
     margin-top: 95px;
 }
-#block_3 .main-advantages p{
+#block_3 .main-advantages h3{
     margin: 10px 0;
-    font-size: 20px;
+    /*font-size: 20px;*/
     color: rgb(51, 51, 51);
     letter-spacing: 1px;
 }
 #block_3 .main-advantages .advantagesCs{
     margin-top: 40px;
 }
-#block_3 .main-advantages .advantagesCs h2{
+#block_3 .main-advantages .advantagesCs h3{
     font-family: 'Helv-3-Light';
-    font-size: 20px;
+    /*font-size: 18px;*/
     color: rgb(153, 153, 153);
     margin-bottom: 10px;
     letter-spacing: 1px;
@@ -3220,6 +3257,52 @@ select.webkit-fix {
         padding: 0;
     }
     /*compare potok end*/
+}
+@media screen and (min-width:992px) and (max-width:1199px) {
+    .teamWork .mrgTop {
+        margin-top: 55px;
+    }
+    .tarif {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: stretch;
+    }
+    .tarif .loginBtn {
+        display: block;
+        max-width: 100%;
+    }
+    .discount {
+        min-height: 35px;
+    }
+
+    .descr {
+        display: flex;
+        align-items: center;
+        min-height: 95px;
+    }
+    .lstChild {
+        margin-top: 52px;
+    }
+    .lstChild.lstChildRu {
+        margin-top: 106px;
+    }
+    .mrgTop {
+        margin-top: 107px;
+    }
+    .small-font {
+        font-size: 14px;
+    }
+    .discount.margin-top {
+        margin-top: 35px;
+    }
+    .howMuchMoney.padding {
+        padding-top: 0;
+        padding-bottom: 8px;
+    }
+    .tarif-ru.teamWork .mrgTop {
+        margin-top: 40px;
+    }
 }
 @media screen and (max-width: 991px) {
     .mailing span.bold {
@@ -4596,6 +4679,81 @@ select.webkit-fix {
     -o-transition: all 0.3s;
     transition: all 0.3s;
     outline: none;
+}
+.cookie-wrapper {
+    position: fixed;
+    bottom: 0;
+    background-color: rgba(0,0,0,.8);
+    width: 100%;
+    z-index: 99999;
+    color: #cccccc;
+    font-size: 16px;
+    padding: 20px 2%;
+    border: 1px solid rgb(51,196,109);
+    margin: 0 auto;
+    text-align: center;
+}
+.cookie-wrapper .inner-text {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cookie-wrapper button {
+    margin: 0 30px 0 10px;
+    outline: none;
+    border-radius: 5px;
+    padding: 3px 25px;
+    font-weight: bold;
+    line-height: 21px;
+    color: white;
+    border: 1px solid white;
+    background-color: transparent;
+    transition: background-color 0.3s ease-out, color 0.3s ease-out;
+}
+.cookie-wrapper button:hover {
+    color: #333;
+    background-color: white;
+}
+.cookie-wrapper .first-sentence span{
+    display: inline-block;
+    text-align: left;
+}
+.cookie-wrapper .first-sentence{
+    white-space: nowrap;
+}
+@media (max-width: 1300px) {
+    .cookie-wrapper .first-sentence,
+    .cookie-wrapper .second-sentence{
+        white-space: normal;
+        display: block;
+    }
+    .cookie-wrapper .inner-text {
+        justify-content: flex-start;
+    }
+}
+@media (max-width: 1200px) {
+    .cookie-wrapper button {
+        margin: 20px auto 20px;
+        display: block;
+    }
+    .cookie-wrapper .second-sentence,
+    .cookie-wrapper .first-sentence{
+        display: block;
+        text-align: left;
+    }
+}
+.cookie-wrapper .close-icon {
+    position: absolute;
+    top: 0;
+    right: 4px;
+    cursor: pointer;
+}
+.cookie-wrapper a {
+    cursor: pointer;
+    color:white;
+    font-weight: bold;
+    margin-left: 5px;
 }
 @media screen and (min-width: 373px) and (max-width: 380px) {
     #block_2 .key-differences .content .border-radius-table .clickedStyleBodyTab{

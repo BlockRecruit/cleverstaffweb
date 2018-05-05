@@ -1902,16 +1902,19 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
                             clearInterval(setinterval)
                         }
                 },1000);
-
-                    if (response.status === 'connected') {
+                    if (response.status === 'connected' || response.status === 'unknown') {
                         console.log(response);
                         FB.ui({
-                                method: 'feed',
-                                name: $filter('translate')('Vacancy') + ' ' + $scope.vacancy.position,
-                                caption: '',
-                                description: $scope.publicDescr,
-                                link: link,
-                                picture: $scope.publicImgLink
+                                method: 'share_open_graph',
+                                action_type: 'og.shares',
+                                action_properties: JSON.stringify({
+                                    object : {
+                                        'og:url': link,
+                                        'og:title': $filter('translate')('Vacancy') + ' ' + $scope.vacancy.position,
+                                        'og:description': $filter('limitTo')($scope.publicDescr, 100, 0),
+                                        'og:image': 'https://cleverstaff.net/images/sprite/vacancy-new.jpg'
+                                    }
+                                })
                             },
                             function (response) {
                                 console.log(response);
@@ -1925,19 +1928,23 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
                         FB.login(function (response) {
                             if(response.authResponse){
                                 FB.ui({
-                                        method: 'feed',
-                                        name: $filter('translate')('Vacancy') + ' ' + $scope.vacancy.position,
-                                        caption: '',
-                                        description: $scope.publicDescr,
-                                        link: link,
-                                        picture: $scope.publicImgLink,
+                                        method: 'share_open_graph',
+                                        action_type: 'og.shares',
+                                        action_properties: JSON.stringify({
+                                            object : {
+                                                'og:url': link,
+                                                'og:title': $filter('translate')('Vacancy') + ' ' + $scope.vacancy.position,
+                                                'og:description': $filter('limitTo')($scope.publicDescr, 100, 0),
+                                                'og:image': 'https://cleverstaff.net/images/sprite/vacancy-new.jpg'
+                                            }
+                                        })
                                     },
                                     function (response) {
-                                    console.log(response);
+                                        console.log(response);
                                         if(response.error_message){
                                             notificationService.error($filter('translate')('Vacancy hasn\'t shared'));
                                         }
-                                });
+                                    });
                             }
                         });
                     }
@@ -2208,10 +2215,11 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
                 return;
             }
             //$rootScope.changeStatusOfInterviewInVacancy.withChooseStatus = withChooseStatus;
+            let candidateId =  candidate[0] || candidate.candidateId;
             $rootScope.changeStatusOfInterviewInVacancy.candidate = candidate;
             $rootScope.changeStatusOfInterviewInVacancy.approvedCount = $scope.approvedCount;
             $rootScope.candnotify = {};
-            $rootScope.candnotify.sendMail = (candidate.candidateId.email && candidate.candidateId.email.length)? candidate.candidateId.email.split(/[',',' ']/gi)[0]: '';
+            $rootScope.candnotify.sendMail = (candidateId && candidateId.email && candidateId.email.length)? candidateId.email.split(/[',',' ']/gi)[0]: '';
             if($rootScope.candidatesAddToVacancyIds.length == 1){
                 Candidate.getContacts({"candidateId": candidate[0].candidateId}, function (resp) {
                     var email = "";
@@ -2411,7 +2419,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
                                             Mail.sendMailByTemplateVerified({
                                                     toEmails: candnotify.sendMail,
                                                     vacancyId: $scope.vacancy.vacancyId,
-                                                    candidateId: changeObj.candidate.candidateId.candidateId,
+                                                    candidateId: changeObj.candidate[0].candidateId.candidateId,
                                                     fullName: candnotify.fullName,
                                                     email: $rootScope.emailTemplateInModal.email,
                                                     date: changeObj.date,
@@ -2502,7 +2510,7 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
                                             Mail.sendMailByTemplateVerified({
                                                     toEmails: candnotify.sendMail,
                                                     vacancyId: $scope.vacancy.vacancyId,
-                                                    candidateId: changeObj.candidate.candidateId.candidateId,
+                                                    candidateId: changeObj.candidate[0].candidateId.candidateId,
                                                     fullName: candnotify.fullName,
                                                     email: $rootScope.emailTemplateInModal.email,
                                                     date: changeObj.date,
@@ -2587,10 +2595,11 @@ controller.controller('vacancyController', ["$state", "localStorageService", "Ca
                                     if ($rootScope.candnotify.send && $rootScope.candnotify.sendMail.length > 1 && sendTemplate) {
                                         if ($rootScope.candnotify.sendMail.length > 1) {
                                             var candnotify = $rootScope.candnotify;
+                                            console.log(changeObj, 'changeObj1');
                                             Mail.sendMailByTemplateVerified({
                                                     toEmails: candnotify.sendMail,
                                                     vacancyId: $scope.vacancy.vacancyId,
-                                                    candidateId: changeObj.candidate.candidateId.candidateId,
+                                                    candidateId: changeObj.candidate.candidateId.candidateId || changeObj.candidate[0].candidateId.candidateId,
                                                     fullName: candnotify.fullName,
                                                     email: $rootScope.emailTemplateInModal.email,
                                                     date: changeObj.date,

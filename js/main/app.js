@@ -750,6 +750,24 @@ angular.module('RecruitingApp', [
             title: "Reports constructor",
             pageName: "Reports constructor"
         }
+    },{
+        url:'/settings',
+        name: "scope-settings",
+        templateUrl: "partials/settings.html",
+        controller: "NavbarController",
+        data: {
+            title: "Settings",
+            pageName: "Settings"
+        }
+    },{
+        url:'/invoice',
+        name: "invoice",
+        templateUrl: "partials/invoice.html",
+        controller: "invoiceController",
+        data: {
+            title: "Invoice",
+            pageName: "Invoice generation"
+        }
     }
     //,{url:'/hr-module-info', {
     //    title: "HR-module",
@@ -945,7 +963,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=87'
+        suffix: '.json?b=93'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');

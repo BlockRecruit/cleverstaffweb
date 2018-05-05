@@ -1,0 +1,15 @@
+<div class="invoice-confirm">
+    <div class="modal-header">
+        <i class="fa fa-times pull-right" ng-click="modalInstance.close()"></i>
+        <h4 class="modal-title" translate="Have you dublechecked your billing infomation?"></h4>
+    </div>
+    <div class="modal-body">
+        <p translate="Your invoice will be downloaded automatically in coulple of eyeblinks after confirmation"></p>
+    </div>
+    <div class="modal-footer">
+        <div class="text-center button">
+            <button class="btn-cancel" ng-click="modalInstance.close()" translate="No, I'll check it again"></button>
+            <button class="btn-primary-new"  ng-click="downloadInvoice()" translate="Yes, download the invoice">{{'add'|translate}}</button>
+        </div>
+    </div>
+</div>

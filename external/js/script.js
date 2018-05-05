@@ -1639,7 +1639,6 @@ $(document).ready(function () {
         request.open('GET', '/hr/person/authping', true);
         var redirectLogin = false;
         request.onload = function () {
-            console.log(redirectLogin);
             if (request.status >= 200 && request.status < 400) {
                 resp = request.responseText;
                 var data = JSON.parse(resp);
@@ -1692,7 +1691,6 @@ $(document).ready(function () {
                 }
             }
             if (!isIE()) {
-                console.log('hereeeeeeeeeee');
                 //request = new XMLHttpRequest();
                 //request.open('GET', '/hr/person/authping', true);
                 //request.onload = function () {
@@ -1778,12 +1776,10 @@ $(document).ready(function () {
         });
     }
     if (msie > 0 || edge > 0  || rv > 0) {
-        console.log('orangeBtn click1');
         $('.orange-btn').click (function(){
             $("#isIe").modal('show');
         });
     }else{
-        console.log('orangeBtn click2');
         $('.orange-btn').click (function(){
             if(window.location.pathname == '/' || window.location.pathname == '/index.html'){
                 history.pushState({},"","");
@@ -1861,7 +1857,6 @@ $('#askQuestionSubmit').on('click',function(e){
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         beforeSend: function (xhr) {
-            console.log(res);
 
             contains(res.firstName , '!"№;%:?*()+#$^&*@1234567890' , 'ex1_firstName' , redBorder);
             contains(res.lastName , '!"№;%:?*()+#$^&*@1234567890' , 'ex1_lastName' , redBorder);
@@ -2050,7 +2045,7 @@ $('#askQuestionSubmit').on('click',function(e){
             }
         },
         complete: function(){
-            console.log('123123123123')
+            setTimeout(appendCodeTrackingCapterra);
             $($('.select2-selection--single')).css('border','2px solid #61B452');
             $("#need-demo-modal").modal('hide');
             $("#thanks-modal").modal('show');
@@ -2094,15 +2089,12 @@ $('#askQuestionSubmit2').on('click',function(e){
     }else{
         res.country = string.replace(/\d+/g, "").replace("(","").replace(")","").replace(" +","");
     }
-    console.log($('.select2-selection__rendered')[0].title.replace(/[A-z]/g, "").replace(/\(*\)*\.*\s*/g,"").replace(/,/g,""));
-    console.log(localStorage.getItem('phone'));
     if(localStorage.getItem('phone') == null){
         res.phone = $('.select2-selection__rendered')[0].title.replace(/[A-z]/g, "").replace(/\(*\)*\+*\+*\.*\s*/g,"").replace(/,/g,"") + res.phone;
     }else{
         res.phone = $(".countryCustom").text(localStorage.getItem('phone').replace(/-/g,"") + res.phone)[0].textContent;
     }
     delete res.countryCustom;
-    console.log(res);
     $('#ex1_mail, #ex1_skype, #ex1_firstName, #ex1_lastName, #ex1_number, #ex1_orgName, #ex1_usersCount, #ex1_averageNum').css({
         "box-shadow":"none",
         "border":"1px solid #E5E5E6"
@@ -2117,7 +2109,6 @@ $('#askQuestionSubmit2').on('click',function(e){
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         beforeSend: function (xhr) {
-            console.log(res);
 
             contains(res.firstName , '!"№;%:?*()+#$^&*@1234567890' , 'ex1_firstName' , redBorder);
             contains(res.lastName , '!"№;%:?*()+#$^&*@1234567890' , 'ex1_lastName' , redBorder);
@@ -2230,7 +2221,6 @@ $('#askQuestionSubmit2').on('click',function(e){
             if(res.phone.length > 18) {
               xhr.abort();
               redBorder('ex1_number');
-                console.log(localStorage.getItem("NG_TRANSLATE_LANG_KEY"));
               if(localStorage.getItem("NG_TRANSLATE_LANG_KEY") == 'en'){
                   $('.error-phone').html('Your phone number should be up to 15 digits');
               }else{
@@ -2300,7 +2290,7 @@ $('#askQuestionSubmit2').on('click',function(e){
             }
         },
         complete: function(data){
-            console.log('123123123123123 _ 2')
+            setTimeout(appendCodeTrackingCapterra);
             $($('.select2-selection--single')).css('border','2px solid #61B452');
             $("#need-demo-modal").modal('hide');
             $("#thanks-modal").modal('show');
@@ -2339,6 +2329,19 @@ $('#askQuestionSubmit2').on('click',function(e){
     });
 });
 
+function appendCodeTrackingCapterra(){
+  // Вставка кода отслеживания Capterra T-3849
+    var capterra_vkey = 'bc970293055597d3198446f1c3ace5cf',
+        capterra_vid = '2096814',
+        capterra_prefix = (('https:' == document.location.protocol) ? 'https://ct.capterra.com' : 'http://ct.capterra.com');
+
+    (function() {
+        var ct = document.createElement('script'); ct.type = 'text/javascript'; ct.async = true;
+        ct.src = capterra_prefix + '/capterra_tracker.js?vid=' + capterra_vid + '&vkey=' + capterra_vkey;
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ct, s);
+    })();
+}
+
 $('#askQuestionSubmit3').on('click',function(e){
     // sentAnalyticEvents('Personal_promo', 'Click');
     var res = $("#questionForm-index").serializeObject();
@@ -2362,6 +2365,7 @@ $('#askQuestionSubmit3').on('click',function(e){
     if(!res.intention) {
         res.intention = 'Request demo';
     }
+
   $.ajax({
     url: "/hr/public/newLead",
     type: "POST",
@@ -2407,7 +2411,6 @@ $('#askQuestionSubmit3').on('click',function(e){
       contains(res.phone , '!"№;%:?*()#$^&*@_' , 'ex1_number' , redBorder);
       contains(res.companyName , '' , '#ex1_orgName' , redBorder);
 
-      console.log(res);
         $(function() {
             function formatCountry (country) {
                 if (!country.id) { return country.text; }
@@ -2550,7 +2553,7 @@ $('#askQuestionSubmit3').on('click',function(e){
       }
     },
     complete: function(data){
-        console.log('123123123123_3')
+        setTimeout(appendCodeTrackingCapterra);
       $($('.select2-selection--single')).css('border','2px solid #61B452');
       $("#need-demo-modal").modal('hide');
       $("#thanks-modal").modal('show');
@@ -2592,9 +2595,7 @@ $('#askQuestionSubmit3').on('click',function(e){
 
 $('#askQuestionSubmit4').on('click',function(e){
     // sentAnalyticEvents('Personal_promo', 'Click');
-    console.log('asdf');
     var res = $("#questionForm").serializeObject();
-    console.log('res', res);
     $('#emailQuestion, #nameQuestion, #textQuestion').css({
         "box-shadow":"none",
         "border":"1px solid #E5E5E6"
@@ -2639,7 +2640,7 @@ $('#askQuestionSubmit4').on('click',function(e){
 
         },
         complete: function(){
-            console.log('123123123123_4')
+            setTimeout(appendCodeTrackingCapterra);
             $("#nameQuestion").val('');
             $("#emailQuestion").val('');
             $("#textQuestion").val('');
@@ -2854,7 +2855,6 @@ function createCORSRequest(method, url) {
 }
 
 //Make the actual CORS request.
-console.log(2);
 function makeCorsRequestNewsRu() {
     // All HTML5 Rocks properties support CORS.
     var url = 'https://cleverstaff.net/blog-entries3';
@@ -2928,7 +2928,7 @@ $('#ex1_firstName, #ex1_number, #ex1_mail, #ex1_skype, #ex1_orgName, #ex1_passwo
         var value2 = $('#ex1_number').val();
         var value3 = $('#ex1_mail').val();
         var value4 = $('#ex1_orgName').val();
-        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru'  && window.location.pathname != '/pt/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/compare-potok.html' && window.location.pathname != '/ru/compare-friendwork.html'){
+        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru'  && window.location.pathname != '/pt/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/cleverstaff-vs-potok.html' && window.location.pathname != '/ru/cleverstaff-vs-friendwork.html'){
             var value5 = $('#ex1_password').val();
             var value6 = $('#ex1_password2').val();
         }
@@ -2958,7 +2958,7 @@ $('#ex1_firstName, #ex1_number, #ex1_mail, #ex1_skype, #ex1_orgName, #ex1_passwo
         }else{
             $('.companyForm').css('display', 'none');
         }
-        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru' && window.location.pathname != '/pt/index.html' && window.location.pathname != '/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/compare-potok.html' && window.location.pathname != '/ru/compare-friendwork.html'){
+        if(window.location.pathname != '/' && window.location.pathname != '/ru/' && window.location.pathname != '/ru' && window.location.pathname != '/pt/index.html' && window.location.pathname != '/index.html' && window.location.pathname != '/ru/index.html' && window.location.pathname != '/price.html' && window.location.pathname != '/pt/price.html' && window.location.pathname != '/ru/price.html' && window.location.pathname != '/features.html' && window.location.pathname != '/ru/features.html' && window.location.pathname != '/pt/features.html' && window.location.pathname != '/ru/cleverstaff-vs-potok.html' && window.location.pathname != '/ru/cleverstaff-vs-friendwork.html'){
             if(value5.length > 0){
                 $('.passwordForm').css('display', 'block');
             }else{
@@ -3076,7 +3076,6 @@ function checkForm(){
 
   var email = $($('input[name=login]'));
     if(!re.test(email.val())){
-        console.log(!re.test(email.val()));
         email.css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
         email.focus();
         $(".error-email").html(messages.wrong_email);
@@ -3108,9 +3107,6 @@ function checkForm(){
     var password3 = /.*\d.*/;
     var password = $($('input[name=password]'));
     var repeatPassword = $($('input[name=password2]'));
-    console.log(password1.test(password.val()));
-    console.log(password2.test(password.val()));
-    console.log(password3.test(password.val()));
     if(!password1.test(password.val()) || !password2.test(password.val()) || !password3.test(password.val()) || password.val().length < 8 || password.val().length > 30){
         password.css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
         password.focus();
@@ -3181,12 +3177,12 @@ function checkForm(){
         $('html, body').animate({scrollTop: 450}, 'slow');
         return false;
     }
-    if(form.currentSolution == "") {
-        $($('input[name=currentSolution]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
-        $($('input[name=currentSolution]')).focus();
-        $('html, body').animate({scrollTop: 250}, 'slow');
-        return false;
-    }
+    //if(form.currentSolution == "") {
+    //    $($('input[name=currentSolution]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
+    //    $($('input[name=currentSolution]')).focus();
+    //    $('html, body').animate({scrollTop: 250}, 'slow');
+    //    return false;
+    //}
 
     if(form.terms != 'on') {
         $(".error-terms").html(messages.terms_accept);
@@ -3220,7 +3216,6 @@ function checkFormGoogle(){
     }
     $(".error-orgName").addClass("hidden");
     if(form.phone == "") {
-        console.log('emptyPhone');
         $($('input[name=phone]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
         $($('input[name=phone]')).focus();
         $(".error-phone").html(messages.enter_phone);
@@ -3249,9 +3244,6 @@ function checkFormGoogle(){
     var password3 = /.*\d.*/;
     var password = $($('#googlePass'));
     var repeatPassword = $($('#googlePass2'));
-    console.log(password1.test(password.val()));
-    console.log(password2.test(password.val()));
-    console.log(password3.test(password.val()));
     if(!password1.test(password.val()) || !password2.test(password.val()) || !password3.test(password.val()) || password.val().length < 8 || password.val().length > 30){
         password.css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
         password.focus();
@@ -3386,9 +3378,6 @@ function checkFormFacebook(){
     var password3 = /.*\d.*/;
     var password = $($('#facebookPass'));
     var repeatPassword = $($('#facebookPass2'));
-    console.log(password1.test(password.val()));
-    console.log(password2.test(password.val()));
-    console.log(password3.test(password.val()));
     if(!password1.test(password.val()) || !password2.test(password.val()) || !password3.test(password.val()) || password.val().length < 8 || password.val().length > 30){
         password.css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
         password.focus();
@@ -3476,7 +3465,6 @@ function signupGoogle() {
     var win = window.open(google_url, "windowname1", getPopupParams());
     var pollTimer = window.setInterval(function() {
         try {
-            console.log(win.document.URL);
             if (win.document.URL.indexOf(gup(google_url, 'redirect_uri')) !== -1) {
                 window.clearInterval(pollTimer);
                 var url = win.document.URL;
@@ -3492,7 +3480,6 @@ function signupGoogle() {
                         } catch(err) {
                             console.error("Facebook Pixel" ,err);
                         }
-                        console.log('user', user);
                         $("#google_mail").val(user.email);
                         $("#google_name").val(user.name);
                         $("#google_code").val(code);
@@ -3519,16 +3506,13 @@ function signupForm() {
     }else{
         res.country = string.replace(/\d+/g, "").replace("(","").replace(")","").replace(" +","");
     }
-    console.log(res.phone);
     var phone = $('input[name=phone]');
-    console.log(phone);
     if(localStorage.getItem('phone') == null){
         res.phone = $('.select2-selection__rendered')[0].title.replace(/[A-z]/g, "").replace(/\(*\)*\+*\.*\s*/g,"").replace(/,/g,"") + res.phone;
     }else{
         res.phone = $(".countryCustom").text(localStorage.getItem('phone').replace(/-/g,"") + res.phone)[0].textContent;
     }
     delete res.countryCustom;
-    console.log(res);
     $.ajax({
         url: "/hr/person/registration",
         type: "POST",
@@ -3699,7 +3683,6 @@ function signupFacebook() {
                 } catch(err) {
                     console.error("Facebook Pixel" ,err);
                 }
-                console.log(user);
                 $("#facebook_mail").val(user.email);
                 $("#facebook_name").val(user.name);
                 $("#facebook_code").val(code);
@@ -3728,7 +3711,6 @@ $('#signup-button').click(function(){
     function saveEmail() {
         var email = $('#login').val();
         $('#phone_number4').val(email);
-        console.log(email);
     }
 
     $('#forgot-pass').click(function(){

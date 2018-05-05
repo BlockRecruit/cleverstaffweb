@@ -454,19 +454,29 @@
 }
 
 @mixin return-on-report-page-btn {
-	font-size: 15px;
+	font-size: 14px;
 	font-weight: bold;
 
-	padding: 11px 8px;
+	padding: 4px 11px;
 
 	text-decoration: none;
 
 	color: #333;
 	border: 2px solid rgb(102, 102, 102);
 	border-radius: 23px;
+	svg {
+		vertical-align: middle;
+		.st0 {
+			fill: #333;
+		};
+	}
 	&:hover {
-		color: #333 !important;
-		background-color: $btn-accent;
+		color: white;
+		border-color: $theme-green;
+		background-color: $theme-green;
+		.st0 {
+			fill: white;
+		};
 	}
 }
 
@@ -514,5 +524,25 @@
 		color: #b8b8b8;
 		border: 1px solid #b8b8b8;
 		background-color: #fff;
+	}
+}
+
+@mixin btn-transparent {
+	font-size: 15px;
+	font-weight: bold;
+
+	padding: 11px 8px;
+
+	text-decoration: none;
+
+	color: #333;
+	border: 2px solid #666;
+	border-radius: 23px;
+	background-color: transparent;
+	&:hover {
+		cursor: pointer;
+
+		color: #333;
+		background-color: #ffc100;
 	}
 }

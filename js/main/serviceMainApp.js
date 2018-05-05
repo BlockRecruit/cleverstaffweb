@@ -37,6 +37,8 @@ angular.module('services', [
         'services.CustomReportEditService',
         'services.reportsService',
         'services.slider',
+        'services.invoice',
+        'services.slider',
         'services.mailing'
     ]
 );
