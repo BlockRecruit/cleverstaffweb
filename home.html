@@ -345,7 +345,7 @@
                         <span ng-show="digit != 1">{{"Only"|translate}}</span><span ng-show="digit == 1">{{"Only_1"|translate}}</span><span ng-bind="digit" class="digit"></span><span>{{(digit >= 5 && digit <= 14)? "days_1Trial" : (digit < 5 && digit > 1)? "daysTrial" : (digit === 0)? "dayTrial": "dayTrial" | translate}}</span>
                     </div>
                     <ul class="nav information navbar-nav flex-ul">
-                        <li class="payMoney hidden-xs hidden-sm" ng-show="$root.me.recrutRole == 'admin' && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free') && !$root.blockUser">
+                        <li class="payMoney" ng-show="$root.me.recrutRole == 'admin' && !(digit > 0 && digit <= 14) && !(getMeObj['orgParams']['tarif']==='free' || tarif=='free') && !$root.blockUser">
                             <a href="#/pay" class="payment-panel" ng-class="{'low-low-balance': paidFor!==undefined && paidFor <= 4,'low-balance': paidFor!==undefined && paidFor <= 7}">
                                 <span class="coins">
                                     <span class="usd-icon">
@@ -370,7 +370,7 @@
                                 <span ng-show="paidFor == 0" translate="No Day left!" translate-values="{days_left: paidFor}" ></span>
                             </a>
                         </li>
-                        <li class="payMoney activeTrial hidden-xs hidden-sm" ng-show="$root.me.recrutRole == 'admin' && ((digit > 0 && digit <= 14) || (getMeObj['orgParams']['tarif']==='free' || tarif=='free')) || $root.blockUser">
+                        <li class="payMoney activeTrial" ng-show="$root.me.recrutRole == 'admin' && ((digit > 0 && digit <= 14) || (getMeObj['orgParams']['tarif']==='free' || tarif=='free')) || $root.blockUser">
                             <a href="#/pay" class="payment-panel" ng-class="{'low-low-balance': paidFor!==undefined && paidFor <= 4,'low-balance': paidFor!==undefined && paidFor <= 7}">
                                 <span class="coins">
                                     <span class="usd-icon">
