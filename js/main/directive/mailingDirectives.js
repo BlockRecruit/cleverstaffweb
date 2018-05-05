@@ -210,6 +210,7 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                             <label ng-show="statuses && (status.value != 'approved' && status.value != 'notafit')">{{'interview_status'|translate}}</label>
                             <div ng-show="$root.hover && $root.status2 === false" style="position: absolute">{{"longlist"|translate}}</div>
                             <select ng-model="currentStatus" class="stage-select" ng-change="fetchCandidates()" id="stageSelect">
+                            <option value="" translate="Choose the stage"></option>
                                 <option ng-repeat="status in statuses track by status.value"
                                         value="{{status}}">
                                     {{status.value|translate}} ({{status.count?status.count:'0'}})
@@ -223,7 +224,10 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
               candidates: '='
             },
             link: function (scope, element) {
-                scope.currentStatus = {};
+                scope.$watch('vacancyId', (newValue, oldValue) => {
+                    scope.currentStatus = "";
+                });
+                scope.currentStatus = "";
                 let regForMailSplit = /[\s,;]+/;
                 let maxCandidatesPerRequest = 500;
                 let vacancySearchParams = {

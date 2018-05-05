@@ -5050,6 +5050,7 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
                             <label ng-show="statuses && (status.value != 'approved' && status.value != 'notafit')">{{'interview_status'|translate}}</label>
                             <div ng-show="$root.hover && $root.status2 === false" style="position: absolute">{{"longlist"|translate}}</div>
                             <select ng-model="currentStatus" class="stage-select" ng-change="fetchCandidates()" id="stageSelect">
+                            <option value="" translate="Choose the stage"></option>
                                 <option ng-repeat="status in statuses track by status.value"
                                         value="{{status}}">
                                     {{status.value|translate}} ({{status.count?status.count:'0'}})
@@ -5063,7 +5064,10 @@ directive.directive('mailingCandidateAutocompleter', ["$filter", "serverAddress"
               candidates: '='
             },
             link: function (scope, element) {
-                scope.currentStatus = {};
+                scope.$watch('vacancyId', (newValue, oldValue) => {
+                    scope.currentStatus = "";
+                });
+                scope.currentStatus = "";
                 let regForMailSplit = /[\s,;]+/;
                 let maxCandidatesPerRequest = 500;
                 let vacancySearchParams = {
@@ -48757,7 +48761,7 @@ component.component('mailingEditor', {
             } else {
                 $rootScope.loader = true;
                 if(step === "details" || $scope.emailText) {
-                    if(Mailing.getMailboxFromIntegrated($scope.senderEmail.selectedMailBox) !== false) {
+                    if(Mailing.getMailboxFromIntegrated($scope.senderEmail.selectedMailBox) !== false || step === 'details' || step === 'save') {
                         Mailing.editorChangeStep($scope.emailText, $scope.topic, $scope.fromName, $scope.senderEmail.selectedMailBox, step).then(results => {
                             $rootScope.loader = false;
                             if(step == 'save') {
@@ -49727,7 +49731,7 @@ component.component("emailTemplateEditComponent", {
        vm.dkimStatusRefreshing = false;
        vm.emailSettingsType = "";
        vm.dkimInfoReceived = false;
-       vm.signatures = {};
+       vm.signatures = {dkim:{},spf:{}};
        vm.mailingPermitDenied = false;
 
        if($stateParams !== undefined && $stateParams.id) {
@@ -49774,7 +49778,7 @@ ${vm.signatures.dmarc.value}`;
 
 
         vm.mailingOn = function () {
-            if (vm.dkimInfoReceived || vm.editableMailbox.corpMail !== true)
+            if (vm.dkimInfoReceived || vm.editableMailbox.corpMail !== true || !vm.editableMailbox.permitMailing)
                 return;
             $rootScope.loading = true;
             vm.checkDkimStatus();

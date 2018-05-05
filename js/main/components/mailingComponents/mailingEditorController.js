@@ -76,7 +76,7 @@ component.component('mailingEditor', {
             } else {
                 $rootScope.loader = true;
                 if(step === "details" || $scope.emailText) {
-                    if(Mailing.getMailboxFromIntegrated($scope.senderEmail.selectedMailBox) !== false) {
+                    if(Mailing.getMailboxFromIntegrated($scope.senderEmail.selectedMailBox) !== false || step === 'details' || step === 'save') {
                         Mailing.editorChangeStep($scope.emailText, $scope.topic, $scope.fromName, $scope.senderEmail.selectedMailBox, step).then(results => {
                             $rootScope.loader = false;
                             if(step == 'save') {

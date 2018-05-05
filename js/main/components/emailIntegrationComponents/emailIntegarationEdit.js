@@ -10,7 +10,7 @@ component.component("emailTemplateEditComponent", {
        vm.dkimStatusRefreshing = false;
        vm.emailSettingsType = "";
        vm.dkimInfoReceived = false;
-       vm.signatures = {};
+       vm.signatures = {dkim:{},spf:{}};
        vm.mailingPermitDenied = false;
 
        if($stateParams !== undefined && $stateParams.id) {
@@ -57,7 +57,7 @@ ${vm.signatures.dmarc.value}`;
 
 
         vm.mailingOn = function () {
-            if (vm.dkimInfoReceived || vm.editableMailbox.corpMail !== true)
+            if (vm.dkimInfoReceived || vm.editableMailbox.corpMail !== true || !vm.editableMailbox.permitMailing)
                 return;
             $rootScope.loading = true;
             vm.checkDkimStatus();
