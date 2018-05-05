@@ -265,13 +265,13 @@ header nav .navbar-nav li a:hover{
 }
 header .container .gdpr-logo {
     position: absolute;
-    left: 176px;
-    top: 25px;
+    left: 180px;
+    top: 38px;
 }
-header .container .gdpr-logo.img {
+header .container .gdpr-logo img {
     width: 155px;
     height: 37px;
-    transform: rotate();
+    transform: rotate(-12deg);
 }
 ul.adaptiveMenu li:hover{
     padding-bottom: 12px;
