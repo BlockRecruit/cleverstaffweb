@@ -964,6 +964,41 @@ body {
 							background-color: $theme-substrate;
 
 							align-items: center;
+							.dropdown-regions-title {
+								padding: 5px 10px;
+
+								border: 1px solid #ccc;
+								border-radius: 5px;
+								background-color: white;
+								&:before,
+								&:after {
+									position: absolute;
+									left: 160px;
+
+									display: block;
+
+									content: "";
+
+									border: 7px solid transparent;/*adjust size*/
+								}
+								/*Change four 'top' values below to rotate (top/right/bottom/left)*/
+								&:before {
+									top: 14px;
+
+									border-top-color: #ccc;/*Chevron Color*/
+								}
+								&:after {
+									top: 12px;/*adjust thickness*/
+
+									border-top-color: #fff;/*Match background colour*/
+								}
+							}
+							.show-regions-dropdown {
+								cursor: pointer;
+							}
+							.show-company-dropdown {
+								cursor: pointer;
+							}
 							.current-scope {
 								display: flex;
 
@@ -974,10 +1009,11 @@ body {
 									align-items: center;
 									svg {
 										margin-right: 4px;
+										margin-left: 5px;
 									}
 									.region-name {
 										overflow: hidden;
-										width: 115px;
+										width: 110px;
 										margin-right: 10px;
 
 										white-space: nowrap;
@@ -1087,13 +1123,38 @@ body {
 										border: 1px solid #ccc;
 										background-color: white;
 										& > .regions-items {
-											padding: 5px 0 5px 10px;
+											padding: 5px 0 5px 20px;
 
 											cursor: pointer;
 											&:hover {
 												color: white;
 												background-color: #b7b7b7;
 											}
+										}
+									}
+								}
+								.dropdown-company {
+									display: none;
+
+									border: 1px solid #ccc;
+									border-radius: 5px;
+									& > .dropdown-item {
+										padding: 5px 0 5px 10px;
+
+										cursor: pointer;
+
+										background-color: white;
+										&:hover {
+											color: white;
+											background-color: #b7b7b7;
+										}
+										&:first-child {
+											border-top-left-radius: 5px;
+											border-top-right-radius: 5px;
+										}
+										&:last-child {
+											border-bottom-right-radius: 5px;
+											border-bottom-left-radius: 5px;
 										}
 									}
 								}

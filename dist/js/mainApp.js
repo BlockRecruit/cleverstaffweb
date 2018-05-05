@@ -4527,23 +4527,24 @@
             restrict: "AE",
             templateUrl: "partials/accountScopePanel.html",
             link: function ($scope, element, attrs) {
-                let dropdownElement = $('.dropdown-regions');
+                let dropdownRegionsElement = $('.dropdown-regions');
+                let dropdownCompanyElement = $('.dropdown-company');
                 $('body').unbind().on('click', ($event) => {
-                    toggleRegionDropdown($event);
+                    toggleDropdowns($event);
                 });
 
-                function toggleRegionDropdown(event) {
+                function toggleDropdowns(event) {
                     if($(event.target).hasClass("show-regions-dropdown")) {
-                        dropdownElement.toggle();
+                        dropdownRegionsElement.toggle();
+                        dropdownCompanyElement.hide();
                     } else {
-                        dropdownElement.hide();
+                        if($(event.target).hasClass("show-company-dropdown")) {
+                            dropdownCompanyElement.toggle();
+                        }
+                        dropdownRegionsElement.hide();
                     }
                 }
-                
-                $scope.toggleRegions = function () {
-                    console.log('regionLists',$('#regionList'))
-                    $('#regionList').click();
-                }
+
             }
         }
     }

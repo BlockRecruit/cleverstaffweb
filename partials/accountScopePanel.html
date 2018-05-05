@@ -9,16 +9,18 @@
             <label ng-click="changeScope('onlyMy', orgId)" ng-class="{'chosen': currentSelectScope  === 'onlyMy'}" class="right-label" translate="My data"></label>
         </div>
         <span class="line-v"></span>
-        <span class="ellipsis-v show-regions-dropdown" ng-click="toggleDropdownRegions()">
-            <span></span>
-            <span></span>
-            <span></span>
+        <span class="ellipsis-v show-regions-dropdown">
+            <span class="show-regions-dropdown"></span>
+            <span class="show-regions-dropdown"></span>
+            <span class="show-regions-dropdown"></span>
         </span>
     </div>
     <div class="dropdowns">
         <div class="dropdown-regions" ng-click="$event.stopPropagation();">
-            <div ng-click="toggleRegions()">Regions</div>
-            <div class="regions-list" ng-repeat="region in regions track by $index" ng-bind="region.name" ng-click="changeScopeForRegionSelect('region', region.id)"></div>
+            <div class="dropdown-regions-title" translate="Only_region"></div>
+            <div class="region-custom-list">
+                <div class="regions-items" ng-repeat="region in regions track by $index" ng-bind="region.name" ng-click="changeScopeForRegionSelect('region', region.id)"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -49,17 +51,21 @@
         </div>
     </div>
     <span class="line-v"></span>
-    <span class="ellipsis-v" ng-click="toggleDropdownRegions()">
-            <span></span>
-            <span></span>
-            <span></span>
+    <span class="ellipsis-v show-company-dropdown">
+            <span class="show-company-dropdown"></span>
+            <span class="show-company-dropdown"></span>
+            <span class="show-company-dropdown"></span>
         </span>
     <div class="dropdowns">
         <div class="dropdown-regions" ng-click="$event.stopPropagation();">
-            <div ng-click="toggleRegions()">Regions</div>
+            <div class="dropdown-regions-title" translate="Only_region"></div>
             <div class="region-custom-list">
                 <div class="regions-items" ng-repeat="region in regions track by $index" ng-bind="region.name" ng-click="changeScopeForRegionSelect('region', region.id)"></div>
             </div>
+        </div>
+        <div class="dropdown-company">
+            <div class="dropdown-item" translate="My data" ng-click="changeScope('onlyMy', orgId)"></div>
+            <div class="dropdown-item" translate="All data" ng-click="changeScope('company', orgId)"></div>
         </div>
     </div>
 </div>
