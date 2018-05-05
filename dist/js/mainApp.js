@@ -31806,7 +31806,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 $scope.billingEnabled = true;
             }
             Account.getAccountInfo(resp => {
-                if(resp.object.tarif === 'free') {
+                if(resp.object.tarif === 'free' && resp.object.dayCount <= 0) {
                     $rootScope.hideTariff = false;
                 }
             }, error => notificationService.error(error.message))
