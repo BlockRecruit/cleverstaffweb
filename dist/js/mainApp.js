@@ -31837,7 +31837,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                 $scope.billingEnabled = true;
             }
             Account.getAccountInfo(resp => {
-                if(resp.object.tarif === 'free') {
+                if(resp.object.tarif === 'free' && resp.object.dayCount <= 0) {
                     $rootScope.hideTariff = false;
                 }
             }, error => notificationService.error(error.message))
@@ -32510,7 +32510,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
 
     $scope.changeScope = function (name, orgId, event) {
-        if(event && isCheckBoxChecked(event.target) && (name !== $scope.currentSelectScope || orgId !== $scope.orgId)) return;
+        if(event && isCheckBoxChecked(event.target) && (name === $scope.currentSelectScope || orgId !== $scope.orgId)) return;
         setCurrentScopeForNavBar(name);
 
         if (name == 'region') {
