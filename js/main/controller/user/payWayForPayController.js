@@ -48,7 +48,13 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             $rootScope.loading = false;
             watchSelectForChanges();
             if($rootScope.me['orgParams']['tarif']) {
-                $scope.tarif = $rootScope.me['orgParams']['tarif'];
+                if($rootScope.me['orgParams']['tarif'] == 'free'){
+                    $scope.tarif = '1 Recruiter';
+                }else if($rootScope.me['orgParams']['tarif'] == 'standard'){
+                    $scope.tarif = 'Team work';
+                }else{
+                    $scope.tarif = $rootScope.me['orgParams']['tarif'];
+                }
             } else {
                 $scope.tarif = resp.object.tarif;
             }
