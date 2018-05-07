@@ -1154,8 +1154,8 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
                 }
             });
-            const diff = $rootScope.blockUserData.payment_min_users - $scope.paidUsers.length;
-            if($rootScope.blockUserData.payment_min_users > $scope.paidUsers.length) {
+            if($rootScope.blockUserData && $rootScope.blockUserData.payment_min_users > $scope.paidUsers.length) {
+                const diff = $rootScope.blockUserData.payment_min_users - $scope.paidUsers.length;
                 for(let i = 0; i < diff + 2; i++) {
                     $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
                 }
