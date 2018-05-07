@@ -13505,7 +13505,6 @@ angular.module('services.vacancyReport', [
             for(let i = 0; i < this.data.length; i++) {
                 const closestBar = this.getClosestBar(i);
 
-                console.log(closestBar);
                 let barProps = {
                     c: this.c,
                     ctx: this.ctx,
@@ -13521,6 +13520,7 @@ angular.module('services.vacancyReport', [
                     index: i
                 };
 
+                console.log(barProps.x);
                 if(barProps.width && barProps.height) {
                     const bar = new chartBar({...barProps});
                     bar.draw();

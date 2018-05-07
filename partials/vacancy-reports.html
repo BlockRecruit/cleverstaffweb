@@ -208,7 +208,7 @@
                         </div>
                     </div>
                 </div>
-                <div ng-hide="!userFunnelData.userSeries.length && statistics.type === 'userFunnel'">
+                <div ng-hide="!mainFunnel.data.candidateSeries.length || statistics.type === 'userFunnel'">
                     <a style="display: none;" id="downloadPDF"></a>
                     <div class="text-center">
                         <a type="button" ng-click="downloadPDF()" class="btn btn-primary accept">
