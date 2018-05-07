@@ -1277,7 +1277,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
         if(isDuplicateLanguage(data[indexLang],level, indexLang)) {
             notificationService.error("Language with this level is already selected");
-            // document.querySelectorAll('.language-level');
             console.log(scope.level = '', 'scope')
             return;
         }
@@ -2095,7 +2094,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.staticSearchParam[0].languages = 'null';
         $scope.searchParam.languages = [];
         $scope.currentLang = 'null';
-        $scope.level = '_undefined';
+        $scope.level = "";
         languagetLevelDataForTranslates = [];
     }
 
