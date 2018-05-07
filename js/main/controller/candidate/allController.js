@@ -942,7 +942,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     localStorage.countCandidate = 15;
                 }
 
-                console.log($scope.searchParam.status, '($scope.searchParam.status');
 
                 if($scope.searchParam.status.translate === "our employee"){
                     $scope.searchParam.status.value = 'work';
@@ -950,8 +949,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
                 $scope.searchParam.pages.count = params.$params.count;
 
+                if(activeParam.name == 'region'){
+                    Candidate.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
+                }else{
+                    Candidate.setOptions("country", $scope.searchParam.regionId.value? $scope.searchParam.regionId.value : null);
+                }
+
+
                 Candidate.setOptions("allContainsWords", $scope.searchParam.allContainsWords);
-                Candidate.setOptions("country", $scope.searchParam.regionId.value? $scope.searchParam.regionId.value : null);
                 Candidate.setOptions("city", $scope.searchParam.regionIdCity.value? $scope.searchParam.regionIdCity.value : null);
                 Candidate.setOptions("name", $scope.searchParam.name);
                 Candidate.setOptions("position", $scope.searchParam.position);
