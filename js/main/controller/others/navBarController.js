@@ -870,7 +870,7 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
 
 
     $scope.changeScope = function (name, orgId, event) {
-        if(event && isCheckBoxChecked(event.target) && (name === $scope.currentSelectScope || orgId !== $scope.orgId)) return;
+        if(event && isCheckBoxChecked(event.target) || (name === $scope.currentSelectScope && orgId === $scope.orgId)) return;
         setCurrentScopeForNavBar(name);
 
         if (name == 'region') {
