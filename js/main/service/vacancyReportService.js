@@ -50,7 +50,8 @@ angular.module('services.vacancyReport', [
                     index: i
                 };
 
-                if(i !== this.data.length - 1 && !barProps.nextBarWidth) { // if this is not the last char bar, we have to display it as a rectangle, not as a triangle
+                console.log(this.getLastBarIndex());
+                if(i !== this.data.length - 1 && !barProps.nextBarWidth && i !== this.getLastBarIndex()) { // if this is not the last char bar, we have to display it as a rectangle, not as a triangle
                     barProps.nextBarWidth = barProps.width;
                 }
 
@@ -60,6 +61,15 @@ angular.module('services.vacancyReport', [
                     this.bars.push(bar);
                 } else {
                     this.bars.push({});
+                }
+            }
+        }
+
+        getLastBarIndex() {
+            for(let i = this.data.length - 1; i >= 0; i--) {
+                console.log(this.data[i]);
+                if(this.data[i] !== 0) {
+                    return i;
                 }
             }
         }
