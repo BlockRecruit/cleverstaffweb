@@ -176,7 +176,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 }).then(usersActionData => {
                     const userFunnelMap = validateStages(parseCustomStagesNames(usersActionData, $scope.notDeclinedStages, $scope.declinedStages));
 
-                let userFunnelData = {
+
+                    let userFunnelData = {
                         userSeries: setFunnelData(userFunnelMap).candidateSeries,
                         vacancySeries: setFunnelData($scope.vacancyFunnelMap).candidateSeries,
                         userPercentSeries : function() {
@@ -303,7 +304,9 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         }
 
         function setStagesOrder(orderedStages, unorderedStages) {
-            orderedStages.forEach(oStage => {
+            let orderedStagesCopy = angular.copy(orderedStages);
+
+            orderedStagesCopy.forEach(oStage => {
                 unorderedStages.forEach(unStage => {
                     if(oStage.key === unStage.key) {
                         oStage.value = unStage.value;
@@ -311,7 +314,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 });
             });
 
-            return orderedStages.length ? orderedStages : unorderedStages;
+            return orderedStagesCopy.length ? orderedStagesCopy : unorderedStages;
         }
 
         function setFunnelData(funnelMap) {

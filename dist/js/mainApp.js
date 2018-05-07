@@ -13503,11 +13503,17 @@ angular.module('services.vacancyReport', [
 
         drawBars() {
             for(let i = 0; i < this.data.length; i++) {
+                const closestBar = this.getClosestBar(i);
+
+                console.log(closestBar);
                 let barProps = {
                     c: this.c,
                     ctx: this.ctx,
                     value: this.data[i],
-                    x: this.bars[i - 1] && this.bars[i - 1].width ? this.bars[i - 1].x - this.barsWidth[i]/2 + this.barsWidth[i - 1]/2 : this.c.width/2 - this.width/2,
+                    // x: this.bars[i - 1] && this.bars[i - 1].width ?
+                    //                     this.bars[i - 1].x - this.barsWidth[i]/2 + this.barsWidth[i - 1]/2 : closestBar ?
+                    //                     closestBar.x - this.barsWidth[closestBar.index]/2 + this.barsWidth[closestBar.index - 1]/2 : this.c.width/2 - this.width/2,
+                    x: closestBar ? this.bars[closestBar.index].x - this.barsWidth[closestBar.index]/2 + this.barsWidth[closestBar.index]/2 : this.c.width/2 - this.width/2,
                     y: i * this.height,
                     width: this.barsWidth[i],
                     height: this.height - 1,
@@ -13520,7 +13526,7 @@ angular.module('services.vacancyReport', [
                     bar.draw();
                     this.bars.push(bar);
                 } else {
-                    this.bars.push();
+                    this.bars.push({});
                 }
             }
         }
@@ -13541,6 +13547,14 @@ angular.module('services.vacancyReport', [
             });
 
             return this.initialBarWidth;
+        }
+
+        getClosestBar(start) {
+            for(let i = start; i >= 0; i--) {
+                if(this.bars[i] && this.bars[i].width) {
+                    return this.bars[i];
+                }
+            }
         }
 
         initBarsHover() {
@@ -41506,7 +41520,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 }).then(usersActionData => {
                     const userFunnelMap = validateStages(parseCustomStagesNames(usersActionData, $scope.notDeclinedStages, $scope.declinedStages));
 
-                let userFunnelData = {
+
+                    let userFunnelData = {
                         userSeries: setFunnelData(userFunnelMap).candidateSeries,
                         vacancySeries: setFunnelData($scope.vacancyFunnelMap).candidateSeries,
                         userPercentSeries : function() {
@@ -41633,7 +41648,9 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         }
 
         function setStagesOrder(orderedStages, unorderedStages) {
-            orderedStages.forEach(oStage => {
+            let orderedStagesCopy = angular.copy(orderedStages);
+
+            orderedStagesCopy.forEach(oStage => {
                 unorderedStages.forEach(unStage => {
                     if(oStage.key === unStage.key) {
                         oStage.value = unStage.value;
@@ -41641,7 +41658,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 });
             });
 
-            return orderedStages.length ? orderedStages : unorderedStages;
+            return orderedStagesCopy.length ? orderedStagesCopy : unorderedStages;
         }
 
         function setFunnelData(funnelMap) {
