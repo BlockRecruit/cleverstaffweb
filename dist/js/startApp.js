@@ -92,7 +92,7 @@ var app = angular.module('RecruitingAppStart', [
 }]).config(function($translateProvider,tmhDynamicLocaleProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=14'
+        suffix: '.json?b=15'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -1814,6 +1814,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
     })
     .controller('ConfirmController', function($scope, $translate, $location, $routeParams, Person, notificationService, $window) {
         var lang = localStorage.getItem("NG_TRANSLATE_LANG_KEY") ? localStorage.getItem("NG_TRANSLATE_LANG_KEY") : "en";
+        $scope.loaded = false;
         Person.finishReg({
             personId: $routeParams.personId,
             key: $routeParams.key,
@@ -1824,12 +1825,8 @@ controller.controller('mainController' ,function($scope, $location, $window) {
                 $("#confirmRegistrationFailReconfirmation").css('display', 'block');
                 var userLang = localStorage.getItem("NG_TRANSLATE_LANG_KEY");
 
-                if (userLang == "ru") {
-                    $("#confirmRegistrationFailReconfirmation_ru").css('display', 'block');
-                } else if (userLang == "ua") {
-                    $("#confirmRegistrationFailReconfirmation_ua").css('display', 'block');
-                } else {
-                    $("#confirmRegistrationFailReconfirmation_en").css('display', 'block');
+                if(resp.code === 'invalidCode') {
+                    $scope.alreadyRegistered = true;
                 }
             } else {
                 notificationService.success("success");
@@ -1838,6 +1835,7 @@ controller.controller('mainController' ,function($scope, $location, $window) {
         }, function(resp) {
             notificationService.error('Service is temporarily unavailable');
         });
+        $scope.loaded = true;
     })
     .controller('InController', function($scope, $translate, $location, $routeParams, Person, notificationService, $window) {
         Person.getMe(function(resp) {
@@ -3464,6 +3462,7 @@ controller.controller('PublicCandidateController', ['$scope', 'Service', '$route
             loading: true,
             showInformation: true
         };
+        $scope.error = { show: false, notFound: false };
         Service.publicCandidate({id: $routeParams.candidateId}, function(resp) {
             if (resp.status == "ok") {
                 $scope.pageObject.loading = false;
@@ -3495,9 +3494,15 @@ controller.controller('PublicCandidateController', ['$scope', 'Service', '$route
                     }
                 });
             } else {
+                if(resp.code === 'notFound') {
+                    $scope.error = {
+                        show: true,
+                        notFound: true
+                    }
+                }
                 $scope.pageObject.showInformation = false;
+                $scope.pageObject.loading = false;
             }
-            console.log($scope.pageObject.showInformation);
         }, function(respError) {
             $scope.pageObject.showInformation = false;
             $scope.pageObject.loading = false;
@@ -6967,7 +6972,7 @@ angular.module('services.candidate', [
                         $scope.ngShowNewImage = true;
                     });
                     file.$upload(uri, $scope.file, setings, $scope).then(function(data) {
-                        $scope.loading = false;
+                        $('#file').val('');
                         var resp = JSON.parse(data.response);
 
                         if (data.statusText == 'OK' && resp.status != 'error') {
@@ -6989,8 +6994,8 @@ angular.module('services.candidate', [
                         }
                     }).catch(function(data) {
 
+                        $('#file').val('');
                         $rootScope.loading = false;
-
 //                            data.response= JSON.parse(data.response);
                         if (data.response[0].code == 'type') {
                             new PNotify({

@@ -2981,6 +2981,8 @@
   "Account visibility":"Видимость аккаунта",
   "Account visibility changed":"Видимость аккаунта изменена",
   "only_me1 + only_me2":"только мои, за которые я ответственен",
+  "level":"уровень",
+  "only_me1 + only_me2":"только мои, за которые я ответственен",
   "The filter allows you to pick the users who performed any activities on vacancies.": "Фильтр позволяет выбрать определенных пользователей, которые совершали какие-либо действия по вакансиям.",
   "Are you sure want change candidate status to Delete":"Вы действительно хотите изменить статус кандидата {{name}} на \"Удален\"?",
   "Remove candidate from a system":"Удалить кандидата из системы",
@@ -3066,5 +3068,15 @@
   "Configure email templates for candidates":"Настраивать шаблоны писем кандидатам",
   "Payment was not confirmed via SMS":"Платеж не подтвердили через смс",
   "You didn't make any transitions yet":"У вас еще не было списаний в системе",
-  "You didn't make any payments yet":"У вас еще не было оплат"
+  "You didn't make any payments yet":"У вас еще не было оплат",
+  "only_me1 + only_me2":"только мои, за которые я ответственен",
+  "Congratulations! You have created  account of in CleverStaff":"Поздравляем, Вы создали аккаунт компании в CleverStaff!",
+  "We have sent a confirmation mail on your email. Please check it to activate your new account.":"Мы отправили Вам на почту письмо для активации этого аккаунта.",
+  "If no letter from CleverStaff in the inbox, check your Spam folder or wait for 10 minutes, letter delivery may be delayed.":"Если письма нет, проверьте папку Спам или подождите минут 10, доставка письма может задерживаться.",
+  "Home":"Перейти на главную",
+  "You have already registered an account in Cleverstaff":"Вы уже зарегистрировали аккаунт в системе Cleverstaff!",
+  "Earlier you already registered in Cleverstaff, and activated the account by following this link. To use the system, sign in":"Ранее вы уже зарегистрировались в Cleverstaff, и активировали аккаунт перейдя по этой ссылке. Для использования системы авторизируйтесь",
+  "You didn't make any payments yet":"У вас еще не было оплат",
+  "No such appointmentId.":"К сожалению, такого теста не существует. Для уточнения информации обратитесь к рекрутеру, который отправил вам этот тест.",
+  "Sorry, this candidate was removed from the system":"Извините, данный кандидат был удален из системы"
 }

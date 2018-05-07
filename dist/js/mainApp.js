@@ -1339,14 +1339,14 @@ directive('appVersion', ['version', function(version) {
                 }
             }
         }]
-    ).directive('statusColorDiv', ["$filter", function($filter) {
+    ).directive('statusColorDiv', ["$filter", "$translate", function($filter,  $translate) {
             return {
                 restrict: "EA",
                 scope: {
                     old: "="
                 },
                 link: function(scope, element) {
-                    element.html(createDivForInterviewStatusHistory(scope.old, $filter));
+                    element.html(createDivForInterviewStatusHistory(scope.old, $filter, $translate));
                 }
             }
         }]
@@ -4778,23 +4778,23 @@ function createSpanForInterviewStatusHistory(arrname, status, $filter, short) {
     }
 }
 
-function createDivForInterviewStatusHistory(status, $filter) {
+function createDivForInterviewStatusHistory(status, $filter, $translate) {
     var span = "<div class='grey-hover vacancy-stages' style='border-radius: 5px;padding-left: 4px;padding-right: 4px;color:white;background-color:";
     switch (status) {
         case "longlist":
-            return span + "#5e6d86'>" + $filter('translate')("interview_status_assoc_full.longlist") + "</div>";
+            return span + "#5e6d86'>" + ( $translate.instant("interview_status_assoc_full.longlist")) + "</div>";
         case "shortlist":
-            return span + "#7887a0;'>" + $filter('translate')("interview_status_assoc_full.shortlist") + "</div>";
+            return span + "#7887a0;'>" + ( $translate.instant("interview_status_assoc_full.shortlist")) + "</div>";
         case "interview":
-            return span + "#3E3773'>" + $filter('translate')("interview_status_assoc_full.interview") + "</div>";
+            return span + "#3E3773'>" + ( $translate.instant("interview_status_assoc_full.interview")) + "</div>";
         case "notafit":
-            return span + "#407682'>" + $filter('translate')("interview_status_assoc_full.notafit") + "</div>";
+            return span + "#407682'>" + ( $translate.instant("interview_status_assoc_full.notafit")) + "</div>";
         case "approved":
-            return span + "#76a563'>" + $filter('translate')("interview_status_assoc_full.approved") + "</div>";
+            return span + "#76a563'>" + ( $translate.instant("interview_status_assoc_full.approved")) + "</div>";
         case "declinedoffer":
-            return span + "#a56484'>" + $filter('translate')("interview_status_assoc_full.declinedoffer") + "</div>";
+            return span + "#a56484'>" + ( $translate.instant("interview_status_assoc_full.declinedoffer")) + "</div>";
         default:
-            return span + "rgba(88,88,88,0.96)'>" + $filter('translate')(status) + "</div>"
+            return span + "rgba(88,88,88,0.96)'>" + ($translate.instant(status)) + "</div>"
     }
 }
 
@@ -9756,7 +9756,7 @@ angular.module('services.employee', [
                         $scope.ngShowNewImage = true;
                     });
                     file.$upload(uri, $scope.file, setings, $scope).then(function(data) {
-                        $scope.loading = false;
+                        $('#file').val('');
                         var resp = JSON.parse(data.response);
 
                         if (data.statusText == 'OK' && resp.status != 'error') {
@@ -9778,8 +9778,8 @@ angular.module('services.employee', [
                         }
                     }).catch(function(data) {
 
+                        $('#file').val('');
                         $rootScope.loading = false;
-
 //                            data.response= JSON.parse(data.response);
                         if (data.response[0].code == 'type') {
                             new PNotify({
@@ -15398,7 +15398,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=93'
+        suffix: '.json?b=95'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -20523,7 +20523,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     localStorage.countCandidate = 15;
                 }
 
-                console.log($scope.searchParam.status, '($scope.searchParam.status');
 
                 if($scope.searchParam.status.translate === "our employee"){
                     $scope.searchParam.status.value = 'work';
@@ -20531,8 +20530,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
                 $scope.searchParam.pages.count = params.$params.count;
 
+                if(activeParam.name == 'region'){
+                    Candidate.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
+                }else{
+                    Candidate.setOptions("country", $scope.searchParam.regionId.value? $scope.searchParam.regionId.value : null);
+                }
+
+
                 Candidate.setOptions("allContainsWords", $scope.searchParam.allContainsWords);
-                Candidate.setOptions("country", $scope.searchParam.regionId.value? $scope.searchParam.regionId.value : null);
                 Candidate.setOptions("city", $scope.searchParam.regionIdCity.value? $scope.searchParam.regionIdCity.value : null);
                 Candidate.setOptions("name", $scope.searchParam.name);
                 Candidate.setOptions("position", $scope.searchParam.position);
@@ -20853,7 +20858,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
         if(isDuplicateLanguage(data[indexLang],level, indexLang)) {
             notificationService.error("Language with this level is already selected");
-            // document.querySelectorAll('.language-level');
             console.log(scope.level = '', 'scope')
             return;
         }
@@ -21671,7 +21675,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.staticSearchParam[0].languages = 'null';
         $scope.searchParam.languages = [];
         $scope.currentLang = 'null';
-        $scope.level = '_undefined';
+        $scope.level = "";
         languagetLevelDataForTranslates = [];
     }
 
@@ -32763,6 +32767,12 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
                 }
             });
+            const diff = $rootScope.blockUserData.payment_min_users - $scope.paidUsers.length;
+            if($rootScope.blockUserData.payment_min_users > $scope.paidUsers.length) {
+                for(let i = 0; i < diff + 2; i++) {
+                    $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
+                }
+            }
             $scope.countPeople = $scope.paidUsers.length;
         });
 

@@ -2386,6 +2386,8 @@
   "was unlinked in candidate":"was unlinked in candidate",
   "I give my consent for my personal data processing for this and other vacancies":"I give my consent for my personal data processing for this and other vacancies",
   "You need to give your consent for your personal data to processing proceed":"You need to give your consent for your personal data to processing proceed",
+  "level":"level",
+  "You need to give your consent for your personal data to processing proceed":"You need to give your consent for your personal data to processing proceed",
   "The filter allows you to pick the users who performed any activities on vacancies.": "The filter allows you to pick the users who performed any activities on vacancies.",
   "Are you sure want change candidate status to Delete":"Are you sure want change candidate {{name}} status to \"Delete\"?",
   "Remove candidate from a system":"Remove candidate from a system",
@@ -2466,5 +2468,15 @@
   "Configure email templates for candidates":"Configure email templates for candidates",
   "Payment was not confirmed via SMS":"Payment was not confirmed via SMS",
   "You didn't make any transitions yet":"You didn't make any daily payments yet",
-  "You didn't make any payments yet":"You didn't make any transitions yet"
+  "You didn't make any payments yet":"You didn't make any transitions yet",
+  "You need to give your consent for your personal data to processing proceed":"You need to give your consent for your personal data to processing proceed",
+  "Congratulations! You have created  account of in CleverStaff":"Congratulations! You have created  account of in CleverStaff",
+  "We have sent a confirmation mail on your email. Please check it to activate your new account.":"We have sent a confirmation mail on your email. Please check it to activate your new account.",
+  "If no letter from CleverStaff in the inbox, check your Spam folder or wait for 10 minutes, letter delivery may be delayed.":"If no letter from CleverStaff in the inbox, check your Spam folder or wait for 10 minutes, letter delivery may be delayed.",
+  "Home":"Home",
+  "You have already registered an account in Cleverstaff":"You have already registered an account in Cleverstaff!",
+  "Earlier you already registered in Cleverstaff, and activated the account by following this link. To use the system, sign in":"Earlier you already registered in Cleverstaff, and activated the account by following this link. To use the system, please, sign in.",
+  "You didn't make any payments yet":"You didn't make any transitions yet",
+  "No such appointmentId.":"Unfortunately, such test does not exist. For more information, contact the recruiter who sent you this test.",
+  "Sorry, this candidate was removed from the system":"Sorry, this candidate was removed from the system"
 }
