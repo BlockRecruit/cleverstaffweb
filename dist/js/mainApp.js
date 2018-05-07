@@ -2814,6 +2814,7 @@ directive('appVersion', ['version', function(version) {
                                     text: function(item) { return item.text; }
                                 },
                                 createSearchChoice: function(term, data) {
+                                    console.log(term);
                                     if ($(data).filter(function() {
                                             return this.text.localeCompare(term) === 0;
                                         }).length === 0) {
@@ -2828,11 +2829,12 @@ directive('appVersion', ['version', function(version) {
                                 formatResultCssClass: function (data, container) { return data.text; }
                             }
                         ).on("change", function(e) {
+                            console.log(e);
                             if(e.added != undefined){
                                 $scope.addedLang.push(e.added);
                                 var alreadySet = $scope.getSelect2Lang();
                                 var toStandardCase = alreadySet[alreadySet.length - 1];
-                                toStandardCase.text = toStandardCase.text[0].toUpperCase() + toStandardCase.text.slice(1).toLowerCase();
+                                //toStandardCase.text = toStandardCase.text[0].toUpperCase() + toStandardCase.text.slice(1).toLowerCase();
                                 alreadySet.pop();
                                 alreadySet.push(toStandardCase);
                                 $scope.setSelect2Lang(alreadySet);
@@ -18904,7 +18906,11 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             if($scope.addedLang != undefined){
                 angular.forEach($scope.addedLang, function (val) {
                     if(val.level != undefined && val.level != ''){
-                        candidate.languages.push({ name: val.text, level: val.level});
+                        if(val.level != undefined && val.level != ''){
+                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
+                        }else if(val.level == undefined && val.id == val.text){
+                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
+                        }
                     }
                 });
             }
@@ -22794,6 +22800,7 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if (data != undefined) {
                     $('.addingLangs').show();
                     $scope.addedLang = data;
+                    console.log($scope.addedLang );
                     $scope.changeLevel = function(level, id){
                         angular.forEach($scope.addedLang, function (val) {
                             if(val.id == id){
@@ -22836,7 +22843,9 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if($scope.addedLang != undefined){
                     angular.forEach($scope.addedLang, function (val) {
                         if(val.level != undefined && val.level != ''){
-                            candidate.languages.push({ name: val.text, level: val.level});
+                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
+                        }else if(val.level == undefined && val.id == val.text){
+                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
                         }
                     });
                 }
@@ -35458,7 +35467,9 @@ controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", 
                 if($scope.addedLang != undefined){
                     angular.forEach($scope.addedLang, function (val) {
                         if(val.level != undefined && val.level != ''){
-                            $scope.vacancy.languages.push({ name: val.text, level: val.level});
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
+                        }else if(val.level == undefined && val.id == val.text){
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
                         }
                     });
                 }
@@ -36599,7 +36610,11 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
                 $scope.vacancy.languages = [];
                 if($scope.addedLang != undefined){
                     angular.forEach($scope.addedLang, function (val) {
-                        $scope.vacancy.languages.push({ name: val.text, level: val.level});
+                        if(val.level != undefined && val.level != ''){
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
+                        }else if(val.level == undefined && val.id == val.text){
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
+                        }
                     });
                 }
                 $scope.vacancy.clientId.clientId = $("#clientAutocompleater").select2('data') !== null ? $("#clientAutocompleater").select2('data').id : null;
