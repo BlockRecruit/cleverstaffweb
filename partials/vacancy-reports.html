@@ -249,7 +249,7 @@
                     </thead>
                     <tbody ng-repeat="candidate in item.value">
                     <tr ng-show="!candidate.descr">
-                        <td><span style="display: inline-flex"><a href="#/candidates/{{candidate.localId}}">{{candidate.fullName}}<span ng-show="candidate.db"></span><span ng-show="candidate.position">, {{candidate.position}}</span></a></span></td>
+                        <td><span style="display: inline-flex"><a href="#/candidates/{{candidate.localId}}">{{candidate.fullName}}<span ng-show="candidate.db">, {{candidate.db | ageOfDate}}</span><span ng-show="candidate.position">, {{candidate.position}}</span></a></span></td>
                         <td><span ng-show="candidate.salary > 0">{{candidate.salary}} {{candidate.currency}}</span></td>
                         <td>{{candidate.currentWorkPlace}}</td>
                         <td>{{candidate.dm | dateFormat2:true}}</td>

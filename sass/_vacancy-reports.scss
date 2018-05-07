@@ -84,6 +84,11 @@
 			}
 			.deadline {
 				margin-left: 20px;
+				.deadline-finish {
+					font-weight: bold;
+
+					color: #ff0f07;
+				}
 			}
 			.update {
 				margin: 0 auto;

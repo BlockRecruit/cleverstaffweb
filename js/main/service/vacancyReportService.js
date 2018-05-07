@@ -50,9 +50,8 @@ angular.module('services.vacancyReport', [
                     index: i
                 };
 
-                console.log(barProps.nextBarWidth);
-                if(i !== this.data.length - 1 && !barProps.nextBarWidth) {
-
+                if(i !== this.data.length - 1 && !barProps.nextBarWidth) { // if this is not the last char bar, we have to display it as a rectangle, not as a triangle
+                    barProps.nextBarWidth = barProps.width;
                 }
 
                 if(barProps.width && barProps.height) {

@@ -94,7 +94,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 .then(vacancyInterviewDetalInfo => {
                     $scope.vacancyHistory = vacancyInterviewDetalInfo;
                     $scope.vacancyGeneralHistory = vacancyInterviewDetalInfo;
-                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.vacancyHistory, $scope.notDeclinedStages, $scope.declinedStages));
+                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(angular.copy(vacancyInterviewDetalInfo), $scope.notDeclinedStages, $scope.declinedStages));
                     $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
                     vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
                     $scope.setStatistics('default');
@@ -219,7 +219,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 .then(vacancyInterviewDetalInfo => {
                     $scope.vacancyHistory = vacancyInterviewDetalInfo;
                     $scope.vacancyGeneralHistory = vacancyInterviewDetalInfo;
-                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(vacancyInterviewDetalInfo, $scope.notDeclinedStages, $scope.declinedStages));
+                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(angular.copy(vacancyInterviewDetalInfo), $scope.notDeclinedStages, $scope.declinedStages));
                     $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
                     vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
                     $scope.$apply();

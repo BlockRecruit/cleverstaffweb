@@ -13519,6 +13519,10 @@ angular.module('services.vacancyReport', [
                     index: i
                 };
 
+                if(i !== this.data.length - 1 && !barProps.nextBarWidth) { // if this is not the last char bar, we have to display it as a rectangle, not as a triangle
+                    barProps.nextBarWidth = barProps.width;
+                }
+
                 if(barProps.width && barProps.height) {
                     const bar = new chartBar({...barProps});
                     bar.draw();
@@ -41436,7 +41440,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 .then(vacancyInterviewDetalInfo => {
                     $scope.vacancyHistory = vacancyInterviewDetalInfo;
                     $scope.vacancyGeneralHistory = vacancyInterviewDetalInfo;
-                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames($scope.vacancyHistory, $scope.notDeclinedStages, $scope.declinedStages));
+                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(angular.copy(vacancyInterviewDetalInfo), $scope.notDeclinedStages, $scope.declinedStages));
                     $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
                     vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
                     $scope.setStatistics('default');
@@ -41561,7 +41565,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 .then(vacancyInterviewDetalInfo => {
                     $scope.vacancyHistory = vacancyInterviewDetalInfo;
                     $scope.vacancyGeneralHistory = vacancyInterviewDetalInfo;
-                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(vacancyInterviewDetalInfo, $scope.notDeclinedStages, $scope.declinedStages));
+                    $scope.vacancyFunnelMap = validateStages(parseCustomStagesNames(angular.copy(vacancyInterviewDetalInfo), $scope.notDeclinedStages, $scope.declinedStages));
                     $scope.mainFunnel.data = setFunnelData($scope.vacancyFunnelMap);
                     vacancyReport.funnel('mainFunnel', $scope.mainFunnel.data.candidateSeries);
                     $scope.$apply();
