@@ -1,6 +1,5 @@
 .block-finishreg {
 	display: flex;
-	margin-top: 15px;
 	.row {
 		@include disabled-margins-for-row();
 		.finishregYou {
@@ -9,5 +8,72 @@
 				@include link-styling();
 			}
 		}
+		.alreadyRegistered {
+			strong {
+				color: #000;
+			}
+			span {
+				display: block;
+				margin: 20px 0;
+
+				color: #000;
+			}
+			.buttons {
+				text-align: center;
+				a {
+					font-family: "Helvetica-Medium";
+					font-size: 18px;
+
+					display: inline-block;
+					margin-top: 8px;
+					padding: 4px 20px;
+
+					transition: all 0.3s;
+					text-align: center;
+					text-decoration: none;
+
+					color: #fff;
+					border: 1px solid #00b549;
+					border-radius: 27px;
+					background-color: #00b549;
+					&:hover {
+						color: #00b549;
+						border: 1px solid #00b549;
+						background-color: #fff;
+					}
+				}
+			}
+		}
+	}
+	.background-animations {
+		img.position {
+			&.cloud-1 {
+				top: 22%;
+			}
+			&.cloud-3 {
+				top: 15%;
+			}
+			&.plane {
+				top: 45%;
+			}
+			&.ball {
+				top: 60%;
+				left: 50%;
+			}
+			&.calendar {
+				top: 80%;
+				right: 60%;
+			}
+			&.cloud-2,
+			&.cloud-4 {
+				display: none;
+			}
+		}
+	}
+	&.block-public {
+		min-height: 92vh;
+		padding-top: 0;
+
+		background-color: #eef2ed;
 	}
 }
