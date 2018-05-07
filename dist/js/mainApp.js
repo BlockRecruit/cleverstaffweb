@@ -15398,7 +15398,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=94'
+        suffix: '.json?b=95'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -20523,7 +20523,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
                     localStorage.countCandidate = 15;
                 }
 
-                console.log($scope.searchParam.status, '($scope.searchParam.status');
 
                 if($scope.searchParam.status.translate === "our employee"){
                     $scope.searchParam.status.value = 'work';
@@ -20531,8 +20530,14 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
                 $scope.searchParam.pages.count = params.$params.count;
 
+                if(activeParam.name == 'region'){
+                    Candidate.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
+                }else{
+                    Candidate.setOptions("country", $scope.searchParam.regionId.value? $scope.searchParam.regionId.value : null);
+                }
+
+
                 Candidate.setOptions("allContainsWords", $scope.searchParam.allContainsWords);
-                Candidate.setOptions("country", $scope.searchParam.regionId.value? $scope.searchParam.regionId.value : null);
                 Candidate.setOptions("city", $scope.searchParam.regionIdCity.value? $scope.searchParam.regionIdCity.value : null);
                 Candidate.setOptions("name", $scope.searchParam.name);
                 Candidate.setOptions("position", $scope.searchParam.position);
@@ -20853,7 +20858,6 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
 
         if(isDuplicateLanguage(data[indexLang],level, indexLang)) {
             notificationService.error("Language with this level is already selected");
-            // document.querySelectorAll('.language-level');
             console.log(scope.level = '', 'scope')
             return;
         }
@@ -21671,7 +21675,7 @@ function CandidateAllController($localStorage, $translate, Service, $scope, ngTa
         $scope.staticSearchParam[0].languages = 'null';
         $scope.searchParam.languages = [];
         $scope.currentLang = 'null';
-        $scope.level = '_undefined';
+        $scope.level = "";
         languagetLevelDataForTranslates = [];
     }
 
