@@ -13511,8 +13511,7 @@ angular.module('services.vacancyReport', [
                     value: this.data[i],
                     x: this.bars[i - 1] && this.bars[i - 1].width ?
                                         this.bars[i - 1].x - this.barsWidth[i]/2 + this.barsWidth[i - 1]/2 : closestBar ?
-                                        closestBar.x - this.barsWidth[closestBar.index]/2 + this.barsWidth[closestBar.index - 1]/2 : this.c.width/2 - this.width/2,
-                    // x: closestBar ? this.bars[closestBar.index].x - this.barsWidth[closestBar.index]/2 + this.barsWidth[closestBar.index]/2 : this.c.width/2 - this.width/2,
+                                        closestBar.x - this.barsWidth[closestBar.index]/2 + this.barsWidth[closestBar.index]/2 : this.c.width/2 - this.width/2, // сделать нормальный if
                     y: i * this.height,
                     width: this.barsWidth[i],
                     height: this.height - 1,
@@ -13520,7 +13519,6 @@ angular.module('services.vacancyReport', [
                     index: i
                 };
 
-                console.log(barProps.x);
                 if(barProps.width && barProps.height) {
                     const bar = new chartBar({...barProps});
                     bar.draw();
@@ -13579,7 +13577,7 @@ angular.module('services.vacancyReport', [
                 let tooltip = {
                     width: 26,
                     height: 26,
-                    x: function() { return  x - this.width/2 },
+                    x: function() { return x - this.width/2 },
                     y: function() { return y - self.bars[0].height - this.height/2 + (2 *self.bars[0].height) }
                 };
 
