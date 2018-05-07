@@ -3066,5 +3066,7 @@
   "Configure email templates for candidates":"Настраивать шаблоны писем кандидатам",
   "Payment was not confirmed via SMS":"Платеж не подтвердили через смс",
   "You didn't make any transitions yet":"У вас еще не было списаний в системе",
-  "You didn't make any payments yet":"У вас еще не было оплат"
+  "You didn't make any payments yet":"У вас еще не было оплат",
+  "No such appointmentId.":"К сожалению, такого теста не существует. Для уточнения информации обратитесь к рекрутеру, который отправил вам этот тест.",
+  "Sorry, this candidate was removed from the system":"Извините, данный кандидат был удален из системы"
 }

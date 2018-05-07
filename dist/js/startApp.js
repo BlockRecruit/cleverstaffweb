@@ -92,7 +92,7 @@ var app = angular.module('RecruitingAppStart', [
 }]).config(function($translateProvider,tmhDynamicLocaleProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=14'
+        suffix: '.json?b=15'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -3464,6 +3464,7 @@ controller.controller('PublicCandidateController', ['$scope', 'Service', '$route
             loading: true,
             showInformation: true
         };
+        $scope.error = { show: false, notFound: false };
         Service.publicCandidate({id: $routeParams.candidateId}, function(resp) {
             if (resp.status == "ok") {
                 $scope.pageObject.loading = false;
@@ -3495,9 +3496,15 @@ controller.controller('PublicCandidateController', ['$scope', 'Service', '$route
                     }
                 });
             } else {
+                if(resp.code === 'notFound') {
+                    $scope.error = {
+                        show: true,
+                        notFound: true
+                    }
+                }
                 $scope.pageObject.showInformation = false;
+                $scope.pageObject.loading = false;
             }
-            console.log($scope.pageObject.showInformation);
         }, function(respError) {
             $scope.pageObject.showInformation = false;
             $scope.pageObject.loading = false;
