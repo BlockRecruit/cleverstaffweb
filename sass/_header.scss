@@ -290,7 +290,7 @@ body {
 			.navbar-toggle-custom {
 				display: none;
 				margin-right: 10px;
-				margin-left: 10px;
+				margin-left: 15px;
 
 				border: none;
 				outline: none;
@@ -485,7 +485,7 @@ body {
 							width: 22px;
 							height: 24px;
 							svg {
-								width: 28px;
+								width: 25px;
 								height: 22px;
 							}
 						}
@@ -852,7 +852,6 @@ body {
 		@include flex(row, space-between);
 
 		width: 100%;
-		height: 54px;
 
 		background-color: $theme-substrate;
 
@@ -1471,6 +1470,9 @@ ul.nav.navbar-nav {
 	.navbar .nav.information img.margin-left {
 		margin-left: 5%;
 	}
+	.navbar .nav.information .payMoney {
+		padding: 0 18px 0 0;
+	}
 }
 
 @media (max-width: $screen-sm) {
@@ -1503,9 +1505,6 @@ ul.nav.navbar-nav {
 	.trial {
 		margin-right: 15px;
 	}
-	.navbar .nav.information .payMoney {
-		padding: 0 15px 0 0;
-	}
 }
 
 @media (max-width:1100px) {
@@ -1522,16 +1521,6 @@ ul.nav.navbar-nav {
 	}
 	.navbar .second-navbar .nav li.invite-button {
 		display: none;
-	}
-}
-
-@-moz-document url-prefix() {
-	.navbar .nav.navigation a i.sprite-calendar {
-		background-position: 38% 87%;
-	}
-	.navbar .nav.navigation a:hover i.sprite-calendar,
-	.navbar .nav.navigation a.active i.sprite-calendar {
-		background-position: 57% 87%;
 	}
 }
 
