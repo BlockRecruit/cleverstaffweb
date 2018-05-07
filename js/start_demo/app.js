@@ -42,7 +42,7 @@ angular.module('RecruitingAppStart', [
 }]).config(function($translateProvider) {
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json'
+        suffix: '.json?b=1'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
