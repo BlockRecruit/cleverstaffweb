@@ -25,7 +25,7 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
         this.inviteHiringManager = reportsService.inviteHiringManager;
         localStorage.setItem("isAddCandidates", false);
 
-        vacancyReport.breadcrumbs({type: 'reports'});
+        vacancyReport.breadcrumbs({breadcrumbsType: 'reports'});
     }catch(erorr){
         console.log('Ошибка в customReports', erorr);
     }

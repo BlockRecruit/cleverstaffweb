@@ -467,7 +467,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         }
 
         function getBreadcrumbs() {
-            $scope.breadcrumbs = vacancyReport.breadcrumbs({vacancyLocalId: $scope.vacancy.localId, vacancyPosition: $scope.vacancy.position});
+            // $scope.breadcrumbs = vacancyReport.breadcrumbs({vacancyLocalId: $scope.vacancy.localId, vacancyPosition: $scope.vacancy.position});
+            $scope.breadcrumbs = vacancyReport.breadcrumbs({});
         }
 
         function Init() {

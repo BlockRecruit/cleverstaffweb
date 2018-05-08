@@ -13474,35 +13474,40 @@ angular.module('services.vacancyReport', [
     let report = {};
 
     report.breadcrumbs = function({breadcrumbsType, vacancyLocalId, vacancyPosition}) {
-        const type = breadcrumbsType || 'vacancy';
 
-        const breadcrumbs = {
-            vacancy : [
-                {
-                    href: '#/vacancies',
-                    text: 'all_vacancies'
-                },
-                {
-                    href: `#/vacancies'${vacancyLocalId}`,
-                    text: vacancyPosition
-                }, {
-                    text:"Vacancy report"
-                }],
-            reports : [
-                {
-                    href: '#/reports',
-                    text: 'Reports'
-                },
-                {
-                    href: '#/reports/vacancy',
-                    text: "Report"
-                },
-                {
-                    text:"Vacancy report"
-                }]
-        };
+        if(!breadcrumbsType) return report.breadcrumbs.breadcrumbs[report.breadcrumbs.type];
 
-        return breadcrumbs[type];
+        report.breadcrumbs.type = breadcrumbsType;
+
+        return breadcrumbs[report.breadcrumbs.type];
+    };
+
+    report.breadcrumbs.type = 'vacancy';
+
+    report.breadcrumbs.breadcrumbs = {
+        vacancy : [
+            {
+                href: '#/vacancies',
+                text: 'all_vacancies'
+            },
+            {
+                href: `#/vacancies'${vacancyLocalId}`,
+                text: vacancyPosition
+            }, {
+                text:"Vacancy report"
+            }],
+        reports : [
+            {
+                href: '#/reports',
+                text: 'Reports'
+            },
+            {
+                href: '#/reports/vacancy',
+                text: "Report"
+            },
+            {
+                text:"Vacancy report"
+            }]
     };
 
     report.funnel = function(id, arr) {
@@ -39295,6 +39300,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         $scope.goToReportPage = function () {
+            console.log(vacancyReport);
+            vacancyReport.breadcrumbs({breadcrumbsType: 'vacancy', vacancyLocalId: $scope.vacancy.localId, vacancyPosition: $scope.vacancy.position});
             var path = 'vacancy/report/' + $scope.vacancy.localId;
             $location.path(path);
         };
@@ -40543,7 +40550,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
         }
 
-        vacancyReport.breadcrumbs({type: 'vacancy'});
         $scope.hiddenOrShowVacanciesOnThePublicListVacancies = Vacancy.requestChangeVacanciesForCandidatesAccess;
 
     }]);
@@ -41854,7 +41860,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         }
 
         function getBreadcrumbs() {
-            $scope.breadcrumbs = vacancyReport.breadcrumbs({vacancyLocalId: $scope.vacancy.localId, vacancyPosition: $scope.vacancy.position});
+            // $scope.breadcrumbs = vacancyReport.breadcrumbs({vacancyLocalId: $scope.vacancy.localId, vacancyPosition: $scope.vacancy.position});
+            $scope.breadcrumbs = vacancyReport.breadcrumbs({});
         }
 
         function Init() {
@@ -45841,7 +45848,7 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
         this.inviteHiringManager = reportsService.inviteHiringManager;
         localStorage.setItem("isAddCandidates", false);
 
-        vacancyReport.breadcrumbs({type: 'reports'});
+        vacancyReport.breadcrumbs({breadcrumbsType: 'reports'});
     }catch(erorr){
         console.log('Ошибка в customReports', erorr);
     }

@@ -3046,6 +3046,8 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         $scope.goToReportPage = function () {
+            console.log(vacancyReport);
+            vacancyReport.breadcrumbs({breadcrumbsType: 'vacancy', vacancyLocalId: $scope.vacancy.localId, vacancyPosition: $scope.vacancy.position});
             var path = 'vacancy/report/' + $scope.vacancy.localId;
             $location.path(path);
         };
@@ -4294,7 +4296,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
         }
 
-        vacancyReport.breadcrumbs({type: 'vacancy'});
         $scope.hiddenOrShowVacanciesOnThePublicListVacancies = Vacancy.requestChangeVacanciesForCandidatesAccess;
 
     }]);

@@ -5,9 +5,7 @@ angular.module('services.vacancyReport', [
     let report = {};
 
     report.breadcrumbs = function({breadcrumbsType, vacancyLocalId, vacancyPosition}) {
-        const type = breadcrumbsType || 'vacancy';
-
-        const breadcrumbs = {
+        report.breadcrumbs.breadcrumbs = {
             vacancy : [
                 {
                     href: '#/vacancies',
@@ -33,8 +31,14 @@ angular.module('services.vacancyReport', [
                 }]
         };
 
-        return breadcrumbs[type];
+        if(!breadcrumbsType) return report.breadcrumbs.breadcrumbs[report.breadcrumbs.type];
+
+        report.breadcrumbs.type = breadcrumbsType;
+
+        return breadcrumbs[report.breadcrumbs.type];
     };
+
+    report.breadcrumbs.type = 'vacancy';
 
     report.funnel = function(id, arr) {
         const canvas = document.getElementById(id),
