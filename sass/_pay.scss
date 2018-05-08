@@ -46,7 +46,9 @@
 				.intro__descr {
 					font-family: "Helvetica-Light";
 
-					height: 19px;
+					&.fixed-height {
+						height: 19px;
+					}
 				}
 			}
 			.pay_faq {
