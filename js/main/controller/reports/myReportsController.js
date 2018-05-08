@@ -1,6 +1,6 @@
 
 function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routeParams, notificationService, $filter, translateWords,
-                       $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, reportsService, $window) {
+                       $translate, vacancyStages, Stat, Company, vacancyStages, Person, $uibModal, CustomReportsService, reportsService, $window, vacancyReport) {
     try {
         Stat.requestGetCustomVacancyReports()
             .then((resp) => {
@@ -24,6 +24,8 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
         this.reportsBlocks       = reportsService.reportsBlocks;
         this.inviteHiringManager = reportsService.inviteHiringManager;
         localStorage.setItem("isAddCandidates", false);
+
+        vacancyReport.breadcrumbs({type: 'reports'});
     }catch(erorr){
         console.log('Ошибка в customReports', erorr);
     }
@@ -31,6 +33,6 @@ function MyReportsCtrl($rootScope, $scope, Vacancy, Service, $location, $routePa
 controller
     .controller("MyReportsCtrl", ["$rootScope", "$scope", "Vacancy", "Service", "$location",
         "$routeParams", "notificationService", "$filter", "translateWords", "$translate",
-        "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService","reportsService","$window", MyReportsCtrl]);
+        "vacancyStages", "Stat", "Company", "vacancyStages", "Person", "$uibModal","CustomReportsService","reportsService","$window", "vacancyReport", MyReportsCtrl]);
 
 

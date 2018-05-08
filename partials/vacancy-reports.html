@@ -2,12 +2,17 @@
     <div class="block-vacancy-reports">
         <div class="breadcrumbs">
             <ol class="breadcrumb">
-                <li><a href="#/vacancies">{{'all_vacancies'|translate}}</a></li>
-                <li class="active">
-                    <a href="#/vacancies/{{vacancy.localId}}">{{vacancy.position}}</a>
+                <li ng-repeat="breadcrumb in breadcrumbs">
+                    <a href="{{breadcrumb.href}}" ng-if="!$last" translate="{{breadcrumb.text}}"></a>
+                    <span ng-if="$last" translate="{{breadcrumb.text}}"></span>
                 </li>
-                <li>{{"Vacancy report" | translate}}</li>
+                <!--<li><a href="#/vacancies">{{'all_vacancies'|translate}}</a></li>-->
+                <!--<li class="active">-->
+                    <!--<a href="#/vacancies/{{vacancy.localId}}">{{vacancy.position}}</a>-->
+                <!--</li>-->
+                <!--<li>{{"Vacancy report" | translate}}</li>-->
             </ol>
+
         </div>
         <h3 class="main-title">
             {{'Vacancy report' | translate}} <a href="#/vacancies/{{vacancy.localId}}">{{vacancy.position}}</a><span ng-show="vacancy.clientId.name">, {{vacancy.clientId.name}}</span>

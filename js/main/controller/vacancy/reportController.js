@@ -323,7 +323,8 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 candidateSeries = [],
                 RelConversion = [],
                 AbsConversion = [],
-                lastCount = null;
+                lastCount = null,
+                isEmptyStage = false;
 
             angular.forEach(funnelMap, function(stage) {
                 stages.push($filter('translate')(stage.key));
@@ -333,10 +334,19 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                     RelConversion.push('100%');
                     AbsConversion.push('100%');
                 } else {
-                    let rel = (stage.value !== 0 ? Math.round(stage.value / lastCount * 100) : 0) + '%',
+                    let rel,
                         abs = (stage.value !== 0 ? Math.round(stage.value / funnelMap[0].value * 100) : 0) + '%';
 
-                    if(parseFloat(rel) === Infinity) rel = '0%';
+                    if(!isEmptyStage) {
+                        rel = (stage.value !== 0 ? Math.round(stage.value / lastCount * 100) : 0) + '%';
+                    } else {
+                        rel = '-';
+                    }
+
+                    if(parseFloat(rel) === Infinity) {
+                        rel = '-';
+                        isEmptyStage = true;
+                    }
                     if(parseFloat(abs) === Infinity) abs = '0%';
 
                     RelConversion.push(rel);
@@ -456,6 +466,10 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
             }, 0);
         }
 
+        function getBreadcrumbs() {
+            $scope.breadcrumbs = vacancyReport.breadcrumbs({vacancyLocalId: $scope.vacancy.localId, vacancyPosition: $scope.vacancy.position});
+        }
+
         function Init() {
             Promise.all([
                 Vacancy.getAllVacanciesAmount(),
@@ -468,6 +482,7 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
                 getCompanyParams(companyParams);
                 getVacancy(vacancy.object);
                 getUsersForFunnel(vacancy.object.vacancyId);
+                getBreadcrumbs();
                 setStages();
                 setDateTimePickers();
                 initMainFunnel();

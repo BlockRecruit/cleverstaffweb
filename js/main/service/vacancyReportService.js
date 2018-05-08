@@ -4,6 +4,38 @@ angular.module('services.vacancyReport', [
 ]).factory('vacancyReport', [function () {
     let report = {};
 
+    report.breadcrumbs = function({breadcrumbsType, vacancyLocalId, vacancyPosition}) {
+        const type = breadcrumbsType || 'vacancy';
+
+        const breadcrumbs = {
+            vacancy : [
+                {
+                    href: '#/vacancies',
+                    text: 'all_vacancies'
+                },
+                {
+                    href: `#/vacancies'${vacancyLocalId}`,
+                    text: vacancyPosition
+                }, {
+                    text:"Vacancy report"
+                }],
+            reports : [
+                {
+                    href: '#/reports',
+                    text: 'Reports'
+                },
+                {
+                    href: '#/reports/vacancy',
+                    text: "Report"
+                },
+                {
+                    text:"Vacancy report"
+                }]
+        };
+
+        return breadcrumbs[type];
+    };
+
     report.funnel = function(id, arr) {
         const canvas = document.getElementById(id),
               ctx = canvas.getContext('2d');
@@ -34,7 +66,7 @@ angular.module('services.vacancyReport', [
 
         drawBars() {
             for(let i = 0; i < this.data.length; i++) {
-                const closestBar = this.getClosestBar(i);
+                const closestBar = this._getClosestBar(i);
 
                 let barProps = {
                     c: this.c,
@@ -50,8 +82,7 @@ angular.module('services.vacancyReport', [
                     index: i
                 };
 
-                console.log(this.getLastBarIndex());
-                if(i !== this.data.length - 1 && !barProps.nextBarWidth && i !== this.getLastBarIndex()) { // if this is not the last char bar, we have to display it as a rectangle, not as a triangle
+                if(i !== this.data.length - 1 && !barProps.nextBarWidth && i !== this._getLastBarIndex()) { // if this is not the last char bar, we have to display it as a rectangle, not as a triangle
                     barProps.nextBarWidth = barProps.width;
                 }
 
@@ -65,22 +96,21 @@ angular.module('services.vacancyReport', [
             }
         }
 
-        getLastBarIndex() {
+        _getLastBarIndex() {
             for(let i = this.data.length - 1; i >= 0; i--) {
-                console.log(this.data[i]);
                 if(this.data[i] !== 0) {
                     return i;
                 }
             }
         }
 
-        getBarsWidth() {
+        _getBarsWidth() {
             this.barsWidth = this.data.map((element,i) => {
-                return this.data[i]/this.getInitialBarWidth() * this.width;
+                return this.data[i]/this._getInitialBarWidth() * this.width;
             });
         }
 
-        getInitialBarWidth() {
+        _getInitialBarWidth() {
             if(this.initialBarWidth) return this.initialBarWidth;
 
             this.data.map((element, i) => {
@@ -92,7 +122,7 @@ angular.module('services.vacancyReport', [
             return this.initialBarWidth;
         }
 
-        getClosestBar(start) {
+        _getClosestBar(start) {
             for(let i = start; i >= 0; i--) {
                 if(this.bars[i] && this.bars[i].width) {
                     return this.bars[i];
@@ -100,7 +130,7 @@ angular.module('services.vacancyReport', [
             }
         }
 
-        initBarsHover() {
+        _initBarsHover() {
             let wrapper = document.getElementById("wrapper"),
                 buffer = document.getElementById("buffer"),
                 bufferCtx = buffer.getContext('2d'),
@@ -123,7 +153,7 @@ angular.module('services.vacancyReport', [
                     width: 26,
                     height: 26,
                     x: function() { return x - this.width/2 },
-                    y: function() { return y - self.bars[0].height - this.height/2 + (2 *self.bars[0].height) }
+                    y: function() { return y - self.bars[self._getLastBarIndex()].height - this.height/2 + (2 * self.bars[self._getLastBarIndex()].height) }
                 };
 
                 while (r = self.bars[i++]) {
@@ -157,9 +187,9 @@ angular.module('services.vacancyReport', [
         }
 
         init() {
-            this.getBarsWidth();
+            this._getBarsWidth();
             this.drawBars();
-            this.initBarsHover();
+            this._initBarsHover();
         }
     }
 
@@ -174,7 +204,7 @@ angular.module('services.vacancyReport', [
             this.height = height;
             this.nextBarWidth = nextBarWidth || 0;
             this.index = index;
-            this.color = this.getRndColor();
+            this.color = this._getRndColor();
         }
 
         draw() {
@@ -204,7 +234,7 @@ angular.module('services.vacancyReport', [
             this.ctx.fill();
         }
 
-        getRndColor() {
+        _getRndColor() {
             const colors = ['#29a2cc','#d31e1e','#7ca82b','#ef8535','#a14bc9','#a05f18',
                 '#265e96','#6b7075','#96c245','#b5a603','#492658','#515e82',
                 '#791f47','#525f82','#7a2149','#bba33b','#e66508','#980826'];

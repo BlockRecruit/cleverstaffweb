@@ -1,0 +1,33 @@
+.blockAccountHmNotPaid {
+	margin-top: 65px;
+	.modal-body {
+		padding: 25px;
+		h3 {
+			@include bold();
+		}
+		.imgForNotPaid {
+			width: 360px;
+			height: 220px;
+			margin: 0 auto;
+
+			background: url("/images/sprite/plant.jpg");
+			background-size: contain;
+		}
+		p {
+			line-height: 18px;
+
+			margin-top: 20px;
+			a {
+				@include link-styling();
+			}
+			&:first-child {
+				margin-top: 30px;
+			}
+		}
+		h5 {
+			@include bold();
+
+			line-height: 18px;
+		}
+	}
+}

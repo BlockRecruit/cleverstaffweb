@@ -174,7 +174,7 @@
 
 					justify-content: space-between;
 					.btn-add {
-						font-size: 24px;
+						font-size: 23px;
 						line-height: 15px;
 
 						display: block;
@@ -184,6 +184,10 @@
 						color: #948c8c;
 						border-radius: 0 5px 5px 0;
 						background-color: rgba(227, 227, 227, 0.5);
+						&:focus,
+						&:active {
+							outline: none;
+						}
 					}
 					@keyframes resize {
 						from {
@@ -333,9 +337,8 @@
 							margin-top: 110px;
 							&#buffer {
 								position: absolute;
-								bottom: 50px;
 
-								margin: 0;
+								margin: 40px 0 0 0;
 								padding: 0 20px 20px 20px;
 							}
 						}
