@@ -47,7 +47,10 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
     }
 
     ScopeService.setCurrentControllerUpdateFunc(scope_update);
+
+    new Promise((resolve, reject) =>{
         Person.getAllPersons(function (resp) {
+            resolve();
             $scope.persons = [];
             $rootScope.persons = [];
             $rootScope.personsNotChanged = [];
@@ -58,6 +61,11 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                 $rootScope.personsNotChanged.push($scope.associativePerson[key]);
             });
         });
+    })
+        .then(initTableParams);
+
+
+
     $scope.clickSearch = function() {
         $scope.tableParams.$params.page = 1;
 
@@ -116,120 +124,137 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             }
         };
         let pageNumber = 0;
-    $scope.tableParams = new ngTableParams({
-        page: 1,
-        count: $scope.searchParam.pages.count
-    }, {
-        total: 0,
-        getData: function($defer, params) {
-            $rootScope.loading = true;
-            if ($rootScope.previousLocation == '/clients/:id') {
-                if ($rootScope.searchParamInClients != undefined) {
-                    $scope.searchParam = $rootScope.searchParamInClients;
-                    $rootScope.searchParamInClients = null;
-                }
-                if($scope.previousFlag){
-                    $scope.tableParams.page($rootScope.previousSearchNumber);
-                    pageNumber = $rootScope.previousSearchNumber;
-                    $scope.previousFlag = !$scope.previousFlag;
-                }
-            }
-            if (ScopeService.isInit()) {
-                var activeParam = ScopeService.getActiveScopeObject();
-                $scope.activeScopeParam = activeParam;
-                Client.setOptions("page", {number: (params.$params.page - 1), count: params.$params.count});
-                if(params.$params.count <= 120) {
-                    localStorage.countClient = params.$params.count;
-                } else {
-                    localStorage.countClient = 15;
-                }
-                $scope.searchParam.pages.count = params.$params.count;
-                if ($scope.searchParam['regionId'] && $scope.searchParam['regionId'] != 'null') {
-                    if($scope.searchParam['regionIdCity'] == null || $scope.searchParam['regionIdCity'] == 'null'){
-                        var jsonCity = JSON.parse($scope.searchParam['regionIdCity']);
-                        if (jsonCity == null) {
-                            Client.setOptions("city", null);
-                        }
-                        var json = JSON.parse($scope.searchParam['regionId']);
-                        Client.setOptions("country", json.value);
-                    }else{
-                        if($scope.searchParam['regionIdCity'] && $scope.searchParam['regionIdCity'] != 'null'){
-                            var json = JSON.parse($scope.searchParam['regionIdCity']);
-                            if (json && json.type) {
-                                Client.setOptions("city", json.value);
-                            }
-                            var jsonCity = JSON.parse($scope.searchParam['regionId']);
-                            Client.setOptions("country", jsonCity.value);
-                        }
-                    }
-                } else {
-                    Client.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
-                    Client.setOptions("city", activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null);
-                }
-                Client.setOptions("industry", isNotBlank($scope.searchParam['industry']) ? $scope.searchParam['industry'] : null);
-                Client.setOptions("personId", activeParam.name == 'onlyMy' ? $rootScope.userId : null);
-                Client.setOptions("responsible", $scope.searchParam.responsible && $scope.searchParam.responsible != 'null' ? $scope.searchParam.responsible : null);
-                Client.setOptions("name", $scope.searchParam['name'] ? $scope.searchParam['name'] : null);
-                Client.setOptions("words", $scope.searchParam['words'] ? $scope.searchParam['words'] : null);
-                Client.setOptions("state", isNotBlank($scope.searchParam['state']) ? $scope.searchParam['state'] : null);
 
-                function getClients(page,count) {
-                    if(page || count) {
-                        Client.setOptions("page", {number: page, count: count});
-                        pageNumber = page;
+    function initTableParams(){
+        $scope.tableParams = new ngTableParams({
+            page: 1,
+            count: $scope.searchParam.pages.count
+        }, {
+            total: 0,
+            getData: function($defer, params) {
+                $rootScope.loading = true;
+                if ($rootScope.previousLocation == '/clients/:id') {
+                    if ($rootScope.searchParamInClients != undefined) {
+                        $scope.searchParam = $rootScope.searchParamInClients;
+                        $rootScope.searchParamInClients = null;
+                    }
+                    if($scope.previousFlag){
+                        $scope.tableParams.page($rootScope.previousSearchNumber);
+                        pageNumber = $rootScope.previousSearchNumber;
+                        $scope.previousFlag = !$scope.previousFlag;
+                    }
+                }
+                if (ScopeService.isInit()) {
+                    var activeParam = ScopeService.getActiveScopeObject();
+                    $scope.activeScopeParam = activeParam;
+                    Client.setOptions("page", {number: (params.$params.page - 1), count: params.$params.count});
+                    if(params.$params.count <= 120) {
+                        localStorage.countClient = params.$params.count;
                     } else {
-                        $scope.isShowMore = false;
-                        pageNumber = Client.searchOptions().page.number;
-                        if(document.getElementById('scrollup'))
-                            document.getElementById('scrollup').style.display = 'none';
-                        $timeout(function() {
-                            $anchorScroll('mainTable');
+                        localStorage.countClient = 15;
+                    }
+                    $scope.searchParam.pages.count = params.$params.count;
+                    if ($scope.searchParam['regionId'] && $scope.searchParam['regionId'] != 'null') {
+                        if($scope.searchParam['regionIdCity'] == null || $scope.searchParam['regionIdCity'] == 'null'){
+                            var jsonCity = JSON.parse($scope.searchParam['regionIdCity']);
+                            if (jsonCity == null) {
+                                Client.setOptions("city", null);
+                            }
+                            var json = JSON.parse($scope.searchParam['regionId']);
+                            Client.setOptions("country", json.value);
+                        }else{
+                            if($scope.searchParam['regionIdCity'] && $scope.searchParam['regionIdCity'] != 'null'){
+                                var json = JSON.parse($scope.searchParam['regionIdCity']);
+                                if (json && json.type) {
+                                    Client.setOptions("city", json.value);
+                                }
+                                var jsonCity = JSON.parse($scope.searchParam['regionId']);
+                                Client.setOptions("country", jsonCity.value);
+                            }
+                        }
+                    } else {
+                        Client.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
+                        Client.setOptions("city", activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null);
+                    }
+                    Client.setOptions("industry", isNotBlank($scope.searchParam['industry']) ? $scope.searchParam['industry'] : null);
+                    Client.setOptions("personId", activeParam.name == 'onlyMy' ? $rootScope.userId : null);
+                    Client.setOptions("responsible", $scope.searchParam.responsible && $scope.searchParam.responsible != 'null' ? JSON.parse($scope.searchParam.responsible).userId  : null);
+                    Client.setOptions("name", $scope.searchParam['name'] ? $scope.searchParam['name'] : null);
+                    Client.setOptions("words", $scope.searchParam['words'] ? $scope.searchParam['words'] : null);
+                    Client.setOptions("state", isNotBlank($scope.searchParam['state']) ? $scope.searchParam['state'] : null);
+
+                    console.log($scope.searchParam, '$scope.searchParam.');
+
+                    function getClients(page,count) {
+                        if(page || count) {
+                            Client.setOptions("page", {number: page, count: count});
+                            pageNumber = page;
+                        } else {
+                            $scope.isShowMore = false;
+                            pageNumber = Client.searchOptions().page.number;
+                            if(document.getElementById('scrollup'))
+                                document.getElementById('scrollup').style.display = 'none';
+                            $timeout(function() {
+                                $anchorScroll('mainTable');
+                            });
+                        }
+
+                        let searchParams = Client.searchOptions();
+                        console.log(searchParams, 'searchParams');
+                        $scope.searchParamsForView = createSearchParamsForView(searchParams);
+
+                        Client.all(searchParams, function(response) {
+                            $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
+                            console.log($rootScope.objectSize);
+                            if(page) {
+                                $scope.clients = $scope.clients.concat(response['objects'])
+                            } else {
+                                $scope.clients = response['objects'];
+                            }
+                            $scope.paginationParams = {
+                                currentPage: Client.searchOptions().page.number,
+                                totalCount: $rootScope.objectSize
+                            };
+                            let pagesCount = Math.ceil(response['total']/Client.searchOptions().page.count);
+                            if(pagesCount == Client.searchOptions().page.number + 1) {
+                                $('#show_more').hide();
+                            } else {
+                                $('#show_more').show();
+                            }
+                            $scope.clientsFound = response['total'] >= 1;
+                            params.total(response['total']);
+                            $defer.resolve($scope.clients);
+                            $rootScope.loading = false;
                         });
                     }
-
-                    let searchParams = Client.searchOptions();
-
-                    $scope.searchParamsForView = createSearchParamsForView(searchParams);
-
-                    Client.all(searchParams, function(response) {
-                        $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
-                        console.log($rootScope.objectSize);
-                        if(page) {
-                            $scope.clients = $scope.clients.concat(response['objects'])
-                        } else {
-                            $scope.clients = response['objects'];
-                        }
-                        $scope.paginationParams = {
-                            currentPage: Client.searchOptions().page.number,
-                            totalCount: $rootScope.objectSize
-                        };
-                        let pagesCount = Math.ceil(response['total']/Client.searchOptions().page.count);
-                        if(pagesCount == Client.searchOptions().page.number + 1) {
-                            $('#show_more').hide();
-                        } else {
-                            $('#show_more').show();
-                        }
-                        $scope.clientsFound = response['total'] >= 1;
-                        params.total(response['total']);
-                        $defer.resolve($scope.clients);
-                        $rootScope.loading = false;
-                    });
+                    getClients();
+                    $scope.showMore = function () {
+                        $scope.isShowMore = true;
+                        Service.dynamicTableLoading(params.total(), pageNumber, params.$params.count, getClients)
+                    };
+                    $rootScope.searchParamInClients = $scope.searchParam;
+                    $scope.a.searchNumber = $scope.tableParams.page();
+                    $rootScope.previousSearchNumber = $scope.a.searchNumber;
                 }
-                getClients();
-                $scope.showMore = function () {
-                    $scope.isShowMore = true;
-                    Service.dynamicTableLoading(params.total(), pageNumber, params.$params.count, getClients)
-                };
-                $rootScope.searchParamInClients = $scope.searchParam;
-                $scope.a.searchNumber = $scope.tableParams.page();
-                $rootScope.previousSearchNumber = $scope.a.searchNumber;
             }
-        }
-    });
+        });
+    }
+
 
     function createSearchParamsForView(searchParams){
         let i, data = [];
 
+        for(i in searchParams){
+            if(searchParams[i]) continue;
+
+            if(i === 'responsible'){
+                let name = $scope.associativePerson[searchParams[i]];
+                searchParams[i] = name;
+                data.push(searchParams[i]);
+            }
+
+            data.push(searchParams[i]);
+        }
         return data;
     }
 
