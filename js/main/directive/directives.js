@@ -2110,18 +2110,11 @@ directive('appVersion', ['version', function(version) {
                             placeholder: $translate.instant('client'),
                             minimumInputLength: 0,
                             allowClear: true,
-                            createSearchChoice: function(term, data) {
-                                if ($(data).filter(function() {
-                                        return this.text.localeCompare(term) === 0;
-                                    }).length === 0) {
-                                    inputText = term;
-                                    return {id: term, text: term};
-                                }
-                            },
                             ajax: {
                                 url: serverAddress + "/client/autocompleteClients",
                                 dataType: 'json',
                                 crossDomain: true,
+                                quietMillis: 500,
                                 type: "POST",
                                 data: function(term, page) {
                                     return {
