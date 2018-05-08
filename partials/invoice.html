@@ -38,14 +38,16 @@
                         <span translate="The access to use Cleverstaff software"></span>
                     </td>
                     <td>
-                        <div class="wrapper">
-                            <custom-select-new disabled="true" options="paidUsers" model="invoice.users"></custom-select-new>
-                        </div>
+                        <span class="bold">{{invoice.users}}</span>
+                        <!--<div class="wrapper">-->
+                            <!--<custom-select-new disabled="true" options="paidUsers" model="invoice.users"></custom-select-new>-->
+                        <!--</div>-->
                     </td>
                     <td>
-                        <div class="wrapper">
-                            <custom-select-new disabled="true" options="months" model="invoice.months"></custom-select-new>
-                        </div>
+                        <span class="bold">{{invoice.users}}</span>
+                        <!--<div class="wrapper">-->
+                            <!--<custom-select-new disabled="true" options="months" model="invoice.months"></custom-select-new>-->
+                        <!--</div>-->
                     </td>
                     <td>
                         <div class="wrapper">
@@ -53,7 +55,7 @@
                         </div>
                     </td>
                     <td>
-                        <span class="currency">{{ invoice.price() }}</span>
+                        <span class="bold">{{ invoice.price() }}</span>
                         <!--<span class="currency">{{ currenciesSigns[invoice.currency] + invoice.price() }}</span>-->
                     </td>
                 </tr>
