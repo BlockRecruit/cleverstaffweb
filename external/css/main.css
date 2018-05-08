@@ -4024,6 +4024,9 @@ select.webkit-fix {
         position: relative;
         right: -40px;
     }
+    .graf {
+        display: none;
+    }
     .tab-img-features,
     .tab-img-features2,
     .tab-img-features3,
@@ -4107,6 +4110,9 @@ select.webkit-fix {
 @media screen and (max-width: 550px) {
     .error404 #banner-load img{
         width: 320px;
+    }
+    .cloud-sec {
+        top: -375px;
     }
     #home .potok-tittle h1 .padding-left{
         padding-left: 0;
@@ -4235,15 +4241,11 @@ select.webkit-fix {
         right: 10px;
         top: -15px;
     }
-    .graf{
-        left: -20px;
-        top: -35px;
-    }
     .tasks{
         right: -55px!important;
     }
-    .calendar{
-        right: 145px;
+    .calendar {
+        right: 320px !important;
         top: 5px;
     }
     .cloud{
@@ -4251,7 +4253,7 @@ select.webkit-fix {
     }
     .cloud-sec{
         left: 0;
-        top: -140px;
+        top: -385px;
     }
     .oldRecruitment{
         width: 271px;
