@@ -13473,42 +13473,46 @@ angular.module('services.vacancyReport', [
 ]).factory('vacancyReport', [function () {
     let report = {};
 
-    report.breadcrumbs = function({breadcrumbsType, vacancyLocalId, vacancyPosition}) {
+    function setBreadcrumbs({breadcrumbsType, vacancyLocalId, vacancyPosition}) {
+        report.breadcrumbs.breadcrumbs = {
+            vacancy : [
+                {
+                    href: '#/vacancies',
+                    text: 'all_vacancies'
+                },
+                {
+                    href: `#/vacancies/${vacancyLocalId}`,
+                    text: vacancyPosition
+                },
+                {
+                    text:"Vacancy report"
+                }],
+            reports : [
+                {
+                    href: '#/reports',
+                    text: 'Reports'
+                },
+                {
+                    href: '#/reports/vacancy',
+                    text: "Report"
+                },
+                {
+                    text:"Vacancy report"
+                }]
+        };
+    }
 
+    report.breadcrumbs = function({breadcrumbsType, vacancyLocalId, vacancyPosition}) {
         if(!breadcrumbsType) return report.breadcrumbs.breadcrumbs[report.breadcrumbs.type];
+        else setBreadcrumbs({breadcrumbsType, vacancyLocalId, vacancyPosition});
 
         report.breadcrumbs.type = breadcrumbsType;
 
-        return breadcrumbs[report.breadcrumbs.type];
+        return report.breadcrumbs.breadcrumbs[report.breadcrumbs.type];
     };
 
     report.breadcrumbs.type = 'vacancy';
-
-    report.breadcrumbs.breadcrumbs = {
-        vacancy : [
-            {
-                href: '#/vacancies',
-                text: 'all_vacancies'
-            },
-            {
-                href: `#/vacancies'${vacancyLocalId}`,
-                text: vacancyPosition
-            }, {
-                text:"Vacancy report"
-            }],
-        reports : [
-            {
-                href: '#/reports',
-                text: 'Reports'
-            },
-            {
-                href: '#/reports/vacancy',
-                text: "Report"
-            },
-            {
-                text:"Vacancy report"
-            }]
-    };
+    report.breadcrumbs.breadcrumbs = {};
 
     report.funnel = function(id, arr) {
         const canvas = document.getElementById(id),
@@ -39300,7 +39304,6 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
         };
 
         $scope.goToReportPage = function () {
-            console.log(vacancyReport);
             vacancyReport.breadcrumbs({breadcrumbsType: 'vacancy', vacancyLocalId: $scope.vacancy.localId, vacancyPosition: $scope.vacancy.position});
             var path = 'vacancy/report/' + $scope.vacancy.localId;
             $location.path(path);
@@ -41860,7 +41863,6 @@ controller.controller('vacancyReportController', ["$rootScope", "$scope", "FileI
         }
 
         function getBreadcrumbs() {
-            // $scope.breadcrumbs = vacancyReport.breadcrumbs({vacancyLocalId: $scope.vacancy.localId, vacancyPosition: $scope.vacancy.position});
             $scope.breadcrumbs = vacancyReport.breadcrumbs({});
         }
 

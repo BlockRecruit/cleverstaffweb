@@ -4,7 +4,7 @@ angular.module('services.vacancyReport', [
 ]).factory('vacancyReport', [function () {
     let report = {};
 
-    report.breadcrumbs = function({breadcrumbsType, vacancyLocalId, vacancyPosition}) {
+    function setBreadcrumbs({breadcrumbsType, vacancyLocalId, vacancyPosition}) {
         report.breadcrumbs.breadcrumbs = {
             vacancy : [
                 {
@@ -12,9 +12,10 @@ angular.module('services.vacancyReport', [
                     text: 'all_vacancies'
                 },
                 {
-                    href: `#/vacancies'${vacancyLocalId}`,
+                    href: `#/vacancies/${vacancyLocalId}`,
                     text: vacancyPosition
-                }, {
+                },
+                {
                     text:"Vacancy report"
                 }],
             reports : [
@@ -30,15 +31,19 @@ angular.module('services.vacancyReport', [
                     text:"Vacancy report"
                 }]
         };
+    }
 
+    report.breadcrumbs = function({breadcrumbsType, vacancyLocalId, vacancyPosition}) {
         if(!breadcrumbsType) return report.breadcrumbs.breadcrumbs[report.breadcrumbs.type];
+        else setBreadcrumbs({breadcrumbsType, vacancyLocalId, vacancyPosition});
 
         report.breadcrumbs.type = breadcrumbsType;
 
-        return breadcrumbs[report.breadcrumbs.type];
+        return report.breadcrumbs.breadcrumbs[report.breadcrumbs.type];
     };
 
     report.breadcrumbs.type = 'vacancy';
+    report.breadcrumbs.breadcrumbs = {};
 
     report.funnel = function(id, arr) {
         const canvas = document.getElementById(id),
