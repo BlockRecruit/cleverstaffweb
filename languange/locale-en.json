@@ -2441,7 +2441,7 @@
   "Total":"Total",
   "Months_1":"Months",
   "Get a 10% bonus if you pay more than 4 months and 20% pay for the year":"Get a 10% bonus if you pay for more than 4 months and 20% if you pay for the year",
-  "Will be credited total USD (bonus USD)":"You will receive {{total}} USD <span class='break'>(bonus {{bonus}} USD)</span>",
+  "Will be credited total USD (bonus USD)":"You will receive {{total}} USD <span class='break'>( {{bonus}} USD bonus )</span>",
   "Pay by card":"Pay by card",
   "Pay by invoice":"Pay by invoice",
   "Payment FAQ":"<span class='bold'>Have some questions about the payment?</span> Write to us on the mail <a href='mailto:finance@cleverstaff.net'>finance@cleverstaff.net</a>",
