@@ -18,7 +18,7 @@
                             </div>
                         </div>
                         <!---------------------------------------------- to repeat-->
-                        <div class="row event last-action " ng-repeat="history in history" ng-switch="history.type">
+                        <div class="row event last-action " ng-repeat="history in history" ng-switch="history.type" ng-hide="history.parentId">
                             <div class="col-lg-12 hidden" ng-switch-default></div>
                             <div class="col-lg-12" ng-switch-when="candidate_test_passed">
                                 <ng-include src="'partials/history/candidate/candidate_test_passed.html'"></ng-include>
@@ -71,7 +71,7 @@
                             <div class="col-lg-12" ng-switch-when="candidate_add_to_group">
                                 <ng-include src="'partials/history/full-history/candidate_add_to_group.html'"></ng-include>
                             </div>
-                            <div class="col-lg-12" ng-switch-when="candidate_change_state" ng-hide="history.parentId">
+                            <div class="col-lg-12" ng-switch-when="candidate_change_state">
                                 <ng-include src="'partials/history/full-history/candidate_change_state.html'"></ng-include>
                             </div>
                             <div class="col-lg-12" ng-switch-when="candidates_change_state">

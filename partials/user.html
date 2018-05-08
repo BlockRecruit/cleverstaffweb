@@ -318,7 +318,7 @@
                         </div>
                         <div class="row event last-action"
                              ng-repeat="history in history"
-                             ng-switch="history.type">
+                             ng-switch="history.type" ng-hide="history.parentId">
                             <div class="col-lg-12 hidden" ng-switch-default></div>
                             <div class="col-lg-12" ng-switch-when="candidate_add">
                                 <ng-include src="'partials/history/user/candidate_add.html'"></ng-include>
