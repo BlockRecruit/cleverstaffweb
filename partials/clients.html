@@ -116,9 +116,10 @@
                             <section class="search-params" ng-show="searchParamsForView.length">
                                 <div class="criteriy-words">{{"Search criteria"|translate}}:</div>
                                 <div class="criteriy" ng-repeat="criteriy in searchParamsForView track by $index">
-                                    <span>{{criteriy.name|translate}}</span>
+                                    <span>{{criteriy.type|translate}}</span>
                                     <span>:</span>
                                     <span>{{criteriy.value|translate}}</span>
+                                    <span ng-show="!$last">,</span>
                                 </div>
                             </section>
                             <table class="table" ng-show="$root.objectSize" id="mainTable" ng-table="tableParams" template-pagination="custom/pager">

@@ -65,7 +65,6 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
         .then(initTableParams);
 
 
-
     $scope.clickSearch = function() {
         $scope.tableParams.$params.page = 1;
 
@@ -178,7 +177,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                     }
                     Client.setOptions("industry", isNotBlank($scope.searchParam['industry']) ? $scope.searchParam['industry'] : null);
                     Client.setOptions("personId", activeParam.name == 'onlyMy' ? $rootScope.userId : null);
-                    Client.setOptions("responsible", $scope.searchParam.responsible && $scope.searchParam.responsible != 'null' ? JSON.parse($scope.searchParam.responsible).userId  : null);
+                    Client.setOptions("responsible", $scope.searchParam.responsible && $scope.searchParam.responsible != 'null' ? $scope.searchParam.responsible  : null);
                     Client.setOptions("name", $scope.searchParam['name'] ? $scope.searchParam['name'] : null);
                     Client.setOptions("words", $scope.searchParam['words'] ? $scope.searchParam['words'] : null);
                     Client.setOptions("state", isNotBlank($scope.searchParam['state']) ? $scope.searchParam['state'] : null);
@@ -200,8 +199,12 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                         }
 
                         let searchParams = Client.searchOptions();
+
                         console.log(searchParams, 'searchParams');
+
                         $scope.searchParamsForView = createSearchParamsForView(searchParams);
+
+                        console.log($scope.searchParamsForView, '    $scope.searchParamsForView');
 
                         Client.all(searchParams, function(response) {
                             $rootScope.objectSize = response['objects'] != undefined ? response['total'] : 0;
@@ -245,17 +248,41 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
         let i, data = [];
 
         for(i in searchParams){
-            if(searchParams[i]) continue;
+            if(!searchParams[i] || i === 'page' || searchParams[i] === 'null') continue;
 
             if(i === 'responsible'){
-                let name = $scope.associativePerson[searchParams[i]];
-                searchParams[i] = name;
-                data.push(searchParams[i]);
+                setResponsible(data)
+                continue;
             }
 
-            data.push(searchParams[i]);
+            if(i === 'city'){
+                setCity(data);
+                continue;
+            }
+
+            data.push({value:searchParams[i], type:i !== 'state' ? i : 'status'});
         }
         return data;
+    }
+
+    function setCity(data){
+        console.log($scope.cities, '($scope.cities');
+
+        for(let i in $scope.cities){
+            data.forEach(j =>{
+                if(j.type === 'country' && j.value === i.country){
+                    data.push({value:i.name,type:'city'})
+                }
+            })
+        }
+    }
+
+    function setResponsible(data){
+        let name;
+
+        name = $scope.associativePerson[searchParams[i]];
+        searchParams[i] = name.fullName;
+        data.push({value:name.fullName, type:i});
     }
 
     $scope.changeInputPage = function(params,searchNumber){
