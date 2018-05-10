@@ -92,7 +92,7 @@
                                 <select id="cs-region-filter-select" ng-model="searchParam.regionId"
                                         class="select2-container form-control select2 select14_2 search-select2"
                                         ng-change="setSearchedRegion()"
-                                        ng-selected="searchParam.regionId == 'null'">
+                                        ng-init="searchParam.regionId == ''">
                                 </select>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 item pull-left" ng-show="searchParam.regionId && searchParam.regionId != 'null'">

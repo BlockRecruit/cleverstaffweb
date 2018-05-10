@@ -78,7 +78,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             notificationService.error($filter('translate')('Enter the data'));
         }else{
             $scope.loader = true;
-            if ($scope.searchParam['words'] || $scope.searchParam['responsible'] || $scope.searchParam['state'] || $scope.searchParam['']) {
+            if ($scope.searchParam['words'] || $scope.searchParam['responsible'] || $scope.searchParam['state'] || $scope.searchParam[''] || $scope.searchParam['regionId']) {
                 $scope.tableParams.reload();
                 $rootScope.searchCheckClient = true;
             } else if ($rootScope.searchCheckClient) {
@@ -91,7 +91,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
         Service.getRegions2(function (countries,cities) {
             $scope.countries = countries;
             $scope.cities = cities;
-            var optionsHtml = '<option value="null" style="color:#999">'+$filter('translate')('region')+'</option>';
+            var optionsHtml = '<option value="" style="color:#999">'+$filter('translate')('region')+'</option>';
             var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
             angular.forEach($scope.countries, function (value) {
                 optionsHtml += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
@@ -174,8 +174,8 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                             }
                         }
                     } else {
-                        Client.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : $scope.searchParam.country);
-                        Client.setOptions("city", activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null);
+                        Client.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : $scope.searchParam.regionId ? JSON.parse($scope.searchParam.regionId).name : null);
+                        Client.setOptions("city", activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : $scope.searchParam.regionIdCity?  JSON.parse($scope.searchParam.regionIdCity).name : null );
                     }
                     Client.setOptions("industry", isNotBlank($scope.searchParam['industry']) ? $scope.searchParam['industry'] : null);
                     Client.setOptions("personId", activeParam.name == 'onlyMy' ? $rootScope.userId : null);
@@ -268,38 +268,24 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
     }
 
     function setCity(data){
-        for(let i in $scope.cities){
-            data.forEach(j =>{
-                if(j.type === 'country' && j.value === $scope.cities[i].country){
-                    data.push({value:$scope.cities[i].name, type:'city'})
-                }
-            })
-        }
+        let city = ($scope.searchParam.regionIdCity)? JSON.parse($scope.searchParam.regionIdCity).name : null;
+        data.push({value:city, type:'city'});
     }
 
     function clearSearchCriteriy(criteriy) {
-        let _index = '', value = null;
+        let _index = '', value = null, resault = changeCriteriyNameAndValue(criteriy ,value);
 
-        if(criteriy === 'status' ) criteriy = 'state';
-        if(criteriy === 'city' ) criteriy = 'regionIdCity';
-        if(criteriy === 'responsible' ) value = '';
+        $scope.searchParam[resault.criteriy] = resault.value;
 
-        $scope.searchParam[criteriy] = value;
-
-        clearSearchCriteriyInView(criteriy);
+        clearSearchCriteriyInView(resault.criteriy);
 
         $scope.tableParams.reload();
     }
 
     function clearSearchCriteriyInView(criteriy) {
         let _index = '';
-        console.log(criteriy, 'criteriy');
 
-        $scope.searchParamsForView.forEach((item, index) => {
-            if(item.type === criteriy){
-                _index = index;
-            }
-        })
+        $scope.searchParamsForView.forEach((item, index) => (item.type === criteriy)? _index = index : null);
 
         $scope.searchParam[criteriy !== 'status'? criteriy : state] = null;
 
@@ -308,9 +294,44 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
 
     function clearSearchCriteries() {
         $scope.searchParamsForView = [];
+        clearAllSearchParams();
+        $scope.tableParams.reload();
     }
 
-    function setResponsible(data, searchParams, i){
+    function clearAllSearchParams(){
+
+       for(let criteriy in $scope.searchParam){
+           let value = null, resault;
+
+           if(criteriy == 'pages') continue;
+
+           resault = changeCriteriyNameAndValue(criteriy, value);
+
+           $scope.searchParam[resault.criteriy] =  resault.value;
+       }
+
+    }
+
+    function changeCriteriyNameAndValue(criteriy, value){
+            if(criteriy === 'status' ) criteriy = 'state';
+
+            if(criteriy === 'city' ){
+                criteriy = 'regionIdCity';
+                value = '';
+            }
+
+            if(criteriy === 'country' ){
+                criteriy = 'regionId';
+                value = null;
+            }
+
+            if(criteriy === 'responsible' ) value = '';
+
+            return {criteriy, value};
+        }
+
+
+        function setResponsible(data, searchParams, i){
         let name;
 
         name = $scope.associativePerson[searchParams[i]];
