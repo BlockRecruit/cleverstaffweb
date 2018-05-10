@@ -2832,7 +2832,7 @@ directive('appVersion', ['version', function(version) {
                                 $scope.addedLang.push(e.added);
                                 var alreadySet = $scope.getSelect2Lang();
                                 var toStandardCase = alreadySet[alreadySet.length - 1];
-                                toStandardCase.text = toStandardCase.text[0].toUpperCase() + toStandardCase.text.slice(1).toLowerCase();
+                                //toStandardCase.text = toStandardCase.text[0].toUpperCase() + toStandardCase.text.slice(1).toLowerCase();
                                 alreadySet.pop();
                                 alreadySet.push(toStandardCase);
                                 $scope.setSelect2Lang(alreadySet);
@@ -4525,7 +4525,8 @@ directive('appVersion', ['version', function(version) {
                 options: '=options',
                 model: '=model',
                 label: '=label',
-                value: '=value'
+                value: '=value',
+                disabled: '=disabled'
             },
             link: function(scope, element, attrs) {
                 // Selecting model value
@@ -4565,12 +4566,17 @@ directive('appVersion', ['version', function(version) {
 
                 // DOM Event Listeners
                 labelDom.on('click', function() {
-                    optionsDom.toggleClass('active');
-                    backdrop.toggleClass('active');
+                    if(!scope.disabled) {
+                        optionsDom.toggleClass('active');
+                        backdrop.toggleClass('active');
+                    } else {
+                        labelDom.addClass('disabled');
+                    }
                 });
                 backdrop.on('click', function() {
                     optionsDom.removeClass('active');
                     backdrop.removeClass('active');
+                    labelDom.removeClass('disabled');
                 });
                 element.on('keydown', function(ev) {
                     switch (ev.which) {

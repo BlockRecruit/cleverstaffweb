@@ -9,8 +9,7 @@
 	justify-content: center;
 	flex-wrap: wrap;
 	.wrapper {
-		display: flex;
-		flex-direction: row;
+		display: block;
 		margin-right: 0;
 		margin-left: 0;
 
@@ -20,6 +19,7 @@
 		section {
 			position: relative;
 
+			float: left;
 			width: 49%;
 			padding: 19px 9px 10px 9px;
 
@@ -45,6 +45,10 @@
 				}
 				.intro__descr {
 					font-family: "Helvetica-Light";
+
+					&.fixed-height {
+						height: 19px;
+					}
 				}
 			}
 			.pay_faq {
@@ -138,6 +142,8 @@
 				}
 			}
 			&.payment__pay {
+				float: right;
+
 				border: 1px solid #00b549;
 				img.security {
 					position: absolute;
@@ -303,7 +309,7 @@
 				}
 			}
 			&.payment__history {
-				margin: -43px auto 0 9px;
+				margin: 97px auto 0 9px;
 				padding: 0;
 
 				border: none;
@@ -373,12 +379,8 @@
 				}
 			}
 			&.payment__plans {
-				margin-top: -439px;
+				margin-top: 15px;
 				margin-right: auto;
-				margin-left: 7px;
-				&.top-pos {
-					margin-top: -233px;
-				}
 				.section__intro {
 					margin-bottom: 20px;
 					.intro__descr {
@@ -468,6 +470,7 @@
 				}
 			}
 			&.payment__paid-features {
+				float: right;
 				.features-wrapper {
 					position: relative;
 
@@ -554,7 +557,7 @@
 					}
 					&:before {
 						position: absolute;
-						top: 20px;
+						top: 32px;
 						left: 0;
 
 						width: 100%;
@@ -804,11 +807,13 @@
 @media screen and (max-width: $screen-lg) {
 	.payment {
 		.wrapper {
+			display: flex;
 			flex-direction: column;
 
 			align-items: center;
 			justify-content: flex-start;
 			section {
+				float: none;
 				width: 80%;
 				margin-bottom: 30px;
 				&.payment__history {
@@ -846,6 +851,9 @@
 							}
 						}
 					}
+				}
+				&.payment__paid-features {
+					float: none;
 				}
 				.payment__toggle {
 					position: absolute;

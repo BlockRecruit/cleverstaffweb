@@ -38,31 +38,25 @@
                         <span translate="The access to use Cleverstaff software"></span>
                     </td>
                     <td>
-                        <div class="wrapper">
-                            <custom-select-new options="paidUsers" model="invoice.users"></custom-select-new>
-                        </div>
-                        <!--<select name="paidUsers" id="paidUsers" ng-model="invoice.users">-->
-                            <!--<option ng-selected="amount === invoice.users" ng-repeat="amount in users track by $index">{{amount}}</option>-->
-                        <!--</select>-->
+                        <span class="bold">{{invoice.users}}</span>
+                        <!--<div class="wrapper">-->
+                            <!--<custom-select-new disabled="true" options="paidUsers" model="invoice.users"></custom-select-new>-->
+                        <!--</div>-->
                     </td>
                     <td>
-                        <div class="wrapper">
-                            <custom-select-new options="months" model="invoice.months"></custom-select-new>
-                        </div>
-                        <!--<select name="month" ng-model="invoice.months">-->
-                            <!--<option ng-selected="month === invoice.months" ng-repeat="month in months track by $index">{{month}}</option>-->
-                        <!--</select>-->
+                        <span class="bold">{{invoice.months}}</span>
+                        <!--<div class="wrapper">-->
+                            <!--<custom-select-new disabled="true" options="months" model="invoice.months"></custom-select-new>-->
+                        <!--</div>-->
                     </td>
                     <td>
                         <div class="wrapper">
                             <custom-select-new options="currencies" model="invoice.currency"></custom-select-new>
                         </div>
-                        <!--<select name="currency" ng-model="invoice.currency">-->
-                            <!--<option ng-selected="currency === invoice.currency" ng-repeat="currency in currencies track by $index">{{currency}}</option>-->
-                        <!--</select>-->
                     </td>
                     <td>
-                        <span class="currency">{{ currenciesSigns[invoice.currency] + invoice.price() }}</span>
+                        <span class="bold">{{ invoice.price() }}</span>
+                        <!--<span class="currency">{{ currenciesSigns[invoice.currency] + invoice.price() }}</span>-->
                     </td>
                 </tr>
             </table>

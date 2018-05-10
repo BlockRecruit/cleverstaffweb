@@ -2832,7 +2832,7 @@ directive('appVersion', ['version', function(version) {
                                 $scope.addedLang.push(e.added);
                                 var alreadySet = $scope.getSelect2Lang();
                                 var toStandardCase = alreadySet[alreadySet.length - 1];
-                                toStandardCase.text = toStandardCase.text[0].toUpperCase() + toStandardCase.text.slice(1).toLowerCase();
+                                //toStandardCase.text = toStandardCase.text[0].toUpperCase() + toStandardCase.text.slice(1).toLowerCase();
                                 alreadySet.pop();
                                 alreadySet.push(toStandardCase);
                                 $scope.setSelect2Lang(alreadySet);
@@ -4525,7 +4525,8 @@ directive('appVersion', ['version', function(version) {
                 options: '=options',
                 model: '=model',
                 label: '=label',
-                value: '=value'
+                value: '=value',
+                disabled: '=disabled'
             },
             link: function(scope, element, attrs) {
                 // Selecting model value
@@ -4565,12 +4566,17 @@ directive('appVersion', ['version', function(version) {
 
                 // DOM Event Listeners
                 labelDom.on('click', function() {
-                    optionsDom.toggleClass('active');
-                    backdrop.toggleClass('active');
+                    if(!scope.disabled) {
+                        optionsDom.toggleClass('active');
+                        backdrop.toggleClass('active');
+                    } else {
+                        labelDom.addClass('disabled');
+                    }
                 });
                 backdrop.on('click', function() {
                     optionsDom.removeClass('active');
                     backdrop.removeClass('active');
+                    labelDom.removeClass('disabled');
                 });
                 element.on('keydown', function(ev) {
                     switch (ev.which) {
@@ -11208,7 +11214,7 @@ angular.module('services.globalService', [
         }
 
         function setCookies(key, value) {
-            document.cookie = key + "=" + value;
+            document.cookie = key + "=" + value + "; expires=Thu, 18 Dec 2033 12:00:00 UTC";
         }
     };
 
@@ -15398,7 +15404,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=95'
+        suffix: '.json?b=97'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -18904,7 +18910,11 @@ controller.controller('CandidateAddController', ["$rootScope", "$http", "$scope"
             if($scope.addedLang != undefined){
                 angular.forEach($scope.addedLang, function (val) {
                     if(val.level != undefined && val.level != ''){
-                        candidate.languages.push({ name: val.text, level: val.level});
+                        if(val.level != undefined && val.level != ''){
+                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
+                        }else if(val.level == undefined && val.id == val.text){
+                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
+                        }
                     }
                 });
             }
@@ -22840,7 +22850,9 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if($scope.addedLang != undefined){
                     angular.forEach($scope.addedLang, function (val) {
                         if(val.level != undefined && val.level != ''){
-                            candidate.languages.push({ name: val.text, level: val.level});
+                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
+                        }else if(val.level == undefined && val.id == val.text){
+                            candidate.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
                         }
                     });
                 }
@@ -30774,13 +30786,14 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
         Account.getAccountsInfo({},function (resp) {
             $rootScope.loading = false;
             if(!resp)return;
+
             $scope.data = resp['object'];
         });
 
 
 
         $scope.tableHeads = ['points','score','account','country','created','regUsers','tarif','trialEnd','block',
-                             'integratedEmails','invites', 'hrModule','balance','payUsers','latestPaymentByCard','amount',
+                             'integratedEmails','invites', 'hrModule','balance','payUsers','latestPaymentByCard','generated invoices','amount',
                              'purpose','activeUsers','vacancies','lastAtion','server'];
 
 
@@ -30814,7 +30827,7 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
                     elems[0].children[0].children[0].children[0].children[0].children[9].style.width = '1.7%';
                     elems[0].children[0].children[0].children[0].children[0].children[15].style.width = '4%';
                     elems[0].children[0].children[0].children[0].children[0].children[18].style.width = '2.7%';
-                    elems[0].children[0].children[0].children[0].children[0].children[22].style.width = '3.5%';
+                    // elems[0].children[0].children[0].children[0].children[0].children[22].style.width = '3.5%';
                     elems.forEach(item => {
                         if(max <= 0){
                             max = item.scrollWidth - item.scrollLeft - item.clientWidth - 1;
@@ -32767,8 +32780,8 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
                 }
             });
-            const diff = $rootScope.blockUserData.payment_min_users - $scope.paidUsers.length;
-            if($rootScope.blockUserData.payment_min_users > $scope.paidUsers.length) {
+            if($rootScope.blockUserData && $rootScope.blockUserData.payment_min_users > $scope.paidUsers.length) {
+                const diff = $rootScope.blockUserData.payment_min_users - $scope.paidUsers.length;
                 for(let i = 0; i < diff + 2; i++) {
                     $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
                 }
@@ -35468,7 +35481,9 @@ controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", 
                 if($scope.addedLang != undefined){
                     angular.forEach($scope.addedLang, function (val) {
                         if(val.level != undefined && val.level != ''){
-                            $scope.vacancy.languages.push({ name: val.text, level: val.level});
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
+                        }else if(val.level == undefined && val.id == val.text){
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
                         }
                     });
                 }
@@ -36609,7 +36624,11 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
                 $scope.vacancy.languages = [];
                 if($scope.addedLang != undefined){
                     angular.forEach($scope.addedLang, function (val) {
-                        $scope.vacancy.languages.push({ name: val.text, level: val.level});
+                        if(val.level != undefined && val.level != ''){
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
+                        }else if(val.level == undefined && val.id == val.text){
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
+                        }
                     });
                 }
                 $scope.vacancy.clientId.clientId = $("#clientAutocompleater").select2('data') !== null ? $("#clientAutocompleater").select2('data').id : null;
