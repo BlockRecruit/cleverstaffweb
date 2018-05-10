@@ -390,7 +390,11 @@ controller.controller('vacancyEditController', ["$rootScope", "$scope", "FileIni
                 $scope.vacancy.languages = [];
                 if($scope.addedLang != undefined){
                     angular.forEach($scope.addedLang, function (val) {
-                        $scope.vacancy.languages.push({ name: val.text, level: val.level});
+                        if(val.level != undefined && val.level != ''){
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
+                        }else if(val.level == undefined && val.id == val.text){
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
+                        }
                     });
                 }
                 $scope.vacancy.clientId.clientId = $("#clientAutocompleater").select2('data') !== null ? $("#clientAutocompleater").select2('data').id : null;

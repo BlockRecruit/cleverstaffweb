@@ -2814,6 +2814,7 @@ directive('appVersion', ['version', function(version) {
                                     text: function(item) { return item.text; }
                                 },
                                 createSearchChoice: function(term, data) {
+                                    console.log(term);
                                     if ($(data).filter(function() {
                                             return this.text.localeCompare(term) === 0;
                                         }).length === 0) {
@@ -2828,11 +2829,12 @@ directive('appVersion', ['version', function(version) {
                                 formatResultCssClass: function (data, container) { return data.text; }
                             }
                         ).on("change", function(e) {
+                            console.log(e);
                             if(e.added != undefined){
                                 $scope.addedLang.push(e.added);
                                 var alreadySet = $scope.getSelect2Lang();
                                 var toStandardCase = alreadySet[alreadySet.length - 1];
-                                toStandardCase.text = toStandardCase.text[0].toUpperCase() + toStandardCase.text.slice(1).toLowerCase();
+                                //toStandardCase.text = toStandardCase.text[0].toUpperCase() + toStandardCase.text.slice(1).toLowerCase();
                                 alreadySet.pop();
                                 alreadySet.push(toStandardCase);
                                 $scope.setSelect2Lang(alreadySet);

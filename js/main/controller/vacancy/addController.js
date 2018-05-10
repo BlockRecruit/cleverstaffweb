@@ -215,7 +215,9 @@ controller.controller('vacancyAddController', ["FileInit", "$scope", "Vacancy", 
                 if($scope.addedLang != undefined){
                     angular.forEach($scope.addedLang, function (val) {
                         if(val.level != undefined && val.level != ''){
-                            $scope.vacancy.languages.push({ name: val.text, level: val.level});
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: val.level});
+                        }else if(val.level == undefined && val.id == val.text){
+                            $scope.vacancy.languages.push({ name: val.text[0].toUpperCase() + val.text.slice(1).toLowerCase(), level: 'undefined'});
                         }
                     });
                 }
