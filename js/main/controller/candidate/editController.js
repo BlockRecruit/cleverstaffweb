@@ -719,7 +719,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if (data != undefined) {
                     $('.addingLangs').show();
                     $scope.addedLang = data;
-                    console.log($scope.addedLang );
                     $scope.changeLevel = function(level, id){
                         angular.forEach($scope.addedLang, function (val) {
                             if(val.id == id){

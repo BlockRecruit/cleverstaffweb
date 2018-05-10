@@ -2814,7 +2814,6 @@ directive('appVersion', ['version', function(version) {
                                     text: function(item) { return item.text; }
                                 },
                                 createSearchChoice: function(term, data) {
-                                    console.log(term);
                                     if ($(data).filter(function() {
                                             return this.text.localeCompare(term) === 0;
                                         }).length === 0) {
@@ -2829,7 +2828,6 @@ directive('appVersion', ['version', function(version) {
                                 formatResultCssClass: function (data, container) { return data.text; }
                             }
                         ).on("change", function(e) {
-                            console.log(e);
                             if(e.added != undefined){
                                 $scope.addedLang.push(e.added);
                                 var alreadySet = $scope.getSelect2Lang();
@@ -22804,7 +22802,6 @@ controller.controller('CandidateEditController', ["$http", "$rootScope", "$scope
                 if (data != undefined) {
                     $('.addingLangs').show();
                     $scope.addedLang = data;
-                    console.log($scope.addedLang );
                     $scope.changeLevel = function(level, id){
                         angular.forEach($scope.addedLang, function (val) {
                             if(val.id == id){
