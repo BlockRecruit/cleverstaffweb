@@ -1,0 +1,12 @@
+.candidate-remove {
+	.modal-header {
+		.modal-title {
+			font-weight: normal;
+			span {
+				&.bold {
+					font-weight: bold;
+				}
+			}
+		}
+	}
+}
