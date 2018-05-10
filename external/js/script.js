@@ -492,9 +492,10 @@ $(document).ready(function () {
     $("#signupGoogleBtn").on("click", function () {
             signup_google_loading = true;
             resetError();
+
             var check = checkFormGoogle();
 
-            if(check === 'error latin'){
+            if(!check){
                 console.log('error latin');
                 return false;
             }
@@ -686,8 +687,7 @@ $(document).ready(function () {
             signup_facebook_loading = true;
             var check = checkFormFacebook();
 
-            if(check === 'error latin'){
-                console.log('error latin');
+             if(!check){
                 return false;
             }
 
@@ -3226,6 +3226,7 @@ function checkFormGoogle(){
         return false;
     }
     $(".error-orgName").addClass("hidden");
+
     if(form.phone == "") {
         $($('input[name=phone]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
         $($('input[name=phone]')).focus();
@@ -3235,6 +3236,7 @@ function checkFormGoogle(){
         return false;
     }
     $(".error-phone").addClass("hidden");
+
     if(form.usersCount == "") {
         $($('select[name=usersCount]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
         $($('select[name=usersCount]')).focus();
@@ -3244,17 +3246,20 @@ function checkFormGoogle(){
         return false;
     }
     $(".error-usersCount").addClass("hidden");
+
     if(form.terms != 'on') {
         $(".error-terms").html(messages.terms_accept);
         $(".error-terms").removeClass("hidden");
         return false;
     }
     $(".error-terms").addClass("hidden");
+
     var password1 = /^(?=.*\d)(?=.*[a-zA-Z0-9!,.?%$#@*_\-+=\\|/[\]{}()]).{8,30}$/;
     var password2 = /.*[a-zA-Z].*/;
     var password3 = /.*\d.*/;
     var password = $($('#googlePass'));
     var repeatPassword = $($('#googlePass2'));
+
     if(!password1.test(password.val()) || !password2.test(password.val()) || !password3.test(password.val()) || password.val().length < 8 || password.val().length > 30){
         password.css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
         password.focus();
@@ -3317,9 +3322,10 @@ function checkFormGoogle(){
             setTimeout(function (){
                 $(".error-password").addClass("hidden");
             },5000);
-            return 'error latin';
+            return false;
         }
     }
+
     if(repeatPassword.val() != password.val()) {
         $($('input[name=password2]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
         $($('input[name=password2]')).focus();
@@ -3334,8 +3340,11 @@ function checkFormGoogle(){
         setTimeout(function (){
             $(".error-password").addClass("hidden");
         },5000);
-        return 'error latin';
+
+        return false;
     }
+
+    return true;
 }
 function checkFormFacebook(){
     var form = $("#signupFacebookForm").serializeObject();
@@ -3356,7 +3365,9 @@ function checkFormFacebook(){
         $('html, body').animate({scrollTop: 250}, 'slow');
         return false;
     }
+
     $(".error-orgName").addClass("hidden");
+
     if(form.phone == "") {
         $($('input[name=phone]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
         $($('input[name=phone]')).focus();
@@ -3365,6 +3376,7 @@ function checkFormFacebook(){
         $('html, body').animate({scrollTop: 250}, 'slow');
         return false;
     }
+
     $(".error-phone").addClass("hidden");
 
     if(form.usersCount == "") {
@@ -3375,6 +3387,7 @@ function checkFormFacebook(){
         $('html, body').animate({scrollTop: 250}, 'slow');
         return false;
     }
+
     $(".error-usersCount").addClass("hidden");
 
     if(form.terms != 'on') {
@@ -3382,6 +3395,7 @@ function checkFormFacebook(){
         $(".error-terms").removeClass("hidden");
         return false;
     }
+
     $(".error-terms").addClass("hidden");
 
     var password1 = /^(?=.*\d)(?=.*[a-zA-Z0-9!,.?%$#@*_\-+=\\|/[\]{}()]).{8,30}$/;
@@ -3389,6 +3403,7 @@ function checkFormFacebook(){
     var password3 = /.*\d.*/;
     var password = $($('#facebookPass'));
     var repeatPassword = $($('#facebookPass2'));
+
     if(!password1.test(password.val()) || !password2.test(password.val()) || !password3.test(password.val()) || password.val().length < 8 || password.val().length > 30){
         password.css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
         password.focus();
@@ -3451,9 +3466,10 @@ function checkFormFacebook(){
             setTimeout(function (){
                 $(".error-password").addClass("hidden");
             },5000);
-            return 'error latin';
+            return false;
         }
     }
+
     if(repeatPassword.val() != password.val()) {
         $($('input[name=password2]')).css({'border': '2px solid #C62828', 'background-color': '#FFF6F7'});
         $($('input[name=password2]')).focus();
@@ -3468,8 +3484,10 @@ function checkFormFacebook(){
         setTimeout(function (){
             $(".error-password").addClass("hidden");
         },5000);
-        return 'error latin';
+        return false;
     }
+
+    return true;
 }
 function signupGoogle() {
     resetMessage();
