@@ -4525,7 +4525,8 @@ directive('appVersion', ['version', function(version) {
                 options: '=options',
                 model: '=model',
                 label: '=label',
-                value: '=value'
+                value: '=value',
+                disabled: '=disabled'
             },
             link: function(scope, element, attrs) {
                 // Selecting model value
@@ -4565,12 +4566,17 @@ directive('appVersion', ['version', function(version) {
 
                 // DOM Event Listeners
                 labelDom.on('click', function() {
-                    optionsDom.toggleClass('active');
-                    backdrop.toggleClass('active');
+                    if(!scope.disabled) {
+                        optionsDom.toggleClass('active');
+                        backdrop.toggleClass('active');
+                    } else {
+                        labelDom.addClass('disabled');
+                    }
                 });
                 backdrop.on('click', function() {
                     optionsDom.removeClass('active');
                     backdrop.removeClass('active');
+                    labelDom.removeClass('disabled');
                 });
                 element.on('keydown', function(ev) {
                     switch (ev.which) {
@@ -15398,7 +15404,7 @@ angular.module('RecruitingApp', [
     /************************************/
     $translateProvider.useStaticFilesLoader({
         prefix: 'languange/locale-',
-        suffix: '.json?b=95'
+        suffix: '.json?b=96'
     });
     $translateProvider.translations('en');
     $translateProvider.translations('ru');
@@ -32773,8 +32779,8 @@ function navBarController($q, Vacancy, serverAddress, notificationService, $scop
                     $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
                 }
             });
-            const diff = $rootScope.blockUserData.payment_min_users - $scope.paidUsers.length;
-            if($rootScope.blockUserData.payment_min_users > $scope.paidUsers.length) {
+            if($rootScope.blockUserData && $rootScope.blockUserData.payment_min_users > $scope.paidUsers.length) {
+                const diff = $rootScope.blockUserData.payment_min_users - $scope.paidUsers.length;
                 for(let i = 0; i < diff + 2; i++) {
                     $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
                 }
