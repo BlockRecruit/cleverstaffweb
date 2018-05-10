@@ -89,16 +89,19 @@
                                      class="select">
                                     {{'Regions only where you have vacancies, candidates or users added to your database.'|translate}}
                                 </div>
-                                <select id="cs-region-filter-select" ng-model="searchParam.regionId"
+                                <select
+                                        ng-model="searchParam.regionId"
                                         class="select2-container form-control select2 select14_2 search-select2"
                                         ng-change="setSearchedRegion()"
                                         ng-init="searchParam.regionId == ''">
+                                    <option value="" style="color:#999">{{"region"|translate}}</option>
+                                    <option style='color: #000000' value='{{country}}' ng-repeat="(key, country) in countries track by $index">{{($root.currentLang == 'ru')? country.name : country.value}}</option>
                                 </select>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 item pull-left" ng-show="searchParam.regionId && searchParam.regionId != 'null'">
-                                <select id="cs-region-filter-select-cities" ng-model="searchParam.regionIdCity"
+                                <select id="cs-region-filter-select-cities"
+                                        ng-model="searchParam.regionIdCity"
                                         class="select2-container form-control select2 select14_2 search-select2 margin-top"
-                                        ng-selected="searchParam.regionIdCity == null"
                                         ng-init="searchParam.regionIdCity = null">
                                 </select>
                             </div>

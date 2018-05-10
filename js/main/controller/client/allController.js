@@ -90,12 +90,13 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
     };
         Service.getRegions2(function (countries,cities) {
             $scope.countries = countries;
+            console.log(countries, 'countries');
             $scope.cities = cities;
             var optionsHtml = '<option value="" style="color:#999">'+$filter('translate')('region')+'</option>';
             var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
-            angular.forEach($scope.countries, function (value) {
-                optionsHtml += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
-            });
+            // angular.forEach($scope.countries, function (value) {
+            //     optionsHtml += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
+            // });
             angular.forEach($scope.cities, function (value) {
                 optionsHtmlCity += "<option style='color: #000000' value='" + JSON.stringify(value).replace(/\'/gi,"") + "'>" + value.name + "</option>";
             });
@@ -105,9 +106,12 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
 
         $scope.setSearchedRegion = function(){
             $scope.searchParam.regionIdCity = null;
-            var obj = JSON.parse($scope.searchParam.regionId);
+            var obj = $scope.searchParam.regionId;
+
+            console.log($scope.searchParam.regionId, '$scope.searchParam.regionId;');
+
             if(obj.type == 'country'){
-                $scope.searchedRegion = JSON.parse($scope.searchParam.regionId);
+                $scope.searchedRegion = $scope.searchParam.regionId;
                 $('#cs-region-filter-select-cities').find('option').remove();
                 var optionsHtmlCity = '<option value="null" style="color:#999">'+$filter('translate')('city')+'</option>';
                 angular.forEach($scope.cities, function (value) {
