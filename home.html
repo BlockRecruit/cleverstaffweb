@@ -102,7 +102,7 @@
             </div>
             <div class="" id="navbar-main">
                 <ul class="nav navbar-nav navigation flex-ul">
-                    <li class="dropdown organizer" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
+                    <li class="dropdown organizer" >
                         <a href="#/organizer" ng-class="{'active': $root.activePage == 'Activity' || $root.activePage == 'Activity Calendar' || $root.activePage == 'News'}">
                             <i class="sprite sprite-calendar">
                                 <svg version="1.1" id="calendar" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="18px" height="18px"
@@ -169,7 +169,7 @@
                             <span translate="Organizer"></span>
                         </a>
                     </li>
-                    <li class="vacancies" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
+                    <li class="vacancies" >
                         <a href="#/vacancies" ng-class="{'active': $root.activePage == 'Vacancies' || $root.activePage == 'Vacancy add' || $root.activePage == 'Vacancy edit' }">
                             <i class="sprite sprite-vacancy">
                                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" height="22px" width="24px"
@@ -195,7 +195,7 @@
                             <span translate="Vacancies"></span>
                         </a>
                     </li>
-                    <li class="candidates" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
+                    <li class="candidates" >
                         <a href="#/candidates" ng-class="{'active': $root.activePage == 'Candidates' || $root.activePage == 'Candidate add' || $root.activePage == 'Candidates add from email'
                                                                     || $root.activePage == 'Zip' || $root.activePage == 'Excel History' || $root.activePage == 'Candidate edit' || $root.activePage == 'Tests and forms'
                                                                     || $root.activePage == 'Send test candidate to email' || $root.activePage == 'Test results' || $root.activePage == 'Test page' || $root.activePage == 'Candidate'}">
@@ -231,7 +231,7 @@
                             <span translate="candidates"></span>
                         </a>
                     </li>
-                    <li class="dropdown clients" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
+                    <li class="dropdown clients">
                         <a href="#/clients" ng-class="{'active': $root.activePage == 'Clients' || $root.activePage == 'Client add' || $root.activePage == 'Client edit'}"
                            ng-if="$root.me.personParams.clientAccessLevel != 'hide'">
                             <i class="sprite sprite-clients">
@@ -267,7 +267,7 @@
                             <span ng-show="$root.me!=undefined" translate="Clients"></span>
                         </a>
                     </li>
-                    <li class="dropdown users" ng-if="$root.me!=undefined && $root.me.recrutRole!='client'" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
+                    <li class="dropdown users" ng-if="$root.me!=undefined && $root.me.recrutRole!='client'">
                         <a href="#/company/users" ng-class="{'active': $root.activePage == 'Users' || $root.activePage == 'Company History' || $root.activePage == 'Company settings' || $root.activePage == 'Company users' || $root.activePage == 'Company employees' || $root.activePage == 'Employee add' || $root.activePage == 'Employee User' || $root.activePage == 'Department Catalog' || $root.activePage == 'Employee Edit User' || $root.activePage == 'Custom fields'}">
                             <i class="sprite sprite-company">
                                 <svg version="1.1" id="company" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" height="20px" width="20px"
@@ -299,7 +299,7 @@
                             <span translate="Account"></span>
                         </a>
                     </li>
-                    <li class="dropdown reports"  ng-if="$root.me!= undefined &&  $root.me.recrutRole!='salesmanager' && $root.me.recrutRole!='researcher'" ng-class="{'ru-width' : $root.currentLang === 'ru'}">
+                    <li class="dropdown reports"  ng-if="$root.me!= undefined &&  $root.me.recrutRole!='salesmanager' && $root.me.recrutRole!='researcher'">
                         <a href="#/reports"
                            ng-class="{'active': $root.activePage == 'Pipeline' || $root.activePage == 'Statistics client' || $root.activePage == 'Report all' || $root.activePage == 'Vacancy report' || $root.activePage == 'Reports' || $root.activePage ==  'Reports constructor' ||  $root.activePage == 'Custom Reports'|| $root.activePage == 'Edit Reports'}">
                             <i class="sprite sprite-reports">
@@ -658,8 +658,8 @@
 
                 </ul>
                 <ul class="nav col-lg-5 col-md-5 hidden-sm hidden-xs right-nav" style="justify-content: flex-end">
-                    <li class="dropdown invite-button" ng-show="$root.me.recrutRole == 'admin' && $root.blockUser != true">
-                        <button class="btn-green-animated" ng-click="inviteUserClientModal();" translate="Invite User / Client"></button>
+                    <li class="dropdown invite-button" ng-class="{'ru-width' : $root.currentLang === 'ru'}" ng-show="$root.me.recrutRole == 'admin' && $root.blockUser != true">
+                        <button class="btn-animated" ng-click="inviteUserClientModal();" translate="Invite User / Client"></button>
                     </li>
                     <li class="scope" account-scope-panel>
                     </li>
