@@ -21,6 +21,7 @@
         <p class="description">{{"Custom reports designer allows you build your own reports with appropriate parameters."|translate}}</p>
         <p class="description">{{"Only users with the Admin role are able to save the custom report parameters."|translate}}</p>
     </header>
+    <loader-directive loading="loaders" loader-name="constructor-reports"></loader-directive>
     <main class="all-vacancy">
         <div ng-show="emptyAccount && !$root.loading" class="row add-vacancy">
             <div><h3 translate="empty_vacancies"></h3></div>

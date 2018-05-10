@@ -753,7 +753,7 @@
                     <div class="row event last-action"
                          ng-repeat=" vacancy in activeVacancy| orderBy:'-actions.objects[0].dm'"
                          ng-switch="vacancy.actions.objects[0].type">
-                        <div class="col-lg-12 hidden" ng-switch-default></div>
+                        <div class="col-lg-12 hidden" ng-switch-default loader-directive loading="loaders" loader-name="future"></div>
                         <div class="col-lg-12" ng-switch-when="interview_edit">
                             <ng-include src="'partials/history/future/interview_edit.html'"></ng-include>
                         </div>

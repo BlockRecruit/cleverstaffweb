@@ -23,6 +23,7 @@
                 </section>
             </div>
         </div>
+        <loader-directive loading="loaders" loader-name="reports"></loader-directive>
         <div class="col-lg-7 block-custom-reports"
              ng-show="(($root.me.recrutRole == 'freelancer' || $root.me.recrutRole == 'client') && (block.title === 'Pipeline report' || block.title ===  'Funnel and vacancy report')) || ($root.me.recrutRole !== 'freelancer' && $root.me.recrutRole !== 'client')">
             <a class="logo-custom-reports"

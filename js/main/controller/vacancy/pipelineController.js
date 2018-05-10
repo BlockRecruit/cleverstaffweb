@@ -1,5 +1,6 @@
 controller.controller('pipelineController', ["$rootScope", "$scope", "notificationService", "$filter", "$translate", "vacancyStages","Stat", "$uibModal",
     function($rootScope, $scope, notificationService, $filter, $translate, vacancyStages, Stat, $uibModal) {
+        $rootScope.loading = false;
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -56,14 +57,13 @@ controller.controller('pipelineController', ["$rootScope", "$scope", "notificati
                         });
                     });
                     //});
+                    $rootScope.loading = false;
                 }
-                $rootScope.loading = false;
             });
         };
 
         $scope.buildPipelineReport();
 
-        $rootScope.loading = true;
         Stat.getStatisticsByVacancies(function(resp){
            if(resp.status == 'ok'){
                $scope.vacancies = resp.object.positionReport;
@@ -112,7 +112,6 @@ controller.controller('pipelineController', ["$rootScope", "$scope", "notificati
                    });
                //});
                $rootScope.loading = false;
-               $rootScope.loadingNoBlock = false;
            }
         });
         $scope.showPipelineDescr = function(){

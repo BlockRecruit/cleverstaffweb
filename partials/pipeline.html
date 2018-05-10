@@ -21,7 +21,8 @@
     </h3>
     <div class="clearfix"></div>
     <a class="description-link" href="" ng-click="showPipelineDescr()">{{'Show the report description' | translate}}</a>
-    <table class="table" columns="10" second-columns="8" id="table-1" vacancies="vacancies" fixed-header-table Table>
+    <table class="table" columns="10" second-columns="8" id="table-1" vacancies="vacancies" fixed-header-table Table
+           loader-directive loading="loaders" loader-name="pipeline">
         <tbody>
         <tr class="main-header text-center" id="main-header">
             <td rowspan="2" style="width: 95px">{{'Client' | translate}}</td>

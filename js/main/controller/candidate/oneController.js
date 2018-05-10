@@ -8,6 +8,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.objectSize = null;
         $rootScope.isAddCandidates =  JSON.parse(localStorage.getItem("isAddCandidates"));
         $localStorage.remove("candidateForTest");
+        $scope.loaders = ["history", "attachFile"];
 
         if($location.$$absUrl.indexOf('&task=') != -1) {F
             $scope.urlTaskId = $location.$$absUrl.split('&task=')[1];

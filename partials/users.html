@@ -55,7 +55,8 @@
                     <span ng-show="$root.currentLang == 'en'">{{::$root.me.orgName}}</span> {{'account users' | translate}} <span ng-show="$root.currentLang == 'ru'">{{$root.me.orgName}}</span>
                 </h4>
                 <div class="company-users" ng-show="usersFound">
-                    <table class="table" ng-table="tableParams" template-pagination="custom/pager">
+                    <table class="table" ng-table="tableParams" template-pagination="custom/pager"
+                           loader-directive loading="loaders" loader-name="users">
                         <thead>
                         <tr>
                             <th>

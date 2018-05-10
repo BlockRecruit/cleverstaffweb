@@ -17,6 +17,7 @@
                 <a id="downloadReport"></a>
             </h3>
         </header>
+        <loader-directive loading="loaders" loader-name="custom-reports"></loader-directive>
         <main class="container-fluid" >
             <p ng-bind="::ctrlReport.dataReport['descr']" ng-if="ctrlReport.dataReport['descr']"></p>
             <section class="row">

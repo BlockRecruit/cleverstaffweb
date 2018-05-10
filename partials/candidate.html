@@ -253,7 +253,7 @@
                                 </a>
                             </div>
                             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
-                                <label role="menuitem" for="file">
+                                <label role="menuitem" for="file" loader-directive loading="loaders" loader-name="attachFile">
                                     <i class="fa fa-paperclip" aria-hidden="true"></i>
                                     {{'Attach file'|translate}}
                                 </label>
@@ -802,7 +802,7 @@
                                      title="{{'add_comment'|translate}}">
                             </div>
                         </div>
-                        <!--<loader-directive loading="loaders" loader-name="candidates"></loader-directive>-->
+                        <!--<loader-directive loading="loaders" loader-name="history"></loader-directive>-->
                         <div class="row event last-action"
                              ng-repeat="history in history"
                              ng-switch="history.type"

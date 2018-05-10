@@ -3231,7 +3231,7 @@ directive('appVersion', ['version', function(version) {
                     console.log(attrs);
 
                     scope.loading = true;
-                    var directiveId = 'loaderContainer';
+                    //var directiveId = 'loaderContainer';
 
                     var targetElement;
                     var paneElement;
@@ -3239,8 +3239,14 @@ directive('appVersion', ['version', function(version) {
                     var loader;
                     var throttledPosition;
 
-                    function init(element) {
-                        targetElement = element;
+                    function init(elem, files) {
+                        console.log(files);
+                        targetElement = elem;
+                        console.log(targetElement, 'targetElement1');
+                        console.log(targetElement[0].attributes, 'targetElement2');
+                        console.log(targetElement[0].attributes[1].loader-name, 'targetElement3');
+                        console.log(targetElement[0].attributes['loader-name'], 'targetElement4');
+                        console.log(targetElement[0].attributes['loader-name'].value, 'targetElement5');
 
                         //paneElement = angular.element('<div>');
                         paneElement = angular.element.find('.loader-container');
@@ -3290,6 +3296,34 @@ directive('appVersion', ['version', function(version) {
                         throttledPosition = _.throttle(position, 50);
                         angular.element($window).scroll(throttledPosition);
                         angular.element($window).resize(throttledPosition);
+
+                        if((attrs.loaderName == 'candidates' || attrs.loaderName == 'vacancies' || attrs.loaderName == 'clients') && attrs.loaderName != 'history'){
+                            console.log('c v c');
+                        }else if(attrs.loaderName == 'history'){
+                            console.log('history');
+                            $(paneElement).removeAttr( 'style' );
+                            $(spinnerImage).removeAttr( 'style' );
+                            $(loader).removeAttr( 'style' );
+                            $(spinnerImage).remove();
+                            $(loader).appendTo(paneElement);
+                            console.log($(paneElement));
+                        }else if(attrs.loaderName == 'attachFile'){
+                            console.log('attachFile');
+                            $(paneElement).removeAttr( 'style' );
+                            $(spinnerImage).removeAttr( 'style' );
+                            $(loader).removeAttr( 'style' );
+                            $(loader).remove();
+                            $(spinnerImage).appendTo(paneElement);
+                            $(loader).appendTo(spinnerImage);
+                        }else {
+                            console.log('else');
+                            $(paneElement).removeAttr( 'style' );
+                            $(spinnerImage).removeAttr( 'style' );
+                            $(loader).removeAttr( 'style' );
+                            console.log($(paneElement));
+                            $(spinnerImage).remove();
+                            $(loader).appendTo(paneElement);
+                        }
                     }
 
                     function updateVisibility(isVisible) {
@@ -3311,7 +3345,7 @@ directive('appVersion', ['version', function(version) {
 
                         $(paneElement).css('zIndex', paneZIndex).find('.loader-outer').css('zIndex', paneZIndex + 1);
                     }
-console.log($rootScope.activePage);
+                    console.log($rootScope.activePage);
                     function position() {
                         //console.log(targetElement);
                         //console.log($(window).scrollTop());
@@ -3338,9 +3372,28 @@ console.log($rootScope.activePage);
                                 'top': $(window).scrollTop() >= 0 && $(window).scrollTop() < 380 ? $(window).scrollTop() + 150 : $(window).scrollTop(),
                                 'position': 'absolute'
                             });
-                        }else{
-                            console.log('tyttttttttttttttttttttAAAAAAAAAAAAAAAAAA');
+                            alert('2');
                         }
+                        //else if(attrs.loaderName == 'history'){
+                        //    console.log('history');
+                        //    $(spinnerImage).remove();
+                        //    $(loader).appendTo(paneElement);
+                        //}else if(attrs.loaderName == 'attachFile'){
+                        //    console.log('attachFile');
+                        //    $(paneElement).removeAttr( 'style' );
+                        //    $(spinnerImage).removeAttr( 'style' );
+                        //    $(loader).removeAttr( 'style' );
+                        //    $(loader).remove();
+                        //    $(spinnerImage).appendTo(paneElement);
+                        //    $(loader).appendTo(spinnerImage);
+                        //}else {
+                        //    console.log('else');
+                        //    $(paneElement).removeAttr( 'style' );
+                        //    $(spinnerImage).removeAttr( 'style' );
+                        //    $(loader).removeAttr( 'style' );
+                        //    $(spinnerImage).remove();
+                        //    $(loader).appendTo(paneElement);
+                        //}
                     }
 
                     function show() {
@@ -3356,12 +3409,20 @@ console.log($rootScope.activePage);
                         //position();
                     }
 
-                    init(element);
 
-                    scope.$watch(attrs.loaderName, function (newVal) {
-                        //console.log(newVal);
+                    scope.$watch(attrs.loaderName, function (newVal, oldVal) {
+                        console.log(oldVal, 'oldVal');
+                        console.log(newVal, 'newVal');
                         updateVisibility(newVal);
                     });
+                    //scope.$watch('candidate', function(newval, oldval) {
+                    //    console.log(oldval, 'oldVal');
+                    //    console.log(newval, 'newVal');
+                    //    if(newval != oldval){
+                    //        updateVisibility(newval);
+                    //        init(element, newval.files);
+                    //    }
+                    //});
 
                     scope.$on('$destroy', function cleanup() {
                         //$(paneElement).remove();
@@ -3375,7 +3436,7 @@ console.log($rootScope.activePage);
                 return {
                     //restrict: 'EA',
                     ////replace: true,
-                    //transclude: true,
+                    //transclude: false,
                     ////bindToController: true,
                     //scope: {
                     //    loading: '=',
@@ -25132,6 +25193,7 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.objectSize = null;
         $rootScope.isAddCandidates =  JSON.parse(localStorage.getItem("isAddCandidates"));
         $localStorage.remove("candidateForTest");
+        $scope.loaders = ["history", "attachFile"];
 
         if($location.$$absUrl.indexOf('&task=') != -1) {F
             $scope.urlTaskId = $location.$$absUrl.split('&task=')[1];
@@ -41153,6 +41215,7 @@ controller.controller('vacancyController', ["localStorageService", "CacheCandida
 
 controller.controller('pipelineController', ["$rootScope", "$scope", "notificationService", "$filter", "$translate", "vacancyStages","Stat", "$uibModal",
     function($rootScope, $scope, notificationService, $filter, $translate, vacancyStages, Stat, $uibModal) {
+        $rootScope.loading = false;
         $rootScope.closeModal = function(){
             $scope.modalInstance.close();
         };
@@ -41209,14 +41272,13 @@ controller.controller('pipelineController', ["$rootScope", "$scope", "notificati
                         });
                     });
                     //});
+                    $rootScope.loading = false;
                 }
-                $rootScope.loading = false;
             });
         };
 
         $scope.buildPipelineReport();
 
-        $rootScope.loading = true;
         Stat.getStatisticsByVacancies(function(resp){
            if(resp.status == 'ok'){
                $scope.vacancies = resp.object.positionReport;
@@ -41265,7 +41327,6 @@ controller.controller('pipelineController', ["$rootScope", "$scope", "notificati
                    });
                //});
                $rootScope.loading = false;
-               $rootScope.loadingNoBlock = false;
            }
         });
         $scope.showPipelineDescr = function(){

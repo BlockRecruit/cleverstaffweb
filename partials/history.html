@@ -18,7 +18,8 @@
                             </div>
                         </div>
                         <!---------------------------------------------- to repeat-->
-                        <div class="row event last-action " ng-repeat="history in history" ng-switch="history.type">
+                        <div class="row event last-action " ng-repeat="history in history" ng-switch="history.type"
+                             loader-directive loading="loaders" loader-name="history">
                             <div class="col-lg-12 hidden" ng-switch-default></div>
                             <div class="col-lg-12 not-for-print" ng-switch-when="candidate_test_send">
                                 <ng-include src="'partials/history/full-history/candidate_test_send.html'"></ng-include>
