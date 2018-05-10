@@ -3423,7 +3423,6 @@ directive('appVersion', ['version', function(version) {
                     //        init(element, newval.files);
                     //    }
                     //});
-
                     scope.$on('$destroy', function cleanup() {
                         //$(paneElement).remove();
                         $(paneElement).removeAttr( 'style' );
