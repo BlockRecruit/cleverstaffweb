@@ -251,7 +251,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             if(!searchParams[i] || i === 'page' || searchParams[i] === 'null') continue;
 
             if(i === 'responsible'){
-                setResponsible(data)
+                setResponsible(data, searchParams, i)
                 continue;
             }
 
@@ -266,18 +266,48 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
     }
 
     function setCity(data){
-        console.log($scope.cities, '($scope.cities');
-
         for(let i in $scope.cities){
             data.forEach(j =>{
-                if(j.type === 'country' && j.value === i.country){
-                    data.push({value:i.name,type:'city'})
+                if(j.type === 'country' && j.value === $scope.cities[i].country){
+                    data.push({value:$scope.cities[i].name, type:'city'})
                 }
             })
         }
     }
 
-    function setResponsible(data){
+    function clearSearchCriteriy(criteriy) {
+        let _index = '';
+
+        if(criteriy === 'status' ) criteriy = 'state';
+        if(criteriy === 'city' ) criteriy = 'regionIdCity';
+
+        $scope.searchParam[criteriy] = null;
+
+        clearSearchCriteriyInView(criteriy);
+
+        $scope.tableParams.reload();
+    }
+
+    function clearSearchCriteriyInView(criteriy) {
+        let _index = '';
+        console.log(criteriy, 'criteriy');
+
+        $scope.searchParamsForView.forEach((item, index) => {
+            if(item.type === criteriy){
+                _index = index;
+            }
+        })
+
+        $scope.searchParam[criteriy !== 'status'? criteriy : state] = null;
+
+        if(_index >= 0)  $scope.searchParamsForView.splice(_index, 1);
+    }
+
+    function clearSearchCriteries() {
+        $scope.searchParamsForView = [];
+    }
+
+    function setResponsible(data, searchParams, i){
         let name;
 
         name = $scope.associativePerson[searchParams[i]];
@@ -382,4 +412,6 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             sortDirection = 'asc';
         }
     };
+    $scope.clearSearchCriteriy = clearSearchCriteriy;
+    $scope.clearSearchCriteries = clearSearchCriteries;
 }]);
