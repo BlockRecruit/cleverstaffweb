@@ -276,12 +276,13 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
     }
 
     function clearSearchCriteriy(criteriy) {
-        let _index = '';
+        let _index = '', value = null;
 
         if(criteriy === 'status' ) criteriy = 'state';
         if(criteriy === 'city' ) criteriy = 'regionIdCity';
+        if(criteriy === 'responsible' ) value = '';
 
-        $scope.searchParam[criteriy] = null;
+        $scope.searchParam[criteriy] = value;
 
         clearSearchCriteriyInView(criteriy);
 

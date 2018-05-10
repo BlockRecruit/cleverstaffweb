@@ -60,8 +60,8 @@
                                 <div class="select">
                                     <select ng-class="{'greyColor': searchParam.responsible == 'null'}"
                                             ng-model="searchParam.responsible" class="form-control"
-                                            ng-init="searchParam.responsible = 'null'">
-                                        <option class="greyColor" value="null">{{'responsible'|translate}}</option>
+                                            ng-init="searchParam.responsible = ''">
+                                        <option class="greyColor" value="">{{'responsible'|translate}}</option>
                                         <option class="othersColor" ng-class="{disable: (responsible.status != 'A')}" ng-selected="responsible == searchParam.responsible"
                                                 ng-repeat="responsible in persons| orderBy:['status','cutFullName']"
                                                 ng-if="responsible.cutFullName.length > 0 && responsible.cutFullName == $root.me.cutFullName"
