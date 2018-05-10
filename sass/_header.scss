@@ -133,89 +133,82 @@ body {
 
 		background-color: $theme-light-green;
 		ul {
+			background-color: $theme-top-menu;
 			li {
+				border-top: 1px solid #8d9397;
 				&:last-child {
-					margin-top: -15px;
+					border-bottom: 1px solid #8d9397;
 				}
-				.boldText {
-					@include bold();
+				&:hover {
+					background-color: $theme-substrate;
+					& > a {
+						color: $theme-top-menu-hover;
+						i svg {
+							.st0 {
+								fill: #5a5e63;
+							}
+							.st1 {
+								fill: #5a5e63;
+							}
+							.st3 {
+								fill: #5a5e63;
+							}
+						}
+					}
 				}
 				a {
-					font-size: 14px;
+					font-family: "Helvetica-Medium";
+					font-size: 16px;
 
 					display: flex;
-					flex-direction: column;
-					margin: 15px 0;
-					padding: 15px 35px;
+					padding: 15px;
 
-					color: $theme-dark;
-					background-color: $theme-white;
+					letter-spacing: 0.6px;
+
+					color: white;
 
 					align-items: center;
 					&:hover {
 						color: $theme-dark;
-					}
-					i {
-						&.sprite {
-							display: block;
-
-							background-image: url(../../images/sprite/icons/top-menu-colored-sprite.svg);
-							background-repeat: no-repeat;
-							background-size: 142px auto;
-							svg {
-								.st0 {
-									fill: #5ebb52;
-								}
-								.st1 {
-									fill: #f8991d;
-								}
-								.st3 {
-									fill: #5a5e63;
-								}
+						color: $theme-top-menu-hover;
+						i svg {
+							.st0 {
+								fill: #5a5e63;
+							}
+							.st1 {
+								fill: #5a5e63;
+							}
+							.st3 {
+								fill: #5a5e63;
 							}
 						}
-						&.sprite-calendar {
-							width: 18px;
-							height: 19px;
-
-							background-position: 3% 47%;
-						}
-						&.sprite-vacancy {
-							width: 21px;
-							height: 18px;
-
-							background-position: 21% 46%;
-						}
-						&.sprite-candidates {
-							width: 21px;
-							height: 17px;
-
-							background-position: 42% 47%;
-						}
-						&.sprite-clients {
-							width: 22px;
-							height: 18px;
-
-							background-position: 60% 47%;
-						}
-						&.sprite-company {
-							width: 20px;
-							height: 19px;
-
-							background-position: 78% 46%;
-						}
-						&.sprite-reports {
-							width: 21px;
-							height: 24px;
-
-							background-position: 94% 40%;
+					}
+					i {
+						display: flex;
+						margin-right: 10px;
+						svg {
+							.st0 {
+								fill: #5ebb52;
+							}
+							.st1 {
+								fill: #f8991d;
+							}
+							.st3 {
+								fill: #5a5e63;
+							}
 						}
 					}
 				}
 				.dropdown {
 					width: 100%;
+
+					vertical-align: initial;
 					.dropdown-menu {
-						left: -215px;
+						top: -163px;
+
+						padding: 0;
+
+						transform: translate(-100%);
 					}
 				}
 			}
@@ -436,8 +429,6 @@ body {
 						font-size: 17px;
 						&.sprite {
 							svg {
-								//-webkit-transform: scale(1.2) translateZ(0);
-								//transform: scale(1.2) translateZ(0);
 								.st0 {
 									fill: #5a5e63;
 								}
@@ -912,7 +903,9 @@ body {
 					}
 				}
 				&.invite-button {
-					margin-right: 20px;
+					position: relative;
+
+					margin-right: 60px;
 
 					white-space: nowrap;
 
@@ -921,14 +914,35 @@ body {
 					.btn-animated {
 						@include button-animated(transparent,#666,#666,white);
 
-						max-width: 180px;
+						width: 168px;
+						padding-left: 46px;
 
 						border: 2px solid #666;
+						svg {
+							position: absolute;
+							top: 4px;
+							left: 31px;
+
+							transition: fill 0.3s ease-out;
+
+							fill: #666;
+						}
+						&:hover {
+							svg {
+								fill: white;
+							}
+						}
 					}
+
 					&.ru-width {
 						.btn-animated {
 							font-size: 12px;
 							line-height: 12px;
+
+							padding-left: 50px;
+							svg {
+								left: 27px;
+							}
 						}
 					}
 				}

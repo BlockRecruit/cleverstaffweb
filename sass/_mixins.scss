@@ -485,9 +485,8 @@
 }
 
 @mixin button-animated($background-color: $theme-green, $color: white, $hover-bg-color: #009a3e, $hover-color: white) {
-	font-family: "Helvetica-Normal";
+	font-family: "Helvetica-Medium";
 	font-size: 14px;
-	font-weight: bold;
 	line-height: 14px;
 
 	position: relative;
@@ -496,7 +495,7 @@
 	overflow: hidden;
 	width: 163px;
 	height: 33px;
-	padding: 0 35px;
+	padding: 0 20px;
 
 	-webkit-transition-duration: 0.3s;
 	transition-duration: 0.3s;
