@@ -28597,7 +28597,7 @@ html body#tinymce.mce-content-body {
                 padding-left: 45px; }
           .payment .wrapper section.payment__paid-features .features-wrapper:before {
             position: absolute;
-            top: 20px;
+            top: 32px;
             left: 0;
             width: 100%;
             height: calc(100% - 20px);
