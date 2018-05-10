@@ -149,6 +149,12 @@ controller.controller('invoiceController', ['$rootScope', '$scope', 'Service', '
                         price: () => ($scope.invoice.users * $scope.invoice.months * $scope.currenciesMonthRates[$scope.invoice.currency]).toFixed(2)
                     };
                 }
+
+                if($rootScope.me['orgParams']['tarif'] && $rootScope.me['orgParams']['tarif'] === 'corporate') {
+                    $scope.invoice.users = $filter('translate')('up to 25');
+                    $scope.invoice.price = () => ($scope.invoice.months * $scope.currenciesMonthRates[$scope.invoice.currency]).toFixed(2);
+                }
+
                 $scope.$apply();
             }).catch(error => {
                 $rootScope.loading = false;
