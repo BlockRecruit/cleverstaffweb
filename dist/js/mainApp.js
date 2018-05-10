@@ -28144,7 +28144,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
             notificationService.error($filter('translate')('Enter more data for search'));
             return;
         }
-        if($scope.searchParam.state.length == 0 && $scope.searchParam.words.length == 0 &&
+        if(($scope.searchParam.state && $scope.searchParam.state.length == 0) && ($scope.searchParam.words && $scope.searchParam.words.length == 0) &&
             $scope.searchParam.name == null && $scope.searchParam.responsible == 'null' &&
             $scope.searchParam.industry == 'null' && $scope.searchParam.regionId == 'null' && $scope.searchParam.regionIdCity == 'null'){
             notificationService.error($filter('translate')('Enter the data'));
@@ -28218,6 +28218,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                 if (ScopeService.isInit()) {
                     var activeParam = ScopeService.getActiveScopeObject();
                     $scope.activeScopeParam = activeParam;
+                    console.log($scope.activeScopeParam, '$scope.activeScopeParam');
                     Client.setOptions("page", {number: (params.$params.page - 1), count: params.$params.count});
                     if(params.$params.count <= 120) {
                         localStorage.countClient = params.$params.count;
@@ -28225,7 +28226,8 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                         localStorage.countClient = 15;
                     }
                     $scope.searchParam.pages.count = params.$params.count;
-                    if ($scope.searchParam['regionId'] && $scope.searchParam['regionId'] != 'null') {
+
+                    if ($scope.searchParam['regionId'] && $scope.searchParam['regionId'] != 'null' && activeParam.name === 'region') {
                         if($scope.searchParam['regionIdCity'] == null || $scope.searchParam['regionIdCity'] == 'null'){
                             var jsonCity = JSON.parse($scope.searchParam['regionIdCity']);
                             if (jsonCity == null) {
@@ -28244,7 +28246,7 @@ controller.controller('ClientsController', ["$scope", "$location", "Client", "ng
                             }
                         }
                     } else {
-                        Client.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : null);
+                        Client.setOptions("country", activeParam.name == 'region' && activeParam.value.type == "country" ? activeParam.value.value : $scope.searchParam.country);
                         Client.setOptions("city", activeParam.name == 'region' && activeParam.value.type == "city" ? activeParam.value.value : null);
                     }
                     Client.setOptions("industry", isNotBlank($scope.searchParam['industry']) ? $scope.searchParam['industry'] : null);
