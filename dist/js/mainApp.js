@@ -30774,13 +30774,14 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
         Account.getAccountsInfo({},function (resp) {
             $rootScope.loading = false;
             if(!resp)return;
+
             $scope.data = resp['object'];
         });
 
 
 
         $scope.tableHeads = ['points','score','account','country','created','regUsers','tarif','trialEnd','block',
-                             'integratedEmails','invites', 'hrModule','balance','payUsers','latestPaymentByCard','amount',
+                             'integratedEmails','invites', 'hrModule','balance','payUsers','latestPaymentByCard','generated invoices','amount',
                              'purpose','activeUsers','vacancies','lastAtion','server'];
 
 
@@ -30814,7 +30815,7 @@ controller.controller('cloudAdminController', ["$rootScope", "$http", "$scope", 
                     elems[0].children[0].children[0].children[0].children[0].children[9].style.width = '1.7%';
                     elems[0].children[0].children[0].children[0].children[0].children[15].style.width = '4%';
                     elems[0].children[0].children[0].children[0].children[0].children[18].style.width = '2.7%';
-                    elems[0].children[0].children[0].children[0].children[0].children[22].style.width = '3.5%';
+                    // elems[0].children[0].children[0].children[0].children[0].children[22].style.width = '3.5%';
                     elems.forEach(item => {
                         if(max <= 0){
                             max = item.scrollWidth - item.scrollLeft - item.clientWidth - 1;

@@ -40,6 +40,18 @@
                         <td>{{item.balance}}</td>
                         <td>{{item.payUsers}}</td>
                         <td>{{item.latestPaymentByCard| date:'dd.MM.yyyy'}}</td>
+                        <td style="padding: 0px; overflow: auto;">
+                            <ul class="download-invocies">
+                                <li ng-repeat="invoice in item.invoices track by $index">
+                                    <a ng-href="{{serverAddress}}/getapp?id={{invoice.fileId}}"
+                                       download="{{invoice.fileName}}"
+                                       ng-click="$event.stopPropagation()"
+                                       style="color: #00BAFF;">
+                                         {{invoice.fileName}}
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
                         <td>{{item.amount}}</td>
                         <td ng-bind-html=" item.purpose | filter_parseObject "></td>
                         <td>{{item.activeUsers}}</td>
