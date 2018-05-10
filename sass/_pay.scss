@@ -208,6 +208,18 @@
 
 									color: #666;
 								}
+								&.bordered {
+									font-family: "Helvetica-Light";
+
+									display: block;
+									padding: 6px 10px;
+
+									border: 1px solid #ccc;
+									border-radius: 5px;
+								}
+								&.bold {
+									font-family: "Helvetica-Bold";
+								}
 							}
 						}
 					}
@@ -299,7 +311,8 @@
 					font-family: "Helvetica-Regular";
 
 					display: block;
-					margin: 6px 0 0 10px;
+					min-height: 30px;
+					margin: 6px 10px 0 10px;
 					padding: 5px 10px;
 
 					text-align: right;
@@ -1081,6 +1094,8 @@
 					align-items: center;
 					.data {
 						height: 33px;
+						span {
+						}
 					}
 					&.margin-xs {
 						margin-bottom: 15px;

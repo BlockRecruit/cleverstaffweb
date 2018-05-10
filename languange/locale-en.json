@@ -2478,5 +2478,7 @@
   "Earlier you already registered in Cleverstaff, and activated the account by following this link. To use the system, sign in":"Earlier you already registered in Cleverstaff, and activated the account by following this link. To use the system, please, sign in.",
   "You didn't make any payments yet":"You didn't make any transitions yet",
   "No such appointmentId.":"Unfortunately, such test does not exist. For more information, contact the recruiter who sent you this test.",
-  "Sorry, this candidate was removed from the system":"Sorry, this candidate was removed from the system"
+  "Sorry, this candidate was removed from the system":"Sorry, this candidate was removed from the system",
+  "up to 25":"up to <span class='bold'>25</span>",
+  "Discount":"Discount"
 }

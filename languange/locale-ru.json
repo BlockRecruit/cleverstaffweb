@@ -3078,5 +3078,7 @@
   "Earlier you already registered in Cleverstaff, and activated the account by following this link. To use the system, sign in":"Ранее вы уже зарегистрировались в Cleverstaff, и активировали аккаунт перейдя по этой ссылке. Для использования системы авторизируйтесь",
   "You didn't make any payments yet":"У вас еще не было оплат",
   "No such appointmentId.":"К сожалению, такого теста не существует. Для уточнения информации обратитесь к рекрутеру, который отправил вам этот тест.",
-  "Sorry, this candidate was removed from the system":"Извините, данный кандидат был удален из системы"
+  "Sorry, this candidate was removed from the system":"Извините, данный кандидат был удален из системы",
+  "up to 25":"до <span class='bold'>25</span>",
+  "Discount":"Скидка"
 }

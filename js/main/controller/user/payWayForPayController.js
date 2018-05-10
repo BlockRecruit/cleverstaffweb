@@ -54,6 +54,7 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             }
             $scope.dailyRate = resp.object.dailyRate;
             $scope.monthRate = resp.object.monthRate;
+
         },function(msg){
             notificationService.error(msg);
             $rootScope.loading = false;
@@ -66,21 +67,12 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
                         $scope.paidUsers.push({label: $scope.paidUsers.length + 1, value: $scope.paidUsers.length + 1});
                     }
                 });
-                $scope.countPeople = $scope.paidUsers.length;
-                $scope.monthRate = $scope.monthRate || 25;
-                if ($scope.countMonth >= 12) {
-                    $scope.bonus = 20;
-                }
-                else if ($scope.countMonth >= 4) {
-                    $scope.bonus = 10;
-                }
-                else {
-                    $scope.bonus = 0;
-                }
 
-                $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
-                $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
-                $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
+                calculatePaymentData();
+
+                if($scope.tarif === 'corporate') {
+                    $scope.countPeople = 25;
+                }
 
                 $scope.priceWithBonusBilling = ($scope.price - ($scope.bonuce * $scope.price)/100);
                 $('#price').html($scope.priceWithBonusBilling + " USD");
@@ -89,8 +81,14 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             notificationService.error(msg);
         });
 
-        $scope.$watchGroup(['countPeople', 'countMonth'], function() {
-            $scope.monthRate = $scope.monthRate || 25;
+        function calculatePaymentData() {
+            if($scope.tarif === 'corporate') {
+                $scope.monthRate = 450;
+            } else {
+                $scope.countPeople = $scope.countPeople || $scope.paidUsers.length;
+                $scope.monthRate = $scope.monthRate || 25;
+            }
+
             if ($scope.countMonth >= 12) {
                 $scope.bonus = 20;
             }
@@ -100,13 +98,23 @@ controller.controller('payWay4PayController', ["$scope", "Person", "$rootScope",
             else {
                 $scope.bonus = 0;
             }
-            $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
-            $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus );
-            $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
+
+            if($scope.tarif === 'corporate') {
+                const price = Math.floor($scope.monthRate * $scope.countMonth);
+                $scope.bonusAmount = Math.floor((price / 100) * $scope.bonus);
+                $scope.price = price - $scope.bonusAmount;
+            } else {
+                $scope.price = Math.floor($scope.monthRate * $scope.countMonth * $scope.countPeople);
+                $scope.bonusAmount = Math.floor(($scope.price / 100) * $scope.bonus);
+                $scope.priceWithBonus = $scope.price + $scope.bonusAmount;
+            }
 
             Pay.paymentInfo.countPeople = $scope.countPeople;
             Pay.paymentInfo.countMonths = $scope.countMonth;
+        }
 
+        $scope.$watchGroup(['countPeople', 'countMonth'], function() {
+            calculatePaymentData();
         });
 
         function watchSelectForChanges() {
