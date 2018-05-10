@@ -1339,14 +1339,16 @@ directive('appVersion', ['version', function(version) {
                 }
             }
         }]
-    ).directive('statusColorDiv', ["$filter", function($filter) {
+    ).directive('statusColorDiv', ["$filter", "$translate","$compile", function($filter,  $translate, $compile) {
             return {
                 restrict: "EA",
                 scope: {
                     old: "="
                 },
                 link: function(scope, element) {
-                    element.html(createDivForInterviewStatusHistory(scope.old, $filter));
+                    let a = createDivForInterviewStatusHistory(scope.old, $filter, $translate);
+                    $compile(a)(scope)
+                    element.html(a);
                 }
             }
         }]
@@ -4778,23 +4780,23 @@ function createSpanForInterviewStatusHistory(arrname, status, $filter, short) {
     }
 }
 
-function createDivForInterviewStatusHistory(status, $filter) {
+function createDivForInterviewStatusHistory(status, $filter, $translate) {
     var span = "<div class='grey-hover vacancy-stages' style='border-radius: 5px;padding-left: 4px;padding-right: 4px;color:white;background-color:";
     switch (status) {
         case "longlist":
-            return span + "#5e6d86'>" + $filter('translate')("interview_status_assoc_full.longlist") + "</div>";
+            return span + "#5e6d86'>" + ( $translate.instant("interview_status_assoc_full.longlist")) + "</div>";
         case "shortlist":
-            return span + "#7887a0;'>" + $filter('translate')("interview_status_assoc_full.shortlist") + "</div>";
+            return span + "#7887a0;'>" + ( $translate.instant("interview_status_assoc_full.shortlist")) + "</div>";
         case "interview":
-            return span + "#3E3773'>" + $filter('translate')("interview_status_assoc_full.interview") + "</div>";
+            return span + "#3E3773'>" + ( $translate.instant("interview_status_assoc_full.interview")) + "</div>";
         case "notafit":
-            return span + "#407682'>" + $filter('translate')("interview_status_assoc_full.notafit") + "</div>";
+            return span + "#407682'>" + ( $translate.instant("interview_status_assoc_full.notafit")) + "</div>";
         case "approved":
-            return span + "#76a563'>" + $filter('translate')("interview_status_assoc_full.approved") + "</div>";
+            return span + "#76a563'>" + ( $translate.instant("interview_status_assoc_full.approved")) + "</div>";
         case "declinedoffer":
-            return span + "#a56484'>" + $filter('translate')("interview_status_assoc_full.declinedoffer") + "</div>";
+            return span + "#a56484'>" + ( $translate.instant("interview_status_assoc_full.declinedoffer")) + "</div>";
         default:
-            return span + "rgba(88,88,88,0.96)'>" + $filter('translate')(status) + "</div>"
+            return span + "rgba(88,88,88,0.96)'>" + ($translate.instant(status)) + "</div>"
     }
 }
 

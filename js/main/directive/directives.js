@@ -1339,14 +1339,16 @@ directive('appVersion', ['version', function(version) {
                 }
             }
         }]
-    ).directive('statusColorDiv', ["$filter", "$translate", function($filter,  $translate) {
+    ).directive('statusColorDiv', ["$filter", "$translate","$compile", function($filter,  $translate, $compile) {
             return {
                 restrict: "EA",
                 scope: {
                     old: "="
                 },
                 link: function(scope, element) {
-                    element.html(createDivForInterviewStatusHistory(scope.old, $filter, $translate));
+                    let a = createDivForInterviewStatusHistory(scope.old, $filter, $translate);
+                    $compile(a)(scope)
+                    element.html(a);
                 }
             }
         }]
