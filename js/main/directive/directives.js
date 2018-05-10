@@ -3431,8 +3431,13 @@ directive('appVersion', ['version', function(version) {
                         $(window).off('scroll', throttledPosition);
                         $(window).off('resize', throttledPosition);
                     });
+                    console.log('scope in direct', scope.loaders, scope.loaderName)
                 }
                 return {
+                    scope: {
+                        loaders: "=loading",
+                        loaderName: "@loaderName"
+                    },
                     //restrict: 'EA',
                     ////replace: true,
                     //transclude: false,
@@ -3441,7 +3446,7 @@ directive('appVersion', ['version', function(version) {
                     //    loading: '=',
                     //    loaderName: '='
                     //},
-                    //template: '<div class="loader-container" ng-show="loading.indexOf(loaderName) != -1"><div class="loader-outer"><div class="loader"></div></div></div>',
+                    template: '<div class="loader-container" ng-show="loaders[loaderName]"><div class="loader-outer"><div class="loader"></div></div></div>',
                     link: link
                 };
     }]).directive('ngContextMenu', function ($parse) {

@@ -3431,8 +3431,13 @@ directive('appVersion', ['version', function(version) {
                         $(window).off('scroll', throttledPosition);
                         $(window).off('resize', throttledPosition);
                     });
+                    console.log('scope in direct', scope.loaders, scope.loaderName)
                 }
                 return {
+                    scope: {
+                        loaders: "=loading",
+                        loaderName: "@loaderName"
+                    },
                     //restrict: 'EA',
                     ////replace: true,
                     //transclude: false,
@@ -3441,7 +3446,7 @@ directive('appVersion', ['version', function(version) {
                     //    loading: '=',
                     //    loaderName: '='
                     //},
-                    //template: '<div class="loader-container" ng-show="loading.indexOf(loaderName) != -1"><div class="loader-outer"><div class="loader"></div></div></div>',
+                    template: '<div class="loader-container" ng-show="loaders[loaderName]"><div class="loader-outer"><div class="loader"></div></div></div>',
                     link: link
                 };
     }]).directive('ngContextMenu', function ($parse) {
@@ -25192,9 +25197,9 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $rootScope.objectSize = null;
         $rootScope.isAddCandidates =  JSON.parse(localStorage.getItem("isAddCandidates"));
         $localStorage.remove("candidateForTest");
-        $scope.loaders = ["history", "attachFile"];
+        $scope.loaders = {"history": false, "attachFile": false};
 
-        if($location.$$absUrl.indexOf('&task=') != -1) {F
+        if($location.$$absUrl.indexOf('&task=') != -1) {
             $scope.urlTaskId = $location.$$absUrl.split('&task=')[1];
         }
         if($localStorage.get('calendarShow') != undefined){
@@ -26981,12 +26986,14 @@ controller.controller('CandidateOneController', ["CacheCandidates", "$localStora
         $scope.showComments = function(){
             //$scope.onlyComments = !$scope.onlyComments;
             $scope.historyLimit = 5;
+            $scope.loaders.history = true;
             Service.history({
                 "vacancyId": $scope.vacancy != undefined ? $scope.vacancy.vacancyId : null,
                 "page": {"number": 0, "count": 5},
                 "candidateId": $scope.candidate !== undefined ? $scope.candidate.candidateId : null,
                 "onlyWithComment":true
             }, function(res) {
+                $scope.loaders.history = false;
                 $scope.showHistoryForPrint = true;
                 $scope.historyLimit = res.size;
                 $scope.historyTotal = res.total;
